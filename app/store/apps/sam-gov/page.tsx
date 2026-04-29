@@ -1,14 +1,16 @@
+export const dynamic = 'force-static';
+export const revalidate = 3600;
+
+
 import { Metadata } from 'next';
 import { ProductPage } from '@/components/store/ProductPage';
 
 export const metadata: Metadata = {
   title: 'SAM.gov Assistant - Federal Contractor Registration Tool | Elevate Store',
-  description:
-    'Complete your SAM.gov registration in hours, not days. Step-by-step wizard, compliance monitoring, and automatic renewal reminders. Trusted by 2,500+ organizations.',
+  description: 'Complete your SAM.gov registration in hours, not days. Step-by-step wizard, compliance monitoring, and automatic renewal reminders. Trusted by 2,500+ organizations.',
   openGraph: {
     title: 'SAM.gov Assistant - Federal Contractor Registration Made Simple',
-    description:
-      'Complete your SAM.gov registration in hours, not days. Step-by-step wizard, compliance monitoring, and automatic renewal reminders.',
+    description: 'Complete your SAM.gov registration in hours, not days. Step-by-step wizard, compliance monitoring, and automatic renewal reminders.',
     images: ['/images/pages/comp-universal-hero.jpg'],
   },
 };
@@ -16,8 +18,7 @@ export const metadata: Metadata = {
 const productData = {
   name: 'SAM.gov Assistant',
   tagline: 'Federal Contractor Registration Made Simple',
-  description:
-    'Stop struggling with SAM.gov registration. Our step-by-step wizard guides you through every field, validates your data in real-time, and keeps you compliant year after year with automatic renewal reminders.',
+  description: 'Stop struggling with SAM.gov registration. Our step-by-step wizard guides you through every field, validates your data in real-time, and keeps you compliant year after year with automatic renewal reminders.',
   longDescription: `
     The SAM.gov Assistant is the most comprehensive tool for federal contractor registration and compliance management. Whether you're registering for the first time or managing multiple entity registrations, our platform streamlines the entire process.
 
@@ -38,70 +39,50 @@ const productData = {
   rating: 4.9,
   reviewCount: 127,
   images: [
-    {
-      src: '/images/pages/store-compliance-hero.jpg',
-      alt: 'SAM.gov Assistant — compliance dashboard overview',
-      type: 'image' as const,
-    },
-    {
-      src: '/images/pages/store-digital-detail1.jpg',
-      alt: 'SAM.gov Assistant — registration step-by-step wizard',
-      type: 'image' as const,
-    },
-    {
-      src: '/images/pages/store-addons-compliance-hero.jpg',
-      alt: 'SAM.gov Assistant — compliance monitoring',
-      type: 'image' as const,
-    },
+    { src: '/images/pages/store-compliance-hero.jpg', alt: 'SAM.gov Assistant — compliance dashboard overview', type: 'image' as const },
+    { src: '/images/pages/store-digital-detail1.jpg', alt: 'SAM.gov Assistant — registration step-by-step wizard', type: 'image' as const },
+    { src: '/images/pages/store-addons-compliance-hero.jpg', alt: 'SAM.gov Assistant — compliance monitoring', type: 'image' as const },
   ],
   features: [
     {
       icon: 'FileText',
       title: 'Step-by-Step Registration Wizard',
-      description:
-        'Guided walkthrough of all 7 SAM.gov registration sections with real-time validation. Never miss a required field or make a formatting error.',
+      description: 'Guided walkthrough of all 7 SAM.gov registration sections with real-time validation. Never miss a required field or make a formatting error.',
     },
     {
       icon: 'Shield',
       title: 'Compliance Monitoring Dashboard',
-      description:
-        'Track your registration status, expiration dates, and compliance requirements in one place. Get alerts for any issues that need attention.',
+      description: 'Track your registration status, expiration dates, and compliance requirements in one place. Get alerts for any issues that need attention.',
     },
     {
       icon: 'Bell',
       title: 'Automatic Renewal Reminders',
-      description:
-        'Receive email and in-app notifications at 90, 60, and 30 days before expiration. Never let your registration lapse.',
+      description: 'Receive email and in-app notifications at 90, 60, and 30 days before expiration. Never let your registration lapse.',
     },
     {
       icon: 'Building2',
       title: 'Multi-Entity Management',
-      description:
-        'Manage multiple business entities from a single dashboard. Perfect for holding companies, franchises, and organizations with subsidiaries.',
+      description: 'Manage multiple business entities from a single dashboard. Perfect for holding companies, franchises, and organizations with subsidiaries.',
     },
     {
       icon: 'Search',
       title: 'UEI Lookup & Validation',
-      description:
-        'Search for existing UEI numbers, validate your entity information, and ensure accuracy before submission.',
+      description: 'Search for existing UEI numbers, validate your entity information, and ensure accuracy before submission.',
     },
     {
       icon: 'RefreshCw',
       title: 'Data Import & Sync',
-      description:
-        'Import existing data from SAM.gov, CSV files, or legacy DUNS records. Keep everything synchronized automatically.',
+      description: 'Import existing data from SAM.gov, CSV files, or legacy DUNS records. Keep everything synchronized automatically.',
     },
     {
       icon: 'Users',
       title: 'Team Collaboration',
-      description:
-        'Invite team members with role-based permissions. Control who can view, edit, or submit registrations.',
+      description: 'Invite team members with role-based permissions. Control who can view, edit, or submit registrations.',
     },
     {
       icon: 'Zap',
       title: 'NAICS Code Management',
-      description:
-        'Search and select the right NAICS codes for your business. Get suggestions based on your industry and services.',
+      description: 'Search and select the right NAICS codes for your business. Get suggestions based on your industry and services.',
     },
   ],
   pricing: [
@@ -169,8 +150,7 @@ const productData = {
       rating: 5,
       date: 'January 15, 2026',
       title: 'Saved us 20+ hours on our renewal',
-      content:
-        'We used to dread SAM.gov renewal time. This tool made it painless. The step-by-step wizard caught several errors we would have missed, and the auto-save feature meant we could work on it over several days without losing progress.',
+      content: 'We used to dread SAM.gov renewal time. This tool made it painless. The step-by-step wizard caught several errors we would have missed, and the auto-save feature meant we could work on it over several days without losing progress.',
       helpful: 24,
       verified: true,
     },
@@ -180,8 +160,7 @@ const productData = {
       rating: 5,
       date: 'January 10, 2026',
       title: 'Perfect for managing multiple entities',
-      content:
-        'We manage 12 different entity registrations. Before this tool, it was a nightmare keeping track of all the expiration dates and compliance requirements. Now everything is in one dashboard with automatic alerts.',
+      content: 'We manage 12 different entity registrations. Before this tool, it was a nightmare keeping track of all the expiration dates and compliance requirements. Now everything is in one dashboard with automatic alerts.',
       helpful: 18,
       verified: true,
     },
@@ -191,8 +170,7 @@ const productData = {
       rating: 5,
       date: 'December 28, 2025',
       title: 'DUNS migration was seamless',
-      content:
-        'When we had to migrate from DUNS to UEI, this tool made it easy. Imported all our legacy data and mapped it to the new format automatically. Highly recommend for anyone going through the transition.',
+      content: 'When we had to migrate from DUNS to UEI, this tool made it easy. Imported all our legacy data and mapped it to the new format automatically. Highly recommend for anyone going through the transition.',
       helpful: 15,
       verified: true,
     },
@@ -202,8 +180,7 @@ const productData = {
       rating: 4,
       date: 'December 15, 2025',
       title: 'Great tool, wish it had more integrations',
-      content:
-        'The registration wizard is excellent and the compliance dashboard is very helpful. Would love to see more integrations with other government systems like FPDS and USASpending.',
+      content: 'The registration wizard is excellent and the compliance dashboard is very helpful. Would love to see more integrations with other government systems like FPDS and USASpending.',
       helpful: 8,
       verified: true,
     },
@@ -213,8 +190,7 @@ const productData = {
       rating: 5,
       date: 'December 1, 2025',
       title: 'First-time registration approved immediately',
-      content:
-        'As a first-time federal contractor, I was intimidated by SAM.gov. This tool walked me through every step and my registration was approved on the first try. The support team was also very responsive when I had questions.',
+      content: 'As a first-time federal contractor, I was intimidated by SAM.gov. This tool walked me through every step and my registration was approved on the first try. The support team was also very responsive when I had questions.',
       helpful: 31,
       verified: true,
     },
@@ -222,33 +198,27 @@ const productData = {
   faqs: [
     {
       question: 'Do I still need to go to SAM.gov to complete my registration?',
-      answer:
-        'Yes, final submission must be done on SAM.gov. Our tool helps you prepare all your data, validate it for errors, and guides you through the official submission process. We also help you maintain compliance after registration with renewal reminders and monitoring.',
+      answer: 'Yes, final submission must be done on SAM.gov. Our tool helps you prepare all your data, validate it for errors, and guides you through the official submission process. We also help you maintain compliance after registration with renewal reminders and monitoring.',
     },
     {
       question: 'Can I import my existing SAM.gov registration?',
-      answer:
-        'Yes! You can sync your existing registration data directly from SAM.gov using your Login.gov credentials. You can also import from CSV/Excel files or migrate legacy DUNS records.',
+      answer: 'Yes! You can sync your existing registration data directly from SAM.gov using your Login.gov credentials. You can also import from CSV/Excel files or migrate legacy DUNS records.',
     },
     {
       question: 'How do renewal reminders work?',
-      answer:
-        'We send email and in-app notifications at 90, 60, and 30 days before your registration expires. You can also customize the reminder schedule and add additional recipients.',
+      answer: 'We send email and in-app notifications at 90, 60, and 30 days before your registration expires. You can also customize the reminder schedule and add additional recipients.',
     },
     {
       question: 'Is my data secure?',
-      answer:
-        'Absolutely. We use bank-level encryption (AES-256), are SOC 2 compliant, and never store your Login.gov credentials. Your data is encrypted at rest and in transit.',
+      answer: 'Absolutely. We use bank-level encryption (AES-256), are SOC 2 compliant, and never store your Login.gov credentials. Your data is encrypted at rest and in transit.',
     },
     {
       question: 'Can multiple team members access the account?',
-      answer:
-        'Yes, Professional and Enterprise plans include team access with role-based permissions. You can control who can view, edit, or submit registrations.',
+      answer: 'Yes, Professional and Enterprise plans include team access with role-based permissions. You can control who can view, edit, or submit registrations.',
     },
     {
       question: 'What if I need help during registration?',
-      answer:
-        'All plans include email support. Professional plans get priority support with faster response times. Enterprise customers get a dedicated account manager and phone support.',
+      answer: 'All plans include email support. Professional plans get priority support with faster response times. Enterprise customers get a dedicated account manager and phone support.',
     },
   ],
   whatsIncluded: [
@@ -277,5 +247,6 @@ const productData = {
 };
 
 export default function SamGovProductPage() {
+
   return <ProductPage product={productData} />;
 }

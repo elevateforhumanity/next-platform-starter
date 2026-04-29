@@ -30,8 +30,7 @@ export function getCart(): Cart {
 
     const cart: Cart = JSON.parse(stored);
     return cart;
-  } catch (error) {
-    /* Error handled silently */
+  } catch (error) { /* Error handled silently */ 
     // Error: $1
     return { items: [], total: 0, itemCount: 0 };
   }
@@ -46,8 +45,7 @@ export function saveCart(cart: Cart): void {
 
     // Dispatch custom event for cart updates
     window.dispatchEvent(new CustomEvent('cartUpdated', { detail: cart }));
-  } catch (error) {
-    /* Error handled silently */
+  } catch (error) { /* Error handled silently */ 
     // Error: $1
   }
 }
@@ -56,7 +54,7 @@ export function saveCart(cart: Cart): void {
 export function calculateCart(items: CartItem[]): Cart {
   const total = items.reduce((sum, item) => {
     const price = item.product.salePrice || item.product.price;
-    return sum + price * item.quantity;
+    return sum + (price * item.quantity);
   }, 0);
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -69,7 +67,7 @@ export function addToCart(product: StoreProduct, quantity: number = 1): Cart {
   const cart = getCart();
 
   // Check if product already in cart
-  const existingIndex = cart.items.findIndex((item) => item.product.id === product.id);
+  const existingIndex = cart.items.findIndex(item => item.product.id === product.id);
 
   if (existingIndex >= 0) {
     // Update quantity
@@ -87,7 +85,7 @@ export function addToCart(product: StoreProduct, quantity: number = 1): Cart {
 // Remove item from cart
 export function removeFromCart(productId: string): Cart {
   const cart = getCart();
-  cart.items = cart.items.filter((item) => item.product.id !== productId);
+  cart.items = cart.items.filter(item => item.product.id !== productId);
 
   const updatedCart = calculateCart(cart.items);
   saveCart(updatedCart);
@@ -102,7 +100,7 @@ export function updateQuantity(productId: string, quantity: number): Cart {
     return removeFromCart(productId);
   }
 
-  const itemIndex = cart.items.findIndex((item) => item.product.id === productId);
+  const itemIndex = cart.items.findIndex(item => item.product.id === productId);
   if (itemIndex >= 0) {
     cart.items[itemIndex].quantity = quantity;
   }
@@ -134,12 +132,12 @@ export function getCartTotal(): number {
 // Check if product is in cart
 export function isInCart(productId: string): boolean {
   const cart = getCart();
-  return cart.items.some((item) => item.product.id === productId);
+  return cart.items.some(item => item.product.id === productId);
 }
 
 // Get product quantity in cart
 export function getProductQuantity(productId: string): number {
   const cart = getCart();
-  const item = cart.items.find((item) => item.product.id === productId);
+  const item = cart.items.find(item => item.product.id === productId);
   return item?.quantity || 0;
 }

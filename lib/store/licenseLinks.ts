@@ -3,9 +3,9 @@
  * Maps license types to their store checkout pages
  */
 
-export type LicenseType =
-  | 'institution_admin'
-  | 'partner_employer'
+export type LicenseType = 
+  | 'institution_admin' 
+  | 'partner_employer' 
   | 'workforce_program'
   | 'managed_platform'
   | 'source_use'
@@ -22,7 +22,7 @@ export function getLicenseCheckoutUrl(licenseType: LicenseType): string {
     institution_admin: '/store/licenses/managed-platform',
     partner_employer: '/store/licenses/pro-license',
     workforce_program: '/store/licenses/enterprise-license',
-
+    
     // Direct license types
     managed_platform: '/store/licenses/managed-platform',
     source_use: '/store/licenses/source-use',
@@ -30,7 +30,7 @@ export function getLicenseCheckoutUrl(licenseType: LicenseType): string {
     pro: '/store/licenses/pro-license',
     enterprise: '/store/licenses/enterprise-license',
   };
-
+  
   return urls[licenseType] || '/store/licenses';
 }
 
@@ -48,22 +48,19 @@ export function getLicenseDisplayName(licenseType: LicenseType): string {
     pro: 'Pro License',
     enterprise: 'Enterprise License',
   };
-
+  
   return names[licenseType] || 'License';
 }
 
 /**
  * Get pricing info for a license type
  */
-export function getLicensePricing(licenseType: LicenseType): {
-  startingPrice: string;
+export function getLicensePricing(licenseType: LicenseType): { 
+  startingPrice: string; 
   billingPeriod: string;
   description: string;
 } {
-  const pricing: Record<
-    LicenseType,
-    { startingPrice: string; billingPeriod: string; description: string }
-  > = {
+  const pricing: Record<LicenseType, { startingPrice: string; billingPeriod: string; description: string }> = {
     institution_admin: {
       startingPrice: '$1,500',
       billingPeriod: 'month',
@@ -105,10 +102,8 @@ export function getLicensePricing(licenseType: LicenseType): {
       description: 'Full platform with dedicated support',
     },
   };
-
-  return (
-    pricing[licenseType] || { startingPrice: 'Contact us', billingPeriod: '', description: '' }
-  );
+  
+  return pricing[licenseType] || { startingPrice: 'Contact us', billingPeriod: '', description: '' };
 }
 
 /**

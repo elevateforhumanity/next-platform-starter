@@ -38,20 +38,11 @@ export default function StoreProductVideo({
   };
 
   const togglePlay = () => {
-    if (!started) {
-      start();
-      return;
-    }
+    if (!started) { start(); return; }
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) {
-      v.play()
-        .then(() => setPlaying(true))
-        .catch(() => {});
-    } else {
-      v.pause();
-      setPlaying(false);
-    }
+    if (v.paused) { v.play().then(() => setPlaying(true)).catch(() => {}); }
+    else { v.pause(); setPlaying(false); }
   };
 
   const toggleMute = (e: React.MouseEvent) => {
@@ -105,10 +96,7 @@ export default function StoreProductVideo({
             playsInline
             muted
             onCanPlay={() => {
-              videoRef.current
-                ?.play()
-                .then(() => setPlaying(true))
-                .catch(() => {});
+              videoRef.current?.play().then(() => setPlaying(true)).catch(() => {});
             }}
             onEnded={() => setPlaying(false)}
             onPause={() => setPlaying(false)}
@@ -120,18 +108,14 @@ export default function StoreProductVideo({
           {/* Controls bar */}
           <div className="absolute bottom-0 inset-x-0 p-3 flex items-center justify-between bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                togglePlay();
-              }}
+              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
               className="p-1.5 bg-black/60 hover:bg-black/80 rounded-full transition-colors"
               aria-label={playing ? 'Pause' : 'Play'}
             >
-              {playing ? (
-                <Pause className="w-4 h-4 text-white" />
-              ) : (
-                <Play className="w-4 h-4 text-white" />
-              )}
+              {playing
+                ? <Pause className="w-4 h-4 text-white" />
+                : <Play className="w-4 h-4 text-white" />
+              }
             </button>
             <div className="flex gap-2">
               <button
@@ -139,11 +123,10 @@ export default function StoreProductVideo({
                 className="p-1.5 bg-black/60 hover:bg-black/80 rounded-full transition-colors"
                 aria-label={muted ? 'Unmute' : 'Mute'}
               >
-                {muted ? (
-                  <VolumeX className="w-4 h-4 text-white" />
-                ) : (
-                  <Volume2 className="w-4 h-4 text-white" />
-                )}
+                {muted
+                  ? <VolumeX className="w-4 h-4 text-white" />
+                  : <Volume2 className="w-4 h-4 text-white" />
+                }
               </button>
               <button
                 onClick={fullscreen}

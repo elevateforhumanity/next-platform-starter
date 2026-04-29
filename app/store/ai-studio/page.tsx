@@ -1,3 +1,7 @@
+export const dynamic = 'force-static';
+export const revalidate = 3600;
+
+
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -100,12 +104,13 @@ const capabilities = [
 ];
 
 export default function AIStudioPage() {
+
   return (
     <div className="bg-white">
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Store', href: '/store' }, { label: 'Ai Studio' }]} />
+            <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: "Store", href: "/store" }, { label: "Ai Studio" }]} />
       </div>
-      {/* Hero */}
+{/* Hero */}
       <section className="relative min-h-[500px] flex items-center overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-20 w-72 h-72 bg-pink-500 rounded-full blur-3xl animate-pulse" />
@@ -122,12 +127,14 @@ export default function AIStudioPage() {
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-tight mb-6">
                 AI Studio
-                <span className="block text-brand-blue-600">Create Content at Scale</span>
+                <span className="block text-brand-blue-600">
+                  Create Content at Scale
+                </span>
               </h1>
 
               <p className="text-xl text-slate-600 mb-8">
-                Generate videos, voiceovers, images, and AI instructors for your courses. No video
-                editing skills required.
+                Generate videos, voiceovers, images, and AI instructors for your courses. 
+                No video editing skills required.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -174,8 +181,10 @@ export default function AIStudioPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-gray-900 mb-4">What You Can Create</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-4xl font-black text-slate-900 mb-4">
+              What You Can Create
+            </h2>
+            <p className="text-xl text-slate-700 max-w-2xl mx-auto">
               Everything you need to produce professional training content
             </p>
           </div>
@@ -184,15 +193,12 @@ export default function AIStudioPage() {
             {capabilities.map((cap) => {
               const Icon = cap.icon;
               return (
-                <div
-                  key={cap.title}
-                  className="bg-white rounded-xl p-8 shadow-sm hover:shadow-lg transition-all text-center"
-                >
+                <div key={cap.title} className="bg-white rounded-xl p-8 shadow-sm hover:shadow-lg transition-all text-center">
                   <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Icon className="w-8 h-8 text-brand-blue-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{cap.title}</h3>
-                  <p className="text-gray-600">{cap.description}</p>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{cap.title}</h3>
+                  <p className="text-slate-700">{cap.description}</p>
                 </div>
               );
             })}
@@ -201,11 +207,15 @@ export default function AIStudioPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-20">
+      <section id="pricing"className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-gray-900 mb-4">Choose Your Plan</h2>
-            <p className="text-xl text-gray-600">Start with a 7-day free trial. Cancel anytime.</p>
+            <h2 className="text-4xl font-black text-slate-900 mb-4">
+              Choose Your Plan
+            </h2>
+            <p className="text-xl text-slate-700">
+              Start with a 7-day free trial. Cancel anytime.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -224,14 +234,16 @@ export default function AIStudioPage() {
                   </div>
                 )}
 
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                <p className="text-gray-600 mb-4">{plan.description}</p>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">{plan.name}</h3>
+                <p className="text-slate-700 mb-4">{plan.description}</p>
 
                 <div className="mb-6">
-                  <span className="text-4xl font-black text-gray-900">${plan.price}</span>
-                  {plan.billing === 'month' && <span className="text-gray-500">/month</span>}
+                  <span className="text-4xl font-black text-slate-900">${plan.price}</span>
+                  {plan.billing === 'month' && (
+                    <span className="text-slate-700">/month</span>
+                  )}
                   {plan.billing === 'one-time' && (
-                    <span className="text-gray-500 text-sm ml-2">one-time</span>
+                    <span className="text-slate-700 text-sm ml-2">one-time</span>
                   )}
                 </div>
 
@@ -240,7 +252,7 @@ export default function AIStudioPage() {
                   className={`block w-full text-center py-3 rounded-lg font-bold transition-colors mb-6 ${
                     plan.popular
                       ? 'bg-brand-blue-600 text-white hover:bg-brand-blue-700'
-                      : 'bg-white text-gray-900 hover:bg-gray-200'
+                      : 'bg-white text-slate-900 hover:bg-gray-200'
                   }`}
                 >
                   {plan.cta}
@@ -248,7 +260,7 @@ export default function AIStudioPage() {
 
                 <ul className="space-y-3">
                   {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-sm text-gray-700">
+                    <li key={idx} className="flex items-center gap-2 text-sm text-slate-900">
                       <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0" />
                       {feature}
                     </li>
@@ -264,7 +276,9 @@ export default function AIStudioPage() {
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Zap className="w-16 h-16 text-yellow-400 mx-auto mb-6" />
-          <h2 className="text-4xl font-black text-slate-900 mb-6">Ready to Create with AI?</h2>
+          <h2 className="text-4xl font-black text-slate-900 mb-6">
+            Ready to Create with AI?
+          </h2>
           <p className="text-xl text-white mb-10 max-w-2xl mx-auto">
             Start your free trial today. No credit card required.
           </p>

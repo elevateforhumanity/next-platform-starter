@@ -1,24 +1,18 @@
+export const dynamic = 'force-static';
+export const revalidate = 3600;
+
+
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BNPL_CHECKOUT_LABEL } from '@/lib/bnpl-config';
-import {
-  Check,
-  Shield,
-  Users,
-  BarChart3,
-  Lock,
-  Headphones,
-  ArrowRight,
-  AlertTriangle,
-} from 'lucide-react';
+import { Check, Shield, Users, BarChart3, Lock, Headphones, ArrowRight, AlertTriangle } from 'lucide-react';
 import { LicenseDemo } from '@/components/store/LicenseDemo';
 
 export const metadata: Metadata = {
   title: 'Managed Enterprise LMS Platform | Elevate for Humanity',
-  description:
-    'Run your organization on an enterprise LMS operated by Elevate for Humanity. Your branding, your domain, our infrastructure.',
+  description: 'Run your organization on an enterprise LMS operated by Elevate for Humanity. Your branding, your domain, our infrastructure.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/licensing/managed',
   },
@@ -91,12 +85,13 @@ const plans = [
 ];
 
 export default function ManagedPlatformPage() {
+
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Store', href: '/store' }, { label: 'Managed Platform' }]} />
+            <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: "Store", href: "/store" }, { label: "Managed Platform" }]} />
       </div>
-      {/* Hero */}
+{/* Hero */}
       <section className="relative py-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center max-w-3xl mx-auto">
@@ -104,19 +99,17 @@ export default function ManagedPlatformPage() {
               <Shield className="w-4 h-4 text-brand-red-400" />
               <span className="text-brand-red-600 text-sm font-medium">Managed Enterprise LMS</span>
             </div>
-
+            
             <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-              Your Platform.
-              <br />
+              Your Platform.<br />
               <span className="text-brand-red-400">Our Infrastructure.</span>
             </h1>
-
+            
             <p className="text-xl text-slate-700 mb-4">
               Elevate for Humanity operates the LMS. You operate your organization within it.
             </p>
             <p className="text-slate-600 mb-8">
-              Your branding, your domain, your programs — backed by our technology and operations
-              team.
+              Your branding, your domain, your programs — backed by our technology and operations team.
             </p>
 
             <div className="flex flex-wrap justify-center gap-4">
@@ -137,13 +130,11 @@ export default function ManagedPlatformPage() {
             {/* Platform screenshot */}
             <div className="mt-12 max-w-4xl mx-auto">
               <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-slate-200">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src="/images/pages/store-licensing-managed-hero.jpg"
                   alt="Elevate managed platform dashboard"
                   fill
-                  quality={85}
-                  className="object-cover"
+                  quality={85} className="object-cover"
                   sizes="(max-width: 768px) 100vw, 80vw"
                 />
               </div>
@@ -156,47 +147,17 @@ export default function ManagedPlatformPage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-slate-900 text-center mb-12">What You Get</h2>
-
+          
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              {
-                icon: Users,
-                title: 'Your Branding',
-                desc: 'Your logo, colors, and domain. Students and employers see your organization — the platform is invisible.',
-                img: '/images/pages/demos-hero.jpg',
-              },
-              {
-                icon: BarChart3,
-                title: 'Your Data',
-                desc: 'Your learners, your programs, your reports. Full data export anytime. You own everything.',
-                img: '/images/pages/demos-hero.jpg',
-              },
-              {
-                icon: Lock,
-                title: 'We Operate',
-                desc: 'We handle hosting, security, updates, backups, and maintenance. 99.9% uptime SLA.',
-                img: '/images/pages/program-holder-page-1.jpg',
-              },
-              {
-                icon: Headphones,
-                title: 'Our Support',
-                desc: 'Dedicated support team. We keep it running so you can focus on training people.',
-                img: '/images/pages/program-holder-page-1.jpg',
-              },
+              { icon: Users, title: 'Your Branding', desc: 'Your logo, colors, and domain. Students and employers see your organization — the platform is invisible.', img: '/images/pages/demos-hero.jpg' },
+              { icon: BarChart3, title: 'Your Data', desc: 'Your learners, your programs, your reports. Full data export anytime. You own everything.', img: '/images/pages/demos-hero.jpg' },
+              { icon: Lock, title: 'We Operate', desc: 'We handle hosting, security, updates, backups, and maintenance. 99.9% uptime SLA.', img: '/images/pages/program-holder-page-1.jpg' },
+              { icon: Headphones, title: 'Our Support', desc: 'Dedicated support team. We keep it running so you can focus on training people.', img: '/images/pages/program-holder-page-1.jpg' },
             ].map((item) => (
-              <div
-                key={item.title}
-                className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col"
-              >
+              <div key={item.title} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
                 <div className="relative h-36 overflow-hidden">
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    quality={85}
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
+                  <Image src={item.img} alt={item.title} fill quality={85} className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                 </div>
                 <div className="p-5">
                   <div className="flex items-center gap-2 mb-2">
@@ -230,10 +191,8 @@ export default function ManagedPlatformPage() {
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white border border-slate-200 rounded-xl p-8">
-            <h3 className="text-xl font-bold text-slate-900 mb-6">
-              This is a Managed Platform License
-            </h3>
-
+            <h3 className="text-xl font-bold text-slate-900 mb-6">This is a Managed Platform License</h3>
+            
             <div className="grid md:grid-cols-2 gap-8 mb-6">
               <div>
                 <h4 className="text-brand-green-400 font-semibold mb-3 flex items-center gap-2">
@@ -270,11 +229,8 @@ export default function ManagedPlatformPage() {
 
             <div className="bg-white rounded-lg p-4 border border-slate-200">
               <p className="text-slate-700 text-sm">
-                <strong className="text-slate-900">
-                  Continued access requires an active subscription.
-                </strong>{' '}
-                Non-payment results in total platform lockout. Your data is retained but access is
-                revoked until billing is resolved.
+                <strong className="text-slate-900">Continued access requires an active subscription.</strong>{' '}
+                Non-payment results in total platform lockout. Your data is retained but access is revoked until billing is resolved.
               </p>
             </div>
           </div>
@@ -286,8 +242,8 @@ export default function ManagedPlatformPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-slate-900 text-center mb-4">Pricing</h2>
           <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
-            All plans include your custom domain, branding, and full platform features. Annual
-            billing preferred. Setup fee covers onboarding and configuration.
+            All plans include your custom domain, branding, and full platform features. 
+            Annual billing preferred. Setup fee covers onboarding and configuration.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -308,13 +264,10 @@ export default function ManagedPlatformPage() {
                 <p className="text-slate-600 text-sm mb-6">{plan.description}</p>
 
                 <div className="mb-6">
-                  <span className="text-4xl font-black text-slate-900">
-                    ${plan.monthlyPrice.toLocaleString()}
-                  </span>
+                  <span className="text-4xl font-black text-slate-900">${plan.monthlyPrice.toLocaleString()}</span>
                   <span className="text-slate-600">/month</span>
                   <p className="text-sm text-slate-600 mt-1">
-                    ${(plan.monthlyPrice * 12).toLocaleString()}/year + $
-                    {plan.setupFee.toLocaleString()} one-time setup
+                    ${(plan.monthlyPrice * 12).toLocaleString()}/year + ${plan.setupFee.toLocaleString()} one-time setup
                   </p>
                   <p className="text-xs text-slate-400 mt-0.5">Stripe, {BNPL_CHECKOUT_LABEL}</p>
                 </div>
@@ -357,34 +310,16 @@ export default function ManagedPlatformPage() {
       {/* Onboarding Timeline */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 text-center mb-4">
-            From signup to live in 2 weeks
-          </h2>
+          <h2 className="text-2xl font-bold text-slate-900 text-center mb-4">From signup to live in 2 weeks</h2>
           <p className="text-slate-600 text-center mb-10 max-w-2xl mx-auto">
             Every step is self-service. No calls, no waiting for approvals.
           </p>
           <div className="grid md:grid-cols-4 gap-4">
             {[
-              {
-                day: 'Day 1',
-                title: 'Trial starts',
-                desc: 'Your branded instance is provisioned instantly. Log in, explore the admin dashboard.',
-              },
-              {
-                day: 'Days 2-5',
-                title: 'Configure',
-                desc: 'Add your programs, set up user roles, import student data. All self-service.',
-              },
-              {
-                day: 'Days 6-10',
-                title: 'Test',
-                desc: 'Enroll test learners, run compliance reports, invite employer partners.',
-              },
-              {
-                day: 'Day 14',
-                title: 'Go live',
-                desc: 'Choose a plan at checkout. Your trial data carries over. Launch to your organization.',
-              },
+              { day: 'Day 1', title: 'Trial starts', desc: 'Your branded instance is provisioned instantly. Log in, explore the admin dashboard.' },
+              { day: 'Days 2-5', title: 'Configure', desc: 'Add your programs, set up user roles, import student data. All self-service.' },
+              { day: 'Days 6-10', title: 'Test', desc: 'Enroll test learners, run compliance reports, invite employer partners.' },
+              { day: 'Day 14', title: 'Go live', desc: 'Choose a plan at checkout. Your trial data carries over. Launch to your organization.' },
             ].map((step, i) => (
               <div key={step.day} className="relative">
                 <div className="bg-white rounded-xl p-5 border border-slate-200 h-full">
@@ -392,9 +327,7 @@ export default function ManagedPlatformPage() {
                   <h3 className="font-bold text-slate-900 mt-1 mb-1">{step.title}</h3>
                   <p className="text-slate-600 text-sm">{step.desc}</p>
                 </div>
-                {i < 3 && (
-                  <div className="hidden md:block absolute top-1/2 -right-2 w-4 h-0.5 bg-slate-300" />
-                )}
+                {i < 3 && <div className="hidden md:block absolute top-1/2 -right-2 w-4 h-0.5 bg-slate-300" />}
               </div>
             ))}
           </div>
@@ -406,32 +339,17 @@ export default function ManagedPlatformPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-slate-900 text-center mb-4">Credential Add-ons</h2>
           <p className="text-slate-600 text-center mb-8 max-w-2xl mx-auto">
-            Need ETPL listing, WIOA compliance, or state board recognition? These are available as
-            separate paid add-ons with approval required.
+            Need ETPL listing, WIOA compliance, or state board recognition? 
+            These are available as separate paid add-ons with approval required.
           </p>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              {
-                name: 'ETPL Listing Support',
-                desc: 'Assistance with Eligible Training Provider List applications',
-                price: 'From $2,500',
-              },
-              {
-                name: 'WIOA Compliance Package',
-                desc: 'Reporting templates and compliance documentation',
-                price: 'From $1,500/year',
-              },
-              {
-                name: 'State Board Recognition',
-                desc: 'Support for state workforce board approval processes',
-                price: 'Custom quote',
-              },
+              { name: 'ETPL Listing Support', desc: 'Assistance with Eligible Training Provider List applications', price: 'From $2,500' },
+              { name: 'WIOA Compliance Package', desc: 'Reporting templates and compliance documentation', price: 'From $1,500/year' },
+              { name: 'State Board Recognition', desc: 'Support for state workforce board approval processes', price: 'Custom quote' },
             ].map((addon) => (
-              <div
-                key={addon.name}
-                className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm"
-              >
+              <div key={addon.name} className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
                 <h3 className="text-lg font-bold text-slate-900 mb-2">{addon.name}</h3>
                 <p className="text-slate-600 text-sm mb-4">{addon.desc}</p>
                 <p className="text-brand-red-600 font-semibold">{addon.price}</p>
@@ -461,10 +379,7 @@ export default function ManagedPlatformPage() {
             <ArrowRight className="w-5 h-5" />
           </Link>
           <p className="mt-4 text-sm text-white/60">
-            Already decided?{' '}
-            <Link href="#plans" className="text-white/80 hover:text-white underline">
-              Purchase directly
-            </Link>
+            Already decided? <Link href="#plans" className="text-white/80 hover:text-white underline">Purchase directly</Link>
           </p>
         </div>
       </section>
@@ -488,7 +403,7 @@ export default function ManagedPlatformPage() {
       <section className="py-8 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-slate-600 text-xs">
-            All products are licensed access to platforms operated by Elevate for Humanity.
+            All products are licensed access to platforms operated by Elevate for Humanity. 
             Ownership of software, infrastructure, and intellectual property is not transferred.
           </p>
         </div>

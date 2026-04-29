@@ -54,7 +54,7 @@ export async function createCheckoutSession({
 export function verifyWebhookSignature(
   payload: string | Buffer,
   signature: string,
-  secret: string,
+  secret: string
 ): Stripe.Event {
   const stripe = getStripe();
   return stripe.webhooks.constructEvent(payload, signature, secret);

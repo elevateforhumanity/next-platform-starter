@@ -28,7 +28,7 @@ export interface ProvisioningResult {
  */
 export async function provisionLicense(
   adminSupabase: SupabaseClient,
-  input: ProvisioningInput,
+  input: ProvisioningInput
 ): Promise<ProvisioningResult> {
   const correlationId = input.paymentIntentId;
   let tenantId: string | undefined;
@@ -146,8 +146,8 @@ export async function provisionLicense(
     if (authError) {
       // User might already exist - try to get them
       const { data: existingUsers } = await adminSupabase.auth.admin.listUsers();
-      const existingUser = existingUsers?.users?.find((u) => u.email === input.contactEmail);
-
+      const existingUser = existingUsers?.users?.find(u => u.email === input.contactEmail);
+      
       if (existingUser) {
         adminUserId = existingUser.id;
         // Update their metadata to include this tenant
@@ -198,6 +198,7 @@ export async function provisionLicense(
       licenseKey, // Return unhashed key for email
       adminUserId,
     };
+
   } catch (error) {
     const errorMessage = 'Operation failed';
     logger.error('Provisioning failed', { error: errorMessage, correlationId });
@@ -238,52 +239,37 @@ export async function provisionLicense(
 
 // Helper functions
 function generateSlug(name: string): string {
-  return (
-    name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '') +
-    '-' +
-    Date.now().toString(36)
-  );
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    + '-' + Date.now().toString(36);
 }
 
 function mapLicenseTypeToTier(licenseType: string): string {
   switch (licenseType) {
-    case 'single':
-      return 'basic';
-    case 'school':
-      return 'pro';
-    case 'enterprise':
-      return 'enterprise';
-    default:
-      return 'basic';
+    case 'single': return 'basic';
+    case 'school': return 'pro';
+    case 'enterprise': return 'enterprise';
+    default: return 'basic';
   }
 }
 
 function getMaxUsers(licenseType: string): number {
   switch (licenseType) {
-    case 'single':
-      return 100;
-    case 'school':
-      return 1000;
-    case 'enterprise':
-      return 999999;
-    default:
-      return 100;
+    case 'single': return 100;
+    case 'school': return 1000;
+    case 'enterprise': return 999999;
+    default: return 100;
   }
 }
 
 function getMaxDeployments(licenseType: string): number {
   switch (licenseType) {
-    case 'single':
-      return 1;
-    case 'school':
-      return 3;
-    case 'enterprise':
-      return 999;
-    default:
-      return 1;
+    case 'single': return 1;
+    case 'school': return 3;
+    case 'enterprise': return 999;
+    default: return 1;
   }
 }
 
@@ -296,16 +282,7 @@ function getFeatures(licenseType: string): string[] {
     case 'school':
       return [...baseFeatures, 'partner-dashboard', 'case-management', 'compliance', 'white-label'];
     case 'enterprise':
-      return [
-        ...baseFeatures,
-        'partner-dashboard',
-        'case-management',
-        'employer-portal',
-        'compliance',
-        'white-label',
-        'ai-tutor',
-        'api-access',
-      ];
+      return [...baseFeatures, 'partner-dashboard', 'case-management', 'employer-portal', 'compliance', 'white-label', 'ai-tutor', 'api-access'];
     default:
       return baseFeatures;
   }

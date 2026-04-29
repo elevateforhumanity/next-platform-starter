@@ -20,7 +20,7 @@ export function isValidLicenseKeyFormat(key: string): boolean {
   const newPattern = /^EFH-[A-F0-9]{24}-[A-F0-9]{24}$/;
   // Legacy format: {8 hex}-{8 hex}-{8 hex}-{8 hex}
   const legacyPattern = /^[A-F0-9]{8}-[A-F0-9]{8}-[A-F0-9]{8}-[A-F0-9]{8}$/;
-
+  
   return newPattern.test(key) || legacyPattern.test(key);
 }
 

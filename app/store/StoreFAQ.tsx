@@ -38,7 +38,7 @@ const FAQS = [
     a: 'Yes. The platform includes WIOA eligibility determination, ITA tracking, PIRL reporting, and quarterly performance metrics. It also supports FERPA student data privacy, DOL registered apprenticeship standards, and automated grant reporting.',
   },
   {
-    q: "What's the difference between Managed and Enterprise?",
+    q: 'What\'s the difference between Managed and Enterprise?',
     a: 'Managed: we host and operate the platform for you. You get your own branded instance on our infrastructure. Enterprise Source-Use: you get the full source code and deploy on your own servers. Enterprise is for state agencies or large networks that require on-premise deployment for compliance reasons.',
   },
   {
@@ -64,9 +64,7 @@ export default function StoreFAQ() {
                 className="w-full flex items-center justify-between px-5 py-4 text-left"
               >
                 <span className="font-semibold text-slate-900 text-sm pr-4">{faq.q}</span>
-                <ChevronDown
-                  className={`w-5 h-5 text-slate-400 flex-shrink-0 transition-transform ${open === i ? 'rotate-180' : ''}`}
-                />
+                <ChevronDown className={`w-5 h-5 text-slate-400 flex-shrink-0 transition-transform ${open === i ? 'rotate-180' : ''}`} />
               </button>
               {open === i && (
                 <div className="px-5 pb-4">

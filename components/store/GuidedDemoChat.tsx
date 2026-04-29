@@ -20,17 +20,17 @@ function useDemoAnalytics() {
   const sessionId = useRef(crypto.randomUUID());
 
   const logDemoEvent = async (eventType: string, stepId?: string, data?: any) => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    await supabase.from('demo_analytics').insert({
-      session_id: sessionId.current,
-      user_id: user?.id,
-      event_type: eventType,
-      step_id: stepId,
-      extra_data: data,
-      timestamp: new Date().toISOString(),
-    });
+    const { data: { user } } = await supabase.auth.getUser();
+    await supabase
+      .from('demo_analytics')
+      .insert({
+        session_id: sessionId.current,
+        user_id: user?.id,
+        event_type: eventType,
+        step_id: stepId,
+        extra_data: data,
+        timestamp: new Date().toISOString()
+      });
   };
 
   return { logDemoEvent, sessionId: sessionId.current };
@@ -39,36 +39,31 @@ function useDemoAnalytics() {
 const DEMO_SCRIPT: DemoStep[] = [
   {
     id: 'welcome',
-    message:
-      "Welcome! I'll walk you through our workforce training platform. We'll look at it from three perspectives: learner, admin, and employer. Ready to start?",
+    message: "Welcome! I'll walk you through our workforce training platform. We'll look at it from three perspectives: learner, admin, and employer. Ready to start?",
     delay: 0,
   },
   {
     id: 'store-intro',
-    message:
-      'This is our store. We offer digital products for career development, but the main offering is platform licensing — a white-label LMS built specifically for workforce training.',
+    message: "This is our store. We offer digital products for career development, but the main offering is platform licensing — a white-label LMS built specifically for workforce training.",
     route: '/store',
     highlight: '.license-card',
     delay: 3000,
   },
   {
     id: 'store-tiers',
-    message:
-      "We have three tiers: Core Platform at $4,999, School License at $15,000, and Enterprise at $50,000. There's also a monthly option at $499/mo.",
+    message: "We have three tiers: Core Platform at $4,999, School License at $15,000, and Enterprise at $50,000. There's also a monthly option at $499/mo.",
     highlight: '.pricing-section',
     delay: 4000,
   },
   {
     id: 'license-page',
-    message:
-      'Let me show you the licensing overview. The platform is built for training providers, workforce organizations, and employer partners.',
+    message: "Let me show you the licensing overview. The platform is built for training providers, workforce organizations, and employer partners.",
     route: '/license',
     delay: 3000,
   },
   {
     id: 'license-features',
-    message:
-      'The platform includes LMS delivery, program management, intake workflows, and employer partnerships — all in one system.',
+    message: "The platform includes LMS delivery, program management, intake workflows, and employer partnerships — all in one system.",
     highlight: '.features-section',
     delay: 4000,
   },
@@ -80,45 +75,39 @@ const DEMO_SCRIPT: DemoStep[] = [
   },
   {
     id: 'learner-demo',
-    message:
-      'This is what a learner sees. They have their program dashboard, progress tracking, and funding pathway information. Everything a participant needs is in one place.',
+    message: "This is what a learner sees. They have their program dashboard, progress tracking, and funding pathway information. Everything a participant needs is in one place.",
     route: '/store/demo/student',
     highlight: '.progress-section',
     delay: 5000,
   },
   {
     id: 'admin-demo',
-    message:
-      'Now the admin view. Program managers see their programs, enrollment pipeline, and reporting tools. Compliance reporting is built in.',
+    message: "Now the admin view. Program managers see their programs, enrollment pipeline, and reporting tools. Compliance reporting is built in.",
     route: '/store/demo/admin',
     highlight: '.pipeline-section',
     delay: 5000,
   },
   {
     id: 'ai-features',
-    message:
-      'We also have AI-powered features: AI instructors, course generation, video creation, and 24/7 AI tutoring for students.',
+    message: "We also have AI-powered features: AI instructors, course generation, video creation, and 24/7 AI tutoring for students.",
     route: '/ai-studio',
     delay: 4000,
   },
   {
     id: 'community',
-    message:
-      'The Community Hub lets you build a learning community with forums, marketplace, and member management.',
+    message: "The Community Hub lets you build a learning community with forums, marketplace, and member management.",
     route: '/community',
     delay: 3000,
   },
   {
     id: 'pricing',
-    message:
-      'For pricing: Core Platform starts at $4,999 for single-site deployment. School License at $15,000 includes white-label branding. Enterprise at $50,000 adds the employer portal and AI tutor.',
+    message: "For pricing: Core Platform starts at $4,999 for single-site deployment. School License at $15,000 includes white-label branding. Enterprise at $50,000 adds the employer portal and AI tutor.",
     route: '/license/pricing',
     delay: 5000,
   },
   {
     id: 'schedule',
-    message:
-      'Ready to discuss your specific use case? You can schedule a call with our team, or I can answer any questions you have right now.',
+    message: "Ready to discuss your specific use case? You can schedule a call with our team, or I can answer any questions you have right now.",
     route: '/schedule',
     delay: 3000,
   },
@@ -172,7 +161,7 @@ export function GuidedDemoChat() {
     }
 
     // Add message
-    setMessages((prev) => [...prev, { role: 'bot', text: step.message }]);
+    setMessages(prev => [...prev, { role: 'bot', text: step.message }]);
     setCurrentStep(nextStep);
 
     // Auto-advance if playing
@@ -218,32 +207,26 @@ export function GuidedDemoChat() {
     e.preventDefault();
     if (!userInput.trim()) return;
 
-    setMessages((prev) => [...prev, { role: 'user', text: userInput }]);
-
+    setMessages(prev => [...prev, { role: 'user', text: userInput }]);
+    
     // Simple response logic
     const input = userInput.toLowerCase();
-    let response =
-      'Great question! Let me help you with that. Would you like to schedule a call to discuss in detail?';
-
+    let response = "Great question! Let me help you with that. Would you like to schedule a call to discuss in detail?";
+    
     if (input.includes('price') || input.includes('cost')) {
-      response =
-        'Our pricing starts at $4,999 for Core Platform, $15,000 for School License with white-label, and $50,000 for Enterprise with AI features. Monthly option is $499/mo. Final pricing depends on your specific needs.';
+      response = "Our pricing starts at $4,999 for Core Platform, $15,000 for School License with white-label, and $50,000 for Enterprise with AI features. Monthly option is $499/mo. Final pricing depends on your specific needs.";
     } else if (input.includes('salesforce') || input.includes('integration')) {
-      response =
-        "Salesforce integration is supported via API and webhooks. The specific implementation depends on your Salesforce configuration — we'd scope that during implementation planning.";
+      response = "Salesforce integration is supported via API and webhooks. The specific implementation depends on your Salesforce configuration — we'd scope that during implementation planning.";
     } else if (input.includes('trial') || input.includes('free')) {
-      response =
-        "We offer live demos like this one, and the demo pages are publicly accessible. For a hands-on trial, we'd discuss that as part of the licensing conversation.";
+      response = "We offer live demos like this one, and the demo pages are publicly accessible. For a hands-on trial, we'd discuss that as part of the licensing conversation.";
     } else if (input.includes('custom')) {
-      response =
-        'White-label branding is included with School License and above. Additional customization beyond standard configuration is available through implementation support.';
+      response = "White-label branding is included with School License and above. Additional customization beyond standard configuration is available through implementation support.";
     } else if (input.includes('compliance') || input.includes('report')) {
-      response =
-        "The platform includes enrollment reports, completion tracking, attendance records, and data exports. Specific compliance requirements vary by funding source — we'd discuss your needs during scoping.";
+      response = "The platform includes enrollment reports, completion tracking, attendance records, and data exports. Specific compliance requirements vary by funding source — we'd discuss your needs during scoping.";
     }
 
     setTimeout(() => {
-      setMessages((prev) => [...prev, { role: 'bot', text: response }]);
+      setMessages(prev => [...prev, { role: 'bot', text: response }]);
     }, 500);
 
     setUserInput('');

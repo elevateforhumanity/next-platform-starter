@@ -1,3 +1,6 @@
+export const dynamic = 'force-static';
+export const revalidate = 3600;
+
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -6,110 +9,27 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'HVAC Technician Course License | Elevate Store',
-  description:
-    'License the complete 640-hour HVAC Technician course for your workforce program, community college, or training center. 16 modules, 94 lessons, EPA 608, OSHA 10, CPR/AED.',
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/store/courses/hvac-technician-course-license',
-  },
+  description: 'License the complete 640-hour HVAC Technician course for your workforce program, community college, or training center. 16 modules, 94 lessons, EPA 608, OSHA 10, CPR/AED.',
+  alternates: { canonical: 'https://www.elevateforhumanity.org/store/courses/hvac-technician-course-license' },
 };
 
 const MODULES = [
-  {
-    num: 1,
-    title: 'HVAC System Overview',
-    lessons: 6,
-    topics: 'System components, refrigeration cycle fundamentals, safety protocols',
-  },
-  {
-    num: 2,
-    title: 'Refrigerants & EPA 608 Core',
-    lessons: 7,
-    topics: 'Refrigerant types, ozone depletion, Clean Air Act, certification requirements',
-  },
-  {
-    num: 3,
-    title: 'EPA 608 Type I — Small Appliances',
-    lessons: 5,
-    topics: 'Recovery techniques, equipment requirements, disposal procedures',
-  },
-  {
-    num: 4,
-    title: 'EPA 608 Type II — High-Pressure Systems',
-    lessons: 7,
-    topics: 'Leak detection, repair requirements, recovery equipment, record-keeping',
-  },
-  {
-    num: 5,
-    title: 'EPA 608 Type III — Low-Pressure Systems',
-    lessons: 5,
-    topics: 'Chiller systems, purge units, leak rates, recovery procedures',
-  },
-  {
-    num: 6,
-    title: 'Electrical Fundamentals',
-    lessons: 6,
-    topics: 'Circuits, wiring diagrams, multimeter use, control systems',
-  },
-  {
-    num: 7,
-    title: 'Heating Systems',
-    lessons: 6,
-    topics: 'Gas furnaces, heat pumps, combustion analysis, heat exchangers',
-  },
-  {
-    num: 8,
-    title: 'Cooling Systems',
-    lessons: 6,
-    topics: 'Split systems, condensers, evaporators, airflow measurement',
-  },
-  {
-    num: 9,
-    title: 'Ductwork & Air Distribution',
-    lessons: 5,
-    topics: 'Duct design, static pressure, balancing, IAQ',
-  },
-  {
-    num: 10,
-    title: 'Controls & Thermostats',
-    lessons: 6,
-    topics: 'Thermostat wiring, smart controls, BAS integration, troubleshooting',
-  },
-  {
-    num: 11,
-    title: 'Troubleshooting & Diagnostics',
-    lessons: 7,
-    topics: 'Systematic diagnosis, pressure-temperature charts, service calls',
-  },
-  {
-    num: 12,
-    title: 'Preventive Maintenance',
-    lessons: 5,
-    topics: 'PM schedules, coil cleaning, filter replacement, documentation',
-  },
-  {
-    num: 13,
-    title: 'Commercial Systems',
-    lessons: 6,
-    topics: 'RTUs, chillers, cooling towers, commercial controls',
-  },
-  {
-    num: 14,
-    title: 'Heat Pumps & Geothermal',
-    lessons: 5,
-    topics: 'Heat pump operation, reversing valves, geothermal loops',
-  },
-  {
-    num: 15,
-    title: 'Business & Career Skills',
-    lessons: 5,
-    topics: 'Customer service, invoicing, licensing requirements, career pathways',
-  },
-  {
-    num: 16,
-    title: 'Capstone & Certification Prep',
-    lessons: 7,
-    topics: 'EPA 608 Universal exam prep, OSHA 10, CPR/AED, final assessment',
-  },
+  { num: 1, title: 'HVAC System Overview', lessons: 6, topics: 'System components, refrigeration cycle fundamentals, safety protocols' },
+  { num: 2, title: 'Refrigerants & EPA 608 Core', lessons: 7, topics: 'Refrigerant types, ozone depletion, Clean Air Act, certification requirements' },
+  { num: 3, title: 'EPA 608 Type I — Small Appliances', lessons: 5, topics: 'Recovery techniques, equipment requirements, disposal procedures' },
+  { num: 4, title: 'EPA 608 Type II — High-Pressure Systems', lessons: 7, topics: 'Leak detection, repair requirements, recovery equipment, record-keeping' },
+  { num: 5, title: 'EPA 608 Type III — Low-Pressure Systems', lessons: 5, topics: 'Chiller systems, purge units, leak rates, recovery procedures' },
+  { num: 6, title: 'Electrical Fundamentals', lessons: 6, topics: 'Circuits, wiring diagrams, multimeter use, control systems' },
+  { num: 7, title: 'Heating Systems', lessons: 6, topics: 'Gas furnaces, heat pumps, combustion analysis, heat exchangers' },
+  { num: 8, title: 'Cooling Systems', lessons: 6, topics: 'Split systems, condensers, evaporators, airflow measurement' },
+  { num: 9, title: 'Ductwork & Air Distribution', lessons: 5, topics: 'Duct design, static pressure, balancing, IAQ' },
+  { num: 10, title: 'Controls & Thermostats', lessons: 6, topics: 'Thermostat wiring, smart controls, BAS integration, troubleshooting' },
+  { num: 11, title: 'Troubleshooting & Diagnostics', lessons: 7, topics: 'Systematic diagnosis, pressure-temperature charts, service calls' },
+  { num: 12, title: 'Preventive Maintenance', lessons: 5, topics: 'PM schedules, coil cleaning, filter replacement, documentation' },
+  { num: 13, title: 'Commercial Systems', lessons: 6, topics: 'RTUs, chillers, cooling towers, commercial controls' },
+  { num: 14, title: 'Heat Pumps & Geothermal', lessons: 5, topics: 'Heat pump operation, reversing valves, geothermal loops' },
+  { num: 15, title: 'Business & Career Skills', lessons: 5, topics: 'Customer service, invoicing, licensing requirements, career pathways' },
+  { num: 16, title: 'Capstone & Certification Prep', lessons: 7, topics: 'EPA 608 Universal exam prep, OSHA 10, CPR/AED, final assessment' },
 ];
 
 const VIDEO_URL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/course-videos/hvac/hvac-module1-lesson1.mp4`;
@@ -118,13 +38,11 @@ export default function HvacCourseLicensePage() {
   return (
     <div className="bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs
-          items={[
-            { label: 'Store', href: '/store' },
-            { label: 'Courses', href: '/store/courses' },
-            { label: 'HVAC Technician Course License' },
-          ]}
-        />
+        <Breadcrumbs items={[
+          { label: 'Store', href: '/store' },
+          { label: 'Courses', href: '/store/courses' },
+          { label: 'HVAC Technician Course License' },
+        ]} />
       </div>
 
       {/* Hero */}
@@ -132,18 +50,12 @@ export default function HvacCourseLicensePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-brand-red-400 font-bold text-xs uppercase tracking-widest mb-3">
-                Licensable Course Content
-              </p>
+              <p className="text-brand-red-400 font-bold text-xs uppercase tracking-widest mb-3">Licensable Course Content</p>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">
-                HVAC Technician
-                <br />
-                Full Course License
+                HVAC Technician<br />Full Course License
               </h1>
               <p className="text-slate-300 text-lg mb-6">
-                License our complete 640-hour HVAC Technician course for delivery at your
-                organization. 16 modules, 94 lessons, interactive diagrams, EPA 608 prep, OSHA 10,
-                and CPR/AED — ready to deploy.
+                License our complete 640-hour HVAC Technician course for delivery at your organization. 16 modules, 94 lessons, interactive diagrams, EPA 608 prep, OSHA 10, and CPR/AED — ready to deploy.
               </p>
               <div className="flex flex-wrap gap-3 mb-6">
                 {[
@@ -152,10 +64,7 @@ export default function HvacCourseLicensePage() {
                   { icon: Award, label: 'EPA 608 · OSHA 10 · CPR/AED' },
                   { icon: Users, label: 'Min. 10 Students' },
                 ].map(({ icon: Icon, label }) => (
-                  <div
-                    key={label}
-                    className="flex items-center gap-2 bg-slate-800 text-slate-300 text-sm px-3 py-1.5 rounded-full"
-                  >
+                  <div key={label} className="flex items-center gap-2 bg-slate-800 text-slate-300 text-sm px-3 py-1.5 rounded-full">
                     <Icon className="w-4 h-4 text-brand-red-400" />
                     {label}
                   </div>
@@ -205,33 +114,20 @@ export default function HvacCourseLicensePage() {
                 <span className="text-3xl font-black text-slate-900">$5,000</span>
                 <span className="text-slate-500 text-sm ml-1">/ year</span>
               </div>
-              <p className="text-slate-600 text-sm mb-4">
-                Up to 50 active students. Delivered via your Elevate LMS instance or SCORM export.
-              </p>
-              <Link
-                href="/contact?topic=hvac-course-license&tier=single"
-                className="block text-center bg-brand-red-600 text-white font-bold py-2.5 rounded-lg hover:bg-brand-red-700 transition text-sm"
-              >
+              <p className="text-slate-600 text-sm mb-4">Up to 50 active students. Delivered via your Elevate LMS instance or SCORM export.</p>
+              <Link href="/contact?topic=hvac-course-license&tier=single" className="block text-center bg-brand-red-600 text-white font-bold py-2.5 rounded-lg hover:bg-brand-red-700 transition text-sm">
                 Get Started
               </Link>
             </div>
             <div className="bg-white rounded-2xl border-2 border-brand-red-600 p-6 relative">
-              <span className="absolute -top-3 left-6 bg-brand-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                Most Popular
-              </span>
+              <span className="absolute -top-3 left-6 bg-brand-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
               <h3 className="font-bold text-slate-900 mb-1">Workforce Network</h3>
               <div className="mb-3">
                 <span className="text-3xl font-black text-slate-900">$9,500</span>
                 <span className="text-slate-500 text-sm ml-1">/ year</span>
               </div>
-              <p className="text-slate-600 text-sm mb-4">
-                Up to 5 sites, unlimited students. Includes instructor training and quarterly
-                content updates.
-              </p>
-              <Link
-                href="/contact?topic=hvac-course-license&tier=network"
-                className="block text-center bg-brand-red-600 text-white font-bold py-2.5 rounded-lg hover:bg-brand-red-700 transition text-sm"
-              >
+              <p className="text-slate-600 text-sm mb-4">Up to 5 sites, unlimited students. Includes instructor training and quarterly content updates.</p>
+              <Link href="/contact?topic=hvac-course-license&tier=network" className="block text-center bg-brand-red-600 text-white font-bold py-2.5 rounded-lg hover:bg-brand-red-700 transition text-sm">
                 Get Started
               </Link>
             </div>
@@ -240,14 +136,8 @@ export default function HvacCourseLicensePage() {
               <div className="mb-3">
                 <span className="text-3xl font-black text-slate-900">Custom</span>
               </div>
-              <p className="text-slate-600 text-sm mb-4">
-                Statewide deployment, custom branding, SCORM/xAPI integration, and white-label
-                options.
-              </p>
-              <Link
-                href="/contact?topic=hvac-course-license&tier=enterprise"
-                className="block text-center border border-slate-300 text-slate-700 font-bold py-2.5 rounded-lg hover:bg-white transition text-sm"
-              >
+              <p className="text-slate-600 text-sm mb-4">Statewide deployment, custom branding, SCORM/xAPI integration, and white-label options.</p>
+              <Link href="/contact?topic=hvac-course-license&tier=enterprise" className="block text-center border border-slate-300 text-slate-700 font-bold py-2.5 rounded-lg hover:bg-white transition text-sm">
                 Contact Us
               </Link>
             </div>
@@ -258,44 +148,16 @@ export default function HvacCourseLicensePage() {
       {/* What's included */}
       <section className="py-14 sm:py-20">
         <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">
-            What&apos;s included
-          </h2>
-          <p className="text-slate-600 mb-10">
-            Every license includes the complete course package — no add-ons, no per-student fees.
-          </p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">What&apos;s included</h2>
+          <p className="text-slate-600 mb-10">Every license includes the complete course package — no add-ons, no per-student fees.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              {
-                icon: BookOpen,
-                title: '94 Structured Lessons',
-                desc: '16 modules organized by skill progression. Each lesson includes reading content, video, lab activity, and quiz.',
-              },
-              {
-                icon: Wrench,
-                title: 'Interactive Diagrams',
-                desc: 'Refrigeration cycle, EPA 608 P-T charts, electrical wiring, duct distribution, and troubleshooting flowcharts — all interactive.',
-              },
-              {
-                icon: Award,
-                title: 'EPA 608 Prep',
-                desc: 'Core, Type I, Type II, and Type III sections with 400+ practice questions and timed mock exams.',
-              },
-              {
-                icon: FileText,
-                title: 'Instructor Materials',
-                desc: 'Lesson plans, slide decks, lab guides, and a complete instructor manual for each module.',
-              },
-              {
-                icon: Users,
-                title: 'Assessment Bank',
-                desc: '400+ questions across all modules. Randomized quizzes, module exams, and a final certification readiness assessment.',
-              },
-              {
-                icon: Clock,
-                title: 'SCORM / xAPI Export',
-                desc: 'Deploy in your existing LMS. Full SCORM 1.2 and xAPI (Tin Can) packages included with every license.',
-              },
+              { icon: BookOpen, title: '94 Structured Lessons', desc: '16 modules organized by skill progression. Each lesson includes reading content, video, lab activity, and quiz.' },
+              { icon: Wrench, title: 'Interactive Diagrams', desc: 'Refrigeration cycle, EPA 608 P-T charts, electrical wiring, duct distribution, and troubleshooting flowcharts — all interactive.' },
+              { icon: Award, title: 'EPA 608 Prep', desc: 'Core, Type I, Type II, and Type III sections with 400+ practice questions and timed mock exams.' },
+              { icon: FileText, title: 'Instructor Materials', desc: 'Lesson plans, slide decks, lab guides, and a complete instructor manual for each module.' },
+              { icon: Users, title: 'Assessment Bank', desc: '400+ questions across all modules. Randomized quizzes, module exams, and a final certification readiness assessment.' },
+              { icon: Clock, title: 'SCORM / xAPI Export', desc: 'Deploy in your existing LMS. Full SCORM 1.2 and xAPI (Tin Can) packages included with every license.' },
             ].map((item) => (
               <div key={item.title} className="bg-white rounded-xl p-5 border border-slate-200">
                 <item.icon className="w-5 h-5 text-brand-red-600 mb-3" />
@@ -310,24 +172,17 @@ export default function HvacCourseLicensePage() {
       {/* Module list */}
       <section className="py-14 sm:py-20">
         <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">
-            Course curriculum
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">Course curriculum</h2>
           <p className="text-slate-600 mb-8">16 modules · 94 lessons · 640 hours</p>
           <div className="grid sm:grid-cols-2 gap-3">
             {MODULES.map((mod) => (
-              <div
-                key={mod.num}
-                className="bg-white rounded-xl border border-slate-200 p-4 flex gap-4"
-              >
+              <div key={mod.num} className="bg-white rounded-xl border border-slate-200 p-4 flex gap-4">
                 <div className="w-9 h-9 rounded-full bg-brand-red-100 text-brand-red-700 font-black text-sm flex items-center justify-center flex-shrink-0">
                   {mod.num}
                 </div>
                 <div>
                   <p className="font-bold text-slate-900 text-sm">{mod.title}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">
-                    {mod.lessons} lessons · {mod.topics}
-                  </p>
+                  <p className="text-xs text-slate-500 mt-0.5">{mod.lessons} lessons · {mod.topics}</p>
                 </div>
               </div>
             ))}
@@ -338,12 +193,8 @@ export default function HvacCourseLicensePage() {
       {/* Credentials covered */}
       <section className="py-14 sm:py-20">
         <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">
-            Credentials students earn
-          </h2>
-          <p className="text-slate-600 mb-8">
-            The course prepares students for three industry-recognized credentials.
-          </p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">Credentials students earn</h2>
+          <p className="text-slate-600 mb-8">The course prepares students for three industry-recognized credentials.</p>
           <div className="grid sm:grid-cols-3 gap-6">
             {[
               {
@@ -365,19 +216,9 @@ export default function HvacCourseLicensePage() {
                 img: '/images/pages/cpr-mannequin.jpg',
               },
             ].map((c) => (
-              <div
-                key={c.credential}
-                className="rounded-xl overflow-hidden border border-slate-200"
-              >
+              <div key={c.credential} className="rounded-xl overflow-hidden border border-slate-200">
                 <div className="relative h-36">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-                  <Image
-                    src={c.img}
-                    alt={c.credential}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                  />
+                  <Image src={c.img} alt={c.credential} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
                 </div>
                 <div className="p-4">
                   <p className="font-bold text-slate-900 text-sm">{c.credential}</p>
@@ -393,30 +234,14 @@ export default function HvacCourseLicensePage() {
       {/* Who it's for */}
       <section className="py-14 sm:py-20 bg-slate-900">
         <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3">
-            Who licenses this course
-          </h2>
-          <p className="text-slate-400 mb-10">
-            Any organization delivering workforce training can license and deploy this curriculum.
-          </p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3">Who licenses this course</h2>
+          <p className="text-slate-400 mb-10">Any organization delivering workforce training can license and deploy this curriculum.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              {
-                title: 'Workforce Boards',
-                desc: 'Deploy for WIOA Title I participants. Meets ETPL curriculum standards.',
-              },
-              {
-                title: 'Community Colleges',
-                desc: 'Add to your trades catalog. SCORM export integrates with Blackboard, Canvas, Moodle.',
-              },
-              {
-                title: 'Apprenticeship Programs',
-                desc: 'Use as the related technical instruction (RTI) component of a DOL Registered Apprenticeship.',
-              },
-              {
-                title: 'Reentry Programs',
-                desc: 'Designed for adult learners. Used by Job Ready Indy and justice-involved workforce programs.',
-              },
+              { title: 'Workforce Boards', desc: 'Deploy for WIOA Title I participants. Meets ETPL curriculum standards.' },
+              { title: 'Community Colleges', desc: 'Add to your trades catalog. SCORM export integrates with Blackboard, Canvas, Moodle.' },
+              { title: 'Apprenticeship Programs', desc: 'Use as the related technical instruction (RTI) component of a DOL Registered Apprenticeship.' },
+              { title: 'Reentry Programs', desc: 'Designed for adult learners. Used by Job Ready Indy and justice-involved workforce programs.' },
             ].map((item) => (
               <div key={item.title} className="bg-slate-800 rounded-xl p-5">
                 <div className="flex items-start gap-2 mb-2">
@@ -435,8 +260,7 @@ export default function HvacCourseLicensePage() {
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ready to license?</h2>
           <p className="text-red-100 mb-8">
-            Contact us to discuss your cohort size, deployment timeline, and integration
-            requirements. Most organizations are live within two weeks.
+            Contact us to discuss your cohort size, deployment timeline, and integration requirements. Most organizations are live within two weeks.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

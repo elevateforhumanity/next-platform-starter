@@ -12,12 +12,12 @@ const notices: Record<string, { message: string; cta?: string; href?: string }> 
     cta: 'View available licenses',
     href: '#licenses',
   },
-  expired: {
+  'expired': {
     message: 'Your license has expired.',
     cta: 'Renew license to restore access',
     href: '/store/licenses/managed-platform',
   },
-  redirect: {
+  'redirect': {
     message: 'You were redirected here.',
     cta: 'Choose a license to get started',
     href: '#licenses',
@@ -38,7 +38,9 @@ function NoticeContent() {
   if (!reason || !notices[reason]) return null;
 
   const { message, cta, href } = notices[reason];
-  const displayMessage = from ? `${message} (from ${from})` : message;
+  const displayMessage = from
+    ? `${message} (from ${from})`
+    : message;
 
   return (
     <div className="max-w-3xl mx-auto px-4 mt-4">

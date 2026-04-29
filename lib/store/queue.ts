@@ -3,7 +3,7 @@ import { logger } from '@/lib/logger';
 /**
  * SECTION 7: Lightweight async queue using Supabase
  * For production, consider Upstash QStash or similar
- *
+ * 
  * This implementation uses a database table as a simple queue
  * with a cron job to process pending items
  */
@@ -24,14 +24,8 @@ export interface QueueJob {
  * Enqueue a job for async processing
  */
 export async function enqueueJob(
-  supabase: {
-    from: (table: string) => {
-      insert: (data: unknown) => {
-        select: () => { single: () => Promise<{ data: unknown; error: unknown }> };
-      };
-    };
-  },
-  job: QueueJob,
+  supabase: { from: (table: string) => { insert: (data: unknown) => { select: () => { single: () => Promise<{ data: unknown; error: unknown }> } } } },
+  job: QueueJob
 ): Promise<string | null> {
   const { data, error } = await supabase
     .from('job_queue')
@@ -57,30 +51,21 @@ export async function enqueueJob(
  * Process pending jobs (called by cron)
  */
 export async function processPendingJobs(
-  adminSupabase: {
-    from: (table: string) => {
-      select: (columns?: string) => {
-        eq: (
-          col: string,
-          val: string,
-        ) => {
-          lt: (
-            col: string,
-            val: number,
-          ) => {
-            order: (
-              col: string,
-              opts: { ascending: boolean },
-            ) => {
-              limit: (n: number) => Promise<{ data: unknown[]; error: unknown }>;
-            };
-          };
-        };
+  adminSupabase: { 
+    from: (table: string) => { 
+      select: (columns?: string) => { 
+        eq: (col: string, val: string) => { 
+          lt: (col: string, val: number) => { 
+            order: (col: string, opts: { ascending: boolean }) => { 
+              limit: (n: number) => Promise<{ data: unknown[]; error: unknown }> 
+            } 
+          } 
+        } 
       };
-      update: (data: unknown) => { eq: (col: string, val: string) => Promise<{ error: unknown }> };
-    };
+      update: (data: unknown) => { eq: (col: string, val: string) => Promise<{ error: unknown }> }
+    } 
   },
-  handlers: Record<string, (payload: Record<string, unknown>) => Promise<void>>,
+  handlers: Record<string, (payload: Record<string, unknown>) => Promise<void>>
 ): Promise<{ processed: number; failed: number }> {
   // Get pending jobs
   const { data: jobs, error } = await adminSupabase
@@ -114,24 +99,24 @@ export async function processPendingJobs(
 
     try {
       await handler(job.payload);
-
+      
       await adminSupabase
         .from('job_queue')
         .update({ status: 'completed', processed_at: new Date().toISOString() })
         .eq('id', job.id!);
-
+      
       processed++;
     } catch (err) {
       const errorMessage = 'Operation failed';
-
+      
       await adminSupabase
         .from('job_queue')
-        .update({
+        .update({ 
           status: (job.attempts || 0) + 1 >= 3 ? 'failed' : 'pending',
           error: errorMessage,
         })
         .eq('id', job.id!);
-
+      
       failed++;
       logger.error('Job processing failed', { jobId: job.id, error: errorMessage });
     }

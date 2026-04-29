@@ -1,6 +1,6 @@
 /**
  * Licensing Mode Control
- *
+ * 
  * LICENSING_MODE=controlled - Only admin-generated checkout sessions allowed
  * LICENSING_MODE=open - Public checkout allowed (development only)
  */
@@ -76,7 +76,7 @@ async function validatePaymentLink(linkId: string): Promise<boolean> {
  */
 export async function validateCheckoutAuthorization(
   adminSessionId?: string,
-  approvedLinkId?: string,
+  approvedLinkId?: string
 ): Promise<{ authorized: boolean; reason?: string }> {
   if (!isLicensingControlled()) {
     return { authorized: true };

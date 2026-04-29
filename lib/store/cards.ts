@@ -10,15 +10,7 @@ export interface StoreCard {
   description: string;
   href: string;
   image: string;
-  icon:
-    | 'shopping-bag'
-    | 'graduation-cap'
-    | 'book-open'
-    | 'server'
-    | 'credit-card'
-    | 'settings'
-    | 'users'
-    | 'file-text';
+  icon: 'shopping-bag' | 'graduation-cap' | 'book-open' | 'server' | 'credit-card' | 'settings' | 'users' | 'file-text';
   tourId: string; // data-tour attribute value
   tier: 'primary' | 'secondary';
   order: number;
@@ -31,16 +23,14 @@ export const primaryCards: StoreCard[] = [
     id: 'licenses',
     title: 'Platform Licenses',
     subtitle: 'LMS & Workforce Solutions',
-    description:
-      'Full workforce platform with LMS, admin dashboard, enrollment, and compliance tools.',
+    description: 'Full workforce platform with LMS, admin dashboard, enrollment, and compliance tools.',
     href: '/store/licenses',
     image: '/images/pages/training-classroom.jpg',
     icon: 'server',
     tourId: 'store-card-licenses',
     tier: 'primary',
     order: 1,
-    tourDescription:
-      'License our complete workforce platform for your organization. Includes LMS, admin tools, compliance, and white-label options.',
+    tourDescription: 'License our complete workforce platform for your organization. Includes LMS, admin tools, compliance, and white-label options.',
   },
   {
     id: 'apps',
@@ -53,15 +43,13 @@ export const primaryCards: StoreCard[] = [
     tourId: 'store-card-apps',
     tier: 'primary',
     order: 2,
-    tourDescription:
-      'Access AI tools for SAM.gov registration, grant discovery, content creation, and 24/7 student tutoring.',
+    tourDescription: 'Access AI tools for SAM.gov registration, grant discovery, content creation, and 24/7 student tutoring.',
   },
   {
     id: 'courses',
     title: 'Career Courses',
     subtitle: 'Industry Certifications',
-    description:
-      'Self-paced courses in healthcare, trades, technology, and business with certifications.',
+    description: 'Self-paced courses in healthcare, trades, technology, and business with certifications.',
     href: '/store/courses',
     image: '/images/pages/training-classroom.jpg',
     icon: 'graduation-cap',
@@ -81,8 +69,7 @@ export const primaryCards: StoreCard[] = [
     tourId: 'store-card-digital',
     tier: 'primary',
     order: 4,
-    tourDescription:
-      'Download business toolkits, grant writing guides, and professional templates.',
+    tourDescription: 'Download business toolkits, grant writing guides, and professional templates.',
   },
   {
     id: 'subscriptions',
@@ -95,8 +82,7 @@ export const primaryCards: StoreCard[] = [
     tourId: 'store-card-pricing',
     tier: 'primary',
     order: 5,
-    tourDescription:
-      'Compare pricing plans and subscription options. Find the right tier for individuals, schools, or enterprises.',
+    tourDescription: 'Compare pricing plans and subscription options. Find the right tier for individuals, schools, or enterprises.',
   },
 ];
 
@@ -139,8 +125,7 @@ export const secondaryCards: StoreCard[] = [
     tourId: 'store-card-demo',
     tier: 'secondary',
     order: 8,
-    tourDescription:
-      'Schedule a demo to see how our platform can transform your training operations.',
+    tourDescription: 'Schedule a demo to see how our platform can transform your training operations.',
   },
   {
     id: 'contact',
@@ -162,11 +147,11 @@ export const allStoreCards = [...primaryCards, ...secondaryCards].sort((a, b) =>
 
 // Helper to get card by ID
 export function getStoreCard(id: string): StoreCard | undefined {
-  return allStoreCards.find((card) => card.id === id);
+  return allStoreCards.find(card => card.id === id);
 }
 
 // Tour steps derived from cards
-export const storeTourSteps = primaryCards.map((card) => ({
+export const storeTourSteps = primaryCards.map(card => ({
   target: `[data-tour="${card.tourId}"]`,
   title: card.title,
   content: card.tourDescription,

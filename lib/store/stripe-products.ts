@@ -1,6 +1,6 @@
 import 'server-only';
 import { getStripe } from '@/lib/stripe/client';
-import { gh, parseRepo } from '../github';
+import { gh, parseRepo } from "../github";
 
 export async function createProduct(title: string, price: number) {
   const stripe = getStripe();
@@ -9,7 +9,7 @@ export async function createProduct(title: string, price: number) {
   const priceObj = await stripe.prices.create({
     product: product.id,
     unit_amount: price * 100,
-    currency: 'usd',
+    currency: "usd",
   });
 
   return { product, price: priceObj };
@@ -19,7 +19,7 @@ export async function createStoreProduct(
   title: string,
   price: number,
   repo: string,
-  description?: string,
+  description?: string
 ) {
   const stripe = getStripe();
   const product = await stripe.products.create({
@@ -31,7 +31,7 @@ export async function createStoreProduct(
   const priceObj = await stripe.prices.create({
     product: product.id,
     unit_amount: price * 100,
-    currency: 'usd',
+    currency: "usd",
   });
 
   return { product, price: priceObj };
@@ -57,8 +57,7 @@ export async function cloneRepository(sourceRepo: string, newRepoName: string) {
       name: newRepoName,
       include_all_branches: true,
     });
-  } catch (error) {
-    /* Error handled silently */
+  } catch (error) { /* Error handled silently */ 
     // If template method fails, the empty repo is still created
   }
 

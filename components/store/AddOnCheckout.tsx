@@ -171,14 +171,10 @@ function CheckoutForm({
                     <div className="font-semibold text-slate-900">Credit / Debit Card</div>
                     <div className="text-xs text-slate-700">Visa, Mastercard, Amex via Stripe</div>
                   </div>
-                  <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      paymentMethod === 'stripe' ? 'border-brand-blue-500' : 'border-gray-300'
-                    }`}
-                  >
-                    {paymentMethod === 'stripe' && (
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand-blue-500" />
-                    )}
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                    paymentMethod === 'stripe' ? 'border-brand-blue-500' : 'border-gray-300'
+                  }`}>
+                    {paymentMethod === 'stripe' && <div className="w-2.5 h-2.5 rounded-full bg-brand-blue-500" />}
                   </div>
                 </label>
 
@@ -199,23 +195,15 @@ function CheckoutForm({
                       onChange={() => setPaymentMethod('affirm')}
                       className="sr-only"
                     />
-                    <div className="w-6 h-6 bg-brand-blue-100 rounded flex items-center justify-center text-xs font-bold text-brand-blue-700">
-                      A
-                    </div>
+                    <div className="w-6 h-6 bg-brand-blue-100 rounded flex items-center justify-center text-xs font-bold text-brand-blue-700">A</div>
                     <div className="flex-1">
                       <div className="font-semibold text-slate-900">Affirm</div>
-                      <div className="text-xs text-slate-700">
-                        Pay over 3–36 months. As low as 0% APR.
-                      </div>
+                      <div className="text-xs text-slate-700">Pay over 3–36 months. As low as 0% APR.</div>
                     </div>
-                    <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        paymentMethod === 'affirm' ? 'border-brand-blue-500' : 'border-gray-300'
-                      }`}
-                    >
-                      {paymentMethod === 'affirm' && (
-                        <div className="w-2.5 h-2.5 rounded-full bg-brand-blue-500" />
-                      )}
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      paymentMethod === 'affirm' ? 'border-brand-blue-500' : 'border-gray-300'
+                    }`}>
+                      {paymentMethod === 'affirm' && <div className="w-2.5 h-2.5 rounded-full bg-brand-blue-500" />}
                     </div>
                   </label>
                 )}
@@ -237,23 +225,15 @@ function CheckoutForm({
                       onChange={() => setPaymentMethod('sezzle')}
                       className="sr-only"
                     />
-                    <div className="w-6 h-6 bg-purple-100 rounded flex items-center justify-center text-xs font-bold text-purple-700">
-                      S
-                    </div>
+                    <div className="w-6 h-6 bg-purple-100 rounded flex items-center justify-center text-xs font-bold text-purple-700">S</div>
                     <div className="flex-1">
                       <div className="font-semibold text-slate-900">Sezzle</div>
-                      <div className="text-xs text-slate-700">
-                        4 interest-free payments over 6 weeks
-                      </div>
+                      <div className="text-xs text-slate-700">4 interest-free payments over 6 weeks</div>
                     </div>
-                    <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        paymentMethod === 'sezzle' ? 'border-purple-500' : 'border-gray-300'
-                      }`}
-                    >
-                      {paymentMethod === 'sezzle' && (
-                        <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                      )}
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      paymentMethod === 'sezzle' ? 'border-purple-500' : 'border-gray-300'
+                    }`}>
+                      {paymentMethod === 'sezzle' && <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />}
                     </div>
                   </label>
                 )}
@@ -281,9 +261,7 @@ function CheckoutForm({
                 <>
                   {paymentMethod === 'stripe' && <>Purchase Now — {priceLabel}</>}
                   {paymentMethod === 'affirm' && <>Pay with Affirm — {priceLabel}</>}
-                  {paymentMethod === 'sezzle' && (
-                    <>Pay with Sezzle — 4 × ${Math.round(price / 4).toLocaleString('en-US')}</>
-                  )}
+                  {paymentMethod === 'sezzle' && <>Pay with Sezzle — 4 × ${Math.round(price / 4).toLocaleString('en-US')}</>}
                   <ArrowRight className="w-5 h-5" />
                 </>
               )}
@@ -291,8 +269,7 @@ function CheckoutForm({
 
             <p className="text-xs text-slate-700 text-center mt-4">
               {paymentMethod === 'stripe' && "You'll be redirected to Stripe for secure payment."}
-              {paymentMethod === 'affirm' &&
-                "You'll be redirected to Affirm to complete financing."}
+              {paymentMethod === 'affirm' && "You'll be redirected to Affirm to complete financing."}
               {paymentMethod === 'sezzle' && "You'll be redirected to Sezzle to set up 4 payments."}
             </p>
           </div>
@@ -304,13 +281,7 @@ function CheckoutForm({
 
               <div className="flex gap-4 mb-6 pb-6 border-b">
                 <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                  <Image
-                    src={productImage}
-                    alt={productName}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
+                  <Image src={productImage} alt={productName} fill className="object-cover"  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-slate-900">{productName}</h3>
@@ -354,9 +325,7 @@ function CheckoutForm({
                   ) : (
                     <>
                       <span className="text-2xl font-black text-slate-900">
-                        {isMonthly
-                          ? `$${monthlyPrice.toLocaleString('en-US')}`
-                          : `$${oneTimePrice.toLocaleString('en-US')}`}
+                        {isMonthly ? `$${monthlyPrice.toLocaleString('en-US')}` : `$${oneTimePrice.toLocaleString('en-US')}`}
                       </span>
                       {isMonthly && (
                         <span className="text-sm text-slate-700 block">
@@ -376,10 +345,7 @@ function CheckoutForm({
                 {bnplProviders.length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     {bnplProviders.map((p) => (
-                      <span
-                        key={p.id}
-                        className={`text-xs px-2 py-0.5 rounded-full ${p.badgeBg} ${p.badgeText}`}
-                      >
+                      <span key={p.id} className={`text-xs px-2 py-0.5 rounded-full ${p.badgeBg} ${p.badgeText}`}>
                         {p.name}
                       </span>
                     ))}
