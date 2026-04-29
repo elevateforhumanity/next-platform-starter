@@ -102,6 +102,7 @@ export default function EnrollmentManagementClient({
     setFormData({
       user_id: enrollment.user_id,
       course_id: enrollment.course_id,
+      cohort_id: (enrollment as any).cohort_id || '',
       status: enrollment.status || 'active',
       progress: enrollment.progress?.toString() || '0',
       at_risk: enrollment.at_risk || false,

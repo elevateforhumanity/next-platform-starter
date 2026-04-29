@@ -41,7 +41,7 @@ export async function updateEnrollment(
     .update({ ...fields, updated_at: new Date().toISOString() })
     .eq('id', enrollmentId);
   if (error) {
-    logger.error('updateEnrollment', { error });
+    logger.error('updateEnrollment', { reason: error?.message });
     throw new Error('Failed to update enrollment');
   }
   await writeAdminAuditEvent(supabase, {
@@ -86,7 +86,7 @@ export async function createEnrollment(data: {
     .select('id')
     .single();
   if (error) {
-    logger.error('createEnrollment', { error });
+    logger.error('createEnrollment', { reason: error?.message });
     throw new Error('Failed to create enrollment');
   }
   await writeAdminAuditEvent(supabase, {
@@ -106,7 +106,7 @@ export async function deleteEnrollment(enrollmentId: string, userId: string, cou
   await db.from('lms_progress').delete().eq('user_id', userId).eq('course_id', courseId);
   const { error } = await db.from('program_enrollments').delete().eq('id', enrollmentId);
   if (error) {
-    logger.error('deleteEnrollment', { error });
+    logger.error('deleteEnrollment', { reason: error?.message });
     throw new Error('Failed to delete enrollment');
   }
   await writeAdminAuditEvent(supabase, {

@@ -1,4 +1,5 @@
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import ExternalCourseStripeTable from './ExternalCourseStripeTable';

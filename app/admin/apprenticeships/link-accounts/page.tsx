@@ -85,7 +85,8 @@ export default async function LinkAccountsPage() {
 
       // Look up auth user by email via admin API
       const { data: authData } = await adminDb.auth.admin.listUsers({ page: 1, perPage: 1000 });
-      const match = authData?.users?.find((u) => u.email?.toLowerCase() === a.email?.toLowerCase());
+      const aEmail = (a.email as string | null)?.toLowerCase();
+      const match = authData?.users?.find((u) => u.email?.toLowerCase() === aEmail);
 
       return {
         apprenticeId: a.id,
