@@ -359,7 +359,7 @@ const FORBIDDEN_SUBPATHS = new Set([
   'parent-portal',
   'partner',
   'partner-learning',
-  'portals',
+
   'provider',
   'shop/cart',
   'shop/onboarding',

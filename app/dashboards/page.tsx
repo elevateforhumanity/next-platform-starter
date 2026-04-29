@@ -81,7 +81,7 @@ const portals = [
   {
     name: 'Supersonic Fast Cash',
     description: 'Paid tax services and refund advances',
-    href: '/supersonic-fast-cash',
+    href: '/vita',
     icon: Zap,
     color: 'bg-yellow-500',
     public: true,

@@ -442,7 +442,7 @@ importers:
         specifier: ^5.1.2
         version: 5.1.2
       '@netlify/plugin-nextjs':
-        specifier: 5.15.9
+        specifier: ^5.13.2
         version: 5.15.9
       '@next/bundle-analyzer':
         specifier: 16.1.1
