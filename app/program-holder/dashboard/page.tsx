@@ -185,7 +185,6 @@ export default async function ProgramHolderDashboardPage() {
 
       {/* Hero */}
       <div className="relative h-64 sm:h-80 w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/program-holder-page-1.jpg"
           alt="Program Holder Portal"

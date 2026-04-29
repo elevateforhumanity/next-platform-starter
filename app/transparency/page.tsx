@@ -58,7 +58,6 @@ export default function TransparencyPage() {
 
       {/* Hero */}
       <section className="relative h-72 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/transparency-page-1.jpg"
           alt="Transparency"

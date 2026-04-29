@@ -43,7 +43,6 @@ export default async function WioaPage() {
 
       {/* Hero Section - Image Only */}
       <section className="relative h-[400px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/funding-page-5.jpg"
           alt="WIOA Success Story"

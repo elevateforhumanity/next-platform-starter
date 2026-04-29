@@ -3,7 +3,6 @@ import Image from 'next/image';
 export function HomeTopHero() {
   return (
     <section className="relative w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
       <Image
         src="/images/pages/prog-hero-main-2.jpg"
         alt="Elevate for Humanity - Empowering Futures Through Innovation & Opportunity"

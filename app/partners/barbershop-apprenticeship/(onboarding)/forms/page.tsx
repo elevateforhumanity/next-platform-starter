@@ -228,7 +228,6 @@ export default function RequiredFormsPage() {
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="relative h-32">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src="/images/pages/barber-tools.jpg"
                 alt="Sign MOU"

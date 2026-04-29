@@ -40,7 +40,6 @@ export default function JriPage() {
       {/* Hero Section */}
       <section className="relative min-h-[500px] flex items-center overflow-hidden">
         <div className="absolute inset-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image sizes="100vw"
             src="/images/pages/jri-hero.jpg"
             alt="Second chance career training"

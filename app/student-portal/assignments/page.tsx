@@ -93,7 +93,6 @@ export default async function AssignmentsPage() {
     <div className="min-h-screen bg-white py-8">
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/student-portal-page-2.jpg"
           alt="Student portal"

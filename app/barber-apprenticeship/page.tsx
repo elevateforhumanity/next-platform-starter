@@ -87,7 +87,6 @@ export default async function BarberApprenticeshipPage() {
 
       {/* Hero */}
       <section className="relative h-[300px] sm:h-[400px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/barber-hero.jpg"
           alt="Barber apprenticeship training"

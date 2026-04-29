@@ -7,7 +7,6 @@ export function BarberPartnership() {
     <>
       {/* Career Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[360px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/barber-shop-interior.jpg"
           alt="Professional barbershop interior"

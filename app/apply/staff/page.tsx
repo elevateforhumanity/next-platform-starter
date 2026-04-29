@@ -27,7 +27,6 @@ export default async function StaffApplicationPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/apply-page-3.jpg"
           alt="Join our team"

@@ -41,7 +41,6 @@ export default function GrantProgramsPage() {
 
       {/* Hero Section */}
       <section className="relative h-[400px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/heroes/lms-analytics.jpg"
           alt="Funded Training Programs"

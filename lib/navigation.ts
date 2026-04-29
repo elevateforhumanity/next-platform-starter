@@ -1,7 +1,7 @@
 // Single source of truth for the public marketing site navigation.
 //
 // Rules:
-// - 6 top-level items only. No portals in top nav — portals are post-login.
+// - 7 top-level items only. No portals in top nav — portals are post-login.
 // - Programs mega menu: 3 industry groups, one canonical entry per program.
 // - Apprenticeships: separate from programs — DOL-registered, distinct system.
 // - Testing: infrastructure, not a sub-item of programs.
@@ -36,7 +36,6 @@ export const NAV_ITEMS: NavItem[] = [
     name: 'Programs',
     href: '/programs',
     subItems: [
-      // Healthcare
       { name: '— Healthcare —', href: '/programs/healthcare', isHeader: true },
       { name: 'Certified Nursing Assistant (CNA)', href: canonicalRoutes.programs.certifiedNursingAssistant },
       { name: 'Qualified Medication Aide (QMA)', href: '/programs/qma' },
@@ -44,16 +43,13 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Medical Assistant', href: '/programs/medical-assistant' },
       { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
       { name: 'All Healthcare →', href: '/programs/healthcare' },
-      // Skilled Trades
       { name: '— Skilled Trades —', href: '/programs/skilled-trades', isHeader: true },
       { name: 'CDL (Class A / B)', href: '/programs/cdl-training' },
-      { name: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
       { name: 'Welding', href: '/programs/welding' },
       { name: 'Electrical', href: '/programs/electrical' },
       { name: 'Plumbing', href: '/programs/plumbing' },
       { name: 'Construction Trades', href: '/programs/construction-trades-certification' },
       { name: 'All Trades →', href: '/programs/skilled-trades' },
-      // Technology & Business
       { name: '— Technology & Business —', href: '/programs/technology', isHeader: true },
       { name: 'IT Support', href: '/programs/it-support' },
       { name: 'Cybersecurity', href: '/programs/cybersecurity' },
@@ -69,7 +65,7 @@ export const NAV_ITEMS: NavItem[] = [
     name: 'Apprenticeships',
     href: '/apprenticeships',
     subItems: [
-      { name: '— DOL Registered Apprenticeships —', href: '/apprenticeships', isHeader: true },
+      { name: '— DOL Registered —', href: '/apprenticeships', isHeader: true },
       { name: 'Barbering', href: '/programs/barber-apprenticeship' },
       { name: 'Cosmetology', href: '/programs/cosmetology-apprenticeship' },
       { name: 'Esthetics / Nail Tech', href: '/programs/esthetician' },
@@ -77,12 +73,24 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Become a Host —', href: '/partners/barbershop-apprenticeship', isHeader: true },
       { name: 'Barbershop Partner', href: '/partners/barbershop-apprenticeship' },
       { name: 'Salon / Cosmetology Partner', href: '/partners/cosmetology-apprenticeship' },
-      { name: 'Esthetician / Nail Partner', href: '/partners/esthetician-apprenticeship' },
-      { name: 'All Apprenticeships →', href: '/apprenticeships' },
     ],
   },
 
-  // ── 3. Testing ───────────────────────────────────────────────────────────────
+  // ── 3. Certifications ────────────────────────────────────────────────────────
+  {
+    id: 'certifications',
+    name: 'Certifications',
+    href: '/certifications',
+    subItems: [
+      { name: '— Short-Duration Credentials —', href: '/certifications', isHeader: true },
+      { name: 'HVAC Certification', href: canonicalRoutes.programs.hvacTechnician },
+      { name: 'CPR / First Aid', href: canonicalRoutes.programs.cprFirstAid },
+      { name: 'OSHA / Emergency Health & Safety', href: '/programs/emergency-health-safety' },
+      { name: 'Sanitation & Infection Control', href: '/programs/sanitation-infection-control' },
+    ],
+  },
+
+  // ── 4. Testing ───────────────────────────────────────────────────────────────
   {
     id: 'testing',
     name: 'Testing',
@@ -99,7 +107,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
 
-  // ── 4. Funding ───────────────────────────────────────────────────────────────
+  // ── 5. Funding ───────────────────────────────────────────────────────────────
   {
     id: 'funding',
     name: 'Funding',
@@ -117,7 +125,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
 
-  // ── 5. Partners ──────────────────────────────────────────────────────────────
+  // ── 6. Partners ──────────────────────────────────────────────────────────────
   {
     id: 'partners',
     name: 'Partners',
@@ -126,20 +134,16 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Employers —', href: '/for-employers', isHeader: true },
       { name: 'Hire Our Graduates', href: '/for-employers' },
       { name: 'Post a Job / OJT', href: '/ojt-and-funding' },
-      { name: 'Apprenticeship Sponsorship', href: '/apprenticeships' },
       { name: '— Workforce Agencies —', href: '/for-agencies', isHeader: true },
       { name: 'WIOA / WorkOne Referrals', href: '/for-agencies' },
       { name: 'FSSA / SNAP E&T', href: '/snap-et-partner' },
-      { name: 'Reentry Organizations', href: '/for-agencies' },
       { name: '— Training Providers —', href: '/training-providers', isHeader: true },
-      { name: 'Become a Training Provider', href: '/training-providers' },
+      { name: 'Become a Provider', href: '/training-providers' },
       { name: 'Apply as a Provider', href: '/partners/apply' },
-      { name: 'Partner Operating Model', href: '/partner-operating-model' },
-      { name: 'All Partners →', href: '/partners' },
     ],
   },
 
-  // ── 6. Apply — single funnel entry, no dropdown ──────────────────────────────
+  // ── 7. Apply — single funnel entry, no dropdown ──────────────────────────────
   {
     id: 'apply',
     name: 'Apply',

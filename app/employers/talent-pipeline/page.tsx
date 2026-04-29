@@ -144,7 +144,6 @@ export default async function TalentPipelinePage() {
       {/* Hero Section */}
       <section className="relative bg-slate-800 text-white py-20 md:py-28">
         <div className="absolute inset-0 opacity-20">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image sizes="100vw"
             src="/images/hero/hero-career-services.jpg"
             alt="Talent pipeline"

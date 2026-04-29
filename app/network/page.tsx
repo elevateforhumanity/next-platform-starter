@@ -134,7 +134,6 @@ export default async function NetworkPage() {
                     {/* Logo / placeholder */}
                     <div className="h-28 bg-white flex items-center justify-center border-b border-slate-100">
                       {org?.logo_url ? (
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                         <Image
                           src={org.logo_url}
                           alt={`${tenant.name} logo`}

@@ -92,7 +92,6 @@ export default async function ParentDashboardPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-40 sm:h-56 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/about-career-training.jpg"
           alt=""

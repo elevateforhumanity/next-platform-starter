@@ -64,7 +64,6 @@ export default function CprHero() {
         style={{ height: 'clamp(400px, 56vw, 780px)' }}
         aria-label="CPR & First Aid hero"
       >
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/cpr-training-real.jpg"
           alt="CPR training session"

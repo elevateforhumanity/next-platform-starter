@@ -2,7 +2,7 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 
 export const HVAC_TECHNICIAN: ProgramSchema = {
   slug: 'hvac-technician',
-  title: 'HVAC Technician',
+  title: 'HVAC Certification',
   subtitle:
     'Install, service, and repair heating and cooling systems. EPA 608 Universal certification proctored on-site. 12 weeks. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
   sector: 'skilled-trades',
@@ -14,7 +14,7 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   videoSrc: '/videos/hvac-hero.mp4',
 
   deliveryMode: 'hybrid',
-  durationWeeks: 12,
+  durationWeeks: 6,
   hoursPerWeekMin: 30,
   hoursPerWeekMax: 40,
   hoursBreakdown: {

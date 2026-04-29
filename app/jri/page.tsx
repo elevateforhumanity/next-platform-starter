@@ -136,7 +136,6 @@ export default function JRIPage() {
       </div>
       {/* Hero Section */}
       <section className="relative min-h-48 md:h-64 flex items-center overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/jri-hero.jpg"
           alt="Job Ready Indy Program participants"

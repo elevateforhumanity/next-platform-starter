@@ -109,7 +109,6 @@ export default function MesmerizedByBeautyPage() {
       <section className="relative">
         {/* Hero image */}
         <div className="relative h-[55vh] min-h-[380px] max-h-[600px] w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/cosmetology-hero.jpg"
             alt="Cosmetology students training at Mesmerized by Beauty Academy"

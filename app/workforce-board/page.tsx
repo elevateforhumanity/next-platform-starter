@@ -135,7 +135,6 @@ export default function WorkforceBoardPage() {
                 className="group bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden border border-gray-100"
               >
                 <div className="relative h-40 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={feature.image}
                     alt={feature.title}

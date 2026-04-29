@@ -196,7 +196,6 @@ export default async function TuitionFeesPage() {
 
       {/* Hero Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[340px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/tuition-fees-page-1.jpg"
           alt="Tuition and fee information"

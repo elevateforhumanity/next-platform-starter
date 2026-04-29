@@ -16,7 +16,6 @@ export default function LicensesPage() {
     <div className="min-h-screen bg-white">
       {/* Hero - Clean, no overlay */}
       <section className="relative h-[40vh] min-h-[300px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image sizes="100vw"
           src="/images/pages/employer-hero.jpg"
           alt="Platform Licensing"

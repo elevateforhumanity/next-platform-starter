@@ -26,7 +26,6 @@ export default function AcademicIntegrityPage() {
 
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/academic-integrity-hero.jpg"
           alt="Academic Integrity"

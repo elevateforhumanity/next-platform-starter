@@ -57,42 +57,72 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
             <span className="text-slate-700 font-medium text-sm py-2">{item.name}</span>
           )}
 
-          {/* Dropdown - visible on hover or keyboard focus-within */}
+          {/* Dropdown — horizontal mega-menu layout */}
           {item.subItems && item.subItems.length > 0 && (
-            <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
-              <div className="bg-white rounded-lg shadow-lg border border-slate-200 py-2 min-w-[220px] max-h-[70vh] overflow-y-auto">
-                {item.subItems.map((subItem) =>
-                  subItem.isHeader ? (
-                    <div
-                      key={subItem.name}
-                      className="px-4 py-2 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide bg-brand-red-50 mt-1 first:mt-0 border-l-3 border-brand-red-500"
-                    >
-                      {subItem.name.replace(/—/g, '').trim()}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50">
+              <div className="bg-white rounded-xl shadow-xl border border-slate-200 p-4">
+                {/* Group sub-items by section headers into columns */}
+                {(() => {
+                  // Split into columns at each isHeader boundary
+                  const columns: typeof item.subItems[] = [];
+                  let current: typeof item.subItems = [];
+                  for (const sub of item.subItems) {
+                    if (sub.isHeader && current.length > 0) {
+                      columns.push(current);
+                      current = [sub];
+                    } else {
+                      current.push(sub);
+                    }
+                  }
+                  if (current.length > 0) columns.push(current);
+
+                  // Single column (no headers) — compact vertical list
+                  if (columns.length <= 1) {
+                    return (
+                      <div className="flex flex-col min-w-[180px]">
+                        {item.subItems.map((sub) =>
+                          sub.isHeader ? (
+                            <p key={sub.name} className="text-xs font-extrabold text-brand-red-600 uppercase tracking-wide px-2 pt-3 pb-1 first:pt-0">
+                              {sub.name.replace(/—/g, '').trim()}
+                            </p>
+                          ) : (
+                            <Link key={sub.href + sub.name} href={sub.href} prefetch={false}
+                              className="text-sm text-slate-700 hover:text-brand-blue-600 hover:bg-slate-50 rounded-lg px-2 py-1.5 transition-colors whitespace-nowrap">
+                              {sub.name}
+                            </Link>
+                          )
+                        )}
+                      </div>
+                    );
+                  }
+
+                  // Multi-column horizontal layout
+                  return (
+                    <div className="flex gap-6 divide-x divide-slate-100">
+                      {columns.map((col, ci) => (
+                        <div key={ci} className={`flex flex-col min-w-[160px] ${ci > 0 ? 'pl-6' : ''}`}>
+                          {col.map((sub) =>
+                            sub.isHeader ? (
+                              <p key={sub.name} className="text-xs font-extrabold text-brand-red-600 uppercase tracking-wide px-1 pb-2">
+                                {sub.name.replace(/—/g, '').trim()}
+                              </p>
+                            ) : sub.isSectionLink ? (
+                              <Link key={sub.href + sub.name} href={sub.href} prefetch={false}
+                                className="text-xs font-bold text-brand-red-600 hover:text-brand-red-700 px-1 py-1 mt-1 transition-colors whitespace-nowrap">
+                                {sub.name}
+                              </Link>
+                            ) : (
+                              <Link key={sub.href + sub.name} href={sub.href} prefetch={false}
+                                className="text-sm text-slate-700 hover:text-brand-blue-600 hover:bg-slate-50 rounded-lg px-1 py-1.5 transition-colors whitespace-nowrap">
+                                {sub.name}
+                              </Link>
+                            )
+                          )}
+                        </div>
+                      ))}
                     </div>
-                  ) : subItem.isSectionLink ? (
-                    <Link
-                      key={subItem.name}
-                      href={subItem.href}
-                      prefetch={false}
-                      className="block px-4 py-2 mt-1 first:mt-0 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide bg-brand-red-50 border-t border-brand-red-100 hover:bg-brand-red-100 hover:text-brand-red-700 transition-colors"
-                    >
-                      {subItem.name}
-                    </Link>
-                  ) : (
-                    <Link
-                      key={subItem.name}
-                      href={subItem.href}
-                      prefetch={false}
-                      className={`block py-1.5 text-sm hover:bg-slate-50 hover:text-brand-blue-600 focus-visible:bg-slate-50 focus-visible:text-brand-blue-600 ${
-                        subItem.nested
-                          ? 'pl-8 pr-4 text-slate-500 text-xs border-l-2 border-slate-200 ml-4'
-                          : 'px-4 text-slate-700 py-2'
-                      }`}
-                    >
-                      {subItem.name}
-                    </Link>
-                  ),
-                )}
+                  );
+                })()}
               </div>
             </div>
           )}

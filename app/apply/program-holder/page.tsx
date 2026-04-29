@@ -27,7 +27,6 @@ export default async function ProgramHolderApplicationPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-applicants-live-hero.jpg"
           alt="Program holder application"

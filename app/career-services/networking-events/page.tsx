@@ -46,7 +46,6 @@ export default async function NetworkingEventsPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-64 sm:h-80 w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/networking-hero.jpg"
           alt="Networking events and career fairs"

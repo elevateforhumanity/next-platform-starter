@@ -124,7 +124,6 @@ export default function HomePage() {
       {/* PHOTO STRIP */}
       <section className="grid grid-cols-3 h-56 sm:h-80 overflow-hidden">
         <div className="relative">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/comp-home-pathways-train.jpg"
             alt="Learner in training"

@@ -55,7 +55,6 @@ export default function TrainingProviderPage() {
 
       {/* Hero */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/training-providers-page-1.jpg"
           alt="Training provider partnership with Elevate for Humanity"

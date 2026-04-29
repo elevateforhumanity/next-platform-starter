@@ -37,7 +37,6 @@ export default async function EmployerProgramsPage() {
         items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Programs' }]}
       />
       <div className="relative h-64 bg-white overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/employer-portal-page-3.jpg"
           alt="Employer programs"

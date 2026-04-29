@@ -44,7 +44,6 @@ export default async function ForumsPage() {
       <div className="min-h-screen bg-white">
         {/* Hero */}
         <section className="relative min-h-[400px] flex items-center overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image sizes="100vw"
             src="/images/pages/success-stories-hero.jpg"
             alt="Community Forums"

@@ -139,7 +139,6 @@ export default function BarberApprenticeshipClient({ program: p }: Props) {
             </p>
           </div>
           <div className="relative h-72 rounded-xl overflow-hidden shadow-lg">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src="/images/pages/barber-fade-cut.jpg"
               alt="Barber performing a precision fade cut"

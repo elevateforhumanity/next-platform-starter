@@ -97,7 +97,6 @@ export default async function HostShopsPage() {
 
       {/* Hero */}
       <section className="relative h-[50vh] min-h-[380px] max-h-[520px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/barber-gallery-1.jpg"
           alt="Professional barbershop"

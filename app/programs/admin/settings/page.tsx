@@ -50,7 +50,6 @@ export default async function SettingsPage() {
       />
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/programs-page-3.jpg"
           alt="Settings"

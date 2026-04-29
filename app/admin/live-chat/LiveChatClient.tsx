@@ -17,7 +17,6 @@ export default function LiveChatPage() {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-live-chat-detail.jpg"
           alt="Live Chat"

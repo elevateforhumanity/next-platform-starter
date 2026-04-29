@@ -19,7 +19,6 @@ export function BarberDeliveryModel() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative aspect-[4/3]" style={{ aspectRatio: '3/2' }}>
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src="/images/pages/barber-delivery-1.jpg"
                   alt="Barber classroom instruction"

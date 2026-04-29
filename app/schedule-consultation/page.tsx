@@ -155,7 +155,6 @@ export default function ScheduleConsultationPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-[160px] sm:h-[200px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/schedule-consultation-page-1.jpg"
           alt="Schedule enrollment consultation"

@@ -51,7 +51,6 @@ export default async function MyCoursesPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[340px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={LMS_HEROES.courses}
           alt="Training classroom"

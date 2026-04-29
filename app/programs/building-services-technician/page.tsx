@@ -35,7 +35,6 @@ export default function BuildingServicesTechnicianPage() {
     <main className="min-h-screen bg-white text-black">
       {/* HERO */}
       <section className="relative h-[60vh] min-h-[400px] max-h-[500px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image sizes="100vw"
           src="/images/programs/efh-building-tech-hero.jpg"
           alt="Building Services Technician"

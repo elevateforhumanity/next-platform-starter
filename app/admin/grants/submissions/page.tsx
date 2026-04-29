@@ -104,7 +104,6 @@ export default async function GrantSubmissionsPage() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Hero Section */}
         <section className="relative h-48 md:h-64 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/admin-grants-submissions-detail.jpg"
             alt="Grant Submissions"

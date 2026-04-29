@@ -63,7 +63,6 @@ export default async function ForEmployersPage() {
 
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/for-employers-page-1.jpg"
           alt="Employer partner meeting with Elevate for Humanity team"

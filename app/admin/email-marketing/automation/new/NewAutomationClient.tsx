@@ -95,7 +95,6 @@ export default function NewWorkflowPage() {
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-email-automation-new-d1.jpg"
           alt="Email marketing automation"

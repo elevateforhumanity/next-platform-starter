@@ -207,7 +207,6 @@ export default function BarberPartnerPage() {
     <div className="min-h-screen bg-slate-100">
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/barber-hero-main.jpg"
           alt="Barber program"

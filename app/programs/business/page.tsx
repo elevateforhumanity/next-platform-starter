@@ -49,7 +49,6 @@ export default async function BusinessPage() {
           <h2 className="text-3xl font-bold text-black mb-8">At-a-Glance</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="flex items-start gap-4">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image sizes="100vw"
                 src="/images/icons/clock.png"
                 alt="Duration"

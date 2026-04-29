@@ -194,7 +194,6 @@ export default function PlatformPage() {
                 className="bg-white rounded-xl border border-slate-200 overflow-hidden"
               >
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={cap.image}
                     alt={cap.alt}

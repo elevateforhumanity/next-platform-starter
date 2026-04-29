@@ -98,7 +98,6 @@ export default async function EstheticianApprenticeshipPage() {
               </p>
             </div>
             <div className="relative h-[350px] rounded-2xl overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image sizes="100vw"
                 src="/images/programs/efh-esthetician-client-services-card.jpg"
                 alt="Esthetician training"

@@ -70,7 +70,6 @@ export default async function HireGraduatesPage() {
               </ul>
             </div>
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src="/images/pages/employers-page-1.jpg"
                 alt="Certified graduates ready for employment"

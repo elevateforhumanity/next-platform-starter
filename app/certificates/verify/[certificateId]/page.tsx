@@ -72,7 +72,6 @@ export default async function VerifyCertificatePage({
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <section className="relative h-[500px] md:h-[600px] lg:h-[700px] flex items-center justify-center text-white overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/artlist/hero-training-3.jpg"
             alt="[certificateId]"

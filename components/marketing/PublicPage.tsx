@@ -47,7 +47,6 @@ export default function PublicPage({
 
       {/* Hero Image — no text overlay */}
       <section className={`relative ${heroHeight} overflow-hidden`}>
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={config.heroImage.src}
           alt={config.heroImage.alt}

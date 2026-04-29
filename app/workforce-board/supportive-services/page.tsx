@@ -29,7 +29,6 @@ export default function SupportiveServicesPage() {
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/workforce-board-page-6.jpg"
           alt="Supportive Services"

@@ -600,7 +600,6 @@ export default async function FinancePathwayPage() {
                   href={prog.href}
                   className="group rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition-shadow"
                 >
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={prog.image}
                     alt={prog.title}

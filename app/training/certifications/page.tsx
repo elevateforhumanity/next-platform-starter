@@ -83,7 +83,6 @@ export default function CertificationsPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[300px] sm:h-[380px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/training-page-1.jpg"
           alt="Certification training"

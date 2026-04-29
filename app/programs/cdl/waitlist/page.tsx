@@ -118,7 +118,6 @@ export default function CDLWaitlistPage() {
       {/* Hero */}
       <section className="relative py-16 overflow-hidden border-t">
         <div className="absolute inset-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/programs-cdl-waitlist-hero.jpg"
             alt="CDL truck training"

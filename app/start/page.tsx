@@ -55,7 +55,6 @@ export default function StartPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative overflow-hidden bg-brand-blue-700 text-white">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/how-it-works-hero.jpg"
           alt="Career training students"

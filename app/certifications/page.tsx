@@ -14,46 +14,36 @@ export const metadata: Metadata = {
 export default function CertificationsPage() {
   const certifications = [
     {
-      name: 'Certified Medical Assistant (CMA)',
-      industry: 'Healthcare',
-      duration: '12 weeks',
-      demand: 'High',
-      image: '/images/pages/programs-medical-apply-hero.jpg',
-    },
-    {
-      name: 'Certified Phlebotomy Technician (CPT)',
-      industry: 'Healthcare',
+      name: 'HVAC Certification',
+      industry: 'Skilled Trades',
       duration: '6 weeks',
       demand: 'High',
+      href: '/programs/hvac-technician',
+      image: '/images/pages/hvac-technician.jpg',
+    },
+    {
+      name: 'CPR / First Aid',
+      industry: 'Safety',
+      duration: '1 day',
+      demand: 'Required',
+      href: '/programs/cpr-first-aid',
       image: '/images/pages/comp-pathway-healthcare.jpg',
     },
     {
-      name: 'EPA 608 Certification',
-      industry: 'HVAC',
-      duration: '2 weeks',
-      demand: 'High',
+      name: 'OSHA / Emergency Health & Safety',
+      industry: 'Safety',
+      duration: '1–3 days',
+      demand: 'Required',
+      href: '/programs/emergency-health-safety',
       image: '/images/pages/hvac-technician.jpg',
     },
     {
-      name: 'OSHA 10/30 Safety',
-      industry: 'Construction',
-      duration: '1-3 days',
+      name: 'Sanitation & Infection Control',
+      industry: 'Healthcare / Food Service',
+      duration: '1 week',
       demand: 'Required',
-      image: '/images/pages/hvac-technician.jpg',
-    },
-    {
-      name: 'Certiport IT Specialist',
-      industry: 'Technology',
-      duration: '8 weeks',
-      demand: 'High',
-      image: '/images/pages/it-help-desk.jpg',
-    },
-    {
-      name: 'Barber License',
-      industry: 'Beauty',
-      duration: '2000 hours',
-      demand: 'Required',
-      image: '/images/pages/barber-gallery-1.jpg',
+      href: '/programs/sanitation-infection-control',
+      image: '/images/pages/comp-pathway-healthcare.jpg',
     },
   ];
 
@@ -113,7 +103,7 @@ export default function CertificationsPage() {
                     </p>
                   </div>
                   <Link
-                    href="/programs"
+                    href={cert.href}
                     className="text-brand-green-600 font-medium hover:text-brand-green-700 inline-flex items-center"
                   >
                     Learn More <ArrowRight className="ml-2 w-4 h-4" />

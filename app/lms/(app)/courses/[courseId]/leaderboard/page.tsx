@@ -96,7 +96,6 @@ export default function CourseLeaderboardPage() {
         />
         {/* Hero Section */}
         <section className="relative h-48 md:h-64 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/lms-page-4.jpg"
             alt="Leaderboard"

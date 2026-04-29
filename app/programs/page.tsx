@@ -36,7 +36,6 @@ const CATEGORIES = [
     color: 'orange',
     programs: [
       { title: 'CDL (Class A / B)', href: '/programs/cdl-training', funding: 'WIOA / WRG' },
-      { title: 'HVAC Technician', href: '/programs/hvac-technician', funding: 'WIOA / WRG' },
       { title: 'Welding', href: '/programs/welding', funding: 'WIOA / WRG' },
       { title: 'Electrical', href: '/programs/electrical', funding: 'WIOA / WRG' },
       { title: 'Plumbing', href: '/programs/plumbing', funding: 'WIOA / WRG' },
@@ -58,12 +57,26 @@ const CATEGORIES = [
       { title: 'Bookkeeping', href: '/programs/bookkeeping', funding: 'WIOA / WRG' },
     ],
   },
+  {
+    id: 'certifications',
+    label: 'Certifications',
+    href: '/certifications',
+    description: 'Short-duration credentials. Fast entry, skill-specific, low cost.',
+    color: 'green',
+    programs: [
+      { title: 'HVAC Certification', href: '/programs/hvac-technician', funding: 'WIOA / WRG' },
+      { title: 'CPR / First Aid', href: '/programs/cpr-first-aid', funding: 'Self-Pay' },
+      { title: 'OSHA / Emergency Health & Safety', href: '/programs/emergency-health-safety', funding: 'Self-Pay' },
+      { title: 'Sanitation & Infection Control', href: '/programs/sanitation-infection-control', funding: 'Self-Pay' },
+    ],
+  },
 ];
 
 const C: Record<string, { header: string; badge: string; arrow: string; border: string; all: string }> = {
   blue:   { header: 'bg-blue-600',   badge: 'bg-blue-50 text-blue-700',   arrow: 'text-blue-600',   border: 'border-blue-200',   all: 'text-blue-700 hover:text-blue-900' },
   orange: { header: 'bg-orange-600', badge: 'bg-orange-50 text-orange-700', arrow: 'text-orange-600', border: 'border-orange-200', all: 'text-orange-700 hover:text-orange-900' },
   purple: { header: 'bg-purple-600', badge: 'bg-purple-50 text-purple-700', arrow: 'text-purple-600', border: 'border-purple-200', all: 'text-purple-700 hover:text-purple-900' },
+  green:  { header: 'bg-green-700',  badge: 'bg-green-50 text-green-700',  arrow: 'text-green-700',  border: 'border-green-200',  all: 'text-green-700 hover:text-green-900' },
 };
 
 export default function ProgramsPage() {
@@ -137,20 +150,6 @@ export default function ProgramsPage() {
           </div>
           <Link href="/apprenticeships" className="shrink-0 inline-flex items-center gap-2 bg-slate-900 text-white font-bold px-6 py-3 rounded-lg hover:bg-slate-800 transition-colors text-sm">
             View Apprenticeships <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
-
-      {/* Short courses callout */}
-      <section className="border-t border-slate-100 py-14 px-6">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-1">Short Courses & Certifications</p>
-            <h2 className="text-xl font-extrabold text-slate-900 mb-1">CPR, OSHA, ServSafe & More</h2>
-            <p className="text-sm text-slate-600">Quick credentials that complement workforce programs. Self-pay, low cost.</p>
-          </div>
-          <Link href="/training/certifications" className="shrink-0 inline-flex items-center gap-2 border border-slate-300 text-slate-700 font-bold px-6 py-3 rounded-lg hover:border-slate-500 transition-colors text-sm">
-            View Short Courses <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>

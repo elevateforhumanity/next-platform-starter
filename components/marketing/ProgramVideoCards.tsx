@@ -62,7 +62,6 @@ function ProgramCard({ prog, priority }: { prog: (typeof PROGRAMS)[number]; prio
   return (
     <div className="group relative rounded-2xl overflow-hidden" style={{ aspectRatio: '9/14' }}>
       {/* Background image — not a link, avoids nested <a> */}
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
       <Image
         src={prog.image}
         alt={prog.full}
