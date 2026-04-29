@@ -47,13 +47,13 @@ export default async function LinkAccountsPage() {
   }
 
   // Fetch all apprentices missing user_id
-  const { data: unlinked } = await adminDb
+  type ApprenticeRow = { id: string; email: string | null; status: string; program_id: string | null; created_at: string; shop_id: string | null };
+  const { data: unlinkedRaw } = await (adminDb as any)
     .from('apprentices')
     .select('id, email, status, program_id, created_at, shop_id')
     .is('user_id', null)
     .order('created_at', { ascending: false });
-
-  const rows: Array<{ id: string; email: string | null; status: string; program_id: string | null; created_at: string; shop_id: string | null }> = (unlinked ?? []) as any;
+  const rows: ApprenticeRow[] = (unlinkedRaw ?? []) as ApprenticeRow[];
 
   // For each unlinked apprentice, look up whether a matching auth user exists
   // We use auth.admin.listUsers — available via service role
@@ -69,9 +69,7 @@ export default async function LinkAccountsPage() {
   };
 
   const results: MatchResult[] = await Promise.all(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    rows.map(async (aRaw: any) => {
-      const a = aRaw as { id: string; email: string | null; status: string; program_id: string | null; created_at: string; shop_id: string | null };
+    rows.map(async (a) => {
       if (!a.email) {
         return {
           apprenticeId: a.id,
@@ -85,7 +83,7 @@ export default async function LinkAccountsPage() {
 
       // Look up auth user by email via admin API
       const { data: authData } = await adminDb.auth.admin.listUsers({ page: 1, perPage: 1000 });
-      const aEmail = (a.email as string | null)?.toLowerCase();
+      const aEmail = a.email?.toLowerCase();
       const match = authData?.users?.find((u) => u.email?.toLowerCase() === aEmail);
 
       return {
