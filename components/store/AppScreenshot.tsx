@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
-import { 
-  Building2, 
-  DollarSign, 
-  Layout, 
-  
-  Clock, 
-  FileText, 
-  Users, 
+import {
+  Building2,
+  DollarSign,
+  Layout,
+  Clock,
+  FileText,
+  Users,
   BarChart3,
   Bell,
   Search,
@@ -16,7 +15,8 @@ import {
   Shield,
   Settings,
   ChevronRight,
-  Star, Circle,
+  Star,
+  Circle,
   TrendingUp,
   Folder,
   Globe,
@@ -34,15 +34,15 @@ export function AppScreenshot({ app, variant = 'dashboard' }: AppScreenshotProps
   // Log screenshot view for analytics
   useEffect(() => {
     async function logView() {
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase
-        .from('app_screenshot_views')
-        .insert({
-          user_id: user?.id,
-          app_type: app,
-          variant,
-          viewed_at: new Date().toISOString()
-        });
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      await supabase.from('app_screenshot_views').insert({
+        user_id: user?.id,
+        app_type: app,
+        variant,
+        viewed_at: new Date().toISOString(),
+      });
     }
     logView();
   }, [app, variant, supabase]);
@@ -76,7 +76,7 @@ function SamGovScreenshot({ variant }: { variant: string }) {
           </div>
         </div>
       </div>
-      
+
       {/* App Header */}
       <div className="bg-brand-blue-900 text-white px-6 py-4">
         <div className="flex items-center justify-between">
@@ -101,11 +101,11 @@ function SamGovScreenshot({ variant }: { variant: string }) {
             </div>
           </div>
         </div>
-        
+
         {/* Tabs */}
         <div className="flex gap-1 mt-4 -mb-4">
           {['Dashboard', 'Registration', 'Compliance', 'Documents'].map((tab, i) => (
-            <button 
+            <button
               key={tab}
               className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
                 i === 0 ? 'bg-gray-50 text-brand-blue-900' : 'text-white hover:bg-brand-blue-800'
@@ -116,7 +116,7 @@ function SamGovScreenshot({ variant }: { variant: string }) {
           ))}
         </div>
       </div>
-      
+
       {/* Dashboard Content */}
       <div className="p-6 bg-gray-50">
         {/* Stats Row */}
@@ -136,7 +136,7 @@ function SamGovScreenshot({ variant }: { variant: string }) {
             </div>
           ))}
         </div>
-        
+
         {/* Main Content Grid */}
         <div className="grid grid-cols-3 gap-6">
           {/* Registration Progress */}
@@ -153,23 +153,27 @@ function SamGovScreenshot({ variant }: { variant: string }) {
                 { step: 'Review & Submit', status: 'complete' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                    item.status === 'complete' ? 'bg-brand-green-100' : 'bg-gray-100'
-                  }`}>
+                  <div
+                    className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                      item.status === 'complete' ? 'bg-brand-green-100' : 'bg-gray-100'
+                    }`}
+                  >
                     {item.status === 'complete' ? (
                       <span className="text-slate-400 flex-shrink-0">•</span>
                     ) : (
                       <span className="text-xs font-bold text-slate-700">{i + 1}</span>
                     )}
                   </div>
-                  <span className={`text-sm ${item.status === 'complete' ? 'text-slate-900' : 'text-slate-700'}`}>
+                  <span
+                    className={`text-sm ${item.status === 'complete' ? 'text-slate-900' : 'text-slate-700'}`}
+                  >
                     {item.step}
                   </span>
                 </div>
               ))}
             </div>
           </div>
-          
+
           {/* Compliance Alerts */}
           <div className="bg-white rounded-xl p-5 border">
             <h3 className="font-bold text-slate-900 mb-4">Compliance Alerts</h3>
@@ -213,7 +217,7 @@ function GrantsScreenshot({ variant }: { variant: string }) {
           </div>
         </div>
       </div>
-      
+
       {/* App Header */}
       <div className="bg-brand-green-800 text-white px-6 py-4">
         <div className="flex items-center justify-between">
@@ -229,18 +233,20 @@ function GrantsScreenshot({ variant }: { variant: string }) {
           <div className="flex items-center gap-3">
             <div className="relative">
               <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-brand-red-500 rounded-full text-xs flex items-center justify-center">3</span>
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-brand-red-500 rounded-full text-xs flex items-center justify-center">
+                3
+              </span>
             </div>
             <div className="w-8 h-8 bg-brand-green-700 rounded-full flex items-center justify-center text-sm font-bold">
               MR
             </div>
           </div>
         </div>
-        
+
         {/* Tabs */}
         <div className="flex gap-1 mt-4 -mb-4">
           {['Discover', 'Applications', 'Calendar', 'Reports'].map((tab, i) => (
-            <button 
+            <button
               key={tab}
               className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
                 i === 0 ? 'bg-gray-50 text-brand-green-900' : 'text-white hover:bg-brand-green-700'
@@ -251,15 +257,15 @@ function GrantsScreenshot({ variant }: { variant: string }) {
           ))}
         </div>
       </div>
-      
+
       {/* Content */}
       <div className="p-6 bg-gray-50">
         {/* Search Bar */}
         <div className="flex gap-4 mb-6">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="Search grants by keyword, agency, or category..."
               className="w-full pl-10 pr-4 py-3 border rounded-lg bg-white text-sm"
               defaultValue="workforce development"
@@ -269,7 +275,7 @@ function GrantsScreenshot({ variant }: { variant: string }) {
             Search
           </button>
         </div>
-        
+
         {/* Stats */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[
@@ -284,25 +290,52 @@ function GrantsScreenshot({ variant }: { variant: string }) {
             </div>
           ))}
         </div>
-        
+
         {/* Grant List */}
         <div className="space-y-3">
           {[
-            { title: 'WIOA Adult Program FY2026', agency: 'Dept. of Labor', amount: '$500K - $2M', match: 95, deadline: 'Mar 15' },
-            { title: 'Registered Apprenticeship Grant', agency: 'Dept. of Labor', amount: '$250K - $1M', match: 92, deadline: 'Apr 1' },
-            { title: 'Community Development Block Grant', agency: 'HUD', amount: '$100K - $500K', match: 88, deadline: 'Feb 28' },
+            {
+              title: 'WIOA Adult Program FY2026',
+              agency: 'Dept. of Labor',
+              amount: '$500K - $2M',
+              match: 95,
+              deadline: 'Mar 15',
+            },
+            {
+              title: 'Registered Apprenticeship Grant',
+              agency: 'Dept. of Labor',
+              amount: '$250K - $1M',
+              match: 92,
+              deadline: 'Apr 1',
+            },
+            {
+              title: 'Community Development Block Grant',
+              agency: 'HUD',
+              amount: '$100K - $500K',
+              match: 88,
+              deadline: 'Feb 28',
+            },
           ].map((grant, i) => (
-            <div key={i} className="bg-white rounded-lg p-4 border flex items-center justify-between">
+            <div
+              key={i}
+              className="bg-white rounded-lg p-4 border flex items-center justify-between"
+            >
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className={`px-2 py-0.5 text-xs font-bold rounded ${
-                    grant.match >= 90 ? 'bg-brand-green-100 text-brand-green-800' : 'bg-brand-blue-100 text-brand-blue-800'
-                  }`}>
+                  <span
+                    className={`px-2 py-0.5 text-xs font-bold rounded ${
+                      grant.match >= 90
+                        ? 'bg-brand-green-100 text-brand-green-800'
+                        : 'bg-brand-blue-100 text-brand-blue-800'
+                    }`}
+                  >
                     {grant.match}% Match
                   </span>
                 </div>
                 <h4 className="font-medium text-slate-900 text-sm">{grant.title}</h4>
-                <p className="text-xs text-slate-700">{grant.agency} • {grant.amount}</p>
+                <p className="text-xs text-slate-700">
+                  {grant.agency} • {grant.amount}
+                </p>
               </div>
               <div className="text-right">
                 <p className="text-xs text-slate-700">Deadline</p>
@@ -333,7 +366,7 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
           </div>
         </div>
       </div>
-      
+
       {/* App Header */}
       <div className="bg-white border-b px-6 py-3">
         <div className="flex items-center justify-between">
@@ -348,11 +381,13 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
           </div>
           <div className="flex items-center gap-2">
             <button className="px-3 py-1.5 border rounded text-xs">Preview</button>
-            <button className="px-3 py-1.5 bg-purple-600 text-white rounded text-xs font-medium">Publish</button>
+            <button className="px-3 py-1.5 bg-purple-600 text-white rounded text-xs font-medium">
+              Publish
+            </button>
           </div>
         </div>
       </div>
-      
+
       {/* Editor Layout */}
       <div className="flex h-80">
         {/* Left Sidebar - Blocks */}
@@ -366,24 +401,31 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
               { name: 'Testimonials', icon: Users },
               { name: 'Contact Form', icon: FileText },
             ].map((block, i) => (
-              <button key={i} className="w-full flex items-center gap-2 p-2 border rounded bg-white text-xs hover:bg-gray-50">
+              <button
+                key={i}
+                className="w-full flex items-center gap-2 p-2 border rounded bg-white text-xs hover:bg-gray-50"
+              >
                 <block.icon className="w-4 h-4 text-slate-700" />
                 {block.name}
               </button>
             ))}
           </div>
         </div>
-        
+
         {/* Canvas */}
         <div className="flex-1 bg-gray-100 p-4 overflow-auto">
           <div className="bg-white rounded-lg shadow-sm border max-w-2xl mx-auto">
             {/* Hero Block */}
             <div className="bg-gradient-to-r from-brand-blue-600 to-brand-blue-800 text-white p-8 rounded-t-lg">
               <h2 className="text-xl font-bold mb-2">Transform Your Career</h2>
-              <p className="text-white text-sm mb-4">Industry-recognized certifications in healthcare, technology, and skilled trades.</p>
-              <button className="bg-brand-orange-500 text-white px-4 py-2 rounded text-sm font-medium">Apply Now</button>
+              <p className="text-white text-sm mb-4">
+                Industry-recognized certifications in healthcare, technology, and skilled trades.
+              </p>
+              <button className="bg-brand-orange-500 text-white px-4 py-2 rounded text-sm font-medium">
+                Apply Now
+              </button>
             </div>
-            
+
             {/* Features Block */}
             <div className="p-6 border-b">
               <h3 className="font-bold text-center mb-4">Why Choose Us</h3>
@@ -398,7 +440,7 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
                 ))}
               </div>
             </div>
-            
+
             {/* Programs Block */}
             <div className="p-6">
               <h3 className="font-bold text-center mb-4">Our Programs</h3>
@@ -412,24 +454,36 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
             </div>
           </div>
         </div>
-        
+
         {/* Right Sidebar - Properties */}
         <div className="w-56 bg-white border-l p-3">
           <p className="text-xs font-medium text-slate-700 mb-3">BLOCK PROPERTIES</p>
           <div className="space-y-3">
             <div>
               <label className="text-xs text-slate-700">Headline</label>
-              <input type="text" defaultValue="Transform Your Career" className="w-full border rounded px-2 py-1 text-xs mt-1" />
+              <input
+                type="text"
+                defaultValue="Transform Your Career"
+                className="w-full border rounded px-2 py-1 text-xs mt-1"
+              />
             </div>
             <div>
               <label className="text-xs text-slate-700">Button Text</label>
-              <input type="text" defaultValue="Apply Now" className="w-full border rounded px-2 py-1 text-xs mt-1" />
+              <input
+                type="text"
+                defaultValue="Apply Now"
+                className="w-full border rounded px-2 py-1 text-xs mt-1"
+              />
             </div>
             <div>
               <label className="text-xs text-slate-700">Background</label>
               <div className="flex gap-2 mt-1">
                 {['#2563eb', '#059669', '#7c3aed', '#dc2626'].map((c, i) => (
-                  <button key={i} className="w-6 h-6 rounded border-2 border-white shadow" style={{backgroundColor: c}} />
+                  <button
+                    key={i}
+                    className="w-6 h-6 rounded border-2 border-white shadow"
+                    style={{ backgroundColor: c }}
+                  />
                 ))}
               </div>
             </div>
@@ -443,19 +497,19 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
 export function AppScreenshotMobile({ app }: { app: 'sam-gov' | 'grants' | 'website-builder' }) {
   const colors = {
     'sam-gov': { bg: 'bg-brand-blue-900', accent: 'blue' },
-    'grants': { bg: 'bg-brand-green-800', accent: 'green' },
+    grants: { bg: 'bg-brand-green-800', accent: 'green' },
     'website-builder': { bg: 'bg-purple-900', accent: 'purple' },
   };
-  
+
   const icons = {
     'sam-gov': Building2,
-    'grants': DollarSign,
+    grants: DollarSign,
     'website-builder': Layout,
   };
-  
+
   const Icon = icons[app];
   const color = colors[app];
-  
+
   return (
     <div className="w-64 mx-auto">
       {/* Phone Frame */}
@@ -469,7 +523,7 @@ export function AppScreenshotMobile({ app }: { app: 'sam-gov' | 'grants' | 'webs
               <span>🔋</span>
             </div>
           </div>
-          
+
           {/* App Header */}
           <div className={`${color.bg} text-white px-4 py-4`}>
             <div className="flex items-center gap-3">
@@ -486,19 +540,21 @@ export function AppScreenshotMobile({ app }: { app: 'sam-gov' | 'grants' | 'webs
               </div>
             </div>
           </div>
-          
+
           {/* Content */}
           <div className="p-4 h-96 bg-gray-50">
             <div className="bg-white rounded-xl p-4 border mb-3">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-slate-700">Status</span>
-                <span className="px-2 py-0.5 bg-brand-green-100 text-brand-green-800 text-xs font-bold rounded">Active</span>
+                <span className="px-2 py-0.5 bg-brand-green-100 text-brand-green-800 text-xs font-bold rounded">
+                  Active
+                </span>
               </div>
               <p className="font-bold">All Systems Operational</p>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-3">
-              {[1,2,3,4].map(i => (
+              {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="bg-white rounded-xl p-3 border">
                   <div className="w-8 h-8 bg-gray-100 rounded-lg mb-2" />
                   <div className="h-2 bg-gray-200 rounded w-3/4 mb-1" />
@@ -507,11 +563,14 @@ export function AppScreenshotMobile({ app }: { app: 'sam-gov' | 'grants' | 'webs
               ))}
             </div>
           </div>
-          
+
           {/* Bottom Nav */}
           <div className="bg-white border-t px-6 py-3 flex justify-around">
-            {[1,2,3,4].map(i => (
-              <div key={i} className={`w-6 h-6 rounded ${i === 1 ? `bg-${color.accent}-600` : 'bg-gray-200'}`} />
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className={`w-6 h-6 rounded ${i === 1 ? `bg-${color.accent}-600` : 'bg-gray-200'}`}
+              />
             ))}
           </div>
         </div>

@@ -23,7 +23,8 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 const CART_ERROR_MESSAGES: Record<string, string> = {
-  'payment-unavailable': 'Checkout is temporarily unavailable. Please try again later or call (317) 314-3757.',
+  'payment-unavailable':
+    'Checkout is temporarily unavailable. Please try again later or call (317) 314-3757.',
   'checkout-failed': 'We could not start your checkout session. Please try again.',
 };
 
@@ -33,11 +34,15 @@ export default async function CartPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   const { error: errorSlug } = await searchParams;
-  const checkoutError = errorSlug ? (CART_ERROR_MESSAGES[errorSlug] ?? 'Something went wrong. Please try again.') : null;
+  const checkoutError = errorSlug
+    ? (CART_ERROR_MESSAGES[errorSlug] ?? 'Something went wrong. Please try again.')
+    : null;
 
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // Show empty cart for guests instead of redirecting
   if (!user) {
@@ -45,15 +50,15 @@ export default async function CartPage({
       <div className="min-h-screen bg-white">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="flex items-center gap-4 mb-8">
-            <Link href="/store" className="text-slate-700 hover:text-slate-900">
+            <Link href="/store" className="text-gray-500 hover:text-gray-700">
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <h1 className="text-2xl font-bold">Shopping Cart</h1>
           </div>
           <div className="bg-white rounded-xl shadow-sm border p-12 text-center">
-            <ShoppingCart className="w-16 h-16 mx-auto mb-4 text-slate-700" />
+            <ShoppingCart className="w-16 h-16 mx-auto mb-4 text-gray-300" />
             <h2 className="text-xl font-semibold mb-2">Your cart is empty</h2>
-            <p className="text-slate-700 mb-6">Sign in to view your cart or browse our store.</p>
+            <p className="text-gray-600 mb-6">Sign in to view your cart or browse our store.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/login?redirect=/store/cart"
@@ -77,7 +82,8 @@ export default async function CartPage({
   // Get cart items with product details
   const { data: cartItems } = await supabase
     .from('cart_items')
-    .select(`
+    .select(
+      `
       id,
       quantity,
       product:products(
@@ -87,34 +93,43 @@ export default async function CartPage({
         image_url,
         type
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id);
 
-  const subtotal = cartItems?.reduce((sum: number, item: any) => {
-    return sum + (item.product?.price || 0) * item.quantity;
-  }, 0) || 0;
+  const subtotal =
+    cartItems?.reduce((sum: number, item: any) => {
+      return sum + (item.product?.price || 0) * item.quantity;
+    }, 0) || 0;
 
   const tax = subtotal * 0.07; // 7% tax
   const total = subtotal + tax;
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/store-cart-hero.jpg" alt="Elevate store" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/store-cart-hero.jpg"
+          alt="Elevate store"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Store", href: "/store" }, { label: "Cart" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Store', href: '/store' }, { label: 'Cart' }]} />
       </div>
-<div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8">
         {checkoutError && (
           <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
             {checkoutError}
           </div>
         )}
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/store" className="text-slate-700 hover:text-slate-900">
+          <Link href="/store" className="text-gray-500 hover:text-gray-700">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <h1 className="text-2xl font-bold">Shopping Cart</h1>
@@ -129,28 +144,29 @@ export default async function CartPage({
                   <div className="flex gap-4">
                     <div className="w-20 h-20 bg-white rounded-lg overflow-hidden flex-shrink-0 relative">
                       {item.product?.image_url ? (
-                        <Image alt="Product image" 
-                          src={item.product.image_url} 
-                          alt={item.product.name} 
+                        <Image
+                          alt="Product image"
+                          src={item.product.image_url}
+                          alt={item.product.name}
                           fill
-                          className="object-cover" 
+                          className="object-cover"
                           sizes="80px"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <ShoppingCart className="w-6 h-6 text-slate-700" />
+                          <ShoppingCart className="w-6 h-6 text-gray-400" />
                         </div>
                       )}
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold">{item.product?.name}</h3>
-                      <p className="text-sm text-slate-700 capitalize">{item.product?.type}</p>
+                      <p className="text-sm text-gray-500 capitalize">{item.product?.type}</p>
                       <div className="flex items-center justify-between mt-3">
                         <div className="flex items-center gap-2">
                           <form action={`/api/cart/update`} method="POST">
                             <input type="hidden" name="itemId" value={item.id} />
                             <input type="hidden" name="quantity" value={item.quantity - 1} />
-                            <button 
+                            <button
                               type="submit"
                               className="w-8 h-8 flex items-center justify-center border rounded hover:bg-white"
                               disabled={item.quantity <= 1}
@@ -162,7 +178,7 @@ export default async function CartPage({
                           <form action={`/api/cart/update`} method="POST">
                             <input type="hidden" name="itemId" value={item.id} />
                             <input type="hidden" name="quantity" value={item.quantity + 1} />
-                            <button 
+                            <button
                               type="submit"
                               className="w-8 h-8 flex items-center justify-center border rounded hover:bg-white"
                             >
@@ -176,7 +192,7 @@ export default async function CartPage({
                           </span>
                           <form action={`/api/cart/remove`} method="POST">
                             <input type="hidden" name="itemId" value={item.id} />
-                            <button 
+                            <button
                               type="submit"
                               className="text-brand-red-500 hover:text-brand-red-700"
                             >
@@ -196,11 +212,11 @@ export default async function CartPage({
               <div className="bg-white rounded-xl shadow-sm border p-6 sticky top-8">
                 <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
                 <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-slate-700">
+                  <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-700">
+                  <div className="flex justify-between text-gray-600">
                     <span>Tax (7%)</span>
                     <span>${tax.toFixed(2)}</span>
                   </div>
@@ -219,7 +235,7 @@ export default async function CartPage({
                     Proceed to Checkout
                   </button>
                 </form>
-                <div className="flex items-center justify-center gap-2 mt-4 text-sm text-slate-700">
+                <div className="flex items-center justify-center gap-2 mt-4 text-sm text-gray-500">
                   <ShieldCheck className="w-4 h-4" />
                   Secure checkout
                 </div>
@@ -228,9 +244,11 @@ export default async function CartPage({
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border p-12 text-center">
-            <ShoppingCart className="w-16 h-16 mx-auto mb-4 text-slate-700" />
+            <ShoppingCart className="w-16 h-16 mx-auto mb-4 text-gray-300" />
             <h2 className="text-xl font-semibold mb-2">Your cart is empty</h2>
-            <p className="text-slate-700 mb-6">Browse our store to find resources that support your journey.</p>
+            <p className="text-gray-600 mb-6">
+              Browse our store to find resources that support your journey.
+            </p>
             <Link
               href="/store"
               className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-red-700"

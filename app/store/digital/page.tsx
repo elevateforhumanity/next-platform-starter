@@ -1,46 +1,58 @@
-export const dynamic = 'force-static';
-export const revalidate = 3600;
-
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import LazyVideo from '@/components/ui/LazyVideo';
 import StoreProductVideo from '@/app/store/StoreProductVideo';
-import { 
-  Download, FileText, Video, BookOpen, Check, ArrowRight, Zap, 
-  Shield, MessageCircle, Play, Sparkles, Users, Building2, DollarSign 
+import {
+  Download,
+  FileText,
+  Video,
+  BookOpen,
+  Check,
+  ArrowRight,
+  Zap,
+  Shield,
+  MessageCircle,
+  Play,
+  Sparkles,
+  Users,
+  Building2,
+  DollarSign,
 } from 'lucide-react';
 import { DIGITAL_PRODUCTS } from '@/lib/store/digital-products';
 
 export const metadata: Metadata = {
   title: 'Digital Resources | Elevate Store',
-  description: 'AI tools, toolkits, guides, templates, and courses for training providers. SAM.gov assistant, grants navigator, AI studio, and more.',
+  description:
+    'AI tools, toolkits, guides, templates, and courses for training providers. SAM.gov assistant, grants navigator, AI studio, and more.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/digital',
   },
 };
 
 export default function StoreDigitalPage() {
-
-  const aiTools = DIGITAL_PRODUCTS.filter((p) => 
-    p.id.includes('ai-') || p.id.includes('sam-gov') || p.id.includes('grants')
+  const aiTools = DIGITAL_PRODUCTS.filter(
+    (p) => p.id.includes('ai-') || p.id.includes('sam-gov') || p.id.includes('grants'),
   );
   const downloadProducts = DIGITAL_PRODUCTS.filter((p) => p.deliveryType === 'download');
-  const platformTools = DIGITAL_PRODUCTS.filter((p) => 
-    p.id.includes('hub') || p.id.includes('tutor')
+  const platformTools = DIGITAL_PRODUCTS.filter(
+    (p) => p.id.includes('hub') || p.id.includes('tutor'),
   );
 
   return (
     <div className="bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Store", href: "/store" }, { label: "Digital" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Store', href: '/store' }, { label: 'Digital' }]} />
       </div>
-{/* Hero */}
+      {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <LazyVideo src="/videos/store-marketplace.mp4" poster="/images/pages/programs-hero.jpg"
-            className="absolute inset-0 w-full h-full object-cover" />
+          <LazyVideo
+            src="/videos/store-marketplace.mp4"
+            poster="/images/pages/programs-hero.jpg"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
@@ -52,13 +64,20 @@ export default function StoreDigitalPage() {
               Digital Resources <span className="text-brand-blue-300">For Training Providers</span>
             </h1>
             <p className="text-lg text-slate-300 mb-6 max-w-3xl mx-auto">
-              Everything you need to start, grow, and scale your workforce training business. AI assistants, compliance tools, marketing templates, and business guides.
+              Everything you need to start, grow, and scale your workforce training business. AI
+              assistants, compliance tools, marketing templates, and business guides.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="#ai-tools" className="inline-flex items-center gap-2 bg-white text-indigo-900 px-6 py-3 rounded-xl font-bold hover:bg-indigo-50 transition-all">
+              <Link
+                href="#ai-tools"
+                className="inline-flex items-center gap-2 bg-white text-indigo-900 px-6 py-3 rounded-xl font-bold hover:bg-indigo-50 transition-all"
+              >
                 <Zap className="w-5 h-5" /> View AI Tools
               </Link>
-              <Link href="#demos" className="inline-flex items-center gap-2 bg-slate-700 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-600 transition-all border border-slate-500">
+              <Link
+                href="#demos"
+                className="inline-flex items-center gap-2 bg-slate-700 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-600 transition-all border border-slate-500"
+              >
                 <Play className="w-5 h-5" /> Watch Demos
               </Link>
             </div>
@@ -67,11 +86,13 @@ export default function StoreDigitalPage() {
       </section>
 
       {/* Demo Videos Section */}
-      <section id="demos"className="py-16">
+      <section id="demos" className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-black text-slate-900 mb-4">See Our Tools in Action</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">Watch quick demos of our most popular digital resources</p>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Watch quick demos of our most popular digital resources
+            </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white rounded-2xl overflow-hidden">
@@ -136,12 +157,14 @@ export default function StoreDigitalPage() {
                 className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all group border border-slate-100"
               >
                 <div className="relative h-48 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={product.image || '/images/pages/comp-universal-hero.jpg'}
                     alt={product.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                   <div className="absolute bottom-4 left-4 right-4">
                     <span className="inline-block px-3 py-1 bg-indigo-600 text-slate-900 text-xs font-bold rounded-full">
                       {product.priceDisplay}
@@ -226,8 +249,10 @@ export default function StoreDigitalPage() {
                     src={product.image || '/images/pages/comp-universal-hero.jpg'}
                     alt={product.name}
                     fill
-                    quality={85} className="object-cover"
-                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                    quality={85}
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                   <div className="absolute bottom-4 left-4">
                     <span className="px-3 py-1 bg-brand-blue-600 text-white text-xs font-bold rounded-full">
                       {product.priceDisplay}
@@ -254,7 +279,9 @@ export default function StoreDigitalPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Zap className="w-12 h-12 text-slate-900 mx-auto mb-4" />
           <h2 className="text-3xl font-black text-slate-900 mb-4">Need the Complete Platform?</h2>
-          <p className="text-xl text-indigo-100 mb-8">Get the full Elevate LMS with all features included.</p>
+          <p className="text-xl text-indigo-100 mb-8">
+            Get the full Elevate LMS with all features included.
+          </p>
           <Link
             href="/store/licensing"
             className="inline-flex items-center gap-2 bg-white text-indigo-700 px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-50 transition-colors"

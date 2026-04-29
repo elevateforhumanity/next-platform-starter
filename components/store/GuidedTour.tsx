@@ -11,7 +11,12 @@ interface GuidedTourProps {
   autoStart?: boolean;
 }
 
-export default function GuidedTour({ tourId, onComplete, onSkip, autoStart = false }: GuidedTourProps) {
+export default function GuidedTour({
+  tourId,
+  onComplete,
+  onSkip,
+  autoStart = false,
+}: GuidedTourProps) {
   const [isActive, setIsActive] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
@@ -25,7 +30,7 @@ export default function GuidedTour({ tourId, onComplete, onSkip, autoStart = fal
   // Check if tour was already completed
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     const completed = localStorage.getItem(GUIDE_STORAGE_KEYS.TOUR_COMPLETED(tourId));
     if (completed && !autoStart) return;
 
@@ -98,20 +103,23 @@ export default function GuidedTour({ tourId, onComplete, onSkip, autoStart = fal
     setCurrentStep(0);
   }, [tourId]);
 
-  const endTour = useCallback((completed: boolean) => {
-    setIsActive(false);
-    setCurrentStep(0);
-    setTargetRect(null);
+  const endTour = useCallback(
+    (completed: boolean) => {
+      setIsActive(false);
+      setCurrentStep(0);
+      setTargetRect(null);
 
-    if (completed) {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(GUIDE_STORAGE_KEYS.TOUR_COMPLETED(tourId), 'true');
+      if (completed) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(GUIDE_STORAGE_KEYS.TOUR_COMPLETED(tourId), 'true');
+        }
+        onComplete?.();
+      } else {
+        onSkip?.();
       }
-      onComplete?.();
-    } else {
-      onSkip?.();
-    }
-  }, [tourId, onComplete, onSkip]);
+    },
+    [tourId, onComplete, onSkip],
+  );
 
   const nextStep = useCallback(() => {
     if (currentStep < steps.length - 1) {
@@ -231,12 +239,8 @@ export default function GuidedTour({ tourId, onComplete, onSkip, autoStart = fal
 
         {/* Content */}
         <div className="p-4">
-          <h3 className="font-bold text-black text-lg mb-2">
-            {currentStepData?.title}
-          </h3>
-          <p className="text-slate-700 text-sm leading-relaxed">
-            {currentStepData?.content}
-          </p>
+          <h3 className="font-bold text-black text-lg mb-2">{currentStepData?.title}</h3>
+          <p className="text-slate-700 text-sm leading-relaxed">{currentStepData?.content}</p>
         </div>
 
         {/* Progress dots */}
@@ -248,8 +252,8 @@ export default function GuidedTour({ tourId, onComplete, onSkip, autoStart = fal
                 index === currentStep
                   ? 'bg-brand-orange-500 w-4'
                   : index < currentStep
-                  ? 'bg-brand-green-500'
-                  : 'bg-gray-300'
+                    ? 'bg-brand-green-500'
+                    : 'bg-gray-300'
               }`}
             />
           ))}

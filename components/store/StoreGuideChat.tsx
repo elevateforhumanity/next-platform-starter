@@ -4,7 +4,12 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { X, Volume2, VolumeX } from 'lucide-react';
-import { storeGuideFlow, GuideChoice, GUIDE_STORAGE_KEYS, GUIDE_ANALYTICS } from '@/lib/guide/flows';
+import {
+  storeGuideFlow,
+  GuideChoice,
+  GUIDE_STORAGE_KEYS,
+  GUIDE_ANALYTICS,
+} from '@/lib/guide/flows';
 
 interface StoreGuideChatProps {
   onStartTour?: (tourId: string) => void;
@@ -13,10 +18,10 @@ interface StoreGuideChatProps {
 
 // Image mapping for choices
 const choiceImages: Record<string, string> = {
-  'shop': '/images/pages/shop-hero.jpg',
-  'courses': '/images/pages/shop-hero.jpg',
-  'workbooks': '/images/pages/training-classroom.jpg',
-  'licensing': '/images/pages/shop-hero.jpg',
+  shop: '/images/pages/shop-hero.jpg',
+  courses: '/images/pages/shop-hero.jpg',
+  workbooks: '/images/pages/training-classroom.jpg',
+  licensing: '/images/pages/shop-hero.jpg',
   'not-sure': '/images/pages/store-recommendations.jpg',
 };
 
@@ -32,31 +37,38 @@ function useSpeech() {
     }
   }, []);
 
-  const speak = useCallback((text: string) => {
-    if (!synthRef.current || isMuted) return;
-    
-    try {
-      synthRef.current.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.0;
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = () => setIsSpeaking(false);
-      synthRef.current.speak(utterance);
-    } catch {
-      // Speech failed silently
-    }
-  }, [isMuted]);
+  const speak = useCallback(
+    (text: string) => {
+      if (!synthRef.current || isMuted) return;
+
+      try {
+        synthRef.current.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.0;
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => setIsSpeaking(false);
+        utterance.onerror = () => setIsSpeaking(false);
+        synthRef.current.speak(utterance);
+      } catch {
+        // Speech failed silently
+      }
+    },
+    [isMuted],
+  );
 
   const stop = useCallback(() => {
     if (synthRef.current) {
-      try { synthRef.current.cancel(); } catch { /* ignore cancel errors */ }
+      try {
+        synthRef.current.cancel();
+      } catch {
+        /* ignore cancel errors */
+      }
       setIsSpeaking(false);
     }
   }, []);
 
   const toggleMute = useCallback(() => {
-    setIsMuted(prev => {
+    setIsMuted((prev) => {
       if (!prev) stop();
       return !prev;
     });
@@ -72,7 +84,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
   const [selectedChoice, setSelectedChoice] = useState<GuideChoice | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [hasAutoOpened, setHasAutoOpened] = useState(false);
-  
+
   const { speak, stop, isSpeaking, isMuted, toggleMute } = useSpeech();
 
   // Auto-open and greet on first visit (or every visit if not dismissed)
@@ -101,8 +113,8 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
     setCurrentQuestionId('main');
     setSelectedChoice(null);
     setShowConfirmation(false);
-    
-    const mainQuestion = storeGuideFlow.questions.find(q => q.id === 'main');
+
+    const mainQuestion = storeGuideFlow.questions.find((q) => q.id === 'main');
     if (mainQuestion) {
       setTimeout(() => speak(storeGuideFlow.welcomeMessage + '. ' + mainQuestion.question), 300);
     }
@@ -115,49 +127,55 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
     setHasAutoOpened(true);
   }, [stop]);
 
-  const handleChoiceSelect = useCallback((choice: GuideChoice) => {
-    stop();
+  const handleChoiceSelect = useCallback(
+    (choice: GuideChoice) => {
+      stop();
 
-    if (choice.id === 'not-sure') {
-      const currentQuestion = storeGuideFlow.questions.find(q => q.id === currentQuestionId);
-      if (currentQuestion?.followUp) {
-        setCurrentQuestionId(currentQuestion.followUp);
-        const followUp = storeGuideFlow.questions.find(q => q.id === currentQuestion.followUp);
-        if (followUp) {
-          setTimeout(() => speak(followUp.question), 200);
+      if (choice.id === 'not-sure') {
+        const currentQuestion = storeGuideFlow.questions.find((q) => q.id === currentQuestionId);
+        if (currentQuestion?.followUp) {
+          setCurrentQuestionId(currentQuestion.followUp);
+          const followUp = storeGuideFlow.questions.find((q) => q.id === currentQuestion.followUp);
+          if (followUp) {
+            setTimeout(() => speak(followUp.question), 200);
+          }
         }
+        return;
       }
-      return;
-    }
 
-    setSelectedChoice(choice);
-    setShowConfirmation(true);
-    
-    const confirmText = `Taking you to ${choice.label}. ${choice.description || ''}`;
-    setTimeout(() => speak(confirmText), 200);
-  }, [currentQuestionId, speak, stop]);
+      setSelectedChoice(choice);
+      setShowConfirmation(true);
 
-  const handleConfirm = useCallback((startTour: boolean) => {
-    if (!selectedChoice) return;
+      const confirmText = `Taking you to ${choice.label}. ${choice.description || ''}`;
+      setTimeout(() => speak(confirmText), 200);
+    },
+    [currentQuestionId, speak, stop],
+  );
 
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(GUIDE_STORAGE_KEYS.COMPLETED, 'true');
-    }
+  const handleConfirm = useCallback(
+    (startTour: boolean) => {
+      if (!selectedChoice) return;
 
-    setIsOpen(false);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(GUIDE_STORAGE_KEYS.COMPLETED, 'true');
+      }
 
-    if (selectedChoice.route) {
-      router.push(selectedChoice.route);
-    }
+      setIsOpen(false);
 
-    if (startTour && selectedChoice.startTour && selectedChoice.tourId && onStartTour) {
-      setTimeout(() => {
-        onStartTour(selectedChoice.tourId!);
-      }, 500);
-    }
-  }, [selectedChoice, router, onStartTour]);
+      if (selectedChoice.route) {
+        router.push(selectedChoice.route);
+      }
 
-  const currentQuestion = storeGuideFlow.questions.find(q => q.id === currentQuestionId);
+      if (startTour && selectedChoice.startTour && selectedChoice.tourId && onStartTour) {
+        setTimeout(() => {
+          onStartTour(selectedChoice.tourId!);
+        }, 500);
+      }
+    },
+    [selectedChoice, router, onStartTour],
+  );
+
+  const currentQuestion = storeGuideFlow.questions.find((q) => q.id === currentQuestionId);
 
   // Floating button when closed
   if (!isOpen) {
@@ -182,23 +200,22 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
   return (
     <>
       {/* Backdrop - tap to close */}
-      <div 
-        className="fixed inset-0 bg-black/50 z-50"
-        onClick={handleClose}
-      />
-      
+      <div className="fixed inset-0 bg-black/50 z-50" onClick={handleClose} />
+
       {/* Chat Modal - Centered, not full screen on mobile */}
-      <div 
+      <div
         className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Header with Avatar */}
           <div className="bg-white border-b border-slate-200 p-4">
             <div className="flex items-center gap-3">
               {/* Avatar Image */}
-              <div className={`w-14 h-14 rounded-full overflow-hidden border-2 flex-shrink-0 ${isSpeaking ? 'border-brand-red-500 animate-pulse' : 'border-slate-200'}`}>
-                <Image
+              <div
+                className={`w-14 h-14 rounded-full overflow-hidden border-2 flex-shrink-0 ${isSpeaking ? 'border-brand-red-500 animate-pulse' : 'border-slate-200'}`}
+              >
+                <Image sizes="100vw"
                   src="/images/pages/store-guide-1.jpg"
                   alt="Store Guide"
                   width={56}
@@ -206,7 +223,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
                   className="object-cover w-full h-full"
                 />
               </div>
-              
+
               <div className="flex-1">
                 <h2 className="text-lg font-bold text-slate-900">Store Guide</h2>
                 <p className="text-slate-500 text-sm">
@@ -220,12 +237,13 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
                 className="p-2 hover:bg-slate-100 rounded-full"
                 title={isMuted ? 'Unmute' : 'Mute'}
               >
-                {isMuted ? <VolumeX className="w-5 h-5 text-slate-400" /> : <Volume2 className="w-5 h-5 text-brand-red-500" />}
+                {isMuted ? (
+                  <VolumeX className="w-5 h-5 text-slate-400" />
+                ) : (
+                  <Volume2 className="w-5 h-5 text-brand-red-500" />
+                )}
               </button>
-              <button
-                onClick={handleClose}
-                className="p-2 hover:bg-slate-100 rounded-full"
-              >
+              <button onClick={handleClose} className="p-2 hover:bg-slate-100 rounded-full">
                 <X className="w-5 h-5 text-slate-600" />
               </button>
             </div>
@@ -235,10 +253,8 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
           <div className="p-4 max-h-[60vh] overflow-y-auto">
             {!showConfirmation ? (
               <>
-                <h3 className="text-lg font-bold text-black mb-4">
-                  {currentQuestion?.question}
-                </h3>
-                
+                <h3 className="text-lg font-bold text-black mb-4">{currentQuestion?.question}</h3>
+
                 {/* Choices with Images */}
                 <div className="space-y-3">
                   {currentQuestion?.choices.map((choice) => (
@@ -249,7 +265,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
                     >
                       {/* Choice Image */}
                       <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image
+                        <Image sizes="100vw"
                           src={choiceImages[choice.id] || '/images/pages/store-recommendations.jpg'}
                           alt={choice.label}
                           width={56}
@@ -280,8 +296,11 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
               /* Confirmation */
               <div className="text-center">
                 <div className="w-20 h-20 rounded-xl overflow-hidden mx-auto mb-4">
-                  <Image
-                    src={choiceImages[selectedChoice?.id || ''] || '/images/pages/store-recommendations.jpg'}
+                  <Image sizes="100vw"
+                    src={
+                      choiceImages[selectedChoice?.id || ''] ||
+                      '/images/pages/store-recommendations.jpg'
+                    }
                     alt={selectedChoice?.label || ''}
                     width={80}
                     height={80}
@@ -291,9 +310,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
                 <h3 className="text-xl font-bold text-black mb-2">
                   Taking you to {selectedChoice?.label}
                 </h3>
-                <p className="text-slate-700 mb-6">
-                  {selectedChoice?.description}
-                </p>
+                <p className="text-slate-700 mb-6">{selectedChoice?.description}</p>
 
                 {selectedChoice?.startTour && (
                   <div className="bg-brand-orange-50 border border-brand-orange-200 rounded-xl p-4 mb-6">

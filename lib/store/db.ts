@@ -302,11 +302,13 @@ export async function getProduct(slug: string): Promise<Product | null> {
 
   const { data, error } = await supabase
     .from('products')
-    .select(`
+    .select(
+      `
       *,
       product_images (*),
       product_variants (*)
-    `)
+    `,
+    )
     .eq('slug', slug)
     .eq('is_active', true)
     .maybeSingle();
@@ -332,7 +334,9 @@ export async function getCatalogProduct(slug: string): Promise<CatalogProduct | 
 /**
  * Get all active catalog products, optionally filtered by catalog_group.
  */
-export async function getCatalogProducts(group?: 'store' | 'addon' | 'clone'): Promise<CatalogProduct[]> {
+export async function getCatalogProducts(
+  group?: 'store' | 'addon' | 'clone',
+): Promise<CatalogProduct[]> {
   const supabase = await createClient();
   if (!supabase) return [];
 
@@ -423,9 +427,7 @@ export async function getCart(cartId?: string, sessionId?: string): Promise<Cart
   const supabase = await createClient();
   if (!supabase) return null;
 
-  let query = supabase
-    .from('carts')
-    .select(`
+  let query = supabase.from('carts').select(`
       *,
       cart_items (
         *,
@@ -452,7 +454,8 @@ export async function getCart(cartId?: string, sessionId?: string): Promise<Cart
   return {
     ...data,
     items: data.cart_items || [],
-    item_count: data.cart_items?.reduce((sum: number, item: CartItem) => sum + item.quantity, 0) || 0,
+    item_count:
+      data.cart_items?.reduce((sum: number, item: CartItem) => sum + item.quantity, 0) || 0,
   };
 }
 
@@ -460,7 +463,7 @@ export async function addToCart(
   cartId: string,
   productId: string,
   quantity: number = 1,
-  variantId?: string
+  variantId?: string,
 ): Promise<CartItem | null> {
   const supabase = await createClient();
   if (!supabase) return null;
@@ -479,16 +482,19 @@ export async function addToCart(
 
   const { data, error } = await supabase
     .from('cart_items')
-    .upsert({
-      cart_id: cartId,
-      product_id: productId,
-      variant_id: variantId,
-      quantity,
-      price,
-      total,
-    }, {
-      onConflict: 'cart_id,product_id',
-    })
+    .upsert(
+      {
+        cart_id: cartId,
+        product_id: productId,
+        variant_id: variantId,
+        quantity,
+        price,
+        total,
+      },
+      {
+        onConflict: 'cart_id,product_id',
+      },
+    )
     .select()
     .maybeSingle();
 
@@ -500,10 +506,7 @@ export async function addToCart(
   return data;
 }
 
-export async function updateCartItem(
-  itemId: string,
-  quantity: number
-): Promise<CartItem | null> {
+export async function updateCartItem(itemId: string, quantity: number): Promise<CartItem | null> {
   const supabase = await createClient();
   if (!supabase) return null;
 
@@ -538,10 +541,7 @@ export async function removeFromCart(itemId: string): Promise<boolean> {
   const supabase = await createClient();
   if (!supabase) return false;
 
-  const { error } = await supabase
-    .from('cart_items')
-    .delete()
-    .eq('id', itemId);
+  const { error } = await supabase.from('cart_items').delete().eq('id', itemId);
 
   if (error) {
     logger.error('Error removing from cart:', error);
@@ -561,10 +561,12 @@ export async function getOrders(customerId: string): Promise<Order[]> {
 
   const { data, error } = await supabase
     .from('orders')
-    .select(`
+    .select(
+      `
       *,
       order_items (*)
-    `)
+    `,
+    )
     .eq('customer_id', customerId)
     .order('created_at', { ascending: false });
 
@@ -573,10 +575,12 @@ export async function getOrders(customerId: string): Promise<Order[]> {
     return [];
   }
 
-  return data?.map(order => ({
-    ...order,
-    items: order.order_items || [],
-  })) || [];
+  return (
+    data?.map((order) => ({
+      ...order,
+      items: order.order_items || [],
+    })) || []
+  );
 }
 
 export async function getOrder(orderId: string): Promise<Order | null> {
@@ -585,10 +589,12 @@ export async function getOrder(orderId: string): Promise<Order | null> {
 
   const { data, error } = await supabase
     .from('orders')
-    .select(`
+    .select(
+      `
       *,
       order_items (*)
-    `)
+    `,
+    )
     .eq('id', orderId)
     .maybeSingle();
 
@@ -611,19 +617,17 @@ export async function searchStore(
   query: string,
   audience?: string,
   category?: string,
-  limit: number = 10
+  limit: number = 10,
 ): Promise<SearchResult[]> {
   const supabase = await createClient();
   if (!supabase) return [];
 
-  let dbQuery = supabase
-    .from('search_index')
-    .select('*')
-    .eq('is_active', true)
-    .limit(limit);
+  let dbQuery = supabase.from('search_index').select('*').eq('is_active', true).limit(limit);
 
   if (query) {
-    dbQuery = dbQuery.or(`title.ilike.%${query}%,description.ilike.%${query}%,keywords.cs.{${query}}`);
+    dbQuery = dbQuery.or(
+      `title.ilike.%${query}%,description.ilike.%${query}%,keywords.cs.{${query}}`,
+    );
   }
 
   if (audience && audience !== 'everyone') {
@@ -646,7 +650,7 @@ export async function searchStore(
 
 export async function getFeaturedForAudience(
   audience: string,
-  limit: number = 6
+  limit: number = 6,
 ): Promise<SearchResult[]> {
   const supabase = await createClient();
   if (!supabase) return [];
@@ -688,8 +692,8 @@ export async function getStoreCards(): Promise<{ primary: StoreCard[]; secondary
 
   const cards = data || [];
   return {
-    primary: cards.filter(c => c.tier === 'primary'),
-    secondary: cards.filter(c => c.tier === 'secondary'),
+    primary: cards.filter((c) => c.tier === 'primary'),
+    secondary: cards.filter((c) => c.tier === 'secondary'),
   };
 }
 
@@ -739,10 +743,12 @@ export async function getRecommendations(productId: string): Promise<Recommendat
 
   const { data, error } = await supabase
     .from('product_recommendations')
-    .select(`
+    .select(
+      `
       *,
       product:store_products_catalog!target_product_id (*)
-    `)
+    `,
+    )
     .eq('source_product_id', productId)
     .eq('is_active', true)
     .order('sort_order', { ascending: true });
@@ -782,7 +788,10 @@ export async function getAvatarSalesMessage(productId: string): Promise<{
 // COUPONS
 // ============================================
 
-export async function validateCoupon(code: string, cartTotal: number): Promise<{
+export async function validateCoupon(
+  code: string,
+  cartTotal: number,
+): Promise<{
   valid: boolean;
   discount: number;
   message?: string;
@@ -808,10 +817,10 @@ export async function validateCoupon(code: string, cartTotal: number): Promise<{
 
   // Check minimum order
   if (coupon.minimum_order_amount && cartTotal < coupon.minimum_order_amount) {
-    return { 
-      valid: false, 
-      discount: 0, 
-      message: `Minimum order of $${coupon.minimum_order_amount} required` 
+    return {
+      valid: false,
+      discount: 0,
+      message: `Minimum order of $${coupon.minimum_order_amount} required`,
     };
   }
 

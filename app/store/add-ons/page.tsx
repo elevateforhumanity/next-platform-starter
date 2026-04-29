@@ -3,12 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  Users, 
-  ArrowRight, 
-  Zap, 
-  Trophy, 
-} from 'lucide-react';
+import { Users, ArrowRight, Zap, Trophy } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import StoreProductVideo from '@/app/store/StoreProductVideo';
 
@@ -17,7 +12,8 @@ const addOns = [
   {
     id: 'community-hub',
     title: 'Community Hub',
-    description: 'Add a complete community platform to your LMS. Discussions, groups, leaderboards, events, and gamification. One-time purchase, lifetime access.',
+    description:
+      'Add a complete community platform to your LMS. Discussions, groups, leaderboards, events, and gamification. One-time purchase, lifetime access.',
     href: '/store/add-ons/community-hub',
     icon: Users,
     price: '$1,997',
@@ -44,7 +40,8 @@ const moreAddOns = [
   {
     id: 'analytics-pro',
     title: 'Analytics Pro',
-    description: 'Advanced reporting and predictive analytics for student outcomes. Real-time dashboards, custom reports, and cohort analysis.',
+    description:
+      'Advanced reporting and predictive analytics for student outcomes. Real-time dashboards, custom reports, and cohort analysis.',
     href: '/store/add-ons/analytics-pro',
     price: '$1,497',
     video: '/videos/store/store-analytics-pro.mp4',
@@ -53,7 +50,8 @@ const moreAddOns = [
   {
     id: 'compliance-automation',
     title: 'Compliance Automation',
-    description: 'Automated compliance tracking and reporting for WIOA, grants, FERPA, and accreditation requirements.',
+    description:
+      'Automated compliance tracking and reporting for WIOA, grants, FERPA, and accreditation requirements.',
     href: '/store/add-ons/compliance-automation',
     price: '$1,297',
     video: '/videos/store/store-compliance-automation.mp4',
@@ -66,10 +64,15 @@ export default function AddOnsPage() {
   useEffect(() => {
     const supabase = createBrowserClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     );
-    supabase.from('products').select('*').limit(50)
-      .then(({ data }) => { if (data) setDbRows(data); });
+    supabase
+      .from('products')
+      .select('*')
+      .limit(50)
+      .then(({ data }) => {
+        if (data) setDbRows(data);
+      });
   }, []);
 
   return (
@@ -85,30 +88,45 @@ export default function AddOnsPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-          <Image src="/images/pages/store-addons-hero.jpg" alt="Platform Add-Ons" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/images/pages/store-addons-hero.jpg"
+            alt="Platform Add-Ons"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">Platform Add-Ons</h1>
-            <p className="text-lg text-slate-300 max-w-3xl mx-auto">Extend your workforce operating system with powerful features. One-time purchase, lifetime access, no recurring fees.</p>
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+              Extend your workforce operating system with powerful features. One-time purchase,
+              lifetime access, no recurring fees.
+            </p>
           </div>
         </div>
       </section>
-
-
 
       {/* Add-Ons Grid */}
       <section id="add-ons" className="py-16 lg:py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Available Add-Ons</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Available Add-Ons
+            </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Each add-on integrates seamlessly with your existing platform. Install in minutes, not days.
+              Each add-on integrates seamlessly with your existing platform. Install in minutes, not
+              days.
             </p>
           </div>
 
           {addOns.map((addon) => (
-            <div key={addon.id} className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden mb-12">
+            <div
+              key={addon.id}
+              className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden mb-12"
+            >
               <div className="grid lg:grid-cols-2">
                 {/* Video Side */}
                 <div className="relative p-4 lg:p-6 flex flex-col justify-center bg-slate-50">
@@ -148,7 +166,10 @@ export default function AddOnsPage() {
                       </h4>
                       <ul className="space-y-2">
                         {addon.features.map((feature) => (
-                          <li key={feature} className="flex items-start gap-2 text-sm text-slate-600">
+                          <li
+                            key={feature}
+                            className="flex items-start gap-2 text-sm text-slate-600"
+                          >
                             <span className="text-slate-400 flex-shrink-0">•</span>
                             {feature}
                           </li>
@@ -162,7 +183,10 @@ export default function AddOnsPage() {
                       </h4>
                       <ul className="space-y-2">
                         {addon.benefits.map((benefit) => (
-                          <li key={benefit} className="flex items-start gap-2 text-sm text-slate-600">
+                          <li
+                            key={benefit}
+                            className="flex items-start gap-2 text-sm text-slate-600"
+                          >
                             <span className="text-slate-400 flex-shrink-0">•</span>
                             {benefit}
                           </li>
@@ -198,13 +222,15 @@ export default function AddOnsPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">More Add-Ons</h2>
-            <p className="text-lg text-slate-600">Expand your platform with additional capabilities</p>
+            <p className="text-lg text-slate-600">
+              Expand your platform with additional capabilities
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {moreAddOns.map((item) => (
-              <div 
-                key={item.id} 
+              <div
+                key={item.id}
                 className="group bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all"
               >
                 <div className="p-4 pb-0">

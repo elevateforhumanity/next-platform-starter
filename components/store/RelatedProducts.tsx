@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -36,12 +36,8 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
                 <span className="text-xs font-semibold text-brand-blue-700 uppercase">
                   {product.category.replace('-', ' ')}
                 </span>
-                <h3 className="text-xl font-bold mt-2 mb-2 text-black">
-                  {product.name}
-                </h3>
-                <p className="text-black text-sm mb-4 line-clamp-2">
-                  {product.description}
-                </p>
+                <h3 className="text-xl font-bold mt-2 mb-2 text-black">{product.name}</h3>
+                <p className="text-black text-sm mb-4 line-clamp-2">{product.description}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-black">
                     ${product.salePrice || product.price}

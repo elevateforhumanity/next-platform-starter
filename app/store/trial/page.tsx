@@ -37,9 +37,10 @@ export default function TrialPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        const errMsg = res.status === 409 && data.tenantUrl
-          ? `A trial already exists for this email. Your dashboard: ${data.tenantUrl}`
-          : (data.error || 'Something went wrong. Please try again.');
+        const errMsg =
+          res.status === 409 && data.tenantUrl
+            ? `A trial already exists for this email. Your dashboard: ${data.tenantUrl}`
+            : data.error || 'Something went wrong. Please try again.';
         setError(errMsg);
         setCorrelationId(data.correlationId || null);
         DemoTrialFunnelEvents.trialCreatedFailed(errMsg, data.correlationId);
@@ -59,7 +60,7 @@ export default function TrialPage() {
 
   // Success state
   if (result) {
-    const trialEnd = new Date(result.trialEndsAt).toLocaleDateString('en-US', { timeZone: 'UTC',
+    const trialEnd = new Date(result.trialEndsAt).toLocaleDateString('en-US', {
       weekday: 'long',
       month: 'long',
       day: 'numeric',
@@ -68,11 +69,18 @@ export default function TrialPage() {
 
     return (
       <div className="min-h-screen bg-white">
-
-      {/* Hero Image */}
-      <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/store-trial-hero.jpg" alt="Elevate store" fill sizes="100vw" className="object-cover" priority />
-      </section>
+        {/* Hero Image */}
+        <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/images/pages/store-trial-hero.jpg"
+            alt="Elevate store"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        </section>
         <div className="bg-white border-b">
           <div className="max-w-6xl mx-auto px-4 py-3">
             <Breadcrumbs items={[{ label: 'Store', href: '/store' }, { label: 'Trial Started' }]} />
@@ -89,7 +97,8 @@ export default function TrialPage() {
               Check <strong>{adminEmail}</strong> for login instructions.
             </p>
             <p className="text-sm text-slate-600 mb-8">
-              You&apos;re now in your live workspace (14-day trial). Nothing here is public until you launch.
+              You&apos;re now in your live workspace (14-day trial). Nothing here is public until
+              you launch.
             </p>
 
             <div className="bg-white rounded-xl p-6 mb-6 text-left space-y-3">
@@ -99,7 +108,9 @@ export default function TrialPage() {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-600">Subdomain</span>
-                <span className="font-semibold text-slate-900">{result.subdomain}.elevatelms.com</span>
+                <span className="font-semibold text-slate-900">
+                  {result.subdomain}.elevatelms.com
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-600">Trial ends</span>
@@ -111,13 +122,16 @@ export default function TrialPage() {
             <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8 text-left">
               <h2 className="font-bold text-slate-900 mb-1">Your first step</h2>
               <p className="text-sm text-slate-600 mb-4">
-                Open your dashboard and confirm your organization name and settings.
-                This takes 30 seconds and makes the workspace yours.
+                Open your dashboard and confirm your organization name and settings. This takes 30
+                seconds and makes the workspace yours.
               </p>
               <a
                 href={result.tenantUrl}
                 onClick={(e) => {
-                  DemoTrialFunnelEvents.trialSuccessOpenDashboard(result.subdomain, result.correlationId);
+                  DemoTrialFunnelEvents.trialSuccessOpenDashboard(
+                    result.subdomain,
+                    result.correlationId,
+                  );
                   // Record onboarding initiation (fire-and-forget, don't block navigation)
                   fetch('/api/trial/begin-onboarding', {
                     method: 'POST',
@@ -161,149 +175,202 @@ export default function TrialPage() {
             {/* Left: visual */}
             <div className="hidden lg:block">
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-xl border border-slate-200 mb-4">
-                <Image src="/images/pages/store-trial-detail.jpg" alt="Your admin dashboard after trial setup" fill className="object-cover"  sizes="100vw" />
+                <Image
+                  src="/images/pages/store-trial-detail.jpg"
+                  alt="Your admin dashboard after trial setup"
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                />
               </div>
-              <p className="text-sm text-slate-500 text-center mb-6">Your admin dashboard — ready in under 60 seconds</p>
+              <p className="text-sm text-slate-500 text-center mb-6">
+                Your admin dashboard — ready in under 60 seconds
+              </p>
               <div className="bg-white rounded-xl p-5 border border-slate-200">
                 <h3 className="text-sm font-bold text-slate-900 mb-3">What happens next</h3>
                 <ol className="space-y-2 text-sm text-slate-600">
-                  <li className="flex gap-2"><span className="text-brand-red-600 font-bold">1.</span> Fill out the form — 3 fields, 30 seconds</li>
-                  <li className="flex gap-2"><span className="text-brand-red-600 font-bold">2.</span> Your branded instance is provisioned instantly</li>
-                  <li className="flex gap-2"><span className="text-brand-red-600 font-bold">3.</span> Log in and start configuring your programs</li>
-                  <li className="flex gap-2"><span className="text-brand-red-600 font-bold">4.</span> Go live when ready — trial data carries over</li>
+                  <li className="flex gap-2">
+                    <span className="text-brand-red-600 font-bold">1.</span> Fill out the form — 3
+                    fields, 30 seconds
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-brand-red-600 font-bold">2.</span> Your branded instance
+                    is provisioned instantly
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-brand-red-600 font-bold">3.</span> Log in and start
+                    configuring your programs
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-brand-red-600 font-bold">4.</span> Go live when ready —
+                    trial data carries over
+                  </li>
                 </ol>
               </div>
             </div>
             {/* Right: form */}
             <div>
-          <div className="text-center lg:text-left mb-10">
-            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4">Start Your 14-Day Trial</h1>
-            <p className="text-lg text-slate-800">
-              Full platform access. No credit card. Provisioned instantly.
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl p-6 mb-8">
-            <h2 className="text-sm font-bold text-slate-900 mb-3 uppercase tracking-wide">What you get</h2>
-            <ul className="space-y-2 text-sm text-slate-800">
-              <li className="flex items-start gap-2"><Clock className="w-4 h-4 text-brand-red-600 flex-shrink-0 mt-0.5" /> 14-day full platform access</li>
-              <li className="flex items-start gap-2"><Shield className="w-4 h-4 text-brand-red-600 flex-shrink-0 mt-0.5" /> Your own subdomain and admin dashboard</li>
-              <li className="flex items-start gap-2"><Shield className="w-4 h-4 text-brand-red-600 flex-shrink-0 mt-0.5" /> Import programs, enroll learners, run reports</li>
-              <li className="flex items-start gap-2"><Shield className="w-4 h-4 text-brand-red-600 flex-shrink-0 mt-0.5" /> No credit card required</li>
-            </ul>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="orgName" className="block text-sm font-semibold text-slate-900 mb-1">
-                Organization Name
-              </label>
-              <input
-                id="orgName"
-                type="text"
-                required
-                minLength={2}
-                maxLength={100}
-                value={orgName}
-                onChange={(e) => setOrgName(e.target.value)}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-600 focus:border-transparent"
-                placeholder="Acme Training Academy"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="adminName" className="block text-sm font-semibold text-slate-900 mb-1">
-                Your Name
-              </label>
-              <input
-                id="adminName"
-                type="text"
-                required
-                minLength={2}
-                value={adminName}
-                onChange={(e) => setAdminName(e.target.value)}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-600 focus:border-transparent"
-                placeholder="Jane Smith"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="adminEmail" className="block text-sm font-semibold text-slate-900 mb-1">
-                Work Email
-              </label>
-              <input
-                id="adminEmail"
-                type="email"
-                required
-                value={adminEmail}
-                onChange={(e) => setAdminEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-600 focus:border-transparent"
-                placeholder="jane@acmetraining.org"
-              />
-            </div>
-
-            {error && (
-              <div className="p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-sm text-brand-red-800 space-y-3">
-                <div className="flex items-start gap-2">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                  <span>{error}</span>
-                </div>
-                <div className="flex flex-wrap items-center gap-3 pl-6">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="text-sm font-medium text-brand-red-600 hover:underline"
-                  >
-                    Try again
-                  </button>
-                  <span className="text-brand-red-600">|</span>
-                  <Link
-                    href={`/contact?topic=support&reason=trial-create-failed${correlationId ? `&ref=${correlationId}` : ''}`}
-                    className="text-sm font-medium text-brand-red-600 hover:underline"
-                  >
-                    Contact support
-                  </Link>
-                </div>
-                {correlationId && (
-                  <p className="text-xs text-brand-red-400 pl-6">Reference: {correlationId}</p>
-                )}
+              <div className="text-center lg:text-left mb-10">
+                <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4">
+                  Start Your 14-Day Trial
+                </h1>
+                <p className="text-lg text-slate-800">
+                  Full platform access. No credit card. Provisioned instantly.
+                </p>
               </div>
-            )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-brand-red-600 text-slate-900 font-bold rounded-lg hover:bg-brand-red-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Creating your trial...
-                </>
-              ) : (
-                <>
-                  Start 14-Day Trial <ArrowRight className="w-5 h-5" />
-                </>
-              )}
-            </button>
-          </form>
+              <div className="bg-white rounded-xl p-6 mb-8">
+                <h2 className="text-sm font-bold text-slate-900 mb-3 uppercase tracking-wide">
+                  What you get
+                </h2>
+                <ul className="space-y-2 text-sm text-slate-800">
+                  <li className="flex items-start gap-2">
+                    <Clock className="w-4 h-4 text-brand-red-600 flex-shrink-0 mt-0.5" /> 14-day
+                    full platform access
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-brand-red-600 flex-shrink-0 mt-0.5" /> Your own
+                    subdomain and admin dashboard
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-brand-red-600 flex-shrink-0 mt-0.5" /> Import
+                    programs, enroll learners, run reports
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-brand-red-600 flex-shrink-0 mt-0.5" /> No credit
+                    card required
+                  </li>
+                </ul>
+              </div>
 
-          <div className="mt-8 text-center lg:text-left space-y-3">
-            <p className="text-sm text-slate-600">
-              Already know what you need?{' '}
-              <Link href="/store/licensing/managed" className="text-brand-red-600 font-medium hover:underline">
-                Purchase directly
-              </Link>
-            </p>
-            <p className="text-sm text-slate-600">
-              Want to see the platform first?{' '}
-              <Link href="/demo/admin" className="text-brand-red-600 font-medium hover:underline">
-                Open full demo →
-              </Link>
-            </p>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="orgName"
+                    className="block text-sm font-semibold text-slate-900 mb-1"
+                  >
+                    Organization Name
+                  </label>
+                  <input
+                    id="orgName"
+                    type="text"
+                    required
+                    minLength={2}
+                    maxLength={100}
+                    value={orgName}
+                    onChange={(e) => setOrgName(e.target.value)}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-600 focus:border-transparent"
+                    placeholder="Acme Training Academy"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="adminName"
+                    className="block text-sm font-semibold text-slate-900 mb-1"
+                  >
+                    Your Name
+                  </label>
+                  <input
+                    id="adminName"
+                    type="text"
+                    required
+                    minLength={2}
+                    value={adminName}
+                    onChange={(e) => setAdminName(e.target.value)}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-600 focus:border-transparent"
+                    placeholder="Jane Smith"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="adminEmail"
+                    className="block text-sm font-semibold text-slate-900 mb-1"
+                  >
+                    Work Email
+                  </label>
+                  <input
+                    id="adminEmail"
+                    type="email"
+                    required
+                    value={adminEmail}
+                    onChange={(e) => setAdminEmail(e.target.value)}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-600 focus:border-transparent"
+                    placeholder="jane@acmetraining.org"
+                  />
+                </div>
+
+                {error && (
+                  <div className="p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-sm text-brand-red-800 space-y-3">
+                    <div className="flex items-start gap-2">
+                      <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                      <span>{error}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-3 pl-6">
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="text-sm font-medium text-brand-red-600 hover:underline"
+                      >
+                        Try again
+                      </button>
+                      <span className="text-brand-red-600">|</span>
+                      <Link
+                        href={`/contact?topic=support&reason=trial-create-failed${correlationId ? `&ref=${correlationId}` : ''}`}
+                        className="text-sm font-medium text-brand-red-600 hover:underline"
+                      >
+                        Contact support
+                      </Link>
+                    </div>
+                    {correlationId && (
+                      <p className="text-xs text-brand-red-400 pl-6">Reference: {correlationId}</p>
+                    )}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-brand-red-600 text-slate-900 font-bold rounded-lg hover:bg-brand-red-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Creating your trial...
+                    </>
+                  ) : (
+                    <>
+                      Start 14-Day Trial <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <div className="mt-8 text-center lg:text-left space-y-3">
+                <p className="text-sm text-slate-600">
+                  Already know what you need?{' '}
+                  <Link
+                    href="/store/licensing/managed"
+                    className="text-brand-red-600 font-medium hover:underline"
+                  >
+                    Purchase directly
+                  </Link>
+                </p>
+                <p className="text-sm text-slate-600">
+                  Want to see the platform first?{' '}
+                  <Link
+                    href="/demo/admin"
+                    className="text-brand-red-600 font-medium hover:underline"
+                  >
+                    Open full demo →
+                  </Link>
+                </p>
+              </div>
+            </div>
+            {/* close right column */}
           </div>
-          </div>{/* close right column */}
-          </div>{/* close grid */}
+          {/* close grid */}
         </div>
       </section>
     </div>
