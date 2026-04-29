@@ -206,6 +206,12 @@ export async function proxy(request: NextRequest) {
   // Gitpod preview domains — treat as development for routing purposes
   const isGitpodPreview = host.includes('.gitpod.dev') || host.includes('gitpod.io');
 
+  // On Gitpod preview, redirect root to /admin/dashboard for convenience.
+  // The admin namespace gate handles auth from there.
+  if (isGitpodPreview && (pathname === '/' || pathname === '')) {
+    return NextResponse.redirect(new URL('/admin/dashboard', request.url), { status: 307 });
+  }
+
   // Production misconfiguration guard — bypass remains disabled, but the
   // presence of SKIP_ADMIN_AUTH in a production environment is logged as an
   // error so a bad deployment is caught immediately in Netlify function logs.
