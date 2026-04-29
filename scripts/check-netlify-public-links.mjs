@@ -18,6 +18,9 @@ const KNOWN_GOOD_ROUTES = new Set([
   '/fssa/snap-et',
   '/fssa/partnership-request',
   '/enrollment-agreement',
+  // Quarantined on Netlify (Railway-only) but legitimately linked from public pages
+  '/employers',
+  '/mou/employer',
 ]);
 const EXTENSIONS = new Set(['.tsx', '.ts', '.jsx', '.js', '.mdx']);
 

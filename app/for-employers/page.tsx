@@ -328,7 +328,7 @@ export default async function ForEmployersPage() {
               },
               {
                 title: 'Drug Testing',
-                href: '/drug-testing/employer-programs',
+                href: '/programs',
                 description: 'DOT and non-DOT workplace testing',
                 icon: Shield,
               },

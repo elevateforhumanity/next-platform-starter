@@ -135,7 +135,7 @@ export const NAV_ITEMS = [
       { name: 'Partner Resources', href: '/partners', isSectionLink: true },
       { name: 'Partner Overview', href: '/partners', nested: true },
       { name: 'Become a Partner', href: '/partners/join', nested: true },
-      { name: 'Sign Partner MOU', href: '/mou/employer', nested: true },
+      { name: 'Sign Partner MOU', href: '/partners/join', nested: true },
       { name: 'WorkOne Partner Packet', href: '/workone-partner-packet', nested: true },
     ],
   },
