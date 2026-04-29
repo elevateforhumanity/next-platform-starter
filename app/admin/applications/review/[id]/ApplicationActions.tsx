@@ -25,7 +25,8 @@ export default function ApplicationActions({
   if (
     currentStatus === 'approved' ||
     currentStatus === 'converted' ||
-    currentStatus === 'enrolled'
+    currentStatus === 'enrolled' ||
+    currentStatus === 'ready_to_enroll'
   ) {
     return (
       <div className="text-sm text-brand-green-700 bg-brand-green-50 border border-brand-green-200 rounded-lg p-3">
@@ -119,11 +120,11 @@ export default function ApplicationActions({
         {currentStatus === 'pending' || currentStatus === 'submitted' ? (
           <>
             <button
-              onClick={() => handleStatusChange('in_review')}
+              onClick={() => handleStatusChange('under_review')}
               disabled={loading !== null}
               className="px-4 py-2 text-sm font-medium rounded-lg bg-brand-blue-600 hover:bg-brand-blue-700 text-white transition-colors disabled:opacity-50"
             >
-              {loading === 'in_review' ? 'Updating...' : 'Start Review'}
+              {loading === 'under_review' ? 'Updating...' : 'Start Review'}
             </button>
             <button
               onClick={handleApprove}
@@ -141,15 +142,15 @@ export default function ApplicationActions({
             </button>
           </>
         ) : (
-          // Covers in_review + any unexpected status — always show Approve & Reject
+          // Covers under_review + any unexpected status — always show Approve & Reject
           <>
-            {currentStatus !== 'in_review' && (
+            {currentStatus !== 'under_review' && (
               <button
-                onClick={() => handleStatusChange('in_review')}
+                onClick={() => handleStatusChange('under_review')}
                 disabled={loading !== null}
                 className="px-4 py-2 text-sm font-medium rounded-lg bg-brand-blue-600 hover:bg-brand-blue-700 text-white transition-colors disabled:opacity-50"
               >
-                {loading === 'in_review' ? 'Updating...' : 'Start Review'}
+                {loading === 'under_review' ? 'Updating...' : 'Start Review'}
               </button>
             )}
             <button

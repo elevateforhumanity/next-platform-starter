@@ -168,7 +168,6 @@ export const ApplicationUpdateSchema = z.object({
     .enum([
       'pending',
       'submitted',
-      'in_review',
       'under_review',
       'approved',
       'rejected',

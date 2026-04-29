@@ -177,7 +177,6 @@ export async function OnetLaborData({ slug, socCode }: Props) {
             title="This site incorporates information from O*NET Web Services. Click to learn more."
             className="flex-shrink-0"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://www.onetcenter.org/image/link/onet-in-it.svg"
               alt="O*NET in-it"

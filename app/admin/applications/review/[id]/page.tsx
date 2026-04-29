@@ -23,6 +23,7 @@ const statusLabels: Record<string, string> = {
   approved: 'Approved',
   rejected: 'Rejected',
   in_review: 'In Review',
+  under_review: 'Under Review',
   enrolled: 'Enrolled',
 };
 
@@ -32,6 +33,7 @@ const statusColors: Record<string, string> = {
   approved: 'bg-brand-green-100 text-brand-green-800 border-brand-green-300',
   rejected: 'bg-brand-red-100 text-brand-red-800 border-brand-red-300',
   in_review: 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-300',
+  under_review: 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-300',
   enrolled: 'bg-emerald-100 text-emerald-800 border-emerald-300',
   // revoked is a derived state (revoked_at IS NOT NULL), not a DB status value
   revoked: 'bg-brand-red-100 text-brand-red-800 border-brand-red-300',

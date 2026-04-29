@@ -89,42 +89,46 @@ export default function DevStudioClient() {
   );
 
   return (
-    <div className="flex flex-col h-[calc(100vh-64px)] bg-slate-950 text-slate-100">
-      {/* Tab bar */}
-      <div className="flex items-center gap-1 px-4 py-2 bg-slate-900 border-b border-slate-800 flex-shrink-0">
-        {(
-          [
-            { id: 'command', label: 'Command', Icon: Sparkles },
-            { id: 'chat', label: 'AI Chat', Icon: MessageSquare },
-            { id: 'terminal', label: 'Terminal', Icon: Terminal },
-            { id: 'files', label: 'Files', Icon: FolderOpen },
-            { id: 'website', label: 'Website', Icon: Globe },
-            { id: 'container', label: 'Container', Icon: Box },
-          ] as { id: Tab; label: string; Icon: React.ElementType }[]
-        ).map(({ id, label, Icon }) => (
-          <button
-            key={id}
-            onClick={() => setTab(id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-              tab === id
-                ? 'bg-brand-red-600 text-white'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-            }`}
-          >
-            <Icon className="w-4 h-4" />
-            {label}
-          </button>
-        ))}
-        <div className="ml-auto text-xs text-slate-500 font-mono">dev container · port 3000</div>
+    <div className="flex flex-col bg-slate-950 text-slate-100" style={{ height: 'calc(100vh - 64px)' }}>
+      {/* Tab bar — scrollable, never wraps */}
+      <div className="flex-shrink-0 bg-slate-900 border-b border-slate-800">
+        <div className="flex items-center overflow-x-auto px-3 py-1.5 gap-0.5" style={{ scrollbarWidth: 'none' }}>
+          {(
+            [
+              { id: 'command',   label: 'Command',   Icon: Sparkles      },
+              { id: 'chat',      label: 'AI Chat',   Icon: MessageSquare },
+              { id: 'terminal',  label: 'Terminal',  Icon: Terminal      },
+              { id: 'files',     label: 'Files',     Icon: FolderOpen    },
+              { id: 'website',   label: 'Website',   Icon: Globe         },
+              { id: 'container', label: 'Container', Icon: Box           },
+            ] as { id: Tab; label: string; Icon: React.ElementType }[]
+          ).map(({ id, label, Icon }) => (
+            <button
+              key={id}
+              onClick={() => setTab(id)}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold whitespace-nowrap transition-colors flex-shrink-0 ${
+                tab === id
+                  ? 'bg-brand-red-600 text-white'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {label}
+            </button>
+          ))}
+          <span className="ml-auto pl-4 text-[10px] text-slate-600 font-mono whitespace-nowrap flex-shrink-0">
+            port 3000
+          </span>
+        </div>
       </div>
 
-      {/* Tab content */}
-      <div className="flex-1 overflow-hidden">
-        {tab === 'command' && <CommandTab />}
-        {tab === 'chat' && <AIChat />}
-        {tab === 'terminal' && <TerminalTab />}
-        {tab === 'files' && <FilesTab />}
-        {tab === 'website' && <WebsiteTab />}
+      {/* Tab content — fills remaining height exactly */}
+      <div className="flex-1 min-h-0 overflow-hidden">
+        {tab === 'command'   && <CommandTab />}
+        {tab === 'chat'      && <AIChat />}
+        {tab === 'terminal'  && <TerminalTab />}
+        {tab === 'files'     && <FilesTab />}
+        {tab === 'website'   && <WebsiteTab />}
         {tab === 'container' && <DevContainerPanel />}
       </div>
     </div>

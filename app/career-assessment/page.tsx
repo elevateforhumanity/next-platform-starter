@@ -67,7 +67,6 @@ export default function CareerAssessmentPage() {
             rel="noopener noreferrer"
             title="This site incorporates information from O*NET Web Services. Click to learn more."
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://www.onetcenter.org/image/link/onet-in-it.svg"
               alt="O*NET in-it"
