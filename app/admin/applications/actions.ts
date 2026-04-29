@@ -36,7 +36,7 @@ export async function approveApplication(id: string): Promise<void> {
   if (!result.success) {
     logger.error('[admin/applications/actions] approveApplication failed', {
       id,
-      error: result.error,
+      reason: result.error,
     });
     throw new Error(result.error ?? 'Approval failed');
   }

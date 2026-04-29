@@ -34,7 +34,7 @@ export async function issueCertificate(formData: FormData) {
     redirect('/admin/certificates/issue?error=missing_fields');
   }
 
-  const certNumber = generateCertificateNumber('EFH');
+  const certNumber = generateCertificateNumber('EFH', user.id);
 
   // Build description from metadata the table doesn't have dedicated columns for
   const descParts: string[] = [];

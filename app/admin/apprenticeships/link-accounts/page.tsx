@@ -53,7 +53,7 @@ export default async function LinkAccountsPage() {
     .is('user_id', null)
     .order('created_at', { ascending: false });
 
-  const rows = unlinked ?? [];
+  const rows: Array<{ id: string; email: string | null; status: string; program_id: string | null; created_at: string; shop_id: string | null }> = (unlinked ?? []) as any;
 
   // For each unlinked apprentice, look up whether a matching auth user exists
   // We use auth.admin.listUsers — available via service role

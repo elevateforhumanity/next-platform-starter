@@ -33,25 +33,26 @@ async function getCertificationData() {
       .limit(20),
   ]);
 
+  // Map step_submissions rows to the shape CertificationReviewPanel expects.
+  // step_submissions is the source of truth for lab/assignment sign-off;
+  // the panel interface uses a superset — unmapped fields default to empty strings.
+  const mapRow = (s: any) => ({
+    id: s.id as string,
+    certification_name: s.lesson_id ?? '',
+    provider: 'Elevate for Humanity',
+    user_id: s.user_id ?? '',
+    program_id: '',
+    status: (s.status === 'pending' ? 'pending_review' : s.status) as 'pending_review' | 'approved' | 'rejected',
+    created_at: s.submitted_at ?? '',
+    reviewer_notes: s.notes ?? '',
+    profiles: s.profiles
+      ? { id: s.user_id ?? '', full_name: s.profiles.full_name ?? '', email: s.profiles.email ?? '' }
+      : undefined,
+  });
+
   return {
-    pending: (pendingRes.data ?? []).map((s: any) => ({
-      id: s.id,
-      userId: s.user_id,
-      lessonId: s.lesson_id,
-      status: s.status,
-      submittedAt: s.submitted_at,
-      notes: s.notes,
-      studentName: s.profiles?.full_name ?? s.profiles?.email ?? 'Unknown',
-    })),
-    recent: (recentRes.data ?? []).map((s: any) => ({
-      id: s.id,
-      userId: s.user_id,
-      lessonId: s.lesson_id,
-      status: s.status,
-      submittedAt: s.submitted_at,
-      notes: s.notes,
-      studentName: s.profiles?.full_name ?? s.profiles?.email ?? 'Unknown',
-    })),
+    pending: (pendingRes.data ?? []).map(mapRow),
+    recent: (recentRes.data ?? []).map(mapRow),
   };
 }
 

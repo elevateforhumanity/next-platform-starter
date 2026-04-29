@@ -48,7 +48,8 @@ export default async function InspectCoursePage({
   if (!detail) notFound();
 
   const { course, lessons } = detail;
-  const program = course.programs as { slug: string; title: string } | null;
+  const programRaw = course.programs as { slug: string; title: string }[] | { slug: string; title: string } | null;
+  const program = Array.isArray(programRaw) ? (programRaw[0] ?? null) : programRaw;
   const published = lessons.filter((l: any) => l.is_published).length;
 
   return (

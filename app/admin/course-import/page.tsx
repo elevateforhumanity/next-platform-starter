@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -30,10 +29,6 @@ export default async function CourseImportPage() {
     .from('profiles')
     .select('*', { count: 'exact', head: true })
     .eq('status', 'active');
-
-  if (profile?.role !== 'admin' && profile?.role !== 'super_admin') {
-    redirect('/unauthorized');
-  }
 
   return (
     <div className="min-h-screen bg-white">

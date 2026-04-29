@@ -119,7 +119,7 @@ export default async function ApplicationsPage({
           label: 'Enrolled',
           value: statusCounts['enrolled'] || 0,
           icon: CheckCircle,
-          color: 'teal',
+          color: 'blue',
         },
         { label: 'Rejected', value: statusCounts['rejected'] || 0, icon: XCircle, color: 'red' },
       ]}
