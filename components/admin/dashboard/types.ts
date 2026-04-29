@@ -130,15 +130,17 @@ export interface ComplianceAlert {
   id: string;
   alert_type: string | null;
   severity: string | null;
-  message: string | null;
+  /** DB column is 'title' — not 'message' */
+  title: string | null;
+  description: string | null;
   created_at: string | null;
 }
 
 export interface StaleLeadItem {
   id: string;
-  company_name: string | null;
-  contact_name: string | null;
-  stage: string | null;
+  /** Resolved from first_name + last_name or email */
+  name: string | null;
+  status: string | null;
   updated_at: string | null;
   days_stale: number;
   href: string;

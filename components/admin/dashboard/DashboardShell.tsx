@@ -250,8 +250,8 @@ function CrmFollowUpQueue({ leads }: { leads: StaleLeadItem[] }) {
           {leads.map((lead) => (
             <Link key={lead.id} href={lead.href} className="flex items-center justify-between px-6 py-3 hover:bg-slate-50 group transition-colors">
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-slate-900 truncate">{lead.company_name ?? lead.contact_name ?? "Unknown lead"}</p>
-                <p className="text-xs text-slate-500">{lead.stage ?? "No stage"}</p>
+                <p className="text-sm font-semibold text-slate-900 truncate">{lead.name ?? "Unknown lead"}</p>
+                <p className="text-xs text-slate-500">{lead.status ?? "No status"}</p>
               </div>
               <div className="flex items-center gap-3 flex-shrink-0 ml-4">
                 <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">{lead.days_stale}d no activity</span>
