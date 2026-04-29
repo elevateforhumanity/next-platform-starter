@@ -5,26 +5,32 @@ import { CheckCircle, Users, MapPin, Calendar } from 'lucide-react';
 
 export const metadata = {
   title: 'Free Tax Preparation | VITA Program',
-  description: 'Free tax preparation for individuals and families earning $64,000 or less through the VITA program.',
+  description:
+    'Free tax preparation for individuals and families earning $64,000 or less through the VITA program.',
 };
 
 export default function FreeTaxPage() {
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Tax", href: "/tax" }, { label: "Free" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Tax', href: '/tax' }, { label: 'Free' }]} />
       </div>
-{/* Hero */}
+      {/* Hero */}
       <section className="relative h-[400px] w-full overflow-hidden">
-        <Image src="/images/business/office-admin.jpg" alt="Free Tax Preparation" width={800} height={600} className="absolute inset-0 w-full h-full object-cover" quality={85} loading="lazy" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
+          src="/images/business/office-admin.jpg"
+          alt="Free Tax Preparation"
+          width={800}
+          height={600}
+          className="absolute inset-0 w-full h-full object-cover"
+          quality={85}
+          loading="lazy"
+        />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="max-w-4xl mx-auto px-6 text-center text-white">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Free Tax Preparation
-            </h1>
-            <p className="text-xl">
-              VITA Program - Funded for Qualifying Individuals
-            </p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Free Tax Preparation</h1>
+            <p className="text-xl">VITA Program - Funded for Qualifying Individuals</p>
           </div>
         </div>
       </section>
@@ -36,7 +42,8 @@ export default function FreeTaxPage() {
             <div>
               <h2 className="text-3xl font-bold mb-6">Who Qualifies?</h2>
               <p className="text-black mb-6">
-                The Volunteer Income Tax Assistance (VITA) program offers free tax preparation to individuals and families who:
+                The Volunteer Income Tax Assistance (VITA) program offers free tax preparation to
+                individuals and families who:
               </p>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">

@@ -1,4 +1,3 @@
-// PUBLIC ROUTE: SupersonicFastCash application form
 import { safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
@@ -34,11 +33,16 @@ async function _POST(req: Request) {
     } = body;
 
     // Validate required fields
-    if (!firstName || !lastName || !email || !phone || !filingStatus || !employmentType || !estimatedIncome) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !phone ||
+      !filingStatus ||
+      !employmentType ||
+      !estimatedIncome
+    ) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -63,20 +67,22 @@ async function _POST(req: Request) {
     });
 
     if (error) {
-      logger.error('Database error:', { code: error.code, message: error.message, route: '/api/supersonic/apply', table: 'tax_applications' });
+      logger.error('Database error:', {
+        code: error.code,
+        message: error.message,
+        route: '/api/supersonic/apply',
+        table: 'tax_applications',
+      });
       return NextResponse.json(
         { error: 'Failed to submit application. Please call (317) 314-3757.' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
     logger.error('Error processing tax application:', error);
-    return NextResponse.json(
-      { error: 'Failed to process application' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process application' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/supersonic/apply', _POST);

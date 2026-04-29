@@ -66,7 +66,10 @@ export default function SupersonicFooter() {
               Professional tax preparation and free VITA services. PTIN-credentialed preparers.
               Serving Indiana, Illinois, Ohio, Tennessee, and Texas.
             </p>
-            <a href="tel:+13173143757" className="text-brand-red-400 font-bold text-lg hover:text-brand-red-300 transition-colors">
+            <a
+              href="tel:+13173143757"
+              className="text-brand-red-400 font-bold text-lg hover:text-brand-red-300 transition-colors"
+            >
               (317) 314-3757
             </a>
           </div>
@@ -75,11 +78,16 @@ export default function SupersonicFooter() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 flex-1">
             {LINKS.map((col) => (
               <div key={col.heading}>
-                <p className="font-bold text-white text-sm uppercase tracking-wide mb-4">{col.heading}</p>
+                <p className="font-bold text-white text-sm uppercase tracking-wide mb-4">
+                  {col.heading}
+                </p>
                 <ul className="space-y-2">
                   {col.items.map((item) => (
                     <li key={item.label}>
-                      <Link href={item.href} className="text-slate-400 text-sm hover:text-white transition-colors">
+                      <Link
+                        href={item.href}
+                        className="text-slate-400 text-sm hover:text-white transition-colors"
+                      >
                         {item.label}
                       </Link>
                     </li>
@@ -93,13 +101,24 @@ export default function SupersonicFooter() {
         {/* Bottom bar */}
         <div className="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-start gap-4">
           <p className="text-slate-500 text-xs leading-relaxed max-w-2xl">
-            Supersonic Fast Cash is a d/b/a of 2Exclusive LLC-S. PTIN-credentialed preparers.
-            Refund advance is a financial product offered by a lending partner subject to eligibility.
-            Rise Up Foundation VITA services are provided by IRS-certified volunteers at no cost to qualifying taxpayers.
+            Supersonic Fast Cash is a d/b/a of 2Exclusive LLC-S. PTIN-credentialed preparers. Refund
+            advance is a financial product offered by a lending partner subject to eligibility. Rise
+            Up Foundation VITA services are provided by IRS-certified volunteers at no cost to
+            qualifying taxpayers.
           </p>
           <div className="flex gap-4 flex-shrink-0">
-            <Link href="/supersonic-fast-cash/legal/privacy" className="text-slate-500 text-xs hover:text-slate-300 transition-colors">Privacy</Link>
-            <Link href="/supersonic-fast-cash/legal/terms" className="text-slate-500 text-xs hover:text-slate-300 transition-colors">Terms</Link>
+            <Link
+              href="/supersonic-fast-cash/legal/privacy"
+              className="text-slate-500 text-xs hover:text-slate-300 transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/supersonic-fast-cash/legal/terms"
+              className="text-slate-500 text-xs hover:text-slate-300 transition-colors"
+            >
+              Terms
+            </Link>
           </div>
         </div>
       </div>

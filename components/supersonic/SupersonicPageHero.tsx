@@ -15,6 +15,7 @@ export default function SupersonicPageHero({ image, alt, title, subtitle }: Prop
   return (
     <>
       <section className="relative w-full h-[60vh] min-h-[400px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={image}
           alt={alt}

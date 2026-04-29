@@ -18,12 +18,24 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
 type Source =
-  | 'calculator' | 'service_page' | 'contact' | 'state_page'
-  | 'book_appointment' | 'start' | 'upload' | 'referral' | 'website';
+  | 'calculator'
+  | 'service_page'
+  | 'contact'
+  | 'state_page'
+  | 'book_appointment'
+  | 'start'
+  | 'upload'
+  | 'referral'
+  | 'website';
 
 type ServiceType =
-  | 'tax_prep' | 'refund_advance' | 'bookkeeping' | 'payroll'
-  | 'diy' | 'audit_protection' | 'cash_advance';
+  | 'tax_prep'
+  | 'refund_advance'
+  | 'bookkeeping'
+  | 'payroll'
+  | 'diy'
+  | 'audit_protection'
+  | 'cash_advance';
 
 interface Props {
   source: Source;
@@ -38,17 +50,17 @@ export default function SfcLeadCaptureForm({
   source,
   sourceDetail,
   serviceType,
-  heading = 'Get Started — We\'ll Contact You',
+  heading = "Get Started — We'll Contact You",
   ctaLabel = 'Request a Callback',
   onSuccess,
 }: Props) {
   const [firstName, setFirstName] = useState('');
-  const [lastName,  setLastName]  = useState('');
-  const [email,     setEmail]     = useState('');
-  const [phone,     setPhone]     = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [loading,   setLoading]   = useState(false);
-  const [error,     setError]     = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -60,13 +72,13 @@ export default function SfcLeadCaptureForm({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          first_name:   firstName.trim(),
-          last_name:    lastName.trim(),
-          email:        email.trim(),
-          phone:        phone.trim() || undefined,
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          email: email.trim(),
+          phone: phone.trim() || undefined,
           source,
           source_detail: sourceDetail,
-          service_type:  serviceType,
+          service_type: serviceType,
         }),
       });
 
@@ -92,8 +104,8 @@ export default function SfcLeadCaptureForm({
         <div className="text-3xl">✓</div>
         <h3 className="text-xl font-black">We got it!</h3>
         <p className="text-white/80 text-sm leading-relaxed">
-          Thanks, {firstName}. A member of our team will reach out to you at the contact
-          information you provided — typically within one business day.
+          Thanks, {firstName}. A member of our team will reach out to you at the contact information
+          you provided — typically within one business day.
         </p>
         <p className="text-white/60 text-xs">
           Tax season hours: Mon – Fri 9am – 7pm ET · Sat 10am – 4pm ET
@@ -109,7 +121,10 @@ export default function SfcLeadCaptureForm({
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="sfc-first-name" className="block text-sm font-semibold text-slate-700 mb-1.5">
+            <label
+              htmlFor="sfc-first-name"
+              className="block text-sm font-semibold text-slate-700 mb-1.5"
+            >
               First Name <span className="text-brand-red-600">*</span>
             </label>
             <input
@@ -124,7 +139,10 @@ export default function SfcLeadCaptureForm({
             />
           </div>
           <div>
-            <label htmlFor="sfc-last-name" className="block text-sm font-semibold text-slate-700 mb-1.5">
+            <label
+              htmlFor="sfc-last-name"
+              className="block text-sm font-semibold text-slate-700 mb-1.5"
+            >
               Last Name <span className="text-brand-red-600">*</span>
             </label>
             <input
@@ -188,8 +206,13 @@ export default function SfcLeadCaptureForm({
 
         <p className="text-xs text-slate-500 text-center leading-relaxed">
           By submitting this form you agree to our{' '}
-          <a href="/supersonic-fast-cash/legal/privacy" className="underline hover:text-brand-red-600">Privacy Policy</a>.
-          We never sell your information.
+          <a
+            href="/supersonic-fast-cash/legal/privacy"
+            className="underline hover:text-brand-red-600"
+          >
+            Privacy Policy
+          </a>
+          . We never sell your information.
         </p>
       </form>
     </div>

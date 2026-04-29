@@ -1,6 +1,3 @@
-// PUBLIC ROUTE: SupersonicCash application form
-
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -21,7 +18,12 @@ export async function POST(req: Request) {
     const rateLimited = await applyRateLimit(req, 'strict');
     if (rateLimited) return rateLimited;
 
-    await auditPiiAccess({ action: 'PII_ACCESS', entity: 'pii', req: request, metadata: { route: '/api/supersonic-cash/apply' } });
+    await auditPiiAccess({
+      action: 'PII_ACCESS',
+      entity: 'pii',
+      req: request,
+      metadata: { route: '/api/supersonic-cash/apply' },
+    });
 
     const supabase = await createClient();
     const applicationData = await req.json();
@@ -44,7 +46,7 @@ export async function POST(req: Request) {
         if (!applicationData.trainingStipend) {
           return NextResponse.json(
             { success: false, error: `Missing required field: ${field}` },
-            { status: 400 }
+            { status: 400 },
           );
         }
       }
@@ -63,7 +65,7 @@ export async function POST(req: Request) {
           success: false,
           error: `Based on your income, maximum advance is $${maxAdvance}`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -106,7 +108,7 @@ export async function POST(req: Request) {
         application_date: new Date().toISOString(),
       })
       .select()
-      .maybeSingle();
+      .single();
 
     if (dbError) throw dbError;
 
@@ -116,10 +118,7 @@ export async function POST(req: Request) {
     }
 
     // Auto-approve if meets criteria
-    const autoApprove = shouldAutoApprove(
-      totalIncome,
-      applicationData.requestedAmount
-    );
+    const autoApprove = shouldAutoApprove(totalIncome, applicationData.requestedAmount);
 
     if (autoApprove) {
       await supabase
@@ -144,14 +143,14 @@ export async function POST(req: Request) {
         ? 'Congratulations! Your application is approved. Funds will be deposited within 24 hours.'
         : "Your application is being reviewed. You'll hear from us within 1 hour.",
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Cash advance application error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { success: false, error: toErrorMessage(error) || 'Application failed' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -169,10 +168,7 @@ function calculateMaxAdvance(monthlyIncome: number): number {
   return 3500;
 }
 
-function shouldAutoApprove(
-  monthlyIncome: number,
-  requestedAmount: number
-): boolean {
+function shouldAutoApprove(monthlyIncome: number, requestedAmount: number): boolean {
   // Auto-approve if:
   // 1. Income is at least 3x the requested amount
   // 2. Requested amount is under $1,000
@@ -227,15 +223,13 @@ async function sendToEOSFinancial(data: any) {
 async function sendApprovalEmail(data: any) {
   // Send approval email via Resend
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: email,
-          subject: '✅ Your Supersonic Cash Advance is Approved!',
-          html: `
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: email,
+        subject: '✅ Your Supersonic Cash Advance is Approved!',
+        html: `
           <h1>Congratulations! You're Approved!</h1>
           <p>Your Supersonic Cash Advance application has been approved.</p>
           <h2>Loan Details:</h2>
@@ -248,9 +242,8 @@ async function sendApprovalEmail(data: any) {
           <p><strong>Funds will be deposited to your bank account within 24 hours.</strong></p>
           <p>Questions? Call us at (317) 314-3757</p>
         `,
-        }),
-      }
-    );
+      }),
+    });
   } catch (error) {
     logger.error('Email send error:', error);
   }

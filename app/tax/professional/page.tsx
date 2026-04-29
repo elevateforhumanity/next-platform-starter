@@ -10,21 +10,26 @@ export const metadata = {
 export default function ProfessionalTaxPage() {
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Tax", href: "/tax" }, { label: "Professional" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Tax', href: '/tax' }, { label: 'Professional' }]} />
       </div>
-{/* Hero */}
+      {/* Hero */}
       <section className="relative h-[400px] w-full overflow-hidden">
-        <Image src="/images/pathways/business-hero.jpg" alt="Professional Tax Services" width={800} height={600} className="absolute inset-0 w-full h-full object-cover" quality={85} loading="lazy" />
-        
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
+          src="/images/pathways/business-hero.jpg"
+          alt="Professional Tax Services"
+          width={800}
+          height={600}
+          className="absolute inset-0 w-full h-full object-cover"
+          quality={85}
+          loading="lazy"
+        />
+
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="max-w-4xl mx-auto px-6 text-center text-white">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Professional Tax Services
-            </h1>
-            <p className="text-xl">
-              Expert tax preparation for complex returns
-            </p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Professional Tax Services</h1>
+            <p className="text-xl">Expert tax preparation for complex returns</p>
           </div>
         </div>
       </section>
@@ -35,7 +40,8 @@ export default function ProfessionalTaxPage() {
           <div className="bg-white rounded-lg shadow-sm border p-8">
             <h2 className="text-2xl font-bold mb-6">Professional Tax Preparation</h2>
             <p className="text-black mb-6">
-              For returns that don't qualify for free VITA services, we offer professional tax preparation through Supersonic Fast Cash.
+              For returns that don't qualify for free VITA services, we offer professional tax
+              preparation through Supersonic Fast Cash.
             </p>
             <div className="bg-orange-50 rounded-lg p-6 border border-orange-200 mb-6">
               <h3 className="text-xl font-semibold mb-3">Services Include</h3>
