@@ -1,6 +1,4 @@
 'use client';
-import { sanitizeHtml } from '@/lib/sanitize';
-
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronRight, Home } from 'lucide-react';
@@ -51,7 +49,7 @@ export function Breadcrumbs() {
       {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: sanitizeHtml(JSON.stringify(structuredData)) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
       {/* Visual Breadcrumbs - pt accounts for fixed header */}

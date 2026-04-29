@@ -1,99 +1,74 @@
-import DOMPurify from 'isomorphic-dompurify';
+/**
+ * HTML sanitization utilities.
+ *
+ * Server: uses sanitize-html (htmlparser2-based, no jsdom dependency).
+ * Client: uses dompurify (browser-native DOM, no jsdom needed).
+ *
+ * isomorphic-dompurify was removed because it hard-depends on jsdom,
+ * which is a devDependency and crashes Netlify Lambda at runtime.
+ */
 
-// Secure HTML sanitization using DOMPurify
-// Works on both server and client (isomorphic)
-export function sanitizeHtml(dirty: string): string {
-  if (!dirty) return '';
+const ALLOWED_TAGS = [
+  'p', 'br', 'b', 'i', 'em', 'strong', 'u', 's', 'strike',
+  'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'ul', 'ol', 'li', 'dl', 'dt', 'dd',
+  'a', 'img', 'video', 'audio', 'source',
+  'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
+  'blockquote', 'pre', 'code', 'span', 'div',
+  'figure', 'figcaption', 'hr', 'sub', 'sup',
+];
 
+const ALLOWED_ATTR = [
+  'href', 'src', 'alt', 'title', 'class', 'id', 'target', 'rel',
+  'width', 'height', 'style', 'colspan', 'rowspan',
+  'controls', 'autoplay', 'loop', 'muted', 'poster', 'preload', 'type',
+];
+
+const FORBIDDEN_TAGS = ['script', 'iframe', 'object', 'embed', 'form', 'input', 'button'];
+
+function serverSanitize(dirty: string, opts?: { allowedTags?: string[]; allowedAttr?: string[] }): string {
+  // Dynamic require keeps this out of the client bundle.
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const sanitizeHtmlLib = require('sanitize-html') as typeof import('sanitize-html');
+  const tags = opts?.allowedTags ?? ALLOWED_TAGS;
+  const attrs = opts?.allowedAttr ?? ALLOWED_ATTR;
+  return sanitizeHtmlLib(dirty, {
+    allowedTags: tags,
+    allowedAttributes: Object.fromEntries(tags.map((t) => [t, attrs])),
+    disallowedTagsMode: 'discard',
+  });
+}
+
+function clientSanitize(dirty: string, opts?: { allowedTags?: string[]; allowedAttr?: string[] }): string {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const DOMPurify = require('dompurify') as typeof import('dompurify');
   return DOMPurify.sanitize(dirty, {
-    ALLOWED_TAGS: [
-      'p',
-      'br',
-      'b',
-      'i',
-      'em',
-      'strong',
-      'u',
-      's',
-      'strike',
-      'h1',
-      'h2',
-      'h3',
-      'h4',
-      'h5',
-      'h6',
-      'ul',
-      'ol',
-      'li',
-      'dl',
-      'dt',
-      'dd',
-      'a',
-      'img',
-      'video',
-      'audio',
-      'source',
-      'table',
-      'thead',
-      'tbody',
-      'tfoot',
-      'tr',
-      'th',
-      'td',
-      'blockquote',
-      'pre',
-      'code',
-      'span',
-      'div',
-      'figure',
-      'figcaption',
-      'hr',
-      'sub',
-      'sup',
-    ],
-    ALLOWED_ATTR: [
-      'href',
-      'src',
-      'alt',
-      'title',
-      'class',
-      'id',
-      'target',
-      'rel',
-      'width',
-      'height',
-      'style',
-      'colspan',
-      'rowspan',
-      'controls',
-      'autoplay',
-      'loop',
-      'muted',
-      'poster',
-      'preload',
-      'type',
-    ],
+    ALLOWED_TAGS: opts?.allowedTags ?? ALLOWED_TAGS,
+    ALLOWED_ATTR: opts?.allowedAttr ?? ALLOWED_ATTR,
     ALLOW_DATA_ATTR: false,
-    ADD_ATTR: ['target'],
-    ADD_TAGS: [],
-    FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form', 'input', 'button'],
+    FORBID_TAGS: FORBIDDEN_TAGS,
     FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover'],
   });
 }
 
-// Strict sanitization for user-generated content (comments, messages)
-export function sanitizeUserContent(dirty: string): string {
+function sanitize(dirty: string, opts?: { allowedTags?: string[]; allowedAttr?: string[] }): string {
   if (!dirty) return '';
+  if (typeof window === 'undefined') return serverSanitize(dirty, opts);
+  return clientSanitize(dirty, opts);
+}
 
-  return DOMPurify.sanitize(dirty, {
-    ALLOWED_TAGS: ['p', 'br', 'b', 'i', 'em', 'strong', 'a', 'ul', 'ol', 'li', 'code'],
-    ALLOWED_ATTR: ['href', 'target', 'rel'],
-    ALLOW_DATA_ATTR: false,
+export function sanitizeHtml(dirty: string): string {
+  return sanitize(dirty);
+}
+
+export function sanitizeUserContent(dirty: string): string {
+  return sanitize(dirty, {
+    allowedTags: ['p', 'br', 'b', 'i', 'em', 'strong', 'a', 'ul', 'ol', 'li', 'code'],
+    allowedAttr: ['href', 'target', 'rel'],
   });
 }
 
-// Plain text only - strips all HTML
 export function sanitizeToText(dirty: string): string {
   if (!dirty) return '';
-  return DOMPurify.sanitize(dirty, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
+  return dirty.replace(/<[^>]*>/g, '').trim();
 }

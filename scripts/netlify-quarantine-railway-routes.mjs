@@ -285,6 +285,16 @@ const ALLOWED_TOP_LEVEL = new Set([
   'student-support',
   'tax-self-prep',
   'client-portal',
+  // ── Store / demo / portal — public landing pages ──────────────────────────
+  'store',
+  'demo',
+  'demos',
+  'portals',
+  // ── New public pages ──────────────────────────────────────────────────────
+  'creator',
+  'partner-operating-model',
+  'wioa-participant',
+  'certification',
 ]);
 
 // Sub-paths inside allowed top-level dirs that must still be quarantined.

@@ -56,7 +56,6 @@ const nextConfig = {
     'puppeteer-core',
     'playwright',
     'chromium-bidi',
-    'jsdom',
     'typescript',
     'core-js',
     // Server-only packages — confirmed not used in any 'use client' component

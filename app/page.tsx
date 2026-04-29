@@ -41,6 +41,61 @@ export default function HomePage() {
         transcript={heroBanners.home.transcript}
       />
 
+      {/* ROLE-BASED ENTRY */}
+      <section className="bg-white border-b border-slate-100 py-10 px-6">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-center text-slate-500 text-sm font-semibold mb-6">Who are you?</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            {[
+              { label: "I'm looking for training", sub: 'Student Flow', href: '/apply/student', color: 'bg-brand-red-600 hover:bg-brand-red-700 text-white' },
+              { label: 'I receive SNAP / FSSA benefits', sub: 'FSSA Flow', href: '/fssa', color: 'bg-blue-700 hover:bg-blue-800 text-white' },
+              { label: "I'm a workforce case manager", sub: 'Agency Flow', href: '/for-agencies', color: 'bg-slate-800 hover:bg-slate-900 text-white' },
+              { label: 'I want to hire or host apprentices', sub: 'Employer Flow', href: '/for-employers', color: 'bg-green-700 hover:bg-green-800 text-white' },
+              { label: "I'm a training provider", sub: 'Partner Flow', href: '/training-providers', color: 'bg-purple-700 hover:bg-purple-800 text-white' },
+            ].map((r) => (
+              <Link key={r.href} href={r.href} className={`${r.color} rounded-xl px-4 py-4 flex flex-col gap-1 transition-colors text-center`}>
+                <span className="font-bold text-sm leading-snug">{r.label}</span>
+                <span className="text-xs opacity-75">{r.sub}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS — 6-step summary strip */}
+      <section className="bg-slate-900 border-t border-slate-800 py-12 px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest text-center mb-6">
+            How It Works
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            {[
+              { n: '1', label: 'Apply' },
+              { n: '2', label: 'Get Approved for Funding' },
+              { n: '3', label: 'Get Placed in a Program' },
+              { n: '4', label: 'Complete Training' },
+              { n: '5', label: 'Test & Get Certified' },
+              { n: '6', label: 'Get Placed into Employment' },
+            ].map((s) => (
+              <div key={s.n} className="flex flex-col items-center text-center gap-2">
+                <span className="w-9 h-9 rounded-full bg-brand-red-600 text-white text-sm font-extrabold flex items-center justify-center shrink-0">
+                  {s.n}
+                </span>
+                <p className="text-slate-300 text-xs font-semibold leading-snug">{s.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <Link
+              href="/how-it-works"
+              className="inline-block border border-white/30 text-white text-sm font-bold px-6 py-2.5 rounded-lg hover:bg-white/10 transition-colors"
+            >
+              View Full Process →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* PROGRAMS */}
       <section className="bg-white py-16 px-6">
         <div className="max-w-5xl mx-auto">
@@ -244,9 +299,9 @@ export default function HomePage() {
       {/* FINAL CTA */}
       <section className="bg-brand-red-700 py-16 px-6">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ready to start?</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Start Your Career Path Today</h2>
           <p className="text-red-100 text-sm mb-8">
-            Apply online, check your funding eligibility, or call us directly.
+            Apply once. Get connected to training, funding, certification, and employment.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
