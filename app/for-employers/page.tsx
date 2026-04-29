@@ -89,7 +89,7 @@ export default async function ForEmployersPage() {
           </p>
           <div className="flex flex-wrap gap-3 mt-5">
             <Link
-              href="/employer-portal"
+              href="/employers"
               className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-2.5 rounded-lg font-bold transition text-sm"
             >
               <Building2 className="w-4 h-4" /> Employer Portal
@@ -298,7 +298,7 @@ export default async function ForEmployersPage() {
             {[
               {
                 title: 'Employer Portal',
-                href: '/employer-portal',
+                href: '/employers',
                 description: 'Manage jobs, review candidates, track hires',
                 icon: Building2,
               },
@@ -367,7 +367,7 @@ export default async function ForEmployersPage() {
               Apply Now
             </Link>
             <Link
-              href="/employer-portal"
+              href="/employers"
               className="inline-flex items-center justify-center gap-2 bg-white text-brand-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-white transition text-lg"
             >
               <Building2 className="w-5 h-5" />
