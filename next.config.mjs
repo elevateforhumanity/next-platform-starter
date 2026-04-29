@@ -793,37 +793,37 @@ const nextConfig = {
       { source: '/careers', destination: '/contact', permanent: false },
       { source: '/donate', destination: '/contact', permanent: false },
       { source: '/philanthropy', destination: '/contact', permanent: false },
-      { source: '/tuition-fees', destination: '/tuition', permanent: true },
+      // /tuition-fees → /tuition handled in netlify.toml (301, force)
       { source: '/faq', destination: '/support', permanent: true },
       { source: '/how-it-works', destination: '/about', permanent: false },
       { source: '/mission', destination: '/about', permanent: false },
       { source: '/impact', destination: '/about', permanent: false },
       { source: '/site-map', destination: '/programs', permanent: false },
       { source: '/security-and-data-protection', destination: '/privacy-policy', permanent: false },
-      { source: '/consumer-education', destination: '/resources', permanent: false },
+      // /consumer-education → /resources handled in netlify.toml (301, force)
       { source: '/equal-opportunity', destination: '/about', permanent: false },
       { source: '/federal-compliance', destination: '/disclosures', permanent: false },
       { source: '/grievance', destination: '/contact', permanent: false },
       { source: '/satisfactory-academic-progress', destination: '/disclosures', permanent: false },
       { source: '/policies/:path*', destination: '/disclosures', permanent: false },
       { source: '/hire-graduates', destination: '/employers', permanent: true },
-      { source: '/apprenticeship-sponsor', destination: '/partners', permanent: false },
+      // /apprenticeship-sponsor → /partners/training-provider handled in netlify.toml (301, force)
       { source: '/events', destination: '/contact', permanent: false },
       { source: '/schedule', destination: '/contact', permanent: false },
       { source: '/orientation/schedule', destination: '/contact', permanent: false },
       { source: '/onboarding/learner', destination: '/login', permanent: false },
       { source: '/onboarding/:path*', destination: '/login', permanent: false },
       { source: '/funding/dol', destination: '/funding', permanent: false },
-      { source: '/funding/federal-programs', destination: '/funding', permanent: false },
+      // /funding/federal-programs → /funding handled in netlify.toml (301, force)
       { source: '/funding/jri', destination: '/funding', permanent: false },
-      { source: '/funding/state-programs', destination: '/funding', permanent: false },
-      { source: '/funding/wrg', destination: '/funding', permanent: false },
+      // /funding/state-programs → /funding handled in netlify.toml (301, force)
+      // /funding/wrg → /funding handled in netlify.toml (301, force)
       { source: '/jri', destination: '/funding', permanent: false },
-      { source: '/partners/jri', destination: '/partners', permanent: false },
-      { source: '/partners/reentry', destination: '/partners', permanent: false },
+      // /partners/jri → /partners handled in netlify.toml (301, force)
+      // /partners/reentry → /partners handled in netlify.toml (301, force)
       { source: '/partners/sales', destination: '/partners', permanent: false },
       { source: '/partners/technology', destination: '/partners', permanent: false },
-      { source: '/partners/workforce', destination: '/partners', permanent: false },
+      // /partners/workforce → /partners handled in netlify.toml (301, force)
       { source: '/fssa-partnership-request', destination: '/contact', permanent: false },
       { source: '/pay', destination: '/apply', permanent: false },
       { source: '/enroll', destination: '/apply', permanent: false },
@@ -836,7 +836,7 @@ const nextConfig = {
       { source: '/supersonic-fast-cash/:path*', destination: '/supersonic', permanent: true },
       { source: '/compliance/:path*', destination: '/disclosures', permanent: false },
       { source: '/docs/:path*', destination: '/resources', permanent: false },
-      { source: '/workone-partner-packet', destination: '/partners', permanent: false },
+      // /workone-partner-packet → /snap-et-partner handled in netlify.toml (301, force)
       // Railway portal redirects — handled by Netlify edge (netlify.toml) for:
       //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
       //   /instructor/:path*, /staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
@@ -951,7 +951,7 @@ const nextConfig = {
       },
 
       // Duplicate student forms → canonical /apply/student
-      { source: '/apply/quick', destination: '/apply/student', permanent: true },
+      // /apply/quick → /apply handled in netlify.toml (301, force)
       { source: '/apply/full', destination: '/apply/student', permanent: true },
 
       // Duplicate status pages → canonical /apply/track
