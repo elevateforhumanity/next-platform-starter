@@ -396,7 +396,7 @@ const nextConfig = {
       { source: '/programs/business-financial', destination: '/programs/bookkeeping', permanent: true },
       { source: '/programs/finance-bookkeeping-accounting', destination: '/programs/bookkeeping', permanent: true },
       // cpr-first-aid HAS its own page — no redirect needed (removed incorrect redirect)
-      { source: '/programs/cpr-first-aid-hsi', destination: '/programs/cpr-first-aid', permanent: true },
+      // cpr-first-aid-hsi redirect lives in netlify.toml — do not duplicate here
       // direct-support-professional HAS its own page — no redirect needed
       // drug-collector HAS its own page — no redirect needed
       // esthetician-apprenticeship HAS its own page — no redirect needed
