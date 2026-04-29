@@ -31,13 +31,15 @@ import {
   Smartphone,
   Play,
   X,
+  Box,
 } from 'lucide-react';
 
 const XTerminal = dynamic(() => import('@/components/dev-studio/XTerminal'), { ssr: false });
+const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type Tab = 'command' | 'terminal' | 'files' | 'website';
+type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container';
 
 interface FileNode {
   name: string;
@@ -86,6 +88,7 @@ export default function DevStudioClient() {
             { id: 'terminal', label: 'Terminal', Icon: Terminal },
             { id: 'files', label: 'Files', Icon: FolderOpen },
             { id: 'website', label: 'Website', Icon: Globe },
+            { id: 'container', label: 'Container', Icon: Box },
           ] as { id: Tab; label: string; Icon: React.ElementType }[]
         ).map(({ id, label, Icon }) => (
           <button
@@ -110,6 +113,7 @@ export default function DevStudioClient() {
         {tab === 'terminal' && <TerminalTab />}
         {tab === 'files' && <FilesTab />}
         {tab === 'website' && <WebsiteTab />}
+        {tab === 'container' && <DevContainerPanel />}
       </div>
     </div>
   );

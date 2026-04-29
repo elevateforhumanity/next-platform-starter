@@ -7,8 +7,12 @@ interface DevContainerConfig {
   name?: string;
   image?: string;
   forwardPorts?: number[];
+  portsAttributes?: Record<string, { label?: string; onAutoForward?: string }>;
   features?: Record<string, unknown>;
+  onCreateCommand?: string;
   postCreateCommand?: string;
+  postStartCommand?: string;
+  remoteEnv?: Record<string, string>;
   customizations?: {
     vscode?: {
       extensions?: string[];
@@ -212,12 +216,58 @@ export default function DevContainerPanel() {
               </Section>
             )}
 
-            {/* Post-create command */}
+            {/* Lifecycle commands — the platform's central processing hooks */}
+            {parsed.onCreateCommand && (
+              <Section title="On Create (runs once on first build)">
+                <code className="block bg-slate-800 px-3 py-2 rounded text-xs text-green-300 font-mono whitespace-pre-wrap break-all">
+                  {parsed.onCreateCommand}
+                </code>
+              </Section>
+            )}
             {parsed.postCreateCommand && (
-              <Section title="Post-Create Command">
-                <code className="block bg-slate-800 px-3 py-2 rounded text-xs text-green-300 font-mono whitespace-pre-wrap">
+              <Section title="Post Create (runs after image build)">
+                <code className="block bg-slate-800 px-3 py-2 rounded text-xs text-green-300 font-mono whitespace-pre-wrap break-all">
                   {parsed.postCreateCommand}
                 </code>
+              </Section>
+            )}
+            {parsed.postStartCommand && (
+              <Section title="Post Start (runs on every container start)">
+                <code className="block bg-slate-800 px-3 py-2 rounded text-xs text-yellow-300 font-mono whitespace-pre-wrap break-all">
+                  {parsed.postStartCommand}
+                </code>
+              </Section>
+            )}
+
+            {/* Remote env */}
+            {parsed.remoteEnv && Object.keys(parsed.remoteEnv).length > 0 && (
+              <Section title="Remote Environment Variables">
+                <div className="space-y-1">
+                  {Object.entries(parsed.remoteEnv).map(([k, v]) => (
+                    <div key={k} className="flex items-start gap-2 font-mono text-xs bg-slate-800 px-3 py-1.5 rounded">
+                      <span className="text-blue-300 flex-shrink-0">{k}</span>
+                      <span className="text-slate-500">=</span>
+                      <span className="text-slate-300 break-all">{v}</span>
+                    </div>
+                  ))}
+                </div>
+              </Section>
+            )}
+
+            {/* Port attributes */}
+            {parsed.portsAttributes && Object.keys(parsed.portsAttributes).length > 0 && (
+              <Section title="Port Configuration">
+                <div className="space-y-1">
+                  {Object.entries(parsed.portsAttributes).map(([port, cfg]) => (
+                    <div key={port} className="flex items-center gap-3 text-xs bg-slate-800 px-3 py-1.5 rounded">
+                      <span className="font-mono text-blue-300">:{port}</span>
+                      <span className="text-slate-300">{cfg.label}</span>
+                      {cfg.onAutoForward && (
+                        <span className="text-slate-500 ml-auto">{cfg.onAutoForward}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </Section>
             )}
 
