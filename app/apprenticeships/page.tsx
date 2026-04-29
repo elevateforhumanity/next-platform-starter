@@ -17,7 +17,7 @@ const tracks = [
   { title: 'Barbering', href: '/programs/barber-apprenticeship', desc: 'DOL-registered apprenticeship. Earn while you complete your hours toward licensure.', img: '/images/pages/barber-apprenticeship-hero.jpg' },
   { title: 'Cosmetology', href: '/programs/cosmetology-apprenticeship', desc: 'Complete your cosmetology hours through a structured earn-while-you-learn program.', img: '/images/pages/cosmetology-apprenticeship-hero.jpg' },
   { title: 'Culinary Arts', href: '/programs/culinary-apprenticeship', desc: 'Hands-on culinary training with employer partners in the food service industry.', img: '/images/pages/culinary-apprenticeship-hero.jpg' },
-  { title: 'Skilled Trades', href: '/programs/skilled-trades', desc: 'Apprenticeship pathways in electrical, plumbing, HVAC, and construction trades.', img: '/images/pages/skilled-trades-hero.jpg' },
+  { title: 'Skilled Trades', href: '/programs/skilled-trades', desc: 'Apprenticeship pathways in electrical, plumbing, and construction trades.', img: '/images/pages/skilled-trades-hero.jpg' },
 ];
 
 const employerBenefits = [
