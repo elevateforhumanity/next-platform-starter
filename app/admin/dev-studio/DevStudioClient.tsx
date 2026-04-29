@@ -5,9 +5,11 @@
  *
  * Tabs:
  *   Command   — plain-English commands via /api/devstudio/execute (AI-mapped)
+ *   AI Chat   — conversational AI with file context via /api/devstudio/chat
  *   Terminal  — raw shell via /api/devstudio/shell (streamed SSE)
  *   Files     — read/write repo files via /api/devstudio/files
  *   Website   — live iframe preview of the production site with edit shortcuts
+ *   Container — devcontainer.json viewer/editor
  *
  * Everything runs inside the dev container — no Gitpod dependency.
  */
@@ -33,14 +35,16 @@ import {
   Play,
   X,
   Box,
+  MessageSquare,
 } from 'lucide-react';
 
 const XTerminal = dynamic(() => import('@/components/dev-studio/XTerminal'), { ssr: false });
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
+const AIChat = dynamic(() => import('@/components/dev-studio/AIChat'), { ssr: false });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container';
+type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container' | 'chat';
 
 interface FileNode {
   name: string;
@@ -79,7 +83,7 @@ const QUICK_SHELL = [
 export default function DevStudioClient() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get('tab') as Tab | null);
-  const validTabs: Tab[] = ['command', 'terminal', 'files', 'website', 'container'];
+  const validTabs: Tab[] = ['command', 'terminal', 'files', 'website', 'container', 'chat'];
   const [tab, setTab] = useState<Tab>(
     initialTab && validTabs.includes(initialTab) ? initialTab : 'command'
   );
@@ -91,6 +95,7 @@ export default function DevStudioClient() {
         {(
           [
             { id: 'command', label: 'Command', Icon: Sparkles },
+            { id: 'chat', label: 'AI Chat', Icon: MessageSquare },
             { id: 'terminal', label: 'Terminal', Icon: Terminal },
             { id: 'files', label: 'Files', Icon: FolderOpen },
             { id: 'website', label: 'Website', Icon: Globe },
@@ -116,6 +121,7 @@ export default function DevStudioClient() {
       {/* Tab content */}
       <div className="flex-1 overflow-hidden">
         {tab === 'command' && <CommandTab />}
+        {tab === 'chat' && <AIChat />}
         {tab === 'terminal' && <TerminalTab />}
         {tab === 'files' && <FilesTab />}
         {tab === 'website' && <WebsiteTab />}
