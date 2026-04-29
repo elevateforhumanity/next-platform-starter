@@ -70,7 +70,8 @@
       "Audit-ready reporting"
     ],
     "transcript": "This platform connects providers, credential pathways, employers, and workforce agencies through one coordinated infrastructure. The goal is simple: verified training, cleaner operations, and better outcomes.",
-    "analyticsName": "platform"
+    "analyticsName": "platform",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4"
   },
   "funding-how-it-works": {
     "pageKey": "funding-how-it-works",
@@ -2357,7 +2358,8 @@
       "Employer site training"
     ],
     "transcript": "Elevate offers training in Indianapolis and across Indiana — in-person, hybrid, and fully online. Find the format that works for you.",
-    "analyticsName": "locations"
+    "analyticsName": "locations",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4"
   },
   "start": {
     "pageKey": "start",
