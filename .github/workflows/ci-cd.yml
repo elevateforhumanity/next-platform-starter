@@ -166,7 +166,7 @@ jobs:
 
           # Pass files via xargs to avoid argv length limits (exit code 249 was caused by
           # a huge space-delimited argument list exceeding the OS exec limit)
-          echo "$EXISTING_FILES" | xargs npx eslint --max-warnings=0 --no-error-on-unmatched-pattern
+          echo "$EXISTING_FILES" | xargs npx eslint --max-warnings=0 --no-error-on-unmatched-pattern --no-warn-ignored
 
   # Deployment verification (runs after successful merge to main)
   post-deployment-check:
