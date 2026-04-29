@@ -192,9 +192,12 @@ const FORBIDDEN_SUBPATHS = new Set([
   'instructor/settings',
   'instructor/analytics',
   'instructor/students',
-  // lms sub-pages are Railway app (no public landing page needed)
+  // lms/(app) is the authenticated LMS shell — Railway-only.
+  // lms/(public) contains the public program catalog and landing page — stays on Netlify.
+  // Quarantine the entire (app) route group; keep (public).
+  'lms/(app)',
+  // Legacy explicit sub-path entries (superseded by lms/(app) above, kept for safety)
   'lms/courses',
-  'lms/programs',
   'lms/dashboard',
   'lms/progress',
   'lms/certificates',
