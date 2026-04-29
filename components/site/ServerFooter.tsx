@@ -164,6 +164,15 @@ export default function ServerFooter() {
           </p>
         </div>
 
+        {/* Operational disclosure */}
+        <div className="border-t border-slate-800 pt-6 pb-4">
+          <p className="text-slate-500 text-xs text-center max-w-3xl mx-auto leading-relaxed">
+            Elevate for Humanity operates as a workforce development system coordinating training,
+            funding, testing, and employment pathways. Program delivery may be conducted directly
+            by Elevate or through approved training providers depending on the program.
+          </p>
+        </div>
+
         {/* Bottom Bar: Legal Links + Copyright */}
         <div className="border-t border-slate-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">

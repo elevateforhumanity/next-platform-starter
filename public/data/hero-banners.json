@@ -6,8 +6,8 @@
     "posterImage": "/images/pages/comp-home-hero.jpg",
     "voiceoverSrc": "/audio/heroes/home.mp3",
     "microLabel": "Indianapolis, Indiana",
-    "belowHeroHeadline": "The workforce operating system for Indiana.",
-    "belowHeroSubheadline": "Training, credentialing, compliance tracking, and employer placement \u2014 built for workforce agencies, employers, and the people they serve.",
+    "belowHeroHeadline": "Workforce Training. Apprenticeships. Funding. Placement. All in One System.",
+    "belowHeroSubheadline": "Elevate for Humanity connects individuals to training, funding, certification, and employment \u2014 often at no cost through WIOA or state funding.",
     "primaryCta": {
       "label": "Check Eligibility",
       "href": "/check-eligibility"
