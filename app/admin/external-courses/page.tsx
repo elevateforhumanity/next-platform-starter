@@ -20,7 +20,7 @@ export default async function ExternalCoursesAdminPage() {
 
   const db = await requireAdminClient();
 
-  const { data: items } = await supabase
+  const { data: items } = await db
     .from('program_external_courses')
     .select(
       `
@@ -50,7 +50,10 @@ export default async function ExternalCoursesAdminPage() {
         </p>
       </div>
 
-      <ExternalCourseStripeTable items={items ?? []} />
+      <ExternalCourseStripeTable items={(items ?? []).map((item: any) => ({
+        ...item,
+        programs: Array.isArray(item.programs) ? (item.programs[0] ?? null) : item.programs,
+      }))} />
     </div>
   );
 }

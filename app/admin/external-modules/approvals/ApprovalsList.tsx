@@ -5,7 +5,8 @@ import React from 'react';
 // app/admin/external-modules/approvals/ApprovalsList.tsx
 // Client component for managing external module approvals
 
-import { supabase } from '@/lib/supabase/client';
+import { createBrowserClient } from '@/lib/supabase/client';
+const supabase = createBrowserClient();
 import { useState } from 'react';
 
 type Submission = {

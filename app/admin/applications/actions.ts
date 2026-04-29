@@ -34,7 +34,7 @@ export async function approveApplication(id: string): Promise<void> {
   const result = await runApprovalPipeline(db, { applicationId: id });
 
   if (!result.success) {
-    logger.error('[admin/applications/actions] approveApplication failed', {
+    logger.error('[admin/applications/actions] approveApplication failed', undefined, {
       id,
       reason: result.error,
     });
@@ -83,7 +83,7 @@ export async function rejectApplication(id: string): Promise<void> {
     .eq('id', id);
 
   if (error) {
-    logger.error('[admin/applications/actions] rejectApplication failed', { id });
+    logger.error('[admin/applications/actions] rejectApplication failed', undefined, { id });
     throw new Error('Failed to reject application');
   }
 
