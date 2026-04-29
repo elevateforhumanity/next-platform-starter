@@ -132,6 +132,14 @@ const railwayConfig = {
     if (!isServer) {
       config.resolve.fallback = { ...config.resolve.fallback, fs: false, net: false, tls: false };
     }
+    // edge-tts ships raw TypeScript (index.ts) as its entry point.
+    // serverExternalPackages alone is not enough in Next.js 15.x — webpack
+    // still attempts to parse the module before externalizing it.
+    // Adding an explicit external prevents webpack from resolving the file.
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push('edge-tts');
+    }
     config.parallelism = 1;
     return config;
   },
