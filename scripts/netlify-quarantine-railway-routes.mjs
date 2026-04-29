@@ -446,6 +446,8 @@ const FORBIDDEN_SUBPATHS = new Set([
   // or the script will try to move them after the parent is already gone.
   'partners/barbershop-apprenticeship/(onboarding)',
   'partners/cosmetology-apprenticeship/(onboarding)',
+  'partners/esthetician-apprenticeship',
+  'partners/nail-technician-apprenticeship',
   'partners/create-program',
   'partners/jri',
   'partners/mou',
