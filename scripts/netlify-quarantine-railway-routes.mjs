@@ -521,8 +521,7 @@ const FORBIDDEN_SEGMENTS = new Set([
   'ai-chat',
   'ai-studio',
   'ai-tutor',
-  'supersonic',
-  'tax',
+
   'pwa',
   // Auth/app flows — belong to Railway runtime, not Netlify static build
   'reset-password',

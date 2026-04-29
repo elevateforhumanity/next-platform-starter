@@ -23,8 +23,6 @@ const FOOTER_LINKS = [
   { name: 'All Programs', href: '/programs' },
 
   // Services
-  { name: 'Tax Services', href: '/tax' },
-  { name: 'SupersonicFastCash', href: '/supersonic-fast-cash' },
   { name: 'Rise Foundation', href: '/rise-foundation' },
   { name: 'Career Services', href: '/career-services' },
   { name: 'AI Studio', href: '/ai-studio' },

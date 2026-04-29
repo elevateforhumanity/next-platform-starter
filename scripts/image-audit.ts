@@ -50,7 +50,6 @@ const PAGES_TO_AUDIT = [
   '/partner-portal',
   '/staff-portal',
   '/instructor',
-  '/supersonic-fast-cash',
   '/employers',
   '/training-providers',
 ];

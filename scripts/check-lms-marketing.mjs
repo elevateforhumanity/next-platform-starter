@@ -45,7 +45,7 @@ const marketingPages = [
   { path: 'app/apply/page.tsx', name: 'Apply' },
   { path: 'app/contact/page.tsx', name: 'Contact' },
   { path: 'app/vita/page.tsx', name: 'VITA (Free Tax)' },
-  { path: 'app/tax/supersonicfastcash/page.tsx', name: 'SupersonicFastCash' },
+
 ];
 
 let marketingComplete = 0;

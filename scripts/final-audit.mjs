@@ -59,7 +59,7 @@ const criticalPages = [
     priority: 'HIGH',
   },
   { path: 'app/vita/page.tsx', name: 'VITA (Free Tax)', priority: 'HIGH' },
-  { path: 'app/tax/supersonicfastcash/page.tsx', name: 'SupersonicFastCash', priority: 'HIGH' },
+
 ];
 
 let allPassed = true;

@@ -77,8 +77,6 @@ const RAW_VIDEO_ALLOWLIST = new Set([
   'app/courses/[courseId]/learn/VideoSection.tsx',
   'app/videos/[videoId]/page.tsx',
   // Controlled players with explicit controls attribute
-  'app/tax/rise-up-foundation/page.tsx',
-  'app/supersonic-fast-cash/page.tsx',
   'app/program-holder/training/page.tsx',
   'app/courses/catalog/page.tsx',
   // AI narrator — user-initiated, has controls

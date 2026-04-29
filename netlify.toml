@@ -883,30 +883,6 @@
   status = 301
   force = true
 
-# Supersonic / tax — Railway
-[[redirects]]
-  from = "/supersonic"
-  to = ":RAILWAY_URL/supersonic"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/supersonic/*"
-  to = ":RAILWAY_URL/supersonic/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/tax"
-  to = ":RAILWAY_URL/tax"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/tax/*"
-  to = ":RAILWAY_URL/tax/:splat"
-  status = 301
-  force = true
 
 # BOT / SCANNER TRAP — die at the edge, never reach SSR
 [[redirects]]

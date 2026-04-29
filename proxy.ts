@@ -17,9 +17,6 @@ const LEARN_SUBDOMAIN = 'learn.elevateforhumanity.org';
 // When unset, all routes are handled locally (dev + fallback).
 const RAILWAY_LMS_URL = process.env.RAILWAY_LMS_URL ?? '';
 
-// Supersonic Fast Cash domain - routes to /supersonic-fast-cash paths
-const SUPERSONIC_DOMAIN = 'supersonicfastermoney.com';
-
 // Platform licensing subdomain - routes to /platform/licensing paths
 const PLATFORM_SUBDOMAIN = 'platform.elevateforhumanity.org';
 
@@ -133,8 +130,6 @@ const AUTH_REQUIRED_ROUTES = [
   '/franchise',
   '/program-holder',
   '/tax-self-prep',
-  '/supersonic-fast-cash/portal',
-  '/supersonic-fast-cash/diy-taxes',
 ];
 
 // Routes that require onboarding completion
@@ -278,9 +273,6 @@ export async function proxy(request: NextRequest) {
       '/api/tax/',
       '/api/franchise/',
       '/api/wotc/',
-      '/api/supersonic-fast-cash/save-tax-return',
-      '/api/supersonic-fast-cash/file-return',
-      '/api/supersonic-fast-cash/clients',
       '/api/apprentice/documents',
       '/api/onboarding/',
       '/api/compliance/',
@@ -292,8 +284,6 @@ export async function proxy(request: NextRequest) {
       '/api/intake',
       '/api/webhooks',
       '/api/stripe/webhook',
-      '/api/supersonic-fast-cash/jotform-webhook',
-      '/api/supersonic-fast-cash/refund-tracking',
       '/api/ai-tutor/public',
       '/api/auth',
       '/api/cron',
@@ -458,32 +448,6 @@ export async function proxy(request: NextRequest) {
       return NextResponse.rewrite(new URL('/connects', request.url));
     }
     return nextWithPathname();
-  }
-
-  // Supersonic Fast Cash domain routing (supersonicfastermoney.com -> /supersonic-fast-cash)
-  if (host.includes(SUPERSONIC_DOMAIN)) {
-    // Skip for static files and API routes
-    if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.includes('.')) {
-      return nextWithPathname();
-    }
-
-    // Root of Supersonic domain -> supersonic-fast-cash homepage
-    if (pathname === '/') {
-      return NextResponse.rewrite(new URL('/supersonic-fast-cash', request.url));
-    }
-
-    // Already on /supersonic-fast-cash path, allow through
-    if (pathname.startsWith('/supersonic-fast-cash')) {
-      return nextWithPathname();
-    }
-
-    // Login/auth pages - allow through
-    if (pathname === '/login' || pathname === '/signup' || pathname === '/unauthorized') {
-      return nextWithPathname();
-    }
-
-    // Rewrite all other paths to /supersonic-fast-cash/*
-    return NextResponse.rewrite(new URL(`/supersonic-fast-cash${pathname}`, request.url));
   }
 
   // Platform subdomain routing (platform.elevateforhumanity.org -> /platform/licensing)

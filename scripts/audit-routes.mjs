@@ -38,10 +38,8 @@ const NAV = [
   { group: 'Employers', label: 'For Employers', href: '/employers' },
   { group: 'Employers', label: 'Partner With Us', href: '/partner-with-us' },
 
-  // Tax Services
-  { group: 'Tax', label: 'Tax Services', href: '/tax' },
+  // Tax Services — SFC pages moved to next-platform-starter repo
   { group: 'Tax', label: 'Rise Up Foundation (Free)', href: '/vita' },
-  { group: 'Tax', label: 'SupersonicFastCash (Paid)', href: '/tax/supersonicfastcash' },
 
   // About
   { group: 'About', label: 'About Us', href: '/about' },
