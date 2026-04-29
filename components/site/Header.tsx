@@ -25,27 +25,6 @@ import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 // extend navigation_items with: section, is_header, display_order (int), parent_id.
 export const NAV_ITEMS = [
   {
-    id: 'program-holder',
-    name: 'Program Holder',
-    href: '/program-holder/dashboard',
-    subItems: [
-      { name: '— Portal —', href: '/program-holder/dashboard', isHeader: true },
-      { name: 'Dashboard', href: '/program-holder/dashboard' },
-      { name: 'My Programs', href: '/program-holder/programs' },
-      { name: 'Students', href: '/program-holder/students' },
-      { name: 'Documents', href: '/program-holder/documents' },
-      { name: 'Reports', href: '/program-holder/reports' },
-      { name: 'Compliance', href: '/program-holder/compliance' },
-      { name: 'Payroll', href: '/program-holder/payroll' },
-      { name: 'Sign MOU', href: '/program-holder/sign-mou' },
-      { name: '— Resources —', href: '/program-holder/handbook', isHeader: true },
-      { name: 'Handbook', href: '/program-holder/handbook' },
-      { name: 'Rights & Responsibilities', href: '/program-holder/rights-responsibilities' },
-      { name: 'How to Use Portal', href: '/program-holder/how-to-use' },
-      { name: 'Support', href: '/program-holder/support' },
-    ],
-  },
-  {
     id: 'programs',
     name: 'Programs',
     href: '/programs',
