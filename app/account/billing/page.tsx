@@ -59,7 +59,7 @@ export default function BillingPage() {
       if (profile) {
         setLicense({
           status: (profile.subscription_status as LicenseStatus) || 'trial',
-          planId: (profile.subscription_plan as PlanId) || 'starter_annual',
+          planId: (profile.subscription_plan as PlanId) || 'core',
           trialEndsAt: profile.trial_ends_at ? new Date(profile.trial_ends_at) : null,
           currentPeriodEnd: profile.current_period_end
             ? new Date(profile.current_period_end)

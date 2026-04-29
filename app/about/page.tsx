@@ -40,7 +40,14 @@ export default async function AboutPage() {
 
   // Merge: DB rows take priority; fall back to data/team.ts shape for rendering
   const teamForDisplay = dbTeam.length > 0
-    ? dbTeam.map((m) => ({ id: m.name, name: m.name, title: m.title, headshotSrc: m.headshot_url ?? undefined }))
+    ? dbTeam.map((m) => ({
+        id: m.name,
+        name: m.name,
+        title: m.title,
+        headshotSrc: m.headshot_url ?? undefined,
+        bio: (m as any).bio ?? '',
+        email: (m as any).email ?? '',
+      }))
     : TEAM;
 
   const founder = teamForDisplay[0];

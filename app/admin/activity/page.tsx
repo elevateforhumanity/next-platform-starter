@@ -1,3 +1,4 @@
+import type React from 'react';
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
@@ -159,7 +160,7 @@ export default async function ActivityPage() {
           ) : (
             logs.map((log: any) => {
               const cat = eventCategory(log.action, log.resource_type);
-              const Icon = EVENT_ICON[cat] ?? Activity;
+              const Icon = (EVENT_ICON[cat] ?? Activity) as React.ElementType<{ className?: string }>;
               const actor = log.actor_email ?? actorMap[log.actor_id]?.email ?? log.actor_id ?? 'System';
               const actorName = actorMap[log.actor_id]?.full_name ?? actor;
               return (

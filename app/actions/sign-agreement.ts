@@ -118,8 +118,8 @@ export async function signAgreement(
     return { error: 'Failed to record signature' };
   }
 
-  // Audit log — non-fatal
-  supabase
+  // Audit log — non-fatal, fire-and-forget
+  void supabase
     .from('audit_logs')
     .insert({
       user_id: user.id,
@@ -133,7 +133,7 @@ export async function signAgreement(
         timestamp,
       },
     })
-    .catch(() => {});
+    .then(() => {}, () => {});
 
   return { success: true };
 }

@@ -28,7 +28,7 @@ export default function HomeHeroVideo() {
   // Autoplay silent video
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video) return undefined;
     const play = async () => {
       try {
         await video.play();
@@ -59,7 +59,7 @@ export default function HomeHeroVideo() {
   // Trigger voiceover when user scrolls past the hero section
   useEffect(() => {
     const el = containerRef.current;
-    if (!el) return;
+    if (!el) return undefined;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting && !hasPlayedRef.current) {

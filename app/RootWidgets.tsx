@@ -33,6 +33,7 @@ export default function RootWidgets() {
   useEffect(() => {
     if ('requestIdleCallback' in window) {
       (window as any).requestIdleCallback(() => setIdle(true), { timeout: 4000 });
+      return undefined;
     } else {
       const t = setTimeout(() => setIdle(true), 3000);
       return () => clearTimeout(t);
