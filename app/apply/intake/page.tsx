@@ -237,15 +237,32 @@ function IntakeForm() {
                     defaultValue={initialProgram || 'barbering'}
                     className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
                   >
-                    <option value="barbering">Barber Apprenticeship</option>
-                    <option value="cna">CNA Certification</option>
-                    <option value="cdl">CDL Training</option>
+                    <option value="barber-apprenticeship">Barber Apprenticeship</option>
+                    <option value="cna">Certified Nursing Assistant (CNA)</option>
+                    <option value="cdl-training">CDL Class A Training</option>
                     <option value="medical-assistant">Medical Assistant</option>
-                    <option value="phlebotomy">Phlebotomy</option>
-                    <option value="hvac">HVAC Technician</option>
-                    <option value="welding">Welding</option>
-                    <option value="electrical">Electrical</option>
-                    <option value="technology">Technology / IT</option>
+                    <option value="phlebotomy">Phlebotomy Technician</option>
+                    <option value="pharmacy-technician">Pharmacy Technician</option>
+                    <option value="home-health-aide">Home Health Aide Certification</option>
+                    <option value="peer-recovery-specialist">Peer Recovery Specialist</option>
+                    <option value="cpr-first-aid">CPR &amp; First Aid Certification</option>
+                    <option value="hvac-technician">HVAC Technician</option>
+                    <option value="welding">Welding Technology</option>
+                    <option value="electrical">Electrical Technician</option>
+                    <option value="plumbing">Plumbing Technician</option>
+                    <option value="forklift">Forklift Operator Certification</option>
+                    <option value="it-help-desk">IT Help Desk Technician</option>
+                    <option value="cybersecurity-analyst">Cybersecurity Analyst</option>
+                    <option value="network-administration">Network Administration</option>
+                    <option value="software-development">Software Development Foundations</option>
+                    <option value="web-development">Web Development</option>
+                    <option value="project-management">Project Management</option>
+                    <option value="office-administration">Office Administration</option>
+                    <option value="bookkeeping">Bookkeeping &amp; QuickBooks</option>
+                    <option value="tax-preparation">Tax Preparation</option>
+                    <option value="entrepreneurship">Entrepreneurship &amp; Small Business</option>
+                    <option value="cosmetology-apprenticeship">Cosmetology Apprenticeship</option>
+                    <option value="esthetician">Professional Esthetician &amp; Client Services</option>
                     <option value="other">Other</option>
                   </select>
                 </div>

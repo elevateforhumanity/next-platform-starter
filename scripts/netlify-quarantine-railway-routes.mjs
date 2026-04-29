@@ -358,7 +358,9 @@ async function moveEntry(src, dest) {
   try {
     await rename(src, dest);
   } catch (e) {
-    if (e.code === 'EXDEV') {
+    // EXDEV: cross-device rename (different filesystems)
+    // ENOTEMPTY: destination already exists from a previous quarantine run
+    if (e.code === 'EXDEV' || e.code === 'ENOTEMPTY') {
       await cp(src, dest, { recursive: true });
       await rm(src, { recursive: true, force: true });
     } else throw e;

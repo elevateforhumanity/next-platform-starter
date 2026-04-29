@@ -52,7 +52,7 @@ export const NAV_ITEMS = [
     subItems: [
       { name: '— Healthcare —', href: '/programs/healthcare', isHeader: true },
       {
-        name: 'CNA / Nursing Assistant',
+        name: 'Certified Nursing Assistant (CNA)',
         href: canonicalRoutes.programs.certifiedNursingAssistant,
       },
       { name: 'Medical Assistant', href: '/programs/medical-assistant' },

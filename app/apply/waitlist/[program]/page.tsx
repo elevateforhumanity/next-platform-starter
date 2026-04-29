@@ -9,14 +9,43 @@ const WAITLIST_PROGRAMS: Record<
   { name: string; description: string; estimatedWait: string }
 > = {
   'cdl-training': {
-    name: "CDL (Commercial Driver's License)",
-    description:
-      'Earn your Class A CDL and launch a high-demand career in transportation and logistics.',
+    name: 'CDL Class A Training',
+    description: 'Earn your Class A CDL and launch a high-demand career in transportation and logistics.',
     estimatedWait: '4–8 weeks',
   },
   'barber-apprenticeship': {
     name: 'Barber Apprenticeship',
-    description: 'Complete your Indiana barber apprenticeship and earn your license.',
+    description: 'Complete your Indiana DOL-registered barber apprenticeship and earn your license.',
+    estimatedWait: '2–6 weeks',
+  },
+  'cna': {
+    name: 'Certified Nursing Assistant (CNA)',
+    description: 'Indiana state-approved CNA training with clinical rotations and on-site state exam.',
+    estimatedWait: '2–4 weeks',
+  },
+  'hvac-technician': {
+    name: 'HVAC Technician',
+    description: 'EPA 608 certification and hands-on HVAC systems training.',
+    estimatedWait: '2–4 weeks',
+  },
+  'medical-assistant': {
+    name: 'Medical Assistant',
+    description: 'Clinical and administrative medical assistant training with NHA certification prep.',
+    estimatedWait: '2–6 weeks',
+  },
+  'phlebotomy': {
+    name: 'Phlebotomy Technician',
+    description: 'Venipuncture, specimen collection, and NHA CPT certification prep.',
+    estimatedWait: '1–3 weeks',
+  },
+  'welding': {
+    name: 'Welding Technology',
+    description: 'MIG, TIG, and stick welding with AWS certification prep.',
+    estimatedWait: '2–4 weeks',
+  },
+  'electrical': {
+    name: 'Electrical Technician',
+    description: 'Residential and commercial electrical with OSHA 10 certification.',
     estimatedWait: '2–6 weeks',
   },
 };

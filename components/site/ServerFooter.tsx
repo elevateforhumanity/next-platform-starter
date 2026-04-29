@@ -27,7 +27,7 @@ const footerLinks = {
   programs: [
     { name: 'All Programs', href: '/programs' },
     { name: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
-    { name: 'CNA Training', href: canonicalRoutes.programs.certifiedNursingAssistant },
+    { name: 'Certified Nursing Assistant (CNA)', href: canonicalRoutes.programs.certifiedNursingAssistant },
     { name: 'Medical Assistant', href: '/programs/medical-assistant' },
     { name: 'Phlebotomy', href: '/programs/phlebotomy' },
     { name: 'IT Help Desk', href: '/programs/it-help-desk' },

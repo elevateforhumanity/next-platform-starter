@@ -9,7 +9,7 @@
       "contact": "/contact"
     },
     "programs": {
-      "certifiedNursingAssistant": "/programs/certified-nursing-assistant",
+      "certifiedNursingAssistant": "/programs/cna",
       "homeHealthAide": "/programs/home-health-aide",
       "phlebotomy": "/programs/phlebotomy",
       "medicalAssistant": "/programs/medical-assistant",
@@ -61,28 +61,23 @@
   },
   "legacyAliases": [
     {
-      "source": "/programs/cna",
-      "destination": "/programs/certified-nursing-assistant",
-      "permanent": true
-    },
-    {
       "source": "/programs/cna-training",
-      "destination": "/programs/certified-nursing-assistant",
+      "destination": "/programs/cna",
       "permanent": true
     },
     {
       "source": "/programs/cna-certification",
-      "destination": "/programs/certified-nursing-assistant",
+      "destination": "/programs/cna",
       "permanent": true
     },
     {
       "source": "/programs/cna-cert",
-      "destination": "/programs/certified-nursing-assistant",
+      "destination": "/programs/cna",
       "permanent": true
     },
     {
       "source": "/programs/cna-training-wrg",
-      "destination": "/programs/certified-nursing-assistant",
+      "destination": "/programs/cna",
       "permanent": true
     },
     {
@@ -466,11 +461,6 @@
       "permanent": true
     },
     {
-      "source": "/workforce-training-indianapolis",
-      "destination": "/workforce-training-indianapolis",
-      "permanent": false
-    },
-    {
       "source": "/wioa-funded-training-indiana",
       "destination": "/wioa-eligibility",
       "permanent": true
@@ -619,6 +609,41 @@
       "source": "/programs/wrg",
       "destination": "/programs",
       "permanent": false
+    },
+    {
+      "source": "/programs/certified-nursing-assistant",
+      "destination": "/programs/cna",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cdl-class-a-training",
+      "destination": "/programs/cdl-training",
+      "permanent": true
+    },
+    {
+      "source": "/programs/hvac-training",
+      "destination": "/programs/hvac-technician",
+      "permanent": true
+    },
+    {
+      "source": "/programs/first-aid",
+      "destination": "/programs/cpr-first-aid",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cpr-certification",
+      "destination": "/programs/cpr-first-aid",
+      "permanent": true
+    },
+    {
+      "source": "/industries/healthcare",
+      "destination": "/programs/healthcare",
+      "permanent": true
+    },
+    {
+      "source": "/industries",
+      "destination": "/programs",
+      "permanent": true
     }
   ],
   "railwayOnlyPrefixes": [

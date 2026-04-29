@@ -8,7 +8,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = {
   title: CNA.metaTitle ?? `${CNA.title} | Elevate for Humanity`,
   description: CNA.metaDescription ?? CNA.subtitle,
-  alternates: { canonical: '/programs/certified-nursing-assistant' },
+  alternates: { canonical: '/programs/cna' },
   openGraph: {
     title: 'Certified Nursing Assistant (CNA) | Elevate for Humanity',
     description: 'Indiana CNA certification training. FSSA SNAP E&T funded. Start your healthcare career in weeks.',

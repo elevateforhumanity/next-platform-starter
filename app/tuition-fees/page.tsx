@@ -130,7 +130,7 @@ export default async function TuitionFeesPage() {
       fundingType: 'WIOA Eligible — most students pay $0',
     },
     {
-      name: 'CDL Training (Class A)',
+      name: 'CDL Class A Training',
       duration: '4 weeks',
       tuition: 0,
       examFees: 50,
