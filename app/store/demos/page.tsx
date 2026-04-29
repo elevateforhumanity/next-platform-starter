@@ -18,7 +18,7 @@ const demos = [
     icon: Shield,
     image: '/images/pages/career-counseling.jpg',
     alt: 'Training program administrator reviewing enrollment data',
-    href: '/demo/admin',
+    href: '/admin/dashboard',
     description:
       'This is what your staff sees every day. Watch how enrollment tracking, compliance reporting, and application management work inside the admin portal.',
     highlights: [
@@ -34,7 +34,7 @@ const demos = [
     icon: Briefcase,
     image: '/images/pages/employer-handshake.jpg',
     alt: 'Employer reviewing candidate profiles from training programs',
-    href: '/demo/employer',
+    href: '/for-employers',
     description:
       'See what your employer partners see — how they track apprentices, view hiring incentives, and manage OJT contracts inside their portal.',
     highlights: [
@@ -50,7 +50,7 @@ const demos = [
     icon: GraduationCap,
     image: '/images/pages/wioa-meeting.jpg',
     alt: 'Students in a training classroom working on coursework',
-    href: '/demo/learner',
+    href: '/programs',
     description:
       'What your students see when they log in. Their courses, progress bars, apprenticeship hours logged, and certificates earned. This is the experience that keeps them showing up.',
     highlights: [
@@ -66,7 +66,7 @@ const demos = [
     icon: BarChart3,
     image: '/images/pages/wioa-meeting.jpg',
     alt: 'Workforce board staff reviewing program outcomes and funding data',
-    href: '/demo/admin/wioa',
+    href: '/admin/reports/wioa',
     description:
       'Built for workforce boards and state agencies. WIOA eligibility, ITA tracking, PIRL reporting, and partner network management. The same admin dashboard, filtered for what matters to you.',
     highlights: [
@@ -102,7 +102,7 @@ export default function StoreDemosPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
-              href="/demo/admin"
+              href="/admin/dashboard"
               className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-red-700 transition"
             >
               <Play className="w-5 h-5" /> Open Admin Demo
