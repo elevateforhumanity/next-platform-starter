@@ -5,7 +5,7 @@ import { ArrowLeft, CheckCircle, Clock, DollarSign, Calendar } from 'lucide-reac
 
 export const metadata: Metadata = {
   title: 'Apply for IT Support | Elevate for Humanity',
-  description: 'Apply for our IT Support program. Free training with WIOA funding available.',
+  description: 'Apply for our IT Support program. WIOA funding may be available for eligible participants.',
 };
 
 export default function ApplyPage() {
@@ -41,7 +41,7 @@ export default function ApplyPage() {
               <DollarSign className="w-5 h-5 text-green-600" />
               <div>
                 <p className="text-sm text-gray-600">Cost</p>
-                <p className="font-semibold text-black">Free with WIOA</p>
+                <p className="font-semibold text-black">WIOA May Cover</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -61,7 +61,7 @@ export default function ApplyPage() {
               'Must be 18 years or older',
               'High school diploma or GED',
               'Indiana resident or authorized to work in US',
-              'Meet WIOA eligibility requirements',
+              'WIOA funding may cover tuition for eligible participants',
             ].map((req, i) => (
               <li key={i} className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
@@ -74,7 +74,7 @@ export default function ApplyPage() {
         <div className="bg-blue-50 rounded-2xl p-8 text-center">
           <h2 className="text-2xl font-bold text-black mb-4">Ready to Apply?</h2>
           <p className="text-gray-600 mb-6">
-            Complete our online application to check your eligibility for free WIOA-funded training.
+            WIOA funding may cover tuition for eligible participants. Complete the application and our team will verify your eligibility.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

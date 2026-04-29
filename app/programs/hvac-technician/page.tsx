@@ -650,17 +650,17 @@ export default async function HVACTechnicianPage() {
                 desc: 'Full exam prep — Core, Type I, II, III',
               },
               {
-                href: '/credentials',
+                href: '/verify-credentials',
                 label: 'Credentials & Standards',
                 desc: 'Competency framework and checksheets',
               },
               {
-                href: '/credentials/hvac-standards',
+                href: '/federal-compliance',
                 label: 'HVAC Standards',
                 desc: 'Domain codes, hours, lesson map',
               },
               {
-                href: '/credentials/checksheets',
+                href: '/federal-compliance',
                 label: 'OJT Checksheets',
                 desc: 'Skill verification forms',
               },

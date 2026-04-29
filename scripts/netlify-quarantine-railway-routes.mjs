@@ -285,6 +285,15 @@ const ALLOWED_TOP_LEVEL = new Set([
   'student-support',
   'tax-self-prep',
   'client-portal',
+  // ── Store / demo / portal — public landing pages ──────────────────────────
+  'store',
+  'demo',
+  'demos',
+  'portals',
+  // ── New public pages ──────────────────────────────────────────────────────
+  'partner-operating-model',
+  'wioa-participant',
+  'certification',
 ]);
 
 // Sub-paths inside allowed top-level dirs that must still be quarantined.
@@ -437,6 +446,8 @@ const FORBIDDEN_SUBPATHS = new Set([
   // or the script will try to move them after the parent is already gone.
   'partners/barbershop-apprenticeship/(onboarding)',
   'partners/cosmetology-apprenticeship/(onboarding)',
+  'partners/esthetician-apprenticeship',
+  'partners/nail-technician-apprenticeship',
   'partners/create-program',
   'partners/jri',
   'partners/mou',

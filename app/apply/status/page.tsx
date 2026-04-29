@@ -176,7 +176,7 @@ export default function ApplicationStatusPage() {
 
               {application.status === 'approved' && (
                 <Link
-                  href="/learner/dashboard"
+                  href="/login"
                   className="mt-6 inline-block bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700"
                 >
                   Go to Student Dashboard

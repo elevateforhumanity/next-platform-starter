@@ -11,55 +11,55 @@ interface Props { isApproved?: boolean; }
 const requirements = [
   { title: "Workers' Compensation", desc: "Required for all apprentices. If you don't carry it yet, we can help you understand your options." },
   { title: 'Pay Structure', desc: 'Apprentices must be paid at least minimum wage ($7.25/hr). Hourly, commission, or hybrid — your choice.' },
-  { title: 'Supervising Barber', desc: 'Designate a licensed Indiana barber to supervise apprentices, verify hours, and sign off on competencies.' },
-  { title: 'Valid Shop License', desc: 'Your shop must hold a valid Indiana shop license and be in good standing with the IPLA.' },
-  { title: 'Video Site Visit', desc: 'A 15-minute Zoom walkthrough of your shop before final approval.' },
-  { title: 'DOL RAPIDS Listing', desc: 'Approved shops are listed on the U.S. Department of Labor RAPIDS system as registered worksites.' },
+  { title: 'Supervising Esthetician', desc: 'Designate a licensed Indiana esthetician to supervise apprentices, verify hours, and sign off on competencies.' },
+  { title: 'Valid Spa / Salon License', desc: 'Your location must hold a valid Indiana salon or spa license and be in good standing with the IPLA.' },
+  { title: 'Video Site Visit', desc: 'A 15-minute Zoom walkthrough of your location before final approval.' },
+  { title: 'DOL RAPIDS Listing', desc: 'Approved locations are listed on the U.S. Department of Labor RAPIDS system as registered worksites.' },
 ];
 
 const timeline = [
-  { n: '1', title: 'Apply Online', time: 'Day 1', desc: 'Complete the partner application — shop license, supervisor info, and shop photos.' },
-  { n: '2', title: 'License Verification', time: 'Days 1–3', desc: 'We verify your shop license and supervisor credentials with IPLA.' },
-  { n: '3', title: 'Video Site Visit', time: 'Days 3–5', desc: '15-minute Zoom walkthrough of your shop.' },
+  { n: '1', title: 'Apply Online', time: 'Day 1', desc: 'Complete the partner application — license info, supervisor details, and location photos.' },
+  { n: '2', title: 'License Verification', time: 'Days 1–3', desc: 'We verify your license and supervisor credentials with IPLA.' },
+  { n: '3', title: 'Video Site Visit', time: 'Days 3–5', desc: '15-minute Zoom walkthrough of your location.' },
   { n: '4', title: 'MOU Signing', time: 'Days 5–6', desc: 'Review and sign the Memorandum of Understanding.' },
-  { n: '5', title: 'Approved', time: '~1 Week', desc: 'Your shop is approved and listed as a registered DOL worksite.' },
+  { n: '5', title: 'Approved', time: '~1 Week', desc: 'Your location is approved and listed as a registered DOL worksite.' },
 ];
 
 const faqs = [
-  { q: 'How much does it cost to become a partner shop?', a: 'No fee. You pay the apprentice a wage. Elevate handles program administration, theory training, and DOL compliance.' },
+  { q: 'How much does it cost to become a host location?', a: 'No fee. You pay the apprentice a wage. Elevate handles program administration, theory training, and DOL compliance.' },
   { q: "Do I need workers' comp insurance?", a: "Yes. Workers' compensation is required for all apprentices." },
   { q: 'How are apprentices paid?', a: 'At least minimum wage ($7.25/hr). You choose the model — hourly, commission, or hybrid.' },
-  { q: 'How long does the apprenticeship last?', a: 'Apprentices complete 2,000 hours of on-the-job training. Full-time is about 1 year.' },
+  { q: 'How long does the apprenticeship last?', a: 'Apprentices complete 1,500 hours of on-the-job training. Full-time is about 9–12 months.' },
   { q: 'Can apprentices use an ITIN instead of SSN?', a: 'Yes. We accept ITIN for enrollment in place of a Social Security Number.' },
-  { q: 'What happens after the apprentice finishes?', a: 'They sit for the Indiana State Board barber license exam. Many shops hire their apprentices as licensed barbers.' },
+  { q: 'What happens after the apprentice finishes?', a: 'They sit for the Indiana State Board esthetician license exam. Many locations hire their apprentices as licensed estheticians.' },
 ];
 
 const onboarding = [
-  { n: '1', icon: BookOpen, label: 'Read the Partner Handbook', desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.', href: '/login?redirect=/__partners/barbershop-apprenticeship/handbook' },
-  { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: '/login?redirect=/__partners/barbershop-apprenticeship/policy-acknowledgment' },
-  { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: '/login?redirect=/__partners/barbershop-apprenticeship/forms' },
-  { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: '/login?redirect=/__partners/barbershop-apprenticeship/sign-mou' },
+  { n: '1', icon: BookOpen, label: 'Read the Partner Handbook', desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.', href: '/login?redirect=/__partners/esthetician-apprenticeship/handbook' },
+  { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: '/login?redirect=/__partners/esthetician-apprenticeship/policy-acknowledgment' },
+  { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: '/login?redirect=/__partners/esthetician-apprenticeship/forms' },
+  { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: '/login?redirect=/__partners/esthetician-apprenticeship/sign-mou' },
 ];
 
-export default function PartnerPageClient({ isApproved = false }: Props) {
+export default function EstheticianPartnerPageClient({ isApproved = false }: Props) {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Barbershop Apprenticeship' }]} />
+        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Esthetician Apprenticeship' }]} />
       </div>
 
       {/* Video Hero */}
       <section className="relative w-full bg-slate-900 overflow-hidden" style={{ minHeight: '60vh' }}>
-        <video autoPlay muted loop playsInline poster="/images/pages/barber-hero-main.jpg"
+        <video autoPlay muted loop playsInline poster="/images/pages/cosmetology-hero.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-50">
           <source src="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4" type="video/mp4" />
         </video>
         <div className="relative z-10 flex flex-col justify-center items-center text-center px-6 py-24">
-          <span className="inline-block bg-brand-red-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-5">DOL Registered Apprenticeship</span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 max-w-3xl">Indiana Barbershop<br className="hidden sm:block" /> Apprenticeship</h1>
-          <p className="text-white/85 text-lg sm:text-xl max-w-xl mb-8">Host an apprentice. Grow your shop. Build the next generation of licensed barbers.</p>
+          <span className="inline-block bg-pink-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-5">DOL Registered Apprenticeship</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 max-w-3xl">Indiana Esthetician<br className="hidden sm:block" /> Apprenticeship</h1>
+          <p className="text-white/85 text-lg sm:text-xl max-w-xl mb-8">Host an apprentice at your spa or salon. Build the next generation of licensed estheticians.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/barbershop-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-brand-red-600 text-white rounded-xl font-extrabold text-base hover:bg-brand-red-700 transition-colors">Apply as a Partner Shop <ArrowRight className="w-5 h-5 ml-2" /></Link>
+            <Link href="/partners/esthetician-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-pink-600 text-white rounded-xl font-extrabold text-base hover:bg-pink-700 transition-colors">Apply as a Host Location <ArrowRight className="w-5 h-5 ml-2" /></Link>
             <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">Schedule a Call</a>
           </div>
         </div>
@@ -68,16 +68,16 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       {/* How It Works */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
-          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Program Overview</p>
+          <p className="text-pink-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Program Overview</p>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">How the Program Works</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { n: '1', title: 'Apply & Get Approved', desc: 'Submit your application, complete a Zoom site visit, and sign the MOU. Approval takes about 1 week.' },
-              { n: '2', title: 'Host an Apprentice', desc: 'We match qualified apprentices to your shop. They complete 2,000 hours of on-the-job training under your supervision.' },
-              { n: '3', title: 'Grow Your Team', desc: 'Apprentices complete theory through Elevate LMS, then sit for the Indiana State Board exam. You get a trained, licensed barber.' },
+              { n: '2', title: 'Host an Apprentice', desc: 'We match qualified apprentices to your location. They complete 1,500 hours of on-the-job training under your supervision.' },
+              { n: '3', title: 'Grow Your Team', desc: 'Apprentices complete theory through Elevate LMS, then sit for the Indiana State Board exam. You get a trained, licensed esthetician.' },
             ].map((s) => (
               <div key={s.n} className="text-center">
-                <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4"><span className="text-orange-600 font-bold text-xl">{s.n}</span></div>
+                <div className="w-14 h-14 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4"><span className="text-pink-600 font-bold text-xl">{s.n}</span></div>
                 <h3 className="font-bold text-slate-900 mb-2">{s.title}</h3>
                 <p className="text-sm text-slate-600">{s.desc}</p>
               </div>
@@ -89,8 +89,8 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       {/* Requirements */}
       <section className="py-16 px-6 bg-slate-50 border-t border-slate-100">
         <div className="max-w-4xl mx-auto">
-          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Requirements</p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">What Partner Shops Need to Know</h2>
+          <p className="text-pink-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Requirements</p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">What Host Locations Need to Know</h2>
           <div className="grid md:grid-cols-2 gap-5">
             {requirements.map((r) => (
               <div key={r.title} className="bg-white rounded-xl border border-slate-200 p-5">
@@ -105,12 +105,12 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       {/* Timeline */}
       <section className="py-16 px-6 bg-white border-t border-slate-100">
         <div className="max-w-3xl mx-auto">
-          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Timeline</p>
+          <p className="text-pink-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Timeline</p>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">Approval Timeline</h2>
           <div className="space-y-5">
             {timeline.map((s) => (
               <div key={s.n} className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center shrink-0"><span className="text-orange-600 font-bold">{s.n}</span></div>
+                <div className="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center shrink-0"><span className="text-pink-600 font-bold">{s.n}</span></div>
                 <div>
                   <div className="flex items-center gap-3 mb-0.5">
                     <h3 className="font-bold text-slate-900 text-sm">{s.title}</h3>
@@ -127,7 +127,7 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       {/* FAQ */}
       <section className="py-16 px-6 bg-slate-50 border-t border-slate-100">
         <div className="max-w-3xl mx-auto">
-          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">FAQ</p>
+          <p className="text-pink-600 text-xs font-bold uppercase tracking-widest text-center mb-2">FAQ</p>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">Frequently Asked Questions</h2>
           <div className="space-y-3">
             {faqs.map((f) => (
@@ -144,15 +144,15 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       <section className="bg-slate-900 py-16 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ready to Partner With Us?</h2>
-          <p className="text-slate-300 text-sm mb-8">Join the Indiana Barber Apprenticeship program and start developing talent for your shop.</p>
+          <p className="text-slate-300 text-sm mb-8">Join the Indiana Esthetician Apprenticeship program and start developing talent for your spa or salon.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/barbershop-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-brand-red-600 text-white rounded-xl font-extrabold text-base hover:bg-brand-red-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
+            <Link href="/partners/esthetician-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-pink-600 text-white rounded-xl font-extrabold text-base hover:bg-pink-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
             <a href="tel:+13173143757" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">(317) 314-3757</a>
           </div>
         </div>
       </section>
 
-      {/* Onboarding — approved partners only, never shown publicly */}
+      {/* Onboarding — approved partners only */}
       {isApproved && (
         <section className="py-16 px-6 bg-slate-50 border-t border-slate-200">
           <div className="max-w-4xl mx-auto">
@@ -167,10 +167,10 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               {onboarding.map(({ n, icon: Icon, label, desc, href }) => (
-                <Link key={n} href={href} className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group">
-                  <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">{n}</div>
+                <Link key={n} href={href} className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-pink-400 hover:shadow-sm transition group">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center shrink-0 font-bold text-lg group-hover:bg-pink-600 group-hover:text-white transition">{n}</div>
                   <div>
-                    <div className="flex items-center gap-2 mb-1"><Icon className="w-4 h-4 text-brand-blue-600" /><h3 className="font-bold text-slate-900 text-sm">{label}</h3></div>
+                    <div className="flex items-center gap-2 mb-1"><Icon className="w-4 h-4 text-pink-600" /><h3 className="font-bold text-slate-900 text-sm">{label}</h3></div>
                     <p className="text-xs text-slate-600">{desc}</p>
                   </div>
                 </Link>

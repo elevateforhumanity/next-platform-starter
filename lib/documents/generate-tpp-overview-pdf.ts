@@ -418,7 +418,7 @@ export async function generateTppOverviewPdf(): Promise<Uint8Array> {
   const programs = [
     // Healthcare
     { sector: 'HEALTHCARE', items: [
-      { title: 'Certified Nursing Assistant (CNA)',     cred: 'Indiana ISDH CNA Certification',              dur: '4–6 wks',  cost: '$2,500',  fund: 'WIOA/WRG/SNAP' },
+      { title: 'Certified Nursing Assistant (CNA)',     cred: 'Indiana ISDH CNA Certification',              dur: '4–6 wks',  cost: '$1,800',  fund: 'FSSA/Self-Pay' },
       { title: 'Medical Assistant',                     cred: 'NHA CCMA Certification',                      dur: '12 wks',   cost: '$5,000',  fund: 'WIOA/WRG/SNAP' },
       { title: 'Phlebotomy Technician',                 cred: 'NHA CPT Certification',                       dur: '6 wks',    cost: '$2,500',  fund: 'WIOA/WRG/SNAP' },
       { title: 'Pharmacy Technician',                   cred: 'PTCB CPhT Certification',                     dur: '8 wks',    cost: '$3,500',  fund: 'WIOA/WRG/SNAP' },

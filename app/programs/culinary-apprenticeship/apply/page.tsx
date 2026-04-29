@@ -81,7 +81,7 @@ export default function ApplyPage() {
           <div className="bg-slate-50 rounded-xl p-4 mb-6 space-y-2">
             {[
               'Free to apply — no cost to submit',
-              'WIOA and Workforce Ready Grant funding available',
+              'WIOA and Workforce Ready Grant funding may be available for eligible participants',
               'Our team will contact you within 1 business day',
               'Flexible scheduling available',
             ].map((item) => (

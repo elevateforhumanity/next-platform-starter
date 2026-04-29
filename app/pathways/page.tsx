@@ -57,7 +57,7 @@ const STAGES = [
     num: 3,
     title: 'Industry Credential',
     image: '/images/pages/testing-page-1.jpg',
-    href: '/credentials',
+    href: '/verify-credentials',
     what: 'At the end of training, you sit for a certification exam issued by a recognized third-party organization — not by Elevate. You earn a credential that employers across the country recognize and require for hiring.',
     who: 'Students who have completed their training program and met all requirements.',
     funding:

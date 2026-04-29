@@ -65,7 +65,7 @@ export default function SitemapPage() {
             </li>
             <li>
               <Link
-                href="/compliance"
+                href="/federal-compliance"
                 className="text-gray-700 hover:text-orange-600 hover:underline"
               >
                 Compliance

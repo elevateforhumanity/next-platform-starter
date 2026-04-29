@@ -313,11 +313,8 @@ export default function StorePage() {
             <Link href="/store/apps/website-builder" className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:border-brand-red-300 hover:text-brand-red-700 transition-colors">
               Website Builder
             </Link>
-            <Link
-              href="/store"
-              className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:border-brand-red-300 hover:text-brand-red-700 transition-colors"
-            >
-              Creator Products
+            <Link href="/shop/products" className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:border-brand-red-300 hover:text-brand-red-700 transition-colors">
+              All Products
             </Link>
           </div>
         </div>

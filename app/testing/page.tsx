@@ -111,7 +111,7 @@ export default function TestingPage() {
               <p>
                 Passing an exam does not guarantee employment. Credential requirements vary by
                 employer and state. Some credentials require additional state licensure.{' '}
-                <Link href="/compliance" className="underline font-medium hover:text-amber-700">
+                <Link href="/federal-compliance" className="underline font-medium hover:text-amber-700">
                   View full compliance disclosure →
                 </Link>
               </p>

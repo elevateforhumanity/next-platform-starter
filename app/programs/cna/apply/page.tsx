@@ -22,7 +22,7 @@ export default function CNAApplyPage() {
 
   // Step 2 — qualify
   const [employed, setEmployed] = useState('');
-  const [funding, setFunding] = useState('');
+  const [snapTanf, setSnapTanf] = useState(''); // FSSA eligibility — CNA is FSSA-funded, not WIOA
   const [timeline, setTimeline] = useState('');
 
   const field =
@@ -53,7 +53,10 @@ export default function CNAApplyPage() {
           contactPreference: 'phone',
           source: 'program-page',
           qualifyEmployed: employed,
-          qualifyFunding: funding,
+          // CNA is funded through FSSA IMPACT (SNAP/TANF), not WIOA/WRG.
+          // Map snap/tanf answer to fundingType so the API routes for admin review.
+          fundingType: snapTanf === 'Yes' ? 'fssa' : null,
+          fundingInterest: snapTanf === 'Yes' ? 'fssa' : 'self-pay',
           qualifyTimeline: timeline,
         }),
       });
@@ -209,16 +212,19 @@ export default function CNAApplyPage() {
                 </div>
               </div>
               <div>
-                <p className="text-sm font-medium mb-2">
-                  Are you interested in financial assistance?
+                <p className="text-sm font-medium mb-1">
+                  Do you currently receive SNAP (food stamps) or TANF benefits?
+                </p>
+                <p className="text-xs text-slate-500 mb-2">
+                  CNA training is funded through Indiana&apos;s FSSA IMPACT program for SNAP/TANF recipients. Self-pay is $1,800.
                 </p>
                 <div className="flex gap-3">
                   {['Yes', 'No'].map((v) => (
                     <button
                       key={v}
                       type="button"
-                      onClick={() => setFunding(v)}
-                      className={pill(funding === v)}
+                      onClick={() => setSnapTanf(v)}
+                      className={pill(snapTanf === v)}
                     >
                       {v}
                     </button>
@@ -250,7 +256,7 @@ export default function CNAApplyPage() {
               </button>
               <button
                 onClick={() => {
-                  if (!employed || !funding || !timeline) {
+                  if (!employed || !snapTanf || !timeline) {
                     setError('Please answer all three questions.');
                     return;
                   }
@@ -269,14 +275,13 @@ export default function CNAApplyPage() {
         {step === 3 && (
           <div>
             <h1 className="text-2xl font-bold mb-1">You&apos;re almost done</h1>
-            {funding === 'Yes' ? (
+            {snapTanf === 'Yes' ? (
               <p className="text-slate-700 text-sm mb-6">
-                Based on your answers, <strong>you may qualify for funding.</strong> Submit your
-                application so our team can review and contact you.
+                Based on your answers, <strong>you may qualify for FSSA IMPACT funding.</strong> Submit your application and our team will verify your eligibility and contact you.
               </p>
             ) : (
               <p className="text-slate-700 text-sm mb-6">
-                Submit your application so our team can review your options and contact you.
+                Self-pay tuition is <strong>$1,800</strong>. Submit your application and our team will review your options and contact you.
               </p>
             )}
 
@@ -298,7 +303,10 @@ export default function CNAApplyPage() {
                 <span className="font-medium">Currently working:</span> {employed}
               </p>
               <p>
-                <span className="font-medium">Interested in funding:</span> {funding}
+                <span className="font-medium">Receives SNAP/TANF:</span> {snapTanf}
+              </p>
+              <p>
+                <span className="font-medium">Funding path:</span> {snapTanf === 'Yes' ? 'FSSA IMPACT (pending eligibility)' : 'Self-pay ($1,800)'}
               </p>
               <p>
                 <span className="font-medium">Timeline:</span> {timeline}

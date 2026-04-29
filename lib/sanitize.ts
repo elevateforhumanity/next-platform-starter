@@ -1,9 +1,14 @@
-// Uses sanitize-html (htmlparser2-based) — no jsdom dependency, safe in serverless/Lambda.
-// isomorphic-dompurify was removed because it requires jsdom at runtime which is not
-// available in Netlify Lambda functions.
-import sanitizeHtmlLib from 'sanitize-html';
+/**
+ * HTML sanitization utilities.
+ *
+ * Server: uses sanitize-html (htmlparser2-based, no jsdom dependency).
+ * Client: uses dompurify (browser-native DOM, no jsdom needed).
+ *
+ * isomorphic-dompurify was removed because it hard-depends on jsdom,
+ * which is a devDependency and crashes Netlify Lambda at runtime.
+ */
 
-const RICH_TAGS = [
+const ALLOWED_TAGS = [
   'p', 'br', 'b', 'i', 'em', 'strong', 'u', 's', 'strike',
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
   'ul', 'ol', 'li', 'dl', 'dt', 'dd',
@@ -13,37 +18,57 @@ const RICH_TAGS = [
   'figure', 'figcaption', 'hr', 'sub', 'sup',
 ];
 
-const RICH_ATTRS: sanitizeHtmlLib.IOptions['allowedAttributes'] = {
-  '*': ['class', 'id', 'style', 'title'],
-  a: ['href', 'target', 'rel'],
-  img: ['src', 'alt', 'width', 'height'],
-  video: ['src', 'controls', 'autoplay', 'loop', 'muted', 'poster', 'preload', 'width', 'height'],
-  audio: ['src', 'controls', 'autoplay', 'loop', 'muted', 'preload'],
-  source: ['src', 'type'],
-  td: ['colspan', 'rowspan'],
-  th: ['colspan', 'rowspan'],
-};
+const ALLOWED_ATTR = [
+  'href', 'src', 'alt', 'title', 'class', 'id', 'target', 'rel',
+  'width', 'height', 'style', 'colspan', 'rowspan',
+  'controls', 'autoplay', 'loop', 'muted', 'poster', 'preload', 'type',
+];
 
-export function sanitizeHtml(dirty: string): string {
-  if (!dirty) return '';
+const FORBIDDEN_TAGS = ['script', 'iframe', 'object', 'embed', 'form', 'input', 'button'];
+
+function serverSanitize(dirty: string, opts?: { allowedTags?: string[]; allowedAttr?: string[] }): string {
+  // Dynamic require keeps this out of the client bundle.
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const sanitizeHtmlLib = require('sanitize-html') as typeof import('sanitize-html');
+  const tags = opts?.allowedTags ?? ALLOWED_TAGS;
+  const attrs = opts?.allowedAttr ?? ALLOWED_ATTR;
   return sanitizeHtmlLib(dirty, {
-    allowedTags: RICH_TAGS,
-    allowedAttributes: RICH_ATTRS,
+    allowedTags: tags,
+    allowedAttributes: Object.fromEntries(tags.map((t) => [t, attrs])),
     disallowedTagsMode: 'discard',
   });
 }
 
-// Strict sanitization for user-generated content (comments, messages)
-export function sanitizeUserContent(dirty: string): string {
-  if (!dirty) return '';
-  return sanitizeHtmlLib(dirty, {
-    allowedTags: ['p', 'br', 'b', 'i', 'em', 'strong', 'a', 'ul', 'ol', 'li', 'code'],
-    allowedAttributes: { a: ['href', 'target', 'rel'] },
+function clientSanitize(dirty: string, opts?: { allowedTags?: string[]; allowedAttr?: string[] }): string {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const DOMPurify = require('dompurify') as typeof import('dompurify');
+  return DOMPurify.sanitize(dirty, {
+    ALLOWED_TAGS: opts?.allowedTags ?? ALLOWED_TAGS,
+    ALLOWED_ATTR: opts?.allowedAttr ?? ALLOWED_ATTR,
+    ALLOW_DATA_ATTR: false,
+    FORBID_TAGS: FORBIDDEN_TAGS,
+    FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover'],
   });
 }
 
-// Plain text only — strips all HTML
+function sanitize(dirty: string, opts?: { allowedTags?: string[]; allowedAttr?: string[] }): string {
+  if (!dirty) return '';
+  if (typeof window === 'undefined') return serverSanitize(dirty, opts);
+  return clientSanitize(dirty, opts);
+}
+
+export function sanitizeHtml(dirty: string): string {
+  return sanitize(dirty);
+}
+
+export function sanitizeUserContent(dirty: string): string {
+  return sanitize(dirty, {
+    allowedTags: ['p', 'br', 'b', 'i', 'em', 'strong', 'a', 'ul', 'ol', 'li', 'code'],
+    allowedAttr: ['href', 'target', 'rel'],
+  });
+}
+
 export function sanitizeToText(dirty: string): string {
   if (!dirty) return '';
-  return sanitizeHtmlLib(dirty, { allowedTags: [], allowedAttributes: {} });
+  return dirty.replace(/<[^>]*>/g, '').trim();
 }

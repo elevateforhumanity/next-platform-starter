@@ -44,31 +44,43 @@ export default async function ApplyPage({
         <ApplyHeroVideo />
       </section>
 
-      {/* Heading */}
-      <section className="pt-4 pb-8 px-4">
+      {/* Who are you? — primary funnel selector */}
+      <section className="pt-8 pb-6 px-4 bg-slate-50 border-b border-slate-100">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">
-            For Learners
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
-            Check eligibility first. Apply in minutes.
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">
+            Who are you applying as?
           </h1>
-          <p className="text-slate-600 max-w-xl mx-auto">
-            Many programs are fully funded through WIOA, WRG, or FSSA IMPACT for eligible Indiana
-            residents. Check your eligibility before you apply — takes 2 minutes, no account needed.
+          <p className="text-slate-500 text-sm mb-6">
+            Select the option that fits — we&apos;ll route you to the right application.
           </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto">
+            <Link href="/apply/student" className="flex flex-col items-center gap-2 bg-white border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-md rounded-xl p-4 transition-all group">
+              <span className="text-2xl">🎓</span>
+              <span className="font-bold text-slate-900 text-sm">Student</span>
+              <span className="text-xs text-slate-500 leading-tight">Career training &amp; credentials</span>
+            </Link>
+            <Link href="/apply/employer" className="flex flex-col items-center gap-2 bg-white border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-md rounded-xl p-4 transition-all group">
+              <span className="text-2xl">🏢</span>
+              <span className="font-bold text-slate-900 text-sm">Employer</span>
+              <span className="text-xs text-slate-500 leading-tight">Hire trained workers</span>
+            </Link>
+            <Link href="/apply/program-holder" className="flex flex-col items-center gap-2 bg-white border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-md rounded-xl p-4 transition-all group">
+              <span className="text-2xl">🏫</span>
+              <span className="font-bold text-slate-900 text-sm">Provider</span>
+              <span className="text-xs text-slate-500 leading-tight">Launch a program</span>
+            </Link>
+            <Link href="/partners/apply" className="flex flex-col items-center gap-2 bg-white border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-md rounded-xl p-4 transition-all group">
+              <span className="text-2xl">🤝</span>
+              <span className="font-bold text-slate-900 text-sm">Partner</span>
+              <span className="text-xs text-slate-500 leading-tight">Agency or organization</span>
+            </Link>
+          </div>
+          <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm">
+            <a href="/inquiry" className="text-brand-blue-600 hover:underline font-medium">Submit an Inquiry</a>
+            <a href="/programs" className="text-brand-blue-600 hover:underline font-medium">Browse Programs</a>
+          </div>
         </div>
       </section>
-
-      {/* Enrollment path links — required for accessibility and E2E navigation */}
-      <div className="max-w-6xl mx-auto px-4 pt-2 pb-4 flex flex-wrap gap-4 text-sm">
-        <a href="/inquiry" className="text-brand-blue-600 hover:underline font-medium">
-          Submit an Inquiry
-        </a>
-        <a href="/programs" className="text-brand-blue-600 hover:underline font-medium">
-          Browse Programs
-        </a>
-      </div>
 
       {/* Eligibility result banner — shown when arriving from EligibilityScreener */}
       {qualified === 'true' && (
@@ -124,7 +136,6 @@ export default async function ApplyPage({
         >
           <div className="flex flex-col md:flex-row">
             <div className="relative w-full md:w-2/5 h-[200px] md:h-auto md:min-h-[280px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src="/images/pages/apply-page-2.jpg"
                 alt="Students in hands-on career training"

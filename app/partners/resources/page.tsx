@@ -43,7 +43,7 @@ export default function PartnerResourcesPage() {
                 <p className="text-black mb-4">
                   Complete guide to program requirements, compliance, and best practices.
                 </p>
-                <Link href="/program-holder/documents">
+                <Link href="/login?redirect=%2Fprogram-holder%2Fdocuments">
                   <Button variant="outline">Download Handbook</Button>
                 </Link>
               </div>
@@ -58,7 +58,7 @@ export default function PartnerResourcesPage() {
                 <p className="text-black mb-4">
                   Memorandum of Understanding templates and signing process.
                 </p>
-                <Link href="/program-holder/documents">
+                <Link href="/login?redirect=%2Fprogram-holder%2Fdocuments">
                   <Button variant="outline">View Templates</Button>
                 </Link>
               </div>
@@ -73,7 +73,7 @@ export default function PartnerResourcesPage() {
                 <p className="text-black mb-4">
                   Video tutorials on using the platform and managing students.
                 </p>
-                <Link href="/program-holder/dashboard">
+                <Link href="/login?redirect=%2Fprogram-holder%2Fdashboard">
                   <Button variant="outline">Watch Videos</Button>
                 </Link>
               </div>

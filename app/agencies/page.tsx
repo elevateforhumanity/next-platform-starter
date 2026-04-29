@@ -164,7 +164,7 @@ export default function AgenciesPage() {
               WIOA eligibility details →
             </Link>
             <Link
-              href="/credentials"
+              href="/verify-credentials"
               className="text-sm font-semibold text-blue-700 hover:underline"
             >
               Compliance documentation →

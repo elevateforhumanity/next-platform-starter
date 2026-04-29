@@ -42,7 +42,7 @@ export default function PartnerCompliancePage() {
             <FileText className="h-12 w-12 text-brand-orange-600 mx-auto mb-4" />
             <h3 className="font-semibold text-lg mb-2">Reporting</h3>
             <p className="text-black text-sm mb-4">Automated WIOA reporting and documentation</p>
-            <Link href="/program-holder/reports">
+            <Link href="/login?redirect=%2Fprogram-holder%2Freports">
               <Button variant="outline" size="sm">
                 View Reports
               </Button>
@@ -53,7 +53,7 @@ export default function PartnerCompliancePage() {
             <BarChart3 className="h-12 w-12 text-brand-orange-600 mx-auto mb-4" />
             <h3 className="font-semibold text-lg mb-2">Analytics</h3>
             <p className="text-black text-sm mb-4">Track student outcomes and performance</p>
-            <Link href="/program-holder/dashboard">
+            <Link href="/login?redirect=%2Fprogram-holder%2Fdashboard">
               <Button variant="outline" size="sm">
                 View Dashboard
               </Button>
@@ -64,7 +64,7 @@ export default function PartnerCompliancePage() {
             <Shield className="h-12 w-12 text-brand-orange-600 mx-auto mb-4" />
             <h3 className="font-semibold text-lg mb-2">Documentation</h3>
             <p className="text-black text-sm mb-4">Access compliance guides and templates</p>
-            <Link href="/program-holder/documents">
+            <Link href="/login?redirect=%2Fprogram-holder%2Fdocuments">
               <Button variant="outline" size="sm">
                 View Documents
               </Button>
@@ -78,7 +78,7 @@ export default function PartnerCompliancePage() {
             Our compliance team is here to support you. Access your partner portal for full
             compliance tools and support.
           </p>
-          <Link href="/program-holder/dashboard">
+          <Link href="/login?redirect=%2Fprogram-holder%2Fdashboard">
             <Button>Access Partner Portal</Button>
           </Link>
         </div>

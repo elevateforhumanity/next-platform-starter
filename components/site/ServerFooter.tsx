@@ -62,7 +62,7 @@ const footerLinks = {
     { name: 'Reentry Organizations', href: '/partners/reentry' },
     { name: 'Job Ready Indy', href: '/partners/jri' },
     { name: 'Barbershop Partners', href: '/partners/barbershop-apprenticeship' },
-    { name: 'Program Holders', href: '/program-holder' },
+    { name: 'Program Holders', href: '/partners/apply' },
     { name: 'Become a Partner', href: '/partners/join' },
   ],
 

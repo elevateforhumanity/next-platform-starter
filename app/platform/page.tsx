@@ -314,7 +314,7 @@ export default function PlatformPage() {
               </ul>
               <div className="mt-6">
                 <Link
-                  href="/compliance"
+                  href="/federal-compliance"
                   className="text-sm font-semibold text-brand-red-600 hover:text-brand-red-700"
                 >
                   Full compliance documentation →
