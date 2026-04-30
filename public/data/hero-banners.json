@@ -152,7 +152,6 @@
   "programs": {
     "pageKey": "programs",
     "posterImage": "/images/pages/apprenticeships-page-1.jpg",
-    "voiceoverSrc": "/audio/heroes/programs.mp3",
     "microLabel": "Career Training",
     "belowHeroHeadline": "Start a Career \u2014 Not Just a Class",
     "belowHeroSubheadline": "Get trained, certified, and connected to real job opportunities in weeks \u2014 not years. Most programs are available at no cost to eligible Indiana residents through WIOA and state funding.",
@@ -205,7 +204,6 @@
     "pageKey": "skilled-trades",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
     "posterImage": "/hero-images/skilled-trades-cat-new.jpg",
-    "videoSrcMobile": "/videos/electrician-trades.mp4",
     "voiceoverSrc": "/audio/heroes/skilled-trades.mp3",
     "microLabel": "Skilled Trades",
     "belowHeroHeadline": "Skilled trades training for high-demand work.",
@@ -231,7 +229,6 @@
   "hvac-technician": {
     "pageKey": "hvac-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
-    "videoSrcMobile": "/videos/hvac-technician.mp4",
     "posterImage": "/hero-images/skilled-trades-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/skilled-trades.mp3",
     "microLabel": "EPA 608 Universal",
@@ -694,7 +691,6 @@
   "barber-apprenticeship": {
     "pageKey": "barber-apprenticeship",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4",
-    "videoSrcMobile": "/videos/barber-hero-final.mp4",
     "posterImage": "/hero-images/barber-hero.jpg",
     "voiceoverSrc": "/audio/heroes/barber.mp3",
     "microLabel": "DOL Registered Apprenticeship",
@@ -724,7 +720,6 @@
   "cosmetology-apprenticeship": {
     "pageKey": "cosmetology-apprenticeship",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4",
-    "videoSrcMobile": "/videos/cosmetology-salon.mp4",
     "posterImage": "/images/pages/cosmetology-hero.jpg",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "DOL Registered Apprenticeship",
@@ -754,7 +749,6 @@
   "nail-technician-apprenticeship": {
     "pageKey": "nail-technician-apprenticeship",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4",
-    "videoSrcMobile": "/videos/nail-tech.mp4",
     "posterImage": "/images/pages/nail-tech-hero.jpg",
     "voiceoverSrc": "/audio/heroes/nail-tech.mp3",
     "microLabel": "DOL Registered Apprenticeship",
@@ -812,7 +806,6 @@
   "esthetician": {
     "pageKey": "esthetician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4",
-    "videoSrcMobile": "/videos/esthetician-spa.mp4",
     "posterImage": "/images/pages/cosmetology-hero.jpg",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "Esthetician Certificate",
@@ -842,7 +835,6 @@
   "beauty-career-educator": {
     "pageKey": "beauty-career-educator",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4",
-    "videoSrcMobile": "/videos/cosmetology-salon.mp4",
     "posterImage": "/images/pages/cosmetology-hero.jpg",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "Certiport ESB",
@@ -1156,7 +1148,6 @@
   "bookkeeping": {
     "pageKey": "bookkeeping",
     "posterImage": "/images/pages/bookkeeping.jpg",
-    "voiceoverSrc": "/audio/heroes/bookkeeping.mp3",
     "microLabel": "QuickBooks Certified User",
     "credentialLabel": "QuickBooks Certified User",
     "durationLabel": "5 weeks",
@@ -1325,9 +1316,7 @@
   "peer-recovery-specialist": {
     "pageKey": "peer-recovery-specialist",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
-    "videoSrcMobile": "/videos/career-services-hero.mp4",
     "posterImage": "/hero-images/dsp-hero.jpg",
-    "voiceoverSrc": "/audio/heroes/peer-recovery.mp3",
     "microLabel": "Indiana CPRS Credential",
     "credentialLabel": "Indiana CPRS",
     "durationLabel": "8 weeks",
@@ -1997,7 +1986,6 @@
   "supersonic": {
     "pageKey": "supersonic",
     "posterImage": "/images/pages/admin-tax-preparers-hero.jpg",
-    "voiceoverSrc": "/audio/heroes/supersonic.mp3",
     "microLabel": "SupersonicFastCash",
     "belowHeroHeadline": "Tax software built for speed.",
     "belowHeroSubheadline": "Professional tax preparation software for Enrolled Agents, EROs, and tax businesses. Fast refunds. Secure filing. Built for volume.",
@@ -2291,7 +2279,6 @@
     "pageKey": "apprenticeship-sponsor",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
     "posterImage": "/hero-images/apprenticeships-hero.jpg",
-    "videoSrcMobile": "/videos/career-services-hero.mp4",
     "voiceoverSrc": "/audio/heroes/apprenticeship-sponsor.mp3",
     "microLabel": "DOL Apprenticeship Sponsor",
     "belowHeroHeadline": "Registered Apprenticeship \u2014 the earn-while-you-learn path.",
@@ -2498,6 +2485,60 @@
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
     "posterImage": "/hero-images/dsp-hero.jpg",
     "belowHeroHeadline": "Direct Support Professional \u2014 Indiana DSP credential in 6 weeks."
+  },
+  "career-training-indiana": {
+    "pageKey": "career-training-indiana",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "microLabel": "Indianapolis, Indiana",
+    "belowHeroHeadline": "Career Training in Indiana — Funded Programs for Adults.",
+    "belowHeroSubheadline": "Healthcare, skilled trades, technology, and business programs. Most available at no cost through WIOA and state funding for eligible Indiana residents.",
+    "primaryCta": {
+      "label": "Apply Now",
+      "href": "/apply?program=indiana-workforce"
+    },
+    "secondaryCta": {
+      "label": "Check Eligibility",
+      "href": "/check-eligibility",
+      "variant": "secondary"
+    },
+    "trustIndicators": [
+      "WIOA & state funding available",
+      "DOL Registered Apprenticeship Sponsor",
+      "ETPL approved training provider",
+      "Indianapolis, Indiana"
+    ],
+    "transcript": "Elevate for Humanity offers workforce training programs in Indianapolis, Indiana — in healthcare, skilled trades, technology, and business. Most programs are available at no cost to eligible Indiana residents through WIOA, the Workforce Ready Grant, and Job Ready Indy.",
+    "analyticsName": "career-training-indiana"
+  },
+  "qma": {
+    "pageKey": "qma",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
+    "posterImage": "/images/pages/healthcare-hero.jpg",
+    "voiceoverSrc": "/audio/heroes/healthcare.mp3",
+    "microLabel": "Indiana QMA Certification",
+    "credentialLabel": "Indiana QMA Certificate",
+    "durationLabel": "4 weeks",
+    "salaryRangeLabel": "$30,000 to $42,000",
+    "belowHeroHeadline": "Qualified Medication Aide — Indiana state certification in 4 weeks.",
+    "belowHeroSubheadline": "Administer medications under nurse supervision in residential care settings. ISDH-approved curriculum. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.",
+    "primaryCta": {
+      "label": "Apply Now",
+      "href": "/apply?program=qma"
+    },
+    "secondaryCta": {
+      "label": "Check Eligibility",
+      "href": "/check-eligibility",
+      "variant": "secondary"
+    },
+    "trustIndicators": [
+      "ISDH-approved curriculum",
+      "WIOA + Workforce Ready Grant",
+      "CPR/AED included",
+      "QMA pay $30K–$42K"
+    ],
+    "transcript": "Train for Indiana QMA certification in 4 weeks, learning medication administration, documentation, and resident safety under nurse supervision. QMAs in Indiana commonly earn $30,000 to $42,000. WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Self-pay is $1,200.",
+    "analyticsName": "qma"
   },
   "drug-collector": {
     "pageKey": "drug-collector",
