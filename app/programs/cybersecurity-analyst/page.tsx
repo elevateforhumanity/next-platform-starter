@@ -3,7 +3,7 @@ import ProgramDetailPage from '@/components/programs/ProgramDetailPage';
 import { CYBERSECURITY_ANALYST } from '@/data/programs/cybersecurity-analyst';
 import heroBanners from '@/content/heroBanners';
 
-export const revalidate = 86400;
+export const revalidate = 0; // force fresh — bust stale SSG redirect
 
 export const metadata: Metadata = {
   title: CYBERSECURITY_ANALYST.metaTitle ?? `${CYBERSECURITY_ANALYST.title} | Elevate for Humanity`,
