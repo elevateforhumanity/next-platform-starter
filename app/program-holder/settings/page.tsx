@@ -24,6 +24,10 @@ export default async function ProgramSettingsPage() {
     .eq('id', user.id)
     .maybeSingle();
 
+  if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
+    redirect('/login');
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 py-8">

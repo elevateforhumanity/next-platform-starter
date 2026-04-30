@@ -81,6 +81,16 @@ export default async function SignMOUPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/program-holder/sign-mou');
 
+  const { data: roleCheck } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (!roleCheck || !['program_holder', 'admin', 'super_admin', 'staff'].includes(roleCheck.role)) {
+    redirect('/login');
+  }
+
   // Determine which MOU to show based on program holder's mou_type.
   // Live DB values: 'universal', 'custom_hvac_codelivery', 'custom_cosmetology_codelivery'.
   // There are no null or 'barber' records — do not fall back silently.
