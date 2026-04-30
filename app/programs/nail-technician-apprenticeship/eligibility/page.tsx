@@ -14,8 +14,8 @@ export default function NailTechEligibilityPage() {
   return (
     <div className="min-h-screen bg-white">
       <HeroVideo
-        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
-        posterImage="/hero-images/nail-tech-hero.jpg"
+        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4"
+        posterImage="/images/pages/nail-tech-hero.jpg"
         microLabel="Nail Technician Apprenticeship"
         analyticsName="nail-tech-eligibility"
         belowHeroHeadline="Funding & Enrollment"
