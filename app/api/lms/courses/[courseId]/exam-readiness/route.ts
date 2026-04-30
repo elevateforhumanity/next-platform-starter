@@ -78,11 +78,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ cour
         .eq('passed', true);
 
       // Get checkpoint lessons tagged to this domain
+      // course_lessons uses lesson_type (not step_type) and course_id (not program_id)
       const { data: checkpointLessons } = await db
         .from('course_lessons')
         .select('id')
-        .eq('program_id', programId)
-        .eq('step_type', 'checkpoint')
+        .eq('course_id', courseId)
+        .eq('lesson_type', 'checkpoint')
         .contains('competency_keys', [d.domain_key]);
 
       const lessonIds = new Set((checkpointLessons ?? []).map((l: { id: string }) => l.id));

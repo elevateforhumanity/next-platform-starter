@@ -40,6 +40,14 @@ export default async function ProgramHolderPortalPage() {
     redirect('/portals');
   }
 
+  // Resolve program_holder_id from profile for enrollment queries
+  const { data: phProfile } = await db
+    .from('profiles')
+    .select('program_holder_id')
+    .eq('id', user.id)
+    .maybeSingle();
+  const programHolderId = phProfile?.program_holder_id ?? null;
+
   const [
     { data: programs },
     { count: totalStudents },
@@ -48,31 +56,42 @@ export default async function ProgramHolderPortalPage() {
     { count: pendingDocs },
     { count: certificates },
   ] = await Promise.all([
-    db
-      .from('programs')
-      .select('id, title, slug, status')
-      .eq('holder_id', user.id)
-      .order('title')
-      .limit(10),
-    db
-      .from('program_enrollments')
-      .select('*', { count: 'exact', head: true })
-      .eq('holder_id', user.id),
-    db
-      .from('program_enrollments')
-      .select('*', { count: 'exact', head: true })
-      .eq('holder_id', user.id)
-      .eq('status', 'active'),
-    db
-      .from('program_enrollments')
-      .select('*', { count: 'exact', head: true })
-      .eq('holder_id', user.id)
-      .eq('status', 'completed'),
+    // programs.partner_id links to program_holders.id
+    programHolderId
+      ? db
+          .from('programs')
+          .select('id, title, slug, status')
+          .eq('partner_id', programHolderId)
+          .order('title')
+          .limit(10)
+      : Promise.resolve({ data: [] }),
+    // program_enrollments.program_holder_id links to program_holders.id
+    programHolderId
+      ? db
+          .from('program_enrollments')
+          .select('*', { count: 'exact', head: true })
+          .eq('program_holder_id', programHolderId)
+      : Promise.resolve({ count: 0 }),
+    programHolderId
+      ? db
+          .from('program_enrollments')
+          .select('*', { count: 'exact', head: true })
+          .eq('program_holder_id', programHolderId)
+          .eq('status', 'active')
+      : Promise.resolve({ count: 0 }),
+    programHolderId
+      ? db
+          .from('program_enrollments')
+          .select('*', { count: 'exact', head: true })
+          .eq('program_holder_id', programHolderId)
+          .eq('status', 'completed')
+      : Promise.resolve({ count: 0 }),
+    // program_holder_documents.user_id links to auth.users.id
     db
       .from('program_holder_documents')
       .select('*', { count: 'exact', head: true })
-      .eq('holder_id', user.id)
-      .eq('status', 'pending'),
+      .eq('user_id', user.id)
+      .eq('approved', null),
     db.from('certificates').select('*', { count: 'exact', head: true }).eq('issued_by', user.id),
   ]);
 
