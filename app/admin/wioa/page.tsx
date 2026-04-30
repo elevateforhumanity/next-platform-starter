@@ -88,12 +88,20 @@ export default async function WioaPage() {
               Workforce Innovation and Opportunity Act funding and participant tracking
             </p>
           </div>
-          <Link
-            href="/admin/wioa/new"
-            className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors"
-          >
-            <Plus className="w-4 h-4" /> Add Participant
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/admin/wioa/iep"
+              className="flex items-center gap-2 border border-slate-200 hover:border-slate-300 text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors"
+            >
+              <ArrowRight className="w-4 h-4" /> Employment Plans
+            </Link>
+            <Link
+              href="/admin/wioa/new"
+              className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors"
+            >
+              <Plus className="w-4 h-4" /> Add Participant
+            </Link>
+          </div>
         </div>
       </div>
 

@@ -371,8 +371,61 @@ export default async function ParticipantDetailPage({ params }: { params: { id: 
             {p.enrollment_status === 'active' && (
               <div className="bg-white rounded-xl border shadow-sm p-5">
                 <h3 className="text-sm font-semibold text-slate-700 mb-3">Record Exit</h3>
-                <ParticipantExitForm participantId={p.id} />
+                <ParticipantExitForm
+                  participantId={p.id}
+                  initialData={{
+                    exit_reason:            p.exit_reason,
+                    employed_at_exit:       p.employed_at_exit,
+                    employer_name:          p.employer_name,
+                    job_title:              p.job_title,
+                    hourly_wage:            p.hourly_wage,
+                    hours_per_week:         p.hours_per_week,
+                    employment_start_date:  p.employment_start_date,
+                    credential_attained:    (p as Record<string, unknown>).credential_attained as boolean | null,
+                    credential_name:        (p as Record<string, unknown>).credential_name as string | null,
+                    credential_issued_date: (p as Record<string, unknown>).credential_issued_date as string | null,
+                    abawd_exempt:           (p as Record<string, unknown>).abawd_exempt as boolean | null,
+                    abawd_exemption_reason: (p as Record<string, unknown>).abawd_exemption_reason as string | null,
+                    exit_notes:             (p as Record<string, unknown>).exit_notes as string | null,
+                  }}
+                />
               </div>
+            )}
+
+            {/* Follow-up schedule — shown after exit */}
+            {(p.enrollment_status === 'exited' || p.enrollment_status === 'completed') && (
+              (() => {
+                const q2Date = (p as Record<string, unknown>).q2_follow_up_date as string | null;
+                const q4Date = (p as Record<string, unknown>).q4_follow_up_date as string | null;
+                const q2Done = (p as Record<string, unknown>).q2_follow_up_completed as boolean | null;
+                const q4Done = (p as Record<string, unknown>).q4_follow_up_completed as boolean | null;
+                if (!q2Date && !q4Date) return null;
+                return (
+                  <div className="bg-white rounded-xl border shadow-sm p-5">
+                    <h3 className="text-sm font-semibold text-slate-700 mb-3">Follow-up Schedule</h3>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      {q2Date && (
+                        <div className={`rounded-lg p-3 border ${q2Done ? 'bg-emerald-50 border-emerald-200' : 'bg-amber-50 border-amber-200'}`}>
+                          <span className="text-xs text-slate-500 block mb-0.5">Q2 follow-up</span>
+                          <span className="font-semibold">{fmtDate(q2Date)}</span>
+                          <span className={`text-xs block mt-0.5 font-medium ${q2Done ? 'text-emerald-600' : 'text-amber-600'}`}>
+                            {q2Done ? 'Completed' : 'Pending'}
+                          </span>
+                        </div>
+                      )}
+                      {q4Date && (
+                        <div className={`rounded-lg p-3 border ${q4Done ? 'bg-emerald-50 border-emerald-200' : 'bg-amber-50 border-amber-200'}`}>
+                          <span className="text-xs text-slate-500 block mb-0.5">Q4 follow-up</span>
+                          <span className="font-semibold">{fmtDate(q4Date)}</span>
+                          <span className={`text-xs block mt-0.5 font-medium ${q4Done ? 'text-emerald-600' : 'text-amber-600'}`}>
+                            {q4Done ? 'Completed' : 'Pending'}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()
             )}
 
             {/* Quick links */}

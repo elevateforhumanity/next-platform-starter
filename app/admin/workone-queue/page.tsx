@@ -4,7 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { Clock, CheckCircle, AlertTriangle, Phone, Mail, ExternalLink } from 'lucide-react';
+import { Clock, CheckCircle, AlertTriangle, Phone, Mail, ExternalLink, Link2, ArrowRight } from 'lucide-react';
 import WorkOneApproveButton from './WorkOneApproveButton';
 
 export const metadata: Metadata = {
@@ -49,6 +49,20 @@ export default async function WorkOneQueuePage() {
     .order('created_at', { ascending: true });
 
   const pending = apps ?? [];
+
+  // Load linked referrals for these applications (keyed by application_id)
+  const appIds = pending.map((a) => a.id);
+  const referralMap: Record<string, { id: string; agency_name: string; status: string; partner_acknowledged: boolean }> = {};
+  if (appIds.length > 0) {
+    const { data: referrals } = await db
+      .from('workforce_referrals')
+      .select('id, application_id, agency_name, status, partner_acknowledged')
+      .in('application_id', appIds)
+      .eq('archived', false);
+    for (const r of referrals ?? []) {
+      if (r.application_id) referralMap[r.application_id] = r;
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -174,6 +188,13 @@ export default async function WorkOneQueuePage() {
                           WorkOne ref: {app.workone_approval_ref}
                         </p>
                       )}
+                      {referralMap[app.id] && (
+                        <p className="mt-1 text-xs text-indigo-600 font-medium">
+                          Referred by: {referralMap[app.id].agency_name}
+                          {' · '}
+                          <span className="capitalize">{referralMap[app.id].status.replace('_', ' ')}</span>
+                        </p>
+                      )}
                     </div>
 
                     {/* Actions */}
@@ -189,6 +210,24 @@ export default async function WorkOneQueuePage() {
                         studentName={name}
                         hasApproval={app.has_workone_approval ?? false}
                       />
+                      {/* Referral link status */}
+                      {referralMap[app.id] ? (
+                        <Link
+                          href={`/admin/referrals?status=all`}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold border border-indigo-200 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition"
+                        >
+                          <Link2 className="w-3.5 h-3.5" />
+                          {referralMap[app.id].partner_acknowledged ? 'Referral acknowledged' : 'Referral pending ack'}
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/admin/referrals`}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold border border-slate-200 text-slate-500 hover:border-amber-300 hover:text-amber-700 px-3 py-1.5 rounded-lg transition"
+                        >
+                          <Link2 className="w-3.5 h-3.5" /> No referral linked
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

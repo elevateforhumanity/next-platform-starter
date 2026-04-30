@@ -43,7 +43,7 @@ export default async function EmployerPage({ params }: { params: Promise<{ id: s
         .limit(10),
       db
         .from('student_enrollments')
-        .select('id, user_id, status', { count: 'exact' })
+        .select('id, student_id, status', { count: 'exact' })
         .eq('employer_id', id)
         .limit(1),
     ]);

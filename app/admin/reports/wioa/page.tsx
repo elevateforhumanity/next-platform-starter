@@ -12,6 +12,7 @@ import {
   DollarSign,
   AlertCircle,
 } from 'lucide-react';
+import PirlExportPanel from '@/components/admin/wioa/PirlExportPanel';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -497,6 +498,9 @@ export default async function WioaReportPage({
             ))}
           </div>
         </div>
+
+        {/* PIRL export */}
+        <PirlExportPanel />
 
         {/* Answerable questions callout */}
         <div className="bg-slate-900 rounded-2xl px-6 py-6 text-white">
