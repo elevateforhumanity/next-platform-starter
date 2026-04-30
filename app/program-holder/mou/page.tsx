@@ -562,11 +562,11 @@ export default async function ProgramHolderMOUPage() {
 
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">X. Compensation &amp; Referral</h3>
                   <p className="mb-3">
-                    Elevate receives <strong>$500.00 per enrolled participant</strong> as a program
-                    administration and referral fee. {orgName} invoices Elevate for the agreed
-                    training cost per participant. {orgName} must submit an itemized cost breakdown
-                    including tuition, training, equipment, testing, and administrative fees. No
-                    hidden fees are permitted.
+                    Elevate receives a program administration and referral fee per enrolled
+                    participant as agreed in writing prior to enrollment. {orgName} invoices
+                    Elevate for the agreed training cost per participant. {orgName} must submit an
+                    itemized cost breakdown including tuition, training, equipment, testing, and
+                    administrative fees. No hidden fees are permitted.
                   </p>
 
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">X-A. Non-Disclosure Agreement</h3>
