@@ -1262,17 +1262,11 @@
   status = 301
   force = true
 
-# Explicit passthrough rules to bust stale CDN-cached redirects
+# Explicit passthrough to bust stale CDN-cached 308 on cybersecurity-analyst
 [[redirects]]
   from = "/programs/cybersecurity-analyst"
   to = "/programs/cybersecurity-analyst"
   status = 200
-
-[[redirects]]
-  from = "/programs/cybersecurity"
-  to = "/programs/cybersecurity-analyst"
-  status = 301
-  force = true
 
 
 
