@@ -12,23 +12,26 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const VALID_TRANSITIONS: Record<string, string[]> = {
-  submitted:        ['scheduled', 'in_review', 'under_review', 'rejected'],
-  scheduled:        ['in_review', 'under_review', 'rejected'],
-  in_review:        ['under_review', 'approved', 'rejected'],
-  under_review:     ['approved', 'rejected'],
-  approved:         ['ready_to_enroll', 'rejected'],
-  ready_to_enroll:  ['enrolled', 'rejected'],
-  rejected:         [],
-  // Post-enrollment lifecycle — required for WIOA performance reporting
-  enrolled:         ['active_apprentice', 'withdrawn'],
-  active_apprentice:['completed', 'withdrawn'],
-  completed:        ['placed', 'exited'],
-  placed:           ['exited'],
-  withdrawn:        [],
-  exited:           [],
+  submitted:           ['scheduled', 'in_review', 'under_review', 'rejected'],
+  scheduled:           ['attended_orientation', 'in_review', 'under_review', 'rejected'],
+  in_review:           ['under_review', 'approved', 'rejected'],
+  under_review:        ['approved', 'rejected'],
+  approved:            ['ready_to_enroll', 'rejected'],
+  ready_to_enroll:     ['enrolled', 'rejected'],
+  rejected:            [],
+  // Post-enrollment lifecycle — required for WIOA performance reporting (ETA-9173)
+  enrolled:            ['active_apprentice', 'attended_orientation', 'withdrawn'],
+  attended_orientation:['active_apprentice', 'assigned', 'scheduled', 'rejected'],
+  active_apprentice:   ['assigned', 'completed', 'withdrawn'],
+  assigned:            ['placed', 'active_apprentice', 'rejected'],
+  completed:           ['placed', 'exited'],
+  placed:              ['retained', 'exited'],
+  retained:            [],
+  withdrawn:           [],
+  exited:              [],
   // Holding states
-  pending_workone:  ['in_review', 'under_review', 'rejected'],
-  waitlisted:       ['in_review', 'under_review', 'rejected'],
+  pending_workone:     ['in_review', 'under_review', 'rejected'],
+  waitlisted:          ['in_review', 'under_review', 'rejected'],
 };
 
 export async function POST(req: NextRequest) {

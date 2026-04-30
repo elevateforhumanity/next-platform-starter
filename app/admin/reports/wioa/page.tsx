@@ -52,6 +52,7 @@ interface ParticipantRow {
   job_title: string | null;
   hourly_wage: number | null;
   credential_received: boolean;
+  modality_preference: string | null;
 }
 
 // ── Filters ───────────────────────────────────────────────────────────────────
@@ -80,7 +81,7 @@ async function fetchWioaData(filters: Filters): Promise<{
     .select(
       'enrollment_id,full_name,email,program_title,program_category,enrollment_status,' +
         'funding_source,workone_case_number,applied_at,completed_at,outcome_type,' +
-        'employer_name,job_title,hourly_wage,credential_received',
+        'employer_name,job_title,hourly_wage,credential_received,modality_preference',
     )
     .order('applied_at', { ascending: false })
     .limit(500);
@@ -127,13 +128,14 @@ async function fetchWioaData(filters: Filters): Promise<{
       job_title: null,
       hourly_wage: null,
       credential_received: false,
+      modality_preference: null,
     }));
 
     return { summary: null, participants, viewMissing: true };
   }
 
   // Client-side search filter (full_name / email)
-  let filtered = (rows ?? []) as ParticipantRow[];
+  let filtered = (rows ?? []) as unknown as ParticipantRow[];
   if (filters.search) {
     const q = filters.search.toLowerCase();
     filtered = filtered.filter(
@@ -377,6 +379,40 @@ export default async function WioaReportPage({
           </div>
         )}
 
+        {/* Modality breakdown */}
+        {participants.length > 0 && (() => {
+          const counts = { in_person: 0, virtual: 0, hybrid: 0, unknown: 0 };
+          for (const p of participants) {
+            const m = p.modality_preference;
+            if (m === 'in_person' || m === 'virtual' || m === 'hybrid') counts[m]++;
+            else counts.unknown++;
+          }
+          const items = [
+            { label: 'In-Person',  value: counts.in_person },
+            { label: 'Virtual',    value: counts.virtual },
+            { label: 'Hybrid',     value: counts.hybrid },
+            { label: 'Not Set',    value: counts.unknown },
+          ];
+          return (
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="px-6 py-4 border-b border-slate-100">
+                <h2 className="font-semibold text-slate-900 text-sm">
+                  Training Modality Breakdown
+                  <span className="ml-2 text-xs font-normal text-slate-400">DOL ETA-9173 hybrid apprenticeship reporting</span>
+                </h2>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-slate-100">
+                {items.map((item) => (
+                  <div key={item.label} className="px-6 py-5">
+                    <p className="text-2xl font-bold text-slate-900 tabular-nums">{item.value}</p>
+                    <p className="text-xs text-slate-500 mt-1 font-medium">{item.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Participant table */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
@@ -401,7 +437,7 @@ export default async function WioaReportPage({
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100">
                   {[
-                    'Name', 'Program', 'Status', 'Funding', 'WorkOne #',
+                    'Name', 'Program', 'Status', 'Funding', 'Modality', 'WorkOne #',
                     'Applied', 'Completed', 'Outcome', 'Employer', 'Wage', 'Credential',
                   ].map((h) => (
                     <th
@@ -416,7 +452,7 @@ export default async function WioaReportPage({
               <tbody className="divide-y divide-slate-100">
                 {participants.length === 0 ? (
                   <tr>
-                    <td colSpan={11} className="px-4 py-12 text-center text-sm text-slate-400">
+                    <td colSpan={12} className="px-4 py-12 text-center text-sm text-slate-400">
                       No participants found.
                     </td>
                   </tr>
@@ -442,6 +478,15 @@ export default async function WioaReportPage({
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-slate-600 text-xs">
                         {p.funding_source ?? '—'}
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap text-xs">
+                        {p.modality_preference ? (
+                          <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 capitalize">
+                            {p.modality_preference.replace('_', '-')}
+                          </span>
+                        ) : (
+                          <span className="text-slate-400">—</span>
+                        )}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-slate-500 text-xs font-mono">
                         {p.workone_case_number ?? '—'}

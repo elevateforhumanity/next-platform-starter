@@ -8,6 +8,7 @@ import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { requireAdminClient } from '@/lib/supabase/admin';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -114,6 +115,40 @@ async function _POST(request: Request) {
     }).catch((err) => {
       logger.error('[Orientation] Admin email failed:', err instanceof Error ? err.message : err);
     });
+
+    // Link scheduling to application status (non-blocking).
+    // Advance the most recent active application for this email to 'scheduled'
+    // so the admin pipeline reflects the booking. Prospective students who have
+    // not yet applied will have no row — that is expected and not an error.
+    try {
+      const db = await requireAdminClient();
+      if (db) {
+        const SCHEDULABLE = ['submitted', 'in_review', 'under_review', 'approved', 'enrolled'];
+        const { data: app } = await db
+          .from('applications')
+          .select('id, status')
+          .eq('email', safeEmail.toLowerCase())
+          .in('status', SCHEDULABLE)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (app) {
+          await db
+            .from('applications')
+            .update({
+              status: 'scheduled',
+              orientation_date: date,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', app.id);
+          logger.info('[Orientation] Application advanced to scheduled', { applicationId: app.id });
+        }
+      }
+    } catch (linkErr) {
+      // Never block the scheduling response on this
+      logger.warn('[Orientation] Application status link failed (non-fatal)', linkErr);
+    }
 
     return NextResponse.json({ success: true, meetingUrl: meeting.join_url });
   } catch (err) {

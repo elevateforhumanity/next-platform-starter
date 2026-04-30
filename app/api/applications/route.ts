@@ -163,6 +163,12 @@ async function _POST(req: Request) {
         funding_type: fundingType,
         funding_eligibility_status: eligibilityStatus,
         type: 'student',
+        // WIOA Title I required fields (PIRL 300, 302, 401, 900)
+        date_of_birth: body.dateOfBirth || null,
+        county_of_residence: body.countyOfResidence || null,
+        household_income: body.householdIncome ? Number(body.householdIncome) : null,
+        family_size: body.familySize ? Number(body.familySize) : null,
+        modality_preference: body.modalityPreference || null,
         // transfer_hours_verified is null until staff reviews documentation
       })
       .select()
@@ -364,7 +370,7 @@ async function _POST(req: Request) {
           ? `🔵 Admin Review Required [${referenceNumber}]: ${body.firstName} ${body.lastName} — ${fundingName}`
           : `New Application [${referenceNumber}]: ${body.firstName} ${body.lastName} - ${body.program}`;
 
-      const staffEmailPromise = sendEmail({
+      const staffEmailResult = await sendEmail({
         to: 'elevate4humanityedu@gmail.com',
         subject: staffSubject,
         html: `
@@ -389,13 +395,13 @@ async function _POST(req: Request) {
       });
 
       if (staffEmailResult.success) {
-        logger.info('[Applications] Staff email sent', { id: staffEmailResult.data?.id });
+        logger.info('[Applications] Staff email sent');
       } else {
-        logger.error('[Applications] Staff email FAILED', { error: staffEmailResult.error });
+        logger.error('[Applications] Staff email FAILED', undefined, { error: (staffEmailResult as any).error });
       }
       emailStatus = {
-        student: studentEmailResult.success ? 'sent' : studentEmailResult.error || 'failed',
-        staff: staffEmailResult.success ? 'sent' : staffEmailResult.error || 'failed',
+        student: studentEmailResult.success ? 'sent' : (studentEmailResult as any).error || 'failed',
+        staff: staffEmailResult.success ? 'sent' : (staffEmailResult as any).error || 'failed',
       };
     } catch (emailError) {
       logger.error(

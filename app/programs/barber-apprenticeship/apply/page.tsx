@@ -73,6 +73,12 @@ function BarberApprenticeshipApplyPageInner() {
     phone: '',
     hasHostShop: '',
     hostShopName: '',
+    // WIOA Title I required fields
+    dateOfBirth: '',
+    countyOfResidence: '',
+    householdIncome: '',
+    familySize: '',
+    modalityPreference: '',
   });
 
   // Calculate next Friday on client only to avoid hydration mismatch
@@ -528,6 +534,106 @@ function BarberApprenticeshipApplyPageInner() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                     placeholder="(317) 555-0123"
                   />
+                </div>
+
+                {/* WIOA Required Fields */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-4">
+                  <p className="text-xs font-semibold text-blue-800 uppercase tracking-wide">
+                    Eligibility &amp; Funding Information
+                  </p>
+                  <p className="text-xs text-blue-700">
+                    Required to determine eligibility for WIOA-funded training. All information is
+                    kept confidential.
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        Date of Birth *
+                      </label>
+                      <input
+                        type="date"
+                        required
+                        value={formData.dateOfBirth}
+                        onChange={(e) => updateField('dateOfBirth', e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        County of Residence *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.countyOfResidence}
+                        onChange={(e) => updateField('countyOfResidence', e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                        placeholder="e.g. Marion"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        Annual Household Income
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="1000"
+                        value={formData.householdIncome}
+                        onChange={(e) => updateField('householdIncome', e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                        placeholder="0"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-black mb-1">
+                        Household Size
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="20"
+                        value={formData.familySize}
+                        onChange={(e) => updateField('familySize', e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                        placeholder="1"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-black mb-2">
+                      Training Preference
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {(
+                        [
+                          { value: 'in_person', label: 'In-Person' },
+                          { value: 'virtual', label: 'Virtual' },
+                          { value: 'hybrid', label: 'Hybrid' },
+                        ] as const
+                      ).map((opt) => (
+                        <label
+                          key={opt.value}
+                          className="flex items-center gap-2 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"
+                        >
+                          <input
+                            type="radio"
+                            name="modalityPreference"
+                            value={opt.value}
+                            checked={formData.modalityPreference === opt.value}
+                            onChange={(e) => updateField('modalityPreference', e.target.value)}
+                            className="w-4 h-4 text-brand-blue-600"
+                          />
+                          <span className="text-sm text-black">{opt.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Transfer Hours Question */}

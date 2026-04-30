@@ -40,7 +40,8 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    // Check state allows transition
+    // Orientation gate — single source of truth is enrollments.enrollment_state.
+    // profiles.orientation_completed is a denormalized cache; do not gate on it here.
     if (enrollment.enrollment_state !== 'orientation_complete') {
       if (
         enrollment.enrollment_state === 'documents_complete' ||
