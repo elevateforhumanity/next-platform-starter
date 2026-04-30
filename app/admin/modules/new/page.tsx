@@ -30,7 +30,7 @@ export default async function NewModulePage() {
           <p className="text-black mt-1">Add a new module to a program</p>
         </div>
 
-        <ModuleForm programs={programs || []} />
+        <ModuleForm programs={(programs || []) as any} />
       </div>
     </div>
   );

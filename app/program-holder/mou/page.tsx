@@ -543,9 +543,8 @@ export default async function ProgramHolderMOUPage() {
                   <p className="mb-2 font-medium text-slate-800">Elevate for Humanity</p>
                   <ul className="list-disc pl-5 space-y-1 mb-3">
                     <li>Participant recruitment and enrollment</li>
-                    <li>Funding submission and voucher processing</li>
-                    <li>Enrollment records, progress tracking, and compliance reporting</li>
-                    <li>Student success support services</li>
+                    <li>Program administration and coordination</li>
+                    <li>Compliance reporting to funding agencies</li>
                   </ul>
                   <p className="mb-2 font-medium text-slate-800">{orgName} (Training Provider)</p>
                   <ul className="list-disc pl-5 space-y-1 mb-4">
@@ -563,45 +562,137 @@ export default async function ProgramHolderMOUPage() {
 
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">X. Compensation &amp; Referral</h3>
                   <p className="mb-3">
-                    Funding referral partners will receive <strong>$195.00 per student</strong> at
-                    class start. {orgName} invoices Elevate for the agreed training cost per
-                    participant. {orgName} must submit an itemized cost breakdown including tuition,
-                    training, equipment, testing, and administrative fees. No hidden fees are
-                    permitted.
+                    Elevate receives <strong>$500.00 per enrolled participant</strong> as a program
+                    administration and referral fee. {orgName} invoices Elevate for the agreed
+                    training cost per participant. {orgName} must submit an itemized cost breakdown
+                    including tuition, training, equipment, testing, and administrative fees. No
+                    hidden fees are permitted.
                   </p>
 
-                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XI. Payment Structure</h3>
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">X-A. Non-Disclosure Agreement</h3>
+                  <p className="mb-3">
+                    Each party acknowledges that in the course of this partnership they may receive
+                    or have access to confidential and proprietary information belonging to the
+                    other party, including but not limited to student records and PII, curriculum
+                    content, business strategies, pricing structures, funding relationships, and
+                    vendor contracts.
+                  </p>
+                  <p className="mb-2">Both parties agree to:</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-3">
+                    <li>Hold all confidential information in strict confidence and not disclose it to any third party without prior written consent</li>
+                    <li>Use confidential information solely for the purpose of fulfilling obligations under this MOU</li>
+                    <li>Limit access to employees or contractors who have a need to know and are bound by equivalent confidentiality obligations</li>
+                    <li>Promptly notify the other party of any unauthorized disclosure or suspected breach</li>
+                    <li>Return or destroy all confidential materials upon termination of this MOU</li>
+                  </ul>
+                  <p className="mb-4">
+                    These obligations survive termination for <strong>three (3) years</strong>.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">X-B. Non-Compete Agreement</h3>
+                  <p className="mb-3">
+                    In consideration of the partnership established under this MOU and access to
+                    Elevate&apos;s proprietary curriculum, student pipeline, and funding
+                    relationships, {orgName} agrees to the following restrictions during the term
+                    of this MOU and for <strong>two (2) years</strong> following its termination:
+                  </p>
                   <ul className="list-disc pl-5 space-y-1 mb-4">
-                    <li><strong>50%</strong> payable upon verified student start with a valid funding voucher issued</li>
-                    <li><strong>50%</strong> payable upon verified program completion</li>
-                    <li>All payments contingent on funding approval from the applicable agency</li>
-                    <li>Payment rendered within <strong>10 business days</strong> after Elevate receives funds from the funding source</li>
-                    <li>Elevate is not liable for delays caused by WorkOne or other funding agencies</li>
+                    <li>
+                      <strong>No independent program delivery:</strong> {orgName} shall not
+                      independently offer, market, or deliver any CDL training program that
+                      directly competes with the program described in this MOU using curriculum,
+                      materials, or methods derived from Elevate&apos;s proprietary content
+                    </li>
+                    <li>
+                      <strong>No solicitation of Elevate&apos;s funding partners:</strong> {orgName}{' '}
+                      shall not directly solicit WorkOne, DOL, or any other funding agency
+                      introduced through this partnership for the purpose of independently funding
+                      a competing training program
+                    </li>
+                    <li>
+                      <strong>No solicitation of Elevate&apos;s students:</strong> {orgName} shall
+                      not directly recruit or solicit students enrolled in Elevate programs to
+                      enroll in a competing program operated by {orgName} or any affiliated entity
+                    </li>
+                    <li>
+                      <strong>No solicitation of Elevate&apos;s staff:</strong> {orgName} shall not
+                      solicit, recruit, or hire any Elevate employee, contractor, or instructor
+                      during the term of this MOU and for one (1) year following termination
+                    </li>
                   </ul>
 
-                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XII. Reporting Requirements</h3>
-                  <ul className="list-disc pl-5 space-y-1 mb-4">
-                    <li>Daily attendance records required for all training sessions</li>
-                    <li>Weekly progress reports must be submitted to Elevate</li>
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XI. Tuition Breakdown Requirement</h3>
+                  <p className="mb-3">
+                    Prior to enrollment of any participant, {orgName} must submit a complete
+                    itemized tuition breakdown to Elevate for review and approval. The breakdown
+                    must include a line-item cost for each of the following:
+                  </p>
+                  <ul className="list-disc pl-5 space-y-1 mb-3">
+                    <li>Tuition / instruction fees</li>
+                    <li>Behind-the-wheel and range training hours (cost per hour or flat rate)</li>
+                    <li>Road training hours (cost per hour or flat rate)</li>
+                    <li>CDL skills test fee</li>
+                    <li>Equipment and materials</li>
+                    <li>Administrative fees (if any)</li>
+                  </ul>
+                  <p className="mb-4">
+                    No fees may be added after the breakdown is approved. Any cost not disclosed in
+                    the approved breakdown is not payable under this agreement. Elevate reserves
+                    the right to reject or renegotiate any line item before approving enrollment.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XII. Reporting &amp; Payout Process</h3>
+                  <p className="mb-2 font-medium text-slate-800">Reporting Requirements</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-3">
+                    <li>Daily attendance records must be maintained for every training session</li>
+                    <li>Weekly progress reports must be submitted to Elevate every Friday by 5:00 p.m.</li>
+                    <li>Reports must include: student name, days attended, training phase completed, and any concerns</li>
                     <li>{orgName} must alert Elevate within <strong>48 hours</strong> of any attendance risk, withdrawal, or performance concern</li>
-                    <li>Missing or late reports may result in withheld payment until records are received</li>
+                    <li>Failure to submit required reports on time will delay invoice processing until all records are received and verified</li>
+                  </ul>
+                  <p className="mb-2 font-medium text-slate-800">Payout Process</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-4">
+                    <li><strong>Payment 1 — 50%:</strong> Invoiced after Elevate confirms verified student start and a valid funding voucher has been issued by the funding agency</li>
+                    <li><strong>Payment 2 — 50%:</strong> Invoiced after Elevate confirms program completion with supporting documentation (final attendance record, skills test result, completion certificate)</li>
+                    <li>All invoices must be submitted to Elevate with required documentation attached</li>
+                    <li>Elevate will process payment within <strong>10 business days</strong> of receiving funds from the funding source</li>
+                    <li>Elevate is not liable for delays caused by WorkOne, DOL, or any other funding agency</li>
                   </ul>
 
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">XIII. Refund Policy</h3>
-                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div className="font-medium text-slate-700">No-show / never started</div>
-                      <div className="text-slate-600">No payment issued</div>
-                      <div className="font-medium text-slate-700">0–25% completion</div>
-                      <div className="text-slate-600">Prorated payment only</div>
-                      <div className="font-medium text-slate-700">25–75% completion</div>
-                      <div className="text-slate-600">Prorated payment only</div>
-                      <div className="font-medium text-slate-700">75%+ completion</div>
-                      <div className="text-slate-600">Full payment if documented</div>
+                  <p className="mb-3">
+                    Payments are tied to verified student participation. The following schedule
+                    governs all refund and payment obligations:
+                  </p>
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg overflow-hidden mb-4">
+                    <div className="grid grid-cols-2 text-xs font-semibold text-slate-500 uppercase tracking-wide bg-slate-100 px-4 py-2">
+                      <div>Student Status</div>
+                      <div>Payment Obligation</div>
+                    </div>
+                    <div className="divide-y divide-slate-200">
+                      <div className="grid grid-cols-2 px-4 py-2.5 text-sm">
+                        <div className="font-medium text-slate-700">No-show / never started</div>
+                        <div className="text-slate-600">No payment issued to {orgName}</div>
+                      </div>
+                      <div className="grid grid-cols-2 px-4 py-2.5 text-sm">
+                        <div className="font-medium text-slate-700">0–25% program completion</div>
+                        <div className="text-slate-600">Prorated payment based on days attended</div>
+                      </div>
+                      <div className="grid grid-cols-2 px-4 py-2.5 text-sm">
+                        <div className="font-medium text-slate-700">25–75% program completion</div>
+                        <div className="text-slate-600">Prorated payment based on days attended</div>
+                      </div>
+                      <div className="grid grid-cols-2 px-4 py-2.5 text-sm">
+                        <div className="font-medium text-slate-700">75%+ program completion</div>
+                        <div className="text-slate-600">Full payment issued if documented</div>
+                      </div>
                     </div>
                   </div>
                   <p className="mb-4">
-                    Overpayments must be refunded to Elevate within <strong>10 business days</strong> of identification.
+                    If Elevate has already paid {orgName} and a student subsequently withdraws or
+                    is dismissed, {orgName} must refund the overpaid amount to Elevate within{' '}
+                    <strong>10 business days</strong> of notification. Failure to refund within
+                    this window constitutes a material breach of this MOU.
                   </p>
 
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">XIV. Compliance</h3>
