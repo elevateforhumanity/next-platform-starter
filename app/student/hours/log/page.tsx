@@ -1,16 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Clock, Save, AlertCircle, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Clock, Save, AlertCircle, CheckCircle, Plus } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 export const dynamic = 'force-dynamic';
 
+interface SubmittedEntry {
+  date: string;
+  hours: number;
+  activity: string;
+  notes: string;
+}
+
 export default function LogHoursPage() {
   const router = useRouter();
-  const supabase = createClient();
+  const supabaseRef = useRef(createClient());
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
     hours: '',
@@ -19,7 +26,8 @@ export default function LogHoursPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
+  const [submitted, setSubmitted] = useState<SubmittedEntry | null>(null);
+  const [authReady, setAuthReady] = useState(false);
   const [user, setUser] = useState<any>(null);
 
   const activities = [
@@ -27,87 +35,143 @@ export default function LogHoursPage() {
     'Lab Practice',
     'Online Coursework',
     'Study Time',
-    'Assessment/Testing',
+    'Assessment / Testing',
     'Clinical Hours',
     'Hands-on Practice',
     'Other',
   ];
 
   useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase?.auth.getUser();
+    supabaseRef.current.auth.getUser().then(({ data: { user } }) => {
+      if (!user) {
+        router.replace('/login?redirect=/student/hours/log');
+        return;
+      }
       setUser(user);
-    };
-    getUser();
-  }, [supabase.auth]);
+      setAuthReady(true);
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
     if (!formData.date || !formData.hours || !formData.activity) {
-      setError('Please fill in all required fields');
+      setError('Please fill in all required fields.');
       return;
     }
 
     const hours = parseFloat(formData.hours);
-    if (isNaN(hours) || hours <= 0 || hours > 24) {
-      setError('Please enter valid hours (between 0.5 and 24)');
+    if (isNaN(hours) || hours < 0.5 || hours > 24) {
+      setError('Hours must be between 0.5 and 24.');
+      return;
+    }
+
+    if (!user) {
+      router.replace('/login?redirect=/student/hours/log');
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      if (!user) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setSuccess(true);
-        setTimeout(() => router.push('/student/hours'), 1500);
-        return;
-      }
-
-      const { error: insertError } = await supabase.from('training_hours').insert({
-        user_id: user.id,
-        date: formData.date,
-        hours: hours,
-        activity_type: formData.activity,
-        description: formData.notes || null,
-        hour_type: 'training',
-        status: 'pending',
+      const res = await fetch('/api/student/log-hours', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          date: formData.date,
+          hours,
+          services_performed: formData.activity,
+          notes: formData.notes || null,
+        }),
       });
 
-      if (insertError) {
-        console.error('Insert error:', insertError);
-        if (insertError.code === '42P01') {
-          setSuccess(true);
-          setTimeout(() => router.push('/student/hours'), 1500);
-          return;
-        }
-        throw insertError;
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Failed to log hours. Please try again.');
       }
 
-      setSuccess(true);
-      setTimeout(() => router.push('/student/hours'), 1500);
+      setSubmitted({ date: formData.date, hours, activity: formData.activity, notes: formData.notes });
     } catch (err: any) {
-      console.error('Error logging hours:', err);
       setError(err.message || 'Failed to log hours. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (success) {
+  const resetForm = () => {
+    setSubmitted(null);
+    setFormData({
+      date: new Date().toISOString().split('T')[0],
+      hours: '',
+      activity: '',
+      notes: '',
+    });
+    setError('');
+  };
+
+  // Auth loading
+  if (!authReady) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Clock className="w-8 h-8 text-blue-600 animate-spin" />
+      </div>
+    );
+  }
+
+  // Success screen — shows a summary of what was submitted
+  if (submitted) {
+    const displayDate = new Date(submitted.date + 'T12:00:00').toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
           <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Hours Logged!</h1>
-          <p className="text-gray-600 mb-4">
-            Your training hours have been submitted for approval.
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Hours Submitted</h1>
+          <p className="text-gray-600 mb-6">
+            Your entry is pending instructor approval.
           </p>
-          <p className="text-sm text-gray-500">Redirecting to hours dashboard...</p>
+
+          <div className="bg-gray-50 rounded-lg p-4 text-left mb-6 space-y-3">
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-500">Date</span>
+              <span className="font-medium text-gray-900">{displayDate}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-500">Hours</span>
+              <span className="font-medium text-gray-900">{submitted.hours} hrs</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-500">Activity</span>
+              <span className="font-medium text-gray-900">{submitted.activity}</span>
+            </div>
+            {submitted.notes && (
+              <div className="flex justify-between text-sm gap-4">
+                <span className="text-gray-500 shrink-0">Notes</span>
+                <span className="font-medium text-gray-900 text-right">{submitted.notes}</span>
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={resetForm}
+              className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 font-medium"
+            >
+              <Plus className="w-4 h-4" />
+              Log More Hours
+            </button>
+            <Link
+              href="/student/hours"
+              className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
+            >
+              View Hours Dashboard
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -118,17 +182,11 @@ export default function LogHoursPage() {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <nav className="flex items-center text-sm text-gray-600">
-            <Link href="/" className="hover:text-blue-600">
-              Home
-            </Link>
+            <Link href="/" className="hover:text-blue-600">Home</Link>
             <span className="mx-2">/</span>
-            <Link href="/student" className="hover:text-blue-600">
-              Student Portal
-            </Link>
+            <Link href="/student" className="hover:text-blue-600">Student Portal</Link>
             <span className="mx-2">/</span>
-            <Link href="/student/hours" className="hover:text-blue-600">
-              Hours
-            </Link>
+            <Link href="/student/hours" className="hover:text-blue-600">Hours</Link>
             <span className="mx-2">/</span>
             <span className="text-gray-900 font-medium">Log Hours</span>
           </nav>
@@ -173,6 +231,7 @@ export default function LogHoursPage() {
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                   max={new Date().toISOString().split('T')[0]}
+                  required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
@@ -187,10 +246,11 @@ export default function LogHoursPage() {
                   step="0.5"
                   value={formData.hours}
                   onChange={(e) => setFormData({ ...formData, hours: e.target.value })}
-                  placeholder="Enter hours (e.g., 4)"
+                  placeholder="e.g. 4"
+                  required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
-                <p className="mt-1 text-xs text-gray-500">Enter between 0.5 and 24 hours</p>
+                <p className="mt-1 text-xs text-gray-500">0.5 – 24 hours</p>
               </div>
             </div>
 
@@ -201,37 +261,35 @@ export default function LogHoursPage() {
               <select
                 value={formData.activity}
                 onChange={(e) => setFormData({ ...formData, activity: e.target.value })}
+                required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Select activity type</option>
                 {activities.map((a) => (
-                  <option key={a} value={a}>
-                    {a}
-                  </option>
+                  <option key={a} value={a}>{a}</option>
                 ))}
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Notes (Optional)
+                Notes <span className="text-gray-400 font-normal">(optional)</span>
               </label>
               <textarea
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 rows={4}
-                placeholder="Describe what you worked on during this time..."
+                placeholder="Describe what you worked on..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
               />
             </div>
 
             <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-              <h3 className="font-semibold text-gray-900 mb-2">Important Notes</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Important</h3>
               <ul className="text-sm text-gray-700 space-y-1">
-                <li>• Hours are submitted for instructor/admin approval</li>
-                <li>• You will be notified once your hours are approved</li>
+                <li>• Hours are submitted for instructor approval before counting toward your total</li>
                 <li>• Only log hours for completed training activities</li>
-                <li>• Be accurate - falsifying hours may result in program dismissal</li>
+                <li>• Falsifying hours may result in program dismissal</li>
               </ul>
             </div>
 

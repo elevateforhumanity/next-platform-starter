@@ -21,16 +21,6 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-interface HoursEntry {
-  id: string;
-  date: string;
-  hours: number;
-  type: 'classroom' | 'practical' | 'online' | 'externship';
-  description: string;
-  status: 'approved' | 'pending' | 'rejected';
-  approved_by?: string;
-}
-
 export default async function HoursHistoryPage() {
   const supabase = await createClient();
 
@@ -48,87 +38,65 @@ export default async function HoursHistoryPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect('/login?next=/student/hours/history');
+  if (!user) redirect('/login?redirect=/student/hours/history');
 
-  // Sample hours data
-  const hoursEntries: HoursEntry[] = [
-    {
-      id: '1',
-      date: '2026-01-18',
-      hours: 4,
-      type: 'classroom',
-      description: 'Barbering Fundamentals - Module 14',
-      status: 'approved',
-      approved_by: 'Marcus Thompson',
-    },
-    {
-      id: '2',
-      date: '2026-01-17',
-      hours: 3,
-      type: 'practical',
-      description: 'Hands-on cutting practice',
-      status: 'approved',
-      approved_by: 'Marcus Thompson',
-    },
-    {
-      id: '3',
-      date: '2026-01-16',
-      hours: 2,
-      type: 'online',
-      description: 'Business Management course',
-      status: 'approved',
-    },
-    {
-      id: '4',
-      date: '2026-01-15',
-      hours: 4,
-      type: 'classroom',
-      description: 'Barbering Fundamentals - Module 13',
-      status: 'approved',
-      approved_by: 'Marcus Thompson',
-    },
-    {
-      id: '5',
-      date: '2026-01-14',
-      hours: 3,
-      type: 'practical',
-      description: 'Client service practice',
-      status: 'pending',
-    },
-  ];
+  // Fetch real hour entries for this user
+  const { data: hoursLog } = await supabase
+    .from('hour_entries')
+    .select('id, work_date, hours_claimed, accepted_hours, source_type, notes, status, approved_by')
+    .eq('user_id', user.id)
+    .order('work_date', { ascending: false })
+    .limit(100);
 
-  const totalHours = hoursEntries
-    .filter((e) => e.status === 'approved')
-    .reduce((sum, e) => sum + e.hours, 0);
-  const pendingHours = hoursEntries
-    .filter((e) => e.status === 'pending')
-    .reduce((sum, e) => sum + e.hours, 0);
-  const requiredHours = 1500; // Example requirement
-  const progressPercent = Math.round((totalHours / requiredHours) * 100);
+  // Fetch enrollment to get required hours for this student's program
+  const { data: enrollment } = await supabase
+    .from('program_enrollments')
+    .select('program_id, programs:program_id (slug)')
+    .eq('user_id', user.id)
+    .in('status', ['active', 'enrolled'])
+    .maybeSingle();
 
-  const getTypeColor = (type: string) => {
-    const colors: Record<string, string> = {
-      classroom: 'bg-blue-100 text-blue-700',
-      practical: 'bg-green-100 text-green-700',
-      online: 'bg-purple-100 text-purple-700',
-      externship: 'bg-orange-100 text-orange-700',
-    };
-    return colors[type] || 'bg-gray-100 text-gray-700';
+  const PROGRAM_REQUIRED_HOURS: Record<string, number> = {
+    'barber-apprenticeship': 2000,
+    'cosmetology-apprenticeship': 2000,
+    'esthetician-apprenticeship': 700,
+    'nail-tech-apprenticeship': 450,
+    'nail-technician-apprenticeship': 450,
   };
+  const programSlug = (enrollment?.programs as { slug?: string } | null)?.slug ?? '';
+  const requiredHours = PROGRAM_REQUIRED_HOURS[programSlug] ?? 1500;
+
+  const entries = hoursLog || [];
+
+  const approvedHours = entries
+    .filter((e) => e.status === 'approved')
+    .reduce((sum, e) => sum + (Number(e.accepted_hours) || Number(e.hours_claimed) || 0), 0);
+
+  const pendingHours = entries
+    .filter((e) => e.status === 'pending' || e.status === 'submitted')
+    .reduce((sum, e) => sum + (Number(e.hours_claimed) || 0), 0);
+
+  const progressPercent = Math.min(Math.round((approvedHours / requiredHours) * 100), 100);
 
   const getStatusIcon = (status: string) => {
     if (status === 'approved') return <CheckCircle className="w-4 h-4 text-green-600" />;
-    if (status === 'pending') return <Clock className="w-4 h-4 text-yellow-600" />;
+    if (status === 'pending' || status === 'submitted')
+      return <Clock className="w-4 h-4 text-yellow-600" />;
     return <AlertCircle className="w-4 h-4 text-red-600" />;
   };
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
+  const getStatusColor = (status: string) => {
+    if (status === 'approved') return 'text-green-600';
+    if (status === 'pending' || status === 'submitted') return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
+  const formatDate = (dateStr: string) =>
+    new Date(dateStr).toLocaleDateString('en-US', {
       weekday: 'short',
       month: 'short',
       day: 'numeric',
     });
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -150,10 +118,13 @@ export default async function HoursHistoryPage() {
               <h1 className="text-2xl font-bold text-gray-900">Hours History</h1>
               <p className="text-gray-600 mt-1">Track your training hours</p>
             </div>
-            <button className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <Link
+              href="/student/hours/log"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
               <Download className="w-4 h-4" />
-              Export
-            </button>
+              Log Hours
+            </Link>
           </div>
         </div>
       </div>
@@ -168,12 +139,12 @@ export default async function HoursHistoryPage() {
           <div className="h-4 bg-gray-200 rounded-full overflow-hidden mb-4">
             <div
               className="h-full bg-blue-600 rounded-full transition-all duration-500"
-              style={{ width: `${Math.min(progressPercent, 100)}%` }}
+              style={{ width: `${progressPercent}%` }}
             />
           </div>
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
-              <p className="text-2xl font-bold text-gray-900">{totalHours}</p>
+              <p className="text-2xl font-bold text-gray-900">{approvedHours}</p>
               <p className="text-sm text-gray-500">Approved Hours</p>
             </div>
             <div>
@@ -181,90 +152,81 @@ export default async function HoursHistoryPage() {
               <p className="text-sm text-gray-500">Pending Hours</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-400">{requiredHours - totalHours}</p>
+              <p className="text-2xl font-bold text-gray-400">
+                {Math.max(requiredHours - approvedHours, 0)}
+              </p>
               <p className="text-sm text-gray-500">Remaining</p>
             </div>
           </div>
-        </div>
-
-        {/* Hours by Type */}
-        <div className="grid sm:grid-cols-4 gap-4 mb-8">
-          {['classroom', 'practical', 'online', 'externship'].map((type) => {
-            const typeHours = hoursEntries
-              .filter((e) => e.type === type && e.status === 'approved')
-              .reduce((sum, e) => sum + e.hours, 0);
-            return (
-              <div key={type} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-                <span
-                  className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${getTypeColor(type)} mb-2`}
-                >
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
-                </span>
-                <p className="text-2xl font-bold text-gray-900">{typeHours}</p>
-                <p className="text-sm text-gray-500">hours</p>
-              </div>
-            );
-          })}
         </div>
 
         {/* Hours Log */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">Hours Log</h2>
-            <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50">
-              <Filter className="w-4 h-4" />
-              Filter
-            </button>
+            <span className="text-sm text-gray-500">{entries.length} entries</span>
           </div>
-          <div className="divide-y divide-gray-200">
-            {hoursEntries.map((entry) => (
-              <div key={entry.id} className="px-6 py-4 hover:bg-gray-50">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 text-center">
-                      <p className="text-lg font-bold text-gray-900">{entry.hours}</p>
-                      <p className="text-xs text-gray-500">hours</p>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span
-                          className={`px-2 py-0.5 rounded text-xs font-medium ${getTypeColor(entry.type)}`}
-                        >
-                          {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
-                        </span>
-                        <span className="flex items-center gap-1 text-sm">
-                          {getStatusIcon(entry.status)}
-                          <span
-                            className={
-                              entry.status === 'approved'
-                                ? 'text-green-600'
-                                : entry.status === 'pending'
-                                  ? 'text-yellow-600'
-                                  : 'text-red-600'
-                            }
-                          >
-                            {entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
-                          </span>
-                        </span>
+
+          {entries.length === 0 ? (
+            <div className="p-12 text-center">
+              <Clock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-600 mb-4">No hours logged yet.</p>
+              <Link
+                href="/student/hours/log"
+                className="text-blue-600 font-medium hover:text-blue-700"
+              >
+                Log your first hours
+              </Link>
+            </div>
+          ) : (
+            <div className="divide-y divide-gray-200">
+              {entries.map((entry) => {
+                const hours =
+                  entry.status === 'approved'
+                    ? Number(entry.accepted_hours) || Number(entry.hours_claimed) || 0
+                    : Number(entry.hours_claimed) || 0;
+                return (
+                  <div key={entry.id} className="px-6 py-4 hover:bg-gray-50">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 text-center">
+                          <p className="text-lg font-bold text-gray-900">{hours}</p>
+                          <p className="text-xs text-gray-500">hrs</p>
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="flex items-center gap-1 text-sm">
+                              {getStatusIcon(entry.status)}
+                              <span className={getStatusColor(entry.status)}>
+                                {entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
+                              </span>
+                            </span>
+                          </div>
+                          <p className="font-medium text-gray-900">
+                            {entry.notes || entry.source_type?.replace(/_/g, ' ') || 'Training'}
+                          </p>
+                          {entry.notes && (
+                            <p className="text-sm text-gray-500 mt-0.5">{entry.notes}</p>
+                          )}
+                          {entry.approved_by && (
+                            <p className="text-sm text-gray-500 mt-1">
+                              Approved by {entry.approved_by}
+                            </p>
+                          )}
+                        </div>
                       </div>
-                      <p className="font-medium text-gray-900">{entry.description}</p>
-                      {entry.approved_by && (
-                        <p className="text-sm text-gray-500 mt-1">
-                          Approved by {entry.approved_by}
+                      <div className="text-right">
+                        <p className="text-sm text-gray-500 flex items-center gap-1">
+                          <Calendar className="w-4 h-4" />
+                          {formatDate(entry.work_date)}
                         </p>
-                      )}
+                      </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-500 flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      {formatDate(entry.date)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Info */}

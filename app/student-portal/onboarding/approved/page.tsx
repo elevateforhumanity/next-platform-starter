@@ -29,7 +29,7 @@ export default async function ApprovedPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect('/login?next=/student-portal/onboarding/approved');
+  if (!user) redirect('/login?redirect=/student-portal/onboarding/approved');
 
   // Call the verification function to get real-time checklist
   let checklist: VerificationResult[] = [];

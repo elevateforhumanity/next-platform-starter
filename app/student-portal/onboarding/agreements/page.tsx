@@ -61,7 +61,7 @@ export default function OnboardingAgreementsPage() {
 
     supabase?.auth.getUser().then(async ({ data, error }) => {
       if (error || !data?.user) {
-        router.push('/login?next=/student-portal/onboarding/agreements');
+        router.push('/login?redirect=/student-portal/onboarding/agreements');
         return;
       }
 
