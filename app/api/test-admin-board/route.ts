@@ -1,4 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
+import { NextRequest, NextResponse } from 'next/server';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -10,7 +12,9 @@ import { NextResponse } from 'next/server';
  *
  * Tests admin dashboard, board features, and dev container setup
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
   try {
     const results: any = {
       timestamp: new Date().toISOString(),

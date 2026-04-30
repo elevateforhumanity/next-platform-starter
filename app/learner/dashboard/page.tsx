@@ -180,103 +180,32 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
   const userName = profile?.full_name || user.email?.split('@')[0] || 'Learner';
 
-  // INTraining / ETPL official funded programs (2Exclusive LLC-S / Elevate for Humanity Training Center)
-  const FUNDED_PROGRAMS = [
-    {
-      name: 'Barber Apprenticeship',
-      id: '#10004637',
-      duration: '15 months',
-      cost: '$4,890',
-      credentials: ['Registered Barber License', 'Rise Up Certificate'],
-      href: '/programs/barber-apprenticeship',
-    },
-    {
-      name: 'Beauty & Career Educator Training',
-      id: '#10004648',
-      duration: '84 days',
-      cost: '$4,730',
-      credentials: ['CPR', 'OSHA 10', 'Rise Up Certificate'],
-      href: '/programs/beauty-educator',
-    },
-    {
-      name: 'Bookkeeping, Accounting & Auditing Clerk',
-      id: '#10004627',
-      duration: '8 weeks',
-      cost: '$4,925',
-      credentials: ['QuickBooks Certified User', 'Microsoft Office Specialist'],
-      href: '/programs/bookkeeping',
-    },
-    {
-      name: 'Business Management',
-      id: '#10004645',
-      duration: '5 weeks',
-      cost: '$4,900',
-      credentials: ['Business of Retail Certified Specialist', 'Certified Business Professional'],
-      href: '/programs/business-management',
-    },
-    {
-      name: 'CPR, AED & First Aid',
-      id: '#10004674',
-      duration: '1 day',
-      cost: '$575',
-      credentials: ['CPR Certification'],
-      href: '/programs/cpr-aed',
-    },
-    {
-      name: 'Emergency Health & Safety Technician',
-      id: '#10004621',
-      duration: '4 weeks',
-      cost: '$4,950',
-      credentials: ['CPR', 'EMR', 'OSHA 10'],
-      href: '/programs/emergency-health',
-    },
-    {
-      name: 'Home Health Aide',
-      id: '#10004626',
-      duration: '4 weeks',
-      cost: '$4,700',
-      credentials: ['HHA License', 'CCHW', 'CPR', 'Rise Up Certificate'],
-      href: '/programs/home-health-aide',
-    },
-    {
-      name: 'HVAC Technician',
-      id: '#10004322',
-      duration: '12 weeks',
-      cost: '$5,000',
-      credentials: [
-        'Residential HVAC Cert 1 & 2',
-        'EPA 608',
-        'OSHA 30',
-        'CPR',
-        'Rise Up Certificate',
-      ],
-      href: '/programs/hvac-technician',
-    },
-    {
-      name: 'Medical Assistant',
-      id: '#10004639',
-      duration: '21 days',
-      cost: '$4,325',
-      credentials: ['CCHW', 'CPR', 'Rise Up Certificate'],
-      href: '/programs/medical-assistant',
-    },
-    {
-      name: 'Professional Esthetician & Client Services',
-      id: '#10004628',
-      duration: '5 weeks',
-      cost: '$4,575',
-      credentials: ['OSHA 10', 'Business of Retail Certified Specialist'],
-      href: '/programs/esthetician',
-    },
-    {
-      name: 'Public Safety Reentry Specialist',
-      id: '#10004666',
-      duration: '45 days',
-      cost: '$4,750',
-      credentials: ['CPRC', 'CPSP', 'CCHW', 'CPR', 'Rise Up Certificate'],
-      href: '/programs/reentry-specialist',
-    },
-  ];
+  // ETPL-listed funded programs — sourced from DB, not hardcoded
+  const { data: etplRows } = await supabase
+    .from('programs')
+    .select('id, title, slug, intrainingid, duration, estimated_weeks, total_cost, tuition, credentials_list, credentials, credential_name')
+    .eq('etpl_listed', true)
+    .eq('is_active', true)
+    .order('display_order', { ascending: true });
+
+  const FUNDED_PROGRAMS = (etplRows ?? []).map((p: any) => ({
+    name: p.title,
+    id: p.intrainingid ? `#${p.intrainingid}` : null,
+    duration: p.duration ?? (p.estimated_weeks ? `${p.estimated_weeks} weeks` : null),
+    cost: p.total_cost
+      ? `$${Number(p.total_cost).toLocaleString()}`
+      : p.tuition
+        ? `$${Number(p.tuition).toLocaleString()}`
+        : null,
+    credentials: Array.isArray(p.credentials_list)
+      ? p.credentials_list
+      : Array.isArray(p.credentials)
+        ? p.credentials
+        : p.credential_name
+          ? [p.credential_name]
+          : [],
+    href: `/programs/${p.slug}`,
+  }));
 
   return (
     <div className="min-h-screen bg-white">
@@ -1027,20 +956,26 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
               >
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-semibold text-slate-900 text-sm leading-snug">{prog.name}</h3>
-                  <span className="flex-shrink-0 text-[10px] font-mono text-slate-700 bg-gray-50 border border-gray-100 rounded px-1.5 py-0.5">
-                    {prog.id}
-                  </span>
+                  {prog.id && (
+                    <span className="flex-shrink-0 text-[10px] font-mono text-slate-700 bg-gray-50 border border-gray-100 rounded px-1.5 py-0.5">
+                      {prog.id}
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-3 text-xs text-slate-700">
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    {prog.duration}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <FileCheck className="w-3 h-3" />
-                    {prog.cost} total
-                  </span>
+                  {prog.duration && (
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {prog.duration}
+                    </span>
+                  )}
+                  {prog.cost && (
+                    <span className="flex items-center gap-1">
+                      <FileCheck className="w-3 h-3" />
+                      {prog.cost} total
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex flex-wrap gap-1">

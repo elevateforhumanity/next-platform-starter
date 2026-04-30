@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import EmployerMOUSignForm from './EmployerMOUSignForm';
 
 export const metadata: Metadata = {
@@ -8,7 +9,36 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/mou/employer' },
 };
 
-export default function EmployerMOUPage() {
+export const dynamic = 'force-dynamic';
+
+// Fallback list used only if the DB query fails
+const FALLBACK_PROGRAMS = [
+  'CNA / Healthcare',
+  'HVAC Technician',
+  'Barber Apprenticeship',
+  'Cosmetology Apprenticeship',
+  'Bookkeeping & QuickBooks',
+  'Peer Recovery Specialist',
+];
+
+export default async function EmployerMOUPage() {
+  // Load active programs from DB for the employer to select
+  let programNames: string[] = FALLBACK_PROGRAMS;
+  try {
+    const db = await requireAdminClient();
+    const { data } = await db
+      .from('programs')
+      .select('title')
+      .eq('is_active', true)
+      .eq('published', true)
+      .order('display_order', { ascending: true });
+    if (data && data.length > 0) {
+      programNames = data.map((p: { title: string }) => p.title);
+    }
+  } catch {
+    // Non-fatal — fallback list used
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
@@ -42,7 +72,7 @@ export default function EmployerMOUPage() {
       {/* Form */}
       <div className="max-w-2xl mx-auto px-4 py-10">
         <div className="bg-white rounded-xl border shadow-sm p-6 sm:p-8">
-          <EmployerMOUSignForm />
+          <EmployerMOUSignForm programs={programNames} />
         </div>
 
         <p className="text-center text-xs text-slate-400 mt-6">

@@ -26,12 +26,13 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       logger.error('[workspace] List error:', error);
-      return NextResponse.json([], { status: 200 });
+      return NextResponse.json({ error: 'Failed to load workspaces' }, { status: 500 });
     }
 
     return NextResponse.json(data || []);
-  } catch {
-    return NextResponse.json([], { status: 200 });
+  } catch (e) {
+    logger.error('[workspace] Unexpected error:', e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 

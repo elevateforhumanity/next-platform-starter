@@ -144,7 +144,9 @@ export default async function StudentPortalResourcesPage() {
     .eq('active', true)
     .order('display_order', { ascending: true });
 
-  const resources = dbResources && dbResources.length > 0 ? dbResources : FALLBACK_RESOURCES;
+  // Only use DB resources — never show static fallback as real content.
+  // If the student_resources table is empty, render an empty state.
+  const resources = dbResources ?? [];
 
   // Group by category
   const grouped = CATEGORY_ORDER.reduce<Record<string, typeof resources>>((acc, cat) => {
@@ -191,6 +193,13 @@ export default async function StudentPortalResourcesPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+        {Object.keys(grouped).length === 0 && (
+          <div className="text-center py-16">
+            <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">Resources coming soon</h2>
+            <p className="text-gray-500">Student resources are being set up. Check back shortly.</p>
+          </div>
+        )}
         {Object.entries(grouped).map(([category, items]) => (
           <section key={category}>
             <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
