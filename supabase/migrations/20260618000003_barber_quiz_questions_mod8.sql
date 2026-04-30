@@ -116,7 +116,7 @@ SET quiz_questions = '[
     "question": "Under Indiana law, the apprenticeship path to barber licensure requires how many OJT hours?",
     "options": ["1,000 hours", "1,500 hours", "2,000 hours", "2,500 hours"],
     "correct": 2,
-    "explanation": "Indiana's apprenticeship path requires 2,000 OJT hours. The school path requires 1,500 hours of classroom/clinical training."
+    "explanation": "Indiana''s apprenticeship path requires 2,000 OJT hours. The school path requires 1,500 hours of classroom/clinical training."
   },
   {
     "id": "bl48-q5",
@@ -173,12 +173,12 @@ SET quiz_questions = '[
     "question": "The neckline should be shaped approximately:",
     "options": [
       "At the hairline exactly",
-      "1 finger-width above the Adam's apple",
-      "2 finger-widths above the Adam's apple",
-      "3 finger-widths above the Adam's apple"
+      "1 finger-width above the Adam''s apple",
+      "2 finger-widths above the Adam''s apple",
+      "3 finger-widths above the Adam''s apple"
     ],
     "correct": 2,
-    "explanation": "The standard neckline position is 2 finger-widths above the Adam's apple — a clean, professional finish point."
+    "explanation": "The standard neckline position is 2 finger-widths above the Adam''s apple — a clean, professional finish point."
   },
   {
     "id": "bl49-q5",

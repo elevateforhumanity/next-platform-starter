@@ -12,7 +12,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Structure of the Hair and Scalp',
     video_url   = '/videos/course-barber-consultation-narrated.mp4',
-    content     = '<h2>Structure of the Hair and Scalp</h2>
+    content     = to_jsonb($html$<h2>Structure of the Hair and Scalp</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will identify every layer of the hair shaft, understand the anatomy of the hair follicle, and describe the three layers of the scalp.</p>
@@ -22,7 +22,7 @@ BEGIN
   <li>The hair shaft has three layers: cuticle, cortex, medulla</li>
   <li>The follicle anchors the hair and houses the dermal papilla</li>
   <li>The scalp has three functional layers: epidermis, dermis, subcutaneous</li>
-  <li>Sebaceous glands produce sebum — the scalp''s natural oil</li>
+  <li>Sebaceous glands produce sebum — the scalp's natural oil</li>
   <li>Arrector pili muscles cause goosebumps and affect hair texture appearance</li>
 </ul>
 
@@ -62,7 +62,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Sciences — Hair Structure and Growth</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Sciences — Hair Structure and Growth</p>$html$::text),
     quiz_questions = '[
       {"id":"m2-l8-q1","question":"Which layer of the hair shaft contains melanin and determines hair color and strength?","options":["Cuticle","Cortex","Medulla","Dermal papilla"],"correctAnswer":1,"explanation":"The cortex contains melanin granules and fibrous proteins that give hair its color, strength, and elasticity."},
       {"id":"m2-l8-q2","question":"A client''s hair looks dull and feels rough after a chemical service. Which layer was most likely damaged?","options":["Medulla","Dermal papilla","Cuticle","Subcutaneous layer"],"correctAnswer":2,"explanation":"The cuticle is the outermost protective layer. When raised or damaged, hair loses shine and feels rough."},
@@ -78,7 +78,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'The Hair Growth Cycle',
     video_url   = '/videos/course-barber-consultation-narrated.mp4',
-    content     = '<h2>The Hair Growth Cycle</h2>
+    content     = to_jsonb($html$<h2>The Hair Growth Cycle</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will name and describe all three phases of the hair growth cycle, explain normal daily shedding, and connect cycle knowledge to client consultations.</p>
@@ -121,7 +121,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Sciences — Hair Growth and Loss</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Sciences — Hair Growth and Loss</p>$html$::text),
     quiz_questions = '[
       {"id":"m2-l9-q1","question":"During which phase of the hair growth cycle is hair actively growing?","options":["Telogen","Catagen","Anagen","Exogen"],"correctAnswer":2,"explanation":"Anagen is the active growth phase. About 85-90% of scalp hairs are in anagen at any given time."},
       {"id":"m2-l9-q2","question":"A client lost significant hair 3 months after a serious illness. What condition does this most likely describe?","options":["Androgenetic alopecia","Tinea capitis","Telogen effluvium","Catagen arrest"],"correctAnswer":2,"explanation":"Telogen effluvium is a mass shift of hairs into the resting phase triggered by illness, stress, or surgery, causing noticeable shedding 2-3 months later."},
@@ -138,7 +138,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Hair Texture, Density, and Porosity',
     video_url   = '/videos/course-barber-consultation-narrated.mp4',
-    content     = '<h2>Hair Texture, Density, and Porosity</h2>
+    content     = to_jsonb($html$<h2>Hair Texture, Density, and Porosity</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will distinguish between hair texture, density, and porosity, explain how each affects service selection, and apply this knowledge during client consultations.</p>
@@ -147,7 +147,7 @@ BEGIN
 <ul>
   <li>Texture = diameter of a single hair strand (fine, medium, coarse)</li>
   <li>Density = number of hairs per square inch of scalp (low, medium, high)</li>
-  <li>Porosity = hair''s ability to absorb and retain moisture</li>
+  <li>Porosity = hair's ability to absorb and retain moisture</li>
   <li>These three properties are independent — a client can have fine hair with high density</li>
   <li>Misreading these properties leads to wrong product and technique choices</li>
 </ul>
@@ -188,7 +188,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Sciences — Hair Properties and Analysis</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Sciences — Hair Properties and Analysis</p>$html$::text),
     quiz_questions = '[
       {"id":"m2-l10-q1","question":"A client has hair that absorbs chemicals quickly but the results fade fast. This describes which porosity type?","options":["Low porosity","Normal porosity","High porosity","Zero porosity"],"correctAnswer":2,"explanation":"High porosity hair has a raised or damaged cuticle that absorbs quickly but cannot retain moisture or chemicals effectively."},
       {"id":"m2-l10-q2","question":"Which hair property refers to the number of hairs per square inch of scalp?","options":["Texture","Porosity","Density","Elasticity"],"correctAnswer":2,"explanation":"Density is the count of individual hairs per square inch. It affects sectioning strategy and how bulk is managed."},
@@ -204,7 +204,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Scalp Conditions and Disorders',
     video_url   = '/videos/course-barber-shampoo-narrated.mp4',
-    content     = '<h2>Scalp Conditions and Disorders</h2>
+    content     = to_jsonb($html$<h2>Scalp Conditions and Disorders</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will identify the most common scalp conditions encountered in a barbershop, distinguish between contagious and non-contagious conditions, and apply the correct professional response to each.</p>
@@ -236,18 +236,18 @@ BEGIN
 <p>If you see open sores, active infection, unusual lesions, or anything you cannot identify — do not perform the service. Document what you observed and refer the client to a physician. This is not optional. It is a professional and legal obligation.</p>
 
 <h3>Real-World Application</h3>
-<p>A client sits in your chair and you notice circular patches of hair loss with broken-off hairs and slight scaling. This presentation matches tinea capitis. You politely decline the service, explain that you noticed a scalp condition that requires a physician''s evaluation, and do not touch the affected area. You sanitize your tools and workstation before the next client.</p>
+<p>A client sits in your chair and you notice circular patches of hair loss with broken-off hairs and slight scaling. This presentation matches tinea capitis. You politely decline the service, explain that you noticed a scalp condition that requires a physician's evaluation, and do not touch the affected area. You sanitize your tools and workstation before the next client.</p>
 
 <h3>Summary</h3>
 <ul>
   <li>Tinea capitis and head lice = always refuse service</li>
   <li>Dandruff, seborrheic dermatitis, psoriasis = service allowed with care</li>
-  <li>When in doubt, refer — never guess on a client''s scalp health</li>
+  <li>When in doubt, refer — never guess on a client's scalp health</li>
   <li>Sanitize tools after any suspected contagious contact</li>
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Sciences — Diseases and Disorders of the Scalp</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Sciences — Diseases and Disorders of the Scalp</p>$html$::text),
     quiz_questions = '[
       {"id":"m2-l11-q1","question":"A client presents with circular patches of hair loss, broken-off hairs, and slight scaling. What is the correct action?","options":["Proceed with extra sanitation precautions","Perform a dry cut only","Refuse service and refer to a physician","Apply medicated shampoo and proceed"],"correctAnswer":2,"explanation":"This presentation matches tinea capitis, a contagious fungal infection. No services should be performed — refer to a physician immediately."},
       {"id":"m2-l11-q2","question":"Which of the following scalp conditions is NOT contagious?","options":["Tinea capitis","Pediculosis capitis","Psoriasis","Folliculitis"],"correctAnswer":2,"explanation":"Psoriasis is an autoimmune condition, not an infection. It is not contagious. Services can be performed if the skin is not broken."},
@@ -263,7 +263,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Client Consultation',
     video_url   = '/videos/course-barber-consultation-narrated.mp4',
-    content     = '<h2>Client Consultation</h2>
+    content     = to_jsonb($html$<h2>Client Consultation</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will conduct a structured client consultation, identify contraindications before beginning a service, and communicate professionally to set accurate expectations.</p>
@@ -286,7 +286,7 @@ BEGIN
     <tr><td>Scalp condition</td><td>Dryness, flaking, lesions, redness</td><td>Identifies contraindications before service begins</td></tr>
     <tr><td>Growth patterns</td><td>Cowlicks, strong crown, neckline irregularities</td><td>Affects cut design and finish expectations</td></tr>
     <tr><td>Previous services</td><td>Chemical history, recent cuts</td><td>Prevents over-processing; informs technique</td></tr>
-    <tr><td>Lifestyle and maintenance</td><td>How client styles at home, time available</td><td>Ensures the cut is realistic for the client''s routine</td></tr>
+    <tr><td>Lifestyle and maintenance</td><td>How client styles at home, time available</td><td>Ensures the cut is realistic for the client's routine</td></tr>
   </tbody>
 </table>
 
@@ -295,7 +295,7 @@ BEGIN
 <p>Listen more than you talk. Repeat back what you heard: <em>"So you want to keep length on top but clean up the sides and neckline — is that right?"</em> This confirms understanding before scissors touch hair.</p>
 
 <h4>Managing Expectations</h4>
-<p>If a client''s desired result is not achievable with their current hair — due to texture, damage, or growth pattern — explain why clearly and offer realistic alternatives. Never promise results you cannot deliver. A disappointed client who was warned is far less damaging than a disappointed client who was not.</p>
+<p>If a client's desired result is not achievable with their current hair — due to texture, damage, or growth pattern — explain why clearly and offer realistic alternatives. Never promise results you cannot deliver. A disappointed client who was warned is far less damaging than a disappointed client who was not.</p>
 
 <h3>Real-World Application</h3>
 <p>A client shows you a photo of a tight, defined curl pattern they want to achieve. Their hair is straight and fine. Instead of attempting the impossible, you explain that the style in the photo requires a different hair type, show them what is achievable with their hair, and offer a style that complements their natural texture. The client leaves satisfied because expectations were set correctly.</p>
@@ -309,7 +309,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Client Services — Consultation and Communication</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Client Services — Consultation and Communication</p>$html$::text),
     quiz_questions = '[
       {"id":"m2-l12-q1","question":"Which type of question is most effective during a client consultation?","options":["Yes/no questions","Closed questions","Open-ended questions","Leading questions"],"correctAnswer":2,"explanation":"Open-ended questions like ''What are you looking for today?'' reveal more information than yes/no questions and help the barber understand the client''s actual needs."},
       {"id":"m2-l12-q2","question":"A client wants a style that is not achievable with their hair type. What is the correct professional response?","options":["Attempt the style anyway","Explain why it is not achievable and offer realistic alternatives","Decline the service without explanation","Refer the client to another barber"],"correctAnswer":1,"explanation":"Managing expectations is a professional obligation. Explain the limitation clearly and offer what is realistically achievable with the client''s hair."},
@@ -325,10 +325,10 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Shampoo Service and Scalp Massage',
     video_url   = '/videos/course-barber-shampoo-narrated.mp4',
-    content     = '<h2>Shampoo Service and Scalp Massage</h2>
+    content     = to_jsonb($html$<h2>Shampoo Service and Scalp Massage</h2>
 
 <h3>Objective</h3>
-<p>By the end of this lesson you will select the appropriate shampoo for a client''s hair type, perform the shampoo procedure in correct sequence, and execute a professional scalp massage using proper technique.</p>
+<p>By the end of this lesson you will select the appropriate shampoo for a client's hair type, perform the shampoo procedure in correct sequence, and execute a professional scalp massage using proper technique.</p>
 
 <h3>Key Concepts</h3>
 <ul>
@@ -384,7 +384,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Client Services — Shampoo and Scalp Treatments</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Client Services — Shampoo and Scalp Treatments</p>$html$::text),
     quiz_questions = '[
       {"id":"m2-l13-q1","question":"Which shampoo type is most appropriate for color-treated hair?","options":["Clarifying","Medicated","Sulfate-free","Balancing"],"correctAnswer":2,"explanation":"Sulfate-free shampoo preserves color by avoiding harsh detergents that strip the hair shaft and accelerate color fade."},
       {"id":"m2-l13-q2","question":"Where should you test water temperature before applying it to a client''s scalp?","options":["Back of your hand","Your wrist","The client''s hand","The shampoo bowl edge"],"correctAnswer":1,"explanation":"Testing on your wrist gives a more accurate sensitivity reading than the back of the hand, helping prevent scalp burns."},
@@ -400,9 +400,9 @@ BEGIN
   UPDATE public.course_lessons SET
     title         = 'Module 2 Checkpoint — Hair Science & Scalp Analysis',
     video_url     = NULL,
-    content       = '<h2>Module 2 Checkpoint</h2>
+    content       = to_jsonb($html$<h2>Module 2 Checkpoint</h2>
 <p>This checkpoint covers all six lessons in Module 2: Structure of the Hair and Scalp, The Hair Growth Cycle, Hair Texture/Density/Porosity, Scalp Conditions and Disorders, Client Consultation, and Shampoo Service and Scalp Massage.</p>
-<p>You must score <strong>70% or higher</strong> to unlock Module 3. Review your lesson notes before beginning.</p>',
+<p>You must score <strong>70% or higher</strong> to unlock Module 3. Review your lesson notes before beginning.</p>$html$::text),
     quiz_questions = '[
       {"id":"m2-cp-q1","question":"Which layer of the hair shaft contains melanin and determines hair color?","options":["Cuticle","Cortex","Medulla","Dermal papilla"],"correctAnswer":1,"explanation":"The cortex contains melanin granules that give hair its color and fibrous proteins that determine strength."},
       {"id":"m2-cp-q2","question":"During which phase of the hair growth cycle is hair actively growing?","options":["Telogen","Catagen","Anagen","Exogen"],"correctAnswer":2,"explanation":"Anagen is the active growth phase, lasting 2-7 years. About 85-90% of scalp hairs are in anagen at any time."},

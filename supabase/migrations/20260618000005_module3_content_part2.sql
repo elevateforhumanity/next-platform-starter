@@ -11,7 +11,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Shear, Clipper, and Trimmer Techniques',
     video_url   = '/videos/barber-course-intro-with-voice.mp4',
-    content     = '<h2>Shear, Clipper, and Trimmer Techniques</h2>
+    content     = to_jsonb($html$<h2>Shear, Clipper, and Trimmer Techniques</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will distinguish the purpose of each cutting tool, explain when to use shear-over-comb vs. clipper-over-comb, and identify common tool misuse errors and their consequences.</p>
@@ -60,7 +60,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Tools and Equipment</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Tools and Equipment</p>$html$::text),
     quiz_questions = '[
       {"id":"m3-l18-q1","question":"Which tool is most appropriate for outlining and edging the neckline?","options":["Shears","Clippers with a guard","Trimmers","Razor"],"correctAnswer":2,"explanation":"Trimmers are designed for close, precise detail work including outlines, edges, and neckline finishing."},
       {"id":"m3-l18-q2","question":"A barber needs to refine a parietal ridge transition without creating a hard line. Which technique is most appropriate?","options":["Clipper with a guard","Clipper-over-comb","Trimmer outlining","Razor cutting"],"correctAnswer":1,"explanation":"Clipper-over-comb allows the barber to follow the head shape and remove weight precisely without the hard line that a guard creates."},
@@ -76,7 +76,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Fading, Tapering, and Blending',
     video_url   = '/videos/barber-course-intro-with-voice.mp4',
-    content     = '<h2>Fading, Tapering, and Blending</h2>
+    content     = to_jsonb($html$<h2>Fading, Tapering, and Blending</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will distinguish between a fade and a taper, explain the mechanics of guard progression, identify the causes of hard lines, and describe the correct approach to removing them.</p>
@@ -121,7 +121,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Fading and Tapering</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Fading and Tapering</p>$html$::text),
     quiz_questions = '[
       {"id":"m3-l19-q1","question":"What is the primary difference between a fade and a taper?","options":["A fade uses shears; a taper uses clippers","A fade starts at skin or very close; a taper is a softer, more conservative reduction","A taper is always longer than a fade","A fade is only done on the neckline"],"correctAnswer":1,"explanation":"A fade starts at skin or very close (0–0.5 guard) and creates a dramatic transition. A taper is a softer, lower-profile reduction typically at the neckline and ears."},
       {"id":"m3-l19-q2","question":"A student creates a hard line between a 1 and 2 guard. What is the correct fix?","options":["Re-cut the entire side with the 1 guard","Use an intermediate guard (1.5 or open lever) with a flicking motion in the transition zone","Switch to shears for the entire blend","Use the trimmer to remove the line"],"correctAnswer":1,"explanation":"Hard lines between guard sizes are fixed by using an intermediate length in the transition zone with a controlled flicking motion to feather the line out."},
@@ -137,7 +137,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Head Shape, Face Shape, and Cut Selection',
     video_url   = '/videos/barber-course-intro-with-voice.mp4',
-    content     = '<h2>Head Shape, Face Shape, and Cut Selection</h2>
+    content     = to_jsonb($html$<h2>Head Shape, Face Shape, and Cut Selection</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will identify the key anatomical landmarks of the head, describe how face shape influences cut selection, and explain how growth patterns affect the finished result.</p>
@@ -179,7 +179,7 @@ BEGIN
 <p>Cowlicks, strong crowns, and irregular necklines are growth patterns — the direction hair naturally grows from the follicle. These cannot be permanently changed by cutting. A barber who fights a growth pattern will produce a cut that looks good in the chair and wrong by the next morning. The correct approach is to design the cut to work with the pattern, not against it.</p>
 
 <h3>Real-World Application</h3>
-<p>A client with a strong crown requests an ultra-smooth finish in that area. You know the crown growth pattern will push the hair back and expose inconsistency within 24 hours. You explain this to the client, design the cut to follow the crown''s natural direction, and set the expectation that the crown will always have some movement. The client leaves satisfied because they were informed, not surprised.</p>
+<p>A client with a strong crown requests an ultra-smooth finish in that area. You know the crown growth pattern will push the hair back and expose inconsistency within 24 hours. You explain this to the client, design the cut to follow the crown's natural direction, and set the expectation that the crown will always have some movement. The client leaves satisfied because they were informed, not surprised.</p>
 
 <h3>Summary</h3>
 <ul>
@@ -190,7 +190,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Head and Face Shape Analysis</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Head and Face Shape Analysis</p>$html$::text),
     quiz_questions = '[
       {"id":"m3-l20-q1","question":"Which anatomical landmark is the widest point of the head and a key reference for fade height?","options":["Occipital bone","Crown","Parietal ridge","Temporal area"],"correctAnswer":2,"explanation":"The parietal ridge is the widest point of the head where the side meets the top. It is the primary reference point for fade height and weight line placement."},
       {"id":"m3-l20-q2","question":"A client has a round face shape. Which cut strategy best creates visual balance?","options":["Add width at the sides","Add height on top and keep sides close","Add width at the forehead only","Use a very square perimeter"],"correctAnswer":1,"explanation":"For a round face, adding height on top and keeping the sides close creates the illusion of length, visually balancing the equal width and height of the face."},
@@ -206,9 +206,9 @@ BEGIN
   UPDATE public.course_lessons SET
     title         = 'Module 3 Checkpoint — Haircutting Theory & Techniques',
     video_url     = NULL,
-    content       = '<h2>Module 3 Checkpoint</h2>
+    content       = to_jsonb($html$<h2>Module 3 Checkpoint</h2>
 <p>This checkpoint covers all six lessons in Module 3: Foundations of Haircutting, Sectioning/Parting/Control, Elevation/Angles/Weight Distribution, Shear/Clipper/Trimmer Techniques, Fading/Tapering/Blending, and Head Shape/Face Shape/Cut Selection.</p>
-<p>You must score <strong>70% or higher</strong> to unlock Module 4. Review your lesson notes before beginning.</p>',
+<p>You must score <strong>70% or higher</strong> to unlock Module 4. Review your lesson notes before beginning.</p>$html$::text),
     quiz_questions = '[
       {"id":"m3-cp-q1","question":"What is the purpose of a guideline in haircutting?","options":["To determine shampoo selection","To control the length of all subsequent sections","To set water temperature","To select the correct clipper guard"],"correctAnswer":1,"explanation":"A guideline is the reference section that controls how long every subsequent section is cut — the foundation of consistency."},
       {"id":"m3-cp-q2","question":"A barber holds hair at 90 degrees elevation and cuts. What is the primary result?","options":["A strong weight line at the perimeter","Uniform layering throughout","Maximum weight retention","Skin-level fade"],"correctAnswer":1,"explanation":"At 90° elevation, hair is held perpendicular to the head, creating uniform layering because each section is cut at the same distance from the scalp."},

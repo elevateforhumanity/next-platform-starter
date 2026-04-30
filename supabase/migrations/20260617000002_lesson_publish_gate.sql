@@ -18,7 +18,7 @@ SELECT
   cm.title       AS module_title,
   c.title        AS course_title,
   ARRAY_REMOVE(ARRAY[
-    CASE WHEN cl.content IS NULL OR cl.content = '' THEN 'no_content' END,
+    CASE WHEN cl.content IS NULL OR cl.content = 'null'::jsonb THEN 'no_content' END,
     -- Assessments (checkpoint/quiz/exam) are quiz-only — video not required
     CASE WHEN cl.lesson_type NOT IN ('quiz', 'checkpoint', 'exam')
           AND (cl.video_url IS NULL OR cl.video_url = '')
@@ -33,7 +33,7 @@ JOIN public.course_modules cm ON cm.id = cl.module_id
 JOIN public.courses         c  ON c.id  = cl.course_id
 WHERE cl.is_published = true
   AND (
-    cl.content IS NULL OR cl.content = ''
+    cl.content IS NULL OR cl.content = 'null'::jsonb
     OR (
       cl.lesson_type NOT IN ('quiz', 'checkpoint', 'exam')
       AND (cl.video_url IS NULL OR cl.video_url = '')

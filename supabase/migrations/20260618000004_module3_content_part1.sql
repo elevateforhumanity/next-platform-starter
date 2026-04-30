@@ -11,7 +11,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Foundations of Haircutting',
     video_url   = '/videos/barber-course-intro-with-voice.mp4',
-    content     = '<h2>Foundations of Haircutting</h2>
+    content     = to_jsonb($html$<h2>Foundations of Haircutting</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will define the five foundational principles of haircutting, explain how each affects the finished result, and apply them to describe why a haircut succeeds or fails technically.</p>
@@ -57,7 +57,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Principles and Theory</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Principles and Theory</p>$html$::text),
     quiz_questions = '[
       {"id":"m3-l15-q1","question":"What is the purpose of a guideline in haircutting?","options":["To determine the shampoo used","To control the length of all subsequent sections","To set the water temperature","To select the correct clipper guard"],"correctAnswer":1,"explanation":"A guideline is the reference section that controls how long every subsequent section is cut. It is the foundation of consistency."},
       {"id":"m3-l15-q2","question":"A barber uses a small amount of the previously cut section as the guide for the next section. This is a:","options":["Stationary guideline","Traveling guideline","Perimeter guideline","Elevation guideline"],"correctAnswer":1,"explanation":"A traveling guideline moves with each new section, incorporating a piece of the previously cut hair. This creates uniform layering throughout the cut."},
@@ -73,7 +73,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Sectioning, Parting, and Control',
     video_url   = '/videos/barber-course-intro-with-voice.mp4',
-    content     = '<h2>Sectioning, Parting, and Control</h2>
+    content     = to_jsonb($html$<h2>Sectioning, Parting, and Control</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will explain the difference between sectioning and parting, identify stationary and traveling guidelines in context, and describe how distribution affects weight and shape.</p>
@@ -117,7 +117,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Sectioning and Control</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Sectioning and Control</p>$html$::text),
     quiz_questions = '[
       {"id":"m3-l16-q1","question":"What is the primary purpose of sectioning the head before cutting?","options":["To select the correct shampoo","To organize the head into workable areas and prevent overcutting","To determine the client''s face shape","To identify scalp conditions"],"correctAnswer":1,"explanation":"Sectioning divides the head into organized zones before cutting begins, preventing hair from falling into already-cut areas and keeping the work controlled."},
       {"id":"m3-l16-q2","question":"A barber notices one side of a haircut is heavier than the other after cutting. The most likely cause is:","options":["Wrong clipper guard used","Inconsistent distribution direction between sides","Too much shampoo applied","Incorrect water temperature"],"correctAnswer":1,"explanation":"Distribution — the direction hair is combed before cutting — directly affects where weight sits. Inconsistent distribution between sides creates asymmetrical weight."},
@@ -133,7 +133,7 @@ BEGIN
   UPDATE public.course_lessons SET
     title       = 'Elevation, Angles, and Weight Distribution',
     video_url   = '/videos/barber-course-intro-with-voice.mp4',
-    content     = '<h2>Elevation, Angles, and Weight Distribution</h2>
+    content     = to_jsonb($html$<h2>Elevation, Angles, and Weight Distribution</h2>
 
 <h3>Objective</h3>
 <p>By the end of this lesson you will define elevation, identify the four standard elevation angles, predict the weight outcome of each, and explain why angle selection is the most consequential technical decision in haircutting.</p>
@@ -177,7 +177,7 @@ BEGIN
 </ul>
 
 <h3>State Board Alignment</h3>
-<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Elevation and Weight Control</p>',
+<p><strong>Indiana Barber Exam Domain:</strong> Haircutting — Elevation and Weight Control</p>$html$::text),
     quiz_questions = '[
       {"id":"m3-l17-q1","question":"A barber holds hair at 0 degrees elevation and cuts. What is the primary result?","options":["Maximum layering throughout","Uniform layers","A strong weight line at the perimeter","Soft graduation"],"correctAnswer":2,"explanation":"At 0° elevation, hair is cut at its natural fall position. This creates maximum weight and a strong weight line at the perimeter — used in one-length cuts."},
       {"id":"m3-l17-q2","question":"A client wants softness and movement but the barber cuts everything at low elevation. What is the most likely outcome?","options":["Soft, flowing layers","A heavy, boxy result with no movement","Uniform layering throughout","Maximum length removal"],"correctAnswer":1,"explanation":"Low elevation preserves weight at the perimeter. Without elevation to remove interior weight, the result is heavy and boxy with no movement."},
