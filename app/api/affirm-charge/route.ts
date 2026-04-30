@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { apiAuthGuard } from '@/lib/admin/guards';
+import { safeInternalError } from '@/lib/api/safe-error';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -7,8 +9,13 @@ import { createClient } from '@/lib/supabase/server';
 import { sendEnrollmentEmail } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
+  const auth = await apiAuthGuard(request);
+  if (auth.error) return auth.error;
+
   try {
-    const { checkout_token, program, user_id, user_email } = await request.json();
+    const { checkout_token, program, user_email } = await request.json();
+    // Always use the authenticated user's ID — never trust user_id from the request body.
+    const user_id = auth.user.id;
 
     // Call Affirm API to authorize the charge
     const publicKey = process.env.NEXT_PUBLIC_AFFIRM_PUBLIC_KEY;
@@ -84,10 +91,6 @@ export async function POST(request: NextRequest) {
       enrollment_id: enrollment?.id,
     });
   } catch (error) {
-    /* Error handled silently */
-    return NextResponse.json(
-      { error: error.message || 'Failed to process Affirm payment' },
-      { status: 500 },
-    );
+    return safeInternalError(error, 'Failed to process Affirm payment');
   }
 }

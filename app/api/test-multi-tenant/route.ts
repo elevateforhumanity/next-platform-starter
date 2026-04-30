@@ -1,15 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
+import { NextRequest, NextResponse } from 'next/server';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
-import { NextResponse } from 'next/server';
 
 /**
  * Test Multi-Tenant Isolation
  * GET /api/test-multi-tenant
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
   try {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
       return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });

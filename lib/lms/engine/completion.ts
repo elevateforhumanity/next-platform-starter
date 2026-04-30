@@ -81,14 +81,17 @@ export async function recordStepCompletion(
 
   // Persist progress % — canonical table: program_enrollments
   // Try by course_id first (direct enrollment), then by program_id (program-level enrollment).
+  // NOTE: Supabase returns error=null when an UPDATE matches zero rows — check the returned
+  // data length instead of the error to detect a no-op update and trigger the fallback.
   await setAuditContext(db, { actorUserId: userId, systemActor: 'lms_completion_engine' });
-  const { error: directUpdateError } = await db
+  const { data: directUpdated, error: directUpdateError } = await db
     .from('program_enrollments')
     .update({ progress_percent: progressPercent, updated_at: new Date().toISOString() })
     .eq('user_id', userId)
-    .eq('course_id', courseId);
+    .eq('course_id', courseId)
+    .select('id');
 
-  if (directUpdateError) {
+  if (directUpdateError || !directUpdated?.length) {
     // Fallback: program-level enrollment — resolve program_id from courses
     const { data: courseRow } = await db
       .from('courses')
@@ -163,13 +166,15 @@ export async function recordStepUncompletion(
   const progressPercent = calcProgressPercent(completedCount, totalLessons);
 
   // Persist progress % — canonical table: program_enrollments
-  const { error: directUpdateError } = await db
+  // Same zero-row fallback pattern as recordStepCompletion.
+  const { data: directUpdated2, error: directUpdateError2 } = await db
     .from('program_enrollments')
     .update({ progress_percent: progressPercent, updated_at: new Date().toISOString() })
     .eq('user_id', userId)
-    .eq('course_id', courseId);
+    .eq('course_id', courseId)
+    .select('id');
 
-  if (directUpdateError) {
+  if (directUpdateError2 || !directUpdated2?.length) {
     const { data: courseRow } = await db
       .from('courses')
       .select('program_id')

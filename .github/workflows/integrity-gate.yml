@@ -14,7 +14,10 @@ concurrency:
 jobs:
   integrity:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # Integrity checks analyse source files — they do not require a webpack
+    # build. The full build runs in ci-cd.yml. Timeout raised to 30 min to
+    # accommodate the daily scheduled run which starts cold.
+    timeout-minutes: 30
     env:
       NODE_OPTIONS: '--max-old-space-size=6144'
 
@@ -30,16 +33,21 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm run build
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
 
       # Pre-auth registry check — runs before build, no secrets needed.
       # Fails if any public-write route inserts into a table not declared in

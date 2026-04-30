@@ -1,3 +1,5 @@
+// PUBLIC ROUTE: Sentry error reporting test. Blocked in production via
+// NODE_ENV check — returns 403 in any non-development environment.
 import { NextResponse } from 'next/server';
 import * as Sentry from '@sentry/nextjs';
 

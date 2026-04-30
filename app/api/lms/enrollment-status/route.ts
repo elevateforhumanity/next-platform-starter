@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
  * Reads from program_enrollments (canonical). Admin client bypasses RLS.
  */
 export async function GET(req: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
+  const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
   const courseId = req.nextUrl.searchParams.get('courseId');

@@ -1,3 +1,5 @@
+// PUBLIC ROUTE: Text-to-speech synthesis for lesson audio. Rate-limited via
+// applyRateLimit('public'). No user data is read or written.
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 

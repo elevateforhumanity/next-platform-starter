@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS public.program_versions (
   version     INTEGER NOT NULL,
   snapshot    JSONB NOT NULL,   -- full program state at publish time
   created_by  UUID REFERENCES auth.users(id),
-  created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
   UNIQUE (program_id, version)
 );
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS public.course_versions (
   version     INTEGER NOT NULL,
   snapshot    JSONB NOT NULL,   -- full course + modules + lessons state
   created_by  UUID REFERENCES auth.users(id),
-  created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
   UNIQUE (course_id, version)
 );
 

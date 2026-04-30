@@ -1,5 +1,6 @@
 // Instructor: issue a module competency or hour-block sign-off
 // POST /api/admin/barber/signoff
+// pre-auth-registry: exempt — route requires apiRequireInstructor; all writes are post-auth.
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireInstructor } from '@/lib/admin/guards';

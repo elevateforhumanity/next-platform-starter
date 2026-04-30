@@ -1,4 +1,5 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -8,7 +9,9 @@ import { logger } from '@/lib/logger';
 import { toError, toErrorMessage } from '@/lib/safe';
 
 // TEST ONLY - Simulates webhook without Stripe payment
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
   try {
     const { studentId, programId } = await req.json();
 

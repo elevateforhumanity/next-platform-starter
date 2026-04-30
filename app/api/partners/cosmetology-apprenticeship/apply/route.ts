@@ -91,6 +91,13 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (partnerError) {
+      // Unique constraint on contact_email — already applied
+      if (partnerError.code === '23505') {
+        return safeError(
+          'An application already exists for this email address. Please log in to continue your onboarding.',
+          409,
+        );
+      }
       logger.error('Cosmetology salon application insert error:', partnerError);
       return safeInternalError(partnerError, 'Failed to submit application');
     }

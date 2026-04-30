@@ -1,6 +1,13 @@
 {
   "name": "Elevate LMS",
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
+  // Persist .next/cache across environment restarts so webpack and tsc
+  // incremental builds reuse prior compilation artifacts. Without this,
+  // every restart is a cold build. The volume is named per-project so
+  // multiple clones don't share a cache.
+  "mounts": [
+    "source=elevate-lms-next-cache,target=/workspaces/Elevate-lms/.next/cache,type=volume"
+  ],
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {

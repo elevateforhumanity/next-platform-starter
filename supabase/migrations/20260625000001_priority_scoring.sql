@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS public.admin_priority_queue (
   resolved_at       timestamptz,
   resolved_by       uuid        REFERENCES auth.users(id),
   created_at        timestamptz NOT NULL DEFAULT now(),
-  updated_at        timestamptz NOT NULL DEFAULT now(),
+  updated_at        timestamptz NOT NULL DEFAULT now()
   -- Prevent duplicate entries for the same source row
   UNIQUE (item_type, reference_id)
 );

@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS public.occupation_standards (
   -- Metadata
   fetched_at            timestamptz NOT NULL DEFAULT now(),
   expires_at            timestamptz NOT NULL DEFAULT (now() + interval '30 days'),
-  fetch_error           text,    -- last error if fetch failed
+  fetch_error           text     -- last error if fetch failed
   -- is_stale is computed at query time: (now() > expires_at)
   -- GENERATED ALWAYS AS is not supported here (now() is not immutable)
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS public.credential_domains (
   verified_at       timestamptz,
   compliance_status text NOT NULL DEFAULT 'draft_for_human_review',
   created_at        timestamptz NOT NULL DEFAULT now(),
-  updated_at        timestamptz NOT NULL DEFAULT now(),
+  updated_at        timestamptz NOT NULL DEFAULT now()
 
   UNIQUE (credential_code, version)
 );

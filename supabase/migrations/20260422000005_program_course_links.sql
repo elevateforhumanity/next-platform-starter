@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS public.program_course_links (
   status       TEXT NOT NULL DEFAULT 'active'
     CHECK (status IN ('active', 'inactive', 'archived')),
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
   UNIQUE (org_id, program_id, course_id),
   UNIQUE (org_id, program_slug, course_id)
 );

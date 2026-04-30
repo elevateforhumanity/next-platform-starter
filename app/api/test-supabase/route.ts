@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { protectTestEndpoint } from '@/lib/api/protect-test-endpoint';
+import { safeInternalError } from '@/lib/api/safe-error';
 
 export const GET = protectTestEndpoint(async () => {
   try {
@@ -38,37 +39,18 @@ export const GET = protectTestEndpoint(async () => {
         database: {
           querySuccess: !error,
           error: error
-            ? {
-                code: (error as any)?.code || 'UNKNOWN',
-                message: error instanceof Error ? error.message : String(error),
-                details: error.details,
-                hint: error.hint,
-              }
+            ? { code: (error as any)?.code || 'UNKNOWN', hint: (error as any)?.hint ?? null }
             : null,
         },
       });
-    } catch (error) {
-      /* Error handled silently */
-      clientError = error instanceof Error ? error.message : String(error);
+    } catch {
       return NextResponse.json({
         status: 'error',
-        environment: {
-          hasUrl,
-          hasServiceKey,
-          hasAnonKey,
-          urlPrefix,
-        },
-        client: {
-          created: false,
-          error: clientError,
-        },
+        environment: { hasUrl, hasServiceKey, hasAnonKey, urlPrefix },
+        client: { created: false, error: 'Client initialization failed' },
       });
     }
-  } catch (error) {
-    /* Error handled silently */
-    return NextResponse.json({
-      status: 'error',
-      message: error instanceof Error ? error.message : String(error),
-    });
+  } catch {
+    return NextResponse.json({ status: 'error', message: 'Diagnostic check failed' });
   }
 });

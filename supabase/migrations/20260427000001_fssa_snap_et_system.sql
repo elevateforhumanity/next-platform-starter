@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS public.fssa_attendance (
   present         BOOLEAN     NOT NULL DEFAULT true,
   excused         BOOLEAN     NOT NULL DEFAULT false,
   notes           TEXT,
-  recorded_by     UUID        REFERENCES auth.users(id) ON DELETE SET NULL,
+  recorded_by     UUID        REFERENCES auth.users(id) ON DELETE SET NULL
 
   UNIQUE (participant_id, session_date, session_type)
 );

@@ -2,13 +2,15 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { safeInternalError } from '@/lib/api/safe-error';
 
 export async function GET(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
+
   return NextResponse.json({
     message: 'Use POST to test insert',
     example: {
@@ -21,13 +23,15 @@ export async function GET(request: NextRequest) {
   });
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
+
   try {
     const body = await req.json();
     const db = await requireAdminClient();
 
-    // Try to insert test data
-    const { data, error }: any = await supabase
+    const { data, error }: any = await db
       .from('applications')
       .insert({
         first_name: body.firstName || 'Test',
@@ -44,17 +48,10 @@ export async function POST(req: Request) {
     if (error) {
       return NextResponse.json({
         success: false,
-        error: {
-          code: (error as any)?.code || 'UNKNOWN',
-          message: error instanceof Error ? error.message : String(error),
-          details: error.details,
-          hint: error.hint,
-          full: error,
-        },
+        error: { code: (error as any)?.code || 'UNKNOWN', hint: error.hint },
       });
     }
 
-    // Delete the test record
     await db.from('applications').delete().eq('id', data.id);
 
     return NextResponse.json({
@@ -63,11 +60,6 @@ export async function POST(req: Request) {
       insertedId: data.id,
     });
   } catch (error) {
-    /* Error handled silently */
-    return NextResponse.json({
-      success: false,
-      error: (err as Error).message,
-      stack: err.stack,
-    });
+    return safeInternalError(error, 'Insert test failed');
   }
 }

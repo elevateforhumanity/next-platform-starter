@@ -135,9 +135,10 @@ async function _POST(request: NextRequest) {
     ]);
 
     if (profileResult.error) {
+      // error.message goes to server log only — response body uses a static string.
       logger.error('[onboarding/complete] Failed to fetch profile', {
         userId,
-        error: profileResult.error.message,
+        errorCode: profileResult.error.code,
       });
       return NextResponse.json({ error: 'Failed to load user profile' }, { status: 500 });
     }

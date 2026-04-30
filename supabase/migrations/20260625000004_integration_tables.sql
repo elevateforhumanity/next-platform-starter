@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS public.integration_tokens (
   scopes        TEXT,
   metadata      JSONB,
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
   UNIQUE (user_id, provider)
 );
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS public.calendly_bookings (
   questions        JSONB,
   raw_payload      JSONB,
   created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
   UNIQUE (invitee_email, start_time)
 );
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS public.google_classroom_sync (
   settings     JSONB DEFAULT '{}',
   status       TEXT DEFAULT 'disconnected',
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
   UNIQUE (user_id, course_id)
 );
 

@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS public.barber_hour_ledger (
 
   last_session_start  timestamptz,
   last_session_end    timestamptz,
-  updated_at          timestamptz NOT NULL DEFAULT now(),
+  updated_at          timestamptz NOT NULL DEFAULT now()
 
   UNIQUE (user_id, program_id)
 );

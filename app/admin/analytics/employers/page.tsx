@@ -18,10 +18,10 @@ export default async function EmployerAnalyticsPage() {
     .select('*', { count: 'exact', head: true })
     .eq('status', 'active');
   const { count: totalPostings } = await db
-    .from('jobs')
+    .from('job_postings')
     .select('*', { count: 'exact', head: true });
   const { count: activePostings } = await db
-    .from('jobs')
+    .from('job_postings')
     .select('*', { count: 'exact', head: true })
     .eq('status', 'active');
   const { count: totalPlacements } = await db
@@ -31,7 +31,7 @@ export default async function EmployerAnalyticsPage() {
 
   const { data: topEmployers } = await db
     .from('employers')
-    .select('id, business_name, status')
+    .select('id, name, business_name, status')
     .order('created_at', { ascending: false })
     .limit(20);
 
@@ -44,7 +44,7 @@ export default async function EmployerAnalyticsPage() {
         .eq('employer_id', e.id)
         .eq('status', 'placed');
       const { count: openJobs } = await db
-        .from('jobs')
+        .from('job_postings')
         .select('*', { count: 'exact', head: true })
         .eq('employer_id', e.id)
         .eq('status', 'active');
@@ -111,7 +111,7 @@ export default async function EmployerAnalyticsPage() {
               <tbody className="divide-y">
                 {employerStats.map((e: any) => (
                   <tr key={e.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 font-medium">{e.business_name || '—'}</td>
+                    <td className="px-4 py-3 font-medium">{e.name || e.business_name || '—'}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`px-2 py-0.5 text-xs rounded-full ${e.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-slate-700'}`}

@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     .order('created_at', { ascending: false })
     .limit(5000);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'Failed to export applicants' }, { status: 500 });
 
   const headers = ['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Program Interest', 'Status', 'Reference #', 'Source', 'Applied At'];
   const rows = (data ?? []).map((r) => [

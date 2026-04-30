@@ -4,20 +4,7 @@ import { useState } from 'react';
 import { SignatureCanvas } from '@/components/SignatureCanvas';
 import { CheckCircle, AlertCircle, Download } from 'lucide-react';
 
-const PROGRAMS = [
-  'CNA / Healthcare',
-  'HVAC Technician',
-  'CDL Training (Class A)',
-  'IT Help Desk / CompTIA A+',
-  'Peer Recovery Specialist',
-  'Barber Apprenticeship',
-  'Cosmetology Apprenticeship',
-  'Bookkeeping & QuickBooks',
-  'Forklift Operator',
-  'Electrical Apprenticeship',
-];
-
-export default function EmployerMOUSignForm() {
+export default function EmployerMOUSignForm({ programs }: { programs: string[] }) {
   const [step, setStep] = useState<'form' | 'sign' | 'done'>('form');
 
   // Form fields
@@ -182,7 +169,7 @@ export default function EmployerMOUSignForm() {
             <h2 className="text-lg font-semibold text-slate-800">Programs Covered <span className="text-rose-500">*</span></h2>
             <p className="text-sm text-slate-500">Select all programs relevant to your hiring needs.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {PROGRAMS.map((p) => (
+              {programs.map((p) => (
                 <label key={p} className="flex items-center gap-3 text-sm text-slate-700 cursor-pointer p-2 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200 transition">
                   <input
                     type="checkbox"
