@@ -726,64 +726,64 @@
 # e.g. https://your-app.up.railway.app
 [[redirects]]
   from = "/admin"
-  to = ":RAILWAY_URL/admin"
+  to = "https://elevate-admin-production.up.railway.app/admin"
   status = 301
   force = true
 
 [[redirects]]
   from = "/admin/*"
-  to = ":RAILWAY_URL/admin/:splat"
+  to = "https://elevate-admin-production.up.railway.app/admin/:splat"
   status = 301
   force = true
 
 # PWA — served by Railway
 [[redirects]]
   from = "/pwa"
-  to = ":RAILWAY_URL/pwa"
+  to = "https://elevate-admin-production.up.railway.app/pwa"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pwa/*"
-  to = ":RAILWAY_URL/pwa/:splat"
+  to = "https://elevate-admin-production.up.railway.app/pwa/:splat"
   status = 301
   force = true
 
 # Store / checkout — Railway-owned e-commerce
 [[redirects]]
   from = "/store"
-  to = ":RAILWAY_URL/store"
+  to = "https://elevate-admin-production.up.railway.app/store"
   status = 301
   force = true
 
 [[redirects]]
   from = "/store/*"
-  to = ":RAILWAY_URL/store/:splat"
+  to = "https://elevate-admin-production.up.railway.app/store/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/checkout"
-  to = ":RAILWAY_URL/checkout"
+  to = "https://elevate-admin-production.up.railway.app/checkout"
   status = 301
   force = true
 
 [[redirects]]
   from = "/checkout/*"
-  to = ":RAILWAY_URL/checkout/:splat"
+  to = "https://elevate-admin-production.up.railway.app/checkout/:splat"
   status = 301
   force = true
 
 # LMS — Railway-owned learning platform
 [[redirects]]
   from = "/lms"
-  to = ":RAILWAY_URL/lms"
+  to = "https://elevate-admin-production.up.railway.app/lms"
   status = 301
   force = true
 
 [[redirects]]
   from = "/lms/*"
-  to = ":RAILWAY_URL/lms/:splat"
+  to = "https://elevate-admin-production.up.railway.app/lms/:splat"
   status = 301
   force = true
 
@@ -793,108 +793,108 @@
 # force=true so they still take priority over this catch-all.
 [[redirects]]
   from = "/api/*"
-  to = ":RAILWAY_URL/api/:splat"
+  to = "https://elevate-admin-production.up.railway.app/api/:splat"
   status = 301
   force = true
 
 # Learner / student portals — Railway
 [[redirects]]
   from = "/learner"
-  to = ":RAILWAY_URL/learner"
+  to = "https://elevate-admin-production.up.railway.app/learner"
   status = 301
   force = true
 
 [[redirects]]
   from = "/learner/*"
-  to = ":RAILWAY_URL/learner/:splat"
+  to = "https://elevate-admin-production.up.railway.app/learner/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student"
-  to = ":RAILWAY_URL/student"
+  to = "https://elevate-admin-production.up.railway.app/student"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student/*"
-  to = ":RAILWAY_URL/student/:splat"
+  to = "https://elevate-admin-production.up.railway.app/student/:splat"
   status = 301
   force = true
 
 # Instructor portal — Railway
 [[redirects]]
   from = "/instructor"
-  to = ":RAILWAY_URL/instructor"
+  to = "https://elevate-admin-production.up.railway.app/instructor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor/*"
-  to = ":RAILWAY_URL/instructor/:splat"
+  to = "https://elevate-admin-production.up.railway.app/instructor/:splat"
   status = 301
   force = true
 
 # Staff / case manager portals — Railway
 [[redirects]]
   from = "/staff-portal"
-  to = ":RAILWAY_URL/staff-portal"
+  to = "https://elevate-admin-production.up.railway.app/staff-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/staff-portal/*"
-  to = ":RAILWAY_URL/staff-portal/:splat"
+  to = "https://elevate-admin-production.up.railway.app/staff-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/case-manager"
-  to = ":RAILWAY_URL/case-manager"
+  to = "https://elevate-admin-production.up.railway.app/case-manager"
   status = 301
   force = true
 
 [[redirects]]
   from = "/case-manager/*"
-  to = ":RAILWAY_URL/case-manager/:splat"
+  to = "https://elevate-admin-production.up.railway.app/case-manager/:splat"
   status = 301
   force = true
 
 # Program holder dashboard — Railway
 [[redirects]]
   from = "/program-holder/dashboard"
-  to = ":RAILWAY_URL/program-holder/dashboard"
+  to = "https://elevate-admin-production.up.railway.app/program-holder/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/program-holder/dashboard/*"
-  to = ":RAILWAY_URL/program-holder/dashboard/:splat"
+  to = "https://elevate-admin-production.up.railway.app/program-holder/dashboard/:splat"
   status = 301
   force = true
 
 # Partner / employer dashboards — Railway
 [[redirects]]
   from = "/partner/dashboard"
-  to = ":RAILWAY_URL/partner/dashboard"
+  to = "https://elevate-admin-production.up.railway.app/partner/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner/dashboard/*"
-  to = ":RAILWAY_URL/partner/dashboard/:splat"
+  to = "https://elevate-admin-production.up.railway.app/partner/dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard"
-  to = ":RAILWAY_URL/employer/dashboard"
+  to = "https://elevate-admin-production.up.railway.app/employer/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard/*"
-  to = ":RAILWAY_URL/employer/dashboard/:splat"
+  to = "https://elevate-admin-production.up.railway.app/employer/dashboard/:splat"
   status = 301
   force = true
 
