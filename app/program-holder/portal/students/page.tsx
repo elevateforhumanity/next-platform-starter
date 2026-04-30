@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { requireProgramHolder } from '@/lib/auth/require-program-holder';
 import { Users, GraduationCap, TrendingUp, Award, ChevronRight, Search } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -27,6 +28,9 @@ export default async function PortalStudentsPage() {
   if (!['program_holder', 'admin', 'super_admin', 'instructor'].includes(profile?.role ?? ''))
     redirect('/portals');
 
+  // Resolve holderId to scope all queries to this holder's students only
+  const { holderId } = await requireProgramHolder();
+
   const [
     { data: enrollments, count: totalCount },
     { count: activeCount },
@@ -38,15 +42,18 @@ export default async function PortalStudentsPage() {
         'id, status, enrolled_at, progress_percentage, programs(title), profiles(full_name, email)',
         { count: 'exact' },
       )
+      .eq('program_holder_id', holderId)
       .order('enrolled_at', { ascending: false })
       .limit(25),
     db
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
+      .eq('program_holder_id', holderId)
       .eq('status', 'active'),
     db
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
+      .eq('program_holder_id', holderId)
       .eq('status', 'completed'),
   ]);
 

@@ -40,6 +40,8 @@ const CATEGORIES = [
       { title: 'Electrical', href: '/programs/electrical', funding: 'WIOA / WRG' },
       { title: 'Plumbing', href: '/programs/plumbing', funding: 'WIOA / WRG' },
       { title: 'Construction Trades', href: '/programs/construction-trades-certification', funding: 'WIOA / WRG' },
+      { title: 'Diesel Mechanic', href: '/programs/diesel-mechanic', funding: 'WIOA / WRG' },
+      { title: 'Forklift Operator', href: '/programs/forklift', funding: 'WIOA / WRG' },
     ],
   },
   {
@@ -51,8 +53,18 @@ const CATEGORIES = [
     programs: [
       { title: 'IT Support', href: '/programs/it-support', funding: 'WIOA / WRG' },
       { title: 'Cybersecurity', href: '/programs/cybersecurity', funding: 'WIOA / WRG' },
+      { title: 'Cybersecurity Analyst', href: '/programs/cybersecurity-analyst', funding: 'WIOA / WRG' },
+      { title: 'Network Administration', href: '/programs/network-administration', funding: 'WIOA / WRG' },
+      { title: 'Network Support Technician', href: '/programs/network-support-technician', funding: 'WIOA / WRG' },
+      { title: 'Software Development', href: '/programs/software-development', funding: 'WIOA / WRG' },
+      { title: 'Web Development', href: '/programs/web-development', funding: 'WIOA / WRG' },
       { title: 'Office Administration', href: '/programs/office-administration', funding: 'WIOA / WRG' },
+      { title: 'Business Administration', href: '/programs/business-administration', funding: 'WIOA / WRG' },
       { title: 'Entrepreneurship', href: '/programs/entrepreneurship', funding: 'WIOA / WRG' },
+      { title: 'Project Management', href: '/programs/project-management', funding: 'WIOA / WRG' },
+      { title: 'CAD / Drafting Technician', href: '/programs/cad-drafting', funding: 'WIOA / WRG' },
+      { title: 'Graphic Design', href: '/programs/graphic-design', funding: 'WIOA / WRG' },
+      { title: 'Hospitality & Customer Service', href: '/programs/hospitality', funding: 'WIOA / WRG' },
       { title: 'Tax Preparation', href: '/programs/tax-preparation', funding: 'Self-Pay' },
       { title: 'Bookkeeping', href: '/programs/bookkeeping', funding: 'WIOA / WRG' },
     ],
@@ -70,13 +82,29 @@ const CATEGORIES = [
       { title: 'Sanitation & Infection Control', href: '/programs/sanitation-infection-control', funding: 'Self-Pay' },
     ],
   },
+  {
+    id: 'apprenticeships',
+    label: 'Apprenticeships',
+    href: '/apprenticeships',
+    description: 'DOL-registered earn-while-you-learn programs. Work with a licensed employer from day one.',
+    color: 'slate',
+    programs: [
+      { title: 'Barber Apprenticeship', href: '/programs/barber-apprenticeship', funding: 'DOL Registered' },
+      { title: 'Cosmetology Apprenticeship', href: '/programs/cosmetology-apprenticeship', funding: 'DOL Registered' },
+      { title: 'Esthetician', href: '/programs/esthetician', funding: 'DOL Registered' },
+      { title: 'Nail Technician Apprenticeship', href: '/programs/nail-technician-apprenticeship', funding: 'DOL Registered' },
+      { title: 'Culinary Apprenticeship', href: '/programs/culinary-apprenticeship', funding: 'DOL Registered' },
+      { title: 'Beauty & Career Educator', href: '/programs/beauty-career-educator', funding: 'DOL Registered' },
+    ],
+  },
 ];
 
 const C: Record<string, { header: string; badge: string; arrow: string; border: string; all: string }> = {
-  blue:   { header: 'bg-blue-600',   badge: 'bg-blue-50 text-blue-700',   arrow: 'text-blue-600',   border: 'border-blue-200',   all: 'text-blue-700 hover:text-blue-900' },
+  blue:   { header: 'bg-blue-600',   badge: 'bg-blue-50 text-blue-700',     arrow: 'text-blue-600',   border: 'border-blue-200',   all: 'text-blue-700 hover:text-blue-900' },
   orange: { header: 'bg-orange-600', badge: 'bg-orange-50 text-orange-700', arrow: 'text-orange-600', border: 'border-orange-200', all: 'text-orange-700 hover:text-orange-900' },
   purple: { header: 'bg-purple-600', badge: 'bg-purple-50 text-purple-700', arrow: 'text-purple-600', border: 'border-purple-200', all: 'text-purple-700 hover:text-purple-900' },
-  green:  { header: 'bg-green-700',  badge: 'bg-green-50 text-green-700',  arrow: 'text-green-700',  border: 'border-green-200',  all: 'text-green-700 hover:text-green-900' },
+  green:  { header: 'bg-green-700',  badge: 'bg-green-50 text-green-700',   arrow: 'text-green-700',  border: 'border-green-200',  all: 'text-green-700 hover:text-green-900' },
+  slate:  { header: 'bg-slate-700',  badge: 'bg-slate-100 text-slate-700',  arrow: 'text-slate-600',  border: 'border-slate-200',  all: 'text-slate-700 hover:text-slate-900' },
 };
 
 export default function ProgramsPage() {
@@ -137,20 +165,6 @@ export default function ProgramsPage() {
               </div>
             );
           })}
-        </div>
-      </section>
-
-      {/* Apprenticeships callout */}
-      <section className="bg-slate-50 border-t border-slate-100 py-14 px-6">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-1">DOL Registered Apprenticeships</p>
-            <h2 className="text-xl font-extrabold text-slate-900 mb-1">Looking for Apprenticeship Programs?</h2>
-            <p className="text-sm text-slate-600">Barbering, cosmetology, esthetics, and culinary — work-based training with a licensed employer.</p>
-          </div>
-          <Link href="/apprenticeships" className="shrink-0 inline-flex items-center gap-2 bg-slate-900 text-white font-bold px-6 py-3 rounded-lg hover:bg-slate-800 transition-colors text-sm">
-            View Apprenticeships <ArrowRight className="w-4 h-4" />
-          </Link>
         </div>
       </section>
 

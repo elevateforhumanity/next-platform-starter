@@ -5,7 +5,6 @@ export const revalidate = 86400;
 import { CredentialsOutcomes } from '@/components/programs/CredentialsOutcomes';
 import { FundingBadge } from '@/components/programs/FundingBadge';
 import PathwayDisclosure from '@/components/PathwayDisclosure';
-import PageAvatar from '@/components/PageAvatar';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
@@ -69,11 +68,7 @@ export default async function EstheticianApprenticeshipPage() {
         transcript={banner.transcript}
       />
 
-      {/* Avatar Guide */}
-      <PageAvatar
-        videoSrc="/videos/avatars/esthetician-guide.mp4"
-        title="Esthetician Apprenticeship Guide"
-      />
+
 
       {/* Pathway Disclosure */}
       <PathwayDisclosure

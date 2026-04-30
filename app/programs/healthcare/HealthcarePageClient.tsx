@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
 import PathwayDisclosure from '@/components/PathwayDisclosure';
-import PageAvatar from '@/components/PageAvatar';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 import type { Program } from '@/lib/lms/types';
 
@@ -67,9 +66,6 @@ export default function HealthcarePageClient({ programs }: { programs: Program[]
           </div>
         </div>
       </section>
-
-      {/* Avatar Guide */}
-      <PageAvatar videoSrc="/videos/avatars/healthcare-guide.mp4" title="Healthcare Guide" />
 
       {/* Breadcrumbs */}
       <Breadcrumbs />

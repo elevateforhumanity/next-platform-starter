@@ -14,10 +14,10 @@ interface NotificationPreferences {
 }
 
 export default function NotificationPreferencesForm({
-  programHolderId,
+  userId,
   initialPreferences,
 }: {
-  programHolderId: string;
+  userId: string;
   initialPreferences: NotificationPreferences;
 }) {
   const [preferences, setPreferences] = useState<NotificationPreferences>(initialPreferences);
@@ -33,7 +33,7 @@ export default function NotificationPreferencesForm({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          program_holder_id: programHolderId,
+          user_id: userId,
           ...preferences,
         }),
       });

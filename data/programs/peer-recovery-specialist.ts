@@ -8,7 +8,7 @@ export const PEER_RECOVERY: ProgramSchema = {
   sector: 'healthcare',
   category: 'Healthcare & Human Services',
   programType: 'workforce',
-  heroImage: '/hero-images/healthcare-hero.jpg',
+  heroImage: '/images/pages/healthcare-hero.jpg',
   heroImageAlt: 'Peer recovery specialist in a counseling session',
   deliveryMode: 'hybrid',
   durationWeeks: 8,

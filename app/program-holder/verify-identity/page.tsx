@@ -47,7 +47,7 @@ export default async function IdentityVerificationPage() {
 
   if (!programHolder) redirect('/program-holder/onboarding');
 
-  // Get verification status
+  // Get verification status — program_holder_id FK references program_holders.id
   const { data: verification } = await supabase
     .from('program_holder_verification')
     .select('*')
@@ -56,7 +56,7 @@ export default async function IdentityVerificationPage() {
     .limit(1)
     .maybeSingle();
 
-  // Get uploaded documents
+  // Get uploaded documents — table uses user_id, not program_holder_id
   const { data: documents } = await supabase
     .from('program_holder_documents')
     .select('*')

@@ -8,7 +8,7 @@ export const TECHNOLOGY: ProgramSchema = {
   sector: 'technology',
   category: 'Information Technology',
   programType: 'workforce',
-  heroImage: '/images/pages/technology.jpg',
+  heroImage: '/images/pages/technology-sector.jpg',
   heroImageAlt: 'Technology student working on a computer',
   deliveryMode: 'hybrid',
   durationWeeks: 12,

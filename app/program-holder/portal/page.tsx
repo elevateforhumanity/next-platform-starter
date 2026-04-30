@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { requireProgramHolder } from '@/lib/auth/require-program-holder';
 import {
   Users,
   FileText,
@@ -27,6 +28,10 @@ export default async function ProgramHolderPortalPage() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/program-holder/portal');
+
+  // requireProgramHolder resolves holderId, programIds, and enforces role + MOU
+  const ctx = await requireProgramHolder();
+  const { holderId, programIds } = ctx;
 
   const db = await requireAdminClient();
 
@@ -56,42 +61,36 @@ export default async function ProgramHolderPortalPage() {
     { count: pendingDocs },
     { count: certificates },
   ] = await Promise.all([
-    // programs.partner_id links to program_holders.id
-    programHolderId
+    // Programs linked via program_holder_programs join table — programs has no holder_id column
+    programIds.length > 0
       ? db
           .from('programs')
           .select('id, title, slug, status')
-          .eq('partner_id', programHolderId)
+          .in('id', programIds)
           .order('title')
           .limit(10)
       : Promise.resolve({ data: [] }),
-    // program_enrollments.program_holder_id links to program_holders.id
-    programHolderId
-      ? db
-          .from('program_enrollments')
-          .select('*', { count: 'exact', head: true })
-          .eq('program_holder_id', programHolderId)
-      : Promise.resolve({ count: 0 }),
-    programHolderId
-      ? db
-          .from('program_enrollments')
-          .select('*', { count: 'exact', head: true })
-          .eq('program_holder_id', programHolderId)
-          .eq('status', 'active')
-      : Promise.resolve({ count: 0 }),
-    programHolderId
-      ? db
-          .from('program_enrollments')
-          .select('*', { count: 'exact', head: true })
-          .eq('program_holder_id', programHolderId)
-          .eq('status', 'completed')
-      : Promise.resolve({ count: 0 }),
-    // program_holder_documents.user_id links to auth.users.id
+    // program_enrollments uses program_holder_id, not holder_id
+    db
+      .from('program_enrollments')
+      .select('*', { count: 'exact', head: true })
+      .eq('program_holder_id', holderId),
+    db
+      .from('program_enrollments')
+      .select('*', { count: 'exact', head: true })
+      .eq('program_holder_id', holderId)
+      .eq('status', 'active'),
+    db
+      .from('program_enrollments')
+      .select('*', { count: 'exact', head: true })
+      .eq('program_holder_id', holderId)
+      .eq('status', 'completed'),
+    // program_holder_documents uses user_id, not holder_id
     db
       .from('program_holder_documents')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', user.id)
-      .eq('approved', null),
+      .eq('status', 'pending'),
     db.from('certificates').select('*', { count: 'exact', head: true }).eq('issued_by', user.id),
   ]);
 

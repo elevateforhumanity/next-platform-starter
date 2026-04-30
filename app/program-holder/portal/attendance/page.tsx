@@ -56,8 +56,8 @@ export default async function AttendancePage() {
     db.from('cohort_attendance').select('*', { count: 'exact', head: true }).eq('status', 'late'),
     db
       .from('cohort_sessions')
-      .select('id, title, scheduled_at, status')
-      .order('scheduled_at', { ascending: false })
+      .select('id, session_date, instructor_name, modality')
+      .order('session_date', { ascending: false })
       .limit(8),
   ]);
 
@@ -126,15 +126,15 @@ export default async function AttendancePage() {
                 {sessions.map((s: any) => (
                   <div key={s.id} className="flex items-center justify-between px-6 py-3">
                     <div>
-                      <p className="text-sm font-medium text-slate-900">{s.title ?? 'Session'}</p>
+                      <p className="text-sm font-medium text-slate-900">
+                        {s.instructor_name ?? 'Session'}
+                      </p>
                       <p className="text-xs text-slate-400">
-                        {s.scheduled_at ? new Date(s.scheduled_at).toLocaleDateString() : '—'}
+                        {s.session_date ? new Date(s.session_date).toLocaleDateString() : '—'}
                       </p>
                     </div>
-                    <span
-                      className={`text-xs font-semibold px-2.5 py-1 rounded-full ${s.status === 'completed' ? 'bg-green-50 text-green-700' : s.status === 'scheduled' ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-500'}`}
-                    >
-                      {s.status ?? 'unknown'}
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
+                      {s.modality ?? 'hybrid'}
                     </span>
                   </div>
                 ))}
