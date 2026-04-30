@@ -1,9 +1,12 @@
+// PUBLIC ROUTE: Affirm payment webhook — processes charges server-to-server.
+// Auth is verified via Affirm API keys (server-side), not user session.
+// pre-auth-registry: exempt — Affirm webhook, no user_id at write time by design.
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody, getErrorMessage } from '@/lib/api-helpers';
-import { apiAuthGuard } from '@/lib/authGuards';
+import { apiAuthGuard } from '@/lib/admin/guards';
 import { logger } from '@/lib/logger';
 import { toError, toErrorMessage } from '@/lib/safe';
 
@@ -19,7 +22,7 @@ function getAuthHeader() {
 // Authorize (capture) a transaction
 export async function POST(request: NextRequest) {
   try {
-    const authResult = await apiAuthGuard({ requireAuth: false });
+    const authResult = await apiAuthGuard();
     const user = authResult.user || { id: 'guest', email: '' };
     const body = await parseBody<Record<string, any>>(request);
     const { checkout_token, order_id, action = 'authorize' } = body;
@@ -213,7 +216,7 @@ export async function POST(request: NextRequest) {
 // Get transaction details
 export async function GET(request: NextRequest) {
   try {
-    const authResult = await apiAuthGuard({ requireAuth: false });
+    const authResult = await apiAuthGuard();
 
     const { searchParams } = new URL(request.url);
     const transaction_id = searchParams.get('transaction_id');

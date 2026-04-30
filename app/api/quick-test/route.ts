@@ -1,4 +1,5 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -6,7 +7,9 @@ export const maxDuration = 60;
 import { createClient } from '@/lib/supabase/server';
 import { toError, toErrorMessage } from '@/lib/safe';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
   try {
     const supabase = await createClient();
 

@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS public.barber_student_practicals (
   last_verified_at    timestamptz,
   verification_status text         NOT NULL DEFAULT 'in_progress'
                         CHECK (verification_status IN ('in_progress', 'met', 'waived')),
-  updated_at          timestamptz  NOT NULL DEFAULT now(),
+  updated_at          timestamptz  NOT NULL DEFAULT now()
 
   UNIQUE (user_id, program_id, category_key)
 );

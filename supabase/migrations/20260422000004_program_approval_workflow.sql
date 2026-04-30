@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS public.program_review_log (
   to_status    TEXT NOT NULL,
   actor_id     UUID NOT NULL REFERENCES auth.users(id),
   notes        TEXT,
-  created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
   -- At least one of program_id or course_id must be set
   CONSTRAINT review_log_target_check CHECK (
     program_id IS NOT NULL OR course_id IS NOT NULL

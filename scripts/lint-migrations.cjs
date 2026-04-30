@@ -122,6 +122,7 @@ for (const file of files) {
         let colDepth = depth,
           endIdx = j;
         if (colDepth > 1) {
+          // Column definition started inside a nested paren — walk until it closes.
           for (let k = j + 1; k <= blockEnd; k++) {
             const knc = lines[k].replace(/--.*$/, '');
             let kInStr = false,
@@ -140,6 +141,31 @@ for (const file of files) {
               break;
             }
           }
+        } else {
+          // Top-level column (depth === 1). Check if the immediately following
+          // non-blank line is an inline CHECK constraint continuation. If so,
+          // advance endIdx to that line so the comma check uses the CHECK line
+          // (which carries the separator comma) rather than the column start line.
+          for (let k = j + 1; k <= blockEnd; k++) {
+            const knc = lines[k].replace(/--.*$/, '').trim();
+            if (!knc) continue; // skip blank lines
+            if (/^CHECK\s*\(/i.test(knc)) {
+              // Walk to the closing paren of the CHECK expression
+              let ckDepth = 0;
+              for (let m = k; m <= blockEnd; m++) {
+                const mnc = lines[m].replace(/--.*$/, '');
+                let mInStr = false, mSc = '';
+                for (const ch of mnc) {
+                  if (mInStr) { if (ch === mSc) mInStr = false; }
+                  else if (ch === "'" || ch === '"') { mInStr = true; mSc = ch; }
+                  else if (ch === '(') ckDepth++;
+                  else if (ch === ')') ckDepth--;
+                }
+                if (ckDepth <= 0) { endIdx = m; break; }
+              }
+            }
+            break; // only look at the first non-blank continuation line
+          }
         }
         cols.push({ startIdx: j, endIdx });
       }
@@ -147,13 +173,19 @@ for (const file of files) {
 
     // ── Check comma placement on end lines ───────────────────────────────────
     for (let k = 0; k < cols.length; k++) {
-      const { endIdx } = cols[k];
+      const { startIdx, endIdx } = cols[k];
       const isLast = k === cols.length - 1;
       const endLine = lines[endIdx];
       const commentStart = endLine.search(/(?<!')--.*/);
       const codePart = commentStart >= 0 ? endLine.slice(0, commentStart) : endLine;
       const codeTrimed = codePart.trimEnd();
       const hasComma = codeTrimed.endsWith(',');
+
+      // Multi-line column definitions (e.g. column + inline CHECK constraint) have
+      // their separator comma on the CHECK continuation line, not on the column's
+      // start line. When endIdx > startIdx and the end line already carries the
+      // comma, the column is correctly terminated — skip the MISSING_COMMA check.
+      const isMultiLine = endIdx > startIdx;
 
       if (!isLast && !hasComma) {
         issues.push({
@@ -163,7 +195,10 @@ for (const file of files) {
           detail: codeTrimed.trim().slice(0, 80),
         });
       }
-      if (isLast && hasComma) {
+      // For multi-line columns the comma on the CHECK line is the separator for
+      // the *next* column, not a trailing comma on the last column. Only flag
+      // TRAILING_COMMA when the column is single-line (endIdx === startIdx).
+      if (isLast && hasComma && !isMultiLine) {
         issues.push({
           type: 'TRAILING_COMMA',
           file,

@@ -11,7 +11,7 @@ create table if not exists public.lesson_responses (
   field_key   text not null,
   response_text text not null default '',
   created_at  timestamptz not null default now(),
-  updated_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
 
   -- upsert conflict target used by LessonInlineInput
   constraint lesson_responses_user_lesson_field_key unique (user_id, lesson_id, field_key)

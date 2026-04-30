@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS public.course_lesson_versions (
   -- Audit
   published_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
   published_by        UUID REFERENCES auth.users(id),
-  change_summary      TEXT,         -- optional human note ("Fixed quiz question 3")
+  change_summary      TEXT          -- optional human note ("Fixed quiz question 3")
 
   UNIQUE (lesson_id, version)
 );

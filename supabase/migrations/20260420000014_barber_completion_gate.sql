@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS public.barber_completions (
   issued_by       uuid,        -- admin/system UUID
   certificate_id  uuid,        -- links to program_completion_certificates
   exam_auth_id    uuid,        -- links to exam_funding_authorizations
-  notes           text,
+  notes           text
   UNIQUE (user_id, program_id)
 );
 
