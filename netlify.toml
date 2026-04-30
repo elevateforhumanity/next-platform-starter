@@ -1171,9 +1171,8 @@
 
 [[redirects]]
   from = "/programs/phlebotomy"
-  to = "/programs/phlebotomy-technician"
-  status = 301
-  force = true
+  to = "/programs/phlebotomy"
+  status = 200
 
 [[redirects]]
   from = "/programs/home-health-aide"
@@ -1260,6 +1259,18 @@
 [[redirects]]
   from = "/apprenticeship-sponsor"
   to = "/partners/training-provider"
+  status = 301
+  force = true
+
+# Explicit passthrough rules to bust stale CDN-cached redirects
+[[redirects]]
+  from = "/programs/cybersecurity-analyst"
+  to = "/programs/cybersecurity-analyst"
+  status = 200
+
+[[redirects]]
+  from = "/programs/cybersecurity"
+  to = "/programs/cybersecurity-analyst"
   status = 301
   force = true
 
