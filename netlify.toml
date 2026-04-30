@@ -89,6 +89,11 @@
 # Then run in Supabase SQL Editor.
 # ---------------------------------------------------------------------------
 
+# Edge function: proxy /api/* to Railway before Next.js handler intercepts
+[[edge_functions]]
+  function = "api-proxy"
+  path = "/api/*"
+
 [[plugins]]
   package = "netlify-plugin-cache"
   [plugins.inputs]
