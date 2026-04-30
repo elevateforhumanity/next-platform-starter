@@ -256,5 +256,5 @@ export const CNA: ProgramSchema = {
 
   enrollmentType: 'internal',
   deliveryModel: 'internal',
-  fundingOptions: ['fssa', 'impact', 'self-pay'],
+  fundingOptions: ['impact', 'self_pay'],
 };

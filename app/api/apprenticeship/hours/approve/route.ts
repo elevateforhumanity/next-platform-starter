@@ -14,7 +14,11 @@ async function _POST(req: Request) {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
-    const { hour_id } = await req.json();
+    const body = await req.json();
+    const { hour_id } = body;
+    // Partner portal sends { hour_id, action: 'approve' | 'reject' }
+    // Legacy callers omit action and default to approve.
+    const action: 'approve' | 'reject' = body.action === 'reject' ? 'reject' : 'approve';
 
     if (!hour_id) {
       return NextResponse.json({ error: 'Hour ID is required' }, { status: 400 });
@@ -65,7 +69,7 @@ async function _POST(req: Request) {
     }
 
     if (hourEntry.status !== 'pending') {
-      return NextResponse.json({ error: 'Only pending hours can be approved' }, { status: 400 });
+      return NextResponse.json({ error: 'Only pending hour entries can be approved or rejected' }, { status: 400 });
     }
 
     // Employer can only approve OJL hours, not RTI
@@ -112,24 +116,34 @@ async function _POST(req: Request) {
       }
     }
 
-    // Approve the hours — trigger enforces attestation fields
+    // Approve or reject the hours entry
+    const updatePayload =
+      action === 'approve'
+        ? {
+            status: 'approved',
+            approved_by: user.email,
+            approved_at: new Date().toISOString(),
+            approved_by_role: profile?.role ?? null,
+          }
+        : {
+            status: 'rejected',
+            approved_by: user.email,
+            approved_at: new Date().toISOString(),
+            approved_by_role: profile?.role ?? null,
+          };
+
     const { error } = await supabase
       .from('hour_entries')
-      .update({
-        status: 'approved',
-        approved_by: user.email,
-        approved_at: new Date().toISOString(),
-        approved_by_role: profile.role,
-      })
+      .update(updatePayload)
       .eq('id', hour_id)
       .eq('status', 'pending');
 
     if (error) {
       // Error: $1
-      return NextResponse.json({ error: 'Failed to approve hours' }, { status: 500 });
+      return NextResponse.json({ error: `Failed to ${action} hours` }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, action });
   } catch (err: any) {
     // Error: $1
     return NextResponse.json(

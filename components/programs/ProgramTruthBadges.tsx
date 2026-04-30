@@ -98,7 +98,9 @@ export function FundingSection({ fundingOptions, hideUnknown = true }: FundingSe
   return (
     <div className="space-y-2">
       {options.map((f) => {
-        const { label, detail } = FUNDING_COPY[f];
+        const entry = FUNDING_COPY[f];
+        if (!entry) return null; // guard against invalid FundingType values in data
+        const { label, detail } = entry;
         return (
           <div key={f} className="flex items-start gap-2.5">
             <CheckCircle

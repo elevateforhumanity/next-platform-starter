@@ -96,6 +96,43 @@ async function _POST(req: Request) {
     return NextResponse.json({ error: 'Failed to save' }, { status: 500 });
   }
 
+  // Auto-create a workforce_referrals row when the applicant came through a
+  // workforce agency (WorkOne, FSSA, etc.). This satisfies Fix 6 of the
+  // workforce pipeline spec — agency referrals must be structured records.
+  const WORKFORCE_AGENCY_SOURCES: Record<string, string> = {
+    workone: 'workone',
+    'workforce-connection': 'workone',
+    fssa: 'fssa',
+    'snap-et': 'fssa',
+    dwd: 'workone',
+    'vocational-rehab': 'vocational_rehabilitation',
+    vr: 'vocational_rehabilitation',
+    jri: 'jri',
+    'reentry-program': 'jri',
+  };
+  const referralSourceRaw = (body.referral_source as string | undefined)?.toLowerCase().trim() ?? '';
+  const workforceConnectionRaw = (body.workforce_connection as string | undefined)?.toLowerCase().trim() ?? '';
+  const agencyKey = WORKFORCE_AGENCY_SOURCES[referralSourceRaw] ?? WORKFORCE_AGENCY_SOURCES[workforceConnectionRaw];
+
+  if (agencyKey && body.email) {
+    (async () => {
+      try {
+        await supabase.from('workforce_referrals').insert({
+          applicant_name: (body.full_name as string).trim(),
+          applicant_email: (body.email as string).trim().toLowerCase(),
+          applicant_phone: (body.phone as string | undefined)?.trim() || null,
+          agency: agencyKey,
+          program_interest: (body.program_interest as string | undefined)?.trim() || null,
+          status: 'referred',
+        });
+      } catch (refErr) {
+        logger.warn('[Intake API] workforce_referrals insert failed', {
+          error: refErr instanceof Error ? refErr.message : 'Unknown',
+        });
+      }
+    })();
+  }
+
   // Provision a learner account if an email was provided.
   // Non-blocking: intake record is already saved above. Auth failures are logged
   // and surfaced in the admin intake queue for manual follow-up.
