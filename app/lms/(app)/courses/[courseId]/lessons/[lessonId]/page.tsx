@@ -1234,7 +1234,7 @@ export default function LessonPage() {
                   }
 
                   if (passed) {
-                    markComplete();
+                    await markComplete(true);
                   }
                 }}
                 passingScore={lesson.passing_score || 70}
