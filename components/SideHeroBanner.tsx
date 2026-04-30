@@ -40,12 +40,10 @@ export default function SideHeroBanner() {
           {/* Right Side - Image */}
           <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
             <Image
-              alt="Program hero banner"
-              loading="lazy"
               src="/images/pages/side-hero-banner.jpg"
               alt="Elevate For Humanity - Career Training Center"
               fill
-              sizes="100vw"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
               quality={90}
             />

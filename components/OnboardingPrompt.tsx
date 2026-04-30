@@ -5,8 +5,7 @@ import React from 'react';
 import { useState } from 'react';
 import { X, Rocket, ChevronRight } from 'lucide-react';
 import { useOnboarding } from '@/hooks/useOnboarding';
-import OnboardingFlow from '@/components/OnboardingFlow';
-import { ONBOARDING_FLOWS } from '@/lib/onboarding';
+import { StudentOnboarding, InstructorOnboarding } from '@/components/OnboardingFlow';
 
 interface OnboardingPromptProps {
   userId: string;
@@ -46,17 +45,10 @@ export default function OnboardingPrompt({ userId, userRole }: OnboardingPromptP
   };
 
   if (showOnboarding && selectedFlow) {
-    const flow = ONBOARDING_FLOWS[selectedFlow];
-    if (flow) {
-      return (
-        <OnboardingFlow
-          flow={flow}
-          userId={userId}
-          onComplete={handleComplete}
-          onSkip={handleComplete}
-        />
-      );
+    if (userRole === 'instructor') {
+      return <InstructorOnboarding onComplete={handleComplete} />;
     }
+    return <StudentOnboarding onComplete={handleComplete} />;
   }
 
   return (

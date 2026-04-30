@@ -108,10 +108,13 @@ export default async function OnboardingStartPage() {
   // Get existing signatures
   const { data: signatures } = await supabase
     .from('onboarding_signatures')
-    .select('document_id')
+    .select('document_id, signed_at')
     .eq('user_id', user.id);
 
   const signedDocumentIds = new Set(signatures?.map((s) => s.document_id) || []);
+  const signedAtByDocId = Object.fromEntries(
+    (signatures ?? []).map((s) => [s.document_id, s.signed_at as string]),
+  );
 
   // Get payroll profile status
   const { data: payrollProfile } = await supabase
@@ -128,6 +131,7 @@ export default async function OnboardingStartPage() {
       packet={packet}
       documents={documents || []}
       signedDocumentIds={signedDocumentIds}
+      signedAtByDocId={signedAtByDocId}
       payrollStatus={payrollProfile?.status || null}
     />
   );

@@ -48,7 +48,7 @@ const INITIAL_FORM = {
   notes: '',
 };
 
-export default function Nail TechnicianSpaApplyPage() {
+export default function NailTechnicianSpaApplyPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

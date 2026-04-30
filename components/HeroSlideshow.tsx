@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -21,7 +21,7 @@ const slides: Slide[] = [
     text: 'State-approved, federally aligned workforce training that opens doors to high-wage careers.',
     cta: {
       text: 'Explore Programs',
-      href: '/programs/barber-apprenticeship',
+      href: '/programs',
     },
   },
   {
@@ -39,7 +39,7 @@ const slides: Slide[] = [
     text: 'CNA certification through Choice Medical Institute. State-approved, workforce fundable, high-demand careers.',
     cta: {
       text: 'View Healthcare Programs',
-      href: '/programs/barber-apprenticeship',
+      href: '/programs/cna-certification',
     },
   },
   {
@@ -48,7 +48,7 @@ const slides: Slide[] = [
     text: 'HVAC, electrical, plumbing. Hands-on training for high-wage careers in construction and maintenance.',
     cta: {
       text: 'View Trades Programs',
-      href: '/programs/barber-apprenticeship',
+      href: '/programs/hvac-technician',
     },
   },
   {
@@ -57,7 +57,7 @@ const slides: Slide[] = [
     text: 'Nails, esthetics, and cosmetology training with experienced instructors.',
     cta: {
       text: 'View Beauty Programs',
-      href: '/programs/barber-apprenticeship',
+      href: '/programs/nail-technician',
     },
   },
   {
@@ -74,8 +74,8 @@ const slides: Slide[] = [
     title: 'Hands-On Training',
     text: 'Real-world skills training with experienced instructors in state-of-the-art facilities.',
     cta: {
-      text: 'See Our Facilities',
-      href: '/programs/barber-apprenticeship',
+      text: 'See Our Programs',
+      href: '/programs',
     },
   },
   {
@@ -84,7 +84,7 @@ const slides: Slide[] = [
     text: 'IT training and technology skills for the digital economy.',
     cta: {
       text: 'Explore Tech Programs',
-      href: '/programs/barber-apprenticeship',
+      href: '/programs/it-support',
     },
   },
   {
@@ -93,7 +93,7 @@ const slides: Slide[] = [
     text: 'Office administration, customer service, and professional development training.',
     cta: {
       text: 'View Business Programs',
-      href: '/programs/barber-apprenticeship',
+      href: '/programs/business-administration',
     },
   },
   {
@@ -102,13 +102,15 @@ const slides: Slide[] = [
     text: 'Childcare and early education training for rewarding careers working with children.',
     cta: {
       text: 'Learn More',
-      href: '/programs/barber-apprenticeship',
+      href: '/programs/early-childhood-education',
     },
   },
 ];
 export default function HeroSlideshow() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   useEffect(() => {
     if (!isAutoPlaying) return;
     const timer = setInterval(() => {
@@ -116,13 +118,29 @@ export default function HeroSlideshow() {
     }, 5000);
     return () => clearInterval(timer);
   }, [isAutoPlaying]);
-  // Au voiceover on mount
+
+  // Voiceover: play on first user interaction to satisfy browser autoplay policy.
+  // Audio is stored in a ref so it can be paused and garbage-collected on unmount.
   useEffect(() => {
     const audio = new Audio('/videos/voiceover.mp3');
     audio.volume = 0.7;
-    audio.play().catch((err) => {
-      // Autoplay blocked by browser - user needs to interact first
-    });
+    audioRef.current = audio;
+
+    const playOnInteraction = () => {
+      audio.play().catch(() => {});
+      document.removeEventListener('click', playOnInteraction);
+      document.removeEventListener('keydown', playOnInteraction);
+    };
+
+    document.addEventListener('click', playOnInteraction);
+    document.addEventListener('keydown', playOnInteraction);
+
+    return () => {
+      document.removeEventListener('click', playOnInteraction);
+      document.removeEventListener('keydown', playOnInteraction);
+      audio.pause();
+      audioRef.current = null;
+    };
   }, []);
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
