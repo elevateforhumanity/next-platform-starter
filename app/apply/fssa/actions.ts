@@ -58,14 +58,14 @@ export async function submitFssaApplication(
         email: data.email,
         phone: data.phone,
         date_of_birth: data.dateOfBirth || null,
-        street_address: data.streetAddress,
+        address: data.streetAddress,   // column is `address`, not `street_address`
         city: data.city,
         state: data.state || 'IN',
         zip_code: data.zipCode,
         program_interest: data.programInterest,
         funding_source: 'fssa_impact',
         application_type: 'fssa',
-        status: 'pending_review',
+        status: 'submitted',           // matches applications_status_check constraint
         metadata: {
           receivesSnap: data.receivesSnap,
           receivesTanf: data.receivesTanf,
@@ -97,7 +97,7 @@ export async function submitFssaApplication(
 
     // Notify admin
     await sendEmail({
-      to: 'admin@elevateforhumanity.org',
+      to: 'elevate4humanityedu@gmail.com',
       subject: `New FSSA IMPACT Application — ${data.firstName} ${data.lastName}`,
       text: `
 New FSSA IMPACT application received.
