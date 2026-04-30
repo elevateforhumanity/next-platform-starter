@@ -84,9 +84,17 @@ const nextConfig = {
   },
 
   // Use commit SHA as build ID so webpack filesystem cache is reused across
-  // retries of the same commit. Date.now() would bust the cache every build.
+  // retries of the same commit. Falls back to git rev-parse locally so the
+  // cache survives between runs on the same commit (Date.now() busted it every time).
   generateBuildId: async () => {
-    return process.env.COMMIT_REF || process.env.GITHUB_SHA || `build-${Date.now()}`;
+    if (process.env.COMMIT_REF) return process.env.COMMIT_REF;
+    if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
+    try {
+      const { execSync } = await import('child_process');
+      return execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
+    } catch {
+      return `build-${Date.now()}`;
+    }
   },
   // Railway needs standalone for the persistent Node server.
   // Netlify MUST NOT use standalone — Next.js ENOENT on route-group

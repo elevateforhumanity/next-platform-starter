@@ -445,20 +445,17 @@ export default async function WorkforceBoardDashboard() {
           </Link>
         </div>
 
-        <div className="mt-8 bg-white rounded-xl border border-brand-green-200 p-6">
+        <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <span className="text-black flex-shrink-0">•</span>
-              <div>
-                <h3 className="font-semibold text-gray-900">Compliance Status: Good Standing</h3>
-                <p className="text-sm text-black">
-                  All required reports submitted. Next audit: Q2 2026
-                </p>
-              </div>
+            <div>
+              <h3 className="font-semibold text-gray-900">Compliance Reports</h3>
+              <p className="text-sm text-black">
+                View WIOA, DOL, and state compliance reports for this program period.
+              </p>
             </div>
             <Link
               href="/workforce-board/reports?type=compliance"
-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-white"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               View Compliance Details
             </Link>
