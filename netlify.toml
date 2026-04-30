@@ -775,9 +775,16 @@
   force = true
 
 # LMS — Railway-owned learning platform
+# /lms root and /lms/programs have no Railway route — send to /lms/courses
 [[redirects]]
   from = "/lms"
-  to = "https://elevate-admin-production.up.railway.app/lms"
+  to = "https://elevate-admin-production.up.railway.app/lms/courses"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lms/programs"
+  to = "https://elevate-admin-production.up.railway.app/lms/courses"
   status = 301
   force = true
 
@@ -860,18 +867,7 @@
   status = 301
   force = true
 
-# Program holder dashboard — Railway
-[[redirects]]
-  from = "/program-holder/dashboard"
-  to = "https://elevate-admin-production.up.railway.app/program-holder/dashboard"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/program-holder/dashboard/*"
-  to = "https://elevate-admin-production.up.railway.app/program-holder/dashboard/:splat"
-  status = 301
-  force = true
+# /program-holder/* lives on Netlify (Next.js server components) — no Railway redirect needed
 
 # Partner / employer dashboards — Railway
 [[redirects]]

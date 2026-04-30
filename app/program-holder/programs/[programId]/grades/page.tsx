@@ -24,7 +24,7 @@ export default async function ProgramGradesPage({
   const { data: enrollments } = await db
     .from('program_enrollments')
     .select(
-      'id, user_id, progress, status, grade, enrolled_at, profiles!program_enrollments_user_id_fkey(full_name, email)',
+      'id, user_id, full_name, email, progress, status, progress_percent, enrolled_at',
     )
     .eq('program_id', programId)
     .order('enrolled_at', { ascending: false })
@@ -72,17 +72,16 @@ export default async function ProgramGradesPage({
               </thead>
               <tbody className="divide-y">
                 {items.map((item: any) => {
-                  const profile = item.profiles as any;
                   return (
                     <tr key={item.id} className="hover:bg-white">
                       <td className="py-3">
                         <p className="font-medium text-slate-900">
-                          {profile?.full_name || 'Unknown'}
+                          {item.full_name || 'Unknown'}
                         </p>
-                        <p className="text-xs text-slate-700">{profile?.email || ''}</p>
+                        <p className="text-xs text-slate-700">{item.email || ''}</p>
                       </td>
-                      <td className="py-3 text-center font-medium">{item.progress || 0}%</td>
-                      <td className="py-3 text-center font-bold">{item.grade || '—'}</td>
+                      <td className="py-3 text-center font-medium">{item.progress_percent || item.progress || 0}%</td>
+                      <td className="py-3 text-center font-bold">—</td>
                       <td className="py-3 text-center">
                         <span
                           className={`text-xs font-medium px-2 py-1 rounded ${

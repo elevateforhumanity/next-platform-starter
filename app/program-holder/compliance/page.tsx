@@ -36,16 +36,17 @@ export default async function CompliancePage() {
   if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role))
     redirect('/login');
 
-  // Get program holder record
+  // Get program holder record via profiles.program_holder_id (user_id on program_holders is not always set)
+  const holderId = profile.program_holder_id;
+  if (!holderId) redirect('/program-holder/onboarding');
+
   const { data: programHolder } = await supabase
     .from('program_holders')
     .select('*')
-    .eq('user_id', user.id)
+    .eq('id', holderId)
     .maybeSingle();
 
-  if (!programHolder) {
-    redirect('/apply/program-holder');
-  }
+  if (!programHolder) redirect('/program-holder/onboarding');
 
   // Calculate compliance score based on various factors
   const { data: documents } = await supabase

@@ -33,16 +33,17 @@ export default async function NewReportPage() {
 
   if (!profile || !['program_holder','admin','super_admin','staff'].includes(profile.role)) redirect('/login');
 
-  // Get program holder record
+  // Get program holder record via profiles.program_holder_id
+  const holderId = profile.program_holder_id;
+  if (!holderId) redirect('/program-holder/onboarding');
+
   const { data: programHolder } = await supabase
     .from('program_holders')
     .select('id, organization_name')
-    .eq('user_id', user.id)
+    .eq('id', holderId)
     .maybeSingle();
 
-  if (!programHolder) {
-    redirect('/apply/program-holder');
-  }
+  if (!programHolder) redirect('/program-holder/onboarding');
 
   // Get active students for the report
   const { data: students } = await supabase

@@ -24,16 +24,23 @@ export default async function ProgramHolderNotificationSettingsPage() {
     redirect('/login?redirect=/program-holder/settings/notifications');
   }
 
-  // Get program holder record
+  // Get program holder record via profiles.program_holder_id
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('program_holder_id')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  const holderId = profile?.program_holder_id;
+  if (!holderId) redirect('/program-holder/onboarding');
+
   const { data: programHolder } = await supabase
     .from('program_holders')
     .select('id, organization_name')
-    .eq('user_id', user.id)
+    .eq('id', holderId)
     .maybeSingle();
 
-  if (!programHolder) {
-    redirect('/unauthorized');
-  }
+  if (!programHolder) redirect('/program-holder/onboarding');
 
   // Get or create notification preferences
   let { data: preferences } = await supabase

@@ -38,16 +38,17 @@ export default async function ReportsPage() {
 
   if (!profile || !['program_holder','admin','super_admin','staff'].includes(profile.role)) redirect('/login');
 
-  // Get program holder record
+  // Get program holder record via profiles.program_holder_id
+  const holderId = profile.program_holder_id;
+  if (!holderId) redirect('/program-holder/onboarding');
+
   const { data: programHolder } = await supabase
     .from('program_holders')
     .select('id')
-    .eq('user_id', user.id)
+    .eq('id', holderId)
     .maybeSingle();
 
-  if (!programHolder) {
-    redirect('/program-holder/onboarding');
-  }
+  if (!programHolder) redirect('/program-holder/onboarding');
 
   // Fetch reports from program_holder_reports (generic) with fallback to apprentice_weekly_reports
   const { data: phReports, count: phCount } = await supabase

@@ -23,7 +23,7 @@ export default async function TransferHoursPage() {
       `
       *,
       enrollment:student_enrollments(
-        student:profiles!student_enrollments_student_id_fkey(full_name, email),
+        student:students!student_enrollments_student_fk(first_name, last_name, email),
         program:programs(name, title, slug)
       )
     `,
