@@ -782,6 +782,15 @@
   status = 301
   force = true
 
+# API routes — served by Railway (app/api/ is quarantined from Netlify build)
+# Netlify function overrides above (file-return, refund-tracking, etc.) take
+# priority because they appear earlier in this file with force=true.
+[[redirects]]
+  from = "/api/*"
+  to = ":RAILWAY_URL/api/:splat"
+  status = 200
+  force = true
+
 # Learner / student portals — Railway
 [[redirects]]
   from = "/learner"
