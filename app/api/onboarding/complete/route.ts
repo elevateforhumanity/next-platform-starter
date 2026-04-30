@@ -210,6 +210,14 @@ async function _POST(request: NextRequest) {
     const email = profile?.email || user.email || '';
     const firstName = profile?.first_name || profile?.full_name?.split(' ')[0] || 'Student';
 
+    // Determine whether this is an apprenticeship program — used for check-in code lookup
+    // and apprentices record provisioning below.
+    const apprenticeshipKeywords = ['barber', 'cosmetology', 'hvac', 'electrical', 'plumbing', 'nail'];
+    const programSlug = (enrollment as any)?.program_slug ?? application?.program_interest ?? '';
+    const isApprenticeship = apprenticeshipKeywords.some(
+      (k) => programSlug.toLowerCase().includes(k) || programName.toLowerCase().includes(k),
+    );
+
     // Look up check-in code for apprenticeship programs — included in confirmation email
     let checkinCode: string | null = null;
     let checkinShopName: string | null = null;
@@ -286,19 +294,6 @@ async function _POST(request: NextRequest) {
     }
 
     // Provision apprentices record for apprenticeship programs (required for clock-in)
-    const apprenticeshipKeywords = [
-      'barber',
-      'cosmetology',
-      'hvac',
-      'electrical',
-      'plumbing',
-      'nail',
-    ];
-    const programSlug = (enrollment as any)?.program_slug ?? application?.program_interest ?? '';
-    const isApprenticeship = apprenticeshipKeywords.some(
-      (k) => programSlug.toLowerCase().includes(k) || programName.toLowerCase().includes(k),
-    );
-
     if (isApprenticeship) {
       const { data: existingApprentice } = await db
         .from('apprentices')

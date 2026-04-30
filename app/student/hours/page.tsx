@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Clock, Plus, Calendar, TrendingUp, CheckCircle, AlertCircle } from 'lucide-react';
 
@@ -12,97 +13,65 @@ export const dynamic = 'force-dynamic';
 
 export default async function StudentHoursPage() {
   const supabase = await createClient();
-  if (!supabase) {
-    redirect('/login');
-  }
+  if (!supabase) redirect('/login?redirect=/student/hours');
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user) redirect('/login?redirect=/student/hours');
 
-  let hoursData: any[] = [];
+  // Fetch hour entries for this user
+  const { data: hoursData } = await supabase
+    .from('hour_entries')
+    .select('id, work_date, hours_claimed, accepted_hours, source_type, notes, status')
+    .eq('user_id', user.id)
+    .order('work_date', { ascending: false })
+    .limit(10);
+
+  const entries = hoursData || [];
+
+  // Compute totals from real data only
+  const now = new Date();
+  const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
   let totalHours = 0;
   let thisWeekHours = 0;
   let thisMonthHours = 0;
-  const requiredHours = 500;
 
-  if (user) {
-    try {
-      const { data, error } = await supabase
-        .from('training_hours')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('date', { ascending: false })
-        .limit(10);
-
-      if (!error && data) {
-        hoursData = data;
-
-        const now = new Date();
-        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-
-        data.forEach((log: any) => {
-          const logDate = new Date(log.date);
-          const hours = parseFloat(log.hours) || 0;
-
-          if (log.status === 'approved') {
-            totalHours += hours;
-            if (logDate >= weekAgo) thisWeekHours += hours;
-            if (logDate >= monthAgo) thisMonthHours += hours;
-          }
-        });
-      }
-    } catch (err) {
-      console.error('Error fetching hours:', err);
-    }
+  for (const entry of entries) {
+    if (entry.status !== 'approved') continue;
+    const hours = Number(entry.accepted_hours) || Number(entry.hours_claimed) || 0;
+    const entryDate = new Date(entry.work_date);
+    totalHours += hours;
+    if (entryDate >= weekAgo) thisWeekHours += hours;
+    if (entryDate >= monthAgo) thisMonthHours += hours;
   }
 
-  // Sample data for demo/unauthenticated users
-  const sampleLogs =
-    hoursData.length > 0
-      ? hoursData
-      : [
-          {
-            id: '1',
-            date: '2026-01-17',
-            hours: 4,
-            activity_type: 'Classroom Training',
-            status: 'approved',
-          },
-          {
-            id: '2',
-            date: '2026-01-16',
-            hours: 4,
-            activity_type: 'Lab Practice',
-            status: 'approved',
-          },
-          {
-            id: '3',
-            date: '2026-01-15',
-            hours: 4,
-            activity_type: 'Classroom Training',
-            status: 'approved',
-          },
-          {
-            id: '4',
-            date: '2026-01-14',
-            hours: 4,
-            activity_type: 'Online Coursework',
-            status: 'pending',
-          },
-        ];
+  // Fetch enrollment to get required hours
+  const { data: enrollment } = await supabase
+    .from('program_enrollments')
+    .select('program_id, programs:program_id (slug)')
+    .eq('user_id', user.id)
+    .in('status', ['active', 'enrolled'])
+    .maybeSingle();
 
-  const displayTotal = totalHours || 240;
-  const displayWeek = thisWeekHours || 20;
-  const displayMonth = thisMonthHours || 80;
+  const PROGRAM_REQUIRED_HOURS: Record<string, number> = {
+    'barber-apprenticeship': 2000,
+    'cosmetology-apprenticeship': 2000,
+    'esthetician-apprenticeship': 700,
+    'nail-tech-apprenticeship': 450,
+    'nail-technician-apprenticeship': 450,
+  };
+  const programSlug = (enrollment?.programs as { slug?: string } | null)?.slug ?? '';
+  const requiredHours = PROGRAM_REQUIRED_HOURS[programSlug] ?? 500;
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
+  const formatDate = (dateStr: string) =>
+    new Date(dateStr).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
     });
-  };
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -144,35 +113,35 @@ export default async function StudentHoursPage() {
             <div className="flex justify-between mb-2">
               <span className="text-gray-600">Total Hours Completed</span>
               <span className="font-bold text-gray-900">
-                {displayTotal} / {requiredHours} hours
+                {totalHours} / {requiredHours} hours
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-4">
               <div
                 className="bg-blue-600 h-4 rounded-full transition-all duration-500"
-                style={{ width: `${Math.min((displayTotal / requiredHours) * 100, 100)}%` }}
+                style={{ width: `${Math.min((totalHours / requiredHours) * 100, 100)}%` }}
               />
             </div>
             <p className="text-sm text-gray-500 mt-2">
-              {Math.round((displayTotal / requiredHours) * 100)}% complete •{' '}
-              {requiredHours - displayTotal} hours remaining
+              {Math.round((totalHours / requiredHours) * 100)}% complete &bull;{' '}
+              {Math.max(requiredHours - totalHours, 0)} hours remaining
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-4 mt-6">
             <div className="bg-blue-50 rounded-lg p-4 text-center">
               <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900">{displayWeek}</p>
+              <p className="text-2xl font-bold text-gray-900">{thisWeekHours}</p>
               <p className="text-sm text-gray-600">This Week</p>
             </div>
             <div className="bg-green-50 rounded-lg p-4 text-center">
               <Calendar className="w-8 h-8 text-green-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900">{displayMonth}</p>
+              <p className="text-2xl font-bold text-gray-900">{thisMonthHours}</p>
               <p className="text-sm text-gray-600">This Month</p>
             </div>
             <div className="bg-purple-50 rounded-lg p-4 text-center">
               <TrendingUp className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900">{displayTotal}</p>
+              <p className="text-2xl font-bold text-gray-900">{totalHours}</p>
               <p className="text-sm text-gray-600">Total Hours</p>
             </div>
           </div>
@@ -190,40 +159,50 @@ export default async function StudentHoursPage() {
             </Link>
           </div>
 
-          {sampleLogs.length > 0 ? (
+          {entries.length > 0 ? (
             <div className="divide-y divide-gray-200">
-              {sampleLogs.map((log: any) => (
-                <div
-                  key={log.id}
-                  className="p-4 flex items-center justify-between hover:bg-gray-50"
-                >
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                      <Clock className="w-5 h-5 text-blue-600" />
+              {entries.map((entry) => {
+                const hours =
+                  entry.status === 'approved'
+                    ? Number(entry.accepted_hours) || Number(entry.hours_claimed) || 0
+                    : Number(entry.hours_claimed) || 0;
+                return (
+                  <div
+                    key={entry.id}
+                    className="p-4 flex items-center justify-between hover:bg-gray-50"
+                  >
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                        <Clock className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">
+                          {entry.notes || entry.source_type?.replace(/_/g, ' ') || 'Training'}
+                        </p>
+                        <p className="text-sm text-gray-600">{formatDate(entry.work_date)}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-gray-900">{log.activity_type}</p>
-                      <p className="text-sm text-gray-600">{formatDate(log.date)}</p>
+                    <div className="flex items-center gap-4">
+                      <span className="font-bold text-gray-900">{hours} hrs</span>
+                      <span
+                        className={`text-xs font-medium px-2 py-1 rounded flex items-center ${
+                          entry.status === 'approved'
+                            ? 'bg-green-100 text-green-700'
+                            : entry.status === 'rejected'
+                              ? 'bg-red-100 text-red-700'
+                              : 'bg-yellow-100 text-yellow-700'
+                        }`}
+                      >
+                        {entry.status === 'approved' && <CheckCircle className="w-3 h-3 mr-1" />}
+                        {(entry.status === 'pending' || entry.status === 'submitted') && (
+                          <AlertCircle className="w-3 h-3 mr-1" />
+                        )}
+                        {entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
+                      </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span className="font-bold text-gray-900">{log.hours} hrs</span>
-                    <span
-                      className={`text-xs font-medium px-2 py-1 rounded flex items-center ${
-                        log.status === 'approved'
-                          ? 'bg-green-100 text-green-700'
-                          : log.status === 'rejected'
-                            ? 'bg-red-100 text-red-700'
-                            : 'bg-yellow-100 text-yellow-700'
-                      }`}
-                    >
-                      {log.status === 'approved' && <CheckCircle className="w-3 h-3 mr-1" />}
-                      {log.status === 'pending' && <AlertCircle className="w-3 h-3 mr-1" />}
-                      {log.status.charAt(0).toUpperCase() + log.status.slice(1)}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="p-12 text-center">

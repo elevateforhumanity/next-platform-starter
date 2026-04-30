@@ -78,7 +78,7 @@ export default function StudentOnboardingPage() {
 
     supabase?.auth.getUser().then(async ({ data, error }) => {
       if (error || !data?.user) {
-        router.push('/login?next=/student-portal/onboarding');
+        router.push('/login?redirect=/student-portal/onboarding');
         return;
       }
 

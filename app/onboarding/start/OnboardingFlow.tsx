@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useState } from 'react';
-import { Circle, Lock, FileText, DollarSign } from 'lucide-react';
+import { CheckCircle2, Circle, Lock, FileText, DollarSign } from 'lucide-react';
 import { sanitizeRichHtml } from '@/lib/security/sanitize-html';
 
 interface OnboardingFlowProps {
@@ -12,6 +12,7 @@ interface OnboardingFlowProps {
   packet: any;
   documents: any[];
   signedDocumentIds: Set<string>;
+  signedAtByDocId: Record<string, string>;
   payrollStatus: string | null;
 }
 
@@ -21,6 +22,7 @@ export default function OnboardingFlow({
   packet,
   documents,
   signedDocumentIds,
+  signedAtByDocId,
   payrollStatus,
 }: OnboardingFlowProps) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -62,7 +64,7 @@ export default function OnboardingFlow({
           <div className="mt-6">
             <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-white transition-all duration-500"
+                className="h-full bg-brand-blue-600 transition-all duration-500"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -95,7 +97,7 @@ export default function OnboardingFlow({
                       }`}
                     >
                       {isComplete ? (
-                        <span className="text-slate-500 flex-shrink-0">•</span>
+                        <CheckCircle2 className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                       ) : isCurrent ? (
                         <Circle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
                       ) : (
@@ -131,7 +133,7 @@ export default function OnboardingFlow({
                   }`}
                 >
                   {payrollComplete ? (
-                    <span className="text-slate-500 flex-shrink-0">•</span>
+                    <CheckCircle2 className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   ) : currentStep === documents.length ? (
                     <Circle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
                   ) : (
@@ -164,6 +166,7 @@ export default function OnboardingFlow({
               <DocumentStep
                 document={documents[currentStep]}
                 isComplete={signedDocumentIds.has(documents[currentStep].id)}
+                signedAt={signedAtByDocId[documents[currentStep].id] ?? null}
                 userId={user.id}
                 userRole={profile.role}
                 userName={profile.full_name}
@@ -192,7 +195,7 @@ export default function OnboardingFlow({
 }
 
 // Document Step Component
-function DocumentStep({ document, isComplete, userId, userRole, userName, onComplete }: any) {
+function DocumentStep({ document, isComplete, signedAt, userId, userRole, userName, onComplete }: any) {
   const [signature, setSignature] = useState('');
   const [acknowledged, setAcknowledged] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -241,10 +244,13 @@ function DocumentStep({ document, isComplete, userId, userRole, userName, onComp
     return (
       <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
         <div className="text-center">
-          <span className="text-slate-500 flex-shrink-0">•</span>
+          <CheckCircle2 className="w-12 h-12 text-brand-green-600 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-black mb-2">{document.title}</h2>
           <p className="text-black mb-6">
-            You completed this step on {new Date().toLocaleDateString()}
+            You completed this step on{' '}
+            {signedAt
+              ? new Date(signedAt).toLocaleDateString()
+              : new Date().toLocaleDateString()}
           </p>
           <button
             onClick={onComplete}

@@ -43,7 +43,7 @@ export default function BarberEnrollEntryPage() {
 
             <div className="space-y-3">
               <Link
-                href={`/login?next=${encodeURIComponent(ENROLLMENT_PATH)}`}
+                href={`/login?redirect=${encodeURIComponent(ENROLLMENT_PATH)}`}
                 className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-all"
               >
                 <LogIn className="w-5 h-5" />
@@ -51,7 +51,7 @@ export default function BarberEnrollEntryPage() {
               </Link>
 
               <Link
-                href={`/signup?next=${encodeURIComponent(ENROLLMENT_PATH)}`}
+                href={`/signup?redirect=${encodeURIComponent(ENROLLMENT_PATH)}`}
                 className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-purple-600 text-purple-600 font-bold rounded-lg hover:bg-purple-50 transition-all"
               >
                 <UserPlus className="w-5 h-5" />

@@ -43,7 +43,7 @@ export default async function StudentPortalPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect('/login?next=/student');
+  if (!user) redirect('/login?redirect=/student');
 
   const { data: profile } = await supabase
     .from('profiles')

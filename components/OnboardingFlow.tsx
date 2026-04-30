@@ -17,7 +17,7 @@ interface OnboardingFlowProps {
   onComplete: () => void;
 }
 
-export function OnboardingFlow({ steps, onComplete }: OnboardingFlowProps) {
+export default function OnboardingFlow({ steps, onComplete }: OnboardingFlowProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
 
