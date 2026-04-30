@@ -52,6 +52,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to record signature' }, { status: 500 });
   }
 
+  // Persist signature record so the PDF download route can retrieve it
+  await db
+    .from('mou_signatures')
+    .upsert(
+      {
+        user_id: user.id,
+        signer_name: typedName.trim(),
+        signed_at: signedAt,
+        agreed_at: signedAt,
+        mou_version: '2.0',
+        ip_address:
+          req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown',
+        user_agent: req.headers.get('user-agent') || null,
+      },
+      { onConflict: 'user_id', ignoreDuplicates: false },
+    )
+    .catch(() => null); // non-blocking — audit_log below is the compliance record
+
   // Log the signature for compliance
   await db
     .from('audit_logs')
