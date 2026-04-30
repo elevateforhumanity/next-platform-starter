@@ -15,7 +15,7 @@ const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 async function _POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, notes, appointment_type, appointment_date, appointment_time } =
+    const { name, email, phone, notes, appointment_type, appointment_date, appointment_time, application_id } =
       body;
 
     if (!name || !email || !appointment_type || !appointment_date || !appointment_time) {
@@ -74,7 +74,7 @@ async function _POST(request: Request) {
       logger.info('[Schedule] Zoom not configured — appointment saved without video link');
     }
 
-    // Save to Supabase
+    // Save to Supabase — link to application record if provided
     const supabase = await requireAdminClient();
     if (supabase) {
       const { error: dbError } = await supabase.from('appointments').insert({
@@ -87,9 +87,24 @@ async function _POST(request: Request) {
         service_type: notes || '',
         status: 'scheduled',
         stage: phone || '',
+        ...(application_id ? { application_id } : {}),
+        zoom_url: zoomUrl || null,
+        zoom_meeting_id: zoomId || null,
       });
       if (dbError) {
         logger.error('[Schedule] DB insert failed:', dbError.message);
+      }
+
+      // Advance application status from submitted → scheduled so the pipeline reflects the booking
+      if (application_id) {
+        const { error: transitionErr } = await supabase
+          .from('applications')
+          .update({ status: 'scheduled', scheduled_at: new Date().toISOString() })
+          .eq('id', application_id)
+          .eq('status', 'submitted'); // only advance if still at submitted — don't regress
+        if (transitionErr) {
+          logger.warn('[Schedule] Failed to advance application status', transitionErr.message);
+        }
       }
     }
 

@@ -10,10 +10,17 @@ import {
 } from '@/lib/notifications/application-emails';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
-// Auto-tag funding eligibility based on intake answers
-function determineFundingTag(body: Record<string, string>): string {
+// Auto-tag funding eligibility based on intake answers.
+// Priority: JRI > self-pay > WIOA categorical > WIOA income > WIOA workforce > pending-review
+function determineFundingTag(body: Record<string, string | string[]>): string {
   if (body.probation_or_reentry === 'true') return 'jri';
   if (body.funding_needed === 'false') return 'self-pay';
+  // WIOA categorical eligibility: SNAP or TANF receipt
+  if (body.snap_recipient === 'true' || body.tanf_recipient === 'true') return 'wioa-categorical';
+  // WIOA income eligibility: low-income household
+  const incomeRange = typeof body.annual_income === 'string' ? body.annual_income : '';
+  if (incomeRange === '0-15000' || incomeRange === '15000-25000') return 'wioa-income';
+  // WIOA via workforce partner connection
   if (body.workforce_connection === 'workone' || body.workforce_connection === 'employer-indy')
     return 'wioa';
   return 'pending-review';
@@ -28,7 +35,7 @@ async function _POST(req: Request) {
     return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
   }
 
-  let body: Record<string, string>;
+  let body: Record<string, string | string[]>;
   try {
     body = await req.json();
   } catch {
@@ -43,28 +50,43 @@ async function _POST(req: Request) {
 
   // Return undefined instead of null to avoid NOT NULL constraint issues
   // if columns are tightened later. Supabase-js omits undefined fields.
-  function clean(v: unknown, max = 200): string | undefined {
+  function clean(v: string | undefined | null, max = 200): string | undefined {
     if (typeof v !== 'string') return undefined;
     const s = v.trim();
     if (!s) return undefined;
     return s.slice(0, max);
   }
 
+  // Barriers arrive as a string (single value) or string[] (multiple checkboxes)
+  const barriersRaw = body.barriers;
+  const barriers: string[] = Array.isArray(barriersRaw)
+    ? barriersRaw
+    : barriersRaw
+      ? [barriersRaw as string]
+      : [];
+
   const { error } = await supabase.from('apprenticeship_intake').insert([
     {
-      full_name: body.full_name.trim(),
-      email: clean(body.email),
-      phone: clean(body.phone),
-      city: clean(body.city),
-      state: clean(body.state) || 'IN',
-      program_interest: clean(body.program_interest) || 'not-specified',
-      employment_status: clean(body.employment_status),
+      full_name: (body.full_name as string).trim(),
+      email: clean(body.email as string),
+      phone: clean(body.phone as string),
+      city: clean(body.city as string),
+      state: clean(body.state as string) || 'IN',
+      county: clean(body.county as string),
+      date_of_birth: clean(body.date_of_birth as string) || null,
+      program_interest: clean(body.program_interest as string) || 'not-specified',
+      employment_status: clean(body.employment_status as string),
       funding_needed: body.funding_needed !== 'false',
-      workforce_connection: clean(body.workforce_connection),
-      referral_source: clean(body.referral_source),
+      household_size: body.household_size ? parseInt(body.household_size as string, 10) : null,
+      annual_income: clean(body.annual_income as string),
+      snap_recipient: body.snap_recipient === 'true',
+      tanf_recipient: body.tanf_recipient === 'true',
+      barriers,
+      workforce_connection: clean(body.workforce_connection as string),
+      referral_source: clean(body.referral_source as string),
       probation_or_reentry: body.probation_or_reentry === 'true',
-      preferred_location: clean(body.preferred_location),
-      notes: clean(body.notes, 1000),
+      preferred_location: clean(body.preferred_location as string),
+      notes: clean(body.notes as string, 1000),
       funding_tag: fundingTag,
     },
   ]);

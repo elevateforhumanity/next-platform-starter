@@ -203,6 +203,38 @@ function IntakeForm() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label
+                      htmlFor="date_of_birth"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Date of Birth *
+                    </label>
+                    <input
+                      id="date_of_birth"
+                      name="date_of_birth"
+                      type="date"
+                      required
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="county"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      County of Residence *
+                    </label>
+                    <input
+                      id="county"
+                      name="county"
+                      required
+                      placeholder="e.g. Marion, Hamilton"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    />
+                  </div>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
                       htmlFor="city"
                       className="block text-sm font-semibold text-slate-700 mb-1"
                     >
@@ -349,6 +381,107 @@ function IntakeForm() {
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="household_size"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Household Size
+                    </label>
+                    <select
+                      id="household_size"
+                      name="household_size"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    >
+                      <option value="">Select...</option>
+                      {[1,2,3,4,5,6,7,8].map(n => (
+                        <option key={n} value={n}>{n}{n === 8 ? '+' : ''}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="annual_income"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Annual Household Income
+                    </label>
+                    <select
+                      id="annual_income"
+                      name="annual_income"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    >
+                      <option value="">Select...</option>
+                      <option value="0-15000">Under $15,000</option>
+                      <option value="15000-25000">$15,000 – $25,000</option>
+                      <option value="25000-35000">$25,000 – $35,000</option>
+                      <option value="35000-50000">$35,000 – $50,000</option>
+                      <option value="50000+">Over $50,000</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="snap_recipient"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Do you receive SNAP (food stamps)?
+                    </label>
+                    <select
+                      id="snap_recipient"
+                      name="snap_recipient"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    >
+                      <option value="false">No</option>
+                      <option value="true">Yes</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="tanf_recipient"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Do you receive TANF / cash assistance?
+                    </label>
+                    <select
+                      id="tanf_recipient"
+                      name="tanf_recipient"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    >
+                      <option value="false">No</option>
+                      <option value="true">Yes</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Barriers to Employment (select all that apply)
+                  </label>
+                  <div className="grid sm:grid-cols-2 gap-2">
+                    {[
+                      { value: 'homeless', label: 'Homeless / Housing Instability' },
+                      { value: 'ex-offender', label: 'Ex-Offender / Justice-Involved' },
+                      { value: 'veteran', label: 'Veteran / Military Spouse' },
+                      { value: 'disability', label: 'Disability' },
+                      { value: 'basic-skills', label: 'Basic Skills Deficient' },
+                      { value: 'english-learner', label: 'English Language Learner' },
+                      { value: 'single-parent', label: 'Single Parent' },
+                      { value: 'foster-youth', label: 'Foster Youth / Aged Out' },
+                    ].map(b => (
+                      <label key={b.value} className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="barriers"
+                          value={b.value}
+                          className="rounded border-slate-300 text-brand-red-600 focus:ring-brand-red-500"
+                        />
+                        {b.label}
+                      </label>
+                    ))}
+                  </div>
                 </div>
                 <div>
                   <label

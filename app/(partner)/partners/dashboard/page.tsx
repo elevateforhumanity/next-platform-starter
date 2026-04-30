@@ -134,6 +134,21 @@ export default async function PartnerDashboardPage() {
             </div>
           </Link>
 
+          <Link
+            href="/partners/hours"
+            className="bg-white rounded-xl shadow-sm border p-6 hover:shadow-md transition group"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-gray-900 group-hover:text-brand-blue-600">
+                  Approve Hours
+                </h3>
+                <p className="text-sm text-gray-500 mt-1">Review and sign off on apprentice-submitted hours</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-brand-blue-600" />
+            </div>
+          </Link>
+
           <a
             href="/api/partner/exports/completions"
             className="bg-white rounded-xl shadow-sm border p-6 hover:shadow-md transition group"

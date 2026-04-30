@@ -70,32 +70,53 @@ export default function PartnerAttendancePage() {
     setMsg(null);
     if (!shopId) return;
 
-    const payload = rows.map((r) => ({
-      shop_id: shopId,
-      student_id: r.student_id,
-      program_slug: r.program_slug,
-      week_start: weekStart,
-      mon_hours: r.mon_hours,
-      tue_hours: r.tue_hours,
-      wed_hours: r.wed_hours,
-      thu_hours: r.thu_hours,
-      fri_hours: r.fri_hours,
-      sat_hours: r.sat_hours,
-      sun_hours: r.sun_hours,
-      notes: r.notes,
-      submitted: false,
-    }));
+    // Write one hour_entries row per day per student via the canonical API.
+    // Days with 0 hours are skipped.
+    const DAY_OFFSETS: Record<string, number> = {
+      mon_hours: 0, tue_hours: 1, wed_hours: 2,
+      thu_hours: 3, fri_hours: 4, sat_hours: 5, sun_hours: 6,
+    };
 
-    if (!supabase) {
-      setMsg('Service unavailable');
+    const entries: Array<{ user_id: string; program_slug: string; work_date: string; hours_claimed: number; notes: string }> = [];
+
+    for (const r of rows) {
+      for (const [key, offset] of Object.entries(DAY_OFFSETS)) {
+        const hrs = Number(r[key] || 0);
+        if (hrs <= 0) continue;
+        const d = new Date(weekStart + 'T00:00:00');
+        d.setDate(d.getDate() + offset);
+        entries.push({
+          user_id: r.student_id,
+          program_slug: r.program_slug,
+          work_date: d.toISOString().slice(0, 10),
+          hours_claimed: hrs,
+          notes: r.notes || '',
+        });
+      }
+    }
+
+    if (entries.length === 0) {
+      setMsg('No hours to save.');
       return;
     }
-    const { error } = await supabase.from('partner_attendance').upsert(payload, {
-      onConflict: 'shop_id,student_id,program_slug,week_start',
-    });
 
-    if (error) setMsg(error.message);
-    else setMsg('Saved.');
+    let failed = 0;
+    await Promise.all(
+      entries.map(async (entry) => {
+        const res = await fetch('/api/apprenticeship/hours', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...entry, source_type: 'ojl', submitted_by_partner: true }),
+        });
+        if (!res.ok) failed++;
+      }),
+    );
+
+    if (failed > 0) {
+      setMsg(`Saved with ${failed} error(s). Check console for details.`);
+    } else {
+      setMsg(`Saved ${entries.length} hour entr${entries.length === 1 ? 'y' : 'ies'} successfully.`);
+    }
   }
 
   const totalHours = useMemo(() => {
