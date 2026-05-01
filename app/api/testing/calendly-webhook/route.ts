@@ -21,7 +21,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { resend } from '@/lib/resend';
 import { sendSMS } from '@/lib/notifications/sms';
 import { logger } from '@/lib/logger';
-import { TESTING_CENTER } from '@/lib/testing/testing-config';
+import { TESTING_CENTER, CALENDLY_CONFIG } from '@/lib/testing/testing-config';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { ENV } from '@/lib/api/env-groups';
 import crypto from 'crypto';
@@ -125,7 +125,7 @@ function cancellationEmailHtml(name: string, startTime: string): string {
   <div style="border: 1px solid #e2e8f0; border-top: none; padding: 24px; border-radius: 0 0 8px 8px;">
     <p>Hi ${name},</p>
     <p>Your testing appointment on <strong>${formatted}</strong> has been canceled.</p>
-    <p>To reschedule, visit <a href="https://calendly.com/elevate4humanityedu/60min">calendly.com/elevate4humanityedu/60min</a> or call us at ${TESTING_CENTER.phone}.</p>
+    <p>To reschedule, visit <a href="${CALENDLY_CONFIG.testingUrl}">${CALENDLY_CONFIG.testingUrl}</a> or call us at ${TESTING_CENTER.phone}.</p>
     <p style="color: #64748b; font-size: 13px;">If you did not cancel this appointment, please contact us immediately at ${TESTING_CENTER.email}.</p>
   </div>
 </body>
@@ -330,7 +330,7 @@ export const POST = withRuntime({ secrets: [...ENV.CALENDLY], rateLimit: 'api' }
     if (inviteePhone) {
       await sendSMS(
         inviteePhone,
-        `Elevate Testing: Your appointment has been canceled. To reschedule: calendly.com/elevate4humanityedu/60min or call ${TESTING_CENTER.phone}`,
+        `Elevate Testing: Your appointment has been canceled. To reschedule: ${CALENDLY_CONFIG.testingUrl} or call ${TESTING_CENTER.phone}`,
       ).catch((err) => logger.error('Cancellation SMS failed', err));
     }
 
