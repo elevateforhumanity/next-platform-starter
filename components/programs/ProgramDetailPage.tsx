@@ -103,9 +103,10 @@ export default function ProgramDetailPage({
         {heroOverride ??
           (() => {
             // bannerProp is passed from the server page.tsx — use it first.
-            // heroBanners Proxy only works server-side; returns undefined on client.
+            // heroBanners Proxy returns {} on the client (loadJsonOnce is server-only).
+            // Check pageKey to distinguish a real banner from the empty fallback object.
             const banner = bannerProp ?? heroBanners[p.slug];
-            if (banner) {
+            if (banner?.pageKey) {
               const bannerCtas = [
                 banner.primaryCta,
                 ...(banner.secondaryCta ? [banner.secondaryCta] : []),
