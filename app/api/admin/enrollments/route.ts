@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { EnrollmentCreateSchema } from '@/lib/validators/course';
-import { createEnrollment, listEnrollments } from '@/lib/db/courses';
+import { createEnrollment } from '@/lib/db/courses';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendCourseEnrollmentEmail } from '@/lib/email-course-notifications';
 import { logger } from '@/lib/logger';
@@ -37,9 +38,25 @@ async function _GET(request: Request) {
     const courseId = searchParams.get('course_id') || undefined;
     const userId = searchParams.get('user_id') || undefined;
     const status = searchParams.get('status') || undefined;
-    const data = await listEnrollments({ courseId, userId, status });
-    return NextResponse.json({ data }, { status: 200 });
+
+    // Use admin client — training_enrollments requires service-role access
+    const db = await requireAdminClient();
+    let query = db
+      .from('training_enrollments')
+      .select('*, student:profiles(id, full_name, email), course:training_courses(id, course_name)')
+      .order('enrolled_at', { ascending: false });
+    if (courseId) query = query.eq('course_id', courseId) as typeof query;
+    if (userId) query = query.eq('user_id', userId) as typeof query;
+    if (status) query = query.eq('status', status) as typeof query;
+
+    const { data, error } = await query;
+    if (error) {
+      logger.error('[/api/admin/enrollments] DB error', error);
+      return NextResponse.json({ error: 'Failed to fetch enrollments' }, { status: 500 });
+    }
+    return NextResponse.json({ data: data ?? [] }, { status: 200 });
   } catch (error: any) {
+    logger.error('[/api/admin/enrollments] Unexpected error', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
