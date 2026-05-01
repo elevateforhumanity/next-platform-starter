@@ -3,10 +3,10 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Demo',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/start/demo' },
+  alternates: { canonical: 'https://www.elevateforhumanity.org/start' },
   robots: { index: false, follow: false },
 };
 
 export default function Page() {
-  redirect('/start/demo');
+  redirect('/start');
 }
