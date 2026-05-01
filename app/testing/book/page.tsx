@@ -133,7 +133,7 @@ function BookingForm() {
       }
     }, 400);
     // Refs are stable — excluded from deps intentionally
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []);
 
   const handlePayEnforcementFee = async () => {
@@ -161,7 +161,7 @@ function BookingForm() {
       const match = ALL_PROVIDERS.find((p) => p.key === providerParam);
       if (match) setSelectedProvider(match);
     }
-  }, []);
+  }, [searchParams]);
 
   // Pre-select org type from URL param
   useEffect(() => {
