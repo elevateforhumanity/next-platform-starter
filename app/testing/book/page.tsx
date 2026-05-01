@@ -627,12 +627,12 @@ function BookingForm() {
                     ) : nhaBreakdown ? (
                       <>
                         <div className="flex justify-between text-slate-700">
-                          <span>{nhaBreakdown[2]}</span>
-                          <span className="font-semibold">${nhaBreakdown[1]}</span>
+                          <span>{nhaBreakdown[2] ?? ''}</span>
+                          <span className="font-semibold">${nhaBreakdown[1] ?? ''}</span>
                         </div>
                         <div className="flex justify-between text-slate-700">
-                          <span>{nhaBreakdown[4]}</span>
-                          <span className="font-semibold">${nhaBreakdown[3]}</span>
+                          <span>{nhaBreakdown[4] ?? ''}</span>
+                          <span className="font-semibold">${nhaBreakdown[3] ?? ''}</span>
                         </div>
                       </>
                     ) : (

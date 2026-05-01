@@ -36,18 +36,18 @@ export default async function ReviewVerificationPage({ params }: { params: { id:
     : { data: null };
   const holder = { ...rawHolder, user: holderUserProfile ?? null };
 
-  // Get documents
+  // Get documents — program_holder_documents uses user_id (not program_holder_id)
   const { data: documents } = await supabase
     .from('program_holder_documents')
     .select('*')
-    .eq('program_holder_id', holder.user_id)
-    .order('uploaded_at', { ascending: false });
+    .eq('user_id', holder.user_id)
+    .order('created_at', { ascending: false });
 
-  // Get banking
+  // Get banking — program_holder_banking has no user FK; match by org name
   const { data: banking } = await supabase
     .from('program_holder_banking')
     .select('*')
-    .eq('program_holder_id', holder.user_id)
+    .eq('organization_name', holder.organization_name ?? '')
     .maybeSingle();
 
   // Get verification history

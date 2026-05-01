@@ -232,11 +232,11 @@ export default function ComprehensiveEnrollmentWizard({
     }
   };
 
-  const updateField = (data: any) => {
+  const updateField = (field: string, value: unknown) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const updateNestedField = (data: any) => {
+  const updateNestedField = (parent: string, field: string, value: unknown) => {
     setFormData((prev) => ({
       ...prev,
       [parent]: { ...(prev as any)[parent], [field]: value },
