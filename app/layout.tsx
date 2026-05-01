@@ -154,6 +154,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.png" type="image/png" sizes="192x192" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <meta name="theme-color" content="#dc2626" />
+        {/* Organization structured data — tells Google Knowledge Panel the correct logo */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Elevate for Humanity',
+              url: 'https://www.elevateforhumanity.org',
+              logo: 'https://www.elevateforhumanity.org/logo.png',
+              image: 'https://www.elevateforhumanity.org/images/og-image.jpg',
+              sameAs: [
+                'https://www.facebook.com/elevateforhumanity',
+                'https://www.linkedin.com/company/elevate-for-humanity',
+              ],
+            }),
+          }}
+        />
         {/* Prevent iOS Safari from auto-linking phone numbers/dates — causes hydration mismatches */}
         <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
         {/* LCP preload is set per-page in each page's metadata/head, not globally */}
