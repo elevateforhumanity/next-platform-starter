@@ -456,6 +456,87 @@ function IntakeForm() {
                     </select>
                   </div>
                 </div>
+                {/* WIOA eligibility fields */}
+                <div>
+                  <label
+                    htmlFor="education_level"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Highest Education Level Completed
+                  </label>
+                  <select
+                    id="education_level"
+                    name="education_level"
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  >
+                    <option value="">Select...</option>
+                    <option value="less-than-hs">Less than high school</option>
+                    <option value="hs-diploma">High school diploma</option>
+                    <option value="ged">GED / HiSET</option>
+                    <option value="some-college">Some college (no degree)</option>
+                    <option value="associates">Associate&apos;s degree</option>
+                    <option value="bachelors">Bachelor&apos;s degree or higher</option>
+                  </select>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="work_authorization"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Authorized to work in the U.S.?
+                    </label>
+                    <select
+                      id="work_authorization"
+                      name="work_authorization"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    >
+                      <option value="">Select...</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="selective_service"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Selective Service registered? <span className="font-normal text-slate-500">(males 18–25 only)</span>
+                    </label>
+                    <select
+                      id="selective_service"
+                      name="selective_service"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    >
+                      <option value="na">N/A</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                </div>
+                {/* Race/ethnicity — voluntary, required for WIOA demographic reporting */}
+                <div>
+                  <label
+                    htmlFor="ethnicity"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Race / Ethnicity <span className="font-normal text-slate-500">(voluntary — required for federal reporting)</span>
+                  </label>
+                  <select
+                    id="ethnicity"
+                    name="ethnicity"
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  >
+                    <option value="">Prefer not to answer</option>
+                    <option value="hispanic-latino">Hispanic or Latino</option>
+                    <option value="american-indian">American Indian or Alaska Native</option>
+                    <option value="asian">Asian</option>
+                    <option value="black">Black or African American</option>
+                    <option value="native-hawaiian">Native Hawaiian or Other Pacific Islander</option>
+                    <option value="white">White</option>
+                    <option value="two-or-more">Two or more races</option>
+                  </select>
+                </div>
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Barriers to Employment (select all that apply)
@@ -470,6 +551,8 @@ function IntakeForm() {
                       { value: 'english-learner', label: 'English Language Learner' },
                       { value: 'single-parent', label: 'Single Parent' },
                       { value: 'foster-youth', label: 'Foster Youth / Aged Out' },
+                      { value: 'transportation', label: 'Lack of Transportation' },
+                      { value: 'childcare', label: 'Childcare Needs' },
                     ].map(b => (
                       <label key={b.value} className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
                         <input
