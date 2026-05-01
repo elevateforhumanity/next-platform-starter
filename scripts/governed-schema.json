@@ -144,6 +144,7 @@
   ],
   "audit_logs": [
     "action",
+    "action_type",
     "actor_email",
     "actor_id",
     "actor_role",
@@ -157,6 +158,7 @@
     "created_at",
     "creator_email",
     "credential_type",
+    "description",
     "details",
     "eligible",
     "email",

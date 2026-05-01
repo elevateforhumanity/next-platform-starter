@@ -32,7 +32,7 @@ async function _GET(req: NextRequest) {
   let query = db
     .from('employment_outcomes')
     .select('*')
-    .eq('user_id', userId)
+    .eq('user_uuid', userId)
     .order('created_at', { ascending: false });
 
   if (program_slug) query = query.eq('program_slug', program_slug);
@@ -79,7 +79,7 @@ async function _POST(req: NextRequest) {
   const { data, error } = await db
     .from('employment_outcomes')
     .insert({
-      user_id: userId,
+      user_uuid: userId,
       program_slug: program_slug as string,
       outcome_type: outcome_type as string,
       employer_name: (body.employer_name as string) || null,

@@ -154,11 +154,14 @@ const ALLOWED_TOP_LEVEL = new Set([
   'admin-login',
   'billing-required',
   'error',
+  'forgot-password',
   'register',
   'reset',
+  'reset-password',
   'unauthorized',
   'update-password',
   'verify-credential',
+  'verify-email',
   // ── Program / training pages ──────────────────────────────────────────────
   'barber-apprenticeship',
   'booth-rental',
@@ -377,7 +380,7 @@ const FORBIDDEN_SUBPATHS = new Set([
   'student-handbook',
   'student-support/schedule',
   'tax-self-prep/start',
-  'verify-email',
+  // verify-email and verify-identity: verify-email is public (moved to ALLOWED_SUBPATHS)
   'verify-identity',
   // lms/(app) is the authenticated LMS shell — Railway-only.
   // lms/(public) contains the public program catalog and landing page — stays on Netlify.
@@ -395,52 +398,19 @@ const FORBIDDEN_SUBPATHS = new Set([
   'employers/talent-pipeline',
   // instructor-credentials is Railway-only
   'instructor-credentials',
-  // legal sub-pages that are Railway-only
+  // legal sub-pages that are Railway-only (authenticated flows)
+  // NOTE: legal/mou, legal/partner-mou, legal/student-handbook etc. are public
+  // static documents — they stay on Netlify (not listed here).
   'legal/employer-agreement',
   'legal/governance/lms-standards',
   'legal/governance/onboarding-ux',
-  'legal/student-handbook',
-  'legal/acceptable-use',
   'legal/ferpa-consent',
   'legal/marketplace-terms',
-  'legal/mou',
-  'legal/partner-mou',
   // platform sub-pages that are Railway-only
   'platform/program-holders',
-  // policies — only keep the public-facing index; quarantine all sub-pages
-  // (policies are internal governance docs, not public marketing)
-  'policies/academic-integrity',
-  'policies/acceptable-use',
-  'policies/admissions',
-  'policies/ai-usage',
-  'policies/attendance',
-  'policies/community-guidelines',
-  'policies/content',
-  'policies/copyright',
-  'policies/data-retention',
-  'policies/disaster-recovery',
-  'policies/disaster-recovery-test',
-  'policies/dr-test-report',
-  'policies/editorial',
-  'policies/federal-compliance',
-  'policies/ferpa',
-  'policies/funding-verification',
-  'policies/grant-application',
-  'policies/grievance',
-  'policies/incident-response',
-  'policies/jri',
-  'policies/moderation',
-  'policies/privacy-notice',
-  'policies/progress',
-  'policies/response-sla',
-  'policies/revocation',
-  'policies/sam-gov-eligibility',
-  'policies/sla',
-  'policies/student-code',
-  'policies/terms',
-  'policies/verification',
-  'policies/wioa',
-  'policies/wrg',
+  // policies/* — all public policy documents, served by Netlify SSR.
+  // Do NOT quarantine — they're linked from public pages and use Supabase
+  // only to fetch content (no auth required).
   // partners onboarding flows — Railway-only (require auth)
   // Move the entire (onboarding) route group; do NOT list sub-dirs separately
   // or the script will try to move them after the parent is already gone.
@@ -453,8 +423,7 @@ const FORBIDDEN_SUBPATHS = new Set([
   'partners/mou',
   // resources sub-pages that are Railway-only
   'resources/instructor-training',
-  // funding sub-pages that are Railway-only
-  'funding/wrg',
+  // funding/wrg is a public page (moved to ALLOWED_SUBPATHS)
 ]);
 
 // Root-level files that must stay (Next.js requires them, or layout.tsx imports them)
@@ -526,14 +495,36 @@ const FORBIDDEN_SEGMENTS = new Set([
   'ai-chat',
   'ai-studio',
   'ai-tutor',
-
   'pwa',
   // Auth/app flows — belong to Railway runtime, not Netlify static build
-  'reset-password',
-  'forgot-password',
   'confirm',
   'enrollment-success',
   'orientation',
+]);
+
+// Explicit sub-path overrides — these survive FORBIDDEN_SEGMENTS matching.
+// Use this for public conversion pages whose segment name collides with a
+// forbidden segment (e.g. apply/student, apply/employer).
+const ALLOWED_SUBPATHS = new Set([
+  // Public application funnels — linked from homepage, programs, footer
+  'apply/student',
+  'apply/employer',
+  'apply/program-holder',
+  // Public auth flows — linked from login page
+  'forgot-password',
+  'reset-password',
+  'verify-email',
+  // Server actions imported by public auth pages
+  'auth/forgot-password',
+  // Public funding info pages — linked from site footer
+  'funding/wrg',
+  // Public policy pages whose segment name collides with a forbidden segment
+  'policies/credentials',
+  'legal/governance/compliance',
+  'legal/acceptable-use',
+  'legal/student-handbook',
+  'legal/mou',
+  'legal/partner-mou',
 ]);
 
 async function moveEntry(src, dest) {
@@ -580,8 +571,12 @@ async function collectForbiddenNested(dir, quarantineBase, toMove) {
     if (!entry.isDirectory()) continue;
     const src = join(dir, entry.name);
     const dest = join(quarantineBase, entry.name);
+    const rel = src.replace(APP_DIR + '/', '');
+    // Never quarantine explicitly allowed sub-paths even if segment name is forbidden
+    if (ALLOWED_SUBPATHS.has(rel)) {
+      continue;
+    }
     if (FORBIDDEN_SEGMENTS.has(entry.name)) {
-      const rel = src.replace(APP_DIR + '/', '');
       toMove.push({ src, dest, label: rel });
     } else {
       await collectForbiddenNested(src, dest, toMove);
@@ -629,7 +624,9 @@ async function quarantine() {
           subpathQuarantined = true;
           break;
         } else {
-          // Specific sub-path inside this allowed dir
+          // Specific sub-path inside this allowed dir — skip if explicitly allowed
+          const fullSubPath = `${relName}/${subRel}`;
+          if (ALLOWED_SUBPATHS.has(fullSubPath)) continue;
           const subSrc = join(src, subRel);
           const subDest = join(dest, subRel);
           if (existsSync(subSrc)) {

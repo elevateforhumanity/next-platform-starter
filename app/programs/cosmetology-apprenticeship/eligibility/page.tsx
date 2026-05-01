@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Phone, ExternalLink, MapPin } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import ProgramFundingGate from '@/components/programs/ProgramFundingGate';
+import heroBanners from '@/content/heroBanners';
 
 export const metadata: Metadata = {
   title: 'Funding & Enrollment | Cosmetology Apprenticeship | Elevate for Humanity',
@@ -11,11 +12,12 @@ export const metadata: Metadata = {
 };
 
 export default function CosmetologyEligibilityPage() {
+  const b = heroBanners['cosmetology-apprenticeship'];
   return (
     <div className="min-h-screen bg-white">
       <HeroVideo
-        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4"
-        posterImage="/images/pages/cosmetology-hero.jpg"
+        videoSrcDesktop={b?.videoSrcDesktop ?? 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4'}
+        posterImage={b?.posterImage ?? '/images/pages/cosmetology-hero.jpg'}
         microLabel="Cosmetology Apprenticeship"
         analyticsName="cosmetology-eligibility"
         belowHeroHeadline="Funding & Enrollment"

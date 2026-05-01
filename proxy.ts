@@ -782,7 +782,7 @@ export async function proxy(request: NextRequest) {
           .maybeSingle()
       : Promise.resolve({ data: null }),
     needsPartner
-      ? supabase.from('partner_applications').select('status').eq('user_id', user.id).maybeSingle()
+      ? supabase.from('partner_users').select('status, partner_id').eq('user_id', user.id).maybeSingle()
       : Promise.resolve({ data: null }),
   ]);
 

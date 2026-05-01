@@ -63,21 +63,20 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to check out' }, { status: 500 });
     }
 
-    // Log hours to apprentice_hours (the canonical hours table for apprenticeship programs)
-    const totalMinutes = durationMinutes % 60;
-    const totalHoursInt = Math.floor(durationMinutes / 60);
+    // Log hours to hour_entries (canonical hours table)
+    const hoursDecimal = durationMinutes / 60;
 
-    const { error: entryError } = await supabase.from('apprentice_hours').insert({
+    const { error: entryError } = await supabase.from('hour_entries').insert({
       user_id: user.id,
-      shop_id: session.shop_id ?? null,
-      discipline: 'barber',
-      date: checkinTime.toISOString().split('T')[0],
-      hours: totalHoursInt,
-      minutes: totalMinutes,
+      program_slug: 'barber-apprenticeship',
+      work_date: checkinTime.toISOString().split('T')[0],
+      hours_claimed: Math.round(hoursDecimal * 100) / 100,
+      source_type: 'ojl',
       category: 'practical',
-      notes: `Auto-logged from check-in at shop`,
+      notes: 'Auto-logged from check-in at shop',
       status: 'pending',
-      submitted_at: checkoutTime.toISOString(),
+      entered_by_email: user.email ?? null,
+      entered_at: checkoutTime.toISOString(),
     });
 
     if (entryError) {

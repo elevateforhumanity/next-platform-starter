@@ -82,11 +82,11 @@ export async function handleLogHours(request: NextRequest, discipline: string) {
     const dateStr = entryDate.toISOString().split('T')[0];
 
     const { data: existingToday, error: existingErr } = await supabase
-      .from('apprentice_hours')
-      .select('hours')
+      .from('hour_entries')
+      .select('hours_claimed')
       .eq('user_id', user.id)
-      .eq('discipline', discipline)
-      .eq('date', dateStr)
+      .eq('program_slug', discipline)
+      .eq('work_date', dateStr)
       .in('status', ['approved', 'pending']);
 
     if (existingErr) {
@@ -94,7 +94,7 @@ export async function handleLogHours(request: NextRequest, discipline: string) {
       return safeError('Failed to validate hours. Please try again.', 500);
     }
 
-    const hoursAlreadyLogged = (existingToday ?? []).reduce((s, r) => s + (r.hours ?? 0), 0);
+    const hoursAlreadyLogged = (existingToday ?? []).reduce((s, r) => s + (r.hours_claimed ?? 0), 0);
     const hoursAfterEntry = hoursAlreadyLogged + parsedHours;
 
     if (hoursAfterEntry > MAX_HOURS_PER_DAY) {
@@ -110,17 +110,17 @@ export async function handleLogHours(request: NextRequest, discipline: string) {
     // ── Insert ────────────────────────────────────────────────────────────────
     const totalMinutes = Math.round(parsedHours * 60 + parsedMinutes);
 
-    const { error: insertErr } = await supabase.from('apprentice_hours').insert({
+    const { error: insertErr } = await supabase.from('hour_entries').insert({
       user_id: user.id,
-      discipline,
-      date: dateStr,
-      hours: parsedHours,
-      minutes: parsedMinutes,
-      total_minutes: totalMinutes,
+      program_slug: discipline,
+      work_date: dateStr,
+      hours_claimed: parsedHours,
+      source_type: 'ojl',
       category: category || 'practical',
       notes: notes?.trim() || null,
       status: 'pending',
-      submitted_at: new Date().toISOString(),
+      entered_by_email: user.email ?? null,
+      entered_at: new Date().toISOString(),
     });
 
     if (insertErr) {
