@@ -35,7 +35,7 @@ export default async function InterviewsPage() {
     redirect('/login?redirect=/employer-portal/interviews');
   }
 
-  // Fetch real interviews
+  // Fetch real interviews — employer_id filter enforces tenant isolation
   const { data: interviewData } = await supabase
     .from('interviews')
     .select(
@@ -47,12 +47,14 @@ export default async function InterviewsPage() {
       outcome,
       candidate_id,
       job_id,
-      profiles!interviews_candidate_id_fkey(full_name),
-      jobs(title)
+      position,
+      candidate,
+      jobs
     `,
     )
+    .eq('employer_id', user.id)
     .order('scheduled_at', { ascending: true })
-    .limit(20);
+    .limit(50);
 
   const now = new Date();
 
