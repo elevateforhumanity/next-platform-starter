@@ -134,9 +134,20 @@ export default function HeroVideo({
     <div ref={wrapperRef} className={`w-full ${className}`}>
       {/* VIDEO FRAME */}
       {/* Height: 56vw clamped between 400px and 780px */}
+      {/* posterImage as CSS background-image — server-rendered, shows instantly
+          with zero flash before the client-side CanonicalVideo mounts. */}
       <section
         className="relative w-full overflow-hidden bg-slate-900"
-        style={{ height: 'clamp(400px, 56vw, 780px)' }}
+        style={{
+          height: 'clamp(400px, 56vw, 780px)',
+          ...(posterImage
+            ? {
+                backgroundImage: `url(${posterImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }
+            : {}),
+        }}
         aria-label={analyticsName ? `${analyticsName} hero video` : 'Hero video'}
       >
         {/* autoPlayOnMount — hero is always above the fold; start immediately.
