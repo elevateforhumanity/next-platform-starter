@@ -332,7 +332,7 @@ export default async function ProgramHolderAnalyticsPage() {
                 programStats.map((program: any) => (
                   <tr key={program.id} className="hover:bg-white">
                     <td className="px-4 py-4 font-medium">
-                      {program.title || program?.title || program?.name}
+                      {program.title ?? program.name}
                     </td>
                     <td className="px-4 py-4">{program.enrollments}</td>
                     <td className="px-4 py-4">

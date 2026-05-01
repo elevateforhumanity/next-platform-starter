@@ -427,6 +427,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(results);
   } catch (error) {
     /* Error handled silently */
-    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

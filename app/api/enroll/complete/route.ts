@@ -205,7 +205,7 @@ async function _POST(req: Request) {
           user_id: admin.id,
           type: 'system',
           title: 'New Enrollment Pending Approval',
-          message: `${firstName} ${lastName} (${email}) has completed payment for ${program.title || program?.title || program?.name}. Enrollment ID: ${enrollmentId}`,
+          message: `${firstName} ${lastName} (${email}) has completed payment for ${program.title ?? program.name}. Enrollment ID: ${enrollmentId}`,
         }));
 
         await supabase.from('notifications').insert(notifications);
@@ -245,7 +245,7 @@ async function _POST(req: Request) {
       await sendWelcomeEmail({
         email: emailLower,
         name: `${firstName} ${lastName}`,
-        programName: program.title || program?.title || program?.name,
+        programName: program.title ?? program.name,
         dashboardUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/lms`,
         includesMilady: isBarberProgram, // param kept for compat — LMS section shown for barber
       });

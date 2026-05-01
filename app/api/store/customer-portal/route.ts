@@ -40,9 +40,7 @@ async function _POST(request: NextRequest) {
     }
     const resolvedUserId = user.id;
 
-    if (!userId) {
-      return NextResponse.json({ error: 'Missing required field: userId' }, { status: 400 });
-    }
+    // userId from body is optional — we use the authenticated user's ID
 
     // Get Stripe customer ID
     const { data: billing, error: billingError } = await supabase
@@ -64,7 +62,7 @@ async function _POST(request: NextRequest) {
       return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/store/subscriptions`,
     });
 
-    logger.info(`Created customer portal session for user: ${userId}`);
+    logger.info(`Created customer portal session for user: ${resolvedUserId}`);
 
     return NextResponse.json({
       url: session.url,

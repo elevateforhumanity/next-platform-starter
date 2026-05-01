@@ -139,8 +139,8 @@ async function _POST(request: NextRequest) {
               price_data: {
                 currency: 'usd',
                 product_data: {
-                  name: program.title || program?.title || program?.name,
-                  description: `Enrollment in ${program.title || program?.title || program?.name}`,
+                  name: program.title ?? program.name,
+                  description: `Enrollment in ${program.title ?? program.name}`,
                 },
                 unit_amount: programAmount,
               },

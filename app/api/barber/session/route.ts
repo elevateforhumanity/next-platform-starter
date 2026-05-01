@@ -168,7 +168,7 @@ export async function DELETE(request: NextRequest) {
       .select(`mod${session.module_number}_theory`)
       .eq('user_id', user.id)
       .eq('program_id', BARBER_PROGRAM_ID)
-      .single();
+      .maybeSingle();
 
     const currentTheory = (ledger as any)?.[`mod${session.module_number}_theory`] ?? 0;
     const cap = MODULE_THEORY_CAPS[session.module_number] ?? 100;

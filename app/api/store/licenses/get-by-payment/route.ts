@@ -59,7 +59,7 @@ async function _GET(request: NextRequest) {
         .select('id, tier, status, features, max_users, max_programs, valid_until')
         .eq('tenant_id', purchase.tenant_id)
         .eq('status', 'active')
-        .single();
+        .maybeSingle();
       license = licenseData;
     }
 
