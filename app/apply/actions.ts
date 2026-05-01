@@ -732,7 +732,8 @@ export async function submitStudentApplication(data: StudentApplicationData) {
       ['workone', 'workforce_ready_grant'].includes(requestedSource) && !data.hasWorkOneApproval;
 
     const elig = data.eligibilityData;
-    const eligStatus = elig?.eligibilityStatus ?? 'incomplete';
+    // 'incomplete' is not a valid eligibility_status value — use 'pending' as the default
+    const eligStatus = elig?.eligibilityStatus ?? 'pending';
     const fundingStatus =
       elig?.hasSnap || elig?.hasTanf || elig?.hasReferral
         ? 'pending'

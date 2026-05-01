@@ -59,7 +59,8 @@ async function _POST(request: NextRequest) {
         last_name: data.last_name,
         email: data.email,
         phone: data.phone,
-        program_id: 'employer',
+        application_type: 'employer',
+        program_interest: 'Employer Partnership',
         status: 'submitted',
         notes: JSON.stringify({
           type: 'employer',

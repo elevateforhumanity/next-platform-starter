@@ -90,7 +90,7 @@ async function _POST(req: Request) {
         city: body.city || 'Indianapolis',
         zip: body.zip || '00000',
         program_interest: body.program || 'Not specified',
-        status: 'pending',
+        status: 'submitted',
         support_notes: notes,
       })
       .select()

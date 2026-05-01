@@ -3,6 +3,8 @@
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { headers } from 'next/headers';
 
 export interface FssaApplicationData {
   // Personal
@@ -48,6 +50,16 @@ export async function submitFssaApplication(
   data: FssaApplicationData,
 ): Promise<{ success: boolean; error?: string; applicationId?: string }> {
   try {
+    // Rate limit: max 3 submissions per 5 minutes per IP
+    const headersList = await headers();
+    const syntheticRequest = new Request('https://elevateforhumanity.org/apply/fssa', {
+      headers: headersList,
+    });
+    const rateLimited = await applyRateLimit(syntheticRequest, 'contact');
+    if (rateLimited) {
+      return { success: false, error: 'Too many submissions. Please wait a few minutes and try again.' };
+    }
+
     const supabase = await requireAdminClient();
 
     const { data: inserted, error } = await supabase
