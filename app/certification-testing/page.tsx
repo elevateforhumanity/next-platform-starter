@@ -115,13 +115,13 @@ export default function CertificationTestingPage() {
             <div className="bg-slate-50 px-6 py-4 border-b border-slate-200">
               <div className="flex justify-between items-center text-sm text-slate-600">
                 <span>Testing &amp; Administration</span>
-                <span className="font-semibold text-slate-900">$94</span>
+                <span className="font-semibold text-slate-900">$100</span>
               </div>
             </div>
             <div className="bg-[#1E3A5F] px-6 py-5">
               <div className="flex justify-between items-center">
                 <span className="text-white font-bold text-lg">Total</span>
-                <span className="text-white font-extrabold text-2xl">$243</span>
+                <span className="text-white font-extrabold text-2xl">$249</span>
               </div>
             </div>
           </div>
