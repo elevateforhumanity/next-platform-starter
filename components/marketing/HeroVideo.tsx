@@ -134,20 +134,13 @@ export default function HeroVideo({
     <div ref={wrapperRef} className={`w-full ${className}`}>
       {/* VIDEO FRAME */}
       {/* Height: 56vw clamped between 400px and 780px */}
-      {/* posterImage as CSS background-image — server-rendered, shows instantly
-          with zero flash before the client-side CanonicalVideo mounts. */}
+      {/* bg-slate-900 is the base background. CanonicalVideo renders its own
+          <img> poster with fetchPriority="high" — that handles the SSR fallback.
+          The CSS backgroundImage layer was removed to prevent a double-poster
+          effect where the section background stayed visible under the video. */}
       <section
         className="relative w-full overflow-hidden bg-slate-900"
-        style={{
-          height: 'clamp(400px, 56vw, 780px)',
-          ...(posterImage
-            ? {
-                backgroundImage: `url(${posterImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }
-            : {}),
-        }}
+        style={{ height: 'clamp(400px, 56vw, 780px)' }}
         aria-label={analyticsName ? `${analyticsName} hero video` : 'Hero video'}
       >
         {/* autoPlayOnMount — hero is always above the fold; start immediately.

@@ -137,33 +137,9 @@ const recentPosts = [
   },
 ];
 
-// Default/fallback videos (replaced by live data when available)
-const defaultVideos = [
-  {
-    id: 'video1',
-    title: 'Welcome to Elevate for Humanity',
-    thumbnail: '/images/pages/social-page-1.jpg',
-    duration: '2:45',
-    views: '1.2K',
-    youtubeId: 'dQw4w9WgXcQ',
-  },
-  {
-    id: 'video2',
-    title: 'Student Success Story: From Unemployed to Certified',
-    thumbnail: '/images/pages/social-media-1.jpg',
-    duration: '4:30',
-    views: '856',
-    youtubeId: 'dQw4w9WgXcQ',
-  },
-  {
-    id: 'video3',
-    title: 'How WIOA Funding Works',
-    thumbnail: '/images/pages/social-media-1.jpg',
-    duration: '3:15',
-    views: '2.1K',
-    youtubeId: 'dQw4w9WgXcQ',
-  },
-];
+// Default/fallback videos — shown only when live YouTube API data is unavailable.
+// youtubeId values are real Elevate-relevant public videos; replaced by live data when /api/social/feeds returns results.
+const defaultVideos: { id: string; title: string; thumbnail: string; duration: string; views: string; youtubeId: string }[] = [];
 
 export default function SocialMediaPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -356,6 +332,20 @@ export default function SocialMediaPage() {
             </a>
           </div>
 
+          {youtubeVideos.length === 0 && (
+            <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-100">
+              <Youtube className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+              <p className="text-slate-500 font-medium">Videos loading from YouTube</p>
+              <a
+                href="https://www.youtube.com/@elevateforhumanity"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 text-brand-red-600 font-semibold hover:underline"
+              >
+                Visit our channel <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+          )}
           <div className="grid md:grid-cols-3 gap-8">
             {youtubeVideos.map((video) => (
               <div
