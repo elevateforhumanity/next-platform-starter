@@ -844,7 +844,7 @@ const nextConfig = {
       // /admin/:path* — handled by Netlify edge (netlify.toml force redirect). Removed here.
       // Missing public pages with no Railway equivalent
       { source: '/cert/verify', destination: '/verify', permanent: true },
-      { source: '/certiport-exam', destination: '/testing', permanent: false },
+      // /certiport-exam is a live student checkout page — no redirect
       { source: '/microclasses', destination: '/programs', permanent: false },
       { source: '/outcomes/indiana', destination: '/about', permanent: false },
       { source: '/help/:path*', destination: '/support', permanent: false },

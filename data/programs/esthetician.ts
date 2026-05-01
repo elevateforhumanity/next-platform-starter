@@ -7,7 +7,7 @@ export const ESTHETICIAN: ProgramSchema = {
     '5-week accelerated non-licensure certificate. Skin analysis, facial treatments, hair removal, and business startup — WIOA funded.',
   sector: 'personal-services',
   category: 'Beauty & Personal Services',
-  programType: 'apprenticeship',
+  programType: 'certification',
   heroImage: '/images/pages/cosmetology-hero.jpg',
   heroImageAlt: 'Esthetician performing professional facial treatment',
   videoSrc: '/videos/esthetician-spa.mp4',
@@ -28,16 +28,10 @@ export const ESTHETICIAN: ProgramSchema = {
 
   credentials: [
     {
-      name: 'Business of Retail Certified Specialist',
-      issuer: 'National Retail Federation (NRF)',
+      name: 'Esthetician & Client Services Certificate',
+      issuer: 'Elevate for Humanity',
       description:
-        'Nationally recognized retail business certification validating customer service and business operations skills.',
-      validity: 'Lifetime',
-    },
-    {
-      name: 'Customer Service & Sales Certified Specialist',
-      issuer: 'National Retail Federation (NRF)',
-      description: 'NRF certification for client-facing service professionals.',
+        'Non-licensure certificate of completion for the 5-week Professional Esthetician & Client Services program. Recognized by employers for entry-level spa and salon roles.',
       validity: 'Lifetime',
     },
     {
@@ -45,6 +39,13 @@ export const ESTHETICIAN: ProgramSchema = {
       issuer: 'CareerSafe',
       description: 'OSHA-authorized workplace safety training for salon and spa environments.',
       validity: 'Lifetime',
+    },
+    {
+      name: 'Bloodborne Pathogens & Infection Control Certificate',
+      issuer: 'Elevate for Humanity',
+      description:
+        'Infection control and bloodborne pathogens training required for personal services professionals in Indiana.',
+      validity: '1 year',
     },
   ],
 
@@ -67,7 +68,7 @@ export const ESTHETICIAN: ProgramSchema = {
       assessedAt: 'Week 3',
     },
     {
-      statement: 'Pass the NRF Business of Retail and Customer Service assessments',
+      statement: 'Complete program final assessment and career readiness review',
       assessedAt: 'Week 5',
     },
   ],
@@ -76,7 +77,7 @@ export const ESTHETICIAN: ProgramSchema = {
     {
       title: 'Esthetician (Non-Licensure)',
       timeframe: '0–3 months',
-      requirements: 'Program completion + NRF credentials',
+      requirements: 'Program completion + Elevate certificate',
       salaryRange: '$28,000–$42,000',
     },
     {
@@ -118,12 +119,12 @@ export const ESTHETICIAN: ProgramSchema = {
     {
       week: 'Week 4',
       title: 'Client Services & Business Operations',
-      competencyMilestone: 'Complete NRF Customer Service practice assessment with 80%+',
+      competencyMilestone: 'Complete client consultation and service menu project',
     },
     {
       week: 'Week 5',
       title: 'Certification & Career Readiness',
-      competencyMilestone: 'Pass NRF Business of Retail and Customer Service exams',
+      competencyMilestone: 'Pass final practical assessment and complete career readiness review',
     },
   ],
 
@@ -186,9 +187,9 @@ export const ESTHETICIAN: ProgramSchema = {
       description: 'Approved on Indiana ETPL for WIOA Individual Training Account funding.',
     },
     {
-      standard: 'NRF Foundation Certification Standards',
+      standard: 'Indiana Professional Licensing Agency — Awareness',
       description:
-        'Curriculum aligned to NRF Business of Retail and Customer Service exam objectives.',
+        'Non-licensure program. Curriculum covers state board awareness so graduates understand the pathway to full Indiana esthetician licensure (600 hours).',
     },
     {
       standard: 'CIP Code 12.0409',
@@ -273,8 +274,9 @@ export const ESTHETICIAN: ProgramSchema = {
   ],
   pricingIncludes: [
     'All course materials and starter kit',
-    'NRF exam fees (Business of Retail + Customer Service)',
-    'OSHA 10 certification',
+    'OSHA 10 certification (CareerSafe)',
+    'Bloodborne Pathogens & Infection Control certificate',
+    'Elevate certificate of completion',
     'Career placement support',
   ],
   paymentTerms:
@@ -287,9 +289,9 @@ export const ESTHETICIAN: ProgramSchema = {
         'This is a non-licensure certificate program. You can work in many spa and salon settings without a state license. If you want to work in a licensed facility or open your own business, you can pursue the Indiana Esthetician License (600 hours) as a next step.',
     },
     {
-      question: 'What is the NRF credential?',
+      question: 'What credentials do I earn?',
       answer:
-        'The National Retail Federation Foundation offers nationally recognized certifications in business and customer service. These credentials are valued by employers in retail, beauty, and service industries.',
+        'You earn an Elevate Certificate of Completion, an OSHA 10-Hour Safety Certification through CareerSafe, and a Bloodborne Pathogens & Infection Control certificate — all included in the program fee.',
     },
     {
       question: 'Is this program WIOA-funded?',
@@ -305,7 +307,7 @@ export const ESTHETICIAN: ProgramSchema = {
   ],
   metaTitle: 'Professional Esthetician & Client Services | ETPL Approved | Indianapolis',
   metaDescription:
-    'Earn NRF and OSHA 10 certifications in 5 weeks. WIOA-funded esthetician and skincare training in Indianapolis. Non-licensure certificate program.',
+    'Earn an Elevate certificate and OSHA 10 in 5 weeks. WIOA-funded esthetician and skincare training in Indianapolis. Non-licensure certificate program.',
 
 
   funding: {

@@ -13,7 +13,7 @@ import {
   CreditCard,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { ACTIVE_PROVIDERS } from '@/lib/testing/proctoring-capabilities';
+import { ACTIVE_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
 
 export const metadata: Metadata = {
   title: 'Testing & Credential Exams | Elevate for Humanity',
@@ -25,13 +25,13 @@ export const metadata: Metadata = {
 };
 
 const PROVIDER_IMAGES: Record<string, string> = {
-  esco: '/images/pages/hvac-technician.jpg',
-  nrf: '/images/pages/apply-employer-hero.jpg',
+  esco: '/images/pages/hvac-unit.jpg',
+  nrf: '/images/pages/certifications-page-1.jpg',
   certiport: '/images/pages/testing-page-1.jpg',
   nha: '/images/pages/medical-assistant.jpg',
-  workkeys: '/images/pages/career-services-page-4.jpg',
-  careersafe: '/images/pages/apprenticeships-hero.jpg',
-  midland: '/images/pages/hvac-technician.jpg',
+  workkeys: '/images/pages/career-services-page-1.jpg',
+  careersafe: '/images/pages/programs-emergency-health-safety-hero.jpg',
+  midland: '/images/pages/competency-test-hero.jpg',
 };
 
 const CAPABILITY_LABELS: Record<string, string> = {
