@@ -317,9 +317,7 @@
       "Apprenticeship pathway available"
     ],
     "transcript": "Train for NCCER Core Curriculum and OSHA 30 Construction credentials in 12 weeks, building skills in residential wiring, NEC code, load calculations, and conduit bending. Entry-level electrician helpers commonly earn $35,000 to $45,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "electrical",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
-    "videoSrcMobile": "https://videos.pexels.com/video-files/4482360/4482360-hd_1080_2048_25fps.mp4"
+    "analyticsName": "electrical"
   },
   "welding": {
     "pageKey": "welding",
@@ -874,7 +872,7 @@
   "beauty-career-educator": {
     "pageKey": "beauty-career-educator",
     "videoSrcDesktop": "https://videos.pexels.com/video-files/6964488/6964488-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/barber-apprenticeship.jpg",
+    "posterImage": "/hero-images/barber-beauty-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "Certiport ESB",
     "credentialLabel": "Certiport ESB",
@@ -1145,7 +1143,7 @@
   },
   "cad-drafting": {
     "pageKey": "cad-drafting",
-    "posterImage": "/images/pages/cybersecurity-screen.jpg",
+    "posterImage": "/images/pages/electrical-wiring.jpg",
     "microLabel": "Autodesk Certified User",
     "credentialLabel": "Autodesk Certified User",
     "durationLabel": "10 weeks",
@@ -1605,7 +1603,7 @@
   },
   "about-partners": {
     "pageKey": "about-partners",
-    "posterImage": "/hero-images/employer-hero.jpg",
+    "posterImage": "/images/pages/about-partners-hero.jpg",
     "microLabel": "Our Partners",
     "belowHeroHeadline": "Built on strong partnerships.",
     "belowHeroSubheadline": "Employers, workforce agencies, and community organizations working together to connect Hoosiers to careers.",
@@ -2357,7 +2355,6 @@
   },
   "apprenticeship-sponsor": {
     "pageKey": "apprenticeship-sponsor",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
     "posterImage": "/hero-images/apprenticeships-hero.jpg",
     "voiceoverSrc": "/audio/heroes/apprenticeship-sponsor.mp3",
     "microLabel": "DOL Apprenticeship Sponsor",
@@ -2379,8 +2376,7 @@
       "Employer-sponsored"
     ],
     "transcript": "As a DOL Registered Apprenticeship Sponsor, Elevate connects apprentices with employers who pay wages during training. Earn while you learn.",
-    "analyticsName": "apprenticeship-sponsor",
-    "videoSrcMobile": "https://videos.pexels.com/video-files/12896415/12896415-hd_1080_1920_24fps.mp4"
+    "analyticsName": "apprenticeship-sponsor"
   },
   "program-holder": {
     "pageKey": "program-holder",
@@ -2410,7 +2406,7 @@
   },
   "locations": {
     "pageKey": "locations",
-    "posterImage": "/hero-images/employer-hero.jpg",
+    "posterImage": "/images/pages/locations.jpg",
     "microLabel": "Training Locations",
     "belowHeroHeadline": "Training in Indianapolis and beyond.",
     "belowHeroSubheadline": "In-person, hybrid, and online training options across Indiana — with employer site training available.",
@@ -2429,9 +2425,7 @@
       "Employer site training"
     ],
     "transcript": "Elevate offers training in Indianapolis and across Indiana — in-person, hybrid, and fully online. Find the format that works for you.",
-    "analyticsName": "locations",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
-    "videoSrcMobile": "https://videos.pexels.com/video-files/12896415/12896415-hd_1080_1920_24fps.mp4"
+    "analyticsName": "locations"
   },
   "start": {
     "pageKey": "start",
@@ -2459,7 +2453,7 @@
   "esthetician-apprenticeship": {
     "pageKey": "esthetician-apprenticeship",
     "videoSrcDesktop": "https://videos.pexels.com/video-files/7582852/7582852-hd_1366_720_25fps.mp4",
-    "posterImage": "/images/pages/barber-hero-main.jpg",
+    "posterImage": "/images/pages/cosmetology.jpg",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Esthetician License",
     "durationLabel": "1,500 hours",
@@ -2484,34 +2478,6 @@
     "analyticsName": "esthetician-apprenticeship",
     "videoSrcMobile": "https://videos.pexels.com/video-files/7582852/7582852-hd_1366_720_25fps.mp4",
     "_pexelsVideoId": 7582852
-  },
-  "barber": {
-    "pageKey": "barber",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4",
-    "posterImage": "/hero-images/barber-hero.jpg",
-    "microLabel": "DOL Registered Apprenticeship",
-    "credentialLabel": "Indiana Barber License",
-    "durationLabel": "2,000 hours",
-    "salaryRangeLabel": "$30,000 to $65,000",
-    "belowHeroHeadline": "Barber Apprenticeship — earn while you train.",
-    "belowHeroSubheadline": "DOL Registered Apprenticeship. Train at a licensed barbershop, earn wages from day one, and graduate with your Indiana Barber License.",
-    "primaryCta": {
-      "label": "Apply Now",
-      "href": "/programs/barber-apprenticeship/apply"
-    },
-    "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
-      "variant": "secondary"
-    },
-    "trustIndicators": [
-      "DOL Registered Apprenticeship",
-      "Earn $12–$15/hr while training",
-      "Indiana Barber License"
-    ],
-    "transcript": "Earn your Indiana Barber License through a DOL Registered Apprenticeship of 2,000 hours at a licensed barbershop.",
-    "analyticsName": "barber",
-    "videoSrcMobile": "https://videos.pexels.com/video-files/8867390/8867390-hd_1080_1920_24fps.mp4"
   },
   "cybersecurity": {
     "pageKey": "cybersecurity",
@@ -2543,7 +2509,7 @@
   },
   "hospitality": {
     "pageKey": "hospitality",
-    "posterImage": "/hero-images/career-services-hero.jpg",
+    "posterImage": "/images/pages/culinary.jpg",
     "microLabel": "Indianapolis, Indiana",
     "belowHeroHeadline": "Hospitality & Customer Service — ServSafe certified in 8 weeks.",
     "belowHeroSubheadline": "Build a career in hotels, restaurants, and event services. WIOA and Workforce Ready Grant funding available.",
