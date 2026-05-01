@@ -238,6 +238,17 @@ export default function ProgramDetailPage({
                     </span>
                   ))}
                 </div>
+
+                {/* Delivery disclosure */}
+                {p.deliveredBy && (
+                  <p className="mt-4 text-xs text-slate-500">
+                    {p.deliveredBy === 'Elevate'
+                      ? 'Delivered directly by Elevate for Humanity.'
+                      : p.deliveredBy === 'Partner'
+                        ? 'Delivered by an approved training partner.'
+                        : 'Delivered by Elevate for Humanity or an approved training partner.'}
+                  </p>
+                )}
               </div>
 
               {/* CTA card */}

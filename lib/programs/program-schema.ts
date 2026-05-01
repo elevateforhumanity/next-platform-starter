@@ -198,6 +198,8 @@ export interface ProgramSchema {
 
   // ─── A. Header Spec Panel ────────────────────────────────────────
   deliveryMode: 'online' | 'hybrid' | 'in-person';
+  /** Who delivers this program — shown as a disclosure on the program page */
+  deliveredBy?: 'Elevate' | 'Partner' | 'Elevate or Partner';
   durationWeeks: number;
   hoursPerWeekMin: number;
   hoursPerWeekMax: number;

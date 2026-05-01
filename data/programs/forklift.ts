@@ -11,6 +11,7 @@ export const FORKLIFT: ProgramSchema = {
   heroImage: '/images/pages/forklift.jpg',
   heroImageAlt: 'Forklift operator training in a warehouse setting',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Partner',
   durationWeeks: 1,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 24,

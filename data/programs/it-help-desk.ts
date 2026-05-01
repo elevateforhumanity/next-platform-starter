@@ -14,6 +14,7 @@ export const IT_HELP_DESK: ProgramSchema = {
   videoSrc: '/videos/it-technology.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 18,
   hoursPerWeekMax: 22,

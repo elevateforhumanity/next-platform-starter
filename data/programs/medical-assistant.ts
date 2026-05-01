@@ -12,6 +12,7 @@ export const MEDICAL_ASSISTANT: ProgramSchema = {
   heroImageAlt: 'Medical assistant student in clinical training',
   videoSrc: '/videos/healthcare-cna.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 12,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

@@ -11,6 +11,7 @@ export const CPR_FIRST_AID: ProgramSchema = {
   heroImageAlt: 'CPR training mannequin for at-home certification',
   videoSrc: '',
   deliveryMode: 'online',
+  deliveredBy: 'Elevate',
   durationWeeks: 1,
   hoursPerWeekMin: 2,
   hoursPerWeekMax: 4,

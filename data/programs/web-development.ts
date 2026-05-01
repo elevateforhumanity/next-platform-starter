@@ -10,6 +10,7 @@ export const WEB_DEVELOPMENT: ProgramSchema = {
   heroImage: '/images/pages/web-development.jpg',
   heroImageAlt: 'Web development student coding on a laptop',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 12,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

@@ -11,6 +11,7 @@ export const SANITATION: ProgramSchema = {
   heroImage: '/images/pages/sanitation.jpg',
   heroImageAlt: 'Sanitation and infection control training in a clinical setting',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 2,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,

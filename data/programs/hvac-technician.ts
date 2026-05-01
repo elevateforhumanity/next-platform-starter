@@ -4,9 +4,9 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   slug: 'hvac-technician',
   title: 'HVAC Certification',
   subtitle:
-    'Install, service, and repair heating and cooling systems. EPA 608 Universal certification proctored on-site. 12 weeks. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
+    'Install, service, and repair heating and cooling systems. EPA 608 Universal certification proctored on-site. 6 weeks. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
   sector: 'skilled-trades',
-  category: 'Skilled Trades',
+  category: 'Certifications',
   programType: 'certification',
 
   heroImage: '/images/pages/hvac-unit.jpg',
@@ -14,6 +14,7 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   videoSrc: '/videos/hvac-hero.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 30,
   hoursPerWeekMax: 40,
@@ -301,9 +302,9 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
     requestInfoHref: '/contact?program=hvac-technician',
   },
 
-  metaTitle: 'HVAC Technician Training | EPA 608 Proctored On-Site | Indianapolis',
+  metaTitle: 'HVAC Certification | EPA 608 Proctored On-Site | Indianapolis',
   metaDescription:
-    '12-week HVAC program in Indianapolis. EPA 608 Universal proctored on-site. WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Small cohorts, hands-on lab.',
+    '6-week HVAC certification in Indianapolis. EPA 608 Universal proctored on-site. WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Small cohorts, hands-on lab.',
 
   enrollmentType: 'internal',
   deliveryModel: 'internal',

@@ -10,6 +10,7 @@ export const NETWORK_SUPPORT: ProgramSchema = {
   heroImage: '/images/pages/networking-hero.jpg',
   heroImageAlt: 'Network support technician troubleshooting a connection',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

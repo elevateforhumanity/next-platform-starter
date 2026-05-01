@@ -14,6 +14,7 @@ export const CNA: ProgramSchema = {
   videoSrc: '/videos/cna-hero.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 30,
   hoursPerWeekMax: 40,

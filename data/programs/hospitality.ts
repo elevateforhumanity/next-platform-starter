@@ -11,6 +11,7 @@ export const HOSPITALITY: ProgramSchema = {
   heroImage: '/images/pages/culinary.jpg',
   heroImageAlt: 'Hospitality professional at a hotel front desk',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,

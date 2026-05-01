@@ -11,6 +11,7 @@ export const NETWORK_ADMIN: ProgramSchema = {
   heroImageAlt: 'Network administration student configuring network equipment',
   videoSrc: '/videos/it-technology.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 10,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

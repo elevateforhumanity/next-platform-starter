@@ -11,6 +11,7 @@ export const PEER_RECOVERY: ProgramSchema = {
   heroImage: '/images/pages/healthcare-hero.jpg',
   heroImageAlt: 'Peer recovery specialist in a counseling session',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

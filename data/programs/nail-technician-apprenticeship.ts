@@ -10,6 +10,7 @@ export const NAIL_TECH: ProgramSchema = {
   heroImage: '/images/pages/nail-technician.jpg',
   heroImageAlt: 'Nail technician apprentice performing a manicure',
   deliveryMode: 'in-person',
+  deliveredBy: 'Partner',
   durationWeeks: 20,
   hoursPerWeekMin: 25,
   hoursPerWeekMax: 30,

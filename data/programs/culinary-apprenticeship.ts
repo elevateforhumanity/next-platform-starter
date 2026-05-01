@@ -10,6 +10,7 @@ export const CULINARY: ProgramSchema = {
   heroImage: '/images/pages/culinary.jpg',
   heroImageAlt: 'Culinary apprentice preparing food in a professional kitchen',
   deliveryMode: 'in-person',
+  deliveredBy: 'Partner',
   durationWeeks: 26,
   hoursPerWeekMin: 30,
   hoursPerWeekMax: 40,

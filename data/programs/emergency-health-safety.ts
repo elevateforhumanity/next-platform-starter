@@ -12,6 +12,7 @@ export const EMERGENCY_HEALTH_SAFETY: ProgramSchema = {
   heroImageAlt: 'Emergency medical responder providing care',
   videoSrc: '/videos/healthcare-cna.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 4,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

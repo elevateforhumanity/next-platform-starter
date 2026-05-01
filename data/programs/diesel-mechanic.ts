@@ -13,6 +13,7 @@ export const DIESEL_MECHANIC: ProgramSchema = {
   heroImageAlt: 'Diesel mechanic student working on an engine',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Partner',
   durationWeeks: 12,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

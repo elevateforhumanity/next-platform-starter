@@ -12,6 +12,7 @@ export const ESTHETICIAN: ProgramSchema = {
   heroImageAlt: 'Esthetician performing professional facial treatment',
   videoSrc: '/videos/esthetician-spa.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 5,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

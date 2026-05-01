@@ -14,6 +14,7 @@ export const ELECTRICAL: ProgramSchema = {
   videoSrc: '/videos/electrician-trades.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 12,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

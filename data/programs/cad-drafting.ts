@@ -10,6 +10,7 @@ export const CAD_DRAFTING: ProgramSchema = {
   heroImage: '/images/pages/graphic-design.jpg',
   heroImageAlt: 'CAD drafting student working on technical drawings',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 10,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

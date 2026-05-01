@@ -14,6 +14,7 @@ export const WELDING: ProgramSchema = {
   videoSrc: '/videos/welding-trades.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 10,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

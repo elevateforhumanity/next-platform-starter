@@ -10,6 +10,7 @@ export const PROJECT_MANAGEMENT: ProgramSchema = {
   heroImage: '/images/pages/project-management.jpg',
   heroImageAlt: 'Project manager leading a team meeting',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,

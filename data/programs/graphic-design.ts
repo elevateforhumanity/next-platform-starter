@@ -10,6 +10,7 @@ export const GRAPHIC_DESIGN: ProgramSchema = {
   heroImage: '/images/pages/graphic-design.jpg',
   heroImageAlt: 'Graphic design student working in Adobe Creative Suite',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 10,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

@@ -14,6 +14,7 @@ export const CYBERSECURITY_ANALYST: ProgramSchema = {
   videoSrc: '/videos/it-technology.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 12,
   hoursPerWeekMin: 18,
   hoursPerWeekMax: 22,

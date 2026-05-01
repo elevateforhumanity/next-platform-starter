@@ -12,6 +12,7 @@ export const BEAUTY_CAREER_EDUCATOR: ProgramSchema = {
   heroImageAlt: 'Beauty educator training students in salon techniques',
   videoSrc: '/videos/beauty-cosmetology.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Partner',
   durationWeeks: 12,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,

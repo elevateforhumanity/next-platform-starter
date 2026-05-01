@@ -13,6 +13,7 @@ export const QMA: ProgramSchema = {
   heroImageAlt: 'Qualified Medication Aide student preparing medications in a residential care facility',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 4,
   hoursPerWeekMin: 30,
   hoursPerWeekMax: 40,

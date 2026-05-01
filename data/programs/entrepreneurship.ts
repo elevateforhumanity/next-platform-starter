@@ -10,6 +10,7 @@ export const ENTREPRENEURSHIP: ProgramSchema = {
   heroImage: '/images/pages/entrepreneurship.jpg',
   heroImageAlt: 'Entrepreneur working on a business plan',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 10,
   hoursPerWeekMax: 15,

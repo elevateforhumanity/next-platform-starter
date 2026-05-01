@@ -18,6 +18,7 @@ export const PHLEBOTOMY: ProgramSchema = {
   heroImageAlt: 'Phlebotomy student practicing venipuncture technique',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 4,
   hoursPerWeekMin: 28,
   hoursPerWeekMax: 32,

@@ -10,6 +10,7 @@ export const SOFTWARE_DEV: ProgramSchema = {
   heroImage: '/images/pages/software-development.jpg',
   heroImageAlt: 'Software development student writing code',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 12,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

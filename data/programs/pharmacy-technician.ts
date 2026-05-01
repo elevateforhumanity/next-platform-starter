@@ -18,6 +18,7 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
   videoSrc: '/videos/healthcare-cna.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 10,
   hoursPerWeekMin: 18,
   hoursPerWeekMax: 22,

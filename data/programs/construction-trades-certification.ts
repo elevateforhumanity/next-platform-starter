@@ -11,6 +11,7 @@ export const CONSTRUCTION_TRADES: ProgramSchema = {
   heroImage: '/images/pages/construction-trades.jpg',
   heroImageAlt: 'Construction trades students in safety gear on a job site',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Partner',
   durationWeeks: 8,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,

@@ -11,6 +11,7 @@ export const TAX_PREPARATION: ProgramSchema = {
   heroImageAlt: 'Tax preparation student learning tax filing procedures',
   videoSrc: '/videos/tax-career-paths.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,

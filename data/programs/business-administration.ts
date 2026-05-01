@@ -10,6 +10,7 @@ export const BUSINESS_ADMIN: ProgramSchema = {
   heroImage: '/images/pages/business-sector.jpg',
   heroImageAlt: 'Business administration student working on a computer',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,

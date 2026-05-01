@@ -14,6 +14,7 @@ export const BOOKKEEPING: ProgramSchema = {
   videoSrc: '/videos/business-finance.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 5,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,

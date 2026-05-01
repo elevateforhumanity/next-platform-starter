@@ -14,6 +14,7 @@ export const CDL_TRAINING: ProgramSchema = {
   videoSrc: '/videos/cdl-hero.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 30,
   hoursPerWeekMax: 40,

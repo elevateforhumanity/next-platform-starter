@@ -11,6 +11,7 @@ export const TECHNOLOGY: ProgramSchema = {
   heroImage: '/images/pages/technology-sector.jpg',
   heroImageAlt: 'Technology student working on a computer',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 12,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,

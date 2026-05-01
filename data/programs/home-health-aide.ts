@@ -12,6 +12,7 @@ export const HOME_HEALTH_AIDE: ProgramSchema = {
   heroImageAlt: 'Home health aide assisting elderly client',
   videoSrc: '/videos/cna-hero.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 4,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,
