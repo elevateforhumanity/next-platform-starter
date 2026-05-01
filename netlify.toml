@@ -726,51 +726,51 @@
 # e.g. https://your-app.up.railway.app
 [[redirects]]
   from = "/admin"
-  to = "https://elevate-lms-production-3098.up.railway.app/admin"
+  to = "https://elevate-admin-production.up.railway.app/admin"
   status = 301
   force = true
 
 [[redirects]]
   from = "/admin/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/admin/:splat"
+  to = "https://elevate-admin-production.up.railway.app/admin/:splat"
   status = 301
   force = true
 
 # PWA — served by Railway
 [[redirects]]
   from = "/pwa"
-  to = "https://elevate-lms-production-3098.up.railway.app/pwa"
+  to = "https://elevate-admin-production.up.railway.app/pwa"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pwa/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/pwa/:splat"
+  to = "https://elevate-admin-production.up.railway.app/pwa/:splat"
   status = 301
   force = true
 
 # Store / checkout — Railway-owned e-commerce
 [[redirects]]
   from = "/store"
-  to = "https://elevate-lms-production-3098.up.railway.app/store"
+  to = "https://elevate-admin-production.up.railway.app/store"
   status = 301
   force = true
 
 [[redirects]]
   from = "/store/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/store/:splat"
+  to = "https://elevate-admin-production.up.railway.app/store/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/checkout"
-  to = "https://elevate-lms-production-3098.up.railway.app/checkout"
+  to = "https://elevate-admin-production.up.railway.app/checkout"
   status = 301
   force = true
 
 [[redirects]]
   from = "/checkout/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/checkout/:splat"
+  to = "https://elevate-admin-production.up.railway.app/checkout/:splat"
   status = 301
   force = true
 
@@ -778,19 +778,19 @@
 # /lms root and /lms/programs have no Railway route — send to /lms/courses
 [[redirects]]
   from = "/lms"
-  to = "https://elevate-lms-production-3098.up.railway.app/lms/courses"
+  to = "https://elevate-admin-production.up.railway.app/lms/courses"
   status = 301
   force = true
 
 [[redirects]]
   from = "/lms/programs"
-  to = "https://elevate-lms-production-3098.up.railway.app/lms/courses"
+  to = "https://elevate-admin-production.up.railway.app/lms/courses"
   status = 301
   force = true
 
 [[redirects]]
   from = "/lms/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/lms/:splat"
+  to = "https://elevate-admin-production.up.railway.app/lms/:splat"
   status = 301
   force = true
 
@@ -800,95 +800,95 @@
 # force=true so they still take priority over this catch-all.
 [[redirects]]
   from = "/api/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/api/:splat"
+  to = "https://elevate-admin-production.up.railway.app/api/:splat"
   status = 301
   force = true
 
 # Learner / student portals — Railway
 [[redirects]]
   from = "/learner"
-  to = "https://elevate-lms-production-3098.up.railway.app/learner"
+  to = "https://elevate-admin-production.up.railway.app/learner"
   status = 301
   force = true
 
 [[redirects]]
   from = "/learner/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/learner/:splat"
+  to = "https://elevate-admin-production.up.railway.app/learner/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student"
-  to = "https://elevate-lms-production-3098.up.railway.app/student"
+  to = "https://elevate-admin-production.up.railway.app/student"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/student/:splat"
+  to = "https://elevate-admin-production.up.railway.app/student/:splat"
   status = 301
   force = true
 
 # Instructor portal — Railway
 [[redirects]]
   from = "/instructor"
-  to = "https://elevate-lms-production-3098.up.railway.app/instructor"
+  to = "https://elevate-admin-production.up.railway.app/instructor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/instructor/:splat"
+  to = "https://elevate-admin-production.up.railway.app/instructor/:splat"
   status = 301
   force = true
 
 # Staff / case manager portals — Railway
 [[redirects]]
   from = "/staff-portal"
-  to = "https://elevate-lms-production-3098.up.railway.app/staff-portal"
+  to = "https://elevate-admin-production.up.railway.app/staff-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/staff-portal/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/staff-portal/:splat"
+  to = "https://elevate-admin-production.up.railway.app/staff-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/case-manager"
-  to = "https://elevate-lms-production-3098.up.railway.app/case-manager"
+  to = "https://elevate-admin-production.up.railway.app/case-manager"
   status = 301
   force = true
 
 [[redirects]]
   from = "/case-manager/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/case-manager/:splat"
+  to = "https://elevate-admin-production.up.railway.app/case-manager/:splat"
   status = 301
   force = true
 
 # Partner / employer dashboards — Railway
 [[redirects]]
   from = "/partner/dashboard"
-  to = "https://elevate-lms-production-3098.up.railway.app/partner/dashboard"
+  to = "https://elevate-admin-production.up.railway.app/partner/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner/dashboard/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/partner/dashboard/:splat"
+  to = "https://elevate-admin-production.up.railway.app/partner/dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard"
-  to = "https://elevate-lms-production-3098.up.railway.app/employer/dashboard"
+  to = "https://elevate-admin-production.up.railway.app/employer/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/employer/dashboard/:splat"
+  to = "https://elevate-admin-production.up.railway.app/employer/dashboard/:splat"
   status = 301
   force = true
 
@@ -897,852 +897,852 @@
 # programs/*/confirm, enrollment-success, orientation, documents — auth-gated
 [[redirects]]
   from = "/programs/*/confirm"
-  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/confirm"
+  to = "https://elevate-admin-production.up.railway.app/programs/:splat/confirm"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/enrollment-success"
-  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/enrollment-success"
+  to = "https://elevate-admin-production.up.railway.app/programs/:splat/enrollment-success"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/orientation"
-  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/orientation"
+  to = "https://elevate-admin-production.up.railway.app/programs/:splat/orientation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/documents"
-  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/documents"
+  to = "https://elevate-admin-production.up.railway.app/programs/:splat/documents"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/documents/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/documents/:splat"
+  to = "https://elevate-admin-production.up.railway.app/programs/:splat/documents/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/enroll"
-  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/enroll"
+  to = "https://elevate-admin-production.up.railway.app/programs/:splat/enroll"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/enroll/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/enroll/:splat"
+  to = "https://elevate-admin-production.up.railway.app/programs/:splat/enroll/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/admin"
-  to = "https://elevate-lms-production-3098.up.railway.app/programs/admin"
+  to = "https://elevate-admin-production.up.railway.app/programs/admin"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/admin/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/programs/admin/:splat"
+  to = "https://elevate-admin-production.up.railway.app/programs/admin/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/learner"
-  to = "https://elevate-lms-production-3098.up.railway.app/demo/learner"
+  to = "https://elevate-admin-production.up.railway.app/demo/learner"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/learner/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/demo/learner/:splat"
+  to = "https://elevate-admin-production.up.railway.app/demo/learner/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/employer"
-  to = "https://elevate-lms-production-3098.up.railway.app/demo/employer"
+  to = "https://elevate-admin-production.up.railway.app/demo/employer"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/employer/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/demo/employer/:splat"
+  to = "https://elevate-admin-production.up.railway.app/demo/employer/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mou/employer"
-  to = "https://elevate-lms-production-3098.up.railway.app/mou/employer"
+  to = "https://elevate-admin-production.up.railway.app/mou/employer"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mou/employer/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/mou/employer/:splat"
+  to = "https://elevate-admin-production.up.railway.app/mou/employer/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/help/account"
-  to = "https://elevate-lms-production-3098.up.railway.app/help/account"
+  to = "https://elevate-admin-production.up.railway.app/help/account"
   status = 301
   force = true
 
 [[redirects]]
   from = "/help/account/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/help/account/:splat"
+  to = "https://elevate-admin-production.up.railway.app/help/account/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/booking/enrollment"
-  to = "https://elevate-lms-production-3098.up.railway.app/booking/enrollment"
+  to = "https://elevate-admin-production.up.railway.app/booking/enrollment"
   status = 301
   force = true
 
 [[redirects]]
   from = "/booking/enrollment/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/booking/enrollment/:splat"
+  to = "https://elevate-admin-production.up.railway.app/booking/enrollment/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/shop/onboarding/documents"
-  to = "https://elevate-lms-production-3098.up.railway.app/shop/onboarding/documents"
+  to = "https://elevate-admin-production.up.railway.app/shop/onboarding/documents"
   status = 301
   force = true
 
 [[redirects]]
   from = "/shop/onboarding/documents/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/shop/onboarding/documents/:splat"
+  to = "https://elevate-admin-production.up.railway.app/shop/onboarding/documents/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partners/compliance"
-  to = "https://elevate-lms-production-3098.up.railway.app/partners/compliance"
+  to = "https://elevate-admin-production.up.railway.app/partners/compliance"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partners/compliance/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/partners/compliance/:splat"
+  to = "https://elevate-admin-production.up.railway.app/partners/compliance/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student-support/schedule"
-  to = "https://elevate-lms-production-3098.up.railway.app/student-support/schedule"
+  to = "https://elevate-admin-production.up.railway.app/student-support/schedule"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student-support/schedule/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/student-support/schedule/:splat"
+  to = "https://elevate-admin-production.up.railway.app/student-support/schedule/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/funding/confirm"
-  to = "https://elevate-lms-production-3098.up.railway.app/funding/confirm"
+  to = "https://elevate-admin-production.up.railway.app/funding/confirm"
   status = 301
   force = true
 
 [[redirects]]
   from = "/funding/confirm/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/funding/confirm/:splat"
+  to = "https://elevate-admin-production.up.railway.app/funding/confirm/:splat"
   status = 301
   force = true
 
 # ── FERPA records — Railway only ─────────────────────────────────────────────
 [[redirects]]
   from = "/ferpa"
-  to = "https://elevate-lms-production-3098.up.railway.app/ferpa"
+  to = "https://elevate-admin-production.up.railway.app/ferpa"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ferpa/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/ferpa/:splat"
+  to = "https://elevate-admin-production.up.railway.app/ferpa/:splat"
   status = 301
   force = true
 
-# ── Authenticated app routes — Railway (elevate-lms-production-3098) ─────────
+# ── Authenticated app routes — Railway (elevate-admin-production) ─────────
 # These directories are quarantined from the Netlify build and must be
 # served by Railway. Generated from scripts/netlify-quarantine-railway-routes.mjs.
 
 [[redirects]]
   from = "/account"
-  to = "https://elevate-lms-production-3098.up.railway.app/account"
+  to = "https://elevate-admin-production.up.railway.app/account"
   status = 301
   force = true
 
 [[redirects]]
   from = "/account/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/account/:splat"
+  to = "https://elevate-admin-production.up.railway.app/account/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/accept-invite"
-  to = "https://elevate-lms-production-3098.up.railway.app/accept-invite"
+  to = "https://elevate-admin-production.up.railway.app/accept-invite"
   status = 301
   force = true
 
 [[redirects]]
   from = "/accept-invite/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/accept-invite/:splat"
+  to = "https://elevate-admin-production.up.railway.app/accept-invite/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/advising"
-  to = "https://elevate-lms-production-3098.up.railway.app/advising"
+  to = "https://elevate-admin-production.up.railway.app/advising"
   status = 301
   force = true
 
 [[redirects]]
   from = "/advising/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/advising/:splat"
+  to = "https://elevate-admin-production.up.railway.app/advising/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai"
-  to = "https://elevate-lms-production-3098.up.railway.app/ai"
+  to = "https://elevate-admin-production.up.railway.app/ai"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/ai/:splat"
+  to = "https://elevate-admin-production.up.railway.app/ai/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-chat"
-  to = "https://elevate-lms-production-3098.up.railway.app/ai-chat"
+  to = "https://elevate-admin-production.up.railway.app/ai-chat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-chat/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/ai-chat/:splat"
+  to = "https://elevate-admin-production.up.railway.app/ai-chat/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-tutor"
-  to = "https://elevate-lms-production-3098.up.railway.app/ai-tutor"
+  to = "https://elevate-admin-production.up.railway.app/ai-tutor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-tutor/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/ai-tutor/:splat"
+  to = "https://elevate-admin-production.up.railway.app/ai-tutor/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/analytics"
-  to = "https://elevate-lms-production-3098.up.railway.app/analytics"
+  to = "https://elevate-admin-production.up.railway.app/analytics"
   status = 301
   force = true
 
 [[redirects]]
   from = "/analytics/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/analytics/:splat"
+  to = "https://elevate-admin-production.up.railway.app/analytics/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apprentice"
-  to = "https://elevate-lms-production-3098.up.railway.app/apprentice"
+  to = "https://elevate-admin-production.up.railway.app/apprentice"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apprentice/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/apprentice/:splat"
+  to = "https://elevate-admin-production.up.railway.app/apprentice/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/approvals"
-  to = "https://elevate-lms-production-3098.up.railway.app/approvals"
+  to = "https://elevate-admin-production.up.railway.app/approvals"
   status = 301
   force = true
 
 [[redirects]]
   from = "/approvals/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/approvals/:splat"
+  to = "https://elevate-admin-production.up.railway.app/approvals/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apps"
-  to = "https://elevate-lms-production-3098.up.railway.app/apps"
+  to = "https://elevate-admin-production.up.railway.app/apps"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apps/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/apps/:splat"
+  to = "https://elevate-admin-production.up.railway.app/apps/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/auth"
-  to = "https://elevate-lms-production-3098.up.railway.app/auth"
+  to = "https://elevate-admin-production.up.railway.app/auth"
   status = 301
   force = true
 
 [[redirects]]
   from = "/auth/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/auth/:splat"
+  to = "https://elevate-admin-production.up.railway.app/auth/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/billing"
-  to = "https://elevate-lms-production-3098.up.railway.app/billing"
+  to = "https://elevate-admin-production.up.railway.app/billing"
   status = 301
   force = true
 
 [[redirects]]
   from = "/billing/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/billing/:splat"
+  to = "https://elevate-admin-production.up.railway.app/billing/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/builder"
-  to = "https://elevate-lms-production-3098.up.railway.app/builder"
+  to = "https://elevate-admin-production.up.railway.app/builder"
   status = 301
   force = true
 
 [[redirects]]
   from = "/builder/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/builder/:splat"
+  to = "https://elevate-admin-production.up.railway.app/builder/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/card"
-  to = "https://elevate-lms-production-3098.up.railway.app/card"
+  to = "https://elevate-admin-production.up.railway.app/card"
   status = 301
   force = true
 
 [[redirects]]
   from = "/card/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/card/:splat"
+  to = "https://elevate-admin-production.up.railway.app/card/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/certificates"
-  to = "https://elevate-lms-production-3098.up.railway.app/certificates"
+  to = "https://elevate-admin-production.up.railway.app/certificates"
   status = 301
   force = true
 
 [[redirects]]
   from = "/certificates/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/certificates/:splat"
+  to = "https://elevate-admin-production.up.railway.app/certificates/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/cm"
-  to = "https://elevate-lms-production-3098.up.railway.app/cm"
+  to = "https://elevate-admin-production.up.railway.app/cm"
   status = 301
   force = true
 
 [[redirects]]
   from = "/cm/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/cm/:splat"
+  to = "https://elevate-admin-production.up.railway.app/cm/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/compliance"
-  to = "https://elevate-lms-production-3098.up.railway.app/compliance"
+  to = "https://elevate-admin-production.up.railway.app/compliance"
   status = 301
   force = true
 
 [[redirects]]
   from = "/compliance/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/compliance/:splat"
+  to = "https://elevate-admin-production.up.railway.app/compliance/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/creator"
-  to = "https://elevate-lms-production-3098.up.railway.app/creator"
+  to = "https://elevate-admin-production.up.railway.app/creator"
   status = 301
   force = true
 
 [[redirects]]
   from = "/creator/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/creator/:splat"
+  to = "https://elevate-admin-production.up.railway.app/creator/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/credentials"
-  to = "https://elevate-lms-production-3098.up.railway.app/credentials"
+  to = "https://elevate-admin-production.up.railway.app/credentials"
   status = 301
   force = true
 
 [[redirects]]
   from = "/credentials/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/credentials/:splat"
+  to = "https://elevate-admin-production.up.railway.app/credentials/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboard"
-  to = "https://elevate-lms-production-3098.up.railway.app/dashboard"
+  to = "https://elevate-admin-production.up.railway.app/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboard/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/dashboard/:splat"
+  to = "https://elevate-admin-production.up.railway.app/dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboards"
-  to = "https://elevate-lms-production-3098.up.railway.app/dashboards"
+  to = "https://elevate-admin-production.up.railway.app/dashboards"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboards/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/dashboards/:splat"
+  to = "https://elevate-admin-production.up.railway.app/dashboards/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/documents"
-  to = "https://elevate-lms-production-3098.up.railway.app/documents"
+  to = "https://elevate-admin-production.up.railway.app/documents"
   status = 301
   force = true
 
 [[redirects]]
   from = "/documents/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/documents/:splat"
+  to = "https://elevate-admin-production.up.railway.app/documents/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer-portal"
-  to = "https://elevate-lms-production-3098.up.railway.app/employer-portal"
+  to = "https://elevate-admin-production.up.railway.app/employer-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer-portal/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/employer-portal/:splat"
+  to = "https://elevate-admin-production.up.railway.app/employer-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enroll"
-  to = "https://elevate-lms-production-3098.up.railway.app/enroll"
+  to = "https://elevate-admin-production.up.railway.app/enroll"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enroll/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/enroll/:splat"
+  to = "https://elevate-admin-production.up.railway.app/enroll/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enrollment"
-  to = "https://elevate-lms-production-3098.up.railway.app/enrollment"
+  to = "https://elevate-admin-production.up.railway.app/enrollment"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enrollment/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/enrollment/:splat"
+  to = "https://elevate-admin-production.up.railway.app/enrollment/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/file-manager"
-  to = "https://elevate-lms-production-3098.up.railway.app/file-manager"
+  to = "https://elevate-admin-production.up.railway.app/file-manager"
   status = 301
   force = true
 
 [[redirects]]
   from = "/file-manager/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/file-manager/:splat"
+  to = "https://elevate-admin-production.up.railway.app/file-manager/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/forgot-password"
-  to = "https://elevate-lms-production-3098.up.railway.app/forgot-password"
+  to = "https://elevate-admin-production.up.railway.app/forgot-password"
   status = 301
   force = true
 
 [[redirects]]
   from = "/forgot-password/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/forgot-password/:splat"
+  to = "https://elevate-admin-production.up.railway.app/forgot-password/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/generate"
-  to = "https://elevate-lms-production-3098.up.railway.app/generate"
+  to = "https://elevate-admin-production.up.railway.app/generate"
   status = 301
   force = true
 
 [[redirects]]
   from = "/generate/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/generate/:splat"
+  to = "https://elevate-admin-production.up.railway.app/generate/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/groups"
-  to = "https://elevate-lms-production-3098.up.railway.app/groups"
+  to = "https://elevate-admin-production.up.railway.app/groups"
   status = 301
   force = true
 
 [[redirects]]
   from = "/groups/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/groups/:splat"
+  to = "https://elevate-admin-production.up.railway.app/groups/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/impact"
-  to = "https://elevate-lms-production-3098.up.railway.app/impact"
+  to = "https://elevate-admin-production.up.railway.app/impact"
   status = 301
   force = true
 
 [[redirects]]
   from = "/impact/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/impact/:splat"
+  to = "https://elevate-admin-production.up.railway.app/impact/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor-credentials"
-  to = "https://elevate-lms-production-3098.up.railway.app/instructor-credentials"
+  to = "https://elevate-admin-production.up.railway.app/instructor-credentials"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor-credentials/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/instructor-credentials/:splat"
+  to = "https://elevate-admin-production.up.railway.app/instructor-credentials/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/license"
-  to = "https://elevate-lms-production-3098.up.railway.app/license"
+  to = "https://elevate-admin-production.up.railway.app/license"
   status = 301
   force = true
 
 [[redirects]]
   from = "/license/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/license/:splat"
+  to = "https://elevate-admin-production.up.railway.app/license/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mentor"
-  to = "https://elevate-lms-production-3098.up.railway.app/mentor"
+  to = "https://elevate-admin-production.up.railway.app/mentor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mentor/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/mentor/:splat"
+  to = "https://elevate-admin-production.up.railway.app/mentor/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/messages"
-  to = "https://elevate-lms-production-3098.up.railway.app/messages"
+  to = "https://elevate-admin-production.up.railway.app/messages"
   status = 301
   force = true
 
 [[redirects]]
   from = "/messages/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/messages/:splat"
+  to = "https://elevate-admin-production.up.railway.app/messages/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/my-dashboard"
-  to = "https://elevate-lms-production-3098.up.railway.app/my-dashboard"
+  to = "https://elevate-admin-production.up.railway.app/my-dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/my-dashboard/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/my-dashboard/:splat"
+  to = "https://elevate-admin-production.up.railway.app/my-dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/notifications"
-  to = "https://elevate-lms-production-3098.up.railway.app/notifications"
+  to = "https://elevate-admin-production.up.railway.app/notifications"
   status = 301
   force = true
 
 [[redirects]]
   from = "/notifications/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/notifications/:splat"
+  to = "https://elevate-admin-production.up.railway.app/notifications/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/onboarding"
-  to = "https://elevate-lms-production-3098.up.railway.app/onboarding"
+  to = "https://elevate-admin-production.up.railway.app/onboarding"
   status = 301
   force = true
 
 [[redirects]]
   from = "/onboarding/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/onboarding/:splat"
+  to = "https://elevate-admin-production.up.railway.app/onboarding/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/orientation"
-  to = "https://elevate-lms-production-3098.up.railway.app/orientation"
+  to = "https://elevate-admin-production.up.railway.app/orientation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/orientation/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/orientation/:splat"
+  to = "https://elevate-admin-production.up.railway.app/orientation/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/parent-portal"
-  to = "https://elevate-lms-production-3098.up.railway.app/parent-portal"
+  to = "https://elevate-admin-production.up.railway.app/parent-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/parent-portal/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/parent-portal/:splat"
+  to = "https://elevate-admin-production.up.railway.app/parent-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner-learning"
-  to = "https://elevate-lms-production-3098.up.railway.app/partner-learning"
+  to = "https://elevate-admin-production.up.railway.app/partner-learning"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner-learning/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/partner-learning/:splat"
+  to = "https://elevate-admin-production.up.railway.app/partner-learning/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pay"
-  to = "https://elevate-lms-production-3098.up.railway.app/pay"
+  to = "https://elevate-admin-production.up.railway.app/pay"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pay/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/pay/:splat"
+  to = "https://elevate-admin-production.up.railway.app/pay/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/payment"
-  to = "https://elevate-lms-production-3098.up.railway.app/payment"
+  to = "https://elevate-admin-production.up.railway.app/payment"
   status = 301
   force = true
 
 [[redirects]]
   from = "/payment/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/payment/:splat"
+  to = "https://elevate-admin-production.up.railway.app/payment/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/proctor"
-  to = "https://elevate-lms-production-3098.up.railway.app/proctor"
+  to = "https://elevate-admin-production.up.railway.app/proctor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/proctor/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/proctor/:splat"
+  to = "https://elevate-admin-production.up.railway.app/proctor/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/profile"
-  to = "https://elevate-lms-production-3098.up.railway.app/profile"
+  to = "https://elevate-admin-production.up.railway.app/profile"
   status = 301
   force = true
 
 [[redirects]]
   from = "/profile/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/profile/:splat"
+  to = "https://elevate-admin-production.up.railway.app/profile/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/program-holder"
-  to = "https://elevate-lms-production-3098.up.railway.app/program-holder"
+  to = "https://elevate-admin-production.up.railway.app/program-holder"
   status = 301
   force = true
 
 [[redirects]]
   from = "/program-holder/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/program-holder/:splat"
+  to = "https://elevate-admin-production.up.railway.app/program-holder/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/provider"
-  to = "https://elevate-lms-production-3098.up.railway.app/provider"
+  to = "https://elevate-admin-production.up.railway.app/provider"
   status = 301
   force = true
 
 [[redirects]]
   from = "/provider/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/provider/:splat"
+  to = "https://elevate-admin-production.up.railway.app/provider/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reports"
-  to = "https://elevate-lms-production-3098.up.railway.app/reports"
+  to = "https://elevate-admin-production.up.railway.app/reports"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reports/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/reports/:splat"
+  to = "https://elevate-admin-production.up.railway.app/reports/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reset-password"
-  to = "https://elevate-lms-production-3098.up.railway.app/reset-password"
+  to = "https://elevate-admin-production.up.railway.app/reset-password"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reset-password/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/reset-password/:splat"
+  to = "https://elevate-admin-production.up.railway.app/reset-password/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/schedule"
-  to = "https://elevate-lms-production-3098.up.railway.app/schedule"
+  to = "https://elevate-admin-production.up.railway.app/schedule"
   status = 301
   force = true
 
 [[redirects]]
   from = "/schedule/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/schedule/:splat"
+  to = "https://elevate-admin-production.up.railway.app/schedule/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/settings"
-  to = "https://elevate-lms-production-3098.up.railway.app/settings"
+  to = "https://elevate-admin-production.up.railway.app/settings"
   status = 301
   force = true
 
 [[redirects]]
   from = "/settings/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/settings/:splat"
+  to = "https://elevate-admin-production.up.railway.app/settings/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/sign"
-  to = "https://elevate-lms-production-3098.up.railway.app/sign"
+  to = "https://elevate-admin-production.up.railway.app/sign"
   status = 301
   force = true
 
 [[redirects]]
   from = "/sign/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/sign/:splat"
+  to = "https://elevate-admin-production.up.railway.app/sign/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/transcript"
-  to = "https://elevate-lms-production-3098.up.railway.app/transcript"
+  to = "https://elevate-admin-production.up.railway.app/transcript"
   status = 301
   force = true
 
 [[redirects]]
   from = "/transcript/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/transcript/:splat"
+  to = "https://elevate-admin-production.up.railway.app/transcript/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-email"
-  to = "https://elevate-lms-production-3098.up.railway.app/verify-email"
+  to = "https://elevate-admin-production.up.railway.app/verify-email"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-email/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/verify-email/:splat"
+  to = "https://elevate-admin-production.up.railway.app/verify-email/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-identity"
-  to = "https://elevate-lms-production-3098.up.railway.app/verify-identity"
+  to = "https://elevate-admin-production.up.railway.app/verify-identity"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-identity/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/verify-identity/:splat"
+  to = "https://elevate-admin-production.up.railway.app/verify-identity/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/video"
-  to = "https://elevate-lms-production-3098.up.railway.app/video"
+  to = "https://elevate-admin-production.up.railway.app/video"
   status = 301
   force = true
 
 [[redirects]]
   from = "/video/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/video/:splat"
+  to = "https://elevate-admin-production.up.railway.app/video/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/videos"
-  to = "https://elevate-lms-production-3098.up.railway.app/videos"
+  to = "https://elevate-admin-production.up.railway.app/videos"
   status = 301
   force = true
 
 [[redirects]]
   from = "/videos/*"
-  to = "https://elevate-lms-production-3098.up.railway.app/videos/:splat"
+  to = "https://elevate-admin-production.up.railway.app/videos/:splat"
   status = 301
   force = true
 
