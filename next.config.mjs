@@ -94,19 +94,12 @@ const nextConfig = {
       return `build-${Date.now()}`;
     }
   },
-  // Railway needs standalone for the persistent Node server.
-  // Netlify MUST NOT use standalone — Next.js ENOENT on route-group
-  // client-reference-manifest files (lms/(public)/page_client-reference-manifest.js).
-  // Use multiple Netlify-specific env vars as guards — NETLIFY_SITE_ID and
-  // DEPLOY_URL are always injected by Netlify's build system regardless of
-  // when next.config.mjs is evaluated.
-  ...(
-    process.env.NETLIFY === 'true' ||
-    process.env.NETLIFY_SITE_ID ||
-    process.env.DEPLOY_URL
-      ? {}
-      : { output: 'standalone' }
-  ),
+  // output: 'standalone' belongs only in next.config.railway.mjs.
+  // Netlify uses this file and must NOT have standalone output — Next.js throws
+  // ENOENT copying route-group client-reference-manifest files during the
+  // standalone bundle phase (e.g. lms/(public)/page_client-reference-manifest.js).
+  // Railway sets NEXT_CONFIG_FILE=next.config.railway.mjs so this file is never
+  // used there. No guard needed — standalone is simply absent here.
   // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
   // Netlify/webpack build: transpilePackages compiles it so webpack can parse it.
   // Railway build uses next.config.railway.mjs where edge-tts is in

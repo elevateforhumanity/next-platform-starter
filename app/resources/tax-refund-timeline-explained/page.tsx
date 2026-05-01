@@ -94,7 +94,7 @@ export default function TaxRefundTimelineExplainedPage() {
         },
       ]}
       platformRelation="Our platform explains refund status concepts clearly and helps users understand what different processing stages mean. We provide guidance on what to expect after filing, though refund timing is determined by the tax authority and is not guaranteed."
-      parentPage={{ href: '/supersonic-fast-cash', label: 'Tax Preparation Services' }}
+      parentPage={{ href: '/programs/tax-preparation', label: 'Tax Preparation' }}
       relatedResources={[
         { href: '/resources/how-tax-filing-works', label: 'How Tax Filing Works' },
         { href: '/resources/how-refund-advances-work', label: 'How Refund-Based Advances Work' },
