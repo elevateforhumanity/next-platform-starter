@@ -61,11 +61,12 @@ async function _POST(req: Request) {
     const firstName = nameParts[0] || 'Unknown';
     const lastName = nameParts.slice(1).join(' ') || 'Unknown';
 
+    const referenceNumber = `EFH-${Date.now().toString(36).toUpperCase()}`;
+
     // @preAuthWrite table=applications mode=reconcile
     const { error } = await insertWithPreAuthCheck(supabase, 'applications', {
       first_name: firstName,
       last_name: lastName,
-      name,
       email,
       phone,
       normalized_email: (email || '').toLowerCase().trim(),
@@ -73,11 +74,13 @@ async function _POST(req: Request) {
       program_interest: program,
       program_id: resolvedProgramId,
       funding_type: funding,
+      reference_number: referenceNumber,
+      type: 'student',
       source: 'simple_form',
-      notes: eligible ? 'Prescreen passed — WIOA eligible' : 'Needs review',
+      support_notes: eligible ? 'Prescreen passed — WIOA eligible' : 'Needs review',
       status: 'submitted',
       // Required NOT NULL columns — simple form doesn't collect address
-      city: 'Unknown',
+      city: 'Not provided',
       zip: '00000',
       state: 'IN',
     });
