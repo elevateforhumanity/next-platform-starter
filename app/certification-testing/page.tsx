@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { getProvidersForAmount } from '@/lib/bnpl-config';
 import {
   CheckCircle,
   Shield,
@@ -140,6 +141,29 @@ export default function CertificationTestingPage() {
               ))}
             </ul>
           </div>
+
+          {/* BNPL badges — $249 qualifies for all providers */}
+          {(() => {
+            const bnpl = getProvidersForAmount(249);
+            if (!bnpl.length) return null;
+            return (
+              <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <p className="text-xs font-semibold text-slate-500 text-center mb-2">
+                  Split your payment — accepted at checkout
+                </p>
+                <div className="flex flex-wrap justify-center gap-1.5">
+                  {bnpl.map((p) => (
+                    <span
+                      key={p.id}
+                      className={`inline-flex items-center text-[11px] font-semibold px-2.5 py-1 rounded-full ${p.badgeBg} ${p.badgeText}`}
+                    >
+                      {p.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
 
           <div className="mt-6 text-center">
             <Link

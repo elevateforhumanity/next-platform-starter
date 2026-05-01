@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ACTIVE_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
+import { getProvidersForAmount } from '@/lib/bnpl-config';
 
 export const metadata: Metadata = {
   title: 'Testing & Credential Exams | Elevate for Humanity',
@@ -240,6 +241,28 @@ export default function TestingPage() {
                     ) : (
                       <p className="text-sm text-slate-500 italic mb-4">Contact us for pricing.</p>
                     )}
+
+                    {/* BNPL badges — shown when fees qualify */}
+                    {provider.fees && provider.fees.length > 0 && (() => {
+                      const minFee = Math.min(...provider.fees.map((f: any) => f.amount));
+                      const bnpl = getProvidersForAmount(minFee);
+                      if (!bnpl.length) return null;
+                      return (
+                        <div className="flex flex-wrap gap-1.5 mb-3">
+                          {bnpl.slice(0, 5).map((p) => (
+                            <span
+                              key={p.id}
+                              className={`inline-flex items-center text-[11px] font-semibold px-2 py-0.5 rounded-full ${p.badgeBg} ${p.badgeText}`}
+                            >
+                              {p.name}
+                            </span>
+                          ))}
+                          <span className="inline-flex items-center text-[11px] text-slate-400 px-1">
+                            accepted at checkout
+                          </span>
+                        </div>
+                      );
+                    })()}
 
                     {/* Actions */}
                     <div className="flex flex-wrap gap-3">

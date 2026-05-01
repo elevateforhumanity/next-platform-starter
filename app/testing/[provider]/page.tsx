@@ -13,6 +13,7 @@ import {
   Briefcase,
 } from 'lucide-react';
 import { CERT_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
+import { getProvidersForAmount } from '@/lib/bnpl-config';
 
 export const dynamic = 'force-dynamic';
 import { requireAdminClient } from '@/lib/supabase/admin';
@@ -332,6 +333,28 @@ export default async function ProviderPage({ params }: Props) {
                   <p className="text-green-800 text-xs font-medium">{provider.groupDiscount}</p>
                 </div>
               )}
+
+              {/* BNPL badges */}
+              {provider.fees && provider.fees.length > 0 && (() => {
+                const minFee = Math.min(...provider.fees.map((f: any) => f.amount));
+                const bnpl = getProvidersForAmount(minFee);
+                if (!bnpl.length) return null;
+                return (
+                  <div className="pt-3 border-t border-slate-100">
+                    <p className="text-xs text-slate-500 mb-2">Split your payment — accepted at checkout</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {bnpl.map((p) => (
+                        <span
+                          key={p.id}
+                          className={`inline-flex items-center text-[11px] font-semibold px-2.5 py-1 rounded-full ${p.badgeBg} ${p.badgeText}`}
+                        >
+                          {p.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           </div>
 
