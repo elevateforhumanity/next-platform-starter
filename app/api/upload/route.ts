@@ -1,21 +1,16 @@
 import { NextResponse } from 'next/server';
-
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
-import { existsSync } from 'fs';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { safeError, safeInternalError } from '@/lib/api/safe-error';
+
 export const runtime = 'nodejs';
 export const maxDuration = 60;
-
 export const dynamic = 'force-dynamic';
 
-const UPLOAD_DIR = join(process.cwd(), 'public', 'uploads');
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-// Allowed file types with their MIME types and valid extensions
 const ALLOWED_FILE_TYPES: Record<string, string[]> = {
   'application/pdf': ['pdf'],
   'application/msword': ['doc'],
@@ -24,77 +19,33 @@ const ALLOWED_FILE_TYPES: Record<string, string[]> = {
   'image/png': ['png'],
 };
 
-// Magic bytes for file type validation
 const FILE_SIGNATURES: Record<string, number[][]> = {
-  'application/pdf': [[0x25, 0x50, 0x44, 0x46]], // %PDF
+  'application/pdf': [[0x25, 0x50, 0x44, 0x46]],
   'image/jpeg': [[0xff, 0xd8, 0xff]],
   'image/png': [[0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]],
   'application/msword': [[0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1]],
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
-    [0x50, 0x4b, 0x03, 0x04],
-  ], // ZIP-based
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [[0x50, 0x4b, 0x03, 0x04]],
 };
 
-// Rate limit: 10 uploads per minute per user
-
-/**
- * Validate file extension against allowed types
- */
-function isValidExtension(mimeType: string, extension: string): boolean {
-  const allowedExtensions = ALLOWED_FILE_TYPES[mimeType];
-  if (!allowedExtensions) return false;
-  return allowedExtensions.includes(extension.toLowerCase());
-}
-
-/**
- * Sanitize filename to prevent path traversal and other attacks
- */
 function sanitizeFilename(filename: string): string {
-  // Remove path separators and null bytes
-  let sanitized = filename.replace(/[/\\:*?"<>|]/g, '').replace(/\0/g, '');
-
-  // Remove all dot sequences (path traversal prevention)
-  sanitized = sanitized.replace(/\.{2,}/g, '.');
-
-  // Remove leading dots to prevent hidden files
-  sanitized = sanitized.replace(/^\.+/, '');
-
-  // Limit length
-  if (sanitized.length > 100) {
-    const ext = sanitized.split('.').pop() || '';
-    const name = sanitized.slice(0, 90);
-    sanitized = ext ? `${name}.${ext}` : name;
+  let s = filename.replace(/[/\\:*?"<>|]/g, '').replace(/\0/g, '');
+  s = s.replace(/\.{2,}/g, '.').replace(/^\.+/, '');
+  if (s.length > 100) {
+    const ext = s.split('.').pop() || '';
+    s = ext ? `${s.slice(0, 90)}.${ext}` : s.slice(0, 100);
   }
-
-  return sanitized || 'unnamed';
+  return s || 'unnamed';
 }
 
-/**
- * Validate file content matches declared MIME type using magic bytes
- */
-async function validateFileContent(file: File, declaredMimeType: string): Promise<boolean> {
-  const signatures = FILE_SIGNATURES[declaredMimeType];
-  if (!signatures) {
-    // For types without signature validation, rely on extension check
-    return true;
-  }
-
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-
-  return signatures.some((signature) => {
-    if (bytes.length < signature.length) return false;
-    return signature.every((byte, index) => bytes[index] === byte);
-  });
+function getExtension(filename: string): string {
+  return filename.split('.').pop()?.toLowerCase() || '';
 }
 
-/**
- * Get file extension from filename
- */
-function getFileExtension(filename: string): string {
-  const parts = filename.split('.');
-  if (parts.length < 2) return '';
-  return parts.pop()?.toLowerCase() || '';
+async function validateMagicBytes(file: File, mimeType: string): Promise<boolean> {
+  const sigs = FILE_SIGNATURES[mimeType];
+  if (!sigs) return true;
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  return sigs.some((sig) => sig.every((b, i) => bytes[i] === b));
 }
 
 async function _POST(request: Request) {
@@ -102,120 +53,79 @@ async function _POST(request: Request) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    // Authentication check
     const supabase = await createClient();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      return NextResponse.json(
-        { success: false, error: 'Authentication required' },
-        { status: 401 },
-      );
-    }
-
-    // Rate limiting
-    const identifier = `upload:${user.id}`;
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) return safeError('Authentication required', 401);
 
     const formData = await request.formData();
     const file = formData.get('file') as File;
+    const category = (formData.get('category') as string) || 'admin-documents';
 
-    if (!file) {
-      return NextResponse.json({ success: false, error: 'No file provided' }, { status: 400 });
-    }
-
-    // Validate file size
-    if (file.size > MAX_FILE_SIZE) {
-      return NextResponse.json(
-        { success: false, error: 'File size exceeds 10MB limit' },
-        { status: 400 },
-      );
-    }
-
-    // Validate MIME type is in allowed list
+    if (!file) return safeError('No file provided', 400);
+    if (file.size > MAX_FILE_SIZE) return safeError('File exceeds 10MB limit', 400);
     if (!ALLOWED_FILE_TYPES[file.type]) {
-      return NextResponse.json(
-        { success: false, error: 'File type not allowed. Allowed types: PDF, DOC, DOCX, JPG, PNG' },
-        { status: 400 },
-      );
+      return safeError('File type not allowed. Accepted: PDF, DOC, DOCX, JPG, PNG', 400);
     }
 
-    // Sanitize and validate filename
     const sanitizedName = sanitizeFilename(file.name);
-    const extension = getFileExtension(sanitizedName);
+    const ext = getExtension(sanitizedName);
+    if (!ext) return safeError('File must have a valid extension', 400);
 
-    if (!extension) {
-      return NextResponse.json(
-        { success: false, error: 'File must have a valid extension' },
-        { status: 400 },
-      );
+    if (!ALLOWED_FILE_TYPES[file.type].includes(ext)) {
+      return safeError('File extension does not match file type', 400);
     }
 
-    // Validate extension matches MIME type
-    if (!isValidExtension(file.type, extension)) {
-      return NextResponse.json(
-        { success: false, error: 'File extension does not match file type' },
-        { status: 400 },
-      );
-    }
-
-    // Validate file content (magic bytes)
-    const contentValid = await validateFileContent(file, file.type);
+    const contentValid = await validateMagicBytes(file, file.type);
     if (!contentValid) {
-      logger.warn('File content validation failed', {
-        userId: user.id,
-        filename: sanitizedName,
-        declaredType: file.type,
-      });
-      return NextResponse.json(
-        { success: false, error: 'File content does not match declared type' },
-        { status: 400 },
-      );
+      logger.warn('Magic bytes mismatch', { userId: user.id, filename: sanitizedName });
+      return safeError('File content does not match declared type', 400);
     }
 
-    // Create upload directory if it doesn't exist
-    if (!existsSync(UPLOAD_DIR)) {
-      await mkdir(UPLOAD_DIR, { recursive: true });
-    }
-
-    // Generate secure unique filename (no user input in final path)
     const timestamp = Date.now();
-    const randomString = crypto.randomUUID().replace(/-/g, '').slice(0, 16);
-    const safeExtension = extension.replace(/[^a-z0-9]/gi, '');
-    const filename = `${timestamp}-${randomString}.${safeExtension}`;
-    const filepath = join(UPLOAD_DIR, filename);
+    const randomId = crypto.randomUUID().replace(/-/g, '').slice(0, 12);
+    const safeExt = ext.replace(/[^a-z0-9]/g, '');
+    const storagePath = `${category}/${timestamp}-${randomId}.${safeExt}`;
 
-    // Convert file to buffer and save
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    await writeFile(filepath, buffer);
+    const buffer = new Uint8Array(await file.arrayBuffer());
+    const { data, error: uploadError } = await supabase.storage
+      .from('documents')
+      .upload(storagePath, buffer, { contentType: file.type, upsert: false, cacheControl: '3600' });
 
-    // Return file URL
-    const fileUrl = `/uploads/${filename}`;
+    if (uploadError) {
+      logger.error('Supabase upload error', uploadError);
+      return safeInternalError(uploadError, 'Failed to upload file');
+    }
 
-    logger.info('File uploaded successfully', {
-      userId: user.id,
-      filename,
-      originalName: sanitizedName,
-      size: file.size,
-      type: file.type,
+    // Signed URL valid 7 days (documents bucket is private)
+    const { data: signedData } = await supabase.storage
+      .from('documents')
+      .createSignedUrl(storagePath, 60 * 60 * 24 * 7);
+
+    // Persist record so document center can list and retrieve files
+    await supabase.from('documents').insert({
+      file_name: sanitizedName,
+      file_path: storagePath,
+      file_url: signedData?.signedUrl || null,
+      mime_type: file.type,
+      file_size: file.size,
+      file_size_bytes: file.size,
+      document_type: category,
+      uploaded_by: user.id,
+      status: 'active',
     });
+
+    logger.info('Document uploaded', { userId: user.id, path: storagePath, size: file.size });
 
     return NextResponse.json({
       success: true,
-      data: {
-        filename,
-        originalName: sanitizedName,
-        url: fileUrl,
-        size: file.size,
-        type: file.type,
-      },
+      path: data.path,
+      url: signedData?.signedUrl || null,
+      name: sanitizedName,
+      size: file.size,
+      type: file.type,
     });
   } catch (error) {
-    logger.error('Upload error:', error as Error);
-    return NextResponse.json({ success: false, error: 'Failed to upload file' }, { status: 500 });
+    return safeInternalError(error as Error, 'Upload failed');
   }
 }
 
@@ -224,72 +134,30 @@ async function _DELETE(request: Request) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    // Authentication check
     const supabase = await createClient();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) return safeError('Authentication required', 401);
 
-    if (authError || !user) {
-      return NextResponse.json(
-        { success: false, error: 'Authentication required' },
-        { status: 401 },
-      );
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
+      return safeError('Forbidden', 403);
     }
 
     const { searchParams } = new URL(request.url);
-    const filename = searchParams.get('filename');
+    const storagePath = searchParams.get('path');
+    if (!storagePath) return safeError('No path provided', 400);
+    if (storagePath.includes('..') || storagePath.startsWith('/')) return safeError('Invalid path', 400);
 
-    if (!filename) {
-      return NextResponse.json({ success: false, error: 'No filename provided' }, { status: 400 });
-    }
+    const { error } = await supabase.storage.from('documents').remove([storagePath]);
+    if (error) return safeInternalError(error, 'Failed to delete file');
 
-    // Validate filename format to prevent path traversal
-    // Only allow alphanumeric, dash, underscore, and single dot for extension
-    const safeFilenamePattern = /^[a-zA-Z0-9_-]+\.[a-zA-Z0-9]+$/;
-    if (!safeFilenamePattern.test(filename)) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid filename format' },
-        { status: 400 },
-      );
-    }
+    await supabase.from('documents').delete().eq('storage_path', storagePath);
 
-    logger.info('File deletion requested', {
-      userId: user.id,
-      filename,
-    });
-
-    // Delete from Supabase storage with ownership verification
-    if (supabase) {
-      // Verify file belongs to user by checking path prefix
-      const userPrefix = `${user.id}/`;
-      if (!filename.startsWith(userPrefix)) {
-        return NextResponse.json(
-          { success: false, error: 'Unauthorized to delete this file' },
-          { status: 403 },
-        );
-      }
-
-      const { error } = await supabase.storage.from('uploads').remove([filename]);
-
-      if (error) {
-        logger.error('Storage deletion error:', error);
-        return NextResponse.json(
-          { success: false, error: 'Failed to delete file from storage' },
-          { status: 500 },
-        );
-      }
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: 'File deleted successfully',
-    });
+    return NextResponse.json({ success: true });
   } catch (error) {
-    logger.error('Delete error:', error as Error);
-    return NextResponse.json({ success: false, error: 'Failed to delete file' }, { status: 500 });
+    return safeInternalError(error as Error, 'Delete failed');
   }
 }
+
 export const POST = withApiAudit('/api/upload', _POST);
 export const DELETE = withApiAudit('/api/upload', _DELETE);
