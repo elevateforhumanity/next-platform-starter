@@ -716,12 +716,6 @@ const nextConfig = {
       // Human Services
       // Skilled Trades aliases
       // Technology aliases
-      {
-        source: '/programs/cybersecurity',
-        destination: '/programs/cybersecurity-analyst',
-        permanent: true,
-      },
-
       // Career consolidation — /career-center handled by Netlify (Rule A)
       { source: '/career-fair/:path*', destination: '/career-services/:path*', permanent: true },
 
@@ -790,9 +784,7 @@ const nextConfig = {
       { source: '/for-employers', destination: '/employers', permanent: true },
       { source: '/for-agencies', destination: '/contact', permanent: false },
       { source: '/partnerships', destination: '/partners', permanent: true },
-      { source: '/program-holder', destination: '/apply', permanent: false },
       {
-        source: '/program-holder/:path*',
         destination: '/login?redirect=/program-holder/:path*',
         permanent: false,
       },
@@ -803,7 +795,6 @@ const nextConfig = {
         destination: '/programs/hvac-technician',
         permanent: false,
       },
-      { source: '/credentials/:path*', destination: '/programs', permanent: false },
       { source: '/careers', destination: '/contact', permanent: false },
       { source: '/donate', destination: '/contact', permanent: false },
       { source: '/philanthropy', destination: '/contact', permanent: false },
@@ -823,10 +814,8 @@ const nextConfig = {
       { source: '/hire-graduates', destination: '/employers', permanent: true },
       // /apprenticeship-sponsor → /partners/training-provider handled in netlify.toml (301, force)
       { source: '/events', destination: '/contact', permanent: false },
-      { source: '/schedule', destination: '/contact', permanent: false },
       { source: '/orientation/schedule', destination: '/contact', permanent: false },
       { source: '/onboarding/learner', destination: '/login', permanent: false },
-      { source: '/onboarding/:path*', destination: '/login', permanent: false },
       { source: '/funding/dol', destination: '/funding', permanent: false },
       // /funding/federal-programs → /funding handled in netlify.toml (301, force)
       { source: '/funding/jri', destination: '/funding', permanent: false },
@@ -839,15 +828,8 @@ const nextConfig = {
       { source: '/partners/technology', destination: '/partners', permanent: false },
       // /partners/workforce → /partners handled in netlify.toml (301, force)
       { source: '/fssa-partnership-request', destination: '/contact', permanent: false },
-      { source: '/pay', destination: '/apply', permanent: false },
-      { source: '/enroll', destination: '/apply', permanent: false },
-      { source: '/enroll/:path*', destination: '/apply', permanent: false },
-      { source: '/financial-aid', destination: '/funding', permanent: true },
       { source: '/financial-support', destination: '/funding', permanent: true },
-      { source: '/community', destination: '/community-services', permanent: true },
       { source: '/community/:path*', destination: '/community-services', permanent: true },
-      { source: '/supersonic-fast-cash', destination: '/supersonic', permanent: true },
-      { source: '/supersonic-fast-cash/:path*', destination: '/supersonic', permanent: true },
       { source: '/compliance/:path*', destination: '/disclosures', permanent: false },
       { source: '/docs/:path*', destination: '/resources', permanent: false },
       // /workone-partner-packet → /snap-et-partner handled in netlify.toml (301, force)
@@ -855,26 +837,17 @@ const nextConfig = {
       //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
       //   /instructor/:path*, /staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
       // Remaining next.config-only portal redirects (no netlify.toml equivalent):
-      { source: '/dashboard', destination: '/login', permanent: false },
       { source: '/my-dashboard', destination: '/login', permanent: false },
-      { source: '/employer', destination: '/employers', permanent: false },
-      { source: '/employer/:path*', destination: '/login', permanent: false },
-      { source: '/partner/:path*', destination: '/login', permanent: false },
       { source: '/provider/:path*', destination: '/login', permanent: false },
       { source: '/approvals', destination: '/login', permanent: false },
-      { source: '/account/:path*', destination: '/login', permanent: false },
       // /admin/:path* — handled by Netlify edge (netlify.toml force redirect). Removed here.
-      { source: '/program-holder/:path*', destination: '/login', permanent: false },
       // Missing public pages with no Railway equivalent
       { source: '/cert/verify', destination: '/verify', permanent: true },
       { source: '/certiport-exam', destination: '/testing', permanent: false },
       { source: '/microclasses', destination: '/programs', permanent: false },
       { source: '/outcomes/indiana', destination: '/about', permanent: false },
-      { source: '/orientation', destination: '/apply', permanent: false },
       { source: '/help/:path*', destination: '/support', permanent: false },
       { source: '/compliance', destination: '/disclosures', permanent: false },
-      { source: '/credentials', destination: '/programs', permanent: false },
-      { source: '/schedule', destination: '/contact', permanent: false },
 
       // Legal consolidation
       { source: '/privacy', destination: '/privacy-policy', permanent: true },
@@ -898,7 +871,6 @@ const nextConfig = {
 
       // Pricing / billing consolidation
       { source: '/pricing', destination: '/license/pricing', permanent: true },
-      { source: '/billing', destination: '/account/billing', permanent: true },
 
       // Auth aliases
       { source: '/forgot-password', destination: '/reset-password', permanent: true },
@@ -955,7 +927,6 @@ const nextConfig = {
       // ============================================
 
       // /enroll → /apply (was in netlify.toml, now canonical here)
-      { source: '/enroll', destination: '/apply', permanent: true },
 
       // Barber enrollment: 1-hop to dedicated apply page (kills 3-hop chain)
       {
@@ -986,7 +957,6 @@ const nextConfig = {
         permanent: true,
       },
       // /community/page.tsx exists (371 lines) — do not redirect away from it
-      { source: '/video', destination: '/videos', permanent: true },
 
       // LMS redirects
       { source: '/lms/my-courses', destination: '/lms/courses', permanent: true },
@@ -1027,7 +997,6 @@ const nextConfig = {
       // SEO HUB — PROGRAM PAGE REDIRECTS & HUB ALIAS REDIRECTS
       // ============================================
       { source: '/training/cna', destination: '/programs/cna', permanent: true },
-      { source: '/programs/cna-training', destination: '/programs/cna', permanent: true },
       { source: '/training/hvac-technician', destination: '/programs/hvac-technician', permanent: true },
       { source: '/programs/hvac-technician-program', destination: '/programs/hvac-technician', permanent: true },
       { source: '/workforce-training', destination: '/workforce-training-indianapolis', permanent: true },
@@ -1045,17 +1014,11 @@ const nextConfig = {
       // DEAD LINK FIXES — railway additions
       // ============================================
       { source: '/logout', destination: '/login', permanent: false },
-      { source: '/student/support', destination: '/support', permanent: false },
       { source: '/community/groups', destination: '/community', permanent: false },
-      { source: '/workforce-board/reports', destination: '/workforce-board', permanent: false },
       { source: '/elevate-platform-overview.pdf', destination: '/resources', permanent: false },
       { source: '/pwa/barber/log-hours', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/training', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/progress', destination: '/programs/barber-apprenticeship', permanent: false },
-      { source: '/admin/accreditation/evidence/new', destination: '/admin/accreditation/evidence', permanent: false },
-      { source: '/admin/blog/new', destination: '/admin/blog', permanent: false },
-      { source: '/admin/users/invite', destination: '/admin/users', permanent: false },
-      { source: '/admin/wioa/documents/upload', destination: '/admin/wioa/documents', permanent: false },
       { source: '/admin/live-sessions/new', destination: '/admin/live-sessions', permanent: false },
     ];
   },
