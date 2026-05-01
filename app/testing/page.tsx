@@ -8,7 +8,6 @@ import {
   CalendarDays,
   DollarSign,
   AlertTriangle,
-  CheckCircle,
   Info,
   CreditCard,
 } from 'lucide-react';
@@ -93,28 +92,14 @@ export default function TestingPage() {
 
       {/* DISCLAIMER BANNER */}
       <section className="bg-amber-50 border-b border-amber-200">
-        <div className="max-w-5xl mx-auto px-4 py-5">
+        <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-amber-900 leading-relaxed space-y-2">
-              <p>
-                <strong>Important Notice:</strong> Elevate for Humanity is an authorized testing and
-                proctoring site — we do not issue credentials. All certifications and credentials
-                are issued solely by the respective credentialing authority (NHA, ACT, Certiport,
-                EPA/ESCO, NRF, etc.) upon passing their exam.
-              </p>
-              <p>
-                Exam fees listed are candidate-pay rates and are subject to change without notice.
-                Fees are collected at time of booking and are <strong>non-refundable</strong> unless
-                the exam is canceled by Elevate. {TESTING_CENTER.policy.workforceFunding}
-              </p>
-              <p>
-                Passing an exam does not guarantee employment. Credential requirements vary by
-                employer and state. Some credentials require additional state licensure.{' '}
-                <Link href="/federal-compliance" className="underline font-medium hover:text-amber-700">
-                  View full compliance disclosure →
-                </Link>
-              </p>
+            <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div className="text-xs text-amber-900 leading-relaxed flex flex-wrap gap-x-6 gap-y-1">
+              <span>Credentials issued by NHA, ACT, Certiport, ESCO, NRF — not Elevate.</span>
+              <span>Fees non-refundable unless exam canceled by Elevate.</span>
+              <span>{TESTING_CENTER.policy.workforceFunding}</span>
+              <Link href="/federal-compliance" className="underline font-medium hover:text-amber-700">Full disclosure →</Link>
             </div>
           </div>
         </div>
@@ -124,15 +109,13 @@ export default function TestingPage() {
       <section className="py-14">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-3xl font-black text-slate-900 mb-2">Available Credential Exams</h2>
-          <p className="text-slate-500 mb-4 text-sm">
-            All exams are proctored. Most are administered in-person at the {TESTING_CENTER.name}.
-            Some providers support remote proctoring through their own systems. All exam fees are
-            set by the credentialing provider and may change without notice.
-          </p>
-          <p className="text-slate-500 mb-10 text-sm font-medium">
-            {TESTING_CENTER.policy.noWalkIns} {TESTING_CENTER.policy.idRequired} Arrive at least{' '}
-            {TESTING_CENTER.policy.arriveMinutesBefore} minutes before your scheduled time.
-          </p>
+          <div className="flex flex-wrap gap-2 mb-10">
+            {['All exams proctored', 'Appointment required — no walk-ins', 'Photo ID required', `Arrive ${TESTING_CENTER.policy.arriveMinutesBefore} min early`].map((item) => (
+              <span key={item} className="text-xs font-medium bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full border border-slate-200">
+                {item}
+              </span>
+            ))}
+          </div>
 
           <div className="space-y-10">
             {ACTIVE_PROVIDERS.map((provider) => (
@@ -188,17 +171,13 @@ export default function TestingPage() {
                             <Link
                               key={label}
                               href={`/testing/${provider.key}`}
-                              className="flex items-start gap-2 text-sm text-slate-700 hover:text-brand-blue-600 group/exam"
+                              className="flex items-start gap-2 text-sm text-slate-700 hover:text-brand-red-600 group/exam"
                             >
-                              <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5 group-hover/exam:text-brand-blue-500" />
+                              <span className="text-slate-300 flex-shrink-0 select-none">—</span>
                               <span>
-                                <span className="font-medium group-hover/exam:underline">
-                                  {label}
-                                </span>
+                                <span className="font-medium group-hover/exam:underline">{label}</span>
                                 {desc && (
-                                  <span className="block text-xs text-slate-500 mt-0.5">
-                                    {desc}
-                                  </span>
+                                  <span className="block text-xs text-slate-500 mt-0.5">{desc}</span>
                                 )}
                               </span>
                             </Link>
@@ -327,16 +306,17 @@ export default function TestingPage() {
                   <th className="text-left px-5 py-3 font-semibold text-slate-700">Provider</th>
                   <th className="text-left px-5 py-3 font-semibold text-slate-700">Exam</th>
                   <th className="text-right px-5 py-3 font-semibold text-slate-700">Fee</th>
+                  <th className="px-5 py-3" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {ACTIVE_PROVIDERS.filter((p) => p.fees && p.fees.length > 0).flatMap((p) =>
                   p.fees!.map((fee, i) => (
                     <tr key={`${p.key}-${i}`} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-5 py-3 text-slate-600 text-xs align-top pt-3.5">
+                      <td className="px-5 py-3 text-slate-600 text-xs align-middle">
                         {i === 0 ? p.name : ''}
                       </td>
-                      <td className="px-5 py-3 text-slate-800 font-medium">
+                      <td className="px-5 py-3 text-slate-800 font-medium align-middle">
                         {fee.label}
                         {fee.note && (
                           <span className="block text-xs text-slate-600 font-normal">
@@ -344,8 +324,16 @@ export default function TestingPage() {
                           </span>
                         )}
                       </td>
-                      <td className="px-5 py-3 text-right font-black text-brand-red-600 text-base">
+                      <td className="px-5 py-3 text-right font-black text-brand-red-600 text-base align-middle whitespace-nowrap">
                         ${fee.amount}
+                      </td>
+                      <td className="px-5 py-3 text-right align-middle">
+                        <Link
+                          href={`/testing/book?exam=${p.key}`}
+                          className="inline-flex items-center gap-1 bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
+                        >
+                          Book →
+                        </Link>
                       </td>
                     </tr>
                   )),
