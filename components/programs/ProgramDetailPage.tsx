@@ -334,7 +334,7 @@ export default function ProgramDetailPage({
             </div>
             <div>
               <div className="text-2xl font-extrabold text-slate-900">
-                {p.credentials.length} credential{p.credentials.length !== 1 ? 's' : ''}
+                {`${p.credentials.length} credential${p.credentials.length !== 1 ? 's' : ''}`}
               </div>
               <div className="text-xs text-slate-500 mt-0.5">
                 {p.credentials[0]?.issuingBody ?? 'Industry recognized'}
