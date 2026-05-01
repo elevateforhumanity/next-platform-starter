@@ -723,54 +723,54 @@
 
 # Admin — served by Railway, proxied through Netlify
 # Set RAILWAY_URL in Netlify site settings → Environment variables
-# e.g. https://your-app.up.railway.app
+# AWS ECS via CloudFront: https://app.elevateforhumanity.org
 [[redirects]]
   from = "/admin"
-  to = "https://elevate-admin-production.up.railway.app/admin"
+  to = "https://app.elevateforhumanity.org/admin"
   status = 301
   force = true
 
 [[redirects]]
   from = "/admin/*"
-  to = "https://elevate-admin-production.up.railway.app/admin/:splat"
+  to = "https://app.elevateforhumanity.org/admin/:splat"
   status = 301
   force = true
 
 # PWA — served by Railway
 [[redirects]]
   from = "/pwa"
-  to = "https://elevate-admin-production.up.railway.app/pwa"
+  to = "https://app.elevateforhumanity.org/pwa"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pwa/*"
-  to = "https://elevate-admin-production.up.railway.app/pwa/:splat"
+  to = "https://app.elevateforhumanity.org/pwa/:splat"
   status = 301
   force = true
 
 # Store / checkout — Railway-owned e-commerce
 [[redirects]]
   from = "/store"
-  to = "https://elevate-admin-production.up.railway.app/store"
+  to = "https://app.elevateforhumanity.org/store"
   status = 301
   force = true
 
 [[redirects]]
   from = "/store/*"
-  to = "https://elevate-admin-production.up.railway.app/store/:splat"
+  to = "https://app.elevateforhumanity.org/store/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/checkout"
-  to = "https://elevate-admin-production.up.railway.app/checkout"
+  to = "https://app.elevateforhumanity.org/checkout"
   status = 301
   force = true
 
 [[redirects]]
   from = "/checkout/*"
-  to = "https://elevate-admin-production.up.railway.app/checkout/:splat"
+  to = "https://app.elevateforhumanity.org/checkout/:splat"
   status = 301
   force = true
 
@@ -778,19 +778,19 @@
 # /lms root and /lms/programs have no Railway route — send to /lms/courses
 [[redirects]]
   from = "/lms"
-  to = "https://elevate-admin-production.up.railway.app/lms/courses"
+  to = "https://app.elevateforhumanity.org/lms/courses"
   status = 301
   force = true
 
 [[redirects]]
   from = "/lms/programs"
-  to = "https://elevate-admin-production.up.railway.app/lms/courses"
+  to = "https://app.elevateforhumanity.org/lms/courses"
   status = 301
   force = true
 
 [[redirects]]
   from = "/lms/*"
-  to = "https://elevate-admin-production.up.railway.app/lms/:splat"
+  to = "https://app.elevateforhumanity.org/lms/:splat"
   status = 301
   force = true
 
@@ -800,95 +800,95 @@
 # force=true so they still take priority over this catch-all.
 [[redirects]]
   from = "/api/*"
-  to = "https://elevate-admin-production.up.railway.app/api/:splat"
+  to = "https://app.elevateforhumanity.org/api/:splat"
   status = 301
   force = true
 
 # Learner / student portals — Railway
 [[redirects]]
   from = "/learner"
-  to = "https://elevate-admin-production.up.railway.app/learner"
+  to = "https://app.elevateforhumanity.org/learner"
   status = 301
   force = true
 
 [[redirects]]
   from = "/learner/*"
-  to = "https://elevate-admin-production.up.railway.app/learner/:splat"
+  to = "https://app.elevateforhumanity.org/learner/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student"
-  to = "https://elevate-admin-production.up.railway.app/student"
+  to = "https://app.elevateforhumanity.org/student"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student/*"
-  to = "https://elevate-admin-production.up.railway.app/student/:splat"
+  to = "https://app.elevateforhumanity.org/student/:splat"
   status = 301
   force = true
 
 # Instructor portal — Railway
 [[redirects]]
   from = "/instructor"
-  to = "https://elevate-admin-production.up.railway.app/instructor"
+  to = "https://app.elevateforhumanity.org/instructor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor/*"
-  to = "https://elevate-admin-production.up.railway.app/instructor/:splat"
+  to = "https://app.elevateforhumanity.org/instructor/:splat"
   status = 301
   force = true
 
 # Staff / case manager portals — Railway
 [[redirects]]
   from = "/staff-portal"
-  to = "https://elevate-admin-production.up.railway.app/staff-portal"
+  to = "https://app.elevateforhumanity.org/staff-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/staff-portal/*"
-  to = "https://elevate-admin-production.up.railway.app/staff-portal/:splat"
+  to = "https://app.elevateforhumanity.org/staff-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/case-manager"
-  to = "https://elevate-admin-production.up.railway.app/case-manager"
+  to = "https://app.elevateforhumanity.org/case-manager"
   status = 301
   force = true
 
 [[redirects]]
   from = "/case-manager/*"
-  to = "https://elevate-admin-production.up.railway.app/case-manager/:splat"
+  to = "https://app.elevateforhumanity.org/case-manager/:splat"
   status = 301
   force = true
 
 # Partner / employer dashboards — Railway
 [[redirects]]
   from = "/partner/dashboard"
-  to = "https://elevate-admin-production.up.railway.app/partner/dashboard"
+  to = "https://app.elevateforhumanity.org/partner/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner/dashboard/*"
-  to = "https://elevate-admin-production.up.railway.app/partner/dashboard/:splat"
+  to = "https://app.elevateforhumanity.org/partner/dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard"
-  to = "https://elevate-admin-production.up.railway.app/employer/dashboard"
+  to = "https://app.elevateforhumanity.org/employer/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard/*"
-  to = "https://elevate-admin-production.up.railway.app/employer/dashboard/:splat"
+  to = "https://app.elevateforhumanity.org/employer/dashboard/:splat"
   status = 301
   force = true
 
@@ -897,176 +897,176 @@
 # programs/*/confirm, enrollment-success, orientation, documents — auth-gated
 [[redirects]]
   from = "/programs/*/confirm"
-  to = "https://elevate-admin-production.up.railway.app/programs/:splat/confirm"
+  to = "https://app.elevateforhumanity.org/programs/:splat/confirm"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/enrollment-success"
-  to = "https://elevate-admin-production.up.railway.app/programs/:splat/enrollment-success"
+  to = "https://app.elevateforhumanity.org/programs/:splat/enrollment-success"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/orientation"
-  to = "https://elevate-admin-production.up.railway.app/programs/:splat/orientation"
+  to = "https://app.elevateforhumanity.org/programs/:splat/orientation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/documents"
-  to = "https://elevate-admin-production.up.railway.app/programs/:splat/documents"
+  to = "https://app.elevateforhumanity.org/programs/:splat/documents"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/documents/*"
-  to = "https://elevate-admin-production.up.railway.app/programs/:splat/documents/:splat"
+  to = "https://app.elevateforhumanity.org/programs/:splat/documents/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/enroll"
-  to = "https://elevate-admin-production.up.railway.app/programs/:splat/enroll"
+  to = "https://app.elevateforhumanity.org/programs/:splat/enroll"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/enroll/*"
-  to = "https://elevate-admin-production.up.railway.app/programs/:splat/enroll/:splat"
+  to = "https://app.elevateforhumanity.org/programs/:splat/enroll/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/admin"
-  to = "https://elevate-admin-production.up.railway.app/programs/admin"
+  to = "https://app.elevateforhumanity.org/programs/admin"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/admin/*"
-  to = "https://elevate-admin-production.up.railway.app/programs/admin/:splat"
+  to = "https://app.elevateforhumanity.org/programs/admin/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/learner"
-  to = "https://elevate-admin-production.up.railway.app/demo/learner"
+  to = "https://app.elevateforhumanity.org/demo/learner"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/learner/*"
-  to = "https://elevate-admin-production.up.railway.app/demo/learner/:splat"
+  to = "https://app.elevateforhumanity.org/demo/learner/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/employer"
-  to = "https://elevate-admin-production.up.railway.app/demo/employer"
+  to = "https://app.elevateforhumanity.org/demo/employer"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/employer/*"
-  to = "https://elevate-admin-production.up.railway.app/demo/employer/:splat"
+  to = "https://app.elevateforhumanity.org/demo/employer/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mou/employer"
-  to = "https://elevate-admin-production.up.railway.app/mou/employer"
+  to = "https://app.elevateforhumanity.org/mou/employer"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mou/employer/*"
-  to = "https://elevate-admin-production.up.railway.app/mou/employer/:splat"
+  to = "https://app.elevateforhumanity.org/mou/employer/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/help/account"
-  to = "https://elevate-admin-production.up.railway.app/help/account"
+  to = "https://app.elevateforhumanity.org/help/account"
   status = 301
   force = true
 
 [[redirects]]
   from = "/help/account/*"
-  to = "https://elevate-admin-production.up.railway.app/help/account/:splat"
+  to = "https://app.elevateforhumanity.org/help/account/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/booking/enrollment"
-  to = "https://elevate-admin-production.up.railway.app/booking/enrollment"
+  to = "https://app.elevateforhumanity.org/booking/enrollment"
   status = 301
   force = true
 
 [[redirects]]
   from = "/booking/enrollment/*"
-  to = "https://elevate-admin-production.up.railway.app/booking/enrollment/:splat"
+  to = "https://app.elevateforhumanity.org/booking/enrollment/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/shop/onboarding/documents"
-  to = "https://elevate-admin-production.up.railway.app/shop/onboarding/documents"
+  to = "https://app.elevateforhumanity.org/shop/onboarding/documents"
   status = 301
   force = true
 
 [[redirects]]
   from = "/shop/onboarding/documents/*"
-  to = "https://elevate-admin-production.up.railway.app/shop/onboarding/documents/:splat"
+  to = "https://app.elevateforhumanity.org/shop/onboarding/documents/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partners/compliance"
-  to = "https://elevate-admin-production.up.railway.app/partners/compliance"
+  to = "https://app.elevateforhumanity.org/partners/compliance"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partners/compliance/*"
-  to = "https://elevate-admin-production.up.railway.app/partners/compliance/:splat"
+  to = "https://app.elevateforhumanity.org/partners/compliance/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student-support/schedule"
-  to = "https://elevate-admin-production.up.railway.app/student-support/schedule"
+  to = "https://app.elevateforhumanity.org/student-support/schedule"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student-support/schedule/*"
-  to = "https://elevate-admin-production.up.railway.app/student-support/schedule/:splat"
+  to = "https://app.elevateforhumanity.org/student-support/schedule/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/funding/confirm"
-  to = "https://elevate-admin-production.up.railway.app/funding/confirm"
+  to = "https://app.elevateforhumanity.org/funding/confirm"
   status = 301
   force = true
 
 [[redirects]]
   from = "/funding/confirm/*"
-  to = "https://elevate-admin-production.up.railway.app/funding/confirm/:splat"
+  to = "https://app.elevateforhumanity.org/funding/confirm/:splat"
   status = 301
   force = true
 
 # ── FERPA records — Railway only ─────────────────────────────────────────────
 [[redirects]]
   from = "/ferpa"
-  to = "https://elevate-admin-production.up.railway.app/ferpa"
+  to = "https://app.elevateforhumanity.org/ferpa"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ferpa/*"
-  to = "https://elevate-admin-production.up.railway.app/ferpa/:splat"
+  to = "https://app.elevateforhumanity.org/ferpa/:splat"
   status = 301
   force = true
 
@@ -1076,673 +1076,673 @@
 
 [[redirects]]
   from = "/account"
-  to = "https://elevate-admin-production.up.railway.app/account"
+  to = "https://app.elevateforhumanity.org/account"
   status = 301
   force = true
 
 [[redirects]]
   from = "/account/*"
-  to = "https://elevate-admin-production.up.railway.app/account/:splat"
+  to = "https://app.elevateforhumanity.org/account/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/accept-invite"
-  to = "https://elevate-admin-production.up.railway.app/accept-invite"
+  to = "https://app.elevateforhumanity.org/accept-invite"
   status = 301
   force = true
 
 [[redirects]]
   from = "/accept-invite/*"
-  to = "https://elevate-admin-production.up.railway.app/accept-invite/:splat"
+  to = "https://app.elevateforhumanity.org/accept-invite/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/advising"
-  to = "https://elevate-admin-production.up.railway.app/advising"
+  to = "https://app.elevateforhumanity.org/advising"
   status = 301
   force = true
 
 [[redirects]]
   from = "/advising/*"
-  to = "https://elevate-admin-production.up.railway.app/advising/:splat"
+  to = "https://app.elevateforhumanity.org/advising/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai"
-  to = "https://elevate-admin-production.up.railway.app/ai"
+  to = "https://app.elevateforhumanity.org/ai"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai/*"
-  to = "https://elevate-admin-production.up.railway.app/ai/:splat"
+  to = "https://app.elevateforhumanity.org/ai/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-chat"
-  to = "https://elevate-admin-production.up.railway.app/ai-chat"
+  to = "https://app.elevateforhumanity.org/ai-chat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-chat/*"
-  to = "https://elevate-admin-production.up.railway.app/ai-chat/:splat"
+  to = "https://app.elevateforhumanity.org/ai-chat/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-tutor"
-  to = "https://elevate-admin-production.up.railway.app/ai-tutor"
+  to = "https://app.elevateforhumanity.org/ai-tutor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-tutor/*"
-  to = "https://elevate-admin-production.up.railway.app/ai-tutor/:splat"
+  to = "https://app.elevateforhumanity.org/ai-tutor/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/analytics"
-  to = "https://elevate-admin-production.up.railway.app/analytics"
+  to = "https://app.elevateforhumanity.org/analytics"
   status = 301
   force = true
 
 [[redirects]]
   from = "/analytics/*"
-  to = "https://elevate-admin-production.up.railway.app/analytics/:splat"
+  to = "https://app.elevateforhumanity.org/analytics/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apprentice"
-  to = "https://elevate-admin-production.up.railway.app/apprentice"
+  to = "https://app.elevateforhumanity.org/apprentice"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apprentice/*"
-  to = "https://elevate-admin-production.up.railway.app/apprentice/:splat"
+  to = "https://app.elevateforhumanity.org/apprentice/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/approvals"
-  to = "https://elevate-admin-production.up.railway.app/approvals"
+  to = "https://app.elevateforhumanity.org/approvals"
   status = 301
   force = true
 
 [[redirects]]
   from = "/approvals/*"
-  to = "https://elevate-admin-production.up.railway.app/approvals/:splat"
+  to = "https://app.elevateforhumanity.org/approvals/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apps"
-  to = "https://elevate-admin-production.up.railway.app/apps"
+  to = "https://app.elevateforhumanity.org/apps"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apps/*"
-  to = "https://elevate-admin-production.up.railway.app/apps/:splat"
+  to = "https://app.elevateforhumanity.org/apps/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/auth"
-  to = "https://elevate-admin-production.up.railway.app/auth"
+  to = "https://app.elevateforhumanity.org/auth"
   status = 301
   force = true
 
 [[redirects]]
   from = "/auth/*"
-  to = "https://elevate-admin-production.up.railway.app/auth/:splat"
+  to = "https://app.elevateforhumanity.org/auth/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/billing"
-  to = "https://elevate-admin-production.up.railway.app/billing"
+  to = "https://app.elevateforhumanity.org/billing"
   status = 301
   force = true
 
 [[redirects]]
   from = "/billing/*"
-  to = "https://elevate-admin-production.up.railway.app/billing/:splat"
+  to = "https://app.elevateforhumanity.org/billing/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/builder"
-  to = "https://elevate-admin-production.up.railway.app/builder"
+  to = "https://app.elevateforhumanity.org/builder"
   status = 301
   force = true
 
 [[redirects]]
   from = "/builder/*"
-  to = "https://elevate-admin-production.up.railway.app/builder/:splat"
+  to = "https://app.elevateforhumanity.org/builder/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/card"
-  to = "https://elevate-admin-production.up.railway.app/card"
+  to = "https://app.elevateforhumanity.org/card"
   status = 301
   force = true
 
 [[redirects]]
   from = "/card/*"
-  to = "https://elevate-admin-production.up.railway.app/card/:splat"
+  to = "https://app.elevateforhumanity.org/card/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/certificates"
-  to = "https://elevate-admin-production.up.railway.app/certificates"
+  to = "https://app.elevateforhumanity.org/certificates"
   status = 301
   force = true
 
 [[redirects]]
   from = "/certificates/*"
-  to = "https://elevate-admin-production.up.railway.app/certificates/:splat"
+  to = "https://app.elevateforhumanity.org/certificates/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/cm"
-  to = "https://elevate-admin-production.up.railway.app/cm"
+  to = "https://app.elevateforhumanity.org/cm"
   status = 301
   force = true
 
 [[redirects]]
   from = "/cm/*"
-  to = "https://elevate-admin-production.up.railway.app/cm/:splat"
+  to = "https://app.elevateforhumanity.org/cm/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/compliance"
-  to = "https://elevate-admin-production.up.railway.app/compliance"
+  to = "https://app.elevateforhumanity.org/compliance"
   status = 301
   force = true
 
 [[redirects]]
   from = "/compliance/*"
-  to = "https://elevate-admin-production.up.railway.app/compliance/:splat"
+  to = "https://app.elevateforhumanity.org/compliance/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/creator"
-  to = "https://elevate-admin-production.up.railway.app/creator"
+  to = "https://app.elevateforhumanity.org/creator"
   status = 301
   force = true
 
 [[redirects]]
   from = "/creator/*"
-  to = "https://elevate-admin-production.up.railway.app/creator/:splat"
+  to = "https://app.elevateforhumanity.org/creator/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/credentials"
-  to = "https://elevate-admin-production.up.railway.app/credentials"
+  to = "https://app.elevateforhumanity.org/credentials"
   status = 301
   force = true
 
 [[redirects]]
   from = "/credentials/*"
-  to = "https://elevate-admin-production.up.railway.app/credentials/:splat"
+  to = "https://app.elevateforhumanity.org/credentials/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboard"
-  to = "https://elevate-admin-production.up.railway.app/dashboard"
+  to = "https://app.elevateforhumanity.org/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboard/*"
-  to = "https://elevate-admin-production.up.railway.app/dashboard/:splat"
+  to = "https://app.elevateforhumanity.org/dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboards"
-  to = "https://elevate-admin-production.up.railway.app/dashboards"
+  to = "https://app.elevateforhumanity.org/dashboards"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboards/*"
-  to = "https://elevate-admin-production.up.railway.app/dashboards/:splat"
+  to = "https://app.elevateforhumanity.org/dashboards/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/documents"
-  to = "https://elevate-admin-production.up.railway.app/documents"
+  to = "https://app.elevateforhumanity.org/documents"
   status = 301
   force = true
 
 [[redirects]]
   from = "/documents/*"
-  to = "https://elevate-admin-production.up.railway.app/documents/:splat"
+  to = "https://app.elevateforhumanity.org/documents/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer-portal"
-  to = "https://elevate-admin-production.up.railway.app/employer-portal"
+  to = "https://app.elevateforhumanity.org/employer-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer-portal/*"
-  to = "https://elevate-admin-production.up.railway.app/employer-portal/:splat"
+  to = "https://app.elevateforhumanity.org/employer-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enroll"
-  to = "https://elevate-admin-production.up.railway.app/enroll"
+  to = "https://app.elevateforhumanity.org/enroll"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enroll/*"
-  to = "https://elevate-admin-production.up.railway.app/enroll/:splat"
+  to = "https://app.elevateforhumanity.org/enroll/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enrollment"
-  to = "https://elevate-admin-production.up.railway.app/enrollment"
+  to = "https://app.elevateforhumanity.org/enrollment"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enrollment/*"
-  to = "https://elevate-admin-production.up.railway.app/enrollment/:splat"
+  to = "https://app.elevateforhumanity.org/enrollment/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/file-manager"
-  to = "https://elevate-admin-production.up.railway.app/file-manager"
+  to = "https://app.elevateforhumanity.org/file-manager"
   status = 301
   force = true
 
 [[redirects]]
   from = "/file-manager/*"
-  to = "https://elevate-admin-production.up.railway.app/file-manager/:splat"
+  to = "https://app.elevateforhumanity.org/file-manager/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/forgot-password"
-  to = "https://elevate-admin-production.up.railway.app/forgot-password"
+  to = "https://app.elevateforhumanity.org/forgot-password"
   status = 301
   force = true
 
 [[redirects]]
   from = "/forgot-password/*"
-  to = "https://elevate-admin-production.up.railway.app/forgot-password/:splat"
+  to = "https://app.elevateforhumanity.org/forgot-password/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/generate"
-  to = "https://elevate-admin-production.up.railway.app/generate"
+  to = "https://app.elevateforhumanity.org/generate"
   status = 301
   force = true
 
 [[redirects]]
   from = "/generate/*"
-  to = "https://elevate-admin-production.up.railway.app/generate/:splat"
+  to = "https://app.elevateforhumanity.org/generate/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/groups"
-  to = "https://elevate-admin-production.up.railway.app/groups"
+  to = "https://app.elevateforhumanity.org/groups"
   status = 301
   force = true
 
 [[redirects]]
   from = "/groups/*"
-  to = "https://elevate-admin-production.up.railway.app/groups/:splat"
+  to = "https://app.elevateforhumanity.org/groups/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/impact"
-  to = "https://elevate-admin-production.up.railway.app/impact"
+  to = "https://app.elevateforhumanity.org/impact"
   status = 301
   force = true
 
 [[redirects]]
   from = "/impact/*"
-  to = "https://elevate-admin-production.up.railway.app/impact/:splat"
+  to = "https://app.elevateforhumanity.org/impact/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor-credentials"
-  to = "https://elevate-admin-production.up.railway.app/instructor-credentials"
+  to = "https://app.elevateforhumanity.org/instructor-credentials"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor-credentials/*"
-  to = "https://elevate-admin-production.up.railway.app/instructor-credentials/:splat"
+  to = "https://app.elevateforhumanity.org/instructor-credentials/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/license"
-  to = "https://elevate-admin-production.up.railway.app/license"
+  to = "https://app.elevateforhumanity.org/license"
   status = 301
   force = true
 
 [[redirects]]
   from = "/license/*"
-  to = "https://elevate-admin-production.up.railway.app/license/:splat"
+  to = "https://app.elevateforhumanity.org/license/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mentor"
-  to = "https://elevate-admin-production.up.railway.app/mentor"
+  to = "https://app.elevateforhumanity.org/mentor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mentor/*"
-  to = "https://elevate-admin-production.up.railway.app/mentor/:splat"
+  to = "https://app.elevateforhumanity.org/mentor/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/messages"
-  to = "https://elevate-admin-production.up.railway.app/messages"
+  to = "https://app.elevateforhumanity.org/messages"
   status = 301
   force = true
 
 [[redirects]]
   from = "/messages/*"
-  to = "https://elevate-admin-production.up.railway.app/messages/:splat"
+  to = "https://app.elevateforhumanity.org/messages/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/my-dashboard"
-  to = "https://elevate-admin-production.up.railway.app/my-dashboard"
+  to = "https://app.elevateforhumanity.org/my-dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/my-dashboard/*"
-  to = "https://elevate-admin-production.up.railway.app/my-dashboard/:splat"
+  to = "https://app.elevateforhumanity.org/my-dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/notifications"
-  to = "https://elevate-admin-production.up.railway.app/notifications"
+  to = "https://app.elevateforhumanity.org/notifications"
   status = 301
   force = true
 
 [[redirects]]
   from = "/notifications/*"
-  to = "https://elevate-admin-production.up.railway.app/notifications/:splat"
+  to = "https://app.elevateforhumanity.org/notifications/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/onboarding"
-  to = "https://elevate-admin-production.up.railway.app/onboarding"
+  to = "https://app.elevateforhumanity.org/onboarding"
   status = 301
   force = true
 
 [[redirects]]
   from = "/onboarding/*"
-  to = "https://elevate-admin-production.up.railway.app/onboarding/:splat"
+  to = "https://app.elevateforhumanity.org/onboarding/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/orientation"
-  to = "https://elevate-admin-production.up.railway.app/orientation"
+  to = "https://app.elevateforhumanity.org/orientation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/orientation/*"
-  to = "https://elevate-admin-production.up.railway.app/orientation/:splat"
+  to = "https://app.elevateforhumanity.org/orientation/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/parent-portal"
-  to = "https://elevate-admin-production.up.railway.app/parent-portal"
+  to = "https://app.elevateforhumanity.org/parent-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/parent-portal/*"
-  to = "https://elevate-admin-production.up.railway.app/parent-portal/:splat"
+  to = "https://app.elevateforhumanity.org/parent-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner-learning"
-  to = "https://elevate-admin-production.up.railway.app/partner-learning"
+  to = "https://app.elevateforhumanity.org/partner-learning"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner-learning/*"
-  to = "https://elevate-admin-production.up.railway.app/partner-learning/:splat"
+  to = "https://app.elevateforhumanity.org/partner-learning/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pay"
-  to = "https://elevate-admin-production.up.railway.app/pay"
+  to = "https://app.elevateforhumanity.org/pay"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pay/*"
-  to = "https://elevate-admin-production.up.railway.app/pay/:splat"
+  to = "https://app.elevateforhumanity.org/pay/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/payment"
-  to = "https://elevate-admin-production.up.railway.app/payment"
+  to = "https://app.elevateforhumanity.org/payment"
   status = 301
   force = true
 
 [[redirects]]
   from = "/payment/*"
-  to = "https://elevate-admin-production.up.railway.app/payment/:splat"
+  to = "https://app.elevateforhumanity.org/payment/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/proctor"
-  to = "https://elevate-admin-production.up.railway.app/proctor"
+  to = "https://app.elevateforhumanity.org/proctor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/proctor/*"
-  to = "https://elevate-admin-production.up.railway.app/proctor/:splat"
+  to = "https://app.elevateforhumanity.org/proctor/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/profile"
-  to = "https://elevate-admin-production.up.railway.app/profile"
+  to = "https://app.elevateforhumanity.org/profile"
   status = 301
   force = true
 
 [[redirects]]
   from = "/profile/*"
-  to = "https://elevate-admin-production.up.railway.app/profile/:splat"
+  to = "https://app.elevateforhumanity.org/profile/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/program-holder"
-  to = "https://elevate-admin-production.up.railway.app/program-holder"
+  to = "https://app.elevateforhumanity.org/program-holder"
   status = 301
   force = true
 
 [[redirects]]
   from = "/program-holder/*"
-  to = "https://elevate-admin-production.up.railway.app/program-holder/:splat"
+  to = "https://app.elevateforhumanity.org/program-holder/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/provider"
-  to = "https://elevate-admin-production.up.railway.app/provider"
+  to = "https://app.elevateforhumanity.org/provider"
   status = 301
   force = true
 
 [[redirects]]
   from = "/provider/*"
-  to = "https://elevate-admin-production.up.railway.app/provider/:splat"
+  to = "https://app.elevateforhumanity.org/provider/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reports"
-  to = "https://elevate-admin-production.up.railway.app/reports"
+  to = "https://app.elevateforhumanity.org/reports"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reports/*"
-  to = "https://elevate-admin-production.up.railway.app/reports/:splat"
+  to = "https://app.elevateforhumanity.org/reports/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reset-password"
-  to = "https://elevate-admin-production.up.railway.app/reset-password"
+  to = "https://app.elevateforhumanity.org/reset-password"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reset-password/*"
-  to = "https://elevate-admin-production.up.railway.app/reset-password/:splat"
+  to = "https://app.elevateforhumanity.org/reset-password/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/schedule"
-  to = "https://elevate-admin-production.up.railway.app/schedule"
+  to = "https://app.elevateforhumanity.org/schedule"
   status = 301
   force = true
 
 [[redirects]]
   from = "/schedule/*"
-  to = "https://elevate-admin-production.up.railway.app/schedule/:splat"
+  to = "https://app.elevateforhumanity.org/schedule/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/settings"
-  to = "https://elevate-admin-production.up.railway.app/settings"
+  to = "https://app.elevateforhumanity.org/settings"
   status = 301
   force = true
 
 [[redirects]]
   from = "/settings/*"
-  to = "https://elevate-admin-production.up.railway.app/settings/:splat"
+  to = "https://app.elevateforhumanity.org/settings/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/sign"
-  to = "https://elevate-admin-production.up.railway.app/sign"
+  to = "https://app.elevateforhumanity.org/sign"
   status = 301
   force = true
 
 [[redirects]]
   from = "/sign/*"
-  to = "https://elevate-admin-production.up.railway.app/sign/:splat"
+  to = "https://app.elevateforhumanity.org/sign/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/transcript"
-  to = "https://elevate-admin-production.up.railway.app/transcript"
+  to = "https://app.elevateforhumanity.org/transcript"
   status = 301
   force = true
 
 [[redirects]]
   from = "/transcript/*"
-  to = "https://elevate-admin-production.up.railway.app/transcript/:splat"
+  to = "https://app.elevateforhumanity.org/transcript/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-email"
-  to = "https://elevate-admin-production.up.railway.app/verify-email"
+  to = "https://app.elevateforhumanity.org/verify-email"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-email/*"
-  to = "https://elevate-admin-production.up.railway.app/verify-email/:splat"
+  to = "https://app.elevateforhumanity.org/verify-email/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-identity"
-  to = "https://elevate-admin-production.up.railway.app/verify-identity"
+  to = "https://app.elevateforhumanity.org/verify-identity"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-identity/*"
-  to = "https://elevate-admin-production.up.railway.app/verify-identity/:splat"
+  to = "https://app.elevateforhumanity.org/verify-identity/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/video"
-  to = "https://elevate-admin-production.up.railway.app/video"
+  to = "https://app.elevateforhumanity.org/video"
   status = 301
   force = true
 
 [[redirects]]
   from = "/video/*"
-  to = "https://elevate-admin-production.up.railway.app/video/:splat"
+  to = "https://app.elevateforhumanity.org/video/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/videos"
-  to = "https://elevate-admin-production.up.railway.app/videos"
+  to = "https://app.elevateforhumanity.org/videos"
   status = 301
   force = true
 
 [[redirects]]
   from = "/videos/*"
-  to = "https://elevate-admin-production.up.railway.app/videos/:splat"
+  to = "https://app.elevateforhumanity.org/videos/:splat"
   status = 301
   force = true
 

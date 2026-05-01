@@ -1,0 +1,70 @@
+{
+  "family": "elevate-lms",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "4096",
+  "memory": "16384",
+  "executionRoleArn": "arn:aws:iam::954718262498:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::954718262498:role/ecsTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "elevate-lms",
+      "image": "954718262498.dkr.ecr.us-east-1.amazonaws.com/elevate-lms:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "NODE_ENV", "value": "production" },
+        { "name": "HOSTNAME", "value": "0.0.0.0" },
+        { "name": "PORT", "value": "3000" },
+        { "name": "SERVICE_ROLE", "value": "lms" },
+        { "name": "NEXT_TELEMETRY_DISABLED", "value": "1" },
+        { "name": "PUPPETEER_EXECUTABLE_PATH", "value": "/usr/bin/chromium" },
+        { "name": "CHROMIUM_PATH", "value": "/usr/bin/chromium" }
+      ],
+      "secrets": [
+        { "name": "NEXT_PUBLIC_SUPABASE_URL",       "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_URL" },
+        { "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",  "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY" },
+        { "name": "SUPABASE_SERVICE_ROLE_KEY",      "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_ROLE_KEY" },
+        { "name": "NEXT_PUBLIC_SITE_URL",           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SITE_URL" },
+        { "name": "STRIPE_SECRET_KEY",              "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_SECRET_KEY" },
+        { "name": "STRIPE_WEBHOOK_SECRET",          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_WEBHOOK_SECRET" },
+        { "name": "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY", "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY" },
+        { "name": "OPENAI_API_KEY",                 "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/OPENAI_API_KEY" },
+        { "name": "SENDGRID_API_KEY",               "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_API_KEY" },
+        { "name": "CRON_SECRET",                    "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CRON_SECRET" },
+        { "name": "UPSTASH_REDIS_REST_URL",         "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_URL" },
+        { "name": "UPSTASH_REDIS_REST_TOKEN",       "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_TOKEN" },
+        { "name": "CLOUDFLARE_ACCOUNT_ID",          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_ACCOUNT_ID" },
+        { "name": "CLOUDFLARE_R2_ACCESS_KEY_ID",    "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_R2_ACCESS_KEY_ID" },
+        { "name": "CLOUDFLARE_R2_SECRET_ACCESS_KEY","valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_R2_SECRET_ACCESS_KEY" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/elevate-lms",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": ["CMD-SHELL", "curl -f http://localhost:3000/api/health || exit 1"],
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3,
+        "startPeriod": 60
+      },
+      "ulimits": [
+        {
+          "name": "nofile",
+          "softLimit": 65536,
+          "hardLimit": 65536
+        }
+      ]
+    }
+  ]
+}

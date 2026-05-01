@@ -1,0 +1,179 @@
+name: Deploy to AWS ECS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: 954718262498.dkr.ecr.us-east-1.amazonaws.com
+  ECS_CLUSTER: elevate-cluster
+
+jobs:
+  # ── Build and push LMS image ─────────────────────────────────────────────────
+  build-lms:
+    name: Build LMS
+    runs-on: ubuntu-latest
+    # 16GB RAM runner — eliminates build OOM
+    # Use larger runner if still hitting limits: ubuntu-latest-16-cores
+    outputs:
+      image: ${{ steps.build.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push LMS image
+        id: build
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+        run: |
+          docker build \
+            --build-arg SERVICE_ROLE=lms \
+            --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
+            --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY \
+            --build-arg NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+            --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY \
+            -f Dockerfile.railway \
+            -t $ECR_REGISTRY/elevate-lms:$IMAGE_TAG \
+            -t $ECR_REGISTRY/elevate-lms:latest \
+            .
+          docker push $ECR_REGISTRY/elevate-lms:$IMAGE_TAG
+          docker push $ECR_REGISTRY/elevate-lms:latest
+          echo "image=$ECR_REGISTRY/elevate-lms:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+  # ── Build and push Admin image ───────────────────────────────────────────────
+  build-admin:
+    name: Build Admin
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.build.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Admin image
+        id: build
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+        run: |
+          docker build \
+            --build-arg SERVICE_ROLE=admin \
+            --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
+            --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY \
+            --build-arg NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+            --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY \
+            -f Dockerfile.railway \
+            -t $ECR_REGISTRY/elevate-admin:$IMAGE_TAG \
+            -t $ECR_REGISTRY/elevate-admin:latest \
+            .
+          docker push $ECR_REGISTRY/elevate-admin:$IMAGE_TAG
+          docker push $ECR_REGISTRY/elevate-admin:latest
+          echo "image=$ECR_REGISTRY/elevate-admin:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+  # ── Deploy LMS to ECS ────────────────────────────────────────────────────────
+  deploy-lms:
+    name: Deploy LMS
+    runs-on: ubuntu-latest
+    needs: build-lms
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Update ECS task definition with new image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: aws/ecs-task-lms.json
+          container-name: elevate-lms
+          image: ${{ needs.build-lms.outputs.image }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: elevate-lms-service
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+  # ── Deploy Admin to ECS ──────────────────────────────────────────────────────
+  deploy-admin:
+    name: Deploy Admin
+    runs-on: ubuntu-latest
+    needs: build-admin
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Update ECS task definition with new image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: aws/ecs-task-admin.json
+          container-name: elevate-admin
+          image: ${{ needs.build-admin.outputs.image }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: elevate-admin-service
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+  # ── Cron: funding follow-up (replaces Railway cron) ─────────────────────────
+  funding-followup:
+    name: Funding Follow-up Cron
+    runs-on: ubuntu-latest
+    # Runs daily at 09:00 ET (14:00 UTC) — matches Railway cron schedule
+    if: github.event_name == 'schedule'
+    steps:
+      - name: Trigger funding follow-up
+        run: |
+          curl -sf \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
+            https://lms.elevateforhumanity.org/api/cron/funding-followup
+
+# Separate schedule trigger for cron job
+# Add this to the `on:` block above when ready:
+# schedule:
+#   - cron: '0 14 * * *'

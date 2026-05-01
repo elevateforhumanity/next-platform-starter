@@ -1,0 +1,115 @@
+{
+  "_comment": "CloudFront distribution config for Elevate LMS + Admin",
+  "_instructions": "Create this distribution in AWS Console → CloudFront → Create Distribution",
+
+  "Origins": [
+    {
+      "Id": "elevate-lms-alb",
+      "DomainName": "elevate-lms-alb.us-east-1.elb.amazonaws.com",
+      "_comment": "Replace with your actual ALB DNS name after creating it",
+      "CustomOriginConfig": {
+        "HTTPSPort": 443,
+        "OriginProtocolPolicy": "https-only",
+        "OriginSSLProtocols": ["TLSv1.2"]
+      },
+      "OriginCustomHeaders": [
+        {
+          "HeaderName": "X-Origin-Verify",
+          "HeaderValue": "elevate-cloudfront-secret"
+        }
+      ]
+    },
+    {
+      "Id": "elevate-admin-alb",
+      "DomainName": "elevate-admin-alb.us-east-1.elb.amazonaws.com",
+      "_comment": "Replace with your actual Admin ALB DNS name after creating it",
+      "CustomOriginConfig": {
+        "HTTPSPort": 443,
+        "OriginProtocolPolicy": "https-only",
+        "OriginSSLProtocols": ["TLSv1.2"]
+      },
+      "OriginCustomHeaders": [
+        {
+          "HeaderName": "X-Origin-Verify",
+          "HeaderValue": "elevate-cloudfront-secret"
+        }
+      ]
+    }
+  ],
+
+  "DefaultCacheBehavior": {
+    "TargetOriginId": "elevate-lms-alb",
+    "ViewerProtocolPolicy": "redirect-to-https",
+    "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+    "_comment_cache": "CachePolicyId above = CachingDisabled (for dynamic Next.js routes)",
+    "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+    "_comment_origin": "OriginRequestPolicyId = AllViewerExceptHostHeader",
+    "AllowedMethods": ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"],
+    "Compress": true
+  },
+
+  "CacheBehaviors": [
+    {
+      "_comment": "Static assets — long cache",
+      "PathPattern": "/_next/static/*",
+      "TargetOriginId": "elevate-lms-alb",
+      "ViewerProtocolPolicy": "redirect-to-https",
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "_comment_cache": "CachingOptimized — 1 year for immutable static assets",
+      "AllowedMethods": ["GET", "HEAD"],
+      "Compress": true
+    },
+    {
+      "_comment": "Public images — medium cache",
+      "PathPattern": "/images/*",
+      "TargetOriginId": "elevate-lms-alb",
+      "ViewerProtocolPolicy": "redirect-to-https",
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "AllowedMethods": ["GET", "HEAD"],
+      "Compress": true
+    },
+    {
+      "_comment": "Admin routes → admin service",
+      "PathPattern": "/admin/*",
+      "TargetOriginId": "elevate-admin-alb",
+      "ViewerProtocolPolicy": "redirect-to-https",
+      "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+      "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+      "AllowedMethods": ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"],
+      "Compress": true
+    },
+    {
+      "_comment": "Instructor routes → admin service",
+      "PathPattern": "/instructor/*",
+      "TargetOriginId": "elevate-admin-alb",
+      "ViewerProtocolPolicy": "redirect-to-https",
+      "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+      "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+      "AllowedMethods": ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"],
+      "Compress": true
+    },
+    {
+      "_comment": "Staff portal → admin service",
+      "PathPattern": "/staff-portal/*",
+      "TargetOriginId": "elevate-admin-alb",
+      "ViewerProtocolPolicy": "redirect-to-https",
+      "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+      "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+      "AllowedMethods": ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"],
+      "Compress": true
+    }
+  ],
+
+  "Aliases": ["elevateforhumanity.org", "www.elevateforhumanity.org"],
+  "ViewerCertificate": {
+    "AcmCertificateArn": "arn:aws:acm:us-east-1:954718262498:certificate/YOUR_CERT_ARN",
+    "_comment": "Request cert in ACM for elevateforhumanity.org + www.elevateforhumanity.org",
+    "SslSupportMethod": "sni-only",
+    "MinimumProtocolVersion": "TLSv1.2_2021"
+  },
+
+  "HttpVersion": "http2and3",
+  "PriceClass": "PriceClass_100",
+  "_comment_price": "PriceClass_100 = US/Europe/Canada edge locations. Cheapest.",
+  "Enabled": true
+}
