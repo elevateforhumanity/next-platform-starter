@@ -24,18 +24,38 @@ interface Question {
  *
  * Any unrecognized shape is skipped (returns null) to prevent "object as React child" errors.
  */
+
+/**
+ * Coerces a value to a valid 0-based option index.
+ * Accepts numbers and numeric strings (e.g. "2"). Returns null when the value
+ * cannot be resolved so the caller can fall through to the next candidate
+ * rather than silently defaulting to index 0.
+ */
+function toOptionIndex(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isInteger(value) && value >= 0) return value;
+  if (typeof value === 'string') {
+    const parsed = parseInt(value, 10);
+    if (!isNaN(parsed) && parsed >= 0) return parsed;
+  }
+  return null;
+}
+
 function normalizeQuestion(raw: unknown, index: number): Question | null {
   if (!raw || typeof raw !== 'object') return null;
   const q = raw as Record<string, unknown>;
 
-  // Canonical shape — also handles {answer} variant used in HVAC quiz banks
+  // Canonical shape — also handles {answer} variant used in HVAC quiz banks.
+  // Both correctAnswer and answer may arrive as a number or a numeric string.
   if (typeof q.question === 'string' && Array.isArray(q.options)) {
     const correctAnswer =
-      typeof q.correctAnswer === 'number'
-        ? q.correctAnswer
-        : typeof q.answer === 'number'
-          ? q.answer
-          : 0;
+      toOptionIndex(q.correctAnswer) ??
+      toOptionIndex(q.answer) ??
+      null;
+
+    // Reject questions with no resolvable correct answer rather than silently
+    // marking option 0 as correct — a wrong default corrupts checkpoint scores.
+    if (correctAnswer === null) return null;
+
     return {
       id: typeof q.id === 'string' ? q.id : `q-${index}`,
       question: q.question,
@@ -45,18 +65,32 @@ function normalizeQuestion(raw: unknown, index: number): Question | null {
     };
   }
 
-  // AI-ingest shape: { question_text, options, correct_answer (letter A/B/C/D) }
+  // AI-ingest shape: { question_text, options, correct_answer }
+  // correct_answer may be a letter ("A"–"D") or a numeric string ("0"–"3").
   if (typeof q.question_text === 'string' && Array.isArray(q.options)) {
     const opts = q.options.filter((o): o is string => typeof o === 'string');
-    // correct_answer is a letter like "A", "B", "C", "D"
-    const letter =
-      typeof q.correct_answer === 'string' ? q.correct_answer.trim().toUpperCase() : '';
-    const correctIndex = ['A', 'B', 'C', 'D'].indexOf(letter);
+    let correctIndex: number | null = null;
+
+    if (typeof q.correct_answer === 'string') {
+      const upper = q.correct_answer.trim().toUpperCase();
+      const letterIndex = ['A', 'B', 'C', 'D'].indexOf(upper);
+      if (letterIndex >= 0) {
+        correctIndex = letterIndex;
+      } else {
+        // Fall back to numeric string ("0", "1", "2", "3")
+        correctIndex = toOptionIndex(q.correct_answer);
+      }
+    } else {
+      correctIndex = toOptionIndex(q.correct_answer);
+    }
+
+    if (correctIndex === null) return null;
+
     return {
       id: `q-${index}`,
       question: q.question_text,
       options: opts,
-      correctAnswer: correctIndex >= 0 ? correctIndex : 0,
+      correctAnswer: correctIndex,
       explanation: undefined,
     };
   }

@@ -1339,11 +1339,7 @@ export default function LessonPage() {
               {isHvacCourse ? (
                 /* HVAC: avatar+audio sync player with local MP3/MP4 fallback chain */
                 <HvacLessonVideo
-                  lessonDefId={
-                    HVAC_UUID_TO_DEF[lessonId] ??
-                    (lesson.slug ? hvacDefIdFromSlug(lesson.slug) : undefined) ??
-                    lesson.slug
-                  }
+                  lessonId={lessonId}
                   dbVideoUrl={lesson.video_url}
                   brollVideoUrl="/videos/hvac-technician.mp4"
                   lessonTitle={lesson.title}
