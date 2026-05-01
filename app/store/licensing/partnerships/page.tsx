@@ -66,7 +66,7 @@ const PARTNERSHIP_TYPES = [
       'Registered Apprenticeship pathways — DOL compliance handled',
       'Custom cohorts trained to your specifications',
     ],
-    href: '/employer',
+    href: '/employers',
     cta: 'Become an Employer Partner',
   },
   {
