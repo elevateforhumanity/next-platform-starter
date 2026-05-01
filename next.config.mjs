@@ -785,6 +785,7 @@ const nextConfig = {
       { source: '/for-agencies', destination: '/contact', permanent: false },
       { source: '/partnerships', destination: '/partners', permanent: true },
       {
+        source: '/program-holder/:path*',
         destination: '/login?redirect=/program-holder/:path*',
         permanent: false,
       },
