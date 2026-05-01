@@ -6,15 +6,19 @@ import Link from 'next/link';
 import { Calendar, Database, Clock, Shield } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/auth';
+
 export const metadata: Metadata = {
   title: 'Disaster Recovery Test Report | Elevate for Humanity',
   description: 'Documentation of disaster recovery drill execution and results.',
+  robots: { index: false, follow: false },
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/dr-test-report',
   },
 };
 
 export default async function DRTestReportPage() {
+  await requireAdmin();
   const supabase = await createClient();
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
