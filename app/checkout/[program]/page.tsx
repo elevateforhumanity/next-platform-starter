@@ -181,25 +181,11 @@ function CheckoutPageInner() {
         },
         onSuccess: async (data: any) => {
           try {
-            const response = await fetch('/api/affirm-charge', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                checkout_token: data.checkout_token,
-                program,
-              }),
-            });
-
-            const result = await response.json();
-
-            if (result.error) {
-              setError(result.error);
-              setLoading(false);
-            } else {
-              window.location.href = `/checkout/success?program=${program}`;
-            }
+            // Redirect to capture route — it authorizes the charge server-side
+            // and creates the enrollment. checkout_token + order_id are passed
+            // as query params by Affirm; we forward them to the capture endpoint.
+            const orderId = data.order_id || data.checkout_token;
+            window.location.href = `/api/affirm/capture?checkout_token=${encodeURIComponent(data.checkout_token)}&order_id=${encodeURIComponent(orderId)}`;
           } catch (err) {
             setError('Failed to process payment. Please contact support.');
             setLoading(false);
