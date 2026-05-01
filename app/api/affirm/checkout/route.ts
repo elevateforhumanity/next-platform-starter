@@ -29,6 +29,12 @@ async function _POST(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'contact');
     if (rateLimited) return rateLimited;
 
+    // Hydrate process.env from app_secrets before tryLateConfig reads env vars
+    try {
+      const { hydrateProcessEnv } = await import('@/lib/secrets');
+      await hydrateProcessEnv();
+    } catch { /* local dev — secrets table unavailable */ }
+
     // Lazy config: re-read env vars if missed at module load
     affirm.tryLateConfig();
 

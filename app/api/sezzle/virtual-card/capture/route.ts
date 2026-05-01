@@ -29,6 +29,12 @@ async function _POST(request: NextRequest) {
     const auth = await apiRequireAdmin(request);
     if (auth.error) return auth.error;
 
+    // Hydrate process.env from app_secrets before reading env vars
+    try {
+      const { hydrateProcessEnv } = await import('@/lib/secrets');
+      await hydrateProcessEnv();
+    } catch { /* local dev */ }
+
     // Lazy config re-check
     if (!sezzle.isConfigured() && process.env.SEZZLE_PUBLIC_KEY && process.env.SEZZLE_PRIVATE_KEY) {
       sezzle.configure({
