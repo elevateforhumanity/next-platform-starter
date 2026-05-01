@@ -850,11 +850,9 @@ const nextConfig = {
       // block below. A wildcard here would shadow those specific rules.
       { source: '/financial-aid', destination: '/funding', permanent: true },
       { source: '/financial-support', destination: '/funding', permanent: true },
-      { source: '/community', destination: '/community-services', permanent: true },
       { source: '/community/:path*', destination: '/community-services', permanent: true },
-      { source: '/supersonic-fast-cash', destination: '/supersonic', permanent: true },
-      { source: '/supersonic-fast-cash/:path*', destination: '/supersonic', permanent: true },
-      { source: '/compliance/:path*', destination: '/disclosures', permanent: false },
+      // /compliance/:path* is Railway-owned (netlify.toml proxy) — no redirect here
+      // /supersonic-fast-cash is handled by netlify.toml — do not add redirects here
       { source: '/docs/:path*', destination: '/resources', permanent: false },
       // /workone-partner-packet → /snap-et-partner handled in netlify.toml (301, force)
       // Railway portal redirects — handled by Netlify edge (netlify.toml) for:
