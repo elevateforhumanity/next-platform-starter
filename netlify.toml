@@ -723,54 +723,54 @@
 
 # Admin — served by Railway, proxied through Netlify
 # Set RAILWAY_URL in Netlify site settings → Environment variables
-# AWS ECS via CloudFront: https://app.elevateforhumanity.org
+# AWS ECS via CloudFront: http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com
 [[redirects]]
   from = "/admin"
-  to = "https://app.elevateforhumanity.org/admin"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/admin"
   status = 301
   force = true
 
 [[redirects]]
   from = "/admin/*"
-  to = "https://app.elevateforhumanity.org/admin/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/admin/:splat"
   status = 301
   force = true
 
 # PWA — served by Railway
 [[redirects]]
   from = "/pwa"
-  to = "https://app.elevateforhumanity.org/pwa"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/pwa"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pwa/*"
-  to = "https://app.elevateforhumanity.org/pwa/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/pwa/:splat"
   status = 301
   force = true
 
 # Store / checkout — Railway-owned e-commerce
 [[redirects]]
   from = "/store"
-  to = "https://app.elevateforhumanity.org/store"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/store"
   status = 301
   force = true
 
 [[redirects]]
   from = "/store/*"
-  to = "https://app.elevateforhumanity.org/store/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/store/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/checkout"
-  to = "https://app.elevateforhumanity.org/checkout"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/checkout"
   status = 301
   force = true
 
 [[redirects]]
   from = "/checkout/*"
-  to = "https://app.elevateforhumanity.org/checkout/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/checkout/:splat"
   status = 301
   force = true
 
@@ -778,19 +778,19 @@
 # /lms root and /lms/programs have no Railway route — send to /lms/courses
 [[redirects]]
   from = "/lms"
-  to = "https://app.elevateforhumanity.org/lms/courses"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/lms/courses"
   status = 301
   force = true
 
 [[redirects]]
   from = "/lms/programs"
-  to = "https://app.elevateforhumanity.org/lms/courses"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/lms/courses"
   status = 301
   force = true
 
 [[redirects]]
   from = "/lms/*"
-  to = "https://app.elevateforhumanity.org/lms/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/lms/:splat"
   status = 301
   force = true
 
@@ -800,95 +800,95 @@
 # force=true so they still take priority over this catch-all.
 [[redirects]]
   from = "/api/*"
-  to = "https://app.elevateforhumanity.org/api/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/api/:splat"
   status = 301
   force = true
 
 # Learner / student portals — Railway
 [[redirects]]
   from = "/learner"
-  to = "https://app.elevateforhumanity.org/learner"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/learner"
   status = 301
   force = true
 
 [[redirects]]
   from = "/learner/*"
-  to = "https://app.elevateforhumanity.org/learner/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/learner/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student"
-  to = "https://app.elevateforhumanity.org/student"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/student"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student/*"
-  to = "https://app.elevateforhumanity.org/student/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/student/:splat"
   status = 301
   force = true
 
 # Instructor portal — Railway
 [[redirects]]
   from = "/instructor"
-  to = "https://app.elevateforhumanity.org/instructor"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/instructor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor/*"
-  to = "https://app.elevateforhumanity.org/instructor/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/instructor/:splat"
   status = 301
   force = true
 
 # Staff / case manager portals — Railway
 [[redirects]]
   from = "/staff-portal"
-  to = "https://app.elevateforhumanity.org/staff-portal"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/staff-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/staff-portal/*"
-  to = "https://app.elevateforhumanity.org/staff-portal/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/staff-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/case-manager"
-  to = "https://app.elevateforhumanity.org/case-manager"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/case-manager"
   status = 301
   force = true
 
 [[redirects]]
   from = "/case-manager/*"
-  to = "https://app.elevateforhumanity.org/case-manager/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/case-manager/:splat"
   status = 301
   force = true
 
 # Partner / employer dashboards — Railway
 [[redirects]]
   from = "/partner/dashboard"
-  to = "https://app.elevateforhumanity.org/partner/dashboard"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/partner/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner/dashboard/*"
-  to = "https://app.elevateforhumanity.org/partner/dashboard/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/partner/dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard"
-  to = "https://app.elevateforhumanity.org/employer/dashboard"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/employer/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard/*"
-  to = "https://app.elevateforhumanity.org/employer/dashboard/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/employer/dashboard/:splat"
   status = 301
   force = true
 
@@ -897,176 +897,176 @@
 # programs/*/confirm, enrollment-success, orientation, documents — auth-gated
 [[redirects]]
   from = "/programs/*/confirm"
-  to = "https://app.elevateforhumanity.org/programs/:splat/confirm"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/programs/:splat/confirm"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/enrollment-success"
-  to = "https://app.elevateforhumanity.org/programs/:splat/enrollment-success"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/programs/:splat/enrollment-success"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/orientation"
-  to = "https://app.elevateforhumanity.org/programs/:splat/orientation"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/programs/:splat/orientation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/documents"
-  to = "https://app.elevateforhumanity.org/programs/:splat/documents"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/programs/:splat/documents"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/documents/*"
-  to = "https://app.elevateforhumanity.org/programs/:splat/documents/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/programs/:splat/documents/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/enroll"
-  to = "https://app.elevateforhumanity.org/programs/:splat/enroll"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/programs/:splat/enroll"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/*/enroll/*"
-  to = "https://app.elevateforhumanity.org/programs/:splat/enroll/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/programs/:splat/enroll/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/admin"
-  to = "https://app.elevateforhumanity.org/programs/admin"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/programs/admin"
   status = 301
   force = true
 
 [[redirects]]
   from = "/programs/admin/*"
-  to = "https://app.elevateforhumanity.org/programs/admin/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/programs/admin/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/learner"
-  to = "https://app.elevateforhumanity.org/demo/learner"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/demo/learner"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/learner/*"
-  to = "https://app.elevateforhumanity.org/demo/learner/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/demo/learner/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/employer"
-  to = "https://app.elevateforhumanity.org/demo/employer"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/demo/employer"
   status = 301
   force = true
 
 [[redirects]]
   from = "/demo/employer/*"
-  to = "https://app.elevateforhumanity.org/demo/employer/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/demo/employer/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mou/employer"
-  to = "https://app.elevateforhumanity.org/mou/employer"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/mou/employer"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mou/employer/*"
-  to = "https://app.elevateforhumanity.org/mou/employer/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/mou/employer/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/help/account"
-  to = "https://app.elevateforhumanity.org/help/account"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/help/account"
   status = 301
   force = true
 
 [[redirects]]
   from = "/help/account/*"
-  to = "https://app.elevateforhumanity.org/help/account/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/help/account/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/booking/enrollment"
-  to = "https://app.elevateforhumanity.org/booking/enrollment"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/booking/enrollment"
   status = 301
   force = true
 
 [[redirects]]
   from = "/booking/enrollment/*"
-  to = "https://app.elevateforhumanity.org/booking/enrollment/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/booking/enrollment/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/shop/onboarding/documents"
-  to = "https://app.elevateforhumanity.org/shop/onboarding/documents"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/shop/onboarding/documents"
   status = 301
   force = true
 
 [[redirects]]
   from = "/shop/onboarding/documents/*"
-  to = "https://app.elevateforhumanity.org/shop/onboarding/documents/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/shop/onboarding/documents/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partners/compliance"
-  to = "https://app.elevateforhumanity.org/partners/compliance"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/partners/compliance"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partners/compliance/*"
-  to = "https://app.elevateforhumanity.org/partners/compliance/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/partners/compliance/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student-support/schedule"
-  to = "https://app.elevateforhumanity.org/student-support/schedule"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/student-support/schedule"
   status = 301
   force = true
 
 [[redirects]]
   from = "/student-support/schedule/*"
-  to = "https://app.elevateforhumanity.org/student-support/schedule/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/student-support/schedule/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/funding/confirm"
-  to = "https://app.elevateforhumanity.org/funding/confirm"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/funding/confirm"
   status = 301
   force = true
 
 [[redirects]]
   from = "/funding/confirm/*"
-  to = "https://app.elevateforhumanity.org/funding/confirm/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/funding/confirm/:splat"
   status = 301
   force = true
 
 # ── FERPA records — Railway only ─────────────────────────────────────────────
 [[redirects]]
   from = "/ferpa"
-  to = "https://app.elevateforhumanity.org/ferpa"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ferpa"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ferpa/*"
-  to = "https://app.elevateforhumanity.org/ferpa/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ferpa/:splat"
   status = 301
   force = true
 
@@ -1076,673 +1076,673 @@
 
 [[redirects]]
   from = "/account"
-  to = "https://app.elevateforhumanity.org/account"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/account"
   status = 301
   force = true
 
 [[redirects]]
   from = "/account/*"
-  to = "https://app.elevateforhumanity.org/account/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/account/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/accept-invite"
-  to = "https://app.elevateforhumanity.org/accept-invite"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/accept-invite"
   status = 301
   force = true
 
 [[redirects]]
   from = "/accept-invite/*"
-  to = "https://app.elevateforhumanity.org/accept-invite/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/accept-invite/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/advising"
-  to = "https://app.elevateforhumanity.org/advising"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/advising"
   status = 301
   force = true
 
 [[redirects]]
   from = "/advising/*"
-  to = "https://app.elevateforhumanity.org/advising/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/advising/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai"
-  to = "https://app.elevateforhumanity.org/ai"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ai"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai/*"
-  to = "https://app.elevateforhumanity.org/ai/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ai/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-chat"
-  to = "https://app.elevateforhumanity.org/ai-chat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ai-chat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-chat/*"
-  to = "https://app.elevateforhumanity.org/ai-chat/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ai-chat/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-tutor"
-  to = "https://app.elevateforhumanity.org/ai-tutor"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ai-tutor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ai-tutor/*"
-  to = "https://app.elevateforhumanity.org/ai-tutor/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ai-tutor/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/analytics"
-  to = "https://app.elevateforhumanity.org/analytics"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/analytics"
   status = 301
   force = true
 
 [[redirects]]
   from = "/analytics/*"
-  to = "https://app.elevateforhumanity.org/analytics/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/analytics/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apprentice"
-  to = "https://app.elevateforhumanity.org/apprentice"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/apprentice"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apprentice/*"
-  to = "https://app.elevateforhumanity.org/apprentice/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/apprentice/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/approvals"
-  to = "https://app.elevateforhumanity.org/approvals"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/approvals"
   status = 301
   force = true
 
 [[redirects]]
   from = "/approvals/*"
-  to = "https://app.elevateforhumanity.org/approvals/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/approvals/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apps"
-  to = "https://app.elevateforhumanity.org/apps"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/apps"
   status = 301
   force = true
 
 [[redirects]]
   from = "/apps/*"
-  to = "https://app.elevateforhumanity.org/apps/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/apps/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/auth"
-  to = "https://app.elevateforhumanity.org/auth"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/auth"
   status = 301
   force = true
 
 [[redirects]]
   from = "/auth/*"
-  to = "https://app.elevateforhumanity.org/auth/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/auth/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/billing"
-  to = "https://app.elevateforhumanity.org/billing"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/billing"
   status = 301
   force = true
 
 [[redirects]]
   from = "/billing/*"
-  to = "https://app.elevateforhumanity.org/billing/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/billing/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/builder"
-  to = "https://app.elevateforhumanity.org/builder"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/builder"
   status = 301
   force = true
 
 [[redirects]]
   from = "/builder/*"
-  to = "https://app.elevateforhumanity.org/builder/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/builder/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/card"
-  to = "https://app.elevateforhumanity.org/card"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/card"
   status = 301
   force = true
 
 [[redirects]]
   from = "/card/*"
-  to = "https://app.elevateforhumanity.org/card/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/card/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/certificates"
-  to = "https://app.elevateforhumanity.org/certificates"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/certificates"
   status = 301
   force = true
 
 [[redirects]]
   from = "/certificates/*"
-  to = "https://app.elevateforhumanity.org/certificates/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/certificates/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/cm"
-  to = "https://app.elevateforhumanity.org/cm"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/cm"
   status = 301
   force = true
 
 [[redirects]]
   from = "/cm/*"
-  to = "https://app.elevateforhumanity.org/cm/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/cm/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/compliance"
-  to = "https://app.elevateforhumanity.org/compliance"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/compliance"
   status = 301
   force = true
 
 [[redirects]]
   from = "/compliance/*"
-  to = "https://app.elevateforhumanity.org/compliance/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/compliance/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/creator"
-  to = "https://app.elevateforhumanity.org/creator"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/creator"
   status = 301
   force = true
 
 [[redirects]]
   from = "/creator/*"
-  to = "https://app.elevateforhumanity.org/creator/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/creator/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/credentials"
-  to = "https://app.elevateforhumanity.org/credentials"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/credentials"
   status = 301
   force = true
 
 [[redirects]]
   from = "/credentials/*"
-  to = "https://app.elevateforhumanity.org/credentials/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/credentials/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboard"
-  to = "https://app.elevateforhumanity.org/dashboard"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboard/*"
-  to = "https://app.elevateforhumanity.org/dashboard/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboards"
-  to = "https://app.elevateforhumanity.org/dashboards"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/dashboards"
   status = 301
   force = true
 
 [[redirects]]
   from = "/dashboards/*"
-  to = "https://app.elevateforhumanity.org/dashboards/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/dashboards/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/documents"
-  to = "https://app.elevateforhumanity.org/documents"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/documents"
   status = 301
   force = true
 
 [[redirects]]
   from = "/documents/*"
-  to = "https://app.elevateforhumanity.org/documents/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/documents/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer-portal"
-  to = "https://app.elevateforhumanity.org/employer-portal"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/employer-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/employer-portal/*"
-  to = "https://app.elevateforhumanity.org/employer-portal/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/employer-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enroll"
-  to = "https://app.elevateforhumanity.org/enroll"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/enroll"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enroll/*"
-  to = "https://app.elevateforhumanity.org/enroll/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/enroll/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enrollment"
-  to = "https://app.elevateforhumanity.org/enrollment"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/enrollment"
   status = 301
   force = true
 
 [[redirects]]
   from = "/enrollment/*"
-  to = "https://app.elevateforhumanity.org/enrollment/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/enrollment/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/file-manager"
-  to = "https://app.elevateforhumanity.org/file-manager"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/file-manager"
   status = 301
   force = true
 
 [[redirects]]
   from = "/file-manager/*"
-  to = "https://app.elevateforhumanity.org/file-manager/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/file-manager/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/forgot-password"
-  to = "https://app.elevateforhumanity.org/forgot-password"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/forgot-password"
   status = 301
   force = true
 
 [[redirects]]
   from = "/forgot-password/*"
-  to = "https://app.elevateforhumanity.org/forgot-password/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/forgot-password/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/generate"
-  to = "https://app.elevateforhumanity.org/generate"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/generate"
   status = 301
   force = true
 
 [[redirects]]
   from = "/generate/*"
-  to = "https://app.elevateforhumanity.org/generate/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/generate/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/groups"
-  to = "https://app.elevateforhumanity.org/groups"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/groups"
   status = 301
   force = true
 
 [[redirects]]
   from = "/groups/*"
-  to = "https://app.elevateforhumanity.org/groups/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/groups/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/impact"
-  to = "https://app.elevateforhumanity.org/impact"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/impact"
   status = 301
   force = true
 
 [[redirects]]
   from = "/impact/*"
-  to = "https://app.elevateforhumanity.org/impact/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/impact/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor-credentials"
-  to = "https://app.elevateforhumanity.org/instructor-credentials"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/instructor-credentials"
   status = 301
   force = true
 
 [[redirects]]
   from = "/instructor-credentials/*"
-  to = "https://app.elevateforhumanity.org/instructor-credentials/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/instructor-credentials/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/license"
-  to = "https://app.elevateforhumanity.org/license"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/license"
   status = 301
   force = true
 
 [[redirects]]
   from = "/license/*"
-  to = "https://app.elevateforhumanity.org/license/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/license/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mentor"
-  to = "https://app.elevateforhumanity.org/mentor"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/mentor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/mentor/*"
-  to = "https://app.elevateforhumanity.org/mentor/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/mentor/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/messages"
-  to = "https://app.elevateforhumanity.org/messages"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/messages"
   status = 301
   force = true
 
 [[redirects]]
   from = "/messages/*"
-  to = "https://app.elevateforhumanity.org/messages/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/messages/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/my-dashboard"
-  to = "https://app.elevateforhumanity.org/my-dashboard"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/my-dashboard"
   status = 301
   force = true
 
 [[redirects]]
   from = "/my-dashboard/*"
-  to = "https://app.elevateforhumanity.org/my-dashboard/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/my-dashboard/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/notifications"
-  to = "https://app.elevateforhumanity.org/notifications"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/notifications"
   status = 301
   force = true
 
 [[redirects]]
   from = "/notifications/*"
-  to = "https://app.elevateforhumanity.org/notifications/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/notifications/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/onboarding"
-  to = "https://app.elevateforhumanity.org/onboarding"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/onboarding"
   status = 301
   force = true
 
 [[redirects]]
   from = "/onboarding/*"
-  to = "https://app.elevateforhumanity.org/onboarding/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/onboarding/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/orientation"
-  to = "https://app.elevateforhumanity.org/orientation"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/orientation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/orientation/*"
-  to = "https://app.elevateforhumanity.org/orientation/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/orientation/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/parent-portal"
-  to = "https://app.elevateforhumanity.org/parent-portal"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/parent-portal"
   status = 301
   force = true
 
 [[redirects]]
   from = "/parent-portal/*"
-  to = "https://app.elevateforhumanity.org/parent-portal/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/parent-portal/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner-learning"
-  to = "https://app.elevateforhumanity.org/partner-learning"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/partner-learning"
   status = 301
   force = true
 
 [[redirects]]
   from = "/partner-learning/*"
-  to = "https://app.elevateforhumanity.org/partner-learning/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/partner-learning/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pay"
-  to = "https://app.elevateforhumanity.org/pay"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/pay"
   status = 301
   force = true
 
 [[redirects]]
   from = "/pay/*"
-  to = "https://app.elevateforhumanity.org/pay/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/pay/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/payment"
-  to = "https://app.elevateforhumanity.org/payment"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/payment"
   status = 301
   force = true
 
 [[redirects]]
   from = "/payment/*"
-  to = "https://app.elevateforhumanity.org/payment/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/payment/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/proctor"
-  to = "https://app.elevateforhumanity.org/proctor"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/proctor"
   status = 301
   force = true
 
 [[redirects]]
   from = "/proctor/*"
-  to = "https://app.elevateforhumanity.org/proctor/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/proctor/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/profile"
-  to = "https://app.elevateforhumanity.org/profile"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/profile"
   status = 301
   force = true
 
 [[redirects]]
   from = "/profile/*"
-  to = "https://app.elevateforhumanity.org/profile/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/profile/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/program-holder"
-  to = "https://app.elevateforhumanity.org/program-holder"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/program-holder"
   status = 301
   force = true
 
 [[redirects]]
   from = "/program-holder/*"
-  to = "https://app.elevateforhumanity.org/program-holder/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/program-holder/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/provider"
-  to = "https://app.elevateforhumanity.org/provider"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/provider"
   status = 301
   force = true
 
 [[redirects]]
   from = "/provider/*"
-  to = "https://app.elevateforhumanity.org/provider/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/provider/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reports"
-  to = "https://app.elevateforhumanity.org/reports"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/reports"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reports/*"
-  to = "https://app.elevateforhumanity.org/reports/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/reports/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reset-password"
-  to = "https://app.elevateforhumanity.org/reset-password"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/reset-password"
   status = 301
   force = true
 
 [[redirects]]
   from = "/reset-password/*"
-  to = "https://app.elevateforhumanity.org/reset-password/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/reset-password/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/schedule"
-  to = "https://app.elevateforhumanity.org/schedule"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/schedule"
   status = 301
   force = true
 
 [[redirects]]
   from = "/schedule/*"
-  to = "https://app.elevateforhumanity.org/schedule/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/schedule/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/settings"
-  to = "https://app.elevateforhumanity.org/settings"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/settings"
   status = 301
   force = true
 
 [[redirects]]
   from = "/settings/*"
-  to = "https://app.elevateforhumanity.org/settings/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/settings/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/sign"
-  to = "https://app.elevateforhumanity.org/sign"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/sign"
   status = 301
   force = true
 
 [[redirects]]
   from = "/sign/*"
-  to = "https://app.elevateforhumanity.org/sign/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/sign/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/transcript"
-  to = "https://app.elevateforhumanity.org/transcript"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/transcript"
   status = 301
   force = true
 
 [[redirects]]
   from = "/transcript/*"
-  to = "https://app.elevateforhumanity.org/transcript/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/transcript/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-email"
-  to = "https://app.elevateforhumanity.org/verify-email"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/verify-email"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-email/*"
-  to = "https://app.elevateforhumanity.org/verify-email/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/verify-email/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-identity"
-  to = "https://app.elevateforhumanity.org/verify-identity"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/verify-identity"
   status = 301
   force = true
 
 [[redirects]]
   from = "/verify-identity/*"
-  to = "https://app.elevateforhumanity.org/verify-identity/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/verify-identity/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/video"
-  to = "https://app.elevateforhumanity.org/video"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/video"
   status = 301
   force = true
 
 [[redirects]]
   from = "/video/*"
-  to = "https://app.elevateforhumanity.org/video/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/video/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "/videos"
-  to = "https://app.elevateforhumanity.org/videos"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/videos"
   status = 301
   force = true
 
 [[redirects]]
   from = "/videos/*"
-  to = "https://app.elevateforhumanity.org/videos/:splat"
+  to = "http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/videos/:splat"
   status = 301
   force = true
 
