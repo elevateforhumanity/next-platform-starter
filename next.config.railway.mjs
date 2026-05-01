@@ -83,6 +83,10 @@ const RAILWAY_APP_PREFIXES = [
 const railwayConfig = {
   output: 'standalone',
 
+  // ESLint runs in CI separately — skip Next's built-in lint to avoid
+  // ajv v6/v8 incompatibility with ESLint 9 flat config.
+  eslint: { ignoreDuringBuilds: true },
+
   serverExternalPackages: [
     // Remotion — never bundle. The local remotion/ dir conflicts with the npm
     // package name under Turbopack. External forces Node require() which finds

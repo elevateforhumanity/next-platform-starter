@@ -4,7 +4,9 @@ import path from 'node:path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable Next's built-in lint step during build — ESLint runs separately
+  // ESLint runs separately in the build command — disable Next's built-in lint
+  // step to avoid ajv v6/v8 incompatibility with ESLint 9 flat config.
+  eslint: { ignoreDuringBuilds: true },
   // Server external packages - exclude heavy dependencies from the server bundle
   // These are loaded at runtime instead of being bundled, reducing Lambda size
   serverExternalPackages: [
