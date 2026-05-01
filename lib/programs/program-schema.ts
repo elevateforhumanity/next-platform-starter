@@ -24,6 +24,8 @@ export interface ProgramCredential {
   name: string;
   /** External issuing body (e.g., "EPA", "OSHA", "PTCB", "Indiana SPLA") */
   issuer: string;
+  /** Display name for the issuing body — falls back to issuer when omitted */
+  issuingBody?: string;
   /** What holding this credential enables */
   description: string;
   /** How long the credential is valid (e.g., "Lifetime", "2 years", "3 years") */
@@ -210,6 +212,8 @@ export interface ProgramSchema {
   cohortSize: string;
   fundingStatement: string;
   selfPayCost: string;
+  /** Upfront deposit amount for BNPL enrollment (e.g., "$600"). Defaults to $600 for apprenticeship programs when omitted. */
+  depositAmount?: string;
   /** When true, program is not WIOA/grant eligible — self-pay only */
   isSelfPay?: boolean;
 

@@ -126,10 +126,10 @@ export default function ServerFooter() {
         <FooterAccordion
           sections={[
             { title: 'Programs', links: footerLinks.programs },
-            { title: 'Get Started', links: footerLinks.getStarted },
+            { title: 'Funding', links: footerLinks.funding },
             { title: 'Employers & Partners', links: footerLinks.partners },
-            { title: 'Portals', links: footerLinks.portals },
-            { title: 'Organization', links: footerLinks.organization },
+            { title: 'About', links: footerLinks.about },
+            { title: 'Platform', links: footerLinks.platform },
           ]}
         />
 
