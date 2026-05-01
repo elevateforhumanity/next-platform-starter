@@ -283,6 +283,7 @@ export const BEAUTY_CAREER_EDUCATOR: ProgramSchema = {
     'Earn your Rise Up credential, CPR/First Aid, and OSHA 10 in 12 weeks. WIOA-funded beauty and career educator training in Indianapolis.',
 
 
+  fundingOptions: ['impact', 'employer_paid', 'self_pay'],
   funding: {
     wioa_eligible: false,
     fssa_eligible: false,

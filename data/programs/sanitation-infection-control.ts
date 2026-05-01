@@ -206,6 +206,7 @@ export const SANITATION: ProgramSchema = {
     'Prepare for infection control and ServSafe certifications in 2 weeks. Required for healthcare, food service, and personal services. Indianapolis.',
 
 
+  fundingOptions: ['wioa', 'impact', 'self_pay'],
   funding: {
     wioa_eligible: true,
     fssa_eligible: true,

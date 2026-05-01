@@ -219,6 +219,7 @@ export const ENTREPRENEURSHIP: ProgramSchema = {
     'Launch or grow your business. Business planning, marketing, and ESB certification in 6 weeks. Indianapolis. WIOA funding available for eligible Indiana residents.',
 
 
+  fundingOptions: ['impact', 'self_pay'],
   funding: {
     wioa_eligible: false,
     fssa_eligible: false,

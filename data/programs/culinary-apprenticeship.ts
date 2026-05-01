@@ -235,6 +235,7 @@ export const CULINARY: ProgramSchema = {
     'Earn ServSafe certification through a paid culinary apprenticeship. Hands-on training in professional kitchens. Indianapolis.',
 
 
+  fundingOptions: ['impact', 'employer_paid', 'self_pay'],
   funding: {
     wioa_eligible: false,
     fssa_eligible: true,

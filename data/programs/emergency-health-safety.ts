@@ -323,6 +323,7 @@ export const EMERGENCY_HEALTH_SAFETY: ProgramSchema = {
     'Earn EMR, CPR/AED, First Aid, and OSHA 10 certifications in 4 weeks. WIOA-funded Emergency Health & Safety Technician program in Indianapolis.',
 
 
+  fundingOptions: ['self_pay', 'employer_paid'],
   funding: {
     wioa_eligible: false,
     fssa_eligible: false,
