@@ -1018,6 +1018,31 @@ const nextConfig = {
       { source: '/pwa/barber/training', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/progress', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/admin/live-sessions/new', destination: '/admin/live-sessions', permanent: false },
+
+      // ============================================
+      // REDIRECT STUBS — moved from page.tsx files
+      // ============================================
+      { source: '/admin/install', destination: '/install-app', permanent: true },
+      { source: '/demo/admin/dashboard', destination: '/demo/admin', permanent: false },
+      { source: '/employer-portal/candidates', destination: '/employer/candidates', permanent: true },
+      { source: '/employer/apprenticeship/new', destination: '/employer', permanent: false },
+      { source: '/employer/apprenticeship', destination: '/employer/dashboard', permanent: false },
+      { source: '/employer/jobs/new', destination: '/employer-portal/jobs/new', permanent: false },
+      { source: '/employer/postings/new', destination: '/employer', permanent: false },
+      { source: '/employer/wotc', destination: '/admin/wotc', permanent: false },
+      { source: '/help/tutorials/accessing-courses', destination: '/help/tutorials', permanent: false },
+      { source: '/help/tutorials/how-to-apply', destination: '/help/tutorials', permanent: false },
+      { source: '/help/tutorials/submitting-assignments', destination: '/help/tutorials', permanent: false },
+      { source: '/help/tutorials/troubleshooting', destination: '/help/tutorials', permanent: false },
+      { source: '/licensing-partnerships', destination: '/licensing', permanent: true },
+      { source: '/onboarding/employer/agreement', destination: '/onboarding/mou', permanent: false },
+      { source: '/onboarding/partner', destination: '/program-holder/onboarding', permanent: false },
+      { source: '/partners/barber-shop', destination: '/partners/barbershop-apprenticeship', permanent: true },
+      { source: '/payment/affirm', destination: '/apply', permanent: false },
+      { source: '/policies/grievance', destination: '/legal', permanent: true },
+      { source: '/program-holder/apply', destination: '/apply/program-holder', permanent: false },
+      { source: '/program-holder/programs/new', destination: '/program-holder', permanent: false },
+      { source: '/store/orders', destination: '/store', permanent: false },
     ];
   },
   async headers() {

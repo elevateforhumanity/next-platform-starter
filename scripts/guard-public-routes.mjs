@@ -19,6 +19,12 @@
  *   Any page.tsx under /store must have robots noindex. The store is B2B
  *   infrastructure, not public program content.
  *
+ * RULE 4 — Portal-like pages outside protected prefixes must have noindex
+ *   Any page.tsx outside /admin, /lms, etc. that imports portal/dashboard
+ *   components or uses auth guards (requireAdmin, withAuth) must have
+ *   robots noindex. These are authenticated surfaces exposed at public URLs —
+ *   they should redirect unauthenticated users, not be indexed.
+ *
  * Usage:
  *   node scripts/guard-public-routes.mjs          # exits 1 on violations
  *   node scripts/guard-public-routes.mjs --report # prints report, exits 0
@@ -38,10 +44,10 @@ function readFile(path) {
 }
 
 function hasNoindex(content) {
-  return (
-    /robots\s*:\s*\{[^}]*index\s*:\s*false/.test(content) ||
-    /noindex/.test(content)
-  );
+  // Only match explicit metadata exports — not JSX meta tags or comments.
+  // Matches: robots: { index: false, ... } inside a metadata/Metadata export.
+  // Does NOT match: <meta name="robots" content="noindex"> (JSX, may be conditional)
+  return /robots\s*:\s*\{[^}]*index\s*:\s*false/.test(content);
 }
 
 /** Walk a directory, yielding all file paths matching a predicate. */
@@ -131,7 +137,7 @@ if (existsSync(STORE_PREFIX)) {
   }
 }
 
-// ── RULE 2: Redirect stubs must have noindex ──────────────────────────────────
+// ── RULE 2 & 4: Redirect stubs + portal-like pages ───────────────────────────
 
 // Only check public routes — skip protected prefixes
 const PROTECTED_PREFIXES = [
@@ -150,6 +156,26 @@ const PROTECTED_PREFIXES = [
   join(APP_DIR, 'store'),   // store has its own rule
 ];
 
+// Patterns that indicate a page is an authenticated/portal surface.
+// NOTE: requireAdminClient alone is NOT a portal signal — it's used for DB reads
+// on public pages. A page is portal-like only if it ALSO has an auth redirect.
+//
+// PORTAL_AUTH_REDIRECT: page redirects unauthenticated users to /login
+// PORTAL_COMPONENT: page imports a known portal shell component by path
+const PORTAL_AUTH_REDIRECT = /redirect\([`'"][^`'"]*\/login[^`'"]*[`'"]\)/;
+
+const PORTAL_COMPONENT_IMPORT = [
+  /from ['"].*\/(portal|dashboard)[-/](shell|layout|nav|sidebar)/i,
+  /import.*DashboardShell|PortalShell|PortalLayout|DashboardLayout/,
+  /import.*AdminSidebar|PortalSidebar|DashboardSidebar/,
+];
+
+// A page is portal-like if it has an auth redirect AND uses admin/session guards
+// (not just requireAdminClient for DB reads)
+const PORTAL_AUTH_GUARD = /\b(requireAdmin|apiRequireAdmin|withAdmin|getServerSession|requireSession|withAuth\()/;
+
+const PORTAL_PATTERNS = PORTAL_COMPONENT_IMPORT; // component imports are always portal signals
+
 for (const pageFile of walk(APP_DIR, n => n === 'page.tsx')) {
   // Skip protected routes
   if (PROTECTED_PREFIXES.some(p => pageFile.startsWith(p))) continue;
@@ -160,11 +186,26 @@ for (const pageFile of walk(APP_DIR, n => n === 'page.tsx')) {
   if (REDIRECT_STUB_ALLOWLIST.has(rel)) continue;
 
   const content = readFile(pageFile);
-  if (!isPureRedirectStub(content)) continue;
 
-  if (!isCoveredByNoindex(pageFile)) {
+  // RULE 2: redirect stubs
+  if (isPureRedirectStub(content) && !isCoveredByNoindex(pageFile)) {
     const dest = (content.match(/redirect\(['"]([^'"]+)['"]\)/) || [])[1] ?? '?';
     report('RULE2', pageFile, `Redirect stub → ${dest} missing robots noindex`);
+  }
+
+  // RULE 4: portal-like pages at public URLs
+  // Triggers on EITHER:
+  //   a) imports a known portal shell component (always a portal signal), OR
+  //   b) has an auth redirect to /login AND uses an auth guard (not just DB reads)
+  const importsPortalComponent = PORTAL_COMPONENT_IMPORT.some(p => p.test(content));
+  const hasAuthRedirect = PORTAL_AUTH_REDIRECT.test(content);
+  const hasAuthGuard = PORTAL_AUTH_GUARD.test(content);
+  const isPortalLike = importsPortalComponent || (hasAuthRedirect && hasAuthGuard);
+
+  if (isPortalLike && !isCoveredByNoindex(pageFile)) {
+    const hint = importsPortalComponent ? 'imports portal shell component'
+      : `auth redirect + guard (${(content.match(PORTAL_AUTH_GUARD) || [''])[0].slice(0,40)})`;
+    report('RULE4', pageFile, `Portal/auth-gated page at public URL missing robots noindex — ${hint}`);
   }
 }
 
@@ -187,6 +228,7 @@ for (const [rule, items] of Object.entries(byRule)) {
     RULE1: 'RULE 1 — Demo surface missing noindex',
     RULE2: 'RULE 2 — Redirect stub missing noindex',
     RULE3: 'RULE 3 — Store route missing noindex',
+    RULE4: 'RULE 4 — Portal/auth-gated page at public URL missing noindex',
   };
   console.error(`  ${labels[rule] ?? rule} (${items.length})`);
   for (const v of items) {

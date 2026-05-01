@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
+  robots: { index: false, follow: false },
   title: 'Employer Portal',
   description: 'Employer dashboard, hiring, and apprenticeship management.',
 };

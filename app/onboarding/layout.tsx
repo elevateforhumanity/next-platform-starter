@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: 'Onboarding',
   description: 'Complete your onboarding process for Elevate for Humanity.',
 };

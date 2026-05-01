@@ -1,9 +1,15 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import TranscriptContent from './TranscriptContent';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'My Transcript',
+  robots: { index: false, follow: false },
+};
 
 export default async function TranscriptPage() {
   const supabase = await createClient();

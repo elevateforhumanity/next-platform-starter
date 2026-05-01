@@ -1,6 +1,11 @@
 export const revalidate = 3600;
 
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 // Redirect to the main schedule page — no standalone schedule UI exists per-learner.
 // The case manager can book a meeting via Calendly from the main schedule page.

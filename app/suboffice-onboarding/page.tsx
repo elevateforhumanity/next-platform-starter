@@ -326,7 +326,7 @@ export default function SubofficeOnboardingPage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
           <p className="text-xl mb-8">Complete onboarding and start earning revenue share today.</p>
           <Link
-            href="/suboffice-onboarding"
+            href="/suboffice-onboarding/apply"
             className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all inline-block"
           >
             Begin Application
