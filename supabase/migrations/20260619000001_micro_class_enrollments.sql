@@ -29,19 +29,19 @@ CREATE INDEX IF NOT EXISTS idx_micro_class_enrollments_course
 ALTER TABLE public.micro_class_enrollments ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "admins_all" ON public.micro_class_enrollments;
-CREATE POLICY "admins_all" ON public.micro_class_enrollments
+DO $$ BEGIN CREATE POLICY "admins_all" ON public.micro_class_enrollments
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "student_read_own" ON public.micro_class_enrollments;
-CREATE POLICY "student_read_own" ON public.micro_class_enrollments
+DO $$ BEGIN CREATE POLICY "student_read_own" ON public.micro_class_enrollments
   FOR SELECT USING (
     student_email = (
       SELECT email FROM auth.users WHERE id = auth.uid()
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

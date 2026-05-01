@@ -35,15 +35,15 @@ ON CONFLICT DO NOTHING;
 ALTER TABLE public.student_resources ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "student_resources_read" ON public.student_resources;
-CREATE POLICY "student_resources_read" ON public.student_resources
-  FOR SELECT USING (active = true AND auth.uid() IS NOT NULL);
+DO $$ BEGIN CREATE POLICY "student_resources_read" ON public.student_resources
+  FOR SELECT USING (active = true AND auth.uid() IS NOT NULL); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "student_resources_admin_write" ON public.student_resources;
-CREATE POLICY "student_resources_admin_write" ON public.student_resources
+DO $$ BEGIN CREATE POLICY "student_resources_admin_write" ON public.student_resources
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

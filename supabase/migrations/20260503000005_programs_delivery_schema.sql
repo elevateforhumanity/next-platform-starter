@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS public.program_funding (
   type        TEXT NOT NULL CHECK (type IN ('wioa', 'wrg', 'self_pay', 'employer_paid', 'unknown')),
   label       TEXT,
   is_active   BOOLEAN DEFAULT TRUE,
-  created_at  TIMESTAMPTZ DEFAULT NOW()
-  UNIQUE (program_id, type)
+  created_at  TIMESTAMPTZ DEFAULT NOW(),
+  CONSTRAINT uq_program_id_type_3 UNIQUE (program_id, type)
 );
 
 -- Index for fast per-program lookups
@@ -44,17 +44,17 @@ CREATE INDEX IF NOT EXISTS idx_program_funding_program_id
 UPDATE public.programs
 SET
   delivery_model  = CASE slug
-    WHEN 'hvac-technician'           THEN 'hybrid'
-    WHEN 'bookkeeping'               THEN 'internal'
-    WHEN 'peer-recovery-specialist'  THEN 'hybrid'
-    WHEN 'medical-assistant'         THEN 'hybrid'
-    WHEN 'barber-apprenticeship'     THEN 'hybrid'
-    WHEN 'cosmetology-apprenticeship' THEN 'hybrid'
-    WHEN 'cna'                       THEN 'internal'
-    WHEN 'cdl-training'              THEN 'internal'
-    WHEN 'cpr-first-aid'             THEN 'partner'
-    WHEN 'business'                  THEN 'hybrid'
-    WHEN 'phlebotomy'                THEN 'internal'
+    WHEN 'hvac-technician'           THEN 'internal_lms'
+    WHEN 'bookkeeping'               THEN 'internal_lms'
+    WHEN 'peer-recovery-specialist'  THEN 'external_admin'
+    WHEN 'medical-assistant'         THEN 'external_admin'
+    WHEN 'barber-apprenticeship'     THEN 'external_admin'
+    WHEN 'cosmetology-apprenticeship' THEN 'external_admin'
+    WHEN 'cna'                       THEN 'external_admin'
+    WHEN 'cdl-training'              THEN 'external_admin'
+    WHEN 'cpr-first-aid'             THEN 'partner_managed'
+    WHEN 'business'                  THEN 'external_admin'
+    WHEN 'phlebotomy'                THEN 'external_admin'
     ELSE delivery_model  -- leave existing value if already set
   END,
   enrollment_type = COALESCE(enrollment_type, 'internal'),

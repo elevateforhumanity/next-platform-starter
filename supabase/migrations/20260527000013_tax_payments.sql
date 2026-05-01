@@ -25,8 +25,7 @@ CREATE INDEX IF NOT EXISTS tax_payments_status_idx      ON public.tax_payments(s
 ALTER TABLE public.tax_payments ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "users_read_own_payments" ON public.tax_payments;
-CREATE POLICY "users_read_own_payments"
-  ON public.tax_payments FOR SELECT
-  USING (client_id = auth.uid());
+DO $$ BEGIN CREATE POLICY "users_read_own_payments" ON public.tax_payments FOR SELECT
+  USING (client_id = auth.uid()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- All writes go through the API (service role) — no direct client inserts/updates

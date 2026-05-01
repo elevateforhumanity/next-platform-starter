@@ -117,8 +117,7 @@ CREATE INDEX IF NOT EXISTS idx_arc_follow_up
 ALTER TABLE public.agency_referral_confirmations ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "arc_admin_all" ON public.agency_referral_confirmations;
-CREATE POLICY "arc_admin_all"
-  ON public.agency_referral_confirmations
+DO $$ BEGIN CREATE POLICY "arc_admin_all" ON public.agency_referral_confirmations
   FOR ALL
   TO authenticated
   USING (
@@ -127,10 +126,11 @@ CREATE POLICY "arc_admin_all"
       WHERE id = auth.uid()
         AND role IN ('admin','super_admin','advisor','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- View: referral pipeline summary used by the admin dashboard
-CREATE OR REPLACE VIEW public.referral_pipeline_summary AS
+DROP VIEW IF EXISTS public.referral_pipeline_summary;
+CREATE VIEW public.referral_pipeline_summary AS
 SELECT
   wr.id,
   wr.application_id,

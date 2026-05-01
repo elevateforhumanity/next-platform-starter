@@ -81,8 +81,7 @@ BEGIN
 DO $do$
 BEGIN
   ALTER TABLE public.competencies
-    ADD CONSTRAINT competencies_program_competency_key_uniq
-    UNIQUE (program_id, competency_key);
+    ADD CONSTRAINT uq_program_id_competency_key_20 UNIQUE (program_id, competency_key);
 EXCEPTION WHEN duplicate_table THEN NULL;
 WHEN duplicate_object THEN NULL;
 END $do$;

@@ -43,7 +43,7 @@ DROP POLICY IF EXISTS "course_lessons_service_role"                       ON pub
 -- Learners: read lessons for published, active courses
 -- Uses status + is_active — the actual columns on public.courses
 DROP POLICY IF EXISTS "course_lessons_authenticated_read" ON public.course_lessons;
-CREATE POLICY "course_lessons_authenticated_read" ON public.course_lessons
+DO $$ BEGIN CREATE POLICY "course_lessons_authenticated_read" ON public.course_lessons
   FOR SELECT
   TO authenticated
   USING (
@@ -56,12 +56,12 @@ CREATE POLICY "course_lessons_authenticated_read" ON public.course_lessons
         AND c.status       = 'published'
         AND c.is_active    = true
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Admins and instructors: read all lessons regardless of publish state
 -- (needed for admin curriculum builder and instructor preview)
 DROP POLICY IF EXISTS "course_lessons_admin_read" ON public.course_lessons;
-CREATE POLICY "course_lessons_admin_read" ON public.course_lessons
+DO $$ BEGIN CREATE POLICY "course_lessons_admin_read" ON public.course_lessons
   FOR SELECT
   TO authenticated
   USING (
@@ -72,15 +72,15 @@ CREATE POLICY "course_lessons_admin_read" ON public.course_lessons
       WHERE p.id   = auth.uid()
         AND p.role IN ('admin', 'super_admin', 'instructor', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Service role: unrestricted (used by server-side pipeline and seed scripts)
 DROP POLICY IF EXISTS "course_lessons_service_role" ON public.course_lessons;
-CREATE POLICY "course_lessons_service_role" ON public.course_lessons
+DO $$ BEGIN CREATE POLICY "course_lessons_service_role" ON public.course_lessons
   FOR ALL
   TO service_role
   USING (true)
-  WITH CHECK (true);
+  WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- =========================================================
 -- 2. lms_lessons view — remove anon grant
@@ -108,7 +108,7 @@ DROP POLICY IF EXISTS "course_modules_admin_read"         ON public.course_modul
 DROP POLICY IF EXISTS "course_modules_service_role"       ON public.course_modules;
 
 DROP POLICY IF EXISTS "course_modules_authenticated_read" ON public.course_modules;
-CREATE POLICY "course_modules_authenticated_read" ON public.course_modules
+DO $$ BEGIN CREATE POLICY "course_modules_authenticated_read" ON public.course_modules
   FOR SELECT
   TO authenticated
   USING (
@@ -119,10 +119,10 @@ CREATE POLICY "course_modules_authenticated_read" ON public.course_modules
         AND c.status   = 'published'
         AND c.is_active = true
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "course_modules_admin_read" ON public.course_modules;
-CREATE POLICY "course_modules_admin_read" ON public.course_modules
+DO $$ BEGIN CREATE POLICY "course_modules_admin_read" ON public.course_modules
   FOR SELECT
   TO authenticated
   USING (
@@ -132,14 +132,14 @@ CREATE POLICY "course_modules_admin_read" ON public.course_modules
       WHERE p.id   = auth.uid()
         AND p.role IN ('admin', 'super_admin', 'instructor', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "course_modules_service_role" ON public.course_modules;
-CREATE POLICY "course_modules_service_role" ON public.course_modules
+DO $$ BEGIN CREATE POLICY "course_modules_service_role" ON public.course_modules
   FOR ALL
   TO service_role
   USING (true)
-  WITH CHECK (true);
+  WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- =========================================================
 -- 4. courses — keep anon catalog read, tighten policies
@@ -163,25 +163,25 @@ DROP POLICY IF EXISTS "Service role courses"                   ON public.courses
 
 -- Anon: published catalog only
 DROP POLICY IF EXISTS "courses_anon_catalog" ON public.courses;
-CREATE POLICY "courses_anon_catalog" ON public.courses
+DO $$ BEGIN CREATE POLICY "courses_anon_catalog" ON public.courses
   FOR SELECT
   TO anon
-  USING (status = 'published' AND is_active = true);
+  USING (status = 'published' AND is_active = true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Authenticated learners: published courses
 DROP POLICY IF EXISTS "courses_authenticated_read" ON public.courses;
-CREATE POLICY "courses_authenticated_read" ON public.courses
+DO $$ BEGIN CREATE POLICY "courses_authenticated_read" ON public.courses
   FOR SELECT
   TO authenticated
   USING (
     auth.role() = 'authenticated'
     AND status  = 'published'
     AND is_active = true
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Admins/instructors: all courses (draft + published)
 DROP POLICY IF EXISTS "courses_admin_read" ON public.courses;
-CREATE POLICY "courses_admin_read" ON public.courses
+DO $$ BEGIN CREATE POLICY "courses_admin_read" ON public.courses
   FOR SELECT
   TO authenticated
   USING (
@@ -191,15 +191,15 @@ CREATE POLICY "courses_admin_read" ON public.courses
       WHERE p.id   = auth.uid()
         AND p.role IN ('admin', 'super_admin', 'instructor', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Service role: unrestricted
 DROP POLICY IF EXISTS "courses_service_role" ON public.courses;
-CREATE POLICY "courses_service_role" ON public.courses
+DO $$ BEGIN CREATE POLICY "courses_service_role" ON public.courses
   FOR ALL
   TO service_role
   USING (true)
-  WITH CHECK (true);
+  WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMIT;
 

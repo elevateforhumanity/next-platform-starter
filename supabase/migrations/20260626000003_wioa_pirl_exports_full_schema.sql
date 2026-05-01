@@ -60,21 +60,19 @@ ALTER TABLE public.wioa_pirl_exports ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.wioa_pirl_export_issues ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "pirl_exports_admin_all" ON public.wioa_pirl_exports;
-CREATE POLICY "pirl_exports_admin_all"
-  ON public.wioa_pirl_exports FOR ALL TO authenticated
+DO $$ BEGIN CREATE POLICY "pirl_exports_admin_all" ON public.wioa_pirl_exports FOR ALL TO authenticated
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "pirl_export_issues_admin_all" ON public.wioa_pirl_export_issues;
-CREATE POLICY "pirl_export_issues_admin_all"
-  ON public.wioa_pirl_export_issues FOR ALL TO authenticated
+DO $$ BEGIN CREATE POLICY "pirl_export_issues_admin_all" ON public.wioa_pirl_export_issues FOR ALL TO authenticated
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

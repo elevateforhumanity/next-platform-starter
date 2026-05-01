@@ -176,7 +176,7 @@ BEGIN
     certificate_title = 'EPA 608 Universal Certification',
     funding           = 'WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
     outcomes          = 'Graduates are qualified for entry-level HVAC helper and installer roles ($18–$22/hr) with a clear path to licensed technician ($22–$30/hr).',
-    requirements      = 'Must be 18 or older. No prior HVAC experience required. Indiana resident preferred for workforce funding eligibility.'
+    requirements      = '"Must be 18 or older. No prior HVAC experience required. Indiana resident preferred for workforce funding eligibility."'::jsonb
   WHERE id = v_program_id;
 
 END $$;

@@ -41,25 +41,22 @@ CREATE INDEX IF NOT EXISTS idx_competency_log_status
 ALTER TABLE public.competency_log ENABLE ROW LEVEL SECURITY;
 
 -- Apprentices see only their own entries
-CREATE POLICY "competency_log_apprentice_select"
-  ON public.competency_log FOR SELECT
-  USING (auth.uid() = apprentice_id);
+DO $$ BEGIN CREATE POLICY "competency_log_apprentice_select" ON public.competency_log FOR SELECT
+  USING (auth.uid() = apprentice_id); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Apprentices insert their own entries
-CREATE POLICY "competency_log_apprentice_insert"
-  ON public.competency_log FOR INSERT
-  WITH CHECK (auth.uid() = apprentice_id);
+DO $$ BEGIN CREATE POLICY "competency_log_apprentice_insert" ON public.competency_log FOR INSERT
+  WITH CHECK (auth.uid() = apprentice_id); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Admins/staff/instructors manage all entries
-CREATE POLICY "competency_log_admin_all"
-  ON public.competency_log FOR ALL
+DO $$ BEGIN CREATE POLICY "competency_log_admin_all" ON public.competency_log FOR ALL
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin', 'super_admin', 'staff', 'instructor')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON TABLE public.competency_log IS
   'Per-service competency entries for Indiana DOL barber apprenticeship WPS tracking. Each row = one session of a specific skill performed by an apprentice.';

@@ -112,12 +112,11 @@ CREATE TABLE IF NOT EXISTS public.health_check_log (
 ALTER TABLE public.health_check_log ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS health_check_log_admin ON public.health_check_log;
-CREATE POLICY health_check_log_admin
-  ON public.health_check_log FOR ALL
+DO $$ BEGIN CREATE POLICY health_check_log_admin ON public.health_check_log FOR ALL
   USING (
     current_setting('role', true) = 'service_role'
     OR EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid() AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

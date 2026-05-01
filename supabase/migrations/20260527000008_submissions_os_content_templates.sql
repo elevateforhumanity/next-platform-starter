@@ -40,11 +40,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_content_tags
   ON public.sos_content_blocks USING GIN (tags);
 
 ALTER TABLE public.sos_content_blocks ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_content_admin" ON public.sos_content_blocks FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_content_admin" ON public.sos_content_blocks FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON TABLE public.sos_content_blocks IS
   'Approved prose building blocks. Only status=approved blocks may be inserted into generated documents. Merge fields use {{fact.key}} and {{org.field}} syntax.';
@@ -91,11 +91,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_templates_org_type
   ON public.sos_document_templates (organization_id, document_type, active);
 
 ALTER TABLE public.sos_document_templates ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_templates_admin" ON public.sos_document_templates FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_templates_admin" ON public.sos_document_templates FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON TABLE public.sos_document_templates IS
   'Branded document layouts with merge fields. body_template is HTML. The generation engine resolves {{org.*}}, {{fact.*}}, {{content.*}}, {{opportunity.*}}, and {{style.*}} tokens against approved data only.';

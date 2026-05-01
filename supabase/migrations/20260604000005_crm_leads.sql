@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS public.crm_leads (
   owner_user_id      uuid        REFERENCES public.profiles(id)            ON DELETE SET NULL,
 
   notes              text
-  , UNIQUE (email)
+  , CONSTRAINT uq_email_19 UNIQUE (email)
 );
 
 CREATE INDEX IF NOT EXISTS idx_crm_leads_stage    ON public.crm_leads(stage);

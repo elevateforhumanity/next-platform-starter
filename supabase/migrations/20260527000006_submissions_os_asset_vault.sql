@@ -23,11 +23,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_brand_assets_org
   ON public.sos_brand_assets (organization_id, asset_type, active);
 
 ALTER TABLE public.sos_brand_assets ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_brand_assets_admin" ON public.sos_brand_assets FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_brand_assets_admin" ON public.sos_brand_assets FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- document_styles
@@ -61,11 +61,11 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_sos_doc_styles_default
   WHERE is_default = TRUE;
 
 ALTER TABLE public.sos_document_styles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_doc_styles_admin" ON public.sos_document_styles FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_doc_styles_admin" ON public.sos_document_styles FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- attachment_library
@@ -108,11 +108,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_attachments_expiry
   WHERE expiration_date IS NOT NULL;
 
 ALTER TABLE public.sos_attachment_library ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_attachments_admin" ON public.sos_attachment_library FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_attachments_admin" ON public.sos_attachment_library FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON TABLE public.sos_attachment_library IS
   'Pre-approved files for inclusion in submission packets. Only status=approved rows may be attached. Expiration_date triggers a review task when within 30 days.';

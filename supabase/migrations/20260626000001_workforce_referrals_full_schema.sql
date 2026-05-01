@@ -115,8 +115,7 @@ CREATE TRIGGER trg_workforce_referrals_updated_at
 ALTER TABLE public.workforce_referrals ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "workforce_referrals_admin_all" ON public.workforce_referrals;
-CREATE POLICY "workforce_referrals_admin_all"
-  ON public.workforce_referrals
+DO $$ BEGIN CREATE POLICY "workforce_referrals_admin_all" ON public.workforce_referrals
   FOR ALL
   TO authenticated
   USING (
@@ -125,11 +124,10 @@ CREATE POLICY "workforce_referrals_admin_all"
       WHERE id = auth.uid()
         AND role IN ('admin','super_admin','advisor','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "workforce_referrals_own_read" ON public.workforce_referrals;
-CREATE POLICY "workforce_referrals_own_read"
-  ON public.workforce_referrals
+DO $$ BEGIN CREATE POLICY "workforce_referrals_own_read" ON public.workforce_referrals
   FOR SELECT
   TO authenticated
-  USING (user_id = auth.uid());
+  USING (user_id = auth.uid()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

@@ -85,7 +85,7 @@ ALTER TABLE public.sfc_documents ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS sfc_leads_admin_read     ON public.sfc_leads;
 DROP POLICY IF EXISTS sfc_documents_admin_read ON public.sfc_documents;
 
-CREATE POLICY sfc_leads_admin_read ON public.sfc_leads
+DO $$ BEGIN CREATE POLICY sfc_leads_admin_read ON public.sfc_leads
   FOR SELECT
   USING (
     EXISTS (
@@ -93,9 +93,9 @@ CREATE POLICY sfc_leads_admin_read ON public.sfc_leads
       WHERE p.id = auth.uid()
         AND p.role IN ('admin','super_admin','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE POLICY sfc_documents_admin_read ON public.sfc_documents
+DO $$ BEGIN CREATE POLICY sfc_documents_admin_read ON public.sfc_documents
   FOR SELECT
   USING (
     EXISTS (
@@ -103,12 +103,12 @@ CREATE POLICY sfc_documents_admin_read ON public.sfc_documents
       WHERE p.id = auth.uid()
         AND p.role IN ('admin','super_admin','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Admin write policy (status updates, notes)
 DROP POLICY IF EXISTS sfc_leads_admin_write     ON public.sfc_leads;
 
-CREATE POLICY sfc_leads_admin_write ON public.sfc_leads
+DO $$ BEGIN CREATE POLICY sfc_leads_admin_write ON public.sfc_leads
   FOR UPDATE
   USING (
     EXISTS (
@@ -116,7 +116,7 @@ CREATE POLICY sfc_leads_admin_write ON public.sfc_leads
       WHERE p.id = auth.uid()
         AND p.role IN ('admin','super_admin','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ── Timestamp trigger ─────────────────────────────────────────────────────
 

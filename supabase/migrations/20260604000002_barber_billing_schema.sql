@@ -62,12 +62,12 @@ ALTER TABLE public.billing_events ENABLE ROW LEVEL SECURITY;
 
 -- Admins and service role can read all; users can read their own
 DROP POLICY IF EXISTS "billing_events_service_role" ON public.billing_events;
-CREATE POLICY "billing_events_service_role" ON public.billing_events
-  FOR ALL TO service_role USING (true) WITH CHECK (true);
+DO $$ BEGIN CREATE POLICY "billing_events_service_role" ON public.billing_events
+  FOR ALL TO service_role USING (true) WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "billing_events_user_read" ON public.billing_events;
-CREATE POLICY "billing_events_user_read" ON public.billing_events
-  FOR SELECT USING (user_id = auth.uid());
+DO $$ BEGIN CREATE POLICY "billing_events_user_read" ON public.billing_events
+  FOR SELECT USING (user_id = auth.uid()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 CREATE INDEX IF NOT EXISTS idx_billing_events_subscription
   ON public.billing_events (barber_subscription_id, created_at DESC);

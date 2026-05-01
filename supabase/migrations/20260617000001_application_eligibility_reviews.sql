@@ -112,19 +112,19 @@ CREATE TRIGGER trg_eligibility_review_updated_at
 ALTER TABLE public.application_eligibility_reviews ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "staff_full_access" ON public.application_eligibility_reviews;
-CREATE POLICY "staff_full_access" ON public.application_eligibility_reviews
+DO $$ BEGIN CREATE POLICY "staff_full_access" ON public.application_eligibility_reviews
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "applicant_read_own" ON public.application_eligibility_reviews;
-CREATE POLICY "applicant_read_own" ON public.application_eligibility_reviews
+DO $$ BEGIN CREATE POLICY "applicant_read_own" ON public.application_eligibility_reviews
   FOR SELECT USING (
     application_id IN (
       SELECT id FROM public.applications WHERE user_id = auth.uid()
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

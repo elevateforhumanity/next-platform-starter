@@ -32,11 +32,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_orgs_ein ON public.sos_organizations (ein);
 CREATE INDEX IF NOT EXISTS idx_sos_orgs_uei ON public.sos_organizations (uei);
 
 ALTER TABLE public.sos_organizations ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_orgs_admin" ON public.sos_organizations FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_orgs_admin" ON public.sos_organizations FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- organization_profiles
@@ -56,16 +56,16 @@ CREATE TABLE IF NOT EXISTS public.sos_organization_profiles (
   insurance_status      TEXT CHECK (insurance_status IN ('current','expired','none','unknown')) DEFAULT 'unknown',
   audit_status          TEXT CHECK (audit_status IN ('current','overdue','not_required','unknown')) DEFAULT 'unknown',
   created_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  UNIQUE (organization_id)
+  updated_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT uq_organization_id_18 UNIQUE (organization_id)
 );
 
 ALTER TABLE public.sos_organization_profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_org_profiles_admin" ON public.sos_organization_profiles FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_org_profiles_admin" ON public.sos_organization_profiles FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- organization_facts
@@ -99,11 +99,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_facts_status
   ON public.sos_organization_facts (organization_id, status);
 
 ALTER TABLE public.sos_organization_facts ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_facts_admin" ON public.sos_organization_facts FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_facts_admin" ON public.sos_organization_facts FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON TABLE public.sos_organization_facts IS
   'Atomic approved facts used as merge-field sources in generated documents. Only status=approved facts may be inserted into submission packets.';

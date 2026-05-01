@@ -25,24 +25,24 @@ ALTER TABLE public.case_management      ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.health_logs          ENABLE ROW LEVEL SECURITY;
 
 -- Admin-only tables (no user_id column)
-CREATE POLICY admin_only ON public.ssn_verifications      FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY admin_only ON public.drug_tests             FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY admin_only ON public.drug_test_history      FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY admin_only ON public.tax_information        FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY admin_only ON public.tax_return_drafts      FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY admin_only ON public.ferpa_documents        FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY admin_only ON public.id_verifications       FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY admin_only ON public.identity_verifications FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY admin_only ON public.case_notes             FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff','case_manager')));
-CREATE POLICY admin_only ON public.case_management        FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff','case_manager')));
-CREATE POLICY admin_only ON public.health_logs            FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin')));
-CREATE POLICY admin_only ON public.banking_services       FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin')));
+DO $$ BEGIN CREATE POLICY admin_only ON public.ssn_verifications      FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.drug_tests             FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.drug_test_history      FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.tax_information        FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.tax_return_drafts      FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.ferpa_documents        FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.id_verifications       FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.identity_verifications FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.case_notes             FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff','case_manager'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.case_management        FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff','case_manager'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.health_logs            FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_only ON public.banking_services       FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- User-scoped tables (have user_id column)
-CREATE POLICY user_own   ON public.learner_documents  FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
-CREATE POLICY admin_all  ON public.learner_documents  FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN CREATE POLICY user_own ON public.learner_documents  FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.learner_documents  FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE POLICY user_own   ON public.payment_methods    FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
+DO $$ BEGIN CREATE POLICY user_own ON public.payment_methods    FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE POLICY user_own   ON public.student_payments   FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
-CREATE POLICY admin_all  ON public.student_payments   FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN CREATE POLICY user_own ON public.student_payments   FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.student_payments   FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

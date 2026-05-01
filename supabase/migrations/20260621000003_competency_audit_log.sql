@@ -28,21 +28,21 @@ CREATE INDEX IF NOT EXISTS idx_competency_audit_log_submission
 ALTER TABLE public.competency_audit_log ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "instructors_read_audit_log" ON public.competency_audit_log;
-CREATE POLICY "instructors_read_audit_log" ON public.competency_audit_log
+DO $$ BEGIN CREATE POLICY "instructors_read_audit_log" ON public.competency_audit_log
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
       AND role IN ('instructor','admin','super_admin','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "students_read_own_audit_log" ON public.competency_audit_log;
-CREATE POLICY "students_read_own_audit_log" ON public.competency_audit_log
-  FOR SELECT USING (user_id = auth.uid());
+DO $$ BEGIN CREATE POLICY "students_read_own_audit_log" ON public.competency_audit_log
+  FOR SELECT USING (user_id = auth.uid()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "instructors_insert_audit_log" ON public.competency_audit_log;
-CREATE POLICY "instructors_insert_audit_log" ON public.competency_audit_log
+DO $$ BEGIN CREATE POLICY "instructors_insert_audit_log" ON public.competency_audit_log
   FOR INSERT WITH CHECK (
     actor_id = auth.uid() AND
     EXISTS (
@@ -50,7 +50,7 @@ CREATE POLICY "instructors_insert_audit_log" ON public.competency_audit_log
       WHERE id = auth.uid()
       AND role IN ('instructor','admin','super_admin','staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON TABLE public.competency_audit_log IS
   'Immutable audit trail of every instructor action on a competency check. Required for DOL apprenticeship compliance proof.';

@@ -22,18 +22,18 @@ CREATE TABLE IF NOT EXISTS public.tutorials (
 ALTER TABLE public.tutorials ENABLE ROW LEVEL SECURITY;
 
 -- Anyone authenticated can read published tutorials
-CREATE POLICY "tutorials_read" ON public.tutorials
-  FOR SELECT USING (is_published = true);
+DO $$ BEGIN CREATE POLICY "tutorials_read" ON public.tutorials
+  FOR SELECT USING (is_published = true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Admins can manage all tutorials
-CREATE POLICY "tutorials_admin" ON public.tutorials
+DO $$ BEGIN CREATE POLICY "tutorials_admin" ON public.tutorials
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
       AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Seed the 12 existing tutorials from the hardcoded array
 INSERT INTO public.tutorials (slug, title, description, category, duration, sort_order) VALUES

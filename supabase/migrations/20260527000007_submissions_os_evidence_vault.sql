@@ -37,11 +37,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_pp_org_status
   ON public.sos_past_performance (organization_id, status);
 
 ALTER TABLE public.sos_past_performance ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_pp_admin" ON public.sos_past_performance FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_pp_admin" ON public.sos_past_performance FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- rate_sheets
@@ -72,11 +72,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_rates_org_status
   ON public.sos_rate_sheets (organization_id, status);
 
 ALTER TABLE public.sos_rate_sheets ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_rates_admin" ON public.sos_rate_sheets FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_rates_admin" ON public.sos_rate_sheets FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON TABLE public.sos_rate_sheets IS
   'Approved rate sheets for contract bids. review_class=blocked — never auto-submitted. Must be explicitly approved per submission packet.';
@@ -119,11 +119,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_compliance_expiry
   WHERE expiration_date IS NOT NULL;
 
 ALTER TABLE public.sos_compliance_records ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_compliance_admin" ON public.sos_compliance_records FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_compliance_admin" ON public.sos_compliance_records FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- partner_entities
@@ -154,8 +154,8 @@ CREATE INDEX IF NOT EXISTS idx_sos_partners_org
   ON public.sos_partner_entities (organization_id, approved_for_use);
 
 ALTER TABLE public.sos_partner_entities ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_partners_admin" ON public.sos_partner_entities FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_partners_admin" ON public.sos_partner_entities FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

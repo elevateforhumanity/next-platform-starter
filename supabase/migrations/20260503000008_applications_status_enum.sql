@@ -12,5 +12,5 @@ ALTER TABLE public.applications
 
 ALTER TABLE public.applications
   ADD CONSTRAINT applications_valid_status CHECK (
-    status IN ('submitted', 'in_review', 'approved', 'rejected', 'enrolled', 'pending_workone', 'waitlisted')
+    status IN ('submitted', 'in_review', 'under_review', 'approved', 'rejected', 'enrolled', 'pending_workone', 'waitlisted')
   );
