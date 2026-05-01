@@ -586,6 +586,14 @@ async function insertApplication(payload: {
       const normalizedEmail = payload.email.toLowerCase().trim();
       const normalizedPhone = payload.phone.replace(/\D/g, '');
 
+      // Resolve program_id from slug so admin dashboard can approve without guessing
+      const programSlug = payload.programInterest.toLowerCase().replace(/\s+/g, '-').trim();
+      const { data: programRow } = await supabase
+        .from('programs')
+        .select('id')
+        .eq('slug', programSlug)
+        .maybeSingle();
+
       const { data, error } = await supabase
         .from('applications')
         .insert({
@@ -598,10 +606,12 @@ async function insertApplication(payload: {
           city: payload.city,
           zip: payload.zip,
           program_interest: payload.programInterest,
+          program_id: programRow?.id || null,
           support_notes: `Reference: ${referenceNumber} | ${payload.supportNotes}`,
           reference_number: referenceNumber,
           status: 'submitted',
           source: payload.source,
+          type: 'student',
           funding_type: payload.fundingType || null,
         })
         .select('id')
@@ -643,6 +653,20 @@ async function insertApplication(payload: {
           profileRole,
           onboardingPath,
         );
+
+        // Audit log — non-blocking
+        supabase.from('audit_logs').insert({
+          event_type: 'application_submitted',
+          resource_type: 'application',
+          resource_id: data.id,
+          metadata: {
+            email: payload.email,
+            program: payload.programInterest,
+            source: payload.source,
+            funding_type: payload.fundingType || null,
+            reference_number: referenceNumber,
+          },
+        }).catch((err: unknown) => logger.warn('[Apply] Audit log failed (non-fatal)', err));
 
         // Application lands in admin queue as 'submitted' — admin reviews and approves.
         // Approval requires funding verification or a paid Stripe session before enrollment.

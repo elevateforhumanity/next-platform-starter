@@ -63,6 +63,16 @@ export async function submitFssaApplication(
     const supabase = await requireAdminClient();
 
     const fssaRef = `EFH-${Date.now().toString(36).toUpperCase()}`;
+    const normalizedFssaEmail = data.email.toLowerCase().trim();
+
+    // Resolve program_id from slug
+    const fssaProgramSlug = data.programInterest.toLowerCase().replace(/\s+/g, '-').trim();
+    const { data: fssaProgramRow } = await supabase
+      .from('programs')
+      .select('id')
+      .eq('slug', fssaProgramSlug)
+      .maybeSingle();
+
     const { data: inserted, error } = await supabase
       .from('applications')
       .insert({
@@ -70,6 +80,8 @@ export async function submitFssaApplication(
         last_name: data.lastName,
         email: data.email,
         phone: data.phone,
+        normalized_email: normalizedFssaEmail,
+        normalized_phone: data.phone.replace(/\D/g, ''),
         date_of_birth: data.dateOfBirth || null,
         address: data.streetAddress,
         city: data.city,
@@ -77,9 +89,13 @@ export async function submitFssaApplication(
         zip: data.zipCode,             // NOT NULL column
         zip_code: data.zipCode,        // nullable alias
         program_interest: data.programInterest,
+        program_id: fssaProgramRow?.id || null,
         reference_number: fssaRef,
         funding_source: 'fssa_impact',
+        funding_type: 'fssa',
         application_type: 'fssa',
+        type: 'student',
+        source: 'fssa-form',
         status: 'submitted',           // matches applications_status_check constraint
         metadata: {
           receivesSnap: data.receivesSnap,

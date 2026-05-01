@@ -77,6 +77,26 @@ export const POST = withRateLimit(
       // Resolve program_id from slug or title so the review page can approve without guessing
       const resolvedProgramId = await resolveProgramId(supabase, program);
 
+      // Dedup: block same email + program within 24 hours
+      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+      const { data: recentApp } = await supabase
+        .from('applications')
+        .select('id')
+        .eq('email', email.toLowerCase().trim())
+        .eq('program_interest', program)
+        .gte('created_at', oneDayAgo)
+        .limit(1)
+        .maybeSingle();
+
+      if (recentApp) {
+        return NextResponse.json(
+          { error: 'An application for this program was already submitted with this email in the last 24 hours. Please call 317-314-3757 if you need to make changes.' },
+          { status: 409 },
+        );
+      }
+
+      const referenceNumber = `EFH-${Date.now().toString(36).toUpperCase()}`;
+
       // Build insert object - only include pathway_slug/source if migration has been run
       const insertData: Record<string, any> = {
         first_name: firstName,
@@ -89,8 +109,10 @@ export const POST = withRateLimit(
         zip: '00000',
         program_interest: program,
         program_id: resolvedProgramId,
-        reference_number: `EFH-${Date.now().toString(36).toUpperCase()}`,
+        reference_number: referenceNumber,
         status: 'submitted',
+        type: 'student',
+        funding_type: funding || null,
         support_notes: `Funding: ${funding}. ${eligible ? 'Prescreen pass' : 'Manual review'}${pathway_slug ? `. Pathway: ${pathway_slug}` : ''}`,
       };
 

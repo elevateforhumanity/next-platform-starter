@@ -36,7 +36,7 @@ function determineStage(payload: IntakePayload): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const rateLimited = await applyRateLimit(request, 'api');
+    const rateLimited = await applyRateLimit(request, 'contact');
     if (rateLimited) return rateLimited;
 
     const body = (await request.json()) as IntakePayload;
@@ -98,16 +98,28 @@ export async function POST(request: NextRequest) {
 
     // 2. Create application with pipeline stage
     const intakeRef = `EFH-${Date.now().toString(36).toUpperCase()}`;
+    // Split full_name into first/last for columns that are NOT NULL
+    const nameParts = body.full_name.trim().split(' ');
+    const intakeFirstName = nameParts[0] || '';
+    const intakeLastName = nameParts.slice(1).join(' ') || '';
+
     const { data: application, error: appError } = await supabase
       .from('applications')
       .insert({
-        full_name: body.full_name.trim(),
+        first_name: intakeFirstName,
+        last_name: intakeLastName,
         email: normalizedEmail,
+        normalized_email: normalizedEmail,
+        normalized_phone: (body.phone || '').replace(/\D/g, '') || null,
         phone: body.phone?.trim() || null,
+        city: 'Not provided',
+        zip: '00000',
         program_interest: body.program_interest || null,
         reference_number: intakeRef,
         status: 'submitted',
         source: 'start-page',
+        type: 'student',
+        funding_type: body.funding_interest || null,
         // intake flags and stage stored in eligibility_data (JSONB)
         eligibility_data: {
           lead_id: lead.id,
