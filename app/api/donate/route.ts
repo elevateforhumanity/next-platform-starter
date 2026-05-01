@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
+import { getStripe } from '@/lib/stripe/client';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
@@ -13,7 +13,8 @@ export async function POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'payment');
   if (rateLimited) return rateLimited;
 
-  if (!process.env.STRIPE_SECRET_KEY) {
+  const stripe = getStripe();
+  if (!stripe) {
     return safeError('Donations are temporarily unavailable.', 503);
   }
 
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
     return safeError('Invalid donation amount.', 400);
   }
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2024-06-20' });
+
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   const amountCents = Math.round(amount * 100);
 
