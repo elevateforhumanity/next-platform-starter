@@ -25,8 +25,20 @@ async function _POST(request: NextRequest) {
   }
 
   try {
+    // Verify caller identity — userId must match the authenticated session
+    const { createClient: createServerClient } = await import('@/lib/supabase/server');
+    const serverClient = await createServerClient();
+    const { data: { user }, error: authError } = await serverClient.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const body = await parseBody<{ userId: string }>(request);
     const { userId } = body;
+    // Enforce: caller can only access their own portal
+    if (userId && userId !== user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+    const resolvedUserId = user.id;
 
     if (!userId) {
       return NextResponse.json({ error: 'Missing required field: userId' }, { status: 400 });
@@ -36,7 +48,7 @@ async function _POST(request: NextRequest) {
     const { data: billing, error: billingError } = await supabase
       .from('customer_billing')
       .select('stripe_customer_id')
-      .eq('user_id', userId)
+      .eq('user_id', resolvedUserId)
       .single();
 
     if (billingError || !billing?.stripe_customer_id) {
