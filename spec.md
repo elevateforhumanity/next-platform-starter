@@ -1,290 +1,212 @@
-# Admin Dashboard — Complete Production Spec
+# Workforce Pipeline Audit — Elevate LMS
 
-## Problem Statement
-
-The admin dashboard has 164 pages. ~26 are stubs with no DB connection. ~39 had no auth guard.
-The course builder cannot create new programs from scratch or add lesson content.
-There is no unified video management. The admin currently redirects straight to `/admin/dashboard`
-with no landing page. The nav is a flat dropdown bar — it needs section headers, sub-groups,
-and a full hamburger slide-in panel matching the public marketing site pattern.
+## Audit Date: 2026-04-30
 
 ---
 
-## Goals
+## 1. CRITICAL FAILURES (fix immediately)
 
-1. **Admin landing page** — `/admin` is a real page (not a redirect), styled like the marketing site
-2. **Full nav** — sticky top bar with grouped dropdowns (section headers + sub-items), full hamburger panel on mobile with nested expand/collapse, search, user menu
-3. **Every admin page** is production-ready — auth-guarded, wired to Supabase, real data
-4. **Course builder** — create programs, modules, lessons, content (text/video/quiz) from scratch
-5. **Video management** — upload to Supabase storage, generate via D-ID, or paste external URL
-6. **Design** — matches public marketing site: full-bleed hero, big typography, ruled lists, no card grids
+### 1a. Intake missing WIOA-required fields
+**File:** `app/apply/intake/page.tsx`, `app/api/intake/route.ts`
+
+The intake form collects: name, email, phone, city, state, program, employment status, funding needed, probation/reentry, workforce connection, referral source.
+
+**Missing fields required for WIOA/FSSA eligibility determination:**
+- Date of birth (age eligibility gate)
+- County of residence (Indiana DWD county-level reporting)
+- Income level / household size (WIOA income threshold)
+- SNAP/TANF/SSI receipt (categorical eligibility)
+- Barriers to employment (WIOA barrier categories: homeless, ex-offender, veteran, disability, etc.)
+- Citizenship/work authorization status
+
+Without these, `determineFundingTag()` in `app/api/intake/route.ts` can only produce `wioa`, `jri`, `self-pay`, or `pending-review` — it cannot determine categorical eligibility, and every WIOA-funded participant will require manual review.
+
+### 1b. Status pipeline terminates at `enrolled` — no post-enrollment lifecycle
+**File:** `app/api/admin/applications/transition/route.ts`
+
+`VALID_TRANSITIONS` ends at `enrolled: []`. There are no transitions for:
+- `active_apprentice`
+- `completed`
+- `placed`
+- `exited`
+
+This means once a student is enrolled, the application record is frozen. Placement, completion, and exit data cannot be tracked through the application lifecycle. WIOA performance reporting (employment at 2nd quarter after exit) is impossible without this.
+
+### 1c. Eligibility engine is manual-only for SNAP/barrier categories
+**File:** `app/api/intake/route.ts` → `determineFundingTag()`
+
+The auto-tagging function only checks `probation_or_reentry` and `workforce_connection`. SNAP, TANF, income level, and barrier categories are not collected at intake and therefore cannot be auto-tagged. Every participant requiring categorical WIOA eligibility requires a human reviewer. At scale this is a bottleneck that will break the pipeline.
+
+### 1d. Mentor/supervisor hour verification has no UI in the partner portal
+**Files:** `app/(partner)/partners/attendance/page.tsx`, `app/api/apprenticeship/hours/approve/route.ts`
+
+The API for approving hours exists (`/api/apprenticeship/hours/approve`, `/api/time/approve`). The partner attendance page only allows entering weekly hours by day — it does **not** show pending hour entries submitted by apprentices for mentor approval. Shop owners/mentors have no interface to review and sign off on apprentice-submitted hours. Hours approval currently requires admin access.
+
+### 1e. Scheduling is not linked to the applicant lifecycle
+**Files:** `app/api/schedule-consultation/route.ts`, `app/schedule/select/page.tsx`
+
+The consultation scheduling API creates a Zoom meeting and sends an email but does **not** write an appointment record linked to the applicant's `applications` row. There is no `appointments` table FK to `applications.id`. Attendance (attended/no-show) is never recorded. The applicant status does not advance from `submitted` → `scheduled` when a consultation is booked.
 
 ---
 
-## Design System (non-negotiable for all pages)
+## 2. STRUCTURAL WEAKNESSES (will break at scale)
 
-- Full-bleed hero image, no text on top of image
-- Page title: `text-4xl sm:text-6xl font-black text-slate-900 leading-none`
-- Eyebrow: `text-xs font-bold uppercase tracking-widest text-slate-400`
-- Section headings: `text-3xl sm:text-5xl font-black`
-- Data rows: `divide-y divide-slate-100`, each row a `<Link>` where applicable
-- Container: `max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8`
-- Status pills: `rounded-full text-[11px] font-semibold` colored by status
-- Buttons: `px-4 py-2 bg-blue-600 text-white rounded-xl font-semibold`
-- Background: always `bg-white` — never `bg-slate-50` page backgrounds
-- Mobile-first: all layouts work on 375px phones
+### 2a. Fragmented hours tables — 9 separate tables, no canonical source
+The schema contains: `hour_entries`, `apprenticeship_hours`, `apprentice_hours`, `apprentice_hours_log`, `ojt_hours_log`, `apprenticeship_hours_summary`, `apprentice_hour_totals`, `apprentice_hours_by_shop`, `apprentice_hours_by_source`.
 
----
+Code writes to `hour_entries` (canonical per `app/api/apprenticeship/hours/route.ts`) but the partner portal attendance page writes to `apprentice_placements` and reads from `checkin_sessions`. The admin hours export reads from `ojt_hours_log`. These are not the same table. Totals will never reconcile.
 
-## Requirement 1 — Admin Landing Page (`/admin`)
+### 2b. Referral system is affiliate/marketing-only — no workforce referral routing
+**File:** `app/api/referrals/route.ts`
 
-Replace the current redirect with a real page that looks like the public home page but shows admin data.
+The referral API is a discount/affiliate system (referral codes, payouts, leaderboard). It is not a workforce referral system. The `workforce_referrals` table exists in migrations but has no API routes, no admin UI, and no linkage to `applications`. Agency referrals (WorkOne, FSSA, community orgs) cannot be tracked as structured records with provider assignment and confirmation.
 
-**Sections (top to bottom):**
+### 2c. Partner portal has no hour-logging interface for apprentices
+**File:** `app/(partner)/partners/`
 
-1. **Hero** — full-bleed image (`/images/pages/admin-dashboard-hero.jpg`), greeting + name below, urgent CTA if pending applications
-2. **Quick stats** — 4 large typographic numbers (Applications waiting, Active enrollments, Revenue this month, Certificates issued) as a ruled list — each links to its section
-3. **Quick nav grid** — all 10 nav sections as large clickable tiles (Operations, Students, Programs, Build, AI, Funding, Partners, Marketing, Compliance, System) — each tile shows section name, icon, and count of items
-4. **Recent activity** — last 10 audit log entries
-5. **At-risk students** — top 5 inactive learners
+The partner portal has: dashboard, attendance (weekly grid entry), documents, students list. It does **not** have:
+- A view of pending hour entries submitted by apprentices
+- Approve/reject controls for individual hour entries
+- A mentor sign-off workflow
+- Any link to `hour_entries` table
 
-All data fetched server-side from Supabase. Auth-guarded with `requireAdmin()`.
+### 2d. No native scheduling — Calendly dependency for orientation
+Orientation scheduling links to Calendly. There is no native booking system that ties appointment records to applicant records. `app/schedule/select/page.tsx` shows schedule options (day/evening/self-paced) but the server action only writes a `schedule_preference` to the user's profile — it does not create a bookable appointment slot or track attendance.
+
+### 2e. `applications` and `program_enrollments` are parallel, not linked
+An applicant can exist in `applications` without a corresponding `program_enrollments` row, and vice versa. The transition from `approved` → `enrolled` in the application pipeline does not guarantee a `program_enrollments` row is created. This causes the admin enrollment dashboard and the application pipeline to show different counts for the same cohort.
 
 ---
 
-## Requirement 2 — Admin Nav (full rebuild)
+## 3. COMPLIANCE RISKS (FSSA/WIOA)
 
-### Desktop nav
+### 3a. No DOB = no age eligibility gate
+WIOA Title I Adult/Dislocated Worker requires age ≥ 18. WIOA Youth requires 14–24. Without DOB at intake, age eligibility cannot be enforced or reported.
 
-- Sticky top bar, `z-50`, `h-16`, `bg-white border-b border-slate-200`
-- Logo left: Elevate "E" mark + "Elevate Admin" text
-- 10 nav groups as dropdown buttons — each dropdown has **section header labels** (styled like the public site: red uppercase label, `bg-brand-red-50 border-l-3 border-brand-red-500`) separating sub-groups
-- Dropdowns open on **hover** (CSS `group-hover`) AND click (JS toggle) — matches public site pattern
-- Active section highlighted: `text-blue-600 bg-blue-50`
-- Right side: search bar, notifications bell with unread badge, username, sign-out
+### 3b. No county = no Indiana DWD regional reporting
+Indiana DWD requires participant counts by Local Workforce Development Area (LWDA). County of residence maps to LWDA. Without county, WIOA performance reports cannot be disaggregated by region.
 
-### Nav structure with section headers
+### 3c. No barrier tracking = incomplete WIOA participant record
+WIOA requires tracking of barriers (homeless, ex-offender, low-income, basic skills deficient, English language learner, etc.) for performance reporting. `participant_barriers` table exists in migrations but is not populated from intake.
 
-```
-Operations
-  — Overview —
-    Dashboard, Activity Feed, Analytics, Reporting, Impact
-  — Health —
-    Monitoring, System Health, Site Health, URL Health
-  — Alerts —
-    At-Risk, Retention, Notifications, Inbox
+### 3d. RAPIDS reporting has no automated feed
+`rapids_apprentice_data` and `rapids_apprentices` tables exist. The admin RAPIDS page exists. But there is no automated sync from `hour_entries` or `apprenticeship_enrollments` to RAPIDS format. DOL-registered apprenticeships require quarterly RAPIDS reporting. This is currently manual.
 
-Students
-  — Pipeline —
-    Applications, Applicants, Applicants Live, Leads, Intake, Waitlist
-  — Enrolled —
-    All Students, Enrollments, Progress, Gradebook, Completions
-  — Support —
-    Barriers, Next Steps, Outcomes, Verifications, FERPA, Impersonate
-  — Records —
-    Submissions, Certificates, Exam Authorizations, Transfer Hours, HSI Enrollments, SAP
+### 3e. No exit/outcome recording closes the WIOA performance loop
+WIOA measures: entered employment rate, employment retention at 2nd quarter, median earnings, credential attainment. None of these can be computed because:
+- Application status stops at `enrolled`
+- `employment_outcomes` table exists but has no API route to populate it from the student-facing flow
+- Placement is recorded in `job_placements` / `placement_records` / `apprentice_placements` (three tables, no canonical one)
 
-Programs
-  — Catalog —
-    Programs, Courses, Curriculum, Modules, Lessons
-  — Credentials —
-    Certifications, Credentials, Certificates
-  — Delivery —
-    Instructors, Cohorts, Apprenticeships, Career Courses, Quizzes
-  — External —
-    External Courses, External Modules, External Progress, External Completions
-  — Tools —
-    HVAC Activation, ETPL Alignment
+---
 
-Build
-  — Courses —
-    Course Builder, Course Generator, Course Templates, Course Import, Program Generator
-  — Content —
-    Quiz Builder, Syllabus Generator, Editor, Content Automation
-  — Media —
-    Media Studio, Video Manager, Video Generator, Videos, Page Builder
+## 4. MISSING FEATURES (required for full pipeline)
 
-AI
-  — Studio —
-    AI Console, AI Studio, AI Tutor Logs
-  — Automation —
-    Copilot, Autopilot, Data Processor, Automation, Automation QA, Workflows, Dev Studio
+| Feature | Status | Impact |
+|---|---|---|
+| DOB / county / income / SNAP fields on intake form | Missing | Blocks WIOA eligibility auto-determination |
+| Auto-eligibility engine (SNAP/barrier/income rules) | Partial (only JRI/WorkOne) | Every participant needs manual review |
+| Native appointment booking tied to applicant record | Missing | No attendance tracking, no lifecycle advance |
+| Post-enrollment status transitions (active → completed → placed) | Missing | Pipeline dead-ends at enrolled |
+| Workforce referral records (agency → applicant linkage) | Missing | No referral tracking for WorkOne/FSSA |
+| Mentor hour-approval UI in partner portal | Missing | Hours approval requires admin |
+| Canonical hours table with single write path | Fragmented (9 tables) | Totals never reconcile |
+| RAPIDS automated export | Manual only | DOL quarterly reporting risk |
+| Employment outcome recording from student flow | Missing | WIOA performance metrics unavailable |
+| Unified placement table | Fragmented (3 tables) | Placement rate cannot be computed |
 
-Funding
-  — Programs —
-    Funding, Grants, WIOA, JRI, Incentives
-  — Payments —
-    Cash Advances, Payroll, Payroll Cards, Tax Filing, WOTC, RAPIDS
-  — Tools —
-    Funding Playbook, Funding Verification, Hours Export
+---
 
-Partners
-  — Employers —
-    Employers, Employers Playbook, Jobs, OJT Partnerships
-  — Network —
-    Partners, Partner Enrollments, Partner Inquiries, Affiliates, Providers, Provider Applications
-  — Programs —
-    Program Holders, Delegates, Shops, Barber Applications, Marketplace
+## 5. EXACT FIXES (file names and approach)
 
-Marketing
-  — Outreach —
-    Marketing, CRM, Campaigns, Email Marketing, Blog, Social Media
-  — Commerce —
-    Promo Codes, Store, Live Chat, Support
+### Fix 1 — Add WIOA fields to intake form
+**Files:** `app/apply/intake/page.tsx`, `app/api/intake/route.ts`
 
-Compliance
-  — Audit —
-    Compliance, Compliance Audit, Accreditation, Governance, Audit Logs
-  — Documents —
-    Documents, Document Center, Signatures, MOU, FERPA
-  — HR —
-    Security, HR, Moderation, Review Queue
+Add to form: `date_of_birth`, `county`, `household_size`, `income_level`, `snap_recipient` (boolean), `tanf_recipient` (boolean), `barriers[]` (multi-select).
 
-System
-  — Config —
-    Settings, Users, Tenants, License, Licenses, Licensing, License Requests, Features
-  — Dev —
-    API Keys, Integrations, Migrations, Import, Mobile Sync, Files
-  — Docs —
-    Docs, Internal Docs, Portal Map, Advanced Tools, Testing, Test Emails, Test Payments
+Add to `determineFundingTag()`:
+```ts
+if (body.snap_recipient === 'true' || body.tanf_recipient === 'true') return 'wioa-categorical';
+if (parseInt(body.household_size) <= 2 && parseInt(body.income_level) < 20000) return 'wioa-income';
 ```
 
-### Mobile hamburger panel
+Add to `apprenticeship_intake` INSERT: all new fields.
 
-- Slides in from right, `w-[85vw] max-w-sm`
-- Each of the 10 sections is an accordion — tap to expand, shows section headers + links inside
-- Section headers styled same as desktop (red uppercase label)
-- Search bar at top
-- Sign out at bottom
-- Overlay closes panel on tap
-- `Escape` key closes panel
-- `style={{ transform }}` (not className template literal) to avoid hydration mismatch
+Migration: `ALTER TABLE apprenticeship_intake ADD COLUMN IF NOT EXISTS date_of_birth DATE, county TEXT, household_size INT, income_level INT, snap_recipient BOOLEAN DEFAULT false, tanf_recipient BOOLEAN DEFAULT false, barriers TEXT[] DEFAULT '{}'`
 
----
+### Fix 2 — Extend status pipeline past `enrolled`
+**File:** `app/api/admin/applications/transition/route.ts`
 
-## Requirement 3 — All stub pages wired to DB
+```ts
+const VALID_TRANSITIONS = {
+  ...existing,
+  enrolled: ['active_apprentice', 'withdrawn'],
+  active_apprentice: ['completed', 'withdrawn'],
+  completed: ['placed', 'exited'],
+  placed: ['exited'],
+  withdrawn: [],
+  exited: [],
+};
+```
 
-Every page below rewritten as a production server component:
+### Fix 3 — Link consultation booking to applicant record
+**File:** `app/api/schedule-consultation/route.ts`
 
-| Page                 | Primary tables                                            | Key UI                                                 |
-| -------------------- | --------------------------------------------------------- | ------------------------------------------------------ |
-| `audit-logs`         | `audit_logs`, `profiles`                                  | Paginated log, filter by action/user/date, 24h summary |
-| `monitoring`         | `audit_logs`, `program_enrollments`, `profiles`           | Recent events, error counts, active sessions           |
-| `system-monitor`     | `audit_logs`                                              | Event counts by type, last 24h chart data              |
-| `site-health`        | `programs`, `courses`, `curriculum_lessons`               | Unpublished content, missing videos, broken slugs      |
-| `url-health`         | `programs`, `courses`, `curriculum_lessons`               | Duplicate/missing slugs list                           |
-| `compliance-audit`   | `audit_logs`, `documents`, `program_enrollments`          | Compliance checklist, missing docs                     |
-| `incentives`         | `incentives`, `profiles`, `program_enrollments`           | Incentive CRUD, filter by program/student              |
-| `intake`             | `intake_submissions`, `profiles`, `programs`              | Intake submissions list, link to enrollment            |
-| `next-steps`         | `next_steps`, `profiles`, `program_enrollments`           | Next-step assignments, create/assign/track             |
-| `promo-codes`        | `promo_codes`                                             | Promo code CRUD, usage counts, toggle active           |
-| `hours-export`       | `ojt_hours_log`, `apprenticeship_enrollments`, `profiles` | Filter + CSV export                                    |
-| `support`            | `support_tickets`, `profiles`                             | Ticket list, status, reply link                        |
-| `settings`           | `profiles`, `tenants`, `features`                         | Profile edit, tenant config, feature flags             |
-| `governance`         | `governance_documents`, `board_members`                   | Docs list, board directory                             |
-| `content-automation` | `automation_rules`, `course_generation_logs`              | Rule list, last run, toggle                            |
-| `import`             | `profiles`, `program_enrollments`, `programs`             | CSV upload, preview, confirm                           |
-| `page-builder`       | `pages`                                                   | CMS page list, create/edit/publish                     |
-| `advanced-tools`     | `audit_logs`, `programs`, `courses`                       | Bulk ops, data repair, cache clear                     |
-| `dev-studio`         | `course_generation_logs`, `automation_rules`              | Generation logs, automation debug                      |
-| `ai-studio`          | `course_generation_logs`, `ai_tutor_logs`                 | AI job queue, tutor session logs                       |
+After creating the Zoom meeting, write to a `consultations` table:
+```ts
+await supabase.from('consultations').insert({
+  applicant_email: email,
+  appointment_type,
+  appointment_date,
+  appointment_time,
+  zoom_url: zoomUrl,
+  status: 'scheduled',
+});
+```
 
----
+If `application_id` is passed, also update `applications.status = 'scheduled'`.
 
-## Requirement 4 — Course Builder (full creation flow)
+Migration: `CREATE TABLE IF NOT EXISTS consultations (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), applicant_email TEXT NOT NULL, application_id UUID REFERENCES applications(id), appointment_type TEXT, appointment_date DATE, appointment_time TEXT, zoom_url TEXT, status TEXT DEFAULT 'scheduled', attended_at TIMESTAMPTZ, no_show_at TIMESTAMPTZ, created_at TIMESTAMPTZ DEFAULT now())`
 
-### 4a. Create program from scratch
+### Fix 4 — Add mentor hour-approval UI to partner portal
+**New file:** `app/(partner)/partners/hours/page.tsx`
 
-- Form: title, slug (auto-generated from title), description, category, status
-- POST to `programs` table
-- Redirect to program detail in builder on save
+Query `hour_entries` where `status = 'pending'` and `program_slug` matches the partner's assigned programs. Show each entry with Approve/Reject buttons that call `/api/apprenticeship/hours/approve`.
 
-### 4b. Module management
+### Fix 5 — Canonicalize hours to `hour_entries` only
+**Files:** `app/(partner)/partners/attendance/page.tsx`
 
-- Add module: title, order, description → writes to `modules` table
-- Reorder with up/down buttons → updates `module_order`
-- Delete module (with confirmation)
+Replace the weekly grid that writes to `apprentice_placements` with a form that POSTs to `/api/apprenticeship/hours` (which writes to `hour_entries`). Deprecate direct writes to `ojt_hours_log` and `apprenticeship_hours`.
 
-### 4c. Lesson management
+### Fix 6 — Add workforce referral records
+**New file:** `app/api/workforce-referrals/route.ts`
 
-- Add lesson: title, `step_type`, order → writes to `curriculum_lessons`
-- `step_type` options: lesson, quiz, checkpoint, lab, assignment, exam, certification
-- Delete lesson (with confirmation)
+```ts
+// POST: create referral record
+// GET: list referrals by applicant or agency
+// PATCH: update status (referred, contacted, enrolled, declined)
+```
 
-### 4d. Lesson content editor (inline, tabbed)
+Table: `workforce_referrals` (already in migrations) — wire it to the intake flow so that `referral_source = 'workone'` creates a `workforce_referrals` row with `agency = 'workone'`, `applicant_id`, `status = 'referred'`.
 
-- **Content tab** — rich text editor for reading content
-- **Video tab** — attach video (see §5)
-- **Quiz tab** — add/edit/delete questions + answer choices, set `passing_score`
-- **Settings tab** — step_type, order, passing_score, status
-- Auto-saves on blur via PATCH `/api/admin/lessons/[id]`
+### Fix 7 — Employment outcome recording
+**New file:** `app/api/outcomes/route.ts`
 
----
+POST endpoint that writes to `employment_outcomes`:
+```ts
+{ user_id, program_slug, outcome_type: 'employed'|'credential'|'military'|'education', employer_name, job_title, hourly_wage, start_date }
+```
 
-## Requirement 5 — Video Management
-
-### 5a. Upload (Supabase Storage)
-
-- Drag-and-drop or file picker (MP4, MOV, WebM)
-- Uploads to `course-videos` bucket: `programs/{programId}/{lessonId}/{filename}`
-- Progress bar during upload
-- On complete → writes URL to `curriculum_lessons.video_url`
-
-### 5b. D-ID Generation
-
-- Form: lesson select, script text, avatar (default: instructor-trades.jpg)
-- POST to D-ID API via existing integration
-- Polls job status → writes result to `curriculum_lessons.video_url`
-- Job status tracked in `video_generation_jobs` table
-
-### 5c. External URL
-
-- Input: paste YouTube, Vimeo, or direct MP4 URL
-- URL format validation
-- Writes to `curriculum_lessons.video_url`
-
-### 5d. Video Manager page
-
-- Lists all lessons where `video_url IS NOT NULL`
-- Columns: lesson, program, video type (upload/did/external), preview link, replace, remove
-- Filter by program
+Wire to admin student detail page and to the learner dashboard post-completion flow.
 
 ---
 
-## Requirement 6 — Auth sweep
+## Implementation Priority Order
 
-Every admin page must have `requireAdmin()` (server) or `AdminClientPage` wrapper (client).
-No page in `/app/admin/**` is accessible without admin role.
-
----
-
-## Acceptance Criteria
-
-- [ ] `/admin` is a real landing page — not a redirect — with live DB data
-- [ ] Nav has section headers in dropdowns matching the public site pattern
-- [ ] Mobile hamburger panel has accordion sections with section headers
-- [ ] Every admin page returns 403/redirect for unauthenticated users
-- [ ] Every stub page shows real Supabase data (or clear empty state)
-- [ ] Admin can create program → add modules → add lessons → add content without code
-- [ ] Admin can attach video via upload, D-ID, or URL
-- [ ] `/admin/video-manager` lists all lesson videos with replace/remove
-- [ ] All pages match marketing site design (no card grids, no sidebar aesthetic)
-- [ ] Zero hydration errors
-- [ ] Dev server starts clean
-
----
-
-## Implementation Order
-
-1. Auth sweep — `requireAdmin()` on all unguarded pages
-2. Admin landing page (`/admin/page.tsx`) — hero + stats + quick nav + activity
-3. AdminNav rebuild — section headers in dropdowns, hover+click, mobile accordion
-4. Stub pages — all 20 wired to Supabase as production server components
-5. Course builder — create program form + API route
-6. Course builder — module/lesson management UI
-7. Lesson content editor — inline tabs (Content, Video, Quiz, Settings)
-8. Video upload — Supabase storage with progress
-9. D-ID video generation — form + polling + status
-10. External URL video — input + save
-11. Video manager page — full list with replace/remove
-12. Verify — dev server clean, all pages load, all DB queries return data
+1. **Fix 1** — WIOA intake fields (blocks all compliance reporting)
+2. **Fix 2** — Status pipeline extension (blocks placement/outcome tracking)
+3. **Fix 3** — Consultation booking → applicant linkage (blocks attendance tracking)
+4. **Fix 4** — Mentor hour-approval UI (blocks partner self-service)
+5. **Fix 6** — Workforce referral records (blocks agency tracking)
+6. **Fix 7** — Employment outcome recording (blocks WIOA performance metrics)
+7. **Fix 5** — Hours table canonicalization (blocks accurate totals)
