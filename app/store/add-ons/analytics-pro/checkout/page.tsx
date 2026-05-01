@@ -2,6 +2,10 @@ export const dynamic = 'force-static';
 export const revalidate = 3600;
 
 import AddOnCheckout from '@/components/store/AddOnCheckout';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 
 export default function AnalyticsProCheckoutPage() {
   return (

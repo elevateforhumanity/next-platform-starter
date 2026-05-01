@@ -2,6 +2,7 @@
 
 // app/api/programs/featured/route.ts
 // Cached featured programs endpoint
+import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { cacheGet, cacheSet } from '@/lib/cache';
@@ -18,7 +19,7 @@ async function _GET(req: NextRequest) {
     const rl = await applyRateLimit(req, 'api');
     if (rl) return rl;
   } catch (e) {
-    console.warn('[rate-limit] applyRateLimit failed — continuing without limit', e);
+    logger.warn('[rate-limit] applyRateLimit failed — continuing without limit', e);
   }
   let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {

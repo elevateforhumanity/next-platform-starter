@@ -1,5 +1,6 @@
 // PUBLIC ROUTE: Text-to-speech synthesis for lesson audio. Rate-limited via
 // applyRateLimit('public'). No user data is read or written.
+import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('TTS API error:', error);
+    logger.error('TTS API error:', error);
     return NextResponse.json({ error: 'TTS generation failed' }, { status: 500 });
   }
 }

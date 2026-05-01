@@ -5,6 +5,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { BookOpen, ArrowLeft, Users, FileText, Settings, BarChart3 } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 const sections = [
   {
     icon: Users,

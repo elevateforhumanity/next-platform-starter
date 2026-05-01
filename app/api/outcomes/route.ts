@@ -1,5 +1,6 @@
 // Authenticated route: record and retrieve employment outcomes for WIOA performance reporting.
 
+import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiAuthGuard, apiRequireAdmin } from '@/lib/admin/guards';
@@ -102,7 +103,7 @@ async function _POST(req: NextRequest) {
       .eq('user_id', userId)
       .in('status', ['completed', 'active_apprentice'])
       .then(({ error: e }) => {
-        if (e) console.warn('[outcomes] Failed to advance application status', e.message);
+        if (e) logger.warn('[outcomes] Failed to advance application status', e);
       });
   }
 

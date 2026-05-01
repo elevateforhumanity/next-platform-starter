@@ -4,6 +4,10 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import ProgramSubmitForm from './ProgramSubmitForm';
 
 export const dynamic = 'force-dynamic';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 
 export default async function ProviderProgramNewPage() {
   const supabase = await createClient();

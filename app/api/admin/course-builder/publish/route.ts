@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { auditCourseTemplate } from '@/lib/course-builder/audit';
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: result.success, audit, result });
   } catch (error) {
-    console.error('[course-builder/publish]', error);
+    logger.error('[course-builder/publish]', error);
     return NextResponse.json({ ok: false, error: 'Failed to publish course' }, { status: 500 });
   }
 }

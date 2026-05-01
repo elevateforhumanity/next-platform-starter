@@ -5,6 +5,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Zap, ArrowLeft, ArrowRight } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 const steps = [
   {
     num: 1,
