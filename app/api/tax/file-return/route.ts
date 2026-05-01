@@ -29,14 +29,22 @@ const EFIN = '358459';
 
 export async function POST(request: NextRequest) {
   await hydrateProcessEnv();
-  const rateLimited = await applyRateLimit(request, 'contact');
+  const rateLimited = await applyRateLimit(request, 'payment');
   if (rateLimited) return rateLimited;
+
+  // Auth: require authenticated session — this route handles SSN and IRS e-filing
+  const { createClient: createAuthClient } = await import('@/lib/supabase/server');
+  const authSupabase = await createAuthClient();
+  const { data: { session } } = await authSupabase.auth.getSession();
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   await auditPiiAccess({
     action: 'PII_ACCESS',
     entity: 'pii',
     req: request,
-    metadata: { route: '/api/tax/file-return' },
+    metadata: { route: '/api/tax/file-return', userId: session.user.id },
   });
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey);

@@ -89,9 +89,8 @@ export async function POST(request: NextRequest) {
     durationSecs: lesson.duration_seconds ?? undefined,
     adminDb,
   }).catch((err) => {
-    logger.error(
-      '[VideoGenerate] Background render threw: ' + (err instanceof Error ? err.message : err),
-    );
+    // audit-safe: err goes to logger only, not HTTP response
+    logger.error('[VideoGenerate] Background render threw', err);
   });
 
   return NextResponse.json(
@@ -181,6 +180,7 @@ async function runRender(opts: {
       scene_count: undefined,
     });
   } catch (err) {
+    // audit-safe: message stored in DB job record only, not HTTP response
     const msg = err instanceof Error ? err.message : String(err);
     await markFailed(jobId, msg);
   }

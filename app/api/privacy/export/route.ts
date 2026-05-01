@@ -1,4 +1,5 @@
 // app/api/privacy/export/route.ts
+// AUTH: requires authenticated session (getSession) — scoped to session user only
 // GDPR/CCPA: Data export endpoint
 //
 // IDOR fix: previously accepted an email in the request body and exported that

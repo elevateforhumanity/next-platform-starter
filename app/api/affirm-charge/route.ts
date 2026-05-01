@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: deprecated tombstone — always returns 410, no data access
 import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';

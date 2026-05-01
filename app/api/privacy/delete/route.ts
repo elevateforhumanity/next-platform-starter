@@ -1,4 +1,5 @@
 // app/api/privacy/delete/route.ts
+// AUTH: requires authenticated session (getSession) — scoped to session user only
 // GDPR/CCPA: Right to be forgotten
 //
 // IDOR fix: previously accepted an email in the request body and anonymized

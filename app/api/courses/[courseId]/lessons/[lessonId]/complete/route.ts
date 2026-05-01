@@ -1,4 +1,4 @@
-// AUTH: Enforced inside handler — delegates to /api/lessons/[lessonId]/complete which requires auth
+// PUBLIC ROUTE: auth enforced by the delegate target — /api/lessons/[lessonId]/complete requires session
 /**
  * Legacy lesson completion endpoint.
  * Delegates to the gated /api/lessons/[lessonId]/complete which enforces

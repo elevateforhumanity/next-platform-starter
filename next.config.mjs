@@ -419,10 +419,10 @@ const nextConfig = {
       { source: '/programs/professional-esthetician/:path*', destination: '/programs/esthetician/:path*', permanent: true },
       // forklift now has its own detail page — redirect removed
       { source: '/programs/it-support', destination: '/programs/it-help-desk', permanent: true },
-      { source: '/programs/it-support/apply', destination: '/programs/it-help-desk/apply', permanent: true },
+      { source: '/programs/it-support/apply', destination: '/apply?program=it-help-desk', permanent: true },
       { source: '/programs/it-support/:path*', destination: '/programs/it-help-desk/:path*', permanent: true },
       // /programs/jri → /partners/jri (JRI is a funding partner page, not a program)
-      { source: '/programs/jri', destination: '/partners/jri', permanent: true },
+      { source: '/programs/jri', destination: '/partners', permanent: true },
       // phlebotomy HAS its own page — redirect to it, not generic /healthcare
       { source: '/programs/phlebotomy-technician', destination: '/programs/phlebotomy', permanent: true },
       {
@@ -476,7 +476,7 @@ const nextConfig = {
       { source: '/employer/apprentices/new', destination: '/employer', permanent: true },
       { source: '/employer/login', destination: '/login', permanent: true },
       { source: '/employer/postings/new', destination: '/employer', permanent: true },
-      { source: '/employer/register', destination: '/apply/employer', permanent: true },
+      { source: '/employer/register', destination: '/employers', permanent: true },
 
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
@@ -548,7 +548,7 @@ const nextConfig = {
       // Governance / compliance aliases — handled by netlify.toml (force=true, Railway-aware)
       { source: '/community', destination: '/help', permanent: false },
       { source: '/financial-aid', destination: '/funding', permanent: true },
-      { source: '/workforce-board/reports', destination: '/workone-partner-packet', permanent: true },
+      { source: '/workforce-board/reports', destination: '/snap-et-partner', permanent: true },
       {
         source: '/admin/accreditation/evidence/new',
         destination: '/admin/accreditation',
@@ -589,10 +589,10 @@ const nextConfig = {
         destination: '/learner/dashboard',
         permanent: true,
       },
-      // /sitemap → /site-map (HTML sitemap page moved to avoid conflict with app/sitemap.ts)
+      // /sitemap → /programs (HTML sitemap page; /site-map itself redirects to /programs)
       {
         source: '/sitemap',
-        destination: '/site-map',
+        destination: '/programs',
         permanent: true,
       },
       // Redirect sitemap-page to sitemap.xml
@@ -632,7 +632,7 @@ const nextConfig = {
         destination: '/program-holder/sign-mou',
         permanent: true,
       },
-      { source: '/program-holders/apply', destination: '/apply/program-holder', permanent: true },
+      { source: '/program-holders/apply', destination: '/apply', permanent: true },
       {
         source: '/program-holders/onboarding',
         destination: '/program-holder/onboarding',
@@ -863,7 +863,7 @@ const nextConfig = {
       { source: '/privacy', destination: '/privacy-policy', permanent: true },
       { source: '/terms', destination: '/terms-of-service', permanent: true },
       { source: '/legal/privacy', destination: '/privacy-policy', permanent: true },
-      { source: '/legal/terms-of-service', destination: '/legal/privacy', permanent: true },
+      { source: '/legal/terms-of-service', destination: '/privacy-policy', permanent: true },
       {
         source: '/legal/governance/lms',
         destination: '/legal/governance/lms-standards',
@@ -893,9 +893,9 @@ const nextConfig = {
       // Store / platform aliases
       { source: '/store/demo', destination: '/store', permanent: true },
       { source: '/store/orders', destination: '/shop/orders', permanent: true },
-      { source: '/platform/licensing', destination: '/licensing-partnerships', permanent: true },
+      { source: '/platform/licensing', destination: '/licensing', permanent: true },
       { source: '/chat', destination: '/support/chat', permanent: true },
-      { source: '/certificates/verify', destination: '/cert/verify', permanent: true },
+      { source: '/certificates/verify', destination: '/verify', permanent: true },
 
       // Verify consolidation
       { source: '/verifycertificate/:path*', destination: '/verify/:path*', permanent: true },
@@ -957,8 +957,8 @@ const nextConfig = {
       // Duplicate success pages → canonical /apply/success
       { source: '/apply/confirmation', destination: '/apply/success', permanent: true },
 
-      // Program holder apply alias (was in netlify.toml)
-      { source: '/program-holder/apply', destination: '/apply/program-holder', permanent: true },
+      // Program holder apply — collapsed from /program-holder/apply → /apply/program-holder → /apply
+      { source: '/program-holder/apply', destination: '/apply', permanent: true },
 
       // /scholarships → /funding handled by Netlify (public SEO route, Rule A)
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
@@ -1027,7 +1027,7 @@ const nextConfig = {
       // DEAD LINK FIXES — railway additions
       // ============================================
       { source: '/logout', destination: '/login', permanent: false },
-      { source: '/community/groups', destination: '/community', permanent: false },
+      { source: '/community/groups', destination: '/help', permanent: false },
       { source: '/elevate-platform-overview.pdf', destination: '/resources', permanent: false },
       { source: '/pwa/barber/log-hours', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/training', destination: '/programs/barber-apprenticeship', permanent: false },
@@ -1038,7 +1038,7 @@ const nextConfig = {
       // REDIRECT STUBS — moved from page.tsx files
       // ============================================
       { source: '/admin/install', destination: '/install-app', permanent: true },
-      { source: '/demo/admin/dashboard', destination: '/demo/admin', permanent: false },
+      { source: '/demo/admin/dashboard', destination: '/admin/dashboard', permanent: false },
       { source: '/employer-portal/candidates', destination: '/employer/candidates', permanent: true },
       { source: '/employer/apprenticeship/new', destination: '/employer', permanent: false },
       { source: '/employer/apprenticeship', destination: '/employer/dashboard', permanent: false },
@@ -1055,7 +1055,7 @@ const nextConfig = {
       { source: '/partners/barber-shop', destination: '/partners/barbershop-apprenticeship', permanent: true },
       { source: '/payment/affirm', destination: '/apply', permanent: false },
       { source: '/policies/grievance', destination: '/legal', permanent: true },
-      { source: '/program-holder/apply', destination: '/apply/program-holder', permanent: false },
+      // duplicate of line ~959 — removed
       { source: '/program-holder/programs/new', destination: '/program-holder', permanent: false },
       { source: '/store/orders', destination: '/store', permanent: false },
     ];
