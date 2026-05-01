@@ -20,7 +20,7 @@ export default function ApplyProgramRedirect({ program }: { program: string }) {
     if (entry.dedicatedApplyPage) {
       router.replace(entry.dedicatedApplyPage);
     } else {
-      router.replace(`/apply/student?program=${entry.slug}`);
+      router.replace(`/apply?program=${entry.slug}`);
     }
   }, [program, router]);
 

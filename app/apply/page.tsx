@@ -1,14 +1,9 @@
-export const revalidate = 3600;
-
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
-import Logo from '@/components/ui/Logo';
-import ApplyHeroVideo from './ApplyHeroVideo';
-import ApplyProgramRedirect from './ApplyProgramRedirect';
+import { Suspense } from 'react';
+import IntakeFormInner from './IntakeFormInner';
 
-import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { ArrowRight } from 'lucide-react';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Apply | Check Eligibility for Funded Training | Elevate for Humanity',
@@ -19,385 +14,47 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ApplyPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ program?: string; pathway?: string; qualified?: string }>;
-}) {
-  const params = await searchParams;
-  const qualified = params.qualified; // 'true' | 'false' | undefined — set by EligibilityScreener
-  const rawProgram = (params?.program || params?.pathway || '').trim();
-
+export default function ApplyPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Client-side program redirect — resolves ?program= param without blocking static render */}
-      {rawProgram && <ApplyProgramRedirect program={rawProgram} />}
-      {/* Breadcrumbs */}
-      <div className="bg-white border-b border-slate-100">
-        <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Apply' }]} />
+      {/* Audience switcher */}
+      <div className="bg-slate-50 border-b border-slate-200">
+        <div className="max-w-2xl mx-auto px-4 py-3 flex flex-wrap items-center gap-x-6 gap-y-1 text-sm">
+          <span className="font-semibold text-slate-900">Applying as:</span>
+          <span className="font-bold text-brand-red-600">Student / Participant</span>
+          <span className="text-slate-300">|</span>
+          <Link href="/apply/employer" className="text-slate-500 hover:text-slate-800 transition-colors">Employer</Link>
+          <Link href="/apply/program-holder" className="text-slate-500 hover:text-slate-800 transition-colors">Training Provider</Link>
+          <Link href="/partners/apply" className="text-slate-500 hover:text-slate-800 transition-colors">Agency / Partner</Link>
         </div>
       </div>
 
-      {/* Hero banner — full width video, top of page */}
-      <section className="relative w-full h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
-        <ApplyHeroVideo />
-      </section>
-
-      {/* Who are you? — primary funnel selector */}
-      <section className="pt-8 pb-6 px-4 bg-slate-50 border-b border-slate-100">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">
-            Who are you applying as?
+      {/* Hero */}
+      <section className="bg-slate-900 py-10">
+        <div className="max-w-2xl mx-auto px-4">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">
+            Funding &amp; Apprenticeship Intake
+          </p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+            Check Your Eligibility
           </h1>
-          <p className="text-slate-500 text-sm mb-6">
-            Select the option that fits — we&apos;ll route you to the right application.
+          <p className="text-slate-300 text-base max-w-xl">
+            Takes 3–5 minutes. We screen for WIOA, WRG, FSSA IMPACT, and Job Ready Indy funding.
+            Many programs are no cost to eligible Indiana residents.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto">
-            <Link href="/apply/student" className="flex flex-col items-center gap-2 bg-white border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-md rounded-xl p-4 transition-all group">
-              <span className="text-2xl">🎓</span>
-              <span className="font-bold text-slate-900 text-sm">Student</span>
-              <span className="text-xs text-slate-500 leading-tight">Career training &amp; credentials</span>
-            </Link>
-            <Link href="/apply/employer" className="flex flex-col items-center gap-2 bg-white border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-md rounded-xl p-4 transition-all group">
-              <span className="text-2xl">🏢</span>
-              <span className="font-bold text-slate-900 text-sm">Employer</span>
-              <span className="text-xs text-slate-500 leading-tight">Hire trained workers</span>
-            </Link>
-            <Link href="/apply/program-holder" className="flex flex-col items-center gap-2 bg-white border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-md rounded-xl p-4 transition-all group">
-              <span className="text-2xl">🏫</span>
-              <span className="font-bold text-slate-900 text-sm">Provider</span>
-              <span className="text-xs text-slate-500 leading-tight">Launch a program</span>
-            </Link>
-            <Link href="/partners/apply" className="flex flex-col items-center gap-2 bg-white border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-md rounded-xl p-4 transition-all group">
-              <span className="text-2xl">🤝</span>
-              <span className="font-bold text-slate-900 text-sm">Partner</span>
-              <span className="text-xs text-slate-500 leading-tight">Agency or organization</span>
-            </Link>
-          </div>
-          <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm">
-            <a href="/inquiry" className="text-brand-blue-600 hover:underline font-medium">Submit an Inquiry</a>
-            <a href="/programs" className="text-brand-blue-600 hover:underline font-medium">Browse Programs</a>
-          </div>
         </div>
       </section>
 
-      {/* Eligibility result banner — shown when arriving from EligibilityScreener */}
-      {qualified === 'true' && (
-        <div className="max-w-6xl mx-auto px-4 pt-6">
-          <div className="bg-green-50 border border-green-200 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="flex-1">
-              <h2 className="text-lg font-bold text-green-900 mb-1">
-                You likely qualify for funded training
-              </h2>
-              <p className="text-green-800 text-sm">
-                Based on your answers, you may be eligible for WIOA, WRG, or Job Ready Indy funding.
-                Continue your application to confirm eligibility with WorkOne.
-              </p>
+      {/* Form */}
+      <section className="py-10">
+        <div className="max-w-2xl mx-auto px-4">
+          <Suspense fallback={
+            <div className="flex items-center justify-center py-20">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red-600" />
             </div>
-            <Link
-              href="/apply/student"
-              className="flex-shrink-0 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
-            >
-              Start Application
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {qualified === 'false' && (
-        <div className="max-w-6xl mx-auto px-4 pt-6">
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="flex-1">
-              <h2 className="text-lg font-bold text-amber-900 mb-1">
-                You may still qualify — or enroll directly
-              </h2>
-              <p className="text-amber-800 text-sm">
-                Funded programs may not be the right fit based on your answers, but you can still
-                enroll through self-pay with flexible payment options starting at $600 down.
-              </p>
-            </div>
-            <Link
-              href="/programs"
-              className="flex-shrink-0 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
-            >
-              View Programs
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {/* FSSA IMPACT callout — SNAP/TANF recipients */}
-      <section className="max-w-6xl mx-auto px-4 pt-8">
-        <div className="bg-green-50 border border-green-200 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center gap-5">
-          <div className="flex-1">
-            <span className="inline-block bg-green-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-2">
-              FSSA IMPACT — Free Training
-            </span>
-            <h2 className="text-lg font-bold text-green-900 mb-1">
-              Receiving SNAP or TANF? You may qualify for fully funded training.
-            </h2>
-            <p className="text-green-800 text-sm">
-              Indiana&apos;s FSSA IMPACT program covers tuition, books, and supplies for eligible
-              SNAP and TANF recipients. Apply directly here — no Microsoft account required.
-            </p>
-          </div>
-          <Link
-            href="/apply/fssa"
-            className="flex-shrink-0 inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-lg text-sm transition-colors"
-          >
-            Apply for FSSA IMPACT <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
-
-      {/* Application cards */}
-      <section className="max-w-6xl mx-auto px-4 pb-10 sm:pb-14 space-y-8">
-        {/* Student — full width, image fills left side */}
-        <Link
-          href="/apply/student"
-          className="block rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-shadow group"
-        >
-          <div className="flex flex-col md:flex-row">
-            <div className="relative w-full md:w-2/5 h-[200px] md:h-auto md:min-h-[280px] overflow-hidden">
-              <Image
-                src="/images/pages/apply-page-2.jpg"
-                alt="Students in hands-on career training"
-                fill
-                className="object-cover"
-                sizes="100vw"
-              />
-            </div>
-            <div className="flex-1 bg-white p-6 sm:p-8">
-              <span className="inline-block bg-brand-blue-600 text-white text-xs font-bold uppercase tracking-wider px-3 py-0.5 rounded-full mb-3">
-                Most Popular
-              </span>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
-                Student Programs
-              </h2>
-              <p className="text-slate-700 mb-3">
-                Apply for career training in healthcare, skilled trades, barbering, IT, and more.
-                Many programs are funded through WIOA, WRG, and Job Ready Indy grants. Some programs
-                have tuition with flexible payment options available.
-              </p>
-              <ul className="text-black text-sm space-y-1 mb-4 list-disc list-inside">
-                <li>
-                  Many programs qualify for WIOA, WRG, or FSSA IMPACT funding — check eligibility
-                  first
-                </li>
-                <li>Takes 2 minutes to check eligibility</li>
-                <li>Self-pay options with payment plans and BNPL available if you don't qualify</li>
-                <li>Response within 1–2 business days</li>
-              </ul>
-              <span className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg group-hover:gap-3 transition-all text-sm">
-                Check My Eligibility <ArrowRight className="w-4 h-4" />
-              </span>
-            </div>
-          </div>
-        </Link>
-
-        {/* Secondary cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-          {/* Employer */}
-          <div className="rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-shadow">
-            <div className="relative h-[200px] overflow-hidden">
-              <Image
-                src="/images/pages/employer-page-2.jpg"
-                alt="Employer partnership meeting"
-                fill
-                className="object-cover"
-                sizes="100vw"
-              />
-            </div>
-            <div className="bg-white p-5">
-              <div className="flex items-center gap-2 mb-2">
-                <h2 className="text-lg font-bold text-slate-900">Employer Partnership</h2>
-                <Logo alt="Elevate" width={18} height={18} className="opacity-30" />
-              </div>
-              <p className="text-black text-sm leading-relaxed mb-2">
-                Partner with Elevate to access pre-screened, trained candidates ready to work. We
-                handle recruiting, skills training, and onboarding so you get job-ready hires.
-              </p>
-              <p className="text-slate-700 text-sm font-semibold mb-2">
-                Available grants and tax credits:
-              </p>
-              <div className="space-y-1.5 mb-3">
-                <Link
-                  href="/employers"
-                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
-                >
-                  <strong>WOTC</strong> — Work Opportunity Tax Credit up to $9,600 per hire
-                </Link>
-                <Link
-                  href="/ojt-and-funding"
-                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
-                >
-                  <strong>OJT</strong> — On-the-Job Training reimbursement covers 50-75% of wages
-                </Link>
-                <Link
-                  href="/funding"
-                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
-                >
-                  <strong>WIOA</strong> — Workforce Innovation and Opportunity Act funds upskilling
-                </Link>
-                <Link
-                  href="/funding"
-                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
-                >
-                  <strong>WRG</strong> — Workforce Ready Grant covers high-demand certifications
-                </Link>
-                <Link
-                  href="/funding/state-programs"
-                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
-                >
-                  <strong>FSSA IMPACT</strong> — Indiana Family and Social Services covers SNAP/TANF
-                  participants
-                </Link>
-              </div>
-              <Link
-                href="/employers"
-                className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-brand-blue-700 transition-colors"
-              >
-                Partner With Us <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Program Holder — full image CTA */}
-          <Link
-            href="/apply/program-holder"
-            className="block rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-shadow group relative"
-          >
-            <div className="relative h-[320px] sm:h-[360px] overflow-hidden">
-              <Image
-                src="/images/pages/apply-page-3.jpg"
-                alt="Launch your own training program with Elevate"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-              {/* Gradient scrim so text is readable over any image */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h2 className="text-lg sm:text-xl font-bold text-white mb-2">
-                  Become a Program Holder
-                </h2>
-                <p className="text-white/90 text-sm leading-relaxed mb-3">
-                  Launch your own workforce training program on Elevate&apos;s platform. We provide
-                  the LMS, curriculum, and compliance infrastructure.
-                </p>
-                <span className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg text-sm group-hover:gap-3 transition-all">
-                  Get Started <ArrowRight className="w-4 h-4" />
-                </span>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Support Bundle */}
-        <div className="bg-white rounded-2xl p-6 sm:p-10 border border-slate-100">
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2 text-center">
-            Every Applicant Gets a Support Bundle
-          </h2>
-          <p className="text-black text-center mb-8 max-w-2xl mx-auto">
-            Training is just the start. We wrap services around you so nothing gets in the way of
-            finishing.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {[
-              {
-                image: '/images/pages/apply-page-1.jpg',
-                alt: 'Funding assistance',
-                title: 'Funding & Grants',
-                desc: 'WIOA covers tuition, books, and supplies for qualifying adults and dislocated workers. WRG (Workforce Ready Grant) funds high-demand certifications in Indiana. FSSA IMPACT covers SNAP and TANF participants. Job Ready Indy supports individuals with justice involvement.',
-                link: '/funding',
-                linkLabel: 'View Funding Options',
-              },
-
-              {
-                image: '/images/pages/comp-home-hero.jpg',
-                alt: 'Childcare support',
-                title: 'Childcare Support',
-                desc: 'Referrals and assistance finding affordable childcare during training hours.',
-              },
-              {
-                image: '/images/pages/resume-building-hero.jpg',
-                alt: 'Career placement services',
-                title: 'Career Placement',
-                desc: 'Resume help, interview prep, and direct employer connections before you graduate.',
-                link: '/career-services',
-                linkLabel: 'View Career Services',
-              },
-              {
-                image: '/images/pages/comp-home-highlight-health.jpg',
-                alt: 'Case management team',
-                title: 'Case Management',
-                desc: 'A dedicated advisor checks in weekly to help you stay on track.',
-              },
-              {
-                image: '/images/pages/barber-gallery-1.jpg',
-                alt: 'Barber apprenticeship training in a real barbershop',
-                title: 'Barber Apprenticeship',
-                desc: 'Train in a real barbershop, earn while you learn, and get your Indiana barber license. 2,000 hours of hands-on experience.',
-              },
-              {
-                image: '/images/pages/apply-page-1.jpg',
-                alt: 'Credential and certification support',
-                title: 'Credential Support',
-                desc: 'Exam prep, testing fees, and licensing assistance included with your program.',
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="bg-white rounded-xl overflow-hidden border border-slate-100"
-              >
-                <div className="relative h-32 sm:h-36 overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={item.alt}
-                    fill
-                    className="object-cover"
-                    sizes="100vw"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-slate-900 mb-1">{item.title}</h3>
-                  <p className="text-black text-sm leading-relaxed">{item.desc}</p>
-                  {'link' in item &&
-                    item.link &&
-                    (item.link.startsWith('http') ? (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-4 py-2 rounded-lg text-sm mt-3 hover:bg-brand-blue-700 transition-colors"
-                      >
-                        {('linkLabel' in item && item.linkLabel) || 'Learn More'}{' '}
-                        <ArrowRight className="w-4 h-4" />
-                      </a>
-                    ) : (
-                      <Link
-                        href={item.link}
-                        className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-4 py-2 rounded-lg text-sm mt-3 hover:bg-brand-blue-700 transition-colors"
-                      >
-                        {('linkLabel' in item && item.linkLabel) || 'Learn More'}{' '}
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Track existing application */}
-        <div className="text-center pt-2">
-          <p className="text-black text-sm">
-            Already applied?{' '}
-            <Link href="/apply/track" className="text-brand-blue-600 hover:underline font-medium">
-              Track your application status
-            </Link>
-          </p>
+          }>
+            <IntakeFormInner />
+          </Suspense>
         </div>
       </section>
     </div>

@@ -928,9 +928,11 @@ const nextConfig = {
         permanent: true,
       },
 
-      // Duplicate student forms → canonical /apply/student
+      // Duplicate apply forms → canonical /apply
       // /apply/quick → /apply handled in netlify.toml (301, force)
-      { source: '/apply/full', destination: '/apply/student', permanent: true },
+      { source: '/apply/full', destination: '/apply', permanent: true },
+      { source: '/apply/start', destination: '/apply', permanent: true },
+      { source: '/apply/intake', destination: '/apply', permanent: true },
 
       // Duplicate status pages → canonical /apply/track
 
