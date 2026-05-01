@@ -60,10 +60,20 @@ export default function AuthResetPasswordPage() {
       });
       subscription = sub;
 
-      // After 3 s with no auth event, declare the session invalid.
+      // After 8 s with no auth event, declare the session invalid.
+      // 3 s was too short on slow connections — the hash fragment exchange
+      // can take 4–6 s on first load when the JS bundle is cold.
       timeout = setTimeout(() => {
-        setSessionReady((prev) => (prev === null ? false : prev));
-      }, 3000);
+        // Last-ditch check: if the URL still has a recovery hash, the event
+        // may still be in flight. Give it one more second before giving up.
+        if (typeof window !== 'undefined' && window.location.hash.includes('type=recovery')) {
+          timeout = setTimeout(() => {
+            setSessionReady((prev) => (prev === null ? false : prev));
+          }, 2000);
+        } else {
+          setSessionReady((prev) => (prev === null ? false : prev));
+        }
+      }, 8000);
     });
 
     // Cleanup is returned from useEffect directly so React always runs it.
