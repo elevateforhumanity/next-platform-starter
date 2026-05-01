@@ -1,15 +1,6 @@
+import { timedFetch } from '@/lib/supabase/timed-fetch';
 import { logger } from '@/lib/logger';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-
-// Hard timeout on every Supabase fetch — prevents 22s cold-start hangs.
-const SUPABASE_FETCH_TIMEOUT_MS = 8000;
-function timedFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), SUPABASE_FETCH_TIMEOUT_MS);
-  return fetch(input, { ...init, signal: controller.signal }).finally(() =>
-    clearTimeout(timer),
-  );
-}
 
 /**
  * @deprecated Use `getAdminClient()` instead in all request-time code

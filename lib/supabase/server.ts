@@ -1,3 +1,4 @@
+import { timedFetch } from '@/lib/supabase/timed-fetch';
 import { logger } from '@/lib/logger';
 import { createServerClient } from '@supabase/ssr';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
@@ -10,17 +11,6 @@ export function isSupabaseConfigured(): boolean {
 }
 
 // Supabase fetch with a hard timeout to prevent cold-start hangs on Netlify/Railway.
-// Without this, a stalled TCP connection to Supabase waits ~22s before the OS
-// gives up, which shows up as 22,000ms function durations in Netlify logs.
-const SUPABASE_FETCH_TIMEOUT_MS = 8000;
-function timedFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), SUPABASE_FETCH_TIMEOUT_MS);
-  return fetch(input, { ...init, signal: controller.signal }).finally(() =>
-    clearTimeout(timer),
-  );
-}
-
 // Mock client that returns empty data - prevents crashes when Supabase isn't configured
 const mockQueryBuilder = {
   select: () => mockQueryBuilder,
