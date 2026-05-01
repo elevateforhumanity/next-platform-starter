@@ -472,7 +472,7 @@ const nextConfig = {
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
 
       // Mentor / Mentorship
-      { source: '/mentor', destination: '/mentor/dashboard', permanent: false },
+      // /mentor base route is Railway-owned (netlify.toml proxy) — no redirect here
       { source: '/mentor/apply', destination: '/mentorship', permanent: true },
       { source: '/mentorship/apply', destination: '/apply', permanent: true },
 
@@ -775,7 +775,7 @@ const nextConfig = {
       { source: '/partner-playbook/:path*', destination: '/partners/:path*', permanent: true },
 
       // Auth consolidation
-      { source: '/reset-password', destination: '/login', permanent: false },
+      // /reset-password is Railway-owned (netlify.toml proxy) — no redirect here
 
       // Missing public pages — redirect to closest marketing equivalent
       { source: '/apply/student', destination: '/apply', permanent: false },
@@ -803,7 +803,7 @@ const nextConfig = {
       { source: '/faq', destination: '/support', permanent: true },
       { source: '/how-it-works', destination: '/about', permanent: false },
       { source: '/mission', destination: '/about', permanent: false },
-      { source: '/impact', destination: '/about', permanent: false },
+      // /impact is Railway-owned (netlify.toml proxy) — no redirect here
       { source: '/site-map', destination: '/programs', permanent: false },
       { source: '/security-and-data-protection', destination: '/privacy-policy', permanent: false },
       // /consumer-education → /resources handled in netlify.toml (301, force)
@@ -831,16 +831,13 @@ const nextConfig = {
       { source: '/fssa-partnership-request', destination: '/contact', permanent: false },
       { source: '/financial-support', destination: '/funding', permanent: true },
       { source: '/community/:path*', destination: '/community-services', permanent: true },
-      { source: '/compliance/:path*', destination: '/disclosures', permanent: false },
+      // /compliance/:path* is Railway-owned (netlify.toml proxy) — no redirect here
       { source: '/docs/:path*', destination: '/resources', permanent: false },
       // /workone-partner-packet → /snap-et-partner handled in netlify.toml (301, force)
       // Railway portal redirects — handled by Netlify edge (netlify.toml) for:
       //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
       //   /instructor/:path*, /staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
-      // Remaining next.config-only portal redirects (no netlify.toml equivalent):
-      { source: '/my-dashboard', destination: '/login', permanent: false },
-      { source: '/provider/:path*', destination: '/login', permanent: false },
-      { source: '/approvals', destination: '/login', permanent: false },
+      //   /my-dashboard, /provider/:path*, /approvals — also Railway-owned, removed from here
       // /admin/:path* — handled by Netlify edge (netlify.toml force redirect). Removed here.
       // Missing public pages with no Railway equivalent
       { source: '/cert/verify', destination: '/verify', permanent: true },
@@ -848,7 +845,7 @@ const nextConfig = {
       { source: '/microclasses', destination: '/programs', permanent: false },
       { source: '/outcomes/indiana', destination: '/about', permanent: false },
       { source: '/help/:path*', destination: '/support', permanent: false },
-      { source: '/compliance', destination: '/disclosures', permanent: false },
+      // /compliance is Railway-owned (netlify.toml proxy) — no redirect here
 
       // Legal consolidation
       { source: '/privacy', destination: '/privacy-policy', permanent: true },
@@ -874,7 +871,7 @@ const nextConfig = {
       { source: '/pricing', destination: '/license/pricing', permanent: true },
 
       // Auth aliases
-      { source: '/forgot-password', destination: '/reset-password', permanent: true },
+      // /forgot-password is Railway-owned (netlify.toml proxy) — no redirect here
       { source: '/partners/login', destination: '/partner/login', permanent: true },
 
       // Tax / SupersonicFastCash — these belong in a separate repository.
@@ -892,7 +889,7 @@ const nextConfig = {
       { source: '/verifycertificate/:path*', destination: '/verify/:path*', permanent: true },
 
       // Misc redirects
-      { source: '/dashboards/:path*', destination: '/lms/:path*', permanent: true },
+      // /dashboards/:path* is Railway-owned (netlify.toml proxy) — no redirect here
       // /portals base route has its own page — only redirect sub-paths
       { source: '/portals/:slug/:path*', destination: '/lms/:slug/:path*', permanent: true },
       { source: '/portals/:slug', destination: '/lms/:slug', permanent: true },

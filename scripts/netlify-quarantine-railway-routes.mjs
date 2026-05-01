@@ -308,17 +308,18 @@ const ALLOWED_TOP_LEVEL = new Set([
 const FORBIDDEN_SUBPATHS = new Set([
   // ferpa/* — entire dir is Railway-only (FERPA records management)
   'ferpa',
-  // employer-portal sub-pages are Railway app (landing page itself is public)
   // employer-portal/* sub-pages — top-level employer-portal is in ALLOWED (public landing)
-  // sub-pages are Railway-only (auth-gated dashboard, jobs, etc.)
-  'employer-portal/jobs',
+  // sub-pages are Railway-only (auth-gated). Matches app/employer-portal/* dirs.
+  'employer-portal/analytics',
+  'employer-portal/applications',
   'employer-portal/candidates',
+  'employer-portal/company',
+  'employer-portal/interviews',
+  'employer-portal/jobs',
+  'employer-portal/messages',
+  'employer-portal/programs',
   'employer-portal/settings',
   'employer-portal/wotc',
-  'employer-portal/company',
-  'employer-portal/messages',
-  'employer-portal/interviews',
-  'employer-portal/programs',
   // student-portal sub-pages are Railway app (landing page itself is public)
   'student-portal/announcements',
   'student-portal/assignments',
