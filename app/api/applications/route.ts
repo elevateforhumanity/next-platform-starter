@@ -3,6 +3,7 @@
 // app/api/applications/route.ts
 import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { getProgramEnrollmentState } from '@/lib/programs/program-state';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email/sendgrid';
@@ -65,6 +66,25 @@ async function _POST(req: Request) {
             'Service temporarily unavailable. Please call 317-314-3757 for immediate assistance.',
         },
         { status: 503 },
+      );
+    }
+
+    // Program state gate — reject submissions for waitlisted or closed programs
+    const enrollmentState = await getProgramEnrollmentState(supabase, program);
+    if (enrollmentState === 'waitlist') {
+      return NextResponse.json(
+        {
+          error: 'This program is currently waitlisted. Join the waitlist to be notified when the next cohort opens.',
+          waitlisted: true,
+          waitlistUrl: `/programs/${program}`,
+        },
+        { status: 409 },
+      );
+    }
+    if (enrollmentState === 'closed') {
+      return NextResponse.json(
+        { error: 'This program is not currently accepting applications.' },
+        { status: 410 },
       );
     }
 

@@ -56,6 +56,7 @@ COMMENT ON COLUMN public.payment_integrity_flags.sla_days IS
 -- Shows all unresolved funding verification exceptions with age, program,
 -- last contact date, docs received flag, and SLA status.
 
+DROP VIEW IF EXISTS public.v_funding_verification_queue CASCADE;
 CREATE OR REPLACE VIEW public.v_funding_verification_queue AS
 SELECT
   f.id                                          AS flag_id,
@@ -83,16 +84,12 @@ SELECT
   pe.created_at                                 AS enrolled_at,
   -- Docs received: any document uploaded after enrollment
   EXISTS (
-    SELECT 1 FROM public.student_documents sd
+    SELECT 1 FROM public.documents sd
     WHERE sd.user_id = pe.user_id
       AND sd.created_at > pe.created_at
   )                                             AS docs_received,
-  -- Last contact: most recent outreach log entry
-  (
-    SELECT MAX(ol.created_at)
-    FROM public.outreach_logs ol
-    WHERE ol.user_id = pe.user_id
-  )                                             AS last_contact_at,
+  -- Last contact: NULL until outreach_logs table is created
+  NULL::timestamptz                             AS last_contact_at,
   pr.email,
   pr.full_name
 FROM public.payment_integrity_flags f

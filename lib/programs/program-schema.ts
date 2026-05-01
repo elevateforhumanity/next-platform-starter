@@ -400,6 +400,33 @@ export interface ProgramSchema {
    */
   microCourses?: AttachedCourse[];
 
+  // ─── Class B Track (CDL and multi-track programs) ───────────────
+  classBTrack?: {
+    title: string;
+    duration: string;
+    durationWeeks: number;
+    vehicles: string;
+    opportunities: string;
+    description: string;
+    credentials: string[];
+    fundingStatement?: string;
+  };
+
+  // ─── Locations ──────────────────────────────────────────────────
+  locations?: {
+    city: string;
+    state: string;
+    status: 'active' | 'coming_soon';
+    note?: string;
+  }[];
+
+  // ─── Job Placement ──────────────────────────────────────────────
+  jobPlacement?: {
+    headline: string;
+    description: string;
+    features: string[];
+  };
+
   // ─── FAQ ────────────────────────────────────────────────────────
   faqs: { question: string; answer: string }[];
 

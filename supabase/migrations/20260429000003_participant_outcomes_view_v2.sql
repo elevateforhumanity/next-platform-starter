@@ -13,6 +13,8 @@
 
 BEGIN;
 
+DROP VIEW IF EXISTS public.participant_report CASCADE;
+
 CREATE OR REPLACE VIEW public.participant_report AS
 SELECT
   -- Participant identity

@@ -16,6 +16,27 @@ ALTER TABLE public.course_lessons
   DROP CONSTRAINT IF EXISTS course_lessons_course_id_slug_key;
 DROP INDEX IF EXISTS public.course_lessons_module_id_order_idx;
 
+-- Deduplicate any existing (course_id, order_index) collisions by assigning
+-- a temporary large order_index to all but the oldest row in each duplicate group.
+DO $$
+DECLARE
+  r RECORD;
+  bump INT := 900000;
+BEGIN
+  FOR r IN
+    SELECT course_id, order_index, array_agg(id ORDER BY created_at DESC) AS ids
+    FROM public.course_lessons
+    GROUP BY course_id, order_index
+    HAVING count(*) > 1
+  LOOP
+    -- Keep the first (oldest), bump the rest
+    FOR i IN 2..array_length(r.ids, 1) LOOP
+      bump := bump + 1;
+      UPDATE public.course_lessons SET order_index = bump WHERE id = r.ids[i];
+    END LOOP;
+  END LOOP;
+END $$;
+
 DO $$
 DECLARE
   v_mod1 UUID;
@@ -161,13 +182,22 @@ VALUES (
 END $$;
 
 -- Re-add unique constraints (safe: data is already unique at this point)
-ALTER TABLE public.course_lessons
-  ADD CONSTRAINT course_lessons_course_id_order_index_key
-  UNIQUE (course_id, order_index);
+DO $$ BEGIN
+  ALTER TABLE public.course_lessons
+    ADD CONSTRAINT course_lessons_course_id_order_index_key
+    UNIQUE (course_id, order_index);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
-ALTER TABLE public.course_lessons
-  ADD CONSTRAINT course_lessons_course_id_slug_key
-  UNIQUE (course_id, slug);
+DO $$ BEGIN
+  ALTER TABLE public.course_lessons
+    ADD CONSTRAINT course_lessons_course_id_slug_key
+    UNIQUE (course_id, slug);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
-CREATE UNIQUE INDEX course_lessons_module_id_order_idx
-  ON public.course_lessons (module_id, order_index);
+DO $$ BEGIN
+  CREATE UNIQUE INDEX course_lessons_module_id_order_idx
+    ON public.course_lessons (module_id, order_index);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;

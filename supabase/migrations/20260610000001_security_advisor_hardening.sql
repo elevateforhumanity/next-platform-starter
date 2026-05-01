@@ -403,6 +403,7 @@ WHERE tc.is_published = true
 GRANT SELECT ON public.program_catalog_index TO authenticated, anon, service_role;
 
 -- 1h. program_completion_candidates
+DROP TABLE IF EXISTS public.program_completion_candidates CASCADE;
 DROP VIEW IF EXISTS public.program_completion_candidates CASCADE;
 CREATE OR REPLACE VIEW public.program_completion_candidates
 WITH (security_invoker = true)

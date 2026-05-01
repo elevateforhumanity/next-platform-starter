@@ -57,7 +57,9 @@ export async function POST(request: NextRequest) {
         city: body.city.trim(),
         zip: body.zip.trim(),
         program_interest: 'CDL Training - October 2026 Cohort',
+        program_slug: 'cdl-training',
         status: 'waitlist',
+        requested_funding_source: body.fundingSource?.trim() || null,
         eligibility_data: { state: body.state?.trim() || 'Indiana' },
         support_notes: [
           body.currentLicense ? `License: ${body.currentLicense}` : '',

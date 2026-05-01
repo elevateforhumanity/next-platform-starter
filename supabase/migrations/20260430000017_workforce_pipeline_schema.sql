@@ -51,6 +51,13 @@ ALTER TABLE public.employment_outcomes
   ADD COLUMN IF NOT EXISTS program_slug TEXT,
   ADD COLUMN IF NOT EXISTS outcome_type TEXT;
 
+-- Add user_id if it doesn't exist (table was created without it in some environments)
+DO $$ BEGIN
+  ALTER TABLE public.employment_outcomes
+    ADD COLUMN user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_column THEN NULL;
+END $$;
+
 CREATE TABLE IF NOT EXISTS public.employment_outcomes (
   id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id       UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -67,7 +74,10 @@ CREATE TABLE IF NOT EXISTS public.employment_outcomes (
   updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX IF NOT EXISTS idx_employment_outcomes_user_id     ON public.employment_outcomes(user_id);
+DO $$ BEGIN
+  CREATE INDEX IF NOT EXISTS idx_employment_outcomes_user_id ON public.employment_outcomes(user_id);
+EXCEPTION WHEN undefined_column THEN NULL;
+END $$;
 CREATE INDEX IF NOT EXISTS idx_employment_outcomes_program_slug ON public.employment_outcomes(program_slug);
 
 COMMENT ON TABLE public.employment_outcomes IS

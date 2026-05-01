@@ -2,9 +2,9 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 
 export const CDL_TRAINING: ProgramSchema = {
   slug: 'cdl-training',
-  title: 'CDL Class A Training',
+  title: 'CDL Training Program (Class A & Class B)',
   subtitle:
-    "Get your Commercial Driver's License in 3–6 weeks. Behind-the-wheel training, pre-trip inspection, and job placement with trucking companies.",
+    'Get licensed. Get hired. Get on the road fast with job placement support.',
   sector: 'skilled-trades',
   category: 'Transportation',
   programType: 'workforce',
@@ -291,12 +291,51 @@ export const CDL_TRAINING: ProgramSchema = {
   },
 
   admissionRequirements: [
-    '21 years or older (18 for intrastate only)',
+    '18+ years old (21+ required for interstate/OTR routes)',
     "Valid Indiana driver's license",
     'Pass DOT physical exam',
     'Pass pre-employment drug screen',
     'Clean driving record (no DUI/DWI in past 10 years)',
   ],
+
+  classBTrack: {
+    title: 'Class B CDL',
+    duration: '1–2 weeks',
+    durationWeeks: 2,
+    vehicles: 'Straight trucks, buses, local delivery vehicles',
+    opportunities: 'Local delivery, transit, school bus, refuse collection',
+    description:
+      'The Class B CDL authorizes operation of straight trucks and buses. Ideal for local delivery, transit, and municipal roles. Shorter training timeline than Class A.',
+    credentials: ['CDL Class B License (Indiana BMV)', 'DOT Medical Card'],
+    fundingStatement: 'WIOA and FSSA funding available for eligible Indiana residents.',
+  },
+
+  locations: [
+    {
+      city: 'Indianapolis',
+      state: 'IN',
+      status: 'active' as const,
+      note: 'Primary training facility — behind-the-wheel range on site',
+    },
+    {
+      city: 'Texas',
+      state: 'TX',
+      status: 'coming_soon' as const,
+      note: 'Expanding to Texas — join the interest list',
+    },
+  ],
+
+  jobPlacement: {
+    headline: 'Job Placement Support',
+    description:
+      'Students are connected to employment opportunities starting during training.',
+    features: [
+      'Resume and interview preparation',
+      'Employer introductions',
+      'Hiring pipeline access',
+      'Post-training placement support',
+    ],
+  },
   equipmentIncluded:
     'Training vehicle provided. CDL exam fees, DOT physical, and drug screen included with funding.',
   modality:
@@ -352,9 +391,9 @@ export const CDL_TRAINING: ProgramSchema = {
     { label: 'Programs', href: '/programs' },
     { label: 'CDL Training' },
   ],
-  metaTitle: 'CDL Training | Class A License | Indianapolis',
+  metaTitle: 'CDL Training Program (Class A & Class B) | Elevate for Humanity',
   metaDescription:
-    'Earn your CDL Class A license in 3–6 weeks. Behind-the-wheel training. Indianapolis. WIOA funding available for eligible Indiana residents.',
+    'Get your CDL Class A or Class B license in 1–6 weeks. Job placement support. WIOA funding available for eligible Indiana residents. Indianapolis training facility.',
 
 
   funding: {

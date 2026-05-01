@@ -8,14 +8,15 @@ ALTER TABLE public.program_course_versions
 DO $$ BEGIN
   ALTER TABLE public.program_versions ADD COLUMN IF NOT EXISTS version int NOT NULL DEFAULT 1;
 EXCEPTION WHEN undefined_table THEN NULL;
-END $do$;
+END $$;
 DO $$ BEGIN
   ALTER TABLE public.program_versions
   ADD COLUMN IF NOT EXISTS label text,
   ADD COLUMN IF NOT EXISTS notes text,
   ADD COLUMN IF NOT EXISTS published_at timestamptz,
   ADD COLUMN IF NOT EXISTS published_by uuid REFERENCES auth.users(id) ON DELETE SET NULL;
-
+EXCEPTION WHEN undefined_table THEN NULL;
+END $$;
 
 -- Program and course version snapshots.
 -- Snapshot-on-publish: when a program or course is published, the full
@@ -61,7 +62,11 @@ CREATE TABLE IF NOT EXISTS public.course_versions (
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX IF NOT EXISTS idx_course_versions_course ON public.course_versions (course_id, version DESC);
+DO $$ BEGIN
+  CREATE INDEX IF NOT EXISTS idx_course_versions_course ON public.course_versions (course_id, version DESC);
+EXCEPTION WHEN undefined_column THEN
+  CREATE INDEX IF NOT EXISTS idx_course_versions_course ON public.course_versions (course_id, version_number DESC);
+END $$;
 
 ALTER TABLE public.course_versions ENABLE ROW LEVEL SECURITY;
 

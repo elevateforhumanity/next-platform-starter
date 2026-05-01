@@ -25,6 +25,14 @@ CREATE TABLE IF NOT EXISTS public.barber_practical_categories (
 
 ALTER TABLE public.barber_practical_categories ADD COLUMN IF NOT EXISTS program_id uuid REFERENCES public.programs(id) ON DELETE CASCADE;
 
+-- Ensure barber_practical_submissions has required columns
+ALTER TABLE public.barber_practical_submissions
+  ADD COLUMN IF NOT EXISTS program_id uuid REFERENCES public.programs(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS status     text NOT NULL DEFAULT 'pending'
+    CHECK (status IN ('pending', 'approved', 'rejected')),
+  ADD COLUMN IF NOT EXISTS reviewed_by uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS reviewed_at timestamptz;
+
 INSERT INTO public.barber_practical_categories
   (category_key, label, required_count, description)
 VALUES
@@ -121,15 +129,15 @@ BEGIN
 
   -- Upsert student practical progress
   INSERT INTO public.barber_student_practicals
-    (user_id, program_id, category_key, count_completed, count_required, last_verified_by, last_verified_at, verification_status)
+    (user_id, program_id, category_key, count_completed, required_count, last_verified_by, last_verified_at, verification_status)
   VALUES
-    (v_sub.user_id, v_sub.program_id, v_sub.category_key, 1, v_cat.count_required, p_instructor_id, now(), 'in_progress')
+    (v_sub.user_id, v_sub.program_id, v_sub.category_key, 1, v_cat.required_count, p_instructor_id, now(), 'in_progress')
   ON CONFLICT (user_id, program_id, category_key) DO UPDATE SET
     count_completed  = barber_student_practicals.count_completed + 1,
     last_verified_by = p_instructor_id,
     last_verified_at = now(),
     verification_status = CASE
-      WHEN barber_student_practicals.count_completed + 1 >= barber_student_practicals.count_required
+      WHEN barber_student_practicals.count_completed + 1 >= barber_student_practicals.required_count
       THEN 'met' ELSE 'in_progress' END,
     updated_at = now();
 END;
