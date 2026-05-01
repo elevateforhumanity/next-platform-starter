@@ -1,10 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { safeInternalError } from '@/lib/api/safe-error';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-import { NextResponse } from 'next/server';
 
 /**
  * Test Admin Board & Dev Container
@@ -268,7 +268,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(results);
   } catch (error) {
-    /* Error handled silently */
-    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
+    return safeInternalError(error, 'Admin board test failed');
   }
 }
