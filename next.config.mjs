@@ -173,6 +173,7 @@ const nextConfig = {
 
   // Experimental features for better performance
   experimental: {
+    serverActionsBodySizeLimit: '2mb',
     // optimizePackageImports is disabled globally.
     // On Netlify (1,400+ pages) it adds significant webpack compilation overhead
     // and was confirmed active in build logs despite the NETLIFY env-var guard
@@ -658,8 +659,7 @@ const nextConfig = {
       { source: '/tax-filing/:path*', destination: '/tax/:path*', permanent: true },
       { source: '/tax-services/:path*', destination: '/tax/:path*', permanent: true },
       { source: '/tax-software/:path*', destination: '/tax/:path*', permanent: true },
-      { source: '/supersonic-fast-cash', destination: '/tax', permanent: false },
-      { source: '/supersonic-fast-cash/:path*', destination: '/tax', permanent: false },
+      // SupersonicFastCash redirects removed — belongs in a separate repository.
 
       // Program consolidation
       { source: '/programs-catalog/:path*', destination: '/programs/:path*', permanent: true },
@@ -892,8 +892,9 @@ const nextConfig = {
       // Misc redirects
       // /dashboards/:path* is Railway-owned (netlify.toml proxy) — no redirect here
       // /portals base route has its own page — only redirect sub-paths
-      { source: '/portals/:slug/:path*', destination: '/lms/:slug/:path*', permanent: true },
+      // :slug must come before :slug/:path* so Next.js matches correctly
       { source: '/portals/:slug', destination: '/lms/:slug', permanent: true },
+      { source: '/portals/:slug/:path*', destination: '/lms/:slug/:path*', permanent: true },
 
       // These brands have their own pages — only redirect sub-paths, not the root
       // /serene-comfort-care/page.tsx exists and redirects to /partners itself
