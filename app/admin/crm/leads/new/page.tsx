@@ -153,9 +153,12 @@ export default async function NewLeadPage() {
                 >
                   <option value="">Select preferred start...</option>
                   <option value="asap">As soon as possible</option>
-                  <option value="spring-2025">Spring 2025</option>
-                  <option value="summer-2025">Summer 2025</option>
-                  <option value="fall-2025">Fall 2025</option>
+                  {(['Spring', 'Summer', 'Fall'] as const).flatMap((term) =>
+                    [0, 1].map((offset) => {
+                      const y = new Date().getFullYear() + offset;
+                      return <option key={`${term}-${y}`} value={`${term.toLowerCase()}-${y}`}>{term} {y}</option>;
+                    })
+                  )}
                 </select>
               </div>
             </div>

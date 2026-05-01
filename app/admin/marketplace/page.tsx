@@ -3,8 +3,9 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ShoppingBag, Users, DollarSign } from 'lucide-react';
+import { createClient } from '@/lib/supabase/server';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -34,6 +35,41 @@ const sections = [
 
 export default async function AdminMarketplacePage() {
   await requireRole(['admin', 'super_admin', 'staff']);
+  const db = await createClient();
+
+  const [{ count: productCount }, { count: creatorCount }, { count: pendingPayouts }] =
+    await Promise.all([
+      db.from('marketplace_courses').select('*', { count: 'exact', head: true }),
+      db.from('marketplace_sellers').select('*', { count: 'exact', head: true }),
+      db.from('seller_applications').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+    ]);
+
+  const sections = [
+    {
+      name: 'Products',
+      href: '/admin/marketplace/products',
+      icon: ShoppingBag,
+      description: 'Review and approve marketplace product listings.',
+      count: productCount ?? 0,
+      label: 'products',
+    },
+    {
+      name: 'Creators',
+      href: '/admin/marketplace/creators',
+      icon: Users,
+      description: 'Manage creator accounts and approval status.',
+      count: creatorCount ?? 0,
+      label: 'creators',
+    },
+    {
+      name: 'Payouts',
+      href: '/admin/marketplace/payouts',
+      icon: DollarSign,
+      description: 'Track and process creator payout requests.',
+      count: pendingPayouts ?? 0,
+      label: 'pending',
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -48,8 +84,12 @@ export default async function AdminMarketplacePage() {
               className="bg-white rounded-lg border p-6 hover:shadow-md transition-shadow"
             >
               <s.icon className="w-8 h-8 text-brand-blue-600 mb-3" />
-              <h2 className="font-semibold text-slate-900">{s.name}</h2>
-              <p className="text-sm text-slate-700 mt-1">{s.description}</p>
+              <div className="flex items-baseline justify-between">
+                <h2 className="font-semibold text-slate-900">{s.name}</h2>
+                <span className="text-2xl font-bold text-slate-900 tabular-nums">{s.count}</span>
+              </div>
+              <p className="text-sm text-slate-500 mt-0.5">{s.label}</p>
+              <p className="text-sm text-slate-700 mt-2">{s.description}</p>
             </Link>
           ))}
         </div>

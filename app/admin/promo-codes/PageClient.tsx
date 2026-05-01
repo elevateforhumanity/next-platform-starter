@@ -60,7 +60,7 @@ export default function PromoCodesAdminPage() {
       const data = await res.json();
       setPromoCodes(data.promoCodes || []);
     } catch (error) {
-      console.error('Error fetching promo codes:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Error fetching promo codes:', error);
     } finally {
       setLoading(false);
     }
@@ -88,7 +88,7 @@ export default function PromoCodesAdminPage() {
         resetForm();
       }
     } catch (error) {
-      console.error('Error saving promo code:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Error saving promo code:', error);
     }
   };
 
@@ -99,7 +99,7 @@ export default function PromoCodesAdminPage() {
       await fetch(`/api/admin/promo-codes?id=${id}`, { method: 'DELETE' });
       fetchPromoCodes();
     } catch (error) {
-      console.error('Error deleting promo code:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Error deleting promo code:', error);
     }
   };
 
@@ -112,7 +112,7 @@ export default function PromoCodesAdminPage() {
       });
       fetchPromoCodes();
     } catch (error) {
-      console.error('Error toggling promo code:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Error toggling promo code:', error);
     }
   };
 

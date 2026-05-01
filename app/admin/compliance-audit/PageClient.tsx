@@ -128,7 +128,7 @@ export default function ComplianceAuditPage() {
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
               className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
             >
-              {[2024, 2025, 2026].map((year) => (
+              {Array.from({ length: 4 }, (_, i) => new Date().getFullYear() - 1 + i).map((year) => (
                 <option key={year} value={year}>
                   {year}
                 </option>

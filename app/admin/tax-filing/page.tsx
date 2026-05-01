@@ -165,7 +165,7 @@ export default async function TaxFilingAdminPage() {
                       <div className="text-sm text-slate-500">{app.email}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-black">
-                      {app.tax_year || '2024'}
+                      {app.tax_year || new Date().getFullYear()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-black">
                       {app.preparer_id ? (

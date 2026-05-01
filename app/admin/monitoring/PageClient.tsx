@@ -69,7 +69,7 @@ export default function MonitoringDashboard() {
       setStatus(data);
       setLoading(false);
     } catch (error) {
-      console.error('Failed to fetch status:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Failed to fetch status:', error);
       setLoading(false);
     }
   };
@@ -80,7 +80,7 @@ export default function MonitoringDashboard() {
       const data = await response.json();
       setErrors(data.errors || []);
     } catch (error) {
-      console.error('Failed to fetch errors:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Failed to fetch errors:', error);
     }
   };
 

@@ -59,7 +59,7 @@ export default function CreateCourseContentPage() {
       const data = await res.json();
       setCourses(data.courses || []);
     } catch (error) {
-      console.error('Error fetching courses:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Error fetching courses:', error);
     } finally {
       setLoading(false);
     }
@@ -84,7 +84,7 @@ export default function CreateCourseContentPage() {
       const data = await res.json();
       setScript(data.script || '');
     } catch (error) {
-      console.error('Error generating script:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Error generating script:', error);
     } finally {
       setGenerating(false);
     }
@@ -122,7 +122,7 @@ export default function CreateCourseContentPage() {
         fetchCourses();
       }
     } catch (error) {
-      console.error('Error generating video:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Error generating video:', error);
     } finally {
       setGenerating(false);
     }
@@ -139,7 +139,7 @@ export default function CreateCourseContentPage() {
       });
       alert('Script saved!');
     } catch (error) {
-      console.error('Error saving script:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Error saving script:', error);
     }
   };
 

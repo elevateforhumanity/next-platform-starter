@@ -2,7 +2,7 @@
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { logger } from '@/lib/logger';
 
 export interface FssaApplicationData {
   // Personal
@@ -58,10 +58,11 @@ export async function submitFssaApplication(
         email: data.email,
         phone: data.phone,
         date_of_birth: data.dateOfBirth || null,
-        address: data.streetAddress,   // column is `address`, not `street_address`
+        address: data.streetAddress,
         city: data.city,
         state: data.state || 'IN',
-        zip_code: data.zipCode,
+        zip: data.zipCode,             // NOT NULL column
+        zip_code: data.zipCode,        // nullable alias
         program_interest: data.programInterest,
         funding_source: 'fssa_impact',
         application_type: 'fssa',
@@ -91,7 +92,7 @@ export async function submitFssaApplication(
       .single();
 
     if (error) {
-      console.error('[fssa-apply] DB error:', error.message);
+      logger.error('[fssa-apply] DB error', { message: error.message, code: error.code });
       return { success: false, error: 'Submission failed. Please try again or call us.' };
     }
 
@@ -155,7 +156,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Indiana/Ind
 
     return { success: true, applicationId: inserted.id };
   } catch (err) {
-    console.error('[fssa-apply] Unexpected error:', err);
+    logger.error('[fssa-apply] Unexpected error', { error: String(err) });
     return { success: false, error: 'An unexpected error occurred. Please call us at (317) 559-4999.' };
   }
 }

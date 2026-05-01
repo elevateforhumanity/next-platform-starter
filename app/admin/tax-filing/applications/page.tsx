@@ -90,9 +90,9 @@ export default async function TaxFilingApplicationsPage() {
             </select>
             <select className="rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500">
               <option value="">All Tax Years</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
+              {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
             </select>
             <button
               className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700"
@@ -147,7 +147,7 @@ export default async function TaxFilingApplicationsPage() {
                         <div className="text-sm text-black">{item.client_email || ''}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-black">
-                        {item.tax_year || '2024'}
+                        {item.tax_year || new Date().getFullYear()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span

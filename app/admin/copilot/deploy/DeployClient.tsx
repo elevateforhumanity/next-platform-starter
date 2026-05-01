@@ -63,7 +63,7 @@ export default function DeployClient() {
       const data = await res.json();
       setDeployments(data.deployments || []);
     } catch (error) {
-      console.error('Failed to fetch deployments:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Failed to fetch deployments:', error);
     } finally {
       setLoading(false);
     }
