@@ -3,24 +3,19 @@
 import Script from 'next/script';
 
 /**
- * Google Ads tag for account AW-1084612631.
- * Loads the gtag conversion tracking script.
- * Conversion actions are fired via trackAdsConversion() below.
+ * Sit Selfish Inc — Google tag IDs
+ *   AW-16712632425  Google Ads conversion account
+ *   GT-5N5RZZTD     Google Tag Manager container
  *
- * Conversion actions registered in Google Ads:
- *   - ENROLL:  AW-1084612631/enroll   — application submitted (/apply/success)
- *   - DONATE:  AW-1084612631/donate   — donation completed (/donate/thank-you)
- *   - CONTACT: AW-1084612631/contact  — contact form submitted
- *
- * After deploying, register each conversion in Google Ads:
- *   Goals → Conversions → New conversion action → Website → enter your domain
- *   → select "Page load" → enter the thank-you page URL → save
+ * Both tags are loaded on every page. Conversion events are fired via
+ * trackAdsConversion() on success/thank-you pages.
  */
 
-export const GOOGLE_ADS_ID = 'AW-1084612631';
+export const GOOGLE_ADS_ID = 'AW-16712632425';
+export const GOOGLE_TAG_ID = 'GT-5N5RZZTD';
 
-// Conversion action labels — create these in Google Ads Goals → Conversions
-// then replace these placeholder labels with the real ones from the tag details
+// Conversion action labels — update labels after creating actions in Google Ads:
+//   Goals → Conversions → New conversion action → Website
 export const CONVERSION_ACTIONS = {
   ENROLL: `${GOOGLE_ADS_ID}/enroll_application`,
   DONATE: `${GOOGLE_ADS_ID}/donate_complete`,
@@ -30,6 +25,12 @@ export const CONVERSION_ACTIONS = {
 export function GoogleAds() {
   return (
     <>
+      {/* Google Tag Manager container */}
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`}
+        strategy="lazyOnload"
+      />
+      {/* Google Ads conversion tag */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
         strategy="lazyOnload"
@@ -39,6 +40,7 @@ export function GoogleAds() {
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
+          gtag('config', '${GOOGLE_TAG_ID}');
           gtag('config', '${GOOGLE_ADS_ID}', { allow_enhanced_conversions: true });
         `}
       </Script>
