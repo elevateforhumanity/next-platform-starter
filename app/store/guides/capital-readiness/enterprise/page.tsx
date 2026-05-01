@@ -5,9 +5,6 @@ import Link from "next/link";
 import { ArrowLeft, Building2, Shield, Globe, Users, FileCheck, Scale, Briefcase, AlertTriangle, Clock, DollarSign } from "lucide-react";
 
 import { createBrowserClient } from '@supabase/ssr';
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default function EnterpriseCapitalReadinessPage() {
   const [dbRows, setDbRows] = useState<any[]>([]);

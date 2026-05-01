@@ -8,9 +8,6 @@ import { XCircle, ArrowLeft, HelpCircle } from "lucide-react";
 import { Suspense } from "react";
 
 import { createBrowserClient } from '@supabase/ssr';
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 function CancelContent() {
   const searchParams = useSearchParams();
