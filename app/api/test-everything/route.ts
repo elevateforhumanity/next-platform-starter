@@ -274,8 +274,7 @@ export async function GET(request: Request) {
     /* Error handled silently */
     return NextResponse.json(
       {
-        error: error.message,
-        stack: error.stack,
+        error: 'Internal server error',
         timestamp: new Date().toISOString(),
       },
       { status: 500 },
