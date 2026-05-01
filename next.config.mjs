@@ -845,7 +845,9 @@ const nextConfig = {
       { source: '/fssa-partnership-request', destination: '/contact', permanent: false },
       { source: '/pay', destination: '/apply', permanent: false },
       { source: '/enroll', destination: '/apply', permanent: false },
-      { source: '/enroll/:path*', destination: '/apply', permanent: false },
+      // NOTE: /enroll/:path* wildcard intentionally omitted here.
+      // Specific /enroll/* overrides are declared in the ENROLL/APPLY CONSOLIDATION
+      // block below. A wildcard here would shadow those specific rules.
       { source: '/financial-aid', destination: '/funding', permanent: true },
       { source: '/financial-support', destination: '/funding', permanent: true },
       { source: '/community', destination: '/community-services', permanent: true },
@@ -956,17 +958,23 @@ const nextConfig = {
       // ============================================
       // ENROLL / APPLY CONSOLIDATION
       // Single redirect authority — all enroll/apply routing lives here.
+      // Order matters: specific paths must come before the catch-all wildcard.
       // ============================================
 
-      // /enroll → /apply (was in netlify.toml, now canonical here)
-      { source: '/enroll', destination: '/apply', permanent: true },
+      // /enroll → /apply is already declared above (permanent:false, early in the list).
+      // The permanent:true duplicate below was dead (first match wins). Removed.
 
-      // Barber enrollment: 1-hop to dedicated apply page (kills 3-hop chain)
+      // Barber enrollment: 1-hop to dedicated apply page (kills 3-hop chain).
+      // Must be declared before the /enroll/:path* catch-all below.
       {
         source: '/enroll/barber-apprenticeship',
         destination: '/programs/barber-apprenticeship/apply',
         permanent: true,
       },
+
+      // Catch-all for any remaining /enroll/* paths not matched above.
+      // Declared after specific overrides so it does not shadow them.
+      { source: '/enroll/:path*', destination: '/apply', permanent: true },
 
       // Duplicate student forms → canonical /apply/student
       // /apply/quick → /apply handled in netlify.toml (301, force)
