@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Phone, ExternalLink, MapPin } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import ProgramFundingGate from '@/components/programs/ProgramFundingGate';
+import heroBanners from '@/content/heroBanners';
 import { TransferHoursCalculator } from '../TransferHoursCalculator';
 
 export const metadata: Metadata = {
@@ -12,12 +13,12 @@ export const metadata: Metadata = {
 };
 
 export default function BarberEligibilityPage() {
+  const b = heroBanners['barber-apprenticeship'];
   return (
     <div className="min-h-screen bg-white">
       <HeroVideo
-        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
-        videoSrcMobile="/videos/barber-hero-final.mp4"
-        posterImage="/hero-images/barber-hero.jpg"
+        videoSrcDesktop={b?.videoSrcDesktop ?? 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4'}
+        posterImage={b?.posterImage ?? '/hero-images/barber-hero.jpg'}
         microLabel="Barber Apprenticeship"
         analyticsName="barber-eligibility"
         belowHeroHeadline="Funding & Enrollment"
