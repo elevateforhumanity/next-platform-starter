@@ -32,7 +32,7 @@ async function _GET(req: NextRequest) {
   let query = db
     .from('employment_outcomes')
     .select('*')
-    .eq('user_id', userId)
+    .eq('user_uuid', userId)
     .order('created_at', { ascending: false });
 
   if (program_slug) query = query.eq('program_slug', program_slug);
@@ -79,7 +79,7 @@ async function _POST(req: NextRequest) {
   const { data, error } = await db
     .from('employment_outcomes')
     .insert({
-      user_id: userId,
+      user_uuid: userId,
       program_slug: program_slug as string,
       outcome_type: outcome_type as string,
       employer_name: (body.employer_name as string) || null,
@@ -87,7 +87,7 @@ async function _POST(req: NextRequest) {
       hourly_wage: body.hourly_wage ? parseFloat(body.hourly_wage as string) : null,
       start_date: (body.start_date as string) || null,
       notes: (body.notes as string) || null,
-      recorded_by: auth.user.id,
+      recorded_by_uuid: auth.user.id,
     })
     .select('id')
     .maybeSingle();
