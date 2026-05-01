@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Schedule | Elevate for Humanity',
-  description: 'Elevate for Humanity - Career training and workforce development programs.',
+  description: 'Schedule a meeting with the Elevate for Humanity team to discuss enrollment, funding eligibility, or program options.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/schedule',
   },

@@ -6,7 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Legal Marketplace Terms | Elevate For Humanity',
-  description: 'Elevate For Humanity - Career training and workforce development',
+  description: 'Terms of purchase for digital products sold on the Elevate for Humanity creator marketplace, including refund policy and buyer rights.',
 };
 
 export default async function MarketplaceTermsPage() {

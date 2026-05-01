@@ -896,6 +896,8 @@ const nextConfig = {
       { source: '/platform/licensing', destination: '/licensing', permanent: true },
       { source: '/chat', destination: '/support/chat', permanent: true },
       { source: '/certificates/verify', destination: '/verify', permanent: true },
+      { source: '/certificates/verify/:id', destination: '/verify/:id', permanent: true },
+      { source: '/cert/verify/:id', destination: '/verify/:id', permanent: true },
 
       // Verify consolidation
       { source: '/verifycertificate/:path*', destination: '/verify/:path*', permanent: true },

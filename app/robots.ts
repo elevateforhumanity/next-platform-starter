@@ -71,6 +71,12 @@ export default function robots(): MetadataRoute.Robots {
           // Preview and builder
           '/builder/',
 
+          // Demo surfaces — not production content
+          '/demo/',
+          '/demos/',
+          '/store/demo/',
+          '/store/demos/',
+
           // Query-string variants — not canonical, block indexing
           '/programs?*',
           '/search?*',

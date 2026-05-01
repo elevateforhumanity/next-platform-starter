@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/chat',
   },
   title: 'Chat | Elevate For Humanity',
-  description: 'Resources and tools for your success.',
+  description: 'Chat with your cohort, instructors, and career coaches on the Elevate for Humanity platform.',
 };
 
 export default async function ChatPage() {

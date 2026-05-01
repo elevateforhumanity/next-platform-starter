@@ -145,6 +145,137 @@ const EXCLUDED_PREFIXES = [
   // Enrollment flow pages
   '/enrollment',
   '/enrollment-agreement',
+
+  // Auth / invite flows
+  '/accept-invite',
+  '/install-app',
+  '/my-dashboard',
+
+  // AI tools (auth-gated)
+  '/ai',
+
+  // Apply sub-routes (noindex)
+  '/apply/barber-apprenticeship',
+  '/apply/confirmation',
+
+  // Case manager portal
+  '/case-manager',
+
+  // Client portal demo
+  '/client-portal',
+
+  // Contracts (auth-gated legal docs)
+  '/contracts',
+
+  // Course preview (internal)
+  '/course-preview',
+
+  // Demo surfaces
+  '/demo',
+  '/demos',
+
+  // Documents portal
+  '/documents',
+
+  // Donate thank-you (post-action)
+  '/donate/thank-you',
+
+  // Old audience redirect stubs
+  '/for-partners',
+  '/partner-with-us',
+  '/platform/training-providers',
+
+  // FSSA portal
+  '/fssa',
+
+  // Funding confirm (post-action)
+  '/funding/confirm',
+
+  // Groups (auth-gated)
+  '/groups',
+
+  // Industries redirect stubs
+  '/industries',
+
+  // Legal docs (noindex)
+  '/legal/data-sharing',
+  '/legal/employer-agreement',
+  '/legal/enrollment-agreement',
+  '/legal/ferpa-consent',
+  '/legal/participation-agreement',
+  '/legal/partner-mou',
+  '/legal/program-host-agreement',
+  '/legal/program-license-agreement',
+  '/legal/student-handbook',
+
+  // Partner portal sub-routes
+  '/partner/attendance',
+  '/partner/programs',
+  '/partner/students',
+
+  // Partner thank-you pages (post-action)
+  '/partners/barbershop-apprenticeship/thank-you',
+  '/partners/cosmetology-apprenticeship/thank-you',
+
+  // Program orientation (auth-gated)
+  '/programs/barber-apprenticeship/orientation',
+
+  // Old program slug stubs (redirect stubs, noindex)
+  '/programs/cdl',
+  '/programs/cpr-first-aid-hsi',
+  '/programs/cybersecurity',
+  '/programs/hvac',
+  '/programs/it-support',
+  '/programs/professional-esthetician',
+  '/programs/tax-prep-financial-services',
+
+  // Provider portal
+  '/provider',
+
+  // Schedule select (auth-gated)
+  '/schedule/select',
+
+  // Shop/store internal
+  '/shop/cart',
+  '/store/cart',
+  '/store/demos',
+  '/store/guides/capital-readiness/enterprise',
+  '/store/licenses/managed',
+  '/store/request-license',
+
+  // Tax self-prep (auth-gated)
+  '/tax-self-prep',
+
+  // Accreditation (internal)
+  '/accreditation',
+
+  // Internal docs (noindex)
+  '/docs',
+
+  // Placeholder stub pages (noindex, not yet built)
+  '/cm',
+  '/create-course',
+  '/mobile',
+  '/video',
+
+  // Sections where layout.tsx sets robots: noindex
+  '/apps',
+  '/career-services',
+  '/certiport-exam',
+  '/employer',
+  '/next-steps',
+  '/social',
+  '/store',
+
+  // Enrollment / transactional flow pages (not content)
+  '/apply',
+  '/booking',
+  '/careers/assessment',
+  '/enroll',
+  '/forms',
+  '/schedule/meeting',
+  '/status',
+  '/support',
 ];
 
 // Segments that indicate private routes regardless of position
@@ -197,6 +328,8 @@ const EXCLUDED_SUFFIXES = [
   '/products/new',
   '/reports/new',
   '/seller/register',
+  '/confirm',
+  '/payment-setup',
 ];
 
 // Canonical SEO authority hub prefixes — buyer-intent local/Indiana search

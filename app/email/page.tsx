@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/email',
   },
   title: 'Email | Elevate For Humanity',
-  description: 'Resources and tools for your success.',
+  description: 'Manage your Elevate for Humanity inbox — program updates, instructor messages, and credential notifications.',
 };
 
 export default async function EmailPage() {

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Funding | Grant programs | Elevate for Humanity',
-  description: 'Elevate for Humanity - Career training and workforce development programs.',
+  description: 'Browse WIOA, Workforce Ready Grant, and JRI-funded career training programs available through Elevate for Humanity.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/funding/grant-programs',
   },

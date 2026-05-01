@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Verify credential | Elevate for Humanity',
-  description: 'Elevate for Humanity - Career training and workforce development programs.',
+  description: 'Verify an Elevate for Humanity credential or program completion certificate by entering the certificate ID.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/verify-credential',
   },
