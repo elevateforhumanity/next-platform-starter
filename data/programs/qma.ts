@@ -259,5 +259,5 @@ export const QMA: ProgramSchema = {
 
   enrollmentType: 'internal',
   deliveryModel: 'internal',
-  fundingOptions: ['wioa', 'wrg', 'self-pay'],
+  fundingOptions: ['wioa', 'wrg', 'self_pay'],
 };

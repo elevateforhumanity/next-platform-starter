@@ -385,9 +385,9 @@ export const IT_HELP_DESK: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: true,
-    fssaImpactEligible: true,
-    wrgEligible: true,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
     jobReadyIndyEligible: true,
     fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available. CompTIA A+ certification pathway.',
   },

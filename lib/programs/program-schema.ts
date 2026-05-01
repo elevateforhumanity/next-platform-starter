@@ -293,14 +293,14 @@ export interface ProgramSchema {
   };
 
   // ─── J. Institutional Footer ────────────────────────────────────
-  admissionRequirements: string[];
-  equipmentIncluded: string;
-  modality: string;
-  facilityInfo: string;
+  admissionRequirements?: string[];
+  equipmentIncluded?: string;
+  modality?: string;
+  facilityInfo?: string;
   bilingualSupport?: string;
-  employerPartners: string[];
-  pricingIncludes: string[];
-  paymentTerms: string;
+  employerPartners?: string[];
+  pricingIncludes?: string[];
+  paymentTerms?: string;
 
   // ─── Content Model ──────────────────────────────────────────────
   /**
@@ -319,7 +319,7 @@ export interface ProgramSchema {
    * Primary partner provider for partner/hybrid programs.
    * Only set when verified — do not guess.
    */
-  partnerProvider?: 'hsi' | 'careersafe' | 'elevate-lms' | 'jri' | 'employindy' | 'nrf' | null;
+  partnerProvider?: 'hsi' | 'careersafe' | 'elevate-lms' | 'jri' | 'employindy' | 'nrf' | 'milady' | null;
 
   /**
    * Funding sources actually available for this program.
@@ -338,13 +338,17 @@ export interface ProgramSchema {
     /** FSSA IMPACT — Indiana Family and Social Services Administration */
     fssa_eligible: boolean;
     /** SNAP Employment & Training — FSSA SNAP E&T TPP */
-    snap_et_eligible: boolean;
+    snap_et_eligible?: boolean;
     /** WIOA Title I — Workforce Innovation and Opportunity Act */
     wioa_eligible: boolean;
     /** Indiana ETPL — Eligible Training Provider List (WorkOne/DWD) */
-    etpl_approved: boolean;
+    etpl_approved?: boolean;
     /** Workforce Ready Grant — Indiana state tuition grant */
     wrg_eligible: boolean;
+    /** Job Ready Indy — Indianapolis city workforce fund */
+    jobReadyIndyEligible?: boolean;
+    /** Free-text notes for advisors and agency staff */
+    fundingNotes?: string;
   };
 
   // ─── Visibility & Status Control ────────────────────────────────

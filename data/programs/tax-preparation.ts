@@ -266,9 +266,9 @@ export const TAX_PREPARATION: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: true,
-    fssaImpactEligible: true,
-    wrgEligible: false,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: false,
     jobReadyIndyEligible: true,
     fundingNotes: 'Indiana ETPL-listed. WIOA Title I and FSSA IMPACT funding available. WRG eligibility determined by Indiana DWD.',
   },

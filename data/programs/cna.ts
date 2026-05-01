@@ -199,7 +199,7 @@ export const CNA: ProgramSchema = {
     region: 'Indianapolis–Carmel–Anderson MSA',
   },
 
-  careerOutcomes: [
+  careers: [
     { title: 'Nursing Assistant', salary: '$16–$20/hr' },
     { title: 'Home Health Aide', salary: '$15–$19/hr' },
     { title: 'Patient Care Technician', salary: '$18–$23/hr' },
@@ -261,9 +261,9 @@ export const CNA: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: true,
-    fssaImpactEligible: true,
-    wrgEligible: true,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
     jobReadyIndyEligible: true,
     fundingNotes: 'Indiana ETPL-listed. FSSA IMPACT covers eligible SNAP/TANF recipients. WIOA Title I Adult/Dislocated Worker funding available.',
   },

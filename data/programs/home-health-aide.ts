@@ -312,9 +312,9 @@ export const HOME_HEALTH_AIDE: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: true,
-    fssaImpactEligible: true,
-    wrgEligible: false,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: false,
     jobReadyIndyEligible: true,
     fundingNotes: 'Indiana ETPL-listed. FSSA IMPACT and WIOA Title I funding available. WRG eligibility determined by Indiana DWD.',
   },

@@ -207,9 +207,9 @@ export const SANITATION: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: true,
-    fssaImpactEligible: true,
-    wrgEligible: false,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: false,
     jobReadyIndyEligible: false,
     fundingNotes: 'Short-credential program. WIOA and FSSA funding eligibility determined by the applicable workforce agency.',
   },

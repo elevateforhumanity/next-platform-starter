@@ -278,9 +278,9 @@ export const PEER_RECOVERY: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: true,
-    fssaImpactEligible: true,
-    wrgEligible: true,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
     jobReadyIndyEligible: true,
     fundingNotes: 'Indiana ETPL-listed. WIOA and FSSA IMPACT funding available. DMHA-recognized credential pathway.',
   },

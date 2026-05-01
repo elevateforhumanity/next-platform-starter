@@ -220,9 +220,9 @@ export const ENTREPRENEURSHIP: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: false,
-    fssaImpactEligible: false,
-    wrgEligible: false,
+    wioa_eligible: false,
+    fssa_eligible: false,
+    wrg_eligible: false,
     jobReadyIndyEligible: false,
     fundingNotes: 'Eligibility for WIOA/FSSA funding as a standalone program determined by the applicable workforce or funding agency.',
   },

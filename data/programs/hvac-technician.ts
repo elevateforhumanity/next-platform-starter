@@ -250,7 +250,7 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
     region: 'Indianapolis–Carmel–Anderson MSA',
   },
 
-  careerOutcomes: [
+  careers: [
     { title: 'HVAC Installer', salary: '$18–$24/hr' },
     { title: 'Service Technician', salary: '$24–$38/hr' },
     { title: 'Commercial HVAC Tech', salary: '$32–$50/hr' },
@@ -313,9 +313,9 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: true,
-    fssaImpactEligible: true,
-    wrgEligible: true,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
     jobReadyIndyEligible: true,
     fundingNotes: 'Indiana ETPL-listed. WIOA, WRG, and FSSA IMPACT funding available. NHA EPA 608 certification program.',
   },

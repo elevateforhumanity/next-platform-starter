@@ -247,9 +247,9 @@ export const WEB_DEVELOPMENT: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: true,
-    fssaImpactEligible: true,
-    wrgEligible: true,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
     jobReadyIndyEligible: true,
     fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
   },

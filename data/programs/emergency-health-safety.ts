@@ -324,9 +324,9 @@ export const EMERGENCY_HEALTH_SAFETY: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: false,
-    fssaImpactEligible: false,
-    wrgEligible: false,
+    wioa_eligible: false,
+    fssa_eligible: false,
+    wrg_eligible: false,
     jobReadyIndyEligible: false,
     fundingNotes: 'Short certification. Eligibility for standalone WIOA/FSSA funding determined by the applicable workforce agency.',
   },

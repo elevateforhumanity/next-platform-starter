@@ -236,9 +236,9 @@ export const CULINARY: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: false,
-    fssaImpactEligible: true,
-    wrgEligible: false,
+    wioa_eligible: false,
+    fssa_eligible: true,
+    wrg_eligible: false,
     jobReadyIndyEligible: false,
     fundingNotes: 'DOL Registered Apprenticeship. FSSA IMPACT may be available. WIOA apprenticeship funding eligibility determined by Indiana DWD.',
   },

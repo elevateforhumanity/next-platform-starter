@@ -416,9 +416,9 @@ export const MEDICAL_ASSISTANT: ProgramSchema = {
 
 
   funding: {
-    wioaEligible: true,
-    fssaImpactEligible: true,
-    wrgEligible: true,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
     jobReadyIndyEligible: true,
     fundingNotes: 'Indiana ETPL-listed. FSSA IMPACT and WIOA Title I funding available for eligible Indiana residents.',
   },
