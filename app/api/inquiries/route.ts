@@ -1,3 +1,4 @@
+import { internalFetch } from '@/lib/api/internal-fetch';
 // PUBLIC ROUTE: public inquiry form
 import { logger } from '@/lib/logger';
 
@@ -98,7 +99,7 @@ async function _POST(req: Request) {
     // Send email notifications
     try {
       // Confirmation to applicant
-      await fetch(
+      await internalFetch(
         `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
         {
           method: 'POST',
@@ -131,7 +132,7 @@ async function _POST(req: Request) {
       );
 
       // Notification to staff
-      await fetch(
+      await internalFetch(
         `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
         {
           method: 'POST',

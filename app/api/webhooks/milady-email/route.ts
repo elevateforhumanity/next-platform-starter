@@ -1,3 +1,4 @@
+import { internalFetch } from '@/lib/api/internal-fetch';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
@@ -109,7 +110,7 @@ async function _POST(request: Request) {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
       // Forward the Milady email to the student
-      await fetch(`${siteUrl}/api/email/send`, {
+      await internalFetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

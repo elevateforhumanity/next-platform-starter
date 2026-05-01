@@ -1,3 +1,4 @@
+import { internalFetch } from '@/lib/api/internal-fetch';
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
@@ -129,7 +130,7 @@ async function _POST(req: Request) {
         ocrFormData.append('documentType', documentType);
         ocrFormData.append('programContext', 'program_holder');
 
-        const ocrRes = await fetch(`${siteUrl}/api/ocr/extract`, {
+        const ocrRes = await internalFetch(`${siteUrl}/api/ocr/extract`, {
           method: 'POST',
           body: ocrFormData,
         });

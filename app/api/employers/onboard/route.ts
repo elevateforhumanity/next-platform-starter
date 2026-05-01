@@ -1,3 +1,4 @@
+import { internalFetch } from '@/lib/api/internal-fetch';
 // PUBLIC ROUTE: employer onboarding form
 import { NextResponse } from 'next/server';
 
@@ -54,7 +55,7 @@ async function _POST(req: Request) {
         contact_name,
         business_name,
       });
-      await fetch(`${siteUrl}/api/email/send`, {
+      await internalFetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -69,7 +70,7 @@ async function _POST(req: Request) {
 
     // Send notification email to admin
     try {
-      await fetch(`${siteUrl}/api/email/send`, {
+      await internalFetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

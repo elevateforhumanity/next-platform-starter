@@ -1,3 +1,4 @@
+import { internalFetch } from '@/lib/api/internal-fetch';
 import { logger } from '@/lib/logger';
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -53,7 +54,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
     // Send denial email
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
     try {
-      await fetch(`${siteUrl}/api/email/send`, {
+      await internalFetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
