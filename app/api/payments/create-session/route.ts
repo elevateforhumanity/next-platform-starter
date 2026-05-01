@@ -6,7 +6,6 @@ import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 
-import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -23,6 +22,8 @@ interface CheckoutRequest {
 async function _POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
+
+  const stripe = getStripe();
 
   // Check if Stripe is configured
   if (!stripe) {
@@ -150,8 +151,8 @@ async function _POST(request: NextRequest) {
       paymentMethodTypes.push('cashapp');
     }
 
-    // Add bank account and PayPal
-    paymentMethodTypes.push('us_bank_account', 'paypal');
+    // Add bank transfer
+    paymentMethodTypes.push('us_bank_account');
 
     // Base URL for redirects
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
@@ -375,6 +376,7 @@ async function _POST(request: NextRequest) {
 async function _GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
+  const stripe = getStripe();
   if (!stripe) {
     return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
   }
