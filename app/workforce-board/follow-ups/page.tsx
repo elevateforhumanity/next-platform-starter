@@ -22,6 +22,7 @@ export default async function FollowUpsPage() {
   const followUps: any[] = [];
   const count = 0;
   const overdueCount = 0;
+  const dueThisWeekCount = 0;
 
   return (
     <div className="min-h-screen bg-white">
@@ -70,7 +71,7 @@ export default async function FollowUpsPage() {
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <h3 className="text-sm font-medium text-black">Due This Week</h3>
-            <p className="text-3xl font-bold text-yellow-600 mt-2">12</p>
+            <p className="text-3xl font-bold text-yellow-600 mt-2">{dueThisWeekCount}</p>
           </div>
         </div>
         <div className="bg-white rounded-lg shadow-sm border">

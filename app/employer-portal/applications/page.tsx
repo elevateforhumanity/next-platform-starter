@@ -26,11 +26,22 @@ export default async function ApplicationsPage() {
     redirect('/login?redirect=/employer-portal/applications');
   }
 
-  // Fetch real job applications
-  const { data: jobApplications } = await supabase
-    .from('job_applications')
-    .select(
-      `
+  // Scope to this employer's job postings first, then fetch applications.
+  // Prevents cross-tenant data exposure — an employer may only see applications
+  // for jobs they own.
+  const { data: ownedJobs } = await supabase
+    .from('job_postings')
+    .select('id')
+    .eq('employer_id', user.id);
+
+  const jobIds = (ownedJobs ?? []).map((j: any) => j.id);
+
+  const { data: jobApplications } =
+    jobIds.length > 0
+      ? await supabase
+          .from('job_applications')
+          .select(
+            `
       id,
       status,
       created_at,
@@ -39,9 +50,11 @@ export default async function ApplicationsPage() {
       profiles!job_applications_user_id_fkey(full_name, city, state),
       jobs(title)
     `,
-    )
-    .order('created_at', { ascending: false })
-    .limit(20);
+          )
+          .in('job_id', jobIds)
+          .order('created_at', { ascending: false })
+          .limit(50)
+      : { data: [] };
 
   const applications =
     jobApplications?.map((app: any) => {
