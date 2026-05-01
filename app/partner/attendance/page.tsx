@@ -48,11 +48,12 @@ export default async function PartnerAttendancePage() {
 
     const orgId = partnerUser?.partner_id;
 
-    // Fetch attendance sessions
+    // Fetch attendance sessions — scoped to this partner's hosted sessions
     const { data: sessionData } = await supabase
       .from('attendance_sessions')
       .select('*')
-      .order('date', { ascending: false })
+      .eq('host_id', user.id)
+      .order('scheduled_at', { ascending: false })
       .limit(20);
     sessions = sessionData || [];
 
