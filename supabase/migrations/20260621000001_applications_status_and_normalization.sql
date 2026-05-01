@@ -18,7 +18,14 @@ ALTER TABLE public.applications
 ALTER TABLE public.applications
   ADD CONSTRAINT applications_valid_status CHECK (
     status IN (
+      -- canonical submission statuses (written by /api/applications)
       'submitted',
+      'pending_funding',
+      'pending_admin_review',
+      -- intake / start-form statuses (written by /api/intake/apply)
+      'new',
+      'queued',
+      -- admin workflow statuses
       'in_review',
       'under_review',
       'ready_to_enroll',
@@ -32,9 +39,11 @@ ALTER TABLE public.applications
 
 -- Migrate any legacy rows that used the old status values so they don't
 -- violate the new constraint on the next write.
-UPDATE public.applications SET status = 'submitted'    WHERE status = 'pending';
-UPDATE public.applications SET status = 'in_review'    WHERE status = 'funding_review';
-UPDATE public.applications SET status = 'enrolled'     WHERE status IN ('onboarding_complete', 'converted', 'active');
+UPDATE public.applications SET status = 'submitted'           WHERE status = 'pending';
+UPDATE public.applications SET status = 'in_review'           WHERE status = 'funding_review';
+UPDATE public.applications SET status = 'enrolled'            WHERE status IN ('onboarding_complete', 'converted', 'active');
+-- 'pending_funding' and 'pending_admin_review' are written by /api/applications and
+-- are now included in the constraint above. No row migration needed — they are valid values.
 
 -- ── 2. Add normalization columns ──────────────────────────────────────────────
 

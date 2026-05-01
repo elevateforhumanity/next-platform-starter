@@ -57,6 +57,24 @@ export async function POST(request: NextRequest) {
     const normalizedEmail = body.email.trim().toLowerCase();
     const stage = determineStage(body);
 
+    // Dedup: block same email + program within 24 hours.
+    // Prevents double-submissions from network retries or impatient re-submits.
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const { data: recentApp } = await supabase
+      .from('applications')
+      .select('id')
+      .eq('email', normalizedEmail)
+      .eq('program_interest', body.program_interest || '')
+      .gte('created_at', oneDayAgo)
+      .maybeSingle();
+
+    if (recentApp) {
+      return NextResponse.json(
+        { error: 'An application for this program was already submitted recently. Please wait 24 hours before reapplying.' },
+        { status: 409 },
+      );
+    }
+
     // 1. Create lead
     const { data: lead, error: leadError } = await supabase
       .from('leads')

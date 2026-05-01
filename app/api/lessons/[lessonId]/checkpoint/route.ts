@@ -74,13 +74,17 @@ export async function POST(
   // assertLessonAccess checks the module unlock rule, but module-1 lessons are
   // always unlocked (no prior module to gate on), so unenrolled users pass that
   // check. Verify enrollment explicitly before writing checkpoint_scores.
+  //
+  // Status set must match the lesson-complete route so learners with
+  // 'enrolled', 'in_progress', or 'confirmed' status are not blocked here
+  // after being allowed to complete lessons.
   const supabase = await createClient();
   const { data: enrollment } = await supabase
     .from('program_enrollments')
     .select('id, status')
     .eq('user_id', user.id)
     .eq('course_id', courseId)
-    .in('status', ['active', 'completed'])
+    .in('status', ['active', 'enrolled', 'in_progress', 'completed', 'confirmed'])
     .maybeSingle();
 
   if (!enrollment) {

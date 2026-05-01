@@ -484,93 +484,115 @@ export default function LessonPage() {
       .catch(() => {}); // fail silently — hours strip is non-critical
   }, [isBarberLesson]);
 
-  const markComplete = async (forceComplete?: boolean) => {
-    // forceComplete=true means "always mark complete" (called from activity handlers).
-    // Without it, the button toggles — allowing un-complete from the manual button only.
-    const newStatus = forceComplete ? true : !isCompleted;
-    if (newStatus === isCompleted) return; // no-op if already in target state
-    setIsCompleted(newStatus);
-    setCompletionError(null);
+  const markComplete = useCallback(
+    async (forceComplete?: boolean) => {
+      // forceComplete=true means "always mark complete" (called from activity handlers).
+      // Without it, the button toggles — allowing un-complete from the manual button only.
+      //
+      // useCallback ensures this closure always reads the current isCompleted value and
+      // the current lessons list, preventing stale-closure races when video players fire
+      // onComplete callbacks after a re-render.
+      const newStatus = forceComplete ? true : !isCompleted;
+      if (newStatus === isCompleted) return; // no-op if already in target state
+      setIsCompleted(newStatus);
+      setCompletionError(null);
 
-    try {
-      if (newStatus) {
-        const elapsedSeconds = Math.round((Date.now() - lessonStartTime.current) / 1000);
-        const response = await fetch(`/api/lessons/${lessonId}/complete`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ timeSpentSeconds: elapsedSeconds }),
-        });
+      try {
+        if (newStatus) {
+          const elapsedSeconds = Math.round((Date.now() - lessonStartTime.current) / 1000);
+          const response = await fetch(`/api/lessons/${lessonId}/complete`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ timeSpentSeconds: elapsedSeconds }),
+          });
 
-        if (!response.ok) {
-          setIsCompleted(false);
-          try {
-            const err = await response.json();
-            if (err.code === 'CHECKPOINT_NOT_PASSED') {
-              // Server-side gate fired — surface the exact message from the API
-              // which includes checkpoint title and required score.
-              setCompletionError(
-                err.error ?? 'You must pass the previous module checkpoint before continuing.',
-              );
-              setCheckpointBlocked(true);
-            } else if (err.required && err.actual != null) {
-              const remaining = Math.ceil((err.required - err.actual) / 60);
-              setCompletionError(
-                `Please spend at least ${remaining} more minute${remaining !== 1 ? 's' : ''} on this lesson before marking it complete.`,
-              );
-            } else {
-              setCompletionError(err.error ?? 'Unable to mark complete. Please try again.');
+          if (!response.ok) {
+            setIsCompleted(false);
+            try {
+              const err = await response.json();
+              if (err.code === 'CHECKPOINT_NOT_PASSED') {
+                // Server-side gate fired — surface the exact message from the API
+                // which includes checkpoint title and required score.
+                setCompletionError(
+                  err.error ?? 'You must pass the previous module checkpoint before continuing.',
+                );
+                setCheckpointBlocked(true);
+              } else if (err.required && err.actual != null) {
+                const remaining = Math.ceil((err.required - err.actual) / 60);
+                setCompletionError(
+                  `Please spend at least ${remaining} more minute${remaining !== 1 ? 's' : ''} on this lesson before marking it complete.`,
+                );
+              } else {
+                setCompletionError(err.error ?? 'Unable to mark complete. Please try again.');
+              }
+            } catch (e) {
+              console.error('[lesson] mark-complete response parse failed:', e);
+              setCompletionError('Unable to mark complete. Please try again.');
             }
-          } catch (e) {
-            console.error('[lesson] mark-complete response parse failed:', e);
-            setCompletionError('Unable to mark complete. Please try again.');
+            return;
           }
-          return;
-        }
 
-        const result = await response.json();
+          const result = await response.json();
 
-        // Update sidebar completion state
-        setCompletedLessonIds((prev) => new Set<string>([...Array.from(prev), lessonId]));
+          // Update sidebar completion state
+          setCompletedLessonIds((prev) => new Set<string>([...Array.from(prev), lessonId]));
 
-        // Handle course completion — auto-advance to certification page
-        if (result.courseProgress?.courseCompleted) {
-          setCourseCompleted(true);
-          if (result.certificate) {
-            setCertificate(result.certificate);
+          // Handle course completion — auto-advance to certification page
+          if (result.courseProgress?.courseCompleted) {
+            setCourseCompleted(true);
+            if (result.certificate) {
+              setCertificate(result.certificate);
+            }
+            // Auto-advance: redirect to certification outcome page instead of
+            // leaving learner on the lesson player with a manual complete button
+            router.push(`/lms/courses/${courseId}/certification`);
+            return;
           }
-          // Auto-advance: redirect to certification outcome page instead of
-          // leaving learner on the lesson player with a manual complete button
-          router.push(`/lms/courses/${courseId}/certification`);
-          return;
-        }
 
-        // Auto-advance to next lesson after marking complete
-        if (hasNext) {
-          router.push(`/lms/courses/${courseId}/lessons/${lessons[currentIndex + 1].id}`);
-        }
-      } else {
-        const response = await fetch(`/api/lessons/${lessonId}/complete`, {
-          method: 'DELETE',
-        });
+          // Auto-advance to next lesson after marking complete.
+          // Derive currentIndex and hasNext from the lessons list captured in this
+          // closure — avoids reading stale module-level derived values.
+          const idx = lessons.findIndex((l) => l.id === lessonId);
+          if (idx >= 0 && idx < lessons.length - 1) {
+            router.push(`/lms/courses/${courseId}/lessons/${lessons[idx + 1].id}`);
+          }
+        } else {
+          const response = await fetch(`/api/lessons/${lessonId}/complete`, {
+            method: 'DELETE',
+          });
 
-        if (!response.ok) {
-          setIsCompleted(true);
-          return;
-        }
+          if (!response.ok) {
+            setIsCompleted(true);
+            return;
+          }
 
-        // Remove from completed set
-        setCompletedLessonIds((prev) => {
-          const next = new Set(prev);
-          next.delete(lessonId);
-          return next;
-        });
-        setCourseCompleted(false);
-        setCertificate(null);
+          // Remove from completed set
+          setCompletedLessonIds((prev) => {
+            const next = new Set(prev);
+            next.delete(lessonId);
+            return next;
+          });
+          setCourseCompleted(false);
+          setCertificate(null);
+        }
+      } catch (error) {
+        setIsCompleted(!newStatus);
       }
-    } catch (error) {
-      setIsCompleted(!newStatus);
-    }
-  };
+    },
+    [
+      isCompleted,
+      lessonId,
+      courseId,
+      lessons,
+      router,
+      setIsCompleted,
+      setCompletionError,
+      setCheckpointBlocked,
+      setCompletedLessonIds,
+      setCourseCompleted,
+      setCertificate,
+    ],
+  );
 
   const currentIndex = lessons.findIndex((l) => l.id === lessonId);
   const hasPrevious = currentIndex > 0;
@@ -1248,11 +1270,8 @@ export default function LessonPage() {
                 dbVideoUrl={lesson.video_url ?? undefined}
                 brollVideoUrl="/videos/hvac-technician.mp4"
                 lessonTitle={lesson.title}
-                onComplete={() => {
-                  if (!isCompleted) {
-                    setIsCompleted(true);
-                    markComplete();
-                  }
+                onComplete={async () => {
+                  await markComplete(true);
                 }}
               />
               {lesson.content && (
@@ -1271,11 +1290,8 @@ export default function LessonPage() {
                 <InteractiveVideoPlayer
                   videoUrl={barberVideoUrl(lesson.slug, lesson.video_config, lesson.video_url)!}
                   title={lesson.title}
-                  onComplete={() => {
-                    if (!isCompleted) {
-                      setIsCompleted(true);
-                      markComplete();
-                    }
+                  onComplete={async () => {
+                    await markComplete(true);
                   }}
                 />
               ) : (
@@ -1302,11 +1318,8 @@ export default function LessonPage() {
                 onMinimumTimeReached={() => {
                   // Simulation unlocked — no action needed yet
                 }}
-                onSimulationComplete={() => {
-                  if (!isCompleted) {
-                    setIsCompleted(true);
-                    markComplete();
-                  }
+                onSimulationComplete={async () => {
+                  await markComplete(true);
                 }}
               />
               {/* Show lesson content below simulation */}
@@ -1339,19 +1352,12 @@ export default function LessonPage() {
               {isHvacCourse ? (
                 /* HVAC: avatar+audio sync player with local MP3/MP4 fallback chain */
                 <HvacLessonVideo
-                  lessonDefId={
-                    HVAC_UUID_TO_DEF[lessonId] ??
-                    (lesson.slug ? hvacDefIdFromSlug(lesson.slug) : undefined) ??
-                    lesson.slug
-                  }
+                  lessonId={lessonId}
                   dbVideoUrl={lesson.video_url}
                   brollVideoUrl="/videos/hvac-technician.mp4"
                   lessonTitle={lesson.title}
-                  onComplete={() => {
-                    if (!isCompleted) {
-                      setIsCompleted(true);
-                      markComplete();
-                    }
+                  onComplete={async () => {
+                    await markComplete(true);
                   }}
                 />
               ) : (
@@ -1370,22 +1376,16 @@ export default function LessonPage() {
                       src={lesson.video_url}
                       poster={lesson.thumbnail_url ?? undefined}
                       title={lesson.title}
-                      onComplete={() => {
-                        if (!isCompleted) {
-                          setIsCompleted(true);
-                          markComplete();
-                        }
+                      onComplete={async () => {
+                        await markComplete(true);
                       }}
                     />
                   ) : (
                     <InteractiveVideoPlayer
                       videoUrl={lesson.video_url}
                       title={lesson.title}
-                      onComplete={() => {
-                        if (!isCompleted) {
-                          setIsCompleted(true);
-                          markComplete();
-                        }
+                      onComplete={async () => {
+                        await markComplete(true);
                       }}
                     />
                   )}
@@ -1525,10 +1525,10 @@ export default function LessonPage() {
                               }
                               title={lesson.title}
                               onProgress={(p) => onVideoProgress(p, 100)}
-                              onComplete={() => {
+                              onComplete={async () => {
                                 markActivityCompleted('video');
                                 markAttempted('video');
-                                if (!isCompleted) markComplete();
+                                await markComplete(true);
                               }}
                             />
                           ) : (
@@ -1542,10 +1542,10 @@ export default function LessonPage() {
                               lessonId={lessonId}
                               videoUrl={lesson.video_url}
                               title={lesson.title}
-                              onComplete={() => {
+                              onComplete={async () => {
                                 markActivityCompleted('video');
                                 markAttempted('video');
-                                if (!isCompleted) markComplete();
+                                await markComplete(true);
                               }}
                             />
                           ) : (
@@ -1553,10 +1553,10 @@ export default function LessonPage() {
                               videoUrl={lesson.video_url}
                               title={lesson.title}
                               onProgress={(p) => onVideoProgress(p, 100)}
-                              onComplete={() => {
+                              onComplete={async () => {
                                 markActivityCompleted('video');
                                 markAttempted('video');
-                                if (!isCompleted) markComplete();
+                                await markComplete(true);
                               }}
                             />
                           )
@@ -1640,10 +1640,10 @@ export default function LessonPage() {
                             stepType={lesson.step_type}
                             lessonTitle={lesson.title}
                             competencyKey={lesson.competency_checks?.[0]?.key}
-                            onSubmitted={() => {
+                            onSubmitted={async () => {
                               markActivityCompleted('lab');
                               markAttempted('lab');
-                              if (!isCompleted) markComplete();
+                              await markComplete(true);
                             }}
                           />
                         ) : (
@@ -1690,10 +1690,10 @@ export default function LessonPage() {
                             title={lesson.title}
                             passingScore={lesson.passing_score || 70}
                             isCheckpoint={lesson.step_type === 'checkpoint'}
-                            onComplete={(score) => {
+                            onComplete={async (score) => {
                               markActivityCompleted('checkpoint');
-                              if (score >= (lesson.passing_score || 70) && !isCompleted)
-                                markComplete();
+                              if (score >= (lesson.passing_score || 70))
+                                await markComplete(true);
                             }}
                           />
                         ) : (
