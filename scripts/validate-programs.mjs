@@ -165,6 +165,121 @@ for (const file of importedFiles) {
 }
 if (warnings === 0) console.log('  ✅ All dedicated program pages have H1');
 
+// ── Hero banner media validation ──────────────────────────────────────────
+// Checks hero-banners.json for:
+//   1. Missing banner entry for a registered program
+//   2. Missing posterImage
+//   3. posterImage file not found in public/
+//   4. Duplicate posterImage across unrelated programs (warning)
+//   5. Duplicate videoSrcDesktop across programs in different sectors (warning)
+console.log('\n[validate-programs] Checking hero banner media...');
+const heroBannersPath = join(ROOT, 'public/data/hero-banners.json');
+let heroBanners = {};
+if (existsSync(heroBannersPath)) {
+  heroBanners = JSON.parse(readFileSync(heroBannersPath, 'utf8'));
+} else {
+  console.warn('  ⚠️  public/data/hero-banners.json not found — skipping media checks');
+}
+
+// Programs that intentionally share a category page key (not their own slug)
+const BANNER_KEY_OVERRIDES = new Set(['business-administration', 'finance-bookkeeping-accounting']);
+
+// Sector groupings — programs in the same sector may share a video
+const SECTOR_GROUPS = {
+  healthcare: ['cna','qma','phlebotomy','medical-assistant','pharmacy-technician','home-health-aide',
+    'emergency-health-safety','cpr-first-aid','drug-collector','sanitation-infection-control',
+    'peer-recovery-specialist','direct-support-professional'],
+  trades: ['hvac-technician','welding','electrical','plumbing','diesel-mechanic',
+    'construction-trades-certification','forklift','cad-drafting'],
+  beauty: ['barber-apprenticeship','cosmetology-apprenticeship','nail-technician-apprenticeship',
+    'esthetician-apprenticeship','esthetician','beauty-career-educator','culinary-apprenticeship'],
+  technology: ['it-help-desk','cybersecurity-analyst','network-administration',
+    'network-support-technician','software-development','web-development','graphic-design',
+    'technology','data-analytics'],
+  business: ['bookkeeping','office-administration','entrepreneurship','project-management',
+    'business-administration','hospitality','finance-bookkeeping-accounting'],
+  transport: ['cdl-training'],
+  tax: ['tax-preparation'],
+};
+const slugToSector = {};
+for (const [sector, slugs] of Object.entries(SECTOR_GROUPS)) {
+  for (const s of slugs) slugToSector[s] = sector;
+}
+
+const posterUsage = {}; // posterImage -> [slug]
+const videoUsage = {};  // videoSrcDesktop -> [slug]
+
+for (const file of importedFiles) {
+  const filePath = join(ROOT, 'data/programs', `${file}.ts`);
+  if (!existsSync(filePath)) continue;
+  const content = readFileSync(filePath, 'utf8');
+  const slugMatch = content.match(/slug:\s*['"]([^'"]+)['"]/);
+  if (!slugMatch) continue;
+  const slug = slugMatch[1];
+  if (BANNER_KEY_OVERRIDES.has(slug)) continue;
+
+  const banner = heroBanners[slug];
+  if (!banner) {
+    console.warn(`  ⚠️  ${slug} — no entry in hero-banners.json`);
+    warnings++;
+    continue;
+  }
+
+  // Check posterImage exists
+  const poster = banner.posterImage;
+  if (!poster) {
+    console.warn(`  ⚠️  ${slug} — banner has no posterImage`);
+    warnings++;
+  } else {
+    const posterPath = join(ROOT, 'public', poster);
+    if (!existsSync(posterPath)) {
+      console.error(`  ❌ ${slug} — posterImage not found: ${poster}`);
+      errors++;
+    } else {
+      if (!posterUsage[poster]) posterUsage[poster] = [];
+      posterUsage[poster].push(slug);
+    }
+  }
+
+  // Track video usage
+  const video = banner.videoSrcDesktop;
+  if (video) {
+    if (!videoUsage[video]) videoUsage[video] = [];
+    videoUsage[video].push(slug);
+  }
+}
+
+// Warn on duplicate posters across programs in different sectors
+for (const [poster, slugs] of Object.entries(posterUsage)) {
+  if (slugs.length < 2) continue;
+  const sectors = [...new Set(slugs.map((s) => slugToSector[s] ?? 'unknown'))];
+  if (sectors.length > 1) {
+    console.warn(`  ⚠️  Poster shared across sectors: ${poster}`);
+    console.warn(`       Programs: ${slugs.join(', ')}`);
+    warnings++;
+  }
+}
+
+// Warn on duplicate videos across programs in different sectors
+for (const [video, slugs] of Object.entries(videoUsage)) {
+  if (slugs.length < 2) continue;
+  const sectors = [...new Set(slugs.map((s) => slugToSector[s] ?? 'unknown'))];
+  if (sectors.length > 1) {
+    const vidName = video.split('/').pop();
+    console.warn(`  ⚠️  Video shared across sectors: ${vidName}`);
+    console.warn(`       Programs: ${slugs.join(', ')}`);
+    warnings++;
+  }
+}
+
+const posterDupeCount = Object.values(posterUsage).filter((s) => s.length > 1).length;
+const videoDupeCount = Object.values(videoUsage).filter((s) => s.length > 1).length;
+if (posterDupeCount === 0 && videoDupeCount === 0) {
+  console.log('  ✅ No cross-sector media duplication');
+} else {
+  console.log(`  ℹ️  Same-sector sharing: ${posterDupeCount} poster groups, ${videoDupeCount} video groups (expected)`);
+}
+
 // Check for duplicate slugs across next.config.mjs redirects pointing to programs
 const nextConfig = readFileSync(join(ROOT, 'next.config.mjs'), 'utf8');
 const programRedirects = [...nextConfig.matchAll(/source:\s*['"]\/programs\/([^'"]+)['"]/g)].map((m) => m[1]);

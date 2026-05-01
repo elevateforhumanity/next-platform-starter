@@ -71,7 +71,7 @@ export default function BuildingServicesTechnicianPage() {
       <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="/apply?program=building-maintenance-tech"
+            href="/apply?program=building-services-technician"
             className="inline-flex items-center justify-center px-8 py-4 bg-green-600 text-white font-bold rounded-full hover:bg-green-500 transition text-lg"
           >
             Apply Now
@@ -417,7 +417,7 @@ export default function BuildingServicesTechnicianPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/apply?program=building-maintenance-tech"
+              href="/apply?program=building-services-technician"
               className="inline-flex items-center justify-center px-8 py-4 bg-green-500 text-white font-bold rounded-full hover:bg-green-400"
             >
               Apply Now

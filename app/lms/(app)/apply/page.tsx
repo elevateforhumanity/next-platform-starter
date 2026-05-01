@@ -94,11 +94,12 @@ export default function StudentApplicationPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          first_name: user?.first_name,
-          last_name: user?.last_name,
+          firstName: user?.first_name,
+          lastName: user?.last_name,
           email: user?.email,
           phone: user?.phone,
-          program_id: formData.program,
+          program: formData.program,
+          source: 'lms_portal',
           notes: JSON.stringify({
             education: formData.education,
             employment_status: formData.employment_status,

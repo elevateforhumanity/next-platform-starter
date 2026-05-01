@@ -11,7 +11,6 @@ import { Heart, CheckCircle, Users, Award, Clock, DollarSign } from 'lucide-reac
 import { CompactHero } from '@/components/heroes/CompactHero';
 import { FundingBadge } from '@/components/programs/FundingBadge';
 import PathwayDisclosure from '@/components/compliance/PathwayDisclosure';
-import PageAvatar from '@/components/PageAvatar';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
@@ -66,7 +65,7 @@ export default async function Page() {
         }}
         headline="Direct Support Professional: Make a difference in people's lives"
         description="100% free DSP training. Help individuals with disabilities live independently and participate fully in their communities. 4-6 weeks, job placement included."
-        primaryCTA={{ text: 'Start Eligibility & Choose This Program', href: '/apply' }}
+        primaryCTA={{ text: 'Start Eligibility & Choose This Program', href: '/apply?program=direct-support-professional' }}
         secondaryCTA={{ text: 'Questions? Call Us', href: 'tel:317-314-3757' }}
       />
 
@@ -78,7 +77,7 @@ export default async function Page() {
       </section>
 
       {/* Avatar Guide */}
-      <PageAvatar videoSrc="/videos/avatars/dsp-guide.mp4" title="DSP Program Guide" />
+
 
       {/* Program Overview */}
       <section className="max-w-7xl mx-auto px-4 py-16">
@@ -238,7 +237,7 @@ export default async function Page() {
           <p className="text-xl mb-8">Check eligibility and begin training in weeks, not months.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/apply"
+              href="/apply?program=direct-support-professional"
               className="px-8 py-4 bg-white text-blue-600 hover:bg-gray-100 font-bold rounded-lg transition-all text-center"
             >
               Start Eligibility & Choose This Program

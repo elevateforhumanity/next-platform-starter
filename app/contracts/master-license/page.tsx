@@ -3,6 +3,10 @@ export const revalidate = 3600;
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Download, Printer, ArrowLeft, Key } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 
 export default function MasterLicensePage() {
   return (

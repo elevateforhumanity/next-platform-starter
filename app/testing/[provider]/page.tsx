@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  CheckCircle,
   Clock,
   MapPin,
   Monitor,
@@ -13,9 +12,10 @@ import {
   Briefcase,
 } from 'lucide-react';
 import { CERT_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
+import { getProvidersForAmount } from '@/lib/bnpl-config';
 
 export const dynamic = 'force-dynamic';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { createPublicClient } from '@/lib/supabase/public';
 
 const LEVEL_COLORS: Record<string, string> = {
   amber: 'bg-amber-50 border-amber-200 text-amber-900',
@@ -76,16 +76,15 @@ export default async function ProviderPage({ params }: Props) {
     fees?: any;
     verify_url?: string;
   } | null = null;
+  // PUBLIC ROUTE: testing provider detail — no auth required.
   try {
-    const db = await requireAdminClient();
-    if (db) {
-      const { data } = await db
-        .from('testing_providers')
-        .select('description,status,fees,verify_url')
-        .eq('slug', key)
-        .maybeSingle();
-      if (data) dbOverride = data;
-    }
+    const db = createPublicClient();
+    const { data } = await db
+      .from('testing_providers')
+      .select('description,status,fees,verify_url')
+      .eq('slug', key)
+      .maybeSingle();
+    if (data) dbOverride = data;
   } catch {
     /* fall through to static */
   }
@@ -190,10 +189,7 @@ export default async function ProviderPage({ params }: Props) {
                 const ncrc = isObj ? (exam as ExamDefinition).ncrcLevel : undefined;
                 return (
                   <div key={name} className="bg-slate-50 rounded-xl border border-slate-100 p-5">
-                    <div className="flex items-start gap-3 mb-2">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <h3 className="font-bold text-slate-900 text-base leading-snug">{name}</h3>
-                    </div>
+                    <h3 className="font-bold text-slate-900 text-base leading-snug mb-2">{name}</h3>
                     {desc && <p className="text-slate-700 text-sm leading-relaxed ml-8">{desc}</p>}
                     {(duration || questions || ncrc) && (
                       <div className="ml-8 mt-3 flex flex-wrap gap-3">
@@ -284,7 +280,7 @@ export default async function ProviderPage({ params }: Props) {
                     <div className="grid sm:grid-cols-2 gap-2">
                       {tier.jobs.map((job: any) => (
                         <div key={job.title} className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5 opacity-60" />
+                          <span className="text-slate-300 flex-shrink-0 select-none mt-0.5">—</span>
                           <div>
                             <p className="text-sm font-semibold leading-snug">{job.title}</p>
                             {job.note && (
@@ -332,6 +328,28 @@ export default async function ProviderPage({ params }: Props) {
                   <p className="text-green-800 text-xs font-medium">{provider.groupDiscount}</p>
                 </div>
               )}
+
+              {/* BNPL badges */}
+              {provider.fees && provider.fees.length > 0 && (() => {
+                const minFee = Math.min(...provider.fees.map((f: any) => f.amount));
+                const bnpl = getProvidersForAmount(minFee);
+                if (!bnpl.length) return null;
+                return (
+                  <div className="pt-3 border-t border-slate-100">
+                    <p className="text-xs text-slate-500 mb-2">Split your payment — accepted at checkout</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {bnpl.map((p) => (
+                        <span
+                          key={p.id}
+                          className={`inline-flex items-center text-[11px] font-semibold px-2.5 py-1 rounded-full ${p.badgeBg} ${p.badgeText}`}
+                        >
+                          {p.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           </div>
 

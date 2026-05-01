@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { trackLessonProgress } from '@/lib/xapi/xapi-client';
 
 interface VideoPlayerProps {
@@ -62,7 +62,7 @@ export default function VideoPlayer({
     return () => clearInterval(interval);
   }, [isPlaying, userId, courseId, lessonId, lessonName, onProgress]);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
@@ -71,7 +71,7 @@ export default function VideoPlayer({
       }
       setIsPlaying(!isPlaying);
     }
-  };
+  }, [isPlaying]);
 
   const handleTimeUpdate = () => {
     if (videoRef.current) {
@@ -174,7 +174,7 @@ export default function VideoPlayer({
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isPlaying, volume]);
+  }, [isPlaying, volume, togglePlay]);
 
   return (
     <div

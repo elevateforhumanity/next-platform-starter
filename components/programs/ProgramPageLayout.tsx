@@ -172,7 +172,8 @@ export default function ProgramPageLayout({
       {(() => {
         const key = c.pageKey;
         const banner = key ? heroBanners[key] : undefined;
-        if (banner) {
+        // heroBanners returns {} on the client — check pageKey to confirm it's a real entry
+        if (banner?.pageKey) {
           return (
             <HeroVideo
               videoSrcDesktop={banner.videoSrcDesktop}

@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -194,7 +195,7 @@ export async function POST(req: NextRequest) {
     if (error) throw error;
     return NextResponse.json({ ok: true, lesson: data });
   } catch (error) {
-    console.error('[course-builder/lesson]', error);
+    logger.error('[course-builder/lesson]', error);
     return NextResponse.json({ ok: false, error: 'Failed to save lesson' }, { status: 400 });
   }
 }

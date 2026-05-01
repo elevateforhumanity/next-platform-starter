@@ -11,7 +11,25 @@
 --      UPDATE status='completed', ended_at=now(), active_seconds=calculated
 --   4. API credits hours to barber_hour_ledger + inserts barber_hour_events row
 
-CREATE TABLE IF NOT EXISTS public.barber_training_sessions (
+-- Table already created by fix migration; just add missing columns
+ALTER TABLE public.barber_training_sessions
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'active',
+  ADD COLUMN IF NOT EXISTS started_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS ended_at timestamptz,
+  ADD COLUMN IF NOT EXISTS last_heartbeat_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS idle_seconds int NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS active_seconds int,
+  ADD COLUMN IF NOT EXISTS theory_hours_credited numeric(5,2),
+  ADD COLUMN IF NOT EXISTS practical_hours_credited numeric(5,2),
+  ADD COLUMN IF NOT EXISTS heartbeat_count int NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS video_watch_seconds int NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS click_count int NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS module_number int,
+  ADD COLUMN IF NOT EXISTS lesson_id uuid;
+-- Skipping GENERATED ALWAYS AS (not supported via ADD COLUMN)
+-- raw_seconds computed on read: EXTRACT(EPOCH FROM (COALESCE(ended_at,now())-started_at))::int
+
+/*SKIP_ORIGINAL_CREATE_TABLE
   id                  uuid         PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id             uuid         NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   program_id          uuid         NOT NULL,
@@ -42,7 +60,7 @@ CREATE TABLE IF NOT EXISTS public.barber_training_sessions (
   click_count         int          NOT NULL DEFAULT 0,
 
   created_at          timestamptz  NOT NULL DEFAULT now()
-);
+*/
 
 CREATE INDEX IF NOT EXISTS idx_barber_sessions_user
   ON public.barber_training_sessions(user_id, program_id);

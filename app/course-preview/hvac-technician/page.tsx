@@ -6,6 +6,10 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import HVACClassroomPreview from './CoursePreviewClient';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 
 function loadJson(filename: string) {
   return JSON.parse(readFileSync(join(process.cwd(), 'public/data', filename), 'utf8'));

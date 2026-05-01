@@ -52,6 +52,34 @@ export async function getPrograms(): Promise<Program[]> {
 }
 
 /**
+ * Returns published programs that include the given tag in their funding_tags array.
+ * Tag matching is case-insensitive. Used by funding-specific landing pages (e.g. /fssa).
+ */
+export async function getProgramsByFundingTag(tag: string): Promise<Program[]> {
+  const db = await getDb();
+  const { data, error } = await db
+    .from('programs')
+    .select(
+      'id, slug, title, description, short_description, excerpt, image_url, hero_image_url, ' +
+        'estimated_weeks, credential_name, credential, funding_tags, wioa_approved, ' +
+        'published, is_active, status, featured, display_order',
+    )
+    .eq('published', true)
+    .eq('is_active', true)
+    .neq('status', 'archived')
+    .contains('funding_tags', [tag.toLowerCase()])
+    .order('display_order', { ascending: true, nullsFirst: false })
+    .order('title', { ascending: true });
+
+  if (error) {
+    logger.error('getProgramsByFundingTag error:', error.message);
+    return [];
+  }
+
+  return (data ?? []).map(mapProgram);
+}
+
+/**
  * Returns published programs filtered by category (case-insensitive substring match).
  * Used by category landing pages (healthcare, skilled-trades, technology) to avoid
  * a client-side fetch waterfall.

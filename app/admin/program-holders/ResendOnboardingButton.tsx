@@ -20,7 +20,7 @@ export default function ResendOnboardingButton({ holderId }: { holderId: string 
         // Reset after 4 seconds so it can be used again
         setTimeout(() => setState('idle'), 4000);
       } else {
-        console.error('[ResendOnboarding]', json.error);
+        if (process.env.NODE_ENV !== "production") console.error('[ResendOnboarding]', json.error);
         setState('error');
         setTimeout(() => setState('idle'), 4000);
       }

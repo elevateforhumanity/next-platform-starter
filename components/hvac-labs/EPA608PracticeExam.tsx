@@ -44,7 +44,7 @@ export default function EPA608PracticeExam({
     // 2 minutes per question
     setTimeLeft(shuffled.length * 120);
     setPhase('exam');
-  }, []);
+  }, [getQuestionsBySection]);
 
   // Timer
   useEffect(() => {

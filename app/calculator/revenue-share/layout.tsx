@@ -1,8 +1,11 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: ' | Elevate for Humanity',
-  description: 'Elevate for Humanity - Career training and workforce development programs.',
+  title: 'Revenue Share Calculator | Elevate for Humanity',
+  description: 'Estimate revenue share projections for Elevate for Humanity licensing and partnership arrangements.',
+  alternates: {
+    canonical: 'https://www.elevateforhumanity.org/calculator/revenue-share',
+  },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

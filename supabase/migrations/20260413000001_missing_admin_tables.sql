@@ -122,13 +122,14 @@ CREATE TABLE IF NOT EXISTS public.social_campaigns (
 -- ── 7. v_admin_financial_assurance_summary (view) ────────────────────────────
 -- Used by: /admin/compliance/financial-assurance
 -- Must be created AFTER financial_assurance_records table above.
+DROP VIEW IF EXISTS public.v_admin_financial_assurance_summary;
 CREATE OR REPLACE VIEW public.v_admin_financial_assurance_summary AS
 SELECT
   COUNT(*)                                                                    AS total_records,
   COUNT(*) FILTER (WHERE status = 'active')                                  AS active_count,
   COUNT(*) FILTER (WHERE status = 'expired')                                 AS expired_count,
   COUNT(*) FILTER (WHERE expiration_date < now() AND status = 'active')      AS expiring_soon_count,
-  COALESCE(SUM(f.amount_cents) FILTER (WHERE f.status = 'active'), 0)        AS total_coverage_cents,
+  COALESCE(SUM(f.coverage_amount::numeric * 100) FILTER (WHERE f.status = 'active'), 0) AS total_coverage_cents,
   MAX(updated_at)                                                             AS last_updated_at
 FROM public.financial_assurance_records f;
 
@@ -176,7 +177,7 @@ CREATE TABLE IF NOT EXISTS public.lms_progress (
   last_activity_at  TIMESTAMPTZ,
   created_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at        TIMESTAMPTZ NOT NULL DEFAULT now()
-  UNIQUE (user_id, course_id)
 );
 CREATE INDEX IF NOT EXISTS idx_lms_progress_user ON public.lms_progress (user_id);
 CREATE INDEX IF NOT EXISTS idx_lms_progress_course ON public.lms_progress (course_id);
+

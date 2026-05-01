@@ -32,7 +32,7 @@ export default async function DocumentsPage() {
   const { data: documents, count } = await db
     .from('documents')
     .select(
-      'id, title, file_name, filename, document_type, file_type, file_size, created_at, storage_path, url',
+      'id, title, file_name, document_type, mime_type, file_size, file_size_bytes, created_at, file_path, file_url, url',
       { count: 'exact' },
     )
     .order('created_at', { ascending: false })
@@ -101,9 +101,9 @@ export default async function DocumentsPage() {
                 </thead>
                 <tbody className="divide-y divide-slate-50">
                   {docs.map((doc: any) => {
-                    const name = doc.title || doc.file_name || doc.filename || 'Untitled';
-                    const type = doc.document_type || doc.file_type || '—';
-                    const href = doc.url || doc.storage_path || '#';
+                    const name = doc.title || doc.file_name || 'Untitled';
+                    const type = doc.document_type || doc.mime_type || '—';
+                    const href = doc.file_url || doc.url || '#';
                     return (
                       <tr key={doc.id} className="hover:bg-slate-50 transition-colors">
                         <td className="px-5 py-3.5">
@@ -118,7 +118,7 @@ export default async function DocumentsPage() {
                         </td>
                         <td className="px-5 py-3.5 text-slate-500 capitalize">{type}</td>
                         <td className="px-5 py-3.5 text-slate-500 tabular-nums">
-                          {fmtBytes(doc.file_size)}
+                          {fmtBytes(doc.file_size_bytes ?? doc.file_size)}
                         </td>
                         <td className="px-5 py-3.5 text-slate-500 text-xs whitespace-nowrap">
                           {fmtDate(doc.created_at)}
@@ -152,9 +152,9 @@ export default async function DocumentsPage() {
             {/* Mobile card list */}
             <div className="sm:hidden divide-y divide-slate-50">
               {docs.map((doc: any) => {
-                const name = doc.title || doc.file_name || doc.filename || 'Untitled';
-                const type = doc.document_type || doc.file_type || '—';
-                const href = doc.url || doc.storage_path || '#';
+                const name = doc.title || doc.file_name || 'Untitled';
+                const type = doc.document_type || doc.mime_type || '—';
+                const href = doc.file_url || doc.url || '#';
                 return (
                   <div key={doc.id} className="flex items-center gap-3 px-4 py-3">
                     <div className="w-9 h-9 rounded-lg bg-brand-blue-50 flex items-center justify-center flex-shrink-0">

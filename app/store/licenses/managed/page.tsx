@@ -2,6 +2,10 @@ export const dynamic = 'force-static';
 export const revalidate = 3600;
 
 import { redirect } from 'next/navigation';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 
 // Legacy route — redirects to the admin licenses page
 export default async function LegacyManagedLicensePage({

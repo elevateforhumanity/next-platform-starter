@@ -100,9 +100,11 @@ ON CONFLICT (slug) DO UPDATE SET
 -- RLS: students can read active policies; only admins can write
 ALTER TABLE public.handbook_policies ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "handbook_policies_read" ON public.handbook_policies;
 CREATE POLICY "handbook_policies_read" ON public.handbook_policies
   FOR SELECT USING (active = true);
 
+DROP POLICY IF EXISTS "handbook_policies_admin_write" ON public.handbook_policies;
 CREATE POLICY "handbook_policies_admin_write" ON public.handbook_policies
   FOR ALL USING (
     EXISTS (

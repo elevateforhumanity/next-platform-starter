@@ -82,7 +82,7 @@ export default function HeroAvatarGuide({
     return () => {
       document.removeEventListener('visibilitychange', handleVisibility);
     };
-  }, []);
+  }, [isPlaying]);
 
   useEffect(() => {
     const video = videoRef.current;

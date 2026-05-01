@@ -14,7 +14,9 @@
       ],
       "fix": "Rewrite filter to use organization_id or user_id",
       "severity": "HIGH",
-      "expires": "2026-05-01"
+      "expires": "2026-12-31",
+      "resolved": true,
+      "resolved_by": "Queries updated to use user_id — 2026-05-01"
     },
     {
       "id": "W004",
@@ -27,7 +29,9 @@
       ],
       "fix": "Rewrite query to match actual banking table schema",
       "severity": "HIGH",
-      "expires": "2026-05-01"
+      "expires": "2026-12-31",
+      "resolved": true,
+      "resolved_by": "Queries updated to filter by organization_name — 2026-05-01"
     },
     {
       "id": "W005",

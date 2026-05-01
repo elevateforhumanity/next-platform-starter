@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Bell, X, Check } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
@@ -42,9 +42,9 @@ export default function NotificationBell() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [loadNotifications, supabase]);
 
-  async function loadNotifications() {
+  const loadNotifications = useCallback(async () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -61,7 +61,7 @@ export default function NotificationBell() {
       setNotifications(data);
       setUnreadCount(data.filter((n) => !n.read).length);
     }
-  }
+  }, [supabase]);
 
   async function markAsRead(id: string) {
     await supabase.from('notifications').update({ read: true }).eq('id', id);

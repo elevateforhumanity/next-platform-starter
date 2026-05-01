@@ -10,6 +10,7 @@ export const CULINARY: ProgramSchema = {
   heroImage: '/images/pages/culinary.jpg',
   heroImageAlt: 'Culinary apprentice preparing food in a professional kitchen',
   deliveryMode: 'in-person',
+  deliveredBy: 'Partner',
   durationWeeks: 26,
   hoursPerWeekMin: 30,
   hoursPerWeekMax: 40,
@@ -232,4 +233,14 @@ export const CULINARY: ProgramSchema = {
   metaTitle: 'Culinary Apprenticeship | ServSafe Certified | Indianapolis',
   metaDescription:
     'Earn ServSafe certification through a paid culinary apprenticeship. Hands-on training in professional kitchens. Indianapolis.',
+
+
+  fundingOptions: ['impact', 'employer_paid', 'self_pay'],
+  funding: {
+    wioa_eligible: false,
+    fssa_eligible: true,
+    wrg_eligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'DOL Registered Apprenticeship. FSSA IMPACT may be available. WIOA apprenticeship funding eligibility determined by Indiana DWD.',
+  },
 };

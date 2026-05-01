@@ -61,7 +61,7 @@ export function GuidedTour({
     } else {
       handleComplete();
     }
-  }, [currentStep, steps.length]);
+  }, [currentStep, steps.length, handleComplete]);
 
   const handlePrev = useCallback(() => {
     if (currentStep > 0) {

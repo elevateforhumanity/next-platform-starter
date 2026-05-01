@@ -50,6 +50,7 @@ CREATE INDEX IF NOT EXISTS idx_program_review_log_course  ON public.program_revi
 ALTER TABLE public.program_review_log ENABLE ROW LEVEL SECURITY;
 
 -- Org members can read their own review logs; platform admins see all.
+DROP POLICY IF EXISTS "review_log_read" ON public.program_review_log;
 CREATE POLICY "review_log_read" ON public.program_review_log
   FOR SELECT TO authenticated
   USING (

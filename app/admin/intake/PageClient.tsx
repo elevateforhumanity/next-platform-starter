@@ -55,7 +55,7 @@ export default function AdminIntakePage() {
       const data = await res.json();
       setIntakes(data.intakes || []);
     } catch (error) {
-      console.error('Failed to fetch intakes:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Failed to fetch intakes:', error);
     }
     setLoading(false);
   }
@@ -421,7 +421,7 @@ function IntakeDetailModal({
         onUpdate();
       }
     } catch (error) {
-      console.error('Failed to update step:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Failed to update step:', error);
     }
     setSaving(false);
   }
@@ -443,7 +443,7 @@ function IntakeDetailModal({
         onUpdate();
       }
     } catch (error) {
-      console.error('Failed to assign pathway:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Failed to assign pathway:', error);
     }
     setSaving(false);
   }
@@ -462,7 +462,7 @@ function IntakeDetailModal({
       });
       setDeviationNote('');
     } catch (error) {
-      console.error('Failed to log deviation:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Failed to log deviation:', error);
     }
   }
 

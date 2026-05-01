@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Save, Clock, Search } from 'lucide-react';
 
 interface Note {
@@ -26,9 +26,9 @@ export function NoteTaking({ courseId, lessonId, videoTimestamp }: NoteTakingPro
 
   useEffect(() => {
     loadNotes();
-  }, [courseId, lessonId]);
+  }, [courseId, lessonId, loadNotes]);
 
-  async function loadNotes() {
+  const loadNotes = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         courseId,
@@ -44,7 +44,7 @@ export function NoteTaking({ courseId, lessonId, videoTimestamp }: NoteTakingPro
       /* Error handled silently */
       // Error: $1
     }
-  }
+  }, [courseId, lessonId]);
 
   async function saveNote() {
     if (!currentNote.trim()) return;

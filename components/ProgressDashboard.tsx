@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { TrendingUp, Award, Clock, Target, BookOpen, CheckCircle } from 'lucide-react';
 
 interface ProgressData {
@@ -33,9 +33,9 @@ export function ProgressDashboard({ userId }: { userId: string }) {
 
   useEffect(() => {
     loadProgressData();
-  }, [userId]);
+  }, [userId, loadProgressData]);
 
-  async function loadProgressData() {
+  const loadProgressData = useCallback(async () => {
     try {
       const res = await fetch(`/api/users/${userId}/progress`);
       if (res.ok) {
@@ -49,7 +49,7 @@ export function ProgressDashboard({ userId }: { userId: string }) {
     } finally {
       setLoading(false);
     }
-  }
+  }, [userId]);
 
   if (loading) {
     return (

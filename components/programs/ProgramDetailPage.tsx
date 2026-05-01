@@ -103,9 +103,10 @@ export default function ProgramDetailPage({
         {heroOverride ??
           (() => {
             // bannerProp is passed from the server page.tsx — use it first.
-            // heroBanners Proxy only works server-side; returns undefined on client.
+            // heroBanners Proxy returns {} on the client (loadJsonOnce is server-only).
+            // Check pageKey to distinguish a real banner from the empty fallback object.
             const banner = bannerProp ?? heroBanners[p.slug];
-            if (banner) {
+            if (banner?.pageKey) {
               const bannerCtas = [
                 banner.primaryCta,
                 ...(banner.secondaryCta ? [banner.secondaryCta] : []),
@@ -162,7 +163,7 @@ export default function ProgramDetailPage({
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
             {/* Breadcrumbs */}
             <nav className="flex items-center gap-1.5 text-xs text-slate-400 mb-5">
-              {p.breadcrumbs.map((b, i) => (
+              {(p.breadcrumbs ?? []).map((b, i) => (
                 <span key={i} className="flex items-center gap-1.5">
                   {i > 0 && <ChevronRight className="w-3 h-3" />}
                   {b.href ? (
@@ -238,6 +239,17 @@ export default function ProgramDetailPage({
                     </span>
                   ))}
                 </div>
+
+                {/* Delivery disclosure */}
+                {p.deliveredBy && (
+                  <p className="mt-4 text-xs text-slate-500">
+                    {p.deliveredBy === 'Elevate'
+                      ? 'Delivered directly by Elevate for Humanity.'
+                      : p.deliveredBy === 'Partner'
+                        ? 'Delivered by an approved training partner.'
+                        : 'Delivered by Elevate for Humanity or an approved training partner.'}
+                  </p>
+                )}
               </div>
 
               {/* CTA card */}
@@ -322,7 +334,7 @@ export default function ProgramDetailPage({
             </div>
             <div>
               <div className="text-2xl font-extrabold text-slate-900">
-                {p.credentials.length} credential{p.credentials.length !== 1 ? 's' : ''}
+                {`${p.credentials.length} credential${p.credentials.length !== 1 ? 's' : ''}`}
               </div>
               <div className="text-xs text-slate-500 mt-0.5">
                 {p.credentials[0]?.issuingBody ?? 'Industry recognized'}
@@ -337,12 +349,12 @@ export default function ProgramDetailPage({
               </div>
             </div>
           </div>
-          {p.complianceAlignment.length > 0 && (
+          {(p.complianceAlignment?.length ?? 0) > 0 && (
             <div className="mt-6 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-2 justify-center">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
                 Aligned with:
               </span>
-              {p.complianceAlignment.map((a) => (
+              {(p.complianceAlignment ?? []).map((a) => (
                 <span
                   key={a.standard}
                   className="inline-flex items-center gap-1.5 bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-slate-200"
@@ -382,7 +394,7 @@ export default function ProgramDetailPage({
             before you advance.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {p.curriculum.map((mod, i) => (
+            {(p.curriculum ?? []).map((mod, i) => (
               <div key={i} className="rounded-xl border border-slate-200 bg-white p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="w-6 h-6 rounded-full text-[11px] font-extrabold flex items-center justify-center flex-shrink-0 bg-slate-900 text-white">
@@ -391,36 +403,13 @@ export default function ProgramDetailPage({
                   <h3 className="font-bold text-sm text-slate-900">{mod.title}</h3>
                 </div>
                 <ul className="space-y-1.5">
-                  {mod.topics.map((t, j) => (
+                  {(mod.topics ?? []).map((t, j) => (
                     <li key={j} className="flex items-start gap-2 text-xs text-slate-600">
                       <span className="mt-0.5 text-slate-400 flex-shrink-0">·</span>
                       {t}
                     </li>
                   ))}
                 </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WORKFORCE PATHWAY — 5 steps from intake to wage outcome */}
-      <section className="py-12 bg-slate-50 border-y border-slate-100">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Full Workforce Pathway</h2>
-          <p className="text-slate-600 text-sm mb-8">Built for agency deployment: intake to wage outcome in one system.</p>
-          <div className="grid gap-3 md:grid-cols-5">
-            {[
-              { step: 'Step 1', title: 'Eligibility & Intake', detail: 'Funding and readiness screening to start the right track immediately.' },
-              { step: 'Step 2', title: 'Training & Assessments', detail: 'Structured modules, lessons, and checkpoints in a tracked LMS path.' },
-              { step: 'Step 3', title: 'Credential', detail: 'Industry credential completion plus verifiable training records.' },
-              { step: 'Step 4', title: 'Employer Placement', detail: 'Placement support through named employer partners and matching workflow.' },
-              { step: 'Step 5', title: 'Wage Outcome', detail: `Target entry wages aligned to ${p.laborMarket?.salaryRange ?? 'regional labor data'}.` },
-            ].map((item) => (
-              <div key={item.step} className="rounded-xl border border-slate-200 bg-white p-4">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-brand-red-600 mb-2">{item.step}</p>
-                <h3 className="text-sm font-extrabold text-slate-900 mb-1">{item.title}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">{item.detail}</p>
               </div>
             ))}
           </div>

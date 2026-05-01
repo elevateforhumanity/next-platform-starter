@@ -15,6 +15,6 @@ CREATE INDEX IF NOT EXISTS idx_applications_payment_status
 UPDATE public.applications a
 SET    payment_status = 'paid'
 FROM   public.stripe_sessions_staging s
-WHERE  s.application_id = a.id
+WHERE  s.application_id = a.id::text
   AND  s.payment_status = 'paid'
   AND  a.payment_status = 'unpaid';

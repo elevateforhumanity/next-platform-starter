@@ -18,6 +18,7 @@ export const PHLEBOTOMY: ProgramSchema = {
   heroImageAlt: 'Phlebotomy student practicing venipuncture technique',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 4,
   hoursPerWeekMin: 28,
   hoursPerWeekMax: 32,
@@ -75,7 +76,6 @@ export const PHLEBOTOMY: ProgramSchema = {
 
   curriculum: [
     {
-      week: 1,
       title: 'Foundations of Phlebotomy',
       topics: [
         'Anatomy of the venous system',
@@ -83,10 +83,8 @@ export const PHLEBOTOMY: ProgramSchema = {
         'Infection control and PPE',
         'Patient identification and consent',
       ],
-      hours: 30,
     },
     {
-      week: 2,
       title: 'Venipuncture Technique',
       topics: [
         'Vacutainer and syringe methods',
@@ -94,10 +92,8 @@ export const PHLEBOTOMY: ProgramSchema = {
         'Order of draw',
         'Difficult draws and complications',
       ],
-      hours: 30,
     },
     {
-      week: 3,
       title: 'Capillary Puncture & Specimen Handling',
       topics: [
         'Fingerstick and heelstick technique',
@@ -105,10 +101,8 @@ export const PHLEBOTOMY: ProgramSchema = {
         'Centrifuge operation',
         'Specimen rejection criteria',
       ],
-      hours: 30,
     },
     {
-      week: 4,
       title: 'Clinical Practice & Exam Prep',
       topics: [
         'Supervised clinical draws',
@@ -116,16 +110,8 @@ export const PHLEBOTOMY: ProgramSchema = {
         'Practice exams',
         'Career readiness and job search',
       ],
-      hours: 30,
     },
   ],
-
-  laborMarketStats: {
-    jobOpenings: '28,000+',
-    medianWage: '$37,380',
-    projectedGrowth: '10% (faster than average)',
-    source: 'Bureau of Labor Statistics, 2024',
-  },
 
   laborMarket: {
     medianSalary: 37380,
@@ -149,24 +135,6 @@ export const PHLEBOTOMY: ProgramSchema = {
       standard: 'CLSI GP41-A6 — Venipuncture Standard',
       description: 'Clinical and Laboratory Standards Institute venipuncture guidelines',
     },
-  ],
-
-  prerequisites:
-    'No prior healthcare experience required. Must be 18+ and have a high school diploma or GED.',
-
-  whatYouNeed: [
-    'High school diploma or GED',
-    'Government-issued photo ID',
-    'Comfortable closed-toe shoes for lab days',
-    'Basic computer access for online coursework',
-  ],
-
-  includedItems: [
-    'All course materials and lab supplies',
-    'NHA CPT exam voucher',
-    'CPR/BLS certification',
-    'Bloodborne Pathogens certificate',
-    'Career placement support',
   ],
 
   paymentTerms:
@@ -263,12 +231,6 @@ export const PHLEBOTOMY: ProgramSchema = {
   equipmentIncluded: 'All lab supplies, NHA CPT exam voucher, CPR/BLS certification, and Bloodborne Pathogens certificate included',
   modality: 'Hybrid — In-person lab practice and supervised clinical draws, LMS-supported theory',
   facilityInfo: 'Elevate training center, Indianapolis',
-  employerPartners: [
-    'IU Health',
-    'Eskenazi Health',
-    'Community Health Network',
-    'Clinical laboratories',
-  ],
   pricingIncludes: [
     '120 instructional hours',
     'NHA CPT certification exam',

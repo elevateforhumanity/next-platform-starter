@@ -21,16 +21,7 @@ export default function UniversalPartnerApplyPage() {
   const slug = params.program as string;
   const config = getProgramConfig(slug);
 
-  // Redirect regulated programs to their dedicated application page immediately.
-  useEffect(() => {
-    if (REGULATED_SLUGS[slug]) {
-      router.replace(REGULATED_SLUGS[slug]);
-    }
-  }, [slug, router]);
-
-  // Render nothing while redirect is in flight.
-  if (REGULATED_SLUGS[slug]) return null;
-
+  // All hooks must be called unconditionally before any early return.
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -57,6 +48,17 @@ export default function UniversalPartnerApplyPage() {
     agreeToSiteVisit: false,
     agreeToWorkersComp: false,
   });
+
+  // Redirect regulated programs to their dedicated application page.
+  // useEffect is here (after all useState calls) to satisfy the Rules of Hooks.
+  useEffect(() => {
+    if (REGULATED_SLUGS[slug]) {
+      router.replace(REGULATED_SLUGS[slug]);
+    }
+  }, [slug, router]);
+
+  // Render nothing while redirect is in flight.
+  if (REGULATED_SLUGS[slug]) return null;
 
   if (!config) {
     return (

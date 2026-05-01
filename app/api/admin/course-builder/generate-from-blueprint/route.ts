@@ -15,6 +15,7 @@
  * Auth: admin only
  */
 
+import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -228,7 +229,7 @@ export async function POST(req: NextRequest) {
     }
   } catch (err) {
     // Non-fatal — course is live, assessments can be regenerated from /admin/course-builder
-    console.error('[generate-from-blueprint] assessment-generator error:', err);
+    logger.error('[generate-from-blueprint] assessment-generator error:', err);
   }
 
   // ── Step 5: Generate videos directly (no HTTP hop, no cookie dependency) ──
@@ -300,7 +301,7 @@ export async function POST(req: NextRequest) {
       }
     }
   } catch (err) {
-    console.error('[generate-from-blueprint] video generation error:', err);
+    logger.error('[generate-from-blueprint] video generation error:', err);
   }
 
   // ── Step 6: Audit log ─────────────────────────────────────────────────────

@@ -35,15 +35,7 @@ export default function StaffApplicationForm() {
     if (result.success) {
       router.push(result.redirectTo!);
     } else {
-      const subject = encodeURIComponent(
-        `Staff Application: ${data.firstName} ${data.lastName} - ${data.position}`,
-      );
-      const body = encodeURIComponent(
-        `Name: ${data.firstName} ${data.lastName}\nPosition: ${data.position}\n` +
-          `Email: ${data.email}\nPhone: ${data.phone}\n` +
-          `Experience: ${data.experience || 'N/A'}\nAvailability: ${data.availability || 'N/A'}\n`,
-      );
-      window.location.href = '/contact';
+      setError(result.error || 'Submission failed. Please try again or call (317) 314-3757.');
       setLoading(false);
     }
   }

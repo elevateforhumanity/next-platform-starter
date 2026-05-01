@@ -11,6 +11,7 @@ export const CONSTRUCTION_TRADES: ProgramSchema = {
   heroImage: '/images/pages/construction-trades.jpg',
   heroImageAlt: 'Construction trades students in safety gear on a job site',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Partner',
   durationWeeks: 8,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,
@@ -311,4 +312,13 @@ export const CONSTRUCTION_TRADES: ProgramSchema = {
   metaTitle: 'Construction Trades Certification | OSHA 30 + EPA 608 + Forklift | Indianapolis',
   metaDescription:
     'Earn OSHA 30, EPA 608, and forklift certifications in 8 weeks. Multi-trade foundation for construction careers. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

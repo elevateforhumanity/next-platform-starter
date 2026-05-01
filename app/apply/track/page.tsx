@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Search, Clock, XCircle, Phone, Mail, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -63,23 +63,7 @@ export default function TrackApplicationPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Check URL params for pre-filled ID
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    const email = params.get('email');
-
-    if (id) {
-      setSearchId(id);
-      if (email) {
-        setSearchEmail(email);
-        // Auto-search if both provided
-        handleSearch(id, email);
-      }
-    }
-  }, []);
-
-  const handleSearch = async (id?: string, email?: string) => {
+  const handleSearch = useCallback(async (id?: string, email?: string) => {
     const applicationId = id || searchId;
     const applicationEmail = email || searchEmail;
 
@@ -107,13 +91,23 @@ export default function TrackApplicationPage() {
       }
 
       const data = await response.json();
-      setApplication(data);
+      setApplication(data.application ?? data);
     } catch (err: any) {
-      setError('Operation failed');
+      setError(err?.message || 'Failed to retrieve application status. Please try again.');
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchId, searchEmail]);
+
+  // Pre-fill and auto-search when URL params are present (e.g. link from confirmation email)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const email = params.get('email');
+    if (id) setSearchId(id);
+    if (email) setSearchEmail(email);
+    if (id && email) handleSearch(id, email);
+  }, [handleSearch]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,3 +1,4 @@
+import { internalFetch } from '@/lib/api/internal-fetch';
 import { logger } from '@/lib/logger';
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -111,7 +112,7 @@ async function _POST(request: NextRequest) {
     // Send confirmation email to applicant
     try {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-      await fetch(`${siteUrl}/api/email/send`, {
+      await internalFetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -152,7 +153,7 @@ async function _POST(request: NextRequest) {
     try {
       const adminEmail = process.env.ADMIN_EMAIL || 'elevate4humanityedu@gmail.com';
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-      await fetch(`${siteUrl}/api/email/send`, {
+      await internalFetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useEffect, Suspense } from 'react';
+import { useEffect, Suspense, useCallback } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 /**
@@ -34,7 +34,7 @@ function SelfHostedAnalyticsContent() {
         onTTFB(sendToAnalytics);
       });
     }
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, sendToAnalytics, trackPageView]);
 
   const trackPageView = async () => {
     try {
@@ -60,7 +60,7 @@ function SelfHostedAnalyticsContent() {
     }
   };
 
-  const sendToAnalytics = async (metric: any) => {
+  const sendToAnalytics = useCallback(async (metric: any) => {
     try {
       const payload = {
         event: 'web-vital',
@@ -79,7 +79,7 @@ function SelfHostedAnalyticsContent() {
     } catch {
       // Silently fail — analytics must never break the app
     }
-  };
+  }, []);
 
   // No UI - just tracking
   return null;

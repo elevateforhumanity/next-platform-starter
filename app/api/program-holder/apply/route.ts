@@ -80,8 +80,9 @@ async function _POST(req: NextRequest) {
         last_name: body.contactName?.split(' ').slice(1).join(' ') || '',
         email: body.contactEmail.toLowerCase(),
         phone: body.contactPhone || null,
-        program_id: 'program_holder',
-        status: 'pending',
+        application_type: 'program_holder',
+        program_interest: 'Program Holder',
+        status: 'submitted',
         notes: JSON.stringify({
           type: 'program_holder',
           organization_name: body.organizationName,

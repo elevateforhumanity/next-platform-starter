@@ -243,12 +243,8 @@ export async function POST(request: NextRequest) {
           await writeFile(audioPath, audioBuffer);
           audioSrc = audioPath;
         } catch (err) {
-          logger.warn(
-            '[GenerateVideo] TTS failed for scene ' +
-              i +
-              ': ' +
-              (err instanceof Error ? err.message : err),
-          );
+          // audit-safe: err.message goes to logger only, not HTTP response
+          logger.warn('[GenerateVideo] TTS failed for scene ' + i, err);
         }
 
         return {

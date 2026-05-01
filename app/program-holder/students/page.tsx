@@ -40,7 +40,7 @@ export default async function ProgramHolderStudentsPage() {
     const { data: enrollments } = await db
       .from('student_enrollments')
       .select(
-        'id, student_id, program_id, progress, status, created_at, profiles!student_enrollments_student_id_fkey(full_name, email)',
+        'id, student_id, program_id, progress, status, created_at, students!student_enrollments_student_fk(first_name, last_name, email)',
       )
       .in('program_id', programIds)
       .order('created_at', { ascending: false })
@@ -48,8 +48,8 @@ export default async function ProgramHolderStudentsPage() {
 
     students = (enrollments || []).map((e: any) => ({
       id: e.student_id,
-      name: e.profiles?.full_name || 'Unknown',
-      email: e.profiles?.email || '',
+      name: e.students ? `${e.students.first_name ?? ''} ${e.students.last_name ?? ''}`.trim() || 'Unknown' : 'Unknown',
+      email: e.students?.email || '',
       program: programNames[e.program_id] || 'Unknown Program',
       progress: e.progress || 0,
       enrolled: new Date(e.created_at).toLocaleDateString('en-US', {

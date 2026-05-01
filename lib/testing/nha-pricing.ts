@@ -5,7 +5,7 @@
  * Do not expose on public pages until that agreement is confirmed active.
  *
  * TWO SEPARATE NHA REVENUE STREAMS:
- *   1. Testing center fees  → proctoring-capabilities.ts (exam proctoring, $243/seat)
+ *   1. Testing center fees  → proctoring-capabilities.ts (exam proctoring, $249/seat)
  *   2. Training materials   → this file (prep materials, study guides, bundled programs)
  *
  * Vendor base prices are NHA wholesale catalog rates for authorized training partners.

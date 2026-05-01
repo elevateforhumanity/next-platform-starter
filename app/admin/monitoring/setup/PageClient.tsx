@@ -31,7 +31,7 @@ export default function MonitoringSetupPage() {
       const data = await response.json();
       setResult(data);
     } catch (error) {
-      console.error('Failed to check schema:', error);
+      if (process.env.NODE_ENV !== "production") console.error('Failed to check schema:', error);
       setResult({
         status: 'error',
         checks: {

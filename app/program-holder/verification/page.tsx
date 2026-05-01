@@ -39,12 +39,11 @@ export default async function VerificationPage() {
     redirect('/login');
   }
 
-  // Fetch program holder data
-  const { data: programHolder } = await supabase
-    .from('program_holders')
-    .select('*')
-    .eq('user_id', user.id)
-    .maybeSingle();
+  // Fetch program holder data via profiles.program_holder_id
+  const holderId = profile.program_holder_id;
+  const { data: programHolder } = holderId
+    ? await supabase.from('program_holders').select('*').eq('id', holderId).maybeSingle()
+    : { data: null };
 
   // Fetch uploaded documents
   const { data: documents } = await supabase

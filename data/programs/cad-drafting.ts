@@ -7,9 +7,10 @@ export const CAD_DRAFTING: ProgramSchema = {
   sector: 'technology',
   category: 'Design & Drafting',
   programType: 'workforce',
-  heroImage: '/images/pages/cad-drafting.jpg',
+  heroImage: '/images/pages/graphic-design.jpg',
   heroImageAlt: 'CAD drafting student working on technical drawings',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 10,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,
@@ -252,4 +253,13 @@ export const CAD_DRAFTING: ProgramSchema = {
   metaTitle: 'CAD/Drafting Technician | Autodesk Certified | Indianapolis',
   metaDescription:
     'Learn AutoCAD and Revit in 10 weeks. Prepare for Autodesk certifications. CAD drafters earn $60,290/year. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

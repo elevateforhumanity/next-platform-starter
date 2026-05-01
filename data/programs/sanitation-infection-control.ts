@@ -11,6 +11,7 @@ export const SANITATION: ProgramSchema = {
   heroImage: '/images/pages/sanitation.jpg',
   heroImageAlt: 'Sanitation and infection control training in a clinical setting',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 2,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,
@@ -203,4 +204,14 @@ export const SANITATION: ProgramSchema = {
   metaTitle: 'Sanitation & Infection Control Certification | Indianapolis',
   metaDescription:
     'Prepare for infection control and ServSafe certifications in 2 weeks. Required for healthcare, food service, and personal services. Indianapolis.',
+
+
+  fundingOptions: ['wioa', 'impact', 'self_pay'],
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'Short-credential program. WIOA and FSSA funding eligibility determined by the applicable workforce agency.',
+  },
 };

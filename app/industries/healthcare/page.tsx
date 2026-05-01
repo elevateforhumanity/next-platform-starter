@@ -1,4 +1,9 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 // /industries/healthcare was a legacy DB-driven page.
 // Canonical student-facing page is /programs/healthcare.

@@ -14,6 +14,7 @@ export const IT_HELP_DESK: ProgramSchema = {
   videoSrc: '/videos/it-technology.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 18,
   hoursPerWeekMax: 22,
@@ -381,4 +382,13 @@ export const IT_HELP_DESK: ProgramSchema = {
   metaTitle: 'IT Help Desk Technician | CompTIA A+ | Indianapolis',
   metaDescription:
     'Prepare for CompTIA A+ and IT Specialist certifications. 8-week program. Help desk technicians earn $55,510/year in Indiana. WIOA funding available.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available. CompTIA A+ certification pathway.',
+  },
 };

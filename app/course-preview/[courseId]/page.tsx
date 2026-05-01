@@ -2,7 +2,7 @@
 
 // Auth enforced server-side in app/course-preview/layout.tsx.
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import {
@@ -145,9 +145,9 @@ export default function CoursePreviewPage() {
 
   useEffect(() => {
     fetchCourse();
-  }, [courseId]);
+  }, [courseId, fetchCourse]);
 
-  const fetchCourse = async () => {
+  const fetchCourse = useCallback(async () => {
     const supabase = createClient();
 
     // Support both UUID and slug lookups
@@ -174,7 +174,7 @@ export default function CoursePreviewPage() {
       }
     }
     setLoading(false);
-  };
+  }, [courseId]);
 
   // Track viewed lessons for progress
   const markViewed = (lessonId: string) => {

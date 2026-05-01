@@ -1,5 +1,7 @@
+import { timedFetch } from '@/lib/supabase/timed-fetch';
 import { logger } from '@/lib/logger';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+
 
 /**
  * Static Supabase client for build-time operations
@@ -32,5 +34,7 @@ export function createStaticClient() {
     } as any;
   }
 
-  return createSupabaseClient(supabaseUrl, supabaseAnonKey);
+  return createSupabaseClient(supabaseUrl, supabaseAnonKey, {
+    global: { fetch: timedFetch },
+  });
 }

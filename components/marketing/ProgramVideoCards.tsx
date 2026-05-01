@@ -18,9 +18,9 @@ const PROGRAMS = [
     price: null, // funded — no price shown
   },
   {
-    tag: 'Skilled Trades',
-    full: 'HVAC Technician',
-    duration: '12 weeks',
+    tag: 'Certification',
+    full: 'HVAC Certification',
+    duration: '6 weeks',
     salary: '$40–$80K/yr',
     funding: 'WIOA / WRG Eligible',
     fundingColor: 'text-green-400',

@@ -283,6 +283,9 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+        <p className="max-w-5xl mx-auto mt-6 text-center text-slate-500 text-xs leading-relaxed px-4">
+          * Figures are estimates based on internal participant and credential records. Eligibility and outcomes vary by program and funding source.
+        </p>
       </section>
 
       {/* FULL-WIDTH IMAGE BREAK */}

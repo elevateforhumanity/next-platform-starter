@@ -122,11 +122,25 @@ export default function HvacApplyPage() {
         }),
       });
 
-      const appData = await appResponse.json();
+      let appData: any = {};
+      try {
+        appData = await appResponse.json();
+      } catch {
+        setError('Server error — please call (317) 314-3757 or try again in a moment.');
+        setErrorSeverity('critical');
+        setLoading(false);
+        return;
+      }
       const applicationId = appData?.id;
 
       if (!appResponse.ok) {
-        setError(appData.error || 'Failed to submit application. Please try again.');
+        const msg =
+          appResponse.status === 503
+            ? 'Our system is temporarily unavailable. Please call (317) 314-3757 — we can take your application by phone.'
+            : appResponse.status === 409
+              ? appData.error || 'A duplicate application was found. Please call (317) 314-3757.'
+              : appData.error || 'Failed to submit application. Please try again or call (317) 314-3757.';
+        setError(msg);
         setErrorSeverity('critical');
         setLoading(false);
         return;

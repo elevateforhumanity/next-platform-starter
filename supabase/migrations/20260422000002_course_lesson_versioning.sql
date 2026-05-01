@@ -48,8 +48,6 @@ CREATE TABLE IF NOT EXISTS public.course_lesson_versions (
   published_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
   published_by        UUID REFERENCES auth.users(id),
   change_summary      TEXT          -- optional human note ("Fixed quiz question 3")
-
-  UNIQUE (lesson_id, version)
 );
 
 -- ── 3. Add FK from course_lessons.previous_version_id → course_lesson_versions ─
@@ -94,3 +92,4 @@ CREATE POLICY "lesson_versions_read"
 GRANT SELECT ON public.course_lesson_versions TO authenticated;
 GRANT ALL    ON public.course_lesson_versions TO service_role;
 GRANT SELECT ON public.course_lessons         TO authenticated;
+

@@ -106,7 +106,7 @@ export default function HowRefundAdvancesWorkPage() {
         },
       ]}
       platformRelation="Our platform presents refund-based advance information only after filing steps are complete. The option is clearly explained as optional, and users can complete their tax filing without selecting an advance. All terms and conditions are presented before any decision is made."
-      parentPage={{ href: '/supersonic-fast-cash', label: 'Tax Preparation Services' }}
+      parentPage={{ href: '/programs/tax-preparation', label: 'Tax Preparation' }}
       relatedResources={[
         { href: '/resources/how-tax-filing-works', label: 'How Tax Filing Works' },
         {

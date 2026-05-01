@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Mic, MicOff, Volume2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -59,7 +59,7 @@ export function VoiceInput({ onCommand, className = '' }: VoiceInputProps) {
         recognitionRef.current.stop();
       }
     };
-  }, []);
+  }, [processCommand]);
 
   const speak = (text: string) => {
     if ('speechSynthesis' in window) {
@@ -73,7 +73,7 @@ export function VoiceInput({ onCommand, className = '' }: VoiceInputProps) {
     }
   };
 
-  const processCommand = (command: string) => {
+  const processCommand = useCallback((command: string) => {
     const lowerCommand = command.toLowerCase().trim();
 
     // Navigation commands
@@ -197,7 +197,7 @@ export function VoiceInput({ onCommand, className = '' }: VoiceInputProps) {
     // If no command matched
     speak("I didn't understand that command. Try saying 'help' to see what I can do.");
     if (onCommand) onCommand(command);
-  };
+  }, []);
 
   const toggleListening = () => {
     if (!isSupported) {

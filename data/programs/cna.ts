@@ -14,6 +14,7 @@ export const CNA: ProgramSchema = {
   videoSrc: '/videos/cna-hero.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 30,
   hoursPerWeekMax: 40,
@@ -198,7 +199,7 @@ export const CNA: ProgramSchema = {
     region: 'Indianapolis–Carmel–Anderson MSA',
   },
 
-  careerOutcomes: [
+  careers: [
     { title: 'Nursing Assistant', salary: '$16–$20/hr' },
     { title: 'Home Health Aide', salary: '$15–$19/hr' },
     { title: 'Patient Care Technician', salary: '$18–$23/hr' },
@@ -257,4 +258,13 @@ export const CNA: ProgramSchema = {
   enrollmentType: 'internal',
   deliveryModel: 'internal',
   fundingOptions: ['impact', 'self_pay'],
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. FSSA IMPACT covers eligible SNAP/TANF recipients. WIOA Title I Adult/Dislocated Worker funding available.',
+  },
 };

@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sanitizeSearchInput } from '@/lib/utils';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -39,48 +41,44 @@ async function _GET(request: Request) {
     const limit = parseInt(searchParams.get('limit') || '50');
     const offset = (page - 1) * limit;
 
-    let query = auth.supabase
+    // Use admin client — profiles RLS blocks user-scoped queries for other users
+    const db = await requireAdminClient();
+
+    let query = db
       .from('profiles')
-      .select(
-        `
-        *,
-        enrollments:enrollments(
-          id,
-          status,
-          program_id,
-          cohort_id,
-          hours_completed,
-          programs:program_id(id, title)
-        )
-      `,
-        { count: 'exact' },
-      )
+      .select('*', { count: 'exact' })
       .eq('role', 'student')
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
     if (search) {
       const sanitizedSearch = sanitizeSearchInput(search);
-      query = query.or(`full_name.ilike.%${sanitizedSearch}%,email.ilike.%${sanitizedSearch}%`);
+      query = query.or(`full_name.ilike.%${sanitizedSearch}%,email.ilike.%${sanitizedSearch}%`) as typeof query;
     }
 
     const { data: students, error, count } = await query;
 
     if (error) {
-      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+      logger.error('[/api/admin/students] DB error', error);
+      return NextResponse.json({ error: 'Failed to fetch students' }, { status: 500 });
     }
 
-    // Filter by enrollment status/program if needed
     let filteredStudents = students || [];
+
+    // profiles has no PostgREST FK to enrollments — filter via training_enrollments separately
     if (status || programId) {
-      filteredStudents = filteredStudents.filter((student) => {
-        const enrollments = student.enrollments || [];
-        return enrollments.some((e: any) => {
-          if (status && e.status !== status) return false;
-          if (programId && e.program_id !== programId) return false;
-          return true;
-        });
-      });
+      const studentIds = filteredStudents.map((s) => s.id);
+      if (studentIds.length > 0) {
+        let enrollQuery = db
+          .from('training_enrollments')
+          .select('id, user_id, status, program_id, cohort_id, hours_completed')
+          .in('user_id', studentIds);
+        if (status) enrollQuery = enrollQuery.eq('status', status) as typeof enrollQuery;
+        if (programId) enrollQuery = enrollQuery.eq('program_id', programId) as typeof enrollQuery;
+        const { data: enrollments } = await enrollQuery;
+        const matchedIds = new Set((enrollments || []).map((e: any) => e.user_id));
+        filteredStudents = filteredStudents.filter((s) => matchedIds.has(s.id));
+      }
     }
 
     return NextResponse.json({
@@ -93,6 +91,7 @@ async function _GET(request: Request) {
       },
     });
   } catch (error: any) {
+    logger.error('[/api/admin/students] Unexpected error', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -106,9 +105,9 @@ async function _POST(request: Request) {
 
   try {
     const body = await request.json();
+    const db = await requireAdminClient();
 
-    // Create profile for new student
-    const { data: student, error } = await auth.supabase
+    const { data: student, error } = await db
       .from('profiles')
       .insert({
         full_name: body.full_name,
@@ -124,21 +123,23 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+      logger.error('[/api/admin/students POST] DB error', error);
+      return NextResponse.json({ error: 'Failed to create student' }, { status: 500 });
     }
 
-    // Log audit
-    await auth.supabase.from('audit_logs').insert({
-      actor_id: auth.id,
+    // Log audit — fire and forget
+    db.from('audit_logs').insert({
+      actor_id: auth.user.id,
       actor_role: auth.profile.role,
       action: 'create',
       resource_type: 'student',
-      resource_id: student.id,
+      resource_id: student?.id,
       after_state: student,
-    });
+    }).catch(() => {});
 
     return NextResponse.json({ student }, { status: 201 });
   } catch (error: any) {
+    logger.error('[/api/admin/students POST] Unexpected error', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

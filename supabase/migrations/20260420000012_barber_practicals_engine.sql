@@ -23,19 +23,29 @@ CREATE TABLE IF NOT EXISTS public.barber_practical_categories (
   description     text
 );
 
+ALTER TABLE public.barber_practical_categories ADD COLUMN IF NOT EXISTS program_id uuid REFERENCES public.programs(id) ON DELETE CASCADE;
+
+-- Ensure barber_practical_submissions has required columns
+ALTER TABLE public.barber_practical_submissions
+  ADD COLUMN IF NOT EXISTS program_id uuid REFERENCES public.programs(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS status     text NOT NULL DEFAULT 'pending'
+    CHECK (status IN ('pending', 'approved', 'rejected')),
+  ADD COLUMN IF NOT EXISTS reviewed_by uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS reviewed_at timestamptz;
+
 INSERT INTO public.barber_practical_categories
-  (category_key, label, module_number, count_required, description)
+  (category_key, label, required_count, description)
 VALUES
-  ('haircut_standard',  'Standard Haircut',         4, 75,  'Full haircut service on a live client — scissor or clipper'),
-  ('haircut_fade',      'Fade Haircut',              4, 50,  'Low, mid, or high fade on a live client'),
-  ('haircut_advanced',  'Advanced Style',            4, 25,  'Textured cut, design, or specialty style on a live client'),
-  ('shave_straight',    'Straight Razor Shave',      5, 40,  'Full straight razor shave on a live client'),
-  ('beard_trim',        'Beard Trim / Design',       5, 40,  'Beard trim, shape, or design on a live client'),
-  ('chemical_service',  'Chemical Service',          6, 20,  'Color, relaxer, or texturizer application on a live client'),
-  ('scalp_treatment',   'Scalp Treatment',           2, 10,  'Scalp analysis and treatment service'),
-  ('tool_maintenance',  'Tool Maintenance',          3, 10,  'Documented clipper/scissor cleaning and calibration')
+  ('haircut_standard', 'Standard Haircut', 75, 'Full haircut service on a live client — scissor or clipper'),
+  ('haircut_fade', 'Fade Haircut', 50, 'Low, mid, or high fade on a live client'),
+  ('haircut_advanced', 'Advanced Style', 25, 'Textured cut, design, or specialty style on a live client'),
+  ('shave_straight', 'Straight Razor Shave', 40, 'Full straight razor shave on a live client'),
+  ('beard_trim', 'Beard Trim / Design', 40, 'Beard trim, shape, or design on a live client'),
+  ('chemical_service', 'Chemical Service', 20, 'Color, relaxer, or texturizer application on a live client'),
+  ('scalp_treatment', 'Scalp Treatment', 10, 'Scalp analysis and treatment service'),
+  ('tool_maintenance', 'Tool Maintenance', 10, 'Documented clipper/scissor cleaning and calibration')
 ON CONFLICT (category_key) DO UPDATE SET
-  count_required = EXCLUDED.count_required,
+  required_count = EXCLUDED.required_count,
   label          = EXCLUDED.label;
 
 -- Per-student practical progress
@@ -52,8 +62,6 @@ CREATE TABLE IF NOT EXISTS public.barber_student_practicals (
   verification_status text         NOT NULL DEFAULT 'in_progress'
                         CHECK (verification_status IN ('in_progress', 'met', 'waived')),
   updated_at          timestamptz  NOT NULL DEFAULT now()
-
-  UNIQUE (user_id, program_id, category_key)
 );
 
 CREATE INDEX IF NOT EXISTS idx_barber_practicals_user
@@ -121,15 +129,15 @@ BEGIN
 
   -- Upsert student practical progress
   INSERT INTO public.barber_student_practicals
-    (user_id, program_id, category_key, count_completed, count_required, last_verified_by, last_verified_at, verification_status)
+    (user_id, program_id, category_key, count_completed, required_count, last_verified_by, last_verified_at, verification_status)
   VALUES
-    (v_sub.user_id, v_sub.program_id, v_sub.category_key, 1, v_cat.count_required, p_instructor_id, now(), 'in_progress')
+    (v_sub.user_id, v_sub.program_id, v_sub.category_key, 1, v_cat.required_count, p_instructor_id, now(), 'in_progress')
   ON CONFLICT (user_id, program_id, category_key) DO UPDATE SET
     count_completed  = barber_student_practicals.count_completed + 1,
     last_verified_by = p_instructor_id,
     last_verified_at = now(),
     verification_status = CASE
-      WHEN barber_student_practicals.count_completed + 1 >= barber_student_practicals.count_required
+      WHEN barber_student_practicals.count_completed + 1 >= barber_student_practicals.required_count
       THEN 'met' ELSE 'in_progress' END,
     updated_at = now();
 END;
@@ -160,3 +168,4 @@ CREATE POLICY "Student inserts own submissions"
   ON public.barber_practical_submissions FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Service role full submissions"
   ON public.barber_practical_submissions USING (auth.role() = 'service_role');
+

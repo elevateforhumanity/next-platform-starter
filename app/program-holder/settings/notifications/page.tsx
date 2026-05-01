@@ -24,22 +24,29 @@ export default async function ProgramHolderNotificationSettingsPage() {
     redirect('/login?redirect=/program-holder/settings/notifications');
   }
 
-  // Get program holder record
+  // Get program holder record via profiles.program_holder_id
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('program_holder_id')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  const holderId = profile?.program_holder_id;
+  if (!holderId) redirect('/program-holder/onboarding');
+
   const { data: programHolder } = await supabase
     .from('program_holders')
     .select('id, organization_name')
-    .eq('user_id', user.id)
+    .eq('id', holderId)
     .maybeSingle();
 
-  if (!programHolder) {
-    redirect('/unauthorized');
-  }
+  if (!programHolder) redirect('/program-holder/onboarding');
 
-  // Get or create notification preferences
+  // Get or create notification preferences — table uses user_id, not program_holder_id
   let { data: preferences } = await supabase
     .from('notification_preferences')
     .select('*')
-    .eq('program_holder_id', programHolder.id)
+    .eq('user_id', user.id)
     .maybeSingle();
 
   // Create default preferences if they don't exist
@@ -47,7 +54,7 @@ export default async function ProgramHolderNotificationSettingsPage() {
     const { data: newPreferences } = await supabase
       .from('notification_preferences')
       .insert({
-        program_holder_id: programHolder.id,
+        user_id: user.id,
         email_enabled: true,
         sms_enabled: true,
         sms_consent: false,
@@ -75,7 +82,7 @@ export default async function ProgramHolderNotificationSettingsPage() {
         </div>
 
         <NotificationPreferencesForm
-          programHolderId={programHolder.id}
+          userId={user.id}
           initialPreferences={preferences || {}}
         />
       </div>

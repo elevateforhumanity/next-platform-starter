@@ -223,8 +223,11 @@ async function _POST(request: NextRequest) {
       .select()
       .maybeSingle();
 
-    if (orgError) {
-      logger.error(`[trial] ${correlationId} — Org creation error:`, orgError);
+    if (orgError || !org) {
+      const detail = orgError
+        ? (orgError as { message?: string }).message ?? JSON.stringify(orgError)
+        : 'insert returned no row (RLS or trigger blocked read-back)';
+      logger.error(`[trial] ${correlationId} — Org creation error: ${detail}`, orgError instanceof Error ? orgError : new Error(detail));
       return NextResponse.json(
         { error: 'Failed to create organization', correlationId },
         { status: 500 },
@@ -249,8 +252,11 @@ async function _POST(request: NextRequest) {
       .select()
       .maybeSingle();
 
-    if (licenseError) {
-      logger.error(`[trial] ${correlationId} — License creation error:`, licenseError);
+    if (licenseError || !license) {
+      const detail = licenseError
+        ? (licenseError as { message?: string }).message ?? JSON.stringify(licenseError)
+        : 'insert returned no row (RLS or trigger blocked read-back)';
+      logger.error(`[trial] ${correlationId} — License creation error: ${detail}`, licenseError instanceof Error ? licenseError : new Error(detail));
       // Rollback org
       await supabase.from('organizations').delete().eq('id', org.id);
       return NextResponse.json(
@@ -294,7 +300,11 @@ async function _POST(request: NextRequest) {
       message: `Trial created. Check ${email} for login instructions.`,
     });
   } catch (error) {
-    logger.error(`[trial] ${correlationId} — Unexpected error:`, error);
+    const errMsg = error instanceof Error ? error.message : JSON.stringify(error);
+    logger.error(
+      `[trial] ${correlationId} — Unexpected error: ${errMsg}`,
+      error instanceof Error ? error : new Error(errMsg),
+    );
     return NextResponse.json({ error: 'Internal server error', correlationId }, { status: 500 });
   }
 }

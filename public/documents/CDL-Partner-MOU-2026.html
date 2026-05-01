@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CDL Training Partner MOU — Elevate for Humanity</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11pt;
+    color: #1a1a1a;
+    background: #fff;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 8.5in;
+    margin: 0 auto;
+    padding: 0.75in 1in;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #b91c1c;
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+  }
+  .header-logo {
+    display: flex;
+    flex-direction: column;
+  }
+  .header-logo .org-name {
+    font-size: 15pt;
+    font-weight: 700;
+    color: #b91c1c;
+    letter-spacing: -0.3px;
+  }
+  .header-logo .org-sub {
+    font-size: 8.5pt;
+    color: #555;
+    margin-top: 2px;
+  }
+  .header-meta {
+    text-align: right;
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.5;
+  }
+  .header-meta strong {
+    color: #1a1a1a;
+  }
+
+  /* ── Document title ── */
+  .doc-title {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .doc-title h1 {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .doc-title .subtitle {
+    font-size: 10pt;
+    color: #555;
+  }
+  .doc-title .confidential {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 8pt;
+    font-weight: 600;
+    color: #b91c1c;
+    border: 1px solid #b91c1c;
+    padding: 2px 10px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── Party block ── */
+  .parties {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .party-box {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 14px 16px;
+    background: #f9fafb;
+  }
+  .party-box .party-label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #b91c1c;
+    margin-bottom: 6px;
+  }
+  .party-box .party-name {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+  }
+  .party-box .party-detail {
+    font-size: 9pt;
+    color: #555;
+    line-height: 1.5;
+  }
+  .field-line {
+    border-bottom: 1px solid #9ca3af;
+    min-height: 18px;
+    margin: 4px 0 8px;
+    display: block;
+  }
+
+  /* ── Sections ── */
+  .section {
+    margin-bottom: 22px;
+  }
+  .section-title {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #b91c1c;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid #fca5a5;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+  }
+  .section-sub {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 10px 0 4px;
+  }
+  p { margin-bottom: 8px; }
+  ul, ol { padding-left: 20px; margin-bottom: 8px; }
+  li { margin-bottom: 4px; }
+
+  /* ── Cost table ── */
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 10pt;
+  }
+  .cost-table th {
+    background: #b91c1c;
+    color: #fff;
+    padding: 7px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9.5pt;
+  }
+  .cost-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+  }
+  .cost-table tr:nth-child(even) td { background: #fef2f2; }
+  .cost-table .price {
+    font-weight: 700;
+    color: #b91c1c;
+    white-space: nowrap;
+  }
+
+  /* ── Payment schedule ── */
+  .payment-box {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-left: 4px solid #b91c1c;
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 10px 0;
+  }
+  .payment-box .pay-title {
+    font-weight: 700;
+    font-size: 10pt;
+    margin-bottom: 6px;
+    color: #b91c1c;
+  }
+  .payment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px dashed #fca5a5;
+    font-size: 10pt;
+  }
+  .payment-row:last-child { border-bottom: none; }
+  .payment-row .amount { font-weight: 700; color: #1a1a1a; }
+
+  /* ── Referral box ── */
+  .referral-box {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-left: 4px solid #16a34a;
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 10pt;
+  }
+  .referral-box strong { color: #16a34a; }
+
+  /* ── Notice box ── */
+  .notice-box {
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-left: 4px solid #d97706;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 9.5pt;
+  }
+
+  /* ── Signature block ── */
+  .sig-section {
+    margin-top: 32px;
+    page-break-inside: avoid;
+  }
+  .sig-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 16px;
+  }
+  .sig-block .sig-party {
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #b91c1c;
+    margin-bottom: 24px;
+  }
+  .sig-line {
+    border-bottom: 1px solid #374151;
+    margin-bottom: 4px;
+    height: 32px;
+  }
+  .sig-label {
+    font-size: 8.5pt;
+    color: #6b7280;
+  }
+  .sig-name-line {
+    border-bottom: 1px solid #374151;
+    margin: 16px 0 4px;
+    height: 20px;
+  }
+
+  /* ── Footer ── */
+  .doc-footer {
+    margin-top: 36px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 8pt;
+    color: #9ca3af;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { font-size: 10pt; }
+    .page { padding: 0.5in 0.75in; }
+    .section { page-break-inside: avoid; }
+    .sig-section { page-break-before: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <div class="org-name">Elevate for Humanity</div>
+      <div class="org-sub">Career &amp; Technical Institute · DOL Registered Apprenticeship Sponsor · ETPL Provider</div>
+      <div class="org-sub">317-314-3757 · info@elevateforhumanity.org · elevateforhumanity.org</div>
+    </div>
+    <div class="header-meta">
+      <strong>Document:</strong> CDL-MOU-2026<br/>
+      <strong>Program:</strong> C1 CDL Training<br/>
+      <strong>Effective:</strong> _______________<br/>
+      <strong>Version:</strong> 2.0
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="doc-title">
+    <h1>Memorandum of Understanding</h1>
+    <div class="subtitle">C1 CDL Training Program — Goals, Objectives, Structure &amp; Expectations</div>
+    <div class="subtitle">Employer / Agency / Funding Partner Agreement</div>
+    <span class="confidential">Confidential &amp; Proprietary</span>
+  </div>
+
+  <!-- Parties -->
+  <div class="parties">
+    <div class="party-box">
+      <div class="party-label">Training Provider</div>
+      <div class="party-name">Elevate for Humanity</div>
+      <div class="party-detail">
+        2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Technical Institute<br/>
+        Indianapolis, Indiana<br/>
+        CAGE: 0Q856 · SAM.gov Registered<br/>
+        Elizabeth Greene, Founder &amp; CEO
+      </div>
+    </div>
+    <div class="party-box">
+      <div class="party-label">Partner / Employer / Funding Agency</div>
+      <div class="party-name"><span class="field-line">&nbsp;</span></div>
+      <div class="party-detail">
+        Company / Agency Name: <span class="field-line">&nbsp;</span>
+        Contact Name &amp; Title: <span class="field-line">&nbsp;</span>
+        Address: <span class="field-line">&nbsp;</span>
+        Phone / Email: <span class="field-line">&nbsp;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- I. Purpose -->
+  <div class="section">
+    <div class="section-title">I. Purpose of Agreement</div>
+    <p>This Memorandum of Understanding ("MOU") is entered into between <strong>Elevate for Humanity Career &amp; Technical Institute</strong> ("Elevate," "Training Provider") and the Partner identified above ("Partner," "Employer," "Agency," or "Funding Sponsor"). This MOU outlines the goals, objectives, program structure, costs, payment terms, and mutual expectations governing enrollment of one or more students in the C1 CDL Training Program.</p>
+    <p>By executing this agreement, the Partner confirms that each enrolled student has demonstrated the responsibility and willingness to uphold all requirements herein, and the Partner assumes financial responsibility on behalf of the student(s) receiving instruction and training.</p>
+  </div>
+
+  <!-- II. Program Goals -->
+  <div class="section">
+    <div class="section-title">II. Program Goals &amp; Objectives</div>
+
+    <div class="section-sub">Class A CDL Program</div>
+    <p>To provide students with the knowledge, skills, and hands-on driving experience required to successfully obtain a Class A Commercial Driver's License and begin a career as a professional commercial driver.</p>
+
+    <div class="section-sub">Class B CDL Program</div>
+    <p>To equip students with the competencies necessary to obtain a Class B Commercial Driver's License and enter the workforce as a qualified commercial vehicle operator.</p>
+
+    <div class="section-sub">Overall Program Goals</div>
+    <ul>
+      <li>Deliver high-quality classroom, range, and road instruction in compliance with federal and state CDL standards and FMCSA ELDT requirements.</li>
+      <li>Prepare each student for the CDL skills test.</li>
+      <li>Support students through employment preparation and job placement assistance to ensure strong career outcomes.</li>
+      <li>Maintain compliance with all applicable DOL, FMCSA, and Indiana BMV regulations.</li>
+    </ul>
+  </div>
+
+  <!-- III. Program Costs -->
+  <div class="section">
+    <div class="section-title">III. Program Costs</div>
+
+    <table class="cost-table">
+      <thead>
+        <tr>
+          <th>Program</th>
+          <th>Cash Price</th>
+          <th>Includes</th>
+          <th>Does Not Include</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Class A CDL</strong></td>
+          <td class="price">$4,995</td>
+          <td>Classroom instruction (online or in-person), behind-the-wheel range training, road training</td>
+          <td>State licensing &amp; CDL issuance fees</td>
+        </tr>
+        <tr>
+          <td><strong>Class B CDL</strong></td>
+          <td class="price">$3,495</td>
+          <td>Classroom instruction (online or in-person), behind-the-wheel range training, road training</td>
+          <td>State licensing &amp; CDL issuance fees</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:9pt;color:#555;">State licensing fees, CDL permit fees, and Indiana BMV testing fees are the sole responsibility of the student or sponsoring partner and are not included in the program cost above.</p>
+  </div>
+
+  <!-- IV. Payment Terms -->
+  <div class="section">
+    <div class="section-title">IV. Payment Terms &amp; Invoicing</div>
+
+    <p>Elevate for Humanity is responsible for managing all funding, invoicing, and payment collection. Partners and employers must invoice Elevate directly. The following payment schedule applies to all employer-sponsored, agency-funded, and partner-referred enrollments:</p>
+
+    <div class="payment-box">
+      <div class="pay-title">Payment Schedule — Per Student</div>
+      <div class="payment-row">
+        <span><strong>Invoice 1 — Program Start (50%)</strong><br/><span style="font-size:9pt;color:#555;">Due upon confirmed class start date. Training does not begin until Invoice 1 is received.</span></span>
+        <span class="amount">50% of tuition</span>
+      </div>
+      <div class="payment-row">
+        <span><strong>Invoice 2 — Program Completion (50%)</strong><br/><span style="font-size:9pt;color:#555;">Due upon student completion of all required training hours and skills test attempt.</span></span>
+        <span class="amount">50% of tuition</span>
+      </div>
+    </div>
+
+    <div class="referral-box">
+      <strong>Referral Partner Incentive:</strong> Funding referral partners who refer a student that successfully starts a class will receive <strong>$500 per student class start</strong>. Referral fees are paid by Elevate for Humanity within 30 days of confirmed class start. Referral partners must be identified in writing prior to enrollment to qualify.
+    </div>
+
+    <div class="notice-box">
+      <strong>Late Payment:</strong> Invoices unpaid within 30 days of the due date are subject to a 1.5% monthly late fee. Elevate reserves the right to suspend future enrollments for partners with outstanding balances.
+    </div>
+  </div>
+
+  <!-- V. Program Format -->
+  <div class="section">
+    <div class="section-title">V. Program Format &amp; Structure</div>
+
+    <div class="section-sub">Classroom Training — Both Class A &amp; Class B</div>
+    <ul>
+      <li><strong>Duration:</strong> One (1) week</li>
+      <li><strong>Delivery:</strong> Online or in-person</li>
+      <li><strong>Curriculum:</strong> FMCSA ELDT theory, safety regulations, foundational CDL knowledge</li>
+    </ul>
+
+    <div class="section-sub">Behind-the-Wheel, Range &amp; Road Training</div>
+    <ul>
+      <li><strong>Class A CDL:</strong> Three (3) weeks of range and road instruction, followed by CDL skills test</li>
+      <li><strong>Class B CDL:</strong> One (1) week of range and road instruction, followed by CDL skills test</li>
+    </ul>
+
+    <div class="section-sub">On-the-Job Training (OJT)</div>
+    <p>Upon successful completion of the CDL skills test and issuance of a Commercial Driver's License, students may be placed in an On-the-Job Training (OJT) arrangement with a partner employer. OJT placements are coordinated by Elevate's Job Placement Coordinator. The Partner/Employer is responsible for providing a safe, compliant OJT work environment and for supervising the student during the OJT period in accordance with applicable DOL and FMCSA standards.</p>
+  </div>
+
+  <!-- VI. Attendance -->
+  <div class="section">
+    <div class="section-title">VI. Attendance &amp; Conduct Expectations</div>
+
+    <div class="section-sub">Attendance</div>
+    <ul>
+      <li>Students may have no more than <strong>two (2) absences</strong> during the program.</li>
+      <li>Exceeding the maximum absence limit may result in dismissal from the program.</li>
+    </ul>
+
+    <div class="section-sub">Training Hours</div>
+    <ul>
+      <li>Monday – Friday, <strong>7:00 a.m. – 4:00 p.m.</strong></li>
+      <li>Includes one (1) hour lunch and two (2) fifteen-minute breaks.</li>
+      <li>Students must arrive on time each day. Excessive tardiness may result in disciplinary action or removal.</li>
+    </ul>
+
+    <div class="notice-box">
+      <strong>Transportation Notice:</strong> Transportation to and from CDL training each day must be provided by the student, employer, or agency funding the training. Elevate for Humanity does not provide transportation services.
+    </div>
+
+    <div class="section-sub">Professional Conduct</div>
+    <p>Students are expected to comply with all facility rules, safety guidelines, and instructor direction at all times. Violations may result in immediate dismissal without refund.</p>
+  </div>
+
+  <!-- VII. Job Placement -->
+  <div class="section">
+    <div class="section-title">VII. Job Placement &amp; Career Support</div>
+    <ul>
+      <li>Each student will be assigned a <strong>Job Placement Coordinator</strong> who will provide guidance on employment opportunities and carrier partnerships.</li>
+      <li>Students will be introduced to job opportunities beginning on <strong>Day 1</strong> of the program.</li>
+      <li>Representatives from partner carriers will regularly present to classes throughout training.</li>
+      <li>The Partner/Employer is responsible for providing OJT supervision and a compliant work environment for any student placed with their organization.</li>
+    </ul>
+  </div>
+
+  <!-- VIII. Drop & Dismissal -->
+  <div class="section">
+    <div class="section-title">VIII. Drop &amp; Dismissal Policy</div>
+    <p>A student may be dismissed from the program for any of the following reasons:</p>
+    <ol>
+      <li>Failure to meet attendance or timeliness requirements.</li>
+      <li>Insufficient progress or inability to meet skill requirements during training.</li>
+      <li>Failure or refusal of required drug screening.</li>
+      <li>Violation of safety rules or conduct standards, as determined by program leadership.</li>
+    </ol>
+    <p>In the event of dismissal, the Partner/Employer remains responsible for the 50% program start payment already invoiced. The completion payment (Invoice 2) will not be due if the student does not complete the program.</p>
+  </div>
+
+  <!-- IX. Student Rights & Elevate Ownership -->
+  <div class="section">
+    <div class="section-title">IX. Student Records &amp; Elevate Rights</div>
+    <ul>
+      <li><strong>Student Records:</strong> Elevate for Humanity retains all rights to student training records, completion documentation, credential records, and program data in accordance with FERPA and applicable workforce program requirements.</li>
+      <li><strong>Credential Ownership:</strong> CDL credentials are issued by the Indiana BMV directly to the student. Elevate retains records of training completion and skills test preparation.</li>
+      <li><strong>Program Intellectual Property:</strong> All curriculum, training materials, assessments, and program content developed by Elevate for Humanity are the sole property of Elevate for Humanity and may not be reproduced, distributed, or used without written consent.</li>
+    </ul>
+  </div>
+
+  <!-- X. NDA & Non-Compete -->
+  <div class="section">
+    <div class="section-title">X. Confidentiality, Non-Disclosure &amp; Non-Compete</div>
+
+    <div class="section-sub">Non-Disclosure</div>
+    <p>Both parties agree to keep confidential all proprietary information, student data, pricing, curriculum, business processes, and partner relationships disclosed in connection with this MOU. Neither party shall disclose such information to any third party without prior written consent, except as required by law.</p>
+
+    <div class="section-sub">Non-Compete</div>
+    <p>During the term of this MOU and for a period of <strong>two (2) years</strong> following its termination, the Partner agrees not to directly solicit, recruit, or hire Elevate for Humanity instructors, staff, or subcontractors for the purpose of replicating or competing with Elevate's CDL training program. The Partner further agrees not to use Elevate's curriculum, training materials, or program structure to establish a competing CDL training program without written authorization from Elevate for Humanity.</p>
+
+    <div class="section-sub">Student Non-Solicitation</div>
+    <p>The Partner agrees not to directly solicit students enrolled in or referred through Elevate's program for competing training programs during the term of this MOU and for one (1) year following termination.</p>
+  </div>
+
+  <!-- XI. Term & Termination -->
+  <div class="section">
+    <div class="section-title">XI. Term &amp; Termination</div>
+    <ul>
+      <li>This MOU is effective upon the date of last signature below and remains in effect for <strong>one (1) year</strong>, automatically renewing annually unless terminated in writing by either party with 30 days' notice.</li>
+      <li>Either party may terminate this MOU for cause with written notice. Outstanding payment obligations survive termination.</li>
+    </ul>
+  </div>
+
+  <!-- XII. Acknowledgement -->
+  <div class="section">
+    <div class="section-title">XII. Agreement &amp; Acknowledgement</div>
+    <p>By executing this MOU, both parties acknowledge they have read, understand, and agree to all terms and conditions set forth herein. The Partner confirms that each enrolled student has demonstrated the responsibility and willingness to uphold the requirements outlined in this document, and the Partner assumes full financial responsibility on behalf of the student(s) receiving instruction and training.</p>
+    <p>This MOU constitutes the entire agreement between the parties with respect to its subject matter and supersedes all prior discussions, representations, or agreements.</p>
+  </div>
+
+  <!-- Signatures -->
+  <div class="sig-section">
+    <div class="section-title">XIII. Signatures</div>
+
+    <div class="sig-grid">
+      <!-- Partner -->
+      <div class="sig-block">
+        <div class="sig-party">Partner / Employer / Funding Agency</div>
+        <div class="sig-line"></div>
+        <div class="sig-label">Authorized Signature</div>
+        <div class="sig-name-line"></div>
+        <div class="sig-label">Printed Name &amp; Title</div>
+        <div class="sig-name-line"></div>
+        <div class="sig-label">Company / Agency Name</div>
+        <div class="sig-name-line"></div>
+        <div class="sig-label">Date</div>
+      </div>
+
+      <!-- Elevate -->
+      <div class="sig-block">
+        <div class="sig-party">Elevate for Humanity</div>
+        <div class="sig-line"></div>
+        <div class="sig-label">Authorized Signature</div>
+        <div class="sig-name-line"></div>
+        <div class="sig-label">Elizabeth Greene, Founder &amp; CEO</div>
+        <div class="sig-name-line"></div>
+        <div class="sig-label">Date</div>
+      </div>
+    </div>
+
+    <!-- Student acknowledgement -->
+    <div style="margin-top:28px;padding:14px 16px;border:1px solid #d1d5db;border-radius:6px;background:#f9fafb;">
+      <div style="font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#374151;margin-bottom:12px;">Student Acknowledgement</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <div>
+          <div class="sig-line"></div>
+          <div class="sig-label">Student Signature</div>
+          <div class="sig-name-line"></div>
+          <div class="sig-label">Printed Name</div>
+        </div>
+        <div>
+          <div class="sig-name-line"></div>
+          <div class="sig-label">Date</div>
+          <div class="sig-name-line"></div>
+          <div class="sig-label">Program Enrolled: ☐ Class A CDL &nbsp;&nbsp; ☐ Class B CDL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="doc-footer">
+    Elevate for Humanity Career &amp; Technical Institute · 2Exclusive LLC-S d/b/a · Indianapolis, Indiana · CAGE: 0Q856<br/>
+    DOL Registered Apprenticeship Sponsor · Indiana ETPL-Listed Provider · WIOA Title I Approved · WorkOne Workforce Partner<br/>
+    This document is confidential and proprietary to Elevate for Humanity. Unauthorized reproduction or distribution is prohibited.<br/>
+    CDL-MOU-2026 · Page 1 of 1
+  </div>
+
+</div>
+</body>
+</html>

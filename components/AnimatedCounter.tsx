@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface AnimatedCounterProps {
   end: number;
@@ -41,9 +41,9 @@ export function AnimatedCounter({
     }
 
     return () => observer.disconnect();
-  }, [hasAnimated]);
+  }, [hasAnimated, animateCount]);
 
-  const animateCount = () => {
+  const animateCount = useCallback(() => {
     const startTime = Date.now();
     const startValue = 0;
 
@@ -65,7 +65,7 @@ export function AnimatedCounter({
     };
 
     requestAnimationFrame(updateCount);
-  };
+  }, [end, duration]);
 
   const formattedCount = decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toString();
 

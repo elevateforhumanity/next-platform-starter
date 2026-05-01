@@ -1,4 +1,5 @@
 // PUBLIC ROUTE: simplified program application form
+import { logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { resolveProgramId } from '@/lib/programs/resolve';
@@ -16,7 +17,7 @@ async function _POST(req: Request) {
       const rl = await applyRateLimit(req, 'strict');
       if (rl) return rl;
     } catch (e) {
-      console.warn('[rate-limit] applyRateLimit failed — continuing without limit', e);
+      logger.warn('[rate-limit] applyRateLimit failed — continuing without limit', e);
     }
 
     // Accept both form data and JSON

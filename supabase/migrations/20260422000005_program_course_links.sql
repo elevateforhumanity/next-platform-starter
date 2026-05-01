@@ -18,8 +18,6 @@ CREATE TABLE IF NOT EXISTS public.program_course_links (
     CHECK (status IN ('active', 'inactive', 'archived')),
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
-  UNIQUE (org_id, program_id, course_id),
-  UNIQUE (org_id, program_slug, course_id)
 );
 
 -- ── 2. Migrate data from program_course_map ───────────────────────────────────
@@ -59,7 +57,8 @@ CREATE INDEX IF NOT EXISTS idx_pcl_slug       ON public.program_course_links (pr
 
 ALTER TABLE public.program_course_links ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "pcl_org_read" ON public.program_course_links
+DROP policy if exists "pcl_org_read" on public.program_course_links;
+CREATE policy "pcl_org_read" on public.program_course_links
   FOR SELECT TO authenticated
   USING (
     org_id IN (
@@ -74,3 +73,4 @@ CREATE POLICY "pcl_org_read" ON public.program_course_links
 
 GRANT SELECT ON public.program_course_links TO authenticated;
 GRANT ALL    ON public.program_course_links TO service_role;
+

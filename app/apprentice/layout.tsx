@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: 'Apprentice Portal',
   description: 'Apprentice dashboard, hours, documents, and training.',
 };

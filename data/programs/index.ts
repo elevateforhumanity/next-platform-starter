@@ -91,6 +91,7 @@ const STATIC_PROGRAMS: ProgramSchema[] = [
   SOFTWARE_DEV,
   WEB_DEVELOPMENT,
   TAX_PREPARATION,
+  QMA,
 ];
 
 /** Slug-keyed map for O(1) lookup. */

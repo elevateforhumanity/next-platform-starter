@@ -1,3 +1,4 @@
+import { timedFetch } from '@/lib/supabase/timed-fetch';
 import { logger } from '@/lib/logger';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
@@ -55,6 +56,7 @@ export function createAdminClient(): SupabaseClient<any> {
       autoRefreshToken: false,
       persistSession: false,
     },
+    global: { fetch: timedFetch },
   });
 }
 

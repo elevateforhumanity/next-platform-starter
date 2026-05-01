@@ -64,7 +64,7 @@ export default function LegalOnboardingPage() {
         data: { user: currentUser },
       } = await supabase.auth.getUser();
       if (!currentUser) {
-        router.push('/login');
+        router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
         return;
       }
       setUser(currentUser);

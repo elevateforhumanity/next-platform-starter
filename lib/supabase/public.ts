@@ -1,3 +1,4 @@
+import { timedFetch } from '@/lib/supabase/timed-fetch';
 /**
  * Supabase Public Client
  * Cookie-free, no auth dependency. Safe for static prerendering.
@@ -6,6 +7,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import type { SupabaseClient } from '@supabase/supabase-js';
+
 
 // Mock client that returns empty data — prevents crashes during static prerender
 const mockQueryBuilder: any = {
@@ -56,6 +58,7 @@ export function createPublicClient(): SupabaseClient<any> {
         autoRefreshToken: false,
         persistSession: false,
       },
+      global: { fetch: timedFetch },
     });
   } catch {
     return mockClient;

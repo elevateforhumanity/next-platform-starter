@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 type Recap = {
   id: string;
@@ -28,7 +28,7 @@ export default function RecapDetail({ recapId }: { recapId: string }) {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
     const res = await fetch(`/api/recaps/${recapId}`);
     const json = await res.json().catch(() => ({}));
@@ -41,7 +41,7 @@ export default function RecapDetail({ recapId }: { recapId: string }) {
     }
     setRecap(json.recap);
     setItems(json.items || []);
-  }
+  }, [recapId]);
 
   async function toggle(itemId: string) {
     const res = await fetch(`/api/recaps/action-items/${itemId}/toggle`, {
@@ -53,7 +53,7 @@ export default function RecapDetail({ recapId }: { recapId: string }) {
 
   useEffect(() => {
     load();
-  }, [recapId]);
+  }, [recapId, load]);
 
   if (loading) return <div className="text-sm text-neutral-600">Loading recap…</div>;
   if (!recap) return <div className="text-sm text-neutral-600">Recap not found.</div>;

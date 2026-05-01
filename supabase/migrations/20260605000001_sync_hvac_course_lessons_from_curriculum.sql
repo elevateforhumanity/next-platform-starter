@@ -17,7 +17,7 @@ SET
                      THEN cur.passing_score
                      ELSE cl.passing_score
                    END,
-  lesson_type    = COALESCE(cur.step_type, cl.lesson_type),
+  lesson_type    = COALESCE(cur.step_type::text::lesson_type, cl.lesson_type),
   updated_at     = now()
 FROM curriculum_lessons cur
 WHERE cl.slug = cur.lesson_slug

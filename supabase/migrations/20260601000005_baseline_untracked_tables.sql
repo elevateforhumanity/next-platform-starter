@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS public.admin_compliance_status (
   user_id uuid,
   email text,
   full_name text,
-  role text,
+  "role" text,
   onboarding_status text,
   agreements_signed boolean,
   documents_uploaded boolean,
@@ -314,7 +314,7 @@ CREATE TABLE IF NOT EXISTS public.ai_generations (
   user_id uuid,
   org_id uuid,
   entity_id text,
-  type text,
+  "type" text,
   prompt text,
   metadata jsonb,
   created_at timestamptz DEFAULT now()
@@ -351,7 +351,7 @@ CREATE TABLE IF NOT EXISTS public.ai_instructor_logs (
 CREATE TABLE IF NOT EXISTS public.ai_instructors (
   id uuid DEFAULT gen_random_uuid(),
   name text,
-  role text,
+  "role" text,
   specialty text,
   system_prompt text,
   active boolean,
@@ -446,7 +446,7 @@ CREATE TABLE IF NOT EXISTS public.api_request_logs (
   id uuid DEFAULT gen_random_uuid(),
   api_key_id uuid,
   endpoint text,
-  method text,
+  "method" text,
   status_code bigint,
   response_time_ms bigint,
   ip_address text,
@@ -836,7 +836,7 @@ CREATE TABLE IF NOT EXISTS public.attendance (
   funding_type text,
   get text,
   has text,
-  program text,
+  "program" text,
   program_id uuid,
   status text,
   student text,
@@ -869,8 +869,8 @@ CREATE TABLE IF NOT EXISTS public.attendance_sessions (
 
 CREATE TABLE IF NOT EXISTS public.audio_preferences (
   id uuid DEFAULT gen_random_uuid(),
-  key text,
-  value text,
+  "key" text,
+  "value" text,
   user_id uuid,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now(),
@@ -892,7 +892,7 @@ CREATE TABLE IF NOT EXISTS public.audit_export_log (
 CREATE TABLE IF NOT EXISTS public.audit_snapshot (
   apprentice_id uuid,
   referral_source text,
-  program text,
+  "program" text,
   referral_date timestamptz,
   employer text,
   funding_source text,
@@ -914,8 +914,8 @@ CREATE TABLE IF NOT EXISTS public.autopilot_logs (
 
 CREATE TABLE IF NOT EXISTS public.autopilot_settings (
   id uuid DEFAULT gen_random_uuid(),
-  key text,
-  value text,
+  "key" text,
+  "value" text,
   user_id uuid,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
@@ -1357,7 +1357,7 @@ CREATE TABLE IF NOT EXISTS public.case_studies (
   jpg text,
   logo_url text,
   results jsonb,
-  summary text,
+  "summary" text,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -1519,7 +1519,7 @@ CREATE TABLE IF NOT EXISTS public.code_examples (
   com text,
   description text,
   elevateforhumanity text,
-  language text,
+  "language" text,
   path text,
   slug text,
   created_at timestamptz DEFAULT now(),
@@ -1612,7 +1612,7 @@ CREATE TABLE IF NOT EXISTS public.community_groups (
 CREATE TABLE IF NOT EXISTS public.community_members (
   id uuid DEFAULT gen_random_uuid(),
   user_id uuid,
-  role text,
+  "role" text,
   status text,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
@@ -1661,7 +1661,7 @@ CREATE TABLE IF NOT EXISTS public.complaints (
 
 CREATE TABLE IF NOT EXISTS public.completions (
   id uuid DEFAULT gen_random_uuid(),
-  all text,
+  "all" text,
   email text,
   enrollment_status text,
   full_name text,
@@ -1723,8 +1723,8 @@ CREATE TABLE IF NOT EXISTS public.compliance_items (
 
 CREATE TABLE IF NOT EXISTS public.consent_preferences (
   id uuid DEFAULT gen_random_uuid(),
-  key text,
-  value text,
+  "key" text,
+  "value" text,
   user_id uuid,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
@@ -1822,7 +1822,7 @@ CREATE TABLE IF NOT EXISTS public.conversions (
   id uuid DEFAULT gen_random_uuid(),
   user_id uuid,
   conversion_type text,
-  value numeric,
+  "value" numeric,
   metadata jsonb,
   created_at timestamptz DEFAULT now()
 );
@@ -1985,7 +1985,7 @@ CREATE TABLE IF NOT EXISTS public.course_modules (
   updated_at timestamptz DEFAULT now(),
   duration text,
   is_required boolean,
-  order bigint,
+  "order" bigint,
   type text
 );
 
@@ -2026,7 +2026,7 @@ CREATE TABLE IF NOT EXISTS public.course_tasks (
   course_id uuid,
   title text,
   description text,
-  type text,
+  "type" text,
   due_date timestamptz,
   points bigint,
   required boolean,
@@ -2075,7 +2075,7 @@ CREATE TABLE IF NOT EXISTS public.creator_courses (
   total_enrollments text,
   txt text,
   www text,
-  xml text,
+  "xml" text,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -2224,7 +2224,7 @@ CREATE TABLE IF NOT EXISTS public.credential_validation_rules (
 CREATE TABLE IF NOT EXISTS public.credentialing_partners (
   id uuid DEFAULT gen_random_uuid(),
   name text,
-  type text,
+  "type" text,
   description text,
   website text,
   created_at timestamptz DEFAULT now()
@@ -2248,7 +2248,7 @@ CREATE TABLE IF NOT EXISTS public.crm_interactions (
   id uuid DEFAULT gen_random_uuid(),
   contact_id uuid,
   user_id uuid,
-  type text,
+  "type" text,
   subject text,
   notes text,
   outcome text,
@@ -2753,7 +2753,7 @@ CREATE TABLE IF NOT EXISTS public.documentation (
   com text,
   description text,
   elevateforhumanity text,
-  language text,
+  "language" text,
   path text,
   reply_count bigint,
   slug text,
@@ -2879,7 +2879,7 @@ CREATE TABLE IF NOT EXISTS public.email_queue (
 CREATE TABLE IF NOT EXISTS public.email_templates (
   id uuid DEFAULT gen_random_uuid(),
   tenant_id uuid,
-  key text,
+  "key" text,
   subject text,
   body text,
   html text,
@@ -3686,7 +3686,7 @@ CREATE TABLE IF NOT EXISTS public.follow_ups (
   id uuid DEFAULT gen_random_uuid(),
   participant_id uuid,
   case_worker_id uuid,
-  type text,
+  "type" text,
   due_date timestamptz,
   status text,
   notes text,
@@ -3724,7 +3724,7 @@ CREATE TABLE IF NOT EXISTS public.forum_members (
   id uuid DEFAULT gen_random_uuid(),
   forum_id uuid,
   user_id uuid,
-  role text,
+  "role" text,
   joined_at timestamptz
 );
 
@@ -4040,7 +4040,7 @@ CREATE TABLE IF NOT EXISTS public.grant_submissions (
   confirmation_number text,
   elevateforhumanity text,
   entity text,
-  grant text,
+  "grant" text,
   jpg text,
   other text,
   portal_url text,
@@ -4441,7 +4441,7 @@ CREATE TABLE IF NOT EXISTS public.interviews (
   interview_type text,
   jobs text,
   outcome text,
-  position text,
+  "position" text,
   profiles jsonb,
   scheduled_at timestamptz,
   status text,
@@ -4482,9 +4482,9 @@ CREATE TABLE IF NOT EXISTS public.ip_access_control (
 CREATE TABLE IF NOT EXISTS public.job_listings (
   id uuid DEFAULT gen_random_uuid(),
   company text,
-  desc text,
+  "desc" text,
   location text,
-  position text,
+  "position" text,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -4661,7 +4661,7 @@ CREATE TABLE IF NOT EXISTS public.learner_onboarding (
   address text,
   emergency_name text,
   emergency_phone text,
-  program text,
+  "program" text,
   employment_status text,
   support_needs text,
   goals text,
@@ -5074,7 +5074,7 @@ CREATE TABLE IF NOT EXISTS public.lms_organizations (
   logo_url text,
   primary_color text,
   secondary_color text,
-  settings jsonb,
+  "settings" jsonb,
   subscription_tier text,
   subscription_status text,
   max_users bigint,
@@ -5228,7 +5228,7 @@ CREATE TABLE IF NOT EXISTS public.meeting_recaps (
   meeting_date timestamptz,
   source text,
   transcript text,
-  summary text,
+  "summary" text,
   key_points jsonb,
   decisions jsonb,
   follow_up_email text,
@@ -5255,7 +5255,7 @@ CREATE TABLE IF NOT EXISTS public.mentor_sessions (
   mentee text,
   mentee_id uuid,
   profiles jsonb,
-  program text,
+  "program" text,
   progress text,
   scheduled_at timestamptz,
   session_type text,
@@ -5274,7 +5274,7 @@ CREATE TABLE IF NOT EXISTS public.mentorships (
   mentee text,
   mentee_id uuid,
   profiles jsonb,
-  program text,
+  "program" text,
   progress text,
   scheduled_at timestamptz,
   sessions text,
@@ -5543,7 +5543,7 @@ CREATE TABLE IF NOT EXISTS public.news_categories (
 CREATE TABLE IF NOT EXISTS public.nonprofit_services (
   id uuid DEFAULT gen_random_uuid(),
   age text,
-  all text,
+  "all" text,
   content text,
   date timestamptz,
   description text,
@@ -5571,7 +5571,7 @@ CREATE TABLE IF NOT EXISTS public.notification_logs (
   title text,
   body text,
   data jsonb,
-  type text,
+  "type" text,
   status text,
   error_message text,
   sent_at timestamptz,
@@ -5672,7 +5672,7 @@ CREATE TABLE IF NOT EXISTS public.onboarding_events (
 
 CREATE TABLE IF NOT EXISTS public.onboarding_packets (
   id uuid DEFAULT gen_random_uuid(),
-  role text,
+  "role" text,
   title text,
   description text,
   is_active boolean,
@@ -5687,7 +5687,7 @@ CREATE TABLE IF NOT EXISTS public.onboarding_resources (
   description text,
   url text,
   resource_type text,
-  role text,
+  "role" text,
   order_index bigint,
   is_active boolean,
   created_at timestamptz DEFAULT now()
@@ -5700,7 +5700,7 @@ CREATE TABLE IF NOT EXISTS public.onboarding_signatures (
   signature_data text,
   signed_at timestamptz,
   created_at timestamptz DEFAULT now(),
-  role text,
+  "role" text,
   signature_type text,
   document_version text,
   document_hash text,
@@ -5727,7 +5727,7 @@ CREATE TABLE IF NOT EXISTS public.onboarding_submissions (
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now(),
   employee_type text,
-  position text,
+  "position" text,
   department text,
   start_date text,
   personal_info jsonb,
@@ -5741,7 +5741,7 @@ CREATE TABLE IF NOT EXISTS public.onboarding_submissions (
   ip_address text,
   forms_generated jsonb,
   onboarding_package jsonb,
-  summary text,
+  "summary" text,
   can_start_work boolean,
   progress_percentage numeric
 );
@@ -5783,7 +5783,7 @@ CREATE TABLE IF NOT EXISTS public.org_invitations (
   id uuid DEFAULT gen_random_uuid(),
   organization_id uuid,
   email text,
-  role text,
+  "role" text,
   token text,
   invited_by uuid,
   accepted_at timestamptz,
@@ -5795,7 +5795,7 @@ CREATE TABLE IF NOT EXISTS public.org_invites (
   id uuid DEFAULT gen_random_uuid(),
   organization_id uuid,
   email text,
-  role text,
+  "role" text,
   token text,
   expires_at timestamptz,
   created_by uuid,
@@ -5831,7 +5831,7 @@ CREATE TABLE IF NOT EXISTS public.organization_users (
   id uuid DEFAULT gen_random_uuid(),
   organization_id uuid,
   user_id uuid,
-  role text,
+  "role" text,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now(),
   status text
@@ -6099,7 +6099,7 @@ CREATE TABLE IF NOT EXISTS public.partner_profiles (
   user_id uuid,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now(),
-  role text,
+  "role" text,
   status text
 );
 
@@ -6165,7 +6165,7 @@ CREATE TABLE IF NOT EXISTS public.pathways (
   description text,
   duration bigint,
   elevateforhumanity text,
-  format text,
+  "format" text,
   funding text,
   industry text,
   location text,
@@ -6192,7 +6192,7 @@ CREATE TABLE IF NOT EXISTS public.pay_stubs (
 CREATE TABLE IF NOT EXISTS public.payment_methods (
   id uuid DEFAULT gen_random_uuid(),
   user_id uuid,
-  type text,
+  "type" text,
   last_four text,
   brand text,
   exp_month bigint,
@@ -6266,7 +6266,7 @@ CREATE TABLE IF NOT EXISTS public.payment_splits (
 
 CREATE TABLE IF NOT EXISTS public.payout_rate_configs (
   id uuid DEFAULT gen_random_uuid(),
-  role text,
+  "role" text,
   rate_type text,
   rate_amount numeric,
   effective_date date,
@@ -6348,7 +6348,7 @@ CREATE TABLE IF NOT EXISTS public.performance_alerts (
 CREATE TABLE IF NOT EXISTS public.performance_metrics (
   id uuid DEFAULT gen_random_uuid(),
   metric_name text,
-  value numeric,
+  "value" numeric,
   date date,
   category text,
   metadata jsonb,
@@ -6436,7 +6436,7 @@ CREATE TABLE IF NOT EXISTS public.placements (
   cover text,
   dba text,
   dba_name text,
-  desc text,
+  "desc" text,
   description text,
   elevateforhumanity text,
   email text,
@@ -6447,7 +6447,7 @@ CREATE TABLE IF NOT EXISTS public.placements (
   jpg text,
   location text,
   phone text,
-  position text,
+  "position" text,
   verified boolean,
   website text,
   year_established text,
@@ -6489,8 +6489,8 @@ CREATE TABLE IF NOT EXISTS public.platform_products (
 CREATE TABLE IF NOT EXISTS public.platform_stats (
   id uuid DEFAULT gen_random_uuid(),
   stat_date date,
-  key text,
-  value numeric,
+  "key" text,
+  "value" numeric,
   metadata jsonb,
   updated_at timestamptz DEFAULT now(),
   stat_name text,
@@ -6597,7 +6597,7 @@ CREATE TABLE IF NOT EXISTS public.proctored_exams (
   require_screen_share boolean,
   allow_breaks boolean,
   max_break_minutes bigint,
-  settings jsonb,
+  "settings" jsonb,
   created_at timestamptz DEFAULT now()
 );
 
@@ -6717,7 +6717,7 @@ CREATE TABLE IF NOT EXISTS public.program_discussion_replies (
 
 CREATE TABLE IF NOT EXISTS public.program_discussions (
   id uuid DEFAULT gen_random_uuid(),
-  all text,
+  "all" text,
   author text,
   author_id uuid,
   content text,
@@ -6764,7 +6764,7 @@ CREATE TABLE IF NOT EXISTS public.program_holder_applications (
 
 CREATE TABLE IF NOT EXISTS public.program_holder_banking (
   id uuid DEFAULT gen_random_uuid(),
-  all text,
+  "all" text,
   banking text,
   document_type text,
   documents text,
@@ -6989,7 +6989,7 @@ CREATE TABLE IF NOT EXISTS public.programs_for_holder (
   schedule text,
   start_date timestamptz,
   track text,
-  type text,
+  "type" text,
   issuance_policy text,
   min_rti_hours bigint,
   min_ojl_hours bigint,
@@ -7028,7 +7028,7 @@ CREATE TABLE IF NOT EXISTS public.provisioning_events (
   correlation_id text,
   step text,
   status text,
-  error text,
+  "error" text,
   metadata jsonb,
   created_at timestamptz DEFAULT now(),
   environment text
@@ -7681,7 +7681,7 @@ CREATE TABLE IF NOT EXISTS public.security_alerts (
   message text,
   metadata jsonb,
   severity text,
-  type text,
+  "type" text,
   user_agent text
 );
 
@@ -7706,7 +7706,7 @@ CREATE TABLE IF NOT EXISTS public.security_logs (
 
 CREATE TABLE IF NOT EXISTS public.security_scan_events (
   id uuid DEFAULT gen_random_uuid(),
-  type text,
+  "type" text,
   tool text,
   status text,
   findings jsonb,
@@ -8026,7 +8026,7 @@ CREATE TABLE IF NOT EXISTS public.shop_weekly_reports (
 
 CREATE TABLE IF NOT EXISTS public.signature_documents (
   id uuid DEFAULT gen_random_uuid(),
-  type text,
+  "type" text,
   title text,
   body text,
   created_for_org uuid,
@@ -8067,7 +8067,7 @@ CREATE TABLE IF NOT EXISTS public.skill_categories (
   updated_at timestamptz DEFAULT now(),
   name text,
   description text,
-  order bigint
+  "order" bigint
 );
 
 CREATE TABLE IF NOT EXISTS public.skills_checklist (
@@ -8248,7 +8248,7 @@ CREATE TABLE IF NOT EXISTS public.staff_applications (
   full_name text,
   email text,
   phone text,
-  position text,
+  "position" text,
   status text,
   data jsonb,
   created_at timestamptz DEFAULT now(),
@@ -8257,7 +8257,7 @@ CREATE TABLE IF NOT EXISTS public.staff_applications (
 
 CREATE TABLE IF NOT EXISTS public.staff_notifications (
   id uuid DEFAULT gen_random_uuid(),
-  type text,
+  "type" text,
   title text,
   message text,
   severity text,
@@ -8392,7 +8392,7 @@ CREATE TABLE IF NOT EXISTS public.store_instances (
   parent_store_id uuid,
   license_id uuid,
   is_active boolean,
-  settings jsonb,
+  "settings" jsonb,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -8860,7 +8860,7 @@ CREATE TABLE IF NOT EXISTS public.supersonic_careers (
   last_name text,
   email text,
   phone text,
-  position text,
+  "position" text,
   location_preference text,
   years_experience bigint,
   certifications text,
@@ -8916,7 +8916,7 @@ CREATE TABLE IF NOT EXISTS public.support_articles (
   content text,
   elevateforhumanity text,
   excerpt text,
-  ilike text,
+  "ilike" text,
   slug text,
   tags text,
   views text,
@@ -9013,8 +9013,8 @@ CREATE TABLE IF NOT EXISTS public.surveys (
 
 CREATE TABLE IF NOT EXISTS public.system_configuration (
   id uuid DEFAULT gen_random_uuid(),
-  key text,
-  value text,
+  "key" text,
+  "value" text,
   user_id uuid,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
@@ -9305,7 +9305,7 @@ CREATE TABLE IF NOT EXISTS public.tenant_memberships (
   id uuid DEFAULT gen_random_uuid(),
   tenant_id uuid,
   user_id uuid,
-  role text,
+  "role" text,
   created_at timestamptz DEFAULT now()
 );
 
@@ -9315,7 +9315,7 @@ CREATE TABLE IF NOT EXISTS public.tenant_settings (
   timezone text,
   date_format text,
   time_format text,
-  language text,
+  "language" text,
   currency text,
   features jsonb,
   allow_self_enrollment boolean,
@@ -9612,7 +9612,7 @@ CREATE TABLE IF NOT EXISTS public.two_factor_attempts (
 CREATE TABLE IF NOT EXISTS public.two_factor_auth (
   id uuid DEFAULT gen_random_uuid(),
   user_id uuid,
-  method text,
+  "method" text,
   secret text,
   backup_codes text,
   is_enabled boolean,
@@ -9624,7 +9624,7 @@ CREATE TABLE IF NOT EXISTS public.two_factor_auth (
 
 CREATE TABLE IF NOT EXISTS public.unauthorized_access_log (
   id bigint,
-  domain text,
+  "domain" text,
   url text,
   referrer text,
   ip_address text,
@@ -9733,7 +9733,7 @@ CREATE TABLE IF NOT EXISTS public.user_badges (
 
 CREATE TABLE IF NOT EXISTS public.user_capabilities (
   user_id uuid,
-  role text,
+  "role" text,
   is_program_holder boolean
 );
 
@@ -9861,8 +9861,8 @@ CREATE TABLE IF NOT EXISTS public.user_points (
 CREATE TABLE IF NOT EXISTS public.user_preferences (
   id uuid DEFAULT gen_random_uuid(),
   user_id uuid,
-  key text,
-  value text,
+  "key" text,
+  "value" text,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
@@ -9890,7 +9890,7 @@ CREATE TABLE IF NOT EXISTS public.user_resumes (
   user_id uuid,
   title text,
   personal_info jsonb,
-  summary text,
+  "summary" text,
   work_experience jsonb,
   education jsonb,
   skills jsonb,
@@ -10193,7 +10193,7 @@ CREATE TABLE IF NOT EXISTS public.video_bookmarks (
 CREATE TABLE IF NOT EXISTS public.video_captions (
   id uuid DEFAULT gen_random_uuid(),
   lesson_id uuid,
-  language text,
+  "language" text,
   caption_url text,
   is_auto_generated boolean,
   created_at timestamptz DEFAULT now()
@@ -10229,7 +10229,7 @@ CREATE TABLE IF NOT EXISTS public.video_playback_events (
   event_type text,
   video_id text,
   page_slug text,
-  current_time numeric,
+  "current_time" numeric,
   duration numeric,
   error_message text,
   session_id text
@@ -10238,7 +10238,7 @@ CREATE TABLE IF NOT EXISTS public.video_playback_events (
 CREATE TABLE IF NOT EXISTS public.video_transcripts (
   id uuid DEFAULT gen_random_uuid(),
   lesson_id uuid,
-  language text,
+  "language" text,
   transcript_text text,
   vtt_url text,
   srt_url text,
@@ -10309,7 +10309,7 @@ CREATE TABLE IF NOT EXISTS public.volunteers (
   name text,
   email text,
   organization text,
-  role text,
+  "role" text,
   is_active boolean,
   hours_logged numeric,
   created_at timestamptz DEFAULT now()
@@ -10322,7 +10322,7 @@ CREATE TABLE IF NOT EXISTS public.webhook_deliveries (
   payload jsonb,
   response_status bigint,
   response_body text,
-  error text,
+  "error" text,
   delivered_at timestamptz,
   created_at timestamptz DEFAULT now()
 );
@@ -10335,7 +10335,7 @@ CREATE TABLE IF NOT EXISTS public.webhook_logs (
   status text,
   status_code bigint,
   response_time_ms bigint,
-  error text,
+  "error" text,
   created_at timestamptz DEFAULT now()
 );
 
@@ -10479,7 +10479,7 @@ CREATE TABLE IF NOT EXISTS public.workshop_categories (
 
 CREATE TABLE IF NOT EXISTS public.workshops (
   id uuid DEFAULT gen_random_uuid(),
-  all text,
+  "all" text,
   capacity text,
   content text,
   date timestamptz,

@@ -35,7 +35,7 @@ export default async function InterviewsPage() {
     redirect('/login?redirect=/employer-portal/interviews');
   }
 
-  // Fetch real interviews
+  // Fetch real interviews — employer_id filter enforces tenant isolation
   const { data: interviewData } = await supabase
     .from('interviews')
     .select(
@@ -47,12 +47,14 @@ export default async function InterviewsPage() {
       outcome,
       candidate_id,
       job_id,
-      profiles!interviews_candidate_id_fkey(full_name),
-      jobs(title)
+      position,
+      candidate,
+      jobs
     `,
     )
+    .eq('employer_id', user.id)
     .order('scheduled_at', { ascending: true })
-    .limit(20);
+    .limit(50);
 
   const now = new Date();
 
@@ -64,8 +66,8 @@ export default async function InterviewsPage() {
       const isTomorrow = date.toDateString() === new Date(now.getTime() + 86400000).toDateString();
       return {
         id: i.id,
-        candidate: { name: i.profiles?.full_name || 'Candidate', image: null },
-        position: i.jobs?.title || 'Position',
+        candidate: { name: i.candidate || 'Candidate', image: null },
+        position: i.position || i.jobs || 'Position',
         date: isToday
           ? 'Today'
           : isTomorrow
@@ -83,8 +85,8 @@ export default async function InterviewsPage() {
       const date = new Date(i.scheduled_at);
       return {
         id: i.id,
-        candidate: { name: i.profiles?.full_name || 'Candidate', image: null },
-        position: i.jobs?.title || 'Position',
+        candidate: { name: i.candidate || 'Candidate', image: null },
+        position: i.position || i.jobs || 'Position',
         date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         outcome: i.outcome || 'Completed',
       };

@@ -14,6 +14,7 @@ export const ELECTRICAL: ProgramSchema = {
   videoSrc: '/videos/electrician-trades.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 12,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,
@@ -376,4 +377,13 @@ export const ELECTRICAL: ProgramSchema = {
   metaTitle: 'Electrical Technician Training | OSHA 30 + NCCER | Indianapolis',
   metaDescription:
     'Learn residential and commercial wiring in 12 weeks. Earn OSHA 30 and NCCER certifications. Electricians earn $60,240/year. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

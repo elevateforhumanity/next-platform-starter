@@ -3,7 +3,8 @@
 -- Migration: 20260611000001_harden_api_keys_rls.sql
 --
 -- Problem: 20260124200000_admin_tables_v2.sql created:
---   CREATE POLICY "Admin full access to api_keys" ON api_keys FOR ALL USING (true);
+--   DROP POLICY IF EXISTS "Admin full access to api_keys" ON api_keys;
+CREATE POLICY "Admin full access to api_keys" ON api_keys FOR ALL USING (true);
 -- This allows ANY authenticated user to read, write, and delete all API keys.
 --
 -- Fix: Replace with service_role-only access + admin-role SELECT.
@@ -17,16 +18,16 @@ ALTER TABLE public.api_keys FORCE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Admin full access to api_keys" ON public.api_keys;
 
 -- Service role: full access (server-side key management)
-CREATE POLICY "api_keys_service_role"
-  ON public.api_keys
+DROP POLICY IF EXISTS "api_keys_service_role" ON public.api_keys;
+CREATE POLICY "api_keys_service_role" ON public.api_keys
   FOR ALL
   TO service_role
   USING (true)
   WITH CHECK (true);
 
 -- Admins and super_admins: read-only (for the admin dashboard key list)
-CREATE POLICY "api_keys_admin_select"
-  ON public.api_keys
+DROP POLICY IF EXISTS "api_keys_admin_select" ON public.api_keys;
+CREATE POLICY "api_keys_admin_select" ON public.api_keys
   FOR SELECT
   TO authenticated
   USING (

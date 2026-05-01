@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function ProgramHolderAnalyticsPage() {
-  const { db, holderId } = await requireProgramHolder();
+  const { db, holderId, programIds } = await requireProgramHolder();
 
   // Get program holder record using the real linkage
   const { data: programHolder } = await db
@@ -100,11 +100,10 @@ export default async function ProgramHolderAnalyticsPage() {
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([month, count]) => ({ month, count }));
 
-  // Program performance
-  const { data: programs } = await db
-    .from('programs')
-    .select('id, title, slug')
-    .eq('program_holder_id', programHolder.id);
+  // Program performance — use programIds from requireProgramHolder (via program_holder_programs)
+  const { data: programs } = programIds.length > 0
+    ? await db.from('programs').select('id, title, slug').in('id', programIds)
+    : { data: [] };
 
   const programStats = await Promise.all(
     (programs || []).map(async (program: any) => {

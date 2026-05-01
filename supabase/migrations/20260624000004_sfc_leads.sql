@@ -1,3 +1,9 @@
+ALTER TABLE public.sfc_leads ADD COLUMN IF NOT EXISTS service_type text;
+ALTER TABLE public.sfc_leads ADD COLUMN IF NOT EXISTS referral_source text;
+ALTER TABLE public.sfc_leads ADD COLUMN IF NOT EXISTS assigned_to uuid REFERENCES auth.users(id) ON DELETE SET NULL;
+ALTER TABLE public.sfc_leads ADD COLUMN IF NOT EXISTS converted_at timestamptz;
+ALTER TABLE public.sfc_leads ADD COLUMN IF NOT EXISTS metadata jsonb DEFAULT '{}';
+
 -- Supersonic Fast Cash — canonical intake spine
 -- Phase 2.2: every form on the SFC site writes one sfc_leads row.
 -- Phase 3.3: documents attach to lead_id via sfc_documents.
@@ -42,9 +48,7 @@ CREATE TABLE IF NOT EXISTS public.sfc_leads (
 
   -- Links
   appointment_id          uuid,       -- FK set after appointment is created
-  notes                   text
-
-  UNIQUE (email)           -- one canonical lead per email; use upsert for duplicates
+  notes                   text           -- one canonical lead per email; use upsert for duplicates
 );
 
 CREATE INDEX IF NOT EXISTS idx_sfc_leads_status      ON public.sfc_leads(status);
@@ -128,3 +132,4 @@ DROP TRIGGER IF EXISTS sfc_leads_updated_at ON public.sfc_leads;
 CREATE TRIGGER sfc_leads_updated_at
   BEFORE UPDATE ON public.sfc_leads
   FOR EACH ROW EXECUTE FUNCTION public.sfc_leads_set_updated_at();
+

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
@@ -38,9 +38,9 @@ export default function ProgramDiscussionsPage() {
 
   useEffect(() => {
     loadData();
-  }, [slug]);
+  }, [slug, loadData]);
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     const supabase = createClient();
 
     // Check auth
@@ -126,7 +126,7 @@ export default function ProgramDiscussionsPage() {
 
     setThreads(threadsWithReplies);
     setLoading(false);
-  }
+  }, [slug, router]);
 
   async function createThread(e: React.FormEvent) {
     e.preventDefault();

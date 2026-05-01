@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ResendMagicLinkForm } from '@/components/auth/ResendMagicLinkForm';
+import { ConversionPixel } from '@/components/analytics/ConversionPixel';
 
 // Funding sources that require Indiana Career Connect / WorkOne referral
 const WORKFORCE_FUNDING = [
@@ -247,6 +248,7 @@ export default async function ApplicationSuccessPage({
 
   return (
     <div className="min-h-screen bg-white">
+      <ConversionPixel type="ENROLL" />
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">

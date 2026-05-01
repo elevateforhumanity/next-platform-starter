@@ -10,6 +10,7 @@ export const NETWORK_SUPPORT: ProgramSchema = {
   heroImage: '/images/pages/networking-hero.jpg',
   heroImageAlt: 'Network support technician troubleshooting a connection',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,
@@ -210,4 +211,13 @@ export const NETWORK_SUPPORT: ProgramSchema = {
   metaTitle: 'Network Support Technician | IT Specialist Certified | Indianapolis',
   metaDescription:
     'Prepare for IT Specialist networking certification in 6 weeks. Network support techs earn $57,910/year. WIOA funding available. Indianapolis.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

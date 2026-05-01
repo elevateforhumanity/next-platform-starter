@@ -111,6 +111,7 @@ CREATE TRIGGER trg_eligibility_review_updated_at
 -- RLS: staff and admin can read/write; applicant can read their own
 ALTER TABLE public.application_eligibility_reviews ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "staff_full_access" ON public.application_eligibility_reviews;
 CREATE POLICY "staff_full_access" ON public.application_eligibility_reviews
   FOR ALL USING (
     EXISTS (
@@ -120,6 +121,7 @@ CREATE POLICY "staff_full_access" ON public.application_eligibility_reviews
     )
   );
 
+DROP POLICY IF EXISTS "applicant_read_own" ON public.application_eligibility_reviews;
 CREATE POLICY "applicant_read_own" ON public.application_eligibility_reviews
   FOR SELECT USING (
     application_id IN (

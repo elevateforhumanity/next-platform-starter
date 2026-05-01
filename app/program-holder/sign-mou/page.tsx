@@ -83,7 +83,7 @@ export default async function SignMOUPage() {
 
   const { data: roleCheck } = await supabase
     .from('profiles')
-    .select('role')
+    .select('role, program_holder_id')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -94,10 +94,13 @@ export default async function SignMOUPage() {
   // Determine which MOU to show based on program holder's mou_type.
   // Live DB values: 'universal', 'custom_hvac_codelivery', 'custom_cosmetology_codelivery'.
   // There are no null or 'barber' records — do not fall back silently.
+  const holderId = roleCheck.program_holder_id;
+  if (!holderId) redirect('/program-holder/onboarding');
+
   const { data: programHolder } = await supabase
     .from('program_holders')
     .select('mou_type, primary_program_id')
-    .eq('user_id', user.id)
+    .eq('id', holderId)
     .maybeSingle();
 
   const rawMouType = programHolder?.mou_type ?? null;

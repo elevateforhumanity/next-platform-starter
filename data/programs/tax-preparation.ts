@@ -11,6 +11,7 @@ export const TAX_PREPARATION: ProgramSchema = {
   heroImageAlt: 'Tax preparation student learning tax filing procedures',
   videoSrc: '/videos/tax-career-paths.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,
@@ -210,7 +211,7 @@ export const TAX_PREPARATION: ProgramSchema = {
     { title: 'Tax Business Owner', salary: '$60,000–$120,000+' },
   ],
   cta: {
-    applyHref: '/apply?program=tax-prep',
+    applyHref: '/apply?program=tax-preparation',
     requestInfoHref: '/programs/tax-preparation/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=tax+preparer&location=Indiana',
@@ -262,4 +263,13 @@ export const TAX_PREPARATION: ProgramSchema = {
   metaTitle: 'Tax Preparation | IRS PTIN Certified | Indianapolis',
   metaDescription:
     'Earn your IRS PTIN and learn tax preparation in 8 weeks. Tax preparers earn $46,240/year. WIOA funding available. Indianapolis.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: false,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and FSSA IMPACT funding available. WRG eligibility determined by Indiana DWD.',
+  },
 };

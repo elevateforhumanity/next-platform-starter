@@ -12,6 +12,7 @@ export const BEAUTY_CAREER_EDUCATOR: ProgramSchema = {
   heroImageAlt: 'Beauty educator training students in salon techniques',
   videoSrc: '/videos/beauty-cosmetology.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Partner',
   durationWeeks: 12,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,
@@ -280,4 +281,14 @@ export const BEAUTY_CAREER_EDUCATOR: ProgramSchema = {
   metaTitle: 'Beauty & Career Educator Training | ETPL Approved | Indianapolis',
   metaDescription:
     'Earn your Rise Up credential, CPR/First Aid, and OSHA 10 in 12 weeks. WIOA-funded beauty and career educator training in Indianapolis.',
+
+
+  fundingOptions: ['impact', 'employer_paid', 'self_pay'],
+  funding: {
+    wioa_eligible: false,
+    fssa_eligible: false,
+    wrg_eligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'Eligibility for WIOA/FSSA funding determined by the applicable workforce or funding agency.',
+  },
 };

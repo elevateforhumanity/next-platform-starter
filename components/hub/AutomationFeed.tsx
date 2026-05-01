@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import {
   Zap,
@@ -45,7 +45,7 @@ export default function AutomationFeed({ limit = 20 }: { limit?: number }) {
   const [loading, setLoading] = useState(true);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     setLoading(true);
     const supabase = createClient();
     const allEvents: AutomationEvent[] = [];
@@ -127,14 +127,14 @@ export default function AutomationFeed({ limit = 20 }: { limit?: number }) {
     setEvents(allEvents.slice(0, limit));
     setLoading(false);
     setLastRefresh(new Date());
-  };
+  }, [limit]);
 
   useEffect(() => {
     fetchEvents();
     // Auto-refresh every 30 seconds
     const interval = setInterval(fetchEvents, 30000);
     return () => clearInterval(interval);
-  }, [limit]);
+  }, [limit, fetchEvents]);
 
   const formatTime = (dateStr: string) => {
     const date = new Date(dateStr);

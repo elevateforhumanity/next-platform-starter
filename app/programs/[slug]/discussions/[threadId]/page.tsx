@@ -1,7 +1,7 @@
 'use client';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
@@ -45,9 +45,9 @@ export default function ThreadDetailPage() {
 
   useEffect(() => {
     loadData();
-  }, [slug, threadId]);
+  }, [slug, threadId, loadData]);
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     const supabase = createClient();
 
     // Check auth
@@ -122,7 +122,7 @@ export default function ThreadDetailPage() {
 
     setReplies(repliesData || []);
     setLoading(false);
-  }
+  }, [router, slug, threadId]);
 
   async function postReply(e: React.FormEvent) {
     e.preventDefault();

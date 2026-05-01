@@ -52,12 +52,12 @@ export const headerNavigation: NavGroup[] = [
       },
       {
         label: 'CDL Training',
-        href: '/programs/cdl-transportation',
+        href: '/programs/cdl-training',
         description: 'Commercial Driver License',
       },
       {
         label: 'Business Programs',
-        href: '/programs/business-financial',
+        href: '/programs/business',
         description: 'Tax prep, entrepreneurship',
       },
       {
@@ -638,7 +638,7 @@ export const footerNavigation = {
       { label: 'NRF', href: '/courses/nrf' },
       { label: 'CNA Certification', href: '/programs/cna' },
       { label: 'Micro Programs', href: '/programs/micro-programs' },
-      { label: 'Web Development', href: '/programs/technology/web-development' },
+      { label: 'Web Development', href: '/programs/web-development' },
     ],
   },
   onboarding: {
@@ -727,7 +727,7 @@ export const footerNavigation = {
       { label: 'Portal Students', href: '/programs/admin/portal/students' },
       { label: 'Portal Attendance', href: '/programs/admin/portal/attendance' },
       { label: 'Portal Messages', href: '/programs/admin/portal/messages' },
-      { label: 'Portal Reports', href: '/programs/admin/portal/reports' },
+      { label: 'Portal Reports', href: '/program-holder/reports' },
       { label: 'Portal Live QA', href: '/programs/admin/portal/live-qa' },
     ],
   },
@@ -735,7 +735,7 @@ export const footerNavigation = {
     title: 'Program Applications',
     links: [
       { label: 'CNA Enroll', href: '/programs/cna/enroll' },
-      { label: 'CPR/First Aid Apply', href: '/programs/cpr-first-aid/apply' },
+      { label: 'CPR/First Aid Apply', href: '/programs/cpr-first-aid' },
       { label: 'Culinary Apply', href: '/programs/culinary-apprenticeship/apply' },
       { label: 'Electrical Apply', href: '/programs/electrical/apply' },
       { label: 'Medical Assistant Apply', href: '/programs/medical-assistant/apply' },

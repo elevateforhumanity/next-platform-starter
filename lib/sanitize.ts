@@ -28,7 +28,6 @@ const FORBIDDEN_TAGS = ['script', 'iframe', 'object', 'embed', 'form', 'input', 
 
 function serverSanitize(dirty: string, opts?: { allowedTags?: string[]; allowedAttr?: string[] }): string {
   // Dynamic require keeps this out of the client bundle.
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const sanitizeHtmlLib = require('sanitize-html') as typeof import('sanitize-html');
   const tags = opts?.allowedTags ?? ALLOWED_TAGS;
   const attrs = opts?.allowedAttr ?? ALLOWED_ATTR;
@@ -40,7 +39,6 @@ function serverSanitize(dirty: string, opts?: { allowedTags?: string[]; allowedA
 }
 
 function clientSanitize(dirty: string, opts?: { allowedTags?: string[]; allowedAttr?: string[] }): string {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const DOMPurify = require('dompurify') as typeof import('dompurify');
   return DOMPurify.sanitize(dirty, {
     ALLOWED_TAGS: opts?.allowedTags ?? ALLOWED_TAGS,

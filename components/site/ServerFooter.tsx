@@ -107,9 +107,9 @@ export default function ServerFooter() {
             <span className="text-lg font-bold text-white">Elevate for Humanity</span>
           </div>
           <p className="text-sm text-white max-w-2xl leading-relaxed">
-            National workforce training platform connecting online technical instruction, industry
-            credentials, and employer pathways. Programs aligned with EPA, CompTIA, PTCB, Microsoft,
-            and OSHA certifications.
+            Indiana&apos;s workforce training platform connecting technical instruction, funding
+            pathways, industry credentials, and employer placement. Programs aligned with EPA,
+            CompTIA, PTCB, Microsoft, and OSHA certifications.
           </p>
           <div className="flex flex-wrap gap-4 mt-4 text-xs text-white">
             <span>DOL Registered Apprenticeship Sponsor</span>
@@ -126,10 +126,10 @@ export default function ServerFooter() {
         <FooterAccordion
           sections={[
             { title: 'Programs', links: footerLinks.programs },
-            { title: 'Get Started', links: footerLinks.getStarted },
+            { title: 'Funding', links: footerLinks.funding },
             { title: 'Employers & Partners', links: footerLinks.partners },
-            { title: 'Portals', links: footerLinks.portals },
-            { title: 'Organization', links: footerLinks.organization },
+            { title: 'About', links: footerLinks.about },
+            { title: 'Platform', links: footerLinks.platform },
           ]}
         />
 

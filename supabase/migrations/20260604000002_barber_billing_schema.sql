@@ -61,9 +61,11 @@ CREATE TABLE IF NOT EXISTS public.billing_events (
 ALTER TABLE public.billing_events ENABLE ROW LEVEL SECURITY;
 
 -- Admins and service role can read all; users can read their own
+DROP POLICY IF EXISTS "billing_events_service_role" ON public.billing_events;
 CREATE POLICY "billing_events_service_role" ON public.billing_events
   FOR ALL TO service_role USING (true) WITH CHECK (true);
 
+DROP POLICY IF EXISTS "billing_events_user_read" ON public.billing_events;
 CREATE POLICY "billing_events_user_read" ON public.billing_events
   FOR SELECT USING (user_id = auth.uid());
 

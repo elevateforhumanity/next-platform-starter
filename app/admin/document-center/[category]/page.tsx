@@ -53,10 +53,10 @@ export default async function DocumentCategoryPage({ params }: Props) {
     .select(
       `
       *,
-      profiles (first_name, last_name)
+      profiles:uploaded_by (first_name, last_name)
     `,
     )
-    .eq('category', category)
+    .eq('document_type', category)
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -65,10 +65,12 @@ export default async function DocumentCategoryPage({ params }: Props) {
 
   const categoryLabel = categoryLabels[category] || category;
 
-  // Group by subcategory if exists
+  // Group by mime_type as a proxy for subcategory
   const groupedDocs =
     documents?.reduce((acc: Record<string, any[]>, doc) => {
-      const subcat = doc.subcategory || 'General';
+      const subcat = doc.mime_type?.startsWith('image/') ? 'Images'
+        : doc.mime_type === 'application/pdf' ? 'PDFs'
+        : 'Other';
       if (!acc[subcat]) acc[subcat] = [];
       acc[subcat].push(doc);
       return acc;
@@ -152,8 +154,8 @@ export default async function DocumentCategoryPage({ params }: Props) {
                               <FileText className="w-5 h-5 text-brand-blue-600" />
                             </div>
                             <div>
-                              <p className="font-medium text-slate-900">{doc.name}</p>
-                              <p className="text-sm text-slate-500">{doc.file_type || 'PDF'}</p>
+                              <p className="font-medium text-slate-900">{doc.file_name || doc.title || doc.id}</p>
+                              <p className="text-sm text-slate-500">{doc.mime_type || 'document'}</p>
                             </div>
                           </div>
                         </td>
@@ -174,12 +176,12 @@ export default async function DocumentCategoryPage({ params }: Props) {
                           </div>
                         </td>
                         <td className="py-3 px-4 text-slate-600">
-                          {doc.file_size ? `${(doc.file_size / 1024).toFixed(1)} KB` : '-'}
+                          {doc.file_size_bytes ? `${(doc.file_size_bytes / 1024).toFixed(1)} KB` : doc.file_size ? `${(doc.file_size / 1024).toFixed(1)} KB` : '-'}
                         </td>
                         <td className="py-3 px-4">
                           <div className="flex items-center justify-end gap-2">
                             <a
-                              href={doc.url}
+                              href={doc.file_url || doc.url}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="p-2 text-slate-600 hover:text-brand-blue-600 hover:bg-brand-blue-50 rounded-lg"
@@ -188,7 +190,7 @@ export default async function DocumentCategoryPage({ params }: Props) {
                               <Eye className="w-4 h-4" />
                             </a>
                             <a
-                              href={doc.url}
+                              href={doc.file_url || doc.url}
                               download
                               className="p-2 text-slate-600 hover:text-brand-green-600 hover:bg-brand-green-50 rounded-lg"
                               title="Download"

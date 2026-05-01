@@ -4,13 +4,18 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/verify',
-  },
-  title: 'Verify Certificate | Elevate For Humanity',
-  description: 'Verify the authenticity of a certificate issued by Elevate For Humanity',
-};
+// Dynamic canonical — each certificate has its own URL
+export async function generateMetadata({ params }: { params: Promise<{ certificateId: string }> }): Promise<Metadata> {
+  const { certificateId } = await params;
+  return {
+    title: 'Verify Certificate | Elevate For Humanity',
+    description: 'Verify the authenticity of a certificate issued by Elevate For Humanity.',
+    alternates: {
+      canonical: `https://www.elevateforhumanity.org/verify/${certificateId}`,
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 export const dynamic = 'force-dynamic';
 

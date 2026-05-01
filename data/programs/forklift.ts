@@ -11,6 +11,7 @@ export const FORKLIFT: ProgramSchema = {
   heroImage: '/images/pages/forklift.jpg',
   heroImageAlt: 'Forklift operator training in a warehouse setting',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Partner',
   durationWeeks: 1,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 24,
@@ -255,4 +256,13 @@ export const FORKLIFT: ProgramSchema = {
   metaTitle: 'Forklift Operator Certification | OSHA-Compliant | Indianapolis',
   metaDescription:
     'Earn OSHA-compliant forklift certification in 1 week. Hands-on training on sit-down and reach truck forklifts. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioa_eligible: false,
+    fssa_eligible: false,
+    wrg_eligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'Short certification. Eligibility for standalone WIOA/FSSA funding determined by the applicable workforce agency.',
+  },
 };

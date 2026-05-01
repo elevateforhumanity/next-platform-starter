@@ -88,7 +88,7 @@ export default function UnifiedChatAssistant({
         },
       ]);
     }
-  }, [assistantId, sessionId]);
+  }, [assistantId]);
 
   // Scroll to bottom on new messages
   useEffect(() => {
@@ -209,7 +209,7 @@ export default function UnifiedChatAssistant({
         setIsLoading(false);
       }
     },
-    [script, messages, sessionId, onMessage, playSound],
+    [script, messages, onMessage, playSound],
   );
 
   // Handle quick action click

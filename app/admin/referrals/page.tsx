@@ -84,13 +84,9 @@ export default async function ReferralsPage({
   const { data: referrals, error } = await query;
 
   if (error) {
-    // View may not exist yet — show a clear message rather than crashing
     return (
       <div className="min-h-screen bg-white p-8">
-        <p className="text-red-600 font-medium">
-          Referral pipeline view not yet available. Apply migration{' '}
-          <code>20260626000002_agency_referral_confirmations.sql</code> in Supabase Dashboard.
-        </p>
+        <p className="text-red-600 font-medium">Failed to load referral pipeline: {error.message}</p>
       </div>
     );
   }

@@ -125,7 +125,25 @@ function BarberApprenticeshipApplyPageInner() {
         }),
       });
 
-      const appData = await appResponse.json();
+      let appData: any = {};
+      try {
+        appData = await appResponse.json();
+      } catch {
+        setError('Server error — please call (317) 314-3757 or try again in a moment.');
+        setErrorSeverity('critical');
+        setLoading(false);
+        return;
+      }
+      if (!appResponse.ok) {
+        const msg =
+          appResponse.status === 503
+            ? 'Our system is temporarily unavailable. Please call (317) 314-3757 — we can take your application by phone.'
+            : appData.error || 'Failed to submit application. Please try again or call (317) 314-3757.';
+        setError(msg);
+        setErrorSeverity('critical');
+        setLoading(false);
+        return;
+      }
       const applicationId = appData?.id;
 
       let checkoutResponse;
@@ -320,8 +338,7 @@ function BarberApprenticeshipApplyPageInner() {
   return (
     <main className="min-h-screen bg-white">
       <HeroVideo
-        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
-        videoSrcMobile="/videos/barber-hero-final.mp4"
+        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4"
         posterImage="/hero-images/barber-hero.jpg"
         microLabel="Barber Apprenticeship"
         analyticsName="barber-apply"

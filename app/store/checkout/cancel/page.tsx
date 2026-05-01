@@ -8,6 +8,7 @@ import { XCircle, ArrowLeft, HelpCircle } from "lucide-react";
 import { Suspense } from "react";
 
 import { createBrowserClient } from '@supabase/ssr';
+
 function CancelContent() {
   const searchParams = useSearchParams();
   const product = searchParams.get("product");

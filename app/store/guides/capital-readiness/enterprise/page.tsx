@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, Building2, Shield, Globe, Users, FileCheck, Scale, Briefcase, AlertTriangle, Clock, DollarSign } from "lucide-react";
 
 import { createBrowserClient } from '@supabase/ssr';
+
 export default function EnterpriseCapitalReadinessPage() {
   const [dbRows, setDbRows] = useState<any[]>([]);
   useEffect(() => {

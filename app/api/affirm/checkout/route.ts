@@ -29,6 +29,12 @@ async function _POST(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'contact');
     if (rateLimited) return rateLimited;
 
+    // Hydrate process.env from app_secrets before tryLateConfig reads env vars
+    try {
+      const { hydrateProcessEnv } = await import('@/lib/secrets');
+      await hydrateProcessEnv();
+    } catch { /* local dev — secrets table unavailable */ }
+
     // Lazy config: re-read env vars if missed at module load
     affirm.tryLateConfig();
 
@@ -111,7 +117,10 @@ async function _POST(request: NextRequest) {
         has_host_shop: hasHostShop || null,
         host_shop_name: hostShopName || null,
         amount_cents: Math.round(resolution.paidAmount * 100),
-        payment_type: resolution.paymentOption,
+        // Map resolve-amount options to checkout_contexts constraint values
+        payment_type:
+          resolution.paymentOption === 'full' ? 'pay_in_full' :
+          resolution.paymentOption === 'deposit' ? 'payment_plan' : 'bnpl',
         status: 'pending',
         // Server-authoritative price resolution
         required_amount_cents: Math.round(resolution.requiredAmount * 100),

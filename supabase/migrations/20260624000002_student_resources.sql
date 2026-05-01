@@ -34,9 +34,11 @@ ON CONFLICT DO NOTHING;
 -- RLS: any authenticated user can read active resources; admins can write
 ALTER TABLE public.student_resources ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "student_resources_read" ON public.student_resources;
 CREATE POLICY "student_resources_read" ON public.student_resources
   FOR SELECT USING (active = true AND auth.uid() IS NOT NULL);
 
+DROP POLICY IF EXISTS "student_resources_admin_write" ON public.student_resources;
 CREATE POLICY "student_resources_admin_write" ON public.student_resources
   FOR ALL USING (
     EXISTS (

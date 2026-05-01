@@ -124,7 +124,7 @@ SET quiz_questions = '[
     "question": "What stops the relaxer chemical process?",
     "options": ["Rinsing with cold water only", "Applying conditioner", "Neutralizing shampoo", "Blow drying"],
     "correct": 2,
-    "explanation": "Neutralizing shampoo stops the chemical process by restoring the hair's pH. Thorough neutralization is critical."
+    "explanation": "Neutralizing shampoo stops the chemical process by restoring the hair''s pH. Thorough neutralization is critical."
   }
 ]'::jsonb
 WHERE course_id = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17'
@@ -192,7 +192,7 @@ SET quiz_questions = '[
   {
     "id": "bl40-q3",
     "question": "What should a barber keep on a client card?",
-    "options": ["Client's home address and income", "Style preferences, products used, and last visit date", "Credit card information", "Social media handles"],
+    "options": ["Client''s home address and income", "Style preferences, products used, and last visit date", "Credit card information", "Social media handles"],
     "correct": 1,
     "explanation": "Client cards track style history and preferences, allowing personalized service that builds loyalty."
   },
@@ -226,7 +226,7 @@ SET quiz_questions = '[
   },
   {
     "id": "bl41-q2",
-    "question": "Under a booth rental model, who is responsible for the barber's taxes?",
+    "question": "Under a booth rental model, who is responsible for the barber''s taxes?",
     "options": ["The shop owner", "The state board", "The barber — they are self-employed", "The client"],
     "correct": 2,
     "explanation": "Booth renters are self-employed independent contractors. They keep 100% of revenue but handle their own taxes and expenses."
@@ -320,12 +320,12 @@ SET quiz_questions = '[
     "question": "Speaking negatively about other barbers or shops to clients is considered:",
     "options": ["Acceptable if it is true", "A violation of professional ethics", "Good marketing", "Required disclosure"],
     "correct": 1,
-    "explanation": "Disparaging competitors reflects poorly on your own professionalism and violates the barber's code of conduct."
+    "explanation": "Disparaging competitors reflects poorly on your own professionalism and violates the barber''s code of conduct."
   },
   {
     "id": "bl43-q4",
-    "question": "If you make an error on a client's cut, the professional response is to:",
-    "options": ["Charge full price and say nothing", "Blame the client's hair type", "Offer to fix the issue at no charge", "Refer them to another barber"],
+    "question": "If you make an error on a client''s cut, the professional response is to:",
+    "options": ["Charge full price and say nothing", "Blame the client''s hair type", "Offer to fix the issue at no charge", "Refer them to another barber"],
     "correct": 2,
     "explanation": "Owning mistakes and offering to correct them builds trust and demonstrates integrity."
   },

@@ -2,7 +2,8 @@ import { Metadata } from 'next';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import { TrendingUp, Users, CheckCircle, AlertTriangle, Clock } from 'lucide-react';
-import { AdminPageShell } from '@/components/admin/AdminPageShell';
+import Link from 'next/link';
+import { AdminPageShell, AdminFilterBar } from '@/components/admin/AdminPageShell';
 import EnrollmentManagementClient from './EnrollmentManagementClient';
 import AutomatedEnrollmentWorkflow from '@/components/AutomatedEnrollmentWorkflow';
 import PendingAccessPanel from './PendingAccessPanel';
@@ -13,8 +14,15 @@ export const metadata: Metadata = {
   title: 'Enrollments | Admin',
 };
 
-export default async function AdminEnrollmentsPage() {
+export default async function AdminEnrollmentsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ program?: string; status?: string }>;
+}) {
   await requireRole(['admin', 'super_admin', 'staff']);
+  const params = await searchParams;
+  const programFilter = params.program || '';
+  const statusFilter = params.status || '';
   const db = await requireAdminClient();
 
   // Students who paid but haven't been granted LMS access yet (pending admin review)
@@ -37,10 +45,14 @@ export default async function AdminEnrollmentsPage() {
     }),
   );
 
-  const { data: rawEnrollments, error: enrollmentsError } = await db
+  let enrollmentsQuery = db
     .from('program_enrollments')
     .select('*, course:courses(id, title)')
     .order('enrolled_at', { ascending: false });
+  if (programFilter) enrollmentsQuery = enrollmentsQuery.eq('program_slug', programFilter);
+  if (statusFilter) enrollmentsQuery = enrollmentsQuery.eq('status', statusFilter);
+
+  const { data: rawEnrollments, error: enrollmentsError } = await enrollmentsQuery;
   if (enrollmentsError)
     throw new Error(`program_enrollments query failed: ${enrollmentsError.message}`);
 
@@ -108,6 +120,50 @@ export default async function AdminEnrollmentsPage() {
         },
       ]}
     >
+      {/* Program / status filters */}
+      <AdminFilterBar>
+        <form method="GET" className="flex flex-wrap gap-3 items-end">
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 mb-1">Program</label>
+            <select
+              name="program"
+              defaultValue={programFilter || 'all'}
+              className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+            >
+              <option value="all">All Programs</option>
+              <option value="cdl-training">CDL Training</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 mb-1">Status</label>
+            <select
+              name="status"
+              defaultValue={statusFilter || 'all'}
+              className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+            >
+              <option value="all">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="pending">Pending</option>
+              <option value="pending_review">Pending Review</option>
+              <option value="completed">Completed</option>
+              <option value="withdrawn">Withdrawn</option>
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-colors"
+          >
+            Filter
+          </button>
+          <Link
+            href="/admin/enrollments"
+            className="px-4 py-2 bg-slate-100 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-200 transition-colors"
+          >
+            Clear
+          </Link>
+        </form>
+      </AdminFilterBar>
+
       {/* Pending access — students who paid + completed onboarding, waiting for admin grant */}
       {pendingWithProfiles.length > 0 && (
         <div className="mb-8">

@@ -1,11 +1,7 @@
+// PUBLIC ROUTE: O*NET labor market data — no PII, rate-limited, API key stays server-side
 /**
  * GET /api/onet?soc=49-9021.00
- *
- * Proxies O*NET Web Services so the API key stays server-side.
- * Returns a cached OnetLaborSnapshot for the given SOC code.
- *
- * PUBLIC ROUTE: labor market data is public information.
- * Rate-limited to prevent abuse.
+ * Proxies O*NET Web Services. Returns a cached OnetLaborSnapshot for the given SOC code.
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { getOnetSnapshot } from '@/lib/onet/client';

@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { Mail, AlertCircle, CheckCircle } from 'lucide-react';
-import { sendRecoveryEmail } from '@/app/auth/forgot-password/actions';
+import { sendRecoveryEmail } from '@/app/forgot-password/actions';
 
 function Form() {
   const [email, setEmail] = useState('');

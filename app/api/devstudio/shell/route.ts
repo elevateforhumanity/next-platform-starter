@@ -23,6 +23,7 @@ import { NextRequest } from 'next/server';
 import { spawn } from 'child_process';
 import path from 'path';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { hydrateProcessEnv } from '@/lib/secrets';
 
@@ -123,7 +124,8 @@ export async function POST(request: NextRequest) {
 
       proc.on('error', (err: Error) => {
         clearTimeout(timer);
-        write({ type: 'error', text: err.message });
+        logger.error('[devstudio/shell] process error', err);
+        write({ type: 'error', text: 'Command execution failed' });
         controller.close();
       });
     },

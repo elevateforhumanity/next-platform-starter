@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { createPublicClient } from '@/lib/supabase/public';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -37,20 +37,17 @@ export default async function ForEmployersPage() {
   let employerCount: number | null = null;
   let programCount: number | null = null;
 
+  // PUBLIC ROUTE: employer-facing marketing page — no auth required.
   try {
-    const db = await requireAdminClient();
-    const { count: ec } = await db
-      .from('employer_profiles')
-      .select('*', { count: 'exact', head: true });
-    employerCount = ec;
-
-    const { count: pc } = await db
-      .from('programs')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'active');
-    programCount = pc;
+    const db = createPublicClient();
+    const [ecRes, pcRes] = await Promise.all([
+      db.from('employer_profiles').select('*', { count: 'exact', head: true }),
+      db.from('programs').select('*', { count: 'exact', head: true }).eq('status', 'active'),
+    ]);
+    employerCount = ecRes.count;
+    programCount = pcRes.count;
   } catch {
-    // DB may not be available
+    // DB unavailable — render static fallback
   }
 
   return (

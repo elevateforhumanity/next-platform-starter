@@ -24,26 +24,14 @@ async function _POST(req: Request) {
     }
 
     const body = await req.json();
-    const { program_holder_id, email_enabled, sms_enabled, phone_e164, sms_consent } = body;
+    const { email_enabled, sms_enabled, phone_e164, sms_consent } = body;
 
-    // Verify user owns this program holder
-    const { data: programHolder } = await supabase
-      .from('program_holders')
-      .select('id')
-      .eq('id', program_holder_id)
-      .eq('user_id', user.id)
-      .maybeSingle();
-
-    if (!programHolder) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-
-    // Update or insert preferences
+    // Update or insert preferences — table uses user_id as the unique key
     const { data: preferences, error } = await supabase
       .from('notification_preferences')
       .upsert(
         {
-          program_holder_id,
+          user_id: user.id,
           email_enabled: email_enabled !== false,
           sms_enabled: sms_enabled === true,
           phone_e164: phone_e164 || null,
@@ -51,7 +39,7 @@ async function _POST(req: Request) {
           sms_consent_at: sms_consent === true ? new Date().toISOString() : null,
           updated_at: new Date().toISOString(),
         },
-        { onConflict: 'program_holder_id' },
+        { onConflict: 'user_id' },
       )
       .select()
       .maybeSingle();
@@ -62,7 +50,7 @@ async function _POST(req: Request) {
     }
 
     logger.info('[Notification Preferences] Updated', {
-      programHolderId: program_holder_id,
+      userId: user.id,
       emailEnabled: email_enabled,
       smsEnabled: sms_enabled,
     });

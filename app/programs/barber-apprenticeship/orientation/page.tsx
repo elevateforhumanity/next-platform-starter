@@ -5,6 +5,10 @@ import type { BarberPaymentSummary } from './OrientationClient';
 import { BARBER_PRICING } from '@/lib/programs/pricing';
 
 export const dynamic = 'force-dynamic';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 
 export default async function BarberOrientationPage() {
   const supabase = await createClient();

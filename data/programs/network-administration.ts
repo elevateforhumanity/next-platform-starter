@@ -11,6 +11,7 @@ export const NETWORK_ADMIN: ProgramSchema = {
   heroImageAlt: 'Network administration student configuring network equipment',
   videoSrc: '/videos/it-technology.mp4',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 10,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,
@@ -254,4 +255,13 @@ export const NETWORK_ADMIN: ProgramSchema = {
   metaTitle: 'Network Administration | CompTIA Network+ | Indianapolis',
   metaDescription:
     'Prepare for CompTIA Network+ certification in 10 weeks. Network admins earn $90,520/year. WIOA funding available. Indianapolis.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

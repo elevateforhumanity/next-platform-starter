@@ -61,49 +61,7 @@ export function AdvancedFileUpload({
     });
   };
 
-  const handleFiles = useCallback(
-    async (newFiles: FileList | File[]) => {
-      const fileArray = Array.from(newFiles);
-
-      // Check max files
-      if (files.length + fileArray.length > maxFiles) {
-        alert(`Maximum ${maxFiles} files allowed`);
-        return;
-      }
-
-      // Validate and create upload files
-      const uploadFiles: UploadFile[] = [];
-
-      for (const file of fileArray) {
-        // Check file size
-        if (file.size > maxSize * 1024 * 1024) {
-          alert(`${file.name} is too large. Maximum size is ${maxSize}MB`);
-          continue;
-        }
-
-        // Create preview for images
-        const preview = await createFilePreview(file);
-
-        uploadFiles.push({
-          id: crypto.randomUUID(),
-          file,
-          preview,
-          progress: 0,
-          status: 'pending',
-        });
-      }
-
-      setFiles((prev) => [...prev, ...uploadFiles]);
-
-      // Auto-start upload
-      uploadFiles.forEach((uploadFile) => {
-        uploadSingleFile(uploadFile);
-      });
-    },
-    [files.length, maxFiles, maxSize],
-  );
-
-  const uploadSingleFile = async (uploadFile: UploadFile) => {
+  const uploadSingleFile = useCallback(async (uploadFile: UploadFile) => {
     setFiles((prev) =>
       prev.map((f) => (f.id === uploadFile.id ? { ...f, status: 'uploading' } : f)),
     );
@@ -163,7 +121,49 @@ export function AdvancedFileUpload({
         ),
       );
     }
-  };
+  }, [folder, bucket]);
+
+  const handleFiles = useCallback(
+    async (newFiles: FileList | File[]) => {
+      const fileArray = Array.from(newFiles);
+
+      // Check max files
+      if (files.length + fileArray.length > maxFiles) {
+        alert(`Maximum ${maxFiles} files allowed`);
+        return;
+      }
+
+      // Validate and create upload files
+      const uploadFiles: UploadFile[] = [];
+
+      for (const file of fileArray) {
+        // Check file size
+        if (file.size > maxSize * 1024 * 1024) {
+          alert(`${file.name} is too large. Maximum size is ${maxSize}MB`);
+          continue;
+        }
+
+        // Create preview for images
+        const preview = await createFilePreview(file);
+
+        uploadFiles.push({
+          id: crypto.randomUUID(),
+          file,
+          preview,
+          progress: 0,
+          status: 'pending',
+        });
+      }
+
+      setFiles((prev) => [...prev, ...uploadFiles]);
+
+      // Auto-start upload
+      uploadFiles.forEach((uploadFile) => {
+        uploadSingleFile(uploadFile);
+      });
+    },
+    [files.length, maxFiles, maxSize, uploadSingleFile],
+  );
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();

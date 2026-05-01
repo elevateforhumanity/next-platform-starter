@@ -22,9 +22,13 @@ export default async function VerificationPendingPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('email, first_name')
+    .select('email, first_name, role')
     .eq('id', user.id)
     .maybeSingle();
+
+  if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role ?? '')) {
+    redirect('/unauthorized');
+  }
 
   const email = profile?.email || user.email || '';
   const firstName = profile?.first_name || '';

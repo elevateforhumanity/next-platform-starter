@@ -6,15 +6,19 @@ import Link from 'next/link';
 import { Clock, Database, Shield } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/auth';
+
 export const metadata: Metadata = {
   title: 'Disaster Recovery Test Report | Elevate for Humanity',
   description: 'Documentation of disaster recovery testing procedures and results.',
+  robots: { index: false, follow: false },
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/disaster-recovery-test',
   },
 };
 
 export default async function DisasterRecoveryTestPage() {
+  await requireAdmin();
   const supabase = await createClient();
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 

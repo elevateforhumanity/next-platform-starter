@@ -8,9 +8,10 @@ export const HOSPITALITY: ProgramSchema = {
   sector: 'business',
   category: 'Hospitality & Tourism',
   programType: 'workforce',
-  heroImage: '/images/pages/hospitality.jpg',
+  heroImage: '/images/pages/culinary.jpg',
   heroImageAlt: 'Hospitality professional at a hotel front desk',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,
@@ -252,4 +253,13 @@ export const HOSPITALITY: ProgramSchema = {
   metaTitle: 'Hospitality & Customer Service Training | Indianapolis | Elevate for Humanity',
   metaDescription:
     '8-week hospitality training program in Indianapolis. Earn a hospitality certificate and ServSafe certification. WIOA and Workforce Ready Grant funding available.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

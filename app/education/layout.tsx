@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Career Training Programs | Elevate for Humanity Education',
   description:
     'Browse career training programs in healthcare, skilled trades, technology, CDL, barbering, and business. No-cost training for eligible participants through WIOA and state workforce funding.',
-  alternates: { canonical: 'https://www.elevateforhumanityeducation.com' },
+  alternates: { canonical: 'https://www.elevateforhumanity.org/education' },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '32x32' },

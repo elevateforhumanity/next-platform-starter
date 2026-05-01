@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { requireUser } from '@/lib/auth/require-user';
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: {
     default: 'Partner Portal | Elevate for Humanity',
     template: '%s | Partner Portal',

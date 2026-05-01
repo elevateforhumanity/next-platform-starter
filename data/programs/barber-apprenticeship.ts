@@ -19,6 +19,7 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
   videoSrc: '/videos/barber-hero-final.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Partner',
   durationWeeks: 52,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,

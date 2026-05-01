@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { submitStudentApplication } from '../actions';
 
 const PROGRAMS = [
   'HVAC Technician',
@@ -29,23 +28,23 @@ export default function QuickApplyForm() {
     const fd = new FormData(e.currentTarget);
 
     try {
-      const result = await submitStudentApplication({
-        firstName: fd.get('firstName') as string,
-        lastName: fd.get('lastName') as string,
-        email: fd.get('email') as string,
-        phone: fd.get('phone') as string,
-        programInterest: fd.get('programInterest') as string,
-        // Minimal eligibility defaults for quick apply
-        isAdult: true,
-        isIndianaResident: true,
-        workAuthorized: true,
-        agreesVerification: true,
-        agreesAttendance: true,
-        applicationSource: 'quick_apply',
-      } as any);
+      const res = await fetch('/api/apply/student', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: fd.get('firstName') as string,
+          lastName: fd.get('lastName') as string,
+          email: fd.get('email') as string,
+          phone: fd.get('phone') as string,
+          program: fd.get('programInterest') as string,
+          source: 'quick_apply',
+        }),
+      });
 
-      if (result?.error) {
-        setError(result.error);
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong. Please try again or call 317-314-3757.');
         return;
       }
 

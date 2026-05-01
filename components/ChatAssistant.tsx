@@ -8,7 +8,7 @@ import React from 'react';
   See LICENSE file for details.
 */
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   MessageCircle,
   X,
@@ -62,9 +62,9 @@ export default function ChatAssistant({
       };
       setMessages([welcomeMessage]);
     }
-  }, [isOpen]);
+  }, [isOpen, messages.length, getWelcomeMessage]);
 
-  const getWelcomeMessage = () => {
+  const getWelcomeMessage = useCallback(() => {
     const contextMessages: Record<string, string> = {
       courses:
         "👋 Hi! I'm here to help you with courses. Ask me about enrolling, course content, or finding the right program for you!",
@@ -78,7 +78,7 @@ export default function ChatAssistant({
         "👋 Hi! I'm your AI assistant. I can help you navigate the platform, answer questions, and guide you to the right resources. How can I help you today?",
     };
     return contextMessages[pageContext] || contextMessages.general;
-  };
+  }, []);
 
   const getQuickActions = () => {
     const actions: Record<string, string[]> = {

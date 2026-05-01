@@ -93,8 +93,8 @@ export function ScenarioBlock({ scenario, onComplete, showContinue = true }: Pro
         handleReset();
       }
     },
-    [currentNode.choices.length],
-  ); // eslint-disable-line react-hooks/exhaustive-deps
+    [currentNode.choices.length, handleReset],
+  );
 
   const handleContinue = useCallback(() => {
     if (!selectedChoice) return;

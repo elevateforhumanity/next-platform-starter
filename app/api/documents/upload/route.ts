@@ -1,3 +1,4 @@
+import { internalFetch } from '@/lib/api/internal-fetch';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { withErrorHandling, APIErrors } from '@/lib/api';
@@ -170,7 +171,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
       ocrForm.append('documentType', documentType);
       ocrForm.append('programContext', 'learner');
 
-      const ocrRes = await fetch(`${siteUrl}/api/ocr/extract`, {
+      const ocrRes = await internalFetch(`${siteUrl}/api/ocr/extract`, {
         method: 'POST',
         body: ocrForm,
       });

@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { writeAdminAuditEvent, AuditActions } from '@/lib/audit';
+import { logger } from '@/lib/logger';
 
 async function requireAdminActor() {
   const supabase = await createClient();
@@ -133,7 +134,7 @@ export async function deleteUser(userId: string) {
   // Profile row is deleted after to avoid FK violations from other tables.
   const { error: authError } = await db.auth.admin.deleteUser(userId);
   if (authError) {
-    console.error('[deleteUser] Auth delete failed:', authError.message);
+    logger.error('[deleteUser] Auth delete failed', { message: authError.message });
     return { error: `Could not delete auth account: ${authError.message}` };
   }
 

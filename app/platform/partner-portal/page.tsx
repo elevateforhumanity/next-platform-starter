@@ -239,7 +239,7 @@ export default function PartnerPortalPage() {
               Apply Now <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
-              href="/partner/login"
+              href="/partners"
               className="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition"
             >
               Partner Sign In

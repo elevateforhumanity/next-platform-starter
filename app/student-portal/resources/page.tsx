@@ -196,8 +196,16 @@ export default async function StudentPortalResourcesPage() {
         {Object.keys(grouped).length === 0 && (
           <div className="text-center py-16">
             <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">Resources coming soon</h2>
-            <p className="text-gray-500">Student resources are being set up. Check back shortly.</p>
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">No resources available yet</h2>
+            <p className="text-gray-500 mb-4">
+              Your program resources will appear here once your enrollment is confirmed.
+            </p>
+            <a
+              href="/contact"
+              className="inline-flex items-center px-4 py-2 bg-brand-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-blue-700 transition-colors"
+            >
+              Contact your advisor
+            </a>
           </div>
         )}
         {Object.entries(grouped).map(([category, items]) => (

@@ -31,7 +31,7 @@ export default function AppointmentsPage() {
         setAppointments(data.appointments ?? data ?? []);
       }
     } catch (err) {
-      console.error('Failed to fetch appointments:', err);
+      if (process.env.NODE_ENV !== "production") console.error('Failed to fetch appointments:', err);
     } finally {
       setLoading(false);
     }

@@ -8,9 +8,10 @@ export const PEER_RECOVERY: ProgramSchema = {
   sector: 'healthcare',
   category: 'Healthcare & Human Services',
   programType: 'workforce',
-  heroImage: '/hero-images/healthcare-hero.jpg',
+  heroImage: '/images/pages/healthcare-hero.jpg',
   heroImageAlt: 'Peer recovery specialist in a counseling session',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,
@@ -273,5 +274,14 @@ export const PEER_RECOVERY: ProgramSchema = {
     requestInfoHref: '/contact?program=peer-recovery-specialist',
     advisorHref: '/contact',
     courseHref: '/programs/peer-recovery-specialist',
+  },
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA and FSSA IMPACT funding available. DMHA-recognized credential pathway.',
   },
 };

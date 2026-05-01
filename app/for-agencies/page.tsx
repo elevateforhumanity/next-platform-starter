@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { createPublicClient } from '@/lib/supabase/public';
 import {
   CheckCircle,
   ArrowRight,
@@ -62,27 +62,28 @@ const HOW_IT_WORKS = [
 ];
 
 export default async function ForAgenciesPage() {
-  const db = await requireAdminClient();
+  // PUBLIC ROUTE: agency-facing marketing page — no auth required.
+  // Use public client; wrap in try/catch so a Supabase timeout never
+  // crashes this high-value page.
+  const db = createPublicClient();
 
-  // Pull published programs with outcome data for proof
-  const { data: programs } = await db
-    .from('programs')
-    .select('id, title, slug, short_description, credential_type')
-    .eq('published', true)
-    .eq('is_active', true)
-    .order('title')
-    .limit(8);
+  let programs: { id: string; title: string; slug: string; short_description: string | null; credential_type: string | null }[] | null = null;
+  let totalEnrollments: number | null = null;
+  let completedEnrollments: number | null = null;
 
-  // Aggregate enrollment counts as proof of scale
-  const { count: totalEnrollments } = await db
-    .from('program_enrollments')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'active');
-
-  const { count: completedEnrollments } = await db
-    .from('program_enrollments')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'completed');
+  try {
+    const [progRes, enrollRes, completedRes] = await Promise.all([
+      db.from('programs').select('id, title, slug, short_description, credential_type')
+        .eq('published', true).eq('is_active', true).order('title').limit(8),
+      db.from('program_enrollments').select('*', { count: 'exact', head: true }).eq('status', 'active'),
+      db.from('program_enrollments').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
+    ]);
+    programs = progRes.data;
+    totalEnrollments = enrollRes.count;
+    completedEnrollments = completedRes.count;
+  } catch {
+    // Supabase unavailable — render static fallback content
+  }
 
   return (
     <div className="min-h-screen bg-white">

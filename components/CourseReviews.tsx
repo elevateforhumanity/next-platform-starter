@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Star, ThumbsUp } from 'lucide-react';
 
 interface Review {
@@ -29,9 +29,9 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
 
   useEffect(() => {
     loadReviews();
-  }, [courseId]);
+  }, [courseId, loadReviews]);
 
-  async function loadReviews() {
+  const loadReviews = useCallback(async () => {
     try {
       const res = await fetch(`/api/courses/${courseId}/reviews`);
       if (res.ok) {
@@ -44,7 +44,7 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
       /* Error handled silently */
       // Error: $1
     }
-  }
+  }, [courseId]);
 
   async function submitReview() {
     if (userRating === 0 || !userComment.trim()) return;

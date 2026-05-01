@@ -10,6 +10,7 @@ export const PROJECT_MANAGEMENT: ProgramSchema = {
   heroImage: '/images/pages/project-management.jpg',
   heroImageAlt: 'Project manager leading a team meeting',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,
@@ -218,4 +219,13 @@ export const PROJECT_MANAGEMENT: ProgramSchema = {
   metaTitle: 'Project Management | Certiport Certified | Indianapolis',
   metaDescription:
     'Prepare for project management certification in 6 weeks. Agile, Scrum, and traditional PM. Project managers earn $95,370/year. WIOA funding available.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

@@ -1,6 +1,0 @@
-import { redirect } from 'next/navigation';
-
-// Canonical: /programs/cna — this slug redirects permanently.
-export default function Page() {
-  redirect('/programs/cna');
-}

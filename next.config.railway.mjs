@@ -42,11 +42,50 @@ const RAILWAY_APP_PREFIXES = [
   'app/verify-email',
   'app/accept-invite',
   'app/unauthorized',
+  // Authenticated app routes — live on Railway, were missing from build config
+  'app/account',
+  'app/advising',
+  'app/ai',
+  'app/ai-chat',
+  'app/ai-tutor',
+  'app/apprentice',
+  'app/billing',
+  'app/certificates',
+  'app/credentials',
+  'app/dashboard',
+  'app/documents',
+  'app/employer',
+  'app/employer-portal',
+  'app/enroll',
+  'app/enrollment',
+  'app/messages',
+  'app/notifications',
+  'app/onboarding',
+  'app/orientation',
+  'app/partner',
+  'app/partner-learning',
+  'app/pay',
+  'app/payment',
+  'app/profile',
+  'app/program-holder',
+  'app/proctor',
+  'app/reports',
+  'app/schedule',
+  'app/settings',
+  'app/student-portal',
+  'app/transcript',
+  'app/video',
+  'app/videos',
+  'app/workforce-board',
 ];
 
 /** @type {import('next').NextConfig} */
 const railwayConfig = {
   output: 'standalone',
+
+  // ESLint runs in CI separately — skip Next's built-in lint to avoid
+  // ajv v6/v8 incompatibility with ESLint 9 flat config.
+  eslint: { ignoreDuringBuilds: true },
 
   serverExternalPackages: [
     // Remotion — never bundle. The local remotion/ dir conflicts with the npm

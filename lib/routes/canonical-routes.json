@@ -491,11 +491,6 @@
       "permanent": true
     },
     {
-      "source": "/programs/cybersecurity-analyst",
-      "destination": "/programs/cybersecurity",
-      "permanent": true
-    },
-    {
       "source": "/programs/forklift-certification",
       "destination": "/programs/forklift",
       "permanent": true

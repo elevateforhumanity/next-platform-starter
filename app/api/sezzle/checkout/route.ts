@@ -27,6 +27,12 @@ async function _POST(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'contact');
     if (rateLimited) return rateLimited;
 
+    // Hydrate process.env from app_secrets before reading env vars
+    try {
+      const { hydrateProcessEnv } = await import('@/lib/secrets');
+      await hydrateProcessEnv();
+    } catch { /* local dev */ }
+
     // Lazy config: if singleton missed env vars at module load (cold start),
     // try again now — handles key rotation and delayed env injection
     if (!sezzle.isConfigured() && process.env.SEZZLE_PUBLIC_KEY && process.env.SEZZLE_PRIVATE_KEY) {
@@ -296,6 +302,12 @@ async function _GET(request: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
+
+    // Hydrate process.env from app_secrets before reading env vars
+    try {
+      const { hydrateProcessEnv } = await import('@/lib/secrets');
+      await hydrateProcessEnv();
+    } catch { /* local dev */ }
 
     // Lazy config re-check
     if (!sezzle.isConfigured() && process.env.SEZZLE_PUBLIC_KEY && process.env.SEZZLE_PRIVATE_KEY) {

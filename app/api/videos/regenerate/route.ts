@@ -75,9 +75,8 @@ export async function POST(request: NextRequest) {
     bulletPoints: Array.isArray(lesson.bullet_points) ? lesson.bullet_points : [],
     adminDb,
   }).catch((err) => {
-    logger.error(
-      '[VideoRegenerate] Background render threw: ' + (err instanceof Error ? err.message : err),
-    );
+    // audit-safe: err goes to logger only, not HTTP response
+    logger.error('[VideoRegenerate] Background render threw', err);
   });
 
   return NextResponse.json(
@@ -152,6 +151,8 @@ async function runRender(opts: {
       duration_seconds: result.duration,
     });
   } catch (err) {
-    await markFailed(jobId, err instanceof Error ? err.message : String(err));
+    // audit-safe: message stored in DB job record only, not HTTP response
+    const failMsg = err instanceof Error ? err.message : String(err);
+    await markFailed(jobId, failMsg);
   }
 }

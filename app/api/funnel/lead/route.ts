@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
   }
 
-  const { name, phone, email, program, employment, goals, source, qualifierAnswers } = body;
+  const { name, phone, email, program, employment, goals, source, qualificationPath, qualifierAnswers } = body;
 
   if (!name?.trim() || !phone?.trim() || !email?.trim()) {
     return NextResponse.json({ error: 'Name, phone, and email are required.' }, { status: 400 });
@@ -73,6 +73,10 @@ export async function POST(req: NextRequest) {
           program_interest: program || 'Not specified',
           source: source || 'funnel',
           status: 'new',
+          qualification_path: qualificationPath || null,
+          qualifier_unemployed: qualifierAnswers?.unemployedOrUnder ?? null,
+          qualifier_indiana: qualifierAnswers?.indianaResident ?? null,
+          qualifier_wants_cert: qualifierAnswers?.wantsCert ?? null,
         })
         .select('id')
         .maybeSingle();

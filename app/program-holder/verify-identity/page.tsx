@@ -35,36 +35,32 @@ export default async function IdentityVerificationPage() {
     redirect('/unauthorized');
   }
 
-  // Get program holder record
+  // Get program holder record via profiles.program_holder_id
+  const holderId = profile.program_holder_id;
+  if (!holderId) redirect('/program-holder/onboarding');
+
   const { data: programHolder } = await supabase
     .from('program_holders')
     .select('*')
-    .eq('user_id', user.id)
+    .eq('id', holderId)
     .maybeSingle();
 
-  if (!programHolder) {
-    redirect('/program-holder/onboarding/setup');
-  }
+  if (!programHolder) redirect('/program-holder/onboarding');
 
-  // Check if already verified
-  if (programHolder.verification_status === 'verified') {
-    redirect('/program-holder/dashboard');
-  }
-
-  // Get verification status
+  // Get verification status — program_holder_id FK references program_holders.id
   const { data: verification } = await supabase
     .from('program_holder_verification')
     .select('*')
-    .eq('program_holder_id', user.id)
+    .eq('program_holder_id', holderId)
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  // Get uploaded documents
+  // Get uploaded documents — table uses user_id, not program_holder_id
   const { data: documents } = await supabase
     .from('program_holder_documents')
     .select('*')
-    .eq('program_holder_id', user.id);
+    .eq('user_id', user.id);
 
   return (
     <IdentityVerificationFlow

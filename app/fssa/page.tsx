@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { CheckCircle, XCircle, AlertCircle, FileText, Phone, Mail, ArrowRight, ShieldCheck, ClipboardList } from 'lucide-react';
+import Image from 'next/image';
+import { CheckCircle, XCircle, AlertCircle, FileText, Phone, Mail, ArrowRight, ShieldCheck, ClipboardList, BookOpen, Clock, Award } from 'lucide-react';
+import { getProgramsByFundingTag } from '@/lib/lms/api';
 
 export const metadata: Metadata = {
   title: 'FSSA / IMPACT Program — Funded Workforce Training | Elevate for Humanity',
@@ -11,7 +13,9 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
-export default function FSSAImpactPage() {
+export default async function FSSAImpactPage() {
+  const fssaPrograms = await getProgramsByFundingTag('fssa');
+
   return (
     <main className="min-h-screen bg-white">
 
@@ -265,6 +269,76 @@ export default function FSSAImpactPage() {
         </div>
       </section>
 
+      {/* Available Training Programs */}
+      <section className="py-14 px-4 border-b border-slate-100">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex gap-3 items-start mb-2">
+            <BookOpen className="w-6 h-6 text-slate-600 flex-shrink-0 mt-0.5" />
+            <h2 className="text-2xl font-bold text-slate-900">Available Training Programs</h2>
+          </div>
+          <p className="text-slate-500 text-sm mb-8 pl-9">
+            Programs currently available through the FSSA IMPACT funding pathway.
+          </p>
+
+          {fssaPrograms.length === 0 ? (
+            <div className="p-8 bg-slate-50 rounded-xl border border-slate-200 text-center">
+              <BookOpen className="w-8 h-8 text-slate-300 mx-auto mb-3" />
+              <p className="text-slate-600 text-sm font-medium">No programs are currently listed for FSSA funding.</p>
+              <p className="text-slate-400 text-xs mt-1">Contact us to learn about upcoming program availability.</p>
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {fssaPrograms.map((program) => (
+                <Link
+                  key={program.id}
+                  href={`/programs/${program.slug}`}
+                  className="group flex flex-col bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-md hover:border-slate-300 transition-all"
+                >
+                  {program.image && (
+                    <div className="relative h-40 w-full flex-shrink-0 bg-slate-100">
+                      <Image
+                        src={program.image}
+                        alt={program.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  )}
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-bold text-slate-900 mb-1 group-hover:text-brand-red-600 transition-colors">
+                      {program.title}
+                    </h3>
+                    {program.description && (
+                      <p className="text-slate-500 text-sm line-clamp-2 flex-1 mb-4">
+                        {program.description}
+                      </p>
+                    )}
+                    <div className="flex flex-wrap gap-3 mt-auto">
+                      {program.duration && (
+                        <span className="flex items-center gap-1 text-xs text-slate-500">
+                          <Clock className="w-3 h-3" />
+                          {program.duration}
+                        </span>
+                      )}
+                      {program.certification && (
+                        <span className="flex items-center gap-1 text-xs text-slate-500">
+                          <Award className="w-3 h-3" />
+                          {program.certification}
+                        </span>
+                      )}
+                    </div>
+                    <span className="mt-4 text-brand-red-500 text-sm font-semibold group-hover:underline">
+                      View Program →
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* Support Services */}
       <section className="py-14 px-4 bg-blue-50 border-b border-blue-100">
         <div className="max-w-4xl mx-auto">
@@ -331,6 +405,7 @@ export default function FSSAImpactPage() {
             Start Application — No Account Required
             <ArrowRight className="w-5 h-5" />
           </Link>
+
         </div>
       </section>
 

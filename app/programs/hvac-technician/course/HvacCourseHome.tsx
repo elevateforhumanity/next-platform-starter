@@ -14,6 +14,7 @@ import {
   Play,
   X,
   Maximize2,
+  Search,
 } from 'lucide-react';
 // Inline types — avoids pulling definitions.ts into the webpack module graph
 type CourseLesson = any;
@@ -254,7 +255,28 @@ export default function HvacCourseHome({
 }) {
   const [openModule, setOpenModule] = useState<number | null>(null);
   const [showVideo, setShowVideo] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const total = course.modules.reduce((s, m) => s + m.lessons.length, 0);
+
+  // Flat search across all lessons — matches title and module title
+  const searchResults = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return [];
+    const results: { lesson: CourseLesson; moduleTitle: string; moduleIndex: number }[] = [];
+    for (let mi = 0; mi < course.modules.length; mi++) {
+      const mod = course.modules[mi];
+      for (const lesson of mod.lessons) {
+        if (
+          lesson.title?.toLowerCase().includes(q) ||
+          mod.title?.toLowerCase().includes(q) ||
+          MODULE_DESC[mi]?.toLowerCase().includes(q)
+        ) {
+          results.push({ lesson, moduleTitle: mod.title, moduleIndex: mi });
+        }
+      }
+    }
+    return results;
+  }, [searchQuery, course.modules]);
   const done = completedLessonIds.length;
   const next = useMemo(
     () => findNext(course.modules, completedLessonIds),
@@ -321,6 +343,70 @@ export default function HvacCourseHome({
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-8">
+        {/* LESSON SEARCH */}
+        <div className="mb-8">
+          <div className="relative max-w-xl">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search lessons, modules, topics…"
+              className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-800 focus:border-transparent bg-white shadow-sm"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
+          {/* Search results */}
+          {searchQuery.trim() && (
+            <div className="mt-3 max-w-xl border border-slate-200 rounded-xl bg-white shadow-lg overflow-hidden">
+              {searchResults.length === 0 ? (
+                <p className="px-4 py-3 text-sm text-slate-500">
+                  No lessons found for &ldquo;{searchQuery}&rdquo;
+                </p>
+              ) : (
+                <>
+                  <p className="px-4 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                    {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
+                  </p>
+                  <ul className="divide-y divide-slate-100 max-h-72 overflow-y-auto">
+                    {searchResults.map(({ lesson, moduleTitle, moduleIndex }) => {
+                      const uuid = LESSON_UUID[lesson.id] || lesson.id;
+                      const isDone = completedLessonIds.includes(uuid);
+                      const Ic = TYPE_ICON[lesson.type] || BookOpen;
+                      return (
+                        <li key={lesson.id}>
+                          <Link
+                            href={lessonUrlById(courseId, lesson.id)}
+                            onClick={() => setSearchQuery('')}
+                            className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition"
+                          >
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isDone ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-500'}`}>
+                              {isDone ? <Play className="w-3.5 h-3.5" /> : <Ic className="w-3.5 h-3.5" />}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-slate-900 truncate">{lesson.title}</p>
+                              <p className="text-xs text-slate-400">Module {moduleIndex + 1} · {moduleTitle}</p>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-slate-300 flex-shrink-0" />
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+
         {/* COURSE OVERVIEW */}
         <div className="mb-10 grid sm:grid-cols-4 gap-4">
           {[

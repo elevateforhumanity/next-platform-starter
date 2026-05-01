@@ -1,6 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +27,13 @@ const navItems = [
   { href: '/onboarding/learner/agreements', label: 'Agreements' },
 ];
 
-export default function StudentPortalLayout({ children }: { children: React.ReactNode }) {
+export const dynamic = 'force-dynamic';
+
+export default async function StudentPortalLayout({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/login?redirect=/student-portal');
+
   return (
     <div className="min-h-screen bg-white">
       <nav className="bg-white border-b border-gray-200">

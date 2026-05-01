@@ -76,16 +76,20 @@ const KNOWN_LARGE = new Set([
   'NETLIFY_IMAGES_CDN_DOMAIN',
 ]);
 
-// Vars that should NOT be present in Netlify marketing functions
+// Vars that should NOT be present in Netlify — Railway/backend-internal only.
+// OPENAI_API_KEY and DID_API_KEY are intentionally present in Netlify:
+//   - OPENAI_API_KEY: used by /api/ai-chat, /api/ai-tutor, /api/ai-tutor-basic,
+//     /api/recaps/generate, /api/career-counseling/chat, and other Netlify API routes.
+//   - DID_API_KEY: used by /api/ai-studio/generate-avatar (Netlify API route).
+//   - RAILWAY_URL: used by netlify/edge-functions/api-proxy.ts to forward requests.
+// Do NOT add these back to RAILWAY_ONLY_PATTERNS.
 const RAILWAY_ONLY_PATTERNS = [
-  /^OPENAI/,
-  /^DID_API/,
   /^REMOTION/,
   /^OCR/,
   /^TESSERACT/,
   /^JOB_QUEUE/,
   /^REDIS_URL/,
-  /^RAILWAY/,
+  /^RAILWAY_TOKEN$/,   // Railway-internal auth token — never needed in Netlify
   /^DATABASE_URL/,
   /^MIGRATION/,
   /^IRS_/,

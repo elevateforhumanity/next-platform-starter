@@ -1,3 +1,4 @@
+import { timedFetch } from '@/lib/supabase/timed-fetch';
 import { logger } from '@/lib/logger';
 import { createServerClient } from '@supabase/ssr';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
@@ -9,6 +10,7 @@ export function isSupabaseConfigured(): boolean {
   return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 }
 
+// Supabase fetch with a hard timeout to prevent cold-start hangs on Netlify/Railway.
 // Mock client that returns empty data - prevents crashes when Supabase isn't configured
 const mockQueryBuilder = {
   select: () => mockQueryBuilder,
@@ -77,6 +79,7 @@ export async function createClient(): Promise<SupabaseClient<any>> {
     const cookieStore = await cookies();
 
     return createServerClient(supabaseUrl, supabaseAnonKey, {
+      global: { fetch: timedFetch },
       cookies: {
         getAll() {
           return cookieStore.getAll();
@@ -120,6 +123,7 @@ export function createPublicClient(): SupabaseClient<any> {
         autoRefreshToken: false,
         persistSession: false,
       },
+      global: { fetch: timedFetch },
     });
   } catch {
     // Supabase client constructor can fail during static prerendering

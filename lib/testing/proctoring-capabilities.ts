@@ -455,38 +455,38 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     ],
     verifyUrl: 'https://www.nhanow.com/',
     status: 'active',
-    // All NHA exams: $149 exam voucher (pass-through) + $94 testing & administration = $243 total.
-    // Pricing locked per owner decision — do not modify without approval.
+    // All NHA exams: $149 exam voucher (pass-through) + $100 testing & administration = $249 total.
+    // $249 = 40.2% gross margin ($100 / $249). Raised from $243 on 2026-05-01 — owner approved.
     fees: [
       {
         label: 'CPT — Phlebotomy',
-        amount: 243,
-        note: '$149 NHA exam + $94 testing & administration',
+        amount: 249,
+        note: '$149 NHA exam + $100 testing & administration',
       },
       {
         label: 'CCMA — Medical Assistant',
-        amount: 243,
-        note: '$149 NHA exam + $94 testing & administration',
+        amount: 249,
+        note: '$149 NHA exam + $100 testing & administration',
       },
       {
         label: 'CET — EKG Technician',
-        amount: 243,
-        note: '$149 NHA exam + $94 testing & administration',
+        amount: 249,
+        note: '$149 NHA exam + $100 testing & administration',
       },
       {
         label: 'ExCPT — Pharmacy Technician',
-        amount: 243,
-        note: '$149 NHA exam + $94 testing & administration',
+        amount: 249,
+        note: '$149 NHA exam + $100 testing & administration',
       },
       {
         label: 'CPCT/A — Patient Care Tech',
-        amount: 243,
-        note: '$149 NHA exam + $94 testing & administration',
+        amount: 249,
+        note: '$149 NHA exam + $100 testing & administration',
       },
       {
         label: 'CMAA — Medical Admin Assistant',
-        amount: 243,
-        note: '$149 NHA exam + $94 testing & administration',
+        amount: 249,
+        note: '$149 NHA exam + $100 testing & administration',
       },
     ],
     groupDiscount: 'Groups of 5+ — contact us for cohort pricing',

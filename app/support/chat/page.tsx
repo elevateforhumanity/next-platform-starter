@@ -20,55 +20,30 @@ const quickReplies = [
   'How do I contact support?',
 ];
 
-const botResponses: Record<string, string> = {
-  'how do i apply':
-    'To apply for a program, visit our Apply page at /apply. You will need to provide basic information, select your program of interest, and complete the eligibility screening. The process takes about 10-15 minutes.',
-  funding:
-    'We offer several funding options including WIOA (Workforce Innovation and Opportunity Act), WRG (Workforce Ready Grant), and Job Ready Indy funding. You can also choose self-pay options. Visit /funding to learn more about eligibility.',
-  'application status':
-    'To check your application status, log into your Student Portal at /student-portal. Your dashboard will show your current application status, any required documents, and next steps.',
-  account:
-    'For account issues, you can reset your password at /forgot-password, or contact our support team at our contact form. You can also contact us at (317) 314-3757 during business hours.',
-  contact:
-    'You can reach our support team by: Email: our contact form, Phone: (317) 314-3757 (Mon-Fri 9am-5pm EST), or submit a support ticket at /support.',
-  default:
-    'Thank you for your message. For immediate assistance, please contact our support team at our contact form or call (317) 314-3757 during business hours (Mon-Fri 9am-5pm EST). You can also submit a support ticket at /support for a response within 24 hours.',
-};
-
-function getBotResponse(message: string): string {
-  const lower = message.toLowerCase();
-  if (lower.includes('apply') || lower.includes('application') || lower.includes('enroll')) {
-    return botResponses['how do i apply'];
+async function getAIResponse(history: Message[], userMessage: string): Promise<string> {
+  try {
+    const res = await fetch('/api/ai-chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          ...history.map((m) => ({ role: m.role, content: m.content })),
+          { role: 'user', content: userMessage },
+        ],
+        context: 'support',
+      }),
+    });
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const data = await res.json();
+    return (
+      data.message ||
+      data.reply ||
+      data.choices?.[0]?.message?.content ||
+      'Thank you for your message. For immediate assistance, call (317) 314-3757 Mon–Fri 9am–5pm ET or submit a support ticket at /support.'
+    );
+  } catch {
+    return 'Thank you for your message. For immediate assistance, please call (317) 314-3757 (Mon–Fri 9am–5pm ET) or submit a support ticket at /support.';
   }
-  if (
-    lower.includes('fund') ||
-    lower.includes('wioa') ||
-    lower.includes('pay') ||
-    lower.includes('cost') ||
-    lower.includes('tuition')
-  ) {
-    return botResponses['funding'];
-  }
-  if (lower.includes('status') || lower.includes('check') || lower.includes('where')) {
-    return botResponses['application status'];
-  }
-  if (
-    lower.includes('account') ||
-    lower.includes('password') ||
-    lower.includes('login') ||
-    lower.includes('sign in')
-  ) {
-    return botResponses['account'];
-  }
-  if (
-    lower.includes('contact') ||
-    lower.includes('phone') ||
-    lower.includes('email') ||
-    lower.includes('reach')
-  ) {
-    return botResponses['contact'];
-  }
-  return botResponses['default'];
 }
 
 export default function LiveChatPage() {
@@ -108,20 +83,16 @@ export default function LiveChatPage() {
     setInput('');
     setIsTyping(true);
 
-    // Simulate typing delay
-    setTimeout(
-      () => {
-        const botMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: getBotResponse(messageText),
-          timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, botMessage]);
-        setIsTyping(false);
-      },
-      1000 + Math.random() * 1000,
-    );
+    const currentHistory = messages;
+    const reply = await getAIResponse(currentHistory, messageText);
+    const botMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      role: 'assistant',
+      content: reply,
+      timestamp: new Date(),
+    };
+    setMessages((prev) => [...prev, botMessage]);
+    setIsTyping(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

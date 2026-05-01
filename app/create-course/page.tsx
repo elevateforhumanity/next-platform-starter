@@ -8,11 +8,9 @@ import Image from 'next/image';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/create-course',
-  },
   title: 'Create Course | Elevate For Humanity',
   description: 'Resources and tools for your success.',
+  robots: { index: false },
 };
 
 export default async function CreateCoursePage() {

@@ -27,6 +27,7 @@ CREATE INDEX IF NOT EXISTS idx_competency_audit_log_submission
 -- RLS: instructors and admins can read all; students can read their own
 ALTER TABLE public.competency_audit_log ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "instructors_read_audit_log" ON public.competency_audit_log;
 CREATE POLICY "instructors_read_audit_log" ON public.competency_audit_log
   FOR SELECT USING (
     EXISTS (
@@ -36,9 +37,11 @@ CREATE POLICY "instructors_read_audit_log" ON public.competency_audit_log
     )
   );
 
+DROP POLICY IF EXISTS "students_read_own_audit_log" ON public.competency_audit_log;
 CREATE POLICY "students_read_own_audit_log" ON public.competency_audit_log
   FOR SELECT USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "instructors_insert_audit_log" ON public.competency_audit_log;
 CREATE POLICY "instructors_insert_audit_log" ON public.competency_audit_log
   FOR INSERT WITH CHECK (
     actor_id = auth.uid() AND

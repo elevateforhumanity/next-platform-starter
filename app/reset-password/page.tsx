@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, ArrowLeft, AlertCircle, CheckCircle } from 'lucide-react';
-import { sendRecoveryEmail } from '@/app/auth/forgot-password/actions';
+import { sendRecoveryEmail } from '@/app/forgot-password/actions';
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState('');

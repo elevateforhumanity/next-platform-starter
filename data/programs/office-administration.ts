@@ -14,6 +14,7 @@ export const OFFICE_ADMINISTRATION: ProgramSchema = {
   videoSrc: '/videos/business-finance.mp4',
 
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 6,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,
@@ -367,4 +368,13 @@ export const OFFICE_ADMINISTRATION: ProgramSchema = {
   metaTitle: 'Office Administration | Microsoft Office Specialist | Indianapolis',
   metaDescription:
     'Prepare for Microsoft Office Specialist certifications in Word, Excel, and Outlook. 6-week program. WIOA funding available. Indianapolis.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

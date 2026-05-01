@@ -1,279 +1,271 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 
-/**
- * Qualified Medication Aide (QMA) — Program Detail
- * Indiana-specific credential issued by the Indiana State Department of Health (ISDH).
- * Required for CNAs who administer medications in long-term care facilities.
- * Hours: 80 hours classroom + 20 hours clinical = 100 hours total.
- */
 export const QMA: ProgramSchema = {
   slug: 'qma',
   title: 'Qualified Medication Aide (QMA)',
   subtitle:
-    'Earn the Indiana QMA credential and administer medications in long-term care facilities. 100-hour program for CNAs. FSSA IMPACT and WIOA funding available.',
+    'Indiana state QMA certification in 4 weeks. Administer medications under nurse supervision in residential care settings. WIOA and WRG funding available for eligible participants. Self-pay: $1,200.',
   sector: 'healthcare',
   category: 'Healthcare',
   programType: 'workforce',
 
-  heroImage: '/images/pages/medical-assistant-lab.jpg',
-  heroImageAlt: 'QMA student practicing medication administration in a clinical setting',
+  heroImage: '/images/pages/healthcare-hero.jpg',
+  heroImageAlt: 'Qualified Medication Aide student preparing medications in a residential care facility',
 
   deliveryMode: 'hybrid',
-  durationWeeks: 5,
-  hoursPerWeekMin: 18,
-  hoursPerWeekMax: 22,
+  deliveredBy: 'Elevate',
+  durationWeeks: 4,
+  hoursPerWeekMin: 30,
+  hoursPerWeekMax: 40,
   hoursBreakdown: {
     onlineInstruction: 40,
-    handsOnLab: 40,
-    examPrep: 10,
+    handsOnLab: 60,
+    examPrep: 20,
     careerPlacement: 10,
   },
-  schedule: 'Mon–Fri, 9:00 AM–1:00 PM',
-  eveningSchedule: 'Evening cohorts available for working CNAs.',
-  cohortSize: '10–14 participants per cohort',
-  fundingStatement: '$0 with FSSA IMPACT or WIOA funding for eligible Indiana residents.',
-  selfPayCost: '$1,200 (payment plans available)',
-  fundingOptions: ['wioa', 'wrg', 'impact', 'self_pay'],
-  badge: 'Funding Available',
+  schedule: 'Mon–Fri, 30–40 hours per week',
+  cohortSize: '8–12 participants per cohort',
+  fundingStatement:
+    'WIOA and WRG funding available for eligible Indiana residents. Covers tuition and exam fees when approved. Eligibility is not guaranteed. Self-pay: $1,200.',
+  selfPayCost: '$1,200',
+  badge: 'WIOA Eligible',
   badgeColor: 'green',
-
-  metaTitle: 'Qualified Medication Aide (QMA) Training | Elevate for Humanity',
-  metaDescription:
-    'Indiana QMA certification in 5 weeks. Administer medications in long-term care. FSSA IMPACT and WIOA funding available for eligible Indiana residents.',
 
   credentials: [
     {
-      name: 'Qualified Medication Aide (QMA)',
+      name: 'Indiana QMA Certificate',
       issuer: 'Indiana State Department of Health (ISDH)',
       description:
-        'State credential authorizing CNAs to administer oral, topical, and inhaled medications in Indiana long-term care facilities under nurse supervision.',
-      validity: 'Renewed with CNA renewal (2 years)',
+        'State-issued certification authorizing the holder to administer medications under nurse supervision in licensed residential care facilities.',
+      validity: 'Renewable every 2 years with documented work hours',
     },
     {
-      name: 'CPR/BLS Certification',
-      issuer: 'American Heart Association',
-      description: 'Basic Life Support certification required for all healthcare workers.',
+      name: 'CPR/AED Certification',
+      issuer: 'American Red Cross',
+      description:
+        'Required for all healthcare workers. Covers adult, child, and infant CPR plus AED operation.',
       validity: '2 years',
     },
   ],
 
   outcomes: [
-    { statement: 'Correctly identify the 6 rights of medication administration on a competency assessment', assessedAt: 'Week 1' },
-    { statement: 'Demonstrate safe oral, topical, and inhaled medication administration in a simulated clinical setting', assessedAt: 'Week 3' },
-    { statement: 'Accurately document medication administration using MAR (Medication Administration Record) protocols', assessedAt: 'Week 2' },
-    { statement: 'Identify and report adverse drug reactions and medication errors per Indiana ISDH standards', assessedAt: 'Week 4' },
-    { statement: 'Pass the Indiana QMA state competency exam with a score of 80% or higher', assessedAt: 'Week 5' },
-    { statement: 'Apply infection control and hand hygiene protocols during all medication administration procedures', assessedAt: 'Week 2' },
+    {
+      statement:
+        'Identify the six rights of medication administration and apply them correctly in simulated scenarios',
+      assessedAt: 'Week 1',
+    },
+    {
+      statement:
+        'Accurately prepare and administer oral, topical, and inhaled medications using proper technique',
+      assessedAt: 'Week 2',
+    },
+    {
+      statement:
+        'Document medication administration accurately in a simulated medication administration record (MAR)',
+      assessedAt: 'Week 2',
+    },
+    {
+      statement:
+        'Recognize and report adverse drug reactions and medication errors using facility protocols',
+      assessedAt: 'Week 3',
+    },
+    {
+      statement:
+        'Complete supervised clinical hours at a licensed Indiana residential care facility with documented competency sign-offs',
+      assessedAt: 'Week 4',
+    },
+    {
+      statement:
+        'Pass the Indiana state QMA written and skills exam — proctored on-site at Elevate',
+      assessedAt: 'Week 4',
+    },
   ],
 
   careerPathway: [
     {
-      title: 'CNA (prerequisite)',
-      timeframe: 'Current',
-      requirements: 'Active Indiana CNA certification required for QMA enrollment',
-      salaryRange: '$16–$20/hr',
+      title: 'Qualified Medication Aide',
+      timeframe: '0–3 months',
+      requirements: 'Indiana QMA certification + active CNA certification',
+      salaryRange: '$17–$22/hr',
     },
     {
-      title: 'Qualified Medication Aide (QMA)',
-      timeframe: 'After 5 weeks',
-      requirements: 'Pass Indiana ISDH QMA competency exam',
-      salaryRange: '$18–$23/hr',
-    },
-    {
-      title: 'Lead Medication Aide / Charge Aide',
+      title: 'Senior QMA / Charge Aide',
       timeframe: '1–2 years',
-      requirements: 'Experience + facility promotion',
-      salaryRange: '$20–$26/hr',
+      requirements: 'QMA + 1 year experience',
+      salaryRange: '$20–$25/hr',
     },
     {
       title: 'Licensed Practical Nurse (LPN)',
-      timeframe: '12–18 months additional',
-      requirements: 'LPN program + NCLEX-PN',
+      timeframe: '2–3 years',
+      requirements: 'QMA + LPN program completion',
       salaryRange: '$24–$32/hr',
     },
-  ],
-
-  curriculum: [
     {
-      title: 'Pharmacology Foundations',
-      topics: [
-        'Drug classifications and mechanisms of action',
-        'Medication names: generic vs. brand',
-        'Routes of administration: oral, topical, inhaled, sublingual',
-        'Dosage calculations and unit conversions',
-        'Indiana QMA scope of practice and legal boundaries',
-      ],
-    },
-    {
-      title: 'Safe Medication Administration',
-      topics: [
-        'The 6 rights of medication administration',
-        'Medication Administration Record (MAR) documentation',
-        'Controlled substance handling and storage',
-        'Infection control during medication administration',
-        'Aseptic technique for topical and inhaled medications',
-      ],
-    },
-    {
-      title: 'Adverse Reactions & Error Prevention',
-      topics: [
-        'Identifying common adverse drug reactions',
-        'Medication error reporting procedures',
-        'High-alert medications in long-term care',
-        'Drug interactions and contraindications',
-        'Resident rights during medication administration',
-      ],
-    },
-    {
-      title: 'Clinical Practicum & State Exam Prep',
-      topics: [
-        'Supervised medication administration in clinical setting',
-        'MAR documentation competency assessment',
-        'Indiana ISDH QMA exam format and practice questions',
-        'Competency skills check-off with supervising RN',
-        'State exam registration and scheduling',
-      ],
+      title: 'Registered Nurse (RN)',
+      timeframe: '4–6 years',
+      requirements: 'LPN + RN bridge or BSN',
+      salaryRange: '$35–$50/hr',
     },
   ],
 
   weeklySchedule: [
     {
-      week: 'Week 1',
-      title: 'Pharmacology & Scope of Practice',
-      competencyMilestone: 'Identify drug classifications and Indiana QMA legal scope',
+      week: 'Weeks 1–2',
+      title: 'Medication Fundamentals',
+      competencyMilestone:
+        'Correctly apply the six rights of medication administration in all simulated scenarios',
     },
     {
-      week: 'Week 2',
-      title: 'MAR Documentation & Infection Control',
-      competencyMilestone: 'Complete MAR documentation accurately on 3 simulated scenarios',
+      week: 'Weeks 3–4',
+      title: 'Clinical Skills & State Exam',
+      competencyMilestone:
+        'Pass Indiana state QMA written and skills exam proctored on-site',
+    },
+  ],
+
+  curriculum: [
+    {
+      title: 'Weeks 1–2: Medication Fundamentals',
+      topics: [
+        'Apply the six rights of medication administration: right patient, drug, dose, route, time, and documentation',
+        'Prepare and administer oral medications including tablets, capsules, and liquids using proper technique',
+        'Administer topical medications — creams, patches, and eye/ear drops — following facility protocols',
+        'Use metered-dose inhalers and nebulizers correctly and document patient response',
+        'Identify common drug classes, side effects, and contraindications relevant to residential care settings',
+        'Document medication administration accurately in a simulated MAR and report discrepancies',
+      ],
     },
     {
-      week: 'Week 3',
-      title: 'Medication Administration Lab',
-      competencyMilestone: 'Demonstrate oral, topical, and inhaled administration with zero errors',
+      title: 'Weeks 3–4: Clinical Skills & State Exam',
+      topics: [
+        'Complete supervised clinical hours at a licensed Indiana residential care facility',
+        'Perform all medication administration tasks under RN supervision with competency sign-off',
+        'Recognize adverse drug reactions and demonstrate correct reporting procedures',
+        'Sit for the Indiana state QMA written exam — multiple choice, 90-minute time limit',
+        'Demonstrate selected medication administration skills for the state skills examiner — proctored on-site at Elevate',
+      ],
+    },
+  ],
+
+  complianceAlignment: [
+    {
+      standard: 'Indiana State Department of Health — QMA Curriculum',
+      description:
+        "Program meets Indiana's ISDH-approved QMA training requirements including required clinical hours.",
     },
     {
-      week: 'Week 4',
-      title: 'Adverse Reactions & Error Reporting',
-      competencyMilestone: 'Correctly identify and report 5 adverse reaction scenarios',
+      standard: 'WIOA (Workforce Innovation and Opportunity Act)',
+      description:
+        'Eligible training provider under WIOA for Indiana residents seeking healthcare workforce credentials.',
     },
     {
-      week: 'Week 5',
-      title: 'Clinical Practicum & State Exam',
-      competencyMilestone: 'Pass Indiana ISDH QMA competency exam (80% required)',
+      standard: 'WRG (Workforce Ready Grant)',
+      description:
+        'Approved program under Indiana\'s Workforce Ready Grant for eligible adult learners pursuing in-demand credentials.',
     },
   ],
 
   laborMarket: {
-    medianSalary: 42000,
-    salaryRange: '$18–$26/hr',
-    growthRate: '5% (2022–2032)',
-    source: 'Bureau of Labor Statistics / Indiana DWD',
-    sourceYear: 2023,
-    region: 'Indiana',
+    medianSalary: 38000,
+    salaryRange: '$32,000–$46,000',
+    growthRate: '5% (faster than average)',
+    source: 'U.S. Bureau of Labor Statistics',
+    sourceYear: 2024,
+    region: 'Indianapolis–Carmel–Anderson MSA',
   },
 
-  complianceAlignment: [
-    {
-      standard: 'Indiana ISDH QMA Certification',
-      description: 'Program meets Indiana State Department of Health requirements for QMA certification (410 IAC 16.2-3.1).',
-    },
-    {
-      standard: 'WIOA Title I Adult / Dislocated Worker',
-      description: 'Eligible training program on Indiana ETPL. WIOA funding may cover 100% of tuition for eligible residents.',
-    },
-    {
-      standard: 'FSSA IMPACT (SNAP/TANF)',
-      description: 'Approved for Indiana SNAP Employment & Training funding for eligible SNAP/TANF recipients.',
-    },
-    {
-      standard: 'CNA Prerequisite Requirement',
-      description: 'Applicants must hold an active Indiana CNA certification per ISDH QMA program requirements.',
-    },
+  careers: [
+    { title: 'Qualified Medication Aide', salary: '$17–$22/hr' },
+    { title: 'Certified Nursing Assistant', salary: '$16–$20/hr' },
+    { title: 'Patient Care Technician', salary: '$18–$23/hr' },
+    { title: 'Home Health Aide', salary: '$15–$19/hr' },
+  ],
+
+  admissionRequirements: [
+    'Active Indiana CNA certification (required by state law)',
+    'High school diploma or GED',
+    'Valid government-issued photo ID',
+    'Completed Elevate enrollment application',
+    'WIOA/WRG eligibility determination (if seeking funding)',
+  ],
+
+  equipmentIncluded:
+    'Medication administration training kit, simulated MAR workbook, and clinical skills reference guide included in tuition.',
+
+  modality: 'Hybrid — online instruction plus hands-on lab and supervised clinical hours',
+
+  facilityInfo:
+    'Lab sessions held at Elevate\'s Indianapolis training center. Clinical hours completed at licensed Indiana residential care facilities partnered with Elevate.',
+
+  pricingIncludes: [
+    'All instructional materials and medication administration training kit',
+    'Indiana state QMA written and skills exam fee',
+    'CPR/AED certification',
+    'Career placement support',
+  ],
+
+  paymentTerms:
+    'WIOA and WRG funding covers full tuition for eligible participants. Self-pay: $1,200 due before the first day of class. Payment plans available — contact admissions.',
+
+  employerPartners: [
+    'Ascension St. Vincent',
+    'IU Health',
+    'Kindred Healthcare',
+    'American Senior Communities',
   ],
 
   faqs: [
     {
-      question: 'Do I need to be a CNA to enroll?',
+      question: 'Do I need a CNA certification first?',
       answer:
-        'Yes. Indiana law requires active CNA certification as a prerequisite for QMA training. If you are not yet a CNA, enroll in our CNA program first.',
+        'Yes. Indiana requires active CNA certification as a prerequisite for QMA training. If you are not yet a CNA, consider our CNA program first.',
     },
     {
-      question: 'What medications can a QMA administer?',
+      question: 'Is the state exam included?',
       answer:
-        'Indiana QMAs may administer oral, topical, inhaled, and sublingual medications in long-term care facilities under the supervision of a licensed nurse. QMAs cannot administer injections or IV medications.',
+        'Yes. The Indiana state QMA written and skills exam is proctored on-site at Elevate during Week 4. The exam fee is included in tuition or covered by funding when applicable.',
     },
     {
-      question: 'How do I get funded?',
+      question: 'What funding is available?',
       answer:
-        'Indiana residents may qualify for FSSA IMPACT (SNAP/TANF recipients) or WIOA workforce funding. Contact an advisor — we help you apply for every funding source you qualify for.',
+        'QMA is funded through WIOA and the Indiana Workforce Ready Grant for eligible residents. Many students pay $0. Eligibility is determined through intake. Self-pay tuition is $1,200.',
     },
     {
-      question: 'What is the pass rate for the state exam?',
+      question: 'Where are the clinical hours completed?',
       answer:
-        'Our students pass the Indiana ISDH QMA competency exam at a rate above 90%. Exam prep is built into the final week of the program.',
+        'Clinical hours are completed at licensed Indiana residential care facilities partnered with Elevate. Sites are assigned based on cohort scheduling and facility availability.',
     },
     {
-      question: 'How much more can I earn as a QMA vs. CNA?',
+      question: 'What can I do with a QMA certification?',
       answer:
-        'QMAs typically earn $2–$4/hr more than CNAs in Indiana long-term care facilities. Many facilities also offer shift differentials for QMAs.',
+        'QMA-certified aides can administer medications in assisted living facilities, group homes, and other residential care settings under nurse supervision — earning $2–$5/hr more than CNA-only positions.',
     },
   ],
 
   breadcrumbs: [
-    { label: 'Home', href: '/' },
     { label: 'Programs', href: '/programs' },
     { label: 'Healthcare', href: '/programs/healthcare' },
-    { label: 'Qualified Medication Aide (QMA)', href: '/programs/qma' },
+    { label: 'Qualified Medication Aide (QMA)' },
   ],
 
   cta: {
-    applyHref: '/programs/qma/apply',
-    advisorHref: '/contact?program=qma',
+    applyHref: '/apply?program=qma',
+    requestInfoHref: '/contact?program=qma',
   },
 
-  enrollmentTracks: {
-    funded: {
-      label: 'FSSA IMPACT or WIOA Funded',
-      requirement: 'Indiana residents — SNAP/TANF recipients or WIOA-eligible',
-      description:
-        'FSSA IMPACT covers 100% of tuition for eligible SNAP/TANF recipients. WIOA workforce funding is also available for qualifying Indiana residents. We help you apply.',
-      available: true,
-      applyHref: '/programs/qma/apply?track=funded',
-    },
-    selfPay: {
-      label: 'Self-Pay',
-      cost: '$1,200',
-      description: 'Pay out of pocket with flexible payment plans. Start the next available cohort.',
-      available: true,
-      applyHref: '/programs/qma/apply?track=self-pay',
-    },
+  metaTitle: 'QMA Program — Indiana Qualified Medication Aide Certification | Elevate for Humanity',
+  metaDescription:
+    'Indiana state QMA certification in 4 weeks. Administer medications under nurse supervision. WIOA and WRG funding available for eligible participants. Self-pay: $1,200. Indianapolis.',
+
+  funding: {
+    wioa_eligible: true,
+    wrg_eligible: true,
+    etpl_approved: true,
+    snap_et_eligible: false,
+    fssa_eligible: false,
   },
 
-  careers: [
-    { title: 'Qualified Medication Aide', salary: '$18–$23/hr' },
-    { title: 'Lead Medication Aide', salary: '$20–$26/hr' },
-    { title: 'Restorative Aide', salary: '$18–$22/hr' },
-    { title: 'Home Health Aide (with QMA)', salary: '$17–$22/hr' },
-  ],
-
-  employerPartners: [],
-
-  admissionRequirements: [
-    'Active Indiana CNA certification (required by Indiana ISDH)',
-    'High school diploma or GED',
-    'Indiana resident',
-    'Background check clearance',
-  ],
-  equipmentIncluded: 'Textbooks, medication administration supplies, and exam prep materials included.',
-  modality: 'Hybrid — classroom instruction and hands-on clinical lab',
-  facilityInfo: 'Training held at Elevate for Humanity Indianapolis campus. Clinical practicum at partner long-term care facility.',
-  pricingIncludes: [
-    'All course materials and textbooks',
-    'Medication administration lab supplies',
-    'Indiana ISDH QMA exam registration fee',
-    'CPR/BLS certification',
-    'Career placement support',
-  ],
-  paymentTerms: 'Payment plans available. FSSA IMPACT and WIOA funding accepted. Contact an advisor to apply for funding.',
+  enrollmentType: 'internal',
+  deliveryModel: 'internal',
+  fundingOptions: ['wioa', 'wrg', 'self_pay'],
 };

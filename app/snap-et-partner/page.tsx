@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { createPublicClient } from '@/lib/supabase/public';
 import {
   CheckCircle,
   AlertCircle,
@@ -66,19 +66,22 @@ const REFERRAL_STEPS = [
 ];
 
 export default async function SnapEtPartnerPage() {
-  const db = await requireAdminClient();
+  // PUBLIC ROUTE: agency-facing marketing page — no auth required.
+  const db = createPublicClient();
 
-  // Live enrollment capacity signal
-  const { count: activeEnrollments } = await db
-    .from('program_enrollments')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'active');
-
-  const { count: completedThisYear } = await db
-    .from('program_enrollments')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'completed')
-    .gte('updated_at', new Date(new Date().getFullYear(), 0, 1).toISOString());
+  // Live enrollment capacity signal — degrade gracefully if DB unavailable
+  let activeEnrollments: number | null = null;
+  let completedThisYear: number | null = null;
+  try {
+    const [activeRes, completedRes] = await Promise.all([
+      db.from('program_enrollments').select('*', { count: 'exact', head: true }).eq('status', 'active'),
+      db.from('program_enrollments').select('*', { count: 'exact', head: true }).eq('status', 'completed').gte('updated_at', new Date(new Date().getFullYear(), 0, 1).toISOString()),
+    ]);
+    activeEnrollments = activeRes.count;
+    completedThisYear = completedRes.count;
+  } catch {
+    // DB unavailable — render static fallback
+  }
 
   return (
     <div className="min-h-screen bg-white">

@@ -24,7 +24,7 @@ export default async function GradesPage() {
       ? await db
           .from('student_enrollments')
           .select(
-            'id, student_id, program_id, progress, status, grade, created_at, profiles!student_enrollments_student_id_fkey(full_name, email)',
+            'id, student_id, program_id, progress, status, created_at, students!student_enrollments_student_fk(first_name, last_name, email)',
             { count: 'exact' },
           )
           .in('program_id', programIds)
@@ -104,15 +104,16 @@ export default async function GradesPage() {
                     </thead>
                     <tbody className="divide-y">
                       {items.map((item: any) => {
-                        const studentProfile = item.profiles as any;
+                        const student = item.students as any;
+                        const fullName = student ? `${student.first_name ?? ''} ${student.last_name ?? ''}`.trim() : 'Unknown';
                         return (
                           <tr key={item.id} className="hover:bg-white">
                             <td className="py-3">
                               <p className="font-medium text-slate-900">
-                                {studentProfile?.full_name || 'Unknown'}
+                                {fullName || 'Unknown'}
                               </p>
                               <p className="text-xs text-slate-700">
-                                {studentProfile?.email || ''}
+                                {student?.email || ''}
                               </p>
                             </td>
                             <td className="py-3 text-slate-900">
@@ -122,7 +123,7 @@ export default async function GradesPage() {
                               <span className="font-medium">{item.progress || 0}%</span>
                             </td>
                             <td className="py-3 text-center">
-                              <span className="font-bold">{item.grade || '—'}</span>
+                              <span className="font-bold">—</span>
                             </td>
                             <td className="py-3 text-center">
                               <span

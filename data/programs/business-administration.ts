@@ -10,6 +10,7 @@ export const BUSINESS_ADMIN: ProgramSchema = {
   heroImage: '/images/pages/business-sector.jpg',
   heroImageAlt: 'Business administration student working on a computer',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 8,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,
@@ -288,4 +289,13 @@ export const BUSINESS_ADMIN: ProgramSchema = {
   metaTitle: 'Business Administration | Certiport Certified | Indianapolis',
   metaDescription:
     'Prepare for Microsoft Office, QuickBooks, and ESB certifications in 8 weeks. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

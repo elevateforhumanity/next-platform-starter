@@ -5,11 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/cm',
-  },
   title: 'Cm | Elevate For Humanity',
   description: 'Resources and tools for your success.',
+  robots: { index: false },
 };
 
 export default async function CmPage() {

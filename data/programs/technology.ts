@@ -8,9 +8,10 @@ export const TECHNOLOGY: ProgramSchema = {
   sector: 'technology',
   category: 'Information Technology',
   programType: 'workforce',
-  heroImage: '/images/pages/technology.jpg',
+  heroImage: '/images/pages/technology-sector.jpg',
   heroImageAlt: 'Technology student working on a computer',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 12,
   hoursPerWeekMin: 15,
   hoursPerWeekMax: 20,
@@ -260,4 +261,13 @@ export const TECHNOLOGY: ProgramSchema = {
   metaTitle: 'Technology Career Training | CompTIA A+ | Indianapolis | Elevate for Humanity',
   metaDescription:
     '12-week technology training program in Indianapolis. Earn CompTIA A+ certification. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

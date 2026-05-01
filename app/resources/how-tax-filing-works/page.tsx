@@ -92,7 +92,7 @@ export default function HowTaxFilingWorksPage() {
         },
       ]}
       platformRelation="Our platform is designed to guide users through tax preparation in a structured way, helping them understand each step. The process explains what information is needed and provides clear instructions throughout. Filing does not require selecting any optional services."
-      parentPage={{ href: '/supersonic-fast-cash', label: 'Tax Preparation Services' }}
+      parentPage={{ href: '/programs/tax-preparation', label: 'Tax Preparation' }}
       relatedResources={[
         {
           href: '/resources/tax-refund-timeline-explained',

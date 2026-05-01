@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 
 interface AIInstructorProps {
@@ -28,9 +28,9 @@ export default function AIInstructor({
     if (autoPlay && message) {
       speak();
     }
-  }, [message, autoPlay]);
+  }, [message, autoPlay, speak]);
 
-  const speak = async () => {
+  const speak = useCallback(async () => {
     setIsSpeaking(true);
 
     try {
@@ -82,7 +82,7 @@ export default function AIInstructor({
       /* Error handled silently */
       setIsSpeaking(false);
     }
-  };
+  }, [message, onComplete]);
 
   const stopSpeaking = () => {
     window.speechSynthesis.cancel();

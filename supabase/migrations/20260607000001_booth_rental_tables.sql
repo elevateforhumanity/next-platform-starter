@@ -56,8 +56,8 @@ ALTER TABLE public.apprentice_hours
 ALTER TABLE public.booth_rental_subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.booth_rental_agreements    ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Staff can read booth_rental_subscriptions"
-  ON public.booth_rental_subscriptions FOR SELECT
+DROP POLICY IF EXISTS "Staff can read booth_rental_subscriptions" ON public.booth_rental_subscriptions;
+CREATE POLICY "Staff can read booth_rental_subscriptions" ON public.booth_rental_subscriptions FOR SELECT
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -66,8 +66,8 @@ CREATE POLICY "Staff can read booth_rental_subscriptions"
     )
   );
 
-CREATE POLICY "Staff can read booth_rental_agreements"
-  ON public.booth_rental_agreements FOR SELECT
+DROP POLICY IF EXISTS "Staff can read booth_rental_agreements" ON public.booth_rental_agreements;
+CREATE POLICY "Staff can read booth_rental_agreements" ON public.booth_rental_agreements FOR SELECT
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -77,12 +77,12 @@ CREATE POLICY "Staff can read booth_rental_agreements"
   );
 
 -- Service role can insert/update (used by API routes)
-CREATE POLICY "Service role full access booth_rental_subscriptions"
-  ON public.booth_rental_subscriptions FOR ALL
+DROP POLICY IF EXISTS "Service role full access booth_rental_subscriptions" ON public.booth_rental_subscriptions;
+CREATE POLICY "Service role full access booth_rental_subscriptions" ON public.booth_rental_subscriptions FOR ALL
   USING (auth.role() = 'service_role')
   WITH CHECK (auth.role() = 'service_role');
 
-CREATE POLICY "Service role full access booth_rental_agreements"
-  ON public.booth_rental_agreements FOR ALL
+DROP POLICY IF EXISTS "Service role full access booth_rental_agreements" ON public.booth_rental_agreements;
+CREATE POLICY "Service role full access booth_rental_agreements" ON public.booth_rental_agreements FOR ALL
   USING (auth.role() = 'service_role')
   WITH CHECK (auth.role() = 'service_role');

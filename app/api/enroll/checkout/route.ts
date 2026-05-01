@@ -124,7 +124,7 @@ async function _POST(req: Request) {
         program_interest: programSlug,
         city: 'Not provided',
         zip: '00000',
-        status: 'pending_payment',
+        status: 'pending_funding',
         source: 'enrollment-checkout',
       })
       .select('id')

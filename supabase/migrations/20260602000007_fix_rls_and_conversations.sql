@@ -40,8 +40,8 @@ ALTER TABLE public.direct_message_conversations
 -- The existing policy only allows admin INSERT/UPDATE/DELETE, so these
 -- writes were silently failing (RLS blocks, no error surfaced to UI).
 
-CREATE POLICY "provider_onboarding_steps_tenant_update"
-  ON public.provider_onboarding_steps
+DROP POLICY IF EXISTS "provider_onboarding_steps_tenant_update" ON public.provider_onboarding_steps;
+CREATE POLICY "provider_onboarding_steps_tenant_update" ON public.provider_onboarding_steps
   FOR UPDATE
   USING (tenant_id = public.my_tenant_id());
 
@@ -52,8 +52,8 @@ CREATE POLICY "provider_onboarding_steps_tenant_update"
 -- provider/programs/submit also inserts via createClient() after auth check.
 -- Both were blocked by the admin-only INSERT policy.
 
-CREATE POLICY "provider_program_approvals_tenant_insert"
-  ON public.provider_program_approvals
+DROP POLICY IF EXISTS "provider_program_approvals_tenant_insert" ON public.provider_program_approvals;
+CREATE POLICY "provider_program_approvals_tenant_insert" ON public.provider_program_approvals
   FOR INSERT
   WITH CHECK (tenant_id = public.my_tenant_id());
 
@@ -85,8 +85,8 @@ AS $$
   )
 $$;
 
-CREATE POLICY "direct_messages_participant_read"
-  ON public.direct_messages
+DROP POLICY IF EXISTS "direct_messages_participant_read" ON public.direct_messages;
+CREATE POLICY "direct_messages_participant_read" ON public.direct_messages
   FOR SELECT
   USING (
     public.is_conversation_participant(conversation_id)
@@ -94,8 +94,8 @@ CREATE POLICY "direct_messages_participant_read"
   );
 
 -- Sender inserts their own messages into conversations they belong to.
-CREATE POLICY "direct_messages_sender_insert"
-  ON public.direct_messages
+DROP POLICY IF EXISTS "direct_messages_sender_insert" ON public.direct_messages;
+CREATE POLICY "direct_messages_sender_insert" ON public.direct_messages
   FOR INSERT
   WITH CHECK (
     sender_id = auth.uid()
@@ -106,16 +106,16 @@ CREATE POLICY "direct_messages_sender_insert"
 -- conversation where sender_id != current user (i.e. the recipient marks
 -- the other person's messages as read). Policy must allow any participant
 -- to update, not just the sender.
-CREATE POLICY "direct_messages_participant_update"
-  ON public.direct_messages
+DROP POLICY IF EXISTS "direct_messages_participant_update" ON public.direct_messages;
+CREATE POLICY "direct_messages_participant_update" ON public.direct_messages
   FOR UPDATE
   USING (
     public.is_conversation_participant(conversation_id)
     OR public.is_admin_role()
   );
 
-CREATE POLICY "direct_messages_admin_delete"
-  ON public.direct_messages
+DROP POLICY IF EXISTS "direct_messages_admin_delete" ON public.direct_messages;
+CREATE POLICY "direct_messages_admin_delete" ON public.direct_messages
   FOR DELETE
   USING (public.is_admin_role());
 
@@ -123,8 +123,8 @@ CREATE POLICY "direct_messages_admin_delete"
 
 ALTER TABLE public.direct_message_conversations ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "direct_message_conversations_participant_read"
-  ON public.direct_message_conversations
+DROP POLICY IF EXISTS "direct_message_conversations_participant_read" ON public.direct_message_conversations;
+CREATE POLICY "direct_message_conversations_participant_read" ON public.direct_message_conversations
   FOR SELECT
   USING (
     participant_1_id = auth.uid()
@@ -134,8 +134,8 @@ CREATE POLICY "direct_message_conversations_participant_read"
 
 -- Either participant can update (last_message_at / last_message_preview
 -- is written by the sender after inserting a message).
-CREATE POLICY "direct_message_conversations_participant_update"
-  ON public.direct_message_conversations
+DROP POLICY IF EXISTS "direct_message_conversations_participant_update" ON public.direct_message_conversations;
+CREATE POLICY "direct_message_conversations_participant_update" ON public.direct_message_conversations
   FOR UPDATE
   USING (
     participant_1_id = auth.uid()
@@ -144,12 +144,12 @@ CREATE POLICY "direct_message_conversations_participant_update"
   );
 
 -- Only admin creates conversations (or a future "start conversation" API).
-CREATE POLICY "direct_message_conversations_admin_insert"
-  ON public.direct_message_conversations
+DROP POLICY IF EXISTS "direct_message_conversations_admin_insert" ON public.direct_message_conversations;
+CREATE POLICY "direct_message_conversations_admin_insert" ON public.direct_message_conversations
   FOR INSERT
   WITH CHECK (public.is_admin_role());
 
-CREATE POLICY "direct_message_conversations_admin_delete"
-  ON public.direct_message_conversations
+DROP POLICY IF EXISTS "direct_message_conversations_admin_delete" ON public.direct_message_conversations;
+CREATE POLICY "direct_message_conversations_admin_delete" ON public.direct_message_conversations
   FOR DELETE
   USING (public.is_admin_role());

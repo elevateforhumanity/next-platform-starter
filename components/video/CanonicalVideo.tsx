@@ -134,13 +134,20 @@ export default function CanonicalVideo({
       setPlaying(false);
       setEnded(false);
     }
-    // Wait for enough data before calling play() to avoid AbortError races
+    // Wait for enough data before calling play() to avoid AbortError races.
+    // Resolve playing state from the play() promise — onPlaying can fire before
+    // React attaches the handler when the video is already buffered (preload hit),
+    // leaving the poster stuck on screen indefinitely.
+    const startPlay = (v: HTMLVideoElement) => {
+      v.play()
+        .then(() => setPlaying(true))
+        .catch(() => {});
+    };
+
     if (video.readyState >= 2) {
-      video.play().catch(() => {});
+      startPlay(video);
     } else {
-      const onReady = () => {
-        video.play().catch(() => {});
-      };
+      const onReady = () => startPlay(video);
       video.addEventListener('canplay', onReady, { once: true });
       return () => video.removeEventListener('canplay', onReady);
     }
@@ -161,7 +168,9 @@ export default function CanonicalVideo({
       ([entry]) => {
         if (entry.isIntersecting && !started) {
           started = true;
-          video.play().catch(() => {});
+          video.play()
+            .then(() => setPlaying(true))
+            .catch(() => {});
           if (playThrough) {
             // Once started, disconnect — let it play through the page
             observer.disconnect();
@@ -203,11 +212,9 @@ export default function CanonicalVideo({
     return (
       <>
         {/* Poster — z-1, sits behind the video (z-2).
-            For autoPlayOnMount heroes: starts hidden (opacity-0) so it never
-            flashes before the video plays. Only becomes visible if the video
-            ends (non-looping) or fails.
-            For scroll-triggered videos: starts visible so there's no blank gap
-            before the video enters the viewport and begins playing.
+            Always starts visible so there is never a blank/blue gap between
+            mount and the first video frame. Fades out once the video is playing,
+            fades back in if the video ends (non-looping) or fails.
             Explicit inline position/size so it fills the container regardless
             of what className the caller passes — Safari/iOS stacking fix. */}
         <img
@@ -218,15 +225,9 @@ export default function CanonicalVideo({
           loading={autoPlayOnMount ? 'eager' : 'lazy'}
           decoding="async"
           className={`${className} transition-opacity duration-700 ${
-            autoPlayOnMount
-              ? playing && !ended
-                ? 'opacity-0 pointer-events-none'
-                : ended
-                  ? 'opacity-100'
-                  : 'opacity-0'
-              : playing && !ended
-                ? 'opacity-0 pointer-events-none'
-                : 'opacity-100'
+            playing && !ended
+              ? 'opacity-0 pointer-events-none'
+              : 'opacity-100'
           }`}
           style={{
             objectFit: 'cover',

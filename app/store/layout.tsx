@@ -37,12 +37,8 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/store',
   },
   robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
+    index: false,
+    follow: false,
   },
 };
 

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default async function ApplicationsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string; search?: string; page?: string }>;
+  searchParams: Promise<{ status?: string; search?: string; page?: string; program?: string }>;
 }) {
   await requireRole(['admin', 'super_admin', 'staff', 'org_admin']);
   const params = await searchParams;
@@ -35,6 +35,7 @@ export default async function ApplicationsPage({
 
   const rawStatus = params.status;
   const search = params.search;
+  const programFilter = params.program || '';
   const page = parseInt(params.page || '1', 10);
   const pageSize = 25;
   const offset = (page - 1) * pageSize;
@@ -65,6 +66,8 @@ export default async function ApplicationsPage({
     .order('created_at', { ascending: false });
   if (resolvedStatuses.length === 1) query = query.eq('status', resolvedStatuses[0]);
   else if (resolvedStatuses.length > 1) query = query.in('status', resolvedStatuses);
+  if (programFilter === 'cdl-training')
+    query = query.or('program_slug.eq.cdl-training,program_interest.ilike.%cdl%');
   if (search)
     query = query.or(
       `first_name.ilike.%${search}%,last_name.ilike.%${search}%,email.ilike.%${search}%,full_name.ilike.%${search}%`,
@@ -145,6 +148,17 @@ export default async function ApplicationsPage({
               <option value="ready_to_enroll">Ready to Enroll</option>
               <option value="enrolled">Enrolled</option>
               <option value="rejected">Rejected</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 mb-1">Program</label>
+            <select
+              name="program"
+              defaultValue={programFilter || 'all'}
+              className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+            >
+              <option value="all">All Programs</option>
+              <option value="cdl-training">CDL Training</option>
             </select>
           </div>
           <div>

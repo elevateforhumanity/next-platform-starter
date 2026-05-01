@@ -1,3 +1,4 @@
+import { internalFetch } from '@/lib/api/internal-fetch';
 // PUBLIC ROUTE: employer onboarding step update
 import { NextResponse } from 'next/server';
 
@@ -57,7 +58,7 @@ async function _PATCH(req: Request, { params }: { params: Params }) {
           reason: notes,
           onboarding_url: `${siteUrl}/onboarding/employer`,
         });
-        await fetch(`${siteUrl}/api/email/send`, {
+        await internalFetch(`${siteUrl}/api/email/send`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

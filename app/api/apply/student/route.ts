@@ -1,3 +1,4 @@
+import { internalFetch } from '@/lib/api/internal-fetch';
 // PUBLIC ROUTE: student application form — no auth required. Unauthenticated prospective
 // students submit applications before they have an account. Rate-limited via applyRateLimit.
 // Thin alias for /api/applications — used by program-specific apply pages
@@ -23,7 +24,7 @@ export async function POST(request: Request) {
 
   // Forward to canonical applications endpoint
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-  const res = await fetch(`${siteUrl}/api/applications`, {
+  const res = await internalFetch(`${siteUrl}/api/applications`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

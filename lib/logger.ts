@@ -17,6 +17,23 @@ class Logger {
   private formatMessage(entry: LogEntry): string {
     const { level, message, timestamp, context, error } = entry;
 
+    // Serialize any thrown value — Error instances, plain objects, strings, etc.
+    const serializeError = (e: unknown) => {
+      if (!e) return undefined;
+      if (e instanceof Error) {
+        return { name: e.name, message: e.message, stack: e.stack };
+      }
+      if (typeof e === 'object') {
+        // Supabase error objects: { code, details, hint, message }
+        try {
+          return JSON.parse(JSON.stringify(e));
+        } catch {
+          return { raw: String(e) };
+        }
+      }
+      return { raw: String(e) };
+    };
+
     if (this.isDevelopment) {
       // Pretty format for development
       let output = `[${timestamp}] ${level.toUpperCase()}: ${message}`;
@@ -24,12 +41,8 @@ class Logger {
         output += `\n  Context: ${JSON.stringify(context, null, 2)}`;
       }
       if (error) {
-        const errorMessage = 'Operation failed';
-        const errorStack = error instanceof Error ? error.stack : undefined;
-        output += `\n  Error: ${errorMessage}`;
-        if (errorStack) {
-          output += `\n  Stack: ${errorStack}`;
-        }
+        const serialized = serializeError(error);
+        output += `\n  Error: ${JSON.stringify(serialized, null, 2)}`;
       }
       return output;
     }
@@ -37,13 +50,7 @@ class Logger {
     // JSON format for production (easier to parse by log aggregators)
     return JSON.stringify({
       ...entry,
-      error: error
-        ? {
-            message: 'Operation failed',
-            stack: error instanceof Error ? error.stack : undefined,
-            name: error instanceof Error ? error.name : undefined,
-          }
-        : undefined,
+      error: serializeError(error),
     });
   }
 

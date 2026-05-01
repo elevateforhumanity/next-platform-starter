@@ -13,9 +13,8 @@ create table if not exists public.program_instructors (
   assigned_at   timestamptz not null default now(),
   assigned_by   uuid references public.profiles(id) on delete set null,
   is_primary    boolean not null default false
-
-  unique (instructor_id, program_id)
 );
+CREATE UNIQUE INDEX IF NOT EXISTS idx_program_instructors_uniq ON public.program_instructors (instructor_id, program_id);
 
 create index if not exists idx_program_instructors_instructor
   on public.program_instructors(instructor_id);
@@ -26,8 +25,8 @@ create index if not exists idx_program_instructors_program
 -- RLS: admins and staff can manage; instructors can read their own rows
 alter table public.program_instructors enable row level security;
 
-create policy "Admins manage program_instructors"
-  on public.program_instructors
+drop policy if exists "Admins manage program_instructors" on public.program_instructors;
+create policy "Admins manage program_instructors" on public.program_instructors
   for all
   using (
     exists (
@@ -37,7 +36,7 @@ create policy "Admins manage program_instructors"
     )
   );
 
-create policy "Instructors read own assignments"
-  on public.program_instructors
+drop policy if exists "Instructors read own assignments" on public.program_instructors;
+create policy "Instructors read own assignments" on public.program_instructors
   for select
   using (instructor_id = auth.uid());

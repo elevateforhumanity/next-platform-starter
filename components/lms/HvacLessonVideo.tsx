@@ -135,7 +135,7 @@ export default function HvacLessonVideo({
           });
       } // end checkUuidPaths
     } // end checkLocalPaths
-  }, [lessonDefId, dbVideoUrl]);
+  }, [lessonDefId, dbVideoUrl, resolvedUuid]);
 
   const togglePlay = useCallback(() => {
     const vid = videoRef.current;

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
 import PathwayDisclosure from '@/components/PathwayDisclosure';
-import PageAvatar from '@/components/PageAvatar';
 import type { Program } from '@/lib/lms/types';
 
 const programImages: Record<string, string> = {
@@ -63,9 +62,6 @@ export default function SkilledTradesPageClient({ programs }: { programs: Progra
           </div>
         </div>
       </section>
-
-      {/* Avatar Guide */}
-      <PageAvatar videoSrc="/videos/avatars/trades-guide.mp4" title="Trades Guide" />
 
       {/* Breadcrumbs */}
       <Breadcrumbs />

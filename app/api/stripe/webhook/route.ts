@@ -59,7 +59,7 @@ export async function POST(req: Request) {
   }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2024-12-18.acacia',
+    apiVersion: '2025-10-29.clover' as any,
   });
 
   const sig = req.headers.get('stripe-signature');

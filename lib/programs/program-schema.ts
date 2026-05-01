@@ -24,6 +24,8 @@ export interface ProgramCredential {
   name: string;
   /** External issuing body (e.g., "EPA", "OSHA", "PTCB", "Indiana SPLA") */
   issuer: string;
+  /** Display name for the issuing body — falls back to issuer when omitted */
+  issuingBody?: string;
   /** What holding this credential enables */
   description: string;
   /** How long the credential is valid (e.g., "Lifetime", "2 years", "3 years") */
@@ -198,6 +200,8 @@ export interface ProgramSchema {
 
   // ─── A. Header Spec Panel ────────────────────────────────────────
   deliveryMode: 'online' | 'hybrid' | 'in-person';
+  /** Who delivers this program — shown as a disclosure on the program page */
+  deliveredBy?: 'Elevate' | 'Partner' | 'Elevate or Partner';
   durationWeeks: number;
   hoursPerWeekMin: number;
   hoursPerWeekMax: number;
@@ -208,6 +212,8 @@ export interface ProgramSchema {
   cohortSize: string;
   fundingStatement: string;
   selfPayCost: string;
+  /** Upfront deposit amount for BNPL enrollment (e.g., "$600"). Defaults to $600 for apprenticeship programs when omitted. */
+  depositAmount?: string;
   /** When true, program is not WIOA/grant eligible — self-pay only */
   isSelfPay?: boolean;
 
@@ -291,14 +297,14 @@ export interface ProgramSchema {
   };
 
   // ─── J. Institutional Footer ────────────────────────────────────
-  admissionRequirements: string[];
-  equipmentIncluded: string;
-  modality: string;
-  facilityInfo: string;
+  admissionRequirements?: string[];
+  equipmentIncluded?: string;
+  modality?: string;
+  facilityInfo?: string;
   bilingualSupport?: string;
-  employerPartners: string[];
-  pricingIncludes: string[];
-  paymentTerms: string;
+  employerPartners?: string[];
+  pricingIncludes?: string[];
+  paymentTerms?: string;
 
   // ─── Content Model ──────────────────────────────────────────────
   /**
@@ -317,7 +323,7 @@ export interface ProgramSchema {
    * Primary partner provider for partner/hybrid programs.
    * Only set when verified — do not guess.
    */
-  partnerProvider?: 'hsi' | 'careersafe' | 'elevate-lms' | 'jri' | 'employindy' | 'nrf' | null;
+  partnerProvider?: 'hsi' | 'careersafe' | 'elevate-lms' | 'jri' | 'employindy' | 'nrf' | 'milady' | null;
 
   /**
    * Funding sources actually available for this program.
@@ -336,13 +342,17 @@ export interface ProgramSchema {
     /** FSSA IMPACT — Indiana Family and Social Services Administration */
     fssa_eligible: boolean;
     /** SNAP Employment & Training — FSSA SNAP E&T TPP */
-    snap_et_eligible: boolean;
+    snap_et_eligible?: boolean;
     /** WIOA Title I — Workforce Innovation and Opportunity Act */
     wioa_eligible: boolean;
     /** Indiana ETPL — Eligible Training Provider List (WorkOne/DWD) */
-    etpl_approved: boolean;
+    etpl_approved?: boolean;
     /** Workforce Ready Grant — Indiana state tuition grant */
     wrg_eligible: boolean;
+    /** Job Ready Indy — Indianapolis city workforce fund */
+    jobReadyIndyEligible?: boolean;
+    /** Free-text notes for advisors and agency staff */
+    fundingNotes?: string;
   };
 
   // ─── Visibility & Status Control ────────────────────────────────
@@ -389,6 +399,33 @@ export interface ProgramSchema {
    * this program (OSHA 10, CPR, Bloodborne Pathogens, etc.).
    */
   microCourses?: AttachedCourse[];
+
+  // ─── Class B Track (CDL and multi-track programs) ───────────────
+  classBTrack?: {
+    title: string;
+    duration: string;
+    durationWeeks: number;
+    vehicles: string;
+    opportunities: string;
+    description: string;
+    credentials: string[];
+    fundingStatement?: string;
+  };
+
+  // ─── Locations ──────────────────────────────────────────────────
+  locations?: {
+    city: string;
+    state: string;
+    status: 'active' | 'coming_soon';
+    note?: string;
+  }[];
+
+  // ─── Job Placement ──────────────────────────────────────────────
+  jobPlacement?: {
+    headline: string;
+    description: string;
+    features: string[];
+  };
 
   // ─── FAQ ────────────────────────────────────────────────────────
   faqs: { question: string; answer: string }[];

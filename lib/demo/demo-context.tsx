@@ -144,7 +144,7 @@ export function useDemoOrReal<T>(
         .then(setData)
         .finally(() => setIsLoading(false));
     }
-  }, [isDemoMode]);
+  }, [isDemoMode, demoData, fetchRealData]);
 
   return { data, isLoading, isDemo: isDemoMode };
 }

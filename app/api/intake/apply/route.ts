@@ -97,6 +97,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Create application with pipeline stage
+    const intakeRef = `EFH-${Date.now().toString(36).toUpperCase()}`;
     const { data: application, error: appError } = await supabase
       .from('applications')
       .insert({
@@ -104,6 +105,7 @@ export async function POST(request: NextRequest) {
         email: normalizedEmail,
         phone: body.phone?.trim() || null,
         program_interest: body.program_interest || null,
+        reference_number: intakeRef,
         status: 'submitted',
         source: 'start-page',
         // intake flags and stage stored in eligibility_data (JSONB)

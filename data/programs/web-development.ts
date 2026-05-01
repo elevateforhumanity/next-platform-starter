@@ -10,6 +10,7 @@ export const WEB_DEVELOPMENT: ProgramSchema = {
   heroImage: '/images/pages/web-development.jpg',
   heroImageAlt: 'Web development student coding on a laptop',
   deliveryMode: 'hybrid',
+  deliveredBy: 'Elevate',
   durationWeeks: 12,
   hoursPerWeekMin: 20,
   hoursPerWeekMax: 25,
@@ -243,4 +244,13 @@ export const WEB_DEVELOPMENT: ProgramSchema = {
   metaTitle: 'Web Development | Meta & WordPress Certified | Indianapolis',
   metaDescription:
     'Learn HTML, CSS, JavaScript, and WordPress in 12 weeks. Web developers earn $80,730/year. 16% job growth. WIOA funding available.',
+
+
+  funding: {
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

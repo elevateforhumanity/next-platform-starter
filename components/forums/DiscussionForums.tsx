@@ -5,7 +5,7 @@
  * Complete student community and peer support system
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { createBrowserClient } from '@/lib/supabase/client';
 import {
   MessageSquare,
@@ -83,28 +83,28 @@ export default function DiscussionForums() {
   useEffect(() => {
     loadCurrentUser();
     loadCategories();
-  }, []);
+  }, [loadCategories, loadCurrentUser]);
 
   useEffect(() => {
     if (selectedCategory) {
       loadThreads(selectedCategory.id);
     }
-  }, [selectedCategory, sortBy]);
+  }, [selectedCategory, sortBy, loadThreads]);
 
   useEffect(() => {
     if (selectedThread) {
       loadPosts(selectedThread.id);
     }
-  }, [selectedThread]);
+  }, [selectedThread, loadPosts]);
 
-  const loadCurrentUser = async () => {
+  const loadCurrentUser = useCallback(async () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
     setCurrentUser(user);
-  };
+  }, [supabase]);
 
-  const loadCategories = async () => {
+  const loadCategories = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -153,9 +153,9 @@ export default function DiscussionForums() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase]);
 
-  const loadThreads = async (categoryId: string) => {
+  const loadThreads = useCallback(async (categoryId: string) => {
     try {
       setLoading(true);
       setError(null);
@@ -184,9 +184,9 @@ export default function DiscussionForums() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase, sortBy]);
 
-  const loadPosts = async (threadId: string) => {
+  const loadPosts = useCallback(async (threadId: string) => {
     try {
       setError(null);
       const { data, error } = await supabase
@@ -208,7 +208,7 @@ export default function DiscussionForums() {
     } catch (data: any) {
       setError('Failed to load posts. Please try again.');
     }
-  };
+  }, [supabase]);
 
   const createThread = async () => {
     if (!currentUser || !selectedCategory || !newThreadTitle || !newThreadContent) return;

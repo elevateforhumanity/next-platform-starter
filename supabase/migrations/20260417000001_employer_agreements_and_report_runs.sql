@@ -1,5 +1,10 @@
 -- employer_agreements: written by /api/partners/barbershop/employer-agreement
 -- Columns match the insert payload in that route.
+ALTER TABLE IF EXISTS public.employer_agreements
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'pending',
+  ADD COLUMN IF NOT EXISTS signed_at timestamptz DEFAULT now();
+-- Table already exists; skip CREATE, just ensure columns and indexes
+/*SKIP_CREATE
 CREATE TABLE IF NOT EXISTS public.employer_agreements (
   id                   uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   partner_id           uuid REFERENCES public.partners(id) ON DELETE SET NULL,
@@ -28,6 +33,7 @@ CREATE TABLE IF NOT EXISTS public.employer_agreements (
   created_at           timestamptz NOT NULL DEFAULT now(),
   updated_at           timestamptz NOT NULL DEFAULT now()
 );
+*/
 
 CREATE INDEX IF NOT EXISTS idx_employer_agreements_partner
   ON public.employer_agreements (partner_id);
@@ -38,9 +44,11 @@ CREATE INDEX IF NOT EXISTS idx_employer_agreements_created
 
 ALTER TABLE public.employer_agreements ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "service_role_all" ON public.employer_agreements;
 CREATE POLICY "service_role_all" ON public.employer_agreements
   FOR ALL TO service_role USING (true) WITH CHECK (true);
 
+DROP POLICY IF EXISTS "admin_read" ON public.employer_agreements;
 CREATE POLICY "admin_read" ON public.employer_agreements
   FOR SELECT TO authenticated USING (
     EXISTS (
@@ -71,9 +79,11 @@ CREATE INDEX IF NOT EXISTS idx_wioa_report_runs_type
 
 ALTER TABLE public.wioa_report_runs ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "service_role_all" ON public.wioa_report_runs;
 CREATE POLICY "service_role_all" ON public.wioa_report_runs
   FOR ALL TO service_role USING (true) WITH CHECK (true);
 
+DROP POLICY IF EXISTS "admin_read" ON public.wioa_report_runs;
 CREATE POLICY "admin_read" ON public.wioa_report_runs
   FOR SELECT TO authenticated USING (
     EXISTS (

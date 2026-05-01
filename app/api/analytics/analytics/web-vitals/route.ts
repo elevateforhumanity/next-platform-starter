@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: browser telemetry — no PII, no auth required, rate-limited by Netlify edge
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;

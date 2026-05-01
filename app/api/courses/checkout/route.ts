@@ -1,14 +1,11 @@
+import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
+import { getStripe } from '@/lib/stripe/client';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-
-const stripe = process.env.STRIPE_SECRET_KEY
-  ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-10-29.clover' })
-  : null;
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'payment');
@@ -17,9 +14,11 @@ export async function POST(request: NextRequest) {
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
 
+  const stripe = getStripe();
+
   try {
     if (!stripe) {
-      return NextResponse.json({ error: 'Payment system not configured' }, { status: 500 });
+      return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
     }
 
     const body = await request.json();
@@ -80,7 +79,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ url: session.url });
   } catch (error: any) {
-    console.error('Course checkout error:', error);
+    logger.error('Course checkout error:', error);
     return NextResponse.json(
       { error: 'Failed to create checkout session' },
       { status: 500 },

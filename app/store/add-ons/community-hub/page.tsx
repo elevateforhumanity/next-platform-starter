@@ -12,7 +12,7 @@ import { ArrowRight, Zap } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'Community Hub Add-On | Build Engagement | Elevate Store',
   description:
-    'Add a complete community platform to your LMS. Discussions, groups, leaderboards, events, and gamification. One-time purchase, lifetime access.',
+    'Community Hub add-on for Elevate LMS — discussion forums, member groups, leaderboards, events, and gamification. One-time purchase, lifetime access.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/add-ons/community-hub',
   },

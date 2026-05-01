@@ -345,6 +345,7 @@ async function insertApplication(payload: {
   programInterest: string;
   supportNotes: string;
   source: string;
+  fundingType?: string | null;
 }): Promise<
   | { success: true; applicationId: string; referenceNumber: string; email?: string }
   | { success: false; error: string }
@@ -601,6 +602,7 @@ async function insertApplication(payload: {
           reference_number: referenceNumber,
           status: 'submitted',
           source: payload.source,
+          funding_type: payload.fundingType || null,
         })
         .select('id')
         .maybeSingle();
@@ -695,6 +697,7 @@ export async function submitStudentApplication(data: StudentApplicationData) {
     city: data.city || 'Not provided',
     zip: data.zipCode || '00000',
     programInterest: data.programInterest || 'Not specified',
+    fundingType: data.requestedFundingSource || null,
     supportNotes: [
       data.employmentStatus ? `Employment: ${data.employmentStatus}` : '',
       data.educationLevel ? `Education: ${data.educationLevel}` : '',
@@ -729,7 +732,8 @@ export async function submitStudentApplication(data: StudentApplicationData) {
       ['workone', 'workforce_ready_grant'].includes(requestedSource) && !data.hasWorkOneApproval;
 
     const elig = data.eligibilityData;
-    const eligStatus = elig?.eligibilityStatus ?? 'incomplete';
+    // 'incomplete' is not a valid eligibility_status value — use 'pending' as the default
+    const eligStatus = elig?.eligibilityStatus ?? 'pending';
     const fundingStatus =
       elig?.hasSnap || elig?.hasTanf || elig?.hasReferral
         ? 'pending'
