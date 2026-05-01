@@ -418,10 +418,6 @@
       "workerd",
       "vue-demi",
       "unrs-resolver"
-    ],
-    "neverBuiltDependencies": [
-      "node-pty",
-      "ffmpeg-static"
     ]
   }
 }
