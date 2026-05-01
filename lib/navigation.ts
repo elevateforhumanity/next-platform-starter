@@ -149,4 +149,18 @@ export const NAV_ITEMS: NavItem[] = [
     name: 'Apply',
     href: '/apply',
   },
+
+  // ── 8. Impact ────────────────────────────────────────────────────────────────
+  {
+    id: 'impact',
+    name: 'Our Impact',
+    href: '/impact',
+  },
+
+  // ── 9. Donate ────────────────────────────────────────────────────────────────
+  {
+    id: 'donate',
+    name: 'Donate',
+    href: '/donate',
+  },
 ];
