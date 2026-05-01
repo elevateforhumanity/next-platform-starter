@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -25,6 +25,20 @@ const EMPLOYMENT_STATUS = [
 type YesNo = 'yes' | 'no' | null;
 type Path = 'A' | 'B' | 'C';
 
+interface DbProgram {
+  id: string;
+  slug: string;
+  title: string;
+  duration_weeks: number | null;
+  salary_min: number | null;
+  salary_max: number | null;
+  credential_name: string | null;
+  funding_eligible: boolean | null;
+  wioa_approved: boolean | null;
+  funding_tags: string[] | null;
+  category: string | null;
+}
+
 interface RecommendedProgram {
   name: string;
   slug: string;
@@ -34,117 +48,84 @@ interface RecommendedProgram {
   fundedLabel?: string;
 }
 
-// Auto-match logic — returns top 3 programs based on qualifier answers.
-// Priority: fastest path to employment for unemployed/underemployed Indiana residents.
-function getRecommendedPrograms(q1: YesNo, q2: YesNo, employment: string): RecommendedProgram[] {
+function formatDuration(weeks: number | null): string {
+  if (!weeks) return 'Flexible schedule';
+  if (weeks <= 6) return `${weeks} weeks`;
+  if (weeks <= 16) return `${weeks} weeks`;
+  if (weeks >= 52) return `${Math.round(weeks / 52)} year${weeks >= 104 ? 's' : ''}`;
+  return `${weeks} weeks`;
+}
+
+function formatOutcome(p: DbProgram): string {
+  if (p.salary_min && p.salary_max) {
+    return `Avg. $${p.salary_min.toLocaleString()}–$${p.salary_max.toLocaleString()}/yr`;
+  }
+  if (p.credential_name) return `${p.credential_name} credential included`;
+  return 'Industry-recognized credential';
+}
+
+function getFundedLabel(p: DbProgram): string {
+  const tags = p.funding_tags ?? [];
+  if (tags.includes('WIOA') && tags.includes('WRG')) return 'WIOA / Workforce Ready Grant';
+  if (tags.includes('WIOA')) return 'WIOA eligible';
+  if (tags.includes('WRG')) return 'Workforce Ready Grant';
+  if (p.wioa_approved) return 'WIOA eligible';
+  return 'Funding available';
+}
+
+// Category slugs that map to healthcare programs
+const HEALTHCARE_CATEGORIES = ['healthcare', 'health', 'medical', 'nursing', 'allied-health'];
+// Category slugs that map to trades/technical programs
+const TRADES_CATEGORIES = ['trades', 'hvac', 'electrical', 'plumbing', 'construction', 'cdl', 'transportation'];
+
+function pickRecommended(
+  programs: DbProgram[],
+  q1: YesNo,
+  q2: YesNo,
+  employment: string,
+): RecommendedProgram[] {
   const isUnemployed =
     q1 === 'yes' || employment === 'Unemployed' || employment === 'Recently laid off';
   const isIndiana = q2 === 'yes';
   const isCareerChange = employment === 'Employed — looking to change careers';
 
-  // All ETPL-eligible programs (WIOA/Workforce Ready Grant funded for Indiana residents)
-  const allPrograms: RecommendedProgram[] = [
-    {
-      name: 'CNA — Certified Nursing Assistant',
-      slug: 'cna',
-      duration: '4–6 weeks',
-      outcome: 'Avg. $16–$20/hr starting wage',
-      funded: true,
-      fundedLabel: 'WIOA / Workforce Ready Grant',
-    },
-    {
-      name: 'Phlebotomy Technician (CPT)',
-      slug: 'phlebotomy',
-      duration: '4–6 weeks',
-      outcome: 'NHA certification included',
-      funded: true,
-      fundedLabel: 'WIOA / Workforce Ready Grant',
-    },
-    {
-      name: 'HVAC Technician',
-      slug: 'hvac-technician',
-      duration: '10–16 weeks',
-      outcome: 'EPA 608 certification included',
-      funded: true,
-      fundedLabel: 'WIOA / Workforce Ready Grant',
-    },
-    {
-      name: 'IT Help Desk Specialist',
-      slug: 'it-help-desk',
-      duration: '8–12 weeks',
-      outcome: 'CompTIA A+ via Certiport',
-      funded: true,
-      fundedLabel: 'WIOA / Workforce Ready Grant',
-    },
-    {
-      name: 'Medical Assistant (CCMA)',
-      slug: 'medical-assistant',
-      duration: '8–12 weeks',
-      outcome: 'NHA certification included',
-      funded: true,
-      fundedLabel: 'WIOA / Workforce Ready Grant',
-    },
-    {
-      name: 'Pharmacy Technician',
-      slug: 'pharmacy-technician',
-      duration: '8–10 weeks',
-      outcome: 'PTCB exam prep included',
-      funded: true,
-      fundedLabel: 'WIOA / Workforce Ready Grant',
-    },
-    {
-      name: 'Barber Apprenticeship',
-      slug: 'barber-apprenticeship',
-      duration: '2 years (USDOL registered)',
-      outcome: 'Indiana barber license pathway',
-      funded: false,
-    },
-    {
-      name: 'CDL Class A',
-      slug: 'cdl-training',
-      duration: '4–8 weeks',
-      outcome: 'Avg. $55,000–$75,000/yr',
-      funded: true,
-      fundedLabel: 'WIOA eligible',
-    },
-    {
-      name: 'Cosmetology Apprenticeship',
-      slug: 'cosmetology-apprenticeship',
-      duration: '2 years',
-      outcome: 'Indiana cosmetology license',
-      funded: false,
-    },
-  ];
+  const funded = programs.filter((p) => p.funding_eligible || p.wioa_approved);
+  const healthcare = funded.filter((p) =>
+    HEALTHCARE_CATEGORIES.some((c) => p.category?.toLowerCase().includes(c)),
+  );
+  const trades = funded.filter((p) =>
+    TRADES_CATEGORIES.some((c) => p.category?.toLowerCase().includes(c) || p.slug.includes(c)),
+  );
 
-  // Fastest-to-employment programs for unemployed candidates
+  let pool: DbProgram[];
   if (isUnemployed && isIndiana) {
-    return [
-      allPrograms[0], // CNA — fastest, highest demand
-      allPrograms[1], // Phlebotomy — fast, funded
-      allPrograms[2], // HVAC — strong wages
-    ];
+    // Fastest path to employment: healthcare first (short programs), then trades
+    pool = [...healthcare, ...trades, ...funded].filter(
+      (p, i, arr) => arr.findIndex((x) => x.id === p.id) === i,
+    );
+  } else if (isCareerChange && isIndiana) {
+    // Career changers: trades/technical first (higher wages)
+    pool = [...trades, ...funded].filter(
+      (p, i, arr) => arr.findIndex((x) => x.id === p.id) === i,
+    );
+  } else if (isIndiana) {
+    // Indiana residents: funded programs, healthcare priority
+    pool = [...healthcare, ...funded].filter(
+      (p, i, arr) => arr.findIndex((x) => x.id === p.id) === i,
+    );
+  } else {
+    // Non-Indiana: all active programs (self-pay)
+    pool = programs;
   }
 
-  // Career changers — higher-wage programs
-  if (isCareerChange && isIndiana) {
-    return [
-      allPrograms[2], // HVAC
-      allPrograms[3], // IT
-      allPrograms[7], // CDL
-    ];
-  }
-
-  // Healthcare interest (default for Indiana residents)
-  if (isIndiana) {
-    return [
-      allPrograms[0], // CNA
-      allPrograms[4], // Medical Assistant
-      allPrograms[5], // Pharmacy Tech
-    ];
-  }
-
-  // Non-Indiana — show self-pay options
-  return [allPrograms[0], allPrograms[2], allPrograms[3]];
+  return pool.slice(0, 3).map((p) => ({
+    name: p.title,
+    slug: p.slug,
+    duration: formatDuration(p.duration_weeks),
+    outcome: formatOutcome(p),
+    funded: !!(p.funding_eligible || p.wioa_approved),
+    fundedLabel: p.funding_eligible || p.wioa_approved ? getFundedLabel(p) : undefined,
+  }));
 }
 
 function getPath(q1: YesNo, q2: YesNo, q3: YesNo): Path {
@@ -165,10 +146,19 @@ export default function CheckEligibilityPage() {
   const [employment, setEmployment] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [dbPrograms, setDbPrograms] = useState<DbProgram[]>([]);
+
+  // Load live programs once on mount
+  useEffect(() => {
+    fetch('/api/funnel/programs')
+      .then((r) => r.json())
+      .then((d) => { if (d.programs) setDbPrograms(d.programs); })
+      .catch(() => { /* silently fall through — recommended list will be empty */ });
+  }, []);
 
   const allAnswered = q1 !== null && q2 !== null && q3 !== null;
   const path = getPath(q1, q2, q3);
-  const recommended = getRecommendedPrograms(q1, q2, employment);
+  const recommended = pickRecommended(dbPrograms, q1, q2, employment);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -186,7 +176,7 @@ export default function CheckEligibilityPage() {
           name,
           phone,
           email,
-          program,
+          program: program || recommended[0]?.name || '',
           employment,
           source: 'check-eligibility',
           qualificationPath: path,
@@ -525,18 +515,11 @@ export default function CheckEligibilityPage() {
                     className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent bg-white"
                   >
                     <option value="">Select a program</option>
-                    {recommended.map((r) => (
-                      <option key={r.slug} value={r.name}>
-                        {r.name}
+                    {dbPrograms.map((p) => (
+                      <option key={p.id} value={p.title}>
+                        {p.title}
                       </option>
                     ))}
-                    <option disabled>──────────</option>
-                    <option value="Barber Apprenticeship">Barber Apprenticeship</option>
-                    <option value="CDL Class A">CDL Class A</option>
-                    <option value="Cosmetology Apprenticeship">Cosmetology Apprenticeship</option>
-                    <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
-                    <option value="Network Administration">Network Administration</option>
-                    <option value="Bookkeeping">Bookkeeping</option>
                     <option value="Not Sure Yet">Not Sure Yet</option>
                   </select>
                 </div>
