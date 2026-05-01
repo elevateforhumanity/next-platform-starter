@@ -87,7 +87,7 @@ async function _POST(req: NextRequest) {
       hourly_wage: body.hourly_wage ? parseFloat(body.hourly_wage as string) : null,
       start_date: (body.start_date as string) || null,
       notes: (body.notes as string) || null,
-      recorded_by_uuid: auth.user.id,
+      recorded_by: auth.user.id,
     })
     .select('id')
     .maybeSingle();
