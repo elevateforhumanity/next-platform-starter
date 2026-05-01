@@ -218,4 +218,13 @@ export const PROJECT_MANAGEMENT: ProgramSchema = {
   metaTitle: 'Project Management | Certiport Certified | Indianapolis',
   metaDescription:
     'Prepare for project management certification in 6 weeks. Agile, Scrum, and traditional PM. Project managers earn $95,370/year. WIOA funding available.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

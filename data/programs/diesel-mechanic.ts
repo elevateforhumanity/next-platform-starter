@@ -359,4 +359,13 @@ export const DIESEL_MECHANIC: ProgramSchema = {
   metaTitle: 'Diesel Mechanic Training | ASE Prep | Indianapolis',
   metaDescription:
     'Diesel engine repair and maintenance training. 12-week program with OSHA 10 and ASE prep. Diesel mechanics earn $55,000/year. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

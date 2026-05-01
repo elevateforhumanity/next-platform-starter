@@ -252,4 +252,13 @@ export const CAD_DRAFTING: ProgramSchema = {
   metaTitle: 'CAD/Drafting Technician | Autodesk Certified | Indianapolis',
   metaDescription:
     'Learn AutoCAD and Revit in 10 weeks. Prepare for Autodesk certifications. CAD drafters earn $60,290/year. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

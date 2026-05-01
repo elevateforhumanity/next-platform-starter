@@ -257,4 +257,13 @@ export const CNA: ProgramSchema = {
   enrollmentType: 'internal',
   deliveryModel: 'internal',
   fundingOptions: ['impact', 'self_pay'],
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. FSSA IMPACT covers eligible SNAP/TANF recipients. WIOA Title I Adult/Dislocated Worker funding available.',
+  },
 };

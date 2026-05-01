@@ -159,7 +159,7 @@ export function SignatureInput({
   };
 
   // Save signature to database
-  const saveSignature = async () => {
+  const saveSignature = useCallback(async () => {
     if (!isValid || !userId) return;
 
     setSaving(true);
@@ -200,8 +200,7 @@ export function SignatureInput({
             document_type: documentType,
             signature_type: signatureType,
           },
-        })
-        .catch(() => {});
+        });
 
       setSaved(true);
       onSignatureSaved?.(signature.id);
@@ -211,17 +210,16 @@ export function SignatureInput({
     } finally {
       setSaving(false);
     }
-  };
+  }, [isValid, userId, signatureType, typedSignature, drawnSignature, documentId, documentType, userName, onSignatureSaved]);
 
   // Auto-save when valid
   useEffect(() => {
-    if (autoSave && isValid && !saved && !saving && userId) {
-      const timer = setTimeout(() => {
-        saveSignature();
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [autoSave, isValid, saved, saving, userId]);
+    if (!autoSave || !isValid || saved || saving || !userId) return undefined;
+    const timer = setTimeout(() => {
+      saveSignature();
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [autoSave, isValid, saved, saving, userId, saveSignature]);
 
   return (
     <div className="space-y-4">

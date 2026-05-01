@@ -203,4 +203,13 @@ export const SANITATION: ProgramSchema = {
   metaTitle: 'Sanitation & Infection Control Certification | Indianapolis',
   metaDescription:
     'Prepare for infection control and ServSafe certifications in 2 weeks. Required for healthcare, food service, and personal services. Indianapolis.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'Short-credential program. WIOA and FSSA funding eligibility determined by the applicable workforce agency.',
+  },
 };

@@ -232,4 +232,13 @@ export const CULINARY: ProgramSchema = {
   metaTitle: 'Culinary Apprenticeship | ServSafe Certified | Indianapolis',
   metaDescription:
     'Earn ServSafe certification through a paid culinary apprenticeship. Hands-on training in professional kitchens. Indianapolis.',
+
+
+  funding: {
+    wioaEligible: false,
+    fssaImpactEligible: true,
+    wrgEligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'DOL Registered Apprenticeship. FSSA IMPACT may be available. WIOA apprenticeship funding eligibility determined by Indiana DWD.',
+  },
 };

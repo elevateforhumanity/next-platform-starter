@@ -305,4 +305,13 @@ export const ESTHETICIAN: ProgramSchema = {
   metaTitle: 'Professional Esthetician & Client Services | ETPL Approved | Indianapolis',
   metaDescription:
     'Earn NRF and OSHA 10 certifications in 5 weeks. WIOA-funded esthetician and skincare training in Indianapolis. Non-licensure certificate program.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

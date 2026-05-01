@@ -252,4 +252,13 @@ export const HOSPITALITY: ProgramSchema = {
   metaTitle: 'Hospitality & Customer Service Training | Indianapolis | Elevate for Humanity',
   metaDescription:
     '8-week hospitality training program in Indianapolis. Earn a hospitality certificate and ServSafe certification. WIOA and Workforce Ready Grant funding available.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

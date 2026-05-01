@@ -243,4 +243,13 @@ export const CPR_FIRST_AID: ProgramSchema = {
   metaTitle: 'CPR & First Aid Certification | Train From Home | $130 | Elevate',
   metaDescription:
     'Get CPR & First Aid certified from home. Live instructor. Training mannequin shipped to your door. $130. Nationally recognized 2-year certification. Enroll today.',
+
+
+  funding: {
+    wioaEligible: false,
+    fssaImpactEligible: false,
+    wrgEligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'Short certification. Not typically funded through WIOA or FSSA as a standalone credential. May be bundled with a funded program.',
+  },
 };

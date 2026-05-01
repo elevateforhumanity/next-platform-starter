@@ -260,4 +260,13 @@ export const TECHNOLOGY: ProgramSchema = {
   metaTitle: 'Technology Career Training | CompTIA A+ | Indianapolis | Elevate for Humanity',
   metaDescription:
     '12-week technology training program in Indianapolis. Earn CompTIA A+ certification. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

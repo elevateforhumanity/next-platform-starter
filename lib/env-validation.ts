@@ -19,7 +19,13 @@ export interface EnvConfig {
   STRIPE_SECRET_KEY?: string;
   STRIPE_PUBLISHABLE_KEY?: string;
   SENDGRID_API_KEY?: string;
+  // RAILWAY/BACKEND-ONLY: These must NOT be set in Netlify site env.
+  // Used only in server-side API routes and Railway workers.
+  // Remove from Netlify dashboard if present.
   OPENAI_API_KEY?: string;
+  DID_API_KEY?: string;
+  RAILWAY_URL?: string;
+  // RAILWAY_TOKEN must never be set in Netlify — Railway-internal only.
   SUPERSONIC_API_KEY?: string;
   JOTFORM_API_KEY?: string;
   SENTRY_DSN?: string;

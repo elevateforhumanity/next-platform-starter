@@ -250,4 +250,13 @@ export const NAIL_TECH: ProgramSchema = {
   metaTitle: 'Nail Technician Apprenticeship | Indiana Licensed | Indianapolis',
   metaDescription:
     'Earn your Indiana nail technician license through a paid apprenticeship. 600 hours of supervised training. Earn while you learn. Indianapolis.',
+
+
+  funding: {
+    wioaEligible: false,
+    fssaImpactEligible: true,
+    wrgEligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'DOL Registered Apprenticeship. FSSA IMPACT may be available. WIOA apprenticeship funding eligibility determined by Indiana DWD.',
+  },
 };

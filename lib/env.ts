@@ -25,8 +25,16 @@ export const env = {
   // Email
   SENDGRID_API_KEY: safeEnv('SENDGRID_API_KEY'),
 
-  // OpenAI
+  // AI / Media generation
+  // RAILWAY/BACKEND-ONLY: OPENAI_API_KEY, DID_API_KEY must NOT be set in Netlify site env.
+  // These are used exclusively in server-side API routes (app/api/**) and Railway workers.
+  // Setting them in Netlify exposes them to the build environment unnecessarily.
   OPENAI_API_KEY: safeEnv('OPENAI_API_KEY'),
+  DID_API_KEY: safeEnv('DID_API_KEY'),
+
+  // Railway backend URL — used for proxying requests to Railway-hosted services.
+  // RAILWAY/BACKEND-ONLY: Do not set RAILWAY_TOKEN in Netlify site env.
+  RAILWAY_URL: safeEnv('RAILWAY_URL'),
 
   // Turnstile
   TURNSTILE_SECRET_KEY: safeEnv('TURNSTILE_SECRET_KEY'),

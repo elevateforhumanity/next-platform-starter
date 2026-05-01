@@ -354,4 +354,13 @@ export const CDL_TRAINING: ProgramSchema = {
   metaTitle: 'CDL Training | Class A License | Indianapolis',
   metaDescription:
     'Earn your CDL Class A license in 3–6 weeks. Behind-the-wheel training. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available. CDL-A/B certification program.',
+  },
 };

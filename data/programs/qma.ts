@@ -276,4 +276,13 @@ export const QMA: ProgramSchema = {
     'Career placement support',
   ],
   paymentTerms: 'Payment plans available. FSSA IMPACT and WIOA funding accepted. Contact an advisor to apply for funding.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: false,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. FSSA IMPACT covers eligible SNAP/TANF recipients. Requires active Indiana CNA certification.',
+  },
 };

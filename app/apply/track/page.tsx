@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Search, Clock, XCircle, Phone, Mail, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -77,9 +77,11 @@ export default function TrackApplicationPage() {
         handleSearch(id, email);
       }
     }
+    // handleSearch is stable (useCallback). Run once on mount only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSearch = async (id?: string, email?: string) => {
+  const handleSearch = useCallback(async (id?: string, email?: string) => {
     const applicationId = id || searchId;
     const applicationEmail = email || searchEmail;
 
@@ -113,7 +115,7 @@ export default function TrackApplicationPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchId, searchEmail]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

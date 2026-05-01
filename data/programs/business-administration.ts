@@ -288,4 +288,13 @@ export const BUSINESS_ADMIN: ProgramSchema = {
   metaTitle: 'Business Administration | Certiport Certified | Indianapolis',
   metaDescription:
     'Prepare for Microsoft Office, QuickBooks, and ESB certifications in 8 weeks. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

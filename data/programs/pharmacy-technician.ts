@@ -447,4 +447,13 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
   metaTitle: 'Pharmacy Technician Training | PTCB Certified | Indianapolis',
   metaDescription:
     '10-week pharmacy technician program. PTCB CPhT exam prep, sterile compounding, and 5 credentials. 180–220 hours. WIOA funding available.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. FSSA IMPACT and WIOA Title I funding available for eligible Indiana residents.',
+  },
 };

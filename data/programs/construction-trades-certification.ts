@@ -311,4 +311,13 @@ export const CONSTRUCTION_TRADES: ProgramSchema = {
   metaTitle: 'Construction Trades Certification | OSHA 30 + EPA 608 + Forklift | Indianapolis',
   metaDescription:
     'Earn OSHA 30, EPA 608, and forklift certifications in 8 weeks. Multi-trade foundation for construction careers. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

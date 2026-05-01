@@ -236,4 +236,13 @@ export const SOFTWARE_DEV: ProgramSchema = {
   metaTitle: 'Software Development Foundations | IT Specialist Certified | Indianapolis',
   metaDescription:
     'Learn Python, SQL, and software engineering in 12 weeks. Software developers earn $127,260/year. 25% job growth. WIOA funding available.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

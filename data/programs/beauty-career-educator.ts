@@ -280,4 +280,13 @@ export const BEAUTY_CAREER_EDUCATOR: ProgramSchema = {
   metaTitle: 'Beauty & Career Educator Training | ETPL Approved | Indianapolis',
   metaDescription:
     'Earn your Rise Up credential, CPR/First Aid, and OSHA 10 in 12 weeks. WIOA-funded beauty and career educator training in Indianapolis.',
+
+
+  funding: {
+    wioaEligible: false,
+    fssaImpactEligible: false,
+    wrgEligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'Eligibility for WIOA/FSSA funding determined by the applicable workforce or funding agency.',
+  },
 };

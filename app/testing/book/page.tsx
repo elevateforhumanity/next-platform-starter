@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -77,7 +77,7 @@ function BookingForm() {
   const [payingFee, setPayingFee] = useState(false);
 
   // Capture lead as soon as email is entered — fires follow-up sequence if they abandon
-  const captureLead = async (emailVal: string) => {
+  const captureLead = useCallback(async (emailVal: string) => {
     if (!emailVal || !emailVal.includes('@') || leadCaptured) return;
     try {
       await fetch('/api/testing/leads', {
@@ -95,14 +95,14 @@ function BookingForm() {
     } catch {
       // non-blocking — never interrupt the booking flow
     }
-  };
+  }, [leadCaptured, selectedProvider, name, phone]);
 
   // Check for no-show/retake hold when email is entered.
   // Debounced 400ms + aborts in-flight requests to prevent stacked calls on fast typing.
   const enforcementAbortRef = useRef<AbortController | null>(null);
   const enforcementTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const checkEnforcementHold = (emailVal: string) => {
+  const checkEnforcementHold = useCallback((emailVal: string) => {
     // Cancel any pending debounce
     if (enforcementTimerRef.current) clearTimeout(enforcementTimerRef.current);
     // Abort any in-flight request
@@ -132,7 +132,9 @@ function BookingForm() {
         setCheckingHold(false);
       }
     }, 400);
-  };
+    // Refs are stable — excluded from deps intentionally
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlePayEnforcementFee = async () => {
     if (!enforcementHold) return;

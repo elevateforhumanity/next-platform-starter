@@ -425,4 +425,13 @@ export const CYBERSECURITY_ANALYST: ProgramSchema = {
   metaTitle: 'Cybersecurity Analyst | CompTIA Security+ | Indianapolis',
   metaDescription:
     'Prepare for CompTIA Security+ and Network+ certifications. 12-week program. Cybersecurity analysts earn $112,000/year. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available. CompTIA/ISC2 certification pathway.',
+  },
 };

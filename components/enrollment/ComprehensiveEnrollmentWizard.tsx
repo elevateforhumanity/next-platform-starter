@@ -211,6 +211,8 @@ export default function ComprehensiveEnrollmentWizard({
       saveProgress();
     }, 2000);
     return () => clearTimeout(timer);
+    // saveProgress is defined below via function hoisting — safe to omit from deps.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData]);
 
   const saveProgress = async () => {

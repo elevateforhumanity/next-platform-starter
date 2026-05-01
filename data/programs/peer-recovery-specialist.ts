@@ -274,4 +274,13 @@ export const PEER_RECOVERY: ProgramSchema = {
     advisorHref: '/contact',
     courseHref: '/programs/peer-recovery-specialist',
   },
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA and FSSA IMPACT funding available. DMHA-recognized credential pathway.',
+  },
 };

@@ -342,4 +342,13 @@ export const PLUMBING: ProgramSchema = {
   metaTitle: 'Plumbing Technician Training | OSHA 10 + NCCER | Indianapolis',
   metaDescription:
     'Learn residential and commercial plumbing in 10 weeks. Earn OSHA 10 and NCCER certifications. Plumbers earn $59,880/year. WIOA funding available.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

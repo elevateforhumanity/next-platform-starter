@@ -320,4 +320,13 @@ export const EMERGENCY_HEALTH_SAFETY: ProgramSchema = {
   metaTitle: 'Emergency Health & Safety Technician | EMR + OSHA 10 | Indianapolis',
   metaDescription:
     'Earn EMR, CPR/AED, First Aid, and OSHA 10 certifications in 4 weeks. WIOA-funded Emergency Health & Safety Technician program in Indianapolis.',
+
+
+  funding: {
+    wioaEligible: false,
+    fssaImpactEligible: false,
+    wrgEligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'Short certification. Eligibility for standalone WIOA/FSSA funding determined by the applicable workforce agency.',
+  },
 };

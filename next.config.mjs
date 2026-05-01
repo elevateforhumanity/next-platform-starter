@@ -77,11 +77,7 @@ const nextConfig = {
   ],
 
   // Disable dev indicators (static route indicator, build indicator)
-  devIndicators: {
-    appIsrStatus: false,
-    buildActivity: false,
-    buildActivityPosition: 'bottom-right',
-  },
+  devIndicators: false,
 
   // Use commit SHA as build ID so webpack filesystem cache is reused across
   // retries of the same commit. Falls back to git rev-parse locally so the

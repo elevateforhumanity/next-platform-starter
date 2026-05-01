@@ -262,4 +262,13 @@ export const TAX_PREPARATION: ProgramSchema = {
   metaTitle: 'Tax Preparation | IRS PTIN Certified | Indianapolis',
   metaDescription:
     'Earn your IRS PTIN and learn tax preparation in 8 weeks. Tax preparers earn $46,240/year. WIOA funding available. Indianapolis.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: false,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and FSSA IMPACT funding available. WRG eligibility determined by Indiana DWD.',
+  },
 };

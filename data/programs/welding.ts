@@ -343,4 +343,13 @@ export const WELDING: ProgramSchema = {
   metaTitle: 'Welding Technology | AWS Certified | Indianapolis',
   metaDescription:
     'Learn MIG, TIG, and stick welding. Prepare for AWS D1.1 certification in 10 weeks. Welders earn $47,540/year. WIOA funding available. Indianapolis.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };

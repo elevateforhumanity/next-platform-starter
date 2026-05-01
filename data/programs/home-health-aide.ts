@@ -308,4 +308,13 @@ export const HOME_HEALTH_AIDE: ProgramSchema = {
   metaTitle: 'Home Health Aide Certification | HHA + CCHW | Indianapolis',
   metaDescription:
     'Earn your HHA and CCHW certifications in 4 weeks. WIOA-funded Home Health Aide program in Indianapolis with direct employer placement.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: false,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. FSSA IMPACT and WIOA Title I funding available. WRG eligibility determined by Indiana DWD.',
+  },
 };

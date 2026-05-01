@@ -216,4 +216,13 @@ export const ENTREPRENEURSHIP: ProgramSchema = {
   metaTitle: 'Entrepreneurship & Small Business | Certiport ESB | Indianapolis',
   metaDescription:
     'Launch or grow your business. Business planning, marketing, and ESB certification in 6 weeks. Indianapolis. WIOA funding available for eligible Indiana residents.',
+
+
+  funding: {
+    wioaEligible: false,
+    fssaImpactEligible: false,
+    wrgEligible: false,
+    jobReadyIndyEligible: false,
+    fundingNotes: 'Eligibility for WIOA/FSSA funding as a standalone program determined by the applicable workforce or funding agency.',
+  },
 };

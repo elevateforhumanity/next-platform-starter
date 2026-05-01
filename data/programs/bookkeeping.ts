@@ -342,4 +342,13 @@ export const BOOKKEEPING: ProgramSchema = {
   metaTitle: 'Bookkeeping & QuickBooks | Certified User | Indianapolis',
   metaDescription:
     'Prepare for the QuickBooks Certified User exam. 5-week program. Bookkeepers earn $45,860/year in Indiana. Payment plans available.',
+
+
+  funding: {
+    wioaEligible: true,
+    fssaImpactEligible: true,
+    wrgEligible: true,
+    jobReadyIndyEligible: true,
+    fundingNotes: 'Indiana ETPL-listed. WIOA Title I and WRG funding available for eligible Indiana residents.',
+  },
 };
