@@ -46,26 +46,28 @@ CREATE TABLE IF NOT EXISTS public.school_applications (
   updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_school_applications_partner   ON public.school_applications(partner_id);
-CREATE INDEX idx_school_applications_email     ON public.school_applications(email);
-CREATE INDEX idx_school_applications_program   ON public.school_applications(program_interest);
-CREATE INDEX idx_school_applications_status    ON public.school_applications(status);
-CREATE INDEX idx_school_applications_created   ON public.school_applications(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_school_applications_partner_v2   ON public.school_applications(partner_id);
+CREATE INDEX IF NOT EXISTS idx_school_applications_email_v2     ON public.school_applications(email);
+CREATE INDEX IF NOT EXISTS idx_school_applications_program   ON public.school_applications(program_interest);
+CREATE INDEX IF NOT EXISTS idx_school_applications_status    ON public.school_applications(status);
+CREATE INDEX IF NOT EXISTS idx_school_applications_created   ON public.school_applications(created_at DESC);
 
 ALTER TABLE public.school_applications ENABLE ROW LEVEL SECURITY;
 
 -- Applicants can read their own row matched directly on auth.email().
 -- Using auth.email() avoids a profiles join — applicants may not have a
 -- profiles row yet (they applied before creating an account).
-CREATE POLICY "Applicants can view own application"
-  ON public.school_applications FOR SELECT
+DROP policy if exists "Applicants can view own application" on public.school_applications;
+DROP policy if exists "Applicants can view own application" on public.school_applications;
+CREATE policy "Applicants can view own application" on public.school_applications FOR SELECT
   USING (
     email = auth.email()
   );
 
 -- Admin / staff can manage all
-CREATE POLICY "Admin can manage school applications"
-  ON public.school_applications FOR ALL
+DROP policy if exists "Admin can manage school applications" on public.school_applications;
+DROP policy if exists "Admin can manage school applications" on public.school_applications;
+CREATE policy "Admin can manage school applications" on public.school_applications FOR ALL
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -75,8 +77,9 @@ CREATE POLICY "Admin can manage school applications"
   );
 
 -- Service role full access
-CREATE POLICY "Service role full access school_applications"
-  ON public.school_applications FOR ALL
+DROP policy if exists "Service role full access school_applications" on public.school_applications;
+DROP policy if exists "Service role full access school_applications" on public.school_applications;
+CREATE policy "Service role full access school_applications" on public.school_applications FOR ALL
   TO service_role
   USING (true)
   WITH CHECK (true);
@@ -90,6 +93,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS school_applications_updated_at ON public.school_applications;
 CREATE TRIGGER school_applications_updated_at
   BEFORE UPDATE ON public.school_applications
   FOR EACH ROW EXECUTE FUNCTION update_school_applications_updated_at();

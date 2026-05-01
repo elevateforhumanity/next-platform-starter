@@ -5,6 +5,7 @@
 
 INSERT INTO public.partners (
   name,
+  owner_name,
   partner_type,
   contact_name,
   contact_email,
@@ -19,6 +20,7 @@ INSERT INTO public.partners (
 ) VALUES
   (
     'Faatin Azar & Associates',
+    'Faatin Azar & Associates',
     'employer',
     'Faatin Azar',
     'faatin.azar@example.com',
@@ -31,7 +33,8 @@ INSERT INTO public.partners (
     now(),
     now()
   )
-ON CONFLICT (name) DO UPDATE SET
+ON CONFLICT (contact_email) DO UPDATE SET
+  owner_name = COALESCE(EXCLUDED.owner_name, partners.owner_name),
   partner_type  = EXCLUDED.partner_type,
   contact_name  = EXCLUDED.contact_name,
   is_active     = EXCLUDED.is_active,

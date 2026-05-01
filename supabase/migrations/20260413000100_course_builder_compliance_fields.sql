@@ -89,13 +89,13 @@ CREATE INDEX IF NOT EXISTS idx_course_lessons_compliance_profile
 ALTER TABLE public.compliance_profiles ENABLE ROW LEVEL SECURITY;
 
 -- Public read — profiles are reference data
-CREATE POLICY "compliance_profiles_public_read"
-  ON public.compliance_profiles FOR SELECT
+DROP POLICY IF EXISTS "compliance_profiles_public_read" ON public.compliance_profiles;
+CREATE POLICY "compliance_profiles_public_read" ON public.compliance_profiles FOR SELECT
   USING (true);
 
 -- Admin write
-CREATE POLICY "compliance_profiles_admin_write"
-  ON public.compliance_profiles FOR ALL
+DROP POLICY IF EXISTS "compliance_profiles_admin_write" ON public.compliance_profiles;
+CREATE POLICY "compliance_profiles_admin_write" ON public.compliance_profiles FOR ALL
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles

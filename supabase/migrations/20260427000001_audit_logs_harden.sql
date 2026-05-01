@@ -40,6 +40,7 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 
 -- Admins and staff can read all logs
 DROP POLICY IF EXISTS "Admins can view audit logs" ON public.audit_logs;
+DROP POLICY IF EXISTS "Admins can view audit logs" ON public.audit_logs;
 CREATE POLICY "Admins can view audit logs" ON public.audit_logs
   FOR SELECT
   USING (
@@ -52,6 +53,7 @@ CREATE POLICY "Admins can view audit logs" ON public.audit_logs
 
 -- Authenticated users can read their own logs
 DROP POLICY IF EXISTS "Users can view own audit logs" ON public.audit_logs;
+DROP POLICY IF EXISTS "Users can view own audit logs" ON public.audit_logs;
 CREATE POLICY "Users can view own audit logs" ON public.audit_logs
   FOR SELECT
   USING (user_id = auth.uid() OR actor_id = auth.uid());
@@ -61,6 +63,7 @@ CREATE POLICY "Users can view own audit logs" ON public.audit_logs
 -- This prevents a compromised user session from forging audit entries for other users.
 DROP POLICY IF EXISTS "Users can create own audit logs" ON public.audit_logs;
 DROP POLICY IF EXISTS "Service role inserts audit logs" ON public.audit_logs;
+DROP POLICY IF EXISTS "Authenticated users insert own audit logs" ON public.audit_logs;
 CREATE POLICY "Authenticated users insert own audit logs" ON public.audit_logs
   FOR INSERT
   WITH CHECK (
@@ -70,9 +73,11 @@ CREATE POLICY "Authenticated users insert own audit logs" ON public.audit_logs
 
 -- No updates or deletes — audit logs are immutable
 DROP POLICY IF EXISTS "No updates to audit logs" ON public.audit_logs;
+DROP POLICY IF EXISTS "No updates to audit logs" ON public.audit_logs;
 CREATE POLICY "No updates to audit logs" ON public.audit_logs
   FOR UPDATE USING (false);
 
+DROP POLICY IF EXISTS "No deletes from audit logs" ON public.audit_logs;
 DROP POLICY IF EXISTS "No deletes from audit logs" ON public.audit_logs;
 CREATE POLICY "No deletes from audit logs" ON public.audit_logs
   FOR DELETE USING (false);

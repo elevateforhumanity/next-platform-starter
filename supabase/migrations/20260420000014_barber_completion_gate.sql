@@ -34,7 +34,7 @@ practicals AS (
   SELECT
     user_id,
     program_id,
-    COUNT(*) FILTER (WHERE verification_status = 'met') AS categories_met,
+    COUNT(*) FILTER (WHERE completed_count >= required_count) AS categories_met,
     COUNT(*) AS categories_total
   FROM public.barber_student_practicals
   GROUP BY user_id, program_id
@@ -124,7 +124,6 @@ CREATE TABLE IF NOT EXISTS public.barber_completions (
   certificate_id  uuid,        -- links to program_completion_certificates
   exam_auth_id    uuid,        -- links to exam_funding_authorizations
   notes           text
-  UNIQUE (user_id, program_id)
 );
 
 ALTER TABLE public.barber_completions ENABLE ROW LEVEL SECURITY;
@@ -135,3 +134,4 @@ CREATE POLICY "Student reads own completion"
   ON public.barber_completions FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY "Service role full completions"
   ON public.barber_completions USING (auth.role() = 'service_role');
+

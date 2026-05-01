@@ -14,13 +14,13 @@ DROP POLICY IF EXISTS "Users can read own acceptances" ON public.license_agreeme
 DROP POLICY IF EXISTS "Admins can read all acceptances" ON public.license_agreement_acceptances;
 
 -- SELECT: users can read their own records; admins can read all
-CREATE POLICY "Users can read own acceptances"
-  ON public.license_agreement_acceptances
+DROP POLICY IF EXISTS "Users can read own acceptances" ON public.license_agreement_acceptances;
+CREATE POLICY "Users can read own acceptances" ON public.license_agreement_acceptances
   FOR SELECT
   USING (auth.uid() = user_id);
 
-CREATE POLICY "Admins can read all acceptances"
-  ON public.license_agreement_acceptances
+DROP POLICY IF EXISTS "Admins can read all acceptances" ON public.license_agreement_acceptances;
+CREATE POLICY "Admins can read all acceptances" ON public.license_agreement_acceptances
   FOR SELECT
   USING (
     EXISTS (
@@ -31,14 +31,14 @@ CREATE POLICY "Admins can read all acceptances"
   );
 
 -- INSERT: authenticated users can insert their own records only
-CREATE POLICY "Users can sign agreements"
-  ON public.license_agreement_acceptances
+DROP POLICY IF EXISTS "Users can sign agreements" ON public.license_agreement_acceptances;
+CREATE POLICY "Users can sign agreements" ON public.license_agreement_acceptances
   FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
 -- UPDATE: users can update their own records (re-signing)
-CREATE POLICY "Users can update own acceptances"
-  ON public.license_agreement_acceptances
+DROP POLICY IF EXISTS "Users can update own acceptances" ON public.license_agreement_acceptances;
+CREATE POLICY "Users can update own acceptances" ON public.license_agreement_acceptances
   FOR UPDATE
   USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);

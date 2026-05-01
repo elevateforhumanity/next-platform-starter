@@ -12,18 +12,17 @@ CREATE TABLE IF NOT EXISTS public.integration_tokens (
   metadata      JSONB,
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
-  UNIQUE (user_id, provider)
 );
 
 ALTER TABLE public.integration_tokens ENABLE ROW LEVEL SECURITY;
 
 -- Only the owning user and service role can read tokens.
-CREATE POLICY "integration_tokens_owner_read"
-  ON public.integration_tokens FOR SELECT
+DROP policy if exists "integration_tokens_owner_read" on public.integration_tokens;
+CREATE policy "integration_tokens_owner_read" on public.integration_tokens FOR SELECT
   USING (auth.uid() = user_id);
 
-CREATE POLICY "integration_tokens_owner_write"
-  ON public.integration_tokens FOR ALL
+DROP policy if exists "integration_tokens_owner_write" on public.integration_tokens;
+CREATE policy "integration_tokens_owner_write" on public.integration_tokens FOR ALL
   USING (auth.uid() = user_id);
 
 -- Calendly bookings — written by the webhook, read by admin.
@@ -45,14 +44,13 @@ CREATE TABLE IF NOT EXISTS public.calendly_bookings (
   raw_payload      JSONB,
   created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
-  UNIQUE (invitee_email, start_time)
 );
 
 ALTER TABLE public.calendly_bookings ENABLE ROW LEVEL SECURITY;
 
 -- Admins can read all bookings; no public access.
-CREATE POLICY "calendly_bookings_admin_read"
-  ON public.calendly_bookings FOR SELECT
+DROP policy if exists "calendly_bookings_admin_read" on public.calendly_bookings;
+CREATE policy "calendly_bookings_admin_read" on public.calendly_bookings FOR SELECT
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -73,11 +71,11 @@ CREATE TABLE IF NOT EXISTS public.google_classroom_sync (
   status       TEXT DEFAULT 'disconnected',
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
-  UNIQUE (user_id, course_id)
 );
 
 ALTER TABLE public.google_classroom_sync ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "classroom_sync_owner"
-  ON public.google_classroom_sync FOR ALL
+DROP policy if exists "classroom_sync_owner" on public.google_classroom_sync;
+CREATE policy "classroom_sync_owner" on public.google_classroom_sync FOR ALL
   USING (auth.uid() = user_id);
+

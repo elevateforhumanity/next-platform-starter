@@ -23,8 +23,8 @@ CREATE INDEX IF NOT EXISTS idx_application_followups_app
 -- RLS: admins only
 ALTER TABLE public.application_followups ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Admins can manage application_followups"
-  ON public.application_followups
+DROP POLICY IF EXISTS "Admins can manage application_followups" ON public.application_followups;
+CREATE POLICY "Admins can manage application_followups" ON public.application_followups
   FOR ALL
   TO authenticated
   USING (

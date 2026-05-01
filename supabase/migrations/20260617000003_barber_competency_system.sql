@@ -1,3 +1,9 @@
+ALTER TABLE public.competencies ADD COLUMN IF NOT EXISTS program_id uuid REFERENCES public.programs(id) ON DELETE CASCADE;
+ALTER TABLE public.competencies ADD COLUMN IF NOT EXISTS competency_key text;
+ALTER TABLE public.competencies ADD COLUMN IF NOT EXISTS is_critical boolean NOT NULL DEFAULT false;
+ALTER TABLE public.competencies ADD COLUMN IF NOT EXISTS minimum_touchpoints int NOT NULL DEFAULT 1;
+ALTER TABLE public.competencies ADD COLUMN IF NOT EXISTS domain_key text;
+
 -- Barber competency system
 --
 -- 1. lesson_competencies — links course_lessons to competencies (replaces
@@ -16,7 +22,6 @@ CREATE TABLE IF NOT EXISTS public.lesson_competencies (
   competency_id   uuid NOT NULL REFERENCES public.competencies(id)   ON DELETE CASCADE,
   is_primary      boolean NOT NULL DEFAULT true,
   created_at      timestamptz NOT NULL DEFAULT now()
-  UNIQUE (lesson_id, competency_id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_lesson_competencies_lesson_id
@@ -34,7 +39,6 @@ CREATE TABLE IF NOT EXISTS public.student_competency_progress (
   is_mastered     boolean NOT NULL DEFAULT false,
   mastered_at     timestamptz,
   updated_at      timestamptz NOT NULL DEFAULT now()
-  UNIQUE (user_id, competency_id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_student_competency_progress_user
@@ -66,16 +70,24 @@ BEGIN
     WHERE table_schema = 'public' AND table_name = 'competencies' AND column_name = 'competency_key'
   ) THEN
     ALTER TABLE public.competencies ADD COLUMN competency_key text;
-    ALTER TABLE public.competencies ADD COLUMN is_critical boolean NOT NULL DEFAULT false;
-    ALTER TABLE public.competencies ADD COLUMN minimum_touchpoints int NOT NULL DEFAULT 1;
-    ALTER TABLE public.competencies ADD COLUMN domain_key text;
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_competencies_program_key
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_competencies_program_key
       ON public.competencies(program_id, competency_key)
       WHERE competency_key IS NOT NULL;
   END IF;
 
   -- Module 1: Infection Control & Safety
-  INSERT INTO public.competencies (program_id, competency_key, name, is_critical, minimum_touchpoints, domain_key)
+  
+-- Add unique constraint for ON CONFLICT
+DO $do$
+BEGIN
+  ALTER TABLE public.competencies
+    ADD CONSTRAINT competencies_program_competency_key_uniq
+    UNIQUE (program_id, competency_key);
+EXCEPTION WHEN duplicate_table THEN NULL;
+WHEN duplicate_object THEN NULL;
+END $do$;
+
+INSERT INTO public.competencies (program_id, competency_key, name, is_critical, minimum_touchpoints, domain_key)
   VALUES
     (barber_program_id, 'sanitation_standards',   'Sanitation Standards',         true,  2, 'infection_control'),
     (barber_program_id, 'disinfection_protocols', 'Disinfection Protocols',       true,  2, 'infection_control'),
@@ -209,3 +221,4 @@ ON CONFLICT (lesson_id, competency_id) DO NOTHING;
 --   JOIN public.course_lessons cl ON cl.id = lc.lesson_id
 --   WHERE cl.course_id = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
 -- → must return > 0 (one row per lesson per competency in its domain)
+

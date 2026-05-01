@@ -35,8 +35,8 @@ CREATE TRIGGER program_course_map_updated_at
 -- RLS: readable by authenticated users, writable only by service role.
 ALTER TABLE public.program_course_map ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "program_course_map_read"
-  ON public.program_course_map FOR SELECT
+DROP POLICY IF EXISTS "program_course_map_read" ON public.program_course_map;
+CREATE POLICY "program_course_map_read" ON public.program_course_map FOR SELECT
   TO authenticated USING (true);
 
 -- Admin API for registering new programs.

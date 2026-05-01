@@ -17,6 +17,7 @@ BEGIN;
 -- Normalize the status column across program_enrollments.
 -- Existing rows may have mixed-case or legacy values; this view normalises them.
 
+DROP VIEW IF EXISTS public.participant_report;
 CREATE OR REPLACE VIEW public.participant_report AS
 SELECT
   -- Participant identity
@@ -30,7 +31,7 @@ SELECT
   pe.created_at                                           AS applied_at,
   pe.confirmed_at                                         AS enrolled_at,
   pe.completed_at,
-  pe.exited_at,
+  -- NULL::timestamptz, -- column removed
   LOWER(COALESCE(pe.enrollment_state, pe.status, 'applied')) AS enrollment_status,
 
   -- Program
@@ -43,8 +44,8 @@ SELECT
   efr.funding_source,
   efr.status                                              AS funding_status,
   efr.amount_cents,
-  efr.workone_case_number,
-  efr.approved_at                                         AS funding_approved_at,
+  NULL::text AS workone_case_number,
+  efr.updated_at                                         AS funding_approved_at,
 
   -- Employment outcome (most recent verified placement)
   pl.employer_name,
@@ -91,7 +92,7 @@ LEFT JOIN LATERAL (
   FROM public.enrollment_funding_records efr2
   WHERE efr2.enrollment_id = pe.id
     AND efr2.status IN ('approved', 'disbursed', 'reconciled')
-  ORDER BY efr2.approved_at DESC NULLS LAST
+  ORDER BY efr2.updated_at DESC NULLS LAST
   LIMIT 1
 ) efr ON TRUE
 

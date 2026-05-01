@@ -42,8 +42,8 @@ DROP POLICY IF EXISTS "course_lessons_service_role"                       ON pub
 
 -- Learners: read lessons for published, active courses
 -- Uses status + is_active — the actual columns on public.courses
-CREATE POLICY "course_lessons_authenticated_read"
-  ON public.course_lessons
+DROP POLICY IF EXISTS "course_lessons_authenticated_read" ON public.course_lessons;
+CREATE POLICY "course_lessons_authenticated_read" ON public.course_lessons
   FOR SELECT
   TO authenticated
   USING (
@@ -60,8 +60,8 @@ CREATE POLICY "course_lessons_authenticated_read"
 
 -- Admins and instructors: read all lessons regardless of publish state
 -- (needed for admin curriculum builder and instructor preview)
-CREATE POLICY "course_lessons_admin_read"
-  ON public.course_lessons
+DROP POLICY IF EXISTS "course_lessons_admin_read" ON public.course_lessons;
+CREATE POLICY "course_lessons_admin_read" ON public.course_lessons
   FOR SELECT
   TO authenticated
   USING (
@@ -75,8 +75,8 @@ CREATE POLICY "course_lessons_admin_read"
   );
 
 -- Service role: unrestricted (used by server-side pipeline and seed scripts)
-CREATE POLICY "course_lessons_service_role"
-  ON public.course_lessons
+DROP POLICY IF EXISTS "course_lessons_service_role" ON public.course_lessons;
+CREATE POLICY "course_lessons_service_role" ON public.course_lessons
   FOR ALL
   TO service_role
   USING (true)
@@ -107,8 +107,8 @@ DROP POLICY IF EXISTS "course_modules_authenticated_read" ON public.course_modul
 DROP POLICY IF EXISTS "course_modules_admin_read"         ON public.course_modules;
 DROP POLICY IF EXISTS "course_modules_service_role"       ON public.course_modules;
 
-CREATE POLICY "course_modules_authenticated_read"
-  ON public.course_modules
+DROP POLICY IF EXISTS "course_modules_authenticated_read" ON public.course_modules;
+CREATE POLICY "course_modules_authenticated_read" ON public.course_modules
   FOR SELECT
   TO authenticated
   USING (
@@ -121,8 +121,8 @@ CREATE POLICY "course_modules_authenticated_read"
     )
   );
 
-CREATE POLICY "course_modules_admin_read"
-  ON public.course_modules
+DROP POLICY IF EXISTS "course_modules_admin_read" ON public.course_modules;
+CREATE POLICY "course_modules_admin_read" ON public.course_modules
   FOR SELECT
   TO authenticated
   USING (
@@ -134,8 +134,8 @@ CREATE POLICY "course_modules_admin_read"
     )
   );
 
-CREATE POLICY "course_modules_service_role"
-  ON public.course_modules
+DROP POLICY IF EXISTS "course_modules_service_role" ON public.course_modules;
+CREATE POLICY "course_modules_service_role" ON public.course_modules
   FOR ALL
   TO service_role
   USING (true)
@@ -162,15 +162,15 @@ DROP POLICY IF EXISTS "Admins can read all courses"            ON public.courses
 DROP POLICY IF EXISTS "Service role courses"                   ON public.courses;
 
 -- Anon: published catalog only
-CREATE POLICY "courses_anon_catalog"
-  ON public.courses
+DROP POLICY IF EXISTS "courses_anon_catalog" ON public.courses;
+CREATE POLICY "courses_anon_catalog" ON public.courses
   FOR SELECT
   TO anon
   USING (status = 'published' AND is_active = true);
 
 -- Authenticated learners: published courses
-CREATE POLICY "courses_authenticated_read"
-  ON public.courses
+DROP POLICY IF EXISTS "courses_authenticated_read" ON public.courses;
+CREATE POLICY "courses_authenticated_read" ON public.courses
   FOR SELECT
   TO authenticated
   USING (
@@ -180,8 +180,8 @@ CREATE POLICY "courses_authenticated_read"
   );
 
 -- Admins/instructors: all courses (draft + published)
-CREATE POLICY "courses_admin_read"
-  ON public.courses
+DROP POLICY IF EXISTS "courses_admin_read" ON public.courses;
+CREATE POLICY "courses_admin_read" ON public.courses
   FOR SELECT
   TO authenticated
   USING (
@@ -194,8 +194,8 @@ CREATE POLICY "courses_admin_read"
   );
 
 -- Service role: unrestricted
-CREATE POLICY "courses_service_role"
-  ON public.courses
+DROP POLICY IF EXISTS "courses_service_role" ON public.courses;
+CREATE POLICY "courses_service_role" ON public.courses
   FOR ALL
   TO service_role
   USING (true)

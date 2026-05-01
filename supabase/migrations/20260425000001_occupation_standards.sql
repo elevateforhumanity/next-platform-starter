@@ -44,8 +44,6 @@ CREATE TABLE IF NOT EXISTS public.occupation_standards (
   fetch_error           text     -- last error if fetch failed
   -- is_stale is computed at query time: (now() > expires_at)
   -- GENERATED ALWAYS AS is not supported here (now() is not immutable)
-
-  UNIQUE (soc_code, source)
 );
 
 -- Index for fast lookup by SOC code
@@ -71,8 +69,6 @@ CREATE TABLE IF NOT EXISTS public.credential_domains (
   compliance_status text NOT NULL DEFAULT 'draft_for_human_review',
   created_at        timestamptz NOT NULL DEFAULT now(),
   updated_at        timestamptz NOT NULL DEFAULT now()
-
-  UNIQUE (credential_code, version)
 );
 
 CREATE INDEX IF NOT EXISTS idx_credential_domains_code ON public.credential_domains (credential_code);
@@ -144,14 +140,15 @@ ON CONFLICT (credential_code, version) DO NOTHING;
 ALTER TABLE public.occupation_standards ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.credential_domains ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "service_role_all_occupation_standards"
-  ON public.occupation_standards FOR ALL TO service_role USING (true) WITH CHECK (true);
+DROP policy if exists "service_role_all_occupation_standards" on public.occupation_standards;
+CREATE policy "service_role_all_occupation_standards" on public.occupation_standards FOR ALL TO service_role USING (true) WITH CHECK (true);
 
-CREATE POLICY "authenticated_read_occupation_standards"
-  ON public.occupation_standards FOR SELECT TO authenticated USING (true);
+DROP policy if exists "authenticated_read_occupation_standards" on public.occupation_standards;
+CREATE policy "authenticated_read_occupation_standards" on public.occupation_standards FOR SELECT TO authenticated USING (true);
 
-CREATE POLICY "service_role_all_credential_domains"
-  ON public.credential_domains FOR ALL TO service_role USING (true) WITH CHECK (true);
+DROP policy if exists "service_role_all_credential_domains" on public.credential_domains;
+CREATE policy "service_role_all_credential_domains" on public.credential_domains FOR ALL TO service_role USING (true) WITH CHECK (true);
 
-CREATE POLICY "authenticated_read_credential_domains"
-  ON public.credential_domains FOR SELECT TO authenticated USING (true);
+DROP policy if exists "authenticated_read_credential_domains" on public.credential_domains;
+CREATE policy "authenticated_read_credential_domains" on public.credential_domains FOR SELECT TO authenticated USING (true);
+

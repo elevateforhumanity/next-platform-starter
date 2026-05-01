@@ -17,6 +17,7 @@ INSERT INTO public.programs (
   status,
   delivery_model,
   display_order,
+  category,
   created_at,
   updated_at
 )
@@ -29,8 +30,9 @@ VALUES (
   true,
   true,
   'published',
-  'hybrid',
+  'internal_lms',
   1,
+  'Skilled Trades',
   now(),
   now()
 )

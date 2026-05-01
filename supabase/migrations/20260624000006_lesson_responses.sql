@@ -11,7 +11,7 @@ create table if not exists public.lesson_responses (
   field_key   text not null,
   response_text text not null default '',
   created_at  timestamptz not null default now(),
-  updated_at  timestamptz not null default now()
+  updated_at  timestamptz not null default now(),
 
   -- upsert conflict target used by LessonInlineInput
   constraint lesson_responses_user_lesson_field_key unique (user_id, lesson_id, field_key)
@@ -20,21 +20,21 @@ create table if not exists public.lesson_responses (
 -- Learners can only read/write their own responses
 alter table public.lesson_responses enable row level security;
 
-create policy "lesson_responses: learner read own"
-  on public.lesson_responses for select
+drop policy if exists "lesson_responses: learner read own" on public.lesson_responses;
+create policy "lesson_responses: learner read own" on public.lesson_responses for select
   using (auth.uid() = user_id);
 
-create policy "lesson_responses: learner upsert own"
-  on public.lesson_responses for insert
+drop policy if exists "lesson_responses: learner upsert own" on public.lesson_responses;
+create policy "lesson_responses: learner upsert own" on public.lesson_responses for insert
   with check (auth.uid() = user_id);
 
-create policy "lesson_responses: learner update own"
-  on public.lesson_responses for update
+drop policy if exists "lesson_responses: learner update own" on public.lesson_responses;
+create policy "lesson_responses: learner update own" on public.lesson_responses for update
   using (auth.uid() = user_id);
 
 -- Admins and instructors can read all responses (for grading / review)
-create policy "lesson_responses: staff read all"
-  on public.lesson_responses for select
+drop policy if exists "lesson_responses: staff read all" on public.lesson_responses;
+create policy "lesson_responses: staff read all" on public.lesson_responses for select
   using (
     exists (
       select 1 from public.profiles

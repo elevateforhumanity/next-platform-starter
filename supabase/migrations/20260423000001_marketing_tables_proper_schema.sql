@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS public.offerings (
 
 -- RLS
 ALTER TABLE public.offerings ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Public read offerings" ON public.offerings;
 CREATE POLICY "Public read offerings" ON public.offerings FOR SELECT USING (status = 'active');
 
 -- ── indexes ───────────────────────────────────────────────────────────────────

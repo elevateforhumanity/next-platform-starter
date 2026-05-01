@@ -39,8 +39,10 @@ CREATE INDEX IF NOT EXISTS idx_payment_flags_unresolved
   WHERE resolved_at IS NULL;
 
 ALTER TABLE public.payment_integrity_flags ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "service_role_all" ON public.payment_integrity_flags;
 CREATE POLICY "service_role_all" ON public.payment_integrity_flags
   FOR ALL TO service_role USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "admin_read" ON public.payment_integrity_flags;
 CREATE POLICY "admin_read" ON public.payment_integrity_flags
   FOR SELECT TO authenticated USING (
     EXISTS (
@@ -145,5 +147,6 @@ CREATE TABLE IF NOT EXISTS public.webhook_health_log (
 );
 
 ALTER TABLE public.webhook_health_log ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "service_role_all" ON public.webhook_health_log;
 CREATE POLICY "service_role_all" ON public.webhook_health_log
   FOR ALL TO service_role USING (true) WITH CHECK (true);

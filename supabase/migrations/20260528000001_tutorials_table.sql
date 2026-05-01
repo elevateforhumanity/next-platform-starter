@@ -1,6 +1,9 @@
 -- Tutorials table for /help/tutorials
 -- Replaces hardcoded array in page.tsx
 
+ALTER TABLE public.tutorials ADD COLUMN IF NOT EXISTS slug text;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_tutorials_slug ON public.tutorials(slug) WHERE slug IS NOT NULL;
+/*SKIP_CREATE
 CREATE TABLE IF NOT EXISTS public.tutorials (
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   slug          text UNIQUE NOT NULL,
@@ -47,3 +50,4 @@ INSERT INTO public.tutorials (slug, title, description, category, duration, sort
   ('technical-requirements',  'Technical Requirements',                  'System requirements, browser compatibility, and troubleshooting common technical issues.',               'Support',         '4 min', 11),
   ('contacting-support',      'Contacting Support',                      'How to reach our support team, submit a ticket, and get help when you need it.',                        'Support',         '3 min', 12)
 ON CONFLICT (slug) DO NOTHING;
+*/

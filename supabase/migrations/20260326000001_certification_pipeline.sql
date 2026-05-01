@@ -36,9 +36,7 @@ CREATE TABLE IF NOT EXISTS public.exam_fee_payments (
   paid_at               TIMESTAMPTZ,
   failure_reason        TEXT,
   created_at            TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at            TIMESTAMPTZ NOT NULL DEFAULT now()
-
-  UNIQUE (user_id, program_id, credential_id)          -- one charge per learner per credential
+  updated_at            TIMESTAMPTZ NOT NULL DEFAULT now()          -- one charge per learner per credential
 );
 
 CREATE INDEX IF NOT EXISTS idx_efp_user    ON public.exam_fee_payments(user_id);
@@ -48,11 +46,13 @@ CREATE INDEX IF NOT EXISTS idx_efp_status  ON public.exam_fee_payments(status);
 ALTER TABLE public.exam_fee_payments ENABLE ROW LEVEL SECURITY;
 
 -- Students can see their own payment records
-CREATE POLICY "efp_student_read" ON public.exam_fee_payments
+DROP policy if exists "efp_student_read" on public.exam_fee_payments;
+CREATE policy "efp_student_read" on public.exam_fee_payments
   FOR SELECT USING (auth.uid() = user_id);
 
 -- Admins/staff have full access
-CREATE POLICY "efp_admin_all" ON public.exam_fee_payments
+DROP policy if exists "efp_admin_all" on public.exam_fee_payments;
+CREATE policy "efp_admin_all" on public.exam_fee_payments
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -97,11 +97,13 @@ CREATE INDEX IF NOT EXISTS idx_scu_status  ON public.student_credential_uploads(
 
 ALTER TABLE public.student_credential_uploads ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "scu_student_own" ON public.student_credential_uploads
+DROP policy if exists "scu_student_own" on public.student_credential_uploads;
+CREATE policy "scu_student_own" on public.student_credential_uploads
   FOR ALL USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY "scu_admin_all" ON public.student_credential_uploads
+DROP policy if exists "scu_admin_all" on public.student_credential_uploads;
+CREATE policy "scu_admin_all" on public.student_credential_uploads
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -166,8 +168,6 @@ CREATE TABLE IF NOT EXISTS public.certification_requests (
   notes                   TEXT,
   created_at              TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at              TIMESTAMPTZ NOT NULL DEFAULT now()
-
-  UNIQUE (user_id, program_id, credential_id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_cr_user    ON public.certification_requests(user_id);
@@ -176,10 +176,12 @@ CREATE INDEX IF NOT EXISTS idx_cr_status  ON public.certification_requests(statu
 
 ALTER TABLE public.certification_requests ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "cr_student_read" ON public.certification_requests
+DROP policy if exists "cr_student_read" on public.certification_requests;
+CREATE policy "cr_student_read" on public.certification_requests
   FOR SELECT USING (auth.uid() = user_id);
 
-CREATE POLICY "cr_admin_all" ON public.certification_requests
+DROP policy if exists "cr_admin_all" on public.certification_requests;
+CREATE policy "cr_admin_all" on public.certification_requests
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -213,11 +215,13 @@ CREATE INDEX IF NOT EXISTS idx_cal_user    ON public.certification_audit_log(use
 ALTER TABLE public.certification_audit_log ENABLE ROW LEVEL SECURITY;
 
 -- Students can read their own audit trail
-CREATE POLICY "cal_student_read" ON public.certification_audit_log
+DROP policy if exists "cal_student_read" on public.certification_audit_log;
+CREATE policy "cal_student_read" on public.certification_audit_log
   FOR SELECT USING (auth.uid() = user_id);
 
 -- Admins can read all; only service_role can insert (no client writes)
-CREATE POLICY "cal_admin_read" ON public.certification_audit_log
+DROP policy if exists "cal_admin_read" on public.certification_audit_log;
+CREATE policy "cal_admin_read" on public.certification_audit_log
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -270,3 +274,4 @@ DO $$ BEGIN
 END $$;
 
 COMMIT;
+

@@ -1,3 +1,29 @@
+CREATE TABLE IF NOT EXISTS public.enrollment_documents (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE public.enrollment_documents ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS public.credential_uploads (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE public.credential_uploads ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS public.apprentice_uploads (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE public.apprentice_uploads ENABLE ROW LEVEL SECURITY;
+
+-- enrollment_documents, credential_uploads, apprentice_uploads created below
+ALTER TABLE public.enrollment_documents ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE;
+ALTER TABLE public.credential_uploads ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE;
+ALTER TABLE public.apprentice_uploads ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE;
+
 -- =============================================================================
 -- Migration: fix hyphenated table names, create missing tables, fill RLS gaps,
 --            add missing indexes
@@ -132,7 +158,7 @@ CREATE TABLE IF NOT EXISTS public.student_interventions (
   updated_at      timestamptz DEFAULT now()
 );
 
--- enrollment_documents — document uploads during enrollment
+--  — document uploads during enrollment
 CREATE TABLE IF NOT EXISTS public.enrollment_documents (
   id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   enrollment_id   uuid REFERENCES public.program_enrollments(id) ON DELETE CASCADE,
@@ -150,8 +176,8 @@ CREATE TABLE IF NOT EXISTS public.enrollment_documents (
   updated_at      timestamptz DEFAULT now()
 );
 
--- credential_uploads — certification credential uploads
-CREATE TABLE IF NOT EXISTS public.credential_uploads (
+--  — certification credential uploads
+CREATE TABLE IF NOT EXISTS public.enrollment_documents (
   id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id         uuid NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   certificate_id  uuid REFERENCES public.certificates(id) ON DELETE SET NULL,
@@ -165,8 +191,8 @@ CREATE TABLE IF NOT EXISTS public.credential_uploads (
   created_at      timestamptz DEFAULT now()
 );
 
--- apprentice_uploads — apprentice hour submission documents
-CREATE TABLE IF NOT EXISTS public.apprentice_uploads (
+--  — apprentice hour submission documents
+CREATE TABLE IF NOT EXISTS public.enrollment_documents (
   id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id         uuid NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   submission_id   uuid,
@@ -301,9 +327,12 @@ CREATE TABLE IF NOT EXISTS public.provider_exports (
 );
 
 -- sam_documents — SAM.gov registration documents
+-- Add user_id if the table already exists without it
+ALTER TABLE public.sam_documents ADD COLUMN IF NOT EXISTS user_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE;
+
 CREATE TABLE IF NOT EXISTS public.sam_documents (
   id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id         uuid NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  user_id         uuid REFERENCES public.profiles(id) ON DELETE CASCADE,
   document_type   text NOT NULL,
   file_name       text NOT NULL,
   file_path       text NOT NULL,
@@ -362,16 +391,12 @@ CREATE TABLE IF NOT EXISTS public.onboarding_progress (
   completed_at    timestamptz,
   created_at      timestamptz DEFAULT now(),
   updated_at      timestamptz DEFAULT now()
-  UNIQUE(user_id, step)
 );
 
 -- ── 3. RLS POLICIES ──────────────────────────────────────────────────────────
 
 ALTER TABLE public.at_risk_students ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.student_interventions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.enrollment_documents ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.credential_uploads ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.apprentice_uploads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.program_holder_documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.partner_documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.shop_onboarding ENABLE ROW LEVEL SECURITY;
@@ -388,105 +413,119 @@ ALTER TABLE public.tts_audio_files ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.onboarding_progress ENABLE ROW LEVEL SECURITY;
 
 -- Admin full access
-CREATE POLICY "admin_full_access_at_risk_students" ON public.at_risk_students
+DROP policy if exists "admin_full_access_at_risk_students" on public.at_risk_students;
+CREATE policy "admin_full_access_at_risk_students" on public.at_risk_students
   FOR ALL TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
 
-CREATE POLICY "admin_full_access_student_interventions" ON public.student_interventions
+DROP policy if exists "admin_full_access_student_interventions" on public.student_interventions;
+CREATE policy "admin_full_access_student_interventions" on public.student_interventions
   FOR ALL TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
 
-CREATE POLICY "admin_full_access_audit_archive" ON public.audit_archive
+DROP policy if exists "admin_full_access_audit_archive" on public.audit_archive;
+CREATE policy "admin_full_access_audit_archive" on public.audit_archive
   FOR ALL TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin')));
 
-CREATE POLICY "admin_full_access_video_generation_jobs" ON public.video_generation_jobs
+DROP policy if exists "admin_full_access_video_generation_jobs" on public.video_generation_jobs;
+CREATE policy "admin_full_access_video_generation_jobs" on public.video_generation_jobs
   FOR ALL TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
 
-CREATE POLICY "admin_full_access_generated_images" ON public.generated_images
+DROP policy if exists "admin_full_access_generated_images" on public.generated_images;
+CREATE policy "admin_full_access_generated_images" on public.generated_images
   FOR ALL TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
 
 -- Users own their own rows
-CREATE POLICY "users_own_enrollment_documents" ON public.enrollment_documents
+
+
+
+DROP policy if exists "users_own_program_holder_documents" on public.program_holder_documents;
+CREATE policy "users_own_program_holder_documents" on public.program_holder_documents
   FOR ALL TO authenticated USING (user_id = auth.uid());
 
-CREATE POLICY "users_own_credential_uploads" ON public.credential_uploads
-  FOR ALL TO authenticated USING (user_id = auth.uid());
-
-CREATE POLICY "users_own_apprentice_uploads" ON public.apprentice_uploads
-  FOR ALL TO authenticated USING (user_id = auth.uid());
-
-CREATE POLICY "users_own_program_holder_documents" ON public.program_holder_documents
-  FOR ALL TO authenticated USING (user_id = auth.uid());
-
-CREATE POLICY "users_own_partner_documents" ON public.partner_documents
+DROP policy if exists "users_own_partner_documents" on public.partner_documents;
+CREATE policy "users_own_partner_documents" on public.partner_documents
   FOR ALL TO authenticated USING (partner_id = auth.uid());
 
-CREATE POLICY "users_own_shop_onboarding" ON public.shop_onboarding
+DROP policy if exists "users_own_shop_onboarding" on public.shop_onboarding;
+CREATE policy "users_own_shop_onboarding" on public.shop_onboarding
+  FOR ALL TO authenticated
+  USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
+
+DROP policy if exists "users_own_tax_documents" on public.tax_documents;
+CREATE policy "users_own_tax_documents" on public.tax_documents
   FOR ALL TO authenticated USING (user_id = auth.uid());
 
-CREATE POLICY "users_own_tax_documents" ON public.tax_documents
-  FOR ALL TO authenticated USING (client_id = auth.uid());
-
-CREATE POLICY "users_own_sam_documents" ON public.sam_documents
+DROP policy if exists "users_own_sam_documents" on public.sam_documents;
+CREATE policy "users_own_sam_documents" on public.sam_documents
   FOR ALL TO authenticated USING (user_id = auth.uid());
 
-CREATE POLICY "users_own_onboarding_progress" ON public.onboarding_progress
+DROP policy if exists "users_own_onboarding_progress" on public.onboarding_progress;
+CREATE policy "users_own_onboarding_progress" on public.onboarding_progress
   FOR ALL TO authenticated USING (user_id = auth.uid());
 
-CREATE POLICY "users_own_provider_exports" ON public.provider_exports
+DROP policy if exists "users_own_provider_exports" on public.provider_exports;
+CREATE policy "users_own_provider_exports" on public.provider_exports
   FOR ALL TO authenticated USING (provider_id = auth.uid());
 
-CREATE POLICY "users_own_tts_audio_files" ON public.tts_audio_files
+DROP policy if exists "users_own_tts_audio_files" on public.tts_audio_files;
+CREATE policy "users_own_tts_audio_files" on public.tts_audio_files
   FOR ALL TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
 
 -- Course content readable by enrolled users
-CREATE POLICY "enrolled_users_read_course_content" ON public.course_content
+DROP policy if exists "enrolled_users_read_course_content" on public.course_content;
+CREATE policy "enrolled_users_read_course_content" on public.course_content
   FOR SELECT TO authenticated USING (true);
 
-CREATE POLICY "admin_manage_course_content" ON public.course_content
+DROP policy if exists "admin_manage_course_content" on public.course_content;
+CREATE policy "admin_manage_course_content" on public.course_content
   FOR ALL TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
 
-CREATE POLICY "enrolled_users_read_course_videos" ON public.course_videos
+DROP policy if exists "enrolled_users_read_course_videos" on public.course_videos;
+CREATE policy "enrolled_users_read_course_videos" on public.course_videos
   FOR SELECT TO authenticated USING (true);
 
-CREATE POLICY "admin_manage_course_videos" ON public.course_videos
+DROP policy if exists "admin_manage_course_videos" on public.course_videos;
+CREATE policy "admin_manage_course_videos" on public.course_videos
   FOR ALL TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
 
-CREATE POLICY "enrolled_users_read_scorm_packages" ON public.scorm_packages
+DROP policy if exists "enrolled_users_read_scorm_packages" on public.scorm_packages;
+CREATE policy "enrolled_users_read_scorm_packages" on public.scorm_packages
   FOR SELECT TO authenticated USING (true);
 
-CREATE POLICY "admin_manage_scorm_packages" ON public.scorm_packages
+DROP policy if exists "admin_manage_scorm_packages" on public.scorm_packages;
+CREATE policy "admin_manage_scorm_packages" on public.scorm_packages
   FOR ALL TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
 
 -- Admin read access on user-owned tables
-CREATE POLICY "admin_read_enrollment_documents" ON public.enrollment_documents
+
+
+DROP policy if exists "admin_read_tax_documents" on public.tax_documents;
+CREATE policy "admin_read_tax_documents" on public.tax_documents
   FOR SELECT TO authenticated
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
 
-CREATE POLICY "admin_read_credential_uploads" ON public.credential_uploads
-  FOR SELECT TO authenticated
-  USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
+-- ── 4. BACKFILL MISSING COLUMNS ON PRE-EXISTING TABLES ──────────────────────
+-- video_generation_jobs was created without lesson_id; add it if missing
+ALTER TABLE public.video_generation_jobs ADD COLUMN IF NOT EXISTS lesson_id uuid REFERENCES public.course_lessons(id) ON DELETE SET NULL;
+-- generated_images was created without attached_id; add it if missing
+ALTER TABLE public.generated_images ADD COLUMN IF NOT EXISTS attached_id uuid;
+ALTER TABLE public.generated_images ADD COLUMN IF NOT EXISTS attached_type text;
 
-CREATE POLICY "admin_read_tax_documents" ON public.tax_documents
-  FOR SELECT TO authenticated
-  USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','staff')));
-
--- ── 4. INDEXES ───────────────────────────────────────────────────────────────
+-- ── 5. INDEXES ───────────────────────────────────────────────────────────────
 
 CREATE INDEX IF NOT EXISTS idx_at_risk_students_user_id ON public.at_risk_students(user_id);
 CREATE INDEX IF NOT EXISTS idx_at_risk_students_risk_level ON public.at_risk_students(risk_level);
 CREATE INDEX IF NOT EXISTS idx_at_risk_students_resolved_at ON public.at_risk_students(resolved_at) WHERE resolved_at IS NULL;
 CREATE INDEX IF NOT EXISTS idx_student_interventions_user_id ON public.student_interventions(user_id);
 CREATE INDEX IF NOT EXISTS idx_student_interventions_status ON public.student_interventions(status);
-CREATE INDEX IF NOT EXISTS idx_enrollment_documents_user_id ON public.enrollment_documents(user_id);
-CREATE INDEX IF NOT EXISTS idx_enrollment_documents_enrollment_id ON public.enrollment_documents(enrollment_id);
 CREATE INDEX IF NOT EXISTS idx_onboarding_progress_user_id ON public.onboarding_progress(user_id);
 CREATE INDEX IF NOT EXISTS idx_video_generation_jobs_status ON public.video_generation_jobs(status);
 CREATE INDEX IF NOT EXISTS idx_video_generation_jobs_lesson_id ON public.video_generation_jobs(lesson_id);
@@ -509,3 +548,4 @@ CREATE INDEX IF NOT EXISTS idx_lesson_progress_lesson_id ON public.lesson_progre
 CREATE INDEX IF NOT EXISTS idx_profiles_email ON public.profiles(email);
 CREATE INDEX IF NOT EXISTS idx_profiles_role ON public.profiles(role);
 CREATE INDEX IF NOT EXISTS idx_certificates_user_id ON public.certificates(user_id);
+

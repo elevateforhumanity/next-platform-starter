@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS public.parent_student_links (
   verified        BOOLEAN NOT NULL DEFAULT false,
   created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
-  UNIQUE (parent_id, student_id)
 );
 
 -- Index for parent lookups
@@ -23,14 +22,15 @@ CREATE INDEX IF NOT EXISTS idx_parent_student_links_student_id
 -- RLS: parents can only see their own links
 ALTER TABLE public.parent_student_links ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "parent_student_links_select_own"
-  ON public.parent_student_links FOR SELECT
+DROP policy if exists "parent_student_links_select_own" on public.parent_student_links;
+CREATE policy "parent_student_links_select_own" on public.parent_student_links FOR SELECT
   USING (auth.uid() = parent_id OR auth.uid() = student_id);
 
-CREATE POLICY "parent_student_links_insert_own"
-  ON public.parent_student_links FOR INSERT
+DROP policy if exists "parent_student_links_insert_own" on public.parent_student_links;
+CREATE policy "parent_student_links_insert_own" on public.parent_student_links FOR INSERT
   WITH CHECK (auth.uid() = parent_id);
 
-CREATE POLICY "parent_student_links_delete_own"
-  ON public.parent_student_links FOR DELETE
+DROP policy if exists "parent_student_links_delete_own" on public.parent_student_links;
+CREATE policy "parent_student_links_delete_own" on public.parent_student_links FOR DELETE
   USING (auth.uid() = parent_id);
+

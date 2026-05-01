@@ -43,6 +43,7 @@ CREATE INDEX IF NOT EXISTS idx_stripe_sessions_created_at
 -- Service role only
 ALTER TABLE public.stripe_sessions_staging ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "service_role_all" ON public.stripe_sessions_staging;
 CREATE POLICY "service_role_all" ON public.stripe_sessions_staging
   FOR ALL TO service_role USING (true) WITH CHECK (true);
 
@@ -93,6 +94,7 @@ $$;
 -- ── CANONICAL MISMATCH VIEWS ──────────────────────────────────────────────────
 
 -- View A: Paid sessions with no enrollment (highest risk)
+DROP VIEW IF EXISTS public.v_paid_not_enrolled;
 CREATE OR REPLACE VIEW public.v_paid_not_enrolled AS
 SELECT
   s.session_id,
@@ -127,6 +129,7 @@ WHERE pe.id IS NULL
   AND se.id IS NULL;
 
 -- View B: Active enrollments with no payment evidence
+DROP VIEW IF EXISTS public.v_enrolled_not_paid;
 CREATE OR REPLACE VIEW public.v_enrolled_not_paid AS
 SELECT
   pe.id            AS enrollment_id,

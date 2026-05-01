@@ -161,18 +161,18 @@ ALTER TABLE public.accreditation_standards ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.accreditation_evidence  ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.accreditation_reviews   ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "admin_read_accreditation_standards"
-  ON public.accreditation_standards FOR SELECT
+DROP POLICY IF EXISTS "admin_read_accreditation_standards" ON public.accreditation_standards;
+CREATE POLICY "admin_read_accreditation_standards" ON public.accreditation_standards FOR SELECT
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin','staff')));
 
-CREATE POLICY "admin_manage_accreditation_standards"
-  ON public.accreditation_standards FOR ALL
+DROP POLICY IF EXISTS "admin_manage_accreditation_standards" ON public.accreditation_standards;
+CREATE POLICY "admin_manage_accreditation_standards" ON public.accreditation_standards FOR ALL
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin')));
 
-CREATE POLICY "admin_manage_accreditation_evidence"
-  ON public.accreditation_evidence FOR ALL
+DROP POLICY IF EXISTS "admin_manage_accreditation_evidence" ON public.accreditation_evidence;
+CREATE POLICY "admin_manage_accreditation_evidence" ON public.accreditation_evidence FOR ALL
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin','staff')));
 
-CREATE POLICY "admin_manage_accreditation_reviews"
-  ON public.accreditation_reviews FOR ALL
+DROP POLICY IF EXISTS "admin_manage_accreditation_reviews" ON public.accreditation_reviews;
+CREATE POLICY "admin_manage_accreditation_reviews" ON public.accreditation_reviews FOR ALL
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin')));

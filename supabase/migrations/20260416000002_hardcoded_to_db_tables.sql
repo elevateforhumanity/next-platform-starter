@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS public.team_members (
   is_active       boolean DEFAULT true,
   created_at      timestamptz DEFAULT now(),
   updated_at      timestamptz DEFAULT now()
-  UNIQUE (name)
 );
 
 -- ── testimonials ──────────────────────────────────────────────────────────────
@@ -35,7 +34,6 @@ CREATE TABLE IF NOT EXISTS public.testimonials (
   display_order   integer DEFAULT 0,
   created_at      timestamptz DEFAULT now(),
   updated_at      timestamptz DEFAULT now()
-  UNIQUE (name, quote)
 );
 
 -- ── faqs ──────────────────────────────────────────────────────────────────────
@@ -49,7 +47,6 @@ CREATE TABLE IF NOT EXISTS public.faqs (
   is_active       boolean DEFAULT true,
   created_at      timestamptz DEFAULT now(),
   updated_at      timestamptz DEFAULT now()
-  UNIQUE (question, program_slug)
 );
 
 -- ── testing_providers ─────────────────────────────────────────────────────────
@@ -111,7 +108,6 @@ CREATE TABLE IF NOT EXISTS public.state_licensing (
   display_order       integer DEFAULT 0,
   created_at          timestamptz DEFAULT now(),
   updated_at          timestamptz DEFAULT now()
-  UNIQUE (program_type, state_code)
 );
 
 -- ── partner_types ─────────────────────────────────────────────────────────────
@@ -189,23 +185,42 @@ ALTER TABLE public.partner_courses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.impact_stats ENABLE ROW LEVEL SECURITY;
 
 -- Public read
-CREATE POLICY "public_read_team_members"     ON public.team_members     FOR SELECT USING (is_active = true);
-CREATE POLICY "public_read_testimonials"     ON public.testimonials     FOR SELECT USING (is_active = true);
-CREATE POLICY "public_read_faqs"             ON public.faqs             FOR SELECT USING (is_active = true);
-CREATE POLICY "public_read_testing_providers" ON public.testing_providers FOR SELECT USING (is_active = true);
-CREATE POLICY "public_read_training_partners" ON public.training_partners FOR SELECT USING (status = 'active');
-CREATE POLICY "public_read_state_licensing"  ON public.state_licensing  FOR SELECT USING (true);
-CREATE POLICY "public_read_partner_types"    ON public.partner_types    FOR SELECT USING (is_active = true);
-CREATE POLICY "public_read_partner_courses"  ON public.partner_courses  FOR SELECT USING (is_active = true);
-CREATE POLICY "public_read_impact_stats"     ON public.impact_stats     FOR SELECT USING (true);
+DROP policy if exists "public_read_team_members" on public.team_members;
+CREATE policy "public_read_team_members" on public.team_members     FOR SELECT USING (is_active = true);
+DROP policy if exists "public_read_testimonials" on public.testimonials;
+CREATE policy "public_read_testimonials" on public.testimonials     FOR SELECT USING (is_active = true);
+DROP policy if exists "public_read_faqs" on public.faqs;
+CREATE policy "public_read_faqs" on public.faqs             FOR SELECT USING (is_active = true);
+DROP policy if exists "public_read_testing_providers" on public.testing_providers;
+CREATE policy "public_read_testing_providers" on public.testing_providers FOR SELECT USING (is_active = true);
+DROP policy if exists "public_read_training_partners" on public.training_partners;
+CREATE policy "public_read_training_partners" on public.training_partners FOR SELECT USING (status = 'active');
+DROP policy if exists "public_read_state_licensing" on public.state_licensing;
+CREATE policy "public_read_state_licensing" on public.state_licensing  FOR SELECT USING (true);
+DROP policy if exists "public_read_partner_types" on public.partner_types;
+CREATE policy "public_read_partner_types" on public.partner_types    FOR SELECT USING (is_active = true);
+DROP policy if exists "public_read_partner_courses" on public.partner_courses;
+CREATE policy "public_read_partner_courses" on public.partner_courses  FOR SELECT USING (is_active = true);
+DROP policy if exists "public_read_impact_stats" on public.impact_stats;
+CREATE policy "public_read_impact_stats" on public.impact_stats     FOR SELECT USING (true);
 
 -- Admin write
-CREATE POLICY "admin_all_team_members"       ON public.team_members     FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
-CREATE POLICY "admin_all_testimonials"       ON public.testimonials     FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
-CREATE POLICY "admin_all_faqs"               ON public.faqs             FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
-CREATE POLICY "admin_all_testing_providers"  ON public.testing_providers FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
-CREATE POLICY "admin_all_training_partners"  ON public.training_partners FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
-CREATE POLICY "admin_all_state_licensing"    ON public.state_licensing  FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
-CREATE POLICY "admin_all_partner_types"      ON public.partner_types    FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
-CREATE POLICY "admin_all_partner_courses"    ON public.partner_courses  FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
-CREATE POLICY "admin_all_impact_stats"       ON public.impact_stats     FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+DROP policy if exists "admin_all_team_members" on public.team_members;
+CREATE policy "admin_all_team_members" on public.team_members     FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+DROP policy if exists "admin_all_testimonials" on public.testimonials;
+CREATE policy "admin_all_testimonials" on public.testimonials     FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+DROP policy if exists "admin_all_faqs" on public.faqs;
+CREATE policy "admin_all_faqs" on public.faqs             FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+DROP policy if exists "admin_all_testing_providers" on public.testing_providers;
+CREATE policy "admin_all_testing_providers" on public.testing_providers FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+DROP policy if exists "admin_all_training_partners" on public.training_partners;
+CREATE policy "admin_all_training_partners" on public.training_partners FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+DROP policy if exists "admin_all_state_licensing" on public.state_licensing;
+CREATE policy "admin_all_state_licensing" on public.state_licensing  FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+DROP policy if exists "admin_all_partner_types" on public.partner_types;
+CREATE policy "admin_all_partner_types" on public.partner_types    FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+DROP policy if exists "admin_all_partner_courses" on public.partner_courses;
+CREATE policy "admin_all_partner_courses" on public.partner_courses  FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+DROP policy if exists "admin_all_impact_stats" on public.impact_stats;
+CREATE policy "admin_all_impact_stats" on public.impact_stats     FOR ALL USING (auth.jwt() ->> 'role' IN ('admin', 'super_admin'));
+

@@ -17,10 +17,11 @@ CREATE INDEX IF NOT EXISTS idx_webhook_retry_log_event_id
   ON public.webhook_retry_log (event_id);
 
 CREATE INDEX IF NOT EXISTS idx_webhook_retry_log_provider_created
-  ON public.webhook_retry_log (provider, created_at DESC);
+  ON public.webhook_retry_log (provider, logged_at DESC);
 
 -- Service role only — no user-facing reads needed
 ALTER TABLE public.webhook_retry_log ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "service_role_all" ON public.webhook_retry_log;
 CREATE POLICY "service_role_all" ON public.webhook_retry_log
   FOR ALL TO service_role USING (true) WITH CHECK (true);

@@ -33,17 +33,19 @@ CREATE TABLE IF NOT EXISTS program_exam_ready_rules (
   notes                     text,
   created_at                timestamptz NOT NULL DEFAULT now(),
   updated_at                timestamptz NOT NULL DEFAULT now()
-  UNIQUE (program_id)
 );
+CREATE UNIQUE INDEX IF NOT EXISTS idx_program_exam_ready_rules_program_id ON public.program_exam_ready_rules (program_id);
 
 ALTER TABLE program_exam_ready_rules ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "admin manages exam ready rules"
-  ON program_exam_ready_rules FOR ALL TO authenticated
+DROP policy if exists "admin manages exam ready rules" on program_exam_ready_rules;
+DROP policy if exists "admin manages exam ready rules" on program_exam_ready_rules;
+CREATE policy "admin manages exam ready rules" on program_exam_ready_rules FOR ALL TO authenticated
   USING (get_my_role() IN ('admin','super_admin'));
 
-CREATE POLICY "authenticated read exam ready rules"
-  ON program_exam_ready_rules FOR SELECT TO authenticated
+DROP policy if exists "authenticated read exam ready rules" on program_exam_ready_rules;
+DROP policy if exists "authenticated read exam ready rules" on program_exam_ready_rules;
+CREATE policy "authenticated read exam ready rules" on program_exam_ready_rules FOR SELECT TO authenticated
   USING (true);
 
 DROP TRIGGER IF EXISTS trg_exam_ready_rules_updated_at ON program_exam_ready_rules;
@@ -101,14 +103,16 @@ CREATE TABLE IF NOT EXISTS program_competency_domains (
   exam_weight  numeric(5,2),   -- % of exam questions from this domain
   is_required  boolean NOT NULL DEFAULT true,
   created_at   timestamptz NOT NULL DEFAULT now()
-  UNIQUE (program_id, domain_key)
 );
+CREATE UNIQUE INDEX IF NOT EXISTS idx_program_competency_domains_uniq ON public.program_competency_domains (program_id, domain_key);
 
 ALTER TABLE program_competency_domains ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "authenticated read competency domains"
-  ON program_competency_domains FOR SELECT TO authenticated USING (true);
-CREATE POLICY "admin manages competency domains"
-  ON program_competency_domains FOR ALL TO authenticated
+DROP policy if exists "authenticated read competency domains" on program_competency_domains;
+DROP policy if exists "authenticated read competency domains" on program_competency_domains;
+CREATE policy "authenticated read competency domains" on program_competency_domains FOR SELECT TO authenticated USING (true);
+DROP policy if exists "admin manages competency domains" on program_competency_domains;
+DROP policy if exists "admin manages competency domains" on program_competency_domains;
+CREATE policy "admin manages competency domains" on program_competency_domains FOR ALL TO authenticated
   USING (get_my_role() IN ('admin','super_admin','staff'));
 
 -- Seed CNA NNAAP domains for both CNA program slugs
@@ -133,7 +137,9 @@ ON CONFLICT (program_id, domain_key) DO NOTHING;
 --    Called by the trigger and by the status view.
 -- ---------------------------------------------------------------------------
 
-CREATE TYPE exam_readiness_result AS (
+DO $do$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'exam_readiness_result' AND typtype = 'c') THEN
+    EXECUTE $inner$CREATE TYPE exam_readiness_result AS (
   is_ready            boolean,
   avg_checkpoint_score numeric(5,2),
   checkpoints_passed  integer,
@@ -144,7 +150,10 @@ CREATE TYPE exam_readiness_result AS (
   competencies_total  integer,
   lab_signoff_met     boolean,
   failure_reasons     text[]
-);
+  )$inner$;
+  END IF;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $do$;
 
 CREATE OR REPLACE FUNCTION evaluate_exam_readiness(
   p_user_id   uuid,
@@ -154,7 +163,7 @@ RETURNS exam_readiness_result
 LANGUAGE plpgsql
 STABLE
 SECURITY DEFINER
-AS $$
+AS $func$
 DECLARE
   v_rule          program_exam_ready_rules%ROWTYPE;
   v_result        exam_readiness_result;
@@ -336,7 +345,7 @@ BEGIN
 
   RETURN v_result;
 END;
-$$;
+$func$;
 
 -- ---------------------------------------------------------------------------
 -- 5. exam_ready_status view
@@ -344,6 +353,7 @@ $$;
 --    Queryable by admin, instructor, and the learner themselves.
 -- ---------------------------------------------------------------------------
 
+DROP VIEW IF EXISTS exam_ready_status;
 CREATE OR REPLACE VIEW exam_ready_status AS
 SELECT
   pe.user_id,
@@ -384,7 +394,7 @@ CREATE OR REPLACE FUNCTION auto_create_exam_authorization()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 SECURITY DEFINER
-AS $$
+AS $func$
 DECLARE
   v_program_id    uuid;
   v_readiness     exam_readiness_result;
@@ -461,7 +471,7 @@ BEGIN
 
   RETURN NEW;
 END;
-$$;
+$func$;
 
 DROP TRIGGER IF EXISTS trg_auto_exam_authorization ON checkpoint_scores;
 CREATE TRIGGER trg_auto_exam_authorization
@@ -495,6 +505,7 @@ WHERE p.id = pcc.program_id
 --    Answers: "Are our Exam Ready learners actually passing?"
 -- ---------------------------------------------------------------------------
 
+DROP VIEW IF EXISTS exam_outcome_tracking;
 CREATE OR REPLACE VIEW exam_outcome_tracking AS
 SELECT
   p.slug                                          AS program_slug,
@@ -512,7 +523,7 @@ SELECT
 FROM exam_authorizations ea
 JOIN programs p ON p.id = ea.program_id
 LEFT JOIN exam_results er
-  ON er.authorization_id = ea.id AND er.attempt_number = 1
+  ON er.authorization_id = ea.id AND ea.attempt_number = 1
 LEFT JOIN LATERAL (
   SELECT AVG(cs.score)::numeric AS avg_score
   FROM checkpoint_scores cs
@@ -532,6 +543,7 @@ GRANT SELECT ON exam_outcome_tracking TO authenticated, service_role;
 --    What a learner sees: exactly what they need to do to become exam ready.
 -- ---------------------------------------------------------------------------
 
+DROP VIEW IF EXISTS learner_exam_readiness_detail;
 CREATE OR REPLACE VIEW learner_exam_readiness_detail AS
 SELECT
   ers.user_id,

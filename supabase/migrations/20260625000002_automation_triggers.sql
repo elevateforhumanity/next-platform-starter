@@ -186,18 +186,18 @@ ALTER TABLE public.automation_rules          ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.automation_action_queue   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.automation_execution_log  ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "admin_manage_automation_rules"
-  ON public.automation_rules FOR ALL
+DROP POLICY IF EXISTS "admin_manage_automation_rules" ON public.automation_rules;
+CREATE POLICY "admin_manage_automation_rules" ON public.automation_rules FOR ALL
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin')));
 
-CREATE POLICY "admin_read_action_queue"
-  ON public.automation_action_queue FOR SELECT
+DROP POLICY IF EXISTS "admin_read_action_queue" ON public.automation_action_queue;
+CREATE POLICY "admin_read_action_queue" ON public.automation_action_queue FOR SELECT
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin','staff')));
 
-CREATE POLICY "admin_write_action_queue"
-  ON public.automation_action_queue FOR ALL
+DROP POLICY IF EXISTS "admin_write_action_queue" ON public.automation_action_queue;
+CREATE POLICY "admin_write_action_queue" ON public.automation_action_queue FOR ALL
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin')));
 
-CREATE POLICY "admin_read_execution_log"
-  ON public.automation_execution_log FOR SELECT
+DROP POLICY IF EXISTS "admin_read_execution_log" ON public.automation_execution_log;
+CREATE POLICY "admin_read_execution_log" ON public.automation_execution_log FOR SELECT
   USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin','staff')));

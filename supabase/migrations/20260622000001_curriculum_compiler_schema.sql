@@ -49,7 +49,8 @@ CREATE INDEX IF NOT EXISTS idx_assessment_questions_competency
 
 ALTER TABLE public.assessment_questions ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "instructors_read_questions" ON public.assessment_questions
+DROP policy if exists "instructors_read_questions" on public.assessment_questions;
+CREATE policy "instructors_read_questions" on public.assessment_questions
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -58,7 +59,8 @@ CREATE POLICY "instructors_read_questions" ON public.assessment_questions
     )
   );
 
-CREATE POLICY "admins_manage_questions" ON public.assessment_questions
+DROP policy if exists "admins_manage_questions" on public.assessment_questions;
+CREATE policy "admins_manage_questions" on public.assessment_questions
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -84,7 +86,8 @@ CREATE TABLE IF NOT EXISTS public.rubrics (
 
 ALTER TABLE public.rubrics ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "instructors_read_rubrics" ON public.rubrics
+DROP policy if exists "instructors_read_rubrics" on public.rubrics;
+CREATE policy "instructors_read_rubrics" on public.rubrics
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -93,7 +96,8 @@ CREATE POLICY "instructors_read_rubrics" ON public.rubrics
     )
   );
 
-CREATE POLICY "admins_manage_rubrics" ON public.rubrics
+DROP policy if exists "admins_manage_rubrics" on public.rubrics;
+CREATE policy "admins_manage_rubrics" on public.rubrics
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -132,10 +136,12 @@ CREATE INDEX IF NOT EXISTS idx_field_hours_logs_unverified
 
 ALTER TABLE public.field_hours_logs ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "students_manage_own_hours" ON public.field_hours_logs
+DROP policy if exists "students_manage_own_hours" on public.field_hours_logs;
+CREATE policy "students_manage_own_hours" on public.field_hours_logs
   FOR ALL USING (user_id = auth.uid());
 
-CREATE POLICY "instructors_read_hours" ON public.field_hours_logs
+DROP policy if exists "instructors_read_hours" on public.field_hours_logs;
+CREATE policy "instructors_read_hours" on public.field_hours_logs
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -144,7 +150,8 @@ CREATE POLICY "instructors_read_hours" ON public.field_hours_logs
     )
   );
 
-CREATE POLICY "instructors_verify_hours" ON public.field_hours_logs
+DROP policy if exists "instructors_verify_hours" on public.field_hours_logs;
+CREATE policy "instructors_verify_hours" on public.field_hours_logs
   FOR UPDATE USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -174,7 +181,6 @@ CREATE TABLE IF NOT EXISTS public.competency_results (
   evidence_submission_id uuid       REFERENCES public.step_submissions(id) ON DELETE SET NULL,
   created_at            timestamptz NOT NULL DEFAULT now(),
   updated_at            timestamptz NOT NULL DEFAULT now()
-  UNIQUE (user_id, course_id, competency_key)
 );
 
 CREATE INDEX IF NOT EXISTS idx_competency_results_user_course
@@ -185,10 +191,12 @@ CREATE INDEX IF NOT EXISTS idx_competency_results_key
 
 ALTER TABLE public.competency_results ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "students_read_own_results" ON public.competency_results
+DROP policy if exists "students_read_own_results" on public.competency_results;
+CREATE policy "students_read_own_results" on public.competency_results
   FOR SELECT USING (user_id = auth.uid());
 
-CREATE POLICY "instructors_read_results" ON public.competency_results
+DROP policy if exists "instructors_read_results" on public.competency_results;
+CREATE policy "instructors_read_results" on public.competency_results
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -197,7 +205,8 @@ CREATE POLICY "instructors_read_results" ON public.competency_results
     )
   );
 
-CREATE POLICY "instructors_manage_results" ON public.competency_results
+DROP policy if exists "instructors_manage_results" on public.competency_results;
+CREATE policy "instructors_manage_results" on public.competency_results
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -265,3 +274,4 @@ COMMENT ON COLUMN public.program_completion_certificates.instructor_verified IS
 
 COMMENT ON COLUMN public.program_completion_certificates.verification_summary IS
   'Full CertificateEvidence payload: hoursCompleted, competenciesAchieved, criticalCompetenciesAchieved, finalExamScore, completionDate.';
+

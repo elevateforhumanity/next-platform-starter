@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS public.cmi_attendance (
   date       DATE    NOT NULL,
   present    BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  UNIQUE (student_id, date)
 );
 
 CREATE INDEX IF NOT EXISTS idx_cmi_attendance_student_id
@@ -60,7 +59,6 @@ CREATE TABLE IF NOT EXISTS public.cmi_competencies (
   skill      TEXT    NOT NULL,
   passed     BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  UNIQUE (student_id, skill)
 );
 
 CREATE INDEX IF NOT EXISTS idx_cmi_competencies_student_id
@@ -73,7 +71,6 @@ CREATE TABLE IF NOT EXISTS public.cmi_certificates (
   student_id UUID        NOT NULL REFERENCES public.cmi_students(id) ON DELETE CASCADE,
   issued_by  TEXT        NOT NULL DEFAULT 'CMI',
   issued_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  UNIQUE (student_id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_cmi_certificates_student_id
@@ -83,3 +80,4 @@ CREATE INDEX IF NOT EXISTS idx_cmi_certificates_student_id
 -- SELECT tablename FROM pg_tables
 -- WHERE schemaname = 'public' AND tablename LIKE 'cmi_%'
 -- ORDER BY tablename;
+

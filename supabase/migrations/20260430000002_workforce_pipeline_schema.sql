@@ -17,6 +17,7 @@ ALTER TABLE public.applications
   ADD COLUMN IF NOT EXISTS scheduled_at   TIMESTAMPTZ,
   ADD COLUMN IF NOT EXISTS placed_at      TIMESTAMPTZ,
   ADD COLUMN IF NOT EXISTS referral_agency TEXT;
+-- agency_name already exists from workforce_referrals_full_schema
 
 -- 3. Ensure workforce_referrals has all required columns
 CREATE TABLE IF NOT EXISTS public.workforce_referrals (
@@ -24,7 +25,7 @@ CREATE TABLE IF NOT EXISTS public.workforce_referrals (
   applicant_name      TEXT NOT NULL,
   applicant_email     TEXT NOT NULL,
   applicant_phone     TEXT,
-  agency              TEXT NOT NULL,
+  agency_name         TEXT NOT NULL,
   case_manager_name   TEXT,
   case_manager_email  TEXT,
   case_manager_phone  TEXT,
@@ -38,13 +39,18 @@ CREATE TABLE IF NOT EXISTS public.workforce_referrals (
 );
 
 CREATE INDEX IF NOT EXISTS idx_workforce_referrals_email         ON public.workforce_referrals(applicant_email);
-CREATE INDEX IF NOT EXISTS idx_workforce_referrals_agency        ON public.workforce_referrals(agency);
+CREATE INDEX IF NOT EXISTS idx_workforce_referrals_agency        ON public.workforce_referrals(agency_name);
 CREATE INDEX IF NOT EXISTS idx_workforce_referrals_application_id ON public.workforce_referrals(application_id);
 
 COMMENT ON TABLE public.workforce_referrals IS
   'Agency-to-applicant referral records for WorkOne, FSSA, and community org partners. Required for WIOA referral tracking.';
 
 -- 4. Ensure employment_outcomes has all required columns
+-- Table already exists; add missing columns first
+ALTER TABLE public.employment_outcomes
+  ADD COLUMN IF NOT EXISTS program_slug TEXT,
+  ADD COLUMN IF NOT EXISTS outcome_type TEXT;
+
 CREATE TABLE IF NOT EXISTS public.employment_outcomes (
   id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id       UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,

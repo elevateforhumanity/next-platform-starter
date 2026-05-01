@@ -28,6 +28,7 @@ CREATE INDEX IF NOT EXISTS idx_micro_class_enrollments_course
 -- RLS: admins can read all; students can read their own by email
 ALTER TABLE public.micro_class_enrollments ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "admins_all" ON public.micro_class_enrollments;
 CREATE POLICY "admins_all" ON public.micro_class_enrollments
   FOR ALL USING (
     EXISTS (
@@ -37,6 +38,7 @@ CREATE POLICY "admins_all" ON public.micro_class_enrollments
     )
   );
 
+DROP POLICY IF EXISTS "student_read_own" ON public.micro_class_enrollments;
 CREATE POLICY "student_read_own" ON public.micro_class_enrollments
   FOR SELECT USING (
     student_email = (

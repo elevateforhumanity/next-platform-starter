@@ -43,8 +43,10 @@ CREATE INDEX IF NOT EXISTS idx_testing_reminders_send  ON public.testing_appoint
 ALTER TABLE public.testing_appointments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.testing_appointment_reminders ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Service role full access" ON public.testing_appointments;
 CREATE POLICY "Service role full access" ON public.testing_appointments
   FOR ALL USING (auth.role() = 'service_role');
+DROP POLICY IF EXISTS "Service role full access" ON public.testing_appointment_reminders;
 CREATE POLICY "Service role full access" ON public.testing_appointment_reminders
   FOR ALL USING (auth.role() = 'service_role');
 

@@ -73,8 +73,6 @@ CREATE TABLE IF NOT EXISTS public.fssa_attendance (
   excused         BOOLEAN     NOT NULL DEFAULT false,
   notes           TEXT,
   recorded_by     UUID        REFERENCES auth.users(id) ON DELETE SET NULL
-
-  UNIQUE (participant_id, session_date, session_type)
 );
 
 CREATE INDEX IF NOT EXISTS idx_fssa_attendance_participant ON public.fssa_attendance(participant_id);
@@ -140,7 +138,8 @@ ALTER TABLE public.fssa_budget             ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.fssa_program_components ENABLE ROW LEVEL SECURITY;
 
 -- Admin/staff read all
-CREATE POLICY fssa_participants_admin_read ON public.fssa_participants
+DROP policy if exists fssa_participants_admin_read on public.fssa_participants;
+CREATE policy fssa_participants_admin_read on public.fssa_participants
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -148,7 +147,8 @@ CREATE POLICY fssa_participants_admin_read ON public.fssa_participants
     )
   );
 
-CREATE POLICY fssa_participants_admin_write ON public.fssa_participants
+DROP policy if exists fssa_participants_admin_write on public.fssa_participants;
+CREATE policy fssa_participants_admin_write on public.fssa_participants
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -156,7 +156,8 @@ CREATE POLICY fssa_participants_admin_write ON public.fssa_participants
     )
   );
 
-CREATE POLICY fssa_attendance_admin_read ON public.fssa_attendance
+DROP policy if exists fssa_attendance_admin_read on public.fssa_attendance;
+CREATE policy fssa_attendance_admin_read on public.fssa_attendance
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -164,7 +165,8 @@ CREATE POLICY fssa_attendance_admin_read ON public.fssa_attendance
     )
   );
 
-CREATE POLICY fssa_attendance_admin_write ON public.fssa_attendance
+DROP policy if exists fssa_attendance_admin_write on public.fssa_attendance;
+CREATE policy fssa_attendance_admin_write on public.fssa_attendance
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -172,7 +174,8 @@ CREATE POLICY fssa_attendance_admin_write ON public.fssa_attendance
     )
   );
 
-CREATE POLICY fssa_budget_admin_read ON public.fssa_budget
+DROP policy if exists fssa_budget_admin_read on public.fssa_budget;
+CREATE policy fssa_budget_admin_read on public.fssa_budget
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -180,7 +183,8 @@ CREATE POLICY fssa_budget_admin_read ON public.fssa_budget
     )
   );
 
-CREATE POLICY fssa_budget_admin_write ON public.fssa_budget
+DROP policy if exists fssa_budget_admin_write on public.fssa_budget;
+CREATE policy fssa_budget_admin_write on public.fssa_budget
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -188,7 +192,8 @@ CREATE POLICY fssa_budget_admin_write ON public.fssa_budget
     )
   );
 
-CREATE POLICY fssa_components_admin_read ON public.fssa_program_components
+DROP policy if exists fssa_components_admin_read on public.fssa_program_components;
+CREATE policy fssa_components_admin_read on public.fssa_program_components
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -196,7 +201,8 @@ CREATE POLICY fssa_components_admin_read ON public.fssa_program_components
     )
   );
 
-CREATE POLICY fssa_components_admin_write ON public.fssa_program_components
+DROP policy if exists fssa_components_admin_write on public.fssa_program_components;
+CREATE policy fssa_components_admin_write on public.fssa_program_components
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -228,3 +234,4 @@ DROP TRIGGER IF EXISTS fssa_components_updated_at ON public.fssa_program_compone
 CREATE TRIGGER fssa_components_updated_at
   BEFORE UPDATE ON public.fssa_program_components
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at_fssa();
+

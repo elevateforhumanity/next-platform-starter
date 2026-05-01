@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS public.video_jobs (
   updated_at        TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_video_jobs_lesson_id ON public.video_jobs(lesson_id);
-CREATE INDEX idx_video_jobs_status    ON public.video_jobs(status);
-CREATE INDEX idx_video_jobs_course_id ON public.video_jobs(course_id);
+CREATE INDEX IF NOT EXISTS idx_video_jobs_lesson_id_v2 ON public.video_jobs(lesson_id);
+CREATE INDEX IF NOT EXISTS idx_video_jobs_status_v2    ON public.video_jobs(status);
+CREATE INDEX IF NOT EXISTS idx_video_jobs_course_id_v2 ON public.video_jobs(course_id);
 
 COMMENT ON TABLE public.video_jobs IS
   'Async video render jobs. LMS Railway service processes these; admin polls for status.';
@@ -59,7 +59,9 @@ CREATE INDEX IF NOT EXISTS idx_course_lessons_video_job
 ALTER TABLE public.video_jobs ENABLE ROW LEVEL SECURITY;
 
 -- Admins and staff can read/write all jobs
-CREATE POLICY "admin_full_access" ON public.video_jobs
+DROP policy if exists "admin_full_access" on public.video_jobs;
+DROP policy if exists "admin_full_access" on public.video_jobs;
+CREATE policy "admin_full_access" on public.video_jobs
   FOR ALL
   USING (
     EXISTS (
@@ -82,6 +84,7 @@ BEGIN
 END;
 $$;
 
+DROP TRIGGER IF EXISTS trg_video_jobs_updated_at ON public.video_jobs;
 CREATE TRIGGER trg_video_jobs_updated_at
   BEFORE UPDATE ON public.video_jobs
   FOR EACH ROW EXECUTE FUNCTION public.set_video_jobs_updated_at();

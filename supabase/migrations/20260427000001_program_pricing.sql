@@ -31,12 +31,14 @@ CREATE TABLE IF NOT EXISTS public.program_pricing (
 -- RLS: public read (calculator is public-facing), admin write
 ALTER TABLE public.program_pricing ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "program_pricing_public_read"
-  ON public.program_pricing FOR SELECT
+DROP POLICY IF EXISTS "program_pricing_public_read" ON public.program_pricing;
+DROP policy if exists "program_pricing_public_read" on public.program_pricing;
+CREATE policy "program_pricing_public_read" on public.program_pricing FOR SELECT
   USING (active = true);
 
-CREATE POLICY "program_pricing_admin_write"
-  ON public.program_pricing FOR ALL
+DROP POLICY IF EXISTS "program_pricing_admin_write" ON public.program_pricing;
+DROP policy if exists "program_pricing_admin_write" on public.program_pricing;
+CREATE policy "program_pricing_admin_write" on public.program_pricing FOR ALL
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -51,6 +53,7 @@ RETURNS TRIGGER LANGUAGE plpgsql AS $$
 BEGIN NEW.updated_at = now(); RETURN NEW; END;
 $$;
 
+DROP TRIGGER IF EXISTS trg_program_pricing_updated_at ON public.program_pricing;
 CREATE TRIGGER trg_program_pricing_updated_at
   BEFORE UPDATE ON public.program_pricing
   FOR EACH ROW EXECUTE FUNCTION public.set_program_pricing_updated_at();

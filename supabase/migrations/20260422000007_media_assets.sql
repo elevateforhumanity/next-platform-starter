@@ -27,6 +27,7 @@ CREATE TRIGGER media_assets_updated_at
 
 ALTER TABLE public.media_assets ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "media_assets_org_read" ON public.media_assets;
 CREATE POLICY "media_assets_org_read" ON public.media_assets
   FOR SELECT TO authenticated
   USING (

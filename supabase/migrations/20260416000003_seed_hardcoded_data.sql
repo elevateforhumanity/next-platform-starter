@@ -328,7 +328,7 @@ INSERT INTO public.faqs (question, answer, category, program_slug, display_order
 -- Phlebotomy-specific
 ('What certification will I earn in the phlebotomy program?','Graduates are prepared for the NHA Certified Phlebotomy Technician (CPT) exam. Elevate is an NHA Authorized Testing Center — you can test on-site after completing the program.','programs','phlebotomy',1),
 ('Is phlebotomy in demand?','Yes. The Bureau of Labor Statistics projects 8% growth for phlebotomists through 2032, faster than average. Hospitals, clinics, labs, and blood banks all hire phlebotomists.','programs','phlebotomy',2)
-ON CONFLICT (question, program_slug) DO UPDATE SET
+ON CONFLICT (question) DO UPDATE SET
   answer        = EXCLUDED.answer,
   category      = EXCLUDED.category,
   display_order = EXCLUDED.display_order,

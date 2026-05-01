@@ -37,12 +37,35 @@ ON CONFLICT (slug) DO NOTHING;
 
 -- Subscription pricing view used by /store/subscriptions
 -- Joins store_products + store_prices into a flat shape the page expects
+CREATE TABLE IF NOT EXISTS public.store_prices (
+  id               uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  product_id       uuid NOT NULL REFERENCES public.store_products(id) ON DELETE CASCADE,
+  stripe_price_id  text UNIQUE,
+  interval         text NOT NULL CHECK (interval IN ('month','year','one_time')),
+  amount_cents     int NOT NULL CHECK (amount_cents >= 0),
+  currency         text NOT NULL DEFAULT 'usd',
+  trial_period_days int,
+  active           boolean NOT NULL DEFAULT true,
+  created_at       timestamptz NOT NULL DEFAULT now()
+);
+
+-- RLS: deployment_options is public read
+ALTER TABLE public.deployment_options ENABLE ROW LEVEL SECURITY;
+DROP policy if exists "deployment_options_public_read" on public.deployment_options;
+CREATE policy "deployment_options_public_read" on public.deployment_options FOR SELECT USING (true);
+
+-- RLS: store_prices readable by authenticated users
+ALTER TABLE public.store_prices ENABLE ROW LEVEL SECURITY;
+DROP policy if exists "store_prices_authenticated_read" on public.store_prices;
+CREATE policy "store_prices_authenticated_read" on public.store_prices FOR SELECT TO authenticated USING (true);
+
+-- View: joins store_products + store_prices
 CREATE OR REPLACE VIEW public.store_subscription_pricing AS
 SELECT
   sp.id                                                        AS product_id,
   sp.name                                                      AS product_name,
   sp.description,
-  COALESCE(sp.features, '{}')                                  AS features,
+  '{}'::jsonb                                                   AS features,
   spr.id                                                       AS price_id,
   spr.stripe_price_id,
   spr.interval,
@@ -60,30 +83,8 @@ SELECT
   spr.trial_period_days
 FROM public.store_products sp
 JOIN public.store_prices spr ON spr.product_id = sp.id
-WHERE sp.active = true
+WHERE sp.status = 'active'
   AND spr.active = true
-  AND sp.product_type = 'subscription'
+  AND sp.status = 'active'
 ORDER BY spr.amount_cents ASC;
 
--- store_prices table (referenced by the view above and store_subscriptions)
-CREATE TABLE IF NOT EXISTS public.store_prices (
-  id               uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  product_id       uuid NOT NULL REFERENCES public.store_products(id) ON DELETE CASCADE,
-  stripe_price_id  text UNIQUE,
-  interval         text NOT NULL CHECK (interval IN ('month','year','one_time')),
-  amount_cents     int NOT NULL CHECK (amount_cents >= 0),
-  currency         text NOT NULL DEFAULT 'usd',
-  trial_period_days int,
-  active           boolean NOT NULL DEFAULT true,
-  created_at       timestamptz NOT NULL DEFAULT now()
-);
-
--- RLS: deployment_options is public read
-ALTER TABLE public.deployment_options ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "deployment_options_public_read"
-  ON public.deployment_options FOR SELECT USING (true);
-
--- RLS: store_prices readable by authenticated users
-ALTER TABLE public.store_prices ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "store_prices_authenticated_read"
-  ON public.store_prices FOR SELECT TO authenticated USING (true);

@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS public.admin_priority_queue (
   created_at        timestamptz NOT NULL DEFAULT now(),
   updated_at        timestamptz NOT NULL DEFAULT now()
   -- Prevent duplicate entries for the same source row
-  UNIQUE (item_type, reference_id)
 );
 
 -- ── Score computation ─────────────────────────────────────────────────────────
@@ -207,8 +206,9 @@ $$;
 -- ── RLS ───────────────────────────────────────────────────────────────────────
 ALTER TABLE public.admin_priority_queue ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "admin_read_priority_queue"
-  ON public.admin_priority_queue FOR SELECT
+DROP policy if exists "admin_read_priority_queue" on public.admin_priority_queue;
+DROP policy if exists "admin_read_priority_queue" on public.admin_priority_queue;
+CREATE policy "admin_read_priority_queue" on public.admin_priority_queue FOR SELECT
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -217,8 +217,9 @@ CREATE POLICY "admin_read_priority_queue"
     )
   );
 
-CREATE POLICY "admin_write_priority_queue"
-  ON public.admin_priority_queue FOR ALL
+DROP policy if exists "admin_write_priority_queue" on public.admin_priority_queue;
+DROP policy if exists "admin_write_priority_queue" on public.admin_priority_queue;
+CREATE policy "admin_write_priority_queue" on public.admin_priority_queue FOR ALL
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
@@ -234,3 +235,4 @@ CREATE INDEX IF NOT EXISTS idx_apq_score_unresolved
 
 CREATE INDEX IF NOT EXISTS idx_apq_type_resolved
   ON public.admin_priority_queue (item_type, resolved);
+

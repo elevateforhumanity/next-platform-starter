@@ -18,8 +18,8 @@
 DROP POLICY IF EXISTS "course_lessons_admin_read" ON public.course_lessons;
 
 -- Admins/staff: unrestricted read (no instructor role here)
-CREATE POLICY "course_lessons_admin_read"
-  ON public.course_lessons
+DROP POLICY IF EXISTS "course_lessons_admin_read" ON public.course_lessons;
+CREATE POLICY "course_lessons_admin_read" ON public.course_lessons
   FOR SELECT
   TO authenticated
   USING (
@@ -31,8 +31,8 @@ CREATE POLICY "course_lessons_admin_read"
   );
 
 -- Instructors: read only lessons for their assigned programs
-CREATE POLICY "course_lessons_instructor_read"
-  ON public.course_lessons
+DROP POLICY IF EXISTS "course_lessons_instructor_read" ON public.course_lessons;
+CREATE POLICY "course_lessons_instructor_read" ON public.course_lessons
   FOR SELECT
   TO authenticated
   USING (
@@ -50,8 +50,8 @@ CREATE POLICY "course_lessons_instructor_read"
 -- Repeat for course_modules — same scoping logic
 DROP POLICY IF EXISTS "course_modules_admin_read" ON public.course_modules;
 
-CREATE POLICY "course_modules_admin_read"
-  ON public.course_modules
+DROP POLICY IF EXISTS "course_modules_admin_read" ON public.course_modules;
+CREATE POLICY "course_modules_admin_read" ON public.course_modules
   FOR SELECT
   TO authenticated
   USING (
@@ -62,8 +62,8 @@ CREATE POLICY "course_modules_admin_read"
     )
   );
 
-CREATE POLICY "course_modules_instructor_read"
-  ON public.course_modules
+DROP POLICY IF EXISTS "course_modules_instructor_read" ON public.course_modules;
+CREATE POLICY "course_modules_instructor_read" ON public.course_modules
   FOR SELECT
   TO authenticated
   USING (

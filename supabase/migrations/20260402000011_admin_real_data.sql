@@ -209,7 +209,8 @@ create policy "admins_manage_mou_documents"
   ));
 
 -- Summary view for financial assurance dashboard
-create or replace view public.v_admin_financial_assurance_summary as
+DROP VIEW IF EXISTS public.v_admin_financial_assurance_summary;
+CREATE OR REPLACE VIEW public.v_admin_financial_assurance_summary as
 select
   count(*)::int                                                                          as total_records,
   count(*) filter (where status = 'active')::int                                        as active_records,

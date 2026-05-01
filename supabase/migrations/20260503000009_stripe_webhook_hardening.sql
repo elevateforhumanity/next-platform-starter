@@ -32,7 +32,7 @@ CREATE INDEX IF NOT EXISTS idx_webhook_retry_log_event_id
   ON public.webhook_retry_log (event_id);
 
 CREATE INDEX IF NOT EXISTS idx_webhook_retry_log_provider_created
-  ON public.webhook_retry_log (provider, created_at DESC);
+  ON public.webhook_retry_log (provider, logged_at DESC);
 
 ALTER TABLE public.webhook_retry_log ENABLE ROW LEVEL SECURITY;
 

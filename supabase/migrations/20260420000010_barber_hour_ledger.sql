@@ -47,8 +47,6 @@ CREATE TABLE IF NOT EXISTS public.barber_hour_ledger (
   last_session_start  timestamptz,
   last_session_end    timestamptz,
   updated_at          timestamptz NOT NULL DEFAULT now()
-
-  UNIQUE (user_id, program_id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_barber_hour_ledger_user
@@ -115,3 +113,4 @@ CREATE POLICY "Service role manages events" ON public.barber_hour_events USING (
 
 DROP POLICY IF EXISTS "Anyone reads module config"  ON public.barber_module_hour_config;
 CREATE POLICY "Anyone reads module config"  ON public.barber_module_hour_config FOR SELECT USING (true);
+

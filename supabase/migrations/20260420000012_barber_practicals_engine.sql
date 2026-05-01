@@ -23,19 +23,21 @@ CREATE TABLE IF NOT EXISTS public.barber_practical_categories (
   description     text
 );
 
+ALTER TABLE public.barber_practical_categories ADD COLUMN IF NOT EXISTS program_id uuid REFERENCES public.programs(id) ON DELETE CASCADE;
+
 INSERT INTO public.barber_practical_categories
-  (category_key, label, module_number, count_required, description)
+  (category_key, label, required_count, description)
 VALUES
-  ('haircut_standard',  'Standard Haircut',         4, 75,  'Full haircut service on a live client — scissor or clipper'),
-  ('haircut_fade',      'Fade Haircut',              4, 50,  'Low, mid, or high fade on a live client'),
-  ('haircut_advanced',  'Advanced Style',            4, 25,  'Textured cut, design, or specialty style on a live client'),
-  ('shave_straight',    'Straight Razor Shave',      5, 40,  'Full straight razor shave on a live client'),
-  ('beard_trim',        'Beard Trim / Design',       5, 40,  'Beard trim, shape, or design on a live client'),
-  ('chemical_service',  'Chemical Service',          6, 20,  'Color, relaxer, or texturizer application on a live client'),
-  ('scalp_treatment',   'Scalp Treatment',           2, 10,  'Scalp analysis and treatment service'),
-  ('tool_maintenance',  'Tool Maintenance',          3, 10,  'Documented clipper/scissor cleaning and calibration')
+  ('haircut_standard', 'Standard Haircut', 75, 'Full haircut service on a live client — scissor or clipper'),
+  ('haircut_fade', 'Fade Haircut', 50, 'Low, mid, or high fade on a live client'),
+  ('haircut_advanced', 'Advanced Style', 25, 'Textured cut, design, or specialty style on a live client'),
+  ('shave_straight', 'Straight Razor Shave', 40, 'Full straight razor shave on a live client'),
+  ('beard_trim', 'Beard Trim / Design', 40, 'Beard trim, shape, or design on a live client'),
+  ('chemical_service', 'Chemical Service', 20, 'Color, relaxer, or texturizer application on a live client'),
+  ('scalp_treatment', 'Scalp Treatment', 10, 'Scalp analysis and treatment service'),
+  ('tool_maintenance', 'Tool Maintenance', 10, 'Documented clipper/scissor cleaning and calibration')
 ON CONFLICT (category_key) DO UPDATE SET
-  count_required = EXCLUDED.count_required,
+  required_count = EXCLUDED.required_count,
   label          = EXCLUDED.label;
 
 -- Per-student practical progress
@@ -52,8 +54,6 @@ CREATE TABLE IF NOT EXISTS public.barber_student_practicals (
   verification_status text         NOT NULL DEFAULT 'in_progress'
                         CHECK (verification_status IN ('in_progress', 'met', 'waived')),
   updated_at          timestamptz  NOT NULL DEFAULT now()
-
-  UNIQUE (user_id, program_id, category_key)
 );
 
 CREATE INDEX IF NOT EXISTS idx_barber_practicals_user
@@ -160,3 +160,4 @@ CREATE POLICY "Student inserts own submissions"
   ON public.barber_practical_submissions FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Service role full submissions"
   ON public.barber_practical_submissions USING (auth.role() = 'service_role');
+
