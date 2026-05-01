@@ -1297,6 +1297,183 @@
   force = true
 
 
+# ── Forbidden sub-routes — Railway only ──────────────────────────────────────
+# programs/*/confirm, enrollment-success, orientation, documents — auth-gated
+[[redirects]]
+  from = "/programs/*/confirm"
+  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/confirm"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/*/enrollment-success"
+  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/enrollment-success"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/*/orientation"
+  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/orientation"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/*/documents"
+  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/documents"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/*/documents/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/documents/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/*/enroll"
+  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/enroll"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/*/enroll/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/programs/:splat/enroll/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/admin"
+  to = "https://elevate-lms-production-3098.up.railway.app/programs/admin"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/admin/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/programs/admin/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/demo/learner"
+  to = "https://elevate-lms-production-3098.up.railway.app/demo/learner"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/demo/learner/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/demo/learner/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/demo/employer"
+  to = "https://elevate-lms-production-3098.up.railway.app/demo/employer"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/demo/employer/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/demo/employer/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/mou/employer"
+  to = "https://elevate-lms-production-3098.up.railway.app/mou/employer"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/mou/employer/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/mou/employer/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/help/account"
+  to = "https://elevate-lms-production-3098.up.railway.app/help/account"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/help/account/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/help/account/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/booking/enrollment"
+  to = "https://elevate-lms-production-3098.up.railway.app/booking/enrollment"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/booking/enrollment/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/booking/enrollment/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shop/onboarding/documents"
+  to = "https://elevate-lms-production-3098.up.railway.app/shop/onboarding/documents"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/shop/onboarding/documents/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/shop/onboarding/documents/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/partners/compliance"
+  to = "https://elevate-lms-production-3098.up.railway.app/partners/compliance"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/partners/compliance/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/partners/compliance/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/student-support/schedule"
+  to = "https://elevate-lms-production-3098.up.railway.app/student-support/schedule"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/student-support/schedule/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/student-support/schedule/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/funding/confirm"
+  to = "https://elevate-lms-production-3098.up.railway.app/funding/confirm"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/funding/confirm/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/funding/confirm/:splat"
+  status = 301
+  force = true
+
+# ── FERPA records — Railway only ─────────────────────────────────────────────
+[[redirects]]
+  from = "/ferpa"
+  to = "https://elevate-lms-production-3098.up.railway.app/ferpa"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ferpa/*"
+  to = "https://elevate-lms-production-3098.up.railway.app/ferpa/:splat"
+  status = 301
+  force = true
+
 # ── Authenticated app routes — Railway (elevate-lms-production-3098) ─────────
 # These directories are quarantined from the Netlify build and must be
 # served by Railway. Generated from scripts/netlify-quarantine-railway-routes.mjs.

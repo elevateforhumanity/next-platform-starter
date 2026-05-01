@@ -33,6 +33,11 @@ const QUARANTINE_DIR = join(ROOT, '.netlify-quarantine', 'app');
 // 'components' and 'actions' are shared infrastructure imported by layout.tsx —
 // they contain no page.tsx/route.ts so Next.js does not treat them as routes.
 const ALLOWED_TOP_LEVEL = new Set([
+  // ── Webmaster verification + feeds (must be served by Netlify/CDN) ────────
+  'BingSiteAuth.xml',
+  'feed.xml',
+  'google-site-verification.txt',
+  'layouts',
   // ── Core public marketing ─────────────────────────────────────────────────
   'about',
   'install-app',
@@ -44,7 +49,6 @@ const ALLOWED_TOP_LEVEL = new Set([
   'privacy',
   'terms',
   'accessibility',
-  'providers',
   'resources',
   'funding',
   'partners',
@@ -305,10 +309,10 @@ const FORBIDDEN_SUBPATHS = new Set([
   // ferpa/* — entire dir is Railway-only (FERPA records management)
   'ferpa',
   // employer-portal sub-pages are Railway app (landing page itself is public)
-  'employer-portal/dashboard',
+  // employer-portal/* sub-pages — top-level employer-portal is in ALLOWED (public landing)
+  // sub-pages are Railway-only (auth-gated dashboard, jobs, etc.)
   'employer-portal/jobs',
   'employer-portal/candidates',
-  'employer-portal/reports',
   'employer-portal/settings',
   'employer-portal/wotc',
   'employer-portal/company',
@@ -386,11 +390,6 @@ const FORBIDDEN_SUBPATHS = new Set([
   // lms/(public) contains the public program catalog and landing page — stays on Netlify.
   // Quarantine the entire (app) route group; keep (public).
   'lms/(app)',
-  // Legacy explicit sub-path entries (superseded by lms/(app) above, kept for safety)
-  'lms/courses',
-  'lms/dashboard',
-  'lms/progress',
-  'lms/certificates',
   // employers/* sub-pages that are Railway-only
   'employers/apprenticeships',
   'employers/benefits',
@@ -409,7 +408,7 @@ const FORBIDDEN_SUBPATHS = new Set([
   // platform sub-pages that are Railway-only
   'platform/program-holders',
   // policies/* — all public policy documents, served by Netlify SSR.
-  // Do NOT quarantine — they're linked from public pages and use Supabase
+  // Do NOT quarantine — they are linked from public pages and use Supabase
   // only to fetch content (no auth required).
   // partners onboarding flows — Railway-only (require auth)
   // Move the entire (onboarding) route group; do NOT list sub-dirs separately
