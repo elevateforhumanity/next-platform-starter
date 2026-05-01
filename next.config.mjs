@@ -547,17 +547,7 @@ const nextConfig = {
       { source: '/student-portal/settings', destination: '/lms/settings', permanent: true },
       { source: '/student/support', destination: '/contact', permanent: false },
 
-      // Governance / compliance aliases
-      {
-        source: '/governance/operational-controls',
-        destination: '/legal/governance/platform-overview',
-        permanent: true,
-      },
-      {
-        source: '/governance/compliance',
-        destination: '/legal/governance/platform-overview',
-        permanent: true,
-      },
+      // Governance / compliance aliases — handled by netlify.toml (force=true, Railway-aware)
       { source: '/community', destination: '/help', permanent: false },
       { source: '/financial-aid', destination: '/funding', permanent: true },
       { source: '/workforce-board/reports', destination: '/workone-partner-packet', permanent: true },
@@ -711,8 +701,7 @@ const nextConfig = {
         permanent: true,
       },
       // Business
-      // Tax programs — no tax page in this repo; send to contact
-      { source: '/programs/tax-preparation', destination: '/contact', permanent: false },
+      // /programs/tax-preparation — handled by netlify.toml (200 rewrite, page exists)
       { source: '/programs/tax-prep', destination: '/contact', permanent: false },
       {
         source: '/programs/tax-entrepreneurship',
