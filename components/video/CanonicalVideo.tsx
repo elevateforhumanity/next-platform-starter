@@ -134,13 +134,20 @@ export default function CanonicalVideo({
       setPlaying(false);
       setEnded(false);
     }
-    // Wait for enough data before calling play() to avoid AbortError races
+    // Wait for enough data before calling play() to avoid AbortError races.
+    // Resolve playing state from the play() promise — onPlaying can fire before
+    // React attaches the handler when the video is already buffered (preload hit),
+    // leaving the poster stuck on screen indefinitely.
+    const startPlay = (v: HTMLVideoElement) => {
+      v.play()
+        .then(() => setPlaying(true))
+        .catch(() => {});
+    };
+
     if (video.readyState >= 2) {
-      video.play().catch(() => {});
+      startPlay(video);
     } else {
-      const onReady = () => {
-        video.play().catch(() => {});
-      };
+      const onReady = () => startPlay(video);
       video.addEventListener('canplay', onReady, { once: true });
       return () => video.removeEventListener('canplay', onReady);
     }
@@ -161,7 +168,9 @@ export default function CanonicalVideo({
       ([entry]) => {
         if (entry.isIntersecting && !started) {
           started = true;
-          video.play().catch(() => {});
+          video.play()
+            .then(() => setPlaying(true))
+            .catch(() => {});
           if (playThrough) {
             // Once started, disconnect — let it play through the page
             observer.disconnect();
