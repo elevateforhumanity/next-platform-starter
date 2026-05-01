@@ -29,7 +29,7 @@ export default function FssaApplyPage() {
           </h1>
           <p className="text-slate-300 text-sm sm:text-base max-w-xl">
             Indiana&apos;s FSSA IMPACT program provides fully funded workforce training for SNAP
-            and TANF recipients. No Microsoft account needed — complete your application here.
+            and TANF recipients. Complete your application here.
           </p>
           <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-400">
             <span>✓ No cost to eligible participants</span>
