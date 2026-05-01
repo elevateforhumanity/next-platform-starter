@@ -16,9 +16,7 @@ export function loadJsonOnce<T = unknown>(filename: string): T {
   }
   if (_cache.has(filename)) return _cache.get(filename) as T;
   // Dynamic require keeps 'fs' out of webpack's static import graph
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const fs = require('fs') as typeof import('fs');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const nodePath = require('path') as typeof import('path');
   const raw = fs.readFileSync(nodePath.join(process.cwd(), 'public/data', filename), 'utf8');
   const parsed = JSON.parse(raw) as T;

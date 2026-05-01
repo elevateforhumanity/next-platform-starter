@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { MessageCircle, X, ChevronRight, Play, Pause, SkipForward } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
@@ -157,7 +157,7 @@ export function GuidedDemoChat() {
     setCurrentStep(0);
   };
 
-  const playNextStep = () => {
+  const playNextStep = useCallback(() => {
     if (currentStep >= DEMO_SCRIPT.length - 1) {
       setIsPlaying(false);
       return;
@@ -181,7 +181,7 @@ export function GuidedDemoChat() {
         playNextStep();
       }, step.delay);
     }
-  };
+  }, [currentStep, isPlaying, router]);
 
   useEffect(() => {
     if (isPlaying && currentStep === 0 && messages.length === 1) {
@@ -197,7 +197,7 @@ export function GuidedDemoChat() {
         }, 3000);
       }
     }
-  }, [isPlaying, currentStep, messages.length]);
+  }, [isPlaying, currentStep, messages.length, playNextStep]);
 
   const togglePlayPause = () => {
     if (isPlaying) {

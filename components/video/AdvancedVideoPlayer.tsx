@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/client';
 
 import React from 'react';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface AdvancedVideoPlayerProps {
   src: string;
@@ -46,7 +46,7 @@ export default function AdvancedVideoPlayer({
   const supabase = createClient();
 
   // Log video view to DB
-  const logVideoView = async (eventType: 'start' | 'progress' | 'complete', progress?: number) => {
+  const logVideoView = useCallback(async (eventType: 'start' | 'progress' | 'complete', progress?: number) => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -62,7 +62,7 @@ export default function AdvancedVideoPlayer({
       },
       { onConflict: 'user_id,video_src' },
     );
-  };
+  }, [supabase, courseId, lessonId, src]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -114,7 +114,7 @@ export default function AdvancedVideoPlayer({
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       video.removeEventListener('progress', handleProgress);
     };
-  }, [courseId, lessonId, onProgress, onComplete, hasWatched]);
+  }, [courseId, lessonId, onProgress, onComplete, hasWatched, logVideoView]);
 
   const saveProgress = async (courseId?: string, lessonId?: string, progress?: number) => {
     if (!courseId || !lessonId) return;

@@ -97,8 +97,16 @@ const nextConfig = {
   // Railway needs standalone for the persistent Node server.
   // Netlify MUST NOT use standalone — Next.js ENOENT on route-group
   // client-reference-manifest files (lms/(public)/page_client-reference-manifest.js).
-  // NETLIFY=true is explicitly set in netlify.toml — use it as the sole guard.
-  ...(process.env.NETLIFY === 'true' ? {} : { output: 'standalone' }),
+  // Use multiple Netlify-specific env vars as guards — NETLIFY_SITE_ID and
+  // DEPLOY_URL are always injected by Netlify's build system regardless of
+  // when next.config.mjs is evaluated.
+  ...(
+    process.env.NETLIFY === 'true' ||
+    process.env.NETLIFY_SITE_ID ||
+    process.env.DEPLOY_URL
+      ? {}
+      : { output: 'standalone' }
+  ),
   // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
   // Netlify/webpack build: transpilePackages compiles it so webpack can parse it.
   // Railway build uses next.config.railway.mjs where edge-tts is in
@@ -153,16 +161,18 @@ const nextConfig = {
   // Allow cross-origin requests from preview/deploy URLs
   allowedDevOrigins: ['localhost', '**.gitpod.dev'],
 
+  // serverActions is stable in Next.js 15 — lives at top level, not experimental
+  serverActions: {
+    allowedOrigins: [
+      'localhost:3000',
+      '**.gitpod.dev',
+      'www.elevateforhumanity.org',
+      'elevateforhumanity.org',
+    ],
+  },
+
   // Experimental features for better performance
   experimental: {
-    serverActions: {
-      allowedOrigins: [
-        'localhost:3000',
-        '**.gitpod.dev',
-        'www.elevateforhumanity.org',
-        'elevateforhumanity.org',
-      ],
-    },
     // optimizePackageImports is disabled globally.
     // On Netlify (1,400+ pages) it adds significant webpack compilation overhead
     // and was confirmed active in build logs despite the NETLIFY env-var guard

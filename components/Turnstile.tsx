@@ -73,7 +73,7 @@ export default function Turnstile({ onVerify, onError, onExpire, formId }: Turns
       'expired-callback': handleExpire,
       theme: 'light',
     });
-  }, [onVerify, onError, onExpire]);
+  }, [onVerify, onError, onExpire, handleError, handleExpire, handleVerify]);
 
   useEffect(() => {
     // Skip if no site key configured

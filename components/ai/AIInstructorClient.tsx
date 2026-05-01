@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { Volume2, VolumeX, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -24,7 +24,7 @@ export function AIInstructorClient({
   const [isMuted, setIsMuted] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  const speak = (text: string) => {
+  const speak = useCallback((text: string) => {
     if (isMuted || !autoSpeak) return;
 
     // Cancel any ongoing speech
@@ -57,7 +57,7 @@ export function AIInstructorClient({
 
     utteranceRef.current = utterance;
     window.speechSynthesis.speak(utterance);
-  };
+  }, [message, autoPlay, onComplete]);
 
   const stopSpeaking = () => {
     window.speechSynthesis.cancel();
@@ -84,7 +84,7 @@ export function AIInstructorClient({
       window.removeEventListener('ai-instructor-speak', handleSpeakEvent as EventListener);
       window.speechSynthesis.cancel();
     };
-  }, [lessonTitle, autoSpeak]);
+  }, [lessonTitle, autoSpeak, speak]);
 
   if (!isVisible) {
     return (

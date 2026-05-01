@@ -48,7 +48,7 @@ export default function AILiveChat({ userId, userName, userEmail }: AILiveChatPr
         },
       ]);
     }
-  }, [isOpen, userName]);
+  }, [isOpen, userName, messages.length]);
 
   useEffect(() => {
     scrollToBottom();

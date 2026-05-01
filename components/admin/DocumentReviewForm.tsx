@@ -48,7 +48,7 @@ export function DocumentReviewForm({ document, adminId }: Props) {
     } finally {
       setRefreshing(false);
     }
-  }, [document.file_path]);
+  }, [document.file_path, document.id]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [action, setAction] = useState<'approve' | 'reject' | null>(null);

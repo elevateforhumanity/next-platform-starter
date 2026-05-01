@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Bell,
   MessageSquare,
@@ -33,9 +33,9 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
 
   useEffect(() => {
     loadDashboardData();
-  }, []);
+  }, [loadDashboardData]);
 
-  async function loadDashboardData() {
+  const loadDashboardData = useCallback(async () => {
     // Load notifications count
     const { count: notifCount } = await supabase
       .from('notifications')
@@ -79,7 +79,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
       .limit(5);
 
     setRecentActivity(notifications || []);
-  }
+  }, []);
 
   return (
     <div className="space-y-6">

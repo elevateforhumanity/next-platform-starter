@@ -37,7 +37,7 @@ export default function GuidedTour({
     if (autoStart) {
       startTour();
     }
-  }, [tourId, autoStart]);
+  }, [tourId, autoStart, startTour]);
 
   // Update target element position
   useEffect(() => {
@@ -101,7 +101,7 @@ export default function GuidedTour({
   const startTour = useCallback(() => {
     setIsActive(true);
     setCurrentStep(0);
-  }, [tourId]);
+  }, []);
 
   const endTour = useCallback(
     (completed: boolean) => {

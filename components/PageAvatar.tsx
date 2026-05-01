@@ -51,7 +51,7 @@ export default function PageAvatar({ videoSrc, title, position = 'default' }: Pa
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [hasPlayed]);
 
   // Auto-play when visible, pause when not. Unmute on visibility since user scrolled.
   useEffect(() => {

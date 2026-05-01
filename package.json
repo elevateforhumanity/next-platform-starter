@@ -412,6 +412,7 @@
       "canvas",
       "core-js",
       "@ffmpeg-installer/linux-x64",
+      "@ffprobe-installer/linux-x64",
       "workerd",
       "vue-demi",
       "unrs-resolver"

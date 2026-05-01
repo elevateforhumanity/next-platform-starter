@@ -40,6 +40,18 @@ const IGNORE_PREFIXES = [
   '/favicon',
   '/robots.txt',
   '/sitemap.xml',
+  // Railway-proxied namespaces — Netlify forwards these at the edge.
+  // Links to these paths from public pages are valid; they resolve via netlify.toml proxy rules.
+  '/partner/',
+  '/lms/',
+  '/admin/',
+  '/learner/',
+  '/instructor/',
+  '/employer/',
+  '/mentor/',
+  '/program-holder/',
+  '/staff-portal/',
+  '/supersonic/',
 ];
 
 const IGNORE_FILE_EXTENSIONS = [

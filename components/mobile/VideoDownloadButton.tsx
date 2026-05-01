@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Download, Check, Loader2 } from 'lucide-react';
 import { OfflineVideoManager, DownloadProgress } from '@/lib/video/offline-video';
 
@@ -26,13 +26,13 @@ export default function VideoDownloadButton({
 
   useEffect(() => {
     checkDownloadStatus();
-  }, [videoId]);
+  }, [videoId, checkDownloadStatus]);
 
-  const checkDownloadStatus = async () => {
+  const checkDownloadStatus = useCallback(async () => {
     const manager = OfflineVideoManager.getInstance();
     const available = await manager.isVideoAvailableOffline(videoId);
     setIsDownloaded(available);
-  };
+  }, [videoId]);
 
   const handleDownload = async () => {
     if (isDownloading) return;

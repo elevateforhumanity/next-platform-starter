@@ -43,8 +43,8 @@ export function LearningBarrierAnalyzer() {
     // Set up real-time monitoring
     const interval = setInterval(runBarrierAnalysis, 300000); // Every 5 minutes
     return () => clearInterval(interval);
-  }, []);
-  const runBarrierAnalysis = async () => {
+  }, [runBarrierAnalysis]);
+  const runBarrierAnalysis = useCallback(async () => {
     setIsAnalyzing(true);
     // Simulate AI analysis of learning data
     await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -191,7 +191,7 @@ export function LearningBarrierAnalyzer() {
     if (autoRemediationEnabled) {
       await deployAutoRemediation(detectedBarriers);
     }
-  };
+  }, []);
   const deployAutoRemediation = async (barriers: LearningBarrier[]) => {
     for (const barrier of barriers) {
       if (barrier.severity === 'high' || barrier.severity === 'critical') {

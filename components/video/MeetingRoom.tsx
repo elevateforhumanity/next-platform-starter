@@ -119,7 +119,7 @@ export function MeetingRoom({ meetingCode, userName, isModerator = false, onLeav
         api.dispose();
       }
     };
-  }, [meetingCode, userName, onLeave]);
+  }, [meetingCode, userName, onLeave, api]);
   const handleStartRecording = () => {
     if (api && isModerator) {
       api.executeCommand('startRecording', {

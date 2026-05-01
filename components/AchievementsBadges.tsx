@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Award, Trophy, Star, Target, Zap, BookOpen, Clock, Users } from 'lucide-react';
 
 interface Badge {
@@ -38,9 +38,9 @@ export function AchievementsBadges({ userId }: AchievementsBadgesProps) {
 
   useEffect(() => {
     loadBadges();
-  }, [userId]);
+  }, [userId, loadBadges]);
 
-  async function loadBadges() {
+  const loadBadges = useCallback(async () => {
     try {
       const res = await fetch(`/api/users/${userId}/badges`);
       if (res.ok) {
@@ -53,7 +53,7 @@ export function AchievementsBadges({ userId }: AchievementsBadgesProps) {
     } finally {
       setLoading(false);
     }
-  }
+  }, [userId]);
 
   const filteredBadges = badges.filter((badge) => {
     if (filter === 'earned') return badge.earned;

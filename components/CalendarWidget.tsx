@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 
 interface CalendarEvent {
@@ -26,9 +26,9 @@ export function CalendarWidget({ userId }: CalendarWidgetProps) {
 
   useEffect(() => {
     loadEvents();
-  }, [currentDate, userId]);
+  }, [currentDate, userId, loadEvents]);
 
-  async function loadEvents() {
+  const loadEvents = useCallback(async () => {
     try {
       const year = currentDate.getFullYear();
       const month = currentDate.getMonth() + 1;
@@ -43,7 +43,7 @@ export function CalendarWidget({ userId }: CalendarWidgetProps) {
     } finally {
       setLoading(false);
     }
-  }
+  }, [currentDate]);
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();

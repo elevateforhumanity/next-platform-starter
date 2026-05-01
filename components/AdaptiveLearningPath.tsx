@@ -87,7 +87,7 @@ export function AdaptiveLearningPath() {
       }
     };
     loadPaths();
-  }, []);
+  }, [defaultPaths]);
 
   const calculateMatchScore = (path: any, skills: any[]) => {
     // Simple match calculation based on skills

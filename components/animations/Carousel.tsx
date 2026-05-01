@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef, ReactNode, TouchEvent } from 'react';
+import { useState, useEffect, useRef, ReactNode, TouchEvent, useCallback } from 'react';
 
 interface CarouselProps {
   children: ReactNode[];
@@ -41,15 +41,15 @@ export function Carousel({ children, autoPlayInterval = 5000, className = '' }: 
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex]);
+  }, [currentIndex, goToNext, goToPrevious]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % totalSlides);
-  };
+  }, [totalSlides]);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
+  }, [totalSlides]);
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
