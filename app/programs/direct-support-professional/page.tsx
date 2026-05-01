@@ -65,7 +65,7 @@ export default async function Page() {
         }}
         headline="Direct Support Professional: Make a difference in people's lives"
         description="100% free DSP training. Help individuals with disabilities live independently and participate fully in their communities. 4-6 weeks, job placement included."
-        primaryCTA={{ text: 'Start Eligibility & Choose This Program', href: '/apply' }}
+        primaryCTA={{ text: 'Start Eligibility & Choose This Program', href: '/apply?program=direct-support-professional' }}
         secondaryCTA={{ text: 'Questions? Call Us', href: 'tel:317-314-3757' }}
       />
 
@@ -237,7 +237,7 @@ export default async function Page() {
           <p className="text-xl mb-8">Check eligibility and begin training in weeks, not months.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/apply"
+              href="/apply?program=direct-support-professional"
               className="px-8 py-4 bg-white text-blue-600 hover:bg-gray-100 font-bold rounded-lg transition-all text-center"
             >
               Start Eligibility & Choose This Program
