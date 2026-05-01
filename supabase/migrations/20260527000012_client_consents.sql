@@ -23,8 +23,7 @@ CREATE INDEX IF NOT EXISTS client_consents_signed_at_idx  ON public.client_conse
 -- RLS: users can only read their own consent; inserts via service role only
 ALTER TABLE public.client_consents ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "users_read_own_consent"
-  ON public.client_consents FOR SELECT
-  USING (client_id = auth.uid());
+DO $$ BEGIN CREATE POLICY "users_read_own_consent" ON public.client_consents FOR SELECT
+  USING (client_id = auth.uid()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- No direct client INSERT — all writes go through the API route (service role)

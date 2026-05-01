@@ -44,8 +44,8 @@ CREATE INDEX IF NOT EXISTS idx_stripe_sessions_created_at
 ALTER TABLE public.stripe_sessions_staging ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "service_role_all" ON public.stripe_sessions_staging;
-CREATE POLICY "service_role_all" ON public.stripe_sessions_staging
-  FOR ALL TO service_role USING (true) WITH CHECK (true);
+DO $$ BEGIN CREATE POLICY "service_role_all" ON public.stripe_sessions_staging
+  FOR ALL TO service_role USING (true) WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Idempotent upsert function called by the ingestion script
 CREATE OR REPLACE FUNCTION public.upsert_stripe_session(

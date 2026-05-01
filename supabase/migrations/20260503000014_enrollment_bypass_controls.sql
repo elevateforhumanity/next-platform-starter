@@ -33,15 +33,14 @@ CREATE TABLE IF NOT EXISTS public.enrollment_bypass_allowlist (
 ALTER TABLE public.enrollment_bypass_allowlist ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS bypass_allowlist_admin ON public.enrollment_bypass_allowlist;
-CREATE POLICY bypass_allowlist_admin
-  ON public.enrollment_bypass_allowlist FOR ALL
+DO $$ BEGIN CREATE POLICY bypass_allowlist_admin ON public.enrollment_bypass_allowlist FOR ALL
   USING (
     current_setting('role', true) = 'service_role'
     OR EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid() AND role IN ('admin', 'super_admin')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 CREATE OR REPLACE FUNCTION public.audit_enrollment_insert()
 RETURNS trigger AS $$

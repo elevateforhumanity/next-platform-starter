@@ -23,5 +23,5 @@ CREATE INDEX IF NOT EXISTS idx_webhook_retry_log_provider_created
 ALTER TABLE public.webhook_retry_log ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "service_role_all" ON public.webhook_retry_log;
-CREATE POLICY "service_role_all" ON public.webhook_retry_log
-  FOR ALL TO service_role USING (true) WITH CHECK (true);
+DO $$ BEGIN CREATE POLICY "service_role_all" ON public.webhook_retry_log
+  FOR ALL TO service_role USING (true) WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

@@ -118,6 +118,7 @@ async function _POST(req: Request) {
       `Reference: ${referenceNumber}`,
       body.city ? `City: ${body.city}` : '',
       body.state ? `State: ${body.state}` : '',
+      body.address ? `Address: ${body.address}` : '',
       body.zip ? `ZIP: ${body.zip}` : '',
       `Program Interest: ${program}`,
       body.preferredContact ? `Preferred Contact: ${body.preferredContact}` : '',
@@ -164,48 +165,82 @@ async function _POST(req: Request) {
       applicationStatus = 'submitted';
     }
 
-    const { data, error }: any = await supabase
+    // Core insert payload — columns confirmed to exist in all environments
+    const corePayload: Record<string, any> = {
+      first_name: body.firstName,
+      last_name: body.lastName,
+      phone: body.phone,
+      email: body.email,
+      normalized_email: body.email.toLowerCase().trim(),
+      normalized_phone: body.phone.replace(/\D/g, ''),
+      city: body.city || 'Not provided',
+      zip: body.zip || '00000',
+      program_interest: program,
+      program_slug: body.programSlug || body.program_slug || null,
+      support_notes: notes,
+      status: applicationStatus,
+      source: body.source || 'website',
+      contact_preference: body.preferredContact || 'phone',
+      transfer_hours_claimed: transferHoursClaimed,
+      funding_type: fundingType,
+      funding_eligibility_status: eligibilityStatus,
+      reference_number: referenceNumber,
+      type: 'student',
+      date_of_birth: body.dateOfBirth || null,
+      county_of_residence: body.countyOfResidence || null,
+      household_income: body.householdIncome ? Number(body.householdIncome) : null,
+      family_size: body.familySize ? Number(body.familySize) : null,
+      modality_preference: body.modalityPreference || null,
+    };
+
+    let { data, error }: any = await supabase
       .from('applications')
-      .insert({
-        first_name: body.firstName,
-        last_name: body.lastName,
-        phone: body.phone,
-        email: body.email,
-        normalized_email: body.email.toLowerCase().trim(),
-        normalized_phone: body.phone.replace(/\D/g, ''),
-        city: body.city || 'Not provided',
-        state: body.state || null,
-        address: body.address || null,
-        zip: body.zip || '00000',
-        program_interest: program,
-        program_slug: body.programSlug || body.program_slug || null,
-        support_notes: notes,
-        status: applicationStatus,
-        source: body.source || 'website',
-        contact_preference: body.preferredContact || 'phone',
-        transfer_hours_claimed: transferHoursClaimed,
-        funding_type: fundingType,
-        funding_eligibility_status: eligibilityStatus,
-        reference_number: referenceNumber,
-        type: 'student',
-        // WIOA Title I required fields (PIRL 300, 302, 401, 900)
-        date_of_birth: body.dateOfBirth || null,
-        county_of_residence: body.countyOfResidence || null,
-        household_income: body.householdIncome ? Number(body.householdIncome) : null,
-        family_size: body.familySize ? Number(body.familySize) : null,
-        modality_preference: body.modalityPreference || null,
-        // transfer_hours_verified is null until staff reviews documentation
-      })
+      .insert(corePayload)
       .select()
       .maybeSingle();
 
+    // If insert failed due to unknown column, retry without optional columns
+    // that may not exist in all DB environments yet.
+    // normalized_email / normalized_phone → added in 20260621000001 (not yet live)
+    // county_of_residence / household_income / family_size / modality_preference → 20260430000004
+    // transfer_hours_claimed → 20260408000006
+    // funding_eligibility_status → 20260425000001
+    if (error && (error.code === '42703' || error.message?.includes('column'))) {
+      logger.warn('[api/applications] Retrying insert without optional columns', {
+        code: error.code, message: error.message,
+      });
+      const fallback = await supabase
+        .from('applications')
+        .insert({
+          ...corePayload,
+          normalized_email: undefined,
+          normalized_phone: undefined,
+          county_of_residence: undefined,
+          household_income: undefined,
+          family_size: undefined,
+          modality_preference: undefined,
+          transfer_hours_claimed: undefined,
+          funding_eligibility_status: undefined,
+        })
+        .select()
+        .maybeSingle();
+      data = fallback.data;
+      error = fallback.error;
+    }
+
     if (error) {
-      const errorCode = (error as any)?.code || 'UNKNOWN';
-      const errorMessage = 'Internal server error';
+      logger.error('[api/applications] DB insert failed', {
+        code: (error as any)?.code,
+        message: (error as any)?.message,
+        details: (error as any)?.details,
+        hint: (error as any)?.hint,
+        program,
+        email: body.email,
+      });
       return NextResponse.json(
         {
           error: 'Failed to save application. Please call 317-314-3757 for immediate assistance.',
-          debug: process.env.NODE_ENV === 'development' ? 'Internal server error' : undefined,
+          debug: process.env.NODE_ENV === 'development' ? (error as any)?.message : undefined,
         },
         { status: 500 },
       );

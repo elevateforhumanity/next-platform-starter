@@ -25,11 +25,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_links_org
   ON public.sos_source_links (organization_id, fetch_status);
 
 ALTER TABLE public.sos_source_links ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_links_admin" ON public.sos_source_links FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_links_admin" ON public.sos_source_links FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- source_documents
@@ -53,11 +53,11 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_sos_source_docs_hash
   WHERE hash IS NOT NULL;
 
 ALTER TABLE public.sos_source_documents ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_source_docs_admin" ON public.sos_source_documents FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_source_docs_admin" ON public.sos_source_documents FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- source_document_sections
@@ -82,11 +82,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_sections_doc
   ON public.sos_source_document_sections (source_document_id, section_type);
 
 ALTER TABLE public.sos_source_document_sections ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_sections_admin" ON public.sos_source_document_sections FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_sections_admin" ON public.sos_source_document_sections FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- opportunities
@@ -137,11 +137,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_opps_due_date
   WHERE due_date IS NOT NULL;
 
 ALTER TABLE public.sos_opportunities ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_opps_admin" ON public.sos_opportunities FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_opps_admin" ON public.sos_opportunities FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- opportunity_requirements
@@ -184,11 +184,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_reqs_opp
   ON public.sos_opportunity_requirements (opportunity_id, review_class);
 
 ALTER TABLE public.sos_opportunity_requirements ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_reqs_admin" ON public.sos_opportunity_requirements FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_reqs_admin" ON public.sos_opportunity_requirements FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON COLUMN public.sos_opportunity_requirements.review_class IS
   'auto_safe: legal name/EIN/address/pre-approved attachments. ask_if_missing: service area/counts/programs. review_required: narratives/budgets/plans. blocked: signatures/legal attestations/pricing commitments. System halts on any blocked or unresolved review_required item.';
@@ -230,8 +230,8 @@ CREATE INDEX IF NOT EXISTS idx_sos_mappings_req
   ON public.sos_requirement_mappings (opportunity_requirement_id, resolution_status);
 
 ALTER TABLE public.sos_requirement_mappings ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_mappings_admin" ON public.sos_requirement_mappings FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_mappings_admin" ON public.sos_requirement_mappings FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

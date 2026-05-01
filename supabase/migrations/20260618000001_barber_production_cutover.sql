@@ -43,7 +43,7 @@ BEGIN
     SELECT 1 FROM pg_constraint
     WHERE conname = 'unique_course_slug' AND conrelid = 'public.courses'::regclass
   ) THEN
-    ALTER TABLE public.courses ADD CONSTRAINT unique_course_slug UNIQUE (slug);
+    ALTER TABLE public.courses ADD CONSTRAINT uq_slug_21 UNIQUE (slug);
   END IF;
 END $$;
 

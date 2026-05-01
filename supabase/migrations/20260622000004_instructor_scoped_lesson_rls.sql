@@ -19,7 +19,7 @@ DROP POLICY IF EXISTS "course_lessons_admin_read" ON public.course_lessons;
 
 -- Admins/staff: unrestricted read (no instructor role here)
 DROP POLICY IF EXISTS "course_lessons_admin_read" ON public.course_lessons;
-CREATE POLICY "course_lessons_admin_read" ON public.course_lessons
+DO $$ BEGIN CREATE POLICY "course_lessons_admin_read" ON public.course_lessons
   FOR SELECT
   TO authenticated
   USING (
@@ -28,11 +28,11 @@ CREATE POLICY "course_lessons_admin_read" ON public.course_lessons
       WHERE p.id = auth.uid()
         AND p.role IN ('admin', 'super_admin', 'staff', 'org_admin')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Instructors: read only lessons for their assigned programs
 DROP POLICY IF EXISTS "course_lessons_instructor_read" ON public.course_lessons;
-CREATE POLICY "course_lessons_instructor_read" ON public.course_lessons
+DO $$ BEGIN CREATE POLICY "course_lessons_instructor_read" ON public.course_lessons
   FOR SELECT
   TO authenticated
   USING (
@@ -45,13 +45,13 @@ CREATE POLICY "course_lessons_instructor_read" ON public.course_lessons
         AND p.role = 'instructor'
         AND c.id = course_lessons.course_id
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Repeat for course_modules — same scoping logic
 DROP POLICY IF EXISTS "course_modules_admin_read" ON public.course_modules;
 
 DROP POLICY IF EXISTS "course_modules_admin_read" ON public.course_modules;
-CREATE POLICY "course_modules_admin_read" ON public.course_modules
+DO $$ BEGIN CREATE POLICY "course_modules_admin_read" ON public.course_modules
   FOR SELECT
   TO authenticated
   USING (
@@ -60,10 +60,10 @@ CREATE POLICY "course_modules_admin_read" ON public.course_modules
       WHERE p.id = auth.uid()
         AND p.role IN ('admin', 'super_admin', 'staff', 'org_admin')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "course_modules_instructor_read" ON public.course_modules;
-CREATE POLICY "course_modules_instructor_read" ON public.course_modules
+DO $$ BEGIN CREATE POLICY "course_modules_instructor_read" ON public.course_modules
   FOR SELECT
   TO authenticated
   USING (
@@ -76,4 +76,4 @@ CREATE POLICY "course_modules_instructor_read" ON public.course_modules
         AND p.role = 'instructor'
         AND c.id = course_modules.course_id
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

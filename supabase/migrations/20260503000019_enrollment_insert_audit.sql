@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS public.enrollment_insert_audit (
 ALTER TABLE public.enrollment_insert_audit ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS enrollment_insert_audit_admin ON public.enrollment_insert_audit;
-CREATE POLICY enrollment_insert_audit_admin
-  ON public.enrollment_insert_audit
+DO $$ BEGIN CREATE POLICY enrollment_insert_audit_admin ON public.enrollment_insert_audit
   FOR ALL
   USING (
     current_setting('role', true) = 'service_role'
@@ -36,7 +35,7 @@ CREATE POLICY enrollment_insert_audit_admin
       WHERE id = auth.uid()
       AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 CREATE OR REPLACE FUNCTION public.audit_enrollment_insert()
 RETURNS trigger AS $$

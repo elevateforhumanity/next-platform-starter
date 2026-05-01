@@ -162,17 +162,17 @@ ALTER TABLE public.accreditation_evidence  ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.accreditation_reviews   ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "admin_read_accreditation_standards" ON public.accreditation_standards;
-CREATE POLICY "admin_read_accreditation_standards" ON public.accreditation_standards FOR SELECT
-  USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin','staff')));
+DO $$ BEGIN CREATE POLICY "admin_read_accreditation_standards" ON public.accreditation_standards FOR SELECT
+  USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "admin_manage_accreditation_standards" ON public.accreditation_standards;
-CREATE POLICY "admin_manage_accreditation_standards" ON public.accreditation_standards FOR ALL
-  USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin')));
+DO $$ BEGIN CREATE POLICY "admin_manage_accreditation_standards" ON public.accreditation_standards FOR ALL
+  USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "admin_manage_accreditation_evidence" ON public.accreditation_evidence;
-CREATE POLICY "admin_manage_accreditation_evidence" ON public.accreditation_evidence FOR ALL
-  USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin','staff')));
+DO $$ BEGIN CREATE POLICY "admin_manage_accreditation_evidence" ON public.accreditation_evidence FOR ALL
+  USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "admin_manage_accreditation_reviews" ON public.accreditation_reviews;
-CREATE POLICY "admin_manage_accreditation_reviews" ON public.accreditation_reviews FOR ALL
-  USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin')));
+DO $$ BEGIN CREATE POLICY "admin_manage_accreditation_reviews" ON public.accreditation_reviews FOR ALL
+  USING (EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('admin','super_admin'))); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

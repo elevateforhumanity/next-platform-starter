@@ -17,9 +17,13 @@ CREATE TABLE IF NOT EXISTS public.flashcard_sets (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.flashcard_sets ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS admin_all ON public.flashcard_sets FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.flashcard_sets FOR SELECT USING (published=true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='flashcard_sets') THEN
+    EXECUTE 'ALTER TABLE public.flashcard_sets ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.flashcard_sets FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.flashcard_sets FOR SELECT USING (published=true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.gamification_events (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -29,9 +33,13 @@ CREATE TABLE IF NOT EXISTS public.gamification_events (
   metadata JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.gamification_events ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.gamification_events FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.gamification_events FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='gamification_events') THEN
+    EXECUTE 'ALTER TABLE public.gamification_events ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.gamification_events FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.gamification_events FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.grant_programs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -47,9 +55,13 @@ CREATE TABLE IF NOT EXISTS public.grant_programs (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.grant_programs ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS admin_all ON public.grant_programs FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.grant_programs FOR SELECT USING (active=true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='grant_programs') THEN
+    EXECUTE 'ALTER TABLE public.grant_programs ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.grant_programs FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.grant_programs FOR SELECT USING (active=true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.grant_disbursements (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -63,9 +75,13 @@ CREATE TABLE IF NOT EXISTS public.grant_disbursements (
   created_by UUID REFERENCES public.profiles(id),
   created_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.grant_disbursements ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.grant_disbursements FOR SELECT USING (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.grant_disbursements FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='grant_disbursements') THEN
+    EXECUTE 'ALTER TABLE public.grant_disbursements ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.grant_disbursements FOR SELECT USING (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.grant_disbursements FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.instructor_profiles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -78,10 +94,14 @@ CREATE TABLE IF NOT EXISTS public.instructor_profiles (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.instructor_profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.instructor_profiles FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.instructor_profiles FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff','instructor')));
-CREATE POLICY IF NOT EXISTS public_read ON public.instructor_profiles FOR SELECT USING (active=true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='instructor_profiles') THEN
+    EXECUTE 'ALTER TABLE public.instructor_profiles ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.instructor_profiles FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.instructor_profiles FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff','instructor'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.instructor_profiles FOR SELECT USING (active=true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.instructor_assignments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -95,9 +115,13 @@ CREATE TABLE IF NOT EXISTS public.instructor_assignments (
   active BOOLEAN DEFAULT true,
   created_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.instructor_assignments ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS instructor_own ON public.instructor_assignments FOR SELECT USING (instructor_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.instructor_assignments FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='instructor_assignments') THEN
+    EXECUTE 'ALTER TABLE public.instructor_assignments ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY instructor_own ON public.instructor_assignments FOR SELECT USING (instructor_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.instructor_assignments FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.instructor_availability (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -110,9 +134,13 @@ CREATE TABLE IF NOT EXISTS public.instructor_availability (
   specific_date DATE,
   created_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.instructor_availability ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS instructor_own ON public.instructor_availability FOR ALL USING (instructor_id=auth.uid()) WITH CHECK (instructor_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.instructor_availability FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='instructor_availability') THEN
+    EXECUTE 'ALTER TABLE public.instructor_availability ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY instructor_own ON public.instructor_availability FOR ALL USING (instructor_id=auth.uid()) WITH CHECK (instructor_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.instructor_availability FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.interview_schedules (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -128,10 +156,14 @@ CREATE TABLE IF NOT EXISTS public.interview_schedules (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.interview_schedules ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS candidate_own ON public.interview_schedules FOR SELECT USING (candidate_id=auth.uid());
-CREATE POLICY IF NOT EXISTS employer_own ON public.interview_schedules FOR ALL USING (employer_id=auth.uid()) WITH CHECK (employer_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.interview_schedules FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='interview_schedules') THEN
+    EXECUTE 'ALTER TABLE public.interview_schedules ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY candidate_own ON public.interview_schedules FOR SELECT USING (candidate_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY employer_own ON public.interview_schedules FOR ALL USING (employer_id=auth.uid()) WITH CHECK (employer_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.interview_schedules FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.invoices (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -149,9 +181,13 @@ CREATE TABLE IF NOT EXISTS public.invoices (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.invoices FOR SELECT USING (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.invoices FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='invoices') THEN
+    EXECUTE 'ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.invoices FOR SELECT USING (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.invoices FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.job_categories (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -162,9 +198,13 @@ CREATE TABLE IF NOT EXISTS public.job_categories (
   active BOOLEAN DEFAULT true,
   created_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.job_categories ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS admin_all ON public.job_categories FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.job_categories FOR SELECT USING (active=true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='job_categories') THEN
+    EXECUTE 'ALTER TABLE public.job_categories ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.job_categories FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.job_categories FOR SELECT USING (active=true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.job_placements (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -183,9 +223,13 @@ CREATE TABLE IF NOT EXISTS public.job_placements (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.job_placements ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.job_placements FOR SELECT USING (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.job_placements FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='job_placements') THEN
+    EXECUTE 'ALTER TABLE public.job_placements ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.job_placements FOR SELECT USING (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.job_placements FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.job_skills (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -194,9 +238,13 @@ CREATE TABLE IF NOT EXISTS public.job_skills (
   skill_level TEXT DEFAULT 'required',
   created_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.job_skills ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS admin_all ON public.job_skills FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.job_skills FOR SELECT USING (true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='job_skills') THEN
+    EXECUTE 'ALTER TABLE public.job_skills ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.job_skills FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.job_skills FOR SELECT USING (true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.mentorship_sessions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -211,9 +259,13 @@ CREATE TABLE IF NOT EXISTS public.mentorship_sessions (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.mentorship_sessions ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS participant_own ON public.mentorship_sessions FOR ALL USING (mentor_id=auth.uid() OR mentee_id=auth.uid()) WITH CHECK (mentor_id=auth.uid() OR mentee_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.mentorship_sessions FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='mentorship_sessions') THEN
+    EXECUTE 'ALTER TABLE public.mentorship_sessions ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY participant_own ON public.mentorship_sessions FOR ALL USING (mentor_id=auth.uid() OR mentee_id=auth.uid()) WITH CHECK (mentor_id=auth.uid() OR mentee_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.mentorship_sessions FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.message_threads (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -225,9 +277,13 @@ CREATE TABLE IF NOT EXISTS public.message_threads (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.message_threads ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS participant_own ON public.message_threads FOR ALL USING (auth.uid() = ANY(participant_ids)) WITH CHECK (auth.uid() = ANY(participant_ids));
-CREATE POLICY IF NOT EXISTS admin_all ON public.message_threads FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='message_threads') THEN
+    EXECUTE 'ALTER TABLE public.message_threads ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY participant_own ON public.message_threads FOR ALL USING (auth.uid() = ANY(participant_ids)) WITH CHECK (auth.uid() = ANY(participant_ids)); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.message_threads FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.placement_outcomes (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -245,9 +301,13 @@ CREATE TABLE IF NOT EXISTS public.placement_outcomes (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.placement_outcomes ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.placement_outcomes FOR SELECT USING (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.placement_outcomes FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='placement_outcomes') THEN
+    EXECUTE 'ALTER TABLE public.placement_outcomes ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.placement_outcomes FOR SELECT USING (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.placement_outcomes FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.program_cohorts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -262,9 +322,13 @@ CREATE TABLE IF NOT EXISTS public.program_cohorts (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.program_cohorts ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS admin_all ON public.program_cohorts FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.program_cohorts FOR SELECT USING (status='open');
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='program_cohorts') THEN
+    EXECUTE 'ALTER TABLE public.program_cohorts ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.program_cohorts FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.program_cohorts FOR SELECT USING (status='open'); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.program_reviews (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -277,10 +341,14 @@ CREATE TABLE IF NOT EXISTS public.program_reviews (
   updated_at TIMESTAMPTZ DEFAULT now(),
   UNIQUE(program_id, user_id)
 );
-ALTER TABLE public.program_reviews ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.program_reviews FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.program_reviews FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.program_reviews FOR SELECT USING (true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='program_reviews') THEN
+    EXECUTE 'ALTER TABLE public.program_reviews ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.program_reviews FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.program_reviews FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.program_reviews FOR SELECT USING (true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.resource_library (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -296,9 +364,13 @@ CREATE TABLE IF NOT EXISTS public.resource_library (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.resource_library ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS admin_all ON public.resource_library FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.resource_library FOR SELECT USING (is_public=true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='resource_library') THEN
+    EXECUTE 'ALTER TABLE public.resource_library ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.resource_library FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.resource_library FOR SELECT USING (is_public=true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.resume_profiles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -314,10 +386,14 @@ CREATE TABLE IF NOT EXISTS public.resume_profiles (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.resume_profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.resume_profiles FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS employer_read ON public.resume_profiles FOR SELECT USING (is_visible_to_employers=true AND EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role='employer'));
-CREATE POLICY IF NOT EXISTS admin_all ON public.resume_profiles FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='resume_profiles') THEN
+    EXECUTE 'ALTER TABLE public.resume_profiles ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.resume_profiles FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY employer_read ON public.resume_profiles FOR SELECT USING (is_visible_to_employers=true AND EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role='employer')); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.resume_profiles FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.scholarship_applications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -334,9 +410,13 @@ CREATE TABLE IF NOT EXISTS public.scholarship_applications (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.scholarship_applications ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.scholarship_applications FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.scholarship_applications FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='scholarship_applications') THEN
+    EXECUTE 'ALTER TABLE public.scholarship_applications ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.scholarship_applications FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.scholarship_applications FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.skill_assessments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -351,9 +431,13 @@ CREATE TABLE IF NOT EXISTS public.skill_assessments (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.skill_assessments ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.skill_assessments FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.skill_assessments FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='skill_assessments') THEN
+    EXECUTE 'ALTER TABLE public.skill_assessments ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.skill_assessments FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.skill_assessments FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.skill_badges (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -366,9 +450,13 @@ CREATE TABLE IF NOT EXISTS public.skill_badges (
   badge_type TEXT DEFAULT 'completion',
   created_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.skill_badges ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS admin_all ON public.skill_badges FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.skill_badges FOR SELECT USING (true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='skill_badges') THEN
+    EXECUTE 'ALTER TABLE public.skill_badges ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.skill_badges FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.skill_badges FOR SELECT USING (true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.sponsor_organizations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -383,9 +471,13 @@ CREATE TABLE IF NOT EXISTS public.sponsor_organizations (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.sponsor_organizations ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS admin_all ON public.sponsor_organizations FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.sponsor_organizations FOR SELECT USING (active=true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='sponsor_organizations') THEN
+    EXECUTE 'ALTER TABLE public.sponsor_organizations ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.sponsor_organizations FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.sponsor_organizations FOR SELECT USING (active=true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.training_providers (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -405,9 +497,13 @@ CREATE TABLE IF NOT EXISTS public.training_providers (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.training_providers ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS admin_all ON public.training_providers FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
-CREATE POLICY IF NOT EXISTS public_read ON public.training_providers FOR SELECT USING (active=true);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='training_providers') THEN
+    EXECUTE 'ALTER TABLE public.training_providers ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.training_providers FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY public_read ON public.training_providers FOR SELECT USING (active=true); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS public.waitlist_entries (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -423,9 +519,13 @@ CREATE TABLE IF NOT EXISTS public.waitlist_entries (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
-ALTER TABLE public.waitlist_entries ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS user_own ON public.waitlist_entries FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid());
-CREATE POLICY IF NOT EXISTS admin_all ON public.waitlist_entries FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff')));
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='waitlist_entries') THEN
+    EXECUTE 'ALTER TABLE public.waitlist_entries ENABLE ROW LEVEL SECURITY';
+  END IF;
+END $$;
+DO $$ BEGIN CREATE POLICY user_own ON public.waitlist_entries FOR ALL USING (user_id=auth.uid()) WITH CHECK (user_id=auth.uid()); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY admin_all ON public.waitlist_entries FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN ('admin','super_admin','staff'))); EXCEPTION WHEN duplicate_object OR undefined_table THEN NULL; END $$;
 
 -- ============================================================
 -- RLS ENABLED ON EXISTING TABLES (no user column — admin_all + public_read)
@@ -456,11 +556,13 @@ DO $$ DECLARE t TEXT; tables TEXT[] := ARRAY[
   'surveys','tax_firms','tax_interview_questions','tax_services','tax_tools',
   'volunteer_opportunities'
 ]; BEGIN FOREACH t IN ARRAY tables LOOP
-  EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', t);
-  EXECUTE format('DROP POLICY IF EXISTS admin_all ON public.%I', t);
-  EXECUTE format('CREATE POLICY admin_all ON public.%I FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN (''admin'',''super_admin'',''staff'')))', t);
-  EXECUTE format('DROP POLICY IF EXISTS public_read ON public.%I', t);
-  EXECUTE format('CREATE POLICY public_read ON public.%I FOR SELECT USING (true)', t);
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name=t) THEN
+    EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', t);
+    EXECUTE format('DROP POLICY IF EXISTS admin_all ON public.%I', t);
+    EXECUTE format('CREATE POLICY admin_all ON public.%I FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN (''admin'',''super_admin'',''staff'')))', t);
+    EXECUTE format('DROP POLICY IF EXISTS public_read ON public.%I', t);
+    EXECUTE format('CREATE POLICY public_read ON public.%I FOR SELECT USING (true)', t);
+  END IF;
 END LOOP; END $$;
 
 -- ============================================================
@@ -499,7 +601,9 @@ DO $$ DECLARE t TEXT; tables TEXT[] := ARRAY[
   'tax_return_events','tenant_compliance_records','testing_slots',
   'transmission_statuses','web_vitals','webhook_logs'
 ]; BEGIN FOREACH t IN ARRAY tables LOOP
-  EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', t);
-  EXECUTE format('DROP POLICY IF EXISTS admin_all ON public.%I', t);
-  EXECUTE format('CREATE POLICY admin_all ON public.%I FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN (''admin'',''super_admin'',''staff'')))', t);
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name=t) THEN
+    EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', t);
+    EXECUTE format('DROP POLICY IF EXISTS admin_all ON public.%I', t);
+    EXECUTE format('CREATE POLICY admin_all ON public.%I FOR ALL USING (EXISTS (SELECT 1 FROM public.profiles WHERE id=auth.uid() AND role IN (''admin'',''super_admin'',''staff'')))', t);
+  END IF;
 END LOOP; END $$;

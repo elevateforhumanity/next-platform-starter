@@ -18,17 +18,17 @@ CREATE INDEX IF NOT EXISTS idx_program_phases_program_id
 
 ALTER TABLE public.program_phases ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "phases_read" ON public.program_phases
-  FOR SELECT USING (true);
+DO $$ BEGIN CREATE POLICY "phases_read" ON public.program_phases
+  FOR SELECT USING (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE POLICY "phases_admin_all" ON public.program_phases
+DO $$ BEGIN CREATE POLICY "phases_admin_all" ON public.program_phases
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ── 2. phase_id on program_modules ───────────────────────────────────────────
 

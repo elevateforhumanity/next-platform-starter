@@ -3,9 +3,9 @@
 -- Enforces the following invariants at the DB level:
 --   1. program_enrollments.program_id is NOT NULL
 --   2. program_enrollments.program_id FK → apprenticeship_programs(id) ON DELETE RESTRICT
---   3. UNIQUE(user_id, program_id) on program_enrollments
+--   3. CONSTRAINT uq_user_id_program_id_9 UNIQUE (user_id, program_id) on program_enrollments
 --   4. Direct inserts on program_enrollments are blocked — only enroll_application RPC allowed
---   5. external_program_enrollments: missing columns added + UNIQUE(user_id, program_slug)
+--   5. external_program_enrollments: missing columns added + CONSTRAINT uq_user_id_program_slug_10 UNIQUE (user_id, program_slug)
 --   6. enroll_application RPC: state gate → ready_to_enroll, full canonical chain enforced,
 --      payment coupling gate for self-pay path
 
@@ -21,8 +21,7 @@ ALTER TABLE public.external_program_enrollments
   DROP CONSTRAINT IF EXISTS ext_program_enrollments_user_slug_unique;
 
 ALTER TABLE public.external_program_enrollments
-  ADD CONSTRAINT ext_program_enrollments_user_slug_unique
-  UNIQUE (user_id, program_slug);
+  ADD CONSTRAINT uq_user_id_program_slug_11 UNIQUE (user_id, program_slug);
 
 -- ── program_enrollments constraints ──────────────────────────────────────────
 ALTER TABLE public.program_enrollments
@@ -34,7 +33,7 @@ ALTER TABLE public.program_enrollments
 ALTER TABLE public.program_enrollments
   ADD CONSTRAINT fk_program_enrollments_ap
   FOREIGN KEY (program_id)
-  REFERENCES public.apprenticeship_programs(id)
+  REFERENCES public.programs(id)
   ON DELETE RESTRICT;
 
 CREATE UNIQUE INDEX IF NOT EXISTS uq_program_enrollments_user_program

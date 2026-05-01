@@ -67,8 +67,8 @@ CREATE TABLE IF NOT EXISTS public.scorm_enrollments (
   last_accessed_at    TIMESTAMPTZ,
   cmi_data            JSONB       DEFAULT '{}',
   created_at          TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at          TIMESTAMPTZ NOT NULL DEFAULT now()
-  UNIQUE (scorm_package_id, user_id)
+  updated_at          TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT uq_scorm_package_id_user_id_1 UNIQUE (scorm_package_id, user_id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_scorm_enrollments_user_id    ON public.scorm_enrollments(user_id);

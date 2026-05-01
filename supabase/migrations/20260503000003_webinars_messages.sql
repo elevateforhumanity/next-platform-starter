@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS public.webinar_registrations (
   email       TEXT        NOT NULL,
   name        TEXT,
   registered_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  attended    BOOLEAN     DEFAULT false
-  UNIQUE (webinar_id, email)
+  attended    BOOLEAN     DEFAULT false,
+  CONSTRAINT uq_webinar_id_email_2 UNIQUE (webinar_id, email)
 );
 
 CREATE INDEX IF NOT EXISTS idx_webinar_reg_webinar_id ON public.webinar_registrations(webinar_id);

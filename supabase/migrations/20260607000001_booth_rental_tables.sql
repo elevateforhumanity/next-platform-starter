@@ -57,32 +57,32 @@ ALTER TABLE public.booth_rental_subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.booth_rental_agreements    ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Staff can read booth_rental_subscriptions" ON public.booth_rental_subscriptions;
-CREATE POLICY "Staff can read booth_rental_subscriptions" ON public.booth_rental_subscriptions FOR SELECT
+DO $$ BEGIN CREATE POLICY "Staff can read booth_rental_subscriptions" ON public.booth_rental_subscriptions FOR SELECT
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE profiles.id = auth.uid()
         AND profiles.role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "Staff can read booth_rental_agreements" ON public.booth_rental_agreements;
-CREATE POLICY "Staff can read booth_rental_agreements" ON public.booth_rental_agreements FOR SELECT
+DO $$ BEGIN CREATE POLICY "Staff can read booth_rental_agreements" ON public.booth_rental_agreements FOR SELECT
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE profiles.id = auth.uid()
         AND profiles.role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Service role can insert/update (used by API routes)
 DROP POLICY IF EXISTS "Service role full access booth_rental_subscriptions" ON public.booth_rental_subscriptions;
-CREATE POLICY "Service role full access booth_rental_subscriptions" ON public.booth_rental_subscriptions FOR ALL
+DO $$ BEGIN CREATE POLICY "Service role full access booth_rental_subscriptions" ON public.booth_rental_subscriptions FOR ALL
   USING (auth.role() = 'service_role')
-  WITH CHECK (auth.role() = 'service_role');
+  WITH CHECK (auth.role() = 'service_role'); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "Service role full access booth_rental_agreements" ON public.booth_rental_agreements;
-CREATE POLICY "Service role full access booth_rental_agreements" ON public.booth_rental_agreements FOR ALL
+DO $$ BEGIN CREATE POLICY "Service role full access booth_rental_agreements" ON public.booth_rental_agreements FOR ALL
   USING (auth.role() = 'service_role')
-  WITH CHECK (auth.role() = 'service_role');
+  WITH CHECK (auth.role() = 'service_role'); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

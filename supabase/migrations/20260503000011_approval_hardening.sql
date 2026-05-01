@@ -29,8 +29,7 @@ WHERE slug = 'cna-training-evening'
 -- ON CONFLICT in the approval function depends on this constraint existing.
 
 ALTER TABLE public.partner_enrollments
-  ADD CONSTRAINT uq_partner_enrollments_partner_student_program
-  UNIQUE (partner_id, student_id, program_id);
+  ADD CONSTRAINT uq_partner_id_student_id_program_id_8 UNIQUE (partner_id, student_id, program_id);
 
 -- ── 3. Rewrite approve_application_and_grant_access_atomic ───────────────────
 -- Changes from previous version:

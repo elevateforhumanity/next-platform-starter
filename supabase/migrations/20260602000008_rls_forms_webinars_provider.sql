@@ -46,24 +46,24 @@ ALTER TABLE public.forms ENABLE ROW LEVEL SECURITY;
 -- Anyone (including anon) can look up a form by id — needed for the submit route
 -- which verifies the form exists before inserting a submission.
 DROP POLICY IF EXISTS "forms_public_read" ON public.forms;
-CREATE POLICY "forms_public_read" ON public.forms
+DO $$ BEGIN CREATE POLICY "forms_public_read" ON public.forms
   FOR SELECT
-  USING (true);
+  USING (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "forms_admin_insert" ON public.forms;
-CREATE POLICY "forms_admin_insert" ON public.forms
+DO $$ BEGIN CREATE POLICY "forms_admin_insert" ON public.forms
   FOR INSERT
-  WITH CHECK (public.is_admin_role());
+  WITH CHECK (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "forms_admin_update" ON public.forms;
-CREATE POLICY "forms_admin_update" ON public.forms
+DO $$ BEGIN CREATE POLICY "forms_admin_update" ON public.forms
   FOR UPDATE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "forms_admin_delete" ON public.forms;
-CREATE POLICY "forms_admin_delete" ON public.forms
+DO $$ BEGIN CREATE POLICY "forms_admin_delete" ON public.forms
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── form_submissions ───────────────────────────────────────────────────────
 
@@ -72,23 +72,23 @@ ALTER TABLE public.form_submissions ENABLE ROW LEVEL SECURITY;
 -- The /api/forms/submit route uses createClient() without requiring auth,
 -- so submissions must be insertable by anon callers.
 DROP POLICY IF EXISTS "form_submissions_anon_insert" ON public.form_submissions;
-CREATE POLICY "form_submissions_anon_insert" ON public.form_submissions
+DO $$ BEGIN CREATE POLICY "form_submissions_anon_insert" ON public.form_submissions
   FOR INSERT
-  WITH CHECK (true);
+  WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Authenticated users can read their own submissions (user_id may be null for anon).
 DROP POLICY IF EXISTS "form_submissions_owner_read" ON public.form_submissions;
-CREATE POLICY "form_submissions_owner_read" ON public.form_submissions
+DO $$ BEGIN CREATE POLICY "form_submissions_owner_read" ON public.form_submissions
   FOR SELECT
   USING (
     user_id = auth.uid()
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "form_submissions_admin_delete" ON public.form_submissions;
-CREATE POLICY "form_submissions_admin_delete" ON public.form_submissions
+DO $$ BEGIN CREATE POLICY "form_submissions_admin_delete" ON public.form_submissions
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── webinars ───────────────────────────────────────────────────────────────
 
@@ -97,48 +97,48 @@ ALTER TABLE public.webinars ENABLE ROW LEVEL SECURITY;
 -- Public page reads only is_public=true rows; the policy mirrors that filter
 -- so even a direct query without the filter returns only public rows for anon.
 DROP POLICY IF EXISTS "webinars_public_read" ON public.webinars;
-CREATE POLICY "webinars_public_read" ON public.webinars
+DO $$ BEGIN CREATE POLICY "webinars_public_read" ON public.webinars
   FOR SELECT
-  USING (is_public = true OR public.is_admin_role());
+  USING (is_public = true OR public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "webinars_admin_insert" ON public.webinars;
-CREATE POLICY "webinars_admin_insert" ON public.webinars
+DO $$ BEGIN CREATE POLICY "webinars_admin_insert" ON public.webinars
   FOR INSERT
-  WITH CHECK (public.is_admin_role());
+  WITH CHECK (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "webinars_admin_update" ON public.webinars;
-CREATE POLICY "webinars_admin_update" ON public.webinars
+DO $$ BEGIN CREATE POLICY "webinars_admin_update" ON public.webinars
   FOR UPDATE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "webinars_admin_delete" ON public.webinars;
-CREATE POLICY "webinars_admin_delete" ON public.webinars
+DO $$ BEGIN CREATE POLICY "webinars_admin_delete" ON public.webinars
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── webinar_registrations ──────────────────────────────────────────────────
 
 ALTER TABLE public.webinar_registrations ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "webinar_registrations_owner_read" ON public.webinar_registrations;
-CREATE POLICY "webinar_registrations_owner_read" ON public.webinar_registrations
+DO $$ BEGIN CREATE POLICY "webinar_registrations_owner_read" ON public.webinar_registrations
   FOR SELECT
-  USING (user_id = auth.uid() OR public.is_admin_role());
+  USING (user_id = auth.uid() OR public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "webinar_registrations_owner_insert" ON public.webinar_registrations;
-CREATE POLICY "webinar_registrations_owner_insert" ON public.webinar_registrations
+DO $$ BEGIN CREATE POLICY "webinar_registrations_owner_insert" ON public.webinar_registrations
   FOR INSERT
-  WITH CHECK (user_id = auth.uid() OR public.is_admin_role());
+  WITH CHECK (user_id = auth.uid() OR public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "webinar_registrations_owner_update" ON public.webinar_registrations;
-CREATE POLICY "webinar_registrations_owner_update" ON public.webinar_registrations
+DO $$ BEGIN CREATE POLICY "webinar_registrations_owner_update" ON public.webinar_registrations
   FOR UPDATE
-  USING (user_id = auth.uid() OR public.is_admin_role());
+  USING (user_id = auth.uid() OR public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "webinar_registrations_admin_delete" ON public.webinar_registrations;
-CREATE POLICY "webinar_registrations_admin_delete" ON public.webinar_registrations
+DO $$ BEGIN CREATE POLICY "webinar_registrations_admin_delete" ON public.webinar_registrations
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── provider_applications ──────────────────────────────────────────────────
 
@@ -146,14 +146,14 @@ ALTER TABLE public.provider_applications ENABLE ROW LEVEL SECURITY;
 
 -- Public apply form: anon insert allowed (no auth required to submit an application).
 DROP POLICY IF EXISTS "provider_applications_anon_insert" ON public.provider_applications;
-CREATE POLICY "provider_applications_anon_insert" ON public.provider_applications
+DO $$ BEGIN CREATE POLICY "provider_applications_anon_insert" ON public.provider_applications
   FOR INSERT
-  WITH CHECK (true);
+  WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Applicant can read their own application by matching contact_email.
 -- Admin can read all.
 DROP POLICY IF EXISTS "provider_applications_read" ON public.provider_applications;
-CREATE POLICY "provider_applications_read" ON public.provider_applications
+DO $$ BEGIN CREATE POLICY "provider_applications_read" ON public.provider_applications
   FOR SELECT
   USING (
     public.is_admin_role()
@@ -163,17 +163,17 @@ CREATE POLICY "provider_applications_read" ON public.provider_applications
         SELECT email FROM auth.users WHERE id = auth.uid()
       )
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_applications_admin_update" ON public.provider_applications;
-CREATE POLICY "provider_applications_admin_update" ON public.provider_applications
+DO $$ BEGIN CREATE POLICY "provider_applications_admin_update" ON public.provider_applications
   FOR UPDATE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_applications_admin_delete" ON public.provider_applications;
-CREATE POLICY "provider_applications_admin_delete" ON public.provider_applications
+DO $$ BEGIN CREATE POLICY "provider_applications_admin_delete" ON public.provider_applications
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── provider_compliance_artifacts ──────────────────────────────────────────
 
@@ -182,85 +182,85 @@ ALTER TABLE public.provider_compliance_artifacts ENABLE ROW LEVEL SECURITY;
 -- provider_admin reads/writes rows belonging to their own tenant.
 -- Admin reads all.
 DROP POLICY IF EXISTS "provider_compliance_artifacts_tenant_read" ON public.provider_compliance_artifacts;
-CREATE POLICY "provider_compliance_artifacts_tenant_read" ON public.provider_compliance_artifacts
+DO $$ BEGIN CREATE POLICY "provider_compliance_artifacts_tenant_read" ON public.provider_compliance_artifacts
   FOR SELECT
   USING (
     tenant_id = public.my_tenant_id()
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_compliance_artifacts_tenant_insert" ON public.provider_compliance_artifacts;
-CREATE POLICY "provider_compliance_artifacts_tenant_insert" ON public.provider_compliance_artifacts
+DO $$ BEGIN CREATE POLICY "provider_compliance_artifacts_tenant_insert" ON public.provider_compliance_artifacts
   FOR INSERT
   WITH CHECK (
     tenant_id = public.my_tenant_id()
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_compliance_artifacts_tenant_update" ON public.provider_compliance_artifacts;
-CREATE POLICY "provider_compliance_artifacts_tenant_update" ON public.provider_compliance_artifacts
+DO $$ BEGIN CREATE POLICY "provider_compliance_artifacts_tenant_update" ON public.provider_compliance_artifacts
   FOR UPDATE
   USING (
     tenant_id = public.my_tenant_id()
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_compliance_artifacts_admin_delete" ON public.provider_compliance_artifacts;
-CREATE POLICY "provider_compliance_artifacts_admin_delete" ON public.provider_compliance_artifacts
+DO $$ BEGIN CREATE POLICY "provider_compliance_artifacts_admin_delete" ON public.provider_compliance_artifacts
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── provider_onboarding_steps ──────────────────────────────────────────────
 
 ALTER TABLE public.provider_onboarding_steps ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "provider_onboarding_steps_tenant_read" ON public.provider_onboarding_steps;
-CREATE POLICY "provider_onboarding_steps_tenant_read" ON public.provider_onboarding_steps
+DO $$ BEGIN CREATE POLICY "provider_onboarding_steps_tenant_read" ON public.provider_onboarding_steps
   FOR SELECT
   USING (
     tenant_id = public.my_tenant_id()
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Steps are written by admin/staff only (system-managed).
 DROP POLICY IF EXISTS "provider_onboarding_steps_admin_write" ON public.provider_onboarding_steps;
-CREATE POLICY "provider_onboarding_steps_admin_write" ON public.provider_onboarding_steps
+DO $$ BEGIN CREATE POLICY "provider_onboarding_steps_admin_write" ON public.provider_onboarding_steps
   FOR INSERT
-  WITH CHECK (public.is_admin_role());
+  WITH CHECK (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_onboarding_steps_admin_update" ON public.provider_onboarding_steps;
-CREATE POLICY "provider_onboarding_steps_admin_update" ON public.provider_onboarding_steps
+DO $$ BEGIN CREATE POLICY "provider_onboarding_steps_admin_update" ON public.provider_onboarding_steps
   FOR UPDATE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_onboarding_steps_admin_delete" ON public.provider_onboarding_steps;
-CREATE POLICY "provider_onboarding_steps_admin_delete" ON public.provider_onboarding_steps
+DO $$ BEGIN CREATE POLICY "provider_onboarding_steps_admin_delete" ON public.provider_onboarding_steps
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── provider_program_approvals ─────────────────────────────────────────────
 
 ALTER TABLE public.provider_program_approvals ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "provider_program_approvals_tenant_read" ON public.provider_program_approvals;
-CREATE POLICY "provider_program_approvals_tenant_read" ON public.provider_program_approvals
+DO $$ BEGIN CREATE POLICY "provider_program_approvals_tenant_read" ON public.provider_program_approvals
   FOR SELECT
   USING (
     tenant_id = public.my_tenant_id()
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_program_approvals_admin_write" ON public.provider_program_approvals;
-CREATE POLICY "provider_program_approvals_admin_write" ON public.provider_program_approvals
+DO $$ BEGIN CREATE POLICY "provider_program_approvals_admin_write" ON public.provider_program_approvals
   FOR INSERT
-  WITH CHECK (public.is_admin_role());
+  WITH CHECK (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_program_approvals_admin_update" ON public.provider_program_approvals;
-CREATE POLICY "provider_program_approvals_admin_update" ON public.provider_program_approvals
+DO $$ BEGIN CREATE POLICY "provider_program_approvals_admin_update" ON public.provider_program_approvals
   FOR UPDATE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "provider_program_approvals_admin_delete" ON public.provider_program_approvals;
-CREATE POLICY "provider_program_approvals_admin_delete" ON public.provider_program_approvals
+DO $$ BEGIN CREATE POLICY "provider_program_approvals_admin_delete" ON public.provider_program_approvals
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

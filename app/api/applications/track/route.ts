@@ -30,16 +30,23 @@ async function _GET(request: NextRequest) {
 
     let query = supabase
       .from('applications')
-      .select('id, first_name, last_name, email, phone, program_id, status, submitted_at, notes');
+      .select(
+        'id, first_name, last_name, email, phone, program_interest, program_id, reference_number, status, created_at, submitted_at, support_notes',
+      );
 
     if (id) {
-      query = query.eq('id', id);
+      // Support both UUID and reference number (EFH-XXXXX)
+      if (id.startsWith('EFH-')) {
+        query = query.eq('reference_number', id);
+      } else {
+        query = query.eq('id', id);
+      }
     } else if (email) {
-      query = query.eq('email', email.toLowerCase());
+      query = query.eq('normalized_email', email.toLowerCase().trim());
     }
 
     const { data, error } = await query
-      .order('submitted_at', { ascending: false })
+      .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();
 
@@ -47,7 +54,13 @@ async function _GET(request: NextRequest) {
       return NextResponse.json({ error: 'Application not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ application: data }, { status: 200 });
+    // Normalize submitted_at — some rows use created_at, some submitted_at
+    const normalized = {
+      ...data,
+      submitted_at: data.submitted_at || data.created_at,
+    };
+
+    return NextResponse.json({ application: normalized }, { status: 200 });
   } catch (err: any) {
     return NextResponse.json({ error: 'Failed to retrieve application' }, { status: 500 });
   }

@@ -15,9 +15,12 @@ interface Application {
   last_name: string;
   email: string;
   phone?: string;
+  program_interest?: string;
   program_id?: string;
+  reference_number?: string;
   status: ApplicationStatus;
   submitted_at: string;
+  support_notes?: string;
   notes?: string;
 }
 
@@ -151,7 +154,7 @@ export default function TrackApplicationPage() {
                 value={searchId}
                 onChange={(e) => setSearchId(e.target.value)}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-orange-500 focus:border-transparent"
-                placeholder="e.g., 123e4567-e89b-12d3-a456-426614174000"
+                placeholder="e.g., EFH-ABC123 or UUID"
               />
             </div>
 
@@ -231,10 +234,12 @@ export default function TrackApplicationPage() {
                 </div>
               )}
 
-              {application.program_id && (
+              {(application.program_interest || application.program_id) && (
                 <div>
                   <p className="text-sm font-semibold text-black mb-1">Program Interest</p>
-                  <p className="text-black font-medium">{application.program_id}</p>
+                  <p className="text-black font-medium">
+                    {application.program_interest || application.program_id}
+                  </p>
                 </div>
               )}
 
@@ -251,17 +256,17 @@ export default function TrackApplicationPage() {
                 </p>
               </div>
 
+              {application.reference_number && (
+                <div>
+                  <p className="text-sm font-semibold text-black mb-1">Reference Number</p>
+                  <p className="text-black font-mono font-bold">{application.reference_number}</p>
+                </div>
+              )}
+
               <div>
                 <p className="text-sm font-semibold text-black mb-1">Application ID</p>
                 <p className="text-black font-mono text-sm">{application.id}</p>
               </div>
-
-              {application.notes && (
-                <div>
-                  <p className="text-sm font-semibold text-black mb-1">Notes</p>
-                  <p className="text-black">{application.notes}</p>
-                </div>
-              )}
             </div>
 
             {/* Next Steps */}

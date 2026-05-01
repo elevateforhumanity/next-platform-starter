@@ -17,23 +17,23 @@ CREATE TABLE IF NOT EXISTS public.apprentice_document_types (
   accepted_formats    TEXT[] NOT NULL DEFAULT ARRAY['pdf','jpg','jpeg','png'],
   max_file_size_mb    INTEGER NOT NULL DEFAULT 10,
   display_order       INTEGER NOT NULL DEFAULT 0,
-  created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  UNIQUE (program_slug, document_type)
+  created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT uq_program_slug_document_type_17 UNIQUE (program_slug, document_type)
 );
 
 ALTER TABLE public.apprentice_document_types ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "doc_types_public_read" ON public.apprentice_document_types
-  FOR SELECT USING (true);
+DO $$ BEGIN CREATE POLICY "doc_types_public_read" ON public.apprentice_document_types
+  FOR SELECT USING (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE POLICY "doc_types_admin_write" ON public.apprentice_document_types
+DO $$ BEGIN CREATE POLICY "doc_types_admin_write" ON public.apprentice_document_types
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 2. apprentice_documents
@@ -70,30 +70,26 @@ CREATE INDEX IF NOT EXISTS idx_apprentice_docs_type
 ALTER TABLE public.apprentice_documents ENABLE ROW LEVEL SECURITY;
 
 -- Students see only their own documents
-CREATE POLICY "apprentice_docs_student_select"
-  ON public.apprentice_documents FOR SELECT
-  USING (auth.uid() = student_id);
+DO $$ BEGIN CREATE POLICY "apprentice_docs_student_select" ON public.apprentice_documents FOR SELECT
+  USING (auth.uid() = student_id); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Students insert their own documents
-CREATE POLICY "apprentice_docs_student_insert"
-  ON public.apprentice_documents FOR INSERT
-  WITH CHECK (auth.uid() = student_id);
+DO $$ BEGIN CREATE POLICY "apprentice_docs_student_insert" ON public.apprentice_documents FOR INSERT
+  WITH CHECK (auth.uid() = student_id); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Students can delete their own pending/rejected documents
-CREATE POLICY "apprentice_docs_student_delete"
-  ON public.apprentice_documents FOR DELETE
-  USING (auth.uid() = student_id AND status IN ('pending', 'rejected'));
+DO $$ BEGIN CREATE POLICY "apprentice_docs_student_delete" ON public.apprentice_documents FOR DELETE
+  USING (auth.uid() = student_id AND status IN ('pending', 'rejected')); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Admins/staff manage all
-CREATE POLICY "apprentice_docs_admin_all"
-  ON public.apprentice_documents FOR ALL
+DO $$ BEGIN CREATE POLICY "apprentice_docs_admin_all" ON public.apprentice_documents FOR ALL
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON COLUMN public.apprentice_documents.file_path IS
   'Supabase Storage path relative to the documents bucket. Use storage.createSignedUrl() to generate download URLs.';

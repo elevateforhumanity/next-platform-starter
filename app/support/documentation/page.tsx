@@ -7,9 +7,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/help',
   },
+  robots: { index: false, follow: false },
 };
 
 // Redirect to help page
 export default function DocumentationPage() {
-  redirect('/help/articles');
+  redirect('/help');
 }

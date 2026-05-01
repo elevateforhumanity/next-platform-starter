@@ -3,7 +3,8 @@
 
 -- 1. admin_applications_queue
 -- Used by: app/admin/applications/[type]/[id]/page.tsx
-CREATE OR REPLACE VIEW public.admin_applications_queue AS
+DROP VIEW IF EXISTS public.admin_applications_queue CASCADE;
+CREATE VIEW public.admin_applications_queue AS
 SELECT
   a.id,
   a.id AS application_id,
@@ -34,7 +35,8 @@ LEFT JOIN public.programs p ON p.id = a.program_id;
 
 -- 2. enrollments (alias for program_enrollments)
 -- Used by: app/admin/reports/charts/page.tsx
-CREATE OR REPLACE VIEW public.enrollments AS
+DROP VIEW IF EXISTS public.enrollments CASCADE;
+CREATE VIEW public.enrollments AS
 SELECT
   pe.id,
   pe.user_id,
@@ -51,7 +53,8 @@ LEFT JOIN public.programs p ON p.id = pe.program_id;
 
 -- 3. exam_authorization_queue
 -- Used by: app/admin/exam-authorizations/page.tsx
-CREATE OR REPLACE VIEW public.exam_authorization_queue AS
+DROP VIEW IF EXISTS public.exam_authorization_queue CASCADE;
+CREATE VIEW public.exam_authorization_queue AS
 SELECT
   efa.id,
   efa.learner_id,
@@ -76,7 +79,8 @@ LEFT JOIN public.programs pg ON pg.id = efa.program_id;
 
 -- 4. participant_report
 -- Used by: app/admin/reports/wioa/page.tsx
-CREATE OR REPLACE VIEW public.participant_report AS
+DROP VIEW IF EXISTS public.participant_report CASCADE;
+CREATE VIEW public.participant_report AS
 SELECT
   pe.id,
   pe.user_id,
@@ -100,7 +104,8 @@ LEFT JOIN public.programs pg ON pg.id = pe.program_id;
 
 -- 5. referral_pipeline_summary
 -- Used by: app/admin/referrals/page.tsx
-CREATE OR REPLACE VIEW public.referral_pipeline_summary AS
+DROP VIEW IF EXISTS public.referral_pipeline_summary CASCADE;
+CREATE VIEW public.referral_pipeline_summary AS
 SELECT
   wr.id,
   wr.user_id,
@@ -133,7 +138,8 @@ LEFT JOIN public.programs p ON p.id = a.program_id;
 
 -- 6. shop_required_docs_status
 -- Used by: app/admin/shops/page.tsx
-CREATE OR REPLACE VIEW public.shop_required_docs_status AS
+DROP VIEW IF EXISTS public.shop_required_docs_status CASCADE;
+CREATE VIEW public.shop_required_docs_status AS
 SELECT
   sa.id,
   sa.shop_name,
@@ -166,7 +172,8 @@ FROM public.shops s;
 
 -- 7. v_admin_financial_assurance_summary
 -- Used by: app/admin/compliance/financial-assurance/page.tsx
-CREATE OR REPLACE VIEW public.v_admin_financial_assurance_summary AS
+DROP VIEW IF EXISTS public.v_admin_financial_assurance_summary CASCADE;
+CREATE VIEW public.v_admin_financial_assurance_summary AS
 SELECT
   COUNT(*) AS total_records,
   COUNT(*) FILTER (WHERE status = 'active') AS active_count,
@@ -182,7 +189,8 @@ FROM public.financial_assurance_records;
 
 -- 8. v_funding_verification_queue
 -- Used by: app/admin/funding-verification/page.tsx
-CREATE OR REPLACE VIEW public.v_funding_verification_queue AS
+DROP VIEW IF EXISTS public.v_funding_verification_queue CASCADE;
+CREATE VIEW public.v_funding_verification_queue AS
 SELECT
   pe.id,
   pe.user_id,

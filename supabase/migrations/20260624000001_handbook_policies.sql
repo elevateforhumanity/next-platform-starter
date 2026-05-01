@@ -101,15 +101,15 @@ ON CONFLICT (slug) DO UPDATE SET
 ALTER TABLE public.handbook_policies ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "handbook_policies_read" ON public.handbook_policies;
-CREATE POLICY "handbook_policies_read" ON public.handbook_policies
-  FOR SELECT USING (active = true);
+DO $$ BEGIN CREATE POLICY "handbook_policies_read" ON public.handbook_policies
+  FOR SELECT USING (active = true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "handbook_policies_admin_write" ON public.handbook_policies;
-CREATE POLICY "handbook_policies_admin_write" ON public.handbook_policies
+DO $$ BEGIN CREATE POLICY "handbook_policies_admin_write" ON public.handbook_policies
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

@@ -77,22 +77,23 @@ CREATE INDEX IF NOT EXISTS idx_fve_unresolved
   WHERE resolved_at IS NULL;
 
 ALTER TABLE public.funding_verification_escalations ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "service_role_all" ON public.funding_verification_escalations
-  FOR ALL TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "admin_read" ON public.funding_verification_escalations
+DO $$ BEGIN CREATE POLICY "service_role_all" ON public.funding_verification_escalations
+  FOR ALL TO service_role USING (true) WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY "admin_read" ON public.funding_verification_escalations
   FOR SELECT TO authenticated USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ── 5. Admin queue view ───────────────────────────────────────────────────────
 -- Shows all pending_funding_verification enrollments with SLA status.
 -- This is the canonical admin queue — not a report, an action list.
 
-CREATE OR REPLACE VIEW public.v_funding_verification_queue AS
+DROP VIEW IF EXISTS public.v_funding_verification_queue CASCADE;
+CREATE VIEW public.v_funding_verification_queue AS
 SELECT
   pe.id                           AS enrollment_id,
   pe.user_id,

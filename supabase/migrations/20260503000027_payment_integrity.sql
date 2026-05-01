@@ -40,17 +40,17 @@ CREATE INDEX IF NOT EXISTS idx_payment_flags_unresolved
 
 ALTER TABLE public.payment_integrity_flags ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "service_role_all" ON public.payment_integrity_flags;
-CREATE POLICY "service_role_all" ON public.payment_integrity_flags
-  FOR ALL TO service_role USING (true) WITH CHECK (true);
+DO $$ BEGIN CREATE POLICY "service_role_all" ON public.payment_integrity_flags
+  FOR ALL TO service_role USING (true) WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DROP POLICY IF EXISTS "admin_read" ON public.payment_integrity_flags;
-CREATE POLICY "admin_read" ON public.payment_integrity_flags
+DO $$ BEGIN CREATE POLICY "admin_read" ON public.payment_integrity_flags
   FOR SELECT TO authenticated USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin', 'super_admin', 'staff')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ── FLAG THE 40 PENDING-FUNDING ENROLLMENTS ───────────────────────────────────
 -- These are active enrollments with no payment, no application, no Stripe session.
@@ -148,5 +148,5 @@ CREATE TABLE IF NOT EXISTS public.webhook_health_log (
 
 ALTER TABLE public.webhook_health_log ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "service_role_all" ON public.webhook_health_log;
-CREATE POLICY "service_role_all" ON public.webhook_health_log
-  FOR ALL TO service_role USING (true) WITH CHECK (true);
+DO $$ BEGIN CREATE POLICY "service_role_all" ON public.webhook_health_log
+  FOR ALL TO service_role USING (true) WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

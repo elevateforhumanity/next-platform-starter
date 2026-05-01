@@ -49,6 +49,7 @@ SELECT module_id INTO v_mod1
 FROM public.course_lessons
 WHERE course_id = 'db7aac84-e261-4cee-aa6b-57a465e07a9c'
   AND slug = 'bk-journal-entries-general-ledger';
+  IF v_mod1 IS NULL THEN RAISE NOTICE 'bookkeeping course not found, skipping'; RETURN; END IF;
 
 -- Shift accrual (1006→1007) and checkpoint (1007→1008) only if equity not yet present
 IF NOT EXISTS (
@@ -84,6 +85,7 @@ FROM public.course_lessons
 WHERE course_id = 'db7aac84-e261-4cee-aa6b-57a465e07a9c'
   AND slug IN ('bk-qbocu-exam-overview', 'bk-qbo-exam-overview')
 LIMIT 1;
+  IF v_mod5 IS NULL THEN RAISE NOTICE 'bookkeeping course not found, skipping'; RETURN; END IF;
 
 -- ── Module 5: rename slugs (only if old slug still exists) ───────────────────
 
@@ -184,20 +186,15 @@ END $$;
 -- Re-add unique constraints (safe: data is already unique at this point)
 DO $$ BEGIN
   ALTER TABLE public.course_lessons
-    ADD CONSTRAINT course_lessons_course_id_order_index_key
-    UNIQUE (course_id, order_index);
+    ADD CONSTRAINT uq_course_id_order_index_12 UNIQUE (course_id, order_index);
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 
 DO $$ BEGIN
   ALTER TABLE public.course_lessons
-    ADD CONSTRAINT course_lessons_course_id_slug_key
-    UNIQUE (course_id, slug);
+    ADD CONSTRAINT uq_course_id_slug_13 UNIQUE (course_id, slug);
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 
-DO $$ BEGIN
-  CREATE UNIQUE INDEX course_lessons_module_id_order_idx
-    ON public.course_lessons (module_id, order_index);
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;
+DO $$ BEGIN CREATE UNIQUE INDEX course_lessons_module_id_order_idx
+    ON public.course_lessons (module_id, order_index); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

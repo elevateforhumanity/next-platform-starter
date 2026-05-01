@@ -76,18 +76,16 @@ ALTER TABLE public.individual_employment_plans ENABLE ROW LEVEL SECURITY;
 
 -- Admin / staff: full access
 DROP POLICY IF EXISTS "iep_admin_all" ON public.individual_employment_plans;
-CREATE POLICY "iep_admin_all"
-  ON public.individual_employment_plans FOR ALL TO authenticated
+DO $$ BEGIN CREATE POLICY "iep_admin_all" ON public.individual_employment_plans FOR ALL TO authenticated
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
       WHERE id = auth.uid()
         AND role IN ('admin','super_admin','staff','advisor')
     )
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Participant: read own IEPs only
 DROP POLICY IF EXISTS "iep_own_read" ON public.individual_employment_plans;
-CREATE POLICY "iep_own_read"
-  ON public.individual_employment_plans FOR SELECT TO authenticated
-  USING (user_id = auth.uid());
+DO $$ BEGIN CREATE POLICY "iep_own_read" ON public.individual_employment_plans FOR SELECT TO authenticated
+  USING (user_id = auth.uid()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

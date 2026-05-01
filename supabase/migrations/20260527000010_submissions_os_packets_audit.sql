@@ -25,11 +25,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_packets_org_status
   ON public.sos_submission_packets (organization_id, packet_status);
 
 ALTER TABLE public.sos_submission_packets ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_packets_admin" ON public.sos_submission_packets FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_packets_admin" ON public.sos_submission_packets FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- generated_documents
@@ -56,11 +56,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_gen_docs_packet
   ON public.sos_generated_documents (submission_packet_id, review_status);
 
 ALTER TABLE public.sos_generated_documents ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_gen_docs_admin" ON public.sos_generated_documents FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_gen_docs_admin" ON public.sos_generated_documents FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- document_data_sources
@@ -85,11 +85,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_data_sources_doc
   ON public.sos_document_data_sources (generated_document_id);
 
 ALTER TABLE public.sos_document_data_sources ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_data_sources_admin" ON public.sos_document_data_sources FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_data_sources_admin" ON public.sos_document_data_sources FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- review_tasks
@@ -129,11 +129,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_tasks_packet
   ON public.sos_review_tasks (submission_packet_id, status);
 
 ALTER TABLE public.sos_review_tasks ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_tasks_admin" ON public.sos_review_tasks FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_tasks_admin" ON public.sos_review_tasks FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- submission_runs
@@ -162,11 +162,11 @@ CREATE INDEX IF NOT EXISTS idx_sos_runs_packet
   ON public.sos_submission_runs (submission_packet_id, run_status);
 
 ALTER TABLE public.sos_submission_runs ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "sos_runs_admin" ON public.sos_submission_runs FOR ALL
+DO $$ BEGIN CREATE POLICY "sos_runs_admin" ON public.sos_submission_runs FOR ALL
   USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- submission_audit_logs
@@ -199,16 +199,16 @@ CREATE INDEX IF NOT EXISTS idx_sos_audit_org
 ALTER TABLE public.sos_submission_audit_logs ENABLE ROW LEVEL SECURITY;
 
 -- Read-only for admins — no delete, no update (immutable audit trail)
-CREATE POLICY "sos_audit_admin_select" ON public.sos_submission_audit_logs
+DO $$ BEGIN CREATE POLICY "sos_audit_admin_select" ON public.sos_submission_audit_logs
   FOR SELECT USING (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
-CREATE POLICY "sos_audit_insert" ON public.sos_submission_audit_logs
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN CREATE POLICY "sos_audit_insert" ON public.sos_submission_audit_logs
   FOR INSERT WITH CHECK (EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid()
       AND role IN ('admin','super_admin','staff')
-  ));
+  )); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 COMMENT ON TABLE public.sos_submission_audit_logs IS
   'Immutable audit trail. No UPDATE or DELETE allowed. Every submission run, fact insertion, and approval is recorded here permanently.';

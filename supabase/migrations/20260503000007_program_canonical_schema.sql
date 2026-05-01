@@ -71,8 +71,8 @@ CREATE TABLE IF NOT EXISTS public.program_tracks (
   available           BOOLEAN NOT NULL DEFAULT TRUE,
   coming_soon_message TEXT,
   sort_order          INTEGER NOT NULL DEFAULT 0,
-  created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  UNIQUE (program_id, track_code)
+  created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT uq_program_id_track_code_5 UNIQUE (program_id, track_code)
 );
 
 CREATE INDEX IF NOT EXISTS idx_program_tracks_program_id ON public.program_tracks(program_id);
@@ -91,8 +91,8 @@ CREATE TABLE IF NOT EXISTS public.program_modules (
   lesson_count   INTEGER NOT NULL DEFAULT 0,
   duration_hours NUMERIC(6,2),
   sort_order     INTEGER NOT NULL DEFAULT 0,
-  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  UNIQUE (program_id, module_number)
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT uq_program_id_module_number_6 UNIQUE (program_id, module_number)
 );
 
 CREATE INDEX IF NOT EXISTS idx_program_modules_program_id ON public.program_modules(program_id);
@@ -108,8 +108,8 @@ CREATE TABLE IF NOT EXISTS public.program_lessons (
                      CHECK (lesson_type IN ('lesson','quiz','lab','exam','orientation')),
   duration_minutes INTEGER,
   sort_order       INTEGER NOT NULL DEFAULT 0,
-  created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  UNIQUE (module_id, lesson_number)
+  created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT uq_module_id_lesson_number_7 UNIQUE (module_id, lesson_number)
 );
 
 CREATE INDEX IF NOT EXISTS idx_program_lessons_module_id ON public.program_lessons(module_id);

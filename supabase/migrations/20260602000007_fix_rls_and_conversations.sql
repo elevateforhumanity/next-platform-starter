@@ -41,9 +41,9 @@ ALTER TABLE public.direct_message_conversations
 -- writes were silently failing (RLS blocks, no error surfaced to UI).
 
 DROP POLICY IF EXISTS "provider_onboarding_steps_tenant_update" ON public.provider_onboarding_steps;
-CREATE POLICY "provider_onboarding_steps_tenant_update" ON public.provider_onboarding_steps
+DO $$ BEGIN CREATE POLICY "provider_onboarding_steps_tenant_update" ON public.provider_onboarding_steps
   FOR UPDATE
-  USING (tenant_id = public.my_tenant_id());
+  USING (tenant_id = public.my_tenant_id()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── 3. provider_program_approvals: add tenant-scoped INSERT ─────────────────
 --
@@ -53,9 +53,9 @@ CREATE POLICY "provider_onboarding_steps_tenant_update" ON public.provider_onboa
 -- Both were blocked by the admin-only INSERT policy.
 
 DROP POLICY IF EXISTS "provider_program_approvals_tenant_insert" ON public.provider_program_approvals;
-CREATE POLICY "provider_program_approvals_tenant_insert" ON public.provider_program_approvals
+DO $$ BEGIN CREATE POLICY "provider_program_approvals_tenant_insert" ON public.provider_program_approvals
   FOR INSERT
-  WITH CHECK (tenant_id = public.my_tenant_id());
+  WITH CHECK (tenant_id = public.my_tenant_id()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── 4. direct_messages: enable RLS + add policies ───────────────────────────
 --
@@ -86,70 +86,70 @@ AS $$
 $$;
 
 DROP POLICY IF EXISTS "direct_messages_participant_read" ON public.direct_messages;
-CREATE POLICY "direct_messages_participant_read" ON public.direct_messages
+DO $$ BEGIN CREATE POLICY "direct_messages_participant_read" ON public.direct_messages
   FOR SELECT
   USING (
     public.is_conversation_participant(conversation_id)
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Sender inserts their own messages into conversations they belong to.
 DROP POLICY IF EXISTS "direct_messages_sender_insert" ON public.direct_messages;
-CREATE POLICY "direct_messages_sender_insert" ON public.direct_messages
+DO $$ BEGIN CREATE POLICY "direct_messages_sender_insert" ON public.direct_messages
   FOR INSERT
   WITH CHECK (
     sender_id = auth.uid()
     AND public.is_conversation_participant(conversation_id)
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Mark-as-read: MessagesClient updates is_read=true for messages in a
 -- conversation where sender_id != current user (i.e. the recipient marks
 -- the other person's messages as read). Policy must allow any participant
 -- to update, not just the sender.
 DROP POLICY IF EXISTS "direct_messages_participant_update" ON public.direct_messages;
-CREATE POLICY "direct_messages_participant_update" ON public.direct_messages
+DO $$ BEGIN CREATE POLICY "direct_messages_participant_update" ON public.direct_messages
   FOR UPDATE
   USING (
     public.is_conversation_participant(conversation_id)
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "direct_messages_admin_delete" ON public.direct_messages;
-CREATE POLICY "direct_messages_admin_delete" ON public.direct_messages
+DO $$ BEGIN CREATE POLICY "direct_messages_admin_delete" ON public.direct_messages
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- ─── direct_message_conversations: enable RLS ────────────────────────────────
 
 ALTER TABLE public.direct_message_conversations ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "direct_message_conversations_participant_read" ON public.direct_message_conversations;
-CREATE POLICY "direct_message_conversations_participant_read" ON public.direct_message_conversations
+DO $$ BEGIN CREATE POLICY "direct_message_conversations_participant_read" ON public.direct_message_conversations
   FOR SELECT
   USING (
     participant_1_id = auth.uid()
     OR participant_2_id = auth.uid()
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Either participant can update (last_message_at / last_message_preview
 -- is written by the sender after inserting a message).
 DROP POLICY IF EXISTS "direct_message_conversations_participant_update" ON public.direct_message_conversations;
-CREATE POLICY "direct_message_conversations_participant_update" ON public.direct_message_conversations
+DO $$ BEGIN CREATE POLICY "direct_message_conversations_participant_update" ON public.direct_message_conversations
   FOR UPDATE
   USING (
     participant_1_id = auth.uid()
     OR participant_2_id = auth.uid()
     OR public.is_admin_role()
-  );
+  ); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Only admin creates conversations (or a future "start conversation" API).
 DROP POLICY IF EXISTS "direct_message_conversations_admin_insert" ON public.direct_message_conversations;
-CREATE POLICY "direct_message_conversations_admin_insert" ON public.direct_message_conversations
+DO $$ BEGIN CREATE POLICY "direct_message_conversations_admin_insert" ON public.direct_message_conversations
   FOR INSERT
-  WITH CHECK (public.is_admin_role());
+  WITH CHECK (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 DROP POLICY IF EXISTS "direct_message_conversations_admin_delete" ON public.direct_message_conversations;
-CREATE POLICY "direct_message_conversations_admin_delete" ON public.direct_message_conversations
+DO $$ BEGIN CREATE POLICY "direct_message_conversations_admin_delete" ON public.direct_message_conversations
   FOR DELETE
-  USING (public.is_admin_role());
+  USING (public.is_admin_role()); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
