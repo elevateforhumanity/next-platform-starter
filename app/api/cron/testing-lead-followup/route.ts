@@ -151,7 +151,7 @@ function followUp1Html(lead: { first_name: string | null; exam_type: string }) {
     </p>
     <p style="font-size:13px;color:#64748b">
       Fast scheduling · Secure proctored testing · Instant confirmation<br>
-      $243 total — no hidden fees.
+      $249 total — no hidden fees.
     </p>
     <p style="font-size:13px;color:#64748b;margin-top:20px">
       Questions? Call <a href="tel:3173143757" style="color:#1E3A5F;font-weight:600">(317) 314-3757</a> or reply to this email.
@@ -185,7 +185,7 @@ function followUp2Html(lead: { first_name: string | null; exam_type: string }) {
       </a>
     </p>
     <p style="font-size:13px;color:#64748b">
-      $243 total · Secure checkout · Instant confirmation
+      $249 total · Secure checkout · Instant confirmation
     </p>
     <p style="font-size:13px;color:#64748b;margin-top:20px">
       Need help? Call <a href="tel:3173143757" style="color:#1E3A5F;font-weight:600">(317) 314-3757</a>.
