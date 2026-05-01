@@ -200,16 +200,21 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     // If insert failed due to unknown column, retry without optional columns
-    // that may not exist in all DB environments yet
+    // that may not exist in all DB environments yet.
+    // normalized_email / normalized_phone → added in 20260621000001 (not yet live)
+    // county_of_residence / household_income / family_size / modality_preference → 20260430000004
+    // transfer_hours_claimed → 20260408000006
+    // funding_eligibility_status → 20260425000001
     if (error && (error.code === '42703' || error.message?.includes('column'))) {
       logger.warn('[api/applications] Retrying insert without optional columns', {
         code: error.code, message: error.message,
       });
-      const { firstName: _fn, lastName: _ln, ...safePayload } = corePayload as any;
       const fallback = await supabase
         .from('applications')
         .insert({
           ...corePayload,
+          normalized_email: undefined,
+          normalized_phone: undefined,
           county_of_residence: undefined,
           household_income: undefined,
           family_size: undefined,
