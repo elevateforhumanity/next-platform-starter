@@ -1,10 +1,34 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Workforce Board',
+  title: {
+    default: 'Workforce Board | Elevate for Humanity',
+    template: '%s | Workforce Board',
+  },
   description: 'Workforce board dashboard and reporting.',
+  robots: { index: false, follow: false },
 };
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+const ALLOWED_ROLES = ['workforce_board', 'admin', 'super_admin', 'staff'];
+
+export default async function WorkforceBoardLayout({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/login?redirect=/workforce-board');
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+    redirect('/unauthorized');
+  }
+
+  return <>{children}</>;
 }
