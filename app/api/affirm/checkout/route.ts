@@ -111,7 +111,10 @@ async function _POST(request: NextRequest) {
         has_host_shop: hasHostShop || null,
         host_shop_name: hostShopName || null,
         amount_cents: Math.round(resolution.paidAmount * 100),
-        payment_type: resolution.paymentOption,
+        // Map resolve-amount options to checkout_contexts constraint values
+        payment_type:
+          resolution.paymentOption === 'full' ? 'pay_in_full' :
+          resolution.paymentOption === 'deposit' ? 'payment_plan' : 'bnpl',
         status: 'pending',
         // Server-authoritative price resolution
         required_amount_cents: Math.round(resolution.requiredAmount * 100),
