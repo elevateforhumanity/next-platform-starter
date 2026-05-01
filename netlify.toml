@@ -2047,6 +2047,18 @@
   status = 301
   force = true
 
+[[redirects]]
+  from = "/programs/cpr-first-aid-hsi/apply"
+  to = "/programs/cpr-first-aid/apply"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/cpr-first-aid-hsi/*"
+  to = "/programs/cpr-first-aid/:splat"
+  status = 301
+  force = true
+
 # Utility pages with wrong or missing destinations
 [[redirects]]
   from = "/tuition-fees"
