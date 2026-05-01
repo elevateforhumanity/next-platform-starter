@@ -36,4 +36,13 @@ Disallow: /settings/
 Disallow: /connects/
 Disallow: /education/
 
+# Demo and store-demo surfaces — not public-facing content
+Disallow: /demo/
+Disallow: /demos/
+Disallow: /store/demo/
+Disallow: /store/demos/
+
+# Store (B2B infrastructure, not public program content)
+Disallow: /store/
+
 Sitemap: https://www.elevateforhumanity.org/sitemap.xml

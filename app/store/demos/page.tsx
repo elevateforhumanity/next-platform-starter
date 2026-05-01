@@ -12,6 +12,7 @@ import DemoTabs from './DemoTabs';
 export const metadata: Metadata = {
   title: 'Platform Demos | Elevate for Humanity',
   description: 'Watch guided video walkthroughs of the Elevate platform — admin dashboard, student portal, and employer tools. No signup required.',
+  robots: { index: false, follow: false },
 };
 
 const demos = [

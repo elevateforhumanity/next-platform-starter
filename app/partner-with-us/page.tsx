@@ -19,7 +19,8 @@ export const metadata: Metadata = {
   title: 'Partner With Us | Elevate for Humanity',
   description:
     'Employer, education, and government partnership opportunities with Elevate for Humanity. Hire graduates, co-develop programs, or refer clients.',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/partner-with-us' },
+  alternates: { canonical: 'https://www.elevateforhumanity.org/partners' },
+  robots: { index: false, follow: false },
 };
 
 const PARTNER_TYPES = [

@@ -1783,14 +1783,14 @@
   force = true
 
 [[redirects]]
-  from = "/training-providers"
-  to = "/platform/training-providers"
+  from = "/platform/training-providers"
+  to = "/training-providers"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/training-providers/*"
-  to = "/platform/training-providers"
+  from = "/platform/training-providers/*"
+  to = "/training-providers"
   status = 301
   force = true
 

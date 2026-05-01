@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/demos',
   },
+  robots: { index: false, follow: false },
 };
 
 const demos = [

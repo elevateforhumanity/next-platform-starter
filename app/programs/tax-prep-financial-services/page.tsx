@@ -1,6 +1,12 @@
+// Canonical: /programs/tax-preparation — redirect handled by next.config.mjs
+// This stub exists only to support sub-routes in this directory.
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-// Canonical URL is /programs/tax-preparation
-export default function TaxPrepFinancialServicesPage() {
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
+
+export default function Page() {
   redirect('/programs/tax-preparation');
 }

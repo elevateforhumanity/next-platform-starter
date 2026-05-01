@@ -776,7 +776,10 @@ const nextConfig = {
       { source: '/apply/program-holder', destination: '/apply', permanent: false },
       { source: '/apply/employer', destination: '/employers', permanent: false },
       { source: '/for-employers', destination: '/employers', permanent: true },
-      // /for-agencies has a real page — redirect removed
+      { source: '/for-partners', destination: '/partners', permanent: true },
+      { source: '/partner-with-us', destination: '/partners', permanent: true },
+      // /platform/training-providers → /training-providers handled in netlify.toml (edge)
+      { source: '/for-agencies', destination: '/contact', permanent: false },
       { source: '/partnerships', destination: '/partners', permanent: true },
       {
         source: '/program-holder/:path*',
