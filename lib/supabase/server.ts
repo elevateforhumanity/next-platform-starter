@@ -9,6 +9,18 @@ export function isSupabaseConfigured(): boolean {
   return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 }
 
+// Supabase fetch with a hard timeout to prevent cold-start hangs on Netlify/Railway.
+// Without this, a stalled TCP connection to Supabase waits ~22s before the OS
+// gives up, which shows up as 22,000ms function durations in Netlify logs.
+const SUPABASE_FETCH_TIMEOUT_MS = 8000;
+function timedFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), SUPABASE_FETCH_TIMEOUT_MS);
+  return fetch(input, { ...init, signal: controller.signal }).finally(() =>
+    clearTimeout(timer),
+  );
+}
+
 // Mock client that returns empty data - prevents crashes when Supabase isn't configured
 const mockQueryBuilder = {
   select: () => mockQueryBuilder,
@@ -77,6 +89,7 @@ export async function createClient(): Promise<SupabaseClient<any>> {
     const cookieStore = await cookies();
 
     return createServerClient(supabaseUrl, supabaseAnonKey, {
+      global: { fetch: timedFetch },
       cookies: {
         getAll() {
           return cookieStore.getAll();
@@ -120,6 +133,7 @@ export function createPublicClient(): SupabaseClient<any> {
         autoRefreshToken: false,
         persistSession: false,
       },
+      global: { fetch: timedFetch },
     });
   } catch {
     // Supabase client constructor can fail during static prerendering
