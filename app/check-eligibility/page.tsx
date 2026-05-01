@@ -224,6 +224,20 @@ export default function CheckEligibilityPage() {
     },
   };
 
+  // Build pre-populated apply URL for Path A — carries program, type, and qualifier answers
+  // so StudentApplicationForm can skip step 1 and pre-fill eligibility fields.
+  const applyParams = new URLSearchParams({
+    type: 'enrollment',
+    ...(program ? { program } : recommended[0] ? { program: recommended[0].slug } : {}),
+    indiana: q2 === 'yes' ? 'yes' : q2 === 'no' ? 'no' : '',
+    unemployed: q1 === 'yes' ? 'yes' : '',
+  });
+  // Remove empty params
+  Array.from(applyParams.entries())
+    .filter(([, v]) => !v)
+    .forEach(([k]) => applyParams.delete(k));
+  const applyHref = `/apply/student?${applyParams.toString()}`;
+
   const confirmations: Record<
     Path,
     {
@@ -239,7 +253,7 @@ export default function CheckEligibilityPage() {
       headline: 'Application received — next step is yours',
       body: "We'll confirm your funding eligibility within 24 hours and send you a direct link to complete your application.",
       primaryLabel: 'Start Application Now',
-      primaryHref: '/apply/student',
+      primaryHref: applyHref,
       secondaryLabel: 'Browse Programs',
       secondaryHref: '/programs',
     },
@@ -584,6 +598,14 @@ export default function CheckEligibilityPage() {
                     {recommended.find((r) => r.name === program)?.duration} ·{' '}
                     {recommended.find((r) => r.name === program)?.outcome}
                   </p>
+                )}
+                {path === 'A' && (
+                  <Link
+                    href={applyHref}
+                    className="inline-block mt-3 text-xs font-bold text-brand-blue-700 underline"
+                  >
+                    Apply for this program →
+                  </Link>
                 )}
               </div>
             )}

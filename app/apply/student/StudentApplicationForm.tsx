@@ -1,12 +1,94 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { submitStudentApplication } from '../actions';
 import { getActiveProgramsByCategory } from '@/lib/program-registry';
 import { trackEvent } from '@/components/analytics/google-analytics';
-import { XCircle, AlertCircle, CheckCircle } from 'lucide-react';
+import { XCircle, AlertCircle, CheckCircle, ChevronRight } from 'lucide-react';
+
+// ── Step definitions ──────────────────────────────────────────────────────────
+const STEPS = [
+  { id: 1, label: 'Application Type' },
+  { id: 2, label: 'Personal Info' },
+  { id: 3, label: 'Program' },
+  { id: 4, label: 'Eligibility' },
+  { id: 5, label: 'Review & Submit' },
+] as const;
+
+type StepId = (typeof STEPS)[number]['id'];
+
+// Inquiry skips step 4 (eligibility screening)
+const INQUIRY_STEPS = [1, 2, 3, 5] as StepId[];
+const ENROLLMENT_STEPS = [1, 2, 3, 4, 5] as StepId[];
+
+function getStepSequence(type: 'inquiry' | 'enrollment' | '') {
+  if (type === 'inquiry') return INQUIRY_STEPS;
+  if (type === 'enrollment') return ENROLLMENT_STEPS;
+  return [1] as StepId[];
+}
+
+// ── Progress bar ──────────────────────────────────────────────────────────────
+function ProgressBar({
+  currentStep,
+  applicationType,
+}: {
+  currentStep: StepId;
+  applicationType: 'inquiry' | 'enrollment' | '';
+}) {
+  const sequence = getStepSequence(applicationType);
+  const visibleSteps = STEPS.filter((s) => sequence.includes(s.id));
+  const currentIndex = sequence.indexOf(currentStep);
+
+  return (
+    <div className="mb-8">
+      <div className="flex items-center justify-between relative">
+        {/* Connecting line */}
+        <div className="absolute top-4 left-0 right-0 h-0.5 bg-slate-200 z-0" />
+        <div
+          className="absolute top-4 left-0 h-0.5 bg-slate-800 z-0 transition-all duration-500"
+          style={{
+            width:
+              currentIndex === 0
+                ? '0%'
+                : `${(currentIndex / (visibleSteps.length - 1)) * 100}%`,
+          }}
+        />
+
+        {visibleSteps.map((step, idx) => {
+          const isComplete = idx < currentIndex;
+          const isCurrent = step.id === currentStep;
+          return (
+            <div key={step.id} className="flex flex-col items-center z-10 flex-1">
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all duration-300 ${
+                  isComplete
+                    ? 'bg-slate-800 border-slate-800 text-white'
+                    : isCurrent
+                      ? 'bg-white border-slate-800 text-slate-800'
+                      : 'bg-white border-slate-300 text-slate-400'
+                }`}
+              >
+                {isComplete ? <CheckCircle className="w-4 h-4" /> : idx + 1}
+              </div>
+              <span
+                className={`mt-1.5 text-xs font-medium hidden sm:block ${
+                  isCurrent ? 'text-slate-900' : isComplete ? 'text-slate-600' : 'text-slate-400'
+                }`}
+              >
+                {step.label}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      <p className="mt-3 text-xs text-slate-500 text-center sm:hidden">
+        Step {currentIndex + 1} of {visibleSteps.length} — {STEPS.find((s) => s.id === currentStep)?.label}
+      </p>
+    </div>
+  );
+}
 
 const programGroups = getActiveProgramsByCategory();
 
@@ -154,13 +236,84 @@ export default function StudentApplicationForm({
   initialProgram?: string;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [currentStep, setCurrentStep] = useState<StepId>(1);
   const [applicationType, setApplicationType] = useState<'inquiry' | 'enrollment' | ''>('');
   const [selectedProgram, setSelectedProgram] = useState(initialProgram);
   const [eligibility, setEligibility] = useState<EligibilityAnswers>(EMPTY_ELIGIBILITY);
   const [eligibilityDecision, setEligibilityDecision] = useState<EligibilityDecision | null>(null);
   const [eligibilitySubmitted, setEligibilitySubmitted] = useState(false);
+
+  // Pre-populate from check-eligibility URL params
+  // e.g. /apply/student?program=hvac-technician&type=enrollment&indiana=yes&unemployed=yes
+  useEffect(() => {
+    const program = searchParams.get('program');
+    const type = searchParams.get('type') as 'inquiry' | 'enrollment' | null;
+    const indiana = searchParams.get('indiana');
+    const unemployed = searchParams.get('unemployed');
+
+    if (program) setSelectedProgram(program);
+    if (type === 'inquiry' || type === 'enrollment') {
+      setApplicationType(type);
+      // If type is pre-set, skip step 1 and go straight to personal info
+      setCurrentStep(2);
+    }
+    if (indiana === 'yes') setElig('isIndianaResident', true);
+    if (indiana === 'no') setElig('isIndianaResident', false);
+    if (unemployed === 'yes') {
+      // Mark as adult (implied by eligibility check) and set SNAP/TANF check defaults
+      setElig('isAdult', true);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Step navigation helpers
+  const sequence = getStepSequence(applicationType);
+  const currentIndex = sequence.indexOf(currentStep);
+
+  function goNext() {
+    const next = sequence[currentIndex + 1];
+    if (next) {
+      setError('');
+      setCurrentStep(next);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function goBack() {
+    const prev = sequence[currentIndex - 1];
+    if (prev) {
+      setError('');
+      setCurrentStep(prev);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function validateStep(): string | null {
+    if (currentStep === 1 && !applicationType) return 'Please select an application type to continue.';
+    if (currentStep === 2) {
+      // Basic validation — full validation happens on submit
+      const form = document.querySelector('form') as HTMLFormElement | null;
+      if (!form) return null;
+      const firstName = (form.querySelector('[name="firstName"]') as HTMLInputElement)?.value?.trim();
+      const lastName = (form.querySelector('[name="lastName"]') as HTMLInputElement)?.value?.trim();
+      const email = (form.querySelector('[name="email"]') as HTMLInputElement)?.value?.trim();
+      const phone = (form.querySelector('[name="phone"]') as HTMLInputElement)?.value?.trim();
+      if (!firstName || !lastName) return 'First and last name are required.';
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'A valid email address is required.';
+      if (phone.replace(/\D/g, '').length < 10) return 'A valid 10-digit phone number is required.';
+    }
+    if (currentStep === 3 && !selectedProgram) return 'Please select a program to continue.';
+    return null;
+  }
+
+  function handleNext() {
+    const err = validateStep();
+    if (err) { setError(err); return; }
+    goNext();
+  }
 
   function setElig<K extends keyof EligibilityAnswers>(key: K, value: EligibilityAnswers[K]) {
     setEligibility((prev) => ({ ...prev, [key]: value }));
@@ -281,7 +434,9 @@ export default function StudentApplicationForm({
 
         // Inquiry path or email-only fallback — thank you page, no payment
         if (applicationType === 'inquiry' || result.status === 'email_only') {
-          router.push('/apply/inquiry-received');
+          router.push(
+            `/apply/confirmation?ref=${encodeURIComponent(result.referenceNumber || '')}&program=${encodeURIComponent(data.programInterest || '')}`,
+          );
           return;
         }
 
@@ -320,6 +475,11 @@ export default function StudentApplicationForm({
         <input type="text" id="website_url" name="website_url" tabIndex={-1} autoComplete="off" />
       </div>
 
+      {/* Progress bar */}
+      {applicationType && (
+        <ProgressBar currentStep={currentStep} applicationType={applicationType} />
+      )}
+
       {error && (
         <div
           className="p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm"
@@ -330,7 +490,7 @@ export default function StudentApplicationForm({
       )}
 
       {/* Step 1 — Application type */}
-      <div className="bg-white border border-slate-200 rounded-lg p-6">
+      {currentStep === 1 && (<div className="bg-white border border-slate-200 rounded-lg p-6">
         <h2 className="text-xl font-bold text-black mb-1">What would you like to do?</h2>
         <p className="text-sm text-black mb-4">Select an option to get started.</p>
         <select
@@ -400,17 +560,24 @@ export default function StudentApplicationForm({
             </p>
           </div>
         )}
-      </div>
+      </div>)}
 
-      {/* Only show the rest of the form once a type is selected */}
-      {!applicationType && (
-        <div className="text-center py-8 text-black text-sm">
-          Select an option above to continue.
+      {/* Step 1 Next button */}
+      {currentStep === 1 && (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={handleNext}
+            disabled={!applicationType}
+            className="inline-flex items-center gap-2 min-h-[48px] px-8 py-3 bg-slate-800 text-white font-bold rounded-lg hover:bg-slate-900 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors"
+          >
+            Continue <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       )}
 
-      {/* ELIGIBILITY & SUPPORT NEEDS SCREENING */}
-      {applicationType === 'enrollment' && (
+      {/* ELIGIBILITY & SUPPORT NEEDS SCREENING — Step 4 */}
+      {currentStep === 4 && applicationType === 'enrollment' && (
         <div className="bg-white border border-slate-200 rounded-lg p-6 space-y-8">
           <div>
             <h2 className="text-xl font-bold text-black mb-1">
@@ -873,8 +1040,38 @@ export default function StudentApplicationForm({
         </div>
       )}
 
-      {/* Personal Information — shown for both paths */}
-      {applicationType && (
+      {/* Step 4 navigation */}
+      {currentStep === 4 && (
+        <div className="flex flex-col sm:flex-row gap-3 justify-between">
+          <button
+            type="button"
+            onClick={goBack}
+            className="min-h-[48px] px-6 py-3 bg-white border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:border-slate-400 transition-colors"
+          >
+            ← Back
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!eligibilitySubmitted) {
+                setError('Please check your eligibility before continuing.');
+                return;
+              }
+              if (eligibilityDecision?.status === 'ineligible') {
+                setError('You do not meet the baseline requirements. Please contact us before submitting.');
+                return;
+              }
+              goNext();
+            }}
+            className="inline-flex items-center gap-2 min-h-[48px] px-8 py-3 bg-slate-800 text-white font-bold rounded-lg hover:bg-slate-900 transition-colors"
+          >
+            Continue to Review <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
+      {/* Personal Information — Step 2 */}
+      {currentStep === 2 && applicationType && (
         <>
           {/* Personal Information */}
           <div className="bg-white border border-slate-200 rounded-lg p-6">
@@ -1048,7 +1245,29 @@ export default function StudentApplicationForm({
             </div>
           </div>
 
-          {/* Program Interest */}
+          {/* Step 2 navigation */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-between">
+            <button
+              type="button"
+              onClick={goBack}
+              className="min-h-[48px] px-6 py-3 bg-white border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:border-slate-400 transition-colors"
+            >
+              ← Back
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              className="inline-flex items-center gap-2 min-h-[48px] px-8 py-3 bg-slate-800 text-white font-bold rounded-lg hover:bg-slate-900 transition-colors"
+            >
+              Continue <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </>
+      )}
+
+      {/* Program Interest — Step 3 */}
+      {currentStep === 3 && applicationType && (
+        <>
           <div className="bg-white border border-slate-200 rounded-lg p-6">
             <h2 className="text-xl font-bold text-black mb-4">Program Interest</h2>
 
@@ -1139,25 +1358,88 @@ export default function StudentApplicationForm({
             </div>
           </div>
 
-          {/* Submit */}
-          <div className="flex flex-col sm:flex-row gap-4">
+          {/* Step 3 navigation */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-between">
             <button
-              type="submit"
-              disabled={loading || !applicationType}
-              className="flex-1 min-h-[48px] px-6 py-3 bg-brand-red-600 text-white font-bold rounded-lg hover:bg-brand-red-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
+              type="button"
+              onClick={goBack}
+              className="min-h-[48px] px-6 py-3 bg-white border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:border-slate-400 transition-colors"
             >
-              {loading
-                ? 'Submitting...'
-                : applicationType === 'inquiry'
-                  ? 'Submit Inquiry'
-                  : 'Continue to Enrollment →'}
+              ← Back
             </button>
             <button
               type="button"
-              onClick={() => router.back()}
-              className="min-h-[48px] px-6 py-3 bg-white border-2 border-slate-300 text-black font-semibold rounded-lg hover:border-slate-400 transition-colors"
+              onClick={handleNext}
+              className="inline-flex items-center gap-2 min-h-[48px] px-8 py-3 bg-slate-800 text-white font-bold rounded-lg hover:bg-slate-900 transition-colors"
             >
-              Back
+              Continue <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </>
+      )}
+
+      {/* Review & Submit — Step 5 */}
+      {currentStep === 5 && applicationType && (
+        <>
+          {/* Summary card */}
+          <div className="bg-white border border-slate-200 rounded-lg p-6 space-y-4">
+            <h2 className="text-xl font-bold text-black mb-2">Review &amp; Submit</h2>
+            <p className="text-sm text-slate-600">
+              Review your information below, then submit your application. You'll receive a
+              confirmation email with your application reference number.
+            </p>
+
+            <div className="bg-slate-50 rounded-lg p-4 space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-slate-500">Application type</span>
+                <span className="font-semibold capitalize">{applicationType}</span>
+              </div>
+              {selectedProgram && (
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Program</span>
+                  <span className="font-semibold">{selectedProgram}</span>
+                </div>
+              )}
+              {applicationType === 'enrollment' && eligibilityDecision && (
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Eligibility</span>
+                  <span className={`font-semibold capitalize ${
+                    eligibilityDecision.status === 'eligible' ? 'text-green-700' :
+                    eligibilityDecision.status === 'conditional_review' ? 'text-amber-700' :
+                    'text-red-700'
+                  }`}>
+                    {eligibilityDecision.status.replace('_', ' ')}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {applicationType === 'enrollment' && !eligibilitySubmitted && (
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
+                ⚠️ You skipped the eligibility check. Go back to Step 4 to complete it before submitting.
+              </div>
+            )}
+          </div>
+
+          {/* Submit */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-between">
+            <button
+              type="button"
+              onClick={goBack}
+              className="min-h-[48px] px-6 py-3 bg-white border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:border-slate-400 transition-colors"
+            >
+              ← Back
+            </button>
+            <button
+              type="submit"
+              disabled={loading || !applicationType}
+              className="inline-flex items-center gap-2 flex-1 sm:flex-none min-h-[48px] px-10 py-3 bg-brand-red-600 text-white font-bold rounded-lg hover:bg-brand-red-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors justify-center"
+            >
+              {loading
+                ? 'Submitting…'
+                : applicationType === 'inquiry'
+                  ? 'Submit Inquiry'
+                  : 'Submit Application'}
             </button>
           </div>
         </>
