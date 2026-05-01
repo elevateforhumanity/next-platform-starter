@@ -48,6 +48,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Home Health Aide', href: canonicalRoutes.programs.homeHealthAide },
       { name: 'Peer Recovery Specialist', href: canonicalRoutes.programs.peerRecoverySpecialist },
       { name: 'Direct Support Professional', href: canonicalRoutes.programs.directSupportProfessional },
+      { name: 'Drug & Alcohol Specimen Collector', href: '/programs/drug-collector' },
       { name: 'All Healthcare →', href: '/programs/healthcare', isSectionLink: true },
 
       // Skilled Trades
@@ -68,6 +69,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'IT Help Desk', href: canonicalRoutes.programs.itHelpDesk },
       { name: 'Cybersecurity Analyst', href: canonicalRoutes.programs.cybersecurityAnalyst },
       { name: 'Network Administration', href: canonicalRoutes.programs.networkAdministration },
+      { name: 'Network Support Technician', href: '/programs/network-support-technician' },
       { name: 'Web Development', href: canonicalRoutes.programs.webDevelopment },
       { name: 'Software Development', href: canonicalRoutes.programs.softwareDevelopment },
       { name: 'Graphic Design', href: canonicalRoutes.programs.graphicDesign },
@@ -75,10 +77,19 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Business Administration', href: canonicalRoutes.programs.businessAdministration },
       { name: 'Office Administration', href: canonicalRoutes.programs.officeAdministration },
       { name: 'Bookkeeping', href: canonicalRoutes.programs.bookkeeping },
+      { name: 'Finance & Accounting Pathway', href: '/programs/finance-bookkeeping-accounting' },
       { name: 'Tax Preparation', href: canonicalRoutes.programs.taxPreparation },
       { name: 'Entrepreneurship', href: canonicalRoutes.programs.entrepreneurship },
       { name: 'Project Management', href: canonicalRoutes.programs.projectManagement },
       { name: 'All Programs →', href: '/programs', isSectionLink: true },
+
+      // Hubs & Special Programs
+      { name: '— Hubs & Special Programs —', href: '/programs', isHeader: true },
+      { name: 'Beauty Programs Hub', href: '/programs/beauty' },
+      { name: 'Business Programs Hub', href: '/programs/business' },
+      { name: 'Federal-Funded Programs', href: '/programs/federal-funded' },
+      { name: 'Micro-Credentials', href: '/programs/micro-programs' },
+      { name: 'JRI — Justice-Involved', href: '/programs/jri' },
     ],
   },
 
@@ -89,9 +100,11 @@ export const NAV_ITEMS: NavItem[] = [
     href: '/apprenticeships',
     subItems: [
       { name: '— DOL Registered —', href: '/apprenticeships', isHeader: true },
+      { name: 'All Apprenticeships', href: '/programs/apprenticeships' },
       { name: 'Barbering', href: canonicalRoutes.programs.barberApprenticeship },
       { name: 'Cosmetology', href: canonicalRoutes.programs.cosmetologyApprenticeship },
-      { name: 'Esthetics', href: canonicalRoutes.programs.estheticianApprenticeship },
+      { name: 'Esthetics Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
+      { name: 'Esthetician License', href: '/programs/esthetician' },
       { name: 'Nail Technology', href: canonicalRoutes.programs.nailTechnicianApprenticeship },
       { name: 'Beauty Career Educator', href: canonicalRoutes.programs.beautyCareerEducator },
       { name: 'Culinary Arts', href: canonicalRoutes.programs.culinaryApprenticeship },
