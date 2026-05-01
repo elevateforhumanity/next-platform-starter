@@ -33,6 +33,25 @@ async function _POST(req: Request) {
     const { sessionId, applicationId, programSlug, firstName, lastName, email, phone, amountPaid } =
       body;
 
+    // Verify the Stripe session is real and paid before creating any records
+    if (!sessionId) {
+      return NextResponse.json({ error: 'sessionId required' }, { status: 400 });
+    }
+    const { getStripe } = await import('@/lib/stripe/client');
+    const stripe = getStripe();
+    if (stripe) {
+      try {
+        const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
+        if (stripeSession.payment_status !== 'paid') {
+          logger.warn('[enroll/complete] Stripe session not paid', { sessionId, status: stripeSession.payment_status });
+          return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
+        }
+      } catch (stripeErr) {
+        logger.error('[enroll/complete] Invalid Stripe session', { sessionId });
+        return NextResponse.json({ error: 'Invalid session' }, { status: 400 });
+      }
+    }
+
     const supabase = await createClient();
     const emailLower = email.toLowerCase();
 
@@ -186,7 +205,7 @@ async function _POST(req: Request) {
           user_id: admin.id,
           type: 'system',
           title: 'New Enrollment Pending Approval',
-          message: `${firstName} ${lastName} (${email}) has completed payment for ${program.title || program?.title || program?.name}. Enrollment ID: ${enrollmentId}`,
+          message: `${firstName} ${lastName} (${email}) has completed payment for ${program.title ?? program.name}. Enrollment ID: ${enrollmentId}`,
         }));
 
         await supabase.from('notifications').insert(notifications);
@@ -226,7 +245,7 @@ async function _POST(req: Request) {
       await sendWelcomeEmail({
         email: emailLower,
         name: `${firstName} ${lastName}`,
-        programName: program.title || program?.title || program?.name,
+        programName: program.title ?? program.name,
         dashboardUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/lms`,
         includesMilady: isBarberProgram, // param kept for compat — LMS section shown for barber
       });

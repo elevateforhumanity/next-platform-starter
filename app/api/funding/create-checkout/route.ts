@@ -75,8 +75,8 @@ async function _POST(req: Request) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: `${fundingSource} - ${program.title || program?.title || program?.name}`,
-              description: `Student: ${profile.full_name || profile.email} | Program: ${program.title || program?.title || program?.name}`,
+              name: `${fundingSource} - ${program.title ?? program.name}`,
+              description: `Student: ${profile.full_name || profile.email} | Program: ${program.title ?? program.name}`,
             },
             unit_amount: amount,
           },

@@ -89,7 +89,7 @@ async function _POST(request: Request) {
         .from('profiles')
         .select('id, email, full_name')
         .eq('email', studentEmail.toLowerCase())
-        .single();
+        .maybeSingle();
       student = data;
     }
 

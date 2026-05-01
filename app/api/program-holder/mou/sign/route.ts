@@ -99,7 +99,7 @@ async function _POST(req: NextRequest) {
       .from('program_holders')
       .select('organization_name, contact_name, contact_email, mou_type')
       .eq('id', phId)
-      .single();
+      .maybeSingle();
 
     const orgName = holder?.organization_name || name;
     const isHvac = holder?.mou_type === 'custom_hvac_codelivery';

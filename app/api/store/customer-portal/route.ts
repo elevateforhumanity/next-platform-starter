@@ -25,18 +25,28 @@ async function _POST(request: NextRequest) {
   }
 
   try {
+    // Verify caller identity — userId must match the authenticated session
+    const { createClient: createServerClient } = await import('@/lib/supabase/server');
+    const serverClient = await createServerClient();
+    const { data: { user }, error: authError } = await serverClient.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const body = await parseBody<{ userId: string }>(request);
     const { userId } = body;
-
-    if (!userId) {
-      return NextResponse.json({ error: 'Missing required field: userId' }, { status: 400 });
+    // Enforce: caller can only access their own portal
+    if (userId && userId !== user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
+    const resolvedUserId = user.id;
+
+    // userId from body is optional — we use the authenticated user's ID
 
     // Get Stripe customer ID
     const { data: billing, error: billingError } = await supabase
       .from('customer_billing')
       .select('stripe_customer_id')
-      .eq('user_id', userId)
+      .eq('user_id', resolvedUserId)
       .single();
 
     if (billingError || !billing?.stripe_customer_id) {
@@ -52,7 +62,7 @@ async function _POST(request: NextRequest) {
       return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/store/subscriptions`,
     });
 
-    logger.info(`Created customer portal session for user: ${userId}`);
+    logger.info(`Created customer portal session for user: ${resolvedUserId}`);
 
     return NextResponse.json({
       url: session.url,

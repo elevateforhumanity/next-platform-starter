@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: program
-      ? `${program.title || program?.title || program?.name} | Program Holder`
+      ? `${program.title ?? program.name} | Program Holder`
       : 'Program | Program Holder',
     robots: { index: false, follow: false },
   };
@@ -106,7 +106,7 @@ export default async function ProgramHolderProgramPage({ params }: Props) {
         <div className="flex items-start justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">
-              {program.title || program?.title || program?.name}
+              {program.title ?? program.name}
             </h1>
             <p className="text-slate-600">{program.description}</p>
             <div className="flex items-center gap-2 mt-2">

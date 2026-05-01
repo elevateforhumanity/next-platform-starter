@@ -12,6 +12,13 @@ async function _GET(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
+    const { createClient } = await import('@/lib/supabase/server');
+    const serverClient = await createClient();
+    const { data: { user }, error: authError } = await serverClient.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const paymentIntent = request.nextUrl.searchParams.get('payment_intent');
 
     if (!paymentIntent) {
@@ -52,7 +59,7 @@ async function _GET(request: NextRequest) {
         .select('id, tier, status, features, max_users, max_programs, valid_until')
         .eq('tenant_id', purchase.tenant_id)
         .eq('status', 'active')
-        .single();
+        .maybeSingle();
       license = licenseData;
     }
 

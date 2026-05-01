@@ -231,7 +231,7 @@ export default async function CalendarPage() {
                     className="block bg-white rounded-lg shadow-sm border p-4 hover:shadow-md transition"
                   >
                     <h3 className="font-semibold text-slate-900">
-                      {program.title || program?.title || program?.name}
+                      {program.title ?? program.name}
                     </h3>
                     {program.schedule && (
                       <p className="text-sm text-slate-700 mt-1">{program.schedule}</p>
