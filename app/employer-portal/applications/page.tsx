@@ -45,13 +45,13 @@ export default async function ApplicationsPage() {
       id,
       status,
       created_at,
-      user_id,
-      job_id,
-      profiles!job_applications_user_id_fkey(full_name, city, state),
-      jobs(title)
+      student_id,
+      job_posting_id,
+      profiles!job_applications_student_id_fkey(full_name, city, state),
+      job_postings(title)
     `,
           )
-          .in('job_id', jobIds)
+          .in('job_posting_id', jobIds)
           .order('created_at', { ascending: false })
           .limit(50)
       : { data: [] };
@@ -71,12 +71,12 @@ export default async function ApplicationsPage() {
 
       return {
         id: app.id,
-        userId: app.user_id,
+        userId: app.student_id,
         candidate: {
           name: app.profiles?.full_name || 'Applicant',
           image: null,
         },
-        position: app.jobs?.title || 'Position',
+        position: app.job_postings?.title || 'Position',
         status: app.status || 'New',
         appliedDate,
         rating: 0,
