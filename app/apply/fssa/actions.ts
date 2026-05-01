@@ -62,6 +62,7 @@ export async function submitFssaApplication(
 
     const supabase = await requireAdminClient();
 
+    const fssaRef = `EFH-${Date.now().toString(36).toUpperCase()}`;
     const { data: inserted, error } = await supabase
       .from('applications')
       .insert({
@@ -76,6 +77,7 @@ export async function submitFssaApplication(
         zip: data.zipCode,             // NOT NULL column
         zip_code: data.zipCode,        // nullable alias
         program_interest: data.programInterest,
+        reference_number: fssaRef,
         funding_source: 'fssa_impact',
         application_type: 'fssa',
         status: 'submitted',           // matches applications_status_check constraint

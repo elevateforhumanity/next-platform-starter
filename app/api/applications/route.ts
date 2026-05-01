@@ -182,6 +182,7 @@ async function _POST(req: Request) {
         transfer_hours_claimed: transferHoursClaimed,
         funding_type: fundingType,
         funding_eligibility_status: eligibilityStatus,
+        reference_number: referenceNumber,
         type: 'student',
         // WIOA Title I required fields (PIRL 300, 302, 401, 900)
         date_of_birth: body.dateOfBirth || null,

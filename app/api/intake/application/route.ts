@@ -145,6 +145,7 @@ async function _POST(req: NextRequest) {
         state: 'IN',
         program_interest: program.title,
         program_id: program.id,
+        reference_number: `EFH-${Date.now().toString(36).toUpperCase()}`,
         status: 'submitted',
         source: 'intake-funnel',
         support_notes: `Lead ID: ${data.leadId} | ${data.additionalInfo || ''}`.trim(),
