@@ -8,7 +8,6 @@ import { DEMO_LEARNER_COURSES } from '@/lib/demo/sandbox-data';
 
 export const metadata: Metadata = {
   title: 'Courses | Learner Demo | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export default function DemoCoursesPage() {

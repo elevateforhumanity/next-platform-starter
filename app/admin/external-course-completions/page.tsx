@@ -8,7 +8,6 @@ import CompletionApprovalCard from './CompletionApprovalCard';
 
 export const metadata: Metadata = {
   title: 'External Course Approvals | Admin | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

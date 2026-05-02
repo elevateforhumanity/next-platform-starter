@@ -9,7 +9,6 @@ import WorkOneApproveButton from './WorkOneApproveButton';
 
 export const metadata: Metadata = {
   title: 'WorkOne Queue | Admin | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

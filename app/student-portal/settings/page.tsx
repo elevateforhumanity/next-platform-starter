@@ -7,7 +7,6 @@ import { ChevronRight } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'Settings | Elevate for Humanity',
   description: 'Manage your account settings.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

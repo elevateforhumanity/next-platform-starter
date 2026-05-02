@@ -9,7 +9,6 @@ import { EmployerProposalPreview } from '@/components/admin/EmployerProposalPrev
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Employer Proposal | Admin | Elevate for Humanity',
   description: 'View and manage employer partnership proposals.',
 };

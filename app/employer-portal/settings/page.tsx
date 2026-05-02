@@ -8,7 +8,6 @@ import { Settings, User, Bell, Building } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'Settings | Employer Portal',
   description: 'Manage your employer account settings and preferences.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

@@ -8,7 +8,6 @@ import { getAdminDocumentUrl } from '@/lib/admin/document-access';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Review Document | Admin',
   description: 'Review and approve document',
 };

@@ -7,7 +7,6 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Email Automations | Admin | Elevate For Humanity',
 };
 

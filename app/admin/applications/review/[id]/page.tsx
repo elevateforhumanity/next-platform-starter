@@ -12,7 +12,6 @@ import { resolveProgram } from '@/lib/programs/resolve';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Review Application | Elevate For Humanity',
   description: 'Review and approve or reject an application',
 };

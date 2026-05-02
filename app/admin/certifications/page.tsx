@@ -8,7 +8,6 @@ import { CertificationReviewPanel } from '@/components/admin/CertificationReview
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Certifications | Admin | Elevate for Humanity',
   description: 'Review and manage student certifications and credentials.',
 };

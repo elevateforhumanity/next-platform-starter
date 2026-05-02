@@ -11,7 +11,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Create License | Admin',
   description: 'Issue a new platform license.',
-  robots: { index: false, follow: false },
 };
 
 export default async function CreateLicensePage() {

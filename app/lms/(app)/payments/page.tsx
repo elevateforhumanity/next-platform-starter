@@ -6,7 +6,6 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Payments & Billing | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export default async function PaymentsPage() {

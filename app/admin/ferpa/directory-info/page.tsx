@@ -8,7 +8,6 @@ import DirectoryInfoClient from './DirectoryInfoClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'FERPA Directory Information | Admin | Elevate for Humanity',
 };
 

@@ -9,7 +9,6 @@ import { FileText, Clock, CheckCircle, XCircle } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'FERPA Access Requests | Admin | Elevate for Humanity',
 };
 

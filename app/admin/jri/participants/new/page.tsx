@@ -8,7 +8,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Add Job Ready Indy Participant | Elevate For Humanity',
 };
 

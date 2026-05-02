@@ -8,7 +8,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Discussion Forums | LMS | Elevate For Humanity',
   description: 'Ask questions, share knowledge, and connect with fellow learners and instructors.',
 };

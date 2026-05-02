@@ -17,7 +17,6 @@ import {
 export const metadata: Metadata = {
   title: 'Hiring Guide | Employer Portal',
   description: 'Step-by-step guide to hiring through Elevate and maximizing tax credits.',
-  robots: { index: false, follow: false },
 };
 
 const steps = [

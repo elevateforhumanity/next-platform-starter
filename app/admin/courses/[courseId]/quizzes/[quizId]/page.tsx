@@ -12,7 +12,6 @@ export async function generateMetadata({
 }: {
   params: Promise<{ courseId: string; quizId: string }>;
 }): Promise<Metadata> {
-  return { title: 'Quiz | Admin | Elevate For Humanity', robots: { index: false, follow: false } };
 }
 
 const QUESTION_TYPE_LABELS: Record<string, string> = {

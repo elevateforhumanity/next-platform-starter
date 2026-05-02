@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'WOTC Management | Admin',
   description: 'Manage Work Opportunity Tax Credit applications and certifications.',
-  robots: { index: false, follow: false },
 };
 
 export default async function WOTCAdminPage() {

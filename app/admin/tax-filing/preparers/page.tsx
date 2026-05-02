@@ -6,7 +6,6 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Tax Preparers | Admin | Elevate For Humanity',
   description: 'Manage tax preparers and their certifications.',
 };

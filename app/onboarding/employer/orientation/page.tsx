@@ -19,7 +19,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Employer Orientation | Elevate for Humanity',
-  robots: { index: false },
 };
 
 const ORIENTATION_SECTIONS = [

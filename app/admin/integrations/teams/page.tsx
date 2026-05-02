@@ -7,7 +7,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Microsoft Teams | Integrations | Admin',
-  robots: { index: false, follow: false },
 };
 
 export default async function TeamsIntegrationPage() {

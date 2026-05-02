@@ -7,7 +7,6 @@ import { VerificationReviewForm } from '@/components/admin/VerificationReviewFor
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Review Verification | Admin',
   description: 'Review and approve ID verification',
 };

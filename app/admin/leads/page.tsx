@@ -8,7 +8,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Leads | Admin | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 const STATUS_COLORS: Record<string, string> = {

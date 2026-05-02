@@ -6,7 +6,6 @@ import AICourseBuilderChat from './AICourseBuilderChat';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'AI Course Builder | Admin | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 export default async function AICourseBuilderPage() {

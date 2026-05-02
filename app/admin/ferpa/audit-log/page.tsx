@@ -8,7 +8,6 @@ import { Shield } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'FERPA Audit Log | Admin | Elevate for Humanity',
 };
 

@@ -18,7 +18,6 @@ import Image from 'next/image';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Find Connections | Social | LMS | Elevate For Humanity',
   description: 'Connect with fellow learners and expand your professional network.',
 };

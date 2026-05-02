@@ -7,7 +7,6 @@ import { DemoPageShell } from '@/components/demo/DemoPageShell';
 
 export const metadata: Metadata = {
   title: 'Documents | Employer Demo | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 const DEMO_DOCS = [

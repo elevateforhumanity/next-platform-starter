@@ -18,7 +18,6 @@ import {
 
 export const metadata: Metadata = {
   title: 'Provider Dashboard | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

@@ -38,7 +38,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
   return {
     title: `${categoryLabels[category] || category} | Document Center | Admin`,
-    robots: { index: false, follow: false },
   };
 }
 

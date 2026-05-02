@@ -16,7 +16,6 @@ import IepCreateButton from './IepCreateButton';
 
 export const metadata: Metadata = {
   title: 'Individual Employment Plans | Admin | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

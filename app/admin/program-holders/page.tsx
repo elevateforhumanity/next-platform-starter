@@ -11,7 +11,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Program Holders | Admin | Elevate For Humanity',
   description: 'Manage program holder organizations and approvals.',
-  robots: { index: false, follow: false },
 };
 
 const STATUS_STYLES: Record<string, string> = {

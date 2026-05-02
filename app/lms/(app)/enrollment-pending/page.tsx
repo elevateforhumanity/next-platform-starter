@@ -8,7 +8,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Funding Verification Pending | Elevate LMS',
-  robots: { index: false, follow: false },
 };
 
 type SearchParams = Promise<{ courseId?: string }>;

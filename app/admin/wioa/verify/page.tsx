@@ -20,7 +20,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Verify Eligibility | WIOA Admin',
   description: 'Verify WIOA participant eligibility.',
-  robots: { index: false, follow: false },
 };
 
 export default async function WIOAVerifyPage({

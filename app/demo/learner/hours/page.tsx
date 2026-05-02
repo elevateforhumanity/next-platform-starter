@@ -7,7 +7,6 @@ import { DEMO_HOURS_LOG } from '@/lib/demo/sandbox-data';
 
 export const metadata: Metadata = {
   title: 'Hours | Learner Demo | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 const TOTAL_HOURS = 680;

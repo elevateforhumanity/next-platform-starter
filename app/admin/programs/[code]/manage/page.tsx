@@ -15,7 +15,6 @@ export async function generateMetadata({
   const { code } = await params;
   return {
     title: `Manage Program · ${code} | Admin`,
-    robots: { index: false, follow: false },
   };
 }
 

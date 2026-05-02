@@ -13,7 +13,6 @@ export async function generateMetadata({
 }: {
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  return { title: 'Lead Detail | Admin | Elevate For Humanity', robots: { index: false, follow: false } };
 }
 
 function Field({ label, value }: { label: string; value: string | null | undefined }) {

@@ -14,7 +14,6 @@ import { BarChart, Globe, Mail } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/admin/grants/submissions',
   },

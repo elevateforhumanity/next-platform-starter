@@ -9,7 +9,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Barriers Management | Elevate For Humanity',
   description: 'Track and manage participant barriers to employment and training.',
-  robots: { index: false, follow: false },
 };
 
 export default async function BarriersPage() {

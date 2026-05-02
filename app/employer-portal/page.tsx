@@ -20,7 +20,6 @@ export const metadata: Metadata = {
   title: 'Employer Portal | Elevate for Humanity',
   description: 'Manage job postings, apprentices, and hiring tools for your organization.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/employer-portal' },
-  robots: { index: false, follow: false },
 };
 
 export default async function EmployerPortalPage() {

@@ -9,7 +9,6 @@ import CurriculumLessonManager from '@/components/admin/CurriculumLessonManager'
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Curriculum Editor | Admin | Elevate For Humanity',
 };
 

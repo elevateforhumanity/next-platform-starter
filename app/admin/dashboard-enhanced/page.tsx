@@ -16,7 +16,6 @@ import {
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Curriculum Dashboard | Admin | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export default async function DashboardEnhancedPage() {

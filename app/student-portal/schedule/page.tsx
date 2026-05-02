@@ -26,7 +26,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Schedule | Student Portal',
   description: 'View your class schedule and upcoming sessions.',
-  robots: { index: false, follow: false },
 };
 
 type ActiveEnrollment = {

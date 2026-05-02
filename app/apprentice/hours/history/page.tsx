@@ -8,7 +8,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Hours History | Apprentice Portal | Elevate For Humanity',
   description: 'Track your apprenticeship hours.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

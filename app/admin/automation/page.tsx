@@ -18,7 +18,6 @@ import {
 export const metadata: Metadata = {
   title: 'Automation Log | Admin',
   description: 'View automation execution history, email delivery, and system events.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

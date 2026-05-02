@@ -9,7 +9,6 @@ import JobRetryButton from './JobRetryButton';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Background Jobs | Admin | Elevate For Humanity',
 };
 

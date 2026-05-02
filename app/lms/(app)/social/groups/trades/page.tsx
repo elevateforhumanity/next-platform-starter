@@ -9,7 +9,6 @@ import GroupDiscussions from '@/components/lms/GroupDiscussions';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Skilled Trades Network | Groups | LMS | Elevate For Humanity',
   description:
     'Connect with electricians, plumbers, HVAC techs, and construction professionals. Share tips, job leads, and industry knowledge.',

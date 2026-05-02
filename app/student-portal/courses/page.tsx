@@ -8,7 +8,6 @@ import { ChevronRight, BookOpen, Clock, Play, CheckCircle, TrendingUp } from 'lu
 export const metadata: Metadata = {
   title: 'My Courses | Student Portal',
   description: 'Access your enrolled courses.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

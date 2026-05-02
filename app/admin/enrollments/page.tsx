@@ -10,7 +10,6 @@ import PendingAccessPanel from './PendingAccessPanel';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Enrollments | Admin',
 };
 

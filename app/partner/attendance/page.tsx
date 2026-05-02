@@ -16,7 +16,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Attendance | Partner Portal',
   description: 'Track and manage student attendance for your training sessions.',
-  robots: { index: false, follow: false },
 };
 
 export default async function PartnerAttendancePage() {

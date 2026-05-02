@@ -19,7 +19,6 @@ import type { ApplicationRow } from './ApplicationsTableClient';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Applications | Admin',
 };
 

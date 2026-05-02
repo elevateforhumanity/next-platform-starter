@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Course Partners | Admin',
   description: 'Manage course provider partnerships.',
-  robots: { index: false, follow: false },
 };
 
 export default async function CoursePartnersPage() {

@@ -8,7 +8,6 @@ import { createClient } from '@/lib/supabase/server';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Marketplace | Admin | Elevate For Humanity',
 };
 

@@ -6,7 +6,6 @@ import { DollarSign, Plus, Building2, Calendar, ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Deals | CRM | Admin | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

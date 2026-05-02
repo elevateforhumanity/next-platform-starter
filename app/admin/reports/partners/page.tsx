@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/admin/reports/partners' },
   title: 'Partner Reports | Elevate For Humanity',
   description: 'View partner performance and collaboration metrics.',
-  robots: { index: false, follow: false },
 };
 
 export default async function PartnerReportsPage() {

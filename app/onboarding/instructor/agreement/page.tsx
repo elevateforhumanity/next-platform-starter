@@ -9,7 +9,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Instructor Services Agreement | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export default async function InstructorAgreementPage() {

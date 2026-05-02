@@ -14,7 +14,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   return {
     title: 'Employer | Admin | Elevate For Humanity',
-    robots: { index: false, follow: false },
   };
 }
 

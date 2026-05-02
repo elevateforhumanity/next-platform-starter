@@ -11,7 +11,6 @@ import EligibilityReviewPanel from '@/components/admin/EligibilityReviewPanel';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Application Details | Elevate For Humanity',
   description: 'View application details',
 };

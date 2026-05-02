@@ -18,7 +18,6 @@ import ReferralConfirmButton from './ReferralConfirmButton';
 
 export const metadata: Metadata = {
   title: 'Agency Referrals | Admin | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

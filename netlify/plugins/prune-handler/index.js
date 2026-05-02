@@ -45,10 +45,10 @@ const PRUNE_PACKAGES = [
   'video.js',
   '@mediapipe',
   // Browser-only UI
+  // NOTE: lucide-react is NOT pruned — 1,231 server-component imports across app/
+  // NOTE: recharts is NOT pruned — used in admin/reports/ReportsDashboard.tsx (SSR hydration)
   'monaco-editor',
   '@monaco-editor',
-  'lucide-react',
-  'recharts',
   'html2canvas',
   // Dev / test tools
   'typescript',
@@ -64,11 +64,10 @@ const PRUNE_PACKAGES = [
   // Sentry CLI binary only (keep @sentry/nextjs, @sentry/node — used at runtime)
   '@sentry/cli-linux-x64',
   '@sentry/cli',
-  // WebContainer / collaborative editing (browser-only)
+  // WebContainer (browser-only sandbox)
   '@webcontainer',
-  'yjs',
-  'y-protocols',
-  'lib0',
+  // NOTE: yjs, y-protocols, lib0 are NOT pruned — lib/collaboration/yjs-provider.ts
+  // imports yjs directly and is bundled into the server handler for SSR.
 ];
 
 async function pruneNodeModules(nodeModulesDir) {

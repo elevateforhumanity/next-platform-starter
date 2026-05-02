@@ -6,7 +6,6 @@ import { AlertTriangle, Clock, ChevronRight, ArrowRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'At-Risk Students | Admin',
 };
 

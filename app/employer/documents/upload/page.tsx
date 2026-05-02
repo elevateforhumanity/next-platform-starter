@@ -6,7 +6,6 @@ import { DocumentUploadForm } from '@/components/documents/DocumentUploadForm';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Upload Document | Employer Portal',
   description: 'Upload a new document',
   alternates: {

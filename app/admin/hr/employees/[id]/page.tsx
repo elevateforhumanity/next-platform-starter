@@ -28,7 +28,6 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: 'Employee Details | HR | Admin',
-    robots: { index: false, follow: false },
   };
 }
 

@@ -8,7 +8,6 @@ import { DEMO_CANDIDATES } from '@/lib/demo/sandbox-data';
 
 export const metadata: Metadata = {
   title: 'Candidates | Employer Demo | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export default function DemoCandidatesPage() {

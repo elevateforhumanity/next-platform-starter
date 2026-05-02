@@ -17,7 +17,6 @@ import {
 export const metadata: Metadata = {
   title: 'Grades & Progress | Student Portal',
   description: 'View your academic grades and progress.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

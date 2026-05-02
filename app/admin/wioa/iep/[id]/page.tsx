@@ -26,7 +26,6 @@ export async function generateMetadata({
   const { id } = await params;
   return {
     title: `IEP ${id.slice(0, 8)} | Admin`,
-    robots: { index: false, follow: false },
   };
 }
 

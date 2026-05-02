@@ -7,7 +7,6 @@ import { FileText, Upload, Clock, XCircle } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'My Documents | Employer Portal',
   description: 'View and manage your documents',
   alternates: {

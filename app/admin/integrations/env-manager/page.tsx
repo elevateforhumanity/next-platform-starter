@@ -6,7 +6,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Integration Settings | Admin | Elevate LMS',
-  robots: { index: false },
 };
 
 export default async function EnvManagerPage() {

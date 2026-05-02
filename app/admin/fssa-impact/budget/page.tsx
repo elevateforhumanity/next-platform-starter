@@ -11,7 +11,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Budget Tracker | FSSA SNAP E&T | Admin',
-  robots: { index: false, follow: false },
 };
 
 function fmt$(n: number) {

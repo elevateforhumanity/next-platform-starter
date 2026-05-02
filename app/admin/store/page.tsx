@@ -17,7 +17,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Store Management | Elevate For Humanity',
   description: 'Manage store products, licenses, and purchases.',
 };

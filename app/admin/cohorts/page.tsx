@@ -18,7 +18,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Cohort Tracker | Admin',
   description: 'Track cohort enrollment, credentials, attendance, and outcomes.',
-  robots: { index: false, follow: false },
 };
 
 const STATUS_STYLES: Record<string, string> = {

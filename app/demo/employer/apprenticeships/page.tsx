@@ -7,7 +7,6 @@ import { DEMO_APPRENTICES } from '@/lib/demo/sandbox-data';
 
 export const metadata: Metadata = {
   title: 'Apprenticeships | Employer Demo | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 const DEMO_DATA = [

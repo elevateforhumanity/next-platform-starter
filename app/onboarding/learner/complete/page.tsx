@@ -9,7 +9,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Orientation Complete | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 // Funding sources that require Indiana Career Connect registration

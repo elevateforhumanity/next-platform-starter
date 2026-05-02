@@ -21,7 +21,6 @@ import {
 export const metadata: Metadata = {
   title: 'Job Postings | Employer Portal | Elevate For Humanity',
   description: 'Manage your job postings and track applications.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

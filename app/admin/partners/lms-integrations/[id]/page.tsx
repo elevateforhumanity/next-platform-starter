@@ -31,7 +31,6 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: 'LMS Integration Details | Partners | Admin',
-    robots: { index: false, follow: false },
   };
 }
 

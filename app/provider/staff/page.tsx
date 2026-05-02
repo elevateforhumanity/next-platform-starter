@@ -7,7 +7,6 @@ import InviteStaff from './InviteStaff';
 export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 
 const ROLE_LABELS: Record<string, string> = {

@@ -18,7 +18,6 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Video Meetings | Collaborate | LMS | Elevate For Humanity',
   description: 'Schedule and join virtual study sessions with your classmates.',
 };

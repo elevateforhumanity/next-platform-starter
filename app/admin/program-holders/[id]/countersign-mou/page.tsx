@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Countersign MOU | Admin | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 interface Props {

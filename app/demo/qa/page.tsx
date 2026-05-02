@@ -5,7 +5,6 @@ import { DemoQAClient } from './DemoQAClient';
 export const metadata: Metadata = {
   title: 'Demo QA | Elevate LMS',
   description: 'Quality assurance page for demo environment verification',
-  robots: { index: false, follow: false },
 };
 
 export default function DemoQAPage() {

@@ -22,7 +22,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Resources | Student Portal',
   description: 'Academic, career, and support resources for Elevate for Humanity students.',
-  robots: { index: false, follow: false },
 };
 
 // Icon map — DB stores icon name as string

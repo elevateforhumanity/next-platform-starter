@@ -7,7 +7,6 @@ import { DEMO_PROGRAMS } from '@/lib/demo/sandbox-data';
 
 export const metadata: Metadata = {
   title: 'Outcomes | Admin Demo | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export default function DemoOutcomesPage() {

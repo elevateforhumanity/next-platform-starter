@@ -19,7 +19,6 @@ import {
 export const metadata: Metadata = {
   title: 'Employer Onboarding | Elevate For Humanity',
   description: 'Complete your employer onboarding process.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

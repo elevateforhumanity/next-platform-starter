@@ -8,7 +8,6 @@ import Image from 'next/image';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Grants Workflow | Elevate For Humanity',
   description: 'Admin dashboard',
 };

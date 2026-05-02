@@ -4,7 +4,6 @@ import AuditLogsPageClient from './PageClient';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Audit Logs | Admin',
 };
 

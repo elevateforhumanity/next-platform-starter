@@ -7,7 +7,6 @@ import { Plus, BookOpen } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 
 const STATUS_COLORS: Record<string, string> = {

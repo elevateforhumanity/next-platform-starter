@@ -17,7 +17,6 @@ import {
 export const metadata: Metadata = {
   title: 'Alumni Directory | Elevate LMS',
   description: 'Connect with program alumni and expand your professional network.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

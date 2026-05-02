@@ -7,7 +7,6 @@ import { Users, Search, Filter, Plus, Mail, Phone, MoreVertical, Building2 } fro
 export const metadata: Metadata = {
   title: 'Contacts | CRM | Admin | Elevate For Humanity',
   description: 'Manage contacts and leads in the CRM.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

@@ -7,7 +7,6 @@ import { BarChart3, TrendingUp, PieChart, Target } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Charts & Visualizations | Elevate For Humanity',
   description: 'Visual data charts and analytics dashboards.',
 };

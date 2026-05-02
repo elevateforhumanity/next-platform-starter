@@ -8,7 +8,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Students | Partner Portal | Elevate For Humanity',
   description: 'View and manage referred students.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

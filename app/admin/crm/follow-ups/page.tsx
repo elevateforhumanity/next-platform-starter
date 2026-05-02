@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Follow-ups | CRM Admin',
   description: 'Manage CRM follow-up tasks and reminders.',
-  robots: { index: false, follow: false },
 };
 
 export default async function CRMFollowUpsPage() {

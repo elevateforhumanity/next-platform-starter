@@ -8,7 +8,6 @@ import { DEMO_LEARNER_CERTS } from '@/lib/demo/sandbox-data';
 
 export const metadata: Metadata = {
   title: 'Certificates | Learner Demo | Elevate for Humanity',
-  robots: { index: false, follow: false },
 };
 
 export default function DemoCertificatesPage() {

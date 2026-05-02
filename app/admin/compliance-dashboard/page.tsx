@@ -9,7 +9,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Compliance Dashboard | Admin | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 const SEVERITY_COLORS: Record<string, string> = {

@@ -9,7 +9,6 @@ import { ADMIN_SCENES } from '@/lib/demo/scenes';
 export const metadata: Metadata = {
   title: 'Admin Portal Demo | Elevate for Humanity',
   description: 'Interactive walkthrough of the Elevate admin portal — enrollment, WIOA compliance, funding, and outcomes.',
-  robots: { index: false, follow: false },
 };
 
 export default function DemoAdminPage() {

@@ -22,7 +22,6 @@ import EnrollmentVoucherPanel from '@/components/admin/EnrollmentVoucherPanel';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Student Profile | Admin',
 };
 

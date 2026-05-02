@@ -19,7 +19,6 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Trending Topics | Social | LMS | Elevate For Humanity',
   description: 'Discover trending discussions and popular topics in the community.',
 };

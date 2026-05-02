@@ -6,7 +6,6 @@ import { FileText, Upload, ChevronRight, Download, ArrowRight } from 'lucide-rea
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Documents | Admin',
 };
 

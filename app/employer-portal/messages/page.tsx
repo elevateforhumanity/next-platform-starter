@@ -9,7 +9,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Messages | Employer Portal',
   description: 'Communicate with candidates and the Elevate team.',
-  robots: { index: false, follow: false },
 };
 
 export default async function EmployerMessagesPage() {

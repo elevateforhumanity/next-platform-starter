@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Program Holder Acknowledgements | Admin | Elevate For Humanity',
   description: 'Review handbook and rights acknowledgements submitted by program holders.',
-  robots: { index: false, follow: false },
 };
 
 interface Acknowledgement {

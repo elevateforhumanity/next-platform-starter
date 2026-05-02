@@ -10,7 +10,6 @@ import { createAffiliate } from '../actions';
 export const metadata: Metadata = {
   title: 'New Affiliate | Admin',
   description: 'Add a new affiliate partner.',
-  robots: { index: false, follow: false },
 };
 
 export default async function NewAffiliatePage() {

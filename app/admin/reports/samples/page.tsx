@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Sample Reports | Admin',
   description: 'Generate sample reports from live platform data.',
-  robots: { index: false, follow: false },
 };
 
 export default async function SampleReportsPage() {

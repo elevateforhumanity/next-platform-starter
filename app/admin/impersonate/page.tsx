@@ -7,7 +7,6 @@ import ImpersonateForm from './ImpersonateForm';
 
 export const metadata: Metadata = {
   title: 'User Impersonation | Admin | Elevate',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

@@ -17,7 +17,6 @@ import {
 export const metadata: Metadata = {
   title: 'Analytics | Employer Portal | Elevate For Humanity',
   description: 'View hiring analytics and performance metrics.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

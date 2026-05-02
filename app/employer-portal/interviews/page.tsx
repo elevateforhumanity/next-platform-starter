@@ -19,7 +19,6 @@ import {
 export const metadata: Metadata = {
   title: 'Interviews | Employer Portal | Elevate For Humanity',
   description: 'Schedule and manage candidate interviews.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

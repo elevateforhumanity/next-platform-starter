@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Participants | FSSA SNAP E&T | Admin',
-  robots: { index: false, follow: false },
 };
 
 const STATUS_STYLES: Record<string, string> = {

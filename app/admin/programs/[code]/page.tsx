@@ -15,7 +15,6 @@ export async function generateMetadata({
   const { code } = await params;
   return {
     title: `Program: ${code} | Admin | Elevate For Humanity`,
-    robots: { index: false, follow: false },
   };
 }
 

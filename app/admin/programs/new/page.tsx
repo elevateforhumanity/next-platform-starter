@@ -6,7 +6,6 @@ import { ProgramForm } from '../program-form';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Create Program | Admin',
   description: 'Create a new training program',
 };

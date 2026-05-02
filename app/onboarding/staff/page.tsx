@@ -22,7 +22,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Staff Onboarding | Elevate For Humanity',
   description: 'Complete your staff onboarding process.',
-  robots: { index: false, follow: false },
 };
 
 export default async function StaffOnboardingPage() {

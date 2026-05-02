@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   title: 'Employer Programs | Employer Portal',
   description:
     'Explore tax credit programs, apprenticeships, and workforce development opportunities.',
-  robots: { index: false, follow: false },
 };
 
 export default async function EmployerProgramsPage() {

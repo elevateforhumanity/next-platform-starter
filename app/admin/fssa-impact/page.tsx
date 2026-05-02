@@ -15,7 +15,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'FSSA SNAP E&T Dashboard | Admin | Elevate for Humanity',
   description: 'SNAP Employment & Training participant tracking, attendance, and budget management.',
-  robots: { index: false, follow: false },
 };
 
 // Current Indiana state fiscal year (July 1 – June 30)

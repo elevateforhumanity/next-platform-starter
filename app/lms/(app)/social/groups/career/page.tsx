@@ -9,7 +9,6 @@ import GroupDiscussions from '@/components/lms/GroupDiscussions';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Career Changers | Groups | LMS | Elevate For Humanity',
   description:
     'A supportive community for those transitioning to new careers. Share your journey, get advice, and connect with others making similar changes.',

@@ -9,7 +9,6 @@ import { IDVerificationForm } from '@/components/verification/IDVerificationForm
 
 export const metadata: Metadata = {
   title: 'Verify Your Identity | Student Onboarding',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

@@ -10,7 +10,6 @@ import { ApplicationsClient } from './ApplicationsClient';
 export const metadata: Metadata = {
   title: 'Applications | Employer Portal | Elevate For Humanity',
   description: 'Review and manage job applications from candidates.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

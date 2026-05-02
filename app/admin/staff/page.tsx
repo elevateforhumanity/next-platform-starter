@@ -9,7 +9,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Staff | Admin | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 const STAFF_ROLES = ['admin', 'super_admin', 'staff', 'instructor', 'org_admin'];

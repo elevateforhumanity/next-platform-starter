@@ -7,7 +7,6 @@ import { Shield, XCircle, Clock, Eye } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Review ID Verifications | Admin',
   description: 'Review and approve ID verifications',
 };

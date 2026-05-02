@@ -6,7 +6,6 @@ import { Users, Activity, TrendingUp, Clock, ChevronRight, ArrowRight } from 'lu
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Engagement Analytics | Admin',
 };
 

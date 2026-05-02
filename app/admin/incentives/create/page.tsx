@@ -10,7 +10,6 @@ import { createIncentive } from '../actions';
 export const metadata: Metadata = {
   title: 'Create Incentive | Admin',
   description: 'Create a new employer incentive or tax credit.',
-  robots: { index: false, follow: false },
 };
 
 export default async function CreateIncentivePage() {

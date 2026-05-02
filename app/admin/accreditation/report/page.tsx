@@ -19,7 +19,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Accreditation Report | Admin',
   description: 'Accreditation compliance report with live data.',
-  robots: { index: false, follow: false },
 };
 
 async function getAccreditationData(supabase: any) {

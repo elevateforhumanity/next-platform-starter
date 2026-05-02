@@ -8,7 +8,6 @@ import { FileText, XCircle, Clock, Eye } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Review Documents | Admin',
   description: 'Review and approve uploaded documents',
 };

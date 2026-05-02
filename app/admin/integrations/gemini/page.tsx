@@ -7,7 +7,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Gemini AI | Integrations | Admin',
-  robots: { index: false, follow: false },
 };
 
 export default async function GeminiIntegrationPage() {

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Users, GraduationCap, TrendingUp, DollarSign, FileText, HeartHandshake, Download, ChevronRight, ArrowRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { robots: { index: false, follow: false }, title: 'Reports | Admin' };
 
 const REPORTS = [
   { title: 'Student Roster',       desc: 'All enrolled students with contact info and program',    href: '/admin/reports/students',     icon: Users,          format: 'CSV / PDF' },

@@ -12,7 +12,6 @@ export const metadata: Metadata = {
   title: 'Billing | Elevate for Humanity',
   description: 'Manage your billing, payment methods, and invoices.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/billing' },
-  robots: { index: false, follow: false },
 };
 
 export default async function BillingPage() {

@@ -7,7 +7,6 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Waitlist | Admin | Elevate For Humanity',
   description: 'View and manage program waitlist entries',
 };

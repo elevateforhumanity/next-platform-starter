@@ -6,7 +6,6 @@ import { Building2, ChevronRight, ArrowRight, Plus, MapPin, Phone, Mail } from '
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Employers | Admin',
 };
 

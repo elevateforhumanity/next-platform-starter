@@ -8,7 +8,6 @@ import { BookOpen, Layers, ChevronRight, PlusCircle } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/admin/curriculum',
   },

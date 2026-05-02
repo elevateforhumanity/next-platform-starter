@@ -6,7 +6,6 @@ import { Award, Calendar, ChevronRight, ExternalLink } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Certificates | Admin',
 };
 

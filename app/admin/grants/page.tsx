@@ -6,7 +6,6 @@ import { Briefcase, CheckCircle, Clock, Plus, ChevronRight, ArrowRight } from 'l
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Grants | Admin',
 };
 

@@ -9,7 +9,6 @@ import { ArrowLeft, User, BookOpen, DollarSign, Calendar } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: 'Enrollment Detail | Admin | Elevate For Humanity', robots: { index: false, follow: false } };
 }
 
 function Field({ label, value }: { label: string; value: string | null | undefined }) {

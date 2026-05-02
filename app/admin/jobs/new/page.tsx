@@ -10,7 +10,6 @@ import { createJob } from '../actions';
 export const metadata: Metadata = {
   title: 'Post New Job | Admin',
   description: 'Create a new job listing.',
-  robots: { index: false, follow: false },
 };
 
 export default async function AdminNewJobPage() {

@@ -7,7 +7,6 @@ import { DollarSign, TrendingUp, Users, Award, Plus } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Incentives | Admin | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 const STATUS_STYLES: Record<string, string> = {

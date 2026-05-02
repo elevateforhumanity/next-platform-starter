@@ -7,7 +7,6 @@ import { Calendar, Plus, Clock, User, CheckCircle, XCircle } from 'lucide-react'
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Appointments | CRM | Admin | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 const STATUS_STYLES: Record<string, string> = {

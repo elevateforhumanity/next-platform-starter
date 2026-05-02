@@ -14,7 +14,6 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   return {
     title: 'Participant Case File | FSSA SNAP E&T | Admin',
-    robots: { index: false, follow: false },
   };
 }
 

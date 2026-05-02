@@ -14,7 +14,6 @@ export async function generateMetadata({
   const title = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   return {
     title: `${title} Program | Partner Portal`,
-    robots: { index: false, follow: false },
   };
 }
 

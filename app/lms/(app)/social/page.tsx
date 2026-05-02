@@ -23,7 +23,6 @@ import Image from 'next/image';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Social Feed | LMS | Elevate For Humanity',
   description: 'Connect with fellow learners, share achievements, and engage with the community.',
 };

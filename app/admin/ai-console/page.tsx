@@ -7,7 +7,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'AI Console | Elevate For Humanity',
-  robots: { index: false, follow: false },
 };
 
 export default async function AiConsolePage() {

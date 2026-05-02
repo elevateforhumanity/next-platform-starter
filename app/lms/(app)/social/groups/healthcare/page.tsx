@@ -10,7 +10,6 @@ import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Healthcare Professionals | Groups | LMS | Elevate For Humanity',
   description:
     'Connect with nurses, CNAs, medical assistants, and healthcare workers. Share clinical tips, certification advice, and career support.',

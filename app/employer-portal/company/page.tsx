@@ -22,7 +22,6 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Company Profile | Employer Portal',
   description: 'View and manage your company profile.',
-  robots: { index: false, follow: false },
 };
 
 export default async function CompanyProfilePage() {

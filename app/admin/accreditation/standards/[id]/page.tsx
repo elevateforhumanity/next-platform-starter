@@ -9,7 +9,6 @@ import { ArrowLeft, CheckCircle, XCircle } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: 'Accreditation Standard | Admin | Elevate For Humanity', robots: { index: false, follow: false } };
 }
 
 function Field({ label, value }: { label: string; value: string | null | undefined }) {

@@ -10,7 +10,6 @@ import { createTaxApplication } from '../actions';
 export const metadata: Metadata = {
   title: 'New Tax Filing Application | Admin',
   description: 'Create a new tax filing assistance application.',
-  robots: { index: false, follow: false },
 };
 
 export default async function NewTaxFilingApplicationPage() {

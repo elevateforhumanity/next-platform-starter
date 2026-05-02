@@ -6,7 +6,6 @@ import { BookOpen, Users, CheckCircle, TrendingUp, ChevronRight, ArrowRight } fr
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Learning Analytics | Admin',
 };
 

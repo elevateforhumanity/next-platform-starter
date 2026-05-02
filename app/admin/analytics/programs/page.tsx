@@ -6,7 +6,6 @@ import { BookOpen, Users, Award, TrendingUp, ChevronRight, ArrowRight } from 'lu
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
   title: 'Program Analytics | Admin',
 };
 

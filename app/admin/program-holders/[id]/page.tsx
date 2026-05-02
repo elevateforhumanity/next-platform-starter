@@ -21,7 +21,6 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Review Program Holder | Admin',
-  robots: { index: false, follow: false },
 };
 
 interface Props {

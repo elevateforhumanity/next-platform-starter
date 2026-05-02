@@ -7,7 +7,6 @@ import { ChevronRight } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'Messages | Elevate for Humanity',
   description: 'View your messages.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';

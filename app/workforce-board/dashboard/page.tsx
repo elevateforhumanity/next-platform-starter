@@ -24,7 +24,6 @@ export const metadata: Metadata = {
   title: 'Workforce Board Dashboard | Elevate For Humanity',
   description:
     'Program oversight, performance metrics, and compliance monitoring for workforce development.',
-  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';
