@@ -35,7 +35,7 @@ async function _GET(req: NextRequest) {
   if (cached) {
     return NextResponse.json(
       { programs: cached, cached: true },
-      { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } },
+      { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' } },
     );
   }
 
@@ -56,7 +56,7 @@ async function _GET(req: NextRequest) {
 
   return NextResponse.json(
     { programs: data, cached: false },
-    { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } },
+    { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' } },
   );
 }
 export const GET = withApiAudit('/api/programs/featured', _GET);

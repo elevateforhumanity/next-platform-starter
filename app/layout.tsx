@@ -177,8 +177,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* LCP preload is set per-page in each page's metadata/head, not globally */}
         {!isProduction && (
           <>
-            <meta httpEquiv="Cache-Control" content="no-cache" />
-            <meta httpEquiv="Pragma" content="no-cache" />
           </>
         )}
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

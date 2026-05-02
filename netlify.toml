@@ -707,6 +707,7 @@
 [[headers]]
   for = "/api/*"
   [headers.values]
+    Cache-Control = "no-store"
     X-Robots-Tag = "noindex, nofollow"
 
 [[headers]]

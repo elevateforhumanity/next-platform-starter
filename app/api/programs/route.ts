@@ -54,7 +54,7 @@ async function _GET(request: Request) {
         count: programs?.length || 0,
         programs: programs || [],
       },
-      { headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' } },
+      { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } },
     );
   } catch (error) {
     logger.error('Error in programs API:', error);
