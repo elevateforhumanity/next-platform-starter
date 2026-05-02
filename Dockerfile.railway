@@ -64,15 +64,8 @@ ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
 ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 
-# Quarantine marketing-only app/ dirs before Next.js route discovery.
-# SERVICE_ROLE controls which routes survive — cuts ~1,500 pages to ~200-300.
-RUN node scripts/railway-quarantine-marketing-routes.mjs
-
-# Swap in the Railway-specific Next.js config before building.
-RUN cp next.config.mjs next.config.mjs.netlify \
- && cp next.config.railway.mjs next.config.mjs \
- && pnpm next build \
- && mv next.config.mjs.netlify next.config.mjs
+# Build full app — no route quarantine on AWS (all routes served from one host)
+RUN pnpm next build
 
 # ── Stage 3: runner ───────────────────────────────────────────────────────────
 FROM node:20-bookworm-slim AS runner

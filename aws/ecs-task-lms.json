@@ -509,6 +509,14 @@
         {
           "name": "SENTRY_PROJECT",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_PROJECT"
+        },
+        {
+          "name": "SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_URL"
+        },
+        {
+          "name": "SUPABASE_SERVICE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_KEY"
         }
       ],
       "logConfiguration": {
