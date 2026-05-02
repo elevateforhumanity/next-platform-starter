@@ -99,8 +99,9 @@ const nextConfig = {
   // Railway needs standalone for the persistent Node server.
   // Netlify MUST NOT use standalone — Next.js ENOENT on route-group
   // client-reference-manifest files (lms/(public)/page_client-reference-manifest.js).
-  // NETLIFY=true is explicitly set in netlify.toml — use it as the sole guard.
-  ...(process.env.NETLIFY === 'true' ? {} : { output: 'standalone' }),
+  // Guard: NETLIFY=true (set in netlify.toml [build.environment]) OR
+  // NETLIFY_BUILD_BASE (injected by Netlify CI before config evaluation).
+  ...((process.env.NETLIFY === 'true' || process.env.NETLIFY_BUILD_BASE) ? {} : { output: 'standalone' }),
   // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
   // Netlify/webpack build: transpilePackages compiles it so webpack can parse it.
   // Railway build uses next.config.railway.mjs where edge-tts is in

@@ -44,6 +44,7 @@ const IGNORE_PREFIXES = [
   // Links to these paths from public pages are valid; they resolve via netlify.toml proxy rules.
   '/partner/',
   '/lms/',
+  '/admin',
   '/admin/',
   '/learner/',
   '/instructor/',
