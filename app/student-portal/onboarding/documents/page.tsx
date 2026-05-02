@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { normalizeSsn, formatSsn, isValidSsn } from '@/lib/ssn';
 import { updateOnboardingProgress } from '@/lib/compliance/enforcement';
-import {
 import { logger } from '@/lib/logger';
+import {
   Upload,
   FileText,
   Check,

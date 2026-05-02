@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import {
 import { logger } from '@/lib/logger';
+import {
   Users,
   Palette,
   BookOpen,

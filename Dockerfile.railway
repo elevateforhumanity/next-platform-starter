@@ -66,8 +66,8 @@ ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 
 # Build full app — no route quarantine on AWS (all routes served from one host)
 # Use next build directly to skip Netlify-specific pre-build scripts
-RUN NODE_OPTIONS='--max-old-space-size=6144' node scripts/stamp-sw.mjs && \
-    NODE_OPTIONS='--max-old-space-size=6144' npx next build
+RUN NODE_OPTIONS='--max-old-space-size=7168' node scripts/stamp-sw.mjs && \
+    NODE_OPTIONS='--max-old-space-size=7168' npx next build
 
 # ── Stage 3: runner ───────────────────────────────────────────────────────────
 FROM node:20-bookworm-slim AS runner

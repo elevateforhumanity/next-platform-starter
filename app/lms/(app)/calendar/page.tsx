@@ -5,8 +5,8 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { CalendarWidget } from '@/components/CalendarWidget';
 import { CalendarIntegration } from '@/components/CalendarIntegration';
-import {
 import { logger } from '@/lib/logger';
+import {
   Calendar as CalendarIcon,
   Clock,
   MapPin,
