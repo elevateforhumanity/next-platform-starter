@@ -17,7 +17,7 @@ export const GET = protectTestEndpoint(async () => {
 
     // Try to create admin client
     let clientCreated = false;
-    let clientError = null;
+    const clientError = null;
     try {
       const db = await requireAdminClient();
       clientCreated = true;

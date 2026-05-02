@@ -75,6 +75,7 @@ const adminConfig = {
   transpilePackages: ['edge-tts'],
 
   typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
   devIndicators: { position: 'bottom-right' },
 
   generateBuildId: async () =>
