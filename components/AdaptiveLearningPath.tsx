@@ -28,6 +28,78 @@ interface LearningPath {
   matchScore: number;
 }
 
+
+const defaultPaths: LearningPath[] = [
+  {
+    id: '1',
+    name: 'Full-Stack Developer',
+    description: 'Personalized path based on your JavaScript proficiency and career goals',
+    totalDuration: '6 months',
+    matchScore: 95,
+    courses: [
+      {
+        id: 'c1',
+        title: 'Advanced JavaScript',
+        difficulty: 'intermediate',
+        duration: '4 weeks',
+        recommended: true,
+        matchScore: 98,
+        prerequisites: ['JavaScript Basics'],
+        skills: ['ES6+', 'Async/Await', 'Closures'],
+      },
+      {
+        id: 'c2',
+        title: 'React Fundamentals',
+        difficulty: 'intermediate',
+        duration: '6 weeks',
+        recommended: true,
+        matchScore: 92,
+        prerequisites: ['Advanced JavaScript'],
+        skills: ['Components', 'Hooks', 'State Management'],
+      },
+      {
+        id: 'c3',
+        title: 'Node.js Backend',
+        difficulty: 'intermediate',
+        duration: '8 weeks',
+        recommended: true,
+        matchScore: 88,
+        prerequisites: ['Advanced JavaScript'],
+        skills: ['Express', 'REST APIs', 'Authentication'],
+      },
+    ],
+  },
+  {
+    id: '2',
+    name: 'Frontend Specialist',
+    description: 'Optimized for your visual design interests and UI/UX background',
+    totalDuration: '4 months',
+    matchScore: 87,
+    courses: [
+      {
+        id: 'c4',
+        title: 'Advanced CSS & Animations',
+        difficulty: 'intermediate',
+        duration: '3 weeks',
+        recommended: true,
+        matchScore: 94,
+        prerequisites: ['CSS Basics'],
+        skills: ['Flexbox', 'Grid', 'Animations'],
+      },
+      {
+        id: 'c5',
+        title: 'React & TypeScript',
+        difficulty: 'advanced',
+        duration: '8 weeks',
+        recommended: false,
+        matchScore: 82,
+        prerequisites: ['React Fundamentals', 'TypeScript Basics'],
+        skills: ['Type Safety', 'Advanced Patterns'],
+      },
+    ],
+  },
+];
+
 export function AdaptiveLearningPath() {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [learningPaths, setLearningPaths] = useState<LearningPath[]>([]);
@@ -111,76 +183,6 @@ export function AdaptiveLearningPath() {
     setSelectedPath(pathId);
   };
 
-  const defaultPaths: LearningPath[] = [
-    {
-      id: '1',
-      name: 'Full-Stack Developer',
-      description: 'Personalized path based on your JavaScript proficiency and career goals',
-      totalDuration: '6 months',
-      matchScore: 95,
-      courses: [
-        {
-          id: 'c1',
-          title: 'Advanced JavaScript',
-          difficulty: 'intermediate',
-          duration: '4 weeks',
-          recommended: true,
-          matchScore: 98,
-          prerequisites: ['JavaScript Basics'],
-          skills: ['ES6+', 'Async/Await', 'Closures'],
-        },
-        {
-          id: 'c2',
-          title: 'React Fundamentals',
-          difficulty: 'intermediate',
-          duration: '6 weeks',
-          recommended: true,
-          matchScore: 92,
-          prerequisites: ['Advanced JavaScript'],
-          skills: ['Components', 'Hooks', 'State Management'],
-        },
-        {
-          id: 'c3',
-          title: 'Node.js Backend',
-          difficulty: 'intermediate',
-          duration: '8 weeks',
-          recommended: true,
-          matchScore: 88,
-          prerequisites: ['Advanced JavaScript'],
-          skills: ['Express', 'REST APIs', 'Authentication'],
-        },
-      ],
-    },
-    {
-      id: '2',
-      name: 'Frontend Specialist',
-      description: 'Optimized for your visual design interests and UI/UX background',
-      totalDuration: '4 months',
-      matchScore: 87,
-      courses: [
-        {
-          id: 'c4',
-          title: 'Advanced CSS & Animations',
-          difficulty: 'intermediate',
-          duration: '3 weeks',
-          recommended: true,
-          matchScore: 94,
-          prerequisites: ['CSS Basics'],
-          skills: ['Flexbox', 'Grid', 'Animations'],
-        },
-        {
-          id: 'c5',
-          title: 'React & TypeScript',
-          difficulty: 'advanced',
-          duration: '8 weeks',
-          recommended: false,
-          matchScore: 82,
-          prerequisites: ['React Fundamentals', 'TypeScript Basics'],
-          skills: ['Type Safety', 'Advanced Patterns'],
-        },
-      ],
-    },
-  ];
 
   const selectedPathData = learningPaths.find((p) => p.id === selectedPath);
 
