@@ -43,6 +43,7 @@ const IGNORE_PREFIXES = [
   // Railway-proxied namespaces — Netlify forwards these at the edge.
   // Links to these paths from public pages are valid; they resolve via netlify.toml proxy rules.
   '/partner/',
+  '/lms',
   '/lms/',
   '/admin',
   '/admin/',
@@ -53,6 +54,8 @@ const IGNORE_PREFIXES = [
   '/program-holder/',
   '/staff-portal/',
   '/supersonic/',
+  '/checkout',
+  '/checkout/',
 ];
 
 const IGNORE_FILE_EXTENSIONS = [
@@ -157,6 +160,36 @@ const SKIP_PATH_PATTERNS = [
   /\/lib\/admin\//,
   /\/lib\/lms\//,
   /\/lib\/tax\//,
+  /\/app\/apprentice\//,
+  /\/app\/case-manager\//,
+  /\/app\/proctor\//,
+  /\/app\/reports\//,
+  /\/app\/approvals\//,
+  /\/app\/account\//,
+  /\/app\/profile\//,
+  /\/app\/settings\//,
+  /\/app\/billing\//,
+  /\/app\/checkout\//,
+  /\/app\/messages\//,
+  /\/app\/notifications\//,
+  /\/app\/certificates\//,
+  /\/app\/credentials\//,
+  /\/app\/transcript\//,
+  /\/app\/advising\//,
+  /\/app\/documents\//,
+  /\/app\/schedule\//,
+  /\/app\/videos\//,
+  /\/app\/video\//,
+  /\/app\/ai\//,
+  /\/app\/ai-chat\//,
+  /\/app\/ai-tutor\//,
+  /\/app\/my-dashboard\//,
+  /\/app\/dashboard\//,
+  /\/app\/onboarding\//,
+  /\/app\/demo\//,
+  /\/app\/demos\//,
+  /\/app\/staff-portal\//,
+  /\/app\/case-manager\//,
 ];
 
 function readManifestRoutes() {
