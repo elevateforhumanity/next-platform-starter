@@ -465,6 +465,18 @@
         {
           "name": "TWILIO_SID",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_SID"
+        },
+        {
+          "name": "SLACK_WEBHOOK_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_WEBHOOK_URL"
+        },
+        {
+          "name": "SLACK_ALERT_WEBHOOK",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_ALERT_WEBHOOK"
+        },
+        {
+          "name": "SLACK_SECURITY_WEBHOOK",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_SECURITY_WEBHOOK"
         }
       ],
       "logConfiguration": {
