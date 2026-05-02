@@ -457,6 +457,14 @@
         {
           "name": "NEXT_PUBLIC_VAPID_PUBLIC_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_VAPID_PUBLIC_KEY"
+        },
+        {
+          "name": "TWILIO_PHONE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_PHONE"
+        },
+        {
+          "name": "TWILIO_SID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_SID"
         }
       ],
       "logConfiguration": {
