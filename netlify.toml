@@ -1075,18 +1075,6 @@
 # served by Railway. Generated from scripts/netlify-quarantine-railway-routes.mjs.
 
 [[redirects]]
-  from = "/account"
-  to = "https://app.elevateforhumanity.org/account"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/account/*"
-  to = "https://app.elevateforhumanity.org/account/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/accept-invite"
   to = "https://app.elevateforhumanity.org/accept-invite"
   status = 301
@@ -1171,18 +1159,6 @@
   force = true
 
 [[redirects]]
-  from = "/approvals"
-  to = "https://app.elevateforhumanity.org/approvals"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/approvals/*"
-  to = "https://app.elevateforhumanity.org/approvals/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/apps"
   to = "https://app.elevateforhumanity.org/apps"
   status = 301
@@ -1203,18 +1179,6 @@
 [[redirects]]
   from = "/auth/*"
   to = "https://app.elevateforhumanity.org/auth/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/billing"
-  to = "https://app.elevateforhumanity.org/billing"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/billing/*"
-  to = "https://app.elevateforhumanity.org/billing/:splat"
   status = 301
   force = true
 
@@ -1267,18 +1231,6 @@
   force = true
 
 [[redirects]]
-  from = "/compliance"
-  to = "https://app.elevateforhumanity.org/compliance"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/compliance/*"
-  to = "https://app.elevateforhumanity.org/compliance/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/creator"
   to = "https://app.elevateforhumanity.org/creator"
   status = 301
@@ -1287,42 +1239,6 @@
 [[redirects]]
   from = "/creator/*"
   to = "https://app.elevateforhumanity.org/creator/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/credentials"
-  to = "https://app.elevateforhumanity.org/credentials"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/credentials/*"
-  to = "https://app.elevateforhumanity.org/credentials/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/dashboard"
-  to = "https://app.elevateforhumanity.org/dashboard"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/dashboard/*"
-  to = "https://app.elevateforhumanity.org/dashboard/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/dashboards"
-  to = "https://app.elevateforhumanity.org/dashboards"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/dashboards/*"
-  to = "https://app.elevateforhumanity.org/dashboards/:splat"
   status = 301
   force = true
 
@@ -1351,18 +1267,6 @@
   force = true
 
 [[redirects]]
-  from = "/enroll"
-  to = "https://app.elevateforhumanity.org/enroll"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/enroll/*"
-  to = "https://app.elevateforhumanity.org/enroll/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/enrollment"
   to = "https://app.elevateforhumanity.org/enrollment"
   status = 301
@@ -1383,18 +1287,6 @@
 [[redirects]]
   from = "/file-manager/*"
   to = "https://app.elevateforhumanity.org/file-manager/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/forgot-password"
-  to = "https://app.elevateforhumanity.org/forgot-password"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/forgot-password/*"
-  to = "https://app.elevateforhumanity.org/forgot-password/:splat"
   status = 301
   force = true
 
@@ -1423,18 +1315,6 @@
   force = true
 
 [[redirects]]
-  from = "/impact"
-  to = "https://app.elevateforhumanity.org/impact"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/impact/*"
-  to = "https://app.elevateforhumanity.org/impact/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/instructor-credentials"
   to = "https://app.elevateforhumanity.org/instructor-credentials"
   status = 301
@@ -1459,18 +1339,6 @@
   force = true
 
 [[redirects]]
-  from = "/mentor"
-  to = "https://app.elevateforhumanity.org/mentor"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/mentor/*"
-  to = "https://app.elevateforhumanity.org/mentor/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/messages"
   to = "https://app.elevateforhumanity.org/messages"
   status = 301
@@ -1483,18 +1351,6 @@
   force = true
 
 [[redirects]]
-  from = "/my-dashboard"
-  to = "https://app.elevateforhumanity.org/my-dashboard"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/my-dashboard/*"
-  to = "https://app.elevateforhumanity.org/my-dashboard/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/notifications"
   to = "https://app.elevateforhumanity.org/notifications"
   status = 301
@@ -1503,30 +1359,6 @@
 [[redirects]]
   from = "/notifications/*"
   to = "https://app.elevateforhumanity.org/notifications/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/onboarding"
-  to = "https://app.elevateforhumanity.org/onboarding"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/onboarding/*"
-  to = "https://app.elevateforhumanity.org/onboarding/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/orientation"
-  to = "https://app.elevateforhumanity.org/orientation"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/orientation/*"
-  to = "https://app.elevateforhumanity.org/orientation/:splat"
   status = 301
   force = true
 
@@ -1551,18 +1383,6 @@
 [[redirects]]
   from = "/partner-learning/*"
   to = "https://app.elevateforhumanity.org/partner-learning/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/pay"
-  to = "https://app.elevateforhumanity.org/pay"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/pay/*"
-  to = "https://app.elevateforhumanity.org/pay/:splat"
   status = 301
   force = true
 
@@ -1603,30 +1423,6 @@
   force = true
 
 [[redirects]]
-  from = "/program-holder"
-  to = "https://app.elevateforhumanity.org/program-holder"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/program-holder/*"
-  to = "https://app.elevateforhumanity.org/program-holder/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/provider"
-  to = "https://app.elevateforhumanity.org/provider"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/provider/*"
-  to = "https://app.elevateforhumanity.org/provider/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/reports"
   to = "https://app.elevateforhumanity.org/reports"
   status = 301
@@ -1635,30 +1431,6 @@
 [[redirects]]
   from = "/reports/*"
   to = "https://app.elevateforhumanity.org/reports/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/reset-password"
-  to = "https://app.elevateforhumanity.org/reset-password"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/reset-password/*"
-  to = "https://app.elevateforhumanity.org/reset-password/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/schedule"
-  to = "https://app.elevateforhumanity.org/schedule"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/schedule/*"
-  to = "https://app.elevateforhumanity.org/schedule/:splat"
   status = 301
   force = true
 
@@ -1719,18 +1491,6 @@
 [[redirects]]
   from = "/verify-identity/*"
   to = "https://app.elevateforhumanity.org/verify-identity/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/video"
-  to = "https://app.elevateforhumanity.org/video"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/video/*"
-  to = "https://app.elevateforhumanity.org/video/:splat"
   status = 301
   force = true
 
