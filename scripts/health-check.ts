@@ -1,3 +1,4 @@
+import axios from 'axios';
 /**
  * Automated Health Check Script
  * Monitors Open LMS and all services
@@ -5,7 +6,6 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
-import axios from 'axios';
 
 interface HealthStatus {
   service: string;
