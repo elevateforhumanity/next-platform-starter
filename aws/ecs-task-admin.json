@@ -1,7 +1,9 @@
 {
   "family": "elevate-admin",
   "networkMode": "awsvpc",
-  "requiresCompatibilities": ["FARGATE"],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
   "cpu": "4096",
   "memory": "16384",
   "executionRoleArn": "arn:aws:iam::954718262498:role/ecsTaskExecutionRole",
@@ -18,27 +20,104 @@
         }
       ],
       "environment": [
-        { "name": "NODE_ENV", "value": "production" },
-        { "name": "HOSTNAME", "value": "0.0.0.0" },
-        { "name": "PORT", "value": "3000" },
-        { "name": "SERVICE_ROLE", "value": "admin" },
-        { "name": "NEXT_TELEMETRY_DISABLED", "value": "1" },
-        { "name": "PUPPETEER_EXECUTABLE_PATH", "value": "/usr/bin/chromium" },
-        { "name": "CHROMIUM_PATH", "value": "/usr/bin/chromium" }
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "name": "HOSTNAME",
+          "value": "0.0.0.0"
+        },
+        {
+          "name": "PORT",
+          "value": "3000"
+        },
+        {
+          "name": "SERVICE_ROLE",
+          "value": "admin"
+        },
+        {
+          "name": "NEXT_TELEMETRY_DISABLED",
+          "value": "1"
+        },
+        {
+          "name": "PUPPETEER_EXECUTABLE_PATH",
+          "value": "/usr/bin/chromium"
+        },
+        {
+          "name": "CHROMIUM_PATH",
+          "value": "/usr/bin/chromium"
+        }
       ],
       "secrets": [
-        { "name": "NEXT_PUBLIC_SUPABASE_URL",       "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_URL" },
-        { "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",  "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY" },
-        { "name": "SUPABASE_SERVICE_ROLE_KEY",      "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_ROLE_KEY" },
-        { "name": "NEXT_PUBLIC_SITE_URL",           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SITE_URL" },
-        { "name": "STRIPE_SECRET_KEY",              "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_SECRET_KEY" },
-        { "name": "STRIPE_WEBHOOK_SECRET",          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_WEBHOOK_SECRET" },
-        { "name": "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY", "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY" },
-        { "name": "OPENAI_API_KEY",                 "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/OPENAI_API_KEY" },
-        { "name": "SENDGRID_API_KEY",               "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_API_KEY" },
-        { "name": "CRON_SECRET",                    "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CRON_SECRET" },
-        { "name": "UPSTASH_REDIS_REST_URL",         "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_URL" },
-        { "name": "UPSTASH_REDIS_REST_TOKEN",       "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_TOKEN" }
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY"
+        },
+        {
+          "name": "SUPABASE_SERVICE_ROLE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_ROLE_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_SITE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SITE_URL"
+        },
+        {
+          "name": "STRIPE_SECRET_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_SECRET_KEY"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_WEBHOOK_SECRET"
+        },
+        {
+          "name": "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"
+        },
+        {
+          "name": "OPENAI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/OPENAI_API_KEY"
+        },
+        {
+          "name": "SENDGRID_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_API_KEY"
+        },
+        {
+          "name": "CRON_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CRON_SECRET"
+        },
+        {
+          "name": "UPSTASH_REDIS_REST_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_URL"
+        },
+        {
+          "name": "UPSTASH_REDIS_REST_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_TOKEN"
+        },
+        {
+          "name": "DID_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/DID_API_KEY"
+        },
+        {
+          "name": "TWILIO_ACCOUNT_SID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_ACCOUNT_SID"
+        },
+        {
+          "name": "TWILIO_AUTH_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_AUTH_TOKEN"
+        },
+        {
+          "name": "TWILIO_PHONE_NUMBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_PHONE_NUMBER"
+        },
+        {
+          "name": "NEXTAUTH_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXTAUTH_SECRET"
+        }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
@@ -49,7 +128,10 @@
         }
       },
       "healthCheck": {
-        "command": ["CMD-SHELL", "curl -f http://localhost:3000/api/health || exit 1"],
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:3000/api/health || exit 1"
+        ],
         "interval": 30,
         "timeout": 10,
         "retries": 3,
