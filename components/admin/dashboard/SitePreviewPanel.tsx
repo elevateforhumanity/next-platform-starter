@@ -6,8 +6,8 @@ import Link from 'next/link';
 
 const SITES = [
   { label: 'Public Site', url: 'https://www.elevateforhumanity.org' },
-  { label: 'Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://elevate-admin-production.up.railway.app' },
-  { label: 'LMS', url: process.env.NEXT_PUBLIC_LMS_URL ?? 'https://elevate-lms-production-3098.up.railway.app' },
+  { label: 'Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://app.elevateforhumanity.org' },
+  { label: 'LMS', url: process.env.NEXT_PUBLIC_LMS_URL ?? 'https://app.elevateforhumanity.org' },
 ];
 
 type ViewMode = 'desktop' | 'mobile';
