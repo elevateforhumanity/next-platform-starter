@@ -19,7 +19,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 interface PaymentMethod {
   id: string;

@@ -10,7 +10,6 @@ import { EnrollmentStatusTracker } from '@/components/enrollment/EnrollmentStatu
 import { FundingPathwayBadge } from '@/components/enrollment/FundingPathwayBadge';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 interface Application {
   id: string;

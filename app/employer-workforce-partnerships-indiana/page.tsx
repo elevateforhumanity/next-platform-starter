@@ -3,7 +3,6 @@ import { FAQStructuredData, BreadcrumbStructuredData, ServiceStructuredData } fr
 import SeoAuthorityHubPage from '@/components/seo/SeoAuthorityHubPage';
 
 export const dynamic = 'force-static';
-export const revalidate = false;
 
 const CANONICAL = 'https://www.elevateforhumanity.org/employer-workforce-partnerships-indiana';
 

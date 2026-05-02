@@ -10,7 +10,6 @@ import { StudentSuccessCoaching } from '@/components/StudentSuccessCoaching';
 import WorkOneLocator from '@/components/WorkOneLocator';
 
 export const dynamic = 'force-static';
-export const revalidate = 3600;
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-services' },

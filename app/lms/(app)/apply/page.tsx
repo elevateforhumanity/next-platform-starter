@@ -7,7 +7,6 @@ import { createClient } from '@/lib/supabase/client';
 import { FileText, AlertCircle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 interface UserProfile {
   id: string;

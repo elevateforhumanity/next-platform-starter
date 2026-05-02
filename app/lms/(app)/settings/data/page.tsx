@@ -18,7 +18,6 @@ import {
 import { createClient } from '@/lib/supabase/client';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 export default function DataSettingsPage() {
   const router = useRouter();

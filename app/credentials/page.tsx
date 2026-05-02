@@ -14,7 +14,6 @@ import {
 import HeroVideo from '@/components/marketing/HeroVideo';
 
 export const dynamic = 'force-static';
-export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Credentials & Compliance | Elevate Workforce OS',

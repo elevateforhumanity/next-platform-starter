@@ -19,7 +19,6 @@ import {
 import { AdminGreeting } from '@/components/admin/AdminGreeting';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 function fmtUsd(cents: number) {
   return new Intl.NumberFormat('en-US', {

@@ -21,7 +21,6 @@ import { createClient } from '@/lib/supabase/client';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 interface ProfileData {
   full_name: string;

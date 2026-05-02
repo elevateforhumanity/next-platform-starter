@@ -8,7 +8,6 @@ import { Plus, MessageSquare, ThumbsUp, Clock, User } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 interface Thread {
   id: string;

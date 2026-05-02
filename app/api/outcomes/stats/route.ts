@@ -5,7 +5,6 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 async function _GET(request: Request) {
   try {

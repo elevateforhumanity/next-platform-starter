@@ -7,7 +7,6 @@ import { BuiltCoursesPanel } from './BuiltCoursesPanel';
 import DashboardLoading from './loading';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },

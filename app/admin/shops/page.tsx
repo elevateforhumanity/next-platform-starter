@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 
-export const revalidate = 0;
 
 import { Building2, Clock, XCircle, FileText, Users, CheckCircle } from 'lucide-react';
 

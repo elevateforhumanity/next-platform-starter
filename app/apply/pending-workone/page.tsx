@@ -23,7 +23,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 3600;
 export const dynamic = 'force-dynamic';
 
 const WORKONE_STEPS = [

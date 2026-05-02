@@ -1,6 +1,5 @@
 // Force static generation for performance
 
-export const revalidate = 86400;
 
 import { Metadata } from 'next';
 import { CredentialsOutcomes } from '@/components/programs/CredentialsOutcomes';

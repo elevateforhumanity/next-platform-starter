@@ -45,6 +45,6 @@ export function getCsvHeaders(filename: string): Record<string, string> {
   return {
     'Content-Type': 'text/csv',
     'Content-Disposition': `attachment; filename="${filename}"`,
-    'Cache-Control': 'no-cache',
+    'Cache-Control': 'no-store',
   };
 }

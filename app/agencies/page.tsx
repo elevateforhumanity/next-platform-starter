@@ -6,7 +6,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Phone, Building2, Users, DollarSign, TrendingUp, ArrowRight } from 'lucide-react';
 
 export const dynamic = 'force-static';
-export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'For Workforce Agencies | Elevate Workforce OS',

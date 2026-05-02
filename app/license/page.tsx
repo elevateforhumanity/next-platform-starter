@@ -18,7 +18,6 @@ import {
 import { LICENSE_TIERS, INTEGRATIONS, ROUTES, DISCLAIMERS, getStartingPrice } from '@/lib/pricing';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: 'License the Elevate LMS + Workforce Hub | Elevate for Humanity',

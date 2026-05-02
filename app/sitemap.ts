@@ -7,7 +7,6 @@ import path from 'path';
 // would return nothing and produce an empty sitemap. Generating statically
 // at build time captures the full page list and serves it from CDN.
 export const dynamic = 'force-static';
-export const revalidate = false;
 
 const ELEVATE_URL = 'https://www.elevateforhumanity.org';
 

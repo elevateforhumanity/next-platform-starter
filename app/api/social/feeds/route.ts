@@ -17,7 +17,6 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
  */
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 300; // Cache for 5 minutes
 
 interface SocialPost {
   id: string;
