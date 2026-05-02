@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     .from('profiles')
     .select('role')
     .eq('id', user.id)
-    .single();
+    .maybeSingle();
 
   const allowed = ['admin', 'super_admin', 'staff', 'workforce_board'];
   if (!profile || !allowed.includes(profile.role)) return safeError('Forbidden', 403);

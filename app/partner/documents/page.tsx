@@ -13,6 +13,7 @@ import {
   Building2,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { logger } from '@/lib/logger';
 
 interface DocumentRequirement {
   id: string;
@@ -51,7 +52,7 @@ export default function PartnerDocumentsPage() {
       setDocuments(data.documents || []);
       setAllComplete(data.allComplete || false);
     } catch (err) {
-      console.error('Failed to fetch documents:', err);
+      logger.error('Failed to fetch documents:', err);
     } finally {
       setLoading(false);
     }

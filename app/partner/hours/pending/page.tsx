@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Clock, XCircle, ArrowLeft, User, Calendar, Building, AlertCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { logger } from '@/lib/logger';
 
 interface PendingHour {
   id: string;
@@ -53,7 +54,7 @@ export default function PartnerHoursPendingPage() {
         setPendingHours([]);
       }
     } catch (err: any) {
-      console.error('Error fetching pending hours:', err);
+      logger.error('Error fetching pending hours:', err);
       setError('Failed to load pending hours');
     } finally {
       setLoading(false);

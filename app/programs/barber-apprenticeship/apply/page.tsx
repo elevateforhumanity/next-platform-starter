@@ -7,6 +7,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CreditCard, Calculator, Info } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
+import { logger } from '@/lib/logger';
 
 // Pricing constants - matches lib/programs/pricing.ts
 const PRICING = {
@@ -231,7 +232,7 @@ function BarberApprenticeshipApplyPageInner() {
             throw new Error('Affirm SDK not available after loading');
           }
         } catch (sdkError) {
-          console.error('Affirm SDK error:', sdkError);
+          logger.error('Affirm SDK error:', sdkError);
           setError(
             'Affirm checkout could not load. Please select Card, Payment Plan, or another option above.',
           );
@@ -318,7 +319,7 @@ function BarberApprenticeshipApplyPageInner() {
         // Redirect to Stripe Checkout
         window.location.href = checkoutData.url;
       } else {
-        console.error('Checkout error:', checkoutData);
+        logger.error('Checkout error:', checkoutData);
         setError(
           checkoutData.error ||
             checkoutData.details ||
@@ -328,7 +329,7 @@ function BarberApprenticeshipApplyPageInner() {
         setLoading(false);
       }
     } catch (err) {
-      console.error('Checkout exception:', err);
+      logger.error('Checkout exception:', err);
       setError('Something went wrong. Please try again or select a different payment option.');
       setErrorSeverity('critical');
       setLoading(false);

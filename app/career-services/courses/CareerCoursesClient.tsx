@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Play, Clock, ShoppingCart, Star } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 interface CourseFeature {
   feature: string;
@@ -62,7 +63,7 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
         alert('Failed to create checkout session');
       }
     } catch (error) {
-      console.error('Checkout error:', error);
+      logger.error('Checkout error:', error);
       alert('Failed to process checkout');
     } finally {
       setCheckingOut(false);

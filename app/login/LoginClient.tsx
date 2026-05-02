@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
+import { logger } from '@/lib/logger';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -42,7 +43,7 @@ function LoginForm() {
         .maybeSingle();
 
       if (profileError) {
-        console.error('Profile fetch failed:', profileError.message);
+        logger.error('Profile fetch failed:', profileError.message);
         setError('Unable to load your profile. Please try again or contact support.');
         setLoading(false);
         return;
@@ -68,7 +69,7 @@ function LoginForm() {
       }
     } catch (err: any) {
       const msg = err?.message || err?.error_description || err?.msg || 'Invalid email or password';
-      console.error('Login error:', msg, err?.status ?? '');
+      logger.error('Login error:', msg, err?.status ?? '');
       setError(msg);
     } finally {
       setLoading(false);

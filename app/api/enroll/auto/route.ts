@@ -57,7 +57,7 @@ async function _POST(req: Request) {
       .from('programs')
       .select('id, name, slug, total_cost')
       .eq('slug', programSlug)
-      .single();
+      .maybeSingle();
 
     if (programError || !program) {
       return NextResponse.json({ error: 'Program not found' }, { status: 404 });
@@ -71,7 +71,7 @@ async function _POST(req: Request) {
       .from('profiles')
       .select('id')
       .eq('email', emailLower)
-      .single();
+      .maybeSingle();
 
     if (existingUser) {
       userId = existingUser.id;

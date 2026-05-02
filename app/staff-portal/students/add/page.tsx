@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { User, Phone, Save } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { logger } from '@/lib/logger';
 
 export default function AddStudentPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -35,7 +36,7 @@ export default function AddStudentPage() {
           setPrograms(data.programs.map((p: any) => ({ id: p.slug, name: p.name })));
         }
       } catch (error) {
-        console.error('Failed to fetch programs:', error);
+        logger.error('Failed to fetch programs:', error);
       } finally {
         setLoadingPrograms(false);
       }

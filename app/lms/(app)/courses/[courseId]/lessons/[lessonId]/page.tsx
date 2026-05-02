@@ -84,6 +84,7 @@ import { getActivitiesForLesson, getDefaultActivity } from '@/lib/lms/activity-m
 import type { ActivityId } from '@/lib/lms/activity-map';
 import { useActivityCompletion } from '@/lib/lms/use-activity-completion';
 import { BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
+import { logger } from '@/lib/logger';
 
 const ExplainSimply = dynamic(
   () => import('@/components/lms/ai/ExplainSimply').then((m) => ({ default: m.ExplainSimply })),
@@ -263,7 +264,7 @@ export default function LessonPage() {
           }
         }
       } catch (e) {
-        console.error('[lesson] enrollment check failed:', e);
+        logger.error('[lesson] enrollment check failed:', e);
         // Network error — don't block, let lesson load attempt continue
       }
     }
@@ -438,7 +439,7 @@ export default function LessonPage() {
         }
       }
     } catch (e) {
-      console.error('[lesson] progress fetch failed:', e);
+      logger.error('[lesson] progress fetch failed:', e);
       // Fail open — lesson still renders without progress data
     }
 
@@ -526,7 +527,7 @@ export default function LessonPage() {
                 setCompletionError(err.error ?? 'Unable to mark complete. Please try again.');
               }
             } catch (e) {
-              console.error('[lesson] mark-complete response parse failed:', e);
+              logger.error('[lesson] mark-complete response parse failed:', e);
               setCompletionError('Unable to mark complete. Please try again.');
             }
             return;
@@ -1133,7 +1134,7 @@ export default function LessonPage() {
                         }),
                       });
                     } catch (e) {
-                      console.error('[exam] checkpoint record failed:', e);
+                      logger.error('[exam] checkpoint record failed:', e);
                     }
                     if (passed) await markComplete(true);
                   }}
@@ -1250,7 +1251,7 @@ export default function LessonPage() {
                         setCheckpointBlocked(false);
                       }
                     } catch (e) {
-                      console.error('[lesson] checkpoint record failed (quiz player):', e);
+                      logger.error('[lesson] checkpoint record failed (quiz player):', e);
                       // Non-fatal — fail open so the lesson still renders
                     }
                   }

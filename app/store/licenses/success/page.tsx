@@ -5,6 +5,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { logger } from '@/lib/logger';
   Users,
   Palette,
   BookOpen,
@@ -79,7 +80,7 @@ function SuccessContent() {
             setTenantData(data);
           }
         } catch (e) {
-          console.error('Failed to fetch tenant info:', e);
+          logger.error('Failed to fetch tenant info:', e);
         }
       }
       setLoading(false);

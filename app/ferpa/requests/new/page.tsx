@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronRight, User, FileText, AlertCircle, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { logger } from '@/lib/logger';
 
 const REQUEST_TYPES = [
   {
@@ -113,7 +114,7 @@ export default function NewFerpaRequestPage() {
 
       router.push('/ferpa/requests?success=created');
     } catch (err) {
-      console.error('Error creating request:', err);
+      logger.error('Error creating request:', err);
       setError('Failed to create request. Please try again.');
     } finally {
       setLoading(false);

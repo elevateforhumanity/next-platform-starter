@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     .select('id, course_id')
     .eq('id', lessonId)
     .eq('course_id', courseId)
-    .single();
+    .maybeSingle();
 
   if (lessonErr || !lesson) {
     return safeError('Lesson not found in this course', 404);

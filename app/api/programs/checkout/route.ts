@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       .from('programs')
       .select('*')
       .eq('id', programId)
-      .single();
+      .maybeSingle();
 
     if (!program) {
       /* Condition handled */
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         .from('profiles')
         .select('stripe_customer_id, email, full_name')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (profile?.stripe_customer_id) {
         customerId = profile.stripe_customer_id;

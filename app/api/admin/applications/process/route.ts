@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
+  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
 
   if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
     .from('applications')
     .select('id, status, user_id, program_slug, email, first_name, last_name')
     .eq('id', application_id)
-    .single();
+    .maybeSingle();
 
   if (fetchError || !app) {
     return NextResponse.json({ error: 'Application not found' }, { status: 404 });

@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState } from 'react';
 import Link from 'next/link';
 import {
+import { logger } from '@/lib/logger';
   Globe,
   ArrowRight,
   Loader2,
@@ -103,7 +104,7 @@ export default function ConnectPage() {
         setStep('setup');
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     } finally {
       setLoading(false);
     }

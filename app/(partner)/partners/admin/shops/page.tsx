@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,7 +35,7 @@ export default async function AdminShopsPage() {
 
     shops = result.data || [];
   } catch (error) {
-    console.error('Failed to fetch shops:', error);
+    logger.error('Failed to fetch shops:', error);
   }
 
   return (

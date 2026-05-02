@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, Clock, Save, AlertCircle, Building, Award } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { logger } from '@/lib/logger';
 
 export default function LogApprenticeHoursPage() {
   const router = useRouter();
@@ -75,7 +76,7 @@ export default function LogApprenticeHoursPage() {
       setSuccess(true);
       setTimeout(() => router.push('/apprentice/hours'), 1500);
     } catch (err: any) {
-      console.error('Error logging hours:', err);
+      logger.error('Error logging hours:', err);
       setError('An error occurred');
     } finally {
       setIsSubmitting(false);

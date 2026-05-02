@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { Circle, FileText, Shield, AlertCircle } from 'lucide-react';
 import { SignatureInput } from '@/components/onboarding/SignatureInput';
+import { logger } from '@/lib/logger';
 
 interface Agreement {
   type: string;
@@ -87,7 +88,7 @@ export default function LegalOnboardingPage() {
         );
       }
     } catch (err) {
-      console.error('Error checking agreements:', err);
+      logger.error('Error checking agreements:', err);
     } finally {
       setLoading(false);
     }

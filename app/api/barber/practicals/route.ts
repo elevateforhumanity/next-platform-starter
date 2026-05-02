@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       .from('barber_practical_categories')
       .select('category_key')
       .eq('category_key', category_key)
-      .single();
+      .maybeSingle();
 
     if (!cat) return safeError('Invalid category', 400);
 

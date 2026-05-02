@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { FileText, User, Briefcase, Home, Heart, DollarSign, ArrowRight, Save } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 interface Props {
   userId: string;
@@ -103,7 +104,7 @@ export default function TaxPrepForm({ userId, profile, existingDraft, taxYear }:
       }
     } catch (err) {
       // Non-critical: calculation errors don't block form submission
-      console.warn('[TaxPrepForm] fetchCalculation error:', err);
+      logger.warn('[TaxPrepForm] fetchCalculation error:', err);
     } finally {
       setIsCalculating(false);
     }

@@ -44,7 +44,7 @@ async function _GET(request: NextRequest) {
       `,
       )
       .eq('stripe_payment_intent_id', paymentIntent)
-      .single();
+      .maybeSingle();
 
     if (purchaseError || !purchase) {
       logger.warn('License purchase not found', { paymentIntent });

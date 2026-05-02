@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Clock, ChevronLeft, ChevronRight, Flag, AlertTriangle } from 'lucide-react';
 import ExamMonitor from '@/components/exam/ExamMonitor';
 import ExamCamera from '@/components/exam/ExamCamera';
+import { logger } from '@/lib/logger';
 
 interface Answer {
   id: string;
@@ -117,7 +118,7 @@ export default function QuizTakingInterface({
         throw new Error('Failed to submit quiz');
       }
     } catch (error) {
-      console.error('Error submitting quiz:', error);
+      logger.error('Error submitting quiz:', error);
       setIsSubmitting(false);
       alert('Failed to submit quiz. Please try again.');
     }

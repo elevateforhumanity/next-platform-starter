@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { logger } from '@/lib/logger';
 
 interface HiringData {
   month: string;
@@ -25,7 +26,7 @@ export function HiringTrendsChart() {
         const json = await res.json();
         setData(json.trends || []);
       } catch (err) {
-        console.error('Failed to fetch hiring trends:', err);
+        logger.error('Failed to fetch hiring trends:', err);
         setData([]);
       } finally {
         setLoading(false);
@@ -90,7 +91,7 @@ export function RetentionByRoleChart() {
         const json = await res.json();
         setData(json.retention || []);
       } catch (err) {
-        console.error('Failed to fetch retention stats:', err);
+        logger.error('Failed to fetch retention stats:', err);
         setData([]);
       } finally {
         setLoading(false);

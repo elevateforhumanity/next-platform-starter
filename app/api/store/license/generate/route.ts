@@ -127,7 +127,7 @@ async function _POST(req: Request) {
         .from('profiles')
         .select('role')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (!profile?.role || !['admin', 'super_admin'].includes(profile.role)) {
         logger.warn('Non-admin license generation attempt', {

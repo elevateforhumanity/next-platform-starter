@@ -49,7 +49,7 @@ async function _POST(req: Request) {
       `,
       )
       .eq('student_id', user.id)
-      .single();
+      .maybeSingle();
 
     if (!assignment || assignmentError) {
       return NextResponse.json(
@@ -173,7 +173,7 @@ async function _GET(req: Request) {
       .from('ai_chat_sessions')
       .select('id')
       .eq('student_id', user.id)
-      .single();
+      .maybeSingle();
 
     if (!session) {
       return NextResponse.json({ messages: [] });

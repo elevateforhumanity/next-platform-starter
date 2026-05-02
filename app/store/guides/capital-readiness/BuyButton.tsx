@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowRight, Loader2 } from "lucide-react";
+import { logger } from '@/lib/logger';
 
 interface BuyButtonProps {
   productId: string;
@@ -32,7 +33,7 @@ export function BuyButton({ productId, price, variant = "primary" }: BuyButtonPr
         setLoading(false);
       }
     } catch (error) {
-      console.error("Checkout error:", error);
+      logger.error("Checkout error:", error);
       alert("Something went wrong. Please try again.");
       setLoading(false);
     }

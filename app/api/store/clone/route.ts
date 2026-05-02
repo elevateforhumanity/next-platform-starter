@@ -58,7 +58,7 @@ async function _POST(req: Request) {
       .from('licenses')
       .select('id, tier, status, features, max_deployments, expires_at, metadata')
       .eq('license_key', licenseHash)
-      .single();
+      .maybeSingle();
 
     if (licenseError || !license) {
       logger.warn('Clone attempt with invalid license', { ip: clientIp });

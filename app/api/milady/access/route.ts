@@ -37,7 +37,7 @@ async function _GET(request: NextRequest) {
     }
 
     // Security: Only allow users to view their own access (unless admin)
-    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
+    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
 
     const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
     if (studentId !== user.id && !isAdmin) {
@@ -50,7 +50,7 @@ async function _GET(request: NextRequest) {
       .select('*')
       .eq('student_id', studentId)
       .eq('program_slug', programSlug)
-      .single();
+      .maybeSingle();
 
     if (error || !access) {
       // Check if student has active enrollment (payment completed, docs verified)
@@ -59,7 +59,7 @@ async function _GET(request: NextRequest) {
         .select('id, status, docs_verified')
         .eq('user_id', studentId)
         .eq('status', 'active')
-        .single();
+        .maybeSingle();
 
       if (enrollment) {
         // Has active enrollment - return active with default Milady URL
@@ -77,7 +77,7 @@ async function _GET(request: NextRequest) {
         .select('id, status, docs_verified')
         .eq('user_id', studentId)
         .eq('status', 'pending')
-        .single();
+        .maybeSingle();
 
       if (pendingEnrollment) {
         return NextResponse.json({
@@ -138,7 +138,7 @@ async function _POST(request: NextRequest) {
       .from('profiles')
       .select('*')
       .eq('id', studentId)
-      .single();
+      .maybeSingle();
 
     if (!studentProfile) {
       return NextResponse.json({ error: 'Student not found' }, { status: 404 });

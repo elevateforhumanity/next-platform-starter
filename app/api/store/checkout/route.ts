@@ -35,7 +35,7 @@ async function _POST(req: Request) {
       .from('products')
       .select('*')
       .eq('id', productId)
-      .single();
+      .maybeSingle();
 
     if (error || !product) {
       return Response.json({ error: 'Product not found' }, { status: 404 });

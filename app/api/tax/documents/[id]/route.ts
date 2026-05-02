@@ -29,7 +29,7 @@ async function _DELETE(request: Request, { params }: { params: Promise<{ id: str
       .select('*')
       .eq('id', id)
       .eq('user_id', user.id)
-      .single();
+      .maybeSingle();
 
     if (fetchError || !document) {
       return NextResponse.json({ error: 'Document not found or access denied' }, { status: 404 });

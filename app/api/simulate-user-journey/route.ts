@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       .from('profiles')
       .select('role')
       .eq('id', user.id)
-      .single();
+      .maybeSingle();
 
     if (!profile || profile.role !== 'super_admin') {
       return NextResponse.json({ error: 'Super admin access required' }, { status: 403 });

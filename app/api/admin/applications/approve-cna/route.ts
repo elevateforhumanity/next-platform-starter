@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     } = await supabase.auth.getUser();
     if (!user) return safeError('Unauthorized', 401);
 
-    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
+    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
 
     if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
       return safeError('Forbidden', 403);
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       .from('applications')
       .select('id, user_id, program_slug, status, first_name, last_name, email')
       .eq('id', application_id)
-      .single();
+      .maybeSingle();
 
     if (fetchErr || !app) return safeError('Application not found', 404);
     if (app.program_slug !== 'cna')

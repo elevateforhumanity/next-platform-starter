@@ -138,7 +138,7 @@ async function _DELETE(request: Request) {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return safeError('Authentication required', 401);
 
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
     if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
       return safeError('Forbidden', 403);
     }

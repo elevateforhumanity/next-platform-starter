@@ -9,6 +9,7 @@ import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 import { BARBER_PRICING, calculateWeeklyPayment as calcWeekly } from '@/lib/programs/pricing';
 import { loadStripe } from '@stripe/stripe-js';
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from '@stripe/react-stripe-js';
+import { logger } from '@/lib/logger';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -242,7 +243,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             throw new Error('Affirm SDK did not initialize correctly');
           }
         } catch (sdkError) {
-          console.error('Affirm SDK error:', sdkError);
+          logger.error('Affirm SDK error:', sdkError);
           setError(
             'Affirm checkout could not load. Please select Card, Payment Plan, or another option above.',
           );
@@ -358,7 +359,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
         // Redirect to Stripe Checkout
         window.location.href = checkoutData.url;
       } else {
-        console.error('Checkout error:', checkoutData);
+        logger.error('Checkout error:', checkoutData);
         setError(
           checkoutData.error ||
             checkoutData.details ||
@@ -368,7 +369,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
         setLoading(false);
       }
     } catch (err) {
-      console.error('Checkout exception:', err);
+      logger.error('Checkout exception:', err);
       setError('Something went wrong. Please try again or select a different payment option.');
       setErrorSeverity('critical');
       setLoading(false);

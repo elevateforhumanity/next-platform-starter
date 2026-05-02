@@ -47,7 +47,7 @@ async function _POST(request: NextRequest) {
       .from('customer_billing')
       .select('stripe_customer_id')
       .eq('user_id', resolvedUserId)
-      .single();
+      .maybeSingle();
 
     if (billingError || !billing?.stripe_customer_id) {
       return NextResponse.json(

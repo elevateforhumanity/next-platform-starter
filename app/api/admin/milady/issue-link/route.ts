@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       .from('milady_provisioning_queue')
       .select('*')
       .eq('id', queueId)
-      .single();
+      .maybeSingle();
 
     if (qErr || !queueRow) {
       return safeError('Queue entry not found', 404);

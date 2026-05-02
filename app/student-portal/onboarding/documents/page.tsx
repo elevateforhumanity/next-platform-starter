@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { normalizeSsn, formatSsn, isValidSsn } from '@/lib/ssn';
 import { updateOnboardingProgress } from '@/lib/compliance/enforcement';
 import {
+import { logger } from '@/lib/logger';
   Upload,
   FileText,
   Check,
@@ -238,7 +239,7 @@ export default function OnboardingDocumentsPage() {
         }).catch(() => {}); // non-blocking
       }
     } catch (err) {
-      console.error('Upload error:', err);
+      logger.error('Upload error:', err);
       setError('An error occurred');
     } finally {
       setUploading(null);
@@ -260,7 +261,7 @@ export default function OnboardingDocumentsPage() {
         return updated;
       });
     } catch (err) {
-      console.error('Delete error:', err);
+      logger.error('Delete error:', err);
       setError('Failed to remove file');
     }
   };

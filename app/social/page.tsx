@@ -21,6 +21,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { logger } from '@/lib/logger';
 
 // Types for social feeds
 interface BlogPost {
@@ -200,7 +201,7 @@ export default function SocialMediaPage() {
           }
         }
       } catch (error) {
-        console.error('Error fetching feeds:', error);
+        logger.error('Error fetching feeds:', error);
       } finally {
         setLoading(false);
       }

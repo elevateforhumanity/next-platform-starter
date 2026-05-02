@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
+import { logger } from '@/lib/logger';
 
 interface Apprentice {
   id: string;
@@ -102,7 +103,7 @@ export default function BarberPartnerPage() {
       setApprentices(apprenticesData.apprentices || []);
       setProgressEntries(progressData.entries || []);
     } catch (err) {
-      console.error('Failed to fetch data:', err);
+      logger.error('Failed to fetch data:', err);
     } finally {
       setLoading(false);
     }

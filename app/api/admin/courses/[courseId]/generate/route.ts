@@ -112,7 +112,7 @@ export async function POST(
   if (!user) return safeError('Unauthorized', 401);
 
   const db = await requireAdminClient();
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
+  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
   if (!profile || !ADMIN_ROLES.has(profile.role)) return safeError('Forbidden', 403);
 
   const { courseId } = await params;
@@ -122,7 +122,7 @@ export async function POST(
     .from('courses')
     .select('id, title, generator_prompt, generation_status')
     .eq('id', courseId)
-    .single();
+    .maybeSingle();
 
   if (courseErr || !course) return safeError('Course not found', 404);
   if (course.generation_status === 'generating') {

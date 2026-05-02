@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { logger } from '@/lib/logger';
 
 interface EngagementData {
   day: string;
@@ -25,7 +26,7 @@ export function StudentEngagementChart() {
         const json = await res.json();
         setData(json.engagement || []);
       } catch (err) {
-        console.error('Failed to fetch engagement stats:', err);
+        logger.error('Failed to fetch engagement stats:', err);
         setData([]);
       } finally {
         setLoading(false);
@@ -90,7 +91,7 @@ export function CoursePerformanceChart() {
         const json = await res.json();
         setData(json.courses || []);
       } catch (err) {
-        console.error('Failed to fetch course performance:', err);
+        logger.error('Failed to fetch course performance:', err);
         setData([]);
       } finally {
         setLoading(false);

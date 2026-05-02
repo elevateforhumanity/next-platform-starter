@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
       .select('*')
       .eq('user_id', user.id)
       .eq('program_id', BARBER_PROGRAM_ID)
-      .single();
+      .maybeSingle();
 
     if (error || !status) {
       // No ledger row yet — student hasn't started

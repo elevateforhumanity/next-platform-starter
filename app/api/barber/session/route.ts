@@ -97,7 +97,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', session_id)
       .eq('user_id', user.id)
       .eq('status', 'active')
-      .single();
+      .maybeSingle();
 
     if (!session) return safeError('Active session not found', 404);
 
@@ -153,7 +153,7 @@ export async function DELETE(request: NextRequest) {
       .eq('id', session_id)
       .eq('user_id', user.id)
       .eq('status', 'active')
-      .single();
+      .maybeSingle();
 
     if (!session) return safeError('Active session not found', 404);
 

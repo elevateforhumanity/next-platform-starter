@@ -10,6 +10,7 @@
 
 import Groq from 'groq-sdk';
 import { geminiJSON, isGeminiConfigured } from '@/lib/gemini-client';
+import { logger } from '@/lib/logger';
 
 let _client: Groq | null = null;
 
@@ -55,7 +56,7 @@ export async function groqJSON<T = unknown>(prompt: string): Promise<T> {
       return JSON.parse(raw) as T;
     } catch (err) {
       const reason = err instanceof Error ? err.message : String(err);
-      console.warn(`[groq-client] Groq failed (${reason}) — falling back to Gemini`);
+      logger.warn(`[groq-client] Groq failed (${reason}) — falling back to Gemini`);
     }
   }
 

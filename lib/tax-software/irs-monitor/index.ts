@@ -346,5 +346,5 @@ async function main() {
 const isMainModule =
   import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('index.ts');
 if (isMainModule) {
-  main().catch(console.error);
+  main().catch(logger.error);
 }

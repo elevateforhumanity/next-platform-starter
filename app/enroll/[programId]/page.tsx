@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useParams, useRouter } from 'next/navigation';
 import { BookOpen, Key, CheckCircle, AlertCircle, ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { logger } from '@/lib/logger';
 
 // Apprenticeship programs require approval flow, not direct enrollment
 const APPRENTICESHIP_SLUGS = [
@@ -106,7 +107,7 @@ export default function EnrollPage() {
       setEligibility(data);
     } catch (error) {
       /* Error handled silently */
-      console.error('Eligibility check error:', error);
+      logger.error('Eligibility check error:', error);
     }
   };
 

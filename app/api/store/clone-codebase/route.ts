@@ -33,7 +33,7 @@ async function _POST(req: NextRequest) {
       .from('products')
       .select('*')
       .eq('id', productId)
-      .single();
+      .maybeSingle();
 
     if (error || !product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });

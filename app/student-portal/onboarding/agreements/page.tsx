@@ -11,6 +11,7 @@ import {
   getCurrentAgreementVersions,
 } from '@/lib/compliance/enforcement';
 import { FileText, Check, ChevronLeft, ChevronRight, Shield, Users, BookOpen } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 interface Agreement {
   type: string;
@@ -329,7 +330,7 @@ export default function OnboardingAgreementsPage() {
               documentUrl={currentAgreement.documentUrl}
               acceptanceContext="onboarding"
               onSuccess={handleSignatureSuccess}
-              onError={(error) => console.error('Signature error:', error)}
+              onError={(error) => logger.error('Signature error:', error)}
             />
           </div>
         </div>

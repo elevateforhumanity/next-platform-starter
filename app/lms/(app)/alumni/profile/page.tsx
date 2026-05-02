@@ -18,6 +18,7 @@ import {
   GraduationCap,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -125,7 +126,7 @@ export default function AlumniProfilePage() {
 
       setMessage({ type: 'success', text: 'Profile updated successfully!' });
     } catch (err) {
-      console.error('Error updating profile:', err);
+      logger.error('Error updating profile:', err);
       setMessage({ type: 'error', text: 'Failed to update profile. Please try again.' });
     } finally {
       setSaving(false);

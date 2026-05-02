@@ -37,6 +37,7 @@ import {
 import { findUnregisteredKeys, getCompetenciesForProgram } from './competencies';
 import { resolveCourseId } from './schema';
 import { validateHours } from './hours-engine';
+import { logger } from '@/lib/logger';
 
 // ─── Result types ─────────────────────────────────────────────────────────────
 
@@ -422,7 +423,7 @@ export function validateCourseTemplate(template: CourseTemplate): CourseValidati
 export function assertPublishable(template: CourseTemplate): void {
   const result = validateCourseTemplate(template);
   for (const w of result.warnings)
-    console.warn(
+    logger.warn(
       `[course-builder] WARNING ${w.moduleSlug}/${w.lessonSlug} [${w.field}]: ${w.message}`,
     );
   if (!result.valid) {

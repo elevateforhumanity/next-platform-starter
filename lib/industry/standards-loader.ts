@@ -25,6 +25,7 @@ import {
   type BlsProjectionData,
 } from './bls';
 import {
+import { logger } from '@/lib/logger';
   fetchCareerOneStopData,
   isCareerOneStopConfigured,
   type CareerOneStopData,
@@ -114,7 +115,7 @@ export async function loadIndustryStandards(
       onet = await fetchOnetOccupation(socCode);
       sources.push('onet');
     } catch (err) {
-      console.error('[standards-loader] O*NET fetch failed:', err);
+      logger.error('[standards-loader] O*NET fetch failed:', err);
     }
   }
 
@@ -123,7 +124,7 @@ export async function loadIndustryStandards(
     projections = await fetchBlsProjections(socCode);
     sources.push('bls');
   } catch (err) {
-    console.error('[standards-loader] BLS fetch failed:', err);
+    logger.error('[standards-loader] BLS fetch failed:', err);
   }
 
   if (isCareerOneStopConfigured() && onet?.title) {
@@ -131,7 +132,7 @@ export async function loadIndustryStandards(
       cos = await fetchCareerOneStopData(socCode, onet.title);
       sources.push('careeronestop');
     } catch (err) {
-      console.error('[standards-loader] CareerOneStop fetch failed:', err);
+      logger.error('[standards-loader] CareerOneStop fetch failed:', err);
     }
   }
 

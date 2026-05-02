@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { CalendarWidget } from '@/components/CalendarWidget';
 import { CalendarIntegration } from '@/components/CalendarIntegration';
 import {
+import { logger } from '@/lib/logger';
   Calendar as CalendarIcon,
   Clock,
   MapPin,
@@ -117,7 +118,7 @@ export default async function CalendarPage() {
   } catch (error) {
     // Non-fatal — calendar renders empty if data unavailable
     // Log so we know when this happens in production
-    console.error(
+    logger.error(
       '[calendar] data load error:',
       error instanceof Error ? error.message : String(error),
     );

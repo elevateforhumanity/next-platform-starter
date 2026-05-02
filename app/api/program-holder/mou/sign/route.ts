@@ -46,7 +46,7 @@ async function _POST(req: NextRequest) {
     .from('profiles')
     .select('program_holder_id')
     .eq('id', user.id)
-    .single();
+    .maybeSingle();
 
   if (!prof?.program_holder_id) {
     return new Response('No program holder assigned', { status: 400 });

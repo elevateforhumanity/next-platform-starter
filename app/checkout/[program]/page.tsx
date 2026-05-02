@@ -7,6 +7,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { loadStripe } from '@stripe/stripe-js';
 import { Calendar, CheckCircle, CreditCard, Lightbulb } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 // Initialize Stripe
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -175,7 +176,7 @@ function CheckoutPageInner() {
 
       window.affirm.checkout.open({
         onFail: (error: any) => {
-          console.error('Affirm checkout failed:', error);
+          logger.error('Affirm checkout failed:', error);
           setError('Affirm checkout failed. Please try again or use Stripe.');
           setLoading(false);
         },
@@ -193,7 +194,7 @@ function CheckoutPageInner() {
         },
       });
     } catch (err) {
-      console.error('Affirm error:', err);
+      logger.error('Affirm error:', err);
       setError('An error occurred with Affirm. Please try Stripe instead.');
       setLoading(false);
     }

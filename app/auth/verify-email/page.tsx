@@ -7,6 +7,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 export default function VerifyEmailPage() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
@@ -42,7 +43,7 @@ export default function VerifyEmailPage() {
       if (error) throw error;
       setStatus('sent');
     } catch (error) {
-      console.error('Resend verification error:', error);
+      logger.error('Resend verification error:', error);
       setStatus('error');
     }
   };

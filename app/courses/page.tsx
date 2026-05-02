@@ -19,6 +19,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { CourseCatalog } from '@/components/CourseCatalog';
 import { CourseCompletionTracking } from '@/components/CourseCompletionTracking';
 import { CoursePrerequisiteManagement } from '@/components/CoursePrerequisiteManagement';
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,7 +63,7 @@ export default async function CoursesPage() {
         featuredCourses = data;
       }
     } catch (error) {
-      console.error('[Courses] Error:', error);
+      logger.error('[Courses] Error:', error);
     }
   }
 

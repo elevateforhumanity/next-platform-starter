@@ -21,6 +21,7 @@
  */
 
 import OpenAI from 'openai';
+import { logger } from '@/lib/logger';
 
 export interface LessonSlide {
   title: string;
@@ -133,7 +134,7 @@ export async function generateLessonScript(input: LessonInput): Promise<LessonSc
     wordCount = parsed.narration.split(/\s+/).length;
 
     if (wordCount >= MIN_WORDS && wordCount <= MAX_WORDS) break;
-    console.warn(
+    logger.warn(
       `  ⚠ Attempt ${attempt + 1}: ${wordCount} words (target ${MIN_WORDS}-${MAX_WORDS}) — retrying`,
     );
   }

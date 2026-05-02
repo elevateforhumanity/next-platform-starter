@@ -39,7 +39,7 @@ export async function POST(
       .from('provider_applications')
       .select('id, status, org_name, contact_email, tenant_id')
       .eq('id', appId)
-      .single();
+      .maybeSingle();
 
     if (fetchError || !app) return safeError('Application not found', 404);
     if (app.status !== 'pending') {

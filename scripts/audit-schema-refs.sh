@@ -16,11 +16,15 @@ grep -rh "\.\(from\|rpc\)(" app/ lib/ components/ --include="*.ts" --include="*.
   | tr -d "'" | tr -d '"' \
   | sort | uniq -c | sort -rn > /tmp/_code_refs.txt
 
-# Extract all table names defined via CREATE TABLE in migrations
-grep -rh "CREATE TABLE" supabase/migrations/ 2>/dev/null \
-  | grep -oiP "CREATE TABLE (IF NOT EXISTS )?(public\.)?([a-z_]+)" \
-  | grep -oP "[a-z_]{3,}$" \
-  | sort -u > /tmp/_migration_tables.txt
+# Extract all table/view names defined in migrations (CREATE TABLE + CREATE VIEW)
+{
+  grep -rh "CREATE TABLE" supabase/migrations/ 2>/dev/null \
+    | grep -oiP "CREATE TABLE (IF NOT EXISTS )?(public\.)?([a-z_]+)" \
+    | grep -oP "[a-z_]{3,}$"
+  grep -rh "CREATE\b.*\bVIEW" supabase/migrations/ 2>/dev/null \
+    | grep -oiP "CREATE (OR REPLACE )?(MATERIALIZED )?VIEW (IF NOT EXISTS )?(public\.)?([a-z_]+)" \
+    | grep -oP "[a-z_]{3,}$"
+} | sort -u > /tmp/_migration_tables.txt
 
 echo "=== Elevate LMS — Schema Reference Audit ==="
 echo "Code references: $(wc -l < /tmp/_code_refs.txt) unique tables"

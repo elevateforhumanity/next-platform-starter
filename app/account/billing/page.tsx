@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { PLANS, LicenseStatus, PlanId } from '@/lib/license/types';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { logger } from '@/lib/logger';
 
 interface LicenseData {
   status: LicenseStatus;
@@ -53,7 +54,7 @@ export default function BillingPage() {
         .maybeSingle();
 
       if (profileError && profileError.code !== 'PGRST116') {
-        console.error('Error fetching profile:', profileError);
+        logger.error('Error fetching profile:', profileError);
       }
 
       if (profile) {
@@ -98,7 +99,7 @@ export default function BillingPage() {
         alert('Failed to open billing portal');
       }
     } catch (error) {
-      console.error('Portal error:', error);
+      logger.error('Portal error:', error);
       alert('Failed to open billing portal');
     } finally {
       setIsLoading(false);

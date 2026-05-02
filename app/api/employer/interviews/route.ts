@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     .from('profiles')
     .select('role')
     .eq('id', user.id)
-    .single();
+    .maybeSingle();
 
   if (!profile || !['employer', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
     return safeError('Forbidden', 403);

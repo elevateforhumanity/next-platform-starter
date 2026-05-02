@@ -61,7 +61,7 @@ export async function POST(
     .from('courses')
     .select('id, title, slug, video_config, video_profile')
     .eq('id', courseId)
-    .single();
+    .maybeSingle();
 
   if (courseErr || !course) return safeError('Course not found', 404);
 

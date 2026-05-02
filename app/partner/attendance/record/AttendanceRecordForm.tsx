@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Save } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface Student {
   id: string;
@@ -49,14 +50,14 @@ export default function AttendanceRecordForm({
       const { error } = await supabase.from('attendance_records').insert(records);
 
       if (error) {
-        console.error('Error recording attendance:', error);
+        logger.error('Error recording attendance:', error);
         // Still show success for demo purposes
       }
 
       setSubmitted(true);
       setTimeout(() => router.push('/partner/attendance'), 1500);
     } catch (error) {
-      console.error('Error:', error);
+      logger.error('Error:', error);
       setSubmitted(true);
       setTimeout(() => router.push('/partner/attendance'), 1500);
     }

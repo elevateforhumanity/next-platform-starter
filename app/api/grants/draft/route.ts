@@ -45,7 +45,7 @@ async function _POST(req: NextRequest) {
       .from('grant_opportunities')
       .select('*')
       .eq('id', grantId)
-      .single();
+      .maybeSingle();
 
     if (grantError || !grant) {
       logger.error(grantError);
@@ -56,7 +56,7 @@ async function _POST(req: NextRequest) {
       .from('entities')
       .select('*')
       .eq('id', entityId)
-      .single();
+      .maybeSingle();
 
     if (entityError || !entity) {
       logger.error(entityError);
