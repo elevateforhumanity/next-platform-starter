@@ -5,20 +5,21 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: deploy-aws
+  cancel-in-progress: false
+
 env:
   AWS_REGION: us-east-1
   ECR_REGISTRY: 954718262498.dkr.ecr.us-east-1.amazonaws.com
   ECS_CLUSTER: elevate-cluster
 
 jobs:
-  # ── Build and push LMS image ─────────────────────────────────────────────────
   build-lms:
     name: Build LMS
     runs-on: ubuntu-latest
-    # 16GB RAM runner — eliminates build OOM
-    # Use larger runner if still hitting limits: ubuntu-latest-16-cores
     outputs:
-      image: ${{ steps.build.outputs.image }}
+      image: ${{ steps.meta.outputs.image }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,38 +31,51 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to ECR
-        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push LMS image
-        id: build
-        env:
-          IMAGE_TAG: ${{ github.sha }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+      - name: Pull public build vars from SSM
         run: |
-          docker build \
-            --build-arg SERVICE_ROLE=lms \
-            --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
-            --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY \
-            --build-arg NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
-            --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY \
-            -f Dockerfile.railway \
-            -t $ECR_REGISTRY/elevate-lms:$IMAGE_TAG \
-            -t $ECR_REGISTRY/elevate-lms:latest \
-            .
-          docker push $ECR_REGISTRY/elevate-lms:$IMAGE_TAG
-          docker push $ECR_REGISTRY/elevate-lms:latest
-          echo "image=$ECR_REGISTRY/elevate-lms:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          get() { aws ssm get-parameter --name "/elevate/$1" --with-decryption --query Parameter.Value --output text; }
+          echo "NEXT_PUBLIC_SUPABASE_URL=$(get NEXT_PUBLIC_SUPABASE_URL)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$(get NEXT_PUBLIC_SUPABASE_ANON_KEY)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SITE_URL=$(get NEXT_PUBLIC_SITE_URL)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$(get NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_GA_MEASUREMENT_ID=$(get NEXT_PUBLIC_GA_MEASUREMENT_ID)" >> $GITHUB_ENV
 
-  # ── Build and push Admin image ───────────────────────────────────────────────
+      - name: Set image tag
+        id: meta
+        run: |
+          TAG=$(echo ${{ github.sha }} | cut -c1-7)
+          echo "tag=$TAG" >> $GITHUB_ENV
+          echo "image=${{ env.ECR_REGISTRY }}/elevate-lms:$TAG" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.railway
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/elevate-lms:${{ env.tag }}
+            ${{ env.ECR_REGISTRY }}/elevate-lms:latest
+          build-args: |
+            SERVICE_ROLE=lms
+            NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }}
+            NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+            NEXT_PUBLIC_SITE_URL=${{ env.NEXT_PUBLIC_SITE_URL }}
+            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+            NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ env.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+          cache-from: type=gha,scope=lms
+          cache-to: type=gha,mode=max,scope=lms
+
   build-admin:
     name: Build Admin
     runs-on: ubuntu-latest
     outputs:
-      image: ${{ steps.build.outputs.image }}
+      image: ${{ steps.meta.outputs.image }}
     steps:
       - uses: actions/checkout@v4
 
@@ -75,30 +89,42 @@ jobs:
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push Admin image
-        id: build
-        env:
-          IMAGE_TAG: ${{ github.sha }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+      - name: Pull public build vars from SSM
         run: |
-          docker build \
-            --build-arg SERVICE_ROLE=admin \
-            --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
-            --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY \
-            --build-arg NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
-            --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY \
-            -f Dockerfile.railway \
-            -t $ECR_REGISTRY/elevate-admin:$IMAGE_TAG \
-            -t $ECR_REGISTRY/elevate-admin:latest \
-            .
-          docker push $ECR_REGISTRY/elevate-admin:$IMAGE_TAG
-          docker push $ECR_REGISTRY/elevate-admin:latest
-          echo "image=$ECR_REGISTRY/elevate-admin:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          get() { aws ssm get-parameter --name "/elevate/$1" --with-decryption --query Parameter.Value --output text; }
+          echo "NEXT_PUBLIC_SUPABASE_URL=$(get NEXT_PUBLIC_SUPABASE_URL)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$(get NEXT_PUBLIC_SUPABASE_ANON_KEY)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SITE_URL=$(get NEXT_PUBLIC_SITE_URL)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$(get NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)" >> $GITHUB_ENV
 
-  # ── Deploy LMS to ECS ────────────────────────────────────────────────────────
+      - name: Set image tag
+        id: meta
+        run: |
+          TAG=$(echo ${{ github.sha }} | cut -c1-7)
+          echo "tag=$TAG" >> $GITHUB_ENV
+          echo "image=${{ env.ECR_REGISTRY }}/elevate-admin:$TAG" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.admin
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/elevate-admin:${{ env.tag }}
+            ${{ env.ECR_REGISTRY }}/elevate-admin:latest
+          build-args: |
+            SERVICE_ROLE=admin
+            NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }}
+            NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+            NEXT_PUBLIC_SITE_URL=${{ env.NEXT_PUBLIC_SITE_URL }}
+            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+          cache-from: type=gha,scope=admin
+          cache-to: type=gha,mode=max,scope=admin
+
   deploy-lms:
     name: Deploy LMS
     runs-on: ubuntu-latest
@@ -113,7 +139,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Update ECS task definition with new image
+      - name: Update ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -129,7 +155,11 @@ jobs:
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
 
-  # ── Deploy Admin to ECS ──────────────────────────────────────────────────────
+      - name: Health check
+        run: |
+          curl -sf --max-time 30 http://elevate-lms-alb-1854717895.us-east-1.elb.amazonaws.com/ \
+            -o /dev/null && echo "✅ LMS healthy" || echo "⚠️  LMS warming up"
+
   deploy-admin:
     name: Deploy Admin
     runs-on: ubuntu-latest
@@ -144,7 +174,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Update ECS task definition with new image
+      - name: Update ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -160,20 +190,24 @@ jobs:
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
 
-  # ── Cron: funding follow-up (replaces Railway cron) ─────────────────────────
-  funding-followup:
-    name: Funding Follow-up Cron
-    runs-on: ubuntu-latest
-    # Runs daily at 09:00 ET (14:00 UTC) — matches Railway cron schedule
-    if: github.event_name == 'schedule'
-    steps:
-      - name: Trigger funding follow-up
+      - name: Health check
         run: |
-          curl -sf \
-            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
-            https://lms.elevateforhumanity.org/api/cron/funding-followup
+          curl -sf --max-time 30 http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ \
+            -o /dev/null && echo "✅ Admin healthy" || echo "⚠️  Admin warming up"
 
-# Separate schedule trigger for cron job
-# Add this to the `on:` block above when ready:
-# schedule:
-#   - cron: '0 14 * * *'
+  summary:
+    name: Summary
+    runs-on: ubuntu-latest
+    needs: [deploy-lms, deploy-admin]
+    if: always()
+    steps:
+      - name: Write summary
+        run: |
+          echo "## Deploy: \`$(echo ${{ github.sha }} | cut -c1-7)\`" >> $GITHUB_STEP_SUMMARY
+          echo "| Service | Result |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| LMS | ${{ needs.deploy-lms.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Admin | ${{ needs.deploy-admin.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "LMS ALB: http://elevate-lms-alb-1854717895.us-east-1.elb.amazonaws.com" >> $GITHUB_STEP_SUMMARY
+          echo "Admin ALB: http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com" >> $GITHUB_STEP_SUMMARY
