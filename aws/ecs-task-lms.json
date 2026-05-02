@@ -477,6 +477,14 @@
         {
           "name": "SLACK_SECURITY_WEBHOOK",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_SECURITY_WEBHOOK"
+        },
+        {
+          "name": "GEMINI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GEMINI_API_KEY"
+        },
+        {
+          "name": "GOOGLE_CLOUD_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GOOGLE_CLOUD_API_KEY"
         }
       ],
       "logConfiguration": {
