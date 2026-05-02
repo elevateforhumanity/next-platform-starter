@@ -1,7 +1,6 @@
 // scripts/readiness-check.mjs
 // Autopilot: hit production as a fake student/partner and look for bad signals
 
-import fetch from 'node-fetch';
 
 const BASE_URL =
   process.env.READINESS_BASE_URL || 'https://elevateconnectsdirectory.org';

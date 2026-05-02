@@ -8,7 +8,6 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 
 const __filename = fileURLToPath(import.meta.url);
