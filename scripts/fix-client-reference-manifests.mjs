@@ -1,14 +1,12 @@
 // scripts/fix-client-reference-manifests.mjs
 //
-// Next.js 15 renames client-reference-manifest files:
-//   OLD (expected by @netlify/plugin-nextjs ≤5.15.10):
-//     page_client-reference-manifest.js
-//   NEW (produced by Next.js 15):
-//     page.client-reference-manifest.js
+// @netlify/plugin-nextjs ≤5.15.10 expects page_client-reference-manifest.js
+// (underscore) alongside every page.js in .next/server/app/.
+// Next.js 15 either:
+//   (a) produces page.client-reference-manifest.js (dot) — needs copying, or
+//   (b) produces no manifest at all for simple server pages — needs empty shim
 //
-// This script creates symlinks from the old name → new name so the
-// Netlify plugin's file-copy step doesn't ENOENT.
-// Run after `next build`, before the Netlify plugin's onBuild step.
+// This script handles both cases so the plugin's copyfile step doesn't ENOENT.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,6 +18,9 @@ if (!fs.existsSync(SERVER_APP)) {
   process.exit(0);
 }
 
+// Minimal valid client-reference-manifest content
+const EMPTY_MANIFEST = `self.__RSC_MANIFEST={}`;
+
 let fixed = 0;
 
 function walk(dir) {
@@ -27,14 +28,18 @@ function walk(dir) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       walk(full);
-    } else if (entry.name.endsWith('.client-reference-manifest.js') && entry.name.includes('.')) {
-      // New name: page.client-reference-manifest.js
-      // Old name: page_client-reference-manifest.js
-      const oldName = entry.name.replace('.client-reference-manifest.js', '_client-reference-manifest.js');
-      const oldPath = path.join(dir, oldName);
-      if (!fs.existsSync(oldPath)) {
-        fs.copyFileSync(full, oldPath);
-        console.log(`[fix-manifests] copied ${entry.name} → ${oldName}`);
+    } else if (entry.name === 'page.js') {
+      const dotManifest = path.join(dir, 'page.client-reference-manifest.js');
+      const underscoreManifest = path.join(dir, 'page_client-reference-manifest.js');
+
+      if (!fs.existsSync(underscoreManifest)) {
+        if (fs.existsSync(dotManifest)) {
+          fs.copyFileSync(dotManifest, underscoreManifest);
+          console.log(`[fix-manifests] copied  → page_client-reference-manifest.js in ${path.relative(SERVER_APP, dir)}`);
+        } else {
+          fs.writeFileSync(underscoreManifest, EMPTY_MANIFEST);
+          console.log(`[fix-manifests] shimmed → page_client-reference-manifest.js in ${path.relative(SERVER_APP, dir)}`);
+        }
         fixed++;
       }
     }
@@ -42,4 +47,4 @@ function walk(dir) {
 }
 
 walk(SERVER_APP);
-console.log(`[fix-manifests] done — ${fixed} manifest(s) shimmed`);
+console.log(`[fix-manifests] done — ${fixed} manifest(s) created`);

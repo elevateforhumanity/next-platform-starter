@@ -19,12 +19,13 @@ interface EPA608PracticeExamProps {
 type ExamSection = string;
 type ExamPhase = 'select' | 'exam' | 'review';
 
+const getQuestionsBySection = (sectionId: string) =>
+  EPA608_QUESTIONS.filter((q: any) => q.section === sectionId || q.sectionId === sectionId);
+
 export default function EPA608PracticeExam({
   questions: EPA608_QUESTIONS = [],
   sections: EPA608_SECTIONS = [],
 }: EPA608PracticeExamProps) {
-  const getQuestionsBySection = (sectionId: string) =>
-    EPA608_QUESTIONS.filter((q: any) => q.section === sectionId || q.sectionId === sectionId);
   const [phase, setPhase] = useState<ExamPhase>('select');
   const [section, setSection] = useState<ExamSection>('core');
   const [questions, setQuestions] = useState<EPA608Question[]>([]);
@@ -44,7 +45,7 @@ export default function EPA608PracticeExam({
     // 2 minutes per question
     setTimeLeft(shuffled.length * 120);
     setPhase('exam');
-  }, [getQuestionsBySection]);
+  }, []);
 
   // Timer
   useEffect(() => {
