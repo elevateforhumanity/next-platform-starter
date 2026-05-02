@@ -489,6 +489,26 @@
         {
           "name": "HEYGEN_API_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/HEYGEN_API_KEY"
+        },
+        {
+          "name": "SENTRY_DSN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_DSN"
+        },
+        {
+          "name": "NEXT_PUBLIC_SENTRY_DSN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SENTRY_DSN"
+        },
+        {
+          "name": "SENTRY_AUTH_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_AUTH_TOKEN"
+        },
+        {
+          "name": "SENTRY_ORG",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_ORG"
+        },
+        {
+          "name": "SENTRY_PROJECT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_PROJECT"
         }
       ],
       "logConfiguration": {
