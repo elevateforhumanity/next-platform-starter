@@ -167,7 +167,7 @@ export default async function SponsorLicensingPage() {
               </div>
 
               <Link
-                href="/checkout?plan=starter"
+                href="/apply"
                 className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-4 rounded-xl font-bold transition"
               >
                 Get Started
@@ -285,7 +285,7 @@ export default async function SponsorLicensingPage() {
               </div>
 
               <Link
-                href="/checkout?plan=pro"
+                href="/apply"
                 className="block w-full bg-white text-indigo-600 hover:bg-slate-100 text-center px-6 py-4 rounded-xl font-bold transition"
               >
                 Get Started

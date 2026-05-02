@@ -89,7 +89,7 @@ export default async function PricingPage() {
 
               {product.tier === 'student' && (
                 <Link
-                  href="/checkout/student"
+                  href="/apply"
                   className="block w-full text-center bg-brand-orange-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-orange-600 transition"
                 >
                   Get Started
@@ -98,7 +98,7 @@ export default async function PricingPage() {
 
               {product.tier === 'career' && (
                 <Link
-                  href="/checkout/career"
+                  href="/apply"
                   className="block w-full text-center bg-brand-orange-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-orange-600 transition"
                 >
                   Get Started

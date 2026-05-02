@@ -5,7 +5,7 @@
 [build]
   # libxml2-utils provides xmllint, required for IRS MeF XSD validation.
   # Without it, schema-validator.ts returns XMLLINT_NOT_AVAILABLE and blocks all submissions.
-  command = "corepack enable && pnpm install --no-frozen-lockfile && npx tsx scripts/ci-token-gate.ts && node scripts/check-netlify-env-size.mjs && node scripts/netlify-quarantine-railway-routes.mjs && node scripts/netlify-quarantine-functions.mjs && node scripts/validate-programs.mjs && pnpm run build && node scripts/netlify-route-guard.mjs && node scripts/check-netlify-public-links.mjs && node scripts/prune-standalone.mjs && node scripts/prune-node-modules.mjs"
+  command = "corepack enable && pnpm install --no-frozen-lockfile && npx tsx scripts/ci-token-gate.ts && node scripts/check-netlify-env-size.mjs && node scripts/netlify-quarantine-railway-routes.mjs && node scripts/netlify-quarantine-functions.mjs && node scripts/validate-programs.mjs && pnpm run build && node scripts/fix-client-reference-manifests.mjs && node scripts/netlify-route-guard.mjs && node scripts/check-netlify-public-links.mjs && node scripts/prune-standalone.mjs && node scripts/prune-node-modules.mjs"
   # Order: env-size → quarantine routes → quarantine functions → build → route guard → public link check → prune.
   # Do not increase heap to hide leakage — fix the quarantine allowlist instead.
   # publish is intentionally omitted — @netlify/plugin-nextjs manages the output directory.
