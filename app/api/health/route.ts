@@ -217,4 +217,5 @@ async function _GET(request: Request) {
     },
   });
 }
-export const GET = withRuntime(withApiAudit('/api/health', _GET));
+// No audit wrapper — this route is called every 30s by ECS health checks
+export const GET = withRuntime(_GET);
