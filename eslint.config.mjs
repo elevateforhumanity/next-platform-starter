@@ -2,6 +2,7 @@ import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
+import nextPlugin from '@next/eslint-plugin-next';
 import globals from 'globals';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
@@ -28,6 +29,11 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooksPlugin,
       'react-refresh': reactRefreshPlugin,
+      '@next/next': nextPlugin,
+    },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs['core-web-vitals'].rules,
     },
     rules: {
       // react-hooks v7 recommended spreads 14 error rules — many are new and
