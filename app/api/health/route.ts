@@ -211,9 +211,7 @@ async function _GET(request: Request) {
   return NextResponse.json(checks, {
     status: 200,
     headers: {
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      Pragma: 'no-cache',
-      Expires: '0',
+      'Cache-Control': 'no-store',
     },
   });
 }

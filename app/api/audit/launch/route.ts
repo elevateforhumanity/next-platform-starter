@@ -86,7 +86,7 @@ async function handleAudit(request: NextRequest, options: AuditOptions) {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Cache-Control': 'no-store',
       },
     });
   } catch (error) {

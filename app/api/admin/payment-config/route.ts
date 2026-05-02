@@ -60,7 +60,7 @@ async function _GET(request: Request) {
       },
     });
 
-    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    response.headers.set('Cache-Control', 'no-store');
     response.headers.set('Vary', 'Authorization, Cookie');
     return response;
   });

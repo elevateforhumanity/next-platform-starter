@@ -68,7 +68,7 @@ async function _GET(
     status: 200,
     headers: {
       'Content-Type': contentTypeFor(filePath),
-      'Cache-Control': 'public, max-age=3600',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300',
     },
   });
 }

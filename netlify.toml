@@ -107,18 +107,21 @@
 [[plugins]]
   package = "./netlify/plugins/prune-handler"
 
-# CDN caching — pages cached 60s at edge, static assets cached 1 year
-# stale-while-revalidate kept short (10s) so deploys are visible immediately.
+# CDN caching — pages cached 60s at edge, static assets cached 1 year.
+# stale-while-revalidate=10 keeps deploys visible within seconds.
+# Specific rules below override this wildcard for assets and protected routes.
 [[headers]]
   for = "/*"
   [headers.values]
     Cache-Control = "public, s-maxage=60, stale-while-revalidate=10"
 
+# Next.js content-hashed chunks — safe to cache forever
 [[headers]]
   for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Public static assets — content rarely changes, cache 1 year
 [[headers]]
   for = "/images/*"
   [headers.values]
@@ -131,6 +134,36 @@
 
 [[headers]]
   for = "/audio/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/avatars/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/branding/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/course-covers/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
@@ -664,15 +697,17 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "origin-when-cross-origin"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    X-Robots-Tag = "noai, noimageai"
 
 # Internal platform routes — block all indexing
 [[headers]]
   for = "/admin/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/lms/*"
@@ -712,6 +747,21 @@
 
 [[headers]]
   for = "/onboarding/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/checkout/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+
+[[headers]]
+  for = "/apply"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/employers/intake"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
 

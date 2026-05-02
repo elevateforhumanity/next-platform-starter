@@ -49,7 +49,7 @@ async function _GET(request: NextRequest) {
     headers.set('Content-Range', upstream.headers.get('Content-Range')!);
   }
   headers.set('Accept-Ranges', 'bytes');
-  headers.set('Cache-Control', 'public, max-age=86400');
+  headers.set('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=3600');
 
   return new NextResponse(upstream.body, {
     status: upstream.status,

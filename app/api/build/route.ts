@@ -19,7 +19,7 @@ async function _GET(request: Request) {
   };
 
   const res = NextResponse.json(payload);
-  res.headers.set('Cache-Control', 'no-store, max-age=0');
+  res.headers.set('Cache-Control', 'no-store');
   return res;
 }
 export const GET = withApiAudit('/api/build', _GET);
