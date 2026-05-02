@@ -10,6 +10,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   AWS_REGION: us-east-1
   ECR_REGISTRY: 954718262498.dkr.ecr.us-east-1.amazonaws.com
   ECS_CLUSTER: elevate-cluster
@@ -148,7 +149,7 @@ jobs:
           image: ${{ needs.build-lms.outputs.image }}
 
       - name: Deploy to ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: elevate-lms-service
@@ -183,7 +184,7 @@ jobs:
           image: ${{ needs.build-admin.outputs.image }}
 
       - name: Deploy to ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: elevate-admin-service
