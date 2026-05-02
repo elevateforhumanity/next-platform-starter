@@ -73,7 +73,7 @@ const adminConfig = {
   ],
 
   typescript: { ignoreBuildErrors: true },
-  devIndicators: { appIsrStatus: false, buildActivity: false },
+  devIndicators: { position: 'bottom-right' },
 
   generateBuildId: async () =>
     process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 8) ?? `admin-${Date.now()}`,

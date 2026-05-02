@@ -145,7 +145,7 @@ const railwayConfig = {
   typescript: { ignoreBuildErrors: true },
 
   // Suppress dev indicators
-  devIndicators: { appIsrStatus: false, buildActivity: false },
+  devIndicators: { position: 'bottom-right' },
 
   // Use commit SHA as build ID
   generateBuildId: async () => {
