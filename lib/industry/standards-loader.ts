@@ -25,7 +25,6 @@ import {
   type BlsProjectionData,
 } from './bls';
 import {
-import { logger } from '@/lib/logger';
   fetchCareerOneStopData,
   isCareerOneStopConfigured,
   type CareerOneStopData,
