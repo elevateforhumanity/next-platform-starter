@@ -45,7 +45,7 @@ const MARKETING_PAGES = [
   '/contact',
   '/cookies',
   '/credentials',
-  '/curriculumupload',
+
   '/demo',
   '/demos',
   '/directory',

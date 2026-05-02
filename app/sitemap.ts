@@ -279,8 +279,7 @@ const EXCLUDED_PREFIXES = [
   // Auth-gated or internal pages confirmed leaking through filter
   '/mou/employer',        // MOU signing form — requires admin client
   '/parent-portal',       // Auth-gated — redirects to login
-  '/usermanagement',      // Stub page — no real content
-  '/certificates/verify', // Stub page — generic placeholder
+  '/certificates/verify', // Redirects to /cert/verify
   '/legal/governance',    // Internal governance docs — not public policy
 ];
 

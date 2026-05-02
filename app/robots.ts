@@ -92,8 +92,7 @@ export default function robots(): MetadataRoute.Robots {
           // Auth-gated or internal pages not covered by portal prefixes above
           '/mou/employer',        // MOU signing form — requires admin client
           '/parent-portal',       // Auth-gated — redirects to login
-          '/usermanagement',      // Stub page — no real content
-          '/certificates/verify', // Stub page — generic placeholder
+          '/certificates/verify', // Redirects to /cert/verify
           '/legal/governance',    // Internal governance docs
         ],
       },

@@ -209,7 +209,7 @@ const ALLOWED_TOP_LEVEL = new Set([
   'contracts',
   'copyright',
   'create-course',
-  'curriculumupload',
+
   'dev',
   'directory',
   'docs',
@@ -219,7 +219,7 @@ const ALLOWED_TOP_LEVEL = new Set([
   'ecosystem',
   'education',
   'educatorhub',
-  'elevatelearn2earn',
+
   'email',
   'eula',
   'financing',
@@ -261,7 +261,7 @@ const ALLOWED_TOP_LEVEL = new Set([
   'serene-comfort-care',
   'services',
   'share',
-  'sheets',
+
   'social',
   'solutions',
   'status',
@@ -276,7 +276,7 @@ const ALLOWED_TOP_LEVEL = new Set([
   'tutoring',
   'updates',
   'urban-build-crew',
-  'usermanagement',
+
   'verification-approvals',
   'volunteer',
   'webinars',
