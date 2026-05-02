@@ -441,6 +441,22 @@
         {
           "name": "affirm_public_api_key",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/affirm_public_api_key"
+        },
+        {
+          "name": "VAPID_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/VAPID_PUBLIC_KEY"
+        },
+        {
+          "name": "VAPID_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/VAPID_PRIVATE_KEY"
+        },
+        {
+          "name": "VAPID_SUBJECT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/VAPID_SUBJECT"
+        },
+        {
+          "name": "NEXT_PUBLIC_VAPID_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_VAPID_PUBLIC_KEY"
         }
       ],
       "logConfiguration": {
