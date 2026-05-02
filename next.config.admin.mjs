@@ -68,9 +68,11 @@ const adminConfig = {
     'canvas',
     'tesseract.js',
     'tesseract.js-core',
-    'edge-tts',
     'ffmpeg-static',
   ],
+
+  // edge-tts ships a .ts entry point — transpile it so webpack doesn't choke
+  transpilePackages: ['edge-tts'],
 
   typescript: { ignoreBuildErrors: true },
   devIndicators: { position: 'bottom-right' },

@@ -44,6 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     chromium \
     ca-certificates \
+    curl \
     fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
 

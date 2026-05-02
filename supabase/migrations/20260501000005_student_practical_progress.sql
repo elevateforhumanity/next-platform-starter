@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS public.student_practical_progress (
   status              text DEFAULT 'in_progress'
                         CHECK (status IN ('in_progress', 'completed', 'failed')),
   last_updated_at     timestamptz DEFAULT now(),
-  created_at          timestamptz DEFAULT now(),
+  created_at          timestamptz DEFAULT now()
   UNIQUE (user_id, lesson_id)
 );
 

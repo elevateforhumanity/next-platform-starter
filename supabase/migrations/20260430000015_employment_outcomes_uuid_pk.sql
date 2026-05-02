@@ -5,7 +5,7 @@
 
 DROP TABLE IF EXISTS public.employment_outcomes;
 
-CREATE TABLE public.employment_outcomes (
+CREATE TABLE IF NOT EXISTS public.employment_outcomes (
   id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_uuid           uuid NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   program_slug        text NOT NULL,

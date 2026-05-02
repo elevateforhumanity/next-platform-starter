@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS public.sos_organization_profiles (
   insurance_status      TEXT CHECK (insurance_status IN ('current','expired','none','unknown')) DEFAULT 'unknown',
   audit_status          TEXT CHECK (audit_status IN ('current','overdue','not_required','unknown')) DEFAULT 'unknown',
   created_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()
   CONSTRAINT uq_organization_id_18 UNIQUE (organization_id)
 );
 

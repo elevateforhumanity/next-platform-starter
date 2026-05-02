@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS public.webinar_registrations (
   email       TEXT        NOT NULL,
   name        TEXT,
   registered_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  attended    BOOLEAN     DEFAULT false,
+  attended    BOOLEAN     DEFAULT false
   CONSTRAINT uq_webinar_id_email_2 UNIQUE (webinar_id, email)
 );
 

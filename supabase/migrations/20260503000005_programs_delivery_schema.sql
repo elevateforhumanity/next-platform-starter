@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS public.program_funding (
   type        TEXT NOT NULL CHECK (type IN ('wioa', 'wrg', 'self_pay', 'employer_paid', 'unknown')),
   label       TEXT,
   is_active   BOOLEAN DEFAULT TRUE,
-  created_at  TIMESTAMPTZ DEFAULT NOW(),
+  created_at  TIMESTAMPTZ DEFAULT NOW()
   CONSTRAINT uq_program_id_type_3 UNIQUE (program_id, type)
 );
 

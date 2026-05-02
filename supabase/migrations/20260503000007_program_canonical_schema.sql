@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS public.program_tracks (
   available           BOOLEAN NOT NULL DEFAULT TRUE,
   coming_soon_message TEXT,
   sort_order          INTEGER NOT NULL DEFAULT 0,
-  created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW()
   CONSTRAINT uq_program_id_track_code_5 UNIQUE (program_id, track_code)
 );
 
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS public.program_modules (
   lesson_count   INTEGER NOT NULL DEFAULT 0,
   duration_hours NUMERIC(6,2),
   sort_order     INTEGER NOT NULL DEFAULT 0,
-  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
   CONSTRAINT uq_program_id_module_number_6 UNIQUE (program_id, module_number)
 );
 
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS public.program_lessons (
                      CHECK (lesson_type IN ('lesson','quiz','lab','exam','orientation')),
   duration_minutes INTEGER,
   sort_order       INTEGER NOT NULL DEFAULT 0,
-  created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW()
   CONSTRAINT uq_module_id_lesson_number_7 UNIQUE (module_id, lesson_number)
 );
 
