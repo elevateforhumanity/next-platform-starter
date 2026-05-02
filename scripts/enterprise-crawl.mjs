@@ -14,7 +14,6 @@ import fs from 'fs';
 import path from 'path';
 // node >=18: npm i -D cheerio node-fetch@3 robots-parser
 import * as cheerio from 'cheerio';
-import fetch from 'node-fetch';
 import robotsParser from 'robots-parser';
 
 const arg = (k, d = null) => {

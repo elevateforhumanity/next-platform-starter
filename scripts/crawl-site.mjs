@@ -3,7 +3,6 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 import robotsParser from 'robots-parser';
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
