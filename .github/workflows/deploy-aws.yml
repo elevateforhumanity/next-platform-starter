@@ -63,7 +63,6 @@ jobs:
             ${{ env.ECR_REGISTRY }}/elevate-lms:${{ env.tag }}
             ${{ env.ECR_REGISTRY }}/elevate-lms:latest
           build-args: |
-            SERVICE_ROLE=lms
             NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }}
             NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
             NEXT_PUBLIC_SITE_URL=${{ env.NEXT_PUBLIC_SITE_URL }}
@@ -118,7 +117,6 @@ jobs:
             ${{ env.ECR_REGISTRY }}/elevate-admin:${{ env.tag }}
             ${{ env.ECR_REGISTRY }}/elevate-admin:latest
           build-args: |
-            SERVICE_ROLE=admin
             NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }}
             NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
             NEXT_PUBLIC_SITE_URL=${{ env.NEXT_PUBLIC_SITE_URL }}
@@ -159,7 +157,7 @@ jobs:
       - name: Health check
         run: |
           curl -sf --max-time 30 http://elevate-lms-alb-1854717895.us-east-1.elb.amazonaws.com/ \
-            -o /dev/null && echo "✅ LMS healthy" || echo "⚠️  LMS warming up"
+            -o /dev/null && echo "LMS healthy" || echo "LMS warming up"
 
   deploy-admin:
     name: Deploy Admin
@@ -194,7 +192,7 @@ jobs:
       - name: Health check
         run: |
           curl -sf --max-time 30 http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com/ \
-            -o /dev/null && echo "✅ Admin healthy" || echo "⚠️  Admin warming up"
+            -o /dev/null && echo "Admin healthy" || echo "Admin warming up"
 
   summary:
     name: Summary
@@ -210,5 +208,5 @@ jobs:
           echo "| LMS | ${{ needs.deploy-lms.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Admin | ${{ needs.deploy-admin.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "LMS ALB: http://elevate-lms-alb-1854717895.us-east-1.elb.amazonaws.com" >> $GITHUB_STEP_SUMMARY
-          echo "Admin ALB: http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com" >> $GITHUB_STEP_SUMMARY
+          echo "LMS: https://www.elevateforhumanity.org" >> $GITHUB_STEP_SUMMARY
+          echo "Admin: https://admin.elevateforhumanity.org" >> $GITHUB_STEP_SUMMARY
