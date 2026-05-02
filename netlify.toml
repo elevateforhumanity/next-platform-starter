@@ -45,7 +45,7 @@
   # 4096MB heap. Quarantine removes ~1,400 Railway pages before next build,
   # leaving ~247 marketing routes. webpack comfortably fits in 4GB at this scale.
   # If this OOMs, the quarantine is leaking — fix the allowlist, not the heap.
-  NODE_OPTIONS = "--max-old-space-size=4096 --max-semi-space-size=32"
+  NODE_OPTIONS = "--max-old-space-size=6144 --max-semi-space-size=64"
   NEXT_PRIVATE_WORKERS_PER_JOB = "1"
   NEXT_PRIVATE_BUILD_WORKER_COUNT = "1"
   SENTRY_SKIP_AUTO_INSTRUMENTATION = "1"
