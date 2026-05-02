@@ -661,7 +661,6 @@ const nextConfig = {
       { source: '/tax-filing/:path*', destination: '/tax/:path*', permanent: true },
       { source: '/tax-services/:path*', destination: '/tax/:path*', permanent: true },
       { source: '/tax-software/:path*', destination: '/tax/:path*', permanent: true },
-      { source: '/supersonic-fast-cash', destination: '/tax', permanent: false },
       { source: '/supersonic-fast-cash/:path*', destination: '/tax', permanent: false },
 
       // Program consolidation
