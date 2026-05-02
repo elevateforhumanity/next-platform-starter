@@ -39,7 +39,7 @@ export default async function ConfirmationPage({
   }
 
   // Log confirmation page visit
-  await supabase.from('page_views').insert({ page: 'application_confirmation' }).select();
+  try { await supabase.from('page_views').insert({ page: 'application_confirmation' }).select(); } catch { /* non-critical */ }
   return (
     <>
       <ConfirmationTracking />

@@ -18,7 +18,7 @@ export default async function ApplicationSuccessPage() {
   const supabase = await createClient();
 
   // Log success page visit
-  await supabase.from('page_views').insert({ page: 'application_success' }).select();
+  try { await supabase.from('page_views').insert({ page: 'application_success' }).select(); } catch { /* non-critical */ }
   return (
     <div className="min-h-screen bg-white">
       {/* Breadcrumbs */}

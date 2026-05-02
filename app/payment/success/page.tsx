@@ -15,7 +15,7 @@ export default async function PaymentSuccessPage() {
   const supabase = await createClient();
 
   // Log payment success
-  await supabase.from('page_views').insert({ page: 'payment_success' }).select();
+  try { await supabase.from('page_views').insert({ page: 'payment_success' }).select(); } catch { /* non-critical */ }
   return (
     <div className="min-h-screen bg-white  to-white py-20">
       <div className="container mx-auto px-4 max-w-2xl text-center">

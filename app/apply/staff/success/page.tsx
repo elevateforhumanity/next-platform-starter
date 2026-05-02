@@ -15,7 +15,7 @@ export default async function StaffApplicationSuccess() {
   const supabase = await createClient();
 
   // Log success page visit
-  await supabase.from('page_views').insert({ page: 'staff_application_success' }).select();
+  try { await supabase.from('page_views').insert({ page: 'staff_application_success' }).select(); } catch { /* non-critical */ }
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-4">
       <div className="max-w-2xl w-full bg-white border border-slate-200 rounded-lg p-8 text-center">

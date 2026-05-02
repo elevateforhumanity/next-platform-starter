@@ -102,7 +102,7 @@ export default async function CheckoutSuccessPage({
   const supabase = await createClient();
 
   // Log checkout success
-  await supabase.from('page_views').insert({ page: 'checkout_success' }).select();
+  try { await supabase.from('page_views').insert({ page: 'checkout_success' }).select(); } catch { /* non-critical */ }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

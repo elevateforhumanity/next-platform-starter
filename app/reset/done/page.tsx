@@ -12,7 +12,7 @@ export default async function ResetDonePage() {
   const supabase = await createClient();
 
   // Log reset completion
-  await supabase.from('page_views').insert({ page: 'reset_done' }).select();
+  try { await supabase.from('page_views').insert({ page: 'reset_done' }).select(); } catch { /* non-critical */ }
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">

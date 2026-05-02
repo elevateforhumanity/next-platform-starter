@@ -17,7 +17,7 @@ export default async function PaymentCancelPage() {
   const supabase = await createClient();
 
   // Log payment cancellation
-  await supabase.from('page_views').insert({ page: 'payment_cancel' }).select();
+  try { await supabase.from('page_views').insert({ page: 'payment_cancel' }).select(); } catch { /* non-critical */ }
   return (
     <div className="min-h-screen bg-white  to-white py-20">
       <div className="max-w-7xl mx-auto px-4 py-4">
