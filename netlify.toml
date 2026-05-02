@@ -725,19 +725,19 @@
 # BOT / SCANNER TRAP — die at the edge, never reach SSR
 [[redirects]]
   from = "/panel/*"
-  to = "/404"
+  to = "/410.html"
   status = 410
   force = true
 
 [[redirects]]
   from = "/media-manager/*"
-  to = "/404"
+  to = "/410.html"
   status = 410
   force = true
 
 [[redirects]]
   from = "/.env"
-  to = "/404"
+  to = "/410.html"
   status = 410
   force = true
 
@@ -1003,21 +1003,6 @@
 
 # Broken slug redirects — wrong destinations fixed
 [[redirects]]
-  from = "/programs/tax-preparation"
-  to = "/programs/tax-preparation"
-  status = 200
-
-[[redirects]]
-  from = "/programs/phlebotomy"
-  to = "/programs/phlebotomy"
-  status = 200
-
-[[redirects]]
-  from = "/programs/home-health-aide"
-  to = "/programs/home-health-aide"
-  status = 200
-
-[[redirects]]
   from = "/programs/cpr-first-aid-hsi"
   to = "/programs/cpr-first-aid"
   status = 301
@@ -1113,11 +1098,3 @@
   force = true
 
 # Explicit passthrough to bust stale CDN-cached 308 on cybersecurity-analyst
-[[redirects]]
-  from = "/programs/cybersecurity-analyst"
-  to = "/programs/cybersecurity-analyst"
-  status = 200
-
-
-
-
