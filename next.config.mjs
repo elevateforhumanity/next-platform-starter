@@ -78,9 +78,7 @@ const nextConfig = {
 
   // Disable dev indicators (static route indicator, build indicator)
   devIndicators: {
-    appIsrStatus: false,
-    buildActivity: false,
-    buildActivityPosition: 'bottom-right',
+    position: 'bottom-right',
   },
 
   // Use commit SHA as build ID so webpack filesystem cache is reused across
