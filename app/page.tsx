@@ -26,18 +26,16 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main>
-      {/* Preload hero assets during HTML parse — eliminates blank-hero delay */}
-      <link rel="preload" as="image" href="/images/pages/comp-home-hero.jpg" />
+      {/* Preload hero video during HTML parse — eliminates blank-hero delay */}
       <link
         rel="preload"
         as="video"
         href="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
         type="video/mp4"
       />
-      {/* HERO */}
+      {/* HERO — no poster so the video starts immediately on a dark background */}
       <HeroVideo
         videoSrcDesktop={heroBanners.home.videoSrcDesktop}
-        posterImage={heroBanners.home.posterImage}
         voiceoverSrc={heroBanners.home.voiceoverSrc}
         microLabel={heroBanners.home.microLabel}
         belowHeroHeadline={heroBanners.home.belowHeroHeadline}

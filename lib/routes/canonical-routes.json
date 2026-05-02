@@ -151,11 +151,6 @@
       "permanent": true
     },
     {
-      "source": "/programs/network-support-technician",
-      "destination": "/programs/network-administration",
-      "permanent": true
-    },
-    {
       "source": "/programs/web-design",
       "destination": "/programs/web-development",
       "permanent": true
@@ -201,11 +196,6 @@
       "permanent": true
     },
     {
-      "source": "/programs/business",
-      "destination": "/programs/business-administration",
-      "permanent": true
-    },
-    {
       "source": "/programs/project-mgmt",
       "destination": "/programs/project-management",
       "permanent": true
@@ -226,18 +216,8 @@
       "permanent": true
     },
     {
-      "source": "/programs/esthetician",
-      "destination": "/programs/esthetician-apprenticeship",
-      "permanent": true
-    },
-    {
       "source": "/programs/professional-esthetician",
       "destination": "/programs/esthetician-apprenticeship",
-      "permanent": true
-    },
-    {
-      "source": "/programs/beauty",
-      "destination": "/programs/beauty-career-educator",
       "permanent": true
     },
     {
@@ -331,28 +311,8 @@
       "permanent": true
     },
     {
-      "source": "/programs/finance-bookkeeping-accounting",
-      "destination": "/programs/bookkeeping",
-      "permanent": true
-    },
-    {
       "source": "/programs/micro-programs",
       "destination": "/programs/catalog",
-      "permanent": true
-    },
-    {
-      "source": "/programs/federal-funded",
-      "destination": "/funding",
-      "permanent": true
-    },
-    {
-      "source": "/programs/technology",
-      "destination": "/programs/it-help-desk",
-      "permanent": true
-    },
-    {
-      "source": "/programs/jri",
-      "destination": "/partners/jri",
       "permanent": true
     },
     {
