@@ -275,6 +275,13 @@ const EXCLUDED_PREFIXES = [
   '/schedule/meeting',
   '/status',
   '/support',
+
+  // Auth-gated or internal pages confirmed leaking through filter
+  '/mou/employer',        // MOU signing form — requires admin client
+  '/parent-portal',       // Auth-gated — redirects to login
+  '/usermanagement',      // Stub page — no real content
+  '/certificates/verify', // Stub page — generic placeholder
+  '/legal/governance',    // Internal governance docs — not public policy
 ];
 
 // Segments that indicate private routes regardless of position
