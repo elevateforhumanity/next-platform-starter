@@ -703,7 +703,9 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
     X-Robots-Tag = "noai, noimageai"
 
-# Internal platform routes — block all indexing
+# Internal platform routes — block all indexing, archiving, and snippets
+# Full directive set prevents cached copies appearing in search results
+# even after deindexing. noai blocks AI training crawlers.
 [[headers]]
   for = "/admin/*"
   [headers.values]
@@ -712,58 +714,58 @@
 [[headers]]
   for = "/lms/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/student-portal/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/staff-portal/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/instructor/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/employer-portal/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/dashboard/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/api/*"
   [headers.values]
     Cache-Control = "no-store"
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/onboarding/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/checkout/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, noai"
 
 [[headers]]
   for = "/apply"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
 
 [[headers]]
   for = "/employers/intake"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # RAILWAY / PWA / STORE EDGE BLOCKS

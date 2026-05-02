@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   },
   description: 'Access your courses, track progress, and earn certifications.',
   manifest: '/manifest-student.json',
+  robots: { index: false, follow: false },
 };
 
 export default function LMSLayout({ children }: { children: React.ReactNode }) {
