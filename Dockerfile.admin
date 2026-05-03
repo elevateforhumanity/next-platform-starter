@@ -25,17 +25,20 @@ FROM deps AS builder
 WORKDIR /app
 COPY . .
 
-ENV RAILWAY=true
 ENV RAILWAY_SERVICE=admin
+ENV SERVICE_ROLE=admin
+ENV BUILD_SCOPE=1
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_OPTIONS="--max-old-space-size=7168 --max-semi-space-size=64 --expose-gc"
+ENV NODE_OPTIONS="--max-old-space-size=6144 --max-semi-space-size=64 --expose-gc"
 
-# Swap in admin-specific Next.js config, build, restore
-RUN cp next.config.mjs next.config.mjs.netlify \
+# Quarantine non-admin routes, build, restore
+RUN cp next.config.mjs next.config.mjs.bak \
  && cp next.config.admin.mjs next.config.mjs \
- && pnpm next build \
- && mv next.config.mjs.netlify next.config.mjs
+ && node scripts/railway-quarantine-marketing-routes.mjs \
+ && NODE_OPTIONS='--max-old-space-size=6144' pnpm next build \
+ && node scripts/railway-quarantine-marketing-routes.mjs --restore \
+ && mv next.config.mjs.bak next.config.mjs
 
 # ── Stage 3: runner ───────────────────────────────────────────────────────────
 FROM node:20-bookworm-slim AS runner

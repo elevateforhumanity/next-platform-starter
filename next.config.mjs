@@ -165,12 +165,9 @@ const nextConfig = {
       ],
     },
     optimizeCss: false,
-    // Enabled on AWS EC2 (16GB RAM + 8GB swap) — spreads compilation across
-    // 8 vCPUs reducing peak single-process memory vs sequential compilation.
-    // Was disabled on Netlify (8GB limit). Do not re-disable without testing.
-    parallelServerCompiles: true,
-    parallelServerBuildTraces: true,
-    webpackBuildWorker: true,
+    parallelServerCompiles: false,
+    parallelServerBuildTraces: false,
+    webpackBuildWorker: false,
   },
 
   // Suppress middleware deprecation warning (middleware.ts is still correct for our use case)

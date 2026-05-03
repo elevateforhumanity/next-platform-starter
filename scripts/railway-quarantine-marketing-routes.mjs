@@ -37,8 +37,9 @@ async function moveDir(src, dest) {
 
 const RESTORE = process.argv.includes('--restore');
 
-if (!process.env.RAILWAY && !RESTORE) {
-  console.log('[railway-quarantine] Not on Railway — skipping.');
+// Accept RAILWAY (legacy) or BUILD_SCOPE (AWS) to activate quarantine
+if (!process.env.RAILWAY && !process.env.BUILD_SCOPE && !RESTORE) {
+  console.log('[quarantine] BUILD_SCOPE not set — skipping.');
   process.exit(0);
 }
 
