@@ -94,19 +94,19 @@ export default async function ApprenticeHoursPage() {
               Timeclock
             </Link>
             <Link
-              href="/apprentice/timeclock/history"
+              href="/apprentice/timeclock"
               className="inline-flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm"
             >
               Shift Log
             </Link>
             <Link
-              href="/apprentice/competencies/log"
+              href="/apprentice/competencies"
               className="inline-flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm"
             >
               Competency Log
             </Link>
             <Link
-              href="/apprentice/hours/log"
+              href="/apprentice/hours"
               className="inline-flex items-center gap-1.5 px-3 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 text-sm"
             >
               <Plus className="w-4 h-4" />
@@ -220,7 +220,7 @@ export default async function ApprenticeHoursPage() {
             </div>
             <div className="px-6 py-4 border-t bg-white">
               <Link
-                href="/apprentice/hours/history"
+                href="/apprentice/hours"
                 className="text-brand-blue-600 hover:underline text-sm"
               >
                 View all entries →
@@ -233,7 +233,7 @@ export default async function ApprenticeHoursPage() {
             <h2 className="text-xl font-semibold text-slate-900 mb-2">No hours logged yet</h2>
             <p className="text-slate-700 mb-6">Start tracking your apprenticeship hours.</p>
             <Link
-              href="/apprentice/hours/log"
+              href="/apprentice/hours"
               className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"
             >
               <Plus className="w-4 h-4" />

@@ -106,7 +106,7 @@ export default async function StudentApplicationPage({
             </Link>
             <span className="text-white">|</span>
             <Link
-              href="/apply/staff"
+              href="/onboarding/staff"
               className="text-brand-blue-600 hover:underline font-medium text-sm"
             >
               Staff Application

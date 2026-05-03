@@ -180,7 +180,7 @@ export default async function OrientationPage() {
                   <span className="text-sm font-medium text-black">How It Works</span>
                 </Link>
                 <Link
-                  href="/financial-aid"
+                  href="/programs"
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition"
                 >
                   <Award className="w-5 h-5 text-brand-blue-600" />

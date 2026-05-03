@@ -23,7 +23,7 @@ export default function ApplyPage() {
           <span className="font-semibold text-slate-900">Applying as:</span>
           <span className="font-bold text-brand-red-600">Student / Participant</span>
           <span className="text-slate-300">|</span>
-          <Link href="/apply/employer" className="text-slate-500 hover:text-slate-800 transition-colors">Employer</Link>
+          <Link href="/onboarding/employer" className="text-slate-500 hover:text-slate-800 transition-colors">Employer</Link>
           <Link href="/apply/program-holder" className="text-slate-500 hover:text-slate-800 transition-colors">Training Provider</Link>
           <Link href="/partners/apply" className="text-slate-500 hover:text-slate-800 transition-colors">Agency / Partner</Link>
         </div>

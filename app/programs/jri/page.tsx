@@ -91,7 +91,7 @@ export default async function JRIProgramsPage() {
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
-              href="/apply/intake"
+              href="/programs/jri/apply"
               className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-lg transition-colors"
             >
               Apply Now <ArrowRight className="w-4 h-4" />
@@ -307,7 +307,7 @@ export default async function JRIProgramsPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/apprenticeships"
+                href="/programs/apprenticeships"
                 className="inline-flex px-8 py-4 bg-white text-brand-green-600 font-bold rounded-lg hover:bg-green-50 transition text-lg"
               >
                 View All Apprenticeships
@@ -678,7 +678,7 @@ export default async function JRIProgramsPage() {
                   portable nationwide.
                 </p>
                 <p>
-                  <a href="/apprenticeships" className="text-indigo-600 underline font-bold">
+                  <a href="/programs/apprenticeships" className="text-indigo-600 underline font-bold">
                     Learn more about apprenticeship programs →
                   </a>
                 </p>

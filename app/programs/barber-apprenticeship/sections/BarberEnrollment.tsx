@@ -274,7 +274,7 @@ export function BarberEnrollment() {
           </div>
           <div className="flex flex-wrap gap-3 justify-center mb-6">
             <Link
-              href="/apply/barber-apprenticeship"
+              href="/programs/barber-apprenticeship/apply"
               className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-semibold transition-all border border-white/30"
             >
               <CreditCard className="w-4 h-4" /> BNPL Options

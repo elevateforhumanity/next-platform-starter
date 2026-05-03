@@ -472,7 +472,7 @@ export default async function InstructorDashboard() {
                 <h3 className="text-lg font-semibold text-black mb-4">Community</h3>
                 <div className="space-y-2">
                   <Link
-                    href="/community"
+                    href="/lms/community"
                     className="block w-full text-left px-4 py-3 bg-brand-blue-50 hover:bg-brand-blue-100 rounded-lg transition border border-brand-blue-200"
                   >
                     <p className="font-medium text-brand-blue-900">Community Hub</p>

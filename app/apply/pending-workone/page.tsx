@@ -256,7 +256,7 @@ export default function PendingWorkOnePage({
 
         <div className="mt-6 text-center">
           <Link
-            href="/apply/track"
+            href="/student-portal/dashboard"
             className="text-brand-blue-600 hover:underline text-sm font-medium"
           >
             Track your application status

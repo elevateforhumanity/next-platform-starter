@@ -591,7 +591,7 @@ export default async function StudentDashboardPage() {
                 <h3 className="font-bold text-slate-900 text-sm sm:text-base">Study Groups</h3>
               </div>
               <Link
-                href="/community/groups"
+                href="/lms/community"
                 className="text-xs sm:text-sm text-blue-600 hover:text-blue-700"
               >
                 Browse All

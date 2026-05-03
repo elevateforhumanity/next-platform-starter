@@ -108,7 +108,7 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
               </a>
             </p>
             <a
-              href="/logout"
+              href="/api/auth/signout"
               className="inline-block text-sm text-slate-700 hover:text-slate-900 underline"
             >
               Sign out

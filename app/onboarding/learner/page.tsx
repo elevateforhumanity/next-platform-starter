@@ -459,7 +459,7 @@ export default async function LearnerOnboardingPage({
             </Link>
             <p className="text-sm text-slate-400 mt-6">
               Already applied?{' '}
-              <Link href="/apply/status" className="underline text-slate-500 hover:text-slate-700">
+              <Link href="/student-portal/dashboard" className="underline text-slate-500 hover:text-slate-700">
                 Check your application status
               </Link>
             </p>
@@ -483,7 +483,7 @@ export default async function LearnerOnboardingPage({
               when that happens — usually within 1 business day.
             </p>
             <Link
-              href="/apply/status"
+              href="/student-portal/dashboard"
               className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-700 transition"
             >
               Check Application Status <ArrowRight className="w-4 h-4" />

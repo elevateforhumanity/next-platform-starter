@@ -187,7 +187,7 @@ export default function CertificationPage() {
             Apply to a program today. Funding may be available through WIOA, WRG, or FSSA.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/apply/student" className="bg-white text-amber-700 font-bold px-8 py-3.5 rounded-lg hover:bg-amber-50 transition-colors text-sm">
+            <Link href="/apply" className="bg-white text-amber-700 font-bold px-8 py-3.5 rounded-lg hover:bg-amber-50 transition-colors text-sm">
               Apply Now
             </Link>
             <Link href="/verify" className="border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
