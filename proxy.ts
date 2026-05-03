@@ -557,12 +557,12 @@ export async function proxy(request: NextRequest) {
       '/admin/program-holders',
     ];
 
-    // The main app has no /admin/* pages — they live in apps/admin at
-    // app.elevateforhumanity.org. Redirect authenticated users there.
-    // On localhost or the admin domain itself, fall through (dev + admin app).
+    // Admin app lives in apps/admin at NEXT_PUBLIC_ADMIN_URL.
+    // Set via SSM /elevate/NEXT_PUBLIC_ADMIN_URL — baked in at build time.
     const adminAppUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org';
     const onAdminDomain =
       host.includes('app.elevateforhumanity.org') ||
+      host.includes('elevate-admin-alb') ||
       host.includes('localhost') ||
       host.includes('127.0.0.1');
     const qs = request.nextUrl.search || '';
