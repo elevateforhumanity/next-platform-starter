@@ -6,7 +6,15 @@ import Link from 'next/link';
 import { ArrowLeft, Loader2, CreditCard, Calculator, Info } from 'lucide-react';
 import LazyVideo from '@/components/ui/LazyVideo';
 import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
-import { BARBER_PRICING, calculateWeeklyPayment as calcWeekly } from '@/lib/programs/pricing';
+import { BARBER_PRICING } from '@/lib/programs/pricing';
+import {
+  TUITION_CENTS,
+  MIN_SETUP_FEE_CENTS,
+  PAYMENT_TERM_WEEKS,
+  clampSetupFeeCents,
+  weeklyPaymentCents,
+  remainingHoursDisplay,
+} from '@/lib/barber/pricing';
 import { loadStripe } from '@stripe/stripe-js';
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from '@stripe/react-stripe-js';
 import { logger } from '@/lib/logger';
@@ -16,16 +24,13 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 // Single source of truth — do not duplicate pricing constants here.
 const PRICING = BARBER_PRICING;
 
-function calculateWeeklyPayment(
-  downPayment: number,
-  hoursPerWeek: number = 40,
-  transferredHours: number = 0,
-) {
-  const result = calcWeekly(hoursPerWeek, transferredHours, downPayment);
+// Term is always 29 weeks — never derived from hours.
+// Transfer hours are progress credit only and do not affect tuition or term.
+function calculateWeeklyPayment(downPayment: number) {
+  const weeklyCents = weeklyPaymentCents(downPayment);
   return {
-    weeklyDollars: result.weeklyPaymentDollars,
-    weeks: result.weeksRemaining,
-    hoursRemaining: result.hoursRemaining,
+    weeklyDollars: weeklyCents / 100,
+    weeks: PAYMENT_TERM_WEEKS,
   };
 }
 
@@ -64,9 +69,8 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
   // Embedded Stripe checkout (BNPL — Klarna / Afterpay)
   const [embeddedClientSecret, setEmbeddedClientSecret] = useState<string | null>(null);
 
-  // Payment calculator state
+  // Transfer hours — progress credit only, does not affect price or term.
   const [transferHours, setTransferHours] = useState(0);
-  const [hoursPerWeek, setHoursPerWeek] = useState(40);
 
   // Payment option — pre-selected from URL param if provided
   const [paymentOption, setPaymentOption] = useState<PaymentOption>(() =>
@@ -98,11 +102,10 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
     setNextFriday(getNextFriday());
   }, []);
 
-  const { weeklyDollars, weeks, hoursRemaining } = calculateWeeklyPayment(
+  const { weeklyDollars, weeks } = calculateWeeklyPayment(
     paymentOption === 'custom' ? customAmount : PRICING.defaultDownPayment,
-    hoursPerWeek,
-    transferHours,
   );
+  const hoursRemaining = remainingHoursDisplay(transferHours);
 
   const updateField = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -149,7 +152,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
         transferred_hours_verified: transferHours,
         has_host_shop: formData.hasHostShop,
         host_shop_name: formData.hostShopName,
-        hours_per_week: hoursPerWeek,
+        hours_per_week: 40,
         success_url: `${window.location.origin}/programs/barber-apprenticeship/apply/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${window.location.origin}/programs/barber-apprenticeship/apply`,
       };
@@ -175,7 +178,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             paymentOption: affirmAmount >= PRICING.fullPrice ? 'full' : 'deposit',
             applicationId: applicationId,
             transferHours: transferHours,
-            hoursPerWeek: hoursPerWeek,
+            hoursPerWeek: 40,
             hasHostShop: formData.hasHostShop,
             hostShopName: formData.hostShopName,
           }),
@@ -270,7 +273,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             description: `Barber Apprenticeship - $${sezzleAmount} payment via Sezzle`,
             applicationId: applicationId,
             transferHours: transferHours,
-            hoursPerWeek: hoursPerWeek,
+            hoursPerWeek: 40,
             hasHostShop: formData.hasHostShop,
             hostShopName: formData.hostShopName,
           }),
@@ -302,7 +305,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             sms_consent: smsConsent,
             application_id: applicationId,
             transferred_hours_verified: transferHours,
-            hours_per_week: hoursPerWeek,
+            hours_per_week: 40,
             has_host_shop: formData.hasHostShop,
             host_shop_name: formData.hostShopName,
           }),
@@ -426,26 +429,9 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                     className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/50"
                     placeholder="0"
                   />
-                  <p className="text-xs text-white mt-1">
-                    Have documented hours from another program?
+                  <p className="text-xs text-white/70 mt-1">
+                    Transfer hours reduce program duration, not tuition.
                   </p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Hours Per Week
-                  </label>
-                  <select
-                    value={hoursPerWeek}
-                    onChange={(e) => setHoursPerWeek(parseInt(e.target.value))}
-                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white"
-                  >
-                    <option value="20">20 hrs/week</option>
-                    <option value="25">25 hrs/week</option>
-                    <option value="30">30 hrs/week</option>
-                    <option value="35">35 hrs/week</option>
-                    <option value="40">40 hrs/week</option>
-                  </select>
                 </div>
               </div>
 
@@ -457,8 +443,8 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                     <div className="text-2xl font-black">{hoursRemaining.toLocaleString()}</div>
                   </div>
                   <div>
-                    <div className="text-white text-xs uppercase mb-1">Est. Duration</div>
-                    <div className="text-2xl font-black">~{weeks} weeks</div>
+                    <div className="text-white text-xs uppercase mb-1">Payment Term</div>
+                    <div className="text-2xl font-black">{PAYMENT_TERM_WEEKS} weeks</div>
                   </div>
                 </div>
               </div>
@@ -800,8 +786,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                             : null;
                         const displayWeekly =
                           displayDown !== null
-                            ? calculateWeeklyPayment(displayDown, hoursPerWeek, transferHours)
-                                .weeklyDollars
+                            ? calculateWeeklyPayment(displayDown).weeklyDollars
                             : null;
                         return (
                           <div className="bg-white rounded-lg p-4 border border-brand-orange-200">

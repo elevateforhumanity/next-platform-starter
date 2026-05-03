@@ -85,7 +85,7 @@ export default function BarberCheckoutPage() {
           custom_setup_fee: effectiveDownPayment,
           hours_per_week: 40,
           transferred_hours_verified: 0,
-          success_url: `${siteUrl}/checkout/success?type=barber&session_id={CHECKOUT_SESSION_ID}`,
+          success_url: `${siteUrl}/programs/barber-apprenticeship/apply/success?session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${siteUrl}/checkout/barber-apprenticeship?cancelled=true`,
         }),
       });
