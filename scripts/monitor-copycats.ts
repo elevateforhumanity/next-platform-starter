@@ -35,20 +35,25 @@ const UNIQUE_IDENTIFIERS = [
   'dmca@www.elevateforhumanity.org',
 ];
 
-// Our official domains and internal infrastructure — exclude from suspicious results
-const OFFICIAL_DOMAINS = [
+// Official apex domain — all subdomains are ours
+const OFFICIAL_APEX = 'elevateforhumanity.org';
+
+// Additional official hostnames (non-apex)
+const OFFICIAL_HOSTNAMES = new Set([
   'elevateforhumanity.org',
   'www.elevateforhumanity.org',
   'admin.elevateforhumanity.org',
-  'github.com/elevateforhumanity',
-  // Internal / private IP ranges — never flag these (Tailscale, VPN, LAN)
-  '100.',      // Tailscale mesh VPN (100.64.0.0/10 + 100.x.x.x)
-  '192.168.',  // RFC 1918 private
-  '10.',       // RFC 1918 private
-  '172.16.',   // RFC 1918 private
-  '127.',      // loopback
-  'localhost',
-];
+  'github.com',
+  // Staging / preview environments
+  'elevate-lms.netlify.app',
+  'elevate-admin.netlify.app',
+]);
+
+// Private / internal IP prefixes — never flag (Tailscale, VPN, LAN, loopback)
+const PRIVATE_PREFIXES = ['100.', '192.168.', '10.', '172.16.', '172.17.',
+  '172.18.', '172.19.', '172.20.', '172.21.', '172.22.', '172.23.',
+  '172.24.', '172.25.', '172.26.', '172.27.', '172.28.', '172.29.',
+  '172.30.', '172.31.', '127.', '::1', 'localhost'];
 
 // Search queries to monitor
 const SEARCH_QUERIES = [
@@ -60,10 +65,27 @@ const SEARCH_QUERIES = [
 ];
 
 /**
- * Check if a URL is from our official domains
+ * Returns true if the URL belongs to our own infrastructure.
+ * Uses proper hostname parsing — not substring matching — so
+ * "evilsite.com/elevateforhumanity.org" is NOT treated as official.
  */
 function isOfficialDomain(url: string): boolean {
-  return OFFICIAL_DOMAINS.some((domain) => url.includes(domain));
+  let hostname: string;
+  try {
+    hostname = new URL(url).hostname;
+  } catch {
+    // Not a valid URL — treat as unknown
+    return false;
+  }
+
+  // Private / internal IP ranges (Tailscale 100.x, RFC 1918, loopback)
+  if (PRIVATE_PREFIXES.some((p) => hostname.startsWith(p))) return true;
+
+  // Exact match or subdomain of our apex
+  if (hostname === OFFICIAL_APEX || hostname.endsWith(`.${OFFICIAL_APEX}`)) return true;
+
+  // Other known official hostnames
+  return OFFICIAL_HOSTNAMES.has(hostname);
 }
 
 /**

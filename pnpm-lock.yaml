@@ -637,6 +637,51 @@ importers:
         specifier: 5.1.0
         version: 5.1.0
 
+  apps/admin:
+    dependencies:
+      next:
+        specifier: 15.5.15
+        version: 15.5.15(@babel/core@7.28.5)(@opentelemetry/api@1.9.1)(@playwright/test@1.57.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      react:
+        specifier: ^19.0.0
+        version: 19.2.1
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.1(react@19.2.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.39
+      '@types/react':
+        specifier: ^19
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.2.3(@types/react@19.2.14)
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
+  packages/db:
+    dependencies:
+      '@supabase/ssr':
+        specifier: '*'
+        version: 0.7.0(@supabase/supabase-js@2.89.0)
+      '@supabase/supabase-js':
+        specifier: '*'
+        version: 2.89.0
+
+  packages/shared: {}
+
+  packages/ui:
+    dependencies:
+      react:
+        specifier: '*'
+        version: 19.2.1
+      react-dom:
+        specifier: '*'
+        version: 19.2.1(react@19.2.1)
+
 packages:
 
   '@acemir/cssom@0.9.30':
@@ -4300,6 +4345,9 @@ packages:
 
   '@types/node@14.18.63':
     resolution: {integrity: sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==}
+
+  '@types/node@20.19.39':
+    resolution: {integrity: sha512-orrrD74MBUyK8jOAD/r0+lfa1I2MO6I+vAkmAWzMYbCcgrN4lCrmK52gRFQq/JRxfYPfonkr4b0jcY7Olqdqbw==}
 
   '@types/node@22.19.3':
     resolution: {integrity: sha512-1N9SBnWYOJTrNZCdh/yJE+t910Y128BoyY+zBLWhL3r0TYzlTmFdXrPwHL9DyFZmlEXNQQolTZh3KHV31QDhyA==}
@@ -14338,6 +14386,10 @@ snapshots:
   '@types/node@10.17.60': {}
 
   '@types/node@14.18.63': {}
+
+  '@types/node@20.19.39':
+    dependencies:
+      undici-types: 6.21.0
 
   '@types/node@22.19.3':
     dependencies:

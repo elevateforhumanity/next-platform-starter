@@ -233,6 +233,7 @@ async function _POST(req: Request) {
           modality_preference: undefined,
           transfer_hours_claimed: undefined,
           funding_eligibility_status: undefined,
+          type: undefined,
           // Fall back to 'submitted' if status constraint is missing new values
           status: 'submitted',
         })
