@@ -161,7 +161,7 @@ export default function BuildingServicesTechnicianPage() {
           </div>
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
             <Image sizes="100vw"
-              src="/images/programs/building-maintenance-hero.jpg"
+              src="/images/programs/building-maintenance-hero.svg"
               alt="Facility Services"
               fill
               className="object-cover"

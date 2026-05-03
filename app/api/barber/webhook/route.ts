@@ -1,8 +1,8 @@
 import { logger } from '@/lib/logger';
 import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 import type Stripe from 'stripe';
 import {
   BARBER_PRICING,
@@ -1188,28 +1188,8 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
  */
 async function _PUT(request: NextRequest) {
   try {
-    const supabase = await createClient();
-    if (!supabase) {
-      return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
-    }
-
-    // Verify admin access
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
-    }
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
 
     const body = await request.json();
     const { subscription_id, transferred_hours_verified, hours_per_week } = body;

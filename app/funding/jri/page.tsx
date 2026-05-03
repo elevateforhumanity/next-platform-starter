@@ -199,7 +199,7 @@ export default function JriPage() {
               },
               {
                 title: 'Building Maintenance',
-                image: '/images/programs/building-maintenance-hero.jpg',
+                image: '/images/programs/building-maintenance-hero.svg',
                 duration: '8-12 weeks',
                 outcome: 'Multiple Certifications',
                 salary: '$32,000 - $50,000/year',
@@ -231,6 +231,7 @@ export default function JriPage() {
                     src={program.image}
                     alt={program.title}
                     fill
+                    unoptimized={program.image.endsWith('.svg')}
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">

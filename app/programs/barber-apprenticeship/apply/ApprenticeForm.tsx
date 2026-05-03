@@ -386,7 +386,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <LazyVideo
-            src="/videos/barber-hero-final.mp4"
+            src="https://videos.pexels.com/video-files/3195441/3195441-hd_1920_1080_25fps.mp4"
             poster="/images/pages/barber-hero-main.jpg"
             className="absolute inset-0 w-full h-full object-cover"
           />
