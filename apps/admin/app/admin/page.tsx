@@ -113,6 +113,25 @@ const NAV_SECTIONS = [
 ];
 
 export default async function AdminLandingPage() {
+  // Fail visibly if required env vars are missing rather than showing logo-only blank screen
+  const missingEnv = [
+    'NEXT_PUBLIC_SUPABASE_URL',
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+    'SUPABASE_SERVICE_ROLE_KEY',
+  ].filter((key) => !process.env[key]);
+
+  if (missingEnv.length > 0) {
+    return (
+      <main style={{ padding: 32, fontFamily: 'monospace' }}>
+        <h1 style={{ color: '#b91c1c' }}>Admin dashboard not ready</h1>
+        <p>Required environment variables are missing. Check ECS task definition secrets.</p>
+        <pre style={{ background: '#fef2f2', padding: 16, borderRadius: 8 }}>
+          {JSON.stringify({ missing: missingEnv }, null, 2)}
+        </pre>
+      </main>
+    );
+  }
+
   await requireAdmin();
   const data = await getAdminDashboardData();
 
