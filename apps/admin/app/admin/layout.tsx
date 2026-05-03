@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { requireAdmin } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { AdminLicenseWrapper } from '@/components/licensing/AdminLicenseWrapper';
 import { getLicenseAccessMode } from '@/lib/licensing/billing-authority';
 import { reconcileTrialOnboarding } from '@/lib/trial/reconcile-onboarding';
@@ -39,7 +39,8 @@ export const metadata: Metadata = {
 };
 
 async function getLicenseContext() {
-  const db = await requireAdminClient();
+  const db = await getAdminClient();
+  if (!db) return null;
 
   const supabase = await createClient();
 
@@ -88,7 +89,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Fetch user + notifications + license context in parallel — single round-trip.
   // Both are bounded by a timeout so a slow DB query cannot block every admin page.
   const supabase = await createClient();
-  const db = await requireAdminClient();
+  const db = await getAdminClient();
+  if (!db) return <>{children}</>;
 
   const [context, headerData] = await Promise.all([
     withTimeout(getLicenseContext(), 3000, 'getLicenseContext').catch(() => null),
@@ -114,7 +116,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               db
                 .from('compliance_alerts')
                 .select('id', { count: 'exact', head: true })
-                .eq('resolved', false),
+                .not('status', 'eq', 'resolved'),
               db
                 .from('wioa_documents')
                 .select('id', { count: 'exact', head: true })
@@ -123,7 +125,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 .from('leads')
                 .select('id', { count: 'exact', head: true })
                 .lt('updated_at', new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString())
-                .not('stage', 'in', '("Closed Won","Closed Lost")'),
+                .not('status', 'in', '("closed_won","closed_lost","Closed Won","Closed Lost")'),
             ]);
           // Header notification counts are non-critical — log failures but don't throw
           if (appsRes.error)
