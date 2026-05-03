@@ -61,10 +61,7 @@ phases:
       - docker push $IMAGE_URI:$COMMIT_HASH
 
       - echo Updating ECS service...
-      - aws ecs update-service \
-          --cluster elevate-cluster \
-          --service elevate-lms-service \
-          --force-new-deployment
+      - aws ecs update-service --cluster elevate-cluster --service elevate-lms-service --force-new-deployment --region $AWS_DEFAULT_REGION
 
 artifacts:
   files:
