@@ -125,13 +125,13 @@ export default function ApplicationActions({
         </div>
       )}
 
-      {/* Submit application */}
+      {/* Enroll */}
       <button
         onClick={handleEnroll}
         disabled={loading !== null}
         className="w-full py-3 text-sm font-bold rounded-xl bg-brand-green-600 hover:bg-brand-green-700 text-white transition-colors disabled:opacity-50"
       >
-        {loading === 'enroll' ? 'Submitting…' : 'Submit Application'}
+        {loading === 'enroll' ? 'Enrolling…' : 'Enroll'}
       </button>
 
       {/* Inquiry — opens pre-filled email */}
