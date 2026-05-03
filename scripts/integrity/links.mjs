@@ -139,7 +139,7 @@ function extractLinks(dir) {
   return Array.from(links);
 }
 
-// Routes that are intentional redirects (netlify.toml / Next.js redirects)
+// Routes that are intentional redirects (next.config.mjs)
 // or deferred pages not yet built. These are NOT broken links.
 const ALLOWED_MISSING = new Set([
   // Redirected to LMS

@@ -20,7 +20,6 @@ function isAllowedOrigin(origin: string): boolean {
   if (ALLOWED_ORIGINS.includes(origin)) return true;
   if (origin.endsWith('.elevateforhumanity.org')) return true;
   if (process.env.NODE_ENV !== 'production') return true;
-  if (origin.includes('.netlify.app')) return true;
   if (origin.includes('.gitpod.dev')) return true;
   return false;
 }

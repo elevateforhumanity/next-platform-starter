@@ -601,7 +601,16 @@
       "permanent": true
     }
   ],
-  "railwayOnlyPrefixes": [
+  "externalOrAppHostedAllowlist": [
+    "/login",
+    "/signup",
+    "/admin/dashboard",
+    "/instructor/dashboard",
+    "/partner/login",
+    "/learner/dashboard",
+    "/lms/dashboard"
+  ],
+  "ecsOnlyPrefixes": [
     "/admin",
     "/lms",
     "/learner",
@@ -619,14 +628,5 @@
     "/pdf",
     "/migrations",
     "/internal"
-  ],
-  "externalOrAppHostedAllowlist": [
-    "/login",
-    "/signup",
-    "/admin/dashboard",
-    "/instructor/dashboard",
-    "/partner/login",
-    "/learner/dashboard",
-    "/lms/dashboard"
   ]
 }

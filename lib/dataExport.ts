@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 // =====================================================
 // CSV EXPORT
 // =====================================================
-// Note: PDF export has been moved to netlify/functions/export-pdf.ts
+// PDF export: POST /api/internal/cert-pdf
 // to keep heavy PDF libraries out of the main Next.js server handler
 
 export interface ExportColumn {

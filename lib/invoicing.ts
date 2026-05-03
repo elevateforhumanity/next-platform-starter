@@ -179,7 +179,7 @@ export async function sendInvoice(invoiceId: string): Promise<void> {
   if (!profile) throw new Error('User not found');
 
   // For now, just update status
-  // In production, call /.netlify/functions/invoice-pdf to generate PDF
+  // PDF generation: POST /api/internal/cert-pdf
 
   // Update status
   await updateInvoiceStatus(invoiceId, 'sent');
@@ -188,8 +188,8 @@ export async function sendInvoice(invoiceId: string): Promise<void> {
 // =====================================================
 // PDF GENERATION - Moved to Netlify functions
 // =====================================================
-// PDF generation has been moved to /.netlify/functions/invoice-pdf
-// to reduce the main server bundle size
+// PDF generation: POST /api/internal/cert-pdf
+
 
 // =====================================================
 // BILLING CYCLES
@@ -246,7 +246,7 @@ export async function processDueInvoices(): Promise<void> {
 // =====================================================
 // PAYMENT RECEIPTS - Moved to Netlify functions
 // =====================================================
-// Receipt generation has been moved to /.netlify/functions/receipt-pdf
+// Receipt PDF: POST /api/internal/cert-pdf
 
 // =====================================================
 // REPORTING

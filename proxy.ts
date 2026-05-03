@@ -11,12 +11,6 @@ const CONNECTS_DOMAIN = 'elevateconnects.org';
 // LMS subdomain — learn.elevateforhumanity.org → /lms
 const LEARN_SUBDOMAIN = 'learn.elevateforhumanity.org';
 
-// Railway LMS service — handles /lms, /admin, /learner, /api/generate-video
-// Set RAILWAY_LMS_URL in Netlify env vars to the Railway service public URL
-// e.g. https://elevate-lms.up.railway.app
-// When unset, all routes are handled locally (dev + fallback).
-const RAILWAY_LMS_URL = process.env.RAILWAY_LMS_URL ?? '';
-
 // Platform licensing subdomain - routes to /platform/licensing paths
 const PLATFORM_SUBDOMAIN = 'platform.elevateforhumanity.org';
 
@@ -375,50 +369,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/student-portal', request.url), 301);
   }
 
-  // ── Railway LMS proxy ────────────────────────────────────────────────────
-  // When RAILWAY_LMS_URL is set (Netlify production), proxy LMS + admin +
-  // video generation routes to the Railway service.
-  // This keeps Netlify's bundle lean and lets Railway handle heavy workloads.
-  // RAILWAY_ADMIN_URL — admin service (Elevate-admin on Railway)
-  // Guard: skip proxying when already running on Railway to prevent self-proxy loops.
-  const isOnRailway = !!process.env.RAILWAY_SERVICE_NAME;
-  const RAILWAY_ADMIN_URL = process.env.RAILWAY_ADMIN_URL ?? '';
-
-  if (RAILWAY_ADMIN_URL && !isOnRailway) {
-    const ADMIN_PREFIXES = ['/admin', '/instructor', '/api/admin'];
-    if (ADMIN_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
-      const target = new URL(pathname, RAILWAY_ADMIN_URL);
-      target.search = request.nextUrl.search;
-      return NextResponse.rewrite(target, {
-        headers: { 'x-forwarded-host': host, 'x-forwarded-proto': 'https' },
-      });
-    }
-  }
-
-  if (RAILWAY_LMS_URL && !isOnRailway) {
-    // All /api/* routes go to Railway LMS — Netlify has no API routes (quarantined).
-    // Webhooks are excluded: they must hit Netlify's own function handlers.
-    const WEBHOOK_BYPASS = [
-      '/api/webhooks/',
-      '/api/stripe/webhook',
-      '/api/license/webhook',
-      '/api/store/webhook',
-      '/api/donations/webhook',
-    ];
-    const isWebhookPath = WEBHOOK_BYPASS.some((p) => pathname.startsWith(p));
-
-    const LMS_PREFIXES = ['/lms', '/learner', '/api/'];
-    if (!isWebhookPath && LMS_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
-      const target = new URL(pathname, RAILWAY_LMS_URL);
-      target.search = request.nextUrl.search;
-      return NextResponse.rewrite(target, {
-        headers: {
-          'x-forwarded-host': host,
-          'x-forwarded-proto': 'https',
-        },
-      });
-    }
-  }
+  // All routes are served by the same AWS ECS container — no proxy needed.
 
   // learn.elevateforhumanity.org → /lms
   if (host === LEARN_SUBDOMAIN) {

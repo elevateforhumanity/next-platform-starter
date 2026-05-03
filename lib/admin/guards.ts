@@ -12,24 +12,11 @@ import { notFound } from 'next/navigation';
 export type AdminRole = 'admin' | 'super_admin' | 'staff';
 
 /**
- * Netlify context detection
- * CONTEXT values: "production" | "deploy-preview" | "branch-deploy" | "dev"
+ * Environment detection — AWS ECS (NODE_ENV driven)
  */
-const isNetlify = process.env.NETLIFY === 'true';
-const netlifyContext = process.env.CONTEXT; // Netlify deploy context
-
-/**
- * Environment detection - Netlify-aware
- */
-export const isProd = isNetlify
-  ? netlifyContext === 'production'
-  : process.env.NODE_ENV === 'production';
-
-export const isPreview = isNetlify
-  ? netlifyContext === 'deploy-preview' || netlifyContext === 'branch-deploy'
-  : false;
-
-export const isDev = !isProd && !isPreview;
+export const isProd = process.env.NODE_ENV === 'production';
+export const isPreview = false;
+export const isDev = !isProd;
 
 /**
  * Dev tools access control

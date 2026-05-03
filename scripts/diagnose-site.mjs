@@ -5,7 +5,7 @@
  * Fetches and analyzes the deployed site
  */
 
-const SITE_URL = 'https://main--elevateforhumanityfix.netlify.app';
+const SITE_URL = 'https://www.elevateforhumanity.org';
 
 async function diagnose() {
 

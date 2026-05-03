@@ -8,7 +8,7 @@
 
 - **Framework**: Next.js 16.1.6 with Turbopack, App Router
 - **Database**: Supabase (project `cuxzzpsyufcewtmicszk`, 516+ tables)
-- **Hosting**: Netlify with `@netlify/plugin-nextjs`
+- **Hosting**: AWS ECS (Fargate) — self-hosted EC2 builder via GitHub Actions (`deploy-aws.yml`), Docker image packaged with `Dockerfile.package`, deployed to ECS cluster `elevate-cluster`
 - **Package Manager**: pnpm
 - **Build**: `pnpm next build` — must complete with zero errors (page count grows as features are added — do not hardcode it)
 
@@ -27,7 +27,7 @@
 - `data/team.ts` — Team member data (7 real members)
 - `lib/tax-software/` — MeF tax stack
 - `lib/curriculum/` — Blueprint system and course generator
-- `netlify/functions/` — Serverless functions (file-return.ts, refund-tracking.ts)
+- `aws/` — ECS task definitions (`ecs-task-lms.json`, `ecs-task-admin.json`) and buildspecs
 - `supabase/migrations/` — SQL migration files (applied manually — see Migrations section)
 - `public/images/` — All site images
 
@@ -581,8 +581,8 @@ Controlled by `ADMIN_IP_ALLOWLIST` env var. No-op if unset.
 - `lib/services/curriculum-generator.ts` — Idempotent course generator
 - `lib/lms/completion-evaluator.ts` — Completion rule evaluator
 - `lib/services/exam-eligibility.ts` — Eligibility check + exam authorization
-- `netlify/functions/file-return.ts` — Tax filing endpoint
-- `netlify/functions/refund-tracking.ts` — Public tracking endpoint
+- `app/api/tax/file-return/route.ts` — Tax filing endpoint
+- `app/api/tax/refund-tracking/route.ts` — Public refund tracking endpoint
 
 ---
 

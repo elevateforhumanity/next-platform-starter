@@ -1,8 +1,7 @@
 /**
  * Media Optimization Utilities
  *
- * Image optimization has been moved to Netlify function: /.netlify/functions/image-optimize
- * This file provides URL helpers and client-side utilities that don't require Sharp.
+ * Image optimization utilities. Sharp runs server-side on the ECS container.
  */
 
 // =====================================================
@@ -165,30 +164,26 @@ export function generatePrefetchLinks(images: string[]): string {
 
 // =====================================================
 // SERVER-SIDE IMAGE OPTIMIZATION
-// =====================================================
-// These functions require Sharp and have been moved to Netlify function.
-// Call /.netlify/functions/image-optimize instead.
-
 /**
- * Optimize image using Netlify function
- * @deprecated Use fetch('/.netlify/functions/image-optimize') directly
+ * Optimize image using Sharp (runs server-side on ECS).
  */
 export async function optimizeImage(
   buffer: Buffer,
   options: ImageOptimizationOptions = {},
 ): Promise<Buffer> {
-  const base64 = buffer.toString('base64');
+  const sharp = (await import('sharp')).default;
+  let pipeline = sharp(buffer);
 
-  const response = await fetch(`${process.env.URL || ''}/.netlify/functions/image-optimize`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ image: base64, options }),
-  });
-
-  if (!response.ok) {
-    throw new Error('Image optimization failed');
+  if (options.width || options.height) {
+    pipeline = pipeline.resize(options.width, options.height, { fit: 'inside', withoutEnlargement: true });
   }
 
-  const optimizedBase64 = await response.text();
-  return Buffer.from(optimizedBase64, 'base64');
+  const format = options.format ?? 'webp';
+  const quality = options.quality ?? 80;
+
+  if (format === 'webp') pipeline = pipeline.webp({ quality });
+  else if (format === 'jpeg') pipeline = pipeline.jpeg({ quality });
+  else if (format === 'png') pipeline = pipeline.png({ quality });
+
+  return pipeline.toBuffer();
 }

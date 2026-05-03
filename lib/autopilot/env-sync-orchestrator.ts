@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
 
 export interface AutopilotInstruction {
   action: 'sync-env' | 'verify-env' | 'update-env';
-  target: 'netlify';
+  target: 'aws-ssm';
   priority: 'high' | 'medium' | 'low';
   params?: Record<string, any>;
 }
@@ -45,7 +45,7 @@ export async function instructEnvSync(): Promise<AutopilotResult> {
       },
       body: JSON.stringify({
         instruction: 'sync-all-env-vars',
-        source: 'netlify-api',
+        source: 'aws-ssm',
         target: 'local-env',
       }),
     });

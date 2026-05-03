@@ -25,19 +25,11 @@ export const env = {
   // Email
   SENDGRID_API_KEY: safeEnv('SENDGRID_API_KEY'),
 
-  // AI / Media generation
-  // RAILWAY-ONLY: OPENAI_API_KEY and DID_API_KEY are used exclusively in
-  // Railway-hosted server workers (video/audio generation, AI chat).
-  // Do NOT set these in Netlify site env — they are not needed for the
-  // Netlify frontend build or runtime.
+  // AI / Media generation — ECS server workers (video/audio generation, AI chat)
   OPENAI_API_KEY: safeEnv('OPENAI_API_KEY'),
   DID_API_KEY: safeEnv('DID_API_KEY'),
 
-  // Railway backend base URL — set in Netlify site env so netlify.toml
-  // redirect rules can proxy /admin, /lms, /store to the Railway app.
-  // This is a non-secret URL (not a token). Safe to set in Netlify.
-  // RAILWAY_TOKEN must never be set in Netlify — Railway-internal only.
-  RAILWAY_URL: safeEnv('RAILWAY_URL'),
+  SITE_URL: safeEnv('NEXT_PUBLIC_SITE_URL'),
 
   // Turnstile
   TURNSTILE_SECRET_KEY: safeEnv('TURNSTILE_SECRET_KEY'),

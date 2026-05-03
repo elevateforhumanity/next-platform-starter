@@ -94,21 +94,13 @@ const nextConfig = {
       return `build-${Date.now()}`;
     }
   },
-  // Railway needs standalone for the persistent Node server.
-  // Netlify MUST NOT use standalone — Next.js ENOENT on route-group
-  // client-reference-manifest files (lms/(public)/page_client-reference-manifest.js).
-  // Guard: NETLIFY=true (set in netlify.toml [build.environment]) OR
-  // NETLIFY_BUILD_BASE (injected by Netlify CI before config evaluation).
-  ...((process.env.NETLIFY === 'true' || process.env.NETLIFY_BUILD_BASE) ? {} : { output: 'standalone' }),
+  // Standalone output for AWS ECS — Node.js persistent server via Dockerfile.package
+  output: 'standalone',
   // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
-  // Netlify/webpack build: transpilePackages compiles it so webpack can parse it.
-  // Railway build uses next.config.railway.mjs where edge-tts is in
-  // serverExternalPackages instead — a package cannot be in both arrays under Turbopack.
+  // transpilePackages compiles it so webpack can parse it.
   transpilePackages: ['edge-tts'],
 
-  // turbopack: {} removed — enabling it causes OOM kills on Netlify's build
-  // containers (exit 137). Production builds use webpack. Dev uses --turbopack
-  // via the dev script.
+  // Production builds use webpack. Dev uses --turbopack via the dev script.
 
   reactStrictMode: true,
   trailingSlash: false,
@@ -387,7 +379,7 @@ const nextConfig = {
       { source: '/programs/business-financial', destination: '/programs/bookkeeping', permanent: true },
       { source: '/programs/finance-bookkeeping-accounting', destination: '/programs/bookkeeping', permanent: true },
       // cpr-first-aid HAS its own page — no redirect needed (removed incorrect redirect)
-      // cpr-first-aid-hsi redirect lives in netlify.toml — do not duplicate here
+      // cpr-first-aid-hsi redirect lives in next.config.mjs redirects above
       // direct-support-professional HAS its own page — no redirect needed
       // drug-collector HAS its own page — no redirect needed
       // esthetician-apprenticeship HAS its own page — no redirect needed
@@ -436,7 +428,7 @@ const nextConfig = {
       // ============================================
 
       // /admin/* — all admin routes are Railway-owned.
-      // Netlify edge (netlify.toml) force-redirects /admin and /admin/* to /login.
+      // /admin/* is gated by middleware (proxy.ts) — no redirect needed here.
       // Internal /admin/* → /admin/* path consolidation is handled by Railway's next.config.
 
       // Apprentice
@@ -591,7 +583,7 @@ const nextConfig = {
       // /home → / handled by Netlify (public SEO route, Rule A)
 
       // /student, /student/:path*, /learner, /learner/:path*, /lms/:path* →
-      // handled by Netlify edge (netlify.toml [[redirects]] → /login). Removed here to avoid conflict.
+      // handled by proxy.ts middleware — no redirect needed here.
       // Exact match first: /portal → portal chooser. Wildcard below catches /portal/anything → /lms/anything.
       { source: '/portal', destination: '/portals', permanent: true },
       { source: '/portal/:path*', destination: '/lms/:path*', permanent: true },
@@ -798,37 +790,37 @@ const nextConfig = {
       { source: '/careers', destination: '/contact', permanent: false },
       { source: '/donate', destination: '/contact', permanent: false },
       { source: '/philanthropy', destination: '/contact', permanent: false },
-      // /tuition-fees → /tuition handled in netlify.toml (301, force)
+      // /tuition-fees → /tuition
       { source: '/faq', destination: '/support', permanent: true },
       { source: '/how-it-works', destination: '/about', permanent: false },
       { source: '/mission', destination: '/about', permanent: false },
       { source: '/impact', destination: '/about', permanent: false },
       { source: '/site-map', destination: '/programs', permanent: false },
       { source: '/security-and-data-protection', destination: '/privacy-policy', permanent: false },
-      // /consumer-education → /resources handled in netlify.toml (301, force)
+      // /consumer-education → /resources
       { source: '/equal-opportunity', destination: '/about', permanent: false },
       { source: '/federal-compliance', destination: '/disclosures', permanent: false },
       { source: '/grievance', destination: '/contact', permanent: false },
       { source: '/satisfactory-academic-progress', destination: '/disclosures', permanent: false },
       { source: '/policies/:path*', destination: '/disclosures', permanent: false },
       { source: '/hire-graduates', destination: '/employers', permanent: true },
-      // /apprenticeship-sponsor → /partners/training-provider handled in netlify.toml (301, force)
+      // /apprenticeship-sponsor → /partners/training-provider
       { source: '/events', destination: '/contact', permanent: false },
       { source: '/schedule', destination: '/contact', permanent: false },
       { source: '/orientation/schedule', destination: '/contact', permanent: false },
       { source: '/onboarding/learner', destination: '/login', permanent: false },
       { source: '/onboarding/:path*', destination: '/login', permanent: false },
       { source: '/funding/dol', destination: '/funding', permanent: false },
-      // /funding/federal-programs → /funding handled in netlify.toml (301, force)
+      // /funding/federal-programs → /funding
       { source: '/funding/jri', destination: '/funding', permanent: false },
-      // /funding/state-programs → /funding handled in netlify.toml (301, force)
-      // /funding/wrg → /funding handled in netlify.toml (301, force)
+      // /funding/state-programs → /funding
+      // /funding/wrg → /funding
       { source: '/jri', destination: '/funding', permanent: false },
-      // /partners/jri → /partners handled in netlify.toml (301, force)
-      // /partners/reentry → /partners handled in netlify.toml (301, force)
+      // /partners/jri → /partners
+      // /partners/reentry → /partners
       { source: '/partners/sales', destination: '/partners', permanent: false },
       { source: '/partners/technology', destination: '/partners', permanent: false },
-      // /partners/workforce → /partners handled in netlify.toml (301, force)
+      // /partners/workforce → /partners
       { source: '/fssa-partnership-request', destination: '/contact', permanent: false },
       { source: '/pay', destination: '/apply', permanent: false },
       { source: '/enroll', destination: '/apply', permanent: false },
@@ -838,14 +830,14 @@ const nextConfig = {
       { source: '/financial-aid', destination: '/funding', permanent: true },
       { source: '/financial-support', destination: '/funding', permanent: true },
       { source: '/community/:path*', destination: '/community-services', permanent: true },
-      // /compliance/:path* is Railway-owned (netlify.toml proxy) — no redirect here
-      // /supersonic-fast-cash is handled by netlify.toml — do not add redirects here
+      // /compliance/:path* — no redirect needed
+      // /supersonic-fast-cash — external domain, no redirect needed
       { source: '/docs/:path*', destination: '/resources', permanent: false },
-      // /workone-partner-packet → /snap-et-partner handled in netlify.toml (301, force)
-      // Railway portal redirects — handled by Netlify edge (netlify.toml) for:
+      // /workone-partner-packet → /snap-et-partner
+      // Portal redirects:
       //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
       //   /instructor/:path*, /staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
-      // Remaining next.config-only portal redirects (no netlify.toml equivalent):
+      // Portal redirects:
       { source: '/dashboard', destination: '/login', permanent: false },
       { source: '/my-dashboard', destination: '/login', permanent: false },
       { source: '/employer', destination: '/employers', permanent: false },
@@ -854,7 +846,7 @@ const nextConfig = {
       { source: '/provider/:path*', destination: '/login', permanent: false },
       { source: '/approvals', destination: '/login', permanent: false },
       { source: '/account/:path*', destination: '/login', permanent: false },
-      // /admin/:path* — handled by Netlify edge (netlify.toml force redirect). Removed here.
+      // /admin/:path* — gated by proxy.ts middleware
       { source: '/program-holder/:path*', destination: '/login', permanent: false },
       // Missing public pages with no Railway equivalent
       { source: '/cert/verify', destination: '/verify', permanent: true },
@@ -962,7 +954,7 @@ const nextConfig = {
       { source: '/enroll/:path*', destination: '/apply', permanent: true },
 
       // Duplicate student forms → canonical /apply/student
-      // /apply/quick → /apply handled in netlify.toml (301, force)
+      // /apply/quick → /apply
       { source: '/apply/full', destination: '/apply/student', permanent: true },
 
       // Duplicate status pages → canonical /apply/track
@@ -970,7 +962,7 @@ const nextConfig = {
       // Duplicate success pages → canonical /apply/success
       { source: '/apply/confirmation', destination: '/apply/success', permanent: true },
 
-      // Program holder apply alias (was in netlify.toml)
+      // Program holder apply alias
       { source: '/program-holder/apply', destination: '/apply/program-holder', permanent: true },
 
       // /scholarships → /funding handled by Netlify (public SEO route, Rule A)
@@ -1039,7 +1031,7 @@ const nextConfig = {
       { source: '/agency-referral-workforce-training', destination: '/agency-referral-workforce-training-indiana', permanent: true },
 
       // ============================================
-      // DEAD LINK FIXES — railway additions
+      // DEAD LINK FIXES
       // ============================================
       { source: '/logout', destination: '/login', permanent: false },
       { source: '/student/support', destination: '/support', permanent: false },
@@ -1260,11 +1252,9 @@ const sentryWebpackPluginOptions = {
 
 // Skip Sentry webpack wrapping on Netlify (serverless, no persistent process)
 // and on AWS Docker builds (BUILD_SCOPE=1) — withSentryConfig spawns a child
-// webpack worker that doubles peak heap and OOMs the LMS build on 16GB runners.
-// Sentry still initialises at runtime via instrumentation.ts in both cases.
+// Skip Sentry webpack worker on AWS EC2 builds — it doubles peak heap and OOMs
+// the 16GB runner. Sentry still initialises at runtime via instrumentation.ts.
 const skipSentry =
-  process.env.NETLIFY === 'true' ||
-  process.env.NETLIFY_BUILD_BASE != null ||
   process.env.BUILD_SCOPE === '1';
 
 export default skipSentry

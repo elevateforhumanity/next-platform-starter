@@ -42,7 +42,7 @@ export async function getStatus(req: Request, res: Response) {
       status: 'ok',
       running: worker.isRunning,
       config: {
-        hasNetlifyToken: !!worker.config.NETLIFY_AUTH_TOKEN,
+        hasAwsAccess: !!worker.config.AWS_ACCESS_KEY_ID,
         hasSupabaseUrl: !!worker.config.VITE_SUPABASE_URL,
         hasStripeKey: !!worker.config.VITE_STRIPE_PUBLISHABLE_KEY,
         siteUrl: worker.config.VITE_SITE_URL || 'not set',
@@ -132,7 +132,6 @@ export async function syncSecrets(req: Request, res: Response) {
 
     const results = {
       github: await worker.syncToGitHub(),
-      netlify: await worker.syncToNetlify(),
     };
 
     res.json({

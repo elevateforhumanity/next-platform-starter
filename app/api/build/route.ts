@@ -13,7 +13,7 @@ async function _GET(request: Request) {
   if (auth.error) return auth.error;
   const payload = {
     now: new Date().toISOString(),
-    platform: 'netlify',
+    platform: 'aws-ecs',
     env: process.env.NODE_ENV ?? null,
     commit: process.env.COMMIT_REF ?? null,
   };

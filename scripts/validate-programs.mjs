@@ -7,7 +7,7 @@
  * or if a registered slug has no resolvable public route.
  *
  * Run: node scripts/validate-programs.mjs
- * CI:  added to build command in netlify.toml after pnpm run build
+ * CI:  runs in .github/workflows/deploy-aws.yml after pnpm next build
  */
 
 import { readFileSync, existsSync } from 'fs';

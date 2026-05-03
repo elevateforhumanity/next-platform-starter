@@ -16,7 +16,7 @@ import { rm, readdir, mkdir } from 'fs/promises';
 import { join, resolve } from 'path';
 import { existsSync } from 'fs';
 
-if (!process.env.CI && !process.env.NETLIFY) {
+if (!process.env.CI) {
   console.log('[prune-node-modules] not on CI — skipping');
   process.exit(0);
 }
@@ -187,7 +187,7 @@ async function main() {
         const pkgDir = join(PNPM_DIR, entry);
         const nodeModulesDir = join(pkgDir, 'node_modules');
         // Delete contents of the package dir but preserve the node_modules
-        // subdir (even empty) so @netlify/plugin-nextjs recreateNodeModuleSymlinks
+        
         // can readdir it without throwing ENOENT.
         const pkgContents = await readdir(pkgDir);
         for (const item of pkgContents) {

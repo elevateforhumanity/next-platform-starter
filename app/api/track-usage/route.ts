@@ -68,9 +68,7 @@ const getOfficialDomains = () => {
     // Second owned domain
     'www.elevateforhumanityeducation.com',
     'elevateforhumanityeducation.com',
-    // Hosting / dev
-    'elevate317.netlify.app',
-    '.netlify.app', // Netlify deploy previews
+    // Dev environments
     '.gitpod.dev', // Gitpod dev environments
     'localhost',
   ];

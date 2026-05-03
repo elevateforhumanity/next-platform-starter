@@ -119,7 +119,6 @@ const configs = [
   'next.config.mjs',
   'tailwind.config.js',
   'package.json',
-  'netlify.toml',
   'proxy.ts',
   '.env.example',
   'app/globals.css',

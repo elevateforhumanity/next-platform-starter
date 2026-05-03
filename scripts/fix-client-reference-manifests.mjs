@@ -1,6 +1,6 @@
 // scripts/fix-client-reference-manifests.mjs
 //
-// @netlify/plugin-nextjs ≤5.15.10 expects page_client-reference-manifest.js
+// Ensures page_client-reference-manifest.js files exist for standalone output
 // (underscore) alongside every page.js in .next/server/app/.
 // Next.js 15 either:
 //   (a) produces page.client-reference-manifest.js (dot) — needs copying, or

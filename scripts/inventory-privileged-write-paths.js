@@ -37,7 +37,7 @@ const SKIP_DIRS = new Set([
   'coverage',
   '.turbo',
 
-  '.netlify',
+
   'tmp',
   'temp',
 ]);

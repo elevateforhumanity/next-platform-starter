@@ -15,7 +15,7 @@ export async function resolveTenantFromDomain(domain: string): Promise<TenantFro
   const mainDomains = [
     'elevateforhumanity.org',
     'www.elevateforhumanity.org',
-    'elevate317.netlify.app',
+    
     'localhost',
   ];
 

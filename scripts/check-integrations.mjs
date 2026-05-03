@@ -61,24 +61,14 @@ try {
 } catch (error) {
 }
 
-// Check Netlify
+// Check AWS ECS deployment config
 try {
-  const netlifyToml = existsSync('netlify.toml')
-    ? readFileSync('netlify.toml', 'utf-8')
-    : '';
-  const hasBuildCommand = netlifyToml.includes('run build');
-
-    hasBuildCommand
-      ? '  ✅ Build command configured'
-      : '  ❌ Build command not configured'
-  );
-
-  const functions =
-    countFiles('netlify/functions', '.js') +
-    countFiles('netlify/functions', '.ts');
-
-  const redirects = (netlifyToml.match(/\[\[redirects\]\]/g) || []).length;
-
+  const hasTaskDef = existsSync('aws/ecs-task-lms.json') && existsSync('aws/ecs-task-admin.json');
+  const hasDockerfile = existsSync('Dockerfile.package');
+  const hasWorkflow = existsSync('.github/workflows/deploy-aws.yml');
+  console.log(hasTaskDef && hasDockerfile && hasWorkflow
+    ? '  ✅ AWS ECS deployment configured'
+    : '  ❌ AWS ECS deployment incomplete');
 } catch (error) {
 }
 
@@ -150,10 +140,7 @@ try {
     envContent.includes('VITE_SUPABASE_URL=') &&
     envContent.includes('VITE_SUPABASE_ANON_KEY=');
 
-  const netlifyToml = existsSync('netlify.toml')
-    ? readFileSync('netlify.toml', 'utf-8')
-    : '';
-  const netlifyConfigured = netlifyToml.includes('run build');
+  const awsConfigured = existsSync('aws/ecs-task-lms.json') && existsSync('Dockerfile.package');
 
   const wranglerToml = existsSync('wrangler.toml')
     ? readFileSync('wrangler.toml', 'utf-8')
@@ -178,7 +165,7 @@ try {
   );
     `${supabaseConfigured ? '✅' : '❌'} Supabase: ${supabaseConfigured ? 'CONFIGURED' : 'INCOMPLETE'}`
   );
-    `${netlifyConfigured ? '✅' : '❌'} Netlify: ${netlifyConfigured ? 'CONFIGURED' : 'INCOMPLETE'}`
+    `${awsConfigured ? '✅' : '❌'} AWS ECS: ${awsConfigured ? 'CONFIGURED' : 'INCOMPLETE'}`
   );
     `${cloudflareConfigured ? '✅' : '❌'} Cloudflare Workers: ${cloudflareConfigured ? 'CONFIGURED' : 'INCOMPLETE'}`
   );
@@ -188,7 +175,7 @@ try {
   const allConfigured =
     buildConfigured &&
     supabaseConfigured &&
-    netlifyConfigured &&
+    awsConfigured &&
     cloudflareConfigured &&
     envConfigured;
 

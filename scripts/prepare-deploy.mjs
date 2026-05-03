@@ -51,7 +51,7 @@ const coreFiles = [
   'sitemap.xml',
   '_headers',
   '_redirects',
-  'netlify.toml',
+
 ];
 
 coreFiles.forEach((file) => {

@@ -44,9 +44,6 @@ const OFFICIAL_HOSTNAMES = new Set([
   'www.elevateforhumanity.org',
   'admin.elevateforhumanity.org',
   'github.com',
-  // Staging / preview environments
-  'elevate-lms.netlify.app',
-  'elevate-admin.netlify.app',
 ]);
 
 // Private / internal IP prefixes — never flag (Tailscale, VPN, LAN, loopback)
@@ -60,8 +57,7 @@ const SEARCH_QUERIES = [
   '"Elevate for Humanity" -site:elevateforhumanity.org',
   '"EFH-ORIGINAL-2024"',
   '"workforce development apprenticeship" "elevate"',
-  // removed - no vercel deployments
-  'site:netlify.app "elevate" "workforce"',
+
 ];
 
 /**

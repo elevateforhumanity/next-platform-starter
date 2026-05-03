@@ -33,7 +33,7 @@ app.use(
       'http://localhost:3000',
       'https://elevateforhumanity.org',
       'https://elevateforhumanity.pages.dev',
-      'https://elevateforhumanity.netlify.app',
+      'https://www.elevateforhumanity.org',
     ],
     credentials: true,
   }),

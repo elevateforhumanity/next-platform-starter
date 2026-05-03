@@ -48,9 +48,8 @@ async function _GET(req: NextRequest) {
   const origin = req.headers.get('origin') || 'https://www.elevateforhumanity.org';
   const verifyUrl = `${origin}/cert/verify/${cert.verification_code || cert.serial}`;
 
-  // Call Netlify function for PDF generation
-  // This keeps heavy PDF libraries out of the main Next.js server handler
-  const pdfResponse = await fetch(`${process.env.URL || origin}/.netlify/functions/cert-pdf`, {
+  // Generate PDF via internal API route (runs on same ECS container)
+  const pdfResponse = await fetch(`${origin}/api/internal/cert-pdf`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -64,7 +63,7 @@ async function _GET(req: NextRequest) {
 
   if (!pdfResponse.ok) {
     const detail = await pdfResponse.text();
-    logger.error('cert-pdf Netlify function error', { serial, status: pdfResponse.status, detail });
+    logger.error('cert-pdf generation error', { serial, status: pdfResponse.status, detail });
     return NextResponse.json({ error: 'PDF generation failed' }, { status: 500 });
   }
 

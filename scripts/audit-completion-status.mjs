@@ -264,10 +264,10 @@ function checkServerSideOnly(feature) {
 }
 
 function checkCronJob(feature) {
-  const netlifyToml = path.join(rootDir, 'netlify.toml');
-  if (!fs.existsSync(netlifyToml)) return false;
+  const deployWorkflow = path.join(rootDir, '.github/workflows/deploy-aws.yml');
+  if (!fs.existsSync(deployWorkflow)) return false;
 
-  const content = fs.readFileSync(netlifyToml, 'utf8');
+  const content = fs.existsSync(deployWorkflow) ? fs.readFileSync(deployWorkflow, 'utf8') : '';
   return content.includes(feature) && content.includes('cron');
 }
 

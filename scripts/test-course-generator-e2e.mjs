@@ -12,7 +12,7 @@
  *
  * Usage:
  *   node scripts/test-course-generator-e2e.mjs
- *   node scripts/test-course-generator-e2e.mjs --base-url https://your-deploy.netlify.app
+ *   node scripts/test-course-generator-e2e.mjs --base-url https://www.elevateforhumanity.org
  *
  * Requires:
  *   - Dev server running on port 3000 (or --base-url override)

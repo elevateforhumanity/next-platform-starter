@@ -30,8 +30,8 @@ while ((m = srcPattern.exec(nextCfg)) !== null) {
   redirectSources.add(m[1].replace(/\/:path\*$/, '').replace(/\/:[^/]+/g, '/:param'));
 }
 
-// ── Load netlify.toml redirect froms ─────────────────────────────────────────
-const toml = fs.readFileSync(path.join(root, 'netlify.toml'), 'utf8');
+
+const toml = '';
 const tomlFrom = /from\s*=\s*"([/][^"]+)"/g;
 while ((m = tomlFrom.exec(toml)) !== null) {
   redirectSources.add(m[1].replace(/\/\*$/, '').replace(/\/:[^/]+/g, '/:param'));
@@ -112,7 +112,7 @@ function scanFile(filePath) {
 
 // Load quarantine allowlist — only scan Netlify-compiled app dirs
 const quarantineSrc = fs.readFileSync(
-  path.join(root, 'scripts/netlify-quarantine-railway-routes.mjs'),
+  path.join(root, 'scripts/check-internal-links.mjs'),
   'utf8',
 );
 const allowedMatch = quarantineSrc.match(/const ALLOWED_TOP_LEVEL\s*=\s*new Set\(\[([^\]]+)\]\)/s);

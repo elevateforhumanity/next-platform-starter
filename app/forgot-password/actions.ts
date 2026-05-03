@@ -5,11 +5,11 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 
 // Always use the canonical www domain for password reset links.
-// NETLIFY_URL is the deploy-preview URL — using it would set the session cookie
-// on a different origin than the user's browser, breaking the reset flow.
-// NEXT_PUBLIC_SITE_URL must be set to https://www.elevateforhumanity.org (with www)
-// in Netlify env vars. If it is set to the non-www variant, Supabase will reject
-// the redirectTo as unauthorized and fall back to the homepage.
+// Always use the canonical www domain for password reset links.
+
+
+
+
 const RAW_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 // Normalize: ensure www prefix so Supabase's allowed-redirect check passes.
 const SITE_URL = RAW_SITE_URL.replace(

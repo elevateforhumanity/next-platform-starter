@@ -94,12 +94,8 @@ const NAV_SECTIONS = [
 ];
 
 // Environment detection for badge
-const isNetlify = process.env.NEXT_PUBLIC_NETLIFY === 'true';
-const netlifyContext = process.env.NEXT_PUBLIC_CONTEXT;
-const isProd = isNetlify ? netlifyContext === 'production' : process.env.NODE_ENV === 'production';
-const isPreview = isNetlify
-  ? netlifyContext === 'deploy-preview' || netlifyContext === 'branch-deploy'
-  : false;
+const isProd = process.env.NODE_ENV === 'production';
+const isPreview = false;
 
 function getEnvBadge(): { label: string; color: string } {
   if (isProd) {

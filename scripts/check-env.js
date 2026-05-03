@@ -19,7 +19,7 @@ if (missing.length > 0) {
   });
     '\nFor production, add these to your deployment platform environment variables.'
   );
-    'For Netlify: https://app.netlify.com/sites/YOUR_SITE/settings/deploys#environment'
+    'For AWS ECS: set env vars in the ECS task definition or AWS SSM Parameter Store'
   );
     'For Cloudflare Pages: https://dash.cloudflare.com/YOUR_ACCOUNT/pages/view/YOUR_PROJECT/settings/environment-variables\n'
   );

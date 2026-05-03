@@ -497,18 +497,14 @@ class BlogSystem {
   // Durable injection handler - triggered via Zapier
   async handleDurableInjection(req, res) {
     try {
-      // Call Netlify function to inject enrollment script
-      const netlifyFunctionUrl =
-        'https://elevateforhumanityfix2.netlify.app/.netlify/functions/durable-inject';
-
-      const response = await fetch(netlifyFunctionUrl, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/internal/durable-inject`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: process.env.DURABLE_EMAIL || 'Elevateforhumanity@gmail.com',
-          password: process.env.DURABLE_PASSWORD || 'Elijah1$',
+          password: process.env.DURABLE_PASSWORD,
         }),
       });
 

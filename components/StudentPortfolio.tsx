@@ -171,7 +171,7 @@ export function StudentPortfolio() {
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS'],
       completedDate: '2024-01',
       githubUrl: 'https://github.com/example/ecommerce',
-      liveUrl: 'https://demo-ecommerce.netlify.app',
+      liveUrl: 'https://www.elevateforhumanity.org/demo/ecommerce',
       achievements: [
         'Processed 1000+ transactions',
         'Achieved 99.9% uptime',
@@ -188,7 +188,7 @@ export function StudentPortfolio() {
       technologies: ['Next.js', 'TypeScript', 'PostgreSQL', 'Socket.io', 'Prisma'],
       completedDate: '2023-11',
       githubUrl: 'https://github.com/example/taskmanager',
-      liveUrl: 'https://tasks-demo.netlify.app',
+      liveUrl: 'https://www.elevateforhumanity.org/demo/tasks',
       achievements: ['500+ active users', 'Real-time collaboration', 'Mobile responsive'],
     },
     {
@@ -224,7 +224,7 @@ export function StudentPortfolio() {
       imageUrl: '/images/pages/comp-home-hero.jpg',
       technologies: ['Vue.js', 'Firebase', 'Vuetify', 'Netlify'],
       completedDate: '2023-08',
-      liveUrl: 'https://portfolio-builder.netlify.app',
+      liveUrl: 'https://www.elevateforhumanity.org/demo/portfolio',
       achievements: ['200+ templates', 'SEO optimized', 'One-click deployment'],
     },
     {

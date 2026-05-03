@@ -5,7 +5,7 @@ import { withErrorHandling, APIErrors } from '@/lib/api';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { NextRequest, NextResponse } from 'next/server';
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
-// OCR processing moved to Netlify function: /.netlify/functions/ocr-extract
+// OCR processing: POST /api/internal/ocr-extract
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
