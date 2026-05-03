@@ -35,11 +35,19 @@ const UNIQUE_IDENTIFIERS = [
   'dmca@www.elevateforhumanity.org',
 ];
 
-// Our official domains - exclude from suspicious results
+// Our official domains and internal infrastructure — exclude from suspicious results
 const OFFICIAL_DOMAINS = [
   'elevateforhumanity.org',
   'www.elevateforhumanity.org',
+  'admin.elevateforhumanity.org',
   'github.com/elevateforhumanity',
+  // Internal / private IP ranges — never flag these (Tailscale, VPN, LAN)
+  '100.',      // Tailscale mesh VPN (100.64.0.0/10 + 100.x.x.x)
+  '192.168.',  // RFC 1918 private
+  '10.',       // RFC 1918 private
+  '172.16.',   // RFC 1918 private
+  '127.',      // loopback
+  'localhost',
 ];
 
 // Search queries to monitor

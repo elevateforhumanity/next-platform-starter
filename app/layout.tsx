@@ -11,6 +11,7 @@ import PublicLayout from '@/components/layout/PublicLayout';
 import ToasterClient from '@/components/ui/ToasterClient';
 import { SkipToContent } from '@/components/ui/SkipToContent';
 import { DMCATrackingPixel } from '@/components/InvisibleWatermark';
+import { CopyrightProtection } from '@/components/CopyrightProtection';
 import { GoogleAnalytics } from '@/components/analytics/google-analytics';
 import { GoogleAds } from '@/components/analytics/google-ads';
 import RootWidgets from '@/components/layout/RootWidgets';
@@ -241,6 +242,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <PWAManager />
         <PublicLayout>{children}</PublicLayout>
         <DMCATrackingPixel />
+        <CopyrightProtection />
         <RootWidgets />
         <ToasterClient />
       </body>
