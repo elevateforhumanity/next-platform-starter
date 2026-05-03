@@ -693,12 +693,20 @@ export default async function HVACTechnicianPage() {
               and scheduled for the exam before graduation.
             </p>
             <div className="mt-6">
-              <Link
-                href="/programs/hvac-technician/apply"
-                className="inline-block bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm"
-              >
-                Apply to the HVAC Program
-              </Link>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/programs/hvac-technician/apply"
+                  className="inline-block bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm"
+                >
+                  Enroll Now
+                </Link>
+                <Link
+                  href="/programs/hvac-technician/inquiry"
+                  className="inline-block border-2 border-slate-300 hover:border-slate-400 text-slate-700 font-bold px-7 py-3.5 rounded-lg transition-colors text-sm"
+                >
+                  Request Information
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -716,19 +724,18 @@ export default async function HVACTechnicianPage() {
             EPA 608 Universal certification proctored on-site. Most students pay nothing.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            {program.program_ctas
-              .filter((c) => c.cta_type === 'apply' || c.cta_type === 'request_info')
-              .map((cta) => {
-                const cls =
-                  cta.style_variant === 'primary'
-                    ? 'rounded-xl bg-brand-orange-600 px-6 py-3 font-semibold text-white hover:bg-brand-orange-700 transition-colors'
-                    : 'rounded-xl border border-slate-600 px-6 py-3 font-semibold text-white hover:bg-slate-800 transition-colors';
-                return (
-                  <Link key={cta.id} href={cta.href} className={cls}>
-                    {cta.label}
-                  </Link>
-                );
-              })}
+            <Link
+              href="/programs/hvac-technician/apply"
+              className="rounded-xl bg-brand-orange-600 px-8 py-3.5 font-bold text-white hover:bg-brand-orange-700 transition-colors"
+            >
+              Enroll Now
+            </Link>
+            <Link
+              href="/programs/hvac-technician/inquiry"
+              className="rounded-xl border border-slate-600 px-8 py-3.5 font-bold text-white hover:bg-slate-800 transition-colors"
+            >
+              Request Information
+            </Link>
           </div>
         </div>
       </section>

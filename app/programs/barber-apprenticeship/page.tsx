@@ -812,12 +812,20 @@ export default async function BarberApprenticeshipPage() {
               </div>
             </div>
           </div>
-          <Link
-            href="/programs/barber-apprenticeship/apply"
-            className="inline-block px-10 py-5 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold text-xl rounded-lg transition-all shadow-lg hover:shadow-xl"
-          >
-            Apply Now
-          </Link>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              href="/programs/barber-apprenticeship/apply"
+              className="inline-block px-10 py-5 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold text-xl rounded-lg transition-all shadow-lg hover:shadow-xl"
+            >
+              Enroll Now
+            </Link>
+            <Link
+              href="/programs/barber-apprenticeship/inquiry"
+              className="inline-block px-10 py-5 border-2 border-slate-300 hover:border-slate-400 text-slate-700 font-bold text-xl rounded-lg transition-all"
+            >
+              Request Information
+            </Link>
+          </div>
         </div>
       </section>
     </div>

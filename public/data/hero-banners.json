@@ -107,12 +107,13 @@
     "belowHeroHeadline": "Healthcare training that leads to certification.",
     "belowHeroSubheadline": "CNA, Medical Assistant, Pharmacy Technician, Phlebotomy, CPR, and more.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=healthcare"
+      "label": "Enroll Now",
+      "href": "/apply?program=healthcare",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/healthcare/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -244,12 +245,13 @@
     "belowHeroHeadline": "HVAC Technician \u2014 EPA 608 Universal in 20 weeks.",
     "belowHeroSubheadline": "Hands-on training with real HVAC systems. Earn EPA 608 Universal, OSHA 30, CPR, and Rise Up. Proctored on-site. Total cost $5,000 \u2014 most students pay $0 through the Workforce Ready Grant.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/programs/hvac-technician/apply"
+      "label": "Enroll Now",
+      "href": "/programs/hvac-technician/apply",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/hvac-technician/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -273,12 +275,13 @@
     "belowHeroHeadline": "CDL Training Program \u2014 Class A & Class B",
     "belowHeroSubheadline": "Get licensed. Get hired. Get on the road fast with job placement support. WIOA funding available for eligible Indiana residents.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=cdl-training"
+      "label": "Enroll Now",
+      "href": "/apply?program=cdl-training",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/cdl-training/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -302,12 +305,13 @@
     "belowHeroHeadline": "Electrical Technician \u2014 OSHA 30 + NCCER in 12 weeks.",
     "belowHeroSubheadline": "Residential and commercial wiring, NEC code, load calculations, and conduit bending. Graduate with OSHA 30 Construction and NCCER Core Curriculum. WIOA and Next Level Jobs funding available.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=electrical"
+      "label": "Enroll Now",
+      "href": "/apply?program=electrical",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/electrical/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -329,12 +333,13 @@
     "belowHeroHeadline": "Welding Technology \u2014 AWS D1.1 certification in 10 weeks.",
     "belowHeroSubheadline": "MIG, TIG, and stick welding on structural steel. AWS D1.1 tested by a Certified Welding Inspector. OSHA 10 included. WIOA and Next Level Jobs funding available.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=welding"
+      "label": "Enroll Now",
+      "href": "/apply?program=welding",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/welding/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -359,12 +364,13 @@
     "belowHeroHeadline": "Plumbing Technician \u2014 OSHA 10 + NCCER in 10 weeks.",
     "belowHeroSubheadline": "Residential and commercial plumbing systems, pipe fitting, and code compliance. Graduate with OSHA 10 Construction and NCCER Core Curriculum. WIOA and Next Level Jobs funding available.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=plumbing"
+      "label": "Enroll Now",
+      "href": "/apply?program=plumbing",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/plumbing/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -389,12 +395,13 @@
     "belowHeroHeadline": "Diesel Mechanic \u2014 OSHA 10 + ASE prep in 12 weeks.",
     "belowHeroSubheadline": "Diagnose and repair diesel engines, transmissions, and hydraulic systems. OSHA 10 and ASE exam preparation included. WIOA and Next Level Jobs funding available.",
     "primaryCta": {
-      "label": "Request Information",
-      "href": "/contact?program=diesel-mechanic"
+      "label": "Enroll Now",
+      "href": "/apply?program=diesel-mechanic",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/diesel-mechanic/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -543,12 +550,13 @@
     "belowHeroHeadline": "Pharmacy Technician \u2014 PTCB CPhT exam prep in 10 weeks.",
     "belowHeroSubheadline": "Medication dispensing, pharmacy law, sterile compounding, and inventory management. Prepare for the PTCB CPhT exam. Free with WIOA funding.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=pharmacy-technician"
+      "label": "Enroll Now",
+      "href": "/apply?program=pharmacy-technician",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/pharmacy-technician/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -730,12 +738,13 @@
     "belowHeroHeadline": "Earn your Indiana Barber License while getting paid.",
     "belowHeroSubheadline": "DOL Registered Apprenticeship. 2,000 hours \u2014 1,500 OJT in a licensed barbershop + 500 RTI. Earn wages from day one. Graduate with your Indiana Barber License.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/programs/barber-apprenticeship/apply"
+      "label": "Enroll Now",
+      "href": "/programs/barber-apprenticeship/apply",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Find a Host Shop",
-      "href": "/programs/barber-apprenticeship/host-shops",
+      "label": "Request Information",
+      "href": "/programs/barber-apprenticeship/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -759,12 +768,13 @@
     "belowHeroHeadline": "Earn your Indiana Cosmetology License while getting paid.",
     "belowHeroSubheadline": "DOL Registered Apprenticeship. 2,000 hours of supervised salon training under a licensed cosmetologist. Earn wages from day one.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/programs/cosmetology-apprenticeship/apply"
+      "label": "Enroll Now",
+      "href": "/apply?program=cosmetology-apprenticeship",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Find a Host Salon",
-      "href": "/contact?program=cosmetology-apprenticeship",
+      "label": "Request Information",
+      "href": "/programs/cosmetology-apprenticeship/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -877,12 +887,13 @@
     "belowHeroHeadline": "Beauty & Career Educator \u2014 salon skills + workforce credentials in 12 weeks.",
     "belowHeroSubheadline": "Salon services, peer teaching, Certiport ESB, and Rise Up certification. Hybrid schedule. Free with WIOA or Workforce Ready Grant.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=beauty-career-educator"
+      "label": "Enroll Now",
+      "href": "/apply?program=beauty-career-educator",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/beauty-career-educator/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -934,12 +945,13 @@
     "belowHeroHeadline": "IT Help Desk Technician \u2014 CompTIA A+ in 8 weeks.",
     "belowHeroSubheadline": "Troubleshoot hardware, software, and networks. Prepare for CompTIA A+ Core 1 and Core 2. A 4-Star Indiana Top Job. Free with WIOA or Next Level Jobs funding.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=it-help-desk"
+      "label": "Enroll Now",
+      "href": "/apply?program=it-help-desk",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/it-help-desk/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -1297,12 +1309,13 @@
     "belowHeroHeadline": "Business Administration \u2014 Microsoft Office Specialist + Certiport ESB in 8 weeks.",
     "belowHeroSubheadline": "Microsoft Office, QuickBooks, and business fundamentals. Prepare for Microsoft Office Specialist and Certiport ESB certifications. WIOA and Next Level Jobs funding available.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=business-administration"
+      "label": "Enroll Now",
+      "href": "/apply?program=business-administration",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/business-administration/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -2485,12 +2498,13 @@
     "belowHeroHeadline": "Cybersecurity Analyst \u2014 launch a tech career.",
     "belowHeroSubheadline": "Earn CompTIA Security+ and CySA+ in 12 weeks. WIOA and Workforce Ready Grant funding available.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=cybersecurity"
+      "label": "Enroll Now",
+      "href": "/apply?program=cybersecurity",
+      "variant": "primary"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility",
+      "label": "Request Information",
+      "href": "/programs/cybersecurity/inquiry",
       "variant": "secondary"
     },
     "trustIndicators": [
