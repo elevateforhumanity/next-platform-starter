@@ -682,7 +682,7 @@ export const emailTemplates = {
                       <strong style="color: #0c4a6e;">Average Starting Wage:</strong>
                     </td>
                     <td style="padding: 12px 0; text-align: right;">
-                      <span style="color: #0369a1; font-size: 20px; font-weight: bold;">${{ avgWage }}/hr</span>
+                      <span style="color: #0369a1; font-size: 20px; font-weight: bold;">{{avgWage}}/hr</span>
                     </td>
                   </tr>
                 </table>
