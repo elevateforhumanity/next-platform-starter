@@ -2,7 +2,7 @@
 
 // app/api/applications/route.ts
 import { NextResponse } from 'next/server';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { getProgramEnrollmentState } from '@/lib/programs/program-state';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
@@ -57,7 +57,7 @@ async function _POST(req: Request) {
       }
     }
 
-    const supabase = await requireAdminClient();
+    const supabase = await getAdminClient();
 
     if (!supabase) {
       return NextResponse.json(

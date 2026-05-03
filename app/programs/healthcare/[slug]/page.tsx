@@ -39,7 +39,7 @@ const PROGRAM_TO_AGREEMENT_KEY: Record<string, string> = {
 
 export default function NhaProgramPage() {
   const params = useParams();
-  const slug = typeof params.program === 'string' ? params.program : '';
+  const slug = typeof params.slug === 'string' ? params.slug : '';
   const progKey = SLUG_TO_PROGRAM_KEY[slug];
 
   if (!progKey) notFound();
