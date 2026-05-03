@@ -1,31 +1,40 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - npm install -g pnpm@10.28.2 --silent
+
   pre_build:
     commands:
       - echo Logging in to ECR...
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      # Pull build-time secrets from SSM
+      # Pull build-time public vars from SSM
       - export NEXT_PUBLIC_SUPABASE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_URL --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SUPABASE_ANON_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SITE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SITE_URL --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY --with-decryption --query Parameter.Value --output text)
+      - export NEXT_PUBLIC_GA_MEASUREMENT_ID=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_GA_MEASUREMENT_ID --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
 
   build:
     commands:
-      - echo Building LMS image...
-      - docker build
-          --build-arg SERVICE_ROLE=lms
-          --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
-          --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
-          --build-arg NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
-          --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-          -f Dockerfile.package
-          -t $IMAGE_URI:latest
-          -t $IMAGE_URI:$COMMIT_HASH
-          .
+      # Install dependencies on the CodeBuild host (full RAM, no Docker cgroup limit)
+      - echo Installing dependencies...
+      - pnpm install --frozen-lockfile
+      # Run next build on host — avoids Docker memory cap that causes OOM
+      - echo Building LMS...
+      - export NODE_OPTIONS="--max-old-space-size=14336 --max-semi-space-size=128 --expose-gc"
+      - export NEXT_TELEMETRY_DISABLED=1
+      - export BUILD_SCOPE=1
+      - node scripts/stamp-sw.mjs
+      - pnpm next build
+      # Package the pre-built .next/standalone into a Docker image (no compilation)
+      - echo Packaging Docker image...
+      - docker build -f Dockerfile.package -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 
   post_build:
     commands:
@@ -34,6 +43,7 @@ phases:
       - docker push $IMAGE_URI:$COMMIT_HASH
       - echo Build complete
       - printf '[{"name":"elevate-lms","imageUri":"%s"}]' $IMAGE_URI:$COMMIT_HASH > imagedefinitions.json
+      - rm -rf .next node_modules || true
 
 artifacts:
   files:

@@ -1,6 +1,12 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - npm install -g pnpm@10.28.2 --silent
+
   pre_build:
     commands:
       - echo Logging in to ECR...
@@ -14,17 +20,19 @@ phases:
 
   build:
     commands:
-      - echo Building Admin image...
-      - docker build
-          --build-arg SERVICE_ROLE=admin
-          --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
-          --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
-          --build-arg NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
-          --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-          -f Dockerfile.admin
-          -t $IMAGE_URI:latest
-          -t $IMAGE_URI:$COMMIT_HASH
-          .
+      # Install root deps (shared lib/, components/) + admin app deps
+      - echo Installing dependencies...
+      - pnpm install --frozen-lockfile
+      - cd apps/admin && pnpm install --frozen-lockfile && cd ../..
+      # Run next build on host — avoids Docker memory cap
+      - echo Building Admin...
+      - export NODE_OPTIONS="--max-old-space-size=8192 --max-semi-space-size=64 --expose-gc"
+      - export NEXT_TELEMETRY_DISABLED=1
+      - export BUILD_SCOPE=1
+      - cd apps/admin && pnpm next build && cd ../..
+      # Package the pre-built .next/standalone into a Docker image (no compilation)
+      - echo Packaging Docker image...
+      - docker build -f Dockerfile.admin -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 
   post_build:
     commands:
@@ -33,6 +41,7 @@ phases:
       - docker push $IMAGE_URI:$COMMIT_HASH
       - echo Build complete
       - printf '[{"name":"elevate-admin","imageUri":"%s"}]' $IMAGE_URI:$COMMIT_HASH > imagedefinitions.json
+      - rm -rf apps/admin/.next apps/admin/node_modules || true
 
 artifacts:
   files:
