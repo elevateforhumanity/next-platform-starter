@@ -354,6 +354,12 @@ const nextConfig = {
       // DELETED PAGE REDIRECTS
       // ============================================
       {
+        // Duplicate admin login shell — consolidated into /login
+        source: '/admin-login',
+        destination: '/login?redirect=/admin/dashboard',
+        permanent: true,
+      },
+      {
         source: '/programs/technology/it-support',
         destination: '/programs/it-help-desk',
         permanent: true,

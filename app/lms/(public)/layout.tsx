@@ -4,13 +4,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// Explicit html/body wrapper forces Next.js to generate a
-// clientReferenceManifest for this route group, preventing the
-// "Expected clientReferenceManifest to be defined" invariant error.
+// NOTE: do NOT add <html><body> here — this layout is nested inside app/layout.tsx
+// which already provides the document shell. A nested html/body causes a broken
+// double-document and is the root cause of the inconsistent shell the audit flagged.
+// The clientReferenceManifest invariant is resolved by having any client component
+// imported in this subtree (StudentToolsStrip in the page satisfies this).
 export default function LmsPublicLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+  return <>{children}</>;
 }
