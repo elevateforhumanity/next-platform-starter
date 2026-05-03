@@ -1,41 +1,92 @@
 name: Deploy to AWS ECS
 
+# Two independent pipelines — LMS and Admin — triggered by path.
+# Each builds only its own app and deploys only its own ECS service.
+# Secrets are pulled from SSM at build time (mirrors buildspec-lms.yml / buildspec-admin.yml).
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      target:
+        description: 'Which app to deploy'
+        required: true
+        default: 'both'
+        type: choice
+        options: [lms, admin, both]
 
-# Only one deploy runs at a time. A new push cancels any in-progress deploy.
 concurrency:
-  group: deploy-aws
+  group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
 env:
   AWS_REGION: us-east-1
-  AWS_ACCOUNT_ID: '954718262498'
   ECR_REGISTRY: 954718262498.dkr.ecr.us-east-1.amazonaws.com
   ECS_CLUSTER: elevate-cluster
 
 jobs:
-  # ── Build & push LMS image ──────────────────────────────────────────────────
-  build-lms:
-    name: Build LMS
+  # ── Detect which apps changed ───────────────────────────────────────────────
+  changes:
     runs-on: ubuntu-latest
     outputs:
-      image: ${{ steps.meta.outputs.image }}
-
+      lms: ${{ steps.filter.outputs.lms }}
+      admin: ${{ steps.filter.outputs.admin }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
+      - name: Detect changed paths
+        id: filter
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TARGET="${{ github.event.inputs.target }}"
+            [[ $TARGET == lms || $TARGET == both ]] && LMS=true || LMS=false
+            [[ $TARGET == admin || $TARGET == both ]] && ADMIN=true || ADMIN=false
+            echo "lms=$LMS" >> $GITHUB_OUTPUT
+            echo "admin=$ADMIN" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          CHANGED=$(git diff --name-only HEAD~1 HEAD)
+          echo "$CHANGED"
+          # Admin: apps/admin/ or shared code
+          echo "$CHANGED" | grep -qE '^(apps/admin/|lib/|components/|types/|hooks/|context/)' \
+            && echo "admin=true" >> $GITHUB_OUTPUT || echo "admin=false" >> $GITHUB_OUTPUT
+          # LMS: anything outside apps/admin/
+          echo "$CHANGED" | grep -qvE '^apps/admin/' \
+            && echo "lms=true" >> $GITHUB_OUTPUT || echo "lms=false" >> $GITHUB_OUTPUT
+
+  # ── Deploy LMS ──────────────────────────────────────────────────────────────
+  deploy-lms:
+    name: Deploy LMS
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.lms == 'true'
+    steps:
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Pull build secrets from SSM
+        run: |
+          get() { aws ssm get-parameter --name "/elevate/$1" --with-decryption --query Parameter.Value --output text 2>/dev/null || echo ""; }
+          echo "NEXT_PUBLIC_SUPABASE_URL=$(get NEXT_PUBLIC_SUPABASE_URL)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$(get NEXT_PUBLIC_SUPABASE_ANON_KEY)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SITE_URL=$(get NEXT_PUBLIC_SITE_URL)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$(get NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_ADMIN_URL=$(get NEXT_PUBLIC_ADMIN_URL)" >> $GITHUB_ENV
 
       - name: Build LMS
         env:
@@ -43,185 +94,95 @@ jobs:
           NEXT_TELEMETRY_DISABLED: '1'
           BUILD_SCOPE: '1'
           SERVICE_ROLE: lms
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
         run: pnpm next build
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Log in to ECR
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Build and push LMS image
-        id: meta
+      - name: Package, push, deploy LMS
         env:
           IMAGE_URI: ${{ env.ECR_REGISTRY }}/elevate-lms
-          COMMIT: ${{ github.sha }}
         run: |
-          SHORT=${COMMIT::7}
-          docker build -f Dockerfile.package \
-            -t $IMAGE_URI:latest \
-            -t $IMAGE_URI:$SHORT \
-            .
-          docker push $IMAGE_URI:latest
-          docker push $IMAGE_URI:$SHORT
-          echo "image=$IMAGE_URI:$SHORT" >> $GITHUB_OUTPUT
+          SHORT=${GITHUB_SHA::7}
+          docker build -f Dockerfile.package -t $IMAGE_URI:latest -t $IMAGE_URI:$SHORT .
+          docker push $IMAGE_URI:latest && docker push $IMAGE_URI:$SHORT
+          CURRENT=$(aws ecs describe-task-definition --task-definition elevate-lms --query taskDefinition --output json)
+          NEW_DEF=$(echo "$CURRENT" | python3 -c "
+          import json,sys; t=json.load(sys.stdin)
+          t['containerDefinitions'][0]['image']='$IMAGE_URI:$SHORT'
+          [t.pop(f,None) for f in ['taskDefinitionArn','revision','status','requiresAttributes','compatibilities','registeredAt','registeredBy']]
+          print(json.dumps(t))")
+          NEW_ARN=$(aws ecs register-task-definition --cli-input-json "$NEW_DEF" --query taskDefinition.taskDefinitionArn --output text)
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service elevate-lms-service --task-definition "$NEW_ARN" --output text
+          echo "LMS deployed: $NEW_ARN"
 
-  # ── Build & push Admin image ────────────────────────────────────────────────
-  build-admin:
-    name: Build Admin
+      - name: LMS health check
+        run: |
+          sleep 30
+          for i in 1 2 3 4 5; do
+            S=$(curl -s -o /dev/null -w "%{http_code}" https://www.elevateforhumanity.org/api/health)
+            echo "LMS: $S"; [ "$S" = "200" ] && exit 0; sleep 20
+          done; exit 1
+
+  # ── Deploy Admin ────────────────────────────────────────────────────────────
+  deploy-admin:
+    name: Deploy Admin
     runs-on: ubuntu-latest
-    outputs:
-      image: ${{ steps.meta.outputs.image }}
-
+    needs: changes
+    if: needs.changes.outputs.admin == 'true'
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: Build Admin app
+      - name: Pull build secrets from SSM
+        run: |
+          get() { aws ssm get-parameter --name "/elevate/$1" --with-decryption --query Parameter.Value --output text 2>/dev/null || echo ""; }
+          echo "NEXT_PUBLIC_SUPABASE_URL=$(get NEXT_PUBLIC_SUPABASE_URL)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$(get NEXT_PUBLIC_SUPABASE_ANON_KEY)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SITE_URL=$(get NEXT_PUBLIC_SITE_URL)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$(get NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)" >> $GITHUB_ENV
+
+      - name: Build Admin
         env:
           NODE_OPTIONS: '--max-old-space-size=8192 --max-semi-space-size=64 --expose-gc'
           NEXT_TELEMETRY_DISABLED: '1'
           BUILD_SCOPE: '1'
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
         run: cd apps/admin && pnpm next build
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Log in to ECR
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Build and push Admin image
-        id: meta
+      - name: Package, push, deploy Admin
         env:
           IMAGE_URI: ${{ env.ECR_REGISTRY }}/elevate-admin
-          COMMIT: ${{ github.sha }}
         run: |
-          SHORT=${COMMIT::7}
-          docker build -f Dockerfile.admin \
-            -t $IMAGE_URI:latest \
-            -t $IMAGE_URI:$SHORT \
-            .
-          docker push $IMAGE_URI:latest
-          docker push $IMAGE_URI:$SHORT
-          echo "image=$IMAGE_URI:$SHORT" >> $GITHUB_OUTPUT
-
-  # ── Deploy LMS to ECS ───────────────────────────────────────────────────────
-  deploy-lms:
-    name: Deploy LMS
-    runs-on: ubuntu-latest
-    needs: [build-lms]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Render ECS task definition with new image
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: aws/ecs-task-lms.json
-          container-name: elevate-lms
-          image: ${{ needs.build-lms.outputs.image }}
-
-      - name: Deploy LMS to ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: elevate-lms-service
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
-
-  # ── Deploy Admin to ECS ─────────────────────────────────────────────────────
-  deploy-admin:
-    name: Deploy Admin
-    runs-on: ubuntu-latest
-    needs: [build-admin]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Render ECS task definition with new image
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: aws/ecs-task-admin.json
-          container-name: elevate-admin
-          image: ${{ needs.build-admin.outputs.image }}
-
-      - name: Deploy Admin to ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: elevate-admin-service
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
-
-  # ── Post-deploy health check ────────────────────────────────────────────────
-  verify:
-    name: Verify
-    runs-on: ubuntu-latest
-    needs: [deploy-lms, deploy-admin]
-
-    steps:
-      - name: Wait for DNS/ALB propagation
-        run: sleep 30
-
-      - name: LMS health check
-        run: |
-          for i in 1 2 3; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://www.elevateforhumanity.org/api/health)
-            echo "LMS health: $STATUS"
-            [ "$STATUS" = "200" ] && exit 0
-            sleep 15
-          done
-          echo "LMS health check failed after 3 attempts"
-          exit 1
+          SHORT=${GITHUB_SHA::7}
+          docker build -f Dockerfile.admin -t $IMAGE_URI:latest -t $IMAGE_URI:$SHORT .
+          docker push $IMAGE_URI:latest && docker push $IMAGE_URI:$SHORT
+          CURRENT=$(aws ecs describe-task-definition --task-definition elevate-admin --query taskDefinition --output json)
+          NEW_DEF=$(echo "$CURRENT" | python3 -c "
+          import json,sys; t=json.load(sys.stdin)
+          t['containerDefinitions'][0]['image']='$IMAGE_URI:$SHORT'
+          [t.pop(f,None) for f in ['taskDefinitionArn','revision','status','requiresAttributes','compatibilities','registeredAt','registeredBy']]
+          print(json.dumps(t))")
+          NEW_ARN=$(aws ecs register-task-definition --cli-input-json "$NEW_DEF" --query taskDefinition.taskDefinitionArn --output text)
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service elevate-admin-service --task-definition "$NEW_ARN" --output text
+          echo "Admin deployed: $NEW_ARN"
 
       - name: Admin health check
         run: |
-          for i in 1 2 3; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://app.elevateforhumanity.org/api/health)
-            echo "Admin health: $STATUS"
-            [ "$STATUS" = "200" ] && exit 0
-            sleep 15
-          done
-          echo "Admin health check failed after 3 attempts"
-          exit 1
+          sleep 30
+          for i in 1 2 3 4 5; do
+            S=$(curl -s -o /dev/null -w "%{http_code}" https://admin.elevateforhumanity.org/api/health)
+            echo "Admin: $S"; [ "$S" = "200" ] && exit 0; sleep 20
+          done; exit 1
