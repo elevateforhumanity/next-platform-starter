@@ -199,20 +199,32 @@ async function _POST(req: Request) {
       .select()
       .maybeSingle();
 
-    // If insert failed due to unknown column, retry without optional columns
-    // that may not exist in all DB environments yet.
-    // normalized_email / normalized_phone → added in 20260621000001 (not yet live)
-    // county_of_residence / household_income / family_size / modality_preference → 20260430000004
-    // transfer_hours_claimed → 20260408000006
-    // funding_eligibility_status → 20260425000001
-    if (error && (error.code === '42703' || error.message?.includes('column'))) {
-      logger.warn('[api/applications] Retrying insert without optional columns', {
-        code: error.code, message: error.message,
+    // Retry logic for DB environments where optional migrations haven't been applied yet.
+    //
+    // 42703 = unknown column (normalized_email/phone, county_of_residence, etc.)
+    // 23514 = check constraint violation — status constraint missing new values
+    //         (pending_admin_review, pending_funding) until 20260621000001 is applied
+    //
+    // On either error: strip optional columns AND fall back to 'submitted' status
+    // so the application saves rather than silently failing.
+    const isColumnError =
+      error &&
+      (error.code === '42703' ||
+        error.message?.includes('column') ||
+        error.code === '23514' ||
+        error.message?.includes('constraint') ||
+        error.message?.includes('check'));
+
+    if (isColumnError) {
+      logger.warn('[api/applications] Retrying insert with reduced payload', {
+        code: error.code,
+        message: error.message,
       });
       const fallback = await supabase
         .from('applications')
         .insert({
           ...corePayload,
+          // Strip columns added in migrations that may not be live yet
           normalized_email: undefined,
           normalized_phone: undefined,
           county_of_residence: undefined,
@@ -221,6 +233,8 @@ async function _POST(req: Request) {
           modality_preference: undefined,
           transfer_hours_claimed: undefined,
           funding_eligibility_status: undefined,
+          // Fall back to 'submitted' if status constraint is missing new values
+          status: 'submitted',
         })
         .select()
         .maybeSingle();
