@@ -164,25 +164,13 @@ const nextConfig = {
         'elevateforhumanity.org',
       ],
     },
-    // optimizePackageImports is disabled globally.
-    // On Netlify (1,400+ pages) it adds significant webpack compilation overhead
-    // and was confirmed active in build logs despite the NETLIFY env-var guard
-    // (the var may not be set when next.config.mjs is first evaluated).
-    // Re-enable per-package only after moving to a host with >8 GB build RAM.
-    // Disabled: spawns separate child processes, exceeds Netlify build RAM.
     optimizeCss: false,
-    parallelServerCompiles: false,
-    parallelServerBuildTraces: false,
-    // webpackBuildWorker: disabled.
-    // When true, Next.js spawns a child worker with isolatedMemory: false,
-    // meaning the child inherits the full NODE_OPTIONS heap (7168 MB).
-    // Main process + worker = up to 14 GB on an 8 GB Netlify container → SIGKILL.
-    // Running webpack in-process keeps peak RSS within the single 7168 MB budget.
-    // deferredEntries + onBeforeDeferredEntries already handle GC between passes.
-    webpackBuildWorker: false,
-
-    // deferredEntries: removed — OOM is now controlled via single worker +
-    // 4GB heap. Two-pass compilation added complexity without enough benefit.
+    // Enabled on AWS EC2 (16GB RAM + 8GB swap) — spreads compilation across
+    // 8 vCPUs reducing peak single-process memory vs sequential compilation.
+    // Was disabled on Netlify (8GB limit). Do not re-disable without testing.
+    parallelServerCompiles: true,
+    parallelServerBuildTraces: true,
+    webpackBuildWorker: true,
   },
 
   // Suppress middleware deprecation warning (middleware.ts is still correct for our use case)
