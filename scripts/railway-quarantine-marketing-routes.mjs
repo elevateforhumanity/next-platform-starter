@@ -46,19 +46,6 @@ if (!process.env.RAILWAY && !process.env.BUILD_SCOPE && !RESTORE) {
 const QUARANTINE_ROOT = '.railway-quarantine';
 const SERVICE_ROLE = process.env.SERVICE_ROLE || 'all';
 
-// API subdirs to quarantine from the LMS build (admin-only routes).
-// These live inside app/api/ so the top-level quarantine loop can't reach them.
-const LMS_API_QUARANTINE = [
-  'admin',
-  'analytics',
-  'audit',
-  'audit-logs',
-  'cron',
-  'export',
-  'reports',
-  'staff',
-];
-
 // Shared: needed by every Railway service
 const SHARED = [
   '(auth)',
@@ -241,7 +228,7 @@ async function quarantine() {
 
   console.log(`[railway-quarantine] SERVICE_ROLE=${SERVICE_ROLE}`);
   console.log(
-    `[railway-quarantine] ${entries.length} entries in app/ — quarantining ${toMove.length} top-level dirs...`,
+    `[railway-quarantine] ${entries.length} entries in app/ — quarantining ${toMove.length} dirs...`,
   );
 
   for (const entry of toMove) {
@@ -249,30 +236,8 @@ async function quarantine() {
     console.log(`  ✓ app/${entry}`);
   }
 
-  // For the LMS build, also quarantine admin-only API subdirs inside app/api/.
-  // The top-level loop can't reach these since app/api itself stays in the allowlist.
-  if (SERVICE_ROLE === 'lms') {
-    let apiMoved = 0;
-    for (const sub of LMS_API_QUARANTINE) {
-      const src = join('app', 'api', sub);
-      try {
-        const s = await stat(src);
-        if (s.isDirectory()) {
-          await moveDir(src, join(QUARANTINE_ROOT, 'app', 'api', sub));
-          console.log(`  ✓ app/api/${sub}`);
-          apiMoved++;
-        }
-      } catch {
-        /* subdir doesn't exist — skip */
-      }
-    }
-    if (apiMoved > 0) {
-      console.log(`[railway-quarantine] Quarantined ${apiMoved} admin API subdirs from app/api/`);
-    }
-  }
-
   console.log(
-    `[railway-quarantine] Done — ${entries.length - toMove.length} top-level dirs remain for compilation.`,
+    `[railway-quarantine] Done — ${entries.length - toMove.length} dirs remain for compilation.`,
   );
 }
 
@@ -282,26 +247,11 @@ async function restore() {
     console.log('[railway-quarantine] Nothing to restore.');
     return;
   }
-
-  // Restore top-level app/ dirs
   const entries = await readdir(quarantinedApp);
-  // Filter out 'api' — we handle its subdirs separately below
-  const topLevel = entries.filter(e => e !== 'api');
-  console.log(`[railway-quarantine] Restoring ${topLevel.length} top-level dirs...`);
-  for (const entry of topLevel) {
+  console.log(`[railway-quarantine] Restoring ${entries.length} dirs...`);
+  for (const entry of entries) {
     await moveDir(join(quarantinedApp, entry), join('app', entry));
   }
-
-  // Restore any quarantined app/api/ subdirs
-  const quarantinedApi = join(QUARANTINE_ROOT, 'app', 'api');
-  if (existsSync(quarantinedApi)) {
-    const apiEntries = await readdir(quarantinedApi);
-    console.log(`[railway-quarantine] Restoring ${apiEntries.length} api subdirs...`);
-    for (const sub of apiEntries) {
-      await moveDir(join(quarantinedApi, sub), join('app', 'api', sub));
-    }
-  }
-
   console.log(`[railway-quarantine] Restored ${entries.length} directories.`);
 }
 

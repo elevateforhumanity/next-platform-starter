@@ -1,0 +1,43 @@
+# Dockerfile.package
+#
+# Packages a pre-built Next.js standalone output into a minimal runtime image.
+# The `next build` step runs on the EC2 host (full RAM, no Docker cgroup limit)
+# and produces .next/standalone + .next/static. This Dockerfile only copies
+# those artifacts into the final image — no compilation happens here.
+#
+# Used by the build-lms CI job in deploy-aws.yml.
+
+FROM node:20-bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    chromium \
+    ca-certificates \
+    fonts-liberation \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV CHROMIUM_PATH=/usr/bin/chromium
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV RAILWAY=true
+ENV HOSTNAME=0.0.0.0
+
+WORKDIR /app
+
+# Copy standalone server output produced by `next build` on the host
+COPY .next/standalone ./
+COPY .next/static ./.next/static
+COPY public ./public
+
+# Copy Remotion compositions (needed at render time)
+COPY remotion-src ./remotion-src
+
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs && \
+    chown -R nextjs:nodejs /app
+
+USER nextjs
+
+CMD ["node", "--max-http-header-size=32768", "server.js"]
