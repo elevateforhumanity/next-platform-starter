@@ -28,21 +28,8 @@ const adminConfig = {
     return config;
   },
 
-  // Standalone output needs to include shared node_modules from root
+  // Standalone output — trace files from repo root so shared lib/ etc. are included
   outputFileTracingRoot: ROOT,
-
-  outputFileTracingIncludes: {
-    '/**': [
-      `${ROOT}/lib/**`,
-      `${ROOT}/components/**`,
-      `${ROOT}/types/**`,
-      `${ROOT}/data/**`,
-      `${ROOT}/config/**`,
-      `${ROOT}/hooks/**`,
-      `${ROOT}/context/**`,
-      `${ROOT}/public/**`,
-    ],
-  },
 
   serverExternalPackages: [
     // Remotion — ships native binaries and .mjs workers webpack can't bundle
@@ -59,6 +46,17 @@ const adminConfig = {
     '@rspack/binding-linux-x64-gnu',
     // esbuild — .d.ts files get picked up by webpack, must stay external
     'esbuild',
+    // Sentry + OpenTelemetry — dynamic require() patterns break webpack
+    '@sentry/nextjs',
+    '@sentry/node',
+    '@sentry/node-core',
+    '@sentry/core',
+    '@opentelemetry/api',
+    '@opentelemetry/sdk-node',
+    '@opentelemetry/instrumentation',
+    '@opentelemetry/exporter-trace-otlp-http',
+    '@opentelemetry/resources',
+    '@opentelemetry/semantic-conventions',
     // Other heavy server-only deps
     'sharp',
     'ffmpeg-static',
