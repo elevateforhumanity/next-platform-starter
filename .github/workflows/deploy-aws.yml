@@ -54,7 +54,12 @@ jobs:
           echo "tag=$TAG" >> $GITHUB_ENV
           echo "image=${{ env.ECR_REGISTRY }}/elevate-lms:$TAG" >> $GITHUB_OUTPUT
 
-      - name: Install dependencies on host
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm and dependencies
         working-directory: src
         run: |
           npm install -g pnpm@10.28.2 --silent
