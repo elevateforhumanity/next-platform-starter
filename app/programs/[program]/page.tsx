@@ -33,9 +33,9 @@ const DEDICATED_APPLY_SLUGS = new Set([
 ]);
 
 function getApplyHref(program: string): string {
-  return DEDICATED_APPLY_SLUGS.has(slug)
-    ? `/programs/${slug}/apply`
-    : `/apply?program=${slug}`;
+  return DEDICATED_APPLY_SLUGS.has(program)
+    ? `/programs/${program}/apply`
+    : `/apply?program=${program}`;
 }
 
 export async function generateMetadata({
@@ -44,10 +44,10 @@ export async function generateMetadata({
   params: Promise<{ program: string }>;
 }): Promise<Metadata> {
   const { program } = await params;
-  const ogImage = getProgramOgImageUrl(slug, SITE_URL);
+  const ogImage = getProgramOgImageUrl(program, SITE_URL);
 
   const ogBase = {
-    images: [{ url: ogImage, width: 1200, height: 630, alt: `${slug.replace(/-/g, ' ')} training program at Elevate for Humanity` }],
+    images: [{ url: ogImage, width: 1200, height: 630, alt: `${program.replace(/-/g, ' ')} training program at Elevate for Humanity` }],
     siteName: 'Elevate for Humanity',
     type: 'website' as const,
   };
@@ -58,7 +58,7 @@ export async function generateMetadata({
     const { data } = await db
       .from('programs')
       .select('title, description, short_description')
-      .eq('slug', slug)
+      .eq('slug', program)
       .maybeSingle();
     if (data) {
       const title = `${data.title} | Elevate for Humanity`;
@@ -66,7 +66,7 @@ export async function generateMetadata({
       return {
         title,
         description,
-        alternates: { canonical: `${SITE_URL}/programs/${slug}` },
+        alternates: { canonical: `${SITE_URL}/programs/${program}` },
         openGraph: { ...ogBase, title, description, images: [{ url: ogImage, width: 1200, height: 630, alt: data.title }] },
         twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
       };
@@ -74,7 +74,7 @@ export async function generateMetadata({
   }
 
   // Static ProgramSchema programs
-  const sp = getStaticProgram(slug);
+  const sp = getStaticProgram(program);
   if (sp) {
     const title = sp.metaTitle || `${sp.title} | Elevate for Humanity`;
     const description = sp.metaDescription || sp.subtitle || '';
@@ -82,21 +82,21 @@ export async function generateMetadata({
     return {
       title,
       description,
-      alternates: { canonical: `${SITE_URL}/programs/${slug}` },
+      alternates: { canonical: `${SITE_URL}/programs/${program}` },
       openGraph: { ...ogBase, title, description, images: [{ url: img.startsWith('http') ? img : `${SITE_URL}${img}`, width: 1200, height: 630, alt: sp.title }] },
       twitter: { card: 'summary_large_image', title, description, images: [img.startsWith('http') ? img : `${SITE_URL}${img}`] },
     };
   }
 
   // cf-programs fallback
-  const p = staticPrograms.find((p) => p.slug === slug);
+  const p = staticPrograms.find((p) => p.slug === program);
   if (!p) return {};
   const title = `${p.title} | Elevate for Humanity`;
   const description = p.summary;
   return {
     title,
     description,
-    alternates: { canonical: `${SITE_URL}/programs/${slug}` },
+    alternates: { canonical: `${SITE_URL}/programs/${program}` },
     openGraph: { ...ogBase, title, description, images: [{ url: ogImage, width: 1200, height: 630, alt: p.title }] },
     twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
   };
@@ -177,7 +177,7 @@ function ProgramPage({
   description: string;
   credential?: string | null;
   durationWeeks?: number | null;
-  program: string;
+  slug: string;
   sections?: Array<{ heading: string; body: string }>;
 }) {
   const learnItems = sections?.find(
@@ -467,7 +467,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
     const { data: p } = await db
       .from('programs')
       .select('slug, title, description, short_description, credential, duration_weeks, image_url')
-      .eq('slug', slug)
+      .eq('slug', program)
       .maybeSingle();
 
     if (p) {
@@ -485,7 +485,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
   }
 
   // Static ProgramSchema programs — richer renderer
-  const sp = getStaticProgram(slug);
+  const sp = getStaticProgram(program);
   if (sp) {
     return (
       <>
@@ -503,13 +503,13 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
           }}
         />
         <ProgramDetailPageComponent program={sp} />
-        <OnetLaborData slug={slug} />
+        <OnetLaborData slug={program} />
       </>
     );
   }
 
   // cf-programs fallback (legacy marketing data)
-  const p = staticPrograms.find((p) => p.slug === slug);
+  const p = staticPrograms.find((p) => p.slug === program);
   if (!p) return notFound();
 
   return (
