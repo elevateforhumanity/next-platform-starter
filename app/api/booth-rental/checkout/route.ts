@@ -116,7 +116,10 @@ export async function POST(request: NextRequest) {
         discipline,
         key: tier.stripePriceKey,
       });
-      return safeError('Pricing not configured for this discipline. Please contact us.', 503);
+      return safeError(
+        `Online signup for ${tier.label} ${tier.spaceType} rental ($${tier.weeklyRateDollars}/week) is not yet active. Call (317) 314-3757 or email info@elevateforhumanity.org to reserve your suite.`,
+        503,
+      );
     }
 
     // Build line items
