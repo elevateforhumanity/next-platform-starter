@@ -197,6 +197,10 @@ const ALLOWED_MISSING = new Set([
   '/legal/privacy',
   // Tax program deferred
   '/tax/rise-up-foundation/volunteer/apply',
+  // Store pages not yet built
+  '/store/digital/grant-guide',
+  '/store/white-label/signup',
+  '/shop/orders',
 ]);
 
 // Main execution
@@ -204,8 +208,18 @@ const appDir = path.join(rootDir, 'app');
 const apiDir = path.join(rootDir, 'app', 'api');
 const publicDir = path.join(rootDir, 'public');
 
-const pageRoutes = collectRoutes(appDir);
-const apiRoutes = collectApiRoutes(apiDir);
+// Admin routes live in apps/admin/app/ — include them so links to /admin/* resolve
+const adminAppDir = path.join(rootDir, 'apps', 'admin', 'app');
+const adminApiDir = path.join(rootDir, 'apps', 'admin', 'app', 'api');
+
+const pageRoutes = [
+  ...collectRoutes(appDir),
+  ...collectRoutes(adminAppDir),
+];
+const apiRoutes = [
+  ...collectApiRoutes(apiDir),
+  ...collectApiRoutes(adminApiDir),
+];
 const staticFiles = collectStaticFiles(publicDir);
 const links = extractLinks(appDir);
 const redirectSources = typeof nextConfig?.redirects === 'function'
