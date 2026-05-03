@@ -96,6 +96,68 @@ async function _POST(req: Request) {
     return NextResponse.json({ error: 'Failed to save' }, { status: 500 });
   }
 
+  // Mirror into applications table so the admin queue picks it up.
+  // apprenticeship_intake retains the full intake detail; applications drives
+  // the admin review workflow (status, enroll, inquiry actions).
+  const fullName = (body.full_name as string).trim();
+  const nameParts = fullName.split(' ');
+  const firstName = nameParts[0] ?? '';
+  const lastName = nameParts.slice(1).join(' ') ?? '';
+
+  const supportNotes = [
+    body.employment_status ? `Employment: ${body.employment_status}` : null,
+    body.annual_income ? `Income: ${body.annual_income}` : null,
+    body.household_size ? `Household: ${body.household_size}` : null,
+    body.snap_recipient === 'true' ? 'SNAP: Yes' : null,
+    body.tanf_recipient === 'true' ? 'TANF: Yes' : null,
+    body.probation_or_reentry === 'true' ? 'Reentry: Yes' : null,
+    body.workforce_connection ? `Workforce: ${body.workforce_connection}` : null,
+    body.preferred_location ? `Preferred location: ${body.preferred_location}` : null,
+    fundingTag ? `Funding tag: ${fundingTag}` : null,
+    barriers.length ? `Barriers: ${barriers.join(', ')}` : null,
+  ].filter(Boolean).join(' | ');
+
+  const { data: appRow, error: appError } = await supabase
+    .from('applications')
+    .insert({
+      first_name: firstName,
+      last_name: lastName,
+      full_name: fullName,
+      email: clean(body.email as string) ?? '',
+      phone: clean(body.phone as string) ?? '',
+      city: clean(body.city as string) ?? '',
+      zip: '',
+      program_interest: clean(body.program_interest as string) ?? 'not-specified',
+      program_slug: clean(body.program_interest as string) ?? null,
+      status: 'submitted',
+      source: 'intake-form',
+      support_notes: supportNotes || null,
+      eligibility_data: {
+        funding_tag: fundingTag,
+        annual_income: body.annual_income,
+        household_size: body.household_size,
+        snap_recipient: body.snap_recipient === 'true',
+        tanf_recipient: body.tanf_recipient === 'true',
+        probation_or_reentry: body.probation_or_reentry === 'true',
+        employment_status: body.employment_status,
+        workforce_connection: body.workforce_connection,
+        county: body.county,
+        barriers,
+      },
+      submitted_at: new Date().toISOString(),
+    })
+    .select('id')
+    .single();
+
+  if (appError) {
+    // Non-fatal — intake record already saved. Log and continue.
+    logger.warn('[Intake API] Failed to mirror into applications table', appError.message);
+  } else {
+    logger.info('[Intake API] Application row created', appRow?.id);
+  }
+
+  const applicationId = appRow?.id ?? `intake-${Date.now()}`;
+
   // Auto-create a workforce_referrals row when the applicant came through a
   // workforce agency (WorkOne, FSSA, etc.). This satisfies Fix 6 of the
   // workforce pipeline spec — agency referrals must be structured records.
@@ -184,9 +246,9 @@ async function _POST(req: Request) {
 
   // Send email notifications (non-blocking — don't fail the response if email fails)
   const applicationData = {
-    id: `intake-${Date.now()}`,
-    firstName: body.full_name.trim().split(' ')[0] || body.full_name.trim(),
-    lastName: body.full_name.trim().split(' ').slice(1).join(' ') || '',
+    id: applicationId,
+    firstName,
+    lastName,
     email: intakeEmail ?? '',
     phone: body.phone?.trim(),
     programInterest: body.program_interest || 'general',

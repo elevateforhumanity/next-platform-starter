@@ -218,8 +218,8 @@ export async function sendAdminApplicationNotification(application: ApplicationD
 
                   <!-- Action Buttons -->
                   <div style="text-align: center; margin: 32px 0;">
-                    <a href="${SITE_URL}/admin/applications/${application.id}" style="display: inline-block; background-color: #ea580c; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 15px; margin: 0 8px; ">
-                      Review Application
+                    <a href="${SITE_URL}/admin/applications/review/${application.id}" style="display: inline-block; background-color: #ea580c; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 15px; margin: 0 8px; ">
+                      Review &amp; Enroll
                     </a>
                     <a href="${SITE_URL}/admin/applications" style="display: inline-block; background-color: #ffffff; color: #374151; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 15px; margin: 0 8px; border: 1px solid #e5e7eb;">
                       View All Applications
