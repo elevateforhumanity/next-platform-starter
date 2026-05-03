@@ -18,7 +18,7 @@ export interface PostApprovalInput {
   studentPhone?: string | null;
   studentCity?: string | null;
   fundingType?: string | null;
-  passwordSetupLink?: string | null;
+  tempPassword?: string | null;
   enrollmentId?: string | null;
 }
 
@@ -72,7 +72,7 @@ export async function runPostApprovalActions(input: PostApprovalInput): Promise<
     studentPhone,
     studentCity,
     fundingType,
-    passwordSetupLink,
+    tempPassword,
     enrollmentId,
   } = input;
 
@@ -81,8 +81,7 @@ export async function runPostApprovalActions(input: PostApprovalInput): Promise<
   const programTitle = (programSlug && PROGRAM_TITLES[programSlug]) || programSlug || 'your program';
   const fundingLabel = (fundingType && FUNDING_LABELS[fundingType]) || null;
   const onboardingUrl = `${siteUrl}/onboarding/learner`;
-  const loginUrl = passwordSetupLink ?? `${siteUrl}/login?redirect=/onboarding/learner`;
-  const loginLabel = passwordSetupLink ? 'Set Your Password &amp; Start Onboarding' : 'Log In &amp; Start Onboarding';
+  const loginUrl = `${siteUrl}/login?redirect=/onboarding/learner`;
 
   try {
     const { sendEmail } = await import('@/lib/email/sendgrid');
@@ -109,11 +108,18 @@ export async function runPostApprovalActions(input: PostApprovalInput): Promise<
 
     <!-- Account / Login -->
     <div style="background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:24px;margin:0 0 24px;text-align:center;">
-      <p style="margin:0 0 6px;font-size:12px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:0.05em;">Step 1 — Do This Now</p>
-      <h2 style="margin:0 0 12px;font-size:18px;color:#14532d;">${passwordSetupLink ? 'Create Your Student Account' : 'Log In to Your Student Account'}</h2>
-      <p style="margin:0 0 18px;color:#166534;font-size:13px;">${passwordSetupLink ? 'Your account is ready. Set your password to activate it — takes less than 2 minutes.' : 'Log in to access your student dashboard and begin onboarding.'}</p>
-      <a href="${loginUrl}" style="display:inline-block;background:#16a34a;color:#fff;padding:14px 32px;text-decoration:none;border-radius:8px;font-weight:700;font-size:15px;">${loginLabel} →</a>
-      ${passwordSetupLink ? `<p style="margin:10px 0 0;color:#6b7280;font-size:11px;">Link expires in 24 hours. After that, log in at <a href="${siteUrl}/login" style="color:#2563eb;">${siteUrl}/login</a></p>` : ''}
+      <p style="margin:0 0 6px;font-size:12px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:0.05em;">Step 1 — Log In Now</p>
+      <h2 style="margin:0 0 12px;font-size:18px;color:#14532d;">Your Student Account Is Ready</h2>
+      ${tempPassword ? `
+      <div style="background:#fff;border:1px solid #86efac;border-radius:8px;padding:14px 20px;margin:0 0 16px;display:inline-block;text-align:left;">
+        <p style="margin:0 0 4px;font-size:12px;color:#6b7280;font-weight:600;">YOUR TEMPORARY PASSWORD</p>
+        <p style="margin:0;font-size:20px;font-weight:700;font-family:monospace;color:#0f172a;letter-spacing:0.05em;">${tempPassword}</p>
+        <p style="margin:6px 0 0;font-size:11px;color:#6b7280;">You will be prompted to change this during onboarding.</p>
+      </div>
+      ` : ''}
+      <br/>
+      <a href="${loginUrl}" style="display:inline-block;background:#16a34a;color:#fff;padding:14px 32px;text-decoration:none;border-radius:8px;font-weight:700;font-size:15px;">Log In &amp; Start Onboarding →</a>
+      <p style="margin:10px 0 0;font-size:12px;color:#6b7280;">Log in at <a href="${siteUrl}/login" style="color:#2563eb;">${siteUrl}/login</a> with your email and the password above.</p>
     </div>
 
     <!-- Onboarding steps -->
@@ -121,8 +127,8 @@ export async function runPostApprovalActions(input: PostApprovalInput): Promise<
     <table style="width:100%;border-collapse:collapse;">
       <tr>
         <td style="padding:12px 14px;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc;vertical-align:top;">
-          <p style="margin:0 0 3px;font-weight:700;font-size:13px;color:#0f172a;">1 &nbsp;Complete your student profile</p>
-          <p style="margin:0;font-size:12px;color:#64748b;">Confirm your contact information, emergency contact, and mailing address in your dashboard.</p>
+          <p style="margin:0 0 3px;font-weight:700;font-size:13px;color:#0f172a;">1 &nbsp;Log in and change your password</p>
+          <p style="margin:0;font-size:12px;color:#64748b;">Use the temporary password above to log in. You'll be prompted to set a permanent password during onboarding.</p>
         </td>
       </tr>
       <tr><td style="height:6px;"></td></tr>

@@ -131,6 +131,7 @@ export async function approveApplication(
   // Step 1: Find or create user
   let userId: string | null = null;
   let isNewUser = false;
+  let tempPassword: string | null = null;
 
   // Check profiles first (fast, indexed)
   const { data: existingProfile } = await db
@@ -151,7 +152,7 @@ export async function approveApplication(
     } else {
       // Create new auth user with a cryptographically random temp password.
       // Math.random() is predictable — use randomBytes instead.
-      const tempPassword = `EFH-${randomBytes(8).toString('hex')}-Temp!`;
+      tempPassword = `EFH-${randomBytes(8).toString('hex')}-Temp!`;
       const { data: newUser, error: createError } = await db.auth.admin.createUser({
         email,
         password: tempPassword,
@@ -159,6 +160,7 @@ export async function approveApplication(
         user_metadata: {
           full_name: `${app.first_name || ''} ${app.last_name || ''}`.trim(),
           role: 'student',
+          must_change_password: true,
         },
       });
 
@@ -329,26 +331,9 @@ export async function approveApplication(
     await attachPartnerRouting({ db, application: { ...app, user_id: userId } });
   }
 
-  // Generate password setup link for new users
-  let passwordSetupLink: string | null = null;
-  if (isNewUser && userId) {
-    try {
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-      const { data: linkData } = await db.auth.admin.generateLink({
-        type: 'recovery',
-        email,
-        options: {
-          redirectTo: `${siteUrl}/auth/set-password?next=/onboarding/learner`,
-        },
-      });
-      passwordSetupLink = linkData?.properties?.action_link || null;
-    } catch (linkErr) {
-      logger.warn('[approve] Failed to generate password setup link (non-fatal)', {
-        email,
-        error: linkErr,
-      });
-    }
-  }
+  // tempPassword is set above when a new account is created.
+  // It is passed to the onboarding email so the student can log in immediately.
+  // They are prompted to change it during onboarding.
 
   // Update CRM lead to converted (non-fatal)
   try {
@@ -378,8 +363,7 @@ export async function approveApplication(
     programId: resolvedProgramId,
     enrollmentId,
     isNewUser,
-    hasPasswordLink: !!passwordSetupLink,
   });
 
-  return { success: true, userId: userId!, enrollmentId, passwordSetupLink };
+  return { success: true, userId: userId!, enrollmentId, tempPassword };
 }
