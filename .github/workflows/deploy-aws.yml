@@ -57,8 +57,7 @@ jobs:
       - name: Install dependencies on host
         working-directory: src
         run: |
-          corepack enable
-          corepack prepare pnpm@10.28.2 --activate
+          npm install -g pnpm@10.28.2 --silent
           pnpm install --frozen-lockfile
 
       - name: Build Next.js on host (full EC2 RAM, no Docker memory cap)
