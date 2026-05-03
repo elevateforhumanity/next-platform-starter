@@ -47,7 +47,13 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
         // malformed — use default
       }
     }
-    redirect(`/login?redirect=${encodeURIComponent(returnPath)}`);
+    // Admin app has no /login page — redirect to /admin-login on the LMS.
+    // SERVICE_ROLE=admin is set in the admin ECS task definition.
+    const loginPath =
+      process.env.SERVICE_ROLE === 'admin'
+        ? `${process.env.NEXT_PUBLIC_SITE_URL || ''}/admin-login?redirect=${encodeURIComponent(returnPath)}`
+        : `/login?redirect=${encodeURIComponent(returnPath)}`;
+    redirect(loginPath);
   }
 
   const { data: profile } = await supabase
@@ -57,7 +63,11 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
     .maybeSingle();
 
   if (!profile || !allowedRoles.includes(profile.role)) {
-    redirect('/unauthorized');
+    const unauthorizedPath =
+      process.env.SERVICE_ROLE === 'admin'
+        ? `${process.env.NEXT_PUBLIC_SITE_URL || ''}/unauthorized`
+        : '/unauthorized';
+    redirect(unauthorizedPath);
   }
 
   return {
