@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { slide, slideIndex, totalSlides, opts } = body;
 
-  const { renderSlideFrameForPreview } = await import('../../../../server/lesson-video-renderer');
+  const { renderSlideFrameForPreview } = await import('@/server/lesson-video-renderer');
 
   const buf: Buffer = await renderSlideFrameForPreview(slide, slideIndex, totalSlides, opts);
 

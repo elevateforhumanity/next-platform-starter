@@ -213,6 +213,7 @@ async function _POST(req: Request) {
         .from('applications')
         .insert({
           ...corePayload,
+          // Strip columns added in later migrations that may not be live yet
           normalized_email: undefined,
           normalized_phone: undefined,
           county_of_residence: undefined,
@@ -221,6 +222,7 @@ async function _POST(req: Request) {
           modality_preference: undefined,
           transfer_hours_claimed: undefined,
           funding_eligibility_status: undefined,
+          type: undefined,
         })
         .select()
         .maybeSingle();
