@@ -205,7 +205,10 @@ export async function requireApiAuth() {
 export async function requireAuth(redirectTo?: string) {
   const session = await getSession();
   if (!session) {
-    const loginUrl = redirectTo ? `/login?redirect=${encodeURIComponent(redirectTo)}` : '/login';
+    const mainSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const loginUrl = redirectTo
+      ? `${mainSiteUrl}/login?redirect=${encodeURIComponent(redirectTo)}`
+      : `${mainSiteUrl}/login`;
     redirect(loginUrl);
   }
   return session;
@@ -334,5 +337,6 @@ export async function canAccessEnrollment(enrollmentId: string): Promise<boolean
 export async function signOut() {
   const supabase = await createServerSupabaseClient();
   await supabase.auth.signOut();
-  redirect('/login');
+  const mainSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  redirect(`${mainSiteUrl}/login`);
 }
