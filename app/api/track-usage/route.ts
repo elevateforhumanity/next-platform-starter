@@ -68,8 +68,11 @@ const getOfficialDomains = () => {
     // Second owned domain
     'www.elevateforhumanityeducation.com',
     'elevateforhumanityeducation.com',
+    // AWS infrastructure — our own ECS/ALB endpoints (not a copy)
+    '.elb.amazonaws.com',
+    '.amazonaws.com',
     // Dev environments
-    '.gitpod.dev', // Gitpod dev environments
+    '.gitpod.dev',
     'localhost',
   ];
 };
