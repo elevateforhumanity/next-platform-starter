@@ -61,15 +61,15 @@ export async function POST(req: NextRequest) {
   const body = parsed.data;
 
   if (body.type === 'module') {
-    // Get current max module_order for this course
+    // Get current max order_index for this course
     const { data: existing } = await db
       .from('course_modules')
-      .select('module_order')
+      .select('order_index')
       .eq('course_id', body.courseId)
-      .order('module_order', { ascending: false })
+      .order('order_index', { ascending: false })
       .limit(1);
 
-    const nextOrder = ((existing?.[0]?.module_order ?? 0) as number) + 1;
+    const nextOrder = ((existing?.[0]?.order_index ?? 0) as number) + 1;
 
     const { data, error } = await db
       .from('course_modules')
@@ -77,24 +77,25 @@ export async function POST(req: NextRequest) {
         course_id: body.courseId,
         title: body.title,
         slug: slugify(body.title),
-        module_order: nextOrder,
+        order_index: nextOrder,
       })
-      .select('id, title, slug, module_order')
+      .select('id, title, slug, order_index')
       .single();
 
     if (error) return safeInternalError(error, 'Failed to create module');
-    return NextResponse.json({ ok: true, module: data });
+    // Return with module_order key so LiveCourseBuilder state stays consistent
+    return NextResponse.json({ ok: true, module: { ...data, module_order: data.order_index } });
   }
 
   // Lesson
   const { data: existing } = await db
     .from('course_lessons')
-    .select('lesson_order')
+    .select('order_index')
     .eq('module_id', body.moduleId)
-    .order('lesson_order', { ascending: false })
+    .order('order_index', { ascending: false })
     .limit(1);
 
-  const nextOrder = ((existing?.[0]?.lesson_order ?? 0) as number) + 1;
+  const nextOrder = ((existing?.[0]?.order_index ?? 0) as number) + 1;
 
   const { data, error } = await db
     .from('course_lessons')
@@ -103,13 +104,13 @@ export async function POST(req: NextRequest) {
       module_id: body.moduleId,
       title: body.title,
       slug: slugify(body.title),
-      lesson_order: nextOrder,
+      order_index: nextOrder,
       lesson_type: body.stepType,
       status: 'draft',
       content: '',
     })
     .select(
-      'id, title, slug, lesson_order, lesson_type, content, video_url, duration_minutes, passing_score, status',
+      'id, title, slug, order_index, lesson_type, content, video_url, duration_minutes, passing_score, status',
     )
     .single();
 
@@ -121,7 +122,7 @@ export async function POST(req: NextRequest) {
       id: data.id,
       title: data.title,
       slug: data.slug,
-      lesson_order: data.lesson_order,
+      lesson_order: data.order_index,
       step_type: data.lesson_type ?? 'lesson',
       content: data.content ?? '',
       video_url: data.video_url ?? '',

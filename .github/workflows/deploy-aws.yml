@@ -1,0 +1,227 @@
+name: Deploy to AWS ECS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Only one deploy runs at a time. A new push cancels any in-progress deploy.
+concurrency:
+  group: deploy-aws
+  cancel-in-progress: true
+
+env:
+  AWS_REGION: us-east-1
+  AWS_ACCOUNT_ID: '954718262498'
+  ECR_REGISTRY: 954718262498.dkr.ecr.us-east-1.amazonaws.com
+  ECS_CLUSTER: elevate-cluster
+
+jobs:
+  # ── Build & push LMS image ──────────────────────────────────────────────────
+  build-lms:
+    name: Build LMS
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.meta.outputs.image }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build LMS
+        env:
+          NODE_OPTIONS: '--max-old-space-size=14336 --max-semi-space-size=128 --expose-gc'
+          NEXT_TELEMETRY_DISABLED: '1'
+          BUILD_SCOPE: '1'
+          SERVICE_ROLE: lms
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+        run: pnpm next build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push LMS image
+        id: meta
+        env:
+          IMAGE_URI: ${{ env.ECR_REGISTRY }}/elevate-lms
+          COMMIT: ${{ github.sha }}
+        run: |
+          SHORT=${COMMIT::7}
+          docker build -f Dockerfile.package \
+            -t $IMAGE_URI:latest \
+            -t $IMAGE_URI:$SHORT \
+            .
+          docker push $IMAGE_URI:latest
+          docker push $IMAGE_URI:$SHORT
+          echo "image=$IMAGE_URI:$SHORT" >> $GITHUB_OUTPUT
+
+  # ── Build & push Admin image ────────────────────────────────────────────────
+  build-admin:
+    name: Build Admin
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.meta.outputs.image }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Admin app
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192 --max-semi-space-size=64 --expose-gc'
+          NEXT_TELEMETRY_DISABLED: '1'
+          BUILD_SCOPE: '1'
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+        run: cd apps/admin && pnpm next build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Admin image
+        id: meta
+        env:
+          IMAGE_URI: ${{ env.ECR_REGISTRY }}/elevate-admin
+          COMMIT: ${{ github.sha }}
+        run: |
+          SHORT=${COMMIT::7}
+          docker build -f Dockerfile.admin \
+            -t $IMAGE_URI:latest \
+            -t $IMAGE_URI:$SHORT \
+            .
+          docker push $IMAGE_URI:latest
+          docker push $IMAGE_URI:$SHORT
+          echo "image=$IMAGE_URI:$SHORT" >> $GITHUB_OUTPUT
+
+  # ── Deploy LMS to ECS ───────────────────────────────────────────────────────
+  deploy-lms:
+    name: Deploy LMS
+    runs-on: ubuntu-latest
+    needs: [build-lms]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Render ECS task definition with new image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: aws/ecs-task-lms.json
+          container-name: elevate-lms
+          image: ${{ needs.build-lms.outputs.image }}
+
+      - name: Deploy LMS to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: elevate-lms-service
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+  # ── Deploy Admin to ECS ─────────────────────────────────────────────────────
+  deploy-admin:
+    name: Deploy Admin
+    runs-on: ubuntu-latest
+    needs: [build-admin]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Render ECS task definition with new image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: aws/ecs-task-admin.json
+          container-name: elevate-admin
+          image: ${{ needs.build-admin.outputs.image }}
+
+      - name: Deploy Admin to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: elevate-admin-service
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+  # ── Post-deploy health check ────────────────────────────────────────────────
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    needs: [deploy-lms, deploy-admin]
+
+    steps:
+      - name: Wait for DNS/ALB propagation
+        run: sleep 30
+
+      - name: LMS health check
+        run: |
+          for i in 1 2 3; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://www.elevateforhumanity.org/api/health)
+            echo "LMS health: $STATUS"
+            [ "$STATUS" = "200" ] && exit 0
+            sleep 15
+          done
+          echo "LMS health check failed after 3 attempts"
+          exit 1
+
+      - name: Admin health check
+        run: |
+          for i in 1 2 3; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://app.elevateforhumanity.org/api/health)
+            echo "Admin health: $STATUS"
+            [ "$STATUS" = "200" ] && exit 0
+            sleep 15
+          done
+          echo "Admin health check failed after 3 attempts"
+          exit 1

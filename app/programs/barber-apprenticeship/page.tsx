@@ -196,7 +196,7 @@ export default async function BarberApprenticeshipPage() {
                       <Image src="/images/icons/dollar.png" alt="Pay in full" width={24} height={24} />
                       <div className="text-left">
                         <div className="font-bold">Pay in Full</div>
-                        <div className="text-sm text-brand-blue-100">One-time full payment</div>
+                        <div className="text-sm text-white">One-time full payment</div>
                       </div>
                     </div>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,7 +213,7 @@ export default async function BarberApprenticeshipPage() {
                       <Image src="/images/icons/clock.png" alt="Payment plan" width={24} height={24} />
                       <div className="text-left">
                         <div className="font-bold">Payment Plan</div>
-                        <div className="text-sm text-orange-100">Starts at $600 down, then weekly payments</div>
+                        <div className="text-sm text-white">Starts at $600 down, then weekly payments</div>
                       </div>
                     </div>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,7 +232,7 @@ export default async function BarberApprenticeshipPage() {
                         <Image src="/images/icons/shield.png" alt={`${provider.name} BNPL`} width={24} height={24} />
                         <div className="text-left">
                           <div className="font-bold">{provider.name}</div>
-                          <div className="text-sm text-brand-blue-100">{provider.description}</div>
+                          <div className="text-sm text-white">{provider.description}</div>
                         </div>
                       </div>
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -250,7 +250,7 @@ export default async function BarberApprenticeshipPage() {
                       <Image src="/images/icons/check-circle.png" alt="All payment options" width={24} height={24} />
                       <div className="text-left">
                         <div className="font-bold">See All Payment Options</div>
-                        <div className="text-sm text-slate-300">BNPL providers: {BNPL_PROVIDER_NAMES}</div>
+                        <div className="text-sm text-white">BNPL providers: {BNPL_PROVIDER_NAMES}</div>
                       </div>
                     </div>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -749,7 +749,7 @@ export default async function BarberApprenticeshipPage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Barber Shop Owners
           </h2>
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
             Interested in hosting an apprentice? Learn about program holder
             requirements, benefits, and how to get started.
           </p>
@@ -773,7 +773,7 @@ export default async function BarberApprenticeshipPage() {
               </div>
               <div>
                 <h3 className="font-bold mb-1">Apply</h3>
-                <p className="text-white/80 text-sm">
+                <p className="text-white text-sm">
                   Submit your application online
                 </p>
               </div>
@@ -784,7 +784,7 @@ export default async function BarberApprenticeshipPage() {
               </div>
               <div>
                 <h3 className="font-bold mb-1">Meet with advisor</h3>
-                <p className="text-white/80 text-sm">
+                <p className="text-white text-sm">
                   Discuss your goals and eligibility
                 </p>
               </div>
@@ -795,7 +795,7 @@ export default async function BarberApprenticeshipPage() {
               </div>
               <div>
                 <h3 className="font-bold mb-1">Confirm eligibility</h3>
-                <p className="text-white/80 text-sm">
+                <p className="text-white text-sm">
                   We help with funding paperwork
                 </p>
               </div>
@@ -806,7 +806,7 @@ export default async function BarberApprenticeshipPage() {
               </div>
               <div>
                 <h3 className="font-bold mb-1">Enroll</h3>
-                <p className="text-white/80 text-sm">
+                <p className="text-white text-sm">
                   Get matched to a shop and start training
                 </p>
               </div>
@@ -821,7 +821,7 @@ export default async function BarberApprenticeshipPage() {
             </Link>
             <Link
               href="/programs/barber-apprenticeship/inquiry"
-              className="inline-block px-10 py-5 border-2 border-slate-300 hover:border-slate-400 text-slate-700 font-bold text-xl rounded-lg transition-all"
+              className="inline-block px-10 py-5 border-2 border-white hover:border-white/80 text-white font-bold text-xl rounded-lg transition-all"
             >
               Request Information
             </Link>

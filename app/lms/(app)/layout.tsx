@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import type { ReactNode } from 'react';
 import { createClient } from '@/lib/supabase/server';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { canAccessRoute, getUnauthorizedRedirect } from '@/lib/auth/lms-routes';
 import { LmsAppShell } from './LmsAppShell';
 
@@ -10,8 +10,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function LmsAppLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient();
-  const db = await requireAdminClient();
-  if (!db) throw new Error('Admin client failed to initialize');
+  const db = await getAdminClient();
 
   // Preserve the requested path through login so the user lands back here after auth.
   // x-pathname is set by proxy.ts when it runs as middleware.
@@ -48,7 +47,9 @@ export default async function LmsAppLayout({ children }: { children: ReactNode }
     redirect(loginRedirect);
   }
 
-  const { data: profile } = await db.from('profiles').select('*').eq('id', user.id).maybeSingle();
+  const { data: profile } = db
+    ? await db.from('profiles').select('*').eq('id', user.id).maybeSingle()
+    : { data: null };
 
   // Server-side role check
   if (profile?.role && !canAccessRoute('/lms', profile.role)) {
@@ -57,7 +58,7 @@ export default async function LmsAppLayout({ children }: { children: ReactNode }
 
   // Gate LMS access — students must have admin-granted access before entering the LMS.
   // access_granted_at is set by admin via /admin/enrollments grant-access action.
-  if (profile?.role === 'student') {
+  if (profile?.role === 'student' && db) {
     const { data: enrollment } = await db
       .from('program_enrollments')
       .select('access_granted_at, onboarding_completed_at')

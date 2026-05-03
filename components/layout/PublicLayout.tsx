@@ -7,6 +7,7 @@
 //
 // No headers() call — avoids forcing dynamic rendering on static pages.
 
+import { Suspense } from 'react';
 import Header from '@/components/site/Header';
 import ServerFooter from '@/components/site/ServerFooter';
 import ClientWidgets from './ClientWidgets';
@@ -40,7 +41,9 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
           <ServerFooter />
         </div>
 
-        <ClientWidgets />
+        <Suspense fallback={null}>
+          <ClientWidgets />
+        </Suspense>
       </div>
 
       <MarketingChromeGuardLoader />

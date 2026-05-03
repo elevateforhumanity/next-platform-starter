@@ -29,28 +29,28 @@ export default async function LiveCourseBuilderPage({
     .from('course_modules')
     .select(
       `
-      id, title, slug, module_order,
+      id, title, slug, order_index,
       course_lessons (
-        id, title, slug, lesson_order, lesson_type, content,
+        id, title, slug, order_index, lesson_type, content,
         video_url, duration_minutes, passing_score, status
       )
     `,
     )
     .eq('course_id', courseId)
-    .order('module_order', { ascending: true });
+    .order('order_index', { ascending: true });
 
   const modules = (modulesRaw ?? []).map((m: any) => ({
     id: m.id,
     title: m.title,
     slug: m.slug,
-    module_order: m.module_order,
+    module_order: m.order_index,
     lessons: (m.course_lessons ?? [])
-      .sort((a: any, b: any) => a.lesson_order - b.lesson_order)
+      .sort((a: any, b: any) => a.order_index - b.order_index)
       .map((l: any) => ({
         id: l.id,
         title: l.title,
         slug: l.slug,
-        lesson_order: l.lesson_order,
+        lesson_order: l.order_index,
         step_type: l.lesson_type ?? 'lesson',
         content: l.content ?? '',
         video_url: l.video_url ?? '',
