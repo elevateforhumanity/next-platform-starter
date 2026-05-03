@@ -39,7 +39,13 @@ phases:
       - echo Pushing images...
       - docker push $IMAGE_URI:latest
       - docker push $IMAGE_URI:$COMMIT_HASH
-      - echo Build complete
+      # Register new task definition with updated image and deploy to ECS
+      - echo Deploying to ECS...
+      - TASK_DEF=$(aws ecs describe-task-definition --task-definition elevate-admin --region $AWS_DEFAULT_REGION --query taskDefinition)
+      - NEW_TASK_DEF=$(echo $TASK_DEF | python3 -c "import json,sys; t=json.load(sys.stdin); t['containerDefinitions'][0]['image']='$IMAGE_URI:$COMMIT_HASH'; [t.pop(k,None) for k in ['taskDefinitionArn','revision','status','requiresAttributes','compatibilities','registeredAt','registeredBy','deregisteredAt']]; print(json.dumps(t))")
+      - NEW_TASK_ARN=$(aws ecs register-task-definition --region $AWS_DEFAULT_REGION --cli-input-json "$NEW_TASK_DEF" --query 'taskDefinition.taskDefinitionArn' --output text)
+      - aws ecs update-service --cluster elevate-cluster --service elevate-admin-service --task-definition $NEW_TASK_ARN --region $AWS_DEFAULT_REGION --force-new-deployment
+      - echo Deployed $NEW_TASK_ARN
       - printf '[{"name":"elevate-admin","imageUri":"%s"}]' $IMAGE_URI:$COMMIT_HASH > imagedefinitions.json
       - rm -rf apps/admin/.next apps/admin/node_modules || true
 
