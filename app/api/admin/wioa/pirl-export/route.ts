@@ -14,9 +14,9 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeDbError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { exportQuarterlyPirl } from '@/tools/wioa/pirl_exporter';
-import { createSupabaseAdapter } from '@/tools/wioa/supabase_adapter';
-import type { Quarter } from '@/tools/wioa/pirl_exporter';
+import { exportQuarterlyPirl } from '@/lib/wioa/pirl_exporter';
+import { createSupabaseAdapter } from '@/lib/wioa/supabase_adapter';
+import type { Quarter } from '@/lib/wioa/pirl_exporter';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';

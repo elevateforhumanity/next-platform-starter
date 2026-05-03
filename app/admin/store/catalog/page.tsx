@@ -3,7 +3,7 @@ import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { getCatalogProducts, type CatalogProduct } from '@/lib/store/db';
-import { ALL_PRODUCTS } from '@/app/data/store-products';
+import { ALL_PRODUCTS } from '@/lib/data/store-products';
 
 export const dynamic = 'force-dynamic';
 

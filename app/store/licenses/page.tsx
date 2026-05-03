@@ -13,7 +13,7 @@ import {
   Award,
   Shield,
 } from 'lucide-react';
-import { STORE_PRODUCTS, CLONE_LICENSES } from '@/app/data/store-products';
+import { STORE_PRODUCTS, CLONE_LICENSES } from '@/lib/data/store-products';
 
 export const dynamic = 'force-dynamic';
 

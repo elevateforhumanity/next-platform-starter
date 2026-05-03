@@ -82,7 +82,7 @@ export default function BarberCheckoutPage() {
           customer_phone: form.phone.trim() || undefined,
           application_id: applicationId,
           payment_type: paymentType,
-          down_payment: effectiveDownPayment,
+          custom_setup_fee: effectiveDownPayment,
           hours_per_week: 40,
           transferred_hours_verified: 0,
           success_url: `${siteUrl}/checkout/success?type=barber&session_id={CHECKOUT_SESSION_ID}`,
