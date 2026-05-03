@@ -314,7 +314,7 @@ export const IT_HELP_DESK: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/apply?program=it-help-desk',
+    applyHref: '/programs/it-help-desk/apply',
     requestInfoHref: '/programs/it-help-desk/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=it+help+desk&location=Indiana',

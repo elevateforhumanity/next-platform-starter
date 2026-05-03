@@ -203,7 +203,7 @@ export const CAD_DRAFTING: ProgramSchema = {
     { title: 'Design Manager', salary: '$70,000–$95,000' },
   ],
   cta: {
-    applyHref: '/apply?program=cad-drafting',
+    applyHref: '/programs/cad-drafting/apply',
     requestInfoHref: '/programs/cad-drafting/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=cad+drafter&location=Indiana',

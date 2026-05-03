@@ -204,9 +204,9 @@ type ProgramRow = {
 };
 
 function ProgramCard({ prog }: { prog: ProgramRow }) {
-  const enrollHref = prog.slug
-    ? `/programs/${prog.slug}/enroll`
-    : `/programs/${prog.program_id}/enroll`;
+  const slug = prog.slug ?? prog.program_id;
+  const detailHref = `/programs/${slug}`;
+  const applyHref = `/programs/${slug}/apply`;
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 flex flex-col hover:shadow-md transition">
@@ -283,12 +283,18 @@ function ProgramCard({ prog }: { prog: ProgramRow }) {
         </div>
       </div>
 
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 flex gap-2">
         <Link
-          href={enrollHref}
-          className="block w-full text-center text-sm font-semibold bg-brand-blue-600 text-white py-2 rounded-lg hover:bg-brand-blue-700 transition"
+          href={detailHref}
+          className="flex-1 text-center text-sm font-semibold border border-brand-blue-600 text-brand-blue-600 py-2 rounded-lg hover:bg-brand-blue-50 transition"
         >
-          Enroll
+          Learn More
+        </Link>
+        <Link
+          href={applyHref}
+          className="flex-1 text-center text-sm font-semibold bg-brand-blue-600 text-white py-2 rounded-lg hover:bg-brand-blue-700 transition"
+        >
+          Apply Now
         </Link>
       </div>
     </div>

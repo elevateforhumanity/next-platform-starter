@@ -171,7 +171,7 @@ export const NETWORK_SUPPORT: ProgramSchema = {
     { title: 'Network Administrator', salary: '$55,000–$75,000' },
   ],
   cta: {
-    applyHref: '/apply?program=network-support-technician',
+    applyHref: '/programs/network-support-technician/apply',
     requestInfoHref: '/programs/network-support-technician/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=network+support+technician&location=Indiana',

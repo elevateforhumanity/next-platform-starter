@@ -314,7 +314,7 @@ export default function ThreadDetailPage() {
               </p>
             ) : (
               <p className="text-black">
-                <Link href={`/enroll/${program?.id}`} className="text-brand-blue-600 font-semibold">
+                <Link href={`/programs/${slug}/apply`} className="text-brand-blue-600 font-semibold">
                   Enroll in this program
                 </Link>{' '}
                 to participate in discussions.

@@ -384,7 +384,7 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/apply?program=pharmacy-technician',
+    applyHref: '/programs/pharmacy-technician/apply',
     requestInfoHref: '/programs/pharmacy-technician/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=pharmacy+technician&location=Indiana',

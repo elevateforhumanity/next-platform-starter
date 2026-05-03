@@ -211,7 +211,7 @@ export const EMERGENCY_HEALTH_SAFETY: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/apply?program=emergency-health-safety',
+    applyHref: '/programs/emergency-health-safety/apply',
     requestInfoHref: '/programs/emergency-health-safety/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=emergency+medical+responder&location=Indiana',

@@ -205,7 +205,7 @@ export default function ProgramDiscussionsPage() {
         {user && !isEnrolled && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
             <p className="text-yellow-800">
-              <Link href={`/enroll/${program.id}`} className="font-semibold underline">
+              <Link href={`/programs/${slug}/apply`} className="font-semibold underline">
                 Enroll in this program
               </Link>{' '}
               to participate in discussions.

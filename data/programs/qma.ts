@@ -249,7 +249,7 @@ export const QMA: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/apply?program=qma',
+    applyHref: '/programs/qma/apply',
     requestInfoHref: '/contact?program=qma',
   },
 

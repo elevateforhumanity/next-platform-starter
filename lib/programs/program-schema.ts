@@ -565,9 +565,8 @@ export function getPrimaryCTA(p: ProgramSchema): PrimaryCTA | null {
     };
   }
 
-  // internal (default)
-  const href = p.cta.applyHref;
-  if (!href) return null;
+  // internal (default) — always resolve to program-specific apply page
+  const href = p.cta.applyHref || `/programs/${p.slug}/apply`;
   return { label: 'Apply Now', href, external: false };
 }
 
@@ -588,7 +587,7 @@ export function getEnrollmentTracks(
   const hasWIOA = p.fundingOptions?.some((f) => f === 'wioa' || f === 'wrg') ?? false;
   const hasImpact = p.fundingOptions?.includes('impact') ?? false;
   const hasEmployer = p.fundingOptions?.includes('employer_paid') ?? false;
-  const applyHref = p.cta.applyHref || `/apply?program=${p.slug}`;
+  const applyHref = p.cta.applyHref || `/programs/${p.slug}/apply`;
 
   // Funded track label/description varies by what funding is actually available
   let fundedLabel = 'Workforce-Funded Training';

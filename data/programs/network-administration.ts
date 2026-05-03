@@ -209,7 +209,7 @@ export const NETWORK_ADMIN: ProgramSchema = {
     { title: 'Network Engineer', salary: '$75,000–$100,000' },
   ],
   cta: {
-    applyHref: '/apply?program=network-administration',
+    applyHref: '/programs/network-administration/apply',
     requestInfoHref: '/programs/network-administration/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=network+administrator&location=Indiana',

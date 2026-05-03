@@ -193,7 +193,7 @@ export const SOFTWARE_DEV: ProgramSchema = {
     { title: 'Senior Developer', salary: '$85,000–$120,000' },
   ],
   cta: {
-    applyHref: '/apply?program=software-development',
+    applyHref: '/programs/software-development/apply',
     requestInfoHref: '/programs/software-development/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=software+developer&location=Indiana',

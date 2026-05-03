@@ -193,7 +193,7 @@ export const BEAUTY_CAREER_EDUCATOR: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/apply?program=beauty-career-educator',
+    applyHref: '/programs/beauty-career-educator/apply',
     requestInfoHref: '/programs/beauty-career-educator/request-info',
     advisorHref: '/contact',
   },

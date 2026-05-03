@@ -199,7 +199,7 @@ export const WEB_DEVELOPMENT: ProgramSchema = {
     { title: 'Full-Stack Developer', salary: '$80,000–$120,000' },
   ],
   cta: {
-    applyHref: '/apply?program=web-development',
+    applyHref: '/programs/web-development/apply',
     requestInfoHref: '/programs/web-development/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=web+developer&location=Indiana',

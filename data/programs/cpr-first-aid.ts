@@ -156,7 +156,7 @@ export const CPR_FIRST_AID: ProgramSchema = {
     { title: 'Construction Worker (OSHA + CPR)', salary: '$32,000–$45,000' },
   ],
   cta: {
-    applyHref: '/apply?program=cpr-first-aid',
+    applyHref: '/programs/cpr-first-aid/apply',
     requestInfoHref: '/programs/cpr-first-aid/request-info',
     advisorHref: '/contact',
     courseHref: '/programs/cpr-first-aid',

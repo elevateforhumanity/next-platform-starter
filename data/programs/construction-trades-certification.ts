@@ -257,7 +257,7 @@ export const CONSTRUCTION_TRADES: ProgramSchema = {
     { title: 'Trade Apprentice', salary: '$35,000–$48,000' },
   ],
   cta: {
-    applyHref: '/apply?program=construction-trades-certification',
+    applyHref: '/programs/construction-trades-certification/apply',
     requestInfoHref: '/programs/construction-trades-certification/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=construction+trades&location=Indiana',

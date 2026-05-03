@@ -70,7 +70,7 @@ export default async function EnrollPage() {
               {programs.map((program) => (
                 <Link
                   key={program.id}
-                  href={`/enroll/${program.id}`}
+                  href={`/programs/${program.slug ?? program.id}/apply`}
                   className="block p-6 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
                 >
                   <div className="flex justify-between items-start">
