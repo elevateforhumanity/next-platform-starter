@@ -16,7 +16,7 @@ async function _GET(request: Request, { params }: { params: Params }) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const { slug } = await params;
+    const { program: slug } = await params;
     const supabase = await createServerSupabaseClient();
 
     // Map program slugs to course categories

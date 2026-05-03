@@ -15,12 +15,12 @@ const supabaseKey =
  * Returns program details with outcomes and requirements.
  * Strict: 404 if not published/active.
  */
-async function _GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+async function _GET(request: NextRequest, { params }: { params: Promise<{ program: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const { slug } = await params;
+    const { program: slug } = await params;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Fetch program

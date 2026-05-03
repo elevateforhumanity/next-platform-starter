@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ slug: string; courseId: string }> },
+  { params }: { params: Promise<{ program: string; courseId: string }> },
 ) {
   const rateLimited = await applyRateLimit(request, 'payment');
   if (rateLimited) return rateLimited;
@@ -21,7 +21,7 @@ export async function POST(
   const stripe = getStripe();
   if (!stripe) return safeError('Payment system not configured', 503);
 
-  const { slug, courseId } = await params;
+  const { program: slug, courseId } = await params;
   const db = await createClient();
   const adminDb = await requireAdminClient();
 

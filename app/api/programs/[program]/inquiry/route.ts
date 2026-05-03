@@ -6,11 +6,11 @@ import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error'
 import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
 
-export async function POST(request: NextRequest, { params }: { params: { slug: string } }) {
+export async function POST(request: NextRequest, { params }: { params: { program: string } }) {
   const rateLimited = await applyRateLimit(request, 'contact');
   if (rateLimited) return rateLimited;
 
-  const { slug } = params;
+  const { program: slug } = params;
 
   let body: {
     firstName: string;

@@ -5,10 +5,10 @@ import { safeError, safeDbError } from '@/lib/api/safe-error';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ program: string }> }) {
   const auth = await apiAuthGuard(request);
 
-  const { slug } = await params;
+  const { program: slug } = await params;
   const db = await createClient();
 
   // Resolve slug → program id
