@@ -8,9 +8,9 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ program: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { program: slug } = await params;
   const title = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   return {
     title: `${title} Program | Partner Portal`,
@@ -20,9 +20,9 @@ export async function generateMetadata({
 export default async function PartnerProgramPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ program: string }>;
 }) {
-  const { slug } = await params;
+  const { program: slug } = await params;
 
   const supabase = await createClient();
   const {
