@@ -481,7 +481,9 @@ export async function proxy(request: NextRequest) {
 
     // If Supabase is not configured, block rather than allow through
     if (!supabaseUrl || !supabaseKey) {
-      return NextResponse.redirect(new URL('/login', request.url), { status: 307 });
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(loginUrl, { status: 307 });
     }
 
     let adminResponse = NextResponse.next({ request: { headers: requestHeaders } });
@@ -555,8 +557,20 @@ export async function proxy(request: NextRequest) {
       '/admin/program-holders',
     ];
 
+    // The main app has no /admin/* pages — they live in apps/admin at
+    // app.elevateforhumanity.org. Redirect authenticated users there.
+    // On localhost or the admin domain itself, fall through (dev + admin app).
+    const adminAppUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org';
+    const onAdminDomain =
+      host.includes('app.elevateforhumanity.org') ||
+      host.includes('localhost') ||
+      host.includes('127.0.0.1');
+    const qs = request.nextUrl.search || '';
+
     if (FULL_ADMIN_ROLES.includes(profile.role)) {
-      // Full access
+      if (!onAdminDomain) {
+        return NextResponse.redirect(`${adminAppUrl}${pathname}${qs}`, { status: 307 });
+      }
       if (profile.tenant_id) adminResponse.headers.set('x-tenant-id', profile.tenant_id);
       return adminResponse;
     }
@@ -567,6 +581,9 @@ export async function proxy(request: NextRequest) {
       );
       if (!allowed) {
         return NextResponse.redirect(new URL('/unauthorized', request.url), { status: 307 });
+      }
+      if (!onAdminDomain) {
+        return NextResponse.redirect(`${adminAppUrl}${pathname}${qs}`, { status: 307 });
       }
       if (profile.tenant_id) adminResponse.headers.set('x-tenant-id', profile.tenant_id);
       return adminResponse;
