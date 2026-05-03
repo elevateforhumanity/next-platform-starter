@@ -158,21 +158,21 @@ export async function logAuditEvent(event: AuditEvent): Promise<void> {
   };
 
   try {
-    const supabase = await requireAdminClient();
-
-    // requireAdminClient() returns null when SUPABASE_SERVICE_ROLE_KEY is absent
-    // (e.g. cold Lambda start before app_secrets hydration, or missing secret).
-    // Throwing here would cascade into the 800ms audit timeout on every request.
-    // Log to stderr and return — the fallback channels in onAuditFailure handle
-    // durable recording once the secret is available.
-    if (!supabase) {
+    // Validate the service role key before creating the client.
+    // SUPABASE_SERVICE_ROLE_KEY must be a non-empty JWT (>100 chars).
+    // If it's missing or is the anon key by mistake, surface a clear error
+    // rather than letting Supabase return "No API key found in request".
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
+    if (serviceKey.length < 100) {
       void onAuditFailure(
-        'logAuditEvent: admin client unavailable (key absent)',
-        new Error('No admin client'),
+        'logAuditEvent: SUPABASE_SERVICE_ROLE_KEY absent or invalid (check SSM /elevate/SUPABASE_SERVICE_ROLE_KEY)',
+        new Error(`key length ${serviceKey.length} — expected >100`),
         payload,
       );
       return;
     }
+
+    const supabase = await requireAdminClient();
 
     const { error } = await supabase.from('audit_logs').insert(payload);
 

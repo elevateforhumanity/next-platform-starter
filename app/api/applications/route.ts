@@ -234,6 +234,9 @@ async function _POST(req: Request) {
         .from('applications')
         .insert({
           ...corePayload,
+          // Strip columns added in migrations that may not be live yet.
+          // Keep this list in sync with corePayload — any column not in the
+          // baseline schema (20260227000003) must be stripped here.
           normalized_email: undefined,
           normalized_phone: undefined,
           county_of_residence: undefined,
@@ -242,6 +245,9 @@ async function _POST(req: Request) {
           modality_preference: undefined,
           transfer_hours_claimed: undefined,
           funding_eligibility_status: undefined,
+          funding_type: undefined,       // added in 20260425000001
+          program_slug: undefined,       // added in 20260224000002 (applications table)
+          date_of_birth: undefined,      // added in 20260304120000
           type: undefined,
           status: 'submitted',
         })

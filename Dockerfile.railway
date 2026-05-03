@@ -11,7 +11,7 @@
 #   - Remotion renderer runs without restrictions
 
 # ── Stage 1: deps ─────────────────────────────────────────────────────────────
-FROM node:20-bookworm-slim AS deps
+FROM public.ecr.aws/docker/library/node:20-bookworm-slim AS deps
 
 # Install system deps needed at build time and runtime
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -70,7 +70,7 @@ RUN node scripts/railway-quarantine-marketing-routes.mjs && \
     node scripts/railway-quarantine-marketing-routes.mjs --restore
 
 # ── Stage 3: runner ───────────────────────────────────────────────────────────
-FROM node:20-bookworm-slim AS runner
+FROM public.ecr.aws/docker/library/node:20-bookworm-slim AS runner
 
 # Runtime system deps: ffmpeg for Remotion, chromium for any headless work
 RUN apt-get update && apt-get install -y --no-install-recommends \
