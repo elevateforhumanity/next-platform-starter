@@ -17,6 +17,8 @@ export default function BarberCheckoutPage() {
     phone: '',
   });
   const [paymentType, setPaymentType] = useState<PaymentType>('payment_plan');
+  const [downPayment, setDownPayment] = useState<number>(BARBER_PRICING.minDownPayment);
+  const [downPaymentInput, setDownPaymentInput] = useState<string>(String(BARBER_PRICING.minDownPayment));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -24,6 +26,21 @@ export default function BarberCheckoutPage() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
+  function handleDownPaymentChange(raw: string) {
+    setDownPaymentInput(raw);
+    const parsed = parseInt(raw.replace(/\D/g, ''), 10);
+    if (!isNaN(parsed)) {
+      setDownPayment(Math.min(Math.max(parsed, BARBER_PRICING.minDownPayment), BARBER_PRICING.fullPrice));
+    }
+  }
+
+  function handleDownPaymentBlur() {
+    const clamped = Math.min(Math.max(downPayment, BARBER_PRICING.minDownPayment), BARBER_PRICING.fullPrice);
+    setDownPayment(clamped);
+    setDownPaymentInput(String(clamped));
+  }
+
+  const effectiveDownPayment = paymentType === 'pay_in_full' ? BARBER_PRICING.fullPrice : downPayment;
   const isValid = form.name.trim().length > 1 && /\S+@\S+\.\S+/.test(form.email);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -65,6 +82,7 @@ export default function BarberCheckoutPage() {
           customer_phone: form.phone.trim() || undefined,
           application_id: applicationId,
           payment_type: paymentType,
+          down_payment: effectiveDownPayment,
           hours_per_week: 40,
           transferred_hours_verified: 0,
           success_url: `${siteUrl}/checkout/success?type=barber&session_id={CHECKOUT_SESSION_ID}`,
@@ -88,8 +106,7 @@ export default function BarberCheckoutPage() {
     }
   }
 
-  const weeklyAmount = BARBER_PRICING.fullPrice - BARBER_PRICING.minDownPayment;
-  const weeklyPayment = (weeklyAmount / BARBER_PRICING.paymentTermWeeks).toFixed(2);
+  const weeklyPayment = ((BARBER_PRICING.fullPrice - effectiveDownPayment) / BARBER_PRICING.paymentTermWeeks).toFixed(2);
 
   return (
     <div className="min-h-screen bg-white">
@@ -111,7 +128,7 @@ export default function BarberCheckoutPage() {
           </p>
 
           {/* Payment option selector */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-2 gap-3 mb-4">
             <button
               type="button"
               onClick={() => setPaymentType('payment_plan')}
@@ -119,7 +136,7 @@ export default function BarberCheckoutPage() {
             >
               <div className="font-bold text-slate-900 text-sm mb-0.5">Payment Plan</div>
               <div className="text-xs text-slate-500">
-                ${BARBER_PRICING.minDownPayment} down, then ${weeklyPayment}/wk
+                ${downPayment.toLocaleString()} down, then ${weeklyPayment}/wk
               </div>
             </button>
             <button
@@ -133,6 +150,51 @@ export default function BarberCheckoutPage() {
               </div>
             </button>
           </div>
+
+          {/* Down payment selector — only shown for payment plan */}
+          {paymentType === 'payment_plan' && (
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Down payment amount
+              </label>
+              <p className="text-xs text-slate-500 mb-3">
+                Minimum ${BARBER_PRICING.minDownPayment.toLocaleString()}. Pay more upfront to lower your weekly payments.
+              </p>
+              <div className="flex items-center gap-3">
+                <span className="text-slate-500 font-medium">$</span>
+                <input
+                  type="number"
+                  min={BARBER_PRICING.minDownPayment}
+                  max={BARBER_PRICING.fullPrice}
+                  step={50}
+                  value={downPaymentInput}
+                  onChange={(e) => handleDownPaymentChange(e.target.value)}
+                  onBlur={handleDownPaymentBlur}
+                  className="w-32 px-3 py-2 border border-slate-300 rounded-lg text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
+                />
+                <div className="text-xs text-slate-500">
+                  → <span className="font-semibold text-slate-700">${weeklyPayment}/wk</span> for {BARBER_PRICING.paymentTermWeeks} weeks
+                </div>
+              </div>
+              {/* Quick-select buttons */}
+              <div className="flex flex-wrap gap-2 mt-3">
+                {[600, 1000, 1500, 2000, 2500].map((amt) => (
+                  <button
+                    key={amt}
+                    type="button"
+                    onClick={() => { setDownPayment(amt); setDownPaymentInput(String(amt)); }}
+                    className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
+                      downPayment === amt
+                        ? 'bg-brand-red-600 text-white border-brand-red-600'
+                        : 'bg-white text-slate-600 border-slate-300 hover:border-brand-red-400'
+                    }`}
+                  >
+                    ${amt.toLocaleString()}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -192,7 +254,7 @@ export default function BarberCheckoutPage() {
                   <Loader2 className="w-4 h-4 animate-spin" /> Creating your application…
                 </>
               ) : (
-                `Continue to Payment — $${paymentType === 'pay_in_full' ? BARBER_PRICING.fullPrice.toLocaleString() : BARBER_PRICING.minDownPayment} today`
+                `Continue to Payment — $${effectiveDownPayment.toLocaleString()} today`
               )}
             </button>
           </form>

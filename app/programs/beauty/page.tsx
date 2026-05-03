@@ -13,26 +13,15 @@ import PathwayDisclosure from '@/components/PathwayDisclosure';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Beauty Industry Apprenticeships | Barber, Cosmetology, Esthetics, Nails',
+  title: 'Beauty Industry Apprenticeships | Cosmetology, Esthetics, Nails | Elevate',
   description:
-    'DOL-registered apprenticeship programs in barbering, cosmetology, esthetics, and nail technology. Earn while you learn with flat-fee pricing. ETPL approved.',
+    'DOL-registered apprenticeship programs in cosmetology, esthetics, and nail technology. Earn while you learn with flat-fee pricing. ETPL approved. Looking for Barber? See our dedicated Barber Apprenticeship page.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/programs/beauty',
   },
 };
 
 const PROGRAMS = [
-  {
-    title: 'Barber Apprenticeship',
-    description:
-      'Complete 2,000-hour apprenticeship to become a licensed barber in Indiana. Learn cutting, styling, shaving, and business skills.',
-    href: '/programs/barber-apprenticeship',
-    image: '/hero-images/barber-hero.jpg',
-    hours: 2000,
-    price: '$4,980',
-    duration: '15–24 months',
-    highlights: ['Indiana IPLA compliant', 'Milady Theory included', 'Hour logging system'],
-  },
   {
     title: 'Cosmetology Apprenticeship',
     description:
@@ -92,25 +81,25 @@ const WHY = [
 ];
 
 export default async function BeautyProgramsPage() {
-  const enrollmentCount = await getEnrollmentCount('barber-apprenticeship');
-  const b = heroBanners['barber-apprenticeship'];
+  const enrollmentCount = await getEnrollmentCount('cosmetology-apprenticeship');
+  const b = heroBanners['beauty'];
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Video hero — uses barber video/poster; same beauty category */}
+      {/* Video hero — beauty hub specific, not barber */}
       <HeroVideo
-        videoSrcDesktop={b.videoSrcDesktop}
-        posterImage={b.posterImage}
-        voiceoverSrc={'voiceoverSrc' in b ? b.voiceoverSrc : undefined}
+        videoSrcDesktop={b?.videoSrcDesktop}
+        posterImage={b?.posterImage ?? '/hero-images/barber-beauty-cat-new.jpg'}
+        voiceoverSrc={b?.voiceoverSrc}
         microLabel="DOL Registered Apprenticeships"
         analyticsName="beauty-programs"
         belowHeroHeadline="Beauty Industry Apprenticeships"
-        belowHeroSubheadline="Barber · Cosmetology · Esthetics · Nails — earn while you learn with flat-fee pricing and DOL-registered programs."
+        belowHeroSubheadline="Cosmetology · Esthetics · Nails — earn while you learn with flat-fee pricing and DOL-registered programs."
         ctas={[
           { label: 'View Programs', href: '#programs' },
           {
             label: 'Apply Now',
-            href: '/apply?program=barber-apprenticeship',
+            href: '/apply?program=cosmetology-apprenticeship',
             variant: 'secondary',
           },
         ]}
@@ -121,6 +110,21 @@ export default async function BeautyProgramsPage() {
           'Flat-fee pricing',
         ]}
       />
+
+      {/* Barber callout — separate program with its own page */}
+      <div className="bg-amber-50 border-b border-amber-200 py-4 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-amber-900 text-sm font-medium">
+            Looking for the <strong>Barber Apprenticeship</strong>? It has its own dedicated page.
+          </p>
+          <a
+            href="/programs/barber-apprenticeship"
+            className="shrink-0 bg-amber-800 hover:bg-amber-900 text-white text-sm font-bold px-5 py-2 rounded-lg transition-colors"
+          >
+            View Barber Apprenticeship →
+          </a>
+        </div>
+      </div>
 
       <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: 'Beauty' }]} />
 
@@ -261,7 +265,7 @@ export default async function BeautyProgramsPage() {
           <p className="text-slate-300 mb-8">Check eligibility first — takes just 5 minutes.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/apply?program=barber-apprenticeship"
+              href="/apply?program=cosmetology-apprenticeship"
               className="inline-flex items-center justify-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-xl font-bold transition-colors"
             >
               Apply Now <ArrowRight className="w-5 h-5" />

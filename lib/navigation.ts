@@ -83,6 +83,7 @@ export const NAV_ITEMS: NavItem[] = [
 
       // Hubs & Special Programs
       { name: '— Hubs & Special Programs —', href: '/programs', isHeader: true },
+      { name: 'Barber Apprenticeship', href: '/programs/barber-apprenticeship' },
       { name: 'Beauty Programs Hub', href: '/programs/beauty' },
       { name: 'Business Programs Hub', href: '/programs/business' },
       { name: 'Federal-Funded Programs', href: '/programs/federal-funded' },
