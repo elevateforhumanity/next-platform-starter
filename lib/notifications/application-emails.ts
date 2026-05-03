@@ -18,6 +18,23 @@ interface ApplicationData {
   city?: string;
   zipCode?: string;
   submittedAt: string;
+  // Full intake fields
+  dateOfBirth?: string;
+  county?: string;
+  state?: string;
+  preferredLocation?: string;
+  employmentStatus?: string;
+  fundingNeeded?: boolean;
+  householdSize?: string;
+  annualIncome?: string;
+  snapRecipient?: boolean;
+  tanfRecipient?: boolean;
+  probationOrReentry?: boolean;
+  workforceConnection?: string;
+  referralSource?: string;
+  barriers?: string[];
+  fundingTag?: string;
+  notes?: string;
 }
 
 /**
@@ -138,128 +155,114 @@ export async function sendApplicationConfirmation(application: ApplicationData) 
 }
 
 /**
- * Send notification to admin about new application
+ * Send full application details to admin on every new submission.
+ * Includes every field from the intake form so admin has the complete picture
+ * without needing to log in first.
  */
 export async function sendAdminApplicationNotification(application: ApplicationData) {
+  const submitted = new Date(application.submittedAt).toLocaleString('en-US', {
+    month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit',
+  });
+
+  const fundingTagLabel: Record<string, string> = {
+    'jri': '⚖️ Job Ready Indy (JRI) — Reentry',
+    'self-pay': '💳 Self-Pay',
+    'wioa-categorical': '✅ WIOA Categorical (SNAP/TANF)',
+    'wioa-income': '✅ WIOA Income-Eligible',
+    'wioa': '✅ WIOA — Workforce Partner',
+    'pending-review': '🔍 Pending Review',
+  };
+
+  function row(label: string, value: string | undefined | null) {
+    if (!value) return '';
+    return `<tr>
+      <td style="padding:8px 12px;color:#6b7280;font-size:13px;font-weight:600;white-space:nowrap;vertical-align:top;width:180px;">${label}</td>
+      <td style="padding:8px 12px;color:#111827;font-size:13px;vertical-align:top;">${value}</td>
+    </tr>`;
+  }
+
   const html = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>New Application Received</title>
-    </head>
-    <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background-color: #ffffff;">
-      <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9fafb; padding: 40px 20px;">
-        <tr>
-          <td align="center">
-            <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-              <!-- Header -->
-              <tr>
-                <td style="padding: 32px 40px; text-align: center; border-bottom: 2px solid #e5e7eb;">
-                  <h1 style="margin: 0; color: #1e293b; font-size: 28px; font-weight: bold;">🎓 New Application</h1>
-                  <p style="margin: 8px 0 0 0; color: #dbeafe; font-size: 16px;">Action Required</p>
-                </td>
-              </tr>
+<div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1a1a1a;">
 
-              <!-- Content -->
-              <tr>
-                <td style="padding: 40px;">
-                  <p style="margin: 0 0 24px 0; color: #111827; font-size: 16px; line-height: 1.6;">
-                    A new application has been submitted and requires review.
-                  </p>
+  <!-- Header -->
+  <div style="background:#1e293b;padding:24px 32px;border-radius:8px 8px 0 0;">
+    <p style="margin:0;color:#fff;font-size:20px;font-weight:700;">🎓 New Application — Action Required</p>
+    <p style="margin:4px 0 0;color:#94a3b8;font-size:13px;">Submitted ${submitted}</p>
+  </div>
 
-                  <!-- Applicant Info -->
-                  <div style="background-color: #f9fafb; padding: 24px; border-radius: 8px; margin: 24px 0;">
-                    <h3 style="margin: 0 0 16px 0; color: #111827; font-size: 18px; font-weight: 600;">Applicant Information</h3>
-                    <table width="100%" cellpadding="10" cellspacing="0">
-                      <tr>
-                        <td style="color: #6b7280; font-size: 14px; font-weight: 500; width: 140px;">Name:</td>
-                        <td style="color: #111827; font-size: 14px; font-weight: 600;">${application.firstName} ${application.lastName}</td>
-                      </tr>
-                      <tr>
-                        <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Email:</td>
-                        <td style="color: #111827; font-size: 14px; font-weight: 600;"><a href="mailto:${application.email}" style="color: #2563eb; text-decoration: none;">${application.email}</a></td>
-                      </tr>
-                      ${
-                        application.phone
-                          ? `
-                      <tr>
-                        <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Phone:</td>
-                        <td style="color: #111827; font-size: 14px; font-weight: 600;"><a href="tel:${application.phone}" style="color: #2563eb; text-decoration: none;">${application.phone}</a></td>
-                      </tr>
-                      `
-                          : ''
-                      }
-                      <tr>
-                        <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Program:</td>
-                        <td style="color: #111827; font-size: 14px; font-weight: 600;">${application.programInterest}</td>
-                      </tr>
-                      ${
-                        application.city
-                          ? `
-                      <tr>
-                        <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Location:</td>
-                        <td style="color: #111827; font-size: 14px; font-weight: 600;">${application.city}${application.zipCode ? `, ${application.zipCode}` : ''}</td>
-                      </tr>
-                      `
-                          : ''
-                      }
-                      <tr>
-                        <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Submitted:</td>
-                        <td style="color: #111827; font-size: 14px; font-weight: 600;">${new Date(application.submittedAt).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })}</td>
-                      </tr>
-                      <tr>
-                        <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Application ID:</td>
-                        <td style="color: #111827; font-size: 14px; font-weight: 600; font-family: monospace;">${application.id}</td>
-                      </tr>
-                    </table>
-                  </div>
+  <!-- CTA -->
+  <div style="background:#f0fdf4;border:2px solid #86efac;padding:20px 32px;text-align:center;">
+    <a href="${SITE_URL}/admin/applications/review/${application.id}"
+       style="display:inline-block;background:#16a34a;color:#fff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">
+      Review &amp; Enroll →
+    </a>
+    <p style="margin:10px 0 0;font-size:12px;color:#6b7280;">
+      Application ID: <span style="font-family:monospace;">${application.id}</span>
+    </p>
+  </div>
 
-                  <!-- Action Buttons -->
-                  <div style="text-align: center; margin: 32px 0;">
-                    <a href="${SITE_URL}/admin/applications/review/${application.id}" style="display: inline-block; background-color: #ea580c; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 15px; margin: 0 8px; ">
-                      Review &amp; Enroll
-                    </a>
-                    <a href="${SITE_URL}/admin/applications" style="display: inline-block; background-color: #ffffff; color: #374151; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 15px; margin: 0 8px; border: 1px solid #e5e7eb;">
-                      View All Applications
-                    </a>
-                  </div>
+  <!-- Contact -->
+  <div style="background:#fff;border:1px solid #e2e8f0;border-top:none;padding:24px 32px;">
+    <h3 style="margin:0 0 12px;font-size:15px;color:#0f172a;text-transform:uppercase;letter-spacing:0.05em;">Contact</h3>
+    <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:8px;overflow:hidden;">
+      ${row('Full Name', `${application.firstName} ${application.lastName}`)}
+      ${row('Email', application.email ? `<a href="mailto:${application.email}" style="color:#2563eb;">${application.email}</a>` : null)}
+      ${row('Phone', application.phone ? `<a href="tel:${application.phone}" style="color:#2563eb;">${application.phone}</a>` : null)}
+      ${row('Date of Birth', application.dateOfBirth)}
+      ${row('City', application.city)}
+      ${row('County', application.county)}
+      ${row('State', application.state)}
+    </table>
+  </div>
 
-                  <!-- Next Steps -->
-                  <div style="background-color: #f9fafb; border-left: 4px solid #e5e7eb; padding: 20px; margin: 32px 0; border-radius: 8px;">
-                    <h4 style="margin: 0 0 12px 0; color: #1e40af; font-size: 16px; font-weight: 600;">Next Steps:</h4>
-                    <ol style="margin: 0; padding-left: 20px; color: #1e3a8a; font-size: 14px; line-height: 1.8;">
-                      <li>Review application details in admin dashboard</li>
-                      <li>Contact applicant within 24-48 hours</li>
-                      <li>Conduct phone interview if needed</li>
-                      <li>Approve and send enrollment link</li>
-                    </ol>
-                  </div>
-                </td>
-              </tr>
+  <!-- Program -->
+  <div style="background:#fff;border:1px solid #e2e8f0;border-top:none;padding:24px 32px;">
+    <h3 style="margin:0 0 12px;font-size:15px;color:#0f172a;text-transform:uppercase;letter-spacing:0.05em;">Program Interest</h3>
+    <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:8px;overflow:hidden;">
+      ${row('Program', application.programInterest)}
+      ${row('Preferred Location', application.preferredLocation)}
+    </table>
+  </div>
 
-              <!-- Footer -->
-              <tr>
-                <td style="background-color: #f9fafb; padding: 24px 40px; text-align: center; border-top: 1px solid #e5e7eb;">
-                  <p style="margin: 0; color: #6b7280; font-size: 13px;">
-                    This is an automated notification from Elevate For Humanity Admin System
-                  </p>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-    </body>
-    </html>
-  `;
+  <!-- Funding Eligibility -->
+  <div style="background:#fff;border:1px solid #e2e8f0;border-top:none;padding:24px 32px;">
+    <h3 style="margin:0 0 12px;font-size:15px;color:#0f172a;text-transform:uppercase;letter-spacing:0.05em;">Funding Eligibility</h3>
+    ${application.fundingTag ? `<div style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-weight:700;font-size:14px;color:#713f12;">Funding Tag: ${fundingTagLabel[application.fundingTag] ?? application.fundingTag}</div>` : ''}
+    <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:8px;overflow:hidden;">
+      ${row('Employment Status', application.employmentStatus)}
+      ${row('Needs Funding', application.fundingNeeded === false ? 'No — Self-pay' : 'Yes')}
+      ${row('Annual Income', application.annualIncome)}
+      ${row('Household Size', application.householdSize)}
+      ${row('Receives SNAP', application.snapRecipient ? 'Yes' : application.snapRecipient === false ? 'No' : null)}
+      ${row('Receives TANF', application.tanfRecipient ? 'Yes' : application.tanfRecipient === false ? 'No' : null)}
+      ${row('Reentry / Probation', application.probationOrReentry ? 'Yes' : application.probationOrReentry === false ? 'No' : null)}
+      ${row('Workforce Connection', application.workforceConnection)}
+      ${row('Referral Source', application.referralSource)}
+      ${row('Barriers', application.barriers?.length ? application.barriers.join(', ') : null)}
+    </table>
+  </div>
+
+  ${application.notes ? `
+  <!-- Notes -->
+  <div style="background:#fff;border:1px solid #e2e8f0;border-top:none;padding:24px 32px;">
+    <h3 style="margin:0 0 12px;font-size:15px;color:#0f172a;text-transform:uppercase;letter-spacing:0.05em;">Notes</h3>
+    <p style="margin:0;font-size:13px;color:#374151;background:#f8fafc;padding:12px;border-radius:6px;">${application.notes}</p>
+  </div>` : ''}
+
+  <!-- Footer -->
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;padding:16px 32px;text-align:center;">
+    <a href="${SITE_URL}/admin/applications" style="color:#6b7280;font-size:12px;text-decoration:none;">View All Applications</a>
+    <span style="color:#d1d5db;margin:0 8px;">|</span>
+    <span style="color:#6b7280;font-size:12px;">Elevate for Humanity Admin</span>
+  </div>
+
+</div>`;
 
   return sendEmail({
     to: ADMIN_EMAIL,
-    subject: `🎓 New Application: ${application.firstName} ${application.lastName} - ${application.programInterest}`,
+    subject: `New Application: ${application.firstName} ${application.lastName} — ${application.programInterest}`,
     html,
-    replyTo: application.email,
+    replyTo: application.email || ADMIN_EMAIL,
   });
 }
 

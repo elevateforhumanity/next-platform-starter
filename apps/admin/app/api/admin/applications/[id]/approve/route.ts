@@ -62,7 +62,7 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ id: strin
     try {
       const { data: app } = await db
         .from('applications')
-        .select('email, first_name, last_name, phone, program_interest, program_slug')
+        .select('email, first_name, last_name, phone, program_interest, program_slug, city, zip, support_notes, eligibility_data, funding_type, source')
         .eq('id', id)
         .maybeSingle();
 
@@ -77,6 +77,8 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ id: strin
           studentEmail: app.email,
           studentName,
           studentPhone: app.phone ?? null,
+          studentCity: app.city ?? null,
+          fundingType: app.funding_type ?? (app.eligibility_data as Record<string,unknown>)?.funding_tag as string ?? null,
           passwordSetupLink: result.passwordSetupLink ?? null,
           enrollmentId: result.enrollmentId ?? null,
         });
