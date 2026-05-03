@@ -1,6 +1,12 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - npm install -g pnpm@10.28.2 --silent
+
   pre_build:
     commands:
       - echo Logging in to ECR...
