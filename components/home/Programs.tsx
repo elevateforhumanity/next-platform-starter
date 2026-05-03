@@ -35,7 +35,7 @@ export default function Programs() {
       title: 'Business',
       description:
         'Study accounting, business management, or entrepreneurship. Programs focus on practical skills employers need, from bookkeeping to business planning.',
-      href: '/programs/business',
+      href: '/programs/business-administration',
       image: '/hero-images/business-hero.jpg',
     },
     {

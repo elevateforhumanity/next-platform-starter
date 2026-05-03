@@ -19,7 +19,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'Healthcare', href: '/programs/healthcare' },
       { label: 'Skilled Trades', href: '/programs/skilled-trades' },
-      { label: 'Business', href: '/programs/business' },
+      { label: 'Business', href: '/programs/business-administration' },
       { label: 'HVAC Technician', href: '/programs/hvac-technician' },
     ],
   },

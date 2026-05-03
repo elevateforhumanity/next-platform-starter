@@ -56,7 +56,7 @@ const PROGRAM_AREAS = [
   {
     title: 'Business & Professional',
     desc: 'Tax Preparation, Bookkeeping, Office Administration, Entrepreneurship. IRS and Certiport credentials.',
-    href: '/programs/business',
+    href: '/programs/business-administration',
     image: '/images/pages/bookkeeping-ledger.jpg',
     credential: 'IRS PTIN · QuickBooks Certified User',
     duration: '5–8 weeks',

@@ -591,7 +591,7 @@ export default async function FinancePathwayPage() {
                   duration: '5 weeks',
                   cost: '$4,550 (self-pay)',
                   credential: 'IT Specialist — Business Apps',
-                  href: '/programs/business',
+                  href: '/programs/business-administration',
                   image: '/images/pages/comp-program-template.jpg',
                 },
               ].map((prog) => (

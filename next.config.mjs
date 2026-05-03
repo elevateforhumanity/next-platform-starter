@@ -681,7 +681,12 @@ const nextConfig = {
       },
       {
         source: '/programs/beauty',
-        destination: '/programs/barber-apprenticeship',
+        destination: '/programs/cosmetology-apprenticeship',
+        permanent: true,
+      },
+      {
+        source: '/programs/business',
+        destination: '/programs/business-administration',
         permanent: true,
       },
       // Business

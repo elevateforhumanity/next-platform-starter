@@ -118,7 +118,7 @@ export default async function SuccessStoriesPage() {
                   Entrepreneurs and tech professionals building successful careers and businesses.
                 </p>
                 <Link
-                  href="/programs/business"
+                  href="/programs/business-administration"
                   className="text-brand-orange-600 font-semibold hover:underline"
                 >
                   View Programs →

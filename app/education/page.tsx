@@ -55,7 +55,7 @@ const PROGRAMS = [
   },
   {
     title: 'Business & Finance',
-    href: '/programs/business',
+    href: '/programs/business-administration',
     image: '/images/pages/tax-preparation.jpg',
     desc: 'Bookkeeping, Office Administration, Tax Preparation, and Entrepreneurship programs.',
     tags: ['Bookkeeping', 'Tax Prep', 'Entrepreneurship'],
