@@ -87,7 +87,7 @@ export const PRICES = {
   BOOTH_BARBER_WEEKLY: getStripePrice('BOOTH_BARBER_WEEKLY'),
   BOOTH_COSMO_WEEKLY: getStripePrice('BOOTH_COSMO_WEEKLY'),
   BOOTH_NAIL_WEEKLY: getStripePrice('BOOTH_NAIL_WEEKLY'),
-  BOOTH_ESTHI_WEEKLY: getStripePrice('BOOTH_ESTHI_WEEKLY'),
+  BOOTH_ESTHI_WEEKLY: getStripePrice('BOOTH_ESTHI_WEEKLY', 'price_1TT4HQH4a2yrVOt5kSSzKFsq'),
 
   // Booth rental deposits — one-time charges at signup
   BOOTH_BARBER_DEPOSIT: getStripePrice('BOOTH_BARBER_DEPOSIT'),
