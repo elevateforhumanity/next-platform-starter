@@ -40,7 +40,32 @@ phases:
       - echo Pushing images...
       - docker push $IMAGE_URI:latest
       - docker push $IMAGE_URI:$COMMIT_HASH
-      - echo Build complete
+      - echo Registering new task definition...
+      - |
+        CURRENT_TASK_DEF=$(aws ecs describe-task-definition \
+          --task-definition elevate-admin \
+          --region $AWS_DEFAULT_REGION \
+          --query 'taskDefinition' --output json)
+        NEW_TASK_DEF=$(echo "$CURRENT_TASK_DEF" | python3 -c "
+        import json, sys
+        t = json.load(sys.stdin)
+        t['containerDefinitions'][0]['image'] = '$IMAGE_URI:$COMMIT_HASH'
+        for f in ['taskDefinitionArn','revision','status','requiresAttributes','compatibilities','registeredAt','registeredBy']:
+            t.pop(f, None)
+        print(json.dumps(t))
+        ")
+        NEW_TASK_ARN=$(aws ecs register-task-definition \
+          --region $AWS_DEFAULT_REGION \
+          --cli-input-json "$NEW_TASK_DEF" \
+          --query 'taskDefinition.taskDefinitionArn' --output text)
+        echo "Registered: $NEW_TASK_ARN"
+        aws ecs update-service \
+          --cluster elevate-cluster \
+          --service elevate-admin-service \
+          --task-definition "$NEW_TASK_ARN" \
+          --region $AWS_DEFAULT_REGION \
+          --query 'service.taskDefinition' --output text
+        echo "Service updated."
       - printf '[{"name":"elevate-admin","imageUri":"%s"}]' $IMAGE_URI:$COMMIT_HASH > imagedefinitions.json
 
 artifacts:
