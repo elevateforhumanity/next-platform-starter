@@ -81,6 +81,12 @@ function checkMediaExists(url) {
   return fs.existsSync(filePath);
 }
 
+// Videos are served from Cloudflare R2 (not committed to public/).
+// Only check images for local existence — skip /videos/* entirely.
+function isRemoteAsset(url) {
+  return url.startsWith('/videos/');
+}
+
 // Main execution
 const mediaUrls = extractMediaUrls(rootDir);
 
@@ -88,7 +94,10 @@ const brokenMedia = [];
 const validMedia = [];
 
 for (const url of mediaUrls) {
-  if (checkMediaExists(url)) {
+  if (isRemoteAsset(url)) {
+    // R2-hosted — existence verified at runtime, not in CI
+    validMedia.push({ url, status: 'remote' });
+  } else if (checkMediaExists(url)) {
     validMedia.push({ url, status: 'valid' });
   } else {
     brokenMedia.push({ url, status: 'missing' });

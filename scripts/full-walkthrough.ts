@@ -18,8 +18,8 @@ import * as path from 'path';
 // ── Config ────────────────────────────────────────────────────────────────────
 const BASE          = 'https://www.elevateforhumanity.org';
 const SUPABASE_URL  = 'https://cuxzzpsyufcewtmicszk.supabase.co';
-const ANON_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1eHp6cHN5dWZjZXd0bWljc3prIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxNjEwNDcsImV4cCI6MjA3MzczNzA0N30.DyFtzoKha_tuhKiSIPoQlKonIpaoSYrlhzntCUvLUnA';
-const SERVICE_KEY   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1eHp6cHN5dWZjZXd0bWljc3prIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODE2MTA0NywiZXhwIjoyMDczNzM3MDQ3fQ.5JRYvJPzFzsVaZQkbZDLcohP7dq8LWQEFeFdVByyihE';
+const ANON_KEY      = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
+const SERVICE_KEY   = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
 const EMAIL         = 'jozanna.test.elevate@gmail.com';
 const PASSWORD      = 'ElevateTest2026!';
 const SCREENSHOT_DIR = '/tmp/elevate-walkthrough';
