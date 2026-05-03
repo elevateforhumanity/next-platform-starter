@@ -125,23 +125,33 @@ export default function ApplicationActions({
         </div>
       )}
 
-      {/* Enroll */}
-      <button
-        onClick={handleEnroll}
-        disabled={loading !== null}
-        className="w-full py-3 text-sm font-bold rounded-xl bg-brand-green-600 hover:bg-brand-green-700 text-white transition-colors disabled:opacity-50"
-      >
-        {loading === 'enroll' ? 'Enrolling…' : 'Enroll'}
-      </button>
+      {/* Enroll — creates account, enrollment, and emails the student */}
+      <div>
+        <button
+          onClick={handleEnroll}
+          disabled={loading !== null}
+          className="w-full py-3 text-sm font-bold rounded-xl bg-brand-green-600 hover:bg-brand-green-700 text-white transition-colors disabled:opacity-50"
+        >
+          {loading === 'enroll' ? 'Enrolling…' : 'Enroll'}
+        </button>
+        <p className="text-xs text-slate-400 mt-1 text-center">
+          Creates student account, enrollment, and sends approval email
+        </p>
+      </div>
 
-      {/* Inquiry — opens pre-filled email */}
-      <a
-        href={inquiryHref}
-        className="w-full flex items-center justify-center gap-2 py-3 text-sm font-bold rounded-xl border-2 border-brand-blue-600 text-brand-blue-600 hover:bg-brand-blue-50 transition-colors"
-      >
-        <Mail className="w-4 h-4" />
-        Application Inquiry
-      </a>
+      {/* Inquiry — opens pre-filled email to applicant */}
+      <div>
+        <a
+          href={inquiryHref}
+          className="w-full flex items-center justify-center gap-2 py-3 text-sm font-bold rounded-xl border-2 border-brand-blue-600 text-brand-blue-600 hover:bg-brand-blue-50 transition-colors"
+        >
+          <Mail className="w-4 h-4" />
+          Application Inquiry
+        </a>
+        <p className="text-xs text-slate-400 mt-1 text-center">
+          Opens email to {applicantEmail || 'applicant'}
+        </p>
+      </div>
 
       {/* Secondary actions */}
       <div className="flex gap-2 pt-1">
