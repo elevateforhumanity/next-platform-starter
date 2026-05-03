@@ -10,7 +10,6 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   AWS_REGION: us-east-1
   ECR_REGISTRY: 954718262498.dkr.ecr.us-east-1.amazonaws.com
   ECS_CLUSTER: elevate-cluster
