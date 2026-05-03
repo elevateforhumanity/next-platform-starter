@@ -9,6 +9,7 @@ fi
 # Check for API keys in staged files (excluding documentation)
 # Exclude: .md files, .example files, and lines with "example" or "..." placeholders
 if git diff --cached --diff-filter=AM -- ':!*.md' ':!*.example' ':!.env.example' | \
+   grep "^+" | grep -v "^+++" | \
    grep -E "(sk-[a-zA-Z0-9]{48}|eyJ[a-zA-Z0-9]{100,}|AKIA[A-Z0-9]{16}|whsec_[a-zA-Z0-9]{32})" | \
    grep -v "example" | \
    grep -v "\.\.\." > /dev/null; then
