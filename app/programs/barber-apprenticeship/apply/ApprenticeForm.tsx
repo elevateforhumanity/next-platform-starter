@@ -828,154 +828,119 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                     </div>
                   )}
 
-                  {/* Option 4: Affirm */}
-                  <button
-                    type="button"
-                    onClick={() => setPaymentOption('affirm')}
-                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'affirm'
-                        ? 'border-brand-blue-600 bg-brand-blue-50'
-                        : 'border-slate-300 bg-white hover:border-slate-400'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-bold text-black text-lg">Affirm</p>
-                        <p className="text-black text-sm">Pay over time</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-brand-blue-600 text-lg">You Choose</p>
-                        <p className="text-xs text-black">
-                          min ${PRICING.setupFee.toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                  </button>
+                  {/* BNPL Options — driven by ACTIVE_BNPL_PROVIDERS in lib/bnpl-config.ts */}
+                  {ACTIVE_BNPL_PROVIDERS.map((provider) => {
+                    const optionId =
+                      provider.id === 'affirm'
+                        ? 'affirm'
+                        : provider.id === 'sezzle'
+                          ? 'sezzle'
+                          : 'stripe_bnpl';
+                    const maxAmt = provider.maxAmount > 0 ? provider.maxAmount : PRICING.fullPrice;
+                    const minAmt = Math.max(provider.minAmount, PRICING.minDownPayment);
+                    const isSelected = paymentOption === optionId;
 
-                  {/* Affirm Amount Input */}
-                  {paymentOption === 'affirm' && (
-                    <div className="bg-brand-blue-50 rounded-xl p-4 mb-3 border-2 border-brand-blue-200">
-                      <label className="block text-sm font-medium text-black mb-2">
-                        How much do you want to finance with Affirm? (min $
-                        {PRICING.setupFee.toLocaleString()})
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-black">$</span>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          pattern="[0-9]*"
-                          value={customAmountStr}
-                          onChange={(e) => {
-                            const val = e.target.value.replace(/[^0-9]/g, '');
-                            setCustomAmountStr(val);
-                          }}
-                          onBlur={() => {
-                            const num = parseInt(customAmountStr) || 0;
-                            const clamped = Math.max(
-                              PRICING.setupFee,
-                              Math.min(num, PRICING.fullPrice),
-                            );
-                            setCustomAmountStr(String(clamped));
-                          }}
-                          className="w-full px-4 py-3 text-2xl font-bold border-2 border-brand-blue-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                        />
-                      </div>
-                      <p className="text-sm text-black mt-2">
-                        Affirm will check your eligibility and show payment options at checkout
-                      </p>
-                    </div>
-                  )}
+                    // For stripe_bnpl, only show one button for all Stripe-native providers
+                    // (Klarna, Afterpay, Zip, etc.) — they're chosen at Stripe checkout
+                    const isStripNative = !['affirm', 'sezzle'].includes(provider.id);
+                    if (isStripNative && provider.id !== 'klarna') return null; // klarna represents the group
 
-                  {/* Option 5: Sezzle */}
-                  <button
-                    type="button"
-                    onClick={() => setPaymentOption('sezzle')}
-                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'sezzle'
-                        ? 'border-indigo-600 bg-indigo-50'
-                        : 'border-slate-300 bg-white hover:border-slate-400'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-bold text-black text-lg">Sezzle</p>
-                        <p className="text-black text-sm">Pay over time</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-indigo-600 text-lg">You Choose</p>
-                        <p className="text-xs text-black">
-                          ${PRICING.setupFee.toLocaleString()} - $2,500
-                        </p>
-                      </div>
-                    </div>
-                  </button>
+                    const label = isStripNative
+                      ? ACTIVE_BNPL_PROVIDERS.filter(
+                          (p) => !['affirm', 'sezzle'].includes(p.id),
+                        )
+                          .map((p) => p.name)
+                          .join(' / ')
+                      : provider.name;
 
-                  {/* Sezzle Amount Input */}
-                  {paymentOption === 'sezzle' && (
-                    <div className="bg-indigo-50 rounded-xl p-4 mb-3 border-2 border-indigo-200">
-                      <label className="block text-sm font-medium text-black mb-2">
-                        How much do you want to pay with Sezzle? ($
-                        {PRICING.setupFee.toLocaleString()} - $2,500)
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-black">$</span>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          pattern="[0-9]*"
-                          value={customAmountStr}
-                          onChange={(e) => {
-                            const val = e.target.value.replace(/[^0-9]/g, '');
-                            setCustomAmountStr(val);
-                          }}
-                          onBlur={() => {
-                            const num = parseInt(customAmountStr) || 0;
-                            const clamped = Math.max(PRICING.setupFee, Math.min(num, 2500));
-                            setCustomAmountStr(String(clamped));
-                          }}
-                          className="w-full px-4 py-3 text-2xl font-bold border-2 border-indigo-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        />
-                      </div>
-                      <p className="text-sm text-black mt-2">
-                        Sezzle will check your eligibility - 4 payments of $
-                        {Math.round((customAmount || 0) / 4).toLocaleString()} every 2 weeks
-                      </p>
-                    </div>
-                  )}
+                    const description = isStripNative
+                      ? 'Split into installments via Stripe'
+                      : provider.description;
 
-                  {/* Option: Klarna / Afterpay via Stripe */}
-                  <button
-                    type="button"
-                    onClick={() => setPaymentOption('stripe_bnpl')}
-                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'stripe_bnpl'
-                        ? 'border-pink-500 bg-pink-50'
-                        : 'border-slate-300 bg-white hover:border-slate-400'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-bold text-black text-lg">Klarna / Afterpay</p>
-                        <p className="text-black text-sm">
-                          4 interest-free installments via Stripe
-                        </p>
+                    return (
+                      <div key={provider.id}>
+                        <button
+                          type="button"
+                          onClick={() => setPaymentOption(optionId)}
+                          className={`w-full p-4 rounded-xl border-2 mb-2 text-left transition ${
+                            isSelected
+                              ? 'border-brand-blue-600 bg-brand-blue-50'
+                              : 'border-slate-300 bg-white hover:border-slate-400'
+                          }`}
+                        >
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="font-bold text-black text-lg">{label}</p>
+                              <p className="text-black text-sm">{description}</p>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-bold text-brand-blue-600 text-lg">You Choose</p>
+                              <p className="text-xs text-black">
+                                ${minAmt.toLocaleString()}
+                                {provider.maxAmount > 0 ? ` – $${maxAmt.toLocaleString()}` : '+'}
+                              </p>
+                            </div>
+                          </div>
+                        </button>
+
+                        {/* Amount input — shown when this option is selected */}
+                        {isSelected && !isStripNative && (
+                          <div className="bg-brand-blue-50 rounded-xl p-4 mb-3 border-2 border-brand-blue-200">
+                            <label className="block text-sm font-medium text-black mb-2">
+                              How much do you want to finance with {provider.name}?
+                            </label>
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-2xl font-bold text-black">$</span>
+                              <input
+                                type="text"
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                                value={customAmountStr}
+                                onChange={(e) =>
+                                  setCustomAmountStr(e.target.value.replace(/[^0-9]/g, ''))
+                                }
+                                onBlur={() => {
+                                  const num = parseInt(customAmountStr) || 0;
+                                  setCustomAmountStr(
+                                    String(Math.max(minAmt, Math.min(num, maxAmt))),
+                                  );
+                                }}
+                                className="w-full px-4 py-3 text-2xl font-bold border-2 border-brand-blue-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                              />
+                            </div>
+                            <input
+                              type="range"
+                              min={minAmt}
+                              max={maxAmt}
+                              step={50}
+                              value={Math.min(Math.max(customAmount || minAmt, minAmt), maxAmt)}
+                              onChange={(e) => setCustomAmountStr(e.target.value)}
+                              className="w-full accent-brand-blue-600 mb-1"
+                            />
+                            <div className="flex justify-between text-xs text-slate-500 mb-3">
+                              <span>${minAmt.toLocaleString()} min</span>
+                              <span>${maxAmt.toLocaleString()} max</span>
+                            </div>
+                            <p className="text-sm text-slate-600">
+                              {provider.id === 'sezzle' && customAmount > 0
+                                ? `4 payments of $${Math.round(customAmount / 4).toLocaleString()} every 2 weeks`
+                                : `${provider.name} will show your payment options at checkout.`}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Stripe-native BNPL — no amount input, provider chosen at checkout */}
+                        {isSelected && isStripNative && (
+                          <div className="bg-brand-blue-50 rounded-xl p-4 mb-3 border-2 border-brand-blue-200">
+                            <p className="text-sm text-black">
+                              Choose your preferred provider on the next screen. All options split
+                              your payment into installments. Subject to provider approval.
+                            </p>
+                          </div>
+                        )}
                       </div>
-                      <div className="text-right">
-                        <p className="font-bold text-pink-600 text-lg">Split it</p>
-                        <p className="text-xs text-black">chosen at checkout</p>
-                      </div>
-                    </div>
-                  </button>
-                  {paymentOption === 'stripe_bnpl' && (
-                    <div className="bg-pink-50 rounded-xl p-4 mb-3 border-2 border-pink-200">
-                      <p className="text-sm text-black">
-                        You'll choose between <strong>Klarna</strong> and <strong>Afterpay</strong>{' '}
-                        on the next screen. Both split your payment into 4 interest-free
-                        installments. Subject to provider approval.
-                      </p>
-                    </div>
-                  )}
+                    );
+                  })}
 
                   {/* Payment Methods Available */}
                   <div className="bg-white rounded-xl p-4 mb-4">
