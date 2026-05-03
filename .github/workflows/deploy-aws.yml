@@ -21,6 +21,9 @@ jobs:
     outputs:
       image: ${{ steps.meta.outputs.image }}
     steps:
+      - name: Free disk space
+        run: docker system prune -f
+
       - uses: actions/checkout@v4
 
       - name: Configure AWS credentials
@@ -69,9 +72,13 @@ jobs:
   build-admin:
     name: Build Admin
     runs-on: [self-hosted, ec2-builder]
+    needs: build-lms
     outputs:
       image: ${{ steps.meta.outputs.image }}
     steps:
+      - name: Free disk space after LMS build
+        run: docker system prune -f
+
       - uses: actions/checkout@v4
 
       - name: Configure AWS credentials
