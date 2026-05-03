@@ -199,32 +199,41 @@ async function _POST(req: Request) {
       .select()
       .maybeSingle();
 
-    // Retry logic for DB environments where optional migrations haven't been applied yet.
+    // Three-tier retry — each tier strips more columns to handle DB environments
+    // where migrations haven't been applied yet.
     //
-    // 42703 = unknown column (normalized_email/phone, county_of_residence, etc.)
-    // 23514 = check constraint violation — status constraint missing new values
-    //         (pending_admin_review, pending_funding) until 20260621000001 is applied
+    // Tier 1 (corePayload): all columns including recent migrations
+    // Tier 2: strip columns from migrations 20260425–20260621 (funding_eligibility_status,
+    //         normalized_email/phone, county_of_residence, household_income, family_size,
+    //         modality_preference, transfer_hours_claimed, type)
+    // Tier 3 (baseline): only the 15 columns present in the original schema baseline
+    //         (20260227000003) — this MUST succeed or the DB is broken
     //
-    // On either error: strip optional columns AND fall back to 'submitted' status
-    // so the application saves rather than silently failing.
-    const isColumnError =
-      error &&
-      (error.code === '42703' ||
-        error.message?.includes('column') ||
-        error.code === '23514' ||
-        error.message?.includes('constraint') ||
-        error.message?.includes('check'));
+    // Error codes:
+    //   42703 = unknown column
+    //   23514 = check constraint violation (status values not yet in constraint)
+    //   23502 = not-null violation (column exists but has unexpected NOT NULL)
 
-    if (isColumnError) {
-      logger.warn('[api/applications] Retrying insert with reduced payload', {
+    const isRetryableError = (e: any) =>
+      e &&
+      (e.code === '42703' ||
+        e.code === '23514' ||
+        e.code === '23502' ||
+        e.message?.includes('column') ||
+        e.message?.includes('constraint') ||
+        e.message?.includes('check') ||
+        e.message?.includes('violates'));
+
+    // Tier 2 — strip columns from post-baseline migrations
+    if (isRetryableError(error)) {
+      logger.warn('[api/applications] Tier-2 retry — stripping extended columns', {
         code: error.code,
         message: error.message,
       });
-      const fallback = await supabase
+      const tier2 = await supabase
         .from('applications')
         .insert({
           ...corePayload,
-          // Strip columns added in migrations that may not be live yet
           normalized_email: undefined,
           normalized_phone: undefined,
           county_of_residence: undefined,
@@ -234,17 +243,43 @@ async function _POST(req: Request) {
           transfer_hours_claimed: undefined,
           funding_eligibility_status: undefined,
           type: undefined,
-          // Fall back to 'submitted' if status constraint is missing new values
           status: 'submitted',
         })
         .select()
         .maybeSingle();
-      data = fallback.data;
-      error = fallback.error;
+      data = tier2.data;
+      error = tier2.error;
     }
 
-    if (error) {
-      logger.error('[api/applications] DB insert failed', {
+    // Tier 3 — absolute baseline: only columns guaranteed in 20260227000003
+    if (isRetryableError(error)) {
+      logger.warn('[api/applications] Tier-3 retry — baseline columns only', {
+        code: error.code,
+        message: error.message,
+      });
+      const tier3 = await supabase
+        .from('applications')
+        .insert({
+          first_name: body.firstName,
+          last_name: body.lastName,
+          phone: body.phone,
+          email: body.email,
+          city: body.city || 'Not provided',
+          zip: body.zip || '00000',
+          program_interest: program,
+          support_notes: notes,
+          status: 'submitted',
+          source: body.source || 'website',
+          contact_preference: body.preferredContact || 'phone',
+        })
+        .select()
+        .maybeSingle();
+      data = tier3.data;
+      error = tier3.error;
+    }
+
+    if (error || !data) {
+      logger.error('[api/applications] All insert tiers failed', {
         code: (error as any)?.code,
         message: (error as any)?.message,
         details: (error as any)?.details,
