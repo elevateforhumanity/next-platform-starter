@@ -6,7 +6,7 @@
 // 2. Written to stderr as structured JSON (container-level visibility)
 // 3. Counted in auditFailureCount (scrapable by monitoring)
 // 4. Written to fallback file if DB is unreachable (disaster recovery)
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 // Telemetry: in-process failure counter. Expose via /api/health or metrics endpoint.
@@ -38,7 +38,8 @@ async function onAuditFailure(context: string, error: unknown, event: Record<str
   // Channel 3: Durable DB fallback — separate table with minimal constraints.
   // Uses a fresh client to avoid reusing the one that just failed.
   try {
-    const fallbackClient = await requireAdminClient();
+    const fallbackClient = await getAdminClient();
+    if (!fallbackClient) return;
     // Fire-and-forget: don't await, don't let this throw
     fallbackClient
       .from('audit_failures')
@@ -158,21 +159,18 @@ export async function logAuditEvent(event: AuditEvent): Promise<void> {
   };
 
   try {
-    // Validate the service role key before creating the client.
-    // SUPABASE_SERVICE_ROLE_KEY must be a non-empty JWT (>100 chars).
-    // If it's missing or is the anon key by mistake, surface a clear error
-    // rather than letting Supabase return "No API key found in request".
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
-    if (serviceKey.length < 100) {
+    // getAdminClient() calls hydrateProcessEnv() first — safe on cold starts.
+    // requireAdminClient() is synchronous and throws before env is hydrated.
+    const supabase = await getAdminClient();
+
+    if (!supabase) {
       void onAuditFailure(
-        'logAuditEvent: SUPABASE_SERVICE_ROLE_KEY absent or invalid (check SSM /elevate/SUPABASE_SERVICE_ROLE_KEY)',
-        new Error(`key length ${serviceKey.length} — expected >100`),
+        'logAuditEvent: admin client unavailable (key absent)',
+        new Error('No admin client'),
         payload,
       );
       return;
     }
-
-    const supabase = await requireAdminClient();
 
     const { error } = await supabase.from('audit_logs').insert(payload);
 
