@@ -233,6 +233,8 @@ export default async function ReviewApplicationPage({
                 currentStatus={app.status}
                 programId={resolvedProgramId}
                 programInterest={programSlug}
+                applicantEmail={app.email || ''}
+                applicantName={displayName}
               />
             </div>
 
