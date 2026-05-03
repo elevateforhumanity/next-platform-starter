@@ -483,6 +483,7 @@ function BrandedOutro({ props, frame }: { props: SlideLessonProps; frame: number
 
 export function SlideLesson(props: SlideLessonProps & Record<string, unknown>) {
   const { fps } = useVideoConfig();
+  const frame = useCurrentFrame();
 
   // Build sequence offsets
   let offset = 0;
@@ -499,7 +500,7 @@ export function SlideLesson(props: SlideLessonProps & Record<string, unknown>) {
 
       {/* Branded intro */}
       <Sequence from={0} durationInFrames={INTRO_FRAMES}>
-        <BrandedIntro props={props} frame={useCurrentFrame()} />
+        <BrandedIntro props={props} frame={frame} />
       </Sequence>
 
       {/* Scenes */}
@@ -509,13 +510,13 @@ export function SlideLesson(props: SlideLessonProps & Record<string, unknown>) {
           from={INTRO_FRAMES + sceneOffsets[i]}
           durationInFrames={scene.durationFrames}
         >
-          <SceneSlide scene={scene} frame={useCurrentFrame()} props={props} />
+          <SceneSlide scene={scene} frame={frame} props={props} />
         </Sequence>
       ))}
 
       {/* Branded outro */}
       <Sequence from={INTRO_FRAMES + offset} durationInFrames={OUTRO_FRAMES}>
-        <BrandedOutro props={props} frame={useCurrentFrame()} />
+        <BrandedOutro props={props} frame={frame} />
       </Sequence>
     </AbsoluteFill>
   );
