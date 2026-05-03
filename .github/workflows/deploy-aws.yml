@@ -50,26 +50,20 @@ jobs:
           echo "tag=$TAG" >> $GITHUB_ENV
           echo "image=${{ env.ECR_REGISTRY }}/elevate-lms:$TAG" >> $GITHUB_OUTPUT
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: Dockerfile.railway
-          push: true
-          tags: |
-            ${{ env.ECR_REGISTRY }}/elevate-lms:${{ env.tag }}
-            ${{ env.ECR_REGISTRY }}/elevate-lms:latest
-          build-args: |
-            NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }}
-            NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-            NEXT_PUBLIC_SITE_URL=${{ env.NEXT_PUBLIC_SITE_URL }}
-            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
-            NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ env.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
-          cache-from: type=gha,scope=lms
-          cache-to: type=gha,mode=max,scope=lms
+        run: |
+          docker build \
+            --file Dockerfile.railway \
+            --build-arg NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }} \
+            --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }} \
+            --build-arg NEXT_PUBLIC_SITE_URL=${{ env.NEXT_PUBLIC_SITE_URL }} \
+            --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }} \
+            --build-arg NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ env.NEXT_PUBLIC_GA_MEASUREMENT_ID }} \
+            --tag ${{ env.ECR_REGISTRY }}/elevate-lms:${{ env.tag }} \
+            --tag ${{ env.ECR_REGISTRY }}/elevate-lms:latest \
+            .
+          docker push ${{ env.ECR_REGISTRY }}/elevate-lms:${{ env.tag }}
+          docker push ${{ env.ECR_REGISTRY }}/elevate-lms:latest
 
   build-admin:
     name: Build Admin
@@ -104,25 +98,19 @@ jobs:
           echo "tag=$TAG" >> $GITHUB_ENV
           echo "image=${{ env.ECR_REGISTRY }}/elevate-admin:$TAG" >> $GITHUB_OUTPUT
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: Dockerfile.admin
-          push: true
-          tags: |
-            ${{ env.ECR_REGISTRY }}/elevate-admin:${{ env.tag }}
-            ${{ env.ECR_REGISTRY }}/elevate-admin:latest
-          build-args: |
-            NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }}
-            NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-            NEXT_PUBLIC_SITE_URL=${{ env.NEXT_PUBLIC_SITE_URL }}
-            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
-          cache-from: type=gha,scope=admin
-          cache-to: type=gha,mode=max,scope=admin
+        run: |
+          docker build \
+            --file Dockerfile.admin \
+            --build-arg NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }} \
+            --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }} \
+            --build-arg NEXT_PUBLIC_SITE_URL=${{ env.NEXT_PUBLIC_SITE_URL }} \
+            --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }} \
+            --tag ${{ env.ECR_REGISTRY }}/elevate-admin:${{ env.tag }} \
+            --tag ${{ env.ECR_REGISTRY }}/elevate-admin:latest \
+            .
+          docker push ${{ env.ECR_REGISTRY }}/elevate-admin:${{ env.tag }}
+          docker push ${{ env.ECR_REGISTRY }}/elevate-admin:latest
 
   deploy-lms:
     name: Deploy LMS

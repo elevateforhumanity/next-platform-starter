@@ -1259,6 +1259,14 @@ const sentryWebpackPluginOptions = {
   // the 'proxy' export required by Next.js 16 when it wraps this file.
   // Sentry still initialises at runtime via instrumentation.ts.
   autoInstrumentMiddleware: false,
+  // Disable webpack build worker — Sentry overrides the Next.js config setting.
+  // Without this, Sentry spawns a child webpack worker that doubles memory usage
+  // and OOM-kills the build even on 16GB machines.
+  webpack: {
+    autoInstrumentMiddleware: false,
+  },
+  disableLogger: true,
+  widenClientFileUpload: false,
 };
 
 export default process.env.NETLIFY === 'true'
