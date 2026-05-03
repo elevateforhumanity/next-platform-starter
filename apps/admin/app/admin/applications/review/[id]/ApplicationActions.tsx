@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Mail, UserCheck } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 interface Props {
   applicationId: string;
@@ -125,14 +125,13 @@ export default function ApplicationActions({
         </div>
       )}
 
-      {/* Enroll — full application */}
+      {/* Submit application */}
       <button
         onClick={handleEnroll}
         disabled={loading !== null}
-        className="w-full flex items-center justify-center gap-2 py-3 text-sm font-bold rounded-xl bg-brand-green-600 hover:bg-brand-green-700 text-white transition-colors disabled:opacity-50"
+        className="w-full py-3 text-sm font-bold rounded-xl bg-brand-green-600 hover:bg-brand-green-700 text-white transition-colors disabled:opacity-50"
       >
-        <UserCheck className="w-4 h-4" />
-        {loading === 'enroll' ? 'Enrolling…' : 'Enroll — Full Application'}
+        {loading === 'enroll' ? 'Submitting…' : 'Submit Application'}
       </button>
 
       {/* Inquiry — opens pre-filled email */}
