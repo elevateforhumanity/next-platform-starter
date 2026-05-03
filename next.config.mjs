@@ -382,14 +382,17 @@ const nextConfig = {
       // cpr-first-aid-hsi redirect lives in next.config.mjs redirects above
       // direct-support-professional HAS its own page — no redirect needed
       // drug-collector HAS its own page — no redirect needed
-      // esthetician-apprenticeship HAS its own page — no redirect needed
+      // esthetician-apprenticeship is the public landing page
+      // /programs/esthetician/* is a live enrollment flow (apply, documents, payment-setup, etc.) — do NOT wildcard redirect
       {
         source: '/programs/professional-esthetician',
         destination: '/programs/esthetician-apprenticeship',
         permanent: true,
       },
+      { source: '/programs/professional-esthetician/:path*', destination: '/programs/esthetician/:path*', permanent: true },
       // forklift now has its own detail page — redirect removed
       { source: '/programs/it-support', destination: '/programs/it-help-desk', permanent: true },
+      { source: '/programs/it-support/:path*', destination: '/programs/it-help-desk/:path*', permanent: true },
       // /programs/jri → /partners/jri (JRI is a funding partner page, not a program)
       { source: '/programs/jri', destination: '/partners/jri', permanent: true },
       // phlebotomy HAS its own page — redirect to it, not generic /healthcare
@@ -652,6 +655,7 @@ const nextConfig = {
       { source: '/programs/hvac-2024', destination: '/programs/hvac-technician', permanent: true },
       // CDL
       { source: '/programs/cdl', destination: '/programs/cdl-training', permanent: true },
+      { source: '/programs/cdl/:path*', destination: '/programs/cdl-training/:path*', permanent: true },
       {
         source: '/programs/cdl-transportation',
         destination: '/programs/cdl-training',
@@ -663,8 +667,10 @@ const nextConfig = {
       { source: '/programs/cna-training', destination: '/programs/cna', permanent: true },
       // HVAC duplicates → canonical /programs/hvac-technician
       { source: '/programs/hvac', destination: '/programs/hvac-technician', permanent: true },
+      { source: '/programs/hvac/:path*', destination: '/programs/hvac-technician/:path*', permanent: true },
       // Cybersecurity duplicate → canonical /programs/cybersecurity-analyst
       { source: '/programs/cybersecurity', destination: '/programs/cybersecurity-analyst', permanent: true },
+      { source: '/programs/cybersecurity/:path*', destination: '/programs/cybersecurity-analyst/:path*', permanent: true },
       // Barber & Beauty
       {
         source: '/programs/barber',
@@ -695,6 +701,7 @@ const nextConfig = {
         destination: '/programs/tax-preparation',
         permanent: true,
       },
+      { source: '/programs/tax-prep-financial-services/:path*', destination: '/programs/tax-preparation/:path*', permanent: true },
       // Healthcare aliases
       // Human Services
       // Skilled Trades aliases
