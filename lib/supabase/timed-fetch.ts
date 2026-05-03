@@ -12,12 +12,26 @@ const SUPABASE_FETCH_TIMEOUT_MS = 8_000;
 export function timedFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), SUPABASE_FETCH_TIMEOUT_MS);
+
+  // Normalize headers — init.headers may be a Headers instance, a plain object,
+  // or an array of [key, value] pairs. Spreading a Headers instance produces {}
+  // which silently drops apikey/Authorization, causing "No API key" from Supabase.
+  const existingHeaders = init?.headers
+    ? Object.fromEntries(
+        init.headers instanceof Headers
+          ? init.headers.entries()
+          : Array.isArray(init.headers)
+            ? init.headers
+            : Object.entries(init.headers),
+      )
+    : {};
+
   return fetch(input, {
     ...init,
     signal: controller.signal,
     headers: {
-      Connection: 'keep-alive',
-      ...(init?.headers as Record<string, string> | undefined),
+      'Connection': 'keep-alive',
+      ...existingHeaders,
     },
   }).finally(() => clearTimeout(timer));
 }
