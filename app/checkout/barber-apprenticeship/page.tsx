@@ -151,48 +151,41 @@ export default function BarberCheckoutPage() {
             </button>
           </div>
 
-          {/* Down payment selector — only shown for payment plan */}
+          {/* Down payment input — only shown for payment plan */}
           {paymentType === 'payment_plan' && (
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                Down payment amount
+              <label htmlFor="down-payment" className="block text-sm font-medium text-slate-700 mb-1">
+                How much would you like to put down today?
               </label>
               <p className="text-xs text-slate-500 mb-3">
-                Minimum ${BARBER_PRICING.minDownPayment.toLocaleString()}. Pay more upfront to lower your weekly payments.
+                Minimum ${BARBER_PRICING.minDownPayment.toLocaleString()}. The more you put down, the lower your weekly payments.
               </p>
               <div className="flex items-center gap-3">
-                <span className="text-slate-500 font-medium">$</span>
+                <span className="text-slate-600 font-semibold text-lg">$</span>
                 <input
+                  id="down-payment"
                   type="number"
                   min={BARBER_PRICING.minDownPayment}
                   max={BARBER_PRICING.fullPrice}
-                  step={50}
+                  step={1}
+                  placeholder={String(BARBER_PRICING.minDownPayment)}
                   value={downPaymentInput}
                   onChange={(e) => handleDownPaymentChange(e.target.value)}
                   onBlur={handleDownPaymentBlur}
-                  className="w-32 px-3 py-2 border border-slate-300 rounded-lg text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
+                  className="w-36 px-3 py-2 border border-slate-300 rounded-lg text-base font-bold focus:outline-none focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
                 />
-                <div className="text-xs text-slate-500">
-                  → <span className="font-semibold text-slate-700">${weeklyPayment}/wk</span> for {BARBER_PRICING.paymentTermWeeks} weeks
-                </div>
               </div>
-              {/* Quick-select buttons */}
-              <div className="flex flex-wrap gap-2 mt-3">
-                {[600, 1000, 1500, 2000, 2500].map((amt) => (
-                  <button
-                    key={amt}
-                    type="button"
-                    onClick={() => { setDownPayment(amt); setDownPaymentInput(String(amt)); }}
-                    className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
-                      downPayment === amt
-                        ? 'bg-brand-red-600 text-white border-brand-red-600'
-                        : 'bg-white text-slate-600 border-slate-300 hover:border-brand-red-400'
-                    }`}
-                  >
-                    ${amt.toLocaleString()}
-                  </button>
-                ))}
-              </div>
+              {downPayment >= BARBER_PRICING.minDownPayment && (
+                <p className="text-xs text-slate-500 mt-2">
+                  Remaining balance: <span className="font-semibold text-slate-700">${(BARBER_PRICING.fullPrice - downPayment).toLocaleString()}</span>
+                  {' '}→ <span className="font-semibold text-slate-700">${weeklyPayment}/wk</span> for {BARBER_PRICING.paymentTermWeeks} weeks
+                </p>
+              )}
+              {downPayment < BARBER_PRICING.minDownPayment && downPaymentInput !== '' && (
+                <p className="text-xs text-red-600 mt-2">
+                  Minimum down payment is ${BARBER_PRICING.minDownPayment.toLocaleString()}.
+                </p>
+              )}
             </div>
           )}
 

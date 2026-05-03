@@ -25,15 +25,11 @@ export const mainNavigation: NavItem[] = [
         description: 'Browse all available programs',
       },
       {
-        label: 'Barber Apprenticeship',
-        href: '/programs/barber-apprenticeship',
-        description: 'DOL-registered — earn your Indiana Barber License while getting paid',
-      },
-      {
         label: 'Apprenticeships',
         href: '/programs/apprenticeships',
         description: 'Earn while you learn',
         subItems: [
+          { label: 'Barber Apprenticeship', href: '/programs/barber-apprenticeship' },
           { label: 'HVAC Technician', href: '/programs/hvac-technician' },
           { label: 'Building Maintenance', href: '/programs/building-maintenance' },
           { label: 'Cosmetology', href: '/programs/cosmetology-apprenticeship' },
