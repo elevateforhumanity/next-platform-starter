@@ -88,7 +88,7 @@ async function handler(req: Request) {
       /* DB unavailable */
     }
     if (!product) {
-      const { getProductBySlug } = await import('@/app/data/store-products');
+      const { getProductBySlug } = await import('@/lib/data/store-products');
       const legacy = getProductBySlug(productId);
       if (legacy) {
         product = {

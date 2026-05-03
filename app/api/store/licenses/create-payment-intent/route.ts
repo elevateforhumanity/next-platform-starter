@@ -55,7 +55,7 @@ async function _POST(request: NextRequest) {
       /* DB unavailable */
     }
     if (!product) {
-      const { ALL_PRODUCTS } = await import('@/app/data/store-products');
+      const { ALL_PRODUCTS } = await import('@/lib/data/store-products');
       const legacy = ALL_PRODUCTS.find((p) => p.id === productId || p.slug === productId);
       if (legacy) {
         product = {

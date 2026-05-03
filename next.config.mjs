@@ -167,7 +167,6 @@ const nextConfig = {
     optimizeCss: false,
     parallelServerCompiles: false,
     parallelServerBuildTraces: false,
-    webpackBuildWorker: false,
   },
 
   // Suppress middleware deprecation warning (middleware.ts is still correct for our use case)

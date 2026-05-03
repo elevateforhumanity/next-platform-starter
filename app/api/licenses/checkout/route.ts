@@ -49,7 +49,7 @@ async function _POST(request: NextRequest) {
       /* DB unavailable */
     }
     if (!license) {
-      const { ALL_PRODUCTS } = await import('@/app/data/store-products');
+      const { ALL_PRODUCTS } = await import('@/lib/data/store-products');
       const legacy = ALL_PRODUCTS.find((l) => l.slug === plan_id || l.id === plan_id);
       if (legacy) {
         license = {

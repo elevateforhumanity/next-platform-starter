@@ -29,7 +29,7 @@ async function _GET(_req: NextRequest, { params }: { params: Promise<{ slug: str
   }
 
   if (!product) {
-    const { getProductBySlug } = await import('@/app/data/store-products');
+    const { getProductBySlug } = await import('@/lib/data/store-products');
     const hardcoded = getProductBySlug(slug);
     if (hardcoded) {
       return NextResponse.json({
