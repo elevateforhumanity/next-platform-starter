@@ -72,8 +72,11 @@ const SHARED = [
   'api',
 ];
 
-// LMS service: learner-facing routes
+// LMS service: learner-facing routes + public marketing pages
+// Marketing pages must be included here because www.elevateforhumanity.org
+// routes to this ECS service — Netlify no longer serves the public site.
 const LMS_ONLY = [
+  // ── LMS / learner ──────────────────────────────────────────────────────────
   'lms',
   'learner',
   'courses',
@@ -114,6 +117,28 @@ const LMS_ONLY = [
   'ai-chat',
   'ai-studio',
   'ai-tutor',
+  // ── Public marketing (served from www.elevateforhumanity.org via ECS) ──────
+  'about',
+  'accreditation',
+  'accessibility',
+  'agencies',
+  'apply',
+  'apprenticeships',
+  'blog',
+  'careers',
+  'contact',
+  'faq',
+  'financial-aid',
+  'grants',
+  'home',
+  'partners',
+  'pricing',
+  'programs',
+  'scholarships',
+  'sitemap',
+  'team',
+  'verify',
+  'workforce',
 ];
 
 // Admin service: staff-facing routes
