@@ -14,7 +14,7 @@ export async function generateMetadata({
 }: {
   params: { program: string };
 }): Promise<Metadata> {
-  const name = params.slug
+  const name = params.program
     .split('-')
     .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(' ');
@@ -51,7 +51,7 @@ export default async function ProgramCoursesPage({ params }: { params: { program
   ]);
 
   const supabase = await createClient();
-  const { program } = params;
+  const slug = params.program;
 
   const { data: program } = await supabase
     .from('programs')

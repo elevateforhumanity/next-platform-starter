@@ -8,7 +8,7 @@ export default async function ProgramLayout({
   children: React.ReactNode;
   params: Promise<{ program: string }>;
 }) {
-  const { program } = await params;
+  const { program: slug } = await params;
   const supabase = await getDb();
 
   const { data: program } = await supabase
