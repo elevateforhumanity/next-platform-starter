@@ -47,10 +47,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # 7GB heap — Railway build containers have 8GB RAM.
 # --max-semi-space-size=64 keeps young-gen small so GC runs more frequently.
 # --expose-gc lets Next.js call gc() between page compilations.
-ENV NODE_OPTIONS="--max-old-space-size=6144 --max-semi-space-size=64 --expose-gc"
+ENV NODE_OPTIONS="--max-old-space-size=12288 --max-semi-space-size=128 --expose-gc"
 
-# SERVICE_ROLE=lms — only compile LMS + marketing routes (~200 pages)
-# BUILD_SCOPE=1    — activates the quarantine script
+# SERVICE_ROLE=lms — compile all public/learner routes; quarantine admin/ + admin API subdirs
+# BUILD_SCOPE=1    — activates the quarantine script + skips Sentry webpack wrapping
 ARG SERVICE_ROLE=lms
 ENV SERVICE_ROLE=${SERVICE_ROLE}
 ENV BUILD_SCOPE=1
@@ -65,8 +65,8 @@ ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 
 # Quarantine non-LMS routes before build, then restore after
 RUN node scripts/railway-quarantine-marketing-routes.mjs && \
-    NODE_OPTIONS='--max-old-space-size=6144' node scripts/stamp-sw.mjs && \
-    NODE_OPTIONS='--max-old-space-size=6144' npx next build && \
+    NODE_OPTIONS='--max-old-space-size=12288' node scripts/stamp-sw.mjs && \
+    NODE_OPTIONS='--max-old-space-size=12288' npx next build && \
     node scripts/railway-quarantine-marketing-routes.mjs --restore
 
 # ── Stage 3: runner ───────────────────────────────────────────────────────────

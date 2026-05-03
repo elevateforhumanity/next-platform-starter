@@ -1254,6 +1254,15 @@ const sentryWebpackPluginOptions = {
   widenClientFileUpload: false,
 };
 
-export default process.env.NETLIFY === 'true'
+// Skip Sentry webpack wrapping on Netlify (serverless, no persistent process)
+// and on AWS Docker builds (BUILD_SCOPE=1) — withSentryConfig spawns a child
+// webpack worker that doubles peak heap and OOMs the LMS build on 16GB runners.
+// Sentry still initialises at runtime via instrumentation.ts in both cases.
+const skipSentry =
+  process.env.NETLIFY === 'true' ||
+  process.env.NETLIFY_BUILD_BASE != null ||
+  process.env.BUILD_SCOPE === '1';
+
+export default skipSentry
   ? nextConfig
   : withSentryConfig(nextConfig, sentryWebpackPluginOptions);
