@@ -1,0 +1,61 @@
+import Image from 'next/image';
+import { Metadata } from 'next';
+export const dynamic = 'force-dynamic';
+import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.elevateforhumanity.org/admin/docs/mou' },
+  title: 'MOU Documentation | Elevate For Humanity',
+  description: 'MOU templates and documentation.',
+};
+
+export default async function MOUDocsPage() {
+  const supabase = await createClient();
+  const _admin = createAdminClient(); const db = _admin || supabase;
+  if (!supabase) return <div className="min-h-screen bg-gray-50 flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1></div></div>;
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/login');
+  const { data: profile } = await db.from('profiles').select('*').eq('id', user.id).single();
+  if (profile?.role !== 'admin' && profile?.role !== 'super_admin') redirect('/unauthorized');
+
+  const templates = [
+    { name: 'Standard Partnership MOU', type: 'Partnership', lastUpdated: '2024-01-15' },
+    { name: 'Training Provider Agreement', type: 'Training', lastUpdated: '2024-01-10' },
+    { name: 'Employer Hiring Commitment', type: 'Employment', lastUpdated: '2024-01-05' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+
+      {/* Hero Image */}
+      <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
+        <Image src="/images/heroes-hq/about-hero.jpg" alt="Administration" fill sizes="100vw" className="object-cover" priority />
+      </section>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="mb-8">
+          <nav className="text-sm mb-4"><ol className="flex items-center space-x-2 text-gray-500"><li><Link href="/admin" className="hover:text-primary">Admin</Link></li><li>/</li><li><Link href="/admin/docs" className="hover:text-primary">Docs</Link></li><li>/</li><li className="text-gray-900 font-medium">MOU</li></ol></nav>
+          <div className="flex justify-between items-center">
+            <div><h1 className="text-3xl font-bold text-gray-900">MOU Documentation</h1><p className="text-gray-600 mt-2">Templates and agreements</p></div>
+            <button className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700">Upload Template</button>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow-sm border">
+          <div className="divide-y">
+            {templates.map((t, i) => (
+              <div key={i} className="p-4 flex items-center justify-between hover:bg-gray-50">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-brand-blue-100 rounded flex items-center justify-center"><svg className="w-5 h-5 text-brand-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
+                  <div><p className="font-medium">{t.name}</p><p className="text-sm text-gray-500">{t.type} • Updated {t.lastUpdated}</p></div>
+                </div>
+                <button className="text-brand-blue-600 hover:text-brand-blue-800 text-sm">Download</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
