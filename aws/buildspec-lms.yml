@@ -11,9 +11,8 @@ phases:
     commands:
       - echo Logging in to ECR...
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      - IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      # Pull build-time public vars from SSM
+      - export IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
+      - export COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - export NEXT_PUBLIC_SUPABASE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_URL --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SUPABASE_ANON_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SITE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SITE_URL --with-decryption --query Parameter.Value --output text)
@@ -22,34 +21,36 @@ phases:
 
   build:
     commands:
-      # Install dependencies on the CodeBuild host (full RAM, no Docker cgroup limit)
       - echo Installing dependencies...
       - pnpm install --frozen-lockfile
-      # Run next build on host — avoids Docker memory cap that causes OOM
       - echo Building LMS...
-      - export NODE_OPTIONS="--max-old-space-size=14336 --max-semi-space-size=128 --expose-gc"
+      - export NODE_OPTIONS="--max-old-space-size=8192 --max-semi-space-size=64"
       - export NEXT_TELEMETRY_DISABLED=1
+      - export SENTRY_DISABLED=true
+      - export SENTRY_AUTH_TOKEN=""
       - export BUILD_SCOPE=1
-      - node scripts/stamp-sw.mjs
+      - node scripts/stamp-sw.mjs || true
       - pnpm next build
-      # Package the pre-built .next/standalone into a Docker image (no compilation)
-      - echo Packaging Docker image...
+      - echo Building Docker image...
       - docker build -f Dockerfile.package -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 
   post_build:
     commands:
+      - |
+        if [ "$CODEBUILD_BUILD_SUCCEEDING" != "1" ]; then
+          echo "Build failed; skipping docker push."
+          exit 1
+        fi
       - echo Pushing images...
       - docker push $IMAGE_URI:latest
       - docker push $IMAGE_URI:$COMMIT_HASH
-      # Register new task definition with updated image and deploy to ECS
       - echo Deploying to ECS...
       - TASK_DEF=$(aws ecs describe-task-definition --task-definition elevate-lms --region $AWS_DEFAULT_REGION --query taskDefinition)
       - NEW_TASK_DEF=$(echo $TASK_DEF | python3 -c "import json,sys; t=json.load(sys.stdin); t['containerDefinitions'][0]['image']='$IMAGE_URI:$COMMIT_HASH'; [t.pop(k,None) for k in ['taskDefinitionArn','revision','status','requiresAttributes','compatibilities','registeredAt','registeredBy','deregisteredAt']]; print(json.dumps(t))")
       - NEW_TASK_ARN=$(aws ecs register-task-definition --region $AWS_DEFAULT_REGION --cli-input-json "$NEW_TASK_DEF" --query 'taskDefinition.taskDefinitionArn' --output text)
       - aws ecs update-service --cluster elevate-cluster --service elevate-lms-service --task-definition $NEW_TASK_ARN --region $AWS_DEFAULT_REGION --force-new-deployment
       - echo Deployed $NEW_TASK_ARN
-      - printf '[{"name":"elevate-lms","imageUri":"%s"}]' $IMAGE_URI:$COMMIT_HASH > imagedefinitions.json
-      - rm -rf .next node_modules || true
+      - printf '[{"name":"elevate-lms","imageUri":"%s"}]' "$IMAGE_URI:$COMMIT_HASH" > imagedefinitions.json
 
 artifacts:
   files:
