@@ -30,6 +30,7 @@ async function _GET(request: Request) {
     supabase_url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
     supabase_anon_key: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     service_role_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+    service_role_key_length: process.env.SUPABASE_SERVICE_ROLE_KEY?.length ?? 0,
     status:
       process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
         ? 'pass'
@@ -57,7 +58,8 @@ async function _GET(request: Request) {
         checks.checks.database = {
           connected: !error,
           status: error ? 'warn' : 'pass',
-          error: error ? 'DB_ERROR' : null,
+          error: error ? (error.message ?? 'DB_ERROR') : null,
+          hint: error ? (error.hint ?? error.code ?? null) : null,
         };
       }
     }
