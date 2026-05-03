@@ -10,7 +10,7 @@ import { sendEmail } from '@/lib/email/sendgrid';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-import { approveApplication } from '@/lib/enrollment/approve';
+// approveApplication is called by /api/admin/applications/[id]/approve — not here
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -302,52 +302,18 @@ async function _POST(req: Request) {
       );
     }
 
-    // Auto-approve only for self-pay / employer / unsure applications.
-    // WIOA / WRG / FSSA applications require admin review before enrollment.
-    // Students who have not been to ICC (pending_funding) are not enrolled at all —
-    // they must complete the ICC process and reapply.
-    let userId: string | null = null;
-    let passwordSetupLink: string | null = null;
-    if (!isFunded) {
-      try {
-        const programSlug = body.programSlug || body.program || 'barber-apprenticeship';
-        const { data: programRow } = await supabase
-          .from('programs')
-          .select('id')
-          .eq('slug', programSlug)
-          .maybeSingle();
-
-        const result = await approveApplication(supabase, {
-          applicationId: data.id,
-          programId: programRow?.id || null,
-          fundingType: fundingType,
-        });
-
-        if (result.success) {
-          userId = result.userId || null;
-          passwordSetupLink = result.passwordSetupLink || null;
-          logger.info('[Applications] Auto-approved', {
-            applicationId: data.id,
-            userId,
-            hasPasswordLink: !!passwordSetupLink,
-          });
-        } else {
-          logger.warn('[Applications] Auto-approve failed (non-fatal)', { error: result.error });
-        }
-      } catch (approveErr) {
-        logger.warn('[Applications] Auto-approve threw (non-fatal)', approveErr);
-      }
-    } else {
-      logger.info(
-        '[Applications] Funded application — skipping auto-approve, pending admin review',
-        {
-          applicationId: data.id,
-          fundingType,
-          eligibilityStatus,
-          applicationStatus,
-        },
-      );
-    }
+    // All applications require admin review before enrollment.
+    // Admin clicks Enroll on the review page → approveApplication() runs →
+    // student receives onboarding email with password setup link.
+    // No auto-approval for any funding type.
+    const userId: string | null = null;
+    const passwordSetupLink: string | null = null;
+    logger.info('[Applications] Saved — pending admin review', {
+      applicationId: data.id,
+      fundingType,
+      eligibilityStatus,
+      applicationStatus,
+    });
 
     // Send email notifications — direct call, no self-fetch
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
@@ -420,14 +386,17 @@ async function _POST(req: Request) {
         ${passwordSection}
       `
           : `
-        ${passwordSection}
-        <h3 style="color: #0f172a;">What Happens Next</h3>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 10px 12px; vertical-align: top; width: 36px;"><div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">1</div></td><td style="padding: 10px 0;"><strong>Set your password</strong> using the button above to access your student portal.</td></tr>
-          <tr><td style="padding: 10px 12px; vertical-align: top;"><div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">2</div></td><td style="padding: 10px 0;"><strong>Complete orientation</strong> — a short online module (about 10 minutes) that unlocks your coursework.</td></tr>
-          <tr><td style="padding: 10px 12px; vertical-align: top;"><div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">3</div></td><td style="padding: 10px 0;"><strong>Advisor contact</strong> — we'll reach out within 1–2 business days via ${body.preferredContact || 'phone'}.</td></tr>
-          <tr><td style="padding: 10px 12px; vertical-align: top;"><div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">4</div></td><td style="padding: 10px 0;"><strong>Start training</strong> — once payment is confirmed, you begin your program.</td></tr>
-        </table>
+        <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:20px;margin:20px 0;">
+          <h3 style="margin-top:0;color:#14532d;">Application Received — Under Review</h3>
+          <p style="color:#166534;">Your application for <strong>${body.program}</strong> has been received. Our enrollment team will review it and reach out within 1–2 business days.</p>
+          <ol style="color:#166534;padding-left:20px;line-height:1.8;">
+            <li>Enrollment team reviews your application</li>
+            <li>We confirm your payment and program details</li>
+            <li>You receive your account setup link and onboarding instructions by email</li>
+            <li>You begin training</li>
+          </ol>
+          <p style="color:#166534;margin-bottom:0;"><strong>Questions?</strong> Call <a href="tel:3173143757" style="color:#ea580c;">(317) 314-3757</a> or email <a href="mailto:info@elevateforhumanity.org" style="color:#ea580c;">info@elevateforhumanity.org</a></p>
+        </div>
       `;
 
       const emailSubject = needsICC
@@ -506,7 +475,10 @@ async function _POST(req: Request) {
           ${body.hasCaseManager ? `<p><strong>Has Case Manager:</strong> ${body.hasCaseManager}</p>` : ''}
           ${body.caseManagerAgency ? `<p><strong>Agency:</strong> ${body.caseManagerAgency}</p>` : ''}
           ${body.supportNeeds ? `<p><strong>Support Needs:</strong> ${body.supportNeeds}</p>` : ''}
-          <p><a href="https://www.elevateforhumanity.org/admin/applications">View in Admin Portal</a></p>
+          <div style="text-align:center;margin:24px 0;">
+            <a href="https://app.elevateforhumanity.org/admin/applications/review/${data.id}" style="display:inline-block;background:#16a34a;color:#fff;padding:14px 32px;text-decoration:none;border-radius:8px;font-weight:700;font-size:15px;">Review &amp; Enroll →</a>
+          </div>
+          <p style="font-size:12px;color:#6b7280;text-align:center;">Application ID: ${data.id}</p>
         `,
       });
 
