@@ -27,7 +27,7 @@ const collaborationTools = [
     title: 'Study Groups',
     description: 'Join or create study groups for your courses',
     icon: Users,
-    href: '/lms/study-groups',
+    href: '/lms/community',
     color: 'blue',
   },
   {
@@ -142,7 +142,7 @@ export default async function CollaboratePage() {
             <div className="p-6 border-b flex items-center justify-between">
               <h2 className="font-semibold text-slate-900">My Study Groups</h2>
               <Link
-                href="/lms/study-groups"
+                href="/lms/community"
                 className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
               >
                 View All
@@ -154,7 +154,7 @@ export default async function CollaboratePage() {
                 <h3 className="font-medium text-slate-900 mb-2">No groups yet</h3>
                 <p className="text-slate-700 text-sm mb-4">Join a study group or create your own</p>
                 <Link
-                  href="/lms/study-groups"
+                  href="/lms/community"
                   className="text-brand-blue-600 hover:text-brand-blue-700 font-medium text-sm"
                 >
                   Browse Study Groups →

@@ -186,7 +186,7 @@ export default async function TrendingPage() {
                 </h3>
                 <div className="space-y-3">
                   <Link
-                    href="/lms/social/groups/healthcare"
+                    href="/lms/community"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-white"
                   >
                     <div className="w-10 h-10 bg-brand-red-100 rounded-lg flex items-center justify-center">
@@ -199,7 +199,7 @@ export default async function TrendingPage() {
                     </div>
                   </Link>
                   <Link
-                    href="/lms/social/groups/trades"
+                    href="/lms/community"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-white"
                   >
                     <div className="w-10 h-10 bg-brand-orange-100 rounded-lg flex items-center justify-center">
@@ -212,7 +212,7 @@ export default async function TrendingPage() {
                     </div>
                   </Link>
                   <Link
-                    href="/lms/social/groups/career"
+                    href="/lms/community"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-white"
                   >
                     <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
@@ -224,7 +224,7 @@ export default async function TrendingPage() {
                   </Link>
                 </div>
                 <Link
-                  href="/lms/social/groups"
+                  href="/lms/community"
                   className="block text-center text-brand-orange-600 hover:text-brand-orange-700 text-sm font-medium mt-4 pt-4 border-t"
                 >
                   Browse All Groups

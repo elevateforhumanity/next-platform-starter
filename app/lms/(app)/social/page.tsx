@@ -105,7 +105,7 @@ export default async function SocialPage() {
                   Find Connections
                 </Link>
                 <Link
-                  href="/lms/social/groups"
+                  href="/lms/community"
                   className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white text-slate-900"
                 >
                   <Users className="w-5 h-5 text-slate-700" />
@@ -175,7 +175,7 @@ export default async function SocialPage() {
                   Find Connections
                 </Link>
                 <Link
-                  href="/lms/social/groups"
+                  href="/lms/community"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-white border rounded-lg hover:bg-white text-slate-900 font-medium"
                 >
                   <Users className="w-5 h-5" />
@@ -225,21 +225,21 @@ export default async function SocialPage() {
               <h3 className="font-semibold text-slate-900 mb-4">Popular Groups</h3>
               <div className="space-y-3">
                 <Link
-                  href="/lms/social/groups/healthcare"
+                  href="/lms/community"
                   className="block p-3 rounded-lg hover:bg-white"
                 >
                   <div className="font-medium text-slate-900">Healthcare Professionals</div>
                   <div className="text-sm text-slate-700">234 members</div>
                 </Link>
                 <Link
-                  href="/lms/social/groups/trades"
+                  href="/lms/community"
                   className="block p-3 rounded-lg hover:bg-white"
                 >
                   <div className="font-medium text-slate-900">Skilled Trades Network</div>
                   <div className="text-sm text-slate-700">189 members</div>
                 </Link>
                 <Link
-                  href="/lms/social/groups/career"
+                  href="/lms/community"
                   className="block p-3 rounded-lg hover:bg-white"
                 >
                   <div className="font-medium text-slate-900">Career Changers</div>
@@ -247,7 +247,7 @@ export default async function SocialPage() {
                 </Link>
               </div>
               <Link
-                href="/lms/social/groups"
+                href="/lms/community"
                 className="block text-center text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium mt-4 pt-4 border-t"
               >
                 Browse All Groups

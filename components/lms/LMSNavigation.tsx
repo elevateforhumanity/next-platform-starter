@@ -101,10 +101,8 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
       badge: unreadMessages > 0 ? unreadMessages : undefined,
     },
     { href: '/lms/certificates', label: 'Certificates', desc: 'Your credentials', icon: Award },
-    { href: '/lms/ai-tutor', label: 'AI Tutor', desc: 'Get help from AI', icon: BookOpen },
     { href: '/lms/library', label: 'Library', desc: 'Resources & reading', icon: BookMarked },
     { href: '/lms/social', label: 'Community', desc: 'Groups & connections', icon: ChevronDown },
-    { href: '/lms/alumni', label: 'Alumni', desc: 'Alumni network', icon: Award },
     { href: '/lms/payments', label: 'Payments', desc: 'Billing & invoices', icon: Award },
     { href: '/lms/settings', label: 'Settings', desc: 'Account settings', icon: Settings },
   ];

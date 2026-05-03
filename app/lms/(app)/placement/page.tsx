@@ -117,7 +117,7 @@ export default async function PlacementPage() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-slate-900">Open Positions</h2>
-            <Link href="/lms/alumni/jobs" className="text-sm text-brand-blue-600 hover:underline">
+            <Link href="/lms/placement" className="text-sm text-brand-blue-600 hover:underline">
               View all →
             </Link>
           </div>
@@ -130,7 +130,7 @@ export default async function PlacementPage() {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {jobs.map((job) => (
-                <JobCard key={job.id} job={job} showApply href={`/lms/alumni/jobs/${job.id}`} />
+                <JobCard key={job.id} job={job} showApply href="/lms/placement" />
               ))}
             </div>
           )}

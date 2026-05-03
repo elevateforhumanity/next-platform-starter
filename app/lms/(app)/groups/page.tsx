@@ -102,7 +102,7 @@ export default async function GroupsPage() {
           </div>
           <div className="mt-4 md:mt-0 flex gap-3">
             <Link
-              href="/lms/study-groups"
+              href="/lms/community"
               className="flex items-center gap-2 px-4 py-2 border border-slate-200 bg-white rounded-lg hover:bg-white transition"
             >
               <Search className="w-4 h-4" />
@@ -212,7 +212,7 @@ export default async function GroupsPage() {
                 <h3 className="font-bold mb-4">Quick Actions</h3>
                 <div className="space-y-2">
                   <Link
-                    href="/lms/study-groups"
+                    href="/lms/community"
                     className="flex items-center gap-2 w-full px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition"
                   >
                     <UserPlus className="w-4 h-4" />
@@ -246,7 +246,7 @@ export default async function GroupsPage() {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
-                href="/lms/study-groups"
+                href="/lms/community"
                 className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-blue-700 transition"
               >
                 <Search className="w-5 h-5" />

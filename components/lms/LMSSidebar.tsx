@@ -64,8 +64,6 @@ const practiceItems = [
 const communityItems = [
   { href: '/lms/forums', label: 'Forums', icon: MessageSquare },
   { href: '/lms/messages', label: 'Messages', icon: MessageSquare },
-  { href: '/lms/study-groups', label: 'Study Groups', icon: Users },
-  { href: '/lms/ai-tutor', label: 'AI Tutor', icon: GraduationCap },
 ];
 
 // TOOLS — utilities

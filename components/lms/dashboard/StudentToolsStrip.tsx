@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { BookOpen, CheckCircle, Headphones, Users, FileText, Calendar } from 'lucide-react';
+import { BookOpen, CheckCircle, Users, FileText, Calendar } from 'lucide-react';
 
 const TOOLS = [
   { icon: BookOpen, label: 'Study Guides', href: '/lms/resources' },
   { icon: CheckCircle, label: 'Practice Exams', href: '/lms/quizzes' },
-  { icon: Headphones, label: 'AI Tutor', href: '/lms/ai-tutor' },
   { icon: Users, label: 'Community', href: '/lms/community' },
   { icon: FileText, label: 'Certificates', href: '/lms/certificates' },
   { icon: Calendar, label: 'Schedule', href: '/lms/schedule' },

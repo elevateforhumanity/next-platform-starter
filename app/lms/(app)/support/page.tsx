@@ -248,7 +248,7 @@ export default async function SupportPage() {
                 Our AI Tutor can help with course questions 24/7.
               </p>
               <Link
-                href="/lms/ai-tutor"
+                href="/lms/resources"
                 className="block w-full text-center bg-brand-blue-600 text-white px-4 py-3 rounded-xl font-bold hover:bg-brand-blue-700 transition"
               >
                 Ask AI Tutor
