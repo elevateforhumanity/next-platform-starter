@@ -16,10 +16,16 @@
  */
 
 // Fixed pricing constants
+const _barberMinFee = (() => {
+  const v = process.env.BARBER_MIN_SETUP_FEE_DOLLARS;
+  if (v) { const n = parseFloat(v); if (!isNaN(n) && n >= 100 && n <= 4980) return n; }
+  return 600;
+})();
+
 export const BARBER_PRICING = {
   fullPrice: 4980,
-  minDownPayment: 600,
-  defaultDownPayment: 600,
+  minDownPayment: _barberMinFee,
+  defaultDownPayment: _barberMinFee,
   paymentTermWeeks: 29,
   totalHoursRequired: 2000,
   billingDay: 5, // Friday (0=Sunday, 5=Friday)
@@ -27,7 +33,7 @@ export const BARBER_PRICING = {
   billingHour: 10, // 10:00 AM local
   // Legacy fields kept for backward compatibility
   setupFeeRate: 0.35,
-  setupFee: 600,
+  setupFee: _barberMinFee,
   remainingBalance: 4380,
 } as const;
 

@@ -15,6 +15,7 @@ import {
   TUITION_CENTS,
   TUITION_DOLLARS,
   PAYMENT_TERM_WEEKS,
+  MIN_SETUP_FEE_CENTS,
   BARBER_PROGRAM_ID,
   BARBER_COURSE_ID,
   clampSetupFeeCents,
@@ -151,7 +152,7 @@ async function _POST(request: NextRequest) {
     } else {
       // Payment plan — student's chosen down payment, server-clamped to [$600, $4,980].
       // This is the ONLY client-influenced value in the pricing chain.
-      checkoutAmountCents = custom_setup_fee ? clampSetupFeeCents(custom_setup_fee) : 60000; // default $600
+      checkoutAmountCents = custom_setup_fee ? clampSetupFeeCents(custom_setup_fee) : MIN_SETUP_FEE_CENTS;
       const remainingCents = TUITION_CENTS - checkoutAmountCents;
       const weeklyDollars = (remainingCents / 100 / weeksRemaining).toFixed(2);
       productName = 'Barber Apprenticeship - Down Payment';

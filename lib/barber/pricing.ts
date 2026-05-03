@@ -29,8 +29,19 @@ export const TUITION_CENTS = 498000; // $4,980
 /** Full program tuition in dollars. */
 export const TUITION_DOLLARS = 4980;
 
-/** Minimum down payment in cents. */
-export const MIN_SETUP_FEE_CENTS = 60000; // $600
+/**
+ * Minimum down payment in cents.
+ * Override via BARBER_MIN_SETUP_FEE_DOLLARS env var (e.g. "750" for $750).
+ * Must be between $100 and full tuition. Falls back to $600 if not set or invalid.
+ */
+export const MIN_SETUP_FEE_CENTS = (() => {
+  const override = process.env.BARBER_MIN_SETUP_FEE_DOLLARS;
+  if (override) {
+    const parsed = Math.round(parseFloat(override) * 100);
+    if (!isNaN(parsed) && parsed >= 10000 && parsed <= 498000) return parsed;
+  }
+  return 60000; // $600 default
+})();
 
 /** Payment term — fixed at 29 weekly invoices. */
 export const PAYMENT_TERM_WEEKS = 29;
