@@ -24,18 +24,6 @@ export const headerNav: NavSection[] = [
   {
     label: 'Programs',
     href: '/programs',
-    items: [
-      { label: 'View All Programs', href: '/programs' },
-      { label: 'Medical Assistant', href: '/programs/medical-assistant' },
-      {
-        label: 'Barber Apprenticeship',
-        href: '/programs/barber-apprenticeship',
-      },
-      { label: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
-      { label: 'CDL Training', href: '/programs/cdl' },
-      { label: 'CNA Healthcare', href: canonicalRoutes.programs.certifiedNursingAssistant },
-      { label: 'Workforce Readiness', href: '/programs/workforce-readiness' },
-    ],
   },
   {
     label: 'Funding',

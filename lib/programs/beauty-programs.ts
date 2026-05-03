@@ -36,26 +36,12 @@ export interface BeautyProgramConfig {
   nextSteps: { title: string; desc: string }[];
 }
 
+// NOTE: barber-apprenticeship is intentionally NOT in this map.
+// It has its own dedicated enrollment flow under
+// app/programs/barber-apprenticeship/ with custom pricing, checkout,
+// and webhook logic. Do not add it here.
+
 export const BEAUTY_PROGRAMS: Record<string, BeautyProgramConfig> = {
-  'barber-apprenticeship': {
-    slug: 'barber-apprenticeship',
-    title: 'Barber Apprenticeship',
-    shortTitle: 'Barber',
-    color: 'blue',
-    licenseTitle: 'Indiana Barber License',
-    ojtHours: 2000,
-    depositCents: 174300,
-    fullTuitionCents: 498000,
-    stripeDepositLink: 'https://buy.stripe.com/8x2bJ21986rletw0dN8EN0o',
-    stripeFullLink: 'https://buy.stripe.com/6oUdRa4lkaHB7141hR8EN0b',
-    earnWhileYouLearn: false,
-    orientationTime: '10–12 minutes',
-    nextSteps: [
-      { title: 'Complete orientation', desc: 'Sanitation, safety, and shop protocols — required before hands-on training' },
-      { title: 'Apply for your Indiana Barber License', desc: 'We guide you through the IPLA application — 2,000 hours required for licensure' },
-      { title: 'Log OJT hours weekly', desc: '2,000 hours required — track via your apprentice dashboard' },
-    ],
-  },
   'cosmetology-apprenticeship': {
     slug: 'cosmetology-apprenticeship',
     title: 'Cosmetology Apprenticeship',

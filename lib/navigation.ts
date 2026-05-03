@@ -82,11 +82,8 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'All Programs →', href: '/programs', isSectionLink: true },
 
       // Hubs & Special Programs
-      { name: '— Hubs & Special Programs —', href: '/programs', isHeader: true },
-      { name: 'Beauty Programs Hub', href: '/programs/beauty' },
-      { name: 'Business Programs Hub', href: '/programs/business' },
+      { name: '— Special Programs —', href: '/programs', isHeader: true },
       { name: 'Federal-Funded Programs', href: '/programs/federal-funded' },
-      { name: 'Micro-Credentials', href: '/programs/micro-programs' },
       { name: 'JRI — Justice-Involved', href: '/programs/jri' },
       { name: 'All Programs →', href: '/programs', isSectionLink: true },
     ],

@@ -10,11 +10,25 @@ import { ArrowLeft, Loader2, CheckCircle, CreditCard } from 'lucide-react';
 import { PAYMENT_LINKS } from '@/lib/stripe/price-map';
 import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
 
+// Programs with dedicated enrollment flows — redirect away from this shared page.
+const DEDICATED_FLOWS: Record<string, string> = {
+  'barber-apprenticeship': '/programs/barber-apprenticeship/apply',
+};
+
 type FundingType = 'wioa' | 'self_pay' | 'employer' | 'unsure';
 
 export default function BeautyApplyPage() {
   const params = useParams<{ program: string }>();
   const router = useRouter();
+
+  // Redirect programs that have their own dedicated enrollment flow.
+  useEffect(() => {
+    const dedicated = DEDICATED_FLOWS[params.program];
+    if (dedicated) {
+      router.replace(dedicated);
+    }
+  }, [params.program, router]);
+
   const cfg = getBeautyProgram(params.program);
   const c = colorClasses(cfg?.color ?? 'blue');
 
