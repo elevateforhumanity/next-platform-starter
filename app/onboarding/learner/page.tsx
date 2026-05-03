@@ -66,7 +66,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     title: 'Confirm Funding Source',
     description:
       'Review and confirm how your training will be funded — WIOA, Workforce Ready Grant, employer sponsorship, or self-pay.',
-    href: '/funding/confirm',
+    href: '/onboarding/learner/documents',
     icon: CreditCard,
     image: '/images/pages/career-services-page-2.jpg',
     imageAlt: 'Funding and financial aid options',
@@ -77,7 +77,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     title: 'Select Your Schedule',
     description:
       'Choose your cohort start date and class schedule. Day and evening options available.',
-    href: '/schedule/select',
+    href: '/onboarding/learner/orientation',
     icon: Calendar,
     image: '/images/pages/career-services-page-2.jpg',
     imageAlt: 'Training classroom schedule selection',
