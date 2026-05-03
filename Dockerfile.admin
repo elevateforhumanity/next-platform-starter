@@ -1,68 +1,35 @@
 # Dockerfile.admin
 #
-# Railway admin service — builds only /admin, /instructor, /api/admin routes.
-# ~400 pages vs 1,500 on Netlify. Independent deploy pipeline from LMS.
+# Packages a pre-built apps/admin standalone output into a minimal runtime image.
+# The `next build` step runs on the EC2 host (full RAM, no Docker memory cap)
+# from apps/admin/ and produces apps/admin/.next/standalone + .next/static.
+# This Dockerfile only copies those artifacts — no compilation happens here.
+#
+# Build on host (from repo root):
+#   cd apps/admin && NODE_OPTIONS='--max-old-space-size=8192' pnpm next build
+#
+# Then package (from repo root):
+#   docker build -f Dockerfile.admin -t elevate-admin:latest .
 
-# ── Stage 1: deps ─────────────────────────────────────────────────────────────
-FROM node:20-bookworm-slim AS deps
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ffmpeg \
-    chromium \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
-
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-COPY .npmrc* ./
-RUN pnpm install --frozen-lockfile
-
-# ── Stage 2: builder ──────────────────────────────────────────────────────────
-FROM deps AS builder
-
-WORKDIR /app
-COPY . .
-
-ENV RAILWAY_SERVICE=admin
-ENV SERVICE_ROLE=admin
-ENV BUILD_SCOPE=1
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_OPTIONS="--max-old-space-size=6144 --max-semi-space-size=64 --expose-gc"
-
-# Quarantine non-admin routes, build, restore
-RUN cp next.config.mjs next.config.mjs.bak \
- && cp next.config.admin.mjs next.config.mjs \
- && node scripts/railway-quarantine-marketing-routes.mjs \
- && NODE_OPTIONS='--max-old-space-size=6144' pnpm next build \
- && node scripts/railway-quarantine-marketing-routes.mjs --restore \
- && mv next.config.mjs.bak next.config.mjs
-
-# ── Stage 3: runner ───────────────────────────────────────────────────────────
-FROM node:20-bookworm-slim AS runner
+FROM node:20-bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ffmpeg \
-    chromium \
     ca-certificates \
     curl \
     fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
 
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-ENV CHROMIUM_PATH=/usr/bin/chromium
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV RAILWAY=true
-ENV RAILWAY_SERVICE=admin
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
 
 WORKDIR /app
 
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+# Copy standalone server output produced by `next build` in apps/admin/
+COPY apps/admin/.next/standalone ./
+COPY apps/admin/.next/static ./apps/admin/.next/static
+COPY public ./public
 
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs && \
@@ -71,7 +38,6 @@ RUN addgroup --system --gid 1001 nodejs && \
 USER nextjs
 
 EXPOSE 3000
-ENV PORT=3000
-ENV HOSTNAME=0.0.0.0
 
-CMD ["node", "server.js"]
+# standalone output places server.js at apps/admin/server.js inside the standalone dir
+CMD ["node", "apps/admin/server.js"]
