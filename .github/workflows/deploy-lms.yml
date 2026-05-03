@@ -1,0 +1,45 @@
+name: Deploy LMS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "app/**"
+      - "apps/lms/**"
+      - "components/**"
+      - "lib/**"
+      - "public/**"
+      - "packages/**"
+      - "aws/buildspec-lms.yml"
+      - "pnpm-lock.yaml"
+      - "package.json"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/deploy-lms.yml"
+
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-lms:
+    name: Build and deploy LMS only
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+
+      - name: Start LMS CodeBuild
+        run: |
+          aws codebuild start-build \
+            --project-name elevate-lms-build \
+            --region us-east-1

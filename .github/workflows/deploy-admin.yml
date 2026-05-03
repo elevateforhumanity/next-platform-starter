@@ -1,0 +1,41 @@
+name: Deploy Admin
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/admin/**"
+      - "packages/**"
+      - "aws/buildspec-admin.yml"
+      - "pnpm-lock.yaml"
+      - "package.json"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/deploy-admin.yml"
+
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-admin:
+    name: Build and deploy admin only
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+
+      - name: Start Admin CodeBuild
+        run: |
+          aws codebuild start-build \
+            --project-name elevate-admin-build \
+            --region us-east-1
