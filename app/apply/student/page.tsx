@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import StudentApplicationForm from './StudentApplicationForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { resolveSlug } from '@/lib/program-registry';
@@ -83,7 +84,9 @@ export default async function StudentApplicationPage({
       </section>
 
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        <StudentApplicationForm initialProgram={initialProgram} />
+        <Suspense>
+          <StudentApplicationForm initialProgram={initialProgram} />
+        </Suspense>
       </section>
 
       {/* Other application types */}
