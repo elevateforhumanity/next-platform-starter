@@ -27,10 +27,8 @@ phases:
       - export NEXT_TELEMETRY_DISABLED=1
       - export BUILD_SCOPE=1
       - export SERVICE_ROLE=lms
-      - node scripts/railway-quarantine-marketing-routes.mjs
       - node scripts/stamp-sw.mjs
       - pnpm next build
-      - node scripts/railway-quarantine-marketing-routes.mjs --restore
       - echo Packaging Docker image...
       - docker build -f Dockerfile.package -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 
