@@ -560,8 +560,9 @@ export async function proxy(request: NextRequest) {
 
     // Admin app lives in apps/admin at NEXT_PUBLIC_ADMIN_URL.
     // Set via SSM /elevate/NEXT_PUBLIC_ADMIN_URL — baked in at build time.
-    const adminAppUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org';
+    const adminAppUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org';
     const onAdminDomain =
+      host.includes('admin.elevateforhumanity.org') ||
       host.includes('app.elevateforhumanity.org') ||
       host.includes('elevate-admin-alb') ||
       host.includes('localhost') ||
