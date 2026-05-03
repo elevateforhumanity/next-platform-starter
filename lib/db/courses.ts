@@ -4,6 +4,8 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
+import { requireAdminClient } from '@/lib/supabase/admin';
+import { setAuditContext } from '@/lib/audit-context';
 import type {
   CourseCreate,
   CourseUpdate,
@@ -453,8 +455,22 @@ export async function createApplication(input: ApplicationCreate) {
 }
 
 export async function listApplications(filters?: { status?: string; programId?: string }) {
-  const supabase = await getSupabase();
-  let query = supabase
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error('Unauthorized');
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  if (!profile || !['admin', 'super_admin', 'staff', 'org_admin'].includes(profile.role)) {
+    throw new Error('Forbidden');
+  }
+
+  // Use admin client — applications table is admin-managed and should bypass RLS
+  // after route-level role checks.
+  const db = await requireAdminClient();
+  await setAuditContext(db, { systemActor: 'admin_applications_api' });
+
+  let query = db
     .from('applications')
     .select('*, program:programs(id, title, code)')
     .order('submitted_at', { ascending: false });
@@ -470,8 +486,6 @@ export async function listApplications(filters?: { status?: string; programId?: 
 export async function getApplication(id: string) {
   // Use admin client — applications table RLS blocks session-based reads.
   // Callers are admin API routes that have already verified the caller's role.
-  const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
-  const { setAuditContext } = await import('@/lib/audit-context');
   const db = await requireAdminClient();
   await setAuditContext(db, { systemActor: 'admin_applications_api' });
   const { data, error } = await db
@@ -486,8 +500,6 @@ export async function getApplication(id: string) {
 
 export async function updateApplication(id: string, patch: ApplicationUpdate) {
   // Use admin client — applications table RLS blocks session-based updates.
-  const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
-  const { setAuditContext } = await import('@/lib/audit-context');
   const db = await requireAdminClient();
   await setAuditContext(db, { systemActor: 'admin_applications_api' });
   const updateData: any = { ...patch, updated_at: new Date().toISOString() };
@@ -507,8 +519,6 @@ export async function updateApplication(id: string, patch: ApplicationUpdate) {
 }
 
 export async function deleteApplication(id: string) {
-  const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
-  const { setAuditContext } = await import('@/lib/audit-context');
   const db = await requireAdminClient();
   await setAuditContext(db, { systemActor: 'admin_applications_api' });
   const { error } = await db.from('applications').delete().eq('id', id);

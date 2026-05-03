@@ -1,28 +1,67 @@
-import { NextRequest, NextResponse } from "next/server";
+import { createServerClient } from '@supabase/ssr';
+import { NextRequest, NextResponse } from 'next/server';
 
-const PUBLIC_ROUTES = ["/login", "/api/health"];
+const PUBLIC_ROUTES = ['/login', '/api/health'];
 
-export function middleware(req: NextRequest) {
+function getSafeRedirectPath(req: NextRequest) {
+  const rawPath = `${req.nextUrl.pathname}${req.nextUrl.search}`;
+  if (!rawPath.startsWith('/') || rawPath.startsWith('//') || rawPath.includes('://')) {
+    return '/admin/dashboard';
+  }
+  return rawPath;
+}
+
+function getLoginUrl(req: NextRequest) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const loginUrl = new URL('/login', siteUrl || req.nextUrl.origin);
+  loginUrl.searchParams.set('redirect', getSafeRedirectPath(req));
+  return loginUrl;
+}
+
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (PUBLIC_ROUTES.some((route) => pathname.startsWith(route))) {
     return NextResponse.next();
   }
 
-  const hasSession =
-    req.cookies.has("sb-access-token") ||
-    req.cookies.has("supabase-auth-token") ||
-    req.cookies.has("admin_session");
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!hasSession) {
-    const loginUrl = new URL("/login", "https://www.elevateforhumanity.org");
-    loginUrl.searchParams.set("next", req.nextUrl.href);
-    return NextResponse.redirect(loginUrl);
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('[apps/admin middleware] Missing Supabase env vars', {
+      hasUrl: Boolean(supabaseUrl),
+      hasAnonKey: Boolean(supabaseAnonKey),
+    });
+    return NextResponse.redirect(getLoginUrl(req));
   }
 
-  return NextResponse.next();
+  let response = NextResponse.next();
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return req.cookies.getAll();
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+      },
+    },
+  });
+
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.redirect(getLoginUrl(req));
+    }
+    return response;
+  } catch (error) {
+    console.error('[apps/admin middleware] Failed to load auth user', error);
+    return NextResponse.redirect(getLoginUrl(req));
+  }
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|assets|images).*)"],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|assets|images).*)'],
 };
