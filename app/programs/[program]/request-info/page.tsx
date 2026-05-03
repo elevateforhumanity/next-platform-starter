@@ -9,7 +9,7 @@ import { getProgramBySlug } from '@/lib/programs/get-program';
 export const revalidate = 3600;
 
 interface Props {
-  params: { slug: string };
+  params: { program: string };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

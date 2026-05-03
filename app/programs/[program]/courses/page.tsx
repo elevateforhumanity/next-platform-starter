@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { program: string };
 }): Promise<Metadata> {
   const name = params.slug
     .split('-')
@@ -39,7 +39,7 @@ function getCategory(slug: string): string {
   return 'healthcare';
 }
 
-export default async function ProgramCoursesPage({ params }: { params: { slug: string } }) {
+export default async function ProgramCoursesPage({ params }: { params: { program: string } }) {
   await requireRole([
     'student',
     'learner',
@@ -51,7 +51,7 @@ export default async function ProgramCoursesPage({ params }: { params: { slug: s
   ]);
 
   const supabase = await createClient();
-  const { slug } = params;
+  const { program } = params;
 
   const { data: program } = await supabase
     .from('programs')

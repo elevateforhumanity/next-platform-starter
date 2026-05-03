@@ -32,7 +32,7 @@ const DEDICATED_APPLY_SLUGS = new Set([
   'welding',
 ]);
 
-function getApplyHref(slug: string): string {
+function getApplyHref(program: string): string {
   return DEDICATED_APPLY_SLUGS.has(slug)
     ? `/programs/${slug}/apply`
     : `/apply?program=${slug}`;
@@ -41,9 +41,9 @@ function getApplyHref(slug: string): string {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ program: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { program } = await params;
   const ogImage = getProgramOgImageUrl(slug, SITE_URL);
 
   const ogBase = {
@@ -177,7 +177,7 @@ function ProgramPage({
   description: string;
   credential?: string | null;
   durationWeeks?: number | null;
-  slug: string;
+  program: string;
   sections?: Array<{ heading: string; body: string }>;
 }) {
   const learnItems = sections?.find(
@@ -458,8 +458,8 @@ function ProgramPage({
   );
 }
 
-export default async function ProgramDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function ProgramDetailPage({ params }: { params: Promise<{ program: string }> }) {
+  const { program } = await params;
 
   // DB-first
   const db = createPublicClient();

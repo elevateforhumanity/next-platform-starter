@@ -32,9 +32,9 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ program: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { program: slug } = await params;
   const db = await getDb();
   const { data: program } = await supabase
     .from('programs')
@@ -140,9 +140,9 @@ type TrainingItem = InternalItem | ExternalItem;
 export default async function ProgramTrainingPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ program: string }>;
 }) {
-  const { slug } = await params;
+  const { program: slug } = await params;
 
   const supabase = await createClient();
   const db = await getDb();

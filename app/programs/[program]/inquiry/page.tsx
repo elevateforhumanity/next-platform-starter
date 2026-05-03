@@ -6,10 +6,10 @@ export const metadata: Metadata = {
 };
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ program: string }>;
 }
 
 export default async function ProgramInquiryRedirect({ params }: Props) {
-  const { slug } = await params;
+  const { program: slug } = await params;
   redirect(`/inquiry?program=${slug}`);
 }
