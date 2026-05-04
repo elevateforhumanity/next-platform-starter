@@ -6,8 +6,13 @@ on:
       - main
     paths:
       - "apps/admin/**"
+      - "lib/**"
+      - "components/**"
+      - "data/**"
+      - "types/**"
       - "packages/**"
       - "aws/buildspec-admin.yml"
+      - "aws/ecs-task-admin.json"
       - "pnpm-lock.yaml"
       - "package.json"
       - "pnpm-workspace.yaml"
