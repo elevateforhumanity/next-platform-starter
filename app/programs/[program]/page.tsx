@@ -8,6 +8,9 @@ import ProgramDetailPageComponent from '@/components/programs/ProgramDetailPage'
 import { ProgramStructuredData } from '@/components/seo/CourseStructuredData';
 import { OnetLaborData } from '@/components/programs/onet/OnetLaborData';
 import { getProgramOgImageUrl } from '@/lib/programs/og-images';
+import heroBanners from '@/content/heroBanners';
+import HeroVideo from '@/components/marketing/HeroVideo';
+import HeroPicture from '@/components/marketing/HeroPicture';
 import { CheckCircle, Clock, Award, DollarSign, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -174,6 +177,7 @@ function ProgramPage({
   durationWeeks,
   slug,
   sections,
+  banner,
 }: {
   title: string;
   summary: string;
@@ -182,6 +186,7 @@ function ProgramPage({
   durationWeeks?: number | null;
   slug: string;
   sections?: Array<{ heading: string; body: string }>;
+  banner?: import('@/content/heroBanners').HeroBannerConfig | null;
 }) {
   const learnItems = sections?.find(
     (s) => s.heading.toLowerCase().includes('learn') || s.heading.toLowerCase().includes('module'),
@@ -189,6 +194,36 @@ function ProgramPage({
 
   return (
     <main className="bg-white">
+      {/* HERO — video or image banner if available */}
+      {banner?.pageKey && (
+        banner.videoSrcDesktop ? (
+          <HeroVideo
+            videoSrcDesktop={banner.videoSrcDesktop}
+            posterImage={banner.posterImage}
+            voiceoverSrc={banner.voiceoverSrc}
+            microLabel={banner.microLabel}
+            analyticsName={banner.analyticsName}
+            belowHeroHeadline={banner.belowHeroHeadline}
+            belowHeroSubheadline={banner.belowHeroSubheadline}
+            ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])]}
+            trustIndicators={banner.trustIndicators}
+            transcript={banner.transcript}
+          />
+        ) : (
+          <HeroPicture
+            src={banner.posterImage ?? ''}
+            alt={banner.microLabel ?? title}
+            microLabel={banner.microLabel}
+            analyticsName={banner.analyticsName}
+            belowHeroHeadline={banner.belowHeroHeadline}
+            belowHeroSubheadline={banner.belowHeroSubheadline}
+            ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])]}
+            trustIndicators={banner.trustIndicators}
+            transcript={banner.transcript}
+          />
+        )
+      )}
+
       {/* SECTION 1: OUTCOME FIRST */}
       <section className="bg-slate-950 py-20 px-6">
         <div className="max-w-4xl mx-auto">
@@ -484,6 +519,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
         };
       }
     }
+    const banner = heroBanners[mergedProgram.slug] ?? null;
     return (
       <>
         <ProgramStructuredData
@@ -499,7 +535,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
             outcomes: mergedProgram.outcomes.map((o) => o.statement),
           }}
         />
-        <ProgramDetailPageComponent program={mergedProgram} />
+        <ProgramDetailPageComponent program={mergedProgram} banner={banner} />
         <OnetLaborData slug={program} />
       </>
     );
@@ -516,6 +552,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
           description={cfProgram.description}
           slug={cfProgram.slug}
           sections={cfProgram.sections}
+          banner={heroBanners[cfProgram.slug] ?? null}
         />
         <OnetLaborData slug={cfProgram.slug} />
       </>
