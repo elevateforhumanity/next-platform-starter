@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { ProgramStructuredData } from '@/components/seo/CourseStructuredData';
 import { BARBER_APPRENTICESHIP } from '@/data/programs/barber-apprenticeship';
 import { validateProgram } from '@/lib/programs/program-schema';
+import heroBanners from '@/content/heroBanners';
 import BarberApprenticeshipClient from './BarberApprenticeshipClient';
 
 export const dynamic = 'force-static';
@@ -23,6 +24,10 @@ export const metadata: Metadata = {
 };
 
 export default function BarberApprenticeshipPage() {
+  // Read hero banner server-side — heroBanners proxy reads from fs which is
+  // unavailable in client components. Pass as plain prop so the client gets data.
+  const heroBanner = heroBanners['barber-apprenticeship'] ?? null;
+
   return (
     <>
       <ProgramStructuredData
@@ -38,7 +43,7 @@ export default function BarberApprenticeshipPage() {
           outcomes: p.outcomes.map((o) => o.statement),
         }}
       />
-      <BarberApprenticeshipClient program={p} />
+      <BarberApprenticeshipClient program={p} heroBanner={heroBanner} />
     </>
   );
 }

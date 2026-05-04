@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import HeroVideo from '@/components/marketing/HeroVideo';
-import heroBanners from '@/content/heroBanners';
+import type { HeroBannerConfig } from '@/content/heroBanners';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { FundingBadge } from '@/components/programs/FundingBadge';
 import {
@@ -30,7 +30,7 @@ import {
   Factory,
 } from 'lucide-react';
 
-export function ElectricalProgramPageClient({ enrollmentCount = 0 }: { enrollmentCount?: number }) {
+export function ElectricalProgramPageClient({ enrollmentCount = 0, heroBanner: b }: { enrollmentCount?: number; heroBanner?: HeroBannerConfig | null }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqs = [
@@ -171,23 +171,20 @@ export function ElectricalProgramPageClient({ enrollmentCount = 0 }: { enrollmen
         </div>
       </div>
 
-      <HeroVideo
-        videoSrcDesktop={heroBanners['electrical'].videoSrcDesktop}
-        posterImage={heroBanners['electrical'].posterImage}
-        voiceoverSrc={heroBanners['electrical'].voiceoverSrc}
-        microLabel={heroBanners['electrical'].microLabel}
-        belowHeroHeadline={heroBanners['electrical'].belowHeroHeadline}
-        belowHeroSubheadline={heroBanners['electrical'].belowHeroSubheadline}
-        ctas={[
-          heroBanners['electrical'].primaryCta,
-          ...(heroBanners['electrical'].secondaryCta
-            ? [heroBanners['electrical'].secondaryCta]
-            : []),
-        ]}
-        trustIndicators={heroBanners['electrical'].trustIndicators}
-        transcript={heroBanners['electrical'].transcript}
-        analyticsName={heroBanners['electrical'].analyticsName}
-      />
+      {b && (
+        <HeroVideo
+          videoSrcDesktop={b.videoSrcDesktop}
+          posterImage={b.posterImage}
+          voiceoverSrc={b.voiceoverSrc}
+          microLabel={b.microLabel}
+          belowHeroHeadline={b.belowHeroHeadline}
+          belowHeroSubheadline={b.belowHeroSubheadline}
+          ctas={[b.primaryCta, ...(b.secondaryCta ? [b.secondaryCta] : [])]}
+          trustIndicators={b.trustIndicators}
+          transcript={b.transcript}
+          analyticsName={b.analyticsName}
+        />
+      )}
 
       {/* Stats */}
       <section className="bg-white border-b">

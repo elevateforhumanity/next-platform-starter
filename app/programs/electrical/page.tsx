@@ -1,5 +1,7 @@
+import heroBanners from '@/content/heroBanners';
 import ElectricalProgramPageClient from './ElectricalProgramPageClient';
 
 export default function ElectricalProgramPage() {
-  return <ElectricalProgramPageClient />;
+  const heroBanner = heroBanners['electrical'] ?? null;
+  return <ElectricalProgramPageClient heroBanner={heroBanner} />;
 }

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import HeroVideo from '@/components/marketing/HeroVideo';
-import heroBanners from '@/content/heroBanners';
+import type { HeroBannerConfig } from '@/content/heroBanners';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { FundingBadge } from '@/components/programs/FundingBadge';
 import {
@@ -32,8 +32,10 @@ import {
 
 export function MedicalAssistantProgramPageClient({
   enrollmentCount = 0,
+  heroBanner: b,
 }: {
   enrollmentCount?: number;
+  heroBanner?: HeroBannerConfig | null;
 }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -196,23 +198,20 @@ export function MedicalAssistantProgramPageClient({
         </div>
       </div>
 
-      <HeroVideo
-        videoSrcDesktop={heroBanners['medical-assistant'].videoSrcDesktop}
-        posterImage={heroBanners['medical-assistant'].posterImage}
-        voiceoverSrc={heroBanners['medical-assistant'].voiceoverSrc}
-        microLabel={heroBanners['medical-assistant'].microLabel}
-        belowHeroHeadline={heroBanners['medical-assistant'].belowHeroHeadline}
-        belowHeroSubheadline={heroBanners['medical-assistant'].belowHeroSubheadline}
-        ctas={[
-          heroBanners['medical-assistant'].primaryCta,
-          ...(heroBanners['medical-assistant'].secondaryCta
-            ? [heroBanners['medical-assistant'].secondaryCta]
-            : []),
-        ]}
-        trustIndicators={heroBanners['medical-assistant'].trustIndicators}
-        transcript={heroBanners['medical-assistant'].transcript}
-        analyticsName={heroBanners['medical-assistant'].analyticsName}
-      />
+      {b && (
+        <HeroVideo
+          videoSrcDesktop={b.videoSrcDesktop}
+          posterImage={b.posterImage}
+          voiceoverSrc={b.voiceoverSrc}
+          microLabel={b.microLabel}
+          belowHeroHeadline={b.belowHeroHeadline}
+          belowHeroSubheadline={b.belowHeroSubheadline}
+          ctas={[b.primaryCta, ...(b.secondaryCta ? [b.secondaryCta] : [])]}
+          trustIndicators={b.trustIndicators}
+          transcript={b.transcript}
+          analyticsName={b.analyticsName}
+        />
+      )}
 
       {/* Stats */}
       <section className="bg-white border-b">

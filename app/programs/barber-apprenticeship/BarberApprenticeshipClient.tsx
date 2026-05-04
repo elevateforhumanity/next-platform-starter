@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import HeroVideo from '@/components/marketing/HeroVideo';
-import heroBanners from '@/content/heroBanners';
+import type { HeroBannerConfig } from '@/content/heroBanners';
 import {
   Award, Clock, ChevronRight, MapPin, BookOpen,
   Briefcase, TrendingUp, DollarSign, AlertTriangle,
@@ -13,9 +13,9 @@ import {
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { BarberEnrollment } from './sections/BarberEnrollment';
 
-interface Props { program: ProgramSchema; }
+interface Props { program: ProgramSchema; heroBanner: HeroBannerConfig | null; }
 
-export default function BarberApprenticeshipClient({ program: p }: Props) {
+export default function BarberApprenticeshipClient({ program: p, heroBanner: b }: Props) {
   const [waitlistName, setWaitlistName] = useState('');
   const [waitlistEmail, setWaitlistEmail] = useState('');
   const [waitlistPhone, setWaitlistPhone] = useState('');
@@ -25,18 +25,15 @@ export default function BarberApprenticeshipClient({ program: p }: Props) {
   return (
     <div className="min-h-screen bg-white">
       {/* ═══ HERO ═══ */}
-      {(() => {
-        const b = heroBanners['barber-apprenticeship'];
-        return (
-          <HeroVideo
-            videoSrcDesktop={b.videoSrcDesktop}
-            posterImage={b.posterImage}
-            voiceoverSrc={b.voiceoverSrc}
-            microLabel={b.microLabel}
-            analyticsName={b.analyticsName}
-          />
-        );
-      })()}
+      {b && (
+        <HeroVideo
+          videoSrcDesktop={b.videoSrcDesktop}
+          posterImage={b.posterImage}
+          voiceoverSrc={b.voiceoverSrc}
+          microLabel={b.microLabel}
+          analyticsName={b.analyticsName}
+        />
+      )}
 
       {/* ═══ PROGRAM IDENTITY CARD (below video) ═══ */}
       <section className="border-b border-slate-200 bg-white">
