@@ -30,7 +30,7 @@ interface Thread {
 export default function ThreadDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const slug = params.slug as string;
+  const slug = params.program as string;
   const threadId = params.threadId as string;
 
   const [program, setProgram] = useState<any>(null);

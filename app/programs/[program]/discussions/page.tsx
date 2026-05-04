@@ -23,7 +23,7 @@ interface Thread {
 export default function ProgramDiscussionsPage() {
   const params = useParams();
   const router = useRouter();
-  const slug = params.slug as string;
+  const slug = params.program as string;
 
   const [program, setProgram] = useState<any>(null);
   const [threads, setThreads] = useState<Thread[]>([]);

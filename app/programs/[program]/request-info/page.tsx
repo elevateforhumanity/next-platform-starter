@@ -13,7 +13,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const program = await getProgramBySlug(params.slug);
+  const program = await getProgramBySlug(params.program);
   if (!program) return { title: 'Request Information | Elevate for Humanity' };
   return {
     title: `Request Information — ${program.title} | Elevate for Humanity`,
@@ -22,10 +22,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function RequestInfoPage({ params }: Props) {
-  const program = await getProgramBySlug(params.slug);
+  const program = await getProgramBySlug(params.program);
   if (!program) notFound();
 
-  const programPageHref = `/programs/${params.slug}`;
+  const programPageHref = `/programs/${params.program}`;
 
   return (
     <div className="min-h-screen bg-white">
@@ -66,7 +66,7 @@ export default async function RequestInfoPage({ params }: Props) {
           {/* Form */}
           <div className="lg:col-span-2">
             <RequestInfoForm
-              slug={params.slug}
+              slug={params.program}
               programTitle={program.title}
               applyHref={program.cta.applyHref}
             />
