@@ -12,7 +12,7 @@ function getSafeRedirectPath(req: NextRequest) {
 }
 
 function getLoginUrl(req: NextRequest) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.elevateforhumanity.org';
   const loginUrl = new URL('/login', siteUrl || req.nextUrl.origin);
   loginUrl.searchParams.set('redirect', getSafeRedirectPath(req));
   return loginUrl;
