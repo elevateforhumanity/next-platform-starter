@@ -33,7 +33,7 @@ export async function requireAuth(): Promise<AuthResult> {
 }
 
 export async function requireAdmin(): Promise<AuthResult> {
-  return requireRole(['admin', 'super_admin', 'staff']);
+  return requireRole(['admin', 'super_admin', 'staff', 'org_admin']);
 }
 
 export async function requireInstructorOrAdmin(): Promise<AuthResult> {
