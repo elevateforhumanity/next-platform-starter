@@ -1,14 +1,34 @@
 /**
  * Validate a redirect URL parameter to prevent open-redirect attacks.
- * Only allows same-origin paths: must start with / and not contain
- * protocol schemes or double slashes.
+ * Allows:
+ *   - Same-origin paths (start with /)
+ *   - Trusted cross-origin URLs on elevateforhumanity.org subdomains
  *
- * Returns the validated path or the fallback if invalid.
+ * Returns the validated URL/path or the fallback if invalid.
  */
+
+const TRUSTED_HOSTS = [
+  'www.elevateforhumanity.org',
+  'elevateforhumanity.org',
+  'app.elevateforhumanity.org',
+  'admin.elevateforhumanity.org',
+];
+
 export function validateRedirect(url: string | null | undefined, fallback: string = '/'): string {
   if (!url || typeof url !== 'string') return fallback;
 
   const trimmed = url.trim();
+
+  // Allow trusted cross-origin redirects (e.g. admin domain after LMS login)
+  if (trimmed.startsWith('https://')) {
+    try {
+      const parsed = new URL(trimmed);
+      if (TRUSTED_HOSTS.includes(parsed.host)) return trimmed;
+    } catch {
+      // invalid URL — fall through to path checks
+    }
+    return fallback;
+  }
 
   // Must start with exactly one /
   if (!trimmed.startsWith('/')) return fallback;

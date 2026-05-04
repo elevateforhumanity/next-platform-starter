@@ -482,8 +482,10 @@ export async function proxy(request: NextRequest) {
 
     // If Supabase is not configured, block rather than allow through
     if (!supabaseUrl || !supabaseKey) {
-      const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('redirect', pathname);
+      const adminAppUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org';
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+      const loginUrl = new URL('/login', siteUrl);
+      loginUrl.searchParams.set('redirect', `${adminAppUrl}${pathname}${request.nextUrl.search || ''}`);
       return NextResponse.redirect(loginUrl, { status: 307 });
     }
 
@@ -507,8 +509,12 @@ export async function proxy(request: NextRequest) {
     } = await adminSupabase.auth.getUser();
 
     if (!user) {
-      const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('redirect', pathname);
+      // Redirect to LMS login (www) so the user can authenticate.
+      // After login, redirect back to the admin domain with the original path.
+      const adminAppUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org';
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+      const loginUrl = new URL('/login', siteUrl);
+      loginUrl.searchParams.set('redirect', `${adminAppUrl}${pathname}${request.nextUrl.search || ''}`);
       return NextResponse.redirect(loginUrl, { status: 307 });
     }
 

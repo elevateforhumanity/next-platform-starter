@@ -55,7 +55,12 @@ function LoginForm() {
       }
 
       if (next) {
-        router.push(next);
+        // Cross-domain redirects (e.g. admin app) require a full navigation
+        if (next.startsWith('https://')) {
+          window.location.href = next;
+        } else {
+          router.push(next);
+        }
         return;
       }
 
