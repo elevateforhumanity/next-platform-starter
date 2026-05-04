@@ -575,6 +575,34 @@ export default function AdminNav({ userName = 'Admin', notifs = [] }: AdminNavPr
             />
           </form>
 
+          {/* Quick-access shortcuts */}
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            {[
+              { label: 'Dashboard', href: '/admin/dashboard' },
+              { label: 'Students', href: '/admin/students' },
+              { label: 'Enrollments', href: '/admin/enrollments' },
+              { label: 'Applications', href: '/admin/applications' },
+              { label: 'Compliance', href: '/admin/compliance' },
+              { label: 'Reports', href: '/admin/reports' },
+              { label: 'Programs', href: '/admin/programs' },
+              { label: 'CRM', href: '/admin/crm/leads' },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className={`flex items-center justify-center px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors text-center ${
+                  isActive(pathname, item.href)
+                    ? 'bg-brand-red-50 text-brand-red-700'
+                    : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-400 px-1 mb-2">All Sections</p>
+
           {NAV.map((section) => {
             const active = isSectionActive(pathname, section);
             const expanded = mobileExpanded === section.label;
@@ -598,6 +626,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [] }: AdminNavPr
                       <Link
                         key={item.href}
                         href={item.href}
+                        onClick={() => setMobileOpen(false)}
                         className={`block px-3 py-2 rounded-xl text-sm transition-colors ${isActive(pathname, item.href) ? 'bg-brand-red-50 text-brand-red-700 font-semibold' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`}
                       >
                         {item.label}
