@@ -32,7 +32,7 @@ phases:
       - export BUILD_SCOPE=1
       - cd apps/admin && pnpm next build && cd ../..
       - echo Packaging Docker image...
-      - docker build -f Dockerfile.admin -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
+      - docker build --platform linux/amd64 -f Dockerfile.admin -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 
   post_build:
     commands:
