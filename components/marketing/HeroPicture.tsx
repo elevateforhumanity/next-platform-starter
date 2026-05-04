@@ -75,7 +75,7 @@ export default function HeroPicture({
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const transcriptId = useId();
 
-  const frameStyle = heightStyle ? undefined : { height: 'clamp(260px, 40vw, 480px)' };
+  const frameStyle = heightStyle ? undefined : { height: 'clamp(400px, 56vw, 780px)' };
 
   return (
     <div className={`w-full ${className}`}>

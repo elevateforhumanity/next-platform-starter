@@ -2646,5 +2646,1433 @@
     ],
     "analyticsName": "beauty-programs",
     "transcript": "Elevate for Humanity offers DOL-registered beauty apprenticeships in cosmetology, esthetics, and nail technology. Earn while you learn."
+  },
+  "administrative-assistant": {
+    "pageKey": "administrative-assistant",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/office-admin-desk.jpg",
+    "headline": "Administrative Assistant",
+    "subheadline": "Launch your office career with in-demand skills.",
+    "microLabel": "Administrative Assistant",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=administrative-assistant"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/administrative-assistant"
+    }
+  },
+  "ai-advanced-project-management-1774494313718": {
+    "pageKey": "ai-advanced-project-management-1774494313718",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3195441-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3195441-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/project-management.jpg",
+    "headline": "AI Project Management",
+    "subheadline": "Lead projects with AI-powered tools and methods.",
+    "microLabel": "AI Project Management",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=ai-advanced-project-management-1774494313718"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/ai-advanced-project-management-1774494313718"
+    }
+  },
+  "ai-forklift-safety-certification-1774495387718": {
+    "pageKey": "ai-forklift-safety-certification-1774495387718",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
+    "posterImage": "/images/pages/forklift.jpg",
+    "headline": "AI Forklift Safety",
+    "subheadline": "Earn your forklift safety certification online.",
+    "microLabel": "AI Forklift Safety",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=ai-forklift-safety-certification-1774495387718"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/ai-forklift-safety-certification-1774495387718"
+    }
+  },
+  "ai-osha-10-general-industry-1774495387718": {
+    "pageKey": "ai-osha-10-general-industry-1774495387718",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "posterImage": "/images/pages/sanitation.jpg",
+    "headline": "OSHA 10 General Industry",
+    "subheadline": "Complete OSHA 10 training and earn your card.",
+    "microLabel": "OSHA 10 General Industry",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=ai-osha-10-general-industry-1774495387718"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/ai-osha-10-general-industry-1774495387718"
+    }
+  },
+  "ai-osha-30-general-industry-1774495387718": {
+    "pageKey": "ai-osha-30-general-industry-1774495387718",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "posterImage": "/images/pages/sanitation.jpg",
+    "headline": "OSHA 30 General Industry",
+    "subheadline": "Advanced OSHA 30 certification for safety leaders.",
+    "microLabel": "OSHA 30 General Industry",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=ai-osha-30-general-industry-1774495387718"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/ai-osha-30-general-industry-1774495387718"
+    }
+  },
+  "automotive-technician": {
+    "pageKey": "automotive-technician",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7006123-hd_1366_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7006123-hd_1366_720_25fps.mp4",
+    "posterImage": "/images/pages/diesel-mechanic.jpg",
+    "headline": "Automotive Technician",
+    "subheadline": "Build hands-on skills in automotive repair.",
+    "microLabel": "Automotive Technician",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=automotive-technician"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/automotive-technician"
+    }
+  },
+  "barber": {
+    "pageKey": "barber",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6964488-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6964488-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/barber-beauty-cat-new.jpg",
+    "headline": "Barber Training",
+    "subheadline": "Start your barbering career with professional training.",
+    "microLabel": "Barber Training",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=barber"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/barber"
+    }
+  },
+  "bookkeeping-fundamentals": {
+    "pageKey": "bookkeeping-fundamentals",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8298000-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8298000-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/bookkeeping.jpg",
+    "headline": "Bookkeeping Fundamentals",
+    "subheadline": "Learn the core skills of professional bookkeeping.",
+    "microLabel": "Bookkeeping Fundamentals",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=bookkeeping-fundamentals"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/bookkeeping-fundamentals"
+    }
+  },
+  "building-maintenance-wrg": {
+    "pageKey": "building-maintenance-wrg",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
+    "posterImage": "/images/pages/construction-trades.jpg",
+    "headline": "Building Maintenance",
+    "subheadline": "Hands-on training for building maintenance careers.",
+    "microLabel": "Building Maintenance",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=building-maintenance-wrg"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/building-maintenance-wrg"
+    }
+  },
+  "building-services-technician-apprenticeship": {
+    "pageKey": "building-services-technician-apprenticeship",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
+    "posterImage": "/images/pages/construction-trades.jpg",
+    "headline": "Building Services Tech",
+    "subheadline": "Apprenticeship pathway for building services careers.",
+    "microLabel": "Building Services Tech",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=building-services-technician-apprenticeship"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/building-services-technician-apprenticeship"
+    }
+  },
+  "business-startup": {
+    "pageKey": "business-startup",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
+    "posterImage": "/images/pages/entrepreneurship.jpg",
+    "headline": "Business Startup",
+    "subheadline": "Turn your idea into a thriving business.",
+    "microLabel": "Business Startup",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=business-startup"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/business-startup"
+    }
+  },
+  "certified-recovery-specialist": {
+    "pageKey": "certified-recovery-specialist",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/career-counseling.jpg",
+    "headline": "Certified Recovery Specialist",
+    "subheadline": "Support others on their path to recovery.",
+    "microLabel": "Certified Recovery Specialist",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=certified-recovery-specialist"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/certified-recovery-specialist"
+    }
+  },
+  "cna-cert": {
+    "pageKey": "cna-cert",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
+    "posterImage": "/images/pages/healthcare-cat-new.jpg",
+    "headline": "CNA Certification",
+    "subheadline": "Earn your Certified Nursing Assistant credential.",
+    "microLabel": "CNA Certification",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=cna-cert"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/cna-cert"
+    }
+  },
+  "cna-training": {
+    "pageKey": "cna-training",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
+    "posterImage": "/images/pages/healthcare-cat-new.jpg",
+    "headline": "CNA Training",
+    "subheadline": "Hands-on clinical training for aspiring CNAs.",
+    "microLabel": "CNA Training",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=cna-training"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/cna-training"
+    }
+  },
+  "community-health-worker": {
+    "pageKey": "community-health-worker",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/dsp-hero.jpg",
+    "headline": "Community Health Worker",
+    "subheadline": "Connect communities to the care they need.",
+    "microLabel": "Community Health Worker",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=community-health-worker"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/community-health-worker"
+    }
+  },
+  "construction-management": {
+    "pageKey": "construction-management",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
+    "posterImage": "/images/pages/construction-trades.jpg",
+    "headline": "Construction Management",
+    "subheadline": "Lead construction projects from start to finish.",
+    "microLabel": "Construction Management",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=construction-management"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/construction-management"
+    }
+  },
+  "cosmetology": {
+    "pageKey": "cosmetology",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/4264878-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/4264878-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/cosmetology.jpg",
+    "headline": "Cosmetology",
+    "subheadline": "Build a career in beauty with professional training.",
+    "microLabel": "Cosmetology",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=cosmetology"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/cosmetology"
+    }
+  },
+  "customer-service": {
+    "pageKey": "customer-service",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/office-admin-desk.jpg",
+    "headline": "Customer Service",
+    "subheadline": "Build the skills employers look for in customer service.",
+    "microLabel": "Customer Service",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=customer-service"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/customer-service"
+    }
+  },
+  "data-analytics": {
+    "pageKey": "data-analytics",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/11274341-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/11274341-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/software-development.jpg",
+    "headline": "Data Analytics",
+    "subheadline": "Turn data into decisions with analytics training.",
+    "microLabel": "Data Analytics",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=data-analytics"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/data-analytics"
+    }
+  },
+  "dental-assistant": {
+    "pageKey": "dental-assistant",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/medical-assistant-lab.jpg",
+    "headline": "Dental Assistant",
+    "subheadline": "Launch your dental career with clinical training.",
+    "microLabel": "Dental Assistant",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=dental-assistant"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/dental-assistant"
+    }
+  },
+  "emt-basic": {
+    "pageKey": "emt-basic",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
+    "posterImage": "/images/pages/cpr-mannequin.jpg",
+    "headline": "EMT Basic",
+    "subheadline": "Become an Emergency Medical Technician.",
+    "microLabel": "EMT Basic",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=emt-basic"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/emt-basic"
+    }
+  },
+  "forklift-operator": {
+    "pageKey": "forklift-operator",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
+    "posterImage": "/images/pages/forklift.jpg",
+    "headline": "Forklift Operator",
+    "subheadline": "Get certified and start your warehouse career.",
+    "microLabel": "Forklift Operator",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=forklift-operator"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/forklift-operator"
+    }
+  },
+  "guest-services": {
+    "pageKey": "guest-services",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/culinary.jpg",
+    "headline": "Guest Services",
+    "subheadline": "Deliver exceptional service in hospitality.",
+    "microLabel": "Guest Services",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=guest-services"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/guest-services"
+    }
+  },
+  "health-information-technology": {
+    "pageKey": "health-information-technology",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "posterImage": "/images/pages/it-help-desk.jpg",
+    "headline": "Health Information Technology",
+    "subheadline": "Manage health data with IT expertise.",
+    "microLabel": "Health Information Technology",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=health-information-technology"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/health-information-technology"
+    }
+  },
+  "hospitality-management": {
+    "pageKey": "hospitality-management",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/culinary.jpg",
+    "headline": "Hospitality Management",
+    "subheadline": "Lead teams and operations in hospitality.",
+    "microLabel": "Hospitality Management",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=hospitality-management"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/hospitality-management"
+    }
+  },
+  "insurance-billing-coding": {
+    "pageKey": "insurance-billing-coding",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/medical-assistant-lab.jpg",
+    "headline": "Insurance Billing & Coding",
+    "subheadline": "Master medical billing and coding for healthcare careers.",
+    "microLabel": "Insurance Billing & Coding",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=insurance-billing-coding"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/insurance-billing-coding"
+    }
+  },
+  "jri-badge-1-mindsets": {
+    "pageKey": "jri-badge-1-mindsets",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "JRI: Mindsets",
+    "subheadline": "Build the mindset for career and life success.",
+    "microLabel": "JRI: Mindsets",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-1-mindsets"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-1-mindsets"
+    }
+  },
+  "jri-badge-2-digital-literacy": {
+    "pageKey": "jri-badge-2-digital-literacy",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "posterImage": "/images/pages/it-help-desk.jpg",
+    "headline": "JRI: Digital Literacy",
+    "subheadline": "Master essential digital skills for today's workplace.",
+    "microLabel": "JRI: Digital Literacy",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-2-digital-literacy"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-2-digital-literacy"
+    }
+  },
+  "jri-badge-3-financial-literacy": {
+    "pageKey": "jri-badge-3-financial-literacy",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8298000-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8298000-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/bookkeeping.jpg",
+    "headline": "JRI: Financial Literacy",
+    "subheadline": "Take control of your financial future.",
+    "microLabel": "JRI: Financial Literacy",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-3-financial-literacy"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-3-financial-literacy"
+    }
+  },
+  "jri-badge-4-career-readiness": {
+    "pageKey": "jri-badge-4-career-readiness",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "JRI: Career Readiness",
+    "subheadline": "Prepare for your next career opportunity.",
+    "microLabel": "JRI: Career Readiness",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-4-career-readiness"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-4-career-readiness"
+    }
+  },
+  "jri-badge-5-entrepreneurship": {
+    "pageKey": "jri-badge-5-entrepreneurship",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
+    "posterImage": "/images/pages/entrepreneurship.jpg",
+    "headline": "JRI: Entrepreneurship",
+    "subheadline": "Discover your entrepreneurial potential.",
+    "microLabel": "JRI: Entrepreneurship",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-5-entrepreneurship"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-5-entrepreneurship"
+    }
+  },
+  "jri-badge-6-trades-exploration": {
+    "pageKey": "jri-badge-6-trades-exploration",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "posterImage": "/images/pages/skilled-trades-cat-new.jpg",
+    "headline": "JRI: Trades Exploration",
+    "subheadline": "Explore skilled trades career pathways.",
+    "microLabel": "JRI: Trades Exploration",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-6-trades-exploration"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-6-trades-exploration"
+    }
+  },
+  "life-skills": {
+    "pageKey": "life-skills",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "Life Skills",
+    "subheadline": "Build essential skills for work and life.",
+    "microLabel": "Life Skills",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=life-skills"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/life-skills"
+    }
+  },
+  "manufacturing-technician": {
+    "pageKey": "manufacturing-technician",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
+    "posterImage": "/images/pages/construction-trades.jpg",
+    "headline": "Manufacturing Technician",
+    "subheadline": "Build a career in modern manufacturing.",
+    "microLabel": "Manufacturing Technician",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=manufacturing-technician"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/manufacturing-technician"
+    }
+  },
+  "nail-technician": {
+    "pageKey": "nail-technician",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/4264878-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/4264878-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/cosmetology.jpg",
+    "headline": "Nail Technician",
+    "subheadline": "Launch your nail tech career with professional training.",
+    "microLabel": "Nail Technician",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nail-technician"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nail-technician"
+    }
+  },
+  "nha-medical-assistant": {
+    "pageKey": "nha-medical-assistant",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/medical-assistant-lab.jpg",
+    "headline": "NHA Medical Assistant",
+    "subheadline": "Earn your NHA-certified Medical Assistant credential.",
+    "microLabel": "NHA Medical Assistant",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nha-medical-assistant"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nha-medical-assistant"
+    }
+  },
+  "nha-phlebotomy": {
+    "pageKey": "nha-phlebotomy",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6290542-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6290542-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/phlebotomy-real.jpg",
+    "headline": "NHA Phlebotomy",
+    "subheadline": "Earn your NHA phlebotomy certification.",
+    "microLabel": "NHA Phlebotomy",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nha-phlebotomy"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nha-phlebotomy"
+    }
+  },
+  "personal-care-aide": {
+    "pageKey": "personal-care-aide",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7517699-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7517699-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/healthcare-classroom.jpg",
+    "headline": "Personal Care Aide",
+    "subheadline": "Provide essential care and support to clients.",
+    "microLabel": "Personal Care Aide",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=personal-care-aide"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/personal-care-aide"
+    }
+  },
+  "real-estate": {
+    "pageKey": "real-estate",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
+    "posterImage": "/images/pages/business-sector.jpg",
+    "headline": "Real Estate",
+    "subheadline": "Start your real estate career with licensed training.",
+    "microLabel": "Real Estate",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=real-estate"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/real-estate"
+    }
+  },
+  "reentry-employment": {
+    "pageKey": "reentry-employment",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "Reentry Employment",
+    "subheadline": "Rebuild your career with employer-connected training.",
+    "microLabel": "Reentry Employment",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=reentry-employment"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/reentry-employment"
+    }
+  },
+  "servsafe-food-handler": {
+    "pageKey": "servsafe-food-handler",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "posterImage": "/images/pages/sanitation.jpg",
+    "headline": "ServSafe Food Handler",
+    "subheadline": "Get certified in food safety and handling.",
+    "microLabel": "ServSafe Food Handler",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=servsafe-food-handler"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/servsafe-food-handler"
+    }
+  },
+  "servsafe-manager": {
+    "pageKey": "servsafe-manager",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "posterImage": "/images/pages/sanitation.jpg",
+    "headline": "ServSafe Manager",
+    "subheadline": "Earn your ServSafe Manager certification.",
+    "microLabel": "ServSafe Manager",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=servsafe-manager"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/servsafe-manager"
+    }
+  },
+  "solar-installation": {
+    "pageKey": "solar-installation",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6615508-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6615508-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/electrical-wiring.jpg",
+    "headline": "Solar Installation",
+    "subheadline": "Build a career in the growing solar energy industry.",
+    "microLabel": "Solar Installation",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=solar-installation"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/solar-installation"
+    }
+  },
+  "startup-business": {
+    "pageKey": "startup-business",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
+    "posterImage": "/images/pages/entrepreneurship.jpg",
+    "headline": "Startup Business",
+    "subheadline": "Launch your business with expert guidance.",
+    "microLabel": "Startup Business",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=startup-business"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/startup-business"
+    }
+  },
+  "tax-prep": {
+    "pageKey": "tax-prep",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/tax-career-paths.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/tax-career-paths.mp4",
+    "posterImage": "/images/pages/admin-tax-training-hero.jpg",
+    "headline": "Tax Preparation",
+    "subheadline": "Become a certified tax preparer.",
+    "microLabel": "Tax Preparation",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=tax-prep"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/tax-prep"
+    }
+  },
+  "youth-workforce": {
+    "pageKey": "youth-workforce",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "Youth Workforce",
+    "subheadline": "Launch your career with youth workforce training.",
+    "microLabel": "Youth Workforce",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=youth-workforce"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/youth-workforce"
+    }
+  },
+  "ai-forklift-safety-certification-1774495387731": {
+    "pageKey": "ai-forklift-safety-certification-1774495387731",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
+    "posterImage": "/images/pages/forklift.jpg",
+    "headline": "AI Forklift Safety Certification",
+    "subheadline": "Earn your forklift safety certification online.",
+    "microLabel": "AI Forklift Safety Certification",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=ai-forklift-safety-certification-1774495387731"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/ai-forklift-safety-certification-1774495387731"
+    }
+  },
+  "chw-cert": {
+    "pageKey": "chw-cert",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/dsp-hero.jpg",
+    "headline": "Community Health Worker Certification",
+    "subheadline": "Earn your CHW credential and serve your community.",
+    "microLabel": "Community Health Worker Certification",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=chw-cert"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/chw-cert"
+    }
+  },
+  "cpr-cert": {
+    "pageKey": "cpr-cert",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
+    "posterImage": "/images/pages/cpr-mannequin.jpg",
+    "headline": "CPR Certification",
+    "subheadline": "Get certified in CPR and emergency response.",
+    "microLabel": "CPR Certification",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=cpr-cert"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/cpr-cert"
+    }
+  },
+  "customer-service-representative": {
+    "pageKey": "customer-service-representative",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/office-admin-desk.jpg",
+    "headline": "Customer Service Representative",
+    "subheadline": "Build the skills employers look for in customer service.",
+    "microLabel": "Customer Service Representative",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=customer-service-representative"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/customer-service-representative"
+    }
+  },
+  "drug-alcohol-specimen-collector": {
+    "pageKey": "drug-alcohol-specimen-collector",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "posterImage": "/images/pages/sanitation.jpg",
+    "headline": "Drug & Alcohol Specimen Collector",
+    "subheadline": "Become a certified specimen collector.",
+    "microLabel": "Drug & Alcohol Specimen Collector",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=drug-alcohol-specimen-collector"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/drug-alcohol-specimen-collector"
+    }
+  },
+  "dsp-training": {
+    "pageKey": "dsp-training",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/dsp-hero.jpg",
+    "headline": "Direct Support Professional Training",
+    "subheadline": "Support individuals with disabilities in your community.",
+    "microLabel": "Direct Support Professional Training",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=dsp-training"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/dsp-training"
+    }
+  },
+  "emt-apprenticeship": {
+    "pageKey": "emt-apprenticeship",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
+    "posterImage": "/images/pages/cpr-mannequin.jpg",
+    "headline": "EMT Apprenticeship",
+    "subheadline": "Earn while you learn as an Emergency Medical Technician.",
+    "microLabel": "EMT Apprenticeship",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=emt-apprenticeship"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/emt-apprenticeship"
+    }
+  },
+  "entrepreneurship-small-business": {
+    "pageKey": "entrepreneurship-small-business",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
+    "posterImage": "/images/pages/entrepreneurship.jpg",
+    "headline": "Entrepreneurship & Small Business",
+    "subheadline": "Launch and grow your small business.",
+    "microLabel": "Entrepreneurship & Small Business",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=entrepreneurship-small-business"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/entrepreneurship-small-business"
+    }
+  },
+  "guest-service-gold": {
+    "pageKey": "guest-service-gold",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/culinary.jpg",
+    "headline": "Guest Service Gold",
+    "subheadline": "Earn the gold standard in hospitality service.",
+    "microLabel": "Guest Service Gold",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=guest-service-gold"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/guest-service-gold"
+    }
+  },
+  "health-safety": {
+    "pageKey": "health-safety",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
+    "posterImage": "/images/pages/sanitation.jpg",
+    "headline": "Health & Safety",
+    "subheadline": "Master workplace health and safety fundamentals.",
+    "microLabel": "Health & Safety",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=health-safety"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/health-safety"
+    }
+  },
+  "hvac-2024": {
+    "pageKey": "hvac-2024",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "posterImage": "/images/pages/skilled-trades-cat-new.jpg",
+    "headline": "HVAC Technician 2024",
+    "subheadline": "Get certified in HVAC installation and repair.",
+    "microLabel": "HVAC Technician 2024",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=hvac-2024"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/hvac-2024"
+    }
+  },
+  "insurance-agent": {
+    "pageKey": "insurance-agent",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
+    "posterImage": "/images/pages/business-sector.jpg",
+    "headline": "Insurance Agent",
+    "subheadline": "Launch your career as a licensed insurance agent.",
+    "microLabel": "Insurance Agent",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=insurance-agent"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/insurance-agent"
+    }
+  },
+  "it-support": {
+    "pageKey": "it-support",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "posterImage": "/images/pages/it-help-desk.jpg",
+    "headline": "IT Support",
+    "subheadline": "Build the skills for a career in IT support.",
+    "microLabel": "IT Support",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=it-support"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/it-support"
+    }
+  },
+  "it-support-specialist": {
+    "pageKey": "it-support-specialist",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "posterImage": "/images/pages/it-help-desk.jpg",
+    "headline": "IT Support Specialist",
+    "subheadline": "Earn your IT support specialist certification.",
+    "microLabel": "IT Support Specialist",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=it-support-specialist"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/it-support-specialist"
+    }
+  },
+  "jri-badge-2-self-management": {
+    "pageKey": "jri-badge-2-self-management",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "JRI: Self-Management",
+    "subheadline": "Develop the self-management skills for career success.",
+    "microLabel": "JRI: Self-Management",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-2-self-management"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-2-self-management"
+    }
+  },
+  "jri-badge-3-learning-strategies": {
+    "pageKey": "jri-badge-3-learning-strategies",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "JRI: Learning Strategies",
+    "subheadline": "Master strategies for lifelong learning.",
+    "microLabel": "JRI: Learning Strategies",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-3-learning-strategies"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-3-learning-strategies"
+    }
+  },
+  "jri-badge-4-social-skills": {
+    "pageKey": "jri-badge-4-social-skills",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "JRI: Social Skills",
+    "subheadline": "Build the social skills that employers value.",
+    "microLabel": "JRI: Social Skills",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-4-social-skills"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-4-social-skills"
+    }
+  },
+  "jri-badge-5-workplace-skills": {
+    "pageKey": "jri-badge-5-workplace-skills",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "JRI: Workplace Skills",
+    "subheadline": "Develop essential skills for the modern workplace.",
+    "microLabel": "JRI: Workplace Skills",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-5-workplace-skills"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-5-workplace-skills"
+    }
+  },
+  "jri-badge-6-launch-a-career": {
+    "pageKey": "jri-badge-6-launch-a-career",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "JRI: Launch a Career",
+    "subheadline": "Take the final step toward your new career.",
+    "microLabel": "JRI: Launch a Career",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-badge-6-launch-a-career"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-badge-6-launch-a-career"
+    }
+  },
+  "jri-introduction": {
+    "pageKey": "jri-introduction",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "JRI Introduction",
+    "subheadline": "Begin your journey with the JRI program.",
+    "microLabel": "JRI Introduction",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=jri-introduction"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/jri-introduction"
+    }
+  },
+  "life-coach-certification-wioa": {
+    "pageKey": "life-coach-certification-wioa",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/career-counseling.jpg",
+    "headline": "Life Coach Certification (WIOA)",
+    "subheadline": "Become a certified life coach and help others thrive.",
+    "microLabel": "Life Coach Certification (WIOA)",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=life-coach-certification-wioa"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/life-coach-certification-wioa"
+    }
+  },
+  "nha-billing-coding": {
+    "pageKey": "nha-billing-coding",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/medical-assistant-lab.jpg",
+    "headline": "NHA Billing & Coding",
+    "subheadline": "Earn your NHA medical billing and coding credential.",
+    "microLabel": "NHA Billing & Coding",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nha-billing-coding"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nha-billing-coding"
+    }
+  },
+  "nha-ehr": {
+    "pageKey": "nha-ehr",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
+    "posterImage": "/images/pages/it-help-desk.jpg",
+    "headline": "NHA Electronic Health Records",
+    "subheadline": "Master EHR systems with NHA certification.",
+    "microLabel": "NHA Electronic Health Records",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nha-ehr"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nha-ehr"
+    }
+  },
+  "nha-ekg-technician": {
+    "pageKey": "nha-ekg-technician",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/medical-assistant-lab.jpg",
+    "headline": "NHA EKG Technician",
+    "subheadline": "Earn your NHA EKG technician certification.",
+    "microLabel": "NHA EKG Technician",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nha-ekg-technician"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nha-ekg-technician"
+    }
+  },
+  "nha-medical-admin-assistant": {
+    "pageKey": "nha-medical-admin-assistant",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/medical-assistant-lab.jpg",
+    "headline": "NHA Medical Admin Assistant",
+    "subheadline": "Earn your NHA medical administrative assistant credential.",
+    "microLabel": "NHA Medical Admin Assistant",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nha-medical-admin-assistant"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nha-medical-admin-assistant"
+    }
+  },
+  "nha-patient-care-technician": {
+    "pageKey": "nha-patient-care-technician",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
+    "posterImage": "/images/pages/healthcare-cat-new.jpg",
+    "headline": "NHA Patient Care Technician",
+    "subheadline": "Earn your NHA patient care technician certification.",
+    "microLabel": "NHA Patient Care Technician",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nha-patient-care-technician"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nha-patient-care-technician"
+    }
+  },
+  "nha-pharmacy-technician": {
+    "pageKey": "nha-pharmacy-technician",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8657331-hd_1366_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8657331-hd_1366_720_25fps.mp4",
+    "posterImage": "/images/pages/pharmacy-tech.jpg",
+    "headline": "NHA Pharmacy Technician",
+    "subheadline": "Earn your NHA pharmacy technician certification.",
+    "microLabel": "NHA Pharmacy Technician",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nha-pharmacy-technician"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nha-pharmacy-technician"
+    }
+  },
+  "nrf-riseup": {
+    "pageKey": "nrf-riseup",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/office-admin-desk.jpg",
+    "headline": "NRF RISE Up",
+    "subheadline": "Earn your NRF retail industry credential.",
+    "microLabel": "NRF RISE Up",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=nrf-riseup"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/nrf-riseup"
+    }
+  },
+  "peer-recovery-specialist-jri": {
+    "pageKey": "peer-recovery-specialist-jri",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/career-counseling.jpg",
+    "headline": "Peer Recovery Specialist (JRI)",
+    "subheadline": "Support others on their recovery journey.",
+    "microLabel": "Peer Recovery Specialist (JRI)",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=peer-recovery-specialist-jri"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/peer-recovery-specialist-jri"
+    }
+  },
+  "peer-support": {
+    "pageKey": "peer-support",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/career-counseling.jpg",
+    "headline": "Peer Support Specialist",
+    "subheadline": "Become a certified peer support specialist.",
+    "microLabel": "Peer Support Specialist",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=peer-support"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/peer-support"
+    }
+  },
+  "phlebotomy-technician": {
+    "pageKey": "phlebotomy-technician",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6290542-hd_1280_720_30fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6290542-hd_1280_720_30fps.mp4",
+    "posterImage": "/images/pages/phlebotomy-real.jpg",
+    "headline": "Phlebotomy Technician",
+    "subheadline": "Earn your phlebotomy technician certification.",
+    "microLabel": "Phlebotomy Technician",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=phlebotomy-technician"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/phlebotomy-technician"
+    }
+  },
+  "real-estate-agent": {
+    "pageKey": "real-estate-agent",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
+    "posterImage": "/images/pages/business-sector.jpg",
+    "headline": "Real Estate Agent",
+    "subheadline": "Get licensed and launch your real estate career.",
+    "microLabel": "Real Estate Agent",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=real-estate-agent"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/real-estate-agent"
+    }
+  },
+  "recovery-coach": {
+    "pageKey": "recovery-coach",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/career-counseling.jpg",
+    "headline": "Recovery Coach",
+    "subheadline": "Become a certified recovery coach.",
+    "microLabel": "Recovery Coach",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=recovery-coach"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/recovery-coach"
+    }
+  },
+  "reentry-specialist": {
+    "pageKey": "reentry-specialist",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
+    "headline": "Reentry Specialist",
+    "subheadline": "Help others rebuild their lives after incarceration.",
+    "microLabel": "Reentry Specialist",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=reentry-specialist"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/reentry-specialist"
+    }
+  },
+  "servsuccess": {
+    "pageKey": "servsuccess",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/culinary.jpg",
+    "headline": "ServSuccess",
+    "subheadline": "Earn your ServSuccess hospitality certification.",
+    "microLabel": "ServSuccess",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=servsuccess"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/servsuccess"
+    }
+  },
+  "solar-panel-installation": {
+    "pageKey": "solar-panel-installation",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6615508-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6615508-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/electrical-wiring.jpg",
+    "headline": "Solar Panel Installation",
+    "subheadline": "Build a career in the growing solar energy industry.",
+    "microLabel": "Solar Panel Installation",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=solar-panel-installation"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/solar-panel-installation"
+    }
+  },
+  "start-hospitality": {
+    "pageKey": "start-hospitality",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
+    "posterImage": "/images/pages/culinary.jpg",
+    "headline": "START Hospitality",
+    "subheadline": "Launch your hospitality career with START certification.",
+    "microLabel": "START Hospitality",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=start-hospitality"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/start-hospitality"
+    }
+  },
+  "youth-culinary-apprenticeship": {
+    "pageKey": "youth-culinary-apprenticeship",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8626681-hd_1280_720_25fps.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8626681-hd_1280_720_25fps.mp4",
+    "posterImage": "/images/pages/culinary.jpg",
+    "headline": "Youth Culinary Apprenticeship",
+    "subheadline": "Earn while you learn in a professional kitchen.",
+    "microLabel": "Youth Culinary Apprenticeship",
+    "ctaPrimary": {
+      "label": "Enroll Now",
+      "href": "/apply?program=youth-culinary-apprenticeship"
+    },
+    "ctaSecondary": {
+      "label": "Learn More",
+      "href": "/programs/youth-culinary-apprenticeship"
+    }
   }
 }
