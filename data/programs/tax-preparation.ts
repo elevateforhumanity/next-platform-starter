@@ -211,7 +211,7 @@ export const TAX_PREPARATION: ProgramSchema = {
     { title: 'Tax Business Owner', salary: '$60,000–$120,000+' },
   ],
   cta: {
-    applyHref: '/programs/tax-preparation/apply',
+    applyHref: '/apply?program=tax-preparation',
     requestInfoHref: '/programs/tax-preparation/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=tax+preparer&location=Indiana',

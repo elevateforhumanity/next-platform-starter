@@ -541,7 +541,7 @@ export interface PrimaryCTA {
  * Derive the single primary CTA for a program page from its enrollmentType.
  *
  * Rules:
- *   internal  → Apply Now → /programs/[slug]/apply or cta.applyHref
+ *   internal  → Apply Now → /apply?program=[slug] or cta.applyHref
  *   external  → Continue to Enrollment → externalEnrollmentUrl (opens new tab)
  *   waitlist  → Join Waitlist → /programs/[slug]/request-info
  *   unset     → falls back to cta.applyHref as internal
@@ -566,7 +566,7 @@ export function getPrimaryCTA(p: ProgramSchema): PrimaryCTA | null {
   }
 
   // internal (default) — always resolve to program-specific apply page
-  const href = p.cta.applyHref || `/programs/${p.slug}/apply`;
+  const href = p.cta.applyHref || `/apply?program=${p.slug}`;
   return { label: 'Apply Now', href, external: false };
 }
 
@@ -587,7 +587,7 @@ export function getEnrollmentTracks(
   const hasWIOA = p.fundingOptions?.some((f) => f === 'wioa' || f === 'wrg') ?? false;
   const hasImpact = p.fundingOptions?.includes('impact') ?? false;
   const hasEmployer = p.fundingOptions?.includes('employer_paid') ?? false;
-  const applyHref = p.cta.applyHref || `/programs/${p.slug}/apply`;
+  const applyHref = p.cta.applyHref || `/apply?program=${p.slug}`;
 
   // Funded track label/description varies by what funding is actually available
   let fundedLabel = 'Workforce-Funded Training';

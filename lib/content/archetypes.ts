@@ -154,7 +154,7 @@ export function getProgramContent(programSlug: string): PageContent {
     actions: [
       {
         label: 'Apply Now',
-        href: `/programs/${programSlug}/apply`,
+        href: `/apply?program=${programSlug}`,
         variant: 'primary',
       },
       {

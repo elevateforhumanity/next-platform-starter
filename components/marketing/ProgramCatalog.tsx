@@ -10,7 +10,7 @@ const programs = [
       'Clinical skills, patient interaction, and hands-on training for clinics, hospitals, and specialty practices.',
     meta: '~5 months · Healthcare',
     href: '/programs/medical-assistant',
-    applyHref: '/programs/medical-assistant/apply',
+    applyHref: '/apply?program=medical-assistant',
     funding: 'WIOA / WRG Eligible',
     price: null,
   },

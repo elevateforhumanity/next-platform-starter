@@ -209,7 +209,7 @@ export const TECHNOLOGY: ProgramSchema = {
     { title: 'Cybersecurity Analyst', salary: '$70,000–$100,000' },
   ],
   cta: {
-    applyHref: '/programs/technology/apply',
+    applyHref: '/apply?program=technology',
     requestInfoHref: '/contact?program=technology',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=IT+support&location=Indiana',

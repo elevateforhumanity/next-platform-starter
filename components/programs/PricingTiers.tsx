@@ -154,7 +154,7 @@ export function PricingTiers({
             </ul>
 
             <Link
-              href={`/programs/${programSlug}/apply?tier=${tier.id}`}
+              href={`/apply?program=${programSlug}&tier=${tier.id}`}
               className={`block w-full text-center py-3 rounded-xl font-semibold transition ${
                 tier.popular
                   ? 'bg-brand-blue-600 hover:bg-brand-blue-700 text-white'

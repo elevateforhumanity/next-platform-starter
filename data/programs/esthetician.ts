@@ -218,7 +218,7 @@ export const ESTHETICIAN: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/programs/esthetician/apply',
+    applyHref: '/apply?program=esthetician',
     requestInfoHref: '/programs/esthetician/request-info',
     advisorHref: '/contact',
   },

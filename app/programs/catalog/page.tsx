@@ -206,7 +206,7 @@ type ProgramRow = {
 function ProgramCard({ prog }: { prog: ProgramRow }) {
   const slug = prog.slug ?? prog.program_id;
   const detailHref = `/programs/${slug}`;
-  const applyHref = `/programs/${slug}/apply`;
+  const applyHref = `/apply?program=${slug}`;
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 flex flex-col hover:shadow-md transition">

@@ -83,9 +83,15 @@ export default function ProgramDetailPage({
   const hasIndianaFunding = p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg' || f === 'impact');
   const hasWIOAFunding = p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg') ?? false;
   const hasImpactOnly = !hasWIOAFunding && (p.fundingOptions?.includes('impact') ?? false);
-  // Programs with a dedicated eligibility/funding page
-  const eligibilityPageSlugs = ['barber-apprenticeship', 'cosmetology-apprenticeship', 'esthetician-apprenticeship', 'nail-technician-apprenticeship'];
-  const hasEligibilityPage = eligibilityPageSlugs.includes(p.slug);
+  // Only beauty/apprenticeship programs have a working /eligibility page
+  // (served by [program]/eligibility which calls getBeautyProgram)
+  const eligibilityPageSlugs = new Set([
+    'barber-apprenticeship',
+    'cosmetology-apprenticeship',
+    'esthetician-apprenticeship',
+    'nail-technician-apprenticeship',
+  ]);
+  const hasEligibilityPage = eligibilityPageSlugs.has(p.slug);
   const requestInfoHref = p.cta?.requestInfoHref || `/contact?program=${encodeURIComponent(p.slug)}`;
   const employerPartners = Array.isArray(p.employerPartners) ? p.employerPartners : [];
   const pathwaySteps = [
@@ -684,7 +690,7 @@ export default function ProgramDetailPage({
               </p>
               {hasEligibilityPage && (
                 <Link
-                  href={`/programs/${p.slug}/eligibility`}
+                  href={hasEligibilityPage ? `/programs/${p.slug}/eligibility` : `/apply?program=${p.slug}`}
                   className="inline-flex items-center gap-1.5 mt-3 text-amber-900 font-semibold underline underline-offset-2 hover:text-amber-700 text-sm"
                 >
                   See all funding options for this program →
@@ -802,7 +808,7 @@ export default function ProgramDetailPage({
 
           {/* Enrollment pipeline */}
           <EnrollmentPipeline
-            applyHref={p.cta.applyHref || `/apply/intake?program=${p.slug}`}
+            applyHref={p.cta.applyHref || `/apply?program=${p.slug}`}
             showCta={false}
             className="mb-8 text-left"
           />

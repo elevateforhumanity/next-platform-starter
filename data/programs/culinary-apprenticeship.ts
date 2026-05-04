@@ -189,7 +189,7 @@ export const CULINARY: ProgramSchema = {
     { title: 'Executive Chef', salary: '$55,000–$80,000' },
   ],
   cta: {
-    applyHref: '/programs/culinary-apprenticeship/apply',
+    applyHref: '/apply?program=culinary-apprenticeship',
     requestInfoHref: '/programs/culinary-apprenticeship/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=culinary+chef&location=Indiana',

@@ -316,7 +316,7 @@ export const ELECTRICAL: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/programs/electrical/apply',
+    applyHref: '/apply?program=electrical',
     requestInfoHref: '/programs/electrical/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=electrician&location=Indiana',

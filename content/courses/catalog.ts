@@ -59,7 +59,7 @@ export const courses: Course[] = [
     course_name: 'Medical Assistant',
     shortDescription:
       'Clinical and administrative medical assistant training with externship placement.',
-    path: '/programs/medical-assistant/apply',
+    path: '/apply?program=medical-assistant',
     coverImageKey: 'medical-assistant',
     category: 'Healthcare',
     duration: '10-12 weeks',
@@ -81,7 +81,7 @@ export const courses: Course[] = [
     course_name: 'Welding Technology',
     shortDescription:
       'Hands-on welding training covering MIG, TIG, and stick welding with AWS certification prep.',
-    path: '/programs/welding/apply',
+    path: '/apply?program=welding',
     coverImageKey: 'welding',
     category: 'Skilled Trades',
     duration: '12 weeks',

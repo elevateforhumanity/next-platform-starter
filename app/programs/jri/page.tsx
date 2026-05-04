@@ -91,7 +91,7 @@ export default async function JRIProgramsPage() {
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
-              href="/programs/jri/apply"
+              href="/apply?program=jri"
               className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-lg transition-colors"
             >
               Apply Now <ArrowRight className="w-4 h-4" />

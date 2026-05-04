@@ -191,7 +191,7 @@ export const GRAPHIC_DESIGN: ProgramSchema = {
     { title: 'Art Director', salary: '$70,000–$100,000' },
   ],
   cta: {
-    applyHref: '/programs/graphic-design/apply',
+    applyHref: '/apply?program=graphic-design',
     requestInfoHref: '/programs/graphic-design/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=graphic+designer&location=Indiana',

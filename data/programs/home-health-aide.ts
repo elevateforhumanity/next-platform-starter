@@ -209,7 +209,7 @@ export const HOME_HEALTH_AIDE: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/programs/home-health-aide/apply',
+    applyHref: '/apply?program=home-health-aide',
     requestInfoHref: '/programs/home-health-aide/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=home+health+aide&location=Indiana',

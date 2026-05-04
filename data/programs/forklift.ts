@@ -203,7 +203,7 @@ export const FORKLIFT: ProgramSchema = {
     { title: 'Warehouse Supervisor', salary: '$45,000–$60,000' },
   ],
   cta: {
-    applyHref: '/programs/forklift/apply',
+    applyHref: '/apply?program=forklift',
     requestInfoHref: '/programs/forklift/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=forklift+operator&location=Indiana',

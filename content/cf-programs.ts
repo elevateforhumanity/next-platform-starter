@@ -133,7 +133,7 @@ export const programs: MarketingProgram[] = [
     description:
       'Short-term credential program for healthcare, food service, and hospitality workers.',
     ctaLabel: 'Apply Now',
-    ctaHref: '/programs/sanitation-infection-control/apply',
+    ctaHref: '/apply?program=sanitation-infection-control',
     sections: [
       {
         heading: 'What you will learn',

@@ -30,7 +30,7 @@ export function EnrollmentCTA({
 
   return (
     <Link
-      href={`/programs/${programSlug}/apply`}
+      href={`/apply?program=${programSlug}`}
       className={`inline-flex items-center justify-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-semibold rounded-lg transition-colors ${sizeClasses[size]} ${className}`}
     >
       {CTA_LABELS[variant]}

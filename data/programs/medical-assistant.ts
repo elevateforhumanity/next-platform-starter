@@ -303,7 +303,7 @@ export const MEDICAL_ASSISTANT: ProgramSchema = {
     { title: 'Clinical Coordinator', salary: '$42,000–$55,000' },
   ],
   cta: {
-    applyHref: '/programs/medical-assistant/apply',
+    applyHref: '/apply?program=medical-assistant',
     requestInfoHref: '/programs/medical-assistant/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=medical+assistant&location=Indiana',

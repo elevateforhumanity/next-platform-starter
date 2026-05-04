@@ -174,7 +174,7 @@ export const PROJECT_MANAGEMENT: ProgramSchema = {
     { title: 'Senior Project Manager', salary: '$75,000–$100,000' },
   ],
   cta: {
-    applyHref: '/programs/project-management/apply',
+    applyHref: '/apply?program=project-management',
     requestInfoHref: '/programs/project-management/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=project+manager&location=Indiana',

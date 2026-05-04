@@ -288,7 +288,7 @@ export const PLUMBING: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/programs/plumbing/apply',
+    applyHref: '/apply?program=plumbing',
     requestInfoHref: '/programs/plumbing/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=plumber&location=Indiana',

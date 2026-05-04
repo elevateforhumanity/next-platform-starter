@@ -736,12 +736,12 @@ export const footerNavigation = {
     links: [
       { label: 'CNA Enroll', href: '/programs/cna' },
       { label: 'CPR/First Aid Apply', href: '/programs/cpr-first-aid' },
-      { label: 'Culinary Apply', href: '/programs/culinary-apprenticeship/apply' },
-      { label: 'Electrical Apply', href: '/programs/electrical/apply' },
-      { label: 'Medical Assistant Apply', href: '/programs/medical-assistant/apply' },
-      { label: 'Plumbing Apply', href: '/programs/plumbing/apply' },
-      { label: 'Sanitation Apply', href: '/programs/sanitation-infection-control/apply' },
-      { label: 'Welding Apply', href: '/programs/welding/apply' },
+      { label: 'Culinary Apply', href: '/apply?program=culinary-apprenticeship' },
+      { label: 'Electrical Apply', href: '/apply?program=electrical' },
+      { label: 'Medical Assistant Apply', href: '/apply?program=medical-assistant' },
+      { label: 'Plumbing Apply', href: '/apply?program=plumbing' },
+      { label: 'Sanitation Apply', href: '/apply?program=sanitation-infection-control' },
+      { label: 'Welding Apply', href: '/apply?program=welding' },
     ],
   },
 };

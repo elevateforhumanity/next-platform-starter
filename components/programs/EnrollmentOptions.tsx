@@ -7,11 +7,11 @@ import Link from 'next/link';
  * Drop into any program page that doesn't use ProgramDetailPage.
  *
  * Props:
- *   slug        — program slug, used to build /programs/{slug}/apply href
+ *   slug        — program slug, used to build /apply?program={slug} href
  *   selfPayCost — display string e.g. "$4,200" or "$0 (apprenticeship model)"
  *   selfPayNote — optional override for the self-pay description line
  *   fundedNote  — optional override for the funded description line
- *   applyHref   — override the apply button href (defaults to /programs/{slug}/apply)
+ *   applyHref   — override the apply button href (defaults to /apply?program={slug})
  */
 export interface EnrollmentOptionsProps {
   slug: string;
@@ -28,7 +28,7 @@ export default function EnrollmentOptions({
   fundedNote,
   applyHref,
 }: EnrollmentOptionsProps) {
-  const apply = applyHref ?? `/programs/${slug}/apply`;
+  const apply = applyHref ?? `/apply?program=${slug}`;
 
   return (
     <section className="bg-white border-t border-slate-100 py-16 px-6">

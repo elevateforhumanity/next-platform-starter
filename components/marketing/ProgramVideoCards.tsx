@@ -40,7 +40,7 @@ const PROGRAMS = [
     image: '/images/pages/programs-cdl-hero.jpg',
     objectPosition: 'center center',
     href: '/programs/cdl-training',
-    applyHref: '/programs/cdl-training/apply',
+    applyHref: '/apply?program=cdl-training',
     price: null,
   },
   {

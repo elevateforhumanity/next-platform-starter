@@ -289,7 +289,7 @@ export const WELDING: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/programs/welding/apply',
+    applyHref: '/apply?program=welding',
     requestInfoHref: '/programs/welding/request-info',
     careerConnectHref: 'https://www.indianacareerconnect.com/jobs/search?q=welder&location=Indiana',
     advisorHref: '/contact',

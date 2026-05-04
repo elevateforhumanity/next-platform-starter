@@ -162,7 +162,7 @@ export const SANITATION: ProgramSchema = {
     { title: 'Barber/Cosmetologist (with license)', salary: '$30,000–$50,000' },
   ],
   cta: {
-    applyHref: '/programs/sanitation-infection-control/apply',
+    applyHref: '/apply?program=sanitation-infection-control',
     requestInfoHref: '/programs/sanitation-infection-control/request-info',
     advisorHref: '/contact',
     courseHref: '/programs/sanitation-infection-control',

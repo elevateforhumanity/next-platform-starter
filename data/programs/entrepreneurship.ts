@@ -173,7 +173,7 @@ export const ENTREPRENEURSHIP: ProgramSchema = {
     { title: 'Business Development', salary: '$45,000–$65,000' },
   ],
   cta: {
-    applyHref: '/programs/entrepreneurship/apply',
+    applyHref: '/apply?program=entrepreneurship',
     requestInfoHref: '/programs/entrepreneurship/request-info',
     advisorHref: '/contact',
     courseHref: '/programs/entrepreneurship',

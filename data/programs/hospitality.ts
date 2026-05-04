@@ -201,7 +201,7 @@ export const HOSPITALITY: ProgramSchema = {
     { title: 'Hotel Operations Manager', salary: '$46,000–$65,000' },
   ],
   cta: {
-    applyHref: '/programs/hospitality/apply',
+    applyHref: '/apply?program=hospitality',
     requestInfoHref: '/contact?program=hospitality',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=hospitality&location=Indiana',

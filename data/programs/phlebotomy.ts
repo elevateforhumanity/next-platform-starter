@@ -247,7 +247,7 @@ export const PHLEBOTOMY: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/programs/phlebotomy/apply',
+    applyHref: '/apply?program=phlebotomy',
     requestInfoHref: '/programs/phlebotomy/request-info',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=phlebotomist&location=Indiana',
@@ -264,7 +264,7 @@ export const PHLEBOTOMY: ProgramSchema = {
       requirement: 'Must reside in Indiana',
       description:
         'Indiana residents may qualify for tuition assistance through WorkOne or other workforce programs. Eligibility is verified before a seat is confirmed. Check with your WorkOne case manager — the Phlebotomy program is not currently on the Indiana ETPL.',
-      applyHref: '/programs/phlebotomy/apply',
+      applyHref: '/apply?program=phlebotomy',
       available: true,
     },
     selfPay: {
@@ -272,7 +272,7 @@ export const PHLEBOTOMY: ProgramSchema = {
       cost: '$1,500',
       description:
         'Students from any state may enroll through the self-pay option. Most states do not require phlebotomists to hold a state license — the NHA CPT national certification is accepted by employers nationwide. Use the state licensing tool below to check your state.',
-      applyHref: '/programs/phlebotomy/apply',
+      applyHref: '/apply?program=phlebotomy',
       available: true,
     },
   },
