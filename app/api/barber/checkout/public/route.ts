@@ -93,6 +93,10 @@ async function _POST(request: NextRequest) {
     }
 
     const stripe = getStripe();
+    if (!stripe) {
+      logger.error('Barber checkout: Stripe client is null — STRIPE_SECRET_KEY missing');
+      return NextResponse.json({ error: 'Payment provider not configured' }, { status: 503 });
+    }
 
     // Create or retrieve Stripe customer
     const customers = await stripe.customers.list({
@@ -266,9 +270,10 @@ async function _POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    logger.error('Barber public checkout error:', error);
+    const msg = error instanceof Error ? error.message : String(error);
+    logger.error('Barber public checkout error:', { message: msg, error });
     return NextResponse.json(
-      { error: 'Failed to create checkout session', details: 'Internal server error' },
+      { error: 'Failed to create checkout session', details: msg },
       { status: 500 },
     );
   }

@@ -359,6 +359,14 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_ENVIRONMENT"
         },
         {
+          "name": "SEZZLE_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_PUBLIC_KEY"
+        },
+        {
+          "name": "SEZZLE_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_PRIVATE_KEY"
+        },
+        {
           "name": "SMTP_FROM",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SMTP_FROM"
         },
