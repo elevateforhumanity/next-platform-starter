@@ -14,7 +14,9 @@ function getSafeRedirectPath(req: NextRequest) {
 
 function getLoginUrl(req: NextRequest) {
   const loginUrl = new URL('/login', getCanonicalLoginBaseUrl());
-  loginUrl.searchParams.set('redirect', getSafeRedirectPath(req));
+  // Pass the full admin URL so the LMS login can redirect back cross-domain after auth
+  const adminBase = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org';
+  loginUrl.searchParams.set('redirect', `${adminBase}${getSafeRedirectPath(req)}`);
   return loginUrl;
 }
 

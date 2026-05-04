@@ -36,7 +36,7 @@ phases:
       - node scripts/stamp-sw.mjs
       - pnpm next build
       - echo Packaging Docker image...
-      - docker buildx build --platform linux/arm64 --load -f Dockerfile.package -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
+      - docker buildx build --platform linux/amd64 --load -f Dockerfile.package -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 
   post_build:
     commands:
