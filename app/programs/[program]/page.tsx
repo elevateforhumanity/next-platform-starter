@@ -52,7 +52,36 @@ export async function generateMetadata({
     type: 'website' as const,
   };
 
-  // DB programs
+  // Static ProgramSchema — preferred source for metadata
+  const sp = getStaticProgram(program);
+  if (sp) {
+    const title = sp.metaTitle || `${sp.title} | Elevate for Humanity`;
+    const description = sp.metaDescription || sp.subtitle || '';
+    const img = sp.heroImage || ogImage;
+    return {
+      title,
+      description,
+      alternates: { canonical: `${SITE_URL}/programs/${program}` },
+      openGraph: { ...ogBase, title, description, images: [{ url: img.startsWith('http') ? img : `${SITE_URL}${img}`, width: 1200, height: 630, alt: sp.title }] },
+      twitter: { card: 'summary_large_image', title, description, images: [img.startsWith('http') ? img : `${SITE_URL}${img}`] },
+    };
+  }
+
+  // cf-programs fallback
+  const cfp = staticPrograms.find((p) => p.slug === program);
+  if (cfp) {
+    const title = `${cfp.title} | Elevate for Humanity`;
+    const description = cfp.summary;
+    return {
+      title,
+      description,
+      alternates: { canonical: `${SITE_URL}/programs/${program}` },
+      openGraph: { ...ogBase, title, description, images: [{ url: ogImage, width: 1200, height: 630, alt: cfp.title }] },
+      twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
+    };
+  }
+
+  // DB fallback — programs with no static definition
   const db = createPublicClient();
   if (db) {
     const { data } = await db
@@ -73,33 +102,7 @@ export async function generateMetadata({
     }
   }
 
-  // Static ProgramSchema programs
-  const sp = getStaticProgram(program);
-  if (sp) {
-    const title = sp.metaTitle || `${sp.title} | Elevate for Humanity`;
-    const description = sp.metaDescription || sp.subtitle || '';
-    const img = sp.heroImage || ogImage;
-    return {
-      title,
-      description,
-      alternates: { canonical: `${SITE_URL}/programs/${program}` },
-      openGraph: { ...ogBase, title, description, images: [{ url: img.startsWith('http') ? img : `${SITE_URL}${img}`, width: 1200, height: 630, alt: sp.title }] },
-      twitter: { card: 'summary_large_image', title, description, images: [img.startsWith('http') ? img : `${SITE_URL}${img}`] },
-    };
-  }
-
-  // cf-programs fallback
-  const p = staticPrograms.find((p) => p.slug === program);
-  if (!p) return {};
-  const title = `${p.title} | Elevate for Humanity`;
-  const description = p.summary;
-  return {
-    title,
-    description,
-    alternates: { canonical: `${SITE_URL}/programs/${program}` },
-    openGraph: { ...ogBase, title, description, images: [{ url: ogImage, width: 1200, height: 630, alt: p.title }] },
-    twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
-  };
+  return {};
 }
 
 // Funding sources shown on every program page
@@ -461,30 +464,7 @@ function ProgramPage({
 export default async function ProgramDetailPage({ params }: { params: Promise<{ program: string }> }) {
   const { program } = await params;
 
-  // DB-first
-  const db = createPublicClient();
-  if (db) {
-    const { data: p } = await db
-      .from('programs')
-      .select('slug, title, description, short_description, credential, duration_weeks, image_url')
-      .eq('slug', program)
-      .maybeSingle();
-
-    if (p) {
-      return (
-        <ProgramPage
-          title={p.title}
-          summary={p.short_description || ''}
-          description={p.description || ''}
-          credential={p.credential}
-          durationWeeks={p.duration_weeks}
-          slug={p.slug}
-        />
-      );
-    }
-  }
-
-  // Static ProgramSchema programs — richer renderer
+  // Static ProgramSchema — richest renderer, always preferred when available
   const sp = getStaticProgram(program);
   if (sp) {
     return (
@@ -509,19 +489,44 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
   }
 
   // cf-programs fallback (legacy marketing data)
-  const p = staticPrograms.find((p) => p.slug === program);
-  if (!p) return notFound();
+  const cfProgram = staticPrograms.find((p) => p.slug === program);
+  if (cfProgram) {
+    return (
+      <>
+        <ProgramPage
+          title={cfProgram.title}
+          summary={cfProgram.summary}
+          description={cfProgram.description}
+          slug={cfProgram.slug}
+          sections={cfProgram.sections}
+        />
+        <OnetLaborData slug={cfProgram.slug} />
+      </>
+    );
+  }
 
-  return (
-    <>
-      <ProgramPage
-        title={p.title}
-        summary={p.summary}
-        description={p.description}
-        slug={p.slug}
-        sections={p.sections}
-      />
-      <OnetLaborData slug={p.slug} />
-    </>
-  );
+  // DB fallback — programs that exist only in the database with no static definition
+  const db = createPublicClient();
+  if (db) {
+    const { data: p } = await db
+      .from('programs')
+      .select('slug, title, description, short_description, credential, duration_weeks, image_url')
+      .eq('slug', program)
+      .maybeSingle();
+
+    if (p) {
+      return (
+        <ProgramPage
+          title={p.title}
+          summary={p.short_description || ''}
+          description={p.description || ''}
+          credential={p.credential}
+          durationWeeks={p.duration_weeks}
+          slug={p.slug}
+        />
+      );
+    }
+  }
+
+  return notFound();
 }
