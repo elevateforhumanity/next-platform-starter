@@ -29,7 +29,7 @@ import {
   PipetteIcon,
 } from 'lucide-react';
 
-export function PlumbingProgramPageClient({ enrollmentCount }: { enrollmentCount: number }) {
+export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentCount?: number }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqs = [
@@ -526,3 +526,5 @@ export function PlumbingProgramPageClient({ enrollmentCount }: { enrollmentCount
     </>
   );
 }
+
+export default PlumbingProgramPageClient;

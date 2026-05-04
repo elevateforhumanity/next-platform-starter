@@ -31,9 +31,9 @@ import {
 } from 'lucide-react';
 
 export function MedicalAssistantProgramPageClient({
-  enrollmentCount,
+  enrollmentCount = 0,
 }: {
-  enrollmentCount: number;
+  enrollmentCount?: number;
 }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -434,3 +434,5 @@ export function MedicalAssistantProgramPageClient({
     </>
   );
 }
+
+export default MedicalAssistantProgramPageClient;

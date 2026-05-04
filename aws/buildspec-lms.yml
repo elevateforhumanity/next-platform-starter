@@ -6,6 +6,9 @@ phases:
       nodejs: 20
     commands:
       - npm install -g pnpm@10.28.2 --silent
+      - docker run --privileged --rm tonistiigi/binfmt --install amd64
+      - docker buildx create --use --name multiarch --driver docker-container
+      - docker buildx inspect --bootstrap
 
   pre_build:
     commands:
@@ -26,14 +29,14 @@ phases:
       - echo Installing dependencies...
       - pnpm install --frozen-lockfile
       - echo Building LMS...
-      - export NODE_OPTIONS="--max-old-space-size=14336 --max-semi-space-size=128 --expose-gc"
+      - export NODE_OPTIONS="--max-old-space-size=8192 --max-semi-space-size=128 --expose-gc"
       - export NEXT_TELEMETRY_DISABLED=1
       - export BUILD_SCOPE=1
       - export SERVICE_ROLE=lms
       - node scripts/stamp-sw.mjs
       - pnpm next build
       - echo Packaging Docker image...
-      - docker build --platform linux/amd64 -f Dockerfile.package -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
+      - docker buildx build --platform linux/amd64 --load -f Dockerfile.package -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 
   post_build:
     commands:

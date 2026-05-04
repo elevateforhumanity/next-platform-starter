@@ -30,7 +30,7 @@ import {
   Factory,
 } from 'lucide-react';
 
-export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCount: number }) {
+export function ElectricalProgramPageClient({ enrollmentCount = 0 }: { enrollmentCount?: number }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqs = [
@@ -588,3 +588,5 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
     </>
   );
 }
+
+export default ElectricalProgramPageClient;
