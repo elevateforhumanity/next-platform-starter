@@ -57,7 +57,7 @@ export const headerNavigation: NavGroup[] = [
       },
       {
         label: 'Business Programs',
-        href: '/programs/business',
+        href: '/programs/business-administration',
         description: 'Tax prep, entrepreneurship',
       },
       {
@@ -409,7 +409,7 @@ export const footerNavigation = {
       { label: 'Healthcare', href: '/programs/healthcare' },
       { label: 'Skilled Trades', href: '/programs/skilled-trades' },
       { label: 'Technology', href: '/programs/technology' },
-      { label: 'Business', href: '/programs/business' },
+      { label: 'Business', href: '/programs/business-administration' },
       { label: 'Career Pathways', href: '/pathways' },
     ],
   },

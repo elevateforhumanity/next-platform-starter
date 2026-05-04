@@ -43,7 +43,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist/apply' },
       { name: 'Direct Support Professional', href: canonicalRoutes.programs.directSupportProfessional },
       { name: 'Drug & Alcohol Collector', href: '/programs/drug-collector' },
-      { name: 'CPR / First Aid', href: '/programs/cpr-first-aid-hsi' },
+      { name: 'CPR / First Aid', href: '/programs/cpr-first-aid' },
       { name: 'All Healthcare →', href: '/programs/healthcare', isSectionLink: true },
 
       // Skilled Trades
@@ -58,13 +58,13 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
 
       // Business & Finance
-      { name: '— Business & Finance —', href: '/programs/finance-bookkeeping-accounting', isHeader: true },
-      { name: 'Finance, Bookkeeping & Accounting', href: '/programs/finance-bookkeeping-accounting' },
+      { name: '— Business & Finance —', href: '/programs/bookkeeping', isHeader: true },
+      { name: 'Finance, Bookkeeping & Accounting', href: '/programs/bookkeeping' },
 
       // Special Programs
       { name: '— Special Programs —', href: '/programs', isHeader: true },
       { name: 'Federal-Funded Programs', href: '/programs/federal-funded' },
-      { name: 'JRI — Justice-Involved', href: '/programs/jri' },
+      { name: 'JRI — Justice-Involved', href: '/partners/jri' },
       { name: 'All Programs →', href: '/programs', isSectionLink: true },
     ],
   },

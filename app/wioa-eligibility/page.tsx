@@ -230,7 +230,7 @@ export default function WIOAEligibilityPage() {
               {
                 title: 'Job Ready Indy',
                 desc: 'Funding for justice-involved individuals. Training, support, and job placement.',
-                href: '/programs/jri',
+                href: '/partners/jri',
                 image: '/hero-images/jri-hero.jpg',
               },
               {

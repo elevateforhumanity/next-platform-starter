@@ -70,7 +70,7 @@ const PROGRAMS = [
     name: 'Cybersecurity Fundamentals',
     credential: 'CompTIA Security+',
     format: 'Cohort',
-    href: '/programs/cybersecurity',
+    href: '/programs/cybersecurity-analyst',
   },
   {
     name: 'Medical Billing & Coding',

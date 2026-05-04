@@ -51,8 +51,7 @@ const CATEGORIES = [
     description: 'In-demand credentials in IT, cybersecurity, and business operations.',
     color: 'purple',
     programs: [
-      { title: 'IT Support', href: '/programs/it-support', funding: 'WIOA / WRG' },
-      { title: 'Cybersecurity', href: '/programs/cybersecurity', funding: 'WIOA / WRG' },
+      { title: 'IT Help Desk', href: '/programs/it-help-desk', funding: 'WIOA / WRG' },
       { title: 'Cybersecurity Analyst', href: '/programs/cybersecurity-analyst', funding: 'WIOA / WRG' },
       { title: 'Network Administration', href: '/programs/network-administration', funding: 'WIOA / WRG' },
       { title: 'Network Support Technician', href: '/programs/network-support-technician', funding: 'WIOA / WRG' },

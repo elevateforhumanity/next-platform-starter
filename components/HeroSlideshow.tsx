@@ -84,7 +84,7 @@ const slides: Slide[] = [
     text: 'IT training and technology skills for the digital economy.',
     cta: {
       text: 'Explore Tech Programs',
-      href: '/programs/it-support',
+      href: '/programs/it-help-desk',
     },
   },
   {
