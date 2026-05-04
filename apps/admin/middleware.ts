@@ -1,6 +1,5 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
-import { getCanonicalLoginBaseUrl } from './lib/login-url';
 
 const PUBLIC_ROUTES = ['/login', '/api/health'];
 
@@ -13,10 +12,9 @@ function getSafeRedirectPath(req: NextRequest) {
 }
 
 function getLoginUrl(req: NextRequest) {
-  const loginUrl = new URL('/login', getCanonicalLoginBaseUrl());
-  // Pass the full admin URL so the LMS login can redirect back cross-domain after auth
-  const adminBase = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org';
-  loginUrl.searchParams.set('redirect', `${adminBase}${getSafeRedirectPath(req)}`);
+  // Redirect to the admin app's own login page — no cross-domain handoff
+  const loginUrl = new URL('/login', req.url);
+  loginUrl.searchParams.set('redirect', getSafeRedirectPath(req));
   return loginUrl;
 }
 

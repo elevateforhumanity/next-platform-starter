@@ -1,20 +1,14 @@
-import { redirect } from 'next/navigation';
-import { getCanonicalLoginBaseUrl } from '../../lib/login-url';
+import AdminLoginForm from './LoginForm';
 
-function getSafeRedirect(raw: string | undefined) {
-  if (!raw) return '/admin/dashboard';
-  if (!raw.startsWith('/') || raw.startsWith('//') || raw.includes('://')) {
-    return '/admin/dashboard';
-  }
-  return raw;
-}
+export const metadata = {
+  title: 'Sign In — Elevate Admin',
+};
 
-export default async function AdminLoginHandoffPage({
+export default async function AdminLoginPage({
   searchParams,
 }: {
   searchParams: Promise<{ redirect?: string }>;
 }) {
   const params = await searchParams;
-  const target = getSafeRedirect(params.redirect);
-  redirect(`${getCanonicalLoginBaseUrl()}/login?redirect=${encodeURIComponent(target)}`);
+  return <AdminLoginForm redirectTo={params.redirect} />;
 }
