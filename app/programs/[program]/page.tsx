@@ -464,25 +464,42 @@ function ProgramPage({
 export default async function ProgramDetailPage({ params }: { params: Promise<{ program: string }> }) {
   const { program } = await params;
 
-  // Static ProgramSchema — richest renderer, always preferred when available
+  // Static ProgramSchema — richest renderer, always preferred when available.
+  // Overlay DB title/description if the program also exists in the DB.
   const sp = getStaticProgram(program);
   if (sp) {
+    const db = createPublicClient();
+    let mergedProgram = sp;
+    if (db) {
+      const { data: dbRow } = await db
+        .from('programs')
+        .select('title, description, short_description, credential, duration_weeks')
+        .eq('slug', program)
+        .maybeSingle();
+      if (dbRow) {
+        mergedProgram = {
+          ...sp,
+          title: dbRow.title || sp.title,
+          subtitle: dbRow.short_description || dbRow.description || sp.subtitle,
+        };
+      }
+    }
     return (
       <>
         <ProgramStructuredData
           program={{
-            id: sp.slug,
-            name: sp.title,
-            slug: sp.slug,
-            description: sp.subtitle,
-            duration_weeks: sp.durationWeeks,
-            price: parseInt(sp.selfPayCost.replace(/[^0-9]/g, ''), 10),
-            image_url: sp.heroImage,
-            category: sp.category,
-            outcomes: sp.outcomes.map((o) => o.statement),
+            id: mergedProgram.slug,
+            name: mergedProgram.title,
+            slug: mergedProgram.slug,
+            description: mergedProgram.subtitle,
+            duration_weeks: mergedProgram.durationWeeks,
+            price: parseInt(mergedProgram.selfPayCost.replace(/[^0-9]/g, ''), 10),
+            image_url: mergedProgram.heroImage,
+            category: mergedProgram.category,
+            outcomes: mergedProgram.outcomes.map((o) => o.statement),
           }}
         />
-        <ProgramDetailPageComponent program={sp} />
+        <ProgramDetailPageComponent program={mergedProgram} />
         <OnetLaborData slug={program} />
       </>
     );
