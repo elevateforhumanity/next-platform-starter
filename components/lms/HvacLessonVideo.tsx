@@ -65,7 +65,12 @@ export default function HvacLessonVideo({
   const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
-    // Priority 1: assembled V16 video from DB (mobile-safe H.264 baseline)
+    // Priority 1: YouTube URL — render embed directly, no HEAD check needed
+    if (dbVideoUrl && /youtube\.com|youtu\.be/.test(dbVideoUrl)) {
+      setMode('youtube' as MediaMode);
+      return;
+    }
+    // Priority 2: assembled V16 video from DB (mobile-safe H.264 baseline)
     if (dbVideoUrl) {
       fetch(dbVideoUrl, { method: 'HEAD' })
         .then((r) => {
@@ -196,6 +201,27 @@ export default function HvacLessonVideo({
   };
 
   if (mode === null) return null;
+
+  // YouTube embed — extract video ID and render iframe
+  if ((mode as string) === 'youtube' && dbVideoUrl) {
+    const ytMatch = dbVideoUrl.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    const ytId = ytMatch?.[1];
+    if (ytId) {
+      return (
+        <div className="w-full rounded-2xl overflow-hidden bg-black shadow-2xl">
+          <div className="relative aspect-video">
+            <iframe
+              src={`https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&autoplay=0`}
+              title={lessonTitle}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+        </div>
+      );
+    }
+  }
 
   if (mode === 'mp4') {
     return (
