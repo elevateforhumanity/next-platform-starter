@@ -17,7 +17,7 @@ phases:
       - export NEXT_PUBLIC_SUPABASE_ANON_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY --with-decryption --query Parameter.Value --output text)
       - export SUPABASE_SERVICE_ROLE_KEY=$(aws ssm get-parameter --name /elevate/SUPABASE_SERVICE_ROLE_KEY --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SITE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SITE_URL --with-decryption --query Parameter.Value --output text)
-      - export NEXT_PUBLIC_ADMIN_URL="https://admin.elevateforhumanity.org"
+      - export NEXT_PUBLIC_ADMIN_URL="https://app.elevateforhumanity.org"
       - export NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY --with-decryption --query Parameter.Value --output text)
 
   build:
