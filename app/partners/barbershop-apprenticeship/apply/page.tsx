@@ -61,6 +61,7 @@ const partnerSteps = [
 
 export default function BarbershopPartnerApplyPage() {
   const router = useRouter();
+  const [onboardingConfirmed, setOnboardingConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -241,33 +242,46 @@ export default function BarbershopPartnerApplyPage() {
 
       <section className="py-10">
         <div className="max-w-5xl mx-auto px-4">
-          {/* Before You Apply checklist */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
-            <h2 className="text-lg font-bold text-slate-900 mb-1">Before You Apply</h2>
-            <p className="text-sm text-black mb-5">
-              Complete these steps first so you&apos;re ready to submit.
-            </p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {partnerSteps.map((step) => (
-                <Link
-                  key={step.href}
-                  href={step.href}
-                  className="group flex flex-col gap-3 p-4 rounded-lg border border-gray-200 hover:border-brand-blue-300 hover:bg-brand-blue-50/50 transition-colors"
-                >
-                  <div className="w-9 h-9 rounded-lg bg-brand-blue-50 text-brand-blue-600 flex items-center justify-center group-hover:bg-brand-blue-100 transition-colors">
-                    <step.icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-sm font-semibold text-slate-900 group-hover:text-brand-blue-700 transition-colors flex items-center gap-1">
-                      {step.label}
-                      <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                    </span>
-                    <p className="text-xs text-black mt-0.5">{step.description}</p>
-                  </div>
-                </Link>
-              ))}
+          {/* Before You Apply — gate: must confirm before form is shown */}
+          {!onboardingConfirmed ? (
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-8 max-w-2xl mx-auto">
+              <h2 className="text-xl font-bold text-slate-900 mb-1">Before You Apply</h2>
+              <p className="text-sm text-black mb-6">
+                Complete these steps first so you&apos;re ready to submit.
+              </p>
+              <div className="space-y-3 mb-8">
+                {partnerSteps.map((step) => (
+                  <Link
+                    key={step.href}
+                    href={step.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-4 p-4 rounded-lg border border-gray-200 hover:border-brand-blue-300 hover:bg-brand-blue-50/50 transition-colors"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-brand-blue-50 text-brand-blue-600 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-blue-100 transition-colors">
+                      <step.icon className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm font-semibold text-slate-900 group-hover:text-brand-blue-700 transition-colors flex items-center gap-1">
+                        {step.label}
+                        <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                      </span>
+                      <p className="text-xs text-black mt-0.5">{step.description}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setOnboardingConfirmed(true)}
+                className="w-full py-3 px-6 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2"
+              >
+                I&apos;ve completed all steps — Continue to Application
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
-          </div>
+          ) : (
+          <>
 
           {error && (
             <div className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg flex items-start gap-3">
@@ -799,6 +813,8 @@ export default function BarbershopPartnerApplyPage() {
               </Link>
             </div>
           </form>
+          </>
+          )} {/* end onboardingConfirmed gate */}
         </div>
       </section>
     </div>
