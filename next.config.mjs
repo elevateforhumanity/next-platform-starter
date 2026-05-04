@@ -116,7 +116,9 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     qualities: [85, 90, 95],
     minimumCacheTTL: 31536000,
-    dangerouslyAllowSVG: false,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     contentDispositionType: 'inline',
     remotePatterns: [
       { protocol: 'https', hostname: '*.supabase.co' },

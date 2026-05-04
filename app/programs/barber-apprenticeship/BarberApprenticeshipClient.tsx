@@ -13,9 +13,9 @@ import {
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { BarberEnrollment } from './sections/BarberEnrollment';
 
-interface Props { program: ProgramSchema; heroBanner: HeroBannerConfig | null; }
+interface Props { program: ProgramSchema; heroBanner: HeroBannerConfig | null; enrollmentCount?: number; }
 
-export default function BarberApprenticeshipClient({ program: p, heroBanner: b }: Props) {
+export default function BarberApprenticeshipClient({ program: p, heroBanner: b, enrollmentCount = 0 }: Props) {
   const [waitlistName, setWaitlistName] = useState('');
   const [waitlistEmail, setWaitlistEmail] = useState('');
   const [waitlistPhone, setWaitlistPhone] = useState('');
@@ -56,7 +56,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b }
           </div>
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-600">
             <span><strong>Schedule:</strong> {p.schedule}</span>
-            <span><strong>Cohort:</strong> {p.cohortSize}</span>
+            <span><strong>Active Apprentices:</strong> {enrollmentCount > 0 ? enrollmentCount : 'Enrolling now'}</span>
             <span><strong>Tuition:</strong> $4,980. Payment plans available.</span>
           </div>
         </div>

@@ -3,10 +3,11 @@ import { ProgramStructuredData } from '@/components/seo/CourseStructuredData';
 import { BARBER_APPRENTICESHIP } from '@/data/programs/barber-apprenticeship';
 import { validateProgram } from '@/lib/programs/program-schema';
 import heroBanners from '@/content/heroBanners';
+import { createClient } from '@/lib/supabase/server';
 import BarberApprenticeshipClient from './BarberApprenticeshipClient';
 
-export const dynamic = 'force-static';
-export const revalidate = 86400;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 const p = BARBER_APPRENTICESHIP;
 
@@ -23,10 +24,22 @@ export const metadata: Metadata = {
   alternates: { canonical: '/programs/barber-apprenticeship' },
 };
 
-export default function BarberApprenticeshipPage() {
-  // Read hero banner server-side — heroBanners proxy reads from fs which is
-  // unavailable in client components. Pass as plain prop so the client gets data.
+export default async function BarberApprenticeshipPage() {
   const heroBanner = heroBanners['barber-apprenticeship'] ?? null;
+
+  // Live enrollment count from DB
+  let enrollmentCount = 0;
+  try {
+    const supabase = await createClient();
+    const { count } = await supabase
+      .from('program_enrollments')
+      .select('*', { count: 'exact', head: true })
+      .eq('program_slug', 'barber-apprenticeship')
+      .eq('status', 'active');
+    enrollmentCount = count ?? 0;
+  } catch {
+    // non-fatal — fall back to 0
+  }
 
   return (
     <>
@@ -43,7 +56,7 @@ export default function BarberApprenticeshipPage() {
           outcomes: p.outcomes.map((o) => o.statement),
         }}
       />
-      <BarberApprenticeshipClient program={p} heroBanner={heroBanner} />
+      <BarberApprenticeshipClient program={p} heroBanner={heroBanner} enrollmentCount={enrollmentCount} />
     </>
   );
 }

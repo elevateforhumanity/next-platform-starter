@@ -164,6 +164,7 @@ export default function BuildingServicesTechnicianPage() {
               src="/images/programs/building-maintenance-hero.svg"
               alt="Facility Services"
               fill
+              unoptimized
               className="object-cover"
             />
           </div>

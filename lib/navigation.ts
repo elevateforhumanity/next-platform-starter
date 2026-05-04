@@ -185,4 +185,30 @@ export const NAV_ITEMS: NavItem[] = [
     name: 'Apply',
     href: '/apply',
   },
+
+  // ── 8. Dashboard — authenticated portal links ────────────────────────────────
+  {
+    id: 'dashboard',
+    name: 'Dashboard',
+    href: '/lms',
+    subItems: [
+      // Learner
+      { name: '— Learner —', href: '/lms', isHeader: true },
+      { name: 'My Courses', href: '/lms/courses' },
+      { name: 'My Programs', href: '/lms/programs' },
+      { name: 'My Progress', href: '/lms/dashboard' },
+      { name: 'My Certificates', href: '/lms/certificates' },
+      { name: 'My Profile', href: '/lms/profile' },
+      // Admin
+      { name: '— Admin —', href: 'https://app.elevateforhumanity.org/admin/dashboard', isHeader: true },
+      { name: 'Admin Dashboard', href: 'https://app.elevateforhumanity.org/admin/dashboard' },
+      { name: 'Students', href: 'https://app.elevateforhumanity.org/admin/students' },
+      { name: 'Enrollments', href: 'https://app.elevateforhumanity.org/admin/enrollments' },
+      { name: 'Applications', href: 'https://app.elevateforhumanity.org/admin/applications' },
+      { name: 'Programs', href: 'https://app.elevateforhumanity.org/admin/programs' },
+      { name: 'Compliance', href: 'https://app.elevateforhumanity.org/admin/compliance' },
+      { name: 'Reports', href: 'https://app.elevateforhumanity.org/admin/reports' },
+      { name: 'Open Admin Portal →', href: 'https://app.elevateforhumanity.org/admin/dashboard', isSectionLink: true },
+    ],
+  },
 ];

@@ -192,8 +192,19 @@ function ProgramPage({
     (s) => s.heading.toLowerCase().includes('learn') || s.heading.toLowerCase().includes('module'),
   );
 
+  const adminBase = 'https://app.elevateforhumanity.org';
+
   return (
     <main className="bg-white">
+      {/* Admin quick-links — only visible to logged-in admins via CSS (hidden for public) */}
+      <div className="hidden admin-only bg-slate-900 text-white text-xs px-4 py-2 flex items-center gap-4 print:hidden">
+        <span className="text-slate-400">Admin:</span>
+        <a href={`${adminBase}/admin/programs`} target="_blank" rel="noopener noreferrer" className="hover:text-brand-blue-300 transition-colors">Programs</a>
+        <a href={`${adminBase}/admin/enrollments?program=${slug}`} target="_blank" rel="noopener noreferrer" className="hover:text-brand-blue-300 transition-colors">Enrollments</a>
+        <a href={`${adminBase}/admin/applications?program=${slug}`} target="_blank" rel="noopener noreferrer" className="hover:text-brand-blue-300 transition-colors">Applications</a>
+        <a href={`${adminBase}/admin/students`} target="_blank" rel="noopener noreferrer" className="hover:text-brand-blue-300 transition-colors">Students</a>
+        <a href={`${adminBase}/admin/dashboard`} target="_blank" rel="noopener noreferrer" className="ml-auto text-brand-blue-400 font-semibold hover:text-brand-blue-300 transition-colors">Open Admin Dashboard →</a>
+      </div>
       {/* HERO — video or image banner if available */}
       {banner?.pageKey && (
         banner.videoSrcDesktop ? (

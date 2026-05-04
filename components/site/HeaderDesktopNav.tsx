@@ -77,6 +77,7 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
                   if (current.length > 0) columns.push(current);
 
                   // Single column (no headers) — compact vertical list
+                  const isExternal = (href: string) => href.startsWith('https://app.');
                   if (columns.length <= 1) {
                     return (
                       <div className="flex flex-col min-w-[180px]">
@@ -87,6 +88,7 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
                             </p>
                           ) : (
                             <Link key={sub.href + sub.name} href={sub.href} prefetch={false}
+                              {...(isExternal(sub.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                               className="text-sm text-slate-700 hover:text-brand-blue-600 hover:bg-slate-50 rounded-lg px-2 py-1.5 transition-colors whitespace-nowrap">
                               {sub.name}
                             </Link>
@@ -108,11 +110,13 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
                               </p>
                             ) : sub.isSectionLink ? (
                               <Link key={sub.href + sub.name} href={sub.href} prefetch={false}
+                                {...(isExternal(sub.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                                 className="text-xs font-bold text-brand-red-600 hover:text-brand-red-700 px-1 py-1 mt-1 transition-colors whitespace-nowrap">
                                 {sub.name}
                               </Link>
                             ) : (
                               <Link key={sub.href + sub.name} href={sub.href} prefetch={false}
+                                {...(isExternal(sub.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                                 className="text-sm text-slate-700 hover:text-brand-blue-600 hover:bg-slate-50 rounded-lg px-1 py-1.5 transition-colors whitespace-nowrap">
                                 {sub.name}
                               </Link>
