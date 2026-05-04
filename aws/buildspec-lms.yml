@@ -6,7 +6,7 @@ phases:
       nodejs: 20
     commands:
       - npm install -g pnpm@10.28.2 --silent
-      - docker run --privileged --rm tonistiigi/binfmt --install amd64
+      - docker run --privileged --rm public.ecr.aws/tonistiigi/binfmt --install amd64
       - docker buildx create --use --name multiarch --driver docker-container
       - docker buildx inspect --bootstrap
 
