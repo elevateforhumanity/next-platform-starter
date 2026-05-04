@@ -31,8 +31,8 @@ COPY apps/admin/.next/standalone ./
 COPY apps/admin/.next/static ./apps/admin/.next/static
 COPY public ./public
 
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs && \
+RUN addgroup --gid 1001 nodejs && \
+    adduser --uid 1001 --ingroup nodejs --disabled-password --gecos "" nextjs && \
     chown -R nextjs:nodejs /app
 
 USER nextjs
