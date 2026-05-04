@@ -70,6 +70,13 @@ phases:
         echo "Service updated."
       - printf '[{"name":"elevate-admin","imageUri":"%s"}]' $IMAGE_URI:$COMMIT_HASH > imagedefinitions.json
 
+cache:
+  paths:
+    - node_modules/**/*
+    - apps/admin/node_modules/**/*
+    - .pnpm-store/**/*
+    - /root/.local/share/pnpm/store/**/*
+
 artifacts:
   files:
     - imagedefinitions.json
