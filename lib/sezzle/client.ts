@@ -194,7 +194,7 @@ class SezzleClient {
 
     if (!response.ok) {
       const error = await this.safeJson(response);
-      throw new Error(`Sezzle authentication failed`);
+      throw new Error(`Sezzle authentication failed: ${response.status} ${JSON.stringify(error)}`);
     }
 
     const data: SezzleAuthResponse = await response.json();
@@ -222,7 +222,7 @@ class SezzleClient {
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      throw new Error(`Sezzle session creation failed`);
+      throw new Error(`Sezzle session creation failed: ${response.status} ${JSON.stringify(error)}`);
     }
 
     return response.json();

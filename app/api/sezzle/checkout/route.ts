@@ -283,12 +283,13 @@ async function _POST(request: NextRequest) {
       referenceId,
     });
   } catch (error) {
-    const technicalMessage = 'Internal server error';
-    logger.error('[Sezzle] Checkout session creation failed:', { technicalMessage });
+    const technicalMessage = error instanceof Error ? error.message : String(error);
+    logger.error('[Sezzle] Checkout session creation failed:', { technicalMessage, error });
     return NextResponse.json(
       {
         error:
           'Sezzle checkout could not be created. Please select Card, Payment Plan, or another option above.',
+        debug: technicalMessage,
       },
       { status: 500 },
     );
