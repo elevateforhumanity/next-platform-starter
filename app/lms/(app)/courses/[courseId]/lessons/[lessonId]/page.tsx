@@ -1541,8 +1541,9 @@ export default function LessonPage() {
                           isHvacCourse ? (
                             <HvacLessonVideo
                               lessonId={lessonId}
-                              videoUrl={lesson.video_url}
-                              title={lesson.title}
+                              dbVideoUrl={lesson.video_url}
+                              brollVideoUrl="/videos/hvac-technician.mp4"
+                              lessonTitle={lesson.title}
                               onComplete={async () => {
                                 markActivityCompleted('video');
                                 markAttempted('video');
