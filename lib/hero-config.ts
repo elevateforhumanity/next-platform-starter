@@ -253,7 +253,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
       { label: 'Format', value: 'Hybrid' },
       { label: 'Certification', value: 'Certiport IT Specialist' },
     ],
-    ctaPrimary: { label: 'Apply Now', href: '/apply?program=it-support' },
+    ctaPrimary: { label: 'Apply Now', href: '/programs/it-help-desk' },
     ctaSecondary: { label: 'Check Eligibility', href: '/wioa-eligibility' },
   },
 

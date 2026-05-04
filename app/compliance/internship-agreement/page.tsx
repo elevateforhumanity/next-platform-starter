@@ -227,7 +227,7 @@ export default function InternshipAgreementPage() {
 
         <div className="mt-8 flex gap-3">
           <Link
-            href="/programs/finance-bookkeeping-accounting"
+            href="/programs/bookkeeping"
             className="text-brand-red-600 font-semibold text-sm hover:underline"
           >
             ← Back to Finance Pathway

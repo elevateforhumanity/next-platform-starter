@@ -52,7 +52,7 @@ export const mainNavigation: NavItem[] = [
       },
       {
         label: 'JRI Programs',
-        href: '/programs/jri',
+        href: '/partners/jri',
         description: 'Justice-involved reentry programs',
         subItems: [
           { label: 'CNA', href: '/programs/cna' },
@@ -125,7 +125,7 @@ export const footerNavigation = {
       { label: 'All Programs', href: '/programs' },
       { label: 'Apprenticeships', href: '/programs/apprenticeships' },
       { label: 'WIOA Programs', href: '/programs/federal-funded' },
-      { label: 'JRI Programs', href: '/programs/jri' },
+      { label: 'JRI Programs', href: '/partners/jri' },
     ],
   },
   services: {

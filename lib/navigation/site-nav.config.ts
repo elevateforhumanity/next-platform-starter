@@ -734,7 +734,7 @@ export const footerNavigation = {
   programApply: {
     title: 'Program Applications',
     links: [
-      { label: 'CNA Enroll', href: '/programs/cna/enroll' },
+      { label: 'CNA Enroll', href: '/programs/cna' },
       { label: 'CPR/First Aid Apply', href: '/programs/cpr-first-aid' },
       { label: 'Culinary Apply', href: '/programs/culinary-apprenticeship/apply' },
       { label: 'Electrical Apply', href: '/programs/electrical/apply' },
