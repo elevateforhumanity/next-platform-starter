@@ -46,10 +46,12 @@ export default function ProgramApplyForm({ programSlug, programTitle }: Props) {
         email: form.email,
         phone: form.phone,
         zipCode: form.zipCode,
-        programInterest: programTitle,
+        // Use slug as programInterest so program_id resolves correctly in DB
+        programInterest: programSlug,
         requestedFundingSource: form.requestedFundingSource,
         goals: form.goals,
-        applicationType: 'inquiry',
+        applicationType: 'enrollment',
+        source: `program-page-${programSlug}`,
         // Required by interface — not shown to user on this short form
         password: Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2),
       });

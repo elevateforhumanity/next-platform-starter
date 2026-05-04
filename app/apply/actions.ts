@@ -241,6 +241,8 @@ export interface StudentApplicationData extends BaseApplicationData {
   /** 'inquiry' = information request only, no enrollment created.
    *  'enrollment' = intent to enroll — requires payment or verified funding. */
   applicationType?: 'inquiry' | 'enrollment' | string;
+  /** Override the default source tag written to the applications table. */
+  source?: string;
   // Funding eligibility fields
   requestedFundingSource?: string;
   householdSize?: number | null;
@@ -735,7 +737,7 @@ export async function submitStudentApplication(data: StudentApplicationData) {
     ]
       .filter(Boolean)
       .join(' | '),
-    source: 'student-application',
+    source: data.source || 'student-application',
   });
 
   if (!result.success) return result;
