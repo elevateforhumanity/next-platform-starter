@@ -58,7 +58,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
   // ── Education staff ───────────────────────────────────────────────
   instructor: '/instructor/dashboard',
   mentor: '/mentor/dashboard',
-  creator: '/creator/dashboard',
+  creator: '/creator/products',
 
   // ── Workforce / case management ───────────────────────────────────
   case_manager: '/case-manager/dashboard',
