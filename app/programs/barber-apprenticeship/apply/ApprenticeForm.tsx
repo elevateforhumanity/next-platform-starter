@@ -69,8 +69,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
   // Embedded Stripe checkout (BNPL — Klarna / Afterpay)
   const [embeddedClientSecret, setEmbeddedClientSecret] = useState<string | null>(null);
 
-  // Transfer hours — progress credit only, does not affect price or term.
-  const [transferHours, setTransferHours] = useState(0);
+
 
   // Payment option — pre-selected from URL param if provided
   const [paymentOption, setPaymentOption] = useState<PaymentOption>(() =>
@@ -105,7 +104,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
   const { weeklyDollars, weeks } = calculateWeeklyPayment(
     paymentOption === 'custom' ? customAmount : PRICING.defaultDownPayment,
   );
-  const hoursRemaining = remainingHoursDisplay(transferHours);
+  const hoursRemaining = remainingHoursDisplay(0);
 
   const updateField = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -129,7 +128,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          transferHours,
+          transferred_hours: 0,
           program: 'Barber Apprenticeship',
           programSlug: 'barber-apprenticeship',
           fundingType: 'self-pay',
@@ -149,7 +148,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
         sms_consent: smsConsent,
         application_id: applicationId,
         // transferred_hours is metadata only — does not affect price (progress credit only).
-        transferred_hours_verified: transferHours,
+        transferred_hours_verified: 0,
         has_host_shop: formData.hasHostShop,
         host_shop_name: formData.hostShopName,
         hours_per_week: 40,
@@ -177,7 +176,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             amount: affirmAmount,
             paymentOption: affirmAmount >= PRICING.fullPrice ? 'full' : 'deposit',
             applicationId: applicationId,
-            transferHours: transferHours,
+            transferred_hours: 0,
             hoursPerWeek: 40,
             hasHostShop: formData.hasHostShop,
             hostShopName: formData.hostShopName,
@@ -272,7 +271,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             paymentOption: sezzleAmount >= PRICING.fullPrice ? 'full' : 'deposit',
             description: `Barber Apprenticeship - $${sezzleAmount} payment via Sezzle`,
             applicationId: applicationId,
-            transferHours: transferHours,
+            transferred_hours: 0,
             hoursPerWeek: 40,
             hasHostShop: formData.hasHostShop,
             hostShopName: formData.hostShopName,
@@ -304,7 +303,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             customer_phone: formData.phone,
             sms_consent: smsConsent,
             application_id: applicationId,
-            transferred_hours_verified: transferHours,
+            transferred_hours_verified: 0,
             hours_per_week: 40,
             has_host_shop: formData.hasHostShop,
             host_shop_name: formData.hostShopName,
@@ -411,29 +410,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                 <h2 className="text-lg font-bold">Payment Calculator</h2>
               </div>
 
-              <div className="space-y-4 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Transfer Hours (if any)
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="1900"
-                    step="50"
-                    value={transferHours}
-                    onChange={(e) => {
-                      const val = Math.min(1900, Math.max(0, parseInt(e.target.value) || 0));
-                      setTransferHours(val);
-                    }}
-                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/50"
-                    placeholder="0"
-                  />
-                  <p className="text-xs text-white/70 mt-1">
-                    Transfer hours reduce program duration, not tuition.
-                  </p>
-                </div>
-              </div>
+
 
               {/* Results */}
               <div className="bg-white/10 rounded-xl p-4 mb-4">
@@ -590,39 +567,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                   </label>
                 </div>
 
-                {/* Transfer Hours Question */}
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                  <label className="block text-sm font-medium text-amber-900 mb-2">
-                    Do you have documented barber training hours to transfer?
-                  </label>
-                  <div className="space-y-2">
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="hasTransferHours"
-                        checked={transferHours > 0}
-                        onChange={() => setTransferHours(500)}
-                        className="w-4 h-4 text-amber-600"
-                      />
-                      <span className="text-amber-800">Yes, I have hours to transfer</span>
-                    </label>
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="hasTransferHours"
-                        checked={transferHours === 0}
-                        onChange={() => setTransferHours(0)}
-                        className="w-4 h-4 text-amber-600"
-                      />
-                      <span className="text-amber-800">No, I'm starting fresh</span>
-                    </label>
-                  </div>
-                  {transferHours > 0 && (
-                    <p className="text-xs text-amber-700 mt-2">
-                      Adjust your transfer hours in the calculator on the left.
-                    </p>
-                  )}
-                </div>
+
 
                 {/* Host Shop Question */}
                 <div>
