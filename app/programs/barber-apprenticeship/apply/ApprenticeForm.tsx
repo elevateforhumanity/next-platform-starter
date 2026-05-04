@@ -7,6 +7,7 @@ import { ArrowLeft, Loader2, CreditCard, Calculator, Info } from 'lucide-react';
 import LazyVideo from '@/components/ui/LazyVideo';
 import BnplOptions from '@/components/checkout/BnplOptions';
 import { BARBER_PRICING } from '@/lib/programs/pricing';
+import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 import {
   TUITION_CENTS,
   MIN_SETUP_FEE_CENTS,
