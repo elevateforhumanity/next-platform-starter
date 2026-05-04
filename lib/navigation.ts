@@ -38,9 +38,9 @@ export const NAV_ITEMS: NavItem[] = [
     subItems: [
       // Healthcare
       { name: '— Healthcare —', href: '/programs/healthcare', isHeader: true },
-      { name: 'CNA / Nursing Assistant', href: '/programs/cna/enroll' },
-      { name: 'QMA / Medication Aide', href: '/programs/qma/apply' },
-      { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist/apply' },
+      { name: 'CNA / Nursing Assistant', href: '/programs/cna' },
+      { name: 'QMA / Medication Aide', href: '/programs/qma' },
+      { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
       { name: 'Direct Support Professional', href: canonicalRoutes.programs.directSupportProfessional },
       { name: 'Drug & Alcohol Collector', href: '/programs/drug-collector' },
       { name: 'CPR / First Aid', href: '/programs/cpr-first-aid' },
