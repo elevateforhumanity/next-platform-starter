@@ -57,7 +57,7 @@ export default async function ApprenticeshipProgramsPage() {
         items={[{ label: 'Programs', href: '/programs' }, { label: 'Apprenticeships' }]}
       />
       {/* Hero */}
-      <section className="bg-white text-white px-6 sm:px-10 lg:px-12 py-20 lg:py-28">
+      <section className="bg-brand-blue-700 text-white px-6 sm:px-10 lg:px-12 py-20 lg:py-28">
         <div className="mx-auto max-w-5xl text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
             <Briefcase className="w-5 h-5" />
@@ -68,7 +68,7 @@ export default async function ApprenticeshipProgramsPage() {
             Earn While You Learn
           </h1>
 
-          <p className="text-xl sm:text-2xl text-blue-100 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-xl sm:text-2xl text-white/90 leading-relaxed max-w-3xl mx-auto">
             Get paid to train in a skilled trade. Apprenticeships combine hands-on work experience
             with classroom instruction—and you earn a paycheck from day one.
           </p>
