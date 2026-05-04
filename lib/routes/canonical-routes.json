@@ -71,6 +71,11 @@
       "permanent": true
     },
     {
+      "source": "/programs/cna-certification/:path*",
+      "destination": "/programs/cna/:path*",
+      "permanent": true
+    },
+    {
       "source": "/programs/cna-cert",
       "destination": "/programs/cna",
       "permanent": true
@@ -293,6 +298,11 @@
     {
       "source": "/programs/cpr-first-aid-hsi",
       "destination": "/programs/cpr-first-aid",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cpr-first-aid-hsi/:path*",
+      "destination": "/programs/cpr-first-aid/:path*",
       "permanent": true
     },
     {
