@@ -1,89 +1,19 @@
-// Revalidate every 5 minutes — host shop list changes infrequently.
-// dynamic = 'force-dynamic' is intentionally NOT set: we want ISR, not SSR.
-// On Netlify (no SUPABASE_SERVICE_ROLE_KEY at build time), getApprovedShops()
-// returns [] and the page renders with empty state — no build failure.
-export const revalidate = 300;
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Shield, Users, Award, Building2, MapPin, Phone, Mail } from 'lucide-react';
+import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getApprovedShops, type HostShop } from '@/lib/programs/host-shops';
 
 export const metadata: Metadata = {
-  title: 'Approved Training Sites | Barber & Cosmetology Apprenticeship | Elevate for Humanity',
-  description:
-    'View approved host shops for the Elevate for Humanity barber and cosmetology apprenticeship programs.',
+  title: 'Become a Host Barbershop | Barber Apprenticeship | Elevate for Humanity',
+  description: 'Partner with Elevate for Humanity as a host barbershop for our USDOL Registered Barber Apprenticeship program. Train the next generation of barbers.',
+  alternates: {
+    canonical: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship/host-shops',
+  },
 };
 
-function ShopCard({ shop }: { shop: HostShop }) {
-  const isBarber = shop.programs.includes('barber-apprenticeship');
-  const isCosmo = shop.programs.includes('cosmetology-apprenticeship');
-  const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(`${shop.address}, ${shop.city}, ${shop.state} ${shop.zip}`)}`;
-
-  return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex-1 min-w-0">
-          <div className="flex flex-wrap gap-1.5 mb-2">
-            {isBarber && (
-              <span className="text-xs font-bold text-brand-blue-600 bg-blue-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                Barber
-              </span>
-            )}
-            {isCosmo && (
-              <span className="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                Cosmetology
-              </span>
-            )}
-          </div>
-          <h3 className="text-lg font-black text-slate-900 leading-snug">{shop.name}</h3>
-          {shop.supervisor && (
-            <p className="text-xs text-slate-500 mt-0.5">Supervisor: {shop.supervisor}</p>
-          )}
-        </div>
-        <Award className="w-5 h-5 text-brand-green-600 flex-shrink-0 ml-3 mt-1" />
-      </div>
-      <div className="space-y-1.5 mt-3">
-        <a
-          href={mapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-start gap-2 text-sm text-slate-600 hover:text-brand-blue-600 transition-colors"
-        >
-          <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-          <span>
-            {shop.address}, {shop.city}, {shop.state} {shop.zip}
-          </span>
-        </a>
-        {shop.phone && (
-          <a
-            href={`tel:${shop.phone.replace(/\D/g, '')}`}
-            className="flex items-center gap-2 text-sm text-brand-blue-600 font-semibold hover:underline"
-          >
-            <Phone className="w-4 h-4 flex-shrink-0" />
-            {shop.phone}
-          </a>
-        )}
-        {shop.email && (
-          <a
-            href={`mailto:${shop.email}`}
-            className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 transition-colors"
-          >
-            <Mail className="w-4 h-4 flex-shrink-0" />
-            {shop.email}
-          </a>
-        )}
-      </div>
-    </div>
-  );
-}
-
-export default async function HostShopsPage() {
-  const shops = await getApprovedShops();
-  const barberShops = shops.filter((s) => s.programs.includes('barber-apprenticeship'));
-  const cosmoShops = shops.filter((s) => s.programs.includes('cosmetology-apprenticeship'));
+export default function HostShopsPage() {
 
   return (
     <main className="bg-white">
@@ -91,205 +21,270 @@ export default async function HostShopsPage() {
         items={[
           { label: 'Programs', href: '/programs' },
           { label: 'Barber Apprenticeship', href: '/programs/barber-apprenticeship' },
-          { label: 'Training Sites' },
+          { label: 'Host Shops' },
         ]}
       />
-
       {/* Hero */}
-      <section className="relative h-[50vh] min-h-[380px] max-h-[520px]">
+      <section className="relative h-[60vh] min-h-[450px] max-h-[600px]">
         <Image
           src="/images/pages/barber-gallery-1.jpg"
-          alt="Professional barbershop"
-          fill
-          sizes="100vw"
+          alt="Professional barbershop interior"
+          fill sizes="100vw"
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-slate-900/60 flex items-end">
-          <div className="max-w-4xl mx-auto px-6 pb-10 w-full">
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-3">
-              Approved Training Sites
-            </h1>
-            <p className="text-slate-300 text-lg max-w-2xl">
-              All sites are verified, licensed, and DOL-registered. Apprentices are placed based on
-              location and availability.
+      </section>
+
+      {/* Why Partner - Visual Benefits */}
+      <section className="py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-4 text-black">Why Partner With Us?</h2>
+          <p className="text-xl text-black text-center mb-16 max-w-3xl mx-auto">
+            Host shops gain trained talent, zero paperwork burden, and the satisfaction of building the next generation.
+          </p>
+          
+          {/* Benefit 1 - Image Left */}
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
+            <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src="/images/pages/barber-training.jpg"
+                alt="Barber training apprentice"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div>
+              <div className="w-16 h-16 bg-brand-green-100 rounded-2xl flex items-center justify-center mb-6">
+                <Users className="w-8 h-8 text-brand-green-700" />
+              </div>
+              <h3 className="text-2xl font-bold text-black mb-4">Get Trained, Motivated Help</h3>
+              <p className="text-lg text-black mb-4">
+                Apprentices come to you ready to learn. They handle shampoos, sweeping, prep work, and basic services under your supervision - freeing you to focus on paying clients.
+              </p>
+              <ul className="space-y-2 text-black">
+                <li className="flex items-center gap-2">
+                  <span className="text-brand-green-600 font-bold">•</span> Extra hands during busy hours
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-brand-green-600 font-bold">•</span> Pre-screened, committed learners
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-brand-green-600 font-bold">•</span> Potential future employees
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Benefit 2 - Image Right */}
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
+            <div className="order-2 md:order-1">
+              <div className="w-16 h-16 bg-brand-blue-100 rounded-2xl flex items-center justify-center mb-6">
+                <Shield className="w-8 h-8 text-brand-blue-700" />
+              </div>
+              <h3 className="text-2xl font-bold text-black mb-4">Zero Paperwork for You</h3>
+              <p className="text-lg text-black mb-4">
+                We handle all the administrative burden. Hour tracking, state compliance, curriculum delivery, and completion documentation - that's our job, not yours.
+              </p>
+              <ul className="space-y-2 text-black">
+                <li className="flex items-center gap-2">
+                  <span className="text-brand-blue-600 font-bold">•</span> Digital hour tracking system
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-brand-blue-600 font-bold">•</span> State board compliance handled
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-brand-blue-600 font-bold">•</span> Simple attendance verification
+                </li>
+              </ul>
+            </div>
+            <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl order-1 md:order-2">
+              <Image
+                src="/images/pages/barber-gallery-2.jpg"
+                alt="Professional barbershop"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Benefit 3 - Image Left */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src="/images/pages/barber-gallery-3.jpg"
+                alt="Barber with client"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div>
+              <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-6">
+                <Award className="w-8 h-8 text-amber-700" />
+              </div>
+              <h3 className="text-2xl font-bold text-black mb-4">Build Your Legacy</h3>
+              <p className="text-lg text-black mb-4">
+                Every master barber learned from someone. By hosting apprentices, you pass on your skills and strengthen the profession. Many host shops hire their best apprentices after completion.
+              </p>
+              <ul className="space-y-2 text-black">
+                <li className="flex items-center gap-2">
+                  <span className="text-amber-600 font-bold">•</span> Train barbers your way
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-amber-600 font-bold">•</span> First pick of new talent
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-amber-600 font-bold">•</span> Recognition as a training shop
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Qualifications */}
+      <section className="py-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-4 text-black">Host Shop Qualifications</h2>
+          <p className="text-black text-center mb-12">
+            To participate as a host barbershop, your shop must meet these requirements:
+          </p>
+          <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-black">
+            <ul className="space-y-4">
+              {[
+                'Hold an active Indiana barbershop license in good standing',
+                'Employ at least one licensed barber capable of supervising apprentices',
+                'Maintain a safe, professional training environment',
+                'Agree to verify apprentice attendance and progress',
+                'Follow program guidelines and documentation requirements',
+                'Carry appropriate business insurance',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="text-brand-green-600 font-bold text-xl">•</span>
+                  <span className="text-black text-lg">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Responsibilities */}
+      <section className="py-16 px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12 text-black">Host Shop Responsibilities</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white rounded-xl p-8 border-2 border-black shadow-lg">
+              <h3 className="font-bold text-xl mb-6 text-black">What You Provide</h3>
+              <ul className="space-y-4 text-black">
+                <li className="flex items-start gap-3">
+                  <span className="text-brand-orange-600 font-bold text-xl">→</span>
+                  <span className="text-lg">Supervised on-the-job training</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-brand-orange-600 font-bold text-xl">→</span>
+                  <span className="text-lg">Workspace and tools access</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-brand-orange-600 font-bold text-xl">→</span>
+                  <span className="text-lg">Attendance verification</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-brand-orange-600 font-bold text-xl">→</span>
+                  <span className="text-lg">Professional mentorship</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <h3 className="font-bold text-xl mb-6 text-slate-900">What We Handle</h3>
+              <ul className="space-y-4 text-slate-900">
+                <li className="flex items-start gap-3">
+                  <span className="font-bold text-xl">•</span>
+                  <span className="text-lg">Apprenticeship structure & framework</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="font-bold text-xl">•</span>
+                  <span className="text-lg">Related instruction (Milady curriculum)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="font-bold text-xl">•</span>
+                  <span className="text-lg">Documentation & compliance</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="font-bold text-xl">•</span>
+                  <span className="text-lg">Completion verification</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Approval Process */}
+      <section className="py-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12 text-black">Approval Process</h2>
+          <div className="space-y-6">
+            {[
+              { step: 1, title: 'Submit Application', description: 'Complete the host shop enrollment form with your shop details and license information.' },
+              { step: 2, title: 'License Verification', description: 'We verify your barbershop license and supervisor credentials.' },
+              { step: 3, title: 'Agreement Review', description: 'Review and accept the Host Shop Agreement (MOU).' },
+              { step: 4, title: 'Approval & Placement', description: 'Once approved, you can begin hosting apprentices based on availability.' },
+            ].map((item) => (
+              <div key={item.step} className="flex gap-4 items-start">
+                <div className="w-14 h-14 bg-black text-white rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
+                  {item.step}
+                </div>
+                <div className="flex-1 bg-white rounded-xl p-6 shadow-lg border border-black">
+                  <h3 className="font-bold text-black text-lg mb-2">{item.title}</h3>
+                  <p className="text-black">{item.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 bg-brand-green-50 border-2 border-brand-green-600 rounded-xl p-6 text-center">
+            <p className="text-black font-medium text-lg">
+              Host shops must be approved before they can host apprentices. Enrollment includes intake and Host Shop Agreement acceptance.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="bg-slate-900 py-6 px-6">
-        <div className="max-w-4xl mx-auto flex flex-wrap gap-8 justify-center text-center">
-          <div>
-            <p className="text-3xl font-black text-white">{shops.length}</p>
-            <p className="text-slate-400 text-sm">Approved Sites</p>
-          </div>
-          <div>
-            <p className="text-3xl font-black text-white">{barberShops.length}</p>
-            <p className="text-slate-400 text-sm">Barber Sites</p>
-          </div>
-          <div>
-            <p className="text-3xl font-black text-white">{cosmoShops.length}</p>
-            <p className="text-slate-400 text-sm">Cosmetology Sites</p>
-          </div>
-          <div>
-            <p className="text-3xl font-black text-white">Unlimited</p>
-            <p className="text-slate-400 text-sm">Apprentice Capacity</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Barber sites */}
-      <section className="py-16 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-brand-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
-              <Shield className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-black text-slate-900">Barber Apprenticeship Sites</h2>
-              <p className="text-slate-500 text-sm">
-                {barberShops.length} approved location{barberShops.length !== 1 ? 's' : ''}
-              </p>
-            </div>
-          </div>
-          {barberShops.length === 0 ? (
-            <p className="text-slate-500 italic">No approved barber sites on file yet.</p>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {barberShops.map((s) => (
-                <ShopCard key={s.id} shop={s} />
-              ))}
-            </div>
-          )}
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href="/programs/barber-apprenticeship/apply"
-              className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-6 py-3 rounded-xl font-bold transition"
-            >
-              Apply for Barber Apprenticeship →
-            </Link>
-            <Link
-              href="/partners/barbershop-apprenticeship/apply"
-              className="inline-flex items-center gap-2 border-2 border-slate-900 text-slate-900 hover:bg-slate-50 px-6 py-3 rounded-xl font-bold transition"
-            >
-              Register Your Shop
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Cosmetology sites */}
-      <section className="py-16 px-6 bg-slate-50 border-t">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
-              <Users className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-black text-slate-900">
-                Cosmetology Apprenticeship Sites
-              </h2>
-              <p className="text-slate-500 text-sm">
-                {cosmoShops.length} approved location{cosmoShops.length !== 1 ? 's' : ''}
-              </p>
-            </div>
-          </div>
-          {cosmoShops.length === 0 ? (
-            <p className="text-slate-500 italic">No approved cosmetology sites on file yet.</p>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {cosmoShops.map((s) => (
-                <ShopCard key={s.id} shop={s} />
-              ))}
-            </div>
-          )}
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href="/programs/cosmetology-apprenticeship/apply"
-              className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-xl font-bold transition"
-            >
-              Apply for Cosmetology Apprenticeship →
-            </Link>
-            <Link
-              href="/partners/cosmetology-apprenticeship/apply"
-              className="inline-flex items-center gap-2 border-2 border-slate-900 text-slate-900 hover:bg-slate-50 px-6 py-3 rounded-xl font-bold transition"
-            >
-              Register Your Salon
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* How placement works */}
+      {/* Bottom CTA */}
       <section className="py-16 px-6 border-t">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-slate-900">
-            How Shop Placement Works
-          </h2>
-          <div className="grid md:grid-cols-4 gap-6">
-            {[
-              {
-                step: 1,
-                title: 'Apply',
-                desc: 'Submit your application and select a preferred shop or ask us to match you.',
-              },
-              {
-                step: 2,
-                title: 'Match',
-                desc: 'We match you with an approved site based on location and availability.',
-              },
-              {
-                step: 3,
-                title: 'Orientation',
-                desc: 'Complete your online orientation and paperwork before your first day.',
-              },
-              {
-                step: 4,
-                title: 'Start Training',
-                desc: 'Begin logging OJT hours under a licensed supervisor.',
-              },
-            ].map((item) => (
-              <div key={item.step} className="text-center">
-                <div className="w-12 h-12 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-lg mx-auto mb-4">
-                  {item.step}
-                </div>
-                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Become a host CTA */}
-      <section className="py-16 px-6 bg-slate-900">
         <div className="max-w-3xl mx-auto text-center">
-          <Building2 className="w-12 h-12 mx-auto mb-6 text-slate-400" />
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Own a Shop? Become a Training Site.
-          </h2>
-          <p className="text-slate-400 mb-8">
-            We handle compliance, curriculum, and documentation — you provide the workspace and
-            mentorship.
+          <Building2 className="w-16 h-16 mx-auto mb-6 text-slate-900" />
+          <h2 className="text-3xl font-bold mb-4">Ready to Train the Next Generation?</h2>
+          <p className="text-slate-600 mb-8">
+            Join our network of approved host barbershops and help shape future barbers.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              href="/partners/barbershop-apprenticeship/apply"
-              className="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-slate-100 transition"
+              href="/forms/host-shop-inquiry"
+              className="bg-white text-slate-900 px-8 py-4 rounded-lg font-bold transition hover:bg-white"
             >
-              Register as Barber Site
+              General Inquiry
             </Link>
             <Link
-              href="/partners/cosmetology-apprenticeship/apply"
-              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold transition"
+              href="/programs/barber-apprenticeship/host-shops"
+              className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-lg font-bold transition"
             >
-              Register as Cosmetology Site
+              Enroll as a Host Shop
             </Link>
           </div>
         </div>
       </section>
     </main>
+  );
+}
+
+function BenefitCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+  return (
+    <div className="text-center p-6">
+      <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-blue-800">
+        {icon}
+      </div>
+      <h3 className="font-bold text-lg mb-2 text-black">{title}</h3>
+      <p className="text-black">{description}</p>
+    </div>
   );
 }

@@ -1,21 +1,22 @@
 export const dynamic = 'force-dynamic';
 
 import { createClient } from '@/lib/supabase/server';
-import { getDb } from '@/lib/lms/api';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 
-export default async function OrientationLayout({ children }: { children: React.ReactNode }) {
+export default async function OrientationLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = await createClient();
-  const db = await getDb();
-  if (!db) throw new Error('Admin client failed to initialize');
+  const _admin = createAdminClient(); const db = _admin || supabase;
 
   if (!supabase) {
     redirect('/login?redirect=/programs/barber-apprenticeship/orientation');
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/programs/barber-apprenticeship/orientation');
@@ -28,7 +29,7 @@ export default async function OrientationLayout({ children }: { children: React.
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .limit(1)
-    .maybeSingle();
+    .single();
 
   // No enrollment - redirect to program page
   if (!enrollment) {
@@ -36,11 +37,7 @@ export default async function OrientationLayout({ children }: { children: React.
   }
 
   // Must be confirmed (paid) to access orientation
-  if (
-    !['confirmed', 'paid', 'orientation_complete', 'documents_complete', 'active'].includes(
-      enrollment.status,
-    )
-  ) {
+  if (!['confirmed', 'paid', 'orientation_complete', 'documents_complete', 'active'].includes(enrollment.status)) {
     redirect('/programs/barber-apprenticeship');
   }
 

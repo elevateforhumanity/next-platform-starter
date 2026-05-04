@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -24,11 +25,9 @@ export default function BarberDocumentsPage() {
   useEffect(() => {
     async function getEnrollment() {
       const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-
+      
       const { data: enrollment } = await supabase
         .from('program_enrollments')
         .select('id')
@@ -36,7 +35,7 @@ export default function BarberDocumentsPage() {
         .order('created_at', { ascending: false })
         .limit(1)
         .single();
-
+      
       if (enrollment) {
         setEnrollmentId(enrollment.id);
       }
@@ -48,7 +47,7 @@ export default function BarberDocumentsPage() {
     {
       id: 'government-id',
       name: 'Government-Issued ID',
-      description: "Driver's license, state ID, or passport",
+      description: 'Driver\'s license, state ID, or passport',
       required: true,
     },
   ];
@@ -70,7 +69,7 @@ export default function BarberDocumentsPage() {
 
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    docType: 'government-id' | 'additional',
+    docType: 'government-id' | 'additional'
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -109,10 +108,8 @@ export default function BarberDocumentsPage() {
         } else {
           setAdditionalDocs((prev) =>
             prev.map((doc) =>
-              doc.name === file.name
-                ? { ...doc, status: 'complete', url: result.document?.file_url }
-                : doc,
-            ),
+              doc.name === file.name ? { ...doc, status: 'complete', url: result.document?.file_url } : doc
+            )
           );
         }
       } else {
@@ -123,7 +120,9 @@ export default function BarberDocumentsPage() {
         setGovernmentId({ ...uploadedFile, status: 'error' });
       } else {
         setAdditionalDocs((prev) =>
-          prev.map((doc) => (doc.name === file.name ? { ...doc, status: 'error' } : doc)),
+          prev.map((doc) =>
+            doc.name === file.name ? { ...doc, status: 'error' } : doc
+          )
         );
       }
     }
@@ -150,7 +149,7 @@ export default function BarberDocumentsPage() {
         return;
       }
 
-      router.push('/programs/barber-apprenticeship/payment-setup');
+      router.push('/apprentice');
     } catch {
       setSubmitError('Unable to submit. Please try again or call (317) 314-3757.');
       setSubmitting(false);
@@ -165,7 +164,7 @@ export default function BarberDocumentsPage() {
       <div className="bg-white py-8 border-t">
         <div className="max-w-2xl mx-auto px-6">
           <h1 className="text-3xl font-black mb-2">Required Documents</h1>
-          <p className="text-slate-700">
+          <p className="text-slate-600">
             Upload your documents to complete enrollment and access your program.
           </p>
         </div>
@@ -184,16 +183,16 @@ export default function BarberDocumentsPage() {
                 <div className="flex items-start justify-between mb-2">
                   <div>
                     <h3 className="font-bold text-slate-900">{doc.name}</h3>
-                    <p className="text-sm text-slate-700">{doc.description}</p>
+                    <p className="text-sm text-slate-500">{doc.description}</p>
                   </div>
                   {governmentId?.status === 'complete' && (
-                    <span className="text-slate-700 flex-shrink-0">•</span>
+                    <span className="text-slate-500 flex-shrink-0">•</span>
                   )}
                 </div>
 
                 {governmentId ? (
                   <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
-                    <FileText className="w-5 h-5 text-slate-700" />
+                    <FileText className="w-5 h-5 text-slate-400" />
                     <span className="flex-1 text-sm text-slate-700 truncate">
                       {governmentId.name}
                     </span>
@@ -201,14 +200,12 @@ export default function BarberDocumentsPage() {
                       <span className="text-sm text-brand-blue-600">Uploading...</span>
                     )}
                     {governmentId.status === 'error' && (
-                      <span className="text-sm text-red-600">
-                        Upload failed. Please try again or call (317) 314-3757.
-                      </span>
+                      <span className="text-sm text-red-600">Upload failed. Please try again or call (317) 314-3757.</span>
                     )}
                     {governmentId.status === 'complete' && (
                       <button
                         onClick={() => setGovernmentId(null)}
-                        className="text-slate-700 hover:text-brand-red-500"
+                        className="text-slate-400 hover:text-brand-red-500"
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -216,8 +213,8 @@ export default function BarberDocumentsPage() {
                   </div>
                 ) : (
                   <label className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-brand-blue-500 hover:bg-brand-blue-50 transition">
-                    <Upload className="w-5 h-5 text-slate-700" />
-                    <span className="text-slate-700">Click to upload</span>
+                    <Upload className="w-5 h-5 text-slate-400" />
+                    <span className="text-slate-600">Click to upload</span>
                     <input
                       type="file"
                       accept="image/*,.pdf"
@@ -242,12 +239,12 @@ export default function BarberDocumentsPage() {
                 <div className="flex items-start justify-between mb-2">
                   <div>
                     <h3 className="font-medium text-slate-900">{doc.name}</h3>
-                    <p className="text-sm text-slate-700">{doc.description}</p>
+                    <p className="text-sm text-slate-500">{doc.description}</p>
                   </div>
                 </div>
                 <label className="flex items-center justify-center gap-2 p-3 border border-slate-200 rounded-lg cursor-pointer hover:border-slate-300 hover:bg-white transition">
-                  <Upload className="w-4 h-4 text-slate-700" />
-                  <span className="text-sm text-slate-700">Upload (optional)</span>
+                  <Upload className="w-4 h-4 text-slate-400" />
+                  <span className="text-sm text-slate-500">Upload (optional)</span>
                   <input
                     type="file"
                     accept="image/*,.pdf"
@@ -281,7 +278,7 @@ export default function BarberDocumentsPage() {
           </p>
         )}
 
-        <p className="text-center text-slate-700 text-sm mt-4">
+        <p className="text-center text-slate-500 text-sm mt-4">
           Your documents are encrypted and stored securely.
         </p>
       </div>

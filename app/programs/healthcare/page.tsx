@@ -1,154 +1,184 @@
-import type { Metadata } from 'next';
+
+import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ProgramStructuredData } from '@/components/seo/CourseStructuredData';
+import ProgramPageLayout from '@/components/programs/ProgramPageLayout';
+import type { ProgramPageConfig } from '@/components/programs/ProgramPageLayout';
+import { InView } from '@/components/ui/InView';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
-import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
-import PathwayDisclosure from '@/components/PathwayDisclosure';
-import HeroVideo from '@/components/marketing/HeroVideo';
-import heroBanners from '@/content/heroBanners';
-import { createPublicClient } from '@/lib/supabase/public';
-import { programs as staticPrograms } from '@/content/cf-programs';
+export const dynamic = 'force-static';
+export const revalidate = 86400;
 
-export const dynamic = 'force-dynamic';
+const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
-  title: 'Healthcare Training Programs | CNA, Phlebotomy, Medical Assistant | Elevate for Humanity',
-  description:
-    'State-approved healthcare training in Indianapolis. CNA, Phlebotomy, Medical Assistant, Pharmacy Tech and more. Funding available through FSSA IMPACT and WIOA depending on program.',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/healthcare' },
+  title: 'Healthcare Training Programs | Free with WIOA | Indianapolis',
+  description: 'CNA, Medical Assistant, Phlebotomy, and CPR certification programs. Free for eligible participants. Job placement included.',
+  alternates: { canonical: `${SITE_URL}/programs/healthcare` },
+  openGraph: {
+    title: 'Healthcare Training Programs | Free with WIOA | Indianapolis',
+    description: 'CNA, Medical Assistant, Phlebotomy, and CPR certification programs. Free for eligible participants. Job placement included.',
+    url: `${SITE_URL}/programs/healthcare`,
+    siteName: 'Elevate for Humanity',
+    images: [{ url: '/images/og-image.jpg', width: 1200, height: 630, alt: 'Healthcare Training Programs | Free with WIOA | Indianapolis' }],
+    type: 'website',
+  },
 };
 
-const programImages: Record<string, string> = {
-  cna: '/images/healthcare/hero-program-patient-care.jpg',
-  'cna-cert': '/images/healthcare/hero-program-patient-care.jpg',
-  'direct-support-professional': '/images/healthcare/hero-program-medical-assistant.jpg',
-  'drug-collector': '/images/healthcare/hero-program-phlebotomy.jpg',
-  'medical-assistant': '/images/healthcare/hero-program-medical-assistant.jpg',
-  'phlebotomy-technician': '/images/healthcare/hero-program-phlebotomy.jpg',
-  'pharmacy-technician': '/images/healthcare/hero-program-medical-assistant.jpg',
-  default: '/images/healthcare/hero-program-patient-care.jpg',
+const config: ProgramPageConfig = {
+  pageKey: 'healthcare',
+
+  title: 'Healthcare Programs',
+  subtitle: 'Launch a career in healthcare. CNA and Medical Assistant are free with WIOA funding. Phlebotomy is self-pay with BNPL options available.',
+  badge: 'Free with WIOA',
+  badgeColor: 'green',
+
+  duration: '4–16 weeks',
+  cost: '$0 with WIOA funding',
+  format: 'In-person, Indianapolis',
+  credential: 'State & National Certifications',
+
+  overview: 'Our healthcare programs prepare you for in-demand careers in nursing, medical assisting, phlebotomy, and emergency care. Each program includes classroom instruction, hands-on skills labs, and supervised clinical rotations at healthcare facilities. Graduates earn industry-recognized certifications and receive career placement assistance.',
+  highlights: [
+    'State-approved curricula meeting Indiana licensing requirements',
+    'Supervised clinical rotations at healthcare facilities',
+    'National and state certification exam prep included',
+    'CPR/First Aid and BLS certification included in every program',
+    'Job placement assistance through our employer network',
+    'Scrubs, textbooks, and supplies provided with WIOA funding',
+  ],
+  overviewImage: '/images/pages/comp-program-template.jpg',
+  overviewImageAlt: 'Healthcare students in clinical training',
+
+  salaryNumber: 42000,
+  salaryLabel: 'Average starting salary across healthcare programs',
+  salaryPrefix: '$',
+
+  credentials: [
+    'Indiana CNA License',
+    'Certified Medical Assistant (CCMA)',
+    'Certified Phlebotomy Technician (CPT)',
+    'CPR/First Aid/BLS',
+  ],
+
+  careers: [
+    { title: 'Certified Nursing Assistant', salary: '$32,000–$42,000' },
+    { title: 'Medical Assistant', salary: '$36,000–$46,000' },
+    { title: 'Phlebotomy Technician', salary: '$34,000–$44,000' },
+    { title: 'Patient Care Technician', salary: '$34,000–$44,000' },
+    { title: 'Home Health Aide', salary: '$28,000–$36,000' },
+  ],
+
+  steps: [
+    { title: 'Apply Online', desc: 'Complete our application in about 5 minutes.' },
+    { title: 'Check Funding', desc: 'Most healthcare programs are free through WIOA.' },
+    { title: 'Background Check', desc: 'Healthcare programs require a background check and drug screen.' },
+    { title: 'Start Training', desc: 'Begin classroom instruction and clinical rotations.' },
+  ],
+
+  faqs: [
+    { question: 'Are healthcare programs really free?', answer: 'Yes, for eligible participants. WIOA funding covers tuition, textbooks, scrubs, supplies, and certification exam fees. You pay nothing out of pocket if you qualify.' },
+    { question: 'Which healthcare program should I choose?', answer: 'CNA is the fastest path (4-6 weeks) and a great entry point. Medical Assistant is longer (12-16 weeks) but offers higher starting pay and more clinical responsibilities. Phlebotomy is 8-10 weeks and focused on blood draws. Talk to an advisor if you are unsure.' },
+    { question: 'Do I need a background check?', answer: 'Yes. All healthcare programs require a background check and drug screen before clinical rotations. Having a record does not automatically disqualify you — we review each situation individually.' },
+    { question: 'How soon can I start working?', answer: 'Most graduates begin working within 2-4 weeks of passing their certification exam. Our career services team connects you with hiring employers.' },
+  ],
+
+  applyHref: '/apply?program=healthcare',
+
+  breadcrumbs: [
+    { label: 'Programs', href: '/programs' },
+    { label: 'Healthcare Programs' },
+  ],
 };
 
-const HEALTHCARE_SLUGS = [
-  'cna','medical-assistant','phlebotomy','home-health-aide',
-  'peer-recovery-specialist','pharmacy-technician','direct-support-professional',
-  'drug-collector','sanitation-infection-control','cpr-first-aid','emergency-health-safety',
+const healthcarePrograms = [
+  {
+    title: 'CNA Certification',
+    duration: '4–6 weeks',
+    desc: 'Become a Certified Nursing Assistant. State exam prep and clinical hours included.',
+    href: '/programs/cna',
+    image: '/images/pages/comp-pathway-healthcare.jpg',
+  },
+  {
+    title: 'Medical Assistant',
+    duration: '12–16 weeks',
+    desc: 'Clinical and administrative medical assisting. CCMA certification included.',
+    href: '/programs/medical-assistant',
+    image: '/images/pages/admin-health-hero.jpg',
+  },
+  {
+    title: 'Phlebotomy Technician',
+    duration: '8–10 weeks',
+    desc: 'Venipuncture, specimen handling, and lab safety. NHA CPT certification included. Self-pay — BNPL available. Not currently on WorkOne ETPL funded list.',
+    href: '/programs/phlebotomy',
+    image: '/images/pages/certifications-page-1.jpg',
+  },
+  {
+    title: 'CPR & First Aid',
+    duration: '1 day',
+    desc: 'American Heart Association CPR, First Aid, and AED certification.',
+    href: '/programs/cpr-first-aid',
+    image: '/images/pages/healthcare-sector.jpg',
+  },
 ];
 
-interface ProgramCard { slug: string; title: string; description: string; }
-
-async function getHealthcarePrograms(): Promise<ProgramCard[]> {
-  try {
-    const db = createPublicClient();
-    if (db) {
-      const { data } = await db
-        .from('programs')
-        .select('slug, title, short_description, description')
-        .eq('category', 'healthcare')
-        .eq('published', true)
-        .order('title');
-      if (data && data.length > 0) {
-        const seen = new Set<string>();
-        return data
-          .filter((p) => HEALTHCARE_SLUGS.includes(p.slug))
-          .filter((p) => { const k = p.title.toLowerCase().trim(); if (seen.has(k)) return false; seen.add(k); return true; })
-          .map((p) => ({ slug: p.slug, title: p.title, description: p.short_description || p.description || '' }));
-      }
-    }
-  } catch { /* fall through */ }
-  return staticPrograms
-    .filter((p) => HEALTHCARE_SLUGS.includes(p.slug))
-    .map((p) => ({ slug: p.slug, title: p.title, description: p.description || '' }));
-}
-
-export default async function HealthcareProgramsPage() {
-  const programs = await getHealthcarePrograms();
-  const b = heroBanners['healthcare'] ?? {
-    videoSrcDesktop: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4',
-    posterImage: '/images/pages/healthcare-hero.jpg',
-    microLabel: 'Healthcare Programs',
-    analyticsName: 'healthcare',
-    belowHeroHeadline: 'Healthcare Careers — Certified, credentialed, job-ready.',
-    belowHeroSubheadline: 'CNA, Phlebotomy, Medical Assistant, Pharmacy Tech and more.',
-    primaryCta: { label: 'Apply Now', href: '/apply?program=healthcare' },
-    secondaryCta: { label: 'Check Eligibility', href: '/check-eligibility', variant: 'secondary' as const },
-    trustIndicators: ['Free with WIOA funding','State-approved curricula','Clinical rotations included','Job placement assistance'],
-    transcript: '',
-  };
-
-  const ctas = [b.primaryCta, ...('secondaryCta' in b && b.secondaryCta ? [b.secondaryCta] : [])].filter(Boolean);
-
+export default function Page() {
   return (
-    <div className="min-h-screen bg-white">
-      <HeroVideo
-        videoSrcDesktop={b.videoSrcDesktop}
-        posterImage={b.posterImage}
-        voiceoverSrc={'voiceoverSrc' in b ? (b as { voiceoverSrc?: string }).voiceoverSrc : undefined}
-        microLabel={b.microLabel}
-        analyticsName={b.analyticsName}
-        belowHeroHeadline={b.belowHeroHeadline}
-        belowHeroSubheadline={b.belowHeroSubheadline}
-        ctas={ctas}
-        trustIndicators={'trustIndicators' in b ? b.trustIndicators : undefined}
-        transcript={'transcript' in b ? (b as { transcript?: string }).transcript : undefined}
-      />
-      <Breadcrumbs />
-      <PathwayDisclosure programName="Healthcare" programSlug="healthcare" />
-
-      <section className="py-16 lg:py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <p className="text-blue-600 font-semibold text-sm uppercase tracking-widest mb-3">Healthcare Programs</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Choose Your Healthcare Path</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">All programs are free for eligible participants through WIOA funding.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {programs.map((program) => (
-              <Link key={program.slug} href={`/programs/${program.slug}`}
-                className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 border border-slate-100">
-                <div className="aspect-[4/3] relative overflow-hidden">
-                  <Image src={programImages[program.slug] ?? programImages['default']} alt={program.title}
-                    fill className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
-                </div>
-                <div className="p-5">
-                  <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{program.title}</h3>
-                  {program.description && <p className="text-slate-600 text-sm mb-3 line-clamp-2">{program.description}</p>}
-                  <span className="text-blue-600 font-semibold text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">Learn More <span aria-hidden>→</span></span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 lg:py-24 bg-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Career Outcomes</h2>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto">Healthcare is one of the fastest-growing industries with strong job security.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[{stat:'$15–$22',label:'Starting hourly wage for CNAs'},{stat:'90%+',label:'Job placement rate'},{stat:'4–8 wks',label:'Typical program duration'},{stat:'High',label:'Demand for healthcare workers'}].map(({stat,label})=>(
-              <div key={stat} className="text-center">
-                <div className="text-5xl font-black text-white mb-2">{stat}</div>
-                <p className="text-slate-400">{label}</p>
+    <>
+      <ProgramStructuredData program={{
+        id: 'healthcare',
+        name: 'Healthcare Training Programs',
+        slug: 'healthcare',
+        description: config.subtitle,
+        duration_weeks: 16,
+        price: 0,
+        image_url: `${SITE_URL}/images/pages/comp-pathway-healthcare.jpg`,
+        category: 'Healthcare',
+        outcomes: config.credentials || [],
+      }} />
+      <ProgramPageLayout config={config}>
+        {/* Healthcare-specific: program cards */}
+        <InView animation="fade-up">
+          <section className="py-14 lg:py-20 border-t border-slate-100">
+            <div className="max-w-5xl mx-auto px-6">
+              <div className="text-center mb-10">
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Choose Your Path</p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Healthcare Programs</h2>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-blue-600">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Your Healthcare Career?</h2>
-          <p className="text-blue-100 mb-8">Apply today and find out if you qualify for free training through WIOA funding.</p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/apply?program=healthcare" className="bg-white text-blue-600 font-bold px-8 py-4 rounded-xl hover:bg-blue-50 transition">Apply Now</Link>
-            <Link href="/check-eligibility" className="border-2 border-white text-white font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition">Check Eligibility</Link>
-          </div>
-        </div>
-      </section>
-    </div>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {healthcarePrograms.map((prog, i) => (
+                  <ScrollReveal key={prog.title} delay={i * 80} direction="up">
+                    <Link
+                      href={prog.href}
+                      className="flex flex-col bg-white rounded-xl border-2 border-slate-200 hover:border-brand-red-400 hover:shadow-md transition-all group overflow-hidden"
+                    >
+                      <Image
+                        src={prog.image}
+                        alt={prog.title}
+                        width={600}
+                        height={400}
+                        className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-300"
+                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                      <div className="p-5 flex flex-col flex-1">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-bold text-lg text-slate-900">{prog.title}</span>
+                          <span className="text-xs font-semibold text-brand-red-600 bg-brand-red-50 px-2 py-1 rounded-full">{prog.duration}</span>
+                        </div>
+                        <span className="text-sm text-slate-600 mb-4 flex-1">{prog.desc}</span>
+                        <span className="text-brand-red-600 font-semibold text-sm group-hover:underline">
+                          Learn More →
+                        </span>
+                      </div>
+                    </Link>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          </section>
+        </InView>
+      </ProgramPageLayout>
+    </>
   );
 }

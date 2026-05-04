@@ -7,27 +7,18 @@ import CatalogFilters from './CatalogFilters';
 
 export const metadata: Metadata = {
   title: 'Program Catalog | Elevate for Humanity',
-  description:
-    'Browse workforce training programs from approved providers. Filter by funding eligibility, credential type, location, and start date.',
+  description: 'Browse workforce training programs from approved providers. Filter by funding eligibility, credential type, location, and start date.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/catalog' },
 };
 
 export const revalidate = 60;
 
 const CATEGORIES = [
-  'HVAC / Refrigeration',
-  'Electrical',
-  'Plumbing',
-  'Welding',
-  'CDL / Commercial Driving',
-  'Carpentry / Construction',
-  'Healthcare / CNA',
-  'Medical Assistant',
-  'Phlebotomy',
-  'Barbering / Cosmetology',
-  'IT Support / Cybersecurity',
-  'Business / Office Administration',
-  'Tax Preparation',
+  'HVAC / Refrigeration', 'Electrical', 'Plumbing', 'Welding',
+  'CDL / Commercial Driving', 'Carpentry / Construction',
+  'Healthcare / CNA', 'Medical Assistant', 'Phlebotomy',
+  'Barbering / Cosmetology', 'IT Support / Cybersecurity',
+  'Business / Office Administration', 'Tax Preparation',
 ];
 
 type SearchParams = {
@@ -57,10 +48,10 @@ export default async function ProgramCatalogPage({
     .from('program_catalog_index')
     .select(
       'program_id, provider_name, provider_slug, title, slug, category, ' +
-        'wioa_eligible, funding_tags, credential_name, duration_weeks, ' +
-        'next_start_date, seats_available, delivery_mode, city, state, ' +
-        'completion_rate, placement_rate',
-      { count: 'exact' },
+      'wioa_eligible, funding_tags, credential_name, duration_weeks, ' +
+      'next_start_date, seats_available, delivery_mode, city, state, ' +
+      'completion_rate, placement_rate',
+      { count: 'exact' }
     )
     .range((page - 1) * perPage, page * perPage - 1)
     .order('next_start_date', { ascending: true, nullsFirst: false });
@@ -70,22 +61,7 @@ export default async function ProgramCatalogPage({
   if (wioaOnly) query = query.eq('wioa_eligible', true);
   if (providerSlug) query = query.eq('provider_slug', providerSlug);
 
-  const { data: rawPrograms, count } = await query;
-
-  // Exclude alias slugs that redirect to canonical pages
-  const ALIAS_SLUGS = new Set([
-    'barber', 'cdl', 'cna-certification', 'certified-nursing-assistant',
-    'cpr-first-aid-hsi', 'cybersecurity', 'hvac', 'it-support',
-    'professional-esthetician', 'tax-prep-financial-services',
-  ]);
-  const seenTitles = new Set<string>();
-  const programs = (rawPrograms ?? []).filter((p) => {
-    if (p.slug && ALIAS_SLUGS.has(p.slug)) return false;
-    const key = p.title.toLowerCase().trim();
-    if (seenTitles.has(key)) return false;
-    seenTitles.add(key);
-    return true;
-  });
+  const { data: programs, count } = await query;
 
   const totalPages = Math.ceil((count ?? 0) / perPage);
 
@@ -104,13 +80,16 @@ export default async function ProgramCatalogPage({
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: 'Catalog' }]} />
+        <Breadcrumbs items={[
+          { label: 'Programs', href: '/programs' },
+          { label: 'Catalog' },
+        ]} />
       </div>
 
       <div className="bg-white py-10 border-t">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Program Catalog</h1>
-          <p className="text-black text-sm">
+          <p className="text-slate-600 text-sm">
             {count ?? 0} program{(count ?? 0) !== 1 ? 's' : ''} from approved providers
             {wioaOnly ? ' · WIOA eligible' : ''}
             {category ? ` · ${category}` : ''}
@@ -133,19 +112,16 @@ export default async function ProgramCatalogPage({
           <div className="flex-1 min-w-0">
             {(programs ?? []).length === 0 ? (
               <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
-                <BookOpen className="w-10 h-10 text-white mx-auto mb-3" />
-                <p className="text-black text-sm">No programs match your filters.</p>
-                <Link
-                  href="/programs/catalog"
-                  className="mt-3 inline-block text-sm text-brand-blue-600 hover:underline"
-                >
+                <BookOpen className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+                <p className="text-slate-500 text-sm">No programs match your filters.</p>
+                <Link href="/programs/catalog" className="mt-3 inline-block text-sm text-brand-blue-600 hover:underline">
                   Clear filters
                 </Link>
               </div>
             ) : (
               <>
                 <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
-                  {(programs ?? []).map((prog) => (
+                  {(programs ?? []).map(prog => (
                     <ProgramCard key={prog.program_id} prog={prog} />
                   ))}
                 </div>
@@ -161,7 +137,7 @@ export default async function ProgramCatalogPage({
                         Previous
                       </Link>
                     )}
-                    <span className="text-sm text-black">
+                    <span className="text-sm text-slate-500">
                       Page {page} of {totalPages}
                     </span>
                     {page < totalPages && (
@@ -204,15 +180,15 @@ type ProgramRow = {
 };
 
 function ProgramCard({ prog }: { prog: ProgramRow }) {
-  const slug = prog.slug ?? prog.program_id;
-  const detailHref = `/programs/${slug}`;
-  const applyHref = `/apply?program=${slug}`;
+  const enrollHref = prog.slug
+    ? `/programs/${prog.slug}/enroll`
+    : `/programs/${prog.program_id}/enroll`;
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 flex flex-col hover:shadow-md transition">
       <div className="p-4 flex-1">
         {/* Provider */}
-        <div className="text-xs text-black mb-1.5 truncate">{prog.provider_name}</div>
+        <div className="text-xs text-slate-400 mb-1.5 truncate">{prog.provider_name}</div>
 
         {/* Title */}
         <h3 className="font-bold text-slate-900 text-sm leading-snug mb-2">{prog.title}</h3>
@@ -220,30 +196,18 @@ function ProgramCard({ prog }: { prog: ProgramRow }) {
         {/* Tags */}
         <div className="flex flex-wrap gap-1 mb-3">
           {prog.wioa_eligible && (
-            <span className="text-xs bg-brand-blue-50 text-brand-blue-700 border border-brand-blue-200 px-2 py-0.5 rounded-full font-medium">
-              WIOA
-            </span>
+            <span className="text-xs bg-brand-blue-50 text-brand-blue-700 border border-brand-blue-200 px-2 py-0.5 rounded-full font-medium">WIOA</span>
           )}
-          {(prog.funding_tags ?? [])
-            .filter((t) => t !== 'wioa')
-            .slice(0, 2)
-            .map((tag) => (
-              <span
-                key={tag}
-                className="text-xs bg-brand-blue-50 text-brand-blue-700 px-2 py-0.5 rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
+          {(prog.funding_tags ?? []).filter(t => t !== 'wioa').slice(0, 2).map(tag => (
+            <span key={tag} className="text-xs bg-brand-blue-50 text-brand-blue-700 px-2 py-0.5 rounded-full">{tag}</span>
+          ))}
           {prog.category && (
-            <span className="text-xs bg-white text-black px-2 py-0.5 rounded-full">
-              {prog.category}
-            </span>
+            <span className="text-xs bg-white text-slate-600 px-2 py-0.5 rounded-full">{prog.category}</span>
           )}
         </div>
 
         {/* Details */}
-        <div className="space-y-1 text-xs text-black">
+        <div className="space-y-1 text-xs text-slate-500">
           {prog.credential_name && (
             <div className="flex items-center gap-1.5">
               <Award className="w-3 h-3 flex-shrink-0" />
@@ -267,12 +231,7 @@ function ProgramCard({ prog }: { prog: ProgramRow }) {
           {prog.next_start_date && (
             <div className="flex items-center gap-1.5">
               <span className="w-3 h-3 flex-shrink-0 text-center">▸</span>
-              Starts{' '}
-              {new Date(prog.next_start_date).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              Starts {new Date(prog.next_start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
             </div>
           )}
           {prog.seats_available != null && prog.seats_available <= 5 && (
@@ -283,18 +242,12 @@ function ProgramCard({ prog }: { prog: ProgramRow }) {
         </div>
       </div>
 
-      <div className="px-4 pb-4 flex gap-2">
+      <div className="px-4 pb-4">
         <Link
-          href={detailHref}
-          className="flex-1 text-center text-sm font-semibold border border-brand-blue-600 text-brand-blue-600 py-2 rounded-lg hover:bg-brand-blue-50 transition"
+          href={enrollHref}
+          className="block w-full text-center text-sm font-semibold bg-brand-blue-600 text-white py-2 rounded-lg hover:bg-brand-blue-700 transition"
         >
-          Learn More
-        </Link>
-        <Link
-          href={applyHref}
-          className="flex-1 text-center text-sm font-semibold bg-brand-blue-600 text-white py-2 rounded-lg hover:bg-brand-blue-700 transition"
-        >
-          Apply Now
+          Enroll
         </Link>
       </div>
     </div>

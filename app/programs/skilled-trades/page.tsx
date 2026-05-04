@@ -1,485 +1,88 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import ProgramPageLayout from '@/components/programs/ProgramPageLayout';
+import type { ProgramPageConfig } from '@/components/programs/ProgramPageLayout';
+import { InView } from '@/components/ui/InView';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
-import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
-import PathwayDisclosure from '@/components/PathwayDisclosure';
-import HeroVideo from '@/components/marketing/HeroVideo';
-import heroBanners from '@/content/heroBanners';
-import { createPublicClient } from '@/lib/supabase/public';
-import { programs as staticPrograms } from '@/content/cf-programs';
-import type { Metadata } from 'next';
+export const dynamic = 'force-static';
+export const revalidate = 86400;
+const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
-  title: 'Skilled Trades Training Programs | HVAC, Welding, Electrical | Elevate for Humanity',
-  description: 'Industry-recognized skilled trades credentials in Indianapolis. HVAC, Welding, Electrical, Plumbing, CDL and more. Free for eligible participants through WIOA funding.',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/skilled-trades' },
+  title: 'Skilled Trades Training Programs | Free with WIOA | Indianapolis',
+  description: 'HVAC, Electrical, Welding, Plumbing, CDL, and Diesel Mechanic training. Free for eligible participants. Hands-on training with job placement.',
+  alternates: { canonical: `${SITE_URL}/programs/skilled-trades` },
+  openGraph: {
+    title: 'Skilled Trades Training Programs | Free with WIOA | Indianapolis',
+    description: 'HVAC, Electrical, Welding, Plumbing, CDL, and Diesel Mechanic training. Free for eligible participants. Hands-on training with job placement.',
+    url: `${SITE_URL}/programs/skilled-trades`,
+    siteName: 'Elevate for Humanity',
+    images: [{ url: '/images/og-image.jpg', width: 1200, height: 630, alt: 'Skilled Trades Training Programs | Free with WIOA | Indianapolis' }],
+    type: 'website',
+  },
 };
 
-export const dynamic = 'force-dynamic';
-
-interface Program {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  category: string;
-  duration_weeks: number;
-  price: number;
-  certification: string;
-  is_active: boolean;
-}
-
-const programImages: Record<string, string> = {
-  hvac: '/images/pages/hvac-unit.jpg',
-  'hvac-tech': '/images/pages/hvac-unit.jpg',
-  'hvac-technician-wrg': '/images/pages/hvac-unit.jpg',
-  cdl: '/images/pages/cdl-truck-highway.jpg',
-  'cdl-training': '/images/pages/cdl-truck-highway.jpg',
-  'cdl-training-wrg': '/images/pages/cdl-truck-highway.jpg',
-  'barber-apprenticeship': '/images/beauty/program-barber-training.jpg',
-  'barber-apprenticeship-wrg': '/images/beauty/program-barber-training.jpg',
-  'barber-apprentice': '/images/beauty/program-barber-training.jpg',
-  barber: '/images/beauty/program-barber-training.jpg',
-  'solar-panel-installation': '/images/pages/hvac-unit.jpg',
-  'forklift-operator': '/images/pages/hvac-unit.jpg',
-  'manufacturing-technician': '/images/pages/hvac-unit.jpg',
-  'automotive-technician': '/images/pages/hvac-unit.jpg',
-
-  'building-maintenance-wrg': '/images/pages/hvac-unit.jpg',
-  default: '/images/pages/hvac-unit.jpg',
-};
-
-const TRADES_SLUGS = [
-  'hvac-technician','welding','electrical','plumbing','cdl-training',
-  'diesel-mechanic','construction-trades-certification','forklift',
+const programs = [
+  { title: 'HVAC Technician', duration: '12 weeks', salary: '$52,000', href: '/programs/hvac-technician', image: '/images/pages/hvac-technician.jpg' },
+  { title: 'Electrical Technician', duration: '12 weeks', salary: '$60,240', href: '/programs/electrical', image: '/images/pages/electrical-wiring.jpg' },
+  { title: 'Welding Technician', duration: '10 weeks', salary: '$47,540', href: '/programs/welding', image: '/images/pages/welding-sparks.jpg' },
+  { title: 'Plumbing Technician', duration: '10 weeks', salary: '$59,880', href: '/programs/plumbing', image: '/images/pages/programs-plumbing-apply-hero.jpg' },
+  { title: 'CDL Class A Training', duration: '3–6 weeks', salary: '$62,000', href: '/programs/cdl-training', image: '/images/pages/comp-layout-hero.jpg' },
+  { title: 'Diesel Mechanic', duration: '12 weeks', salary: '$55,000', href: '/programs/diesel-mechanic', image: '/images/pages/admin-fleet-hero.jpg' },
 ];
 
-async function getSkilledTradesPrograms(): Promise<Program[]> {
-  try {
-    const db = createPublicClient();
-    if (db) {
-      const { data } = await db
-        .from('programs')
-        .select('id, slug, title, short_description, description')
-        .in('category', ['trades', 'skilled-trades'])
-        .eq('published', true)
-        .order('title');
-      if (data && data.length > 0)
-        return data.map((p) => ({ id: p.id, slug: p.slug, name: p.title, description: p.short_description || p.description || '', category: 'trades', duration_weeks: 0, price: 0, certification: '', is_active: true }));
-    }
-  } catch { /* fall through */ }
-  return staticPrograms
-    .filter((p) => TRADES_SLUGS.includes(p.slug))
-    .map((p) => ({ id: p.slug, slug: p.slug, name: p.title, description: p.description || '', category: 'trades', duration_weeks: 0, price: 0, certification: '', is_active: true }));
-}
+const config: ProgramPageConfig = {
+  pageKey: 'skilled-trades',
+  title: 'Skilled Trades', subtitle: 'HVAC, Electrical, Welding, Plumbing, CDL, and Diesel. Hands-on training with real job placement.',
+  badge: 'Funding Available', badgeColor: 'orange',
+  duration: '3–12 weeks', cost: '$0 with WIOA funding', format: 'Hybrid — Online + In-person, Indianapolis', credential: 'OSHA + Industry Certifications',
+  overview: 'Our skilled trades programs prepare you for high-demand careers in construction, manufacturing, and transportation. Every program includes hands-on training with real tools and equipment, industry-recognized certifications, and job placement assistance. Most programs are free for eligible participants through WIOA funding.',
+  highlights: ['Hands-on training from day one', 'OSHA safety certifications included', 'Industry-recognized credentials', 'Job placement with employer partners', 'Free for eligible participants through WIOA', 'Apprenticeship pathways available'],
+  overviewImage: '/images/pages/skilled-trades-sector.jpg', overviewImageAlt: 'Skilled trades students in a workshop',
+  salaryNumber: 55000, salaryLabel: 'Average starting salary across skilled trades programs', salaryPrefix: '$',
+  credentials: ['OSHA 10/30-Hour', 'NCCER Core', 'EPA 608', 'AWS D1.1', 'CDL Class A'],
+  steps: [
+    { title: 'Apply Online', desc: 'Complete our application in about 5 minutes.' },
+    { title: 'Check Funding', desc: 'Register at Indiana Career Connect for WIOA eligibility.' },
+    { title: 'Choose a Trade', desc: 'Pick the program that matches your career goals.' },
+    { title: 'Start Training', desc: 'Begin hands-on training in your chosen trade.' },
+  ],
+  applyHref: '/apply?program=skilled-trades',
+  breadcrumbs: [{ label: 'Programs', href: '/programs' }, { label: 'Skilled Trades' }],
+};
 
-export default async function SkilledTradesProgramsPage() {
-  const programs = await getSkilledTradesPrograms();
-  const b = heroBanners['skilled-trades'] ?? {
-    videoSrcDesktop: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4',
-    posterImage: '/hero-images/skilled-trades-category.webp',
-    microLabel: 'Skilled Trades Programs',
-    analyticsName: 'skilled-trades',
-    belowHeroHeadline: 'Skilled Trades — HVAC, Electrical, Welding, Plumbing and more.',
-    belowHeroSubheadline: 'Industry-recognized credentials. Job-ready in weeks.',
-    primaryCta: { label: 'Apply Now', href: '/apply?program=skilled-trades' },
-    secondaryCta: { label: 'Check Eligibility', href: '/check-eligibility', variant: 'secondary' as const },
-    trustIndicators: [],
-    transcript: '',
-  };
-  const ctas = [b.primaryCta, ...('secondaryCta' in b && b.secondaryCta ? [b.secondaryCta] : [])].filter(Boolean);
-
+export default function Page() {
   return (
-    <div className="min-h-screen bg-white">
-      <HeroVideo
-        videoSrcDesktop={b.videoSrcDesktop}
-        posterImage={b.posterImage}
-        voiceoverSrc={'voiceoverSrc' in b ? b.voiceoverSrc : undefined}
-        microLabel={b.microLabel}
-        analyticsName={b.analyticsName}
-        belowHeroHeadline={b.belowHeroHeadline}
-        belowHeroSubheadline={b.belowHeroSubheadline}
-        ctas={ctas}
-        trustIndicators={b.trustIndicators}
-        transcript={b.transcript}
-      />
-
-
-
-      {/* Breadcrumbs */}
-      <Breadcrumbs />
-
-      {/* Pathway Disclosure */}
-      <PathwayDisclosure programName="Skilled Trades" programSlug="skilled-trades" />
-
-      {/* Programs Grid */}
-      <section className="py-16 lg:py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <p className="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-3">
-              Skilled Trades Programs
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              Choose Your Trade
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              All programs are free for eligible participants through WIOA funding.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {programs.map((program) => (
-                <Link
-                  key={program.id || program.slug}
-                  href={`/programs/${program.slug}`}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 border border-slate-100"
-                >
-                  <div className="aspect-[4/3] relative overflow-hidden">
-                    <div
-                      className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
-                      style={{
-                        backgroundImage: `url(${programImages[program.slug] || programImages['default']})`,
-                      }}
-                      role="img"
-                      aria-label={program.name}
-                    />
-                    <div className="absolute top-3 right-3 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      {program.duration_weeks
-                        ? program.duration_weeks > 20
-                          ? `${Math.round(program.duration_weeks / 4)} Months`
-                          : `${program.duration_weeks} Weeks`
-                        : 'Flexible'}
-                    </div>
-                    {program.price === 0 && (
-                      <div className="absolute top-3 left-3 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                        Free
+    <ProgramPageLayout config={config}>
+      <InView animation="fade-up">
+        <section className="py-14 lg:py-20 border-t border-slate-100">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="text-center mb-10">
+              <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Choose Your Trade</p>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Skilled Trades Programs</h2>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {programs.map((p, i) => (
+                <ScrollReveal key={p.title} delay={i * 80} direction="up">
+                  <Link href={p.href} className="group block bg-white rounded-xl border-2 border-slate-200 hover:border-brand-red-400 hover:shadow-md transition-all overflow-hidden">
+                    <Image src={p.image} alt={p.title} width={600} height={400} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div className="p-5">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-bold text-slate-900">{p.title}</span>
+                        <span className="text-xs font-semibold text-brand-red-600 bg-brand-red-50 px-2 py-1 rounded-full">{p.duration}</span>
                       </div>
-                    )}
-                  </div>
-                  <div className="p-5">
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-orange-500 transition-colors">
-                      {program.name}
-                    </h3>
-                    <p className="text-slate-600 text-sm mb-3 line-clamp-2">
-                      {program.description}
-                    </p>
-                    <span className="text-orange-500 font-semibold text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                      Learn More <span>→</span>
-                    </span>
-                  </div>
-                </Link>
+                      <span className="text-sm text-brand-green-600 font-semibold">{p.salary}/yr avg</span>
+                      <div className="mt-3 text-brand-red-600 font-semibold text-sm group-hover:underline">Learn More →</div>
+                    </div>
+                  </Link>
+                </ScrollReveal>
               ))}
             </div>
-        </div>
-      </section>
-
-      {/* What You'll Learn */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              What You&apos;ll Learn
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Hands-on training in high-demand skilled trades with industry certifications.
-            </p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-slate-50 rounded-2xl p-6">
-              <h3 className="font-bold text-slate-900 mb-4">HVAC/Electrical</h3>
-              <ul className="space-y-2 text-gray-600 text-sm">
-                <li>• Heating and cooling system installation</li>
-                <li>• Electrical wiring and circuits</li>
-                <li>• EPA 608 certification prep</li>
-                <li>• OSHA safety standards</li>
-                <li>• Troubleshooting and repair</li>
-              </ul>
-            </div>
-            <div className="bg-slate-50 rounded-2xl p-6">
-              <h3 className="font-bold text-slate-900 mb-4">Welding/Manufacturing</h3>
-              <ul className="space-y-2 text-gray-600 text-sm">
-                <li>• MIG, TIG, and stick welding</li>
-                <li>• Blueprint reading</li>
-                <li>• Metal fabrication</li>
-                <li>• AWS certification prep</li>
-                <li>• Quality control</li>
-              </ul>
-            </div>
-            <div className="bg-slate-50 rounded-2xl p-6">
-              <h3 className="font-bold text-slate-900 mb-4">Construction/Maintenance</h3>
-              <ul className="space-y-2 text-gray-600 text-sm">
-                <li>• Building maintenance</li>
-                <li>• Plumbing basics</li>
-                <li>• Carpentry fundamentals</li>
-                <li>• Equipment operation</li>
-                <li>• Safety protocols</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Requirements */}
-      <section className="py-16 lg:py-24 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Requirements</h2>
-            <p className="text-lg text-slate-600">
-              What you need to start skilled trades training.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-2xl p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-green-700 mb-4">Basic Requirements</h3>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-gray-700">18 years or older</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-gray-700">High school diploma or GED</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-gray-700">Reliable transportation</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-gray-700">Ability to lift 50+ lbs</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-orange-600 mb-4">For Free Training (WIOA)</h3>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-gray-700">Indiana resident</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-gray-700">Unemployed or underemployed</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-gray-700">OR receiving public assistance</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-gray-700">OR veteran status</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Outcomes */}
-      <section className="py-16 lg:py-24 bg-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Career Outcomes</h2>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Skilled trades offer strong wages, job security, and career growth.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-5xl font-black text-white mb-2">$18-$30</div>
-              <p className="text-slate-400">Starting hourly wage</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-black text-white mb-2">85%+</div>
-              <p className="text-slate-400">Job placement rate</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-black text-white mb-2">8-16 wks</div>
-              <p className="text-slate-400">Typical program duration</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-black text-white mb-2">High</div>
-              <p className="text-slate-400">Demand for skilled workers</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-8 text-center">
-            Skilled Trades FAQ
-          </h2>
-
-          <div className="space-y-4">
-            {[
-              {
-                q: 'What skilled trades programs do you offer?',
-                a: 'HVAC, Electrical, Welding, Manufacturing, Building Maintenance, Forklift Operation, and more. Programs vary by funding availability and demand.',
-              },
-              {
-                q: 'Is the training really free?',
-                a: 'Yes, for eligible participants. WIOA and WRG funding covers tuition, tools, certifications, and supplies. Check your eligibility to see if you qualify.',
-              },
-              {
-                q: 'How long are the programs?',
-                a: 'Most programs are 8-16 weeks. Some certifications like OSHA 10 can be completed in days. Apprenticeships are longer but you earn while you learn.',
-              },
-              {
-                q: 'Do I need prior experience?',
-                a: 'No prior experience required. We start from the basics and build your skills. A willingness to learn and work hard is what matters most.',
-              },
-              {
-                q: 'What certifications will I earn?',
-                a: 'Depends on your program. Examples: OSHA 10/30, EPA 608 (HVAC), AWS (Welding), Forklift Operator, and industry-specific credentials.',
-              },
-              {
-                q: 'What if I have a criminal record?',
-                a: 'We work with justice-involved individuals. Many trades employers are open to second-chance hiring. JRI funding may cover your training.',
-              },
-              {
-                q: 'Do you help with job placement?',
-                a: 'Yes! We have partnerships with construction companies, manufacturers, and contractors throughout Indianapolis. We provide resume help and direct employer connections.',
-              },
-              {
-                q: 'Can I work while in training?',
-                a: 'Yes, many students work part-time while in training. We offer flexible scheduling when possible to accommodate working adults.',
-              },
-            ].map((faq, i) => (
-              <details key={i} className="group bg-slate-50 rounded-2xl overflow-hidden">
-                <summary className="flex items-center justify-between p-5 cursor-pointer list-none font-semibold text-slate-900">
-                  {faq.q}
-                  <svg
-                    className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0 ml-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </summary>
-                <div className="px-5 pb-5">
-                  <p className="text-slate-600">{faq.a}</p>
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-orange-500">
-        <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Your Trades Career?</h2>
-          <p className="text-orange-100 mb-8">
-            Free training available for eligible Indiana residents.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              href="/apply?program=skilled-trades"
-              className="inline-block bg-white text-orange-600 px-8 py-4 font-semibold rounded-full hover:bg-orange-50 transition-colors"
-            >
-              Apply Now
-            </Link>
-            <Link
-              href="/wioa-eligibility"
-              className="inline-block border-2 border-white text-white px-8 py-4 font-semibold rounded-full hover:bg-white/10 transition-colors"
-            >
-              Check Eligibility
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </InView>
+    </ProgramPageLayout>
   );
 }

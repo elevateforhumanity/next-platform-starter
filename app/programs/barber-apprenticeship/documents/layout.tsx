@@ -1,21 +1,22 @@
 export const dynamic = 'force-dynamic';
 
 import { createClient } from '@/lib/supabase/server';
-import { getDb } from '@/lib/lms/api';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 
-export default async function DocumentsLayout({ children }: { children: React.ReactNode }) {
+export default async function DocumentsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = await createClient();
-  const db = await getDb();
-  if (!db) throw new Error('Admin client failed to initialize');
+  const _admin = createAdminClient(); const db = _admin || supabase;
 
   if (!supabase) {
     redirect('/login?redirect=/programs/barber-apprenticeship/documents');
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/programs/barber-apprenticeship/documents');
@@ -27,7 +28,7 @@ export default async function DocumentsLayout({ children }: { children: React.Re
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .limit(1)
-    .maybeSingle();
+    .single();
 
   // No enrollment - redirect to program page
   if (!enrollment) {
