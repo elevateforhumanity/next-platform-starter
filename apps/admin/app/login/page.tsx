@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { getCanonicalLoginBaseUrl } from '../../lib/login-url';
 
 function getSafeRedirect(raw: string | undefined) {
   if (!raw) return '/admin/dashboard';
@@ -15,6 +16,5 @@ export default async function AdminLoginHandoffPage({
 }) {
   const params = await searchParams;
   const target = getSafeRedirect(params.redirect);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.elevateforhumanity.org';
-  redirect(`${siteUrl}/login?redirect=${encodeURIComponent(target)}`);
+  redirect(`${getCanonicalLoginBaseUrl()}/login?redirect=${encodeURIComponent(target)}`);
 }

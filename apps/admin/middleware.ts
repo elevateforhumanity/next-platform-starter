@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
+import { getCanonicalLoginBaseUrl } from './lib/login-url';
 
 const PUBLIC_ROUTES = ['/login', '/api/health'];
 
@@ -12,8 +13,7 @@ function getSafeRedirectPath(req: NextRequest) {
 }
 
 function getLoginUrl(req: NextRequest) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.elevateforhumanity.org';
-  const loginUrl = new URL('/login', siteUrl || req.nextUrl.origin);
+  const loginUrl = new URL('/login', getCanonicalLoginBaseUrl());
   loginUrl.searchParams.set('redirect', getSafeRedirectPath(req));
   return loginUrl;
 }
