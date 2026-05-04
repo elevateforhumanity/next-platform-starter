@@ -15,9 +15,30 @@ import {
   Bell,
   CreditCard,
   Shield,
+  LayoutDashboard,
   Loader2,
   ChevronRight,
 } from 'lucide-react';
+
+// Maps every role to its portal landing page — mirrors lib/auth/role-destinations.ts
+const ROLE_PORTAL: Record<string, { label: string; href: string }> = {
+  super_admin:     { label: 'Admin Dashboard',        href: '/admin' },
+  admin:           { label: 'Admin Dashboard',        href: '/admin' },
+  org_admin:       { label: 'Admin Dashboard',        href: '/admin' },
+  staff:           { label: 'Staff Portal',           href: '/staff-portal/dashboard' },
+  instructor:      { label: 'Instructor Portal',      href: 'https://admin.elevateforhumanity.org/instructor' },
+  mentor:          { label: 'Mentor Portal',          href: '/mentor/dashboard' },
+  creator:         { label: 'Creator Portal',         href: '/creator/dashboard' },
+  case_manager:    { label: 'Case Manager Portal',    href: '/case-manager/dashboard' },
+  workforce_board: { label: 'Workforce Board',        href: '/workforce-board/dashboard' },
+  program_holder:  { label: 'Program Holder Portal',  href: '/program-holder/dashboard' },
+  provider_admin:  { label: 'Provider Portal',        href: '/provider/dashboard' },
+  employer:        { label: 'Employer Portal',        href: '/employer/dashboard' },
+  partner:         { label: 'Partner Portal',         href: '/partner/dashboard' },
+  student:         { label: 'My Dashboard',           href: '/learner/dashboard' },
+  vita_staff:      { label: 'Tax Portal',             href: '/tax' },
+  supersonic_staff:{ label: 'Supersonic Portal',      href: '/supersonic-fast-cash' },
+};
 
 interface UserProfile {
   id: string;
@@ -182,7 +203,11 @@ export function ProfileDropdown({ className }: Props) {
       .slice(0, 2);
   };
 
-  const isAdmin = profile?.role === 'admin' || profile?.roles?.includes('admin');
+  const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin'];
+  const isAdmin = ADMIN_ROLES.includes(profile?.role ?? '') ||
+    profile?.roles?.some((r) => ADMIN_ROLES.includes(r));
+
+  const portalLink = profile?.role ? ROLE_PORTAL[profile.role] : null;
 
   if (loading) {
     return (
@@ -369,19 +394,19 @@ export function ProfileDropdown({ className }: Props) {
             </Link>
           </div>
 
-          {/* Admin Link */}
-          {isAdmin && (
+          {/* Role portal link — visible to every role that has a portal */}
+          {portalLink && (
             <div className="border-t border-gray-100 py-2">
               <Link
-                href="/admin"
-                className="flex items-center justify-between px-4 py-2.5 text-sm text-purple-700 hover:bg-purple-50"
+                href={portalLink.href}
+                className={`flex items-center justify-between px-4 py-2.5 text-sm hover:bg-purple-50 ${isAdmin ? 'text-purple-700' : 'text-brand-blue-700'}`}
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-3">
-                  <Shield className="h-4 w-4" />
-                  Admin Dashboard
+                  {isAdmin ? <Shield className="h-4 w-4" /> : <LayoutDashboard className="h-4 w-4" />}
+                  {portalLink.label}
                 </span>
-                <ChevronRight className="h-4 w-4 text-purple-300" />
+                <ChevronRight className={`h-4 w-4 ${isAdmin ? 'text-purple-300' : 'text-brand-blue-300'}`} />
               </Link>
             </div>
           )}

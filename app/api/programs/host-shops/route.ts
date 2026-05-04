@@ -1,5 +1,7 @@
 // PUBLIC ROUTE: returns approved host shops for program selection dropdowns and the host-shops page.
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import { getApprovedShops, type ProgramKey } from '@/lib/programs/host-shops';
 import { safeInternalError } from '@/lib/api/safe-error';
 
