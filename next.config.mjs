@@ -544,7 +544,7 @@ const nextConfig = {
       },
       { source: '/admin/blog/new', destination: '/admin/blog', permanent: true },
       { source: '/admin/course-studio', destination: '/admin/course-templates', permanent: true },
-      { source: '/admin/dight', destination: '/admin/dashboard', permanent: false },
+      { source: '/admin/dight', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/users/invite', destination: '/admin/staff', permanent: true },
       {
         source: '/admin/wioa/documents/upload',
