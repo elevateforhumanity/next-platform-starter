@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
 
-const PUBLIC_ROUTES = ['/login', '/api/health'];
+const PUBLIC_ROUTES = ['/login', '/unauthorized', '/api/health'];
 
 function getSafeRedirectPath(req: NextRequest) {
   const rawPath = `${req.nextUrl.pathname}${req.nextUrl.search}`;
@@ -52,9 +52,25 @@ export async function middleware(req: NextRequest) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.redirect(getLoginUrl(req));
     }
+
+    // Role check — only admin-level roles may access the admin app
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    const ALLOWED_ROLES = ['admin', 'super_admin', 'staff', 'org_admin', 'instructor'];
+
+    if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+      // Authenticated but wrong role — send to unauthorized, not login
+      return NextResponse.redirect(new URL('/unauthorized', req.url));
+    }
+
     return response;
   } catch (error) {
     console.error('[apps/admin middleware] Failed to load auth user', error);
