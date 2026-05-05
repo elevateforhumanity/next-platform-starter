@@ -10,7 +10,7 @@ type ViewMode = 'desktop' | 'mobile';
 export function SitePreviewPanel({ sites }: { sites: SitePreviewTarget[] }) {
   const resolvedSites = sites.length > 0
     ? sites
-    : [{ label: 'Public Site', url: 'https://www.elevateforhumanity.org' }];
+    : [{ label: 'Public Site', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org' }];
   const [activeSite, setActiveSite] = useState(resolvedSites[0]);
   const [customUrl, setCustomUrl] = useState('');
   const [previewKey, setPreviewKey] = useState(0);

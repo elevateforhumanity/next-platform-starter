@@ -52,12 +52,19 @@ export default function DevStudioClient() {
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
   const [studioConfig, setStudioConfig] = useState<DevStudioConfig | null>(null);
+  const [configLoadError, setConfigLoadError] = useState(false);
 
   useEffect(() => {
     fetch('/api/admin/devstudio/config')
       .then((r) => r.json())
-      .then((d) => setStudioConfig(d ?? null))
-      .catch(() => setStudioConfig(null));
+      .then((d) => {
+        setStudioConfig(d ?? null);
+        setConfigLoadError(false);
+      })
+      .catch(() => {
+        setStudioConfig(null);
+        setConfigLoadError(true);
+      });
   }, []);
 
   const tabFiles = { ...DEFAULT_TAB_FILES, ...(studioConfig?.tabFiles ?? {}) } as Record<Tab, string>;
@@ -88,6 +95,11 @@ export default function DevStudioClient() {
           <span className="hidden sm:inline">Elevate LMS</span>
         </div>
       </div>
+      {configLoadError && (
+        <div className="flex-shrink-0 px-3 py-1 text-[11px] text-amber-700 bg-amber-50 border-b border-amber-200">
+          Custom studio config could not be loaded; using defaults.
+        </div>
+      )}
 
       {/* Editor tab strip — white active tab, light inactive */}
       <div className="flex-shrink-0 flex items-end border-b border-[#ddd] overflow-x-auto" style={{ background: '#ececec', scrollbarWidth: 'none' }}>
