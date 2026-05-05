@@ -109,7 +109,6 @@ export default function DeployClient() {
         throw new Error(data.error || 'Failed to save API key');
       }
       setHasSavedApiKey(true);
-      setConfig((prev) => ({ ...prev, apiKey: '' }));
       setMessage({ type: 'success', text: 'API key saved successfully.' });
       return true;
     } catch (error) {
@@ -353,7 +352,7 @@ export default function DeployClient() {
               <input
                 type="password"
                 className="w-full border rounded-lg px-3 py-2"
-                placeholder={hasSavedApiKey ? 'API key already saved (enter to replace)' : 'Enter your OpenAI API key'}
+                placeholder={hasSavedApiKey ? 'Replace saved key' : 'Enter OpenAI API key'}
                 value={config.apiKey}
                 onChange={(e) => setConfig({ ...config, apiKey: e.target.value })}
               />
