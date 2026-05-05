@@ -26,6 +26,10 @@ ENV PORT=3000
 
 WORKDIR /app
 
+# Install sharp for Next.js image optimization (must match runtime arch)
+RUN npm install --os=linux --cpu=x64 sharp@0.33.5 --no-save 2>/dev/null || \
+    npm install sharp@0.33.5 --no-save
+
 # Copy standalone server output produced by `next build` in apps/admin/
 COPY apps/admin/.next/standalone ./
 COPY apps/admin/.next/static ./apps/admin/.next/static

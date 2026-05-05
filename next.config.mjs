@@ -682,6 +682,11 @@ const nextConfig = {
       { source: '/programs/cybersecurity/:path*', destination: '/programs/cybersecurity-analyst/:path*', permanent: true },
       // Barber & Beauty
       {
+        source: '/barber',
+        destination: '/programs/barber-apprenticeship',
+        permanent: true,
+      },
+      {
         source: '/programs/barber',
         destination: '/programs/barber-apprenticeship',
         permanent: true,
