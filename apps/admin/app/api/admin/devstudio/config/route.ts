@@ -17,14 +17,61 @@ interface DevStudioConfigResponse {
   tabFiles: Record<string, string>;
 }
 
-function parseJsonSetting<T>(value: string | null | undefined, fallback: T, key: string): T {
+function parseJsonSetting<T>(
+  value: string | null | undefined,
+  fallback: T,
+  key: string,
+  validate?: (parsed: unknown) => parsed is T,
+): T {
   if (!value) return fallback;
   try {
-    return JSON.parse(value) as T;
+    const parsed = JSON.parse(value) as unknown;
+    if (validate && !validate(parsed)) {
+      logger.warn(`[devstudio/config] invalid shape for ${key}, using fallback`);
+      return fallback;
+    }
+    return parsed as T;
   } catch (error) {
     logger.warn(`[devstudio/config] failed to parse ${key}, using fallback`, error);
     return fallback;
   }
+}
+
+function isStringArray(v: unknown): v is string[] {
+  return Array.isArray(v) && v.every((item) => typeof item === 'string');
+}
+
+function isWorkflowButtons(
+  v: unknown,
+): v is { key: WorkflowKey; label: string; description: string }[] {
+  return (
+    Array.isArray(v) &&
+    v.every(
+      (item) =>
+        !!item &&
+        typeof item === 'object' &&
+        ['deploy-lms', 'deploy-admin', 'ci', 'lint'].includes((item as any).key) &&
+        typeof (item as any).label === 'string' &&
+        typeof (item as any).description === 'string',
+    )
+  );
+}
+
+function isPreviewTargets(v: unknown): v is { label: string; url: string }[] {
+  return (
+    Array.isArray(v) &&
+    v.every(
+      (item) =>
+        !!item &&
+        typeof item === 'object' &&
+        typeof (item as any).label === 'string' &&
+        typeof (item as any).url === 'string',
+    )
+  );
+}
+
+function isRecordString(v: unknown): v is Record<string, string> {
+  return !!v && typeof v === 'object' && Object.values(v).every((val) => typeof val === 'string');
 }
 
 export async function GET(req: NextRequest) {
@@ -87,22 +134,26 @@ export async function GET(req: NextRequest) {
         settings.get('DEVSTUDIO_QUICK_COMMANDS_JSON'),
         fallback.quickCommands,
         'DEVSTUDIO_QUICK_COMMANDS_JSON',
+        isStringArray,
       ),
       workflowButtons: parseJsonSetting<DevStudioConfigResponse['workflowButtons']>(
         settings.get('DEVSTUDIO_WORKFLOW_BUTTONS_JSON'),
         fallback.workflowButtons,
         'DEVSTUDIO_WORKFLOW_BUTTONS_JSON',
+        isWorkflowButtons,
       ),
       defaultPreviewUrl: settings.get('DEVSTUDIO_DEFAULT_PREVIEW_URL') || fallback.defaultPreviewUrl,
       previewTargets: parseJsonSetting<DevStudioConfigResponse['previewTargets']>(
         settings.get('DEVSTUDIO_PREVIEW_TARGETS_JSON'),
         fallback.previewTargets,
         'DEVSTUDIO_PREVIEW_TARGETS_JSON',
+        isPreviewTargets,
       ),
       tabFiles: parseJsonSetting<Record<string, string>>(
         settings.get('DEVSTUDIO_TAB_FILES_JSON'),
         fallback.tabFiles,
         'DEVSTUDIO_TAB_FILES_JSON',
+        isRecordString,
       ),
     };
 
