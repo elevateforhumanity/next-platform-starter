@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 
 export default async function DocumentsLayout({
@@ -10,7 +10,7 @@ export default async function DocumentsLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-  const _admin = createAdminClient(); const db = _admin || supabase;
+  const db = await getAdminClient();
 
   if (!supabase) {
     redirect('/login?redirect=/programs/barber-apprenticeship/documents');

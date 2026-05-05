@@ -4,6 +4,18 @@ import { useEffect } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import * as Sentry from '@sentry/nextjs';
 
+// Server Action ID mismatch — happens when ECS deploys a new build while
+// users still have the old page loaded. The old action IDs don't exist in
+// the new build. Hard reload fetches the new page with new action IDs.
+function isServerActionMismatch(error: Error): boolean {
+  return (
+    error.message?.includes('Failed to find Server Action') ||
+    error.message?.includes('server-action') ||
+    error.digest?.includes('NEXT_NOT_FOUND') === false &&
+    error.message?.includes('This request might be from an older')
+  );
+}
+
 export default function GlobalError({
   error,
   reset,
@@ -12,6 +24,12 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
+    // Auto-reload on Server Action ID mismatch (deployment rollover)
+    if (isServerActionMismatch(error)) {
+      window.location.reload();
+      return;
+    }
+
     // Capture error with Sentry
     Sentry.captureException(error);
 

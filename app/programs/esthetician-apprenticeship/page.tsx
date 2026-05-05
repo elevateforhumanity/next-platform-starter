@@ -93,10 +93,11 @@ export default async function EstheticianApprenticeshipPage() {
             </div>
             <div className="relative h-[350px] rounded-2xl overflow-hidden">
               <Image sizes="100vw"
-                src="/images/programs/efh-esthetician-client-services-card.jpg"
+                src="/images/programs/efh-esthetician-client-services-card.svg"
                 alt="Esthetician training"
                 fill
                 className="object-cover"
+                unoptimized
               />
             </div>
           </div>

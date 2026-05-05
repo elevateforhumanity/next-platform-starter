@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { DollarSign, Check, Clock } from 'lucide-react';
@@ -16,7 +16,7 @@ async function startTrial() {
   'use server';
   
   const supabase = await createClient();
-  const _admin = createAdminClient(); const db = _admin || supabase;
+  const db = await getAdminClient();
   if (!supabase) redirect('/error?message=service-unavailable');
 
   const { data: { user } } = await supabase.auth.getUser();
@@ -52,7 +52,7 @@ async function startTrial() {
 
 export default async function StartTrialPage() {
   const supabase = await createClient();
-  const _admin = createAdminClient(); const db = _admin || supabase;
+  const db = await getAdminClient();
   if (!supabase) redirect('/error?message=service-unavailable');
 
   const { data: { user } } = await supabase.auth.getUser();
