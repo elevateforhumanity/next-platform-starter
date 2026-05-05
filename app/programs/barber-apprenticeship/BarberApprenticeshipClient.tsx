@@ -53,6 +53,20 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             <span><strong>Active Apprentices:</strong> {enrollmentCount > 0 ? enrollmentCount : 'Enrolling now'}</span>
             <span><strong>Tuition:</strong> $4,980. Payment plans available.</span>
           </div>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Link
+              href="/apply?program=barber-apprenticeship"
+              className="inline-flex items-center justify-center rounded-xl bg-brand-red-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-red-700"
+            >
+              Apply to Enroll
+            </Link>
+            <Link
+              href="/contact?program=barber-apprenticeship"
+              className="text-sm text-slate-500 underline hover:text-slate-700 transition-colors"
+            >
+              Contact an advisor
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -65,7 +79,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             <p className="text-sm text-amber-800 mt-1">
               This is a new DOL Registered Apprenticeship program currently rolling out in the Indianapolis metro area.
               We are actively seeking licensed barbershops to partner as host training sites. Apprentice spots are limited —
-              there is a waiting list. Sign up below to reserve your place or{' '}
+              <Link href="/apply?program=barber-apprenticeship" className="underline font-medium ml-1">apply now to reserve your place</Link> or{' '}
               <Link href="/partners/barbershop-apprenticeship/apply" className="underline font-medium">apply as a partner barbershop</Link>.
             </p>
           </div>
@@ -150,31 +164,20 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         </div>
       </section>
 
-      {/* ═══ CTA: ENROLLMENT ═══ */}
-      <section className="py-12 border-t">
+      <BarberEnrollment />
+
+      {/* ═══ CTA: MID-PAGE (after tuition/eligibility) ═══ */}
+      <section className="py-10 border-t bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">Ready to Apply?</h2>
-          <p className="text-slate-500 mb-6">
-            Takes 3–5 minutes. We check funding eligibility and connect you with an advisor.
-          </p>
           <Link
             href="/apply?program=barber-apprenticeship"
-            className="inline-block bg-brand-red-600 text-white px-8 py-3 rounded-xl font-semibold text-base hover:bg-brand-red-700 transition-colors"
+            className="inline-flex items-center justify-center rounded-xl bg-brand-red-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-red-700"
           >
             Apply to Enroll
           </Link>
-          <p className="mt-4 text-sm text-slate-400">
-            Questions first?{' '}
-            <Link href="/contact?program=barber-apprenticeship" className="underline hover:text-slate-600">
-              Contact an advisor
-            </Link>
-          </p>
+          <p className="mt-3 text-sm text-slate-500">Takes 3–5 minutes. Funding eligibility checked automatically.</p>
         </div>
       </section>
-
-      <BarberEnrollment />
-
-
 
       {/* ═══ CAREER OUTCOMES / LABOR MARKET ═══ */}
       <section className="py-10">
