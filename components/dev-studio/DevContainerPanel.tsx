@@ -23,6 +23,7 @@ interface DevContainerConfig {
 
 export default function DevContainerPanel() {
   const [raw, setRaw] = useState('');
+  const [sha, setSha] = useState('');
   const [parsed, setParsed] = useState<DevContainerConfig | null>(null);
   const [editedRaw, setEditedRaw] = useState('');
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,7 @@ export default function DevContainerPanel() {
       if (!res.ok) throw new Error('Failed to load');
       const data = await res.json();
       setRaw(data.raw);
+      setSha(data.sha ?? '');
       setParsed(data.parsed);
       setEditedRaw(data.raw);
       setParseError(null);
@@ -76,14 +78,23 @@ export default function DevContainerPanel() {
       const res = await fetch('/api/devstudio/devcontainer', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: editedRaw }),
+        // sha is required by the GitHub Contents API to update an existing file
+        body: JSON.stringify({ content: editedRaw, sha }),
       });
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err.error || 'Save failed');
       }
+      const result = await res.json();
       setRaw(editedRaw);
-      setStatus({ type: 'success', message: 'devcontainer.json saved' });
+      // Update sha so subsequent saves use the new blob sha
+      if (result.sha) setSha(result.sha);
+      setStatus({
+        type: 'success',
+        message: result.commit
+          ? `Committed — ${result.commit}`
+          : 'devcontainer.json committed to main',
+      });
     } catch (e) {
       setStatus({ type: 'error', message: (e as Error).message });
     } finally {

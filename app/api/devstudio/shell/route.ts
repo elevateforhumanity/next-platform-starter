@@ -1,57 +1,62 @@
 /**
  * /api/devstudio/shell
  *
- * Streams shell command output back as SSE. Admin-only.
+ * Dispatches GitHub Actions workflow runs instead of spawning local bash.
+ * Works in production (ECS) where the container has no source files.
+ * Admin-only.
  *
- * POST { command: string, cwd?: string }
+ * POST { workflow: string, inputs?: Record<string, string> }
+ *   → triggers workflow_dispatch on the given workflow file
+ *   → returns { ok, runUrl } immediately (fire-and-forget)
  *
- * Response: text/event-stream
- *   data: { type: 'stdout', text: '...' }
- *   data: { type: 'stderr', text: '...' }
- *   data: { type: 'exit',   code: 0 }
- *   data: { type: 'error',  text: '...' }
+ * GET ?run_id=<id>
+ *   → polls a workflow run for status + logs
+ *
+ * Supported workflows (workflow field values):
+ *   'deploy-lms'    → .github/workflows/deploy-lms.yml
+ *   'deploy-admin'  → .github/workflows/deploy-admin.yml
+ *   'ci'            → .github/workflows/ci-cd.yml
+ *   'lint'          → .github/workflows/ci-cd.yml (with input: job=lint)
  *
  * Security:
- *  - Admin role required on every request.
- *  - Blocked commands: rm -rf /, sudo, curl|wget piped to sh, env, printenv.
- *  - cwd is resolved and must stay within repo root.
- *  - 60-second hard timeout per command.
+ *  - Requires admin role on every request.
+ *  - Only whitelisted workflows can be dispatched.
+ *  - Uses GITHUB_TOKEN from environment (SSM-injected in ECS).
  *  - Rate-limited to strict tier (3 req / 5 min).
  */
 
-import { NextRequest } from 'next/server';
-import { spawn } from 'child_process';
-import path from 'path';
+import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { hydrateProcessEnv } from '@/lib/secrets';
+import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
-export const maxDuration = 60;
 
-const ROOT = process.cwd();
-const TIMEOUT_MS = 60_000;
+const REPO   = 'elevateforhumanity/Elevate-lms';
+const BRANCH = 'main';
+const GH_API = 'https://api.github.com';
 
-// Commands that are never allowed regardless of context
-const BLOCKED = [
-  /rm\s+-rf\s+\//,
-  /sudo\s/,
-  /curl.+\|\s*(ba)?sh/,
-  /wget.+\|\s*(ba)?sh/,
-  /^\s*env\s*$/,
-  /^\s*printenv\s*/,
-  />\s*\/etc\//,
-];
+// Only these workflow files can be dispatched
+const ALLOWED_WORKFLOWS: Record<string, string> = {
+  'deploy-lms':   'deploy-lms.yml',
+  'deploy-admin': 'deploy-admin.yml',
+  'ci':           'ci-cd.yml',
+  'lint':         'ci-cd.yml',
+};
 
-function isBlocked(cmd: string): boolean {
-  return BLOCKED.some((r) => r.test(cmd));
+function ghHeaders(): HeadersInit {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) throw new Error('GITHUB_TOKEN is not configured');
+  return {
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json',
+  };
 }
 
-function sse(data: object): string {
-  return `data: ${JSON.stringify(data)}\n\n`;
-}
+// ── POST — dispatch a workflow ────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
@@ -60,82 +65,101 @@ export async function POST(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  // Hydrate app_secrets into process.env so spawned commands have full secret access
-  await hydrateProcessEnv();
-
   const body = await request.json().catch(() => null);
-  const command: string = body?.command ?? '';
-  const cwdParam: string = body?.cwd ?? '';
+  const workflowKey: string = body?.workflow ?? '';
+  const inputs: Record<string, string> = body?.inputs ?? {};
 
-  if (!command.trim()) {
-    return new Response(sse({ type: 'error', text: 'No command provided' }), {
-      headers: { 'Content-Type': 'text/event-stream' },
+  if (!workflowKey) {
+    return safeError('workflow is required', 400);
+  }
+
+  const workflowFile = ALLOWED_WORKFLOWS[workflowKey];
+  if (!workflowFile) {
+    return safeError(
+      `Unknown workflow "${workflowKey}". Allowed: ${Object.keys(ALLOWED_WORKFLOWS).join(', ')}`,
+      400,
+    );
+  }
+
+  try {
+    const res = await fetch(
+      `${GH_API}/repos/${REPO}/actions/workflows/${workflowFile}/dispatches`,
+      {
+        method: 'POST',
+        headers: ghHeaders(),
+        body: JSON.stringify({ ref: BRANCH, inputs }),
+      },
+    );
+
+    // 204 = accepted, no body
+    if (res.status === 204) {
+      // Fetch the most recent run to return its URL
+      await new Promise((r) => setTimeout(r, 1500)); // brief wait for GH to register the run
+      const runsRes = await fetch(
+        `${GH_API}/repos/${REPO}/actions/workflows/${workflowFile}/runs?per_page=1&branch=${BRANCH}`,
+        { headers: ghHeaders() },
+      );
+      const runsData = runsRes.ok ? await runsRes.json() : null;
+      const latestRun = runsData?.workflow_runs?.[0];
+
+      return NextResponse.json({
+        ok: true,
+        workflow: workflowKey,
+        runId: latestRun?.id ?? null,
+        runUrl: latestRun?.html_url ?? `https://github.com/${REPO}/actions`,
+        status: latestRun?.status ?? 'queued',
+      });
+    }
+
+    const err = await res.json().catch(() => ({}));
+    return safeError((err as { message?: string }).message ?? 'GitHub API error', res.status);
+  } catch (err) {
+    return safeInternalError(err, 'Failed to dispatch workflow');
+  }
+}
+
+// ── GET — poll a workflow run ─────────────────────────────────────────────────
+
+export async function GET(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
+
+  const runId = request.nextUrl.searchParams.get('run_id');
+  if (!runId) return safeError('run_id is required', 400);
+
+  try {
+    const [runRes, jobsRes] = await Promise.all([
+      fetch(`${GH_API}/repos/${REPO}/actions/runs/${runId}`, { headers: ghHeaders() }),
+      fetch(`${GH_API}/repos/${REPO}/actions/runs/${runId}/jobs`, { headers: ghHeaders() }),
+    ]);
+
+    if (!runRes.ok) {
+      if (runRes.status === 404) return safeError('Run not found', 404);
+      return safeError('GitHub API error', runRes.status);
+    }
+
+    const run = await runRes.json();
+    const jobs = jobsRes.ok ? (await jobsRes.json()).jobs ?? [] : [];
+
+    return NextResponse.json({
+      id: run.id,
+      status: run.status,       // queued | in_progress | completed
+      conclusion: run.conclusion, // success | failure | cancelled | null
+      url: run.html_url,
+      createdAt: run.created_at,
+      updatedAt: run.updated_at,
+      jobs: jobs.map((j: { id: number; name: string; status: string; conclusion: string | null; html_url: string }) => ({
+        id: j.id,
+        name: j.name,
+        status: j.status,
+        conclusion: j.conclusion,
+        url: j.html_url,
+      })),
     });
+  } catch (err) {
+    return safeInternalError(err, 'Failed to fetch run status');
   }
-
-  if (isBlocked(command)) {
-    return new Response(sse({ type: 'error', text: 'Command not allowed' }), {
-      headers: { 'Content-Type': 'text/event-stream' },
-    });
-  }
-
-  // Resolve cwd safely within repo root
-  let cwd = ROOT;
-  if (cwdParam) {
-    // Use path.join + normalize to avoid Turbopack tracing the whole project
-    // (path.resolve with a dynamic second arg causes full-project file tracing)
-    const joined = path.normalize(ROOT + path.sep + cwdParam.replace(/^\/+/, ''));
-    if (joined.startsWith(ROOT)) cwd = joined;
-  }
-
-  const stream = new ReadableStream({
-    start(controller) {
-      const enc = new TextEncoder();
-      const write = (data: object) => controller.enqueue(enc.encode(sse(data)));
-
-      const proc = spawn('bash', ['-c', command], {
-        cwd,
-        env: {
-          ...process.env,
-          FORCE_COLOR: '0',
-          TERM: 'dumb',
-        },
-      });
-
-      const timer = setTimeout(() => {
-        proc.kill('SIGTERM');
-        write({ type: 'error', text: 'Command timed out after 60s' });
-        controller.close();
-      }, TIMEOUT_MS);
-
-      proc.stdout.on('data', (chunk: Buffer) => {
-        write({ type: 'stdout', text: chunk.toString() });
-      });
-
-      proc.stderr.on('data', (chunk: Buffer) => {
-        write({ type: 'stderr', text: chunk.toString() });
-      });
-
-      proc.on('close', (code: number | null) => {
-        clearTimeout(timer);
-        write({ type: 'exit', code: code ?? -1 });
-        controller.close();
-      });
-
-      proc.on('error', (err: Error) => {
-        clearTimeout(timer);
-        logger.error('[devstudio/shell] process error', err);
-        write({ type: 'error', text: 'Command execution failed' });
-        controller.close();
-      });
-    },
-  });
-
-  return new Response(stream, {
-    headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache, no-store',
-      Connection: 'keep-alive',
-    },
-  });
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import {
@@ -9,9 +9,15 @@ import {
   ChevronRight, File, Folder, Monitor, Smartphone, Play, X, Circle,
 } from 'lucide-react';
 
+import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
+
 const XTerminal         = dynamic(() => import('@/components/dev-studio/XTerminal'),         { ssr: false });
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
+const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
+  () => import('@/components/dev-studio/CodeEditor'),
+  { ssr: false },
+);
 
 type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container' | 'chat';
 interface FileNode { name: string; path: string; type: 'file' | 'directory'; children?: FileNode[]; }
@@ -213,58 +219,123 @@ function CommandTab() {
 }
 // ── Terminal Tab ─────────────────────────────────────────────────────────────
 
+type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
+
+interface RunStatus {
+  id: number;
+  status: string;
+  conclusion: string | null;
+  url: string;
+}
+
+const WORKFLOW_BUTTONS: { key: WorkflowKey; label: string; description: string }[] = [
+  { key: 'deploy-lms',   label: 'Deploy LMS',   description: 'Build + push LMS to ECS' },
+  { key: 'deploy-admin', label: 'Deploy Admin',  description: 'Build + push Admin to ECS' },
+  { key: 'ci',           label: 'Run CI',        description: 'Full CI pipeline' },
+  { key: 'lint',         label: 'Lint',          description: 'Run pnpm lint' },
+];
+
 function TerminalTab() {
-  const [lines, setLines] = useState<string[]>(['Welcome to Dev Studio terminal. Type a shell command.']);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [lines, setLines] = useState<string[]>([
+    'Dev Studio — GitHub Actions runner',
+    'Click a workflow button to trigger a deployment or CI run.',
+    'Changes committed via the Explorer tab will trigger auto-deploy on push to main.',
+    '',
+  ]);
+  const [loading, setLoading] = useState<WorkflowKey | null>(null);
+  const [activeRun, setActiveRun] = useState<RunStatus | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [lines]);
 
-  async function runShell(cmd: string) {
-    if (!cmd.trim()) return;
-    setLines((p) => [...p, `$ ${cmd}`]);
-    setInput('');
-    setLoading(true);
+  async function dispatch(workflow: WorkflowKey) {
+    setLoading(workflow);
+    setLines((p) => [...p, `▶ Dispatching ${workflow}…`]);
     try {
       const res = await fetch('/api/devstudio/shell', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ command: cmd }),
+        body: JSON.stringify({ workflow }),
       });
-      const text = await res.text();
-      setLines((p) => [...p, ...text.split('\n').filter(Boolean)]);
-    } catch { setLines((p) => [...p, 'Error: request failed']); }
-    finally { setLoading(false); }
+      const d = await res.json();
+      if (!res.ok) {
+        setLines((p) => [...p, `❌ ${d.error ?? 'Dispatch failed'}`]);
+      } else {
+        setLines((p) => [...p,
+          `✅ Workflow queued — run #${d.runId ?? '?'}`,
+          `   Status: ${d.status}`,
+          `   URL: ${d.runUrl}`,
+          '',
+        ]);
+        if (d.runId) {
+          setActiveRun({ id: d.runId, status: d.status, conclusion: null, url: d.runUrl });
+          pollRun(d.runId);
+        }
+      }
+    } catch {
+      setLines((p) => [...p, '❌ Request failed']);
+    } finally {
+      setLoading(null);
+    }
+  }
+
+  async function pollRun(runId: number) {
+    const poll = async () => {
+      try {
+        const res = await fetch(`/api/devstudio/shell?run_id=${runId}`);
+        if (!res.ok) return;
+        const d: RunStatus = await res.json();
+        setActiveRun(d);
+        if (d.status === 'completed') {
+          setLines((p) => [...p,
+            `Run #${runId} completed — ${d.conclusion ?? 'unknown'}`,
+            `   ${d.url}`,
+            '',
+          ]);
+        } else {
+          setTimeout(poll, 8000);
+        }
+      } catch { /* ignore poll errors */ }
+    };
+    setTimeout(poll, 8000);
   }
 
   return (
     <div className="flex flex-col h-full bg-white text-slate-800">
-      <div className="flex-shrink-0 flex items-center gap-2 px-4 py-1.5 bg-slate-50 border-b border-slate-200">
-        <Terminal className="w-3.5 h-3.5 text-slate-400" />
-        <span className="text-xs text-slate-600 font-medium">bash — dev container</span>
-        <button onClick={() => setLines([])} className="ml-auto text-[10px] text-slate-400 hover:text-slate-700 px-2 py-0.5 rounded hover:bg-slate-200">Clear</button>
+      {/* Workflow buttons */}
+      <div className="flex-shrink-0 flex flex-wrap gap-2 px-4 py-3 bg-slate-50 border-b border-slate-200">
+        {WORKFLOW_BUTTONS.map(({ key, label, description }) => (
+          <button key={key} onClick={() => dispatch(key)} disabled={!!loading}
+            title={description}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-700 hover:text-orange-700 disabled:opacity-50 transition-colors shadow-sm">
+            {loading === key ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />}
+            {label}
+          </button>
+        ))}
+        {activeRun && (
+          <a href={activeRun.url} target="_blank" rel="noopener noreferrer"
+            className="ml-auto flex items-center gap-1.5 px-3 py-1.5 text-[11px] rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors">
+            <ExternalLink className="w-3 h-3" />
+            {activeRun.status === 'completed'
+              ? `${activeRun.conclusion ?? 'done'}`
+              : activeRun.status}
+          </a>
+        )}
       </div>
+      {/* Output log */}
       <div className="flex-1 overflow-y-auto p-4 font-mono text-xs space-y-0.5 bg-white">
         {lines.map((l, i) => (
           <div key={i} className={
-            l.startsWith('$') ? 'text-orange-600 font-semibold' :
-            l.toLowerCase().includes('error') ? 'text-red-600' :
-            l.toLowerCase().includes('warn') ? 'text-amber-600' :
-            'text-slate-700'
-          }>{l}</div>
+            l.startsWith('▶') ? 'text-orange-600 font-semibold' :
+            l.startsWith('✅') ? 'text-green-600' :
+            l.startsWith('❌') ? 'text-red-600' :
+            l.startsWith('Run #') ? 'text-blue-600' :
+            'text-slate-600'
+          }>{l || '\u00a0'}</div>
         ))}
-        {loading && <div className="text-orange-500 animate-pulse">▋</div>}
         <div ref={bottomRef} />
       </div>
-      <div className="flex-shrink-0 flex items-center gap-2 px-3 py-2 border-t border-slate-200 bg-slate-50">
-        <span className="text-orange-500 text-xs font-mono font-bold">$</span>
-        <input value={input} onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && runShell(input)}
-          placeholder="shell command…"
-          className="flex-1 bg-transparent text-slate-800 text-xs outline-none placeholder-slate-400 font-mono" />
-        <button onClick={() => runShell(input)} disabled={loading || !input.trim()}
-          className="p-1.5 rounded-md bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors">
-          <Play className="w-3.5 h-3.5 text-white" />
-        </button>
+      <div className="flex-shrink-0 flex items-center justify-between px-4 py-1.5 border-t border-slate-200 bg-slate-50">
+        <span className="text-[10px] text-slate-400">Workflows run on GitHub Actions — changes deploy automatically on push to main</span>
+        <button onClick={() => setLines([])} className="text-[10px] text-slate-400 hover:text-slate-700 px-2 py-0.5 rounded hover:bg-slate-200">Clear</button>
       </div>
     </div>
   );
@@ -275,8 +346,10 @@ function FilesTab() {
   const [tree, setTree] = useState<FileNode[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [content, setContent] = useState('');
+  const [fileSha, setFileSha] = useState('');
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [saveMsg, setSaveMsg] = useState('');
+  const [commitMsg, setCommitMsg] = useState('');
 
   useEffect(() => {
     fetch('/api/devstudio/files').then((r) => r.json()).then((d) => setTree(d.tree ?? [])).catch(() => {});
@@ -284,18 +357,38 @@ function FilesTab() {
 
   async function loadFile(path: string) {
     setSelected(path);
+    setSaveMsg('');
     const r = await fetch(`/api/devstudio/files?path=${encodeURIComponent(path)}`);
     const d = await r.json();
     setContent(d.content ?? '');
-    setSaved(false);
+    setFileSha(d.sha ?? '');
+    setCommitMsg(`chore: update ${path} via Dev Studio`);
   }
 
   async function saveFile() {
-    if (!selected) return;
+    if (!selected || !fileSha) return;
     setSaving(true);
-    await fetch('/api/devstudio/files', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: selected, content }) });
-    setSaving(false); setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    setSaveMsg('');
+    try {
+      const r = await fetch('/api/devstudio/files', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: selected, content, sha: fileSha, message: commitMsg }),
+      });
+      const d = await r.json();
+      if (!r.ok) {
+        setSaveMsg(`❌ ${d.error ?? 'Save failed'}`);
+      } else {
+        // Update sha so next save uses the new blob sha
+        if (d.sha) setFileSha(d.sha);
+        setSaveMsg(d.commit ? `✅ Committed` : '✅ Saved');
+        setTimeout(() => setSaveMsg(''), 4000);
+      }
+    } catch {
+      setSaveMsg('❌ Request failed');
+    } finally {
+      setSaving(false);
+    }
   }
 
   function renderNode(node: FileNode, depth = 0): React.ReactNode {
@@ -328,15 +421,29 @@ function FilesTab() {
       <div className="flex-1 flex flex-col min-w-0 bg-white">
         {selected ? (
           <>
-            <div className="flex-shrink-0 flex items-center justify-between px-4 py-1.5 bg-slate-50 border-b border-slate-200">
-              <span className="text-[11px] text-slate-600 font-mono">{selected}</span>
-              <button onClick={saveFile} disabled={saving}
-                className="flex items-center gap-1.5 px-3 py-1 text-[11px] rounded-md bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-50 transition-colors">
-                <Save className="w-3 h-3" />{saving ? 'Saving…' : saved ? '✓ Saved' : 'Save'}
-              </button>
+            <div className="flex-shrink-0 flex flex-col gap-1 px-4 py-1.5 bg-slate-50 border-b border-slate-200">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-600 font-mono">{selected}</span>
+                {saveMsg && <span className="text-[11px] text-slate-600">{saveMsg}</span>}
+                <button onClick={saveFile} disabled={saving || !fileSha}
+                  className="flex items-center gap-1.5 px-3 py-1 text-[11px] rounded-md bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-50 transition-colors">
+                  <Save className="w-3 h-3" />{saving ? 'Committing…' : 'Commit'}
+                </button>
+              </div>
+              <input
+                value={commitMsg}
+                onChange={(e) => setCommitMsg(e.target.value)}
+                placeholder="Commit message…"
+                className="text-[11px] font-mono bg-white border border-slate-200 rounded px-2 py-0.5 text-slate-700 outline-none focus:border-orange-400"
+              />
             </div>
-            <textarea value={content} onChange={(e) => setContent(e.target.value)}
-              className="flex-1 bg-white text-slate-800 font-mono text-xs p-4 resize-none outline-none leading-relaxed" />
+            <div className="flex-1 min-h-0">
+              <CodeEditor
+                value={content}
+                onChange={(val) => setContent(val)}
+                filePath={selected}
+              />
+            </div>
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-slate-300 gap-2">

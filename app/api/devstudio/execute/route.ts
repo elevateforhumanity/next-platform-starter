@@ -31,22 +31,70 @@
  */
 
 import { NextRequest } from 'next/server';
-import OpenAI from 'openai';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { safeError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
+import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
+import { isGeminiConfigured } from '@/lib/gemini-client';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
 
-const getOpenAI = () => new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// ── AI provider — Groq first (free), Gemini fallback (free) ────────────────
+async function callAI(systemPrompt: string, userPrompt: string, tools?: unknown[]): Promise<{ content: string | null; toolCalls?: unknown[] }> {
+  // Try Groq first
+  if (isGroqConfigured()) {
+    try {
+      const groq = getGroqClient();
+      const params: Parameters<typeof groq.chat.completions.create>[0] = {
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature: 0.1,
+        max_tokens: 1024,
+      };
+      if (tools && tools.length > 0) {
+        (params as any).tools = tools;
+        (params as any).tool_choice = 'auto';
+      }
+      const res = await groq.chat.completions.create(params);
+      const choice = res.choices[0];
+      return {
+        content: choice.message.content,
+        toolCalls: (choice.message as any).tool_calls,
+      };
+    } catch (err) {
+      logger.warn('[devstudio/execute] Groq failed, trying Gemini', err);
+    }
+  }
+
+  // Fallback to Gemini
+  if (isGeminiConfigured()) {
+    try {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-1.5-flash',
+        systemInstruction: systemPrompt,
+      });
+      const result = await model.generateContent(userPrompt);
+      return { content: result.response.text() };
+    } catch (err) {
+      logger.warn('[devstudio/execute] Gemini failed', err);
+    }
+  }
+
+  throw new Error('No AI provider available. Set GROQ_API_KEY or GEMINI_API_KEY.');
+}
 
 // ── Tool definitions ────────────────────────────────────────────────────────
 
-const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
+const TOOLS: unknown[] = [
   {
     type: 'function',
     function: {
@@ -1054,30 +1102,24 @@ export async function POST(req: NextRequest) {
         write(`\x1b[90m$ ${command}\x1b[0m`);
         write('');
 
-        const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
-          {
-            role: 'system',
-            content: `You are the Elevate for Humanity admin command assistant. 
+        const systemPrompt = `You are the Elevate for Humanity admin command assistant.
 The admin speaks to you in plain English and you execute the right action.
 Always use a tool — never respond with plain text unless using ask_question.
-Be decisive. If the intent is clear, act. If ambiguous, use ask_question to clarify.`,
-          },
-          ...history,
-          { role: 'user', content: command },
-        ];
+Be decisive. If the intent is clear, act. If ambiguous, use ask_question to clarify.`;
 
-        const response = await getOpenAI().chat.completions.create({
-          model: 'gpt-4.1',
-          messages,
-          tools: TOOLS,
-          tool_choice: 'required',
-          temperature: 0.2,
-        });
+        const userPrompt = [...history.map((m: { role: string; content: string }) =>
+          `${m.role}: ${m.content}`
+        ), `user: ${command}`].join('\n');
 
-        const msg = response.choices[0].message;
+        const aiResponse = await callAI(systemPrompt, userPrompt, TOOLS);
+
+        const msg = {
+          content: aiResponse.content,
+          tool_calls: aiResponse.toolCalls,
+        };
 
         if (msg.tool_calls?.length) {
-          for (const call of msg.tool_calls) {
+          for (const call of msg.tool_calls as { function: { name: string; arguments: string } }[]) {
             const args = JSON.parse(call.function.arguments || '{}');
             await executeAction(call.function.name, args, baseUrl, cookieHeader, write);
             write('');
