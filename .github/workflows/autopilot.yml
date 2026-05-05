@@ -1,6 +1,7 @@
 name: Autopilot (Builder Mode)
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches:
