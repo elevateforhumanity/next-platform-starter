@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 
-// Canonical apply URL is /apply/barber — permanently redirect the legacy path
-// so search engines and bookmarks update their references.
+// Canonical apply URL is /programs/barber-apprenticeship/apply
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default function Page() {
-  permanentRedirect('/apply/barber');
+  permanentRedirect('/programs/barber-apprenticeship/apply');
 }
