@@ -25,7 +25,7 @@ export function CourseLeaderboard({ courseId }: { courseId: string }) {
         const json = await res.json();
         if (!cancelled) setRows(json.leaderboard || []);
       } catch (e) {
-        // Error: $1
+        console.error('Error:', e);
       } finally {
         if (!cancelled) setLoading(false);
       }

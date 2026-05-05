@@ -58,7 +58,7 @@ export function UserMenu({ user, isLoading }: UserMenuProps) {
       router.push('/');
       router.refresh();
     } catch (error) {
-      // Silent fail
+      console.error('Error:', error);
     }
   };
 

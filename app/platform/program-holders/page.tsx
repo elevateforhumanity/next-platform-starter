@@ -292,7 +292,7 @@ export default async function ProgramHolderLicensePage() {
               <div className="text-sm font-bold text-black mb-2">LARGE</div>
               <div className="text-3xl font-bold text-black mb-1">$16,000</div>
               <div className="text-sm text-black mb-4">/month</div>
-              <div className="text-sm text-black mb-4">Up to 10,000 students</div>
+              <div className="text-sm text-black mb-4">Hundreds of students</div>
               <div className="text-xs text-black">Setup: $35,000</div>
             </div>
 

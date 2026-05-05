@@ -333,7 +333,7 @@ export default function StorePage() {
             <Link href="/store/trial" className="inline-flex items-center justify-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-8 py-3.5 rounded-lg transition">
               Start 14-Day Free Trial <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/demo/admin" className="inline-flex items-center justify-center gap-2 bg-white text-slate-900 font-semibold px-8 py-3.5 rounded-lg hover:bg-white transition">
+            <Link href="/admin/dashboard" className="inline-flex items-center justify-center gap-2 bg-white text-slate-900 font-semibold px-8 py-3.5 rounded-lg hover:bg-white transition">
               Try Full Demo First
             </Link>
           </div>

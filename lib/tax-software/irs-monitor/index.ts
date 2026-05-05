@@ -189,7 +189,7 @@ export class IRSMonitor {
       }
       currentValue = value;
     } catch (error) {
-      // Config might not exist yet
+      console.error('Error:', error);
     }
 
     const pending: PendingUpdate = {

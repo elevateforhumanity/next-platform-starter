@@ -547,7 +547,7 @@ export default async function StudentDashboardPage() {
                   <span className="font-medium text-slate-900 text-xs sm:text-base">Billing</span>
                 </Link>
                 <Link
-                  href="/student/support"
+                  href="/help"
                   className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition"
                 >
                   <HelpCircle className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 flex-shrink-0" />

@@ -245,7 +245,7 @@ export default function WhiteLabelPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/store/white-label/signup"
+              href="/store/white-label"
               className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold"
             >
               Start Free Trial

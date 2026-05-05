@@ -94,7 +94,7 @@ export default async function SettingsPage() {
       profile = profileData;
     }
   } catch (error) {
-    // Table may not exist
+    console.error('Error:', error);
   }
 
   return (

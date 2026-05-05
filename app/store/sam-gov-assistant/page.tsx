@@ -466,7 +466,7 @@ Come back anytime if you need help!`,
           </h2>
           <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
             <Link
-              href="/store/digital/grant-guide"
+              href="/store/digital"
               className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
             >
               <h3 className="text-lg font-bold text-gray-900 mb-2">

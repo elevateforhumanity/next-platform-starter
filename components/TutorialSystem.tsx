@@ -39,7 +39,7 @@ export function TutorialSystem({ tutorial, userId, onComplete, onClose }: Tutori
           }
         }
       } catch (error) {
-        // Progress load failure is non-fatal — tutorial starts from step 0
+        console.error('Error:', error);
       }
     }
     loadProgress();

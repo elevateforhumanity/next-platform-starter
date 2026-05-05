@@ -99,7 +99,7 @@ export function LiveOutcomesDashboard({ initialData }: { initialData?: Partial<O
           setLastUpdated(new Date().toLocaleTimeString());
         }
       } catch (error) {
-        // Use default data on error
+        console.error('Error:', error);
       }
     };
 

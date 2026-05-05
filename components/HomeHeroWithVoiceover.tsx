@@ -76,7 +76,7 @@ export function HomeHeroWithVoiceover({
           }));
         }
       } catch (err) {
-        // Use default config
+        console.error('Error:', err);
       }
     }
 

@@ -79,7 +79,7 @@ export function InvisibleWatermark({
         localStorage.setItem('site_original_id', siteId);
         localStorage.setItem('site_original_timestamp', clientTimestamp);
       } catch (e) {
-        // Ignore if localStorage is disabled
+        console.error('Error:', e);
       }
       // Method 5: Detect if site is being viewed in iframe (common scraping technique)
       if (window.self !== window.top) {

@@ -238,7 +238,7 @@ export default async function EmployerDashboardOrchestrated() {
                       ? 'Track apprentices and compliance'
                       : 'Build your talent pipeline'
                   }
-                  href="/employer/apprenticeship"
+                  href="/employer/apprenticeships"
                   icon={<TrendingUp className="h-10 w-10" />}
                   badge={apprenticeshipProgram ? 'Active' : undefined}
                 />
@@ -343,7 +343,7 @@ export default async function EmployerDashboardOrchestrated() {
                 Start an apprenticeship program and train workers specifically for your needs.
               </p>
               <a
-                href="/employer/apprenticeship"
+                href="/employer/apprenticeships"
                 className="block w-full text-center px-4 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition"
               >
                 Learn More

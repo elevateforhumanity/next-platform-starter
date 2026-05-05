@@ -52,7 +52,7 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ id: strin
   }
 
   // Get temp password from profile if user exists (for new-account emails)
-  let tempPassword: string | null = null;
+  const tempPassword: string | null = null;
   let enrollmentId: string | null = null;
 
   if (app.user_id) {

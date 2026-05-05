@@ -200,7 +200,7 @@ export default function ComprehensiveEnrollmentWizard({
         const data = JSON.parse(saved);
         setFormData((prev) => ({ ...prev, ...data }));
       } catch (e) {
-        // Error logged
+        console.error('Error:', e);
       }
     }
   }, [programId]);
@@ -226,7 +226,7 @@ export default function ComprehensiveEnrollmentWizard({
         body: JSON.stringify({ programId, data: formData, step: currentStep }),
       });
     } catch (e) {
-      // Error logged
+      console.error('Error:', e);
     } finally {
       setSaving(false);
     }

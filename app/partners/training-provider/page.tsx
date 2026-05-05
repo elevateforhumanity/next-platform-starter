@@ -209,7 +209,7 @@ export default function TrainingProviderPage() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              href="/onboarding/program-holder"
+              href="/program-holder/onboarding"
               className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-700 transition text-base"
             >
               Apply as Training Provider <ArrowRight className="w-5 h-5" />

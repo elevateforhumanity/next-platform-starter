@@ -242,7 +242,7 @@ export default async function VerifyCertificatePage({
                   Ready to Transform Your Career?
                 </h2>
                 <p className="text-base md:text-lg mb-8 text-blue-100">
-                  Join thousands who have launched successful careers through our free training
+                  Advance your career through our free workforce training
                   programs.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">

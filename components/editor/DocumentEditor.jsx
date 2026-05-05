@@ -70,7 +70,7 @@ export function DocumentEditor({ documentId, userId, userName, canEdit = true })
       setCollaborators(doc.collaborators || []);
       setComments(doc.comments || []);
     } catch (error) {
-      // Error: $1
+      console.error('Error:', error);
     }
   };
   const saveDocument = async () => {
@@ -85,7 +85,7 @@ export function DocumentEditor({ documentId, userId, userName, canEdit = true })
       });
       setLastSaved(new Date());
     } catch (error) {
-      // Error: $1
+      console.error('Error:', error);
     } finally {
       setIsSaving(false);
     }
@@ -118,7 +118,7 @@ export function DocumentEditor({ documentId, userId, userName, canEdit = true })
       a.download = `document.${format}`;
       a.click();
     } catch (error) {
-      // Error: $1
+      console.error('Error:', error);
     }
   };
   return (

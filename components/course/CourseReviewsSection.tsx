@@ -56,7 +56,7 @@ export function CourseReviewsSection({ courseId }: { courseId: string }) {
         const json = await res.json();
         setReviews(json.reviews || []);
       } catch (e) {
-        // Error logged
+        console.error('Error:', e);
       } finally {
         setLoading(false);
       }
@@ -83,7 +83,7 @@ export function CourseReviewsSection({ courseId }: { courseId: string }) {
         // Error logged
       }
     } catch (e) {
-      // Error logged
+      console.error('Error:', e);
     } finally {
       setSubmitting(false);
     }

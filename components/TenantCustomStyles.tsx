@@ -50,7 +50,7 @@ export async function TenantCustomStyles() {
         styles = JSON.parse(siteStyles.value);
       }
     } catch (err) {
-      // No custom styles configured
+      console.error('Error:', err);
     }
   }
 
