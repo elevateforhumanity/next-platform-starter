@@ -26,8 +26,8 @@ export default function WebContainerPreview({ url, isLoading }: WebContainerPrev
 
   const deviceSizes = {
     desktop: 'w-full h-full',
-    tablet: 'w-[min(768px,100%)] h-full mx-auto',
-    mobile: 'w-[min(375px,100%)] h-full mx-auto',
+    tablet: 'w-[768px] max-w-full h-full mx-auto',
+    mobile: 'w-[375px] max-w-full h-full mx-auto',
   };
 
   return (

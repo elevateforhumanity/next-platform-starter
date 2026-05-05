@@ -551,7 +551,7 @@ function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
       )}
       {/* Viewport */}
       <div className="flex-1 overflow-auto flex items-start justify-center bg-slate-100 p-4">
-        <div className={`bg-white shadow-xl rounded-lg overflow-hidden transition-all ${viewport === 'mobile' ? 'w-[min(390px,100%)]' : 'w-full'} h-full`}>
+        <div className={`bg-white shadow-xl rounded-lg overflow-hidden transition-all ${viewport === 'mobile' ? 'w-[390px] max-w-full' : 'w-full'} h-full`}>
           {loading && (
             <div className="flex items-center justify-center h-12 bg-slate-50 border-b border-slate-200">
               <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />

@@ -44,15 +44,23 @@ function isStringArray(v: unknown): v is string[] {
 function isWorkflowButtons(
   v: unknown,
 ): v is { key: WorkflowKey; label: string; description: string }[] {
+  const validKeys: WorkflowKey[] = ['deploy-lms', 'deploy-admin', 'ci', 'lint'];
   return (
     Array.isArray(v) &&
     v.every(
-      (item) =>
-        !!item &&
-        typeof item === 'object' &&
-        ['deploy-lms', 'deploy-admin', 'ci', 'lint'].includes((item as any).key) &&
-        typeof (item as any).label === 'string' &&
-        typeof (item as any).description === 'string',
+      (item): item is { key: WorkflowKey; label: string; description: string } => {
+        if (!item || typeof item !== 'object') return false;
+        if (!('key' in item) || !('label' in item) || !('description' in item)) return false;
+        const key = item.key;
+        const label = item.label;
+        const description = item.description;
+        return (
+          typeof key === 'string' &&
+          validKeys.includes(key as WorkflowKey) &&
+          typeof label === 'string' &&
+          typeof description === 'string'
+        );
+      },
     )
   );
 }
@@ -61,11 +69,11 @@ function isPreviewTargets(v: unknown): v is { label: string; url: string }[] {
   return (
     Array.isArray(v) &&
     v.every(
-      (item) =>
-        !!item &&
-        typeof item === 'object' &&
-        typeof (item as any).label === 'string' &&
-        typeof (item as any).url === 'string',
+      (item): item is { label: string; url: string } => {
+        if (!item || typeof item !== 'object') return false;
+        if (!('label' in item) || !('url' in item)) return false;
+        return typeof item.label === 'string' && typeof item.url === 'string';
+      },
     )
   );
 }

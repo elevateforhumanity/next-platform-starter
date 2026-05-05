@@ -97,7 +97,7 @@ export function SitePreviewPanel({ sites }: { sites: SitePreviewTarget[] }) {
       }`} style={{ height: '520px' }}>
         <div className={`h-full overflow-hidden shadow-lg transition-all ${
           viewMode === 'mobile'
-            ? 'w-[min(390px,100%)] rounded-2xl border-4 border-slate-800'
+            ? 'w-[390px] max-w-full rounded-2xl border-4 border-slate-800'
             : 'w-full'
         }`}>
           <iframe
