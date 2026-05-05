@@ -132,8 +132,7 @@ export default function AffirmConfirmPage() {
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
           <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
             <Loader2 className="w-16 h-16 text-brand-blue-600 animate-spin mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-black mb-2">Loading...</h1>
-            <p className="text-black">Please wait</p>
+            <span className="sr-only">Loading</span>
           </div>
         </div>
       }

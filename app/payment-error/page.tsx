@@ -65,7 +65,7 @@ export default function PaymentErrorPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-slate-700">Loading...</div>
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span>
         </div>
       }
     >

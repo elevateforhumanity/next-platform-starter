@@ -38,7 +38,7 @@ export default function ProctorLayout({ children }: { children: React.ReactNode 
               New Session
             </Link>
             <Link
-              href="/admin"
+              href="https://app.elevateforhumanity.org/admin/dashboard"
               className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />

@@ -105,7 +105,7 @@ export default async function CheckoutSuccessPage({
   try { await supabase.from('page_views').insert({ page: 'checkout_success' }).select(); } catch { /* non-critical */ }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span></div>}>
       <SuccessContent searchParams={resolvedSearchParams} />
     </Suspense>
   );

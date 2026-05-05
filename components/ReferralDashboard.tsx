@@ -152,7 +152,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
             <div className="flex items-center gap-4">
               <div className="flex-1 bg-white/20 backdrop-blur-sm rounded-lg p-4">
                 <p className="text-sm text-white mb-1">Referral Code</p>
-                <p className="text-3xl font-bold tracking-wider">{referralCode || 'Loading...'}</p>
+                <p className="text-3xl font-bold tracking-wider">{referralCode || <span className="inline-block h-6 w-24 animate-pulse rounded bg-white/30" aria-hidden="true" />}</p>
               </div>
 
               <div className="flex gap-2">

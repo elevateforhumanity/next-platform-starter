@@ -1084,7 +1084,7 @@ export default function BookTestingPage() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-white flex items-center justify-center">
-          <p className="text-slate-500 text-sm">Loading...</p>
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span>
         </div>
       }
     >

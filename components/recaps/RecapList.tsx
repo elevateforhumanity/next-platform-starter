@@ -41,7 +41,7 @@ export default function RecapList() {
         </button>
       </div>
 
-      {loading ? <div className="text-sm text-neutral-500">Loading…</div> : null}
+      {loading ? <div className="h-6 w-24 animate-pulse rounded bg-slate-200" aria-hidden="true" /> : null}
 
       {!loading && recaps.length === 0 ? (
         <div className="text-sm text-neutral-600">No recaps yet. Create your first one.</div>

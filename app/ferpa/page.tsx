@@ -93,7 +93,7 @@ export default async function FERPAPortal() {
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <Link href="/admin" className="px-4 py-2 text-black hover:text-black font-medium">
+              <Link href="https://app.elevateforhumanity.org/admin/dashboard" className="px-4 py-2 text-black hover:text-black font-medium">
                 Admin Dashboard
               </Link>
               <form action="/api/auth/signout" method="post">

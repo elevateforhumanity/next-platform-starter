@@ -128,7 +128,7 @@ export function PageLoading() {
     <div className="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="text-center">
         <Spinner size="lg" />
-        <p className="mt-4 text-black font-semibold">Loading...</p>
+        <span className="sr-only">Loading</span>
       </div>
     </div>
   );

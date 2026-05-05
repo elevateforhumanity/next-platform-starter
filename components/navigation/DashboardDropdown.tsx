@@ -209,7 +209,7 @@ const DEFAULT_DASHBOARDS: Dashboard[] = [
   {
     id: '13',
     name: 'Admin',
-    href: '/admin/dashboard',
+    href: 'https://app.elevateforhumanity.org/admin/dashboard',
     icon: 'Shield',
     description: 'Full site management',
     color: 'text-brand-red-600',

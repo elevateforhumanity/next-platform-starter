@@ -15,7 +15,7 @@ export default function CertiportExamPage() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-white flex items-center justify-center">
-          <p className="text-slate-500">Loading...</p>
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span>
         </div>
       }
     >

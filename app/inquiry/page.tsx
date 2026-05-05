@@ -220,7 +220,7 @@ function InquiryForm() {
 export default function Inquiry() {
   return (
     <Suspense
-      fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}
+      fallback={<div className="min-h-screen flex items-center justify-center"><div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span></div>}
     >
       <InquiryForm />
     </Suspense>

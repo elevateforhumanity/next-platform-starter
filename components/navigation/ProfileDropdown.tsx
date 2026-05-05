@@ -22,9 +22,9 @@ import {
 
 // Maps every role to its portal landing page — mirrors lib/auth/role-destinations.ts
 const ROLE_PORTAL: Record<string, { label: string; href: string }> = {
-  super_admin:     { label: 'Admin Dashboard',        href: '/admin' },
-  admin:           { label: 'Admin Dashboard',        href: '/admin' },
-  org_admin:       { label: 'Admin Dashboard',        href: '/admin' },
+  super_admin:     { label: 'Admin Dashboard',        href: 'https://app.elevateforhumanity.org/admin/dashboard' },
+  admin:           { label: 'Admin Dashboard',        href: 'https://app.elevateforhumanity.org/admin/dashboard' },
+  org_admin:       { label: 'Admin Dashboard',        href: 'https://app.elevateforhumanity.org/admin/dashboard' },
   staff:           { label: 'Staff Portal',           href: '/staff-portal/dashboard' },
   instructor:      { label: 'Instructor Portal',      href: 'https://admin.elevateforhumanity.org/instructor' },
   mentor:          { label: 'Mentor Portal',          href: '/mentor/dashboard' },
