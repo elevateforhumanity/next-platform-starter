@@ -40,7 +40,7 @@ export default function CodeEditor({ value, onChange, filePath, readOnly }: Code
         language={language}
         value={code}
         onChange={handleChange}
-        theme="vs-dark"
+        theme="vs-light"
         options={{
           fontSize: 14,
           minimap: { enabled: true },

@@ -106,7 +106,7 @@ export default function DevContainerPanel() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-full bg-slate-900 text-slate-400">
+      <div className="flex items-center justify-center h-full bg-white text-slate-500">
         <RefreshCw className="w-5 h-5 animate-spin mr-2" />
         Loading devcontainer.json…
       </div>
@@ -114,12 +114,12 @@ export default function DevContainerPanel() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-slate-900 text-white overflow-hidden">
+    <div className="flex flex-col h-full bg-white text-slate-800 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-slate-800 border-b border-slate-700 flex-shrink-0">
+      <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200 flex-shrink-0">
         <div className="flex items-center gap-2">
-          <Box className="w-4 h-4 text-blue-400" />
-          <span className="font-semibold text-sm">.devcontainer/devcontainer.json</span>
+          <Box className="w-4 h-4 text-brand-blue-600" />
+          <span className="font-semibold text-sm text-slate-700">.devcontainer/devcontainer.json</span>
           {hasChanges && (
             <span className="text-xs bg-yellow-600 text-white px-2 py-0.5 rounded">unsaved</span>
           )}
@@ -127,7 +127,7 @@ export default function DevContainerPanel() {
         <div className="flex items-center gap-2">
           <button
             onClick={load}
-            className="p-1.5 text-slate-400 hover:text-white transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-700 transition-colors"
             title="Reload from disk"
           >
             <RefreshCw className="w-4 h-4" />
@@ -135,7 +135,7 @@ export default function DevContainerPanel() {
           <button
             onClick={save}
             disabled={!hasChanges || !!parseError || saving}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-green-700 hover:bg-green-600 disabled:opacity-40 disabled:cursor-not-allowed rounded text-sm transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:opacity-40 disabled:cursor-not-allowed rounded text-sm text-white transition-colors"
           >
             <Save className="w-3.5 h-3.5" />
             {saving ? 'Saving…' : 'Save'}
@@ -162,15 +162,15 @@ export default function DevContainerPanel() {
       )}
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-700 flex-shrink-0">
+      <div className="flex border-b border-slate-200 flex-shrink-0">
         {(['visual', 'raw'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-4 py-2 text-sm capitalize transition-colors ${
               activeTab === tab
-                ? 'border-b-2 border-blue-400 text-blue-400'
-                : 'text-slate-400 hover:text-white'
+                ? 'border-b-2 border-brand-blue-500 text-brand-blue-600'
+                : 'text-slate-500 hover:text-slate-700'
             }`}
           >
             {tab === 'visual' ? 'Visual' : 'Raw JSON'}
@@ -218,7 +218,7 @@ export default function DevContainerPanel() {
                   {Object.keys(parsed.features).map((f) => (
                     <div
                       key={f}
-                      className="font-mono text-xs text-slate-300 bg-slate-800 px-3 py-1.5 rounded"
+                      className="font-mono text-xs text-slate-700 bg-slate-100 px-3 py-1.5 rounded"
                     >
                       {f}
                     </div>
@@ -230,21 +230,21 @@ export default function DevContainerPanel() {
             {/* Lifecycle commands — the platform's central processing hooks */}
             {parsed.onCreateCommand && (
               <Section title="On Create (runs once on first build)">
-                <code className="block bg-slate-800 px-3 py-2 rounded text-xs text-green-300 font-mono whitespace-pre-wrap break-all">
+                <code className="block bg-slate-100 px-3 py-2 rounded text-xs text-slate-700 font-mono whitespace-pre-wrap break-all">
                   {parsed.onCreateCommand}
                 </code>
               </Section>
             )}
             {parsed.postCreateCommand && (
               <Section title="Post Create (runs after image build)">
-                <code className="block bg-slate-800 px-3 py-2 rounded text-xs text-green-300 font-mono whitespace-pre-wrap break-all">
+                <code className="block bg-slate-100 px-3 py-2 rounded text-xs text-slate-700 font-mono whitespace-pre-wrap break-all">
                   {parsed.postCreateCommand}
                 </code>
               </Section>
             )}
             {parsed.postStartCommand && (
               <Section title="Post Start (runs on every container start)">
-                <code className="block bg-slate-800 px-3 py-2 rounded text-xs text-yellow-300 font-mono whitespace-pre-wrap break-all">
+                <code className="block bg-slate-100 px-3 py-2 rounded text-xs text-slate-700 font-mono whitespace-pre-wrap break-all">
                   {parsed.postStartCommand}
                 </code>
               </Section>
@@ -255,10 +255,10 @@ export default function DevContainerPanel() {
               <Section title="Remote Environment Variables">
                 <div className="space-y-1">
                   {Object.entries(parsed.remoteEnv).map(([k, v]) => (
-                    <div key={k} className="flex items-start gap-2 font-mono text-xs bg-slate-800 px-3 py-1.5 rounded">
+                    <div key={k} className="flex items-start gap-2 font-mono text-xs bg-slate-100 px-3 py-1.5 rounded">
                       <span className="text-blue-300 flex-shrink-0">{k}</span>
                       <span className="text-slate-500">=</span>
-                      <span className="text-slate-300 break-all">{v}</span>
+                      <span className="text-slate-700 break-all">{v}</span>
                     </div>
                   ))}
                 </div>
@@ -270,9 +270,9 @@ export default function DevContainerPanel() {
               <Section title="Port Configuration">
                 <div className="space-y-1">
                   {Object.entries(parsed.portsAttributes).map(([port, cfg]) => (
-                    <div key={port} className="flex items-center gap-3 text-xs bg-slate-800 px-3 py-1.5 rounded">
+                    <div key={port} className="flex items-center gap-3 text-xs bg-slate-100 px-3 py-1.5 rounded">
                       <span className="font-mono text-blue-300">:{port}</span>
-                      <span className="text-slate-300">{cfg.label}</span>
+                      <span className="text-slate-700">{cfg.label}</span>
                       {cfg.onAutoForward && (
                         <span className="text-slate-500 ml-auto">{cfg.onAutoForward}</span>
                       )}
@@ -289,7 +289,7 @@ export default function DevContainerPanel() {
                   {parsed.customizations.vscode.extensions.map((ext) => (
                     <div
                       key={ext}
-                      className="text-xs text-slate-300 bg-slate-800 px-2 py-1 rounded font-mono truncate"
+                      className="text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded font-mono truncate"
                     >
                       {ext}
                     </div>
@@ -301,7 +301,7 @@ export default function DevContainerPanel() {
             {/* VS Code settings */}
             {parsed.customizations?.vscode?.settings && (
               <Section title="VS Code Settings">
-                <pre className="text-xs text-slate-300 bg-slate-800 px-3 py-2 rounded overflow-auto">
+                <pre className="text-xs text-slate-700 bg-slate-100 px-3 py-2 rounded overflow-auto">
                   {JSON.stringify(parsed.customizations.vscode.settings, null, 2)}
                 </pre>
               </Section>
@@ -320,7 +320,7 @@ export default function DevContainerPanel() {
               value={editedRaw}
               onChange={(e) => handleRawChange(e.target.value)}
               spellCheck={false}
-              className="flex-1 w-full bg-slate-950 text-slate-200 font-mono text-xs p-4 resize-none outline-none border-0"
+              className="flex-1 w-full bg-white text-slate-700 font-mono text-xs p-4 resize-none outline-none border-0"
             />
           </div>
         )}
@@ -345,7 +345,7 @@ function Field({ label, value, mono }: { label: string; value?: string; mono?: b
   return (
     <div className="flex items-start gap-3 mb-1">
       <span className="text-xs text-slate-500 w-24 flex-shrink-0 pt-0.5">{label}</span>
-      <span className={`text-sm text-slate-200 ${mono ? 'font-mono text-xs' : ''}`}>{value}</span>
+      <span className={`text-sm text-slate-700 ${mono ? 'font-mono text-xs' : ''}`}>{value}</span>
     </div>
   );
 }

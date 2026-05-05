@@ -3,17 +3,15 @@
 import React, { useRef, useState } from 'react';
 import { Globe, RefreshCw, ExternalLink, Monitor, Smartphone, Code2 } from 'lucide-react';
 import Link from 'next/link';
-
-const SITES = [
-  { label: 'Public Site', url: 'https://www.elevateforhumanity.org' },
-  { label: 'Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://app.elevateforhumanity.org' },
-  { label: 'LMS', url: process.env.NEXT_PUBLIC_LMS_URL ?? 'https://app.elevateforhumanity.org' },
-];
+import type { SitePreviewTarget } from './types';
 
 type ViewMode = 'desktop' | 'mobile';
 
-export function SitePreviewPanel() {
-  const [activeSite, setActiveSite] = useState(SITES[0]);
+export function SitePreviewPanel({ sites }: { sites: SitePreviewTarget[] }) {
+  const resolvedSites = sites.length > 0
+    ? sites
+    : [{ label: 'Public Site', url: 'https://www.elevateforhumanity.org' }];
+  const [activeSite, setActiveSite] = useState(resolvedSites[0]);
   const [customUrl, setCustomUrl] = useState('');
   const [previewKey, setPreviewKey] = useState(0);
   const [viewMode, setViewMode] = useState<ViewMode>('desktop');
@@ -26,13 +24,13 @@ export function SitePreviewPanel() {
   return (
     <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 bg-slate-50">
+      <div className="flex flex-wrap items-center gap-2 px-3 sm:px-4 py-3 border-b border-slate-100 bg-slate-50">
         <Globe className="w-4 h-4 text-slate-500 shrink-0" />
         <span className="font-semibold text-slate-900 text-sm">Live Site Preview</span>
 
         {/* Site switcher */}
-        <div className="flex items-center gap-1 ml-2">
-          {SITES.map(site => (
+        <div className="flex items-center gap-1 sm:ml-2 overflow-x-auto max-w-full">
+          {resolvedSites.map(site => (
             <button
               key={site.label}
               onClick={() => { setActiveSite(site); setCustomUrl(''); setPreviewKey(k => k + 1); }}
@@ -48,7 +46,7 @@ export function SitePreviewPanel() {
         </div>
 
         {/* URL bar */}
-        <div className="flex-1 flex items-center gap-1 bg-white border border-slate-200 rounded-lg px-2 py-1 min-w-0">
+        <div className="order-last sm:order-none basis-full sm:basis-auto flex-1 flex items-center gap-1 bg-white border border-slate-200 rounded-lg px-2 py-1 min-w-0">
           <input
             value={customUrl || activeSite.url}
             onChange={e => setCustomUrl(e.target.value)}
@@ -83,7 +81,7 @@ export function SitePreviewPanel() {
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
           <Link
-            href="/admin/editor"
+            href="/admin/dev-studio"
             className="flex items-center gap-1 px-2.5 py-1 bg-slate-900 hover:bg-slate-700 text-white text-xs rounded-lg font-medium transition-colors"
             title="Open Dev Studio"
           >
@@ -99,7 +97,7 @@ export function SitePreviewPanel() {
       }`} style={{ height: '520px' }}>
         <div className={`h-full overflow-hidden shadow-lg transition-all ${
           viewMode === 'mobile'
-            ? 'w-[390px] rounded-2xl border-4 border-slate-800'
+            ? 'w-[min(390px,100%)] rounded-2xl border-4 border-slate-800'
             : 'w-full'
         }`}>
           <iframe

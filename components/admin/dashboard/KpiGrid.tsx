@@ -57,12 +57,12 @@ function KpiCard({ card }: { card: KPICard }) {
     <Link
       href={card.href}
       className={[
-        'group relative overflow-hidden rounded-2xl border bg-white dark:bg-slate-800',
+        'group relative overflow-hidden rounded-2xl border bg-white',
         'shadow-sm hover:shadow-lg hover:-translate-y-0.5',
         'transition-all duration-200 ease-out',
         card.urgent
-          ? 'border-rose-300 dark:border-rose-700'
-          : 'border-slate-200 dark:border-slate-700',
+          ? 'border-rose-300'
+          : 'border-slate-200',
       ].join(' ')}
     >
       {/* Top accent bar */}
@@ -76,10 +76,10 @@ function KpiCard({ card }: { card: KPICard }) {
       <div className="p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500 truncate mb-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 truncate mb-1">
               {card.label}
             </p>
-            <p className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white tabular-nums">
+            <p className="text-3xl font-bold tracking-tight text-slate-900 tabular-nums">
               {isRevenue ? fmtDollars(animated) : fmt(animated)}
             </p>
           </div>
@@ -87,8 +87,8 @@ function KpiCard({ card }: { card: KPICard }) {
             className={[
               'rounded-xl p-2.5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110',
               card.urgent
-                ? 'bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400'
-                : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300',
+                ? 'bg-rose-50 text-rose-600'
+                : 'bg-slate-100 text-slate-600',
             ].join(' ')}
           >
             <IconComponent className="h-5 w-5" />
@@ -101,8 +101,8 @@ function KpiCard({ card }: { card: KPICard }) {
               className={[
                 'inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold',
                 pos
-                  ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400'
-                  : 'bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400',
+                  ? 'bg-emerald-50 text-emerald-700'
+                  : 'bg-rose-50 text-rose-700',
               ].join(' ')}
             >
               {pos ? (
@@ -113,7 +113,7 @@ function KpiCard({ card }: { card: KPICard }) {
               {Math.abs(card.delta)}%
             </span>
           )}
-          <span className="text-xs text-slate-400 dark:text-slate-500">{card.deltaLabel}</span>
+          <span className="text-xs text-slate-500">{card.deltaLabel}</span>
         </div>
       </div>
 

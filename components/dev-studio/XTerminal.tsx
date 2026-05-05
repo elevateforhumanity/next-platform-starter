@@ -65,16 +65,16 @@ const XTerminal = forwardRef<XTerminalHandle, XTerminalProps>(({ onClear }, ref)
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#0d1117]">
+    <div className="h-full flex flex-col bg-white">
       {/* Terminal Header */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-[#30363d]">
+      <div className="flex items-center justify-between px-4 py-2 bg-slate-50 border-b border-slate-200">
         <div className="flex items-center gap-2">
-          <TerminalIcon className="w-4 h-4 text-[#8b949e]" />
-          <span className="text-sm font-medium text-[#c9d1d9]">Terminal</span>
+          <TerminalIcon className="w-4 h-4 text-slate-500" />
+          <span className="text-sm font-medium text-slate-700">Terminal</span>
         </div>
         <button
           onClick={handleClear}
-          className="p-1 text-[#8b949e] hover:text-[#c9d1d9] hover:bg-[#30363d] rounded transition-colors"
+          className="p-1 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors"
           title="Clear terminal"
         >
           <X className="w-4 h-4" />
@@ -84,7 +84,7 @@ const XTerminal = forwardRef<XTerminalHandle, XTerminalProps>(({ onClear }, ref)
       {/* Terminal Content */}
       <div
         ref={terminalRef}
-        className="flex-1 p-3 overflow-auto font-mono text-sm text-[#c9d1d9] leading-relaxed"
+        className="flex-1 p-3 overflow-auto font-mono text-sm text-slate-700 leading-relaxed bg-white"
       >
         {lines.map((line, i) => (
           <div key={i} dangerouslySetInnerHTML={{ __html: ansiToHtml(line) || '&nbsp;' }} />

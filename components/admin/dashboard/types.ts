@@ -162,6 +162,11 @@ export interface OperationalCounts {
   revenueThisMonthCents: number;
 }
 
+export interface SitePreviewTarget {
+  label: string;
+  url: string;
+}
+
 export interface AdminDashboardData {
   counts: DashboardCounts;
   operational: OperationalCounts;
@@ -189,6 +194,7 @@ export interface AdminDashboardData {
   missingFundingEnrollments: Record<string, unknown>[];
   profile: { full_name: string | null } | null;
   generatedAt: string;
+  sitePreviewTargets: SitePreviewTarget[];
   /** Non-empty when one or more non-critical sections failed to load. */
   degradedSections: DegradedSection[];
   systemHealth: SystemHealth;
