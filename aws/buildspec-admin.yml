@@ -45,6 +45,8 @@ phases:
           echo "Build failed; skipping push and deploy."
           exit 1
         fi
+      - echo "Validating required env vars before push..."
+      - node scripts/validate-env.js admin
       - echo Pushing images...
       - docker push $IMAGE_URI:latest
       - docker push $IMAGE_URI:$COMMIT_HASH

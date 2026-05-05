@@ -25,16 +25,20 @@ async function _GET(request: Request) {
     checks: {},
   };
 
-  // Check 1: Environment Variables
+  // Check 1: Environment Variables — missing critical vars = hard fail → 500
+  const criticalEnv = [
+    'NEXT_PUBLIC_SUPABASE_URL',
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+    'SUPABASE_SERVICE_ROLE_KEY',
+  ];
+  const missingEnv = criticalEnv.filter((k) => !process.env[k]);
   checks.checks.environment = {
     supabase_url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
     supabase_anon_key: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     service_role_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
     service_role_key_length: process.env.SUPABASE_SERVICE_ROLE_KEY?.length ?? 0,
-    status:
-      process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-        ? 'pass'
-        : 'fail',
+    missing: missingEnv,
+    status: missingEnv.length === 0 ? 'pass' : 'fail',
   };
 
   // Check 2: Database Connection
@@ -206,12 +210,13 @@ async function _GET(request: Request) {
     fully_animated: true,
   };
 
-  // Always return 200 — Railway healthcheck only needs the server to respond.
-  // Degraded state is surfaced in the JSON body, not the HTTP status.
-  // 503 was causing Railway to mark deploys as FAILED even when the app
-  // was running correctly but a non-critical check (e.g. DB) was slow to connect.
+  // Return 500 on hard failures so ALB health checks kill bad containers.
+  // Warnings (degraded DB, missing optional keys) still return 200 — the app
+  // can serve traffic in a degraded state. Only missing critical env vars or
+  // disabled audit triggers are hard failures.
+  const httpStatus = hasCriticalFailure ? 500 : 200;
   return NextResponse.json(checks, {
-    status: 200,
+    status: httpStatus,
     headers: {
       'Cache-Control': 'no-store',
     },
