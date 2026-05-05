@@ -20,11 +20,8 @@ export function BarberEnrollment() {
             <div className="bg-white rounded-xl p-5 border border-slate-200 text-center">
               <DollarSign className="w-8 h-8 text-brand-green-600 mx-auto mb-2" />
               <h3 className="font-bold text-slate-900 mb-1">Pay in Full</h3>
-              <p className="text-2xl font-black text-slate-900 mb-1">$4,980</p>
-              <p className="text-slate-500 text-xs mb-3">5% discount applied at checkout</p>
-              <Link href="/programs/barber-apprenticeship/payment-setup?payment=pay_in_full" className="inline-block text-sm font-semibold text-brand-red-600 hover:text-brand-red-700">
-                Enroll Now &rarr;
-              </Link>
+              <p className="text-2xl font-black text-slate-900 mb-1">$4,731</p>
+              <p className="text-slate-500 text-xs">5% discount — save $249</p>
             </div>
             <div className="bg-white rounded-xl p-5 border-2 border-brand-orange-400 text-center relative">
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</span>
@@ -32,28 +29,22 @@ export function BarberEnrollment() {
               <h3 className="font-bold text-slate-900 mb-1">Payment Plan</h3>
               <p className="text-2xl font-black text-slate-900 mb-1">from $600 <span className="text-base font-normal text-slate-500">down</span></p>
               <p className="text-slate-500 text-xs mb-1">You choose your down payment</p>
-              <p className="text-slate-500 text-xs mb-3">Remainder split over 29 weekly payments</p>
-              <Link href="/programs/barber-apprenticeship/payment-setup?payment=payment_plan" className="inline-block bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
-                Choose My Plan &rarr;
-              </Link>
+              <p className="text-slate-500 text-xs">Remainder over 29 weekly payments</p>
             </div>
             <div className="bg-white rounded-xl p-5 border border-slate-200 text-center">
               <CreditCard className="w-8 h-8 text-brand-blue-600 mx-auto mb-2" />
               <h3 className="font-bold text-slate-900 mb-1">Buy Now, Pay Later</h3>
-              <p className="text-slate-500 text-xs mb-3">Choose your provider at checkout</p>
-              <div className="flex flex-col gap-2 mb-3">
-                <Link href="/programs/barber-apprenticeship/payment-setup?payment=affirm" className="inline-block w-full bg-[#0FA0EA] hover:bg-[#0d8fd0] text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors">
-                  Affirm — Pay over time
-                </Link>
-                <Link href="/programs/barber-apprenticeship/payment-setup?payment=sezzle" className="inline-block w-full bg-[#392558] hover:bg-[#2e1d47] text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors">
-                  Sezzle — 4 payments
-                </Link>
-              </div>
-              <p className="text-slate-400 text-[10px]">Subject to provider approval</p>
+              <p className="text-slate-500 text-xs mb-1">Affirm or Sezzle</p>
+              <p className="text-slate-400 text-xs">Subject to provider approval</p>
             </div>
           </div>
-          <p className="mt-4 text-xs text-slate-500 text-center max-w-2xl mx-auto">
-            Payment plans start at $600 down. BNPL financing available through {BNPL_PROVIDER_NAMES} — subject to provider approval.
+          <p className="mt-6 text-center">
+            <Link href="/apply?program=barber-apprenticeship" className="inline-block bg-brand-red-600 text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-brand-red-700 transition-colors">
+              Apply to Enroll — Choose Payment at Checkout
+            </Link>
+          </p>
+          <p className="mt-3 text-xs text-slate-500 text-center max-w-2xl mx-auto">
+            Payment method selected after application is reviewed. BNPL subject to provider approval.
           </p>
         </div>
       </section>
