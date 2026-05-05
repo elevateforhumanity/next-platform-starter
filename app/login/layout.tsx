@@ -14,5 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default function LoginLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  // MarketingChromeGuard hides header/footer on /login via data-app-route.
+  // This layout provides the dark centered shell for the auth form.
+  return (
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+      {children}
+    </div>
+  );
 }
