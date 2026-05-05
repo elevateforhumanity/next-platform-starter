@@ -161,7 +161,7 @@ export function useOfflineQueue() {
         });
         return response.ok;
       } catch (error) {
-        // Fall through to queue
+        console.error('Error:', error);
       }
     }
 

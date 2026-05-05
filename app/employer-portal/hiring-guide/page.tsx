@@ -194,7 +194,7 @@ export default function HiringGuidePage() {
           </p>
           <div className="flex justify-center gap-4">
             <Link
-              href="/employer/jobs/new"
+              href="/employer/jobs"
               className="px-6 py-3 bg-white text-brand-blue-600 rounded-lg hover:bg-white transition font-semibold flex items-center gap-2"
             >
               Post a Job <ArrowRight className="w-4 h-4" />

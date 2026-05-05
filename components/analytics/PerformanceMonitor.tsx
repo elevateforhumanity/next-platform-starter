@@ -32,7 +32,7 @@ export function PerformanceMonitor() {
         });
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
       } catch (e) {
-        // Error: $1
+        console.error('Error:', e);
       }
     }
     // FID - First Input Delay
@@ -50,7 +50,7 @@ export function PerformanceMonitor() {
         });
         fidObserver.observe({ entryTypes: ['first-input'] });
       } catch (e) {
-        // Error: $1
+        console.error('Error:', e);
       }
     }
     // CLS - Cumulative Layout Shift
@@ -71,7 +71,7 @@ export function PerformanceMonitor() {
         });
         clsObserver.observe({ entryTypes: ['layout-shift'] });
       } catch (e) {
-        // Error: $1
+        console.error('Error:', e);
       }
     }
   }, []);

@@ -51,7 +51,7 @@ export default async function NotificationsPage() {
       unreadCount = notifications.filter((n) => !n.read_at).length;
     }
   } catch (error) {
-    // Tables may not exist
+    console.error('Error:', error);
   }
 
   const getIcon = (type: string) => {

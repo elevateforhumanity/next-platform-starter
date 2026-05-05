@@ -29,7 +29,7 @@ export function setApplyPathwayContext(ctx: ApplyPathwayContext): void {
   try {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(ctx));
   } catch (error) {
-    // ignore storage errors
+    console.error('Error:', error);
   }
 }
 
@@ -39,6 +39,6 @@ export function clearApplyPathwayContext(): void {
   try {
     sessionStorage.removeItem(STORAGE_KEY);
   } catch (error) {
-    // ignore
+    console.error('Error:', error);
   }
 }

@@ -34,7 +34,7 @@ export function measureWebVitals() {
   try {
     observer.observe({ entryTypes: ['largest-contentful-paint'] });
   } catch (e) {
-    // LCP not supported
+    console.error('Error:', e);
   }
   // First Input Delay (FID)
   const fidObserver = new PerformanceObserver((list) => {
@@ -52,7 +52,7 @@ export function measureWebVitals() {
   try {
     fidObserver.observe({ entryTypes: ['first-input'] });
   } catch (e) {
-    // FID not supported
+    console.error('Error:', e);
   }
   // Cumulative Layout Shift (CLS)
   let clsValue = 0;
@@ -66,7 +66,7 @@ export function measureWebVitals() {
   try {
     clsObserver.observe({ entryTypes: ['layout-shift'] });
   } catch (e) {
-    // CLS not supported
+    console.error('Error:', e);
   }
   // Report CLS on page unload
   window.addEventListener('beforeunload', () => {

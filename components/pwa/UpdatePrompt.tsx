@@ -136,7 +136,7 @@ export function useAppVersion() {
           }
         }
       } catch (error) {
-        // Ignore errors
+        console.error('Error:', error);
       }
     };
 

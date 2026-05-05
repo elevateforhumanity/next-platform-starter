@@ -145,7 +145,7 @@ export class PushNotificationService {
       const supabase = await createClient();
       await supabase.from('push_subscriptions').delete().eq('endpoint', endpoint);
     } catch (error) {
-      // Error: $1
+      console.error('Error:', error);
     }
   }
   /**

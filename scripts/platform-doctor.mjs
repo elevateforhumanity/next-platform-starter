@@ -161,8 +161,16 @@ function checkBrokenInternalRoutes() {
     const hrefRe = /href=["'](\/[^"'#?\s]*)["']/g;
     for (const m of content.matchAll(hrefRe)) {
       const p = m[1];
+      // Skip API routes, dynamic param segments, root, and static asset paths (have file extensions)
       if (p.startsWith('/api') || p.includes('[') || p === '/') continue;
-      const exists = routes.has(p) || routes.has(`${p}/`) || [...routes].some((r) => r.includes('[') && p.startsWith(r.split('[')[0]));
+      const lastSeg = p.split('/').pop() || '';
+      if (lastSeg.includes('.')) continue; // static asset (e.g., .pdf, .ico, .png, .md)
+      const exists = routes.has(p) || routes.has(`${p}/`) ||
+        [...routes].some((r) => {
+          if (!r.includes('[')) return false;
+          const prefix = r.split('[')[0];
+          return p.startsWith(prefix) || p === prefix.replace(/\/$/, '');
+        });
       if (!exists) {
         broken += 1;
         addFinding('CRITICAL', 'BROKEN_INTERNAL_ROUTE', rel(file), lineNumber(content, m.index), `Internal href points to route not found: ${p}`);

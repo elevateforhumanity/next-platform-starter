@@ -27,7 +27,7 @@ export function StudentStreakWidget() {
         setData(json);
         setGoalInput(String(json.dailyMinutes ?? 20));
       } catch (e) {
-        // Error: $1
+        console.error('Error:', e);
       }
     }
     load();

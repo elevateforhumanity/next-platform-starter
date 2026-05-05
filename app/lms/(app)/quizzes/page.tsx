@@ -86,7 +86,7 @@ export default async function QuizzesPage() {
       );
     }
   } catch (error) {
-    // Quiz data fetch failed — tables may not exist yet
+    console.error('Error:', error);
   }
 
   const getQuizStatus = (quiz: any) => {

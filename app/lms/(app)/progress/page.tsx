@@ -145,7 +145,7 @@ export default async function ProgressPage() {
       }
     }
   } catch (error) {
-    // Progress data fetch failed — tables may not exist yet
+    console.error('Error:', error);
   }
 
   // Calculate overall progress percentage

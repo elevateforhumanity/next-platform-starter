@@ -163,7 +163,7 @@ export default async function WorkforceBoardDashboard() {
             </div>
             <div className="flex gap-3">
               <Link
-                href="/workforce-board/reports"
+                href="/workforce-board/dashboard"
                 className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-white"
               >
                 <FileText className="w-4 h-4 mr-2" />
@@ -411,7 +411,7 @@ export default async function WorkforceBoardDashboard() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link
-            href="/workforce-board/reports"
+            href="/workforce-board/dashboard"
             className="flex flex-col items-center p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-brand-blue-300 hover:shadow-md transition"
           >
             <FileText className="w-8 h-8 text-brand-blue-600 mb-2" />

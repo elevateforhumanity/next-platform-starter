@@ -72,7 +72,7 @@ export default async function MessagesPage() {
       unreadCount = conversations.reduce((sum, c) => sum + c.unread, 0);
     }
   } catch (error) {
-    // Tables may not exist
+    console.error('Error:', error);
   }
 
   const formatTime = (dateString: string) => {

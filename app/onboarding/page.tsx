@@ -149,7 +149,7 @@ export default async function OnboardingPage() {
               </div>
             </Link>
             <Link
-              href="/onboarding/partner"
+              href="/onboarding/instructor"
               className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-lg transition-all"
             >
               <div className="relative h-40 overflow-hidden">

@@ -106,7 +106,7 @@ export default async function SupportPage() {
       tickets = ticketData;
     }
   } catch (error) {
-    // Table may not exist
+    console.error('Error:', error);
   }
 
   return (

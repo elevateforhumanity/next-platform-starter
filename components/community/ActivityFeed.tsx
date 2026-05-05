@@ -151,7 +151,7 @@ export default function ActivityFeed() {
       )}
 
       <div className="p-4 border-t">
-        <Link href="/community" className="text-brand-blue-600 text-sm font-medium hover:underline">
+        <Link href="/partner/dashboard" className="text-brand-blue-600 text-sm font-medium hover:underline">
           View all activity →
         </Link>
       </div>

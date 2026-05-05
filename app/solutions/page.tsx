@@ -155,7 +155,7 @@ export default function SolutionsPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  href="/demo/admin"
+                  href="/admin/dashboard"
                   className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-white transition shadow-xl"
                 >
                   Get Interactive Demo
@@ -285,7 +285,7 @@ export default function SolutionsPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/demo/admin"
+              href="/admin/dashboard"
               className="inline-flex items-center justify-center bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition shadow-xl"
             >
               Try Interactive Demo
