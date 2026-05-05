@@ -199,7 +199,7 @@ export default async function StudentPortalPage() {
 
   // Live enrollment stats for public marketing section
   const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
-  const db = await requireAdminClient();
+  const db = await getAdminClient();
   const [
     { count: activeEnrollments },
     { count: publishedPrograms },
