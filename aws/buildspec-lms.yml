@@ -43,6 +43,15 @@ phases:
 
   build:
     commands:
+      - |
+        for VAR in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY NEXT_PUBLIC_SITE_URL NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY SUPABASE_SERVICE_ROLE_KEY SSN_SALT SEZZLE_PRIVATE_KEY; do
+          VAL=$(eval echo \$$VAR)
+          if [ -z "$VAL" ] || [ "$VAL" = "CHANGE_ME" ] || [ "$VAL" = "placeholder" ]; then
+            echo "ERROR: Required env var $VAR is missing or placeholder — aborting build"
+            exit 1
+          fi
+          echo "OK: $VAR is set"
+        done
       - echo Installing dependencies...
       - pnpm install --frozen-lockfile
       - echo Building LMS...
