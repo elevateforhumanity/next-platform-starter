@@ -202,7 +202,7 @@ export default function DevContainerPanel() {
                   {parsed.forwardPorts.map((p) => (
                     <span
                       key={p}
-                      className="bg-blue-900/50 text-blue-300 px-3 py-1 rounded font-mono text-sm"
+                      className="bg-brand-blue-50 text-brand-blue-600 px-3 py-1 rounded font-mono text-sm"
                     >
                       :{p}
                     </span>
@@ -256,7 +256,7 @@ export default function DevContainerPanel() {
                 <div className="space-y-1">
                   {Object.entries(parsed.remoteEnv).map(([k, v]) => (
                     <div key={k} className="flex items-start gap-2 font-mono text-xs bg-slate-100 px-3 py-1.5 rounded">
-                      <span className="text-blue-300 flex-shrink-0">{k}</span>
+                      <span className="text-brand-blue-600 flex-shrink-0">{k}</span>
                       <span className="text-slate-500">=</span>
                       <span className="text-slate-700 break-all">{v}</span>
                     </div>
@@ -271,7 +271,7 @@ export default function DevContainerPanel() {
                 <div className="space-y-1">
                   {Object.entries(parsed.portsAttributes).map(([port, cfg]) => (
                     <div key={port} className="flex items-center gap-3 text-xs bg-slate-100 px-3 py-1.5 rounded">
-                      <span className="font-mono text-blue-300">:{port}</span>
+                      <span className="font-mono text-brand-blue-600">:{port}</span>
                       <span className="text-slate-700">{cfg.label}</span>
                       {cfg.onAutoForward && (
                         <span className="text-slate-500 ml-auto">{cfg.onAutoForward}</span>
