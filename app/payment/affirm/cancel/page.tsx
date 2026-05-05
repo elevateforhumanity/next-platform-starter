@@ -72,7 +72,7 @@ export default async function AffirmCancelPage() {
             Remember: Most of our programs are 100% FREE through WIOA, WRG, or JRI funding.
           </p>
           <Link
-            href="/financial-aid"
+            href="/programs"
             className="text-sm text-brand-blue-600 hover:text-brand-blue-700 font-semibold"
           >
             Learn about free training options →

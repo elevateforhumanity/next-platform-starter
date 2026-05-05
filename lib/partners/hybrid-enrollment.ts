@@ -238,7 +238,7 @@ export async function syncExternalModuleProgress(progressId: string): Promise<vo
         updates.certificate_number = certificate.certificateNumber;
       }
     } catch (certError) {
-      // Error: $1
+      console.error('Error:', certError);
     }
   }
 

@@ -114,7 +114,7 @@ export default async function CreateCoursePage() {
                 Create Course
               </button>
               <Link
-                href="/program-holder/courses"
+                href="/program-holder/programs"
                 className="px-4 py-2 border rounded-lg hover:bg-slate-50 transition-colors"
               >
                 Cancel

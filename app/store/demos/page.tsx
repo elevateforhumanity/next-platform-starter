@@ -79,7 +79,7 @@ export default function StoreDemosPage() {
             These are guided video walkthroughs. Nothing you do here affects any real system.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link href="/demo/admin" className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-red-700 transition">
+            <Link href="/admin/dashboard" className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-red-700 transition">
               <Play className="w-5 h-5" /> Open Admin Demo
             </Link>
             <Link href="/store/trial" className="inline-flex items-center gap-2 border-2 border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-bold hover:bg-white transition">

@@ -205,7 +205,7 @@ export default async function EmployerPortalPage() {
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
               <h2 className="font-bold text-slate-900">Recent Job Postings</h2>
               <Link
-                href="/employer/jobs/new"
+                href="/employer/jobs"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-brand-blue-600 hover:underline"
               >
                 <Plus className="w-3.5 h-3.5" /> New Posting
@@ -235,13 +235,13 @@ export default async function EmployerPortalPage() {
         {/* Quick actions */}
         <div className="flex flex-wrap gap-3">
           <Link
-            href="/employer/jobs/new"
+            href="/employer/jobs"
             className="inline-flex items-center gap-2 rounded-lg bg-brand-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-blue-700 transition"
           >
             <Plus className="w-4 h-4" /> Post a Job
           </Link>
           <Link
-            href="/employer/apprentices/new"
+            href="/employer/apprenticeships/new"
             className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition"
           >
             Add Apprentice

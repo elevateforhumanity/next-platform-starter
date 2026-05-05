@@ -23,7 +23,7 @@ export function CourseAnnouncements({ courseId }: { courseId: string }) {
         const json = await res.json();
         setItems(json.announcements || []);
       } catch (e) {
-        // Error logged
+        console.error('Error:', e);
       } finally {
         setLoading(false);
       }

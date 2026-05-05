@@ -45,7 +45,7 @@ export function OptimizedVideo({
         }
         setIsPlaying(true);
       } catch (error) {
-        // Autoplay blocked by browser - expected behavior
+        console.error('Error:', error);
       }
     };
 

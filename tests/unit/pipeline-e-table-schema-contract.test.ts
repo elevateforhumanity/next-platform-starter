@@ -399,11 +399,11 @@ describe('case_manager_approvals — gap detection (3 refs)', () => {
 describe('Low-risk missing tables — gap detection', () => {
   const lowRisk = [
     // student_lesson_evidence: migration added 20260501000008 — removed from gap list
+    // payroll_records: migration added 20260627000006 — removed from gap list
+    // compliance_flags: migration added 20260627000006 — removed from gap list
     'bnpl_subscriptions',
     'bnpl_payments',
     'signed_documents',
-    'payroll_records',
-    'compliance_flags',
     'student_skill_signoffs',
     'course_objectives',
     'module_objectives',

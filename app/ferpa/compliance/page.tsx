@@ -221,7 +221,7 @@ export default async function FerpaCompliancePage() {
             <p className="text-sm text-slate-700">Access compliance documents</p>
           </Link>
           <Link
-            href="/ferpa/reports"
+            href="/ferpa/records"
             className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow"
           >
             <TrendingUp className="w-6 h-6 text-brand-blue-600 mb-2" />

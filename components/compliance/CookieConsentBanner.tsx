@@ -38,7 +38,7 @@ export default function CookieConsentBanner() {
         setPreferences(saved);
         applyCookiePreferences(saved);
       } catch (e) {
-        // Error logged
+        console.error('Error:', e);
       }
     }
   }, []);

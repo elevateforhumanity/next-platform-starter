@@ -311,7 +311,7 @@ export default async function CompanyProfilePage() {
               <h3 className="font-bold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <Link
-                  href="/employer/jobs/new"
+                  href="/employer/jobs"
                   className="block w-full px-4 py-3 bg-brand-blue-600 text-white text-center rounded-lg hover:bg-brand-blue-700 transition"
                 >
                   Post New Job
@@ -323,7 +323,7 @@ export default async function CompanyProfilePage() {
                   Browse Candidates
                 </Link>
                 <Link
-                  href="/employer/wotc"
+                  href="/employer/compliance"
                   className="block w-full px-4 py-3 border border-gray-300 text-slate-900 text-center rounded-lg hover:bg-white transition"
                 >
                   View WOTC Status

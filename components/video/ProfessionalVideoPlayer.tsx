@@ -47,7 +47,7 @@ export function ProfessionalVideoPlayer({
           videoRef.current.currentTime = last_position_seconds;
         }
       } catch (e) {
-        // Error: $1
+        console.error('Error:', e);
       }
     }
 
@@ -127,7 +127,7 @@ export function ProfessionalVideoPlayer({
         }
       }
     } catch (e) {
-      // Error: $1
+      console.error('Error:', e);
     }
   };
 

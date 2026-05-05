@@ -131,7 +131,7 @@ class PartnerMonitoring {
           }),
         });
       } catch (error) {
-        // Error: $1
+        console.error('Error:', error);
       }
     }
   }

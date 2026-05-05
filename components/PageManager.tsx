@@ -57,7 +57,7 @@ export default function PageManager() {
       if (error) throw error;
       setPages(data || []);
     } catch (error) {
-      // Error: $1
+      console.error('Error:', error);
     } finally {
       setLoading(false);
     }
@@ -74,7 +74,7 @@ export default function PageManager() {
       if (error) throw error;
       setVersions(data || []);
     } catch (error) {
-      // Error: $1
+      console.error('Error:', error);
     }
   }
 

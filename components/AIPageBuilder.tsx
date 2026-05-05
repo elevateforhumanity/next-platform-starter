@@ -55,7 +55,7 @@ export default function AIPageBuilder() {
         setTemplates(data.templates);
       }
     } catch (error) {
-      // Error: $1
+      console.error('Error:', error);
     }
   }
 

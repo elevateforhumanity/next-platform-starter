@@ -93,7 +93,7 @@ export default async function SubOfficesPage() {
             <p className="text-gray-600">Manage regional training locations</p>
           </div>
           <Link
-            href="/dashboard/sub-offices/new"
+            href="/dashboard/sub-offices"
             className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
           >
             <Plus className="w-4 h-4" /> Add Office
@@ -186,7 +186,7 @@ export default async function SubOfficesPage() {
               <p className="font-medium text-gray-900">No sub-offices yet</p>
               <p className="text-sm text-gray-500 mb-4">Add your first regional office</p>
               <Link
-                href="/dashboard/sub-offices/new"
+                href="/dashboard/sub-offices"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
               >
                 <Plus className="w-4 h-4" /> Add Office

@@ -96,7 +96,7 @@ export default function VideoInterview() {
         //
       }
     } catch (error) {
-      // Error: $1
+      console.error('Error:', error);
     }
   };
   const nextQuestion = () => {

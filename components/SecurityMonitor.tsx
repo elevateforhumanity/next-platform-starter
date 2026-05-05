@@ -99,7 +99,7 @@ export function SecurityMonitor() {
         try {
           window.top!.location = window.self.location;
         } catch (e) {
-          // If we can't break out, at least log it
+          console.error('Error:', e);
         }
       }
     };

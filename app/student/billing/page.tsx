@@ -569,7 +569,7 @@ export default async function StudentBillingPage() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/student/support"
+              href="/help"
               className="inline-flex items-center gap-2 px-4 py-2 bg-white border rounded-lg hover:bg-gray-50 text-sm font-medium"
             >
               Contact Support

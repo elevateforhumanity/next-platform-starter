@@ -36,7 +36,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(getLoginUrl(req));
   }
 
-  let response = NextResponse.next();
+  const response = NextResponse.next();
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {

@@ -32,10 +32,9 @@ export default tseslint.config(
       '@next/next': nextPlugin,
     },
     rules: {
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs['core-web-vitals'].rules,
-    },
-    rules: {
+      // next plugin rules with pre-existing violations — keep at warn until violations are cleaned up
+      '@next/next/no-html-link-for-pages': 'warn',
+      '@next/next/no-assign-module-variable': 'warn',
       // react-hooks v7 recommended spreads 14 error rules — many are new and
       // have pre-existing violations across the codebase. Explicitly set only
       // the two rules we enforce; everything else is off or warn.
