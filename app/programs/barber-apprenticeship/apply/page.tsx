@@ -8,11 +8,10 @@ import { ArrowLeft, ChevronDown } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import ApprenticeForm from './ApprenticeForm';
 import PartnerShopForm from './PartnerShopForm';
-import ProgramHolderForm from '@/app/apply/program-holder/ProgramHolderForm';
 
-type ApplicantType = '' | 'apprentice' | 'partner_shop' | 'program_holder';
+type ApplicantType = '' | 'apprentice' | 'partner_shop';
 
-const VALID_TYPES: ApplicantType[] = ['apprentice', 'partner_shop', 'program_holder'];
+const VALID_TYPES: ApplicantType[] = ['apprentice', 'partner_shop'];
 
 const TYPE_OPTIONS: { value: ApplicantType; label: string; desc: string }[] = [
   {
@@ -24,11 +23,6 @@ const TYPE_OPTIONS: { value: ApplicantType; label: string; desc: string }[] = [
     value: 'partner_shop',
     label: 'Partner Barbershop',
     desc: 'I own or manage a barbershop and want to host apprentices.',
-  },
-  {
-    value: 'program_holder',
-    label: 'Program Holder',
-    desc: 'I am an instructor or school applying to deliver the barber program.',
   },
 ];
 
@@ -117,7 +111,6 @@ function BarberApplyPageInner() {
 
         {applicantType === 'apprentice' && <ApprenticeForm initialPayment={searchParams.get('payment')} />}
         {applicantType === 'partner_shop' && <PartnerShopForm />}
-        {applicantType === 'program_holder' && <ProgramHolderForm />}
       </div>
     </div>
   );
