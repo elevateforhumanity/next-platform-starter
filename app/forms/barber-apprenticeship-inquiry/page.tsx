@@ -35,14 +35,11 @@ export default function BarberApprenticeshipInquiryPage() {
       });
 
       const result = await response.json();
-
+      
       if (response.ok) {
         setIsSubmitted(true);
       } else {
-        alert(
-          result.error ||
-            'There was an error submitting your inquiry. Please try again or visit /contact for help.',
-        );
+        alert(result.error || 'There was an error submitting your inquiry. Please try again or visit /contact for help.');
       }
     } catch {
       alert('Unable to submit. Please try again or visit /contact for help.');
@@ -60,8 +57,7 @@ export default function BarberApprenticeshipInquiryPage() {
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Inquiry Received!</h1>
           <p className="text-slate-700 mb-6">
-            Thank you for your interest in the Barber Apprenticeship program. We'll be in touch
-            soon.
+            Thank you for your interest in the Barber Apprenticeship program. We'll be in touch soon.
           </p>
           <Link
             href="/programs/barber-apprenticeship"
@@ -76,12 +72,10 @@ export default function BarberApprenticeshipInquiryPage() {
 
   return (
     <div className="min-h-screen bg-white py-12 px-4">
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs
-          items={[{ label: 'Forms', href: '/forms' }, { label: 'Barber Apprenticeship Inquiry' }]}
-        />
+            <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: "Forms", href: "/forms" }, { label: "Barber Apprenticeship Inquiry" }]} />
       </div>
-      <div className="max-w-md mx-auto">
+<div className="max-w-md mx-auto">
         <Link
           href="/programs/barber-apprenticeship"
           className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-6"

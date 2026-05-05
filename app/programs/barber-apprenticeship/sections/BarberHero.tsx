@@ -21,7 +21,7 @@ export function BarberHero() {
       <section className="pt-8 pb-2">
         <div className="max-w-5xl mx-auto px-4">
           <h1 className="text-3xl md:text-5xl font-black text-slate-900 mb-2">Barber Apprenticeship Program</h1>
-          <p className="text-slate-600 text-lg max-w-2xl">2,000-hour licensed training. Earn while you learn. Funding and payment options available.</p>
+          <p className="text-black text-lg max-w-2xl">2,000-hour licensed training. Earn while you learn. Funding and payment options available.</p>
         </div>
       </section>
 
@@ -33,7 +33,7 @@ export function BarberHero() {
             <span className="font-bold text-amber-900 text-sm uppercase tracking-wide">Waitlist Open</span>
           </div>
           <p className="text-amber-800 text-sm leading-snug">
-            Classes are scheduled to begin <strong>late May – early June 2025</strong>. We are currently gathering barbershops to participate as placement sites. You are on the waitlist — we will be in contact with next steps as soon as placements are confirmed.
+            We are actively matching apprentices with licensed host barbershops in the Indianapolis area. Spots are limited — join the waitlist and we will contact you as soon as a placement is confirmed.
           </p>
         </div>
       </section>
@@ -41,12 +41,12 @@ export function BarberHero() {
       {/* CTAs below hero */}
       <section className="py-6 border-b">
         <div className="max-w-5xl mx-auto px-4">
-          <div className="flex flex-wrap gap-3">
-            <a href="#program-overview" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold px-6 py-3 rounded-lg transition-colors">
-              Learn More <ArrowRight className="w-4 h-4" />
-            </a>
-            <Link href="/inquiry?subject=Barber+Apprenticeship" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-6 py-3 rounded-lg transition-colors">
-              Join Waitlist <ArrowRight className="w-4 h-4" />
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link href="/funding?program=barber-apprenticeship" className="inline-flex items-center justify-center rounded-lg bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-700 transition-colors">
+              Check Eligibility
+            </Link>
+            <Link href="/checkout/barber-apprenticeship" className="inline-flex items-center justify-center rounded-lg border-2 border-gray-300 px-6 py-3 text-base font-semibold text-slate-900 hover:bg-gray-50 transition-colors">
+              Self-Pay Enrollment
             </Link>
           </div>
         </div>
@@ -59,7 +59,7 @@ export function BarberHero() {
             {QUICK_STATS.map((s) => (
               <div key={s.label}>
                 <div className="text-2xl font-bold text-white">{s.val}</div>
-                <div className="text-slate-400 text-sm">{s.label}</div>
+                <div className="text-black text-sm">{s.label}</div>
               </div>
             ))}
           </div>
@@ -76,7 +76,7 @@ export function BarberHero() {
                 The Barber Apprenticeship Program is a competency-based workforce training program designed to prepare participants for employment in the barbering industry through structured Related Technical Instruction (RTI) and supervised On-the-Job Training (OJT) in licensed barbershop environments. This program follows an apprenticeship-style training model combining classroom instruction, LMS-based modules, and real-world client service under licensed supervision.
               </p>
               <div className="bg-white border border-slate-200 rounded-xl p-6">
-                <p className="text-sm text-slate-600 leading-relaxed italic">
+                <p className="text-sm text-black leading-relaxed italic">
                   INTraining Program ID: #10004637 &middot; Provider: 2Exclusive LLC-S &middot; Location: Elevate for Humanity Training Center, Indianapolis, Indiana (Marion County)
                 </p>
               </div>

@@ -1,3 +1,6 @@
+export const dynamic = 'force-static';
+export const revalidate = 3600;
+
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -5,22 +8,13 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { DocumentFooter } from '@/components/documents/DocumentFooter';
 import {
-  Shield,
-  Clock,
-  Users,
-  AlertTriangle,
-  Phone,
-  CheckCircle2,
-  FileText,
-  Scale,
-  Heart,
-  ArrowRight,
+  Shield, Clock, Users, AlertTriangle, Phone,
+  CheckCircle2, FileText, Scale, Heart, ArrowRight,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Partner Handbook | Barbershop Apprenticeship',
-  description:
-    'Responsibilities, policies, and guidelines for barbershop apprenticeship worksite partners.',
+  description: 'Responsibilities, policies, and guidelines for barbershop apprenticeship worksite partners.',
 };
 
 const sectionPhotos: Record<string, { src: string; alt: string }> = {
@@ -41,7 +35,7 @@ const sections = [
     title: 'Your Role as a Worksite Partner',
     content: [
       'As a worksite partner, you provide the hands-on training environment where apprentices develop real-world barbering skills under direct supervision.',
-      "You are not just an employer — you are a mentor and trainer. The quality of the apprentice's experience depends on the structure and support you provide.",
+      'You are not just an employer — you are a mentor and trainer. The quality of the apprentice\'s experience depends on the structure and support you provide.',
     ],
     items: [
       'Provide direct supervision by a licensed barber at all times',
@@ -64,7 +58,7 @@ const sections = [
       'Hybrid — $8.00–$10.00/hour base + 15%–25% commission on services',
       'Tip Policy — Apprentices keep 100% of tips earned from their clients',
       'Pay Frequency — Biweekly or semi-monthly, with itemized pay stubs',
-      "Workers' compensation insurance coverage is required for all apprentices",
+      'Workers\' compensation insurance coverage is required for all apprentices',
     ],
   },
   {
@@ -111,7 +105,7 @@ const sections = [
       'Maintain a valid Indiana barbershop license in good standing',
       'Follow all Indiana State Board of Barber Examiners regulations',
       'Ensure proper sanitation and disinfection of all tools and stations',
-      "Maintain adequate liability and workers' compensation insurance",
+      'Maintain adequate liability and workers\' compensation insurance',
       'Provide a harassment-free and discrimination-free workplace',
       'Report any workplace injuries or incidents immediately',
     ],
@@ -160,7 +154,7 @@ const sections = [
       'The Sponsor will work to reassign the apprentice to another approved shop',
       'All outstanding hours and compensation must be settled upon termination',
       'Return any Sponsor-provided materials or equipment',
-      "Termination does not affect the apprentice's standing in the program",
+      'Termination does not affect the apprentice\'s standing in the program',
     ],
   },
 ];
@@ -169,12 +163,10 @@ export default function PartnerHandbookPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 pt-6">
-        <Breadcrumbs
-          items={[
-            { label: 'Partners', href: '/partners/barbershop-apprenticeship' },
-            { label: 'Handbook' },
-          ]}
-        />
+        <Breadcrumbs items={[
+          { label: 'Partners', href: '/partners/barbershop-apprenticeship' },
+          { label: 'Handbook' },
+        ]} />
       </div>
 
       {/* Institutional Header */}
@@ -192,27 +184,15 @@ export default function PartnerHandbookPage() {
       {/* Table of Contents */}
       <nav className="bg-white border-b py-6">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-sm font-semibold text-black uppercase tracking-wider mb-3">
-            Contents
-          </h2>
+          <h2 className="text-sm font-semibold text-black uppercase tracking-wider mb-3">Contents</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {sections.map((s) => {
               const photo = sectionPhotos[s.id];
               return (
-                <a
-                  key={s.id}
-                  href={`#${s.id}`}
-                  className="flex items-center gap-2 text-sm text-slate-700 hover:text-brand-blue-600 py-1 group"
-                >
+                <a key={s.id} href={`#${s.id}`} className="flex items-center gap-2 text-sm text-slate-700 hover:text-brand-blue-600 py-1 group">
                   {photo ? (
                     <div className="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-                      <Image
-                        src={photo.src}
-                        alt={photo.alt}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform"
-                        sizes="32px"
-                      />
+                      <Image src={photo.src} alt={photo.alt} fill className="object-cover group-hover:scale-110 transition-transform" sizes="32px" />
                     </div>
                   ) : (
                     <s.icon className="w-4 h-4 text-black" />
@@ -228,40 +208,16 @@ export default function PartnerHandbookPage() {
       {/* Photo Strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
         <div className="relative h-48">
-          <Image
-            src="/images/pages/barber-beard-trim.jpg"
-            alt="Barber trimming beard"
-            fill
-            className="object-cover"
-            sizes="25vw"
-          />
+          <Image src="/images/pages/barber-beard-trim.jpg" alt="Barber trimming beard" fill className="object-cover" sizes="25vw" />
         </div>
         <div className="relative h-48">
-          <Image
-            src="/images/pages/barber-straight-razor.jpg"
-            alt="Barber performing straight razor shave"
-            fill
-            className="object-cover"
-            sizes="25vw"
-          />
+          <Image src="/images/pages/barber-straight-razor.jpg" alt="Barber performing straight razor shave" fill className="object-cover" sizes="25vw" />
         </div>
         <div className="relative h-48">
-          <Image
-            src="/images/pages/barber-cape-client.jpg"
-            alt="Client in barber chair"
-            fill
-            className="object-cover"
-            sizes="25vw"
-          />
+          <Image src="/images/pages/barber-cape-client.jpg" alt="Client in barber chair" fill className="object-cover" sizes="25vw" />
         </div>
         <div className="relative h-48">
-          <Image
-            src="/images/pages/barber-styling-hair.jpg"
-            alt="Barber styling hair"
-            fill
-            className="object-cover"
-            sizes="25vw"
-          />
+          <Image src="/images/pages/barber-styling-hair.jpg" alt="Barber styling hair" fill className="object-cover" sizes="25vw" />
         </div>
       </div>
 
@@ -274,37 +230,24 @@ export default function PartnerHandbookPage() {
               {/* Section photo */}
               {photo && (
                 <div className="relative w-full h-48 rounded-xl overflow-hidden mb-6 ring-1 ring-gray-200">
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt}
-                    fill
-                    className="object-cover brightness-[1.05]"
-                    sizes="(max-width: 768px) 100vw, 800px"
-                  />
+                  <Image src={photo.src} alt={photo.alt} fill className="object-cover brightness-[1.05]" sizes="(max-width: 768px) 100vw, 800px" />
                   <div className="absolute bottom-4 left-4">
-                    <span className="text-gray-700 text-sm font-semibold bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
+                    <span className="text-slate-900 text-sm font-semibold bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
                       {idx + 1} of {sections.length}
                     </span>
                   </div>
                 </div>
               )}
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+              <h2 className="text-2xl font-bold text-slate-900 mb-3">
                 {idx + 1}. {section.title}
               </h2>
               {section.content.map((p, i) => (
-                <p key={i} className="text-black mb-4 leading-relaxed">
-                  {p}
-                </p>
+                <p key={i} className="text-black mb-4 leading-relaxed">{p}</p>
               ))}
               <ul className="mt-4 space-y-2 pl-1">
                 {section.items.map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 text-gray-700 text-[15px] leading-relaxed"
-                  >
-                    <span className="w-6 h-6 rounded-full bg-white text-black text-xs font-semibold flex items-center justify-center flex-shrink-0 mt-0.5">
-                      {i + 1}
-                    </span>
+                  <li key={i} className="flex items-start gap-3 text-slate-900 text-[15px] leading-relaxed">
+                    <span className="w-6 h-6 rounded-full bg-white text-black text-xs font-semibold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -320,20 +263,14 @@ export default function PartnerHandbookPage() {
             <h2 className="text-xl font-bold text-red-900">Emergency & Urgent Issues</h2>
           </div>
           <p className="text-red-800 mb-4">
-            For urgent matters involving apprentice safety, workplace incidents, or serious policy
-            violations, contact us immediately:
+            For urgent matters involving apprentice safety, workplace incidents, or serious
+            policy violations, contact us immediately:
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a
-              href="tel:+13173143757"
-              className="inline-flex items-center gap-2 text-red-700 font-semibold"
-            >
+            <a href="tel:+13173143757" className="inline-flex items-center gap-2 text-red-700 font-semibold">
               <Phone className="w-4 h-4" /> (317) 314-3757
             </a>
-            <a
-              href="mailto:apprenticeships@elevateforhumanity.org"
-              className="inline-flex items-center gap-2 text-red-700 font-semibold"
-            >
+            <a href="mailto:apprenticeships@elevateforhumanity.org" className="inline-flex items-center gap-2 text-red-700 font-semibold">
               apprenticeships@elevateforhumanity.org
             </a>
           </div>
@@ -341,7 +278,7 @@ export default function PartnerHandbookPage() {
 
         {/* Next Steps */}
         <section className="bg-brand-blue-50 rounded-xl p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">Ready to Get Started?</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">Ready to Get Started?</h2>
           <p className="text-black mb-6">
             Review and sign the MOU, complete the required forms, then submit your application.
           </p>
@@ -355,14 +292,14 @@ export default function PartnerHandbookPage() {
             </Link>
             <Link
               href="/partners/barbershop-apprenticeship/sign-mou"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-semibold hover:bg-white"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 border border-gray-300 rounded-lg font-semibold hover:bg-white"
             >
               <FileText className="w-5 h-5" />
               Sign the MOU
             </Link>
             <Link
               href="/partners/barbershop-apprenticeship/forms"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-semibold hover:bg-white"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 border border-gray-300 rounded-lg font-semibold hover:bg-white"
             >
               Required Forms
               <ArrowRight className="w-4 h-4" />
@@ -372,10 +309,7 @@ export default function PartnerHandbookPage() {
 
         {/* Institutional Footer */}
         <div className="max-w-6xl mx-auto px-4 pb-8">
-          <DocumentFooter
-            confidential
-            notice="This handbook is provided to approved worksite partners only. Content is subject to revision."
-          />
+          <DocumentFooter confidential notice="This handbook is provided to approved worksite partners only. Content is subject to revision." />
         </div>
       </div>
     </div>

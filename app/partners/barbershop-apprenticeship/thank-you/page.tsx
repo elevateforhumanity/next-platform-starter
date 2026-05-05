@@ -1,4 +1,6 @@
+export const dynamic = 'force-static';
 export const revalidate = 3600;
+
 
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -7,18 +9,18 @@ import { ArrowRight, Download, Phone, Mail, Clock } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Application Received | Barbershop Partner | Elevate for Humanity',
-  description:
-    'Thank you for applying to become a barbershop partner for the Indiana Barber Apprenticeship program.',
+  description: 'Thank you for applying to become a barbershop partner for the Indiana Barber Apprenticeship program.',
   robots: { index: false, follow: false },
 };
 
 export default function ThankYouPage() {
+
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Thank You' }]} />
+            <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: "Partners", href: "/partners" }, { label: "Thank You" }]} />
       </div>
-      <section className="py-20">
+<section className="py-20">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-black flex-shrink-0">•</span>
@@ -83,8 +85,8 @@ export default function ThankYouPage() {
           <div className="bg-orange-50 border border-orange-200 p-8 rounded-xl mb-8 text-center">
             <h3 className="text-xl font-bold text-slate-900 mb-2">Schedule Your Site Visit</h3>
             <p className="text-black mb-4">
-              Ready to move forward? Book your 15-minute Zoom site visit now. We&apos;ll walk
-              through your shop and answer any questions.
+              Ready to move forward? Book your 15-minute Zoom site visit now. We&apos;ll walk through
+              your shop and answer any questions.
             </p>
             <a
               href="https://calendly.com/elevate4humanityedu/30min"
@@ -110,16 +112,10 @@ export default function ThankYouPage() {
           <div className="bg-white p-6 rounded-xl mb-8">
             <h3 className="font-semibold text-slate-900 mb-3">Questions?</h3>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="tel:+13173143757"
-                className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600"
-              >
+              <a href="tel:+13173143757" className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600">
                 <Phone className="w-4 h-4" /> (317) 314-3757
               </a>
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600"
-              >
+              <a href="/contact" className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600">
                 <Mail className="w-4 h-4" /> Contact Us
               </a>
             </div>

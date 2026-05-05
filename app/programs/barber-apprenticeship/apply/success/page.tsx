@@ -1,105 +1,67 @@
-
-import { Metadata } from 'next';
 import Link from 'next/link';
-import { CheckCircle, Phone, Mail, UserPlus } from 'lucide-react';
+import { CheckCircle, Scissors, Smartphone, LogIn } from 'lucide-react';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Enrollment Confirmed | Barber Apprenticeship',
-  robots: 'noindex',
+  title: 'Application Received | Barber Apprenticeship | Elevate For Humanity',
+  description: 'Your barber apprenticeship application has been received. Check your email for next steps.',
+  robots: { index: false },
 };
 
 export default function BarberApplySuccessPage() {
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-6">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
       <div className="max-w-lg w-full">
-        <div className="text-center mb-8">
-          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl">
-            <CheckCircle className="w-12 h-12 text-white" />
+        {/* Success card */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
+          <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CheckCircle className="w-9 h-9 text-brand-green-600" />
           </div>
-          <h1 className="text-4xl font-black text-slate-900 mb-3">Payment Received</h1>
-          <p className="text-slate-600 text-lg">
-            Your enrollment in the Barber Apprenticeship program is confirmed.
-          </p>
-        </div>
 
-        {/* Account creation CTA — required to access orientation and dashboard */}
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden mb-6">
-          <div className="bg-white px-6 py-4">
-            <div className="flex items-center gap-3">
-              <UserPlus className="w-6 h-6 text-white flex-shrink-0" />
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">Application Received!</h1>
+          <p className="text-slate-600 mb-6">
+            Check your email — we've sent a confirmation with your enrollment details and next steps.
+          </p>
+
+          {/* Autopay reminder */}
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-left">
+            <div className="flex gap-3">
+              <Scissors className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h2 className="font-bold text-slate-900 text-lg leading-tight">Create your account</h2>
-                <p className="text-brand-blue-100 text-sm">Required to access orientation and your apprentice dashboard</p>
+                <p className="text-sm font-semibold text-amber-900 mb-1">Automatic Weekly Billing</p>
+                <p className="text-sm text-amber-800">
+                  Your card on file will be charged automatically every Friday until your balance
+                  is paid in full. No action needed — charges happen automatically. If a payment fails
+                  you will receive an email and have 7 days to update your card.
+                </p>
               </div>
             </div>
           </div>
-          <div className="p-6">
-            <p className="text-slate-600 text-sm mb-4">
-              Use the same email address you used at checkout. Your enrollment will be linked automatically.
-            </p>
+
+          {/* Next steps */}
+          <div className="space-y-3 mb-8">
             <Link
-              href="/signup?role=apprentice&redirect=/programs/barber-apprenticeship/enrollment-success"
-              className="block w-full text-center py-3 bg-brand-blue-600 text-white font-bold rounded-lg hover:bg-brand-blue-700 transition"
+              href="/pwa/barber"
+              className="w-full flex items-center justify-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-colors"
             >
-              Create Account &amp; Continue
+              <Smartphone className="w-5 h-5" />
+              Open Your Barber Dashboard
             </Link>
-            <p className="text-center text-xs text-slate-500 mt-3">
-              Already have an account?{' '}
-              <Link href="/login?redirect=/programs/barber-apprenticeship/enrollment-success" className="text-brand-blue-600 hover:underline">
-                Sign in
-              </Link>
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
-          <div className="p-6 space-y-4">
-            <h2 className="font-bold text-slate-900 text-lg">What happens next</h2>
-            <div className="space-y-3">
-              {[
-                'Create your account above using the same email you used at checkout.',
-                'Complete orientation — takes about 10 minutes.',
-                'Upload your ID to verify your identity.',
-                'Weekly payments (if applicable) will begin the following Friday.',
-              ].map((step, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-brand-blue-100 text-brand-blue-700 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold mt-0.5">
-                    {i + 1}
-                  </div>
-                  <p className="text-sm text-slate-600">{step}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl p-5 mb-6">
-          <p className="text-slate-600 text-sm text-center mb-4">Questions? We're here to help.</p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href="tel:3173143757"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition text-sm font-medium"
+            <Link
+              href="/login"
+              className="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-6 rounded-xl transition-colors"
             >
-              <Phone className="w-4 h-4" />
-              (317) 314-3757
-            </a>
-            <a
-              href="mailto:info@elevateforhumanity.org"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition text-sm font-medium"
-            >
-              <Mail className="w-4 h-4" />
-              Email Us
-            </a>
+              <LogIn className="w-5 h-5" />
+              Sign In to Your Account
+            </Link>
           </div>
-        </div>
 
-        <div className="text-center">
-          <Link
-            href="/programs/barber-apprenticeship"
-            className="text-slate-400 hover:text-white transition text-sm"
-          >
-            Back to Program Details
-          </Link>
+          <p className="text-xs text-slate-400">
+            Questions? Email us at{' '}
+            <a href="mailto:elevate4humanityedu@gmail.com" className="text-brand-blue-600 hover:underline">
+              elevate4humanityedu@gmail.com
+            </a>
+          </p>
         </div>
       </div>
     </div>

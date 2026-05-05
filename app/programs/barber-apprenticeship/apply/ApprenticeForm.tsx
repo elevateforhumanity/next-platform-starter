@@ -5,33 +5,26 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CreditCard, Calculator, Info } from 'lucide-react';
 import LazyVideo from '@/components/ui/LazyVideo';
-import BnplOptions from '@/components/checkout/BnplOptions';
-import { BARBER_PRICING } from '@/lib/programs/pricing';
 import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
-import {
-  TUITION_CENTS,
-  MIN_SETUP_FEE_CENTS,
-  PAYMENT_TERM_WEEKS,
-  clampSetupFeeCents,
-  weeklyPaymentCents,
-  remainingHoursDisplay,
-} from '@/lib/barber/pricing';
+import { BARBER_PRICING, calculateWeeklyPayment as calcWeekly } from '@/lib/programs/pricing';
 import { loadStripe } from '@stripe/stripe-js';
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from '@stripe/react-stripe-js';
-import { logger } from '@/lib/logger';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 // Single source of truth — do not duplicate pricing constants here.
 const PRICING = BARBER_PRICING;
 
-// Term is always 29 weeks — never derived from hours.
-// Transfer hours are progress credit only and do not affect tuition or term.
-function calculateWeeklyPayment(downPayment: number) {
-  const weeklyCents = weeklyPaymentCents(downPayment);
+function calculateWeeklyPayment(
+  downPayment: number,
+  hoursPerWeek: number = 40,
+  transferredHours: number = 0,
+) {
+  const result = calcWeekly(hoursPerWeek, transferredHours, downPayment);
   return {
-    weeklyDollars: weeklyCents / 100,
-    weeks: PAYMENT_TERM_WEEKS,
+    weeklyDollars: result.weeklyPaymentDollars,
+    weeks: result.weeksRemaining,
+    hoursRemaining: result.hoursRemaining,
   };
 }
 
@@ -52,12 +45,7 @@ function resolveInitialPayment(param: string | null): PaymentOption {
   if (param === 'affirm') return 'affirm';
   if (param === 'sezzle') return 'sezzle';
   // Stripe-native methods — all go through Stripe checkout
-  if (
-    ['bnpl', 'klarna', 'afterpay', 'zip', 'cashapp', 'amazon_pay', 'us_bank_account'].includes(
-      param ?? '',
-    )
-  )
-    return 'stripe_bnpl';
+  if (['bnpl','klarna','afterpay','zip','cashapp','amazon_pay','us_bank_account'].includes(param ?? '')) return 'stripe_bnpl';
   return 'weekly';
 }
 
@@ -70,13 +58,12 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
   // Embedded Stripe checkout (BNPL — Klarna / Afterpay)
   const [embeddedClientSecret, setEmbeddedClientSecret] = useState<string | null>(null);
 
-  // Transfer hours — progress credit only, does not affect price or term.
+  // Payment calculator state
   const [transferHours, setTransferHours] = useState(0);
-
+  const [hoursPerWeek, setHoursPerWeek] = useState(40);
+  
   // Payment option — pre-selected from URL param if provided
-  const [paymentOption, setPaymentOption] = useState<PaymentOption>(() =>
-    resolveInitialPayment(initialPayment ?? null),
-  );
+  const [paymentOption, setPaymentOption] = useState<PaymentOption>(() => resolveInitialPayment(initialPayment ?? null));
   // Use string so the field can be cleared while typing without snapping back
   const [customAmountStr, setCustomAmountStr] = useState(String(PRICING.defaultDownPayment));
   const customAmount = parseInt(customAmountStr) || 0;
@@ -86,7 +73,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
     PRICING.fullPrice,
     Math.max(PRICING.minDownPayment, customAmount || PRICING.minDownPayment),
   );
-
+  
   // Form state
   const [formData, setFormData] = useState({
     firstName: '',
@@ -98,18 +85,21 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
   });
   const [smsConsent, setSmsConsent] = useState(false);
 
+
+
   // Calculate next Friday on client only to avoid hydration mismatch
   useEffect(() => {
     setNextFriday(getNextFriday());
   }, []);
 
-  const { weeklyDollars, weeks } = calculateWeeklyPayment(
+  const { weeklyDollars, weeks, hoursRemaining } = calculateWeeklyPayment(
     paymentOption === 'custom' ? customAmount : PRICING.defaultDownPayment,
+    hoursPerWeek,
+    transferHours,
   );
-  const hoursRemaining = remainingHoursDisplay(transferHours);
 
   const updateField = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handlePayNow = async () => {
@@ -153,7 +143,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
         transferred_hours_verified: transferHours,
         has_host_shop: formData.hasHostShop,
         host_shop_name: formData.hostShopName,
-        hours_per_week: 40,
+        hours_per_week: hoursPerWeek,
         success_url: `${window.location.origin}/programs/barber-apprenticeship/apply/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${window.location.origin}/programs/barber-apprenticeship/apply`,
       };
@@ -179,19 +169,16 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             paymentOption: affirmAmount >= PRICING.fullPrice ? 'full' : 'deposit',
             applicationId: applicationId,
             transferHours: transferHours,
-            hoursPerWeek: 40,
+            hoursPerWeek: hoursPerWeek,
             hasHostShop: formData.hasHostShop,
             hostShopName: formData.hostShopName,
           }),
         });
-
+        
         const affirmData = await checkoutResponse.json();
-
+        
         if (!checkoutResponse.ok || !affirmData.checkoutConfig) {
-          setError(
-            affirmData.error ||
-              'Affirm is temporarily unavailable. Please select Card, Payment Plan, or another option above.',
-          );
+          setError(affirmData.error || 'Affirm is temporarily unavailable. Please select Card, Payment Plan, or another option above.');
           setErrorSeverity('info');
           setLoading(false);
           return;
@@ -236,9 +223,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             affirmSdk.checkout(affirmData.checkoutConfig);
             affirmSdk.checkout.open({
               onFail: () => {
-                setError(
-                  'Affirm checkout was canceled or declined. Please select another payment option.',
-                );
+                setError('Affirm checkout was canceled or declined. Please select another payment option.');
                 setErrorSeverity('info');
                 setLoading(false);
               },
@@ -247,16 +232,14 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             throw new Error('Affirm SDK did not initialize correctly');
           }
         } catch (sdkError) {
-          logger.error('Affirm SDK error:', sdkError);
-          setError(
-            'Affirm checkout could not load. Please select Card, Payment Plan, or another option above.',
-          );
+          console.error('Affirm SDK error:', sdkError);
+          setError('Affirm checkout could not load. Please select Card, Payment Plan, or another option above.');
           setErrorSeverity('info');
           setLoading(false);
         }
         return;
       } else if (paymentOption === 'sezzle') {
-        // Sezzle - pay over time. Minimum is the configured down payment ($600).
+        // Sezzle - pay over time. Minimum is the setup fee ($1,743).
         const sezzleAmount = Math.min(2500, Math.max(PRICING.setupFee, clampedCheckoutAmount));
         checkoutResponse = await fetch('/api/sezzle/checkout', {
           method: 'POST',
@@ -274,22 +257,19 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             description: `Barber Apprenticeship - $${sezzleAmount} payment via Sezzle`,
             applicationId: applicationId,
             transferHours: transferHours,
-            hoursPerWeek: 40,
+            hoursPerWeek: hoursPerWeek,
             hasHostShop: formData.hasHostShop,
             hostShopName: formData.hostShopName,
           }),
         });
-
+        
         const sezzleData = await checkoutResponse.json();
         // Sezzle response received
-
+        
         if (checkoutResponse.ok && sezzleData.checkoutUrl) {
           window.location.href = sezzleData.checkoutUrl;
         } else {
-          setError(
-            sezzleData.error ||
-              'Sezzle is temporarily unavailable. Please select Card, Payment Plan, or another option above.',
-          );
+          setError(sezzleData.error || 'Sezzle is temporarily unavailable. Please select Card, Payment Plan, or another option above.');
           setErrorSeverity('info');
           setLoading(false);
         }
@@ -306,16 +286,14 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             sms_consent: smsConsent,
             application_id: applicationId,
             transferred_hours_verified: transferHours,
-            hours_per_week: 40,
+            hours_per_week: hoursPerWeek,
             has_host_shop: formData.hasHostShop,
             host_shop_name: formData.hostShopName,
           }),
         });
         const embeddedData = await embeddedRes.json();
         if (!embeddedRes.ok || !embeddedData.clientSecret) {
-          setError(
-            embeddedData.error || 'Unable to start checkout. Please try another payment option.',
-          );
+          setError(embeddedData.error || 'Unable to start checkout. Please try another payment option.');
           setErrorSeverity('info');
           setLoading(false);
           return;
@@ -363,17 +341,13 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
         // Redirect to Stripe Checkout
         window.location.href = checkoutData.url;
       } else {
-        logger.error('Checkout error:', checkoutData);
-        setError(
-          checkoutData.error ||
-            checkoutData.details ||
-            'Unable to create checkout. Please try again or select a different payment option.',
-        );
+        console.error('Checkout error:', checkoutData);
+        setError(checkoutData.error || checkoutData.details || 'Unable to create checkout. Please try again or select a different payment option.');
         setErrorSeverity('critical');
         setLoading(false);
       }
     } catch (err) {
-      logger.error('Checkout exception:', err);
+      console.error('Checkout exception:', err);
       setError('Something went wrong. Please try again or select a different payment option.');
       setErrorSeverity('critical');
       setLoading(false);
@@ -386,17 +360,12 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <LazyVideo
-            src="https://videos.pexels.com/video-files/3195441/3195441-hd_1920_1080_25fps.mp4"
-            poster="/images/pages/barber-hero-main.jpg"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          <LazyVideo src="/videos/barber-hero-final.mp4" poster="/images/pages/barber-hero-main.jpg"
+            className="absolute inset-0 w-full h-full object-cover" />
         </div>
         <div className="bg-white py-10 border-t">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-              Apply for Enrollment
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Apply for Enrollment</h1>
             <p className="text-lg text-black max-w-3xl mx-auto">Barber Apprenticeship Program</p>
           </div>
         </div>
@@ -404,6 +373,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
 
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="grid lg:grid-cols-5 gap-8">
+          
           {/* Left Column - Payment Calculator */}
           <div className="lg:col-span-2">
             <div className="bg-brand-blue-700 rounded-2xl p-6 text-white sticky top-8">
@@ -430,9 +400,26 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                     className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/50"
                     placeholder="0"
                   />
-                  <p className="text-xs text-white/70 mt-1">
-                    Transfer hours reduce program duration, not tuition.
+                  <p className="text-xs text-white mt-1">
+                    Have documented hours from another program?
                   </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Hours Per Week
+                  </label>
+                  <select
+                    value={hoursPerWeek}
+                    onChange={(e) => setHoursPerWeek(parseInt(e.target.value))}
+                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white"
+                  >
+                    <option value="20">20 hrs/week</option>
+                    <option value="25">25 hrs/week</option>
+                    <option value="30">30 hrs/week</option>
+                    <option value="35">35 hrs/week</option>
+                    <option value="40">40 hrs/week</option>
+                  </select>
                 </div>
               </div>
 
@@ -444,8 +431,8 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                     <div className="text-2xl font-black">{hoursRemaining.toLocaleString()}</div>
                   </div>
                   <div>
-                    <div className="text-white text-xs uppercase mb-1">Payment Term</div>
-                    <div className="text-2xl font-black">{PAYMENT_TERM_WEEKS} weeks</div>
+                    <div className="text-white text-xs uppercase mb-1">Est. Duration</div>
+                    <div className="text-2xl font-black">~{weeks} weeks</div>
                   </div>
                 </div>
               </div>
@@ -463,12 +450,8 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                 <div className="text-center">
                   <div className="text-white text-xs uppercase mb-1">Payment Options</div>
                   <div className="text-sm text-white mt-2 space-y-1">
-                    <p>
-                      <strong>Pay in Full:</strong> Card or Bank
-                    </p>
-                    <p>
-                      <strong>BNPL:</strong> Split into payments
-                    </p>
+                    <p><strong>Pay in Full:</strong> Card or Bank</p>
+                    <p><strong>BNPL:</strong> Split into payments</p>
                   </div>
                 </div>
               </div>
@@ -476,8 +459,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
               {/* If not approved for full BNPL */}
               <div className="bg-white/10 rounded-xl p-3 mt-4">
                 <p className="text-xs text-white text-center">
-                  If BNPL partially approved, remaining balance split into ~{weeks} weekly payments
-                  of ${weeklyDollars.toFixed(2)}
+                  If BNPL partially approved, remaining balance split into ~{weeks} weekly payments of ${weeklyDollars.toFixed(2)}
                 </p>
               </div>
 
@@ -493,23 +475,17 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
           {/* Right Column - Form & Payment */}
           <div className="lg:col-span-3">
             {error && (
-              <div
-                className={`mb-6 p-4 rounded-lg border ${
-                  errorSeverity === 'critical'
-                    ? 'bg-brand-red-50 border-brand-red-200'
-                    : 'bg-amber-50 border-amber-200'
-                }`}
-              >
-                <p
-                  className={`font-medium ${
-                    errorSeverity === 'critical' ? 'text-brand-red-800' : 'text-amber-800'
-                  }`}
-                >
-                  {error}
-                </p>
+              <div className={`mb-6 p-4 rounded-lg border ${
+                errorSeverity === 'critical' 
+                  ? 'bg-brand-red-50 border-brand-red-200' 
+                  : 'bg-amber-50 border-amber-200'
+              }`}>
+                <p className={`font-medium ${
+                  errorSeverity === 'critical' ? 'text-brand-red-800' : 'text-amber-800'
+                }`}>{error}</p>
                 {errorSeverity === 'critical' && (
-                  <a
-                    href="/support"
+                  <a 
+                    href="/support" 
                     className="inline-block mt-2 text-brand-red-600 font-medium hover:underline"
                   >
                     Need help? Call (317) 314-3757
@@ -520,7 +496,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
 
             <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 sm:p-8">
               <h2 className="text-2xl font-bold text-black mb-6">Your Information</h2>
-
+              
               <div className="space-y-5">
                 {/* Name */}
                 <div className="grid grid-cols-2 gap-4">
@@ -538,7 +514,9 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">Last Name *</label>
+                    <label className="block text-sm font-medium text-black mb-1">
+                      Last Name *
+                    </label>
                     <input
                       type="text"
                       required
@@ -552,7 +530,9 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
 
                 {/* Contact */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">Email *</label>
+                  <label className="block text-sm font-medium text-black mb-1">
+                    Email *
+                  </label>
                   <input
                     type="email"
                     required
@@ -564,7 +544,9 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">Phone *</label>
+                  <label className="block text-sm font-medium text-black mb-1">
+                    Phone *
+                  </label>
                   <input
                     type="tel"
                     required
@@ -585,9 +567,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                     className="mt-1 w-4 h-4 text-brand-blue-600 border-slate-300 rounded"
                   />
                   <label htmlFor="smsConsent" className="text-sm text-black">
-                    I agree to receive text messages from Elevate for Humanity about my enrollment,
-                    program updates, and important notices. Message and data rates may apply. Reply
-                    STOP to opt out.
+                    I agree to receive text messages from Elevate for Humanity about my enrollment, program updates, and important notices. Message and data rates may apply. Reply STOP to opt out.
                   </label>
                 </div>
 
@@ -674,14 +654,14 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                 {/* Payment Options */}
                 <div className="border-t border-black pt-6 mt-6">
                   <p className="text-lg text-black font-bold mb-4">Choose Payment Option</p>
-
+                  
                   {/* Option 1: Pay in Full */}
                   <button
                     type="button"
                     onClick={() => setPaymentOption('full')}
                     className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'full'
-                        ? 'border-brand-green-600 bg-brand-green-50'
+                      paymentOption === 'full' 
+                        ? 'border-brand-green-600 bg-brand-green-50' 
                         : 'border-slate-300 bg-white hover:border-slate-400'
                     }`}
                   >
@@ -691,9 +671,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                         <p className="text-black text-sm">One-time payment</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-brand-green-600 text-xl">
-                          ${PRICING.fullPrice.toLocaleString('en-US')}
-                        </p>
+                        <p className="font-bold text-brand-green-600 text-xl">${PRICING.fullPrice.toLocaleString('en-US')}</p>
                       </div>
                     </div>
                   </button>
@@ -701,9 +679,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                   {/* Option 2: Payment Plan — small down, you pick */}
                   <button
                     type="button"
-                    onClick={() => {
-                      setPaymentOption('custom');
-                    }}
+                    onClick={() => { setPaymentOption('custom'); }}
                     className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
                       paymentOption === 'custom' || paymentOption === 'weekly'
                         ? 'border-brand-orange-600 bg-brand-orange-50'
@@ -713,14 +689,10 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="font-bold text-black text-lg">Payment Plan — You Pick</p>
-                        <p className="text-black text-sm">
-                          Small down payment, small weekly payments
-                        </p>
+                        <p className="text-black text-sm">Small down payment, small weekly payments</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-brand-orange-600 text-xl">
-                          from ${PRICING.minDownPayment.toLocaleString()}
-                        </p>
+                        <p className="font-bold text-brand-orange-600 text-xl">from ${PRICING.minDownPayment.toLocaleString()}</p>
                         <p className="text-xs text-black">down today</p>
                       </div>
                     </div>
@@ -732,10 +704,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                       <label className="block text-sm font-bold text-black mb-1">
                         How much can you put down today?
                       </label>
-                      <p className="text-xs text-black mb-3">
-                        Minimum ${PRICING.minDownPayment.toLocaleString()} — the more you put down,
-                        the lower your weekly payment.
-                      </p>
+                      <p className="text-xs text-black mb-3">Minimum ${PRICING.minDownPayment.toLocaleString()} — the more you put down, the lower your weekly payment.</p>
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-2xl font-bold text-black">$</span>
                         <input
@@ -749,10 +718,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                           }}
                           onBlur={() => {
                             const num = parseInt(customAmountStr) || 0;
-                            const clamped = Math.max(
-                              PRICING.minDownPayment,
-                              Math.min(num, PRICING.fullPrice),
-                            );
+                            const clamped = Math.max(PRICING.minDownPayment, Math.min(num, PRICING.fullPrice));
                             setCustomAmountStr(String(clamped));
                           }}
                           className="w-full px-4 py-3 text-2xl font-bold border-2 border-brand-orange-300 rounded-lg focus:ring-2 focus:ring-brand-orange-500 focus:border-brand-orange-500"
@@ -764,10 +730,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                         min={PRICING.minDownPayment}
                         max={PRICING.fullPrice}
                         step={50}
-                        value={Math.min(
-                          Math.max(customAmount, PRICING.minDownPayment),
-                          PRICING.fullPrice,
-                        )}
+                        value={Math.min(Math.max(customAmount, PRICING.minDownPayment), PRICING.fullPrice)}
                         onChange={(e) => setCustomAmountStr(e.target.value)}
                         className="w-full accent-brand-orange-600 mb-1"
                       />
@@ -778,112 +741,193 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
 
                       {/* Live estimate — uses customAmount directly; shows dashes while field is empty */}
                       {(() => {
-                        const isTyping =
-                          customAmountStr === '' || customAmount < PRICING.minDownPayment;
+                        const isTyping = customAmountStr === '' || customAmount < PRICING.minDownPayment;
                         const displayDown = isTyping ? null : customAmount;
-                        const displayRemaining =
-                          displayDown !== null
-                            ? Math.max(0, PRICING.fullPrice - displayDown)
-                            : null;
-                        const displayWeekly =
-                          displayDown !== null
-                            ? calculateWeeklyPayment(displayDown).weeklyDollars
-                            : null;
+                        const displayRemaining = displayDown !== null ? Math.max(0, PRICING.fullPrice - displayDown) : null;
+                        const displayWeekly = displayDown !== null ? calculateWeeklyPayment(displayDown, hoursPerWeek, transferHours).weeklyDollars : null;
                         return (
                           <div className="bg-white rounded-lg p-4 border border-brand-orange-200">
-                            <p className="text-xs text-black uppercase font-semibold mb-2">
-                              Your Payment Estimate
-                            </p>
+                            <p className="text-xs text-black uppercase font-semibold mb-2">Your Payment Estimate</p>
                             <div className="flex justify-between items-center mb-1">
                               <span className="text-sm text-slate-700">Down payment today</span>
-                              <span className="font-bold text-black">
-                                {displayDown !== null ? `$${displayDown.toLocaleString()}` : '—'}
-                              </span>
+                              <span className="font-bold text-black">{displayDown !== null ? `$${displayDown.toLocaleString()}` : '—'}</span>
                             </div>
                             <div className="flex justify-between items-center mb-1">
                               <span className="text-sm text-slate-700">Remaining balance</span>
-                              <span className="font-bold text-black">
-                                {displayRemaining !== null
-                                  ? `$${displayRemaining.toLocaleString()}`
-                                  : '—'}
-                              </span>
+                              <span className="font-bold text-black">{displayRemaining !== null ? `$${displayRemaining.toLocaleString()}` : '—'}</span>
                             </div>
                             <div className="flex justify-between items-center mb-1">
                               <span className="text-sm text-slate-700">Weekly payment</span>
-                              <span className="font-bold text-brand-orange-600 text-lg">
-                                {displayWeekly !== null ? `$${displayWeekly.toFixed(2)}/wk` : '—'}
-                              </span>
+                              <span className="font-bold text-brand-orange-600 text-lg">{displayWeekly !== null ? `$${displayWeekly.toFixed(2)}/wk` : '—'}</span>
                             </div>
                             <div className="flex justify-between items-center">
                               <span className="text-sm text-slate-700">Term</span>
-                              <span className="font-bold text-black">
-                                {PRICING.paymentTermWeeks} weeks
-                              </span>
+                              <span className="font-bold text-black">{PRICING.paymentTermWeeks} weeks</span>
                             </div>
-                            <p className="text-xs text-black mt-2">
-                              Weekly invoices sent every Friday. Pay by link or saved card.
-                            </p>
+                            <p className="text-xs text-black mt-2">Card automatically charged every Friday — no action needed.</p>
                           </div>
                         );
                       })()}
                     </div>
                   )}
 
-                  {/* BNPL — universal component, driven by lib/bnpl-config.ts */}
-                  <BnplOptions
-                    fullPrice={PRICING.fullPrice}
-                    selected={paymentOption}
-                    onSelect={(id) => setPaymentOption(id as typeof paymentOption)}
-                    amountStr={customAmountStr}
-                    onAmountChange={setCustomAmountStr}
-                  />
+                  {/* Option 4: Affirm */}
+                  <button
+                    type="button"
+                    onClick={() => setPaymentOption('affirm')}
+                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
+                      paymentOption === 'affirm' 
+                        ? 'border-brand-blue-600 bg-brand-blue-50' 
+                        : 'border-slate-300 bg-white hover:border-slate-400'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-bold text-black text-lg">Affirm</p>
+                        <p className="text-black text-sm">Pay over time</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-brand-blue-600 text-lg">You Choose</p>
+                        <p className="text-xs text-black">min ${PRICING.setupFee.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Affirm Amount Input */}
+                  {paymentOption === 'affirm' && (
+                    <div className="bg-brand-blue-50 rounded-xl p-4 mb-3 border-2 border-brand-blue-200">
+                      <label className="block text-sm font-medium text-black mb-2">
+                        How much do you want to finance with Affirm? (min ${PRICING.setupFee.toLocaleString()})
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl font-bold text-black">$</span>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          value={customAmountStr}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/[^0-9]/g, '');
+                            setCustomAmountStr(val);
+                          }}
+                          onBlur={() => {
+                            const num = parseInt(customAmountStr) || 0;
+                            const clamped = Math.max(PRICING.setupFee, Math.min(num, PRICING.fullPrice));
+                            setCustomAmountStr(String(clamped));
+                          }}
+                          className="w-full px-4 py-3 text-2xl font-bold border-2 border-brand-blue-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                        />
+                      </div>
+                      <p className="text-sm text-black mt-2">
+                        Affirm will check your eligibility and show payment options at checkout
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Option 5: Sezzle */}
+                  <button
+                    type="button"
+                    onClick={() => setPaymentOption('sezzle')}
+                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
+                      paymentOption === 'sezzle' 
+                        ? 'border-indigo-600 bg-indigo-50' 
+                        : 'border-slate-300 bg-white hover:border-slate-400'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-bold text-black text-lg">Sezzle</p>
+                        <p className="text-black text-sm">Pay over time</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-indigo-600 text-lg">You Choose</p>
+                        <p className="text-xs text-black">${PRICING.setupFee.toLocaleString()} - $2,500</p>
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Sezzle Amount Input */}
+                  {paymentOption === 'sezzle' && (
+                    <div className="bg-indigo-50 rounded-xl p-4 mb-3 border-2 border-indigo-200">
+                      <label className="block text-sm font-medium text-black mb-2">
+                        How much do you want to pay with Sezzle? (${PRICING.setupFee.toLocaleString()} - $2,500)
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl font-bold text-black">$</span>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          value={customAmountStr}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/[^0-9]/g, '');
+                            setCustomAmountStr(val);
+                          }}
+                          onBlur={() => {
+                            const num = parseInt(customAmountStr) || 0;
+                            const clamped = Math.max(PRICING.setupFee, Math.min(num, 2500));
+                            setCustomAmountStr(String(clamped));
+                          }}
+                          className="w-full px-4 py-3 text-2xl font-bold border-2 border-indigo-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        />
+                      </div>
+                      <p className="text-sm text-black mt-2">
+                        Sezzle will check your eligibility - 4 payments of ${Math.round((customAmount || 0) / 4).toLocaleString()} every 2 weeks
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Option: Klarna / Afterpay via Stripe */}
+                  <button
+                    type="button"
+                    onClick={() => setPaymentOption('stripe_bnpl')}
+                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
+                      paymentOption === 'stripe_bnpl'
+                        ? 'border-pink-500 bg-pink-50'
+                        : 'border-slate-300 bg-white hover:border-slate-400'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-bold text-black text-lg">Klarna / Afterpay</p>
+                        <p className="text-black text-sm">4 interest-free installments via Stripe</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-pink-600 text-lg">Split it</p>
+                        <p className="text-xs text-black">chosen at checkout</p>
+                      </div>
+                    </div>
+                  </button>
+                  {paymentOption === 'stripe_bnpl' && (
+                    <div className="bg-pink-50 rounded-xl p-4 mb-3 border-2 border-pink-200">
+                      <p className="text-sm text-black">
+                        You'll choose between <strong>Klarna</strong> and <strong>Afterpay</strong> on the next screen. Both split your payment into 4 interest-free installments. Subject to provider approval.
+                      </p>
+                    </div>
+                  )}
 
                   {/* Payment Methods Available */}
                   <div className="bg-white rounded-xl p-4 mb-4">
-                    <p className="text-sm text-black font-medium mb-3">
-                      Payment methods available at checkout:
-                    </p>
+                    <p className="text-sm text-black font-medium mb-3">Payment methods available at checkout:</p>
                     <div className="flex flex-wrap gap-2 justify-center mb-2">
-                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">
-                        Card
-                      </span>
-                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">
-                        Apple Pay
-                      </span>
-                      <span className="px-3 py-1 bg-white text-black border border-black rounded-full text-xs font-bold">
-                        Google Pay
-                      </span>
-                      <span className="px-3 py-1 bg-brand-blue-900 text-white rounded-full text-xs font-bold">
-                        Samsung Pay
-                      </span>
-                      <span className="px-3 py-1 bg-brand-blue-100 text-brand-blue-700 rounded-full text-xs font-bold">
-                        Link
-                      </span>
+                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">Card</span>
+                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">Apple Pay</span>
+                      <span className="px-3 py-1 bg-white text-black border border-black rounded-full text-xs font-bold">Google Pay</span>
+                      <span className="px-3 py-1 bg-brand-blue-900 text-white rounded-full text-xs font-bold">Samsung Pay</span>
+                      <span className="px-3 py-1 bg-brand-blue-100 text-brand-blue-700 rounded-full text-xs font-bold">Link</span>
                     </div>
                     <div className="flex flex-wrap gap-2 justify-center mb-2">
                       {ACTIVE_BNPL_PROVIDERS.map((p) => (
-                        <span
-                          key={p.id}
-                          className={`px-3 py-1 ${p.badgeBg} ${p.badgeText} rounded-full text-xs font-bold`}
-                        >
-                          {p.name}
-                        </span>
+                        <span key={p.id} className={`px-3 py-1 ${p.badgeBg} ${p.badgeText} rounded-full text-xs font-bold`}>{p.name}</span>
                       ))}
                     </div>
                     <div className="flex flex-wrap gap-2 justify-center">
-                      <span className="px-3 py-1 bg-brand-green-500 text-white rounded-full text-xs font-bold">
-                        Cash App
-                      </span>
-                      <span className="px-3 py-1 bg-brand-orange-400 text-white rounded-full text-xs font-bold">
-                        Amazon Pay
-                      </span>
-                      <span className="px-3 py-1 bg-brand-blue-600 text-white rounded-full text-xs font-bold">
-                        Bank (ACH)
-                      </span>
+                      <span className="px-3 py-1 bg-brand-green-500 text-white rounded-full text-xs font-bold">Cash App</span>
+                      <span className="px-3 py-1 bg-brand-orange-400 text-white rounded-full text-xs font-bold">Amazon Pay</span>
+                      <span className="px-3 py-1 bg-brand-blue-600 text-white rounded-full text-xs font-bold">Bank (ACH)</span>
                     </div>
                     <p className="text-xs text-black mt-3 text-center">
-                      Payment options subject to eligibility. Terms and availability vary by
-                      provider.
+                      Payment options subject to eligibility. Terms and availability vary by provider.
                     </p>
                   </div>
                 </div>
@@ -892,9 +936,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                 {embeddedClientSecret && (
                   <div className="mt-4 border-2 border-pink-200 rounded-xl overflow-hidden">
                     <div className="bg-pink-50 px-4 py-3 flex items-center justify-between">
-                      <p className="text-sm font-semibold text-pink-900">
-                        Klarna / Afterpay Checkout
-                      </p>
+                      <p className="text-sm font-semibold text-pink-900">Klarna / Afterpay Checkout</p>
                       <button
                         type="button"
                         onClick={() => setEmbeddedClientSecret(null)}
@@ -915,15 +957,25 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                 {/* Pay Button — hidden while embedded checkout is open */}
                 {!embeddedClientSecret && (
                   <>
+                    {/* Autopay disclosure — shown for weekly / custom payment plans */}
+                    {(paymentOption === 'weekly' || paymentOption === 'custom') && (
+                      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+                        <p className="text-sm font-semibold text-amber-900 mb-1">📅 Automatic Weekly Billing Authorization</p>
+                        <p className="text-xs text-amber-800 leading-relaxed">
+                          By completing this payment you authorize Elevate For Humanity to automatically
+                          charge the card you provide{' '}
+                          <strong>${weeklyDollars.toFixed(2)}/week every Friday</strong> for{' '}
+                          <strong>{PRICING.paymentTermWeeks} weeks</strong> until your remaining balance is
+                          paid in full. Charges happen automatically — no action needed each week.
+                          If a payment fails you will be notified immediately and have 7 days to update
+                          your card before your hour-logging access is paused.
+                        </p>
+                      </div>
+                    )}
+
                     <button
                       onClick={handlePayNow}
-                      disabled={
-                        loading ||
-                        !formData.email ||
-                        !formData.firstName ||
-                        !formData.lastName ||
-                        !formData.phone
-                      }
+                      disabled={loading || !formData.email || !formData.firstName || !formData.lastName || !formData.phone}
                       className="w-full py-4 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:bg-slate-300 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 text-lg"
                     >
                       {loading ? (
@@ -934,16 +986,13 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                       ) : (
                         <>
                           <CreditCard className="w-5 h-5" />
-                          {paymentOption === 'stripe_bnpl'
-                            ? 'Open Klarna / Afterpay'
-                            : 'Continue to Payment'}
+                          {paymentOption === 'stripe_bnpl' ? 'Open Klarna / Afterpay' : 'Continue to Payment'}
                         </>
                       )}
                     </button>
 
                     <p className="text-center text-sm text-black mt-4">
-                      Secure payment via Stripe. Card, Apple Pay, Google Pay, PayPal, Venmo, Cash
-                      App accepted.
+                      Secure payment via Stripe. Card, Apple Pay, Google Pay, PayPal, Venmo, Cash App accepted.
                     </p>
                   </>
                 )}
@@ -953,12 +1002,8 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             {/* Payment Options Notice */}
             <div className="mt-6 bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4">
               <p className="text-brand-blue-800 text-sm">
-                <strong>Have questions?</strong> Contact us for payment plan options or
-                employer-sponsored funding.{' '}
-                <Link
-                  href="/inquiry?program=barber-apprenticeship"
-                  className="text-brand-blue-700 font-medium hover:underline"
-                >
+                <strong>Have questions?</strong> Contact us for payment plan options or employer-sponsored funding.{' '}
+                <Link href="/inquiry?program=barber-apprenticeship" className="text-brand-blue-700 font-medium hover:underline">
                   Request information →
                 </Link>
               </p>

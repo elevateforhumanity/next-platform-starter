@@ -5,13 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import {
-  Shield,
-  CheckCircle2,
-  Loader2,
-  AlertCircle,
-  ArrowLeft,
-  Send,
-  BookOpen,
+  Shield, CheckCircle2, Loader2, AlertCircle, ArrowLeft,
+  Send, BookOpen,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 
@@ -54,7 +49,7 @@ const POLICIES: PolicyItem[] = [
     details: [
       'My shop maintains a valid Indiana barbershop license',
       'All tools and stations are properly sanitized and disinfected',
-      "I carry current workers' compensation insurance",
+      'I carry current workers\' compensation insurance',
       'I carry current general liability insurance',
       'I will report any workplace injuries or incidents immediately',
       'I will allow safety inspections by the Sponsor',
@@ -88,8 +83,7 @@ const POLICIES: PolicyItem[] = [
   {
     id: 'reporting',
     title: 'Reporting & Communication Obligations',
-    summary:
-      'I agree to maintain open communication with the Sponsor and fulfill reporting requirements.',
+    summary: 'I agree to maintain open communication with the Sponsor and fulfill reporting requirements.',
     details: [
       'I will respond to Sponsor inquiries within 2 business days',
       'I will submit hour verification reports on schedule',
@@ -108,7 +102,7 @@ export default function PolicyAcknowledgmentPage() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  const allAcknowledged = POLICIES.every((p) => acknowledged.has(p.id));
+  const allAcknowledged = POLICIES.every(p => acknowledged.has(p.id));
 
   const togglePolicy = (id: string) => {
     const next = new Set(acknowledged);
@@ -159,8 +153,8 @@ export default function PolicyAcknowledgmentPage() {
           <CheckCircle2 className="w-16 h-16 text-brand-green-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Policies Acknowledged</h1>
           <p className="text-black mb-6">
-            All {POLICIES.length} policy acknowledgments have been recorded. A confirmation will be
-            sent to your email.
+            All {POLICIES.length} policy acknowledgments have been recorded. A confirmation
+            will be sent to your email.
           </p>
           <div className="space-y-3">
             <Link
@@ -178,22 +172,17 @@ export default function PolicyAcknowledgmentPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 pt-6">
-        <Breadcrumbs
-          items={[
-            { label: 'Partners', href: '/partners/barbershop-apprenticeship' },
-            { label: 'Forms', href: '/partners/barbershop-apprenticeship/forms' },
-            { label: 'Policy Acknowledgment' },
-          ]}
-        />
+        <Breadcrumbs items={[
+          { label: 'Partners', href: '/partners/barbershop-apprenticeship' },
+          { label: 'Forms', href: '/partners/barbershop-apprenticeship/forms' },
+          { label: 'Policy Acknowledgment' },
+        ]} />
       </div>
 
       {/* Institutional Header */}
       <section className="py-6 border-b">
         <div className="max-w-4xl mx-auto px-4">
-          <Link
-            href="/partners/barbershop-apprenticeship/forms"
-            className="inline-flex items-center gap-1 text-black hover:text-brand-blue-700 text-sm mb-4"
-          >
+          <Link href="/partners/barbershop-apprenticeship/forms" className="inline-flex items-center gap-1 text-black hover:text-brand-blue-700 text-sm mb-4">
             <ArrowLeft className="w-4 h-4" /> Back to Forms
           </Link>
           <InstitutionalHeader
@@ -224,8 +213,7 @@ export default function PolicyAcknowledgmentPage() {
           <BookOpen className="w-6 h-6 text-brand-blue-600 flex-shrink-0" />
           <div className="flex-1">
             <p className="text-sm text-brand-blue-900">
-              <strong>Read the Partner Handbook first.</strong> You must understand all policies
-              before acknowledging them.
+              <strong>Read the Partner Handbook first.</strong> You must understand all policies before acknowledging them.
             </p>
           </div>
           <Link
@@ -251,11 +239,7 @@ export default function PolicyAcknowledgmentPage() {
                     type="button"
                     onClick={() => togglePolicy(policy.id)}
                     className="mt-0.5 flex-shrink-0"
-                    aria-label={
-                      isAcked
-                        ? `Remove acknowledgment for ${policy.title}`
-                        : `Acknowledge ${policy.title}`
-                    }
+                    aria-label={isAcked ? `Remove acknowledgment for ${policy.title}` : `Acknowledge ${policy.title}`}
                   >
                     {isAcked ? (
                       <CheckCircle2 className="w-6 h-6 text-brand-green-500" />
@@ -304,9 +288,7 @@ export default function PolicyAcknowledgmentPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-1">
-                Your Full Name *
-              </label>
+              <label className="block text-sm font-medium text-slate-900 mb-1">Your Full Name *</label>
               <input
                 type="text"
                 required
@@ -332,13 +314,9 @@ export default function PolicyAcknowledgmentPage() {
           className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-blue-600 text-white rounded-lg font-bold text-lg hover:bg-brand-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {submitting ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" /> Submitting...
-            </>
+            <><Loader2 className="w-5 h-5 animate-spin" /> Submitting...</>
           ) : (
-            <>
-              <Send className="w-5 h-5" /> Submit All Acknowledgments
-            </>
+            <><Send className="w-5 h-5" /> Submit All Acknowledgments</>
           )}
         </button>
 
@@ -346,9 +324,7 @@ export default function PolicyAcknowledgmentPage() {
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h3 className="font-bold text-slate-900">Next: Submit Your Application</h3>
-            <p className="text-sm text-black">
-              After acknowledging policies, complete the partner application.
-            </p>
+            <p className="text-sm text-black">After acknowledging policies, complete the partner application.</p>
           </div>
           <div className="flex gap-3">
             <Link
@@ -358,7 +334,7 @@ export default function PolicyAcknowledgmentPage() {
               Sign MOU
             </Link>
             <Link
-              href="/partners/barbershop-apprenticeship/apply"
+              href="/programs/barber-apprenticeship/apply?type=partner_shop"
               className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 text-sm whitespace-nowrap"
             >
               Apply Now

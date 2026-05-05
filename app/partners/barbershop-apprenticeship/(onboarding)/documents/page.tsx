@@ -4,14 +4,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import {
-  Upload,
-  CheckCircle2,
-  AlertCircle,
-  FileText,
-  Loader2,
-  ArrowLeft,
-  ExternalLink,
-  X,
+  Upload, CheckCircle2, AlertCircle, FileText,
+  Loader2, ArrowLeft, ExternalLink, X,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 
@@ -29,21 +23,16 @@ const DOC_SLOTS: DocSlot[] = [
   {
     id: 'w9',
     label: 'W-9 Form (Tax Identification)',
-    description:
-      'IRS Form W-9 completed and signed. Required for all worksite partners for tax reporting.',
+    description: 'IRS Form W-9 completed and signed. Required for all worksite partners for tax reporting.',
     required: true,
     accept: '.pdf,.jpg,.jpeg,.png',
     hint: 'PDF preferred. Download a blank W-9 from the IRS if needed.',
-    externalLink: {
-      label: 'Download blank W-9 (IRS)',
-      href: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf',
-    },
+    externalLink: { label: 'Download blank W-9 (IRS)', href: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf' },
   },
   {
     id: 'barbershop_license',
     label: 'Indiana Barbershop License',
-    description:
-      'Current, valid Indiana barbershop license showing license number, expiration date, licensee name, and shop address.',
+    description: 'Current, valid Indiana barbershop license showing license number, expiration date, licensee name, and shop address.',
     required: true,
     accept: '.pdf,.jpg,.jpeg,.png',
     hint: 'Full copy required — no crops. Must be current and not expired.',
@@ -67,11 +56,10 @@ const DOC_SLOTS: DocSlot[] = [
   {
     id: 'supervisor_license',
     label: 'Supervising Barber License',
-    description:
-      'Indiana barber license for the licensed barber who will directly supervise the apprentice. Must have 2+ years of licensed experience.',
+    description: 'Indiana barber license for the licensed barber who will directly supervise the apprentice. Must have 2+ years of licensed experience.',
     required: true,
     accept: '.pdf,.jpg,.jpeg,.png',
-    hint: "Full copy of the supervising barber's individual license — not the shop license.",
+    hint: 'Full copy of the supervising barber\'s individual license — not the shop license.',
   },
 ];
 
@@ -85,12 +73,12 @@ interface SlotState {
 
 export default function PartnerDocumentsPage() {
   const [slots, setSlots] = useState<Record<string, SlotState>>(
-    Object.fromEntries(DOC_SLOTS.map((d) => [d.id, { status: 'idle' }])),
+    Object.fromEntries(DOC_SLOTS.map(d => [d.id, { status: 'idle' }]))
   );
   const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   function setSlot(id: string, update: Partial<SlotState>) {
-    setSlots((prev) => ({ ...prev, [id]: { ...prev[id], ...update } }));
+    setSlots(prev => ({ ...prev, [id]: { ...prev[id], ...update } }));
   }
 
   async function handleFile(slot: DocSlot, file: File) {
@@ -129,19 +117,17 @@ export default function PartnerDocumentsPage() {
     if (file) handleFile(slot, file);
   }
 
-  const doneCount = DOC_SLOTS.filter((d) => slots[d.id]?.status === 'done').length;
+  const doneCount = DOC_SLOTS.filter(d => slots[d.id]?.status === 'done').length;
   const allDone = doneCount === DOC_SLOTS.length;
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 pt-6">
-        <Breadcrumbs
-          items={[
-            { label: 'Partners', href: '/partners/barbershop-apprenticeship' },
-            { label: 'Required Forms', href: '/partners/barbershop-apprenticeship/forms' },
-            { label: 'Upload Documents' },
-          ]}
-        />
+        <Breadcrumbs items={[
+          { label: 'Partners', href: '/partners/barbershop-apprenticeship' },
+          { label: 'Required Forms', href: '/partners/barbershop-apprenticeship/forms' },
+          { label: 'Upload Documents' },
+        ]} />
       </div>
 
       <div className="max-w-4xl mx-auto px-4 pt-4">
@@ -165,13 +151,12 @@ export default function PartnerDocumentsPage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
+
         {/* Progress */}
         <div className="bg-white rounded-xl border shadow-sm p-5 mb-8">
           <div className="flex items-center justify-between mb-2">
             <span className="font-semibold text-slate-900">Upload Progress</span>
-            <span className="text-sm text-black">
-              {doneCount} of {DOC_SLOTS.length} uploaded
-            </span>
+            <span className="text-sm text-black">{doneCount} of {DOC_SLOTS.length} uploaded</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div
@@ -181,8 +166,7 @@ export default function PartnerDocumentsPage() {
           </div>
           {allDone && (
             <p className="text-sm text-green-700 font-medium mt-2 flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" /> All documents uploaded — your application is
-              under review.
+              <CheckCircle2 className="w-4 h-4" /> All documents uploaded — your application is under review.
             </p>
           )}
         </div>
@@ -202,8 +186,8 @@ export default function PartnerDocumentsPage() {
                   isDone
                     ? 'border-green-400 bg-green-50'
                     : isError
-                      ? 'border-red-300 bg-red-50'
-                      : 'border-gray-200 bg-white'
+                    ? 'border-red-300 bg-red-50'
+                    : 'border-gray-200 bg-white'
                 }`}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => !isDone && !isUploading && handleDrop(slot, e)}
@@ -224,14 +208,10 @@ export default function PartnerDocumentsPage() {
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <h3 className="font-semibold text-slate-900">{slot.label}</h3>
                       {slot.required && (
-                        <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-medium">
-                          Required
-                        </span>
+                        <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-medium">Required</span>
                       )}
                       {isDone && (
-                        <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium">
-                          Uploaded
-                        </span>
+                        <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium">Uploaded</span>
                       )}
                     </div>
                     <p className="text-sm text-black mb-1">{slot.description}</p>
@@ -257,9 +237,7 @@ export default function PartnerDocumentsPage() {
                         {isDone && (
                           <button
                             type="button"
-                            onClick={() =>
-                              setSlot(slot.id, { status: 'idle', fileName: undefined })
-                            }
+                            onClick={() => setSlot(slot.id, { status: 'idle', fileName: undefined })}
                             className="ml-1 text-slate-700 hover:text-red-500"
                             title="Remove and re-upload"
                           >
@@ -278,9 +256,7 @@ export default function PartnerDocumentsPage() {
                     {!isDone && (
                       <>
                         <input
-                          ref={(el) => {
-                            fileInputRefs.current[slot.id] = el;
-                          }}
+                          ref={(el) => { fileInputRefs.current[slot.id] = el; }}
                           type="file"
                           accept={slot.accept}
                           className="hidden"
@@ -293,18 +269,12 @@ export default function PartnerDocumentsPage() {
                           className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-brand-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {isUploading ? (
-                            <>
-                              <Loader2 className="w-4 h-4 animate-spin" /> Uploading...
-                            </>
+                            <><Loader2 className="w-4 h-4 animate-spin" /> Uploading...</>
                           ) : (
-                            <>
-                              <Upload className="w-4 h-4" /> {isError ? 'Try Again' : 'Upload File'}
-                            </>
+                            <><Upload className="w-4 h-4" /> {isError ? 'Try Again' : 'Upload File'}</>
                           )}
                         </button>
-                        <p className="text-xs text-slate-700 mt-1">
-                          PDF, JPEG, or PNG · Max 10 MB · Drag &amp; drop supported
-                        </p>
+                        <p className="text-xs text-slate-700 mt-1">PDF, JPEG, or PNG · Max 10 MB · Drag &amp; drop supported</p>
                       </>
                     )}
                   </div>
@@ -318,9 +288,7 @@ export default function PartnerDocumentsPage() {
         <div className="mt-8 bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h3 className="font-bold text-slate-900">All documents uploaded?</h3>
-            <p className="text-sm text-black">
-              Return to the forms checklist to complete remaining steps.
-            </p>
+            <p className="text-sm text-black">Return to the forms checklist to complete remaining steps.</p>
           </div>
           <Link
             href="/partners/barbershop-apprenticeship/forms"

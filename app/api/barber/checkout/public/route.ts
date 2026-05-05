@@ -15,7 +15,6 @@ import {
   TUITION_CENTS,
   TUITION_DOLLARS,
   PAYMENT_TERM_WEEKS,
-  MIN_SETUP_FEE_CENTS,
   BARBER_PROGRAM_ID,
   BARBER_COURSE_ID,
   clampSetupFeeCents,
@@ -26,13 +25,13 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 /**
  * POST /api/barber/checkout/public
- *
+ * 
  * Public checkout for Barber Apprenticeship - no authentication required.
- *
+ * 
  * Payment Model (NOT a subscription):
  * 1. Down payment (minimum $600, chosen by student) - collected immediately via Checkout
  * 2. Weekly invoices - scheduled for each Friday, sent automatically
- *
+ * 
  * This allows:
  * - BNPL (Affirm, Klarna, Afterpay) for setup fee
  * - Automatic weekly invoice emails with payment links
@@ -72,7 +71,7 @@ async function _POST(request: NextRequest) {
     if (hours_per_week < 20 || hours_per_week > 50) {
       return NextResponse.json(
         { error: 'Hours per week must be between 20 and 50' },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -88,15 +87,11 @@ async function _POST(request: NextRequest) {
     if (calculation.weeksRemaining <= 0) {
       return NextResponse.json(
         { error: 'Invalid calculation: no weeks remaining' },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     const stripe = getStripe();
-    if (!stripe) {
-      logger.error('Barber checkout: Stripe client is null — STRIPE_SECRET_KEY missing');
-      return NextResponse.json({ error: 'Payment provider not configured' }, { status: 503 });
-    }
 
     // Create or retrieve Stripe customer
     const customers = await stripe.customers.list({
@@ -126,11 +121,8 @@ async function _POST(request: NextRequest) {
 
     // Build success/cancel URLs
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-    const finalSuccessUrl =
-      success_url ||
-      `${baseUrl}/programs/barber-apprenticeship/apply/success?session_id={CHECKOUT_SESSION_ID}`;
-    const finalCancelUrl =
-      cancel_url || `${baseUrl}/programs/barber-apprenticeship/apply?canceled=true`;
+    const finalSuccessUrl = success_url || `${baseUrl}/programs/barber-apprenticeship/apply/success?session_id={CHECKOUT_SESSION_ID}`;
+    const finalCancelUrl = cancel_url || `${baseUrl}/programs/barber-apprenticeship/apply?canceled=true`;
 
     const firstBillingDate = formatFirstBillingDate();
 
@@ -156,17 +148,18 @@ async function _POST(request: NextRequest) {
     } else {
       // Payment plan — student's chosen down payment, server-clamped to [$600, $4,980].
       // This is the ONLY client-influenced value in the pricing chain.
-      checkoutAmountCents = custom_setup_fee ? clampSetupFeeCents(custom_setup_fee) : MIN_SETUP_FEE_CENTS;
+      checkoutAmountCents = custom_setup_fee
+        ? clampSetupFeeCents(custom_setup_fee)
+        : 60000; // default $600
       const remainingCents = TUITION_CENTS - checkoutAmountCents;
       const weeklyDollars = (remainingCents / 100 / weeksRemaining).toFixed(2);
       productName = 'Barber Apprenticeship - Down Payment';
       productDescription = `Down payment of $${(checkoutAmountCents / 100).toFixed(0)}. Remaining $${(remainingCents / 100).toFixed(0)} at $${weeklyDollars}/week for ${weeksRemaining} weeks.`;
     }
 
-    const weeklyPaymentCentsValue =
-      payment_type === 'payment_plan'
-        ? Math.round((TUITION_CENTS - checkoutAmountCents) / weeksRemaining)
-        : 0;
+    const weeklyPaymentCentsValue = payment_type === 'payment_plan'
+      ? Math.round((TUITION_CENTS - checkoutAmountCents) / weeksRemaining)
+      : 0;
 
     // Use explicit payment_method_types so BNPL (Klarna, Afterpay) is always available.
     // PMC approach was removed — the configured PMC had BNPL disabled.
@@ -220,10 +213,9 @@ async function _POST(request: NextRequest) {
       },
       custom_text: {
         submit: {
-          message:
-            payment_type === 'bnpl'
-              ? 'Select Klarna or Afterpay below to split into installments.'
-              : `Total program tuition: $${TUITION_DOLLARS.toLocaleString()}.`,
+          message: payment_type === 'bnpl'
+            ? 'Select Klarna or Afterpay below to split into installments.'
+            : `Total program tuition: $${TUITION_DOLLARS.toLocaleString()}.`,
         },
       },
       // Save card for future weekly charges — scoped to card only.
@@ -270,18 +262,17 @@ async function _POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    const msg = error instanceof Error ? error.message : String(error);
-    logger.error('Barber public checkout error:', { message: msg, error });
+    logger.error('Barber public checkout error:', error);
     return NextResponse.json(
-      { error: 'Failed to create checkout session', details: msg },
-      { status: 500 },
+      { error: 'Failed to create checkout session', details: 'Internal server error' },
+      { status: 500 }
     );
   }
 }
 
 /**
  * GET /api/barber/checkout/public
- *
+ * 
  * Calculate payment plan without creating a session (for preview)
  */
 async function _GET(request: NextRequest) {
@@ -296,7 +287,7 @@ async function _GET(request: NextRequest) {
     if (hoursPerWeek < 20 || hoursPerWeek > 50) {
       return NextResponse.json(
         { error: 'Hours per week must be between 20 and 50' },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -336,7 +327,10 @@ async function _GET(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Barber checkout GET error:', error);
-    return NextResponse.json({ error: 'Failed to calculate payment plan' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to calculate payment plan' },
+      { status: 500 }
+    );
   }
 }
 export const GET = withApiAudit('/api/barber/checkout/public', _GET);

@@ -5,14 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import {
-  FileText,
-  CheckCircle2,
-  Eraser,
-  Download,
-  Send,
-  Loader2,
-  AlertCircle,
-  ArrowLeft,
+  FileText, CheckCircle2, Eraser, Download, Send,
+  Loader2, AlertCircle, ArrowLeft,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 
@@ -179,14 +173,12 @@ export default function SignMOUPage() {
   // Pre-populate from logged-in user's partner application
   useEffect(() => {
     fetch('/api/partners/barbershop-apprenticeship/my-application')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
         if (!data) return;
-        if (data.shop_name) setShopName(data.shop_name);
-        if (data.owner_name) setSignerName(data.owner_name);
-        if (data.contact_email || data.email) {
-          /* email display only */
-        }
+        if (data.shop_name)   setShopName(data.shop_name);
+        if (data.owner_name)  setSignerName(data.owner_name);
+        if (data.contact_email || data.email) { /* email display only */ }
       })
       .catch(() => {});
   }, []);
@@ -248,31 +240,25 @@ export default function SignMOUPage() {
     };
   }, []);
 
-  const startDrawing = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
-      e.preventDefault();
-      const ctx = canvasRef.current?.getContext('2d');
-      if (!ctx) return;
-      const pos = getPos(e);
-      ctx.beginPath();
-      ctx.moveTo(pos.x, pos.y);
-      setIsDrawing(true);
-    },
-    [getPos],
-  );
+  const startDrawing = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
+    const pos = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    setIsDrawing(true);
+  }, [getPos]);
 
-  const draw = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
-      e.preventDefault();
-      if (!isDrawing) return;
-      const ctx = canvasRef.current?.getContext('2d');
-      if (!ctx) return;
-      const pos = getPos(e);
-      ctx.lineTo(pos.x, pos.y);
-      ctx.stroke();
-    },
-    [isDrawing, getPos],
-  );
+  const draw = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    if (!isDrawing) return;
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
+    const pos = getPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  }, [isDrawing, getPos]);
 
   const stopDrawing = useCallback(() => {
     setIsDrawing(false);
@@ -376,8 +362,8 @@ export default function SignMOUPage() {
           <CheckCircle2 className="w-16 h-16 text-brand-green-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">MOU Signed Successfully</h1>
           <p className="text-black mb-6">
-            Your Memorandum of Understanding has been submitted. Our team will countersign and send
-            you a fully executed copy within 2 business days.
+            Your Memorandum of Understanding has been submitted. Our team will countersign
+            and send you a fully executed copy within 2 business days.
           </p>
           <div className="space-y-3">
             <Link
@@ -401,51 +387,36 @@ export default function SignMOUPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 pt-6">
-        <Breadcrumbs
-          items={[
-            { label: 'Partners', href: '/partners/barbershop-apprenticeship' },
-            { label: 'Sign MOU' },
-          ]}
-        />
+        <Breadcrumbs items={[
+          { label: 'Partners', href: '/partners/barbershop-apprenticeship' },
+          { label: 'Sign MOU' },
+        ]} />
       </div>
 
       {/* Institutional Document Header */}
       <div className="max-w-4xl mx-auto px-4 pt-6">
-        <Link
-          href="/partners/barbershop-apprenticeship"
-          className="inline-flex items-center gap-1 text-black hover:text-brand-blue-700 text-sm mb-4"
-        >
+        <Link href="/partners/barbershop-apprenticeship" className="inline-flex items-center gap-1 text-black hover:text-brand-blue-700 text-sm mb-4">
           <ArrowLeft className="w-4 h-4" /> Back to Partner Page
         </Link>
       </div>
 
       <form onSubmit={handleSubmit} className="max-w-4xl mx-auto px-4 py-8">
+
         {/* Handbook prerequisite */}
-        <div
-          className={`rounded-xl border-2 p-5 mb-8 ${handbookRead ? 'border-green-400 bg-green-50' : 'border-amber-400 bg-amber-50'}`}
-        >
+        <div className={`rounded-xl border-2 p-5 mb-8 ${handbookRead ? 'border-green-400 bg-green-50' : 'border-amber-400 bg-amber-50'}`}>
           <div className="flex items-start gap-4">
-            <div
-              className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${handbookRead ? 'bg-green-100' : 'bg-amber-100'}`}
-            >
-              {handbookRead ? (
-                <CheckCircle2 className="w-6 h-6 text-green-600" />
-              ) : (
-                <AlertCircle className="w-6 h-6 text-amber-600" />
-              )}
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${handbookRead ? 'bg-green-100' : 'bg-amber-100'}`}>
+              {handbookRead
+                ? <CheckCircle2 className="w-6 h-6 text-green-600" />
+                : <AlertCircle className="w-6 h-6 text-amber-600" />
+              }
             </div>
             <div className="flex-1">
-              <p
-                className={`font-bold text-base mb-1 ${handbookRead ? 'text-green-900' : 'text-amber-900'}`}
-              >
-                {handbookRead
-                  ? 'Handbook reviewed — you may proceed'
-                  : 'Step 1: Read the Partner Handbook before signing'}
+              <p className={`font-bold text-base mb-1 ${handbookRead ? 'text-green-900' : 'text-amber-900'}`}>
+                {handbookRead ? 'Handbook reviewed — you may proceed' : 'Step 1: Read the Partner Handbook before signing'}
               </p>
               <p className={`text-sm mb-3 ${handbookRead ? 'text-green-800' : 'text-amber-800'}`}>
-                The Partner Handbook explains your responsibilities as a worksite employer,
-                compensation requirements, hour tracking, and prohibited practices. You must review
-                it before signing this MOU.
+                The Partner Handbook explains your responsibilities as a worksite employer, compensation requirements, hour tracking, and prohibited practices. You must review it before signing this MOU.
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <Link
@@ -463,9 +434,7 @@ export default function SignMOUPage() {
                     onChange={(e) => setHandbookRead(e.target.checked)}
                     className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500"
                   />
-                  <span className="text-sm font-semibold text-slate-900">
-                    I have read and understood the Partner Handbook
-                  </span>
+                  <span className="text-sm font-semibold text-slate-900">I have read and understood the Partner Handbook</span>
                 </label>
               </div>
             </div>
@@ -482,13 +451,8 @@ export default function SignMOUPage() {
               noDivider
             />
             <div className="text-sm text-black border-t border-slate-200 pt-4 mt-2">
-              <p>
-                <strong>Between:</strong> 2Exclusive LLC-S d/b/a Elevate for Humanity Career &
-                Technical Institute (&ldquo;Sponsor&rdquo;)
-              </p>
-              <p>
-                <strong>And:</strong> Your barbershop (&ldquo;Shop&rdquo;)
-              </p>
+              <p><strong>Between:</strong> 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute (&ldquo;Sponsor&rdquo;)</p>
+              <p><strong>And:</strong> Your barbershop (&ldquo;Shop&rdquo;)</p>
             </div>
           </div>
           <div className="p-6 space-y-6 max-h-[500px] overflow-y-auto">
@@ -548,9 +512,7 @@ export default function SignMOUPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-1">
-                Supervising Barber Name *
-              </label>
+              <label className="block text-sm font-medium text-slate-900 mb-1">Supervising Barber Name *</label>
               <input
                 type="text"
                 required
@@ -561,9 +523,7 @@ export default function SignMOUPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-1">
-                Supervisor Indiana License # *
-              </label>
+              <label className="block text-sm font-medium text-slate-900 mb-1">Supervisor Indiana License # *</label>
               <input
                 type="text"
                 required
@@ -574,9 +534,7 @@ export default function SignMOUPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-1">
-                Compensation Model *
-              </label>
+              <label className="block text-sm font-medium text-slate-900 mb-1">Compensation Model *</label>
               <select
                 required
                 value={compensationModel}
@@ -597,18 +555,14 @@ export default function SignMOUPage() {
                 onChange={(e) => setCompensationRate(e.target.value)}
                 className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 placeholder={
-                  compensationModel === 'hourly'
-                    ? '$12.00/hour'
-                    : compensationModel === 'commission'
-                      ? '40% of all services performed'
-                      : compensationModel === 'hybrid'
-                        ? '$9.00/hour + 20% commission'
-                        : 'Select a compensation model first'
+                  compensationModel === 'hourly' ? '$12.00/hour' :
+                  compensationModel === 'commission' ? '40% of all services performed' :
+                  compensationModel === 'hybrid' ? '$9.00/hour + 20% commission' :
+                  'Select a compensation model first'
                 }
               />
               <p className="text-xs text-black mt-1">
-                Indiana minimum wage: $7.25/hr. Commission models must average at least minimum wage
-                per pay period. Apprentices keep 100% of tips.
+                Indiana minimum wage: $7.25/hr. Commission models must average at least minimum wage per pay period. Apprentices keep 100% of tips.
               </p>
             </div>
           </div>
@@ -620,79 +574,33 @@ export default function SignMOUPage() {
           <div className="grid grid-cols-2 gap-6 mb-6">
             {/* Elevate — pre-signed */}
             <div className="border border-gray-200 rounded-lg p-4">
-              <p className="text-xs font-bold text-black uppercase tracking-wide mb-3">
-                Sponsor — Already Signed
-              </p>
+              <p className="text-xs font-bold text-black uppercase tracking-wide mb-3">Sponsor — Already Signed</p>
               <div className="border-b border-gray-400 pb-2 mb-3">
-                <span
-                  style={{
-                    fontFamily: 'Georgia,serif',
-                    fontSize: '24px',
-                    color: '#1a1a2e',
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Elizabeth Greene
-                </span>
+                <span style={{fontFamily:'Georgia,serif',fontSize:'24px',color:'#1a1a2e',fontStyle:'italic'}}>Elizabeth Greene</span>
               </div>
-              <p className="text-xs text-black">
-                <strong>Name:</strong> Elizabeth Greene
-              </p>
-              <p className="text-xs text-black">
-                <strong>Title:</strong> Founder &amp; CEO
-              </p>
-              <p className="text-xs text-black">
-                <strong>Organization:</strong> 2Exclusive LLC-S DBA Elevate for Humanity Technical
-                and Career Institute
-              </p>
-              <p className="text-xs text-black">
-                <strong>Date:</strong>{' '}
-                {new Date().toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
-              <div className="mt-3 bg-green-50 border border-green-200 rounded px-3 py-1.5 text-xs text-green-700 font-semibold text-center">
-                ✓ Signed by Elevate for Humanity
-              </div>
+              <p className="text-xs text-black"><strong>Name:</strong> Elizabeth Greene</p>
+              <p className="text-xs text-black"><strong>Title:</strong> Founder &amp; CEO</p>
+              <p className="text-xs text-black"><strong>Organization:</strong> 2Exclusive LLC-S DBA Elevate for Humanity Technical and Career Institute</p>
+              <p className="text-xs text-black"><strong>Date:</strong> {new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</p>
+              <div className="mt-3 bg-green-50 border border-green-200 rounded px-3 py-1.5 text-xs text-green-700 font-semibold text-center">✓ Signed by Elevate for Humanity</div>
             </div>
             {/* Employer — needs to sign */}
             <div className="border-2 border-dashed border-red-300 rounded-lg p-4 bg-red-50">
-              <p className="text-xs font-bold text-red-600 uppercase tracking-wide mb-3">
-                Employer Training Site — Your Signature Required
-              </p>
+              <p className="text-xs font-bold text-red-600 uppercase tracking-wide mb-3">Employer Training Site — Your Signature Required</p>
               <div className="border-b border-dashed border-red-400 pb-2 mb-3 min-h-[32px]">
                 <span className="text-sm text-red-400 italic">Draw your signature below</span>
               </div>
-              <p className="text-xs text-black">
-                <strong>Name:</strong> {signerName || '—'}
-              </p>
-              <p className="text-xs text-black">
-                <strong>Title:</strong> Owner
-              </p>
-              <p className="text-xs text-black">
-                <strong>Organization:</strong> {shopName || '—'}
-              </p>
-              <p className="text-xs text-black">
-                <strong>Date:</strong>{' '}
-                {new Date().toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
-              <div className="mt-3 bg-yellow-50 border border-yellow-300 rounded px-3 py-1.5 text-xs text-yellow-700 font-semibold text-center">
-                ⚠ Awaiting your signature
-              </div>
+              <p className="text-xs text-black"><strong>Name:</strong> {signerName || '—'}</p>
+              <p className="text-xs text-black"><strong>Title:</strong> Owner</p>
+              <p className="text-xs text-black"><strong>Organization:</strong> {shopName || '—'}</p>
+              <p className="text-xs text-black"><strong>Date:</strong> {new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</p>
+              <div className="mt-3 bg-yellow-50 border border-yellow-300 rounded px-3 py-1.5 text-xs text-yellow-700 font-semibold text-center">⚠ Awaiting your signature</div>
             </div>
           </div>
         </div>
 
         {/* Digital Signature Canvas */}
-        <div
-          className={`bg-white rounded-xl shadow-sm border p-6 mb-8 ${!handbookRead ? 'opacity-50 pointer-events-none select-none' : ''}`}
-        >
+        <div className={`bg-white rounded-xl shadow-sm border p-6 mb-8 ${!handbookRead ? 'opacity-50 pointer-events-none select-none' : ''}`}>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-slate-900">Draw Your Signature</h2>
             <button
@@ -738,13 +646,10 @@ export default function SignMOUPage() {
             />
             <span className="text-sm text-slate-900">
               I have read and agree to the terms of this Memorandum of Understanding. I confirm that
-              I am authorized to sign on behalf of the barbershop named above. I understand that
-              this is a legally binding agreement and that my digital signature has the same legal
-              effect as a handwritten signature. I acknowledge that I have reviewed the{' '}
-              <Link
-                href="/partners/barbershop-apprenticeship/handbook"
-                className="text-brand-blue-600 underline"
-              >
+              I am authorized to sign on behalf of the barbershop named above. I understand that this
+              is a legally binding agreement and that my digital signature has the same legal effect
+              as a handwritten signature. I acknowledge that I have reviewed the{' '}
+              <Link href="/partners/barbershop-apprenticeship/handbook" className="text-brand-blue-600 underline">
                 Partner Handbook
               </Link>{' '}
               and understand my responsibilities as a worksite partner. *
@@ -764,14 +669,7 @@ export default function SignMOUPage() {
         <div className="flex flex-col sm:flex-row gap-4">
           <button
             type="submit"
-            disabled={
-              submitting ||
-              !handbookRead ||
-              !shopName.trim() ||
-              !signerName.trim() ||
-              !hasSigned ||
-              !agreedToTerms
-            }
+            disabled={submitting || !handbookRead || !shopName.trim() || !signerName.trim() || !hasSigned || !agreedToTerms}
             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-blue-600 text-white rounded-lg font-bold text-lg hover:bg-brand-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? (
@@ -794,17 +692,15 @@ export default function SignMOUPage() {
 
         <p className="text-xs text-black mt-4">
           By submitting, you agree that your electronic signature is legally binding under the
-          Indiana Uniform Electronic Transactions Act (IC 26-2-8) and the federal ESIGN Act. A copy
-          of the signed MOU will be emailed to you.
+          Indiana Uniform Electronic Transactions Act (IC 26-2-8) and the federal ESIGN Act.
+          A copy of the signed MOU will be emailed to you.
         </p>
 
         {/* Next Steps */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h3 className="font-bold text-slate-900">Next: Submit Your Application</h3>
-            <p className="text-sm text-black">
-              After signing the MOU, complete the partner application form.
-            </p>
+            <p className="text-sm text-black">After signing the MOU, complete the partner application form.</p>
           </div>
           <div className="flex gap-3">
             <Link
@@ -814,7 +710,7 @@ export default function SignMOUPage() {
               Required Forms
             </Link>
             <Link
-              href="/partners/barbershop-apprenticeship/apply"
+              href="/programs/barber-apprenticeship/apply?type=partner_shop"
               className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 text-sm whitespace-nowrap"
             >
               Apply Now
