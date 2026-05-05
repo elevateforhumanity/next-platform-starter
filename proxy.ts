@@ -497,9 +497,14 @@ export async function proxy(request: NextRequest) {
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
         // Preserve requestHeaders (which carries x-pathname) when refreshing cookies
         response = NextResponse.next({ request: { headers: requestHeaders } });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options),
-        );
+        cookiesToSet.forEach(({ name, value, options }) => {
+          // Scope auth cookies to root domain so www and app subdomains share the session
+          const isAuthCookie = name.startsWith('sb-') && name.includes('-auth-token');
+          const cookieOptions = isAuthCookie
+            ? { ...options, domain: '.elevateforhumanity.org' }
+            : options;
+          response.cookies.set(name, value, cookieOptions);
+        });
       },
     },
   });

@@ -86,9 +86,16 @@ export async function createClient(): Promise<SupabaseClient<any>> {
         },
         setAll(cookiesToSet) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options),
-            );
+            cookiesToSet.forEach(({ name, value, options }) => {
+              // Scope auth cookies to the root domain so the session is shared
+              // between www.elevateforhumanity.org and app.elevateforhumanity.org.
+              // Only apply to Supabase auth tokens — leave other cookies alone.
+              const isAuthCookie = name.startsWith('sb-') && name.includes('-auth-token');
+              const cookieOptions = isAuthCookie
+                ? { ...options, domain: '.elevateforhumanity.org' }
+                : options;
+              cookieStore.set(name, value, cookieOptions);
+            });
           } catch {
             // Server Component - cookies are read-only
           }

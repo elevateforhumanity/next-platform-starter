@@ -43,7 +43,15 @@ export async function middleware(req: NextRequest) {
         return req.cookies.getAll();
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+        cookiesToSet.forEach(({ name, value, options }) => {
+          // Match the root-domain scope set by the LMS login so the session
+          // written on www.elevateforhumanity.org is readable here on app.
+          const isAuthCookie = name.startsWith('sb-') && name.includes('-auth-token');
+          const cookieOptions = isAuthCookie
+            ? { ...options, domain: '.elevateforhumanity.org' }
+            : options;
+          response.cookies.set(name, value, cookieOptions);
+        });
       },
     },
   });

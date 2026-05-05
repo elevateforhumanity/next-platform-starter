@@ -23,7 +23,7 @@ export function BarberEnrollment() {
               <h3 className="font-bold text-slate-900 mb-1">Pay in Full</h3>
               <p className="text-2xl font-black text-slate-900 mb-1">$4,980</p>
               <p className="text-slate-500 text-xs mb-3">5% discount applied at checkout</p>
-              <Link href="/programs/barber-apprenticeship/apply?type=apprentice&payment=pay_in_full" className="inline-block text-sm font-semibold text-brand-red-600 hover:text-brand-red-700">
+              <Link href="/programs/barber-apprenticeship/payment-setup?payment=pay_in_full" className="inline-block text-sm font-semibold text-brand-red-600 hover:text-brand-red-700">
                 Enroll Now &rarr;
               </Link>
             </div>
@@ -34,7 +34,7 @@ export function BarberEnrollment() {
               <p className="text-2xl font-black text-slate-900 mb-1">from $600 <span className="text-base font-normal text-slate-500">down</span></p>
               <p className="text-slate-500 text-xs mb-1">You choose your down payment</p>
               <p className="text-slate-500 text-xs mb-3">Remainder split over 29 weekly payments</p>
-              <Link href="/programs/barber-apprenticeship/apply?type=apprentice&payment=payment_plan" className="inline-block bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
+              <Link href="/programs/barber-apprenticeship/payment-setup?payment=payment_plan" className="inline-block bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
                 Choose My Plan &rarr;
               </Link>
             </div>
@@ -43,10 +43,10 @@ export function BarberEnrollment() {
               <h3 className="font-bold text-slate-900 mb-1">Buy Now, Pay Later</h3>
               <p className="text-slate-500 text-xs mb-3">Choose your provider at checkout</p>
               <div className="flex flex-col gap-2 mb-3">
-                <Link href="/programs/barber-apprenticeship/apply?type=apprentice&payment=affirm" className="inline-block w-full bg-[#0FA0EA] hover:bg-[#0d8fd0] text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors">
+                <Link href="/programs/barber-apprenticeship/payment-setup?payment=affirm" className="inline-block w-full bg-[#0FA0EA] hover:bg-[#0d8fd0] text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors">
                   Affirm — Pay over time
                 </Link>
-                <Link href="/programs/barber-apprenticeship/apply?type=apprentice&payment=sezzle" className="inline-block w-full bg-[#392558] hover:bg-[#2e1d47] text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors">
+                <Link href="/programs/barber-apprenticeship/payment-setup?payment=sezzle" className="inline-block w-full bg-[#392558] hover:bg-[#2e1d47] text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors">
                   Sezzle — 4 payments
                 </Link>
               </div>

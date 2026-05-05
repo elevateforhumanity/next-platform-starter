@@ -225,13 +225,23 @@ function LoginForm() {
   );
 }
 
+function LoginSkeleton() {
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center px-4">
+      <div className="w-full max-w-md space-y-4 animate-pulse">
+        <div className="h-8 bg-slate-100 rounded-lg w-48 mx-auto" />
+        <div className="h-4 bg-slate-100 rounded w-64 mx-auto" />
+        <div className="h-12 bg-slate-100 rounded-xl mt-6" />
+        <div className="h-12 bg-slate-100 rounded-xl" />
+        <div className="h-12 bg-slate-200 rounded-xl" />
+      </div>
+    </div>
+  );
+}
+
 export default function LoginClient({ redirectTo }: { redirectTo?: string }) {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">Loading...</div>
-      }
-    >
+    <Suspense fallback={<LoginSkeleton />}>
       <LoginForm />
     </Suspense>
   );
