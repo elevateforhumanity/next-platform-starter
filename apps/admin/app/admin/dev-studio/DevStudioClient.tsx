@@ -238,7 +238,7 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
         <input value={input} onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && run(input)}
           placeholder="Enter a plain-English command…"
-          className="flex-1 bg-transparent text-slate-800 text-xs outline-none placeholder-slate-400 font-mono" />
+          className="flex-1 bg-white border border-slate-300 rounded px-2 py-1.5 text-slate-800 text-xs outline-none focus:ring-2 focus:ring-orange-400 placeholder-slate-400 font-mono" />
         <button onClick={() => run(input)} disabled={loading || !input.trim()}
           className="p-1.5 rounded-md bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors">
           <Send className="w-3.5 h-3.5 text-white" />
