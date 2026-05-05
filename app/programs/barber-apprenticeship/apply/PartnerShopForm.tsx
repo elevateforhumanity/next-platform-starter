@@ -372,32 +372,6 @@ export default function PartnerShopForm() {
 
   return (
     <div className="space-y-8">
-          {/* Before You Apply checklist */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-8">
-            <h2 className="text-lg font-bold text-slate-900 mb-1">Before You Apply</h2>
-            <p className="text-sm text-slate-500 mb-5">Complete these steps first so you&apos;re ready to submit.</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {partnerSteps.map((step) => (
-                <Link
-                  key={step.href}
-                  href={step.href}
-                  className="group flex flex-col gap-3 p-4 rounded-lg border border-slate-200 hover:border-brand-blue-300 hover:bg-brand-blue-50/50 transition-colors"
-                >
-                  <div className="w-9 h-9 rounded-lg bg-brand-blue-50 text-brand-blue-600 flex items-center justify-center group-hover:bg-brand-blue-100 transition-colors">
-                    <step.icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-sm font-semibold text-slate-900 group-hover:text-brand-blue-700 transition-colors flex items-center gap-1">
-                      {step.label}
-                      <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                    </span>
-                    <p className="text-xs text-slate-500 mt-0.5">{step.description}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
           {error && (
             <div className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-brand-red-600 flex-shrink-0 mt-0.5" />
