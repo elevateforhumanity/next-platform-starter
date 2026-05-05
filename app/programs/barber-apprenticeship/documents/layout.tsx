@@ -24,15 +24,16 @@ export default async function DocumentsLayout({
 
   const { data: enrollment } = await db
     .from('program_enrollments')
-    .select('id, status, orientation_completed_at, documents_submitted_at, programs(slug)')
+    .select('id, enrollment_state, payment_status, orientation_completed_at, documents_submitted_at')
     .eq('user_id', user.id)
+    .eq('program_slug', 'barber-apprenticeship')
     .order('created_at', { ascending: false })
     .limit(1)
-    .single();
+    .maybeSingle();
 
-  // No enrollment - redirect to program page
+  // No enrollment — redirect to apply
   if (!enrollment) {
-    redirect('/programs/barber-apprenticeship');
+    redirect('/programs/barber-apprenticeship/apply?type=apprentice');
   }
 
   // Must complete orientation first
@@ -40,7 +41,7 @@ export default async function DocumentsLayout({
     redirect('/programs/barber-apprenticeship/orientation');
   }
 
-  // Already submitted documents - redirect to dashboard
+  // Already submitted documents — redirect to dashboard
   if (enrollment.documents_submitted_at) {
     redirect('/apprentice');
   }

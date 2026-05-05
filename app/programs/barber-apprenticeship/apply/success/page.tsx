@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CheckCircle, Scissors, Smartphone, LogIn } from 'lucide-react';
+import { CheckCircle, Scissors, LogIn } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -41,14 +41,14 @@ export default function BarberApplySuccessPage() {
           {/* Next steps */}
           <div className="space-y-3 mb-8">
             <Link
-              href="/pwa/barber"
+              href="/programs/barber-apprenticeship/orientation"
               className="w-full flex items-center justify-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-colors"
             >
-              <Smartphone className="w-5 h-5" />
-              Open Your Barber Dashboard
+              <Scissors className="w-5 h-5" />
+              Continue to Orientation
             </Link>
             <Link
-              href="/login"
+              href="/login?redirect=/programs/barber-apprenticeship/orientation"
               className="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-6 rounded-xl transition-colors"
             >
               <LogIn className="w-5 h-5" />
