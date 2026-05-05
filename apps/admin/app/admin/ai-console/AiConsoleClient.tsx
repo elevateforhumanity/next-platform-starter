@@ -179,8 +179,8 @@ export default function AiConsoleClient() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKey}
               placeholder="Ask about enrollments, revenue, students, compliance…"
-              rows={2}
-              className="flex-1 resize-none border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={4}
+              className="flex-1 resize-y border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[96px]"
             />
             <button
               onClick={send}
