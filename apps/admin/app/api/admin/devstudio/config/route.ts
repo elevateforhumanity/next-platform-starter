@@ -17,11 +17,12 @@ interface DevStudioConfigResponse {
   tabFiles: Record<string, string>;
 }
 
-function parseJsonSetting<T>(value: string | null | undefined, fallback: T): T {
+function parseJsonSetting<T>(value: string | null | undefined, fallback: T, key: string): T {
   if (!value) return fallback;
   try {
     return JSON.parse(value) as T;
-  } catch {
+  } catch (error) {
+    logger.warn(`[devstudio/config] failed to parse ${key}, using fallback`, error);
     return fallback;
   }
 }
@@ -79,25 +80,29 @@ export async function GET(req: NextRequest) {
 
     if (error) throw error;
 
-    const settings = new Map((data ?? []).map((r) => [r.key, r.value]));
+    const settings = new Map<string, string>((data ?? []).map((r) => [r.key, r.value ?? '']));
 
     const response: DevStudioConfigResponse = {
       quickCommands: parseJsonSetting<string[]>(
         settings.get('DEVSTUDIO_QUICK_COMMANDS_JSON'),
         fallback.quickCommands,
+        'DEVSTUDIO_QUICK_COMMANDS_JSON',
       ),
       workflowButtons: parseJsonSetting<DevStudioConfigResponse['workflowButtons']>(
         settings.get('DEVSTUDIO_WORKFLOW_BUTTONS_JSON'),
         fallback.workflowButtons,
+        'DEVSTUDIO_WORKFLOW_BUTTONS_JSON',
       ),
       defaultPreviewUrl: settings.get('DEVSTUDIO_DEFAULT_PREVIEW_URL') || fallback.defaultPreviewUrl,
       previewTargets: parseJsonSetting<DevStudioConfigResponse['previewTargets']>(
         settings.get('DEVSTUDIO_PREVIEW_TARGETS_JSON'),
         fallback.previewTargets,
+        'DEVSTUDIO_PREVIEW_TARGETS_JSON',
       ),
       tabFiles: parseJsonSetting<Record<string, string>>(
         settings.get('DEVSTUDIO_TAB_FILES_JSON'),
         fallback.tabFiles,
+        'DEVSTUDIO_TAB_FILES_JSON',
       ),
     };
 
