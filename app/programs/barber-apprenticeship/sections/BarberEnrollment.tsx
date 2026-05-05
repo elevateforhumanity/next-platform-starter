@@ -207,7 +207,7 @@ export function BarberEnrollment() {
             </Link>
           </div>
           <div className="flex flex-wrap gap-3 justify-center mb-6">
-            <Link href="/pay" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-semibold transition-all border border-white/30">
+            <Link href="/programs/barber-apprenticeship/payment-setup" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-semibold transition-all border border-white/30">
               <CreditCard className="w-4 h-4" /> BNPL Options
             </Link>
             <Link href="/support" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-semibold transition-all border border-white/30">

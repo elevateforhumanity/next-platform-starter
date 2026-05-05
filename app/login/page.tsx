@@ -202,7 +202,6 @@ function LoginForm() {
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { label: 'Student Portal', dest: '/learner/dashboard' },
-                  { label: 'Admin Portal', dest: '/admin/dashboard' },
                   { label: 'Program Holder', dest: '/program-holder/dashboard' },
                   { label: 'Instructor', dest: '/instructor/dashboard' },
                   { label: 'Employer', dest: '/employer/dashboard' },
@@ -223,6 +222,13 @@ function LoginForm() {
                     {item.label}
                   </Link>
                 ))}
+                {/* Admin portal lives on app.elevateforhumanity.org — never on the LMS */}
+                <a
+                  href="https://app.elevateforhumanity.org/login"
+                  className="text-center px-4 py-3 bg-slate-900 text-white rounded-lg hover:bg-slate-700 transition-all text-sm font-semibold min-h-[44px] inline-flex items-center justify-center col-span-2"
+                >
+                  Admin Portal →
+                </a>
               </div>
             </div>
           </div>

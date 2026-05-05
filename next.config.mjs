@@ -463,7 +463,7 @@ const nextConfig = {
 
       // Mentor / Mentorship
       { source: '/mentor', destination: '/mentor/dashboard', permanent: false },
-      { source: '/mentor/apply', destination: '/mentorship', permanent: true },
+      { source: '/mentor/apply', destination: '/mentor', permanent: true },
       { source: '/mentorship/apply', destination: '/apply', permanent: true },
 
       // Partner (app-side) - skip /partner-with-us and /partners intermediaries
@@ -570,7 +570,7 @@ const nextConfig = {
       },
       {
         source: '/images/efh/hero/hero-main.jpg',
-        destination: '/images/efh/hero/hero-main-clean.jpg',
+        destination: '/images/hero/hero-main-welcome.jpg',
         permanent: true,
       },
       // /client-portal → /learner/dashboard (SaaS portal page removed)
@@ -646,7 +646,7 @@ const nextConfig = {
       { source: '/tax-filing/:path*', destination: '/tax/:path*', permanent: true },
       { source: '/tax-services/:path*', destination: '/tax/:path*', permanent: true },
       { source: '/tax-software/:path*', destination: '/tax/:path*', permanent: true },
-      { source: '/supersonic-fast-cash/:path*', destination: '/tax', permanent: false },
+      { source: '/supersonic-fast-cash/:path*', destination: '/programs/tax-preparation', permanent: false },
 
       // Program consolidation
       { source: '/programs-catalog/:path*', destination: '/programs/:path*', permanent: true },
@@ -837,7 +837,7 @@ const nextConfig = {
       { source: '/partners/technology', destination: '/partners', permanent: false },
       // /partners/workforce → /partners
       { source: '/fssa-partnership-request', destination: '/contact', permanent: false },
-      { source: '/pay', destination: '/apply', permanent: false },
+
       { source: '/enroll', destination: '/apply', permanent: false },
       // NOTE: /enroll/:path* wildcard intentionally omitted here.
       // Specific /enroll/* overrides are declared in the ENROLL/APPLY CONSOLIDATION
@@ -868,7 +868,7 @@ const nextConfig = {
       { source: '/certiport-exam', destination: '/testing', permanent: false },
       { source: '/microclasses', destination: '/programs', permanent: false },
       { source: '/outcomes/indiana', destination: '/about', permanent: false },
-      { source: '/orientation', destination: '/apply', permanent: false },
+      { source: '/orientation', destination: '/onboarding/learner', permanent: false },
       { source: '/help/:path*', destination: '/support', permanent: false },
       { source: '/compliance', destination: '/disclosures', permanent: false },
       { source: '/credentials', destination: '/programs', permanent: false },
@@ -908,8 +908,8 @@ const nextConfig = {
 
       // Store / platform aliases
       { source: '/store/demo', destination: '/store', permanent: true },
-      { source: '/store/orders', destination: '/shop/orders', permanent: true },
-      { source: '/platform/licensing', destination: '/licensing-partnerships', permanent: true },
+      { source: '/store/orders', destination: '/store', permanent: true },
+      { source: '/platform/licensing', destination: '/licensing', permanent: true },
       { source: '/chat', destination: '/support/chat', permanent: true },
       { source: '/certificates/verify', destination: '/cert/verify', permanent: true },
 

@@ -292,7 +292,29 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
                   <p className="text-sm text-slate-600">We&apos;ll contact you when the next cohort opens or when a host shop spot becomes available.</p>
                 </div>
               ) : (
-                <form onSubmit={(e) => { e.preventDefault(); setWaitlistSubmitted(true); }} className="space-y-4">
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  try {
+                    const [firstName, ...rest] = waitlistName.trim().split(' ');
+                    const res = await fetch('/api/waitlist', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        firstName: firstName || waitlistName,
+                        lastName: rest.join(' ') || '',
+                        email: waitlistEmail,
+                        phone: waitlistPhone,
+                        programSlug: 'barber-apprenticeship',
+                        notes: waitlistType === 'shop' ? 'Interested as partner shop' : undefined,
+                      }),
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.error || 'Failed to join waitlist');
+                    setWaitlistSubmitted(true);
+                  } catch (err: any) {
+                    alert(err.message || 'Something went wrong. Please try again.');
+                  }
+                }} className="space-y-4">
                   <h3 className="font-semibold text-slate-900">Waiting List Signup</h3>
                   <div className="flex gap-3">
                     <button type="button" onClick={() => setWaitlistType('apprentice')}

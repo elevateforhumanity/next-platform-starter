@@ -14,6 +14,7 @@ import {
   StatusBadge,
 } from '@/components/admin/AdminPageShell';
 import { FollowUpBlastButton } from '@/components/admin/FollowUpBlastButton';
+import { BulkOnboardingButton } from '@/components/admin/BulkOnboardingButton';
 import ApplicationsTableClient from './ApplicationsTableClient';
 import type { ApplicationRow } from './ApplicationsTableClient';
 
@@ -95,6 +96,14 @@ export default async function ApplicationsPage({
   const totalPages = Math.ceil((totalCount || 0) / pageSize);
   const pending = (statusCounts['pending'] || 0) + (statusCounts['submitted'] || 0);
 
+  // Count guest apps with no onboarding email sent
+  const { count: guestPendingCount } = await adminDb
+    .from('applications')
+    .select('id', { count: 'exact', head: true })
+    .is('user_id', null)
+    .is('onboarding_sent_at', null)
+    .in('status', ['submitted', 'pending_admin_review', 'under_review', 'approved']);
+
   const baseHref = `/admin/applications${rawStatus && rawStatus !== 'all' ? `?status=${rawStatus}` : ''}${search ? `${rawStatus && rawStatus !== 'all' ? '&' : '?'}search=${search}` : ''}`;
 
   return (
@@ -125,7 +134,12 @@ export default async function ApplicationsPage({
         },
         { label: 'Rejected', value: statusCounts['rejected'] || 0, icon: XCircle, color: 'red' },
       ]}
-      actions={<FollowUpBlastButton pendingCount={pending} />}
+      actions={
+        <div className="flex items-center gap-2">
+          <BulkOnboardingButton guestCount={guestPendingCount ?? 0} />
+          <FollowUpBlastButton pendingCount={pending} />
+        </div>
+      }
     >
       {/* Filters */}
       <AdminFilterBar>

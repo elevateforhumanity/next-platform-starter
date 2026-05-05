@@ -9,6 +9,8 @@ import { ArrowLeft, Mail, Phone, MapPin, Calendar, Hash, BookOpen, Tag } from 'l
 import ApplicationActions from './ApplicationActions';
 import { resolveProgram } from '@/lib/programs/resolve';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
@@ -237,6 +239,27 @@ export default async function ReviewApplicationPage({
                 applicantName={displayName}
               />
             </div>
+
+            {/* Payment link — barber applicants with pending payment */}
+            {programSlug === 'barber-apprenticeship' && app.payment_status !== 'paid' && (
+              <div className="bg-amber-50 rounded-2xl shadow-sm border border-amber-200 p-6">
+                <h2 className="text-base font-bold text-slate-900 mb-1">Payment Pending</h2>
+                <p className="text-xs text-slate-500 mb-4">
+                  Send this link to the student to complete their barber program payment.
+                </p>
+                <a
+                  href={`${SITE_URL}/programs/barber-apprenticeship/apply?type=apprentice&payment=payment_plan&email=${encodeURIComponent(app.email || '')}&name=${encodeURIComponent(displayName)}&application_id=${id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full text-center py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-lg transition-colors"
+                >
+                  Open Payment Page ↗
+                </a>
+                <p className="text-xs text-slate-400 mt-2 break-all">
+                  {`/programs/barber-apprenticeship/apply?type=apprentice&payment=payment_plan&application_id=${id}`}
+                </p>
+              </div>
+            )}
 
             {/* Metadata */}
             <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">

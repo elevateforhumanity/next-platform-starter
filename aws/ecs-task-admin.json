@@ -483,6 +483,10 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GEMINI_API_KEY"
         },
         {
+          "name": "GROQ_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GROQ_API_KEY"
+        },
+        {
           "name": "GOOGLE_CLOUD_API_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GOOGLE_CLOUD_API_KEY"
         },

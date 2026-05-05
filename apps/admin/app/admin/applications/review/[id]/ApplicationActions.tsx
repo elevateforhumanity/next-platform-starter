@@ -26,7 +26,26 @@ export default function ApplicationActions({
   const [success, setSuccess] = useState<string | null>(null);
   const router = useRouter();
 
-  // Terminal states
+  const handleResendOnboarding = async () => {
+    setLoading('resend');
+    setError(null);
+    setSuccess(null);
+    try {
+      const res = await fetch(`/api/admin/applications/${applicationId}/resend-onboarding`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to resend');
+      setSuccess(`Onboarding email resent to ${data.email}`);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to resend onboarding email');
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  // Terminal states — show resend option for approved apps
   if (
     currentStatus === 'approved' ||
     currentStatus === 'converted' ||
@@ -34,8 +53,20 @@ export default function ApplicationActions({
     currentStatus === 'ready_to_enroll'
   ) {
     return (
-      <div className="text-sm text-brand-green-700 bg-brand-green-50 border border-brand-green-200 rounded-lg p-3">
-        This application has been approved. The student account and enrollment have been created.
+      <div className="space-y-3">
+        <div className="text-sm text-brand-green-700 bg-brand-green-50 border border-brand-green-200 rounded-lg p-3">
+          This application has been approved. The student account and enrollment have been created.
+        </div>
+        <button
+          onClick={handleResendOnboarding}
+          disabled={loading !== null}
+          className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors disabled:opacity-50"
+        >
+          <Mail className="w-4 h-4" />
+          {loading === 'resend' ? 'Sending…' : 'Resend Onboarding Email'}
+        </button>
+        {error && <p className="text-sm text-brand-red-600">{error}</p>}
+        {success && <p className="text-sm text-brand-green-600">{success}</p>}
       </div>
     );
   }

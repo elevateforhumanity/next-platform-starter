@@ -203,7 +203,27 @@ export async function approveApplication(
 
   if (assignedRole === 'student' && resolvedProgramId) {
     // Resolve course_id so the learner dashboard routes to the LMS, not the marketing page.
-    const programSlug = app.program_slug ?? app.pathway_slug ?? null;
+    let programSlug = app.program_slug ?? app.pathway_slug ?? null;
+
+    // If program_slug is null but we have a program_id, look up the slug from the programs table.
+    // This prevents the upsert conflict key (user_id, program_slug) from silently failing
+    // when program_slug is null — NULL != NULL in SQL unique constraints.
+    if (!programSlug && resolvedProgramId) {
+      const { data: programRow } = await db
+        .from('programs')
+        .select('slug')
+        .eq('id', resolvedProgramId)
+        .maybeSingle();
+      if (programRow?.slug) {
+        programSlug = programRow.slug;
+        // Backfill the application so future runs don't hit this path
+        await db
+          .from('applications')
+          .update({ program_slug: programSlug })
+          .eq('id', applicationId);
+      }
+    }
+
     // Static fallback — runtime DB resolution happens in the LMS routing layer.
     const resolvedCourseId = programSlug ? resolveCourseId(programSlug) : null;
 
