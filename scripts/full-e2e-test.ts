@@ -5,7 +5,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
-const ADMIN_URL = process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://app.elevateforhumanity.org';
+const ADMIN_URL = process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://admin.elevateforhumanity.org';
 const SUPABASE_URL = 'https://cuxzzpsyufcewtmicszk.supabase.co';
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const ANON_KEY = process.env.SUPABASE_ANON_KEY!;

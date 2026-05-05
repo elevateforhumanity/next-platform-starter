@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ChevronDown } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -28,15 +28,21 @@ const TYPE_OPTIONS: { value: ApplicantType; label: string; desc: string }[] = [
 
 function BarberApplyPageInner() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [applicantType, setApplicantType] = useState<ApplicantType>('');
 
-  // Pre-select type from ?type= query param
+  // Redirect apprentice applicants to the canonical intake form.
+  // Partner shop and program holder types stay on this page (dedicated flows).
   useEffect(() => {
     const param = searchParams.get('type') as ApplicantType | null;
-    if (param && VALID_TYPES.includes(param)) {
+    if (!param || param === 'apprentice') {
+      router.replace('/apply?program=barber-apprenticeship');
+      return;
+    }
+    if (VALID_TYPES.includes(param)) {
       setApplicantType(param);
     }
-  }, [searchParams]);
+  }, [searchParams, router]);
 
   return (
     <div className="min-h-screen bg-white">

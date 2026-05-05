@@ -49,9 +49,9 @@ export type UserRole =
 export const ROLE_DESTINATIONS: Record<string, string> = {
   // ── Platform admins ───────────────────────────────────────────────
   // Admin roles always land on the admin app, never the LMS
-  super_admin: 'https://app.elevateforhumanity.org/admin/dashboard',
-  admin: 'https://app.elevateforhumanity.org/admin/dashboard',
-  org_admin: 'https://app.elevateforhumanity.org/admin/dashboard',
+  super_admin: 'https://admin.elevateforhumanity.org/admin/dashboard',
+  admin: 'https://admin.elevateforhumanity.org/admin/dashboard',
+  org_admin: 'https://admin.elevateforhumanity.org/admin/dashboard',
 
   // ── Internal Elevate staff ────────────────────────────────────────
   staff: '/staff-portal/dashboard',

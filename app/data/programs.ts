@@ -211,7 +211,7 @@ export const programs: Program[] = [
     ],
     ctaPrimary: {
       label: 'Apply & Enroll',
-      href: '/programs/barber-apprenticeship/apply',
+      href: '/apply?program=barber-apprenticeship',
     },
     ctaSecondary: {
       label: 'Request Information',

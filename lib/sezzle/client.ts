@@ -420,24 +420,15 @@ class SezzleClient {
 // Singleton instance
 export const sezzle = new SezzleClient();
 
-// Read from consolidated API_KEYS_JSON first, then individual env vars
-let _apiKeys: Record<string, string> = {};
-try {
-  const raw = process.env.API_KEYS_JSON;
-  if (raw) _apiKeys = JSON.parse(raw);
-} catch {
-  /* invalid JSON — fall through */
-}
+import { getSezzleConfig } from './env';
 
-const _sezzlePub = _apiKeys['SEZZLE_PUBLIC_KEY'] || process.env.SEZZLE_PUBLIC_KEY;
-const _sezzlePriv = _apiKeys['SEZZLE_PRIVATE_KEY'] || process.env.SEZZLE_PRIVATE_KEY;
-const _sezzleEnv = (process.env.SEZZLE_ENVIRONMENT as 'sandbox' | 'production') || 'production';
-
-if (_sezzlePub && _sezzlePriv) {
-  sezzle.configure({ publicKey: _sezzlePub, privateKey: _sezzlePriv, environment: _sezzleEnv });
+const _cfg = getSezzleConfig();
+if (_cfg.configured) {
+  sezzle.configure({ publicKey: _cfg.publicKey, privateKey: _cfg.privateKey, environment: _cfg.environment });
 } else {
-  const missing = [];
-  if (!_sezzlePub) missing.push('SEZZLE_PUBLIC_KEY');
-  if (!_sezzlePriv) missing.push('SEZZLE_PRIVATE_KEY');
+  const missing = [
+    !_cfg.publicKey && 'SEZZLE_PUBLIC_KEY / NEXT_PUBLIC_SEZZLE_PUBLIC_KEY',
+    !_cfg.privateKey && 'SEZZLE_PRIVATE_KEY',
+  ].filter(Boolean);
   logger.warn(`[Sezzle] Not configured - missing: ${missing.join(', ')}`);
 }

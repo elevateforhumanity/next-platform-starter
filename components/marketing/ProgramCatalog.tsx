@@ -20,7 +20,7 @@ const programs = [
       'Earn while you learn in real barbershops while stacking hours toward licensure and long-term income.',
     meta: 'Hours-based · Barber',
     href: '/programs/barber-apprenticeship',
-    applyHref: '/programs/barber-apprenticeship/apply',
+    applyHref: '/apply?program=barber-apprenticeship',
     funding: 'Fee-Based · $4,980',
     price: '$4,980',
   },

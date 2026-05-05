@@ -12,7 +12,7 @@ export default async function AdminCatchAll({
 }) {
   const { path } = await params;
   const adminBase =
-    process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org';
+    process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org';
   const subPath = path?.length ? `/${path.join('/')}` : '/dashboard';
   redirect(`${adminBase}/admin${subPath}`);
 }

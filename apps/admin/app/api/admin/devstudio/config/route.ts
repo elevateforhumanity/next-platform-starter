@@ -107,8 +107,8 @@ export async function GET(req: NextRequest) {
     defaultPreviewUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',
     previewTargets: [
       { label: 'Public', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org' },
-      { label: 'Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org' },
-      { label: 'LMS', url: process.env.NEXT_PUBLIC_LMS_URL || 'https://app.elevateforhumanity.org/lms' },
+      { label: 'Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org' },
+      { label: 'LMS', url: process.env.NEXT_PUBLIC_LMS_URL || 'https://admin.elevateforhumanity.org/lms' },
     ],
     tabFiles: {
       command: 'command.sh',

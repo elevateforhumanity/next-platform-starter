@@ -76,10 +76,17 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Create lead
+    // Split full_name for NOT NULL first_name / last_name columns on leads table
+    const leadNameParts = body.full_name.trim().split(' ');
+    const leadFirstName = leadNameParts[0] || body.full_name.trim();
+    const leadLastName = leadNameParts.slice(1).join(' ') || '';
+
     const { data: lead, error: leadError } = await supabase
       .from('leads')
       .insert({
         full_name: body.full_name.trim(),
+        first_name: leadFirstName,
+        last_name: leadLastName,
         email: normalizedEmail,
         phone: body.phone?.trim() || null,
         program_interest: body.program_interest || null,

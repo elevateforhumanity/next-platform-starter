@@ -872,11 +872,11 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     },
     {
       label: 'Admin',
-      url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://app.elevateforhumanity.org',
+      url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org',
     },
     {
       label: 'LMS',
-      url: process.env.NEXT_PUBLIC_LMS_URL || 'https://app.elevateforhumanity.org/lms',
+      url: process.env.NEXT_PUBLIC_LMS_URL || 'https://admin.elevateforhumanity.org/lms',
     },
   ];
 

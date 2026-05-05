@@ -80,7 +80,7 @@ export default async function SubOfficesPage() {
             Home
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href="https://app.elevateforhumanity.org/admin/dashboard" className="hover:text-orange-600">
+          <Link href="https://admin.elevateforhumanity.org/admin/dashboard" className="hover:text-orange-600">
             Admin
           </Link>
           <ChevronRight className="w-4 h-4" />

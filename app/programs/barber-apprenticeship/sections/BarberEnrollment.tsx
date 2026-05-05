@@ -85,7 +85,7 @@ export function BarberEnrollment() {
                 ))}
               </ul>
               <div className="flex flex-wrap gap-3">
-                <Link href="/programs/barber-apprenticeship/apply?type=partner_shop" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm">
+                <Link href="/partners/barbershop-apprenticeship/apply" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm">
                   Apply as Partner Shop <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link href="/programs/barber-apprenticeship/host-shops" className="inline-flex items-center gap-2 border-2 border-slate-300 hover:border-brand-blue-400 text-slate-700 font-bold px-6 py-3 rounded-xl transition-colors text-sm">
@@ -199,10 +199,10 @@ export function BarberEnrollment() {
             Pay in full, use a payment plan, or apply for Buy Now Pay Later with {BNPL_PROVIDER_NAMES}.
           </p>
           <div className="flex flex-wrap gap-4 justify-center mb-6">
-            <Link href="/programs/barber-apprenticeship/apply" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
+            <Link href="/apply?program=barber-apprenticeship" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
               Join Waitlist <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/programs/barber-apprenticeship/apply?type=partner_shop" className="inline-flex items-center gap-2 bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
+            <Link href="/partners/barbershop-apprenticeship/apply" className="inline-flex items-center gap-2 bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
               <Building2 className="w-5 h-5" /> Apply as Partner Shop
             </Link>
           </div>

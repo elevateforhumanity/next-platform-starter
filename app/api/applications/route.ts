@@ -476,7 +476,7 @@ async function _POST(req: Request) {
           ${body.caseManagerAgency ? `<p><strong>Agency:</strong> ${body.caseManagerAgency}</p>` : ''}
           ${body.supportNeeds ? `<p><strong>Support Needs:</strong> ${body.supportNeeds}</p>` : ''}
           <div style="text-align:center;margin:24px 0;">
-            <a href="https://app.elevateforhumanity.org/admin/applications/review/${data.id}" style="display:inline-block;background:#16a34a;color:#fff;padding:14px 32px;text-decoration:none;border-radius:8px;font-weight:700;font-size:15px;">Review &amp; Enroll →</a>
+            <a href="https://admin.elevateforhumanity.org/admin/applications/review/${data.id}" style="display:inline-block;background:#16a34a;color:#fff;padding:14px 32px;text-decoration:none;border-radius:8px;font-weight:700;font-size:15px;">Review &amp; Enroll →</a>
           </div>
           <p style="font-size:12px;color:#6b7280;text-align:center;">Application ID: ${data.id}</p>
         `,

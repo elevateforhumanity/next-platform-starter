@@ -72,7 +72,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
               This is a new DOL Registered Apprenticeship program currently rolling out in the Indianapolis metro area.
               We are actively seeking licensed barbershops to partner as host training sites. Apprentice spots are limited —
               there is a waiting list. Sign up below to reserve your place or{' '}
-              <Link href="/programs/barber-apprenticeship/apply?type=partner_shop" className="underline font-medium">apply as a partner barbershop</Link>.
+              <Link href="/partners/barbershop-apprenticeship/apply" className="underline font-medium">apply as a partner barbershop</Link>.
             </p>
           </div>
         </div>
@@ -188,7 +188,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
                 BNPL payment plans available.
               </p>
               <Link
-                href="/programs/barber-apprenticeship/apply"
+                href="/apply?program=barber-apprenticeship"
                 className="inline-block bg-brand-red-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-brand-red-700 transition-colors"
               >
                 Apply to Enroll

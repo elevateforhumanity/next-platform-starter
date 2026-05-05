@@ -58,7 +58,7 @@ export default function LoginForm() {
         profile?.role === 'super_admin' ||
         profile?.role === 'org_admin'
       ) {
-        window.location.href = 'https://app.elevateforhumanity.org/admin/dashboard';
+        window.location.href = 'https://admin.elevateforhumanity.org/admin/dashboard';
       } else if (profile?.role === 'employer') {
         router.push(onboardingDone ? '/employer/dashboard' : '/onboarding/employer');
       } else if (profile?.role === 'staff') {

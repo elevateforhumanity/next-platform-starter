@@ -83,7 +83,7 @@ export default function EditorClient() {
   // Bottom panel
   const [bottomTab, setBottomTab] = useState<Tab>('terminal');
   const [previewUrl, setPreviewUrl] = useState(
-    process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://app.elevateforhumanity.org',
+    process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://admin.elevateforhumanity.org',
   );
   const [previewKey, setPreviewKey] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
