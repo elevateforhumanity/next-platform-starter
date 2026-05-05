@@ -51,92 +51,12 @@
       ],
       "secrets": [
         {
-          "name": "NEXT_PUBLIC_SUPABASE_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_URL"
+          "name": "ADMIN_ALERT_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/ADMIN_ALERT_EMAIL"
         },
         {
-          "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY"
-        },
-        {
-          "name": "SUPABASE_SERVICE_ROLE_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_ROLE_KEY"
-        },
-        {
-          "name": "NEXT_PUBLIC_SITE_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SITE_URL"
-        },
-        {
-          "name": "STRIPE_SECRET_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_SECRET_KEY"
-        },
-        {
-          "name": "STRIPE_WEBHOOK_SECRET",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_WEBHOOK_SECRET"
-        },
-        {
-          "name": "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"
-        },
-        {
-          "name": "OPENAI_API_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/OPENAI_API_KEY"
-        },
-        {
-          "name": "SENDGRID_API_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_API_KEY"
-        },
-        {
-          "name": "CRON_SECRET",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CRON_SECRET"
-        },
-        {
-          "name": "UPSTASH_REDIS_REST_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_URL"
-        },
-        {
-          "name": "UPSTASH_REDIS_REST_TOKEN",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_TOKEN"
-        },
-        {
-          "name": "CLOUDFLARE_ACCOUNT_ID",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_ACCOUNT_ID"
-        },
-        {
-          "name": "CLOUDFLARE_R2_ACCESS_KEY_ID",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_R2_ACCESS_KEY_ID"
-        },
-        {
-          "name": "CLOUDFLARE_R2_SECRET_ACCESS_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_R2_SECRET_ACCESS_KEY"
-        },
-        {
-          "name": "DID_API_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/DID_API_KEY"
-        },
-        {
-          "name": "TWILIO_ACCOUNT_SID",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_ACCOUNT_SID"
-        },
-        {
-          "name": "TWILIO_AUTH_TOKEN",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_AUTH_TOKEN"
-        },
-        {
-          "name": "TWILIO_PHONE_NUMBER",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_PHONE_NUMBER"
-        },
-        {
-          "name": "NEXTAUTH_SECRET",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXTAUTH_SECRET"
-        },
-        {
-          "name": "TWILIO_API_KEY_SID",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_API_KEY_SID"
-        },
-        {
-          "name": "TWILIO_API_KEY_SECRET",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_API_KEY_SECRET"
+          "name": "ADMIN_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/ADMIN_EMAIL"
         },
         {
           "name": "AFFIRM_ENVIRONMENT",
@@ -157,6 +77,10 @@
         {
           "name": "ALERT_EMAIL_TO",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/ALERT_EMAIL_TO"
+        },
+        {
+          "name": "AUDIT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AUDIT_SECRET"
         },
         {
           "name": "AUTOMATION_ENABLE_TRIGGERS",
@@ -183,6 +107,14 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AZURE_AD_ENABLED"
         },
         {
+          "name": "BARBER_PROGRAM_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/BARBER_PROGRAM_ID"
+        },
+        {
+          "name": "CALENDLY_API_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CALENDLY_API_TOKEN"
+        },
+        {
           "name": "CALENDLY_WEBHOOK_SECRET",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CALENDLY_WEBHOOK_SECRET"
         },
@@ -195,8 +127,24 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CERTIPORT_API_BASE_URL"
         },
         {
+          "name": "CLOUDFLARE_ACCOUNT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_ACCOUNT_ID"
+        },
+        {
+          "name": "CLOUDFLARE_R2_ACCESS_KEY_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_R2_ACCESS_KEY_ID"
+        },
+        {
           "name": "CLOUDFLARE_R2_ENDPOINT",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_R2_ENDPOINT"
+        },
+        {
+          "name": "CLOUDFLARE_R2_SECRET_ACCESS_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CLOUDFLARE_R2_SECRET_ACCESS_KEY"
+        },
+        {
+          "name": "CRON_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CRON_SECRET"
         },
         {
           "name": "DATABASE_URL",
@@ -213,6 +161,10 @@
         {
           "name": "DEPLOY_URL",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/DEPLOY_URL"
+        },
+        {
+          "name": "DID_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/DID_API_KEY"
         },
         {
           "name": "DOCUMENT_RETENTION_DAYS",
@@ -243,6 +195,10 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/ENABLE_TEST_LOGGING"
         },
         {
+          "name": "GEMINI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GEMINI_API_KEY"
+        },
+        {
           "name": "GITHUB_CLIENT_ID",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_CLIENT_ID"
         },
@@ -255,12 +211,28 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_TOKEN"
         },
         {
+          "name": "GOOGLE_CLOUD_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GOOGLE_CLOUD_API_KEY"
+        },
+        {
           "name": "GOOGLE_OAUTH_ENABLED",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GOOGLE_OAUTH_ENABLED"
         },
         {
+          "name": "GROQ_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GROQ_API_KEY"
+        },
+        {
+          "name": "HEYGEN_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/HEYGEN_API_KEY"
+        },
+        {
           "name": "HSI_API_BASE_URL",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/HSI_API_BASE_URL"
+        },
+        {
+          "name": "INTERNAL_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/INTERNAL_API_KEY"
         },
         {
           "name": "IRS_EFIN",
@@ -287,8 +259,32 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/LINKEDIN_CLIENT_SECRET"
         },
         {
+          "name": "MOU_ARCHIVE_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/MOU_ARCHIVE_EMAIL"
+        },
+        {
+          "name": "NEXTAUTH_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXTAUTH_SECRET"
+        },
+        {
           "name": "NEXTAUTH_URL",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXTAUTH_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_ADMIN_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_ADMIN_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_AFFIRM_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_AFFIRM_PUBLIC_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_CALENDLY_30MIN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_CALENDLY_30MIN"
+        },
+        {
+          "name": "NEXT_PUBLIC_CALENDLY_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_CALENDLY_URL"
         },
         {
           "name": "NEXT_PUBLIC_GA_MEASUREMENT_ID",
@@ -299,20 +295,72 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_GITHUB_ENABLED"
         },
         {
+          "name": "NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER"
+        },
+        {
+          "name": "NEXT_PUBLIC_RAPIDS_SPONSOR_NAME",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_RAPIDS_SPONSOR_NAME"
+        },
+        {
+          "name": "NEXT_PUBLIC_RTI_PROVIDER_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_RTI_PROVIDER_ID"
+        },
+        {
           "name": "NEXT_PUBLIC_SCORM_CDN_URL",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SCORM_CDN_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_SENTRY_DSN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SENTRY_DSN"
         },
         {
           "name": "NEXT_PUBLIC_SEZZLE_ENVIRONMENT",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SEZZLE_ENVIRONMENT"
         },
         {
+          "name": "NEXT_PUBLIC_SEZZLE_MERCHANT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SEZZLE_MERCHANT_ID"
+        },
+        {
+          "name": "NEXT_PUBLIC_SEZZLE_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SEZZLE_PUBLIC_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_SITE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SITE_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_VAPID_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_VAPID_PUBLIC_KEY"
+        },
+        {
           "name": "NHA_PORTAL_URL",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NHA_PORTAL_URL"
         },
         {
+          "name": "OPENAI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/OPENAI_API_KEY"
+        },
+        {
           "name": "PARTNER_WEBHOOK_SECRET",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/PARTNER_WEBHOOK_SECRET"
+        },
+        {
+          "name": "PEXELS_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/PEXELS_API_KEY"
         },
         {
           "name": "R2_BUCKET",
@@ -321,6 +369,10 @@
         {
           "name": "R2_ENDPOINT",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/R2_ENDPOINT"
+        },
+        {
+          "name": "REPLY_TO_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/REPLY_TO_EMAIL"
         },
         {
           "name": "RESEND_API_KEY",
@@ -347,8 +399,28 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SAM_API_KEY"
         },
         {
+          "name": "SENDGRID_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_API_KEY"
+        },
+        {
           "name": "SENDGRID_FROM",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_FROM"
+        },
+        {
+          "name": "SENTRY_AUTH_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_AUTH_TOKEN"
+        },
+        {
+          "name": "SENTRY_DSN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_DSN"
+        },
+        {
+          "name": "SENTRY_ORG",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_ORG"
+        },
+        {
+          "name": "SENTRY_PROJECT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_PROJECT"
         },
         {
           "name": "SESSION_SECRET",
@@ -359,12 +431,28 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_ENVIRONMENT"
         },
         {
+          "name": "SEZZLE_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_PRIVATE_KEY"
+        },
+        {
           "name": "SEZZLE_PUBLIC_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_PUBLIC_KEY"
         },
         {
-          "name": "SEZZLE_PRIVATE_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_PRIVATE_KEY"
+          "name": "SEZZLE_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_WEBHOOK_SECRET"
+        },
+        {
+          "name": "SLACK_ALERT_WEBHOOK",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_ALERT_WEBHOOK"
+        },
+        {
+          "name": "SLACK_SECURITY_WEBHOOK",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_SECURITY_WEBHOOK"
+        },
+        {
+          "name": "SLACK_WEBHOOK_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_WEBHOOK_URL"
         },
         {
           "name": "SMTP_FROM",
@@ -407,6 +495,46 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SOCIAL_MEDIA_YOUTUBE_ENABLED"
         },
         {
+          "name": "SPONSOR_FINANCE_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SPONSOR_FINANCE_EMAIL"
+        },
+        {
+          "name": "SSN_SALT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SSN_SALT"
+        },
+        {
+          "name": "STRIPE_PRICES_JSON",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICES_JSON"
+        },
+        {
+          "name": "STRIPE_PRICE_BARBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BARBER"
+        },
+        {
+          "name": "STRIPE_PRICE_BARBER_SETUP_FEE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BARBER_SETUP_FEE"
+        },
+        {
+          "name": "STRIPE_PRICE_BARBER_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BARBER_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_BARBER_DEPOSIT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BOOTH_BARBER_DEPOSIT"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_BARBER_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BOOTH_BARBER_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_COSMO_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BOOTH_COSMO_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_NAIL_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BOOTH_NAIL_WEEKLY"
+        },
+        {
           "name": "STRIPE_PRICE_CR_ENTERPRISE",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_CR_ENTERPRISE"
         },
@@ -417,6 +545,14 @@
         {
           "name": "STRIPE_PUBLISHABLE_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PUBLISHABLE_KEY"
+        },
+        {
+          "name": "STRIPE_SECRET_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_SECRET_KEY"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_WEBHOOK_SECRET"
         },
         {
           "name": "STRIPE_WEBHOOK_SECRET_BARBER",
@@ -439,8 +575,68 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_WEBHOOK_SECRET_SUPERSONIC"
         },
         {
+          "name": "SUPABASE_SERVICE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_KEY"
+        },
+        {
+          "name": "SUPABASE_SERVICE_ROLE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_ROLE_KEY"
+        },
+        {
+          "name": "SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_URL"
+        },
+        {
           "name": "Sam_API_Key",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/Sam_API_Key"
+        },
+        {
+          "name": "TWILIO_ACCOUNT_SID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_ACCOUNT_SID"
+        },
+        {
+          "name": "TWILIO_API_KEY_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_API_KEY_SECRET"
+        },
+        {
+          "name": "TWILIO_API_KEY_SID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_API_KEY_SID"
+        },
+        {
+          "name": "TWILIO_AUTH_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_AUTH_TOKEN"
+        },
+        {
+          "name": "TWILIO_PHONE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_PHONE"
+        },
+        {
+          "name": "TWILIO_PHONE_NUMBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_PHONE_NUMBER"
+        },
+        {
+          "name": "TWILIO_SID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_SID"
+        },
+        {
+          "name": "UPSTASH_REDIS_REST_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_TOKEN"
+        },
+        {
+          "name": "UPSTASH_REDIS_REST_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/UPSTASH_REDIS_REST_URL"
+        },
+        {
+          "name": "VAPID_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/VAPID_PRIVATE_KEY"
+        },
+        {
+          "name": "VAPID_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/VAPID_PUBLIC_KEY"
+        },
+        {
+          "name": "VAPID_SUBJECT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/VAPID_SUBJECT"
         },
         {
           "name": "affirm_private_api_key",
@@ -449,82 +645,6 @@
         {
           "name": "affirm_public_api_key",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/affirm_public_api_key"
-        },
-        {
-          "name": "VAPID_PUBLIC_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/VAPID_PUBLIC_KEY"
-        },
-        {
-          "name": "VAPID_PRIVATE_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/VAPID_PRIVATE_KEY"
-        },
-        {
-          "name": "VAPID_SUBJECT",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/VAPID_SUBJECT"
-        },
-        {
-          "name": "NEXT_PUBLIC_VAPID_PUBLIC_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_VAPID_PUBLIC_KEY"
-        },
-        {
-          "name": "TWILIO_PHONE",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_PHONE"
-        },
-        {
-          "name": "TWILIO_SID",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TWILIO_SID"
-        },
-        {
-          "name": "SLACK_WEBHOOK_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_WEBHOOK_URL"
-        },
-        {
-          "name": "SLACK_ALERT_WEBHOOK",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_ALERT_WEBHOOK"
-        },
-        {
-          "name": "SLACK_SECURITY_WEBHOOK",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SLACK_SECURITY_WEBHOOK"
-        },
-        {
-          "name": "GEMINI_API_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GEMINI_API_KEY"
-        },
-        {
-          "name": "GOOGLE_CLOUD_API_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GOOGLE_CLOUD_API_KEY"
-        },
-        {
-          "name": "HEYGEN_API_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/HEYGEN_API_KEY"
-        },
-        {
-          "name": "SENTRY_DSN",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_DSN"
-        },
-        {
-          "name": "NEXT_PUBLIC_SENTRY_DSN",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SENTRY_DSN"
-        },
-        {
-          "name": "SENTRY_AUTH_TOKEN",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_AUTH_TOKEN"
-        },
-        {
-          "name": "SENTRY_ORG",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_ORG"
-        },
-        {
-          "name": "SENTRY_PROJECT",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENTRY_PROJECT"
-        },
-        {
-          "name": "SUPABASE_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_URL"
-        },
-        {
-          "name": "SUPABASE_SERVICE_KEY",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_KEY"
         }
       ],
       "logConfiguration": {

@@ -23,6 +23,18 @@ phases:
       - export NEXT_PUBLIC_ADMIN_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_ADMIN_URL --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export NEXT_PUBLIC_SEZZLE_MERCHANT_ID=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_MERCHANT_ID --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export NEXT_PUBLIC_SEZZLE_PUBLIC_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_PUBLIC_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_SEZZLE_ENVIRONMENT=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_ENVIRONMENT --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_AFFIRM_PUBLIC_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_AFFIRM_PUBLIC_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_CALENDLY_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_CALENDLY_URL --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_CALENDLY_30MIN=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_CALENDLY_30MIN --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_GA_MEASUREMENT_ID=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_GA_MEASUREMENT_ID --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_SENTRY_DSN=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SENTRY_DSN --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_VAPID_PUBLIC_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_VAPID_PUBLIC_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_RAPIDS_SPONSOR_NAME=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_RAPIDS_SPONSOR_NAME --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_RTI_PROVIDER_ID=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_RTI_PROVIDER_ID --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_SCORM_CDN_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SCORM_CDN_URL --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_GITHUB_ENABLED=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_GITHUB_ENABLED --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
 
   build:
     commands:
