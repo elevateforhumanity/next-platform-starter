@@ -46,6 +46,8 @@ export default function DeployClient() {
   const [deployments, setDeployments] = useState<Deployment[]>([]);
   const [loading, setLoading] = useState(true);
   const [deploying, setDeploying] = useState<string | null>(null);
+  const [savingKey, setSavingKey] = useState(false);
+  const [hasSavedApiKey, setHasSavedApiKey] = useState(false);
   const [config, setConfig] = useState({
     apiKey: '',
     model: 'gpt-4',
@@ -55,6 +57,7 @@ export default function DeployClient() {
 
   useEffect(() => {
     fetchDeployments();
+    fetchSavedApiKeyState();
   }, []);
 
   const fetchDeployments = async () => {
@@ -69,6 +72,57 @@ export default function DeployClient() {
     }
   };
 
+  const fetchSavedApiKeyState = async () => {
+    try {
+      const res = await fetch('/api/admin/env-vars');
+      const data = await res.json();
+      if (!res.ok) return;
+      const openAiKey = Array.isArray(data.settings)
+        ? data.settings.find((row: { key?: string; value?: string }) => row.key === 'OPENAI_API_KEY')
+        : null;
+      setHasSavedApiKey(Boolean(openAiKey?.value));
+    } catch {
+      // no-op; deploy API will still return explicit errors
+    }
+  };
+
+  const saveApiKey = async () => {
+    if (!config.apiKey.trim()) {
+      setMessage({ type: 'error', text: 'Enter an API key to save.' });
+      return false;
+    }
+    setSavingKey(true);
+    setMessage(null);
+    try {
+      const res = await fetch('/api/admin/env-vars', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entries: [
+            { key: 'OPENAI_API_KEY', value: config.apiKey.trim() },
+            { key: 'AI_PROVIDER', value: 'openai' },
+          ],
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to save API key');
+      }
+      setHasSavedApiKey(true);
+      setConfig((prev) => ({ ...prev, apiKey: '' }));
+      setMessage({ type: 'success', text: 'API key saved successfully.' });
+      return true;
+    } catch (error) {
+      setMessage({
+        type: 'error',
+        text: error instanceof Error ? error.message : 'Failed to save API key',
+      });
+      return false;
+    } finally {
+      setSavingKey(false);
+    }
+  };
+
   const getDeploymentStatus = (type: string): Deployment | undefined => {
     return deployments.find(
       (d) => d.copilot_type === type && (d.status === 'active' || d.status === 'deploying'),
@@ -76,9 +130,14 @@ export default function DeployClient() {
   };
 
   const handleDeploy = async (option: DeploymentOption) => {
-    if (!config.apiKey) {
-      setMessage({ type: 'error', text: 'Please enter an API key before deploying' });
+    if (!hasSavedApiKey && !config.apiKey.trim()) {
+      setMessage({ type: 'error', text: 'Save an API key before deploying.' });
       return;
+    }
+
+    if (!hasSavedApiKey && config.apiKey.trim()) {
+      const saved = await saveApiKey();
+      if (!saved) return;
     }
 
     setDeploying(option.type);
@@ -108,7 +167,10 @@ export default function DeployClient() {
       // Refresh deployments after a delay to get updated status
       setTimeout(fetchDeployments, 2500);
     } catch (error) {
-      setMessage({ type: 'error', text: 'An error occurred' });
+      setMessage({
+        type: 'error',
+        text: error instanceof Error ? error.message : 'Deployment failed',
+      });
     } finally {
       setDeploying(null);
     }
@@ -136,7 +198,10 @@ export default function DeployClient() {
       setMessage({ type: 'success', text: data.message });
       fetchDeployments();
     } catch (error) {
-      setMessage({ type: 'error', text: 'An error occurred' });
+      setMessage({
+        type: 'error',
+        text: error instanceof Error ? error.message : 'Action failed',
+      });
     }
   };
 
@@ -157,7 +222,10 @@ export default function DeployClient() {
       setMessage({ type: 'success', text: 'Deployment removed' });
       fetchDeployments();
     } catch (error) {
-      setMessage({ type: 'error', text: 'An error occurred' });
+      setMessage({
+        type: 'error',
+        text: error instanceof Error ? error.message : 'Removal failed',
+      });
     }
   };
 
@@ -281,14 +349,26 @@ export default function DeployClient() {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-2">API Key</label>
-            <input
-              type="password"
-              className="w-full border rounded-lg px-3 py-2"
-              placeholder="Enter your OpenAI API key"
-              value={config.apiKey}
-              onChange={(e) => setConfig({ ...config, apiKey: e.target.value })}
-            />
-            <p className="text-xs text-slate-700 mt-1">Required for AI features</p>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <input
+                type="password"
+                className="w-full border rounded-lg px-3 py-2"
+                placeholder={hasSavedApiKey ? 'API key already saved (enter to replace)' : 'Enter your OpenAI API key'}
+                value={config.apiKey}
+                onChange={(e) => setConfig({ ...config, apiKey: e.target.value })}
+              />
+              <button
+                type="button"
+                onClick={saveApiKey}
+                disabled={savingKey || !config.apiKey.trim()}
+                className="px-4 py-2 rounded-lg font-medium bg-brand-blue-600 text-white hover:bg-brand-blue-700 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              >
+                {savingKey ? 'Saving…' : 'Save Key'}
+              </button>
+            </div>
+            <p className="text-xs text-slate-700 mt-1">
+              Required for AI features {hasSavedApiKey ? '• Key saved' : '• No key saved'}
+            </p>
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-2">Model Selection</label>
