@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import { ArrowRight, Phone, Shield, CreditCard, DollarSign, Building2, Scissors } from 'lucide-react';
-import { ProgramTutorCTA } from '@/components/ProgramTutorCTA';
+import { ArrowRight, Shield, CreditCard, DollarSign, Scissors } from 'lucide-react';
 import { ENROLLMENT_STEPS, ELIGIBILITY } from '../barber-program-data';
-import { ACTIVE_BNPL_PROVIDERS, BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
+import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 
 export function BarberEnrollment() {
   return (
@@ -182,48 +181,6 @@ export function BarberEnrollment() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 border-t">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 bg-white text-amber-950 text-sm font-bold px-4 py-2 rounded-full mb-6">
-            <span className="w-2 h-2 bg-amber-900 rounded-full animate-pulse" />
-            Classes Starting Late May – Early June 2025
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-            Join the Waitlist
-          </h2>
-          <p className="text-xl text-slate-600 mb-4">
-            We are finalizing barbershop placement sites now. Submit your application to secure your spot — we will contact you as soon as placements are confirmed.
-          </p>
-          <p className="text-slate-500 mb-8">
-            Pay in full, use a payment plan, or apply for Buy Now Pay Later with {BNPL_PROVIDER_NAMES}.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center mb-6">
-            <Link href="/apply?program=barber-apprenticeship" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
-              Join Waitlist <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link href="/partners/barbershop-apprenticeship/apply" className="inline-flex items-center gap-2 bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
-              <Building2 className="w-5 h-5" /> Apply as Partner Shop
-            </Link>
-          </div>
-          <div className="flex flex-wrap gap-3 justify-center mb-6">
-            <Link href="/programs/barber-apprenticeship/payment-setup" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-semibold transition-all border border-white/30">
-              <CreditCard className="w-4 h-4" /> BNPL Options
-            </Link>
-            <Link href="/support" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-semibold transition-all border border-white/30">
-              <Phone className="w-4 h-4" /> (317) 314-3757
-            </Link>
-          </div>
-          <div className="mt-4 flex justify-center">
-            <ProgramTutorCTA
-              programSlug="barber-apprenticeship"
-              programName="Barber Apprenticeship"
-              applyHref="/apply?program=barber-apprenticeship"
-              suggestions={['How long is the apprenticeship?', 'What license will I earn?', 'Is funding available?', 'Can I work while enrolled?']}
-            />
-          </div>
-        </div>
-      </section>
     </>
   );
 }
