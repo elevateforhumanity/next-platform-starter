@@ -36,6 +36,11 @@ phases:
       - export NEXT_PUBLIC_SCORM_CDN_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SCORM_CDN_URL --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export NEXT_PUBLIC_GITHUB_ENABLED=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_GITHUB_ENABLED --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
 
+      # Private runtime (needed by server code that runs during next build static generation)
+      - export SUPABASE_SERVICE_ROLE_KEY=$(aws ssm get-parameter --name /elevate/SUPABASE_SERVICE_ROLE_KEY --with-decryption --query Parameter.Value --output text)
+      - export SSN_SALT=$(aws ssm get-parameter --name /elevate/SSN_SALT --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export SEZZLE_PRIVATE_KEY=$(aws ssm get-parameter --name /elevate/SEZZLE_PRIVATE_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+
   build:
     commands:
       - echo Installing dependencies...

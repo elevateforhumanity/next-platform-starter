@@ -13,14 +13,34 @@ phases:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - export IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
       - export COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+
+      # Required public (baked into Next.js bundle at build time)
       - export NEXT_PUBLIC_SUPABASE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_URL --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SUPABASE_ANON_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY --with-decryption --query Parameter.Value --output text)
-      - export SUPABASE_SERVICE_ROLE_KEY=$(aws ssm get-parameter --name /elevate/SUPABASE_SERVICE_ROLE_KEY --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SITE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SITE_URL --with-decryption --query Parameter.Value --output text)
-      - export NEXT_PUBLIC_ADMIN_URL="https://app.elevateforhumanity.org"
-      - export NEXT_PUBLIC_SEZZLE_MERCHANT_ID=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_MERCHANT_ID --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
-      - export NEXT_PUBLIC_SEZZLE_PUBLIC_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_PUBLIC_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY --with-decryption --query Parameter.Value --output text)
+
+      # Optional public
+      - export NEXT_PUBLIC_ADMIN_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_ADMIN_URL --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_SEZZLE_PUBLIC_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_PUBLIC_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_SEZZLE_MERCHANT_ID=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_MERCHANT_ID --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_SEZZLE_ENVIRONMENT=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_ENVIRONMENT --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_AFFIRM_PUBLIC_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_AFFIRM_PUBLIC_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_CALENDLY_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_CALENDLY_URL --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_CALENDLY_30MIN=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_CALENDLY_30MIN --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_GA_MEASUREMENT_ID=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_GA_MEASUREMENT_ID --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_SENTRY_DSN=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SENTRY_DSN --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_VAPID_PUBLIC_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_VAPID_PUBLIC_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_RAPIDS_SPONSOR_NAME=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_RAPIDS_SPONSOR_NAME --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_RTI_PROVIDER_ID=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_RTI_PROVIDER_ID --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_SCORM_CDN_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SCORM_CDN_URL --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export NEXT_PUBLIC_GITHUB_ENABLED=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_GITHUB_ENABLED --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+
+      # Private runtime (needed by server code that runs during next build static generation)
+      - export SUPABASE_SERVICE_ROLE_KEY=$(aws ssm get-parameter --name /elevate/SUPABASE_SERVICE_ROLE_KEY --with-decryption --query Parameter.Value --output text)
+      - export SSN_SALT=$(aws ssm get-parameter --name /elevate/SSN_SALT --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export SEZZLE_PRIVATE_KEY=$(aws ssm get-parameter --name /elevate/SEZZLE_PRIVATE_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
 
   build:
     commands:
