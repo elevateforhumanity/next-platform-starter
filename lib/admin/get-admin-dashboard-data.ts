@@ -130,12 +130,12 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
 
     db.from('program_enrollments')
       .select('id', { count: 'exact', head: true })
-      .eq('status', 'active'),
+      .eq('enrollment_state', 'active'),
 
     // Previous month active enrollments for delta
     db.from('program_enrollments')
       .select('id', { count: 'exact', head: true })
-      .eq('status', 'active')
+      .eq('enrollment_state', 'active')
       .lt('created_at', lastMonthEndS),
 
     // Revenue — PostgREST aggregate syntax not supported on this project version.
@@ -177,7 +177,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
 
     // Student status breakdown
     db.from('program_enrollments')
-      .select('status'),
+      .select('enrollment_state'),
 
     // Last month pending apps count for delta
     db.from('applications')
@@ -188,7 +188,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
 
     // Recent activity — last 20 enrollments + applications combined
     db.from('program_enrollments')
-      .select('id, user_id, created_at, status')
+      .select('id, user_id, created_at, enrollment_state')
       .order('created_at', { ascending: false })
       .limit(10),
 
@@ -355,11 +355,12 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     // no lesson_progress activity in 3+ days. Uses lesson_progress.updated_at
     // as the real activity signal — not enrollment.updated_at which reflects
     // admin edits, not learner activity.
+    // NOTE: program_enrollments uses enrollment_state not status.
     db.from('program_enrollments')
-      .select('id, user_id, enrolled_at')
-      .eq('status', 'active')
+      .select('id, user_id, program_id, enrolled_at, updated_at')
+      .eq('enrollment_state', 'active')
       .not('user_id', 'is', null)
-      .order('enrolled_at', { ascending: true })
+      .order('updated_at', { ascending: true })
       .limit(100),
 
     db.from('programs')
@@ -379,8 +380,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .limit(10),
 
     // enrollments_by_program: no join — FK points to wrong table (see above).
+    // NOTE: program_enrollments uses enrollment_state not status.
     db.from('program_enrollments')
-      .select('program_id, status')
+      .select('program_id, enrollment_state')
       .not('program_id', 'is', null)
       .limit(2000),
   ]);
@@ -461,7 +463,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   // ── Student status breakdown ──────────────────────────────────────────────
   const statusBuckets: Record<string, number> = {};
   for (const row of studentStatusesRes.data ?? []) {
-    const s = (row as any).status ?? 'unknown';
+    const s = (row as any).enrollment_state ?? 'unknown';
     statusBuckets[s] = (statusBuckets[s] ?? 0) + 1;
   }
   const studentStatuses: import('@/components/admin/dashboard/types').StatusPoint[] = Object.entries(statusBuckets)
@@ -750,7 +752,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   if (recentStudentIds.length > 0) {
     const { data: enrollmentRows } = await db
       .from('program_enrollments')
-      .select('user_id, program_id, status')
+      .select('user_id, program_id, enrollment_state')
       .in('user_id', recentStudentIds)
       .order('created_at', { ascending: false });
 
@@ -762,7 +764,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       if (uid && !seenUsers.has(uid)) {
         seenUsers.add(uid);
         programIdByUser[uid] = (row as any).program_id;
-        enrollStatusByUser[uid] = (row as any).status ?? null;
+        enrollStatusByUser[uid] = (row as any).enrollment_state ?? null;
       }
     }
     const uniqueProgramIds = [...new Set(Object.values(programIdByUser))].filter(Boolean);
@@ -798,7 +800,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     if (!pid) continue;
     if (!programTotals[pid]) programTotals[pid] = { total: 0, completed: 0 };
     programTotals[pid].total += 1;
-    if ((e as any).status === 'completed') programTotals[pid].completed += 1;
+    if ((e as any).enrollment_state === 'completed') programTotals[pid].completed += 1;
   }
 
   // Second pass: fetch program names for the top program IDs only.
