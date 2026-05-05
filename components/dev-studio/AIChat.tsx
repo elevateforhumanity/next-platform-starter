@@ -115,20 +115,20 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#0d1117]">
+    <div className="h-full flex flex-col bg-white">
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-2 border-b border-[#30363d] bg-[#161b22]">
-        <Sparkles className="w-4 h-4 text-[#a371f7]" />
-        <span className="text-sm font-medium text-[#c9d1d9]">AI Assistant</span>
+      <div className="flex items-center gap-2 px-4 py-2 border-b border-slate-200 bg-slate-50">
+        <Sparkles className="w-4 h-4 text-brand-blue-600" />
+        <span className="text-sm font-medium text-slate-700">AI Assistant</span>
       </div>
 
       {/* Messages */}
       <div className="flex-1 overflow-auto p-4 space-y-4">
         {messages.length === 0 ? (
           <div className="text-center py-8">
-            <Bot className="w-12 h-12 text-[#30363d] mx-auto mb-3" />
-            <p className="text-[#8b949e] text-sm mb-2">AI Assistant ready</p>
-            <p className="text-[#6e7681] text-xs">
+            <Bot className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+            <p className="text-slate-500 text-sm mb-2">AI Assistant ready</p>
+            <p className="text-slate-400 text-xs">
               Ask me to write code, explain something, or help debug
             </p>
           </div>
@@ -136,49 +136,49 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
           messages.map((msg, i) => (
             <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
               {msg.role === 'assistant' && (
-                <div className="w-7 h-7 rounded-full bg-[#a371f7] flex items-center justify-center flex-shrink-0">
+                <div className="w-7 h-7 rounded-full bg-brand-blue-600 flex items-center justify-center flex-shrink-0">
                   <Bot className="w-4 h-4 text-white" />
                 </div>
               )}
               <div
-                className={`max-w-[85%] ${msg.role === 'user' ? 'bg-[#238636]' : 'bg-[#21262d]'} rounded-lg p-3`}
+                className={`max-w-[85%] ${msg.role === 'user' ? 'bg-brand-blue-600' : 'bg-slate-100 border border-slate-200'} rounded-lg p-3`}
               >
                 {msg.role === 'assistant' ? (
                   <div className="space-y-2">
                     {extractCodeBlocks(msg.content).map((part, j) =>
                       part.type === 'code' ? (
                         <div key={j} className="relative">
-                          <div className="flex items-center justify-between bg-[#161b22] px-3 py-1 rounded-t border border-[#30363d] border-b-0">
-                            <span className="text-xs text-[#8b949e]">
+                          <div className="flex items-center justify-between bg-slate-50 px-3 py-1 rounded-t border border-slate-200 border-b-0">
+                            <span className="text-xs text-slate-500">
                               {part.filename || part.language || 'code'}
                             </span>
                             <div className="flex gap-1">
                               {part.filename && onApplyCode && (
                                 <button
                                   onClick={() => applyCode(part.filename!, part.content)}
-                                  className="text-xs text-[#58a6ff] hover:underline"
+                                  className="text-xs text-brand-blue-600 hover:underline"
                                 >
                                   Apply
                                 </button>
                               )}
                               <button
                                 onClick={() => copyCode(part.content, i * 100 + j)}
-                                className="p-1 text-[#8b949e] hover:text-[#c9d1d9]"
+                                className="p-1 text-slate-500 hover:text-slate-700"
                               >
                                 {copiedIndex === i * 100 + j ? (
-                                  <Check className="w-3 h-3 text-[#3fb950]" />
+                                  <Check className="w-3 h-3 text-brand-green-600" />
                                 ) : (
                                   <Copy className="w-3 h-3" />
                                 )}
                               </button>
                             </div>
                           </div>
-                          <pre className="bg-[#0d1117] p-3 rounded-b border border-[#30363d] border-t-0 overflow-x-auto">
-                            <code className="text-xs text-[#c9d1d9]">{part.content}</code>
+                          <pre className="bg-white p-3 rounded-b border border-slate-200 border-t-0 overflow-x-auto">
+                            <code className="text-xs text-slate-700">{part.content}</code>
                           </pre>
                         </div>
                       ) : (
-                        <p key={j} className="text-sm text-[#c9d1d9] whitespace-pre-wrap">
+                        <p key={j} className="text-sm text-slate-700 whitespace-pre-wrap">
                           {part.content}
                         </p>
                       ),
@@ -189,8 +189,8 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                 )}
               </div>
               {msg.role === 'user' && (
-                <div className="w-7 h-7 rounded-full bg-[#30363d] flex items-center justify-center flex-shrink-0">
-                  <User className="w-4 h-4 text-[#c9d1d9]" />
+                <div className="w-7 h-7 rounded-full bg-slate-300 flex items-center justify-center flex-shrink-0">
+                  <User className="w-4 h-4 text-slate-700" />
                 </div>
               )}
             </div>
@@ -198,11 +198,11 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
         )}
         {isLoading && (
           <div className="flex gap-3">
-            <div className="w-7 h-7 rounded-full bg-[#a371f7] flex items-center justify-center">
+            <div className="w-7 h-7 rounded-full bg-brand-blue-600 flex items-center justify-center">
               <Bot className="w-4 h-4 text-white" />
             </div>
-            <div className="bg-[#21262d] rounded-lg p-3">
-              <Loader2 className="w-4 h-4 text-[#8b949e] animate-spin" />
+            <div className="bg-slate-100 border border-slate-200 rounded-lg p-3">
+              <Loader2 className="w-4 h-4 text-slate-500 animate-spin" />
             </div>
           </div>
         )}
@@ -210,7 +210,7 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
       </div>
 
       {/* Input */}
-      <div className="p-3 border-t border-[#30363d]">
+      <div className="p-3 border-t border-slate-200 bg-slate-50">
         <div className="flex gap-2">
           <textarea
             ref={inputRef}
@@ -219,12 +219,12 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
             onKeyDown={handleKeyDown}
             placeholder="Ask AI to help with code..."
             rows={2}
-            className="flex-1 px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-[#c9d1d9] text-sm resize-none focus:border-[#388bfd] focus:outline-none"
+            className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm resize-none focus:border-brand-blue-500 focus:outline-none"
           />
           <button
             onClick={sendMessage}
             disabled={!input.trim() || isLoading}
-            className="px-3 bg-[#238636] hover:bg-[#2ea043] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-3 bg-brand-blue-600 hover:bg-brand-blue-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send className="w-4 h-4" />
           </button>

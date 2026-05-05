@@ -26,39 +26,39 @@ export default function WebContainerPreview({ url, isLoading }: WebContainerPrev
 
   const deviceSizes = {
     desktop: 'w-full h-full',
-    tablet: 'w-[768px] h-full mx-auto',
-    mobile: 'w-[375px] h-full mx-auto',
+    tablet: 'w-[min(768px,100%)] h-full mx-auto',
+    mobile: 'w-[min(375px,100%)] h-full mx-auto',
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#0d1117]">
+    <div className="h-full flex flex-col bg-white">
       {/* Preview Header */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-[#30363d]">
+      <div className="flex items-center justify-between px-4 py-2 bg-slate-50 border-b border-slate-200">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-[#c9d1d9]">Preview</span>
-          {url && <span className="text-xs text-[#8b949e] truncate max-w-[150px]">{url}</span>}
+          <span className="text-sm font-medium text-slate-700">Preview</span>
+          {url && <span className="text-xs text-slate-500 truncate max-w-[150px]">{url}</span>}
         </div>
 
         <div className="flex items-center gap-2">
           {/* Device Selector */}
-          <div className="flex gap-1 bg-[#21262d] border border-[#30363d] rounded p-0.5">
+          <div className="flex gap-1 bg-white border border-slate-200 rounded p-0.5">
             <button
               onClick={() => setDevice('desktop')}
-              className={`p-1.5 rounded ${device === 'desktop' ? 'bg-[#388bfd] text-white' : 'text-[#8b949e] hover:text-[#c9d1d9] hover:bg-[#30363d]'}`}
+              className={`p-1.5 rounded ${device === 'desktop' ? 'bg-brand-blue-600 text-white' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}
               title="Desktop view"
             >
               <Monitor className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => setDevice('tablet')}
-              className={`p-1.5 rounded ${device === 'tablet' ? 'bg-[#388bfd] text-white' : 'text-[#8b949e] hover:text-[#c9d1d9] hover:bg-[#30363d]'}`}
+              className={`p-1.5 rounded ${device === 'tablet' ? 'bg-brand-blue-600 text-white' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}
               title="Tablet view"
             >
               <Tablet className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => setDevice('mobile')}
-              className={`p-1.5 rounded ${device === 'mobile' ? 'bg-[#388bfd] text-white' : 'text-[#8b949e] hover:text-[#c9d1d9] hover:bg-[#30363d]'}`}
+              className={`p-1.5 rounded ${device === 'mobile' ? 'bg-brand-blue-600 text-white' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}
               title="Mobile view"
             >
               <Smartphone className="w-3.5 h-3.5" />
@@ -69,7 +69,7 @@ export default function WebContainerPreview({ url, isLoading }: WebContainerPrev
           <button
             onClick={refresh}
             disabled={!url}
-            className="p-1.5 text-[#8b949e] hover:text-[#c9d1d9] hover:bg-[#30363d] rounded transition-colors disabled:opacity-50"
+            className="p-1.5 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors disabled:opacity-50"
             title="Refresh preview"
           >
             <RefreshCw className="w-4 h-4" />
@@ -79,7 +79,7 @@ export default function WebContainerPreview({ url, isLoading }: WebContainerPrev
           <button
             onClick={openInNewTab}
             disabled={!url}
-            className="p-1.5 text-[#8b949e] hover:text-[#c9d1d9] hover:bg-[#30363d] rounded transition-colors disabled:opacity-50"
+            className="p-1.5 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors disabled:opacity-50"
             title="Open in new tab"
           >
             <ExternalLink className="w-4 h-4" />
@@ -88,12 +88,12 @@ export default function WebContainerPreview({ url, isLoading }: WebContainerPrev
       </div>
 
       {/* Preview Content */}
-      <div className="flex-1 overflow-hidden bg-[#010409] p-2">
+      <div className="flex-1 overflow-hidden bg-slate-100 p-2">
         {isLoading ? (
           <div className="w-full h-full flex items-center justify-center">
             <div className="text-center">
-              <Loader2 className="w-8 h-8 text-[#388bfd] animate-spin mx-auto mb-3" />
-              <p className="text-[#8b949e] text-sm">Starting dev server...</p>
+              <Loader2 className="w-8 h-8 text-brand-blue-600 animate-spin mx-auto mb-3" />
+              <p className="text-slate-500 text-sm">Starting dev server...</p>
             </div>
           </div>
         ) : url ? (
@@ -109,9 +109,9 @@ export default function WebContainerPreview({ url, isLoading }: WebContainerPrev
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <div className="text-center">
-              <Monitor className="w-12 h-12 text-[#30363d] mx-auto mb-3" />
-              <p className="text-[#8b949e] text-sm mb-1">No preview available</p>
-              <p className="text-[#6e7681] text-xs">Click "Run" to start the dev server</p>
+              <Monitor className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+              <p className="text-slate-500 text-sm mb-1">No preview available</p>
+              <p className="text-slate-400 text-xs">Click "Run" to start the dev server</p>
             </div>
           </div>
         )}

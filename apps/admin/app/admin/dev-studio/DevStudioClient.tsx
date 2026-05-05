@@ -21,6 +21,14 @@ const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
 
 type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container' | 'chat';
 interface FileNode { name: string; path: string; type: 'file' | 'directory'; children?: FileNode[]; }
+type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
+interface DevStudioConfig {
+  quickCommands?: string[];
+  workflowButtons?: { key: WorkflowKey; label: string; description: string }[];
+  defaultPreviewUrl?: string;
+  previewTargets?: { label: string; url: string }[];
+  tabFiles?: Partial<Record<Tab, string>>;
+}
 
 const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: string }[] = [
   { id: 'command',   Icon: Sparkles,      label: 'Command'   },
@@ -31,7 +39,7 @@ const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: s
   { id: 'container', Icon: Box,           label: 'Container' },
 ];
 
-const TAB_FILES: Record<Tab, string> = {
+const DEFAULT_TAB_FILES: Record<Tab, string> = {
   command: 'command.sh', chat: 'ai-chat.md', terminal: 'terminal.sh',
   files: 'explorer', website: 'preview.html', container: 'devcontainer.json',
 };
@@ -43,6 +51,16 @@ export default function DevStudioClient() {
   const init: Tab = raw && valid.includes(raw) ? raw : 'command';
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
+  const [studioConfig, setStudioConfig] = useState<DevStudioConfig | null>(null);
+
+  useEffect(() => {
+    fetch('/api/admin/devstudio/config')
+      .then((r) => r.json())
+      .then((d) => setStudioConfig(d ?? null))
+      .catch(() => setStudioConfig(null));
+  }, []);
+
+  const tabFiles = { ...DEFAULT_TAB_FILES, ...(studioConfig?.tabFiles ?? {}) } as Record<Tab, string>;
 
   function openTab(t: Tab) {
     setTab(t);
@@ -56,18 +74,18 @@ export default function DevStudioClient() {
   }
 
   return (
-    <div className="flex flex-col text-slate-800" style={{ height: 'calc(100vh - 64px)', fontFamily: "'JetBrains Mono','Fira Code',monospace", background: '#f5f5f5' }}>
+    <div className="flex flex-col text-slate-800 min-h-[calc(100dvh-64px)]" style={{ fontFamily: "'JetBrains Mono','Fira Code',monospace", background: '#f5f5f5' }}>
       {/* Menu bar — light grey like Gitpod */}
-      <div className="flex-shrink-0 flex items-center gap-1 px-3 py-1 border-b border-[#ddd] text-xs text-slate-600 select-none" style={{ background: '#f0f0f0' }}>
+      <div className="flex-shrink-0 flex items-center gap-1 px-2 sm:px-3 py-1 border-b border-[#ddd] text-xs text-slate-600 select-none" style={{ background: '#f0f0f0' }}>
         <span className="font-bold text-slate-800 mr-2">Dev Studio</span>
         {['File','Edit','View','Terminal','Help'].map((m) => (
-          <span key={m} className="hover:bg-[#e0e0e0] cursor-pointer px-2 py-0.5 rounded">{m}</span>
+          <span key={m} className="hidden sm:inline hover:bg-[#e0e0e0] cursor-pointer px-2 py-0.5 rounded">{m}</span>
         ))}
-        <div className="ml-auto flex items-center gap-3 text-slate-500">
+        <div className="ml-auto flex items-center gap-2 sm:gap-3 text-slate-500">
           <span className="flex items-center gap-1 text-green-700 font-medium">
             <Circle className="w-2 h-2 fill-green-500 text-green-500" /> main
           </span>
-          <span>Elevate LMS</span>
+          <span className="hidden sm:inline">Elevate LMS</span>
         </div>
       </div>
 
@@ -77,13 +95,13 @@ export default function DevStudioClient() {
           const def = TABS.find((x) => x.id === t)!;
           return (
             <button key={t} onClick={() => openTab(t)}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs border-r border-[#ddd] whitespace-nowrap flex-shrink-0 group transition-colors ${
+              className={`flex items-center gap-1.5 px-2 sm:px-4 py-2 text-[11px] sm:text-xs border-r border-[#ddd] whitespace-nowrap flex-shrink-0 group transition-colors ${
                 tab === t
                   ? 'bg-white text-slate-900 border-t-2 border-t-[#f97316]'
                   : 'text-slate-500 hover:bg-[#e4e4e4]'
               }`} style={{ background: tab === t ? '#ffffff' : undefined }}>
               <def.Icon className="w-3.5 h-3.5 opacity-50" />
-              <span>{TAB_FILES[t]}</span>
+              <span>{tabFiles[t]}</span>
               <span onClick={(e) => closeTab(t, e)}
                 className="ml-1.5 opacity-0 group-hover:opacity-40 hover:!opacity-80 rounded p-0.5 hover:bg-slate-200">
                 <X className="w-3 h-3" />
@@ -115,22 +133,22 @@ export default function DevStudioClient() {
 
         {/* Editor area — bright white */}
         <div className="flex-1 min-w-0 overflow-hidden bg-white">
-          {tab === 'command'   && <CommandTab />}
+          {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} />}
           {tab === 'chat'      && <AIChat />}
-          {tab === 'terminal'  && <TerminalTab />}
+          {tab === 'terminal'  && <TerminalTab workflowButtons={studioConfig?.workflowButtons} />}
           {tab === 'files'     && <FilesTab />}
-          {tab === 'website'   && <WebsiteTab />}
+          {tab === 'website'   && <WebsiteTab config={studioConfig} />}
           {tab === 'container' && <DevContainerPanel />}
         </div>
       </div>
 
       {/* Status bar — Gitpod orange/brand accent */}
-      <div className="flex-shrink-0 flex items-center justify-between px-3 py-0.5 text-white text-[10px] select-none" style={{ background: '#f97316' }}>
-        <div className="flex items-center gap-3">
+      <div className="flex-shrink-0 flex items-center justify-between px-2 sm:px-3 py-1 text-white text-[10px] select-none" style={{ background: '#f97316' }}>
+        <div className="flex items-center gap-2 sm:gap-3">
           <span className="flex items-center gap-1">⎇ main</span>
-          <span>Elevate LMS · Dev Container</span>
+          <span className="hidden sm:inline">Elevate LMS · Dev Container</span>
         </div>
-        <div className="flex items-center gap-3 opacity-90">
+        <div className="hidden sm:flex items-center gap-3 opacity-90">
           <span>UTF-8</span>
           <span>TypeScript React</span>
           <span>port 3000</span>
@@ -142,7 +160,7 @@ export default function DevStudioClient() {
 
 // ── Command Tab ──────────────────────────────────────────────────────────────
 
-function CommandTab() {
+function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState<{ type: 'user' | 'system' | 'error'; text: string }[]>([]);
   const [loading, setLoading] = useState(false);
@@ -150,7 +168,7 @@ function CommandTab() {
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [output]);
 
-  const QUICK = [
+  const QUICK = quickCommands && quickCommands.length > 0 ? quickCommands : [
     'Show git status',
     'List recent files changed',
     'Run pnpm lint',
@@ -219,8 +237,6 @@ function CommandTab() {
 }
 // ── Terminal Tab ─────────────────────────────────────────────────────────────
 
-type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
-
 interface RunStatus {
   id: number;
   status: string;
@@ -235,7 +251,11 @@ const WORKFLOW_BUTTONS: { key: WorkflowKey; label: string; description: string }
   { key: 'lint',         label: 'Lint',          description: 'Run pnpm lint' },
 ];
 
-function TerminalTab() {
+function TerminalTab({
+  workflowButtons,
+}: {
+  workflowButtons?: { key: WorkflowKey; label: string; description: string }[];
+}) {
   const [lines, setLines] = useState<string[]>([
     'Dev Studio — GitHub Actions runner',
     'Click a workflow button to trigger a deployment or CI run.',
@@ -302,7 +322,7 @@ function TerminalTab() {
     <div className="flex flex-col h-full bg-white text-slate-800">
       {/* Workflow buttons */}
       <div className="flex-shrink-0 flex flex-wrap gap-2 px-4 py-3 bg-slate-50 border-b border-slate-200">
-        {WORKFLOW_BUTTONS.map(({ key, label, description }) => (
+        {(workflowButtons && workflowButtons.length > 0 ? workflowButtons : WORKFLOW_BUTTONS).map(({ key, label, description }) => (
           <button key={key} onClick={() => dispatch(key)} disabled={!!loading}
             title={description}
             className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-700 hover:text-orange-700 disabled:opacity-50 transition-colors shadow-sm">
@@ -350,6 +370,7 @@ function FilesTab() {
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState('');
   const [commitMsg, setCommitMsg] = useState('');
+  const [showTree, setShowTree] = useState(true);
 
   useEffect(() => {
     fetch('/api/devstudio/files').then((r) => r.json()).then((d) => setTree(d.tree ?? [])).catch(() => {});
@@ -395,25 +416,33 @@ function FilesTab() {
     const pad = depth * 12;
     if (node.type === 'directory') return (
       <div key={node.path}>
-        <div className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-[#cccccc] hover:bg-[#2a2d2e] cursor-pointer select-none" style={{ paddingLeft: 8 + pad }}>
-          <ChevronRight className="w-3 h-3 text-[#858585]" /><Folder className="w-3.5 h-3.5 text-[#dcb67a]" /><span>{node.name}</span>
+        <div className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-slate-600 hover:bg-slate-100 cursor-pointer select-none" style={{ paddingLeft: 8 + pad }}>
+          <ChevronRight className="w-3 h-3 text-slate-400" /><Folder className="w-3.5 h-3.5 text-amber-500" /><span>{node.name}</span>
         </div>
         {node.children?.map((c) => renderNode(c, depth + 1))}
       </div>
     );
     return (
       <div key={node.path} onClick={() => loadFile(node.path)}
-        className={`flex items-center gap-1.5 px-2 py-0.5 text-[11px] cursor-pointer select-none transition-colors ${selected === node.path ? 'bg-[#094771] text-white' : 'text-[#cccccc] hover:bg-[#2a2d2e]'}`}
+        className={`flex items-center gap-1.5 px-2 py-0.5 text-[11px] cursor-pointer select-none transition-colors ${selected === node.path ? 'bg-brand-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
         style={{ paddingLeft: 8 + pad }}>
-        <File className="w-3.5 h-3.5 text-[#519aba]" /><span>{node.name}</span>
+        <File className={`w-3.5 h-3.5 ${selected === node.path ? 'text-white' : 'text-brand-blue-500'}`} /><span>{node.name}</span>
       </div>
     );
   }
 
   return (
-    <div className="flex h-full bg-white">
+    <div className="flex flex-col md:flex-row h-full bg-white">
+      <div className="md:hidden px-3 py-2 border-b border-slate-200 bg-slate-50">
+        <button
+          onClick={() => setShowTree((prev) => !prev)}
+          className="text-xs font-semibold text-slate-700"
+        >
+          {showTree ? 'Hide Explorer' : 'Show Explorer'}
+        </button>
+      </div>
       {/* Sidebar */}
-      <div className="w-52 flex-shrink-0 border-r border-slate-200 overflow-y-auto bg-slate-50">
+      <div className={`${showTree ? 'block' : 'hidden'} md:block w-full md:w-52 flex-shrink-0 border-b md:border-b-0 md:border-r border-slate-200 overflow-y-auto bg-slate-50 max-h-48 md:max-h-none`}>
         <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">Explorer</div>
         {tree.map((n) => renderNode(n))}
       </div>
@@ -457,9 +486,11 @@ function FilesTab() {
 }
 // ── Website Tab ──────────────────────────────────────────────────────────────
 
-function WebsiteTab() {
-  const [url, setUrl] = useState('https://www.elevateforhumanity.org');
-  const [input, setInput] = useState(url);
+function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
+  const defaultUrl = config?.defaultPreviewUrl || 'https://www.elevateforhumanity.org';
+  const targets = config?.previewTargets ?? [];
+  const [url, setUrl] = useState(defaultUrl);
+  const [input, setInput] = useState(defaultUrl);
   const [viewport, setViewport] = useState<'desktop' | 'mobile'>('desktop');
   const [loading, setLoading] = useState(true);
 
@@ -489,9 +520,26 @@ function WebsiteTab() {
           <ExternalLink className="w-4 h-4" />
         </a>
       </div>
+      {targets.length > 0 && (
+        <div className="flex-shrink-0 flex flex-wrap gap-2 px-3 py-2 border-b border-slate-200 bg-white">
+          {targets.map((t) => (
+            <button
+              key={t.label}
+              onClick={() => {
+                setLoading(true);
+                setInput(t.url);
+                setUrl(t.url);
+              }}
+              className="px-2 py-1 text-[11px] rounded border border-slate-200 text-slate-600 hover:border-brand-blue-300 hover:text-brand-blue-700"
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )}
       {/* Viewport */}
       <div className="flex-1 overflow-auto flex items-start justify-center bg-slate-100 p-4">
-        <div className={`bg-white shadow-xl rounded-lg overflow-hidden transition-all ${viewport === 'mobile' ? 'w-[390px]' : 'w-full'} h-full`}>
+        <div className={`bg-white shadow-xl rounded-lg overflow-hidden transition-all ${viewport === 'mobile' ? 'w-[min(390px,100%)]' : 'w-full'} h-full`}>
           {loading && (
             <div className="flex items-center justify-center h-12 bg-slate-50 border-b border-slate-200">
               <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />

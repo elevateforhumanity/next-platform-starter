@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import type { SitePreviewTarget } from './types';
 
 const SitePreviewPanel = dynamic(
   () => import('./SitePreviewPanel').then(m => m.SitePreviewPanel),
@@ -11,6 +12,6 @@ const SitePreviewPanel = dynamic(
   )}
 );
 
-export default function SitePreviewPanelWrapper() {
-  return <SitePreviewPanel />;
+export default function SitePreviewPanelWrapper({ sites }: { sites: SitePreviewTarget[] }) {
+  return <SitePreviewPanel sites={sites} />;
 }
