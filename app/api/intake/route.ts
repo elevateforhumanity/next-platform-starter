@@ -26,6 +26,20 @@ function determineFundingTag(body: Record<string, string | string[]>): string {
   return 'pending-review';
 }
 
+function normalizeProgramInterest(programInterest: string | undefined): string | undefined {
+  const trimmed = programInterest?.trim();
+  if (!trimmed) return undefined;
+
+  const normalized = trimmed.toLowerCase();
+  const aliases: Record<string, string> = {
+    barbering: 'barber-apprenticeship',
+    barber: 'barber-apprenticeship',
+    'barber apprenticeship': 'barber-apprenticeship',
+  };
+
+  return aliases[normalized] ?? trimmed;
+}
+
 async function _POST(req: Request) {
   const rateLimited = await applyRateLimit(req, 'contact');
   if (rateLimited) return rateLimited;
@@ -47,6 +61,7 @@ async function _POST(req: Request) {
   }
 
   const fundingTag = determineFundingTag(body);
+  const programInterest = normalizeProgramInterest(body.program_interest as string | undefined);
 
   // Return undefined instead of null to avoid NOT NULL constraint issues
   // if columns are tightened later. Supabase-js omits undefined fields.
@@ -74,7 +89,7 @@ async function _POST(req: Request) {
       state: clean(body.state as string) || 'IN',
       county: clean(body.county as string),
       date_of_birth: clean(body.date_of_birth as string) || null,
-      program_interest: clean(body.program_interest as string) || 'not-specified',
+      program_interest: clean(programInterest) || 'not-specified',
       employment_status: clean(body.employment_status as string),
       funding_needed: body.funding_needed !== 'false',
       household_size: body.household_size ? parseInt(body.household_size as string, 10) : null,
@@ -127,8 +142,8 @@ async function _POST(req: Request) {
       phone: clean(body.phone as string) ?? '',
       city: clean(body.city as string) ?? '',
       zip: '',
-      program_interest: clean(body.program_interest as string) ?? 'not-specified',
-      program_slug: clean(body.program_interest as string) ?? null,
+      program_interest: clean(programInterest) ?? 'not-specified',
+      program_slug: clean(programInterest) ?? null,
       status: 'submitted',
       source: 'intake-form',
       support_notes: supportNotes || null,
@@ -184,7 +199,7 @@ async function _POST(req: Request) {
           applicant_email: (body.email as string).trim().toLowerCase(),
           applicant_phone: (body.phone as string | undefined)?.trim() || null,
           agency: agencyKey,
-          program_interest: (body.program_interest as string | undefined)?.trim() || null,
+          program_interest: programInterest ?? null,
           status: 'referred',
         });
       } catch (refErr) {
@@ -251,7 +266,7 @@ async function _POST(req: Request) {
     lastName,
     email: intakeEmail ?? '',
     phone: (body.phone as string | undefined)?.trim(),
-    programInterest: (body.program_interest as string | undefined) || 'general',
+    programInterest: programInterest || 'general',
     city: (body.city as string | undefined)?.trim(),
     zipCode: '',
     submittedAt: new Date().toISOString(),

@@ -332,7 +332,7 @@ function IntakeForm() {
                   <select
                     id="program_interest"
                     name="program_interest"
-                    defaultValue={initialProgram || 'barbering'}
+                    defaultValue={initialProgram || 'barber-apprenticeship'}
                     className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
                   >
                     <option value="cna">Certified Nursing Assistant (CNA)</option>
