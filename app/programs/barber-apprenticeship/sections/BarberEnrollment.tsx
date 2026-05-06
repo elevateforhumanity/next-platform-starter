@@ -33,8 +33,8 @@ export function BarberEnrollment() {
           </div>
 
           <p className="text-center mb-10">
-            <Link href="/apply?program=barber-apprenticeship" className="inline-block bg-brand-red-600 text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-brand-red-700 transition-colors">
-              Apply Now
+            <Link href="/programs/barber-apprenticeship/eligibility" className="inline-block bg-brand-red-600 text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-brand-red-700 transition-colors">
+              See Payment Options &amp; Apply
             </Link>
           </p>
 
