@@ -55,7 +55,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
           </div>
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <Link
-              href="/programs/barber-apprenticeship/eligibility"
+              href="/apply?program=barber-apprenticeship"
               className="inline-flex items-center justify-center rounded-xl bg-brand-red-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-red-700"
             >
               Apply Now
@@ -72,7 +72,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             <p className="font-semibold text-amber-900">Now Enrolling — Indianapolis Metro</p>
             <p className="text-sm text-amber-800 mt-1">
               DOL Registered Apprenticeship program. Spots are limited — we match each apprentice with a licensed host barbershop.{' '}
-              <Link href="/programs/barber-apprenticeship/eligibility" className="underline font-medium">Apply now to reserve your place.</Link>
+              <Link href="/apply?program=barber-apprenticeship" className="underline font-medium">Apply now to reserve your place.</Link>
             </p>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         <div className="max-w-2xl mx-auto px-4 text-center">
           <p className="text-slate-700 font-medium mb-4">Ready to get started? Apply first — we handle the rest.</p>
           <Link
-            href="/programs/barber-apprenticeship/eligibility"
+            href="/apply?program=barber-apprenticeship"
             className="inline-flex items-center justify-center rounded-xl bg-brand-red-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-red-700"
           >
             Apply Now
