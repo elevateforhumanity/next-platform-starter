@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Shield, CreditCard, Lock, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { TUITION_DOLLARS, MIN_SETUP_FEE_CENTS } from '@/lib/barber/pricing';
+import { TUITION_DOLLARS, TUITION_CENTS, MIN_SETUP_FEE_CENTS, PAYMENT_TERM_WEEKS, weeklyPaymentCents, clampSetupFeeCents } from '@/lib/barber/pricing';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 // ── Inner form ────────────────────────────────────────────────────────────────
 
-function PaymentSetupForm({ weeklyAmount }: { weeklyAmount: number }) {
+function PaymentSetupForm({ weeklyAmount, deposit }: { weeklyAmount: number; deposit: number }) {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -89,9 +89,8 @@ function PaymentSetupForm({ weeklyAmount }: { weeklyAmount: number }) {
       </button>
 
       <p className="text-center text-xs text-slate-500">
-        Your card will not be charged today. First payment of{' '}
-        <strong className="text-slate-300">${(weeklyAmount / 100).toFixed(2)}</strong> drafts next
-        Friday at 10:00 AM ET.
+        Down payment of <strong className="text-slate-300">${deposit.toLocaleString()}</strong> charged today.
+        Then <strong className="text-slate-300">${(weeklyAmount / 100).toFixed(2)}/week</strong> for {PAYMENT_TERM_WEEKS} weeks.
       </p>
     </form>
   );
@@ -99,11 +98,20 @@ function PaymentSetupForm({ weeklyAmount }: { weeklyAmount: number }) {
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
+const MIN_DEPOSIT = MIN_SETUP_FEE_CENTS / 100; // $600
+const MAX_DEPOSIT = TUITION_DOLLARS;            // $4,980
+
 export default function PaymentSetupPage() {
+  const [deposit, setDeposit] = useState(MIN_DEPOSIT);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const [weeklyAmount, setWeeklyAmount] = useState(7095); // recalculated server-side from DB (transfer hours applied)
+  const [weeklyAmount, setWeeklyAmount] = useState(() => weeklyPaymentCents(MIN_DEPOSIT));
   const [loading, setLoading] = useState(true);
   const [fatalError, setFatalError] = useState<string | null>(null);
+
+  // Recalculate weekly live as deposit changes
+  useEffect(() => {
+    setWeeklyAmount(weeklyPaymentCents(deposit));
+  }, [deposit]);
 
   useEffect(() => {
     fetch('/api/barber/setup-intent', { method: 'POST' })
@@ -139,26 +147,55 @@ export default function PaymentSetupPage() {
       </div>
 
       <div className="max-w-lg mx-auto px-6 py-10 space-y-8">
-        {/* Summary card */}
-        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-          <div className="flex items-center gap-3">
+        {/* Deposit Calculator */}
+        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-5">
+          <div className="flex items-center gap-3 mb-1">
             <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
               <CreditCard className="w-5 h-5 text-amber-400" />
             </div>
             <div>
-              <p className="font-semibold text-white">Weekly Payment Plan</p>
-              <p className="text-slate-400 text-sm">
-                Barber Apprenticeship — 2,000 OJL hrs @ 40 hrs/wk
-              </p>
+              <p className="font-semibold text-white">Choose Your Down Payment</p>
+              <p className="text-slate-400 text-sm">Slide to adjust — weekly payment updates live</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 pt-2">
-              {[
-                { label: 'Total Tuition', value: `$${TUITION_DOLLARS.toLocaleString()}` },
-                { label: 'Paid Today (Minimum)', value: `$${(MIN_SETUP_FEE_CENTS / 100).toLocaleString()}` },
-                { label: 'Weekly', value: `$${(weeklyAmount / 100).toFixed(2)}` },
-              ].map(({ label, value }) => (
+          {/* Deposit input + slider */}
+          <div className="flex items-center gap-3">
+            <span className="text-amber-400 font-bold text-xl shrink-0">$</span>
+            <input
+              type="number"
+              min={MIN_DEPOSIT}
+              max={MAX_DEPOSIT}
+              step={50}
+              value={deposit}
+              onChange={(e) => {
+                const v = Math.min(MAX_DEPOSIT, Math.max(MIN_DEPOSIT, Number(e.target.value)));
+                setDeposit(v);
+              }}
+              className="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white font-bold text-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
+            />
+          </div>
+          <input
+            type="range"
+            min={MIN_DEPOSIT}
+            max={MAX_DEPOSIT}
+            step={50}
+            value={deposit}
+            onChange={(e) => setDeposit(Number(e.target.value))}
+            className="w-full accent-amber-400 cursor-pointer"
+          />
+          <div className="flex justify-between text-xs text-slate-500">
+            <span>Min ${MIN_DEPOSIT.toLocaleString()}</span>
+            <span>Pay in full ${MAX_DEPOSIT.toLocaleString()}</span>
+          </div>
+
+          {/* Live calculation */}
+          <div className="grid grid-cols-3 gap-3 pt-1">
+            {[
+              { label: 'Down Today', value: `$${deposit.toLocaleString()}` },
+              { label: 'Remaining', value: `$${(TUITION_DOLLARS - deposit).toLocaleString()}` },
+              { label: `Weekly ×${PAYMENT_TERM_WEEKS}`, value: `$${(weeklyAmount / 100).toFixed(2)}` },
+            ].map(({ label, value }) => (
               <div key={label} className="bg-slate-900 rounded-xl p-3 text-center">
                 <p className="text-white font-bold text-lg">{value}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{label}</p>
@@ -213,7 +250,7 @@ export default function PaymentSetupPage() {
               },
             }}
           >
-            <PaymentSetupForm weeklyAmount={weeklyAmount} />
+            <PaymentSetupForm weeklyAmount={weeklyAmount} deposit={deposit} />
           </Elements>
         )}
 
