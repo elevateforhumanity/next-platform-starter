@@ -194,16 +194,56 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
     setOutput((p) => [...p, { type: 'user', text: cmd }]);
     setInput('');
     setLoading(true);
+
+    // The execute endpoint streams SSE — read line-by-line and append to output.
     try {
       const res = await fetch('/api/devstudio/execute', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command: cmd }),
       });
-      const data = await res.json();
-      setOutput((p) => [...p, { type: res.ok ? 'system' : 'error', text: data.output ?? data.error ?? 'No output' }]);
+
+      if (!res.ok || !res.body) {
+        // Non-streaming error response
+        let errText = 'Request failed';
+        try { const d = await res.json(); errText = d.error ?? errText; } catch { /* ignore */ }
+        setOutput((p) => [...p, { type: 'error', text: errText }]);
+        return;
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buf = '';
+      let accumulated = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        const lines = buf.split('\n');
+        buf = lines.pop() ?? '';
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const payload = line.slice(6).trim();
+            if (payload === '[DONE]') continue;
+            try {
+              const parsed = JSON.parse(payload);
+              const text: string = parsed.text ?? parsed.output ?? payload;
+              accumulated += (accumulated ? '\n' : '') + text;
+            } catch {
+              // Raw text line
+              accumulated += (accumulated ? '\n' : '') + payload;
+            }
+          }
+        }
+      }
+
+      setOutput((p) => [...p, { type: 'system', text: accumulated || '(no output)' }]);
     } catch {
-      setOutput((p) => [...p, { type: 'error', text: 'Request failed' }]);
-    } finally { setLoading(false); }
+      setOutput((p) => [...p, { type: 'error', text: 'Request failed — check network or server logs' }]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
