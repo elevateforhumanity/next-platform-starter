@@ -31,7 +31,7 @@ phases:
       - echo Installing dependencies...
       - pnpm install --frozen-lockfile
       - echo Building Admin...
-      - export NODE_OPTIONS="--max-old-space-size=8192 --max-semi-space-size=32 --expose-gc"
+      - export NODE_OPTIONS="--max-old-space-size=12288 --max-semi-space-size=32 --expose-gc"
       - export NEXT_TELEMETRY_DISABLED=1
       - export BUILD_SCOPE=1
       - cd apps/admin && pnpm next build && cd ../..
