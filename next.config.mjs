@@ -837,6 +837,7 @@ const nextConfig = {
       // Specific /enroll/* overrides are declared in the ENROLL/APPLY CONSOLIDATION
       // block below. A wildcard here would shadow those specific rules.
       { source: '/financial-support', destination: '/funding', permanent: true },
+      { source: '/community/groups', destination: '/community-services', permanent: false },
       { source: '/community/:path*', destination: '/community-services', permanent: true },
       // /compliance/:path* — no redirect needed
       // /supersonic-fast-cash — external domain, no redirect needed
@@ -961,6 +962,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/programs/:program(barber-apprenticeship)/apply',
+        destination: '/apply?program=:program',
+        permanent: true,
+      },
+      {
         source: '/apply/barber-apprenticeship',
         destination: '/apply?program=barber-apprenticeship',
         permanent: true,
@@ -1049,7 +1055,6 @@ const nextConfig = {
       // DEAD LINK FIXES
       // ============================================
       { source: '/logout', destination: '/login', permanent: false },
-      { source: '/community/groups', destination: '/community-services', permanent: false },
       { source: '/elevate-platform-overview.pdf', destination: '/resources', permanent: false },
       { source: '/pwa/barber/log-hours', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/training', destination: '/programs/barber-apprenticeship', permanent: false },

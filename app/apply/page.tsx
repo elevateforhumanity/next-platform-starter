@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import IntakeFormInner from './IntakeFormInner';
+import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
+import BarberApplyClient from './BarberApplyClient';
 
 export const revalidate = 3600;
 
@@ -13,7 +15,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ApplyPage() {
+export default function ApplyPage({
+  searchParams,
+}: {
+  searchParams?: { program?: string; payment?: string };
+}) {
+  const normalizedProgram = normalizeProgramInterest(searchParams?.program);
+  const isBarberCanonical = normalizedProgram === 'barber-apprenticeship';
+
+  if (isBarberCanonical) {
+    return <BarberApplyClient payment={searchParams?.payment ?? null} />;
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Audience switcher */}

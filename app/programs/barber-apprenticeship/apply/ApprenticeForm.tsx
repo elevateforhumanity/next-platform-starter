@@ -114,23 +114,9 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
     setErrorSeverity('info');
 
     try {
-      // Save application first
-      const appResponse = await fetch('/api/applications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          transferHours,
-          program: 'Barber Apprenticeship',
-          programSlug: 'barber-apprenticeship',
-          fundingType: 'self-pay',
-          source: 'program-page',
-          paymentOption,
-        }),
-      });
-
-      const appData = await appResponse.json();
-      const applicationId = appData?.id;
+      // Application submission is finalized post-payment by webhook flows.
+      // Do not persist an application record before checkout completes.
+      const applicationId = undefined;
 
       let checkoutResponse;
       const basePayload = {
