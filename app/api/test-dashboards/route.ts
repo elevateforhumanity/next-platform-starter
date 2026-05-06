@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 /**

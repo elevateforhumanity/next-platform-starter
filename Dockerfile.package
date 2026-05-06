@@ -32,6 +32,8 @@ RUN npm install --os=linux --cpu=x64 sharp@0.33.5 --no-save 2>/dev/null || \
 # Copy standalone server output produced by `next build` on the host
 COPY .next/standalone ./
 COPY .next/static ./.next/static
+# Copy full server directory to ensure client-reference-manifest files are present
+COPY .next/server ./.next/server
 COPY public ./public
 
 # Copy Remotion compositions (needed at render time)
