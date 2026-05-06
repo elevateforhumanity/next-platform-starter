@@ -53,7 +53,7 @@ const PROGRAMS = [
     image: '/images/pages/programs-barber-hero-new.jpg',
     objectPosition: 'center 15%',
     href: '/programs/barber-apprenticeship',
-    applyHref: '/apply?program=barber-apprenticeship',
+    applyHref: '/programs/barber-apprenticeship/eligibility',
     price: '$4,980',
   },
 ];

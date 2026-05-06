@@ -36,7 +36,7 @@ function BarberApplyPageInner() {
   useEffect(() => {
     const param = searchParams.get('type') as ApplicantType | null;
     if (!param || param === 'apprentice') {
-      router.replace('/apply?program=barber-apprenticeship');
+      router.replace('/programs/barber-apprenticeship/eligibility');
       return;
     }
     if (VALID_TYPES.includes(param)) {

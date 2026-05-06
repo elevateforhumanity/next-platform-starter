@@ -251,7 +251,7 @@ export default async function BarberApprenticeshipPage() {
           </div>
           <div className="flex flex-col gap-3 shrink-0">
             <Link
-              href="/apply?program=barber-apprenticeship"
+              href="/programs/barber-apprenticeship/eligibility"
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-red-600 px-6 py-3 font-semibold text-white hover:bg-brand-red-700 transition"
             >
               Apply Now

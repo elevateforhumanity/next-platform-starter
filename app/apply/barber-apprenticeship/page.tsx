@@ -4,5 +4,5 @@ import { permanentRedirect } from 'next/navigation';
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default function Page() {
-  permanentRedirect('/apply?program=barber-apprenticeship');
+  permanentRedirect('/programs/barber-apprenticeship/eligibility');
 }
