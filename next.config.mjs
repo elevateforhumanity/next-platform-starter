@@ -149,6 +149,8 @@ const nextConfig = {
 
   // Experimental features for better performance
   experimental: {
+    workerThreads: false,
+    cpus: 1,
     serverActions: {
       allowedOrigins: [
         'localhost:3000',
