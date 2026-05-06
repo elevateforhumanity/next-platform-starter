@@ -317,9 +317,62 @@ function TerminalTab({
   const [loading, setLoading] = useState<WorkflowKey | null>(null);
   const [activeRun, setActiveRun] = useState<RunStatus | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  // Track the poll timeout so we can cancel it on unmount or new dispatch
+  const pollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
+    };
+  }, []);
+
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [lines]);
 
+  function schedulePoll(runId: number, attempt = 0) {
+    const MAX_ATTEMPTS = 60; // ~8 min at 8s intervals
+    if (attempt >= MAX_ATTEMPTS) {
+      if (mountedRef.current) {
+        setLines((p) => [...p, `⚠ Polling timed out for run #${runId}`, '']);
+      }
+      return;
+    }
+    pollTimerRef.current = setTimeout(async () => {
+      if (!mountedRef.current) return;
+      try {
+        const res = await fetch(`/api/devstudio/shell?run_id=${runId}`);
+        if (!mountedRef.current) return;
+        if (!res.ok) {
+          // Retry on transient errors
+          schedulePoll(runId, attempt + 1);
+          return;
+        }
+        const d: RunStatus = await res.json();
+        setActiveRun(d);
+        if (d.status === 'completed') {
+          setLines((p) => [...p,
+            `Run #${runId} completed — ${d.conclusion ?? 'unknown'}`,
+            `   ${d.url}`,
+            '',
+          ]);
+        } else {
+          schedulePoll(runId, attempt + 1);
+        }
+      } catch {
+        // Retry on network errors
+        if (mountedRef.current) schedulePoll(runId, attempt + 1);
+      }
+    }, 8000);
+  }
+
   async function dispatch(workflow: WorkflowKey) {
+    // Cancel any in-flight poll before starting a new dispatch
+    if (pollTimerRef.current) {
+      clearTimeout(pollTimerRef.current);
+      pollTimerRef.current = null;
+    }
     setLoading(workflow);
     setLines((p) => [...p, `▶ Dispatching ${workflow}…`]);
     try {
@@ -339,7 +392,7 @@ function TerminalTab({
         ]);
         if (d.runId) {
           setActiveRun({ id: d.runId, status: d.status, conclusion: null, url: d.runUrl });
-          pollRun(d.runId);
+          schedulePoll(d.runId);
         }
       }
     } catch {
@@ -347,27 +400,6 @@ function TerminalTab({
     } finally {
       setLoading(null);
     }
-  }
-
-  async function pollRun(runId: number) {
-    const poll = async () => {
-      try {
-        const res = await fetch(`/api/devstudio/shell?run_id=${runId}`);
-        if (!res.ok) return;
-        const d: RunStatus = await res.json();
-        setActiveRun(d);
-        if (d.status === 'completed') {
-          setLines((p) => [...p,
-            `Run #${runId} completed — ${d.conclusion ?? 'unknown'}`,
-            `   ${d.url}`,
-            '',
-          ]);
-        } else {
-          setTimeout(poll, 8000);
-        }
-      } catch { /* ignore poll errors */ }
-    };
-    setTimeout(poll, 8000);
   }
 
   return (

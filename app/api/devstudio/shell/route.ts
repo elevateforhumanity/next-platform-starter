@@ -42,7 +42,7 @@ const ALLOWED_WORKFLOWS: Record<string, string> = {
   'deploy-lms':   'deploy-lms.yml',
   'deploy-admin': 'deploy-admin.yml',
   'ci':           'ci-cd.yml',
-  'lint':         'ci-cd.yml',
+  'lint':         'lint.yml',
 };
 
 function ghHeaders(): HeadersInit {
