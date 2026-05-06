@@ -3,6 +3,7 @@ import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -32,20 +33,6 @@ function isValidEmail(email: string): boolean {
 function determineStage(payload: IntakePayload): string {
   if (payload.is_indiana_resident === false) return 'self_pay_path';
   return 'advisor_review';
-}
-
-function normalizeProgramInterest(programInterest: string | undefined): string | undefined {
-  const trimmed = programInterest?.trim();
-  if (!trimmed) return undefined;
-
-  const normalized = trimmed.toLowerCase();
-  const aliases: Record<string, string> = {
-    barbering: 'barber-apprenticeship',
-    barber: 'barber-apprenticeship',
-    'barber apprenticeship': 'barber-apprenticeship',
-  };
-
-  return aliases[normalized] ?? trimmed;
 }
 
 export async function POST(request: NextRequest) {

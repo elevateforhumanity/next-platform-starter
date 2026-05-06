@@ -9,6 +9,7 @@ import {
   sendAdminApplicationNotification,
 } from '@/lib/notifications/application-emails';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
 
 // Auto-tag funding eligibility based on intake answers.
 // Priority: JRI > self-pay > WIOA categorical > WIOA income > WIOA workforce > pending-review
@@ -24,20 +25,6 @@ function determineFundingTag(body: Record<string, string | string[]>): string {
   if (body.workforce_connection === 'workone' || body.workforce_connection === 'employer-indy')
     return 'wioa';
   return 'pending-review';
-}
-
-function normalizeProgramInterest(programInterest: string | undefined): string | undefined {
-  const trimmed = programInterest?.trim();
-  if (!trimmed) return undefined;
-
-  const normalized = trimmed.toLowerCase();
-  const aliases: Record<string, string> = {
-    barbering: 'barber-apprenticeship',
-    barber: 'barber-apprenticeship',
-    'barber apprenticeship': 'barber-apprenticeship',
-  };
-
-  return aliases[normalized] ?? trimmed;
 }
 
 async function _POST(req: Request) {
