@@ -75,6 +75,9 @@ export async function POST(request: NextRequest) {
     });
 
     // Upsert barber_subscriptions with customer ID so we can find it later
+    // Default weekly amount — overridden by DB value if sub already exists
+    let defaultWeeklyAmountCents = weeklyPaymentCents(0);
+
     if (!existingSub) {
       // Get enrollment for reference
       const { data: enrollment } = await db
@@ -85,10 +88,9 @@ export async function POST(request: NextRequest) {
         .maybeSingle();
 
       const amountPaidCents = enrollment?.amount_paid_cents ?? 0;
-      const remainingCents = Math.max(0, TUITION_CENTS - amountPaidCents);
       // Payment term is fixed at PAYMENT_TERM_WEEKS (29) for all students.
       // Transfer hours affect program duration only, never the payment schedule.
-      const weeklyAmountCents = weeklyPaymentCents(amountPaidCents / 100);
+      defaultWeeklyAmountCents = weeklyPaymentCents(amountPaidCents / 100);
 
       await db.from('barber_subscriptions').insert({
         user_id: user.id,
@@ -99,7 +101,7 @@ export async function POST(request: NextRequest) {
         status: 'pending_payment_method',
         setup_fee_paid: amountPaidCents > 0,
         setup_fee_amount: amountPaidCents,
-        weekly_payment_cents: weeklyAmountCents,
+        weekly_payment_cents: defaultWeeklyAmountCents,
         weeks_remaining: PAYMENT_TERM_WEEKS,
       });
     } else if (!existingSub.stripe_customer_id) {
@@ -109,17 +111,17 @@ export async function POST(request: NextRequest) {
         .eq('id', existingSub.id);
     }
 
-    // Pull final weekly amount from DB (may differ if sub already existed with transfer hours applied)
+    // Pull final weekly amount from DB (may differ if sub already existed)
     const { data: finalSub } = await db
       .from('barber_subscriptions')
       .select('weekly_payment_cents, weeks_remaining')
-      .eq('user_id', userId)
+      .eq('user_id', user.id)
       .maybeSingle();
 
     return NextResponse.json({
       clientSecret: setupIntent.client_secret,
       customerId,
-      weeklyPaymentCents: finalSub?.weekly_payment_cents ?? weeklyAmountCents,
+      weeklyPaymentCents: finalSub?.weekly_payment_cents ?? defaultWeeklyAmountCents,
       weeksRemaining: finalSub?.weeks_remaining ?? PAYMENT_TERM_WEEKS,
     });
   } catch (err) {

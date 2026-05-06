@@ -1,51 +1,55 @@
 import Link from 'next/link';
-import { ArrowRight, Shield, CreditCard, DollarSign, Scissors } from 'lucide-react';
+import { ArrowRight, Shield, Scissors } from 'lucide-react';
 import { ENROLLMENT_STEPS, ELIGIBILITY } from '../barber-program-data';
-import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 
 export function BarberEnrollment() {
   return (
     <>
-      {/* Section 10 — Tuition & Payment */}
+      {/* Section 10 — How Payment Works */}
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 text-center">Tuition &amp; Payment Options</h2>
-          <p className="text-slate-600 text-center mb-2 max-w-2xl mx-auto">
-            Total tuition: <strong>$4,980</strong>. Small down payment, small weekly payments — you pick.
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 text-center">How Payment Works</h2>
+          <p className="text-slate-600 text-center mb-10 max-w-2xl mx-auto">
+            Apply first. We determine your payment situation — you don&apos;t need to figure it out upfront.
           </p>
-          <p className="text-slate-500 text-center text-sm mb-8 max-w-2xl mx-auto">
-            Self-pay program. Payment plans and BNPL financing available — pick what works for you.
-          </p>
-          <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-            <div className="bg-white rounded-xl p-5 border border-slate-200 text-center">
-              <DollarSign className="w-8 h-8 text-brand-green-600 mx-auto mb-2" />
-              <h3 className="font-bold text-slate-900 mb-1">Pay in Full</h3>
-              <p className="text-2xl font-black text-slate-900 mb-1">$4,731</p>
-              <p className="text-slate-500 text-xs">5% discount — save $249</p>
+
+          {/* Apply-first flow */}
+          <div className="max-w-3xl mx-auto grid sm:grid-cols-3 gap-6 mb-10">
+            <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-10 h-10 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto mb-3">1</div>
+              <h3 className="font-bold text-slate-900 mb-2">Apply</h3>
+              <p className="text-slate-600 text-sm">Submit your application. Takes 3–5 minutes.</p>
             </div>
-            <div className="bg-white rounded-xl p-5 border-2 border-brand-orange-400 text-center relative">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</span>
-              <CreditCard className="w-8 h-8 text-brand-orange-600 mx-auto mb-2" />
-              <h3 className="font-bold text-slate-900 mb-1">Payment Plan</h3>
-              <p className="text-2xl font-black text-slate-900 mb-1">from $600 <span className="text-base font-normal text-slate-500">down</span></p>
-              <p className="text-slate-500 text-xs mb-1">You choose your down payment</p>
-              <p className="text-slate-500 text-xs">Remainder over 29 weekly payments</p>
+            <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-10 h-10 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto mb-3">2</div>
+              <h3 className="font-bold text-slate-900 mb-2">We Check Eligibility</h3>
+              <p className="text-slate-600 text-sm">We review your application and check available funding sources on your behalf.</p>
             </div>
-            <div className="bg-white rounded-xl p-5 border border-slate-200 text-center">
-              <CreditCard className="w-8 h-8 text-brand-blue-600 mx-auto mb-2" />
-              <h3 className="font-bold text-slate-900 mb-1">Buy Now, Pay Later</h3>
-              <p className="text-slate-500 text-xs mb-1">Affirm or Sezzle</p>
-              <p className="text-slate-400 text-xs">Subject to provider approval</p>
+            <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-10 h-10 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto mb-3">3</div>
+              <h3 className="font-bold text-slate-900 mb-2">You Get Options</h3>
+              <p className="text-slate-600 text-sm">If funding is approved, tuition may be covered. If not, flexible payment plans are available.</p>
             </div>
           </div>
-          <p className="mt-6 text-center">
+
+          <p className="text-center mb-10">
             <Link href="/apply?program=barber-apprenticeship" className="inline-block bg-brand-red-600 text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-brand-red-700 transition-colors">
-              Apply to Enroll — Choose Payment at Checkout
+              Apply Now
             </Link>
           </p>
-          <p className="mt-3 text-xs text-slate-500 text-center max-w-2xl mx-auto">
-            Payment method selected after application is reviewed. BNPL subject to provider approval.
-          </p>
+
+          {/* Payment details — buried below the fold of the section */}
+          <details className="max-w-2xl mx-auto bg-slate-50 border border-slate-200 rounded-xl overflow-hidden">
+            <summary className="px-6 py-4 cursor-pointer font-semibold text-slate-700 text-sm hover:bg-slate-100 transition-colors">
+              See payment plan details
+            </summary>
+            <div className="px-6 pb-6 pt-2 space-y-3 text-sm text-slate-700">
+              <p><strong>Payment Plan:</strong> Start with a $600 minimum down payment, then pay the remaining balance over 29 weekly installments. No interest.</p>
+              <p><strong>Pay in Full:</strong> Pay $4,731 upfront (5% discount — save $249).</p>
+              <p><strong>Buy Now, Pay Later:</strong> Split tuition through Affirm or Sezzle. Subject to provider approval. Selected at checkout.</p>
+              <p className="text-xs text-slate-500 pt-2">Total program cost: $4,980. Payment method is selected after your application is reviewed.</p>
+            </div>
+          </details>
         </div>
       </section>
 
@@ -119,22 +123,6 @@ export function BarberEnrollment() {
                   <span className="text-slate-700 text-sm">{req}</span>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Payment options info */}
-          <div className="max-w-2xl mx-auto mb-10 bg-white p-6 rounded-xl border border-slate-200">
-            <h3 className="font-bold text-slate-900 mb-3">Payment Options</h3>
-            <div className="space-y-3">
-              <p className="text-sm text-slate-700">
-                <strong>Payment Plan:</strong> Start with a $600 down payment, then pay the remaining balance in small weekly installments over 29 weeks. No interest.
-              </p>
-              <p className="text-sm text-slate-700">
-                <strong>Pay in Full:</strong> Pay the full $4,980 upfront and receive a 5% discount — total $4,731.
-              </p>
-              <p className="text-sm text-slate-700">
-                <strong>BNPL Financing:</strong> Split your tuition into installments through {BNPL_PROVIDER_NAMES}. Select your preferred provider at checkout.
-              </p>
             </div>
           </div>
 

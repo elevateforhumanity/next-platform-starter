@@ -51,7 +51,7 @@ function PaymentSetupForm({ weeklyAmount }: { weeklyAmount: number }) {
       // Non-fatal — subscription activation will be retried by cron
     }
 
-    router.push('/learner/dashboard');
+    router.push('/programs/barber-apprenticeship/orientation');
   }
 
   return (

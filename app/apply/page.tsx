@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Suspense } from 'react';
 import IntakeFormInner from './IntakeFormInner';
 
 export const revalidate = 3600;
@@ -48,13 +47,7 @@ export default function ApplyPage() {
       {/* Form */}
       <section className="py-10">
         <div className="max-w-2xl mx-auto px-4">
-          <Suspense fallback={
-            <div className="flex items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red-600" />
-            </div>
-          }>
-            <IntakeFormInner />
-          </Suspense>
+          <IntakeFormInner />
         </div>
       </section>
     </div>

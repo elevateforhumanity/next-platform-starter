@@ -41,6 +41,7 @@ function IntakeForm() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [fundingTag, setFundingTag] = useState('');
+  const [submittedProgram, setSubmittedProgram] = useState('');
   const [error, setError] = useState('');
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -61,6 +62,7 @@ function IntakeForm() {
       const result = await res.json();
 
       if (res.ok) {
+        setSubmittedProgram((data.program_interest as string) || '');
         setSubmitted(true);
         setFundingTag(result.funding_tag || '');
       } else {
@@ -74,6 +76,39 @@ function IntakeForm() {
   }
 
   if (submitted) {
+    const isBarber = submittedProgram === 'barber-apprenticeship';
+    const isBarberSelfPay = isBarber && fundingTag === 'self-pay';
+
+    // Barber self-pay: send directly to payment cart
+    if (isBarberSelfPay) {
+      return (
+        <div className="min-h-screen bg-white">
+          <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+            <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="text-2xl">✓</span>
+            </div>
+            <h1 className="text-3xl font-bold text-slate-900 mb-4">Application Received</h1>
+            <p className="text-lg text-slate-700 mb-2">
+              You&apos;re one step away from enrolling in the Barber Apprenticeship.
+            </p>
+            <p className="text-sm text-slate-600 mb-8">
+              Set up your payment plan now to secure your spot. Takes 2 minutes.
+            </p>
+            <Link
+              href="/programs/barber-apprenticeship/payment-setup"
+              className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-4 rounded-xl transition-colors text-base"
+            >
+              Set Up Payment Plan →
+            </Link>
+            <p className="mt-4 text-xs text-slate-400">
+              Check your email for a confirmation and your account login link.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // All other programs / funding paths
     return (
       <div className="min-h-screen bg-white">
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
@@ -94,13 +129,19 @@ function IntakeForm() {
               review your eligibility and contact you within 2 business days.
             </p>
           )}
-          {fundingTag === 'self-pay' && (
+          {isBarber && fundingTag !== 'self-pay' && (
+            <p className="text-base text-slate-700 mb-6">
+              We&apos;ll review your funding eligibility for the Barber Apprenticeship and contact you within 2 business days.
+              If funding isn&apos;t available, we&apos;ll walk you through payment options.
+            </p>
+          )}
+          {!isBarber && fundingTag === 'self-pay' && (
             <p className="text-base text-slate-700 mb-6">
               We&apos;ve noted your self-pay preference. Our enrollment team will contact you with
               program details and payment options within 2 business days.
             </p>
           )}
-          {(fundingTag === 'wioa' || fundingTag === 'pending-review') && (
+          {(fundingTag === 'wioa' || fundingTag === 'wioa-categorical' || fundingTag === 'wioa-income' || fundingTag === 'pending-review') && !isBarber && (
             <p className="text-base text-slate-700 mb-6">
               We will review your funding eligibility and contact you within 2 business days. You
               may qualify for WIOA, WRG, or other workforce funding.
@@ -664,4 +705,16 @@ function IntakeForm() {
   );
 }
 
-export default IntakeForm;
+// useSearchParams() requires a Suspense boundary — wrap here so the outer
+// page.tsx Suspense fallback renders correctly instead of a blank screen.
+export default function IntakeFormInner() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center py-20">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red-600" />
+      </div>
+    }>
+      <IntakeForm />
+    </Suspense>
+  );
+}

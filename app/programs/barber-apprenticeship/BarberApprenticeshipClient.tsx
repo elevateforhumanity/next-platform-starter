@@ -51,20 +51,14 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-600">
             <span><strong>Schedule:</strong> {p.schedule}</span>
             <span><strong>Active Apprentices:</strong> {enrollmentCount > 0 ? enrollmentCount : 'Enrolling now'}</span>
-            <span><strong>Tuition:</strong> $4,980. Payment plans available.</span>
+            <span><strong>Earn while you train:</strong> $12–$15/hr at your host shop</span>
           </div>
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <Link
               href="/apply?program=barber-apprenticeship"
               className="inline-flex items-center justify-center rounded-xl bg-brand-red-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-red-700"
             >
-              Apply to Enroll
-            </Link>
-            <Link
-              href="/contact?program=barber-apprenticeship"
-              className="text-sm text-slate-500 underline hover:text-slate-700 transition-colors"
-            >
-              Contact an advisor
+              Apply Now
             </Link>
           </div>
         </div>
@@ -75,12 +69,10 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         <div className="max-w-6xl mx-auto px-4 flex items-start gap-3">
           <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-amber-900">New Program — Now Enrolling</p>
+            <p className="font-semibold text-amber-900">Now Enrolling — Indianapolis Metro</p>
             <p className="text-sm text-amber-800 mt-1">
-              This is a new DOL Registered Apprenticeship program currently rolling out in the Indianapolis metro area.
-              We are actively seeking licensed barbershops to partner as host training sites. Apprentice spots are limited —
-              <Link href="/apply?program=barber-apprenticeship" className="underline font-medium ml-1">apply now to reserve your place</Link> or{' '}
-              <Link href="/partners/barbershop-apprenticeship/apply" className="underline font-medium">apply as a partner barbershop</Link>.
+              DOL Registered Apprenticeship program. Spots are limited — we match each apprentice with a licensed host barbershop.{' '}
+              <Link href="/apply?program=barber-apprenticeship" className="underline font-medium">Apply now to reserve your place.</Link>
             </p>
           </div>
         </div>
@@ -166,16 +158,17 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
 
       <BarberEnrollment />
 
-      {/* ═══ CTA: MID-PAGE (after tuition/eligibility) ═══ */}
+      {/* ═══ CTA: MID-PAGE ═══ */}
       <section className="py-10 border-t bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 text-center">
+          <p className="text-slate-700 font-medium mb-4">Ready to get started? Apply first — we handle the rest.</p>
           <Link
             href="/apply?program=barber-apprenticeship"
             className="inline-flex items-center justify-center rounded-xl bg-brand-red-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-red-700"
           >
-            Apply to Enroll
+            Apply Now
           </Link>
-          <p className="mt-3 text-sm text-slate-500">Takes 3–5 minutes. Funding eligibility checked automatically.</p>
+          <p className="mt-3 text-sm text-slate-500">Takes 3–5 minutes. We check funding eligibility as part of your application.</p>
         </div>
       </section>
 
@@ -268,7 +261,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             <p>Modality: {p.modality}</p>
             <p>Facility: {p.facilityInfo}</p>
             <p>Equipment: {p.equipmentIncluded}</p>
-            <p>Tuition: $4,980. Payment plans available.</p>
+            <p>Tuition: $4,980 if self-pay. Funding and payment plans available — determined after application review.</p>
           </div>
         </div>
       </section>
