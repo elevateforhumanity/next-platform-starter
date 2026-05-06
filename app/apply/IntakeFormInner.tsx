@@ -38,6 +38,8 @@ function IntakeForm() {
     cpr: 'cpr-first-aid',
   };
   const initialProgram = SLUG_TO_VALUE[programParam] || programParam || '';
+  // Barber is a self-pay apprenticeship — simplify the form for this program
+  const isBarberProgram = initialProgram === 'barber-apprenticeship';
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [fundingTag, setFundingTag] = useState('');
@@ -171,11 +173,23 @@ function IntakeForm() {
       {/* Hero */}
       <section className="bg-slate-900 py-12">
         <div className="max-w-2xl mx-auto px-4">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-3">Funding & Apprenticeship Intake</h1>
-          <p className="text-black text-lg">
-            This form screens your eligibility for workforce-funded training programs including
-            WIOA, WRG, and Job Ready Indy. Funding is not guaranteed and requires partner review.
-          </p>
+          {isBarberProgram ? (
+            <>
+              <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">Barber Apprenticeship</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">Apply to Enroll</h1>
+              <p className="text-slate-300 text-base">
+                Takes 3–5 minutes. After submitting, you&apos;ll set up your payment plan and get access to the program.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">Funding &amp; Apprenticeship Intake</h1>
+              <p className="text-slate-300 text-base">
+                This form screens your eligibility for workforce-funded training programs including
+                WIOA, WRG, and Job Ready Indy. Funding is not guaranteed and requires partner review.
+              </p>
+            </>
+          )}
         </div>
       </section>
 
@@ -390,22 +404,27 @@ function IntakeForm() {
                     <option value="student">Student</option>
                   </select>
                 </div>
-                <div>
-                  <label
-                    htmlFor="funding_needed"
-                    className="block text-sm font-semibold text-slate-700 mb-1"
-                  >
-                    Do you need funding assistance?
-                  </label>
-                  <select
-                    id="funding_needed"
-                    name="funding_needed"
-                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
-                  >
-                    <option value="true">Yes, I need funding assistance</option>
-                    <option value="false">No, I can self-pay</option>
-                  </select>
-                </div>
+                {/* Barber is self-pay — hide the funding question and default to false */}
+                {isBarberProgram ? (
+                  <input type="hidden" name="funding_needed" value="false" />
+                ) : (
+                  <div>
+                    <label
+                      htmlFor="funding_needed"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Do you need funding assistance?
+                    </label>
+                    <select
+                      id="funding_needed"
+                      name="funding_needed"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    >
+                      <option value="true">Yes, I need funding assistance</option>
+                      <option value="false">No, I can self-pay</option>
+                    </select>
+                  </div>
+                )}
                 <div>
                   <label
                     htmlFor="probation_or_reentry"
@@ -422,6 +441,8 @@ function IntakeForm() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
+                {/* WIOA income/benefits/barriers — not relevant for barber self-pay */}
+                {!isBarberProgram && <>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label
@@ -627,6 +648,7 @@ function IntakeForm() {
                     <option value="other">Other workforce program</option>
                   </select>
                 </div>
+                </>}
               </div>
             </div>
 
