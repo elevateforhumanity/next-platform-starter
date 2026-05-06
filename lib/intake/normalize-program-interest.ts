@@ -1,5 +1,4 @@
 const PROGRAM_INTEREST_ALIASES: Record<string, string> = {
-  'barber-apprenticeship': 'barber-apprenticeship',
   barbering: 'barber-apprenticeship',
   barber: 'barber-apprenticeship',
   'barber apprenticeship': 'barber-apprenticeship',

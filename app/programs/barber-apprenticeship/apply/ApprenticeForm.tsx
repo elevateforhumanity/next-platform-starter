@@ -114,17 +114,15 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
     setErrorSeverity('info');
 
     try {
-      // Application submission is finalized post-payment by webhook flows.
-      // Do not persist an application record before checkout completes.
-      const applicationId = undefined;
-
       let checkoutResponse;
       const basePayload = {
         customer_email: formData.email,
         customer_name: `${formData.firstName} ${formData.lastName}`,
         customer_phone: formData.phone,
         sms_consent: smsConsent,
-        application_id: applicationId,
+        // Application submission is finalized post-payment by webhook flows.
+        // Do not persist an application record before checkout completes.
+        application_id: null,
         // transferred_hours is metadata only — does not affect price (progress credit only).
         transferred_hours_verified: transferHours,
         has_host_shop: formData.hasHostShop,
@@ -153,7 +151,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             programName: 'Barber Apprenticeship Program',
             amount: affirmAmount,
             paymentOption: affirmAmount >= PRICING.fullPrice ? 'full' : 'deposit',
-            applicationId: applicationId,
+            applicationId: undefined,
             transferHours: transferHours,
             hoursPerWeek: hoursPerWeek,
             hasHostShop: formData.hasHostShop,
@@ -241,7 +239,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             amount: sezzleAmount,
             paymentOption: sezzleAmount >= PRICING.fullPrice ? 'full' : 'deposit',
             description: `Barber Apprenticeship - $${sezzleAmount} payment via Sezzle`,
-            applicationId: applicationId,
+            applicationId: undefined,
             transferHours: transferHours,
             hoursPerWeek: hoursPerWeek,
             hasHostShop: formData.hasHostShop,
@@ -270,7 +268,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
             customer_name: `${formData.firstName} ${formData.lastName}`,
             customer_phone: formData.phone,
             sms_consent: smsConsent,
-            application_id: applicationId,
+            application_id: null,
             transferred_hours_verified: transferHours,
             hours_per_week: hoursPerWeek,
             has_host_shop: formData.hasHostShop,
