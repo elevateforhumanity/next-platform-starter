@@ -43,7 +43,7 @@ export default function CourseAuthoringTool() {
 
         <div className="flex gap-4 justify-center">
           <a
-            href="https://app.elevateforhumanity.org/admin/dashboard"
+            href="https://admin.elevateforhumanity.org/admin/dashboard"
             className="px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition"
           >
             Back to Admin

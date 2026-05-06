@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Suspense } from 'react';
 import IntakeFormInner from './IntakeFormInner';
+import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
+import BarberApplyClient from './BarberApplyClient';
 
 export const revalidate = 3600;
 
@@ -14,7 +15,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ApplyPage() {
+export default function ApplyPage({
+  searchParams,
+}: {
+  searchParams?: { program?: string; payment?: string };
+}) {
+  const normalizedProgram = normalizeProgramInterest(searchParams?.program);
+  const isBarberCanonical = normalizedProgram === 'barber-apprenticeship';
+
+  if (isBarberCanonical) {
+    return <BarberApplyClient payment={searchParams?.payment ?? null} />;
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Audience switcher */}
@@ -48,13 +60,7 @@ export default function ApplyPage() {
       {/* Form */}
       <section className="py-10">
         <div className="max-w-2xl mx-auto px-4">
-          <Suspense fallback={
-            <div className="flex items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red-600" />
-            </div>
-          }>
-            <IntakeFormInner />
-          </Suspense>
+          <IntakeFormInner />
         </div>
       </section>
     </div>

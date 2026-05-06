@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Shield, CreditCard, Lock, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { TUITION_DOLLARS, MIN_SETUP_FEE_CENTS } from '@/lib/barber/pricing';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -50,7 +51,7 @@ function PaymentSetupForm({ weeklyAmount }: { weeklyAmount: number }) {
       // Non-fatal — subscription activation will be retried by cron
     }
 
-    router.push('/learner/dashboard');
+    router.push('/programs/barber-apprenticeship/orientation');
   }
 
   return (
@@ -154,8 +155,8 @@ export default function PaymentSetupPage() {
 
           <div className="grid grid-cols-3 gap-3 pt-2">
               {[
-                { label: 'Total Tuition', value: '$4,980' },
-                { label: 'Paid Today (Minimum)', value: '$600' },
+                { label: 'Total Tuition', value: `$${TUITION_DOLLARS.toLocaleString()}` },
+                { label: 'Paid Today (Minimum)', value: `$${(MIN_SETUP_FEE_CENTS / 100).toLocaleString()}` },
                 { label: 'Weekly', value: `$${(weeklyAmount / 100).toFixed(2)}` },
               ].map(({ label, value }) => (
               <div key={label} className="bg-slate-900 rounded-xl p-3 text-center">

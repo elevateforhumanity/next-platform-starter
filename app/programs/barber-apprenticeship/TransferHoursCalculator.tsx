@@ -11,6 +11,8 @@ import {
 
 const SETUP_FEE = MIN_SETUP_FEE_CENTS / 100;
 const REMAINING_BALANCE = TUITION_DOLLARS - SETUP_FEE;
+// Weekly payment is fixed — 29 weeks regardless of transfer hours or pace
+const WEEKLY_PAYMENT = Math.round((REMAINING_BALANCE / PAYMENT_TERM_WEEKS) * 100) / 100;
 
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-US', {
@@ -21,19 +23,13 @@ function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
-function calculateWeeklyPayment(hoursPerWeek: number, transferHours: number = 0) {
-  const remainingHours = TOTAL_HOURS_REQUIRED - transferHours;
-  const weeks = Math.min(PAYMENT_TERM_WEEKS, Math.ceil(remainingHours / hoursPerWeek));
-  const weekly = REMAINING_BALANCE / weeks;
-  return { weekly: Math.round(weekly * 100) / 100, weeks };
-}
-
 export function TransferHoursCalculator() {
   const [transferHours, setTransferHours] = useState(0);
   const [hoursPerWeek, setHoursPerWeek] = useState(40);
 
   const remainingHours = Math.max(0, TOTAL_HOURS_REQUIRED - transferHours);
-  const { weekly, weeks } = calculateWeeklyPayment(hoursPerWeek, transferHours);
+  // Duration estimate is display-only — does not affect price
+  const estimatedWeeks = Math.ceil(remainingHours / hoursPerWeek);
 
   return (
     <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-6 text-white">
@@ -89,20 +85,21 @@ export function TransferHoursCalculator() {
             <div className="text-2xl font-black">{remainingHours.toLocaleString()}</div>
           </div>
           <div>
-            <div className="text-amber-200 text-xs uppercase tracking-wide mb-1">Est. Weekly Payment</div>
-            <div className="text-2xl font-black">${weekly.toFixed(2)}</div>
+            <div className="text-amber-200 text-xs uppercase tracking-wide mb-1">Weekly Payment</div>
+            <div className="text-2xl font-black">${WEEKLY_PAYMENT.toFixed(2)}</div>
           </div>
           <div>
             <div className="text-amber-200 text-xs uppercase tracking-wide mb-1">Est. Duration</div>
-            <div className="text-2xl font-black">~{weeks} weeks</div>
+            <div className="text-2xl font-black">~{estimatedWeeks} weeks</div>
           </div>
         </div>
-        
+
         <div className="mt-4 pt-4 border-t border-white/20 flex items-start gap-2">
           <Info className="w-4 h-4 text-amber-200 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-amber-100">
-            <strong>Setup fee remains {formatCurrency(SETUP_FEE)}</strong> regardless of transferred hours.
-            Weekly payments are calculated from the remaining balance of {formatCurrency(REMAINING_BALANCE)}.
+            <strong>Weekly payment is fixed at ${WEEKLY_PAYMENT.toFixed(2)}</strong> for all students —
+            transfer hours reduce your remaining OJL hours only, not your payment amount.
+            Setup fee: {formatCurrency(SETUP_FEE)} minimum down payment.
           </p>
         </div>
       </div>

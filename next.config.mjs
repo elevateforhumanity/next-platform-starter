@@ -149,6 +149,8 @@ const nextConfig = {
 
   // Experimental features for better performance
   experimental: {
+    workerThreads: false,
+    cpus: 1,
     serverActions: {
       allowedOrigins: [
         'localhost:3000',
@@ -175,6 +177,7 @@ const nextConfig = {
         fs: false,
         net: false,
         tls: false,
+        child_process: false,
       };
     }
 
@@ -682,6 +685,11 @@ const nextConfig = {
       { source: '/programs/cybersecurity/:path*', destination: '/programs/cybersecurity-analyst/:path*', permanent: true },
       // Barber & Beauty
       {
+        source: '/barber',
+        destination: '/programs/barber-apprenticeship',
+        permanent: true,
+      },
+      {
         source: '/programs/barber',
         destination: '/programs/barber-apprenticeship',
         permanent: true,
@@ -715,12 +723,6 @@ const nextConfig = {
       // Human Services
       // Skilled Trades aliases
       // Technology aliases
-      {
-        source: '/programs/cybersecurity',
-        destination: '/programs/cybersecurity-analyst',
-        permanent: true,
-      },
-
       // Career consolidation — /career-center handled by Netlify (Rule A)
       { source: '/career-fair/:path*', destination: '/career-services/:path*', permanent: true },
 
@@ -790,11 +792,6 @@ const nextConfig = {
       { source: '/for-agencies', destination: '/contact', permanent: false },
       { source: '/partnerships', destination: '/partners', permanent: true },
       { source: '/program-holder', destination: '/apply', permanent: false },
-      {
-        source: '/program-holder/:path*',
-        destination: '/login?redirect=/program-holder/:path*',
-        permanent: false,
-      },
       { source: '/cna-waitlist', destination: '/programs', permanent: false },
       { source: '/credentials/checksheets', destination: '/programs', permanent: false },
       {
@@ -818,7 +815,6 @@ const nextConfig = {
       { source: '/federal-compliance', destination: '/disclosures', permanent: false },
       { source: '/grievance', destination: '/contact', permanent: false },
       { source: '/satisfactory-academic-progress', destination: '/disclosures', permanent: false },
-      { source: '/policies/:path*', destination: '/disclosures', permanent: false },
       { source: '/hire-graduates', destination: '/employers', permanent: true },
       // /apprenticeship-sponsor → /partners/training-provider
       { source: '/events', destination: '/contact', permanent: false },
@@ -843,12 +839,12 @@ const nextConfig = {
       // NOTE: /enroll/:path* wildcard intentionally omitted here.
       // Specific /enroll/* overrides are declared in the ENROLL/APPLY CONSOLIDATION
       // block below. A wildcard here would shadow those specific rules.
-      { source: '/financial-aid', destination: '/funding', permanent: true },
       { source: '/financial-support', destination: '/funding', permanent: true },
+      { source: '/community/groups', destination: '/community-services', permanent: false },
       { source: '/community/:path*', destination: '/community-services', permanent: true },
       // /compliance/:path* — no redirect needed
       // /supersonic-fast-cash — external domain, no redirect needed
-      { source: '/docs/:path*', destination: '/resources', permanent: false },
+      // Keep docs wildcard after specific /docs/* redirects to avoid shadowing.
       // /workone-partner-packet → /snap-et-partner
       // Portal redirects:
       //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
@@ -863,7 +859,6 @@ const nextConfig = {
       { source: '/approvals', destination: '/login', permanent: false },
       { source: '/account/:path*', destination: '/login', permanent: false },
       // /admin/:path* — gated by proxy.ts middleware
-      { source: '/program-holder/:path*', destination: '/login', permanent: false },
       // Missing public pages with no Railway equivalent
       { source: '/cert/verify', destination: '/verify', permanent: true },
       { source: '/certiport-exam', destination: '/testing', permanent: false },
@@ -873,8 +868,6 @@ const nextConfig = {
       { source: '/help/:path*', destination: '/support', permanent: false },
       { source: '/compliance', destination: '/disclosures', permanent: false },
       { source: '/credentials', destination: '/programs', permanent: false },
-      { source: '/schedule', destination: '/contact', permanent: false },
-
       // Legal consolidation
       { source: '/privacy', destination: '/privacy-policy', permanent: true },
       { source: '/terms', destination: '/terms-of-service', permanent: true },
@@ -893,6 +886,7 @@ const nextConfig = {
       { source: '/policies/privacy', destination: '/privacy-policy', permanent: true },
       { source: '/policies/terms', destination: '/terms-of-service', permanent: true },
       { source: '/policies/grievance', destination: '/grievance', permanent: true },
+      { source: '/policies/:path*', destination: '/disclosures', permanent: false },
       { source: '/license-agreement', destination: '/legal/license-agreement', permanent: true },
 
       // Pricing / billing consolidation
@@ -946,6 +940,7 @@ const nextConfig = {
       { source: '/home1', destination: '/', permanent: true },
       { source: '/downloads', destination: '/resources', permanent: true },
       { source: '/docs/students/certificates', destination: '/credentials', permanent: true },
+      { source: '/docs/:path*', destination: '/resources', permanent: false },
       { source: '/programs/food-handler', destination: '/programs', permanent: true },
 
       // ============================================
@@ -961,7 +956,22 @@ const nextConfig = {
       // Must be declared before the /enroll/:path* catch-all below.
       {
         source: '/enroll/barber-apprenticeship',
-        destination: '/programs/barber-apprenticeship/apply',
+        destination: '/apply?program=barber-apprenticeship',
+        permanent: true,
+      },
+      {
+        source: '/programs/barber-apprenticeship/apply',
+        destination: '/apply?program=barber-apprenticeship',
+        permanent: true,
+      },
+      {
+        source: '/programs/:program(barber-apprenticeship)/apply',
+        destination: '/apply?program=:program',
+        permanent: true,
+      },
+      {
+        source: '/apply/barber-apprenticeship',
+        destination: '/apply?program=barber-apprenticeship',
         permanent: true,
       },
 
@@ -980,6 +990,7 @@ const nextConfig = {
 
       // Program holder apply alias
       { source: '/program-holder/apply', destination: '/apply/program-holder', permanent: true },
+      { source: '/program-holder/:path*', destination: '/login?redirect=/program-holder/:path*', permanent: false },
 
       // /scholarships → /funding handled by Netlify (public SEO route, Rule A)
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
@@ -1007,9 +1018,7 @@ const nextConfig = {
       // Partner portal redirects
       // NOTE: /partner/dashboard is the canonical partner dashboard page.
       // /partner/page.tsx redirects TO /partner/dashboard, so do NOT redirect /partner/dashboard back.
-      // Removed: { source: '/partner/dashboard', destination: '/partner', permanent: true },
-      // Removed: { source: '/partner/courses', destination: '/partner', permanent: true },
-      // Removed: { source: '/partner/students', destination: '/partner', permanent: true },
+      // Removed legacy redirects for partner dashboard/courses/students to preserve canonical partner dashboard routes.
 
       // AI redirects
       { source: '/ai-instructor', destination: '/ai-tutor', permanent: true },
@@ -1032,7 +1041,6 @@ const nextConfig = {
       // SEO HUB — PROGRAM PAGE REDIRECTS & HUB ALIAS REDIRECTS
       // ============================================
       { source: '/training/cna', destination: '/programs/cna', permanent: true },
-      { source: '/programs/cna-training', destination: '/programs/cna', permanent: true },
       { source: '/training/hvac-technician', destination: '/programs/hvac-technician', permanent: true },
       { source: '/programs/hvac-technician-program', destination: '/programs/hvac-technician', permanent: true },
       { source: '/workforce-training', destination: '/workforce-training-indianapolis', permanent: true },
@@ -1050,17 +1058,10 @@ const nextConfig = {
       // DEAD LINK FIXES
       // ============================================
       { source: '/logout', destination: '/login', permanent: false },
-      { source: '/student/support', destination: '/support', permanent: false },
-      { source: '/community/groups', destination: '/community', permanent: false },
-      { source: '/workforce-board/reports', destination: '/workforce-board', permanent: false },
       { source: '/elevate-platform-overview.pdf', destination: '/resources', permanent: false },
       { source: '/pwa/barber/log-hours', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/training', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/progress', destination: '/programs/barber-apprenticeship', permanent: false },
-      { source: '/admin/accreditation/evidence/new', destination: '/admin/accreditation/evidence', permanent: false },
-      { source: '/admin/blog/new', destination: '/admin/blog', permanent: false },
-      { source: '/admin/users/invite', destination: '/admin/users', permanent: false },
-      { source: '/admin/wioa/documents/upload', destination: '/admin/wioa/documents', permanent: false },
       { source: '/admin/live-sessions/new', destination: '/admin/live-sessions', permanent: false },
     ];
   },

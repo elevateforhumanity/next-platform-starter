@@ -13,6 +13,10 @@ const APP_ROUTE_PREFIXES = [
   '/staff-portal',
   '/mentor',
   '/program-holder',
+  '/login',
+  '/signup',
+  '/reset-password',
+  '/verify',
 ];
 
 function isAppRoute(pathname: string) {

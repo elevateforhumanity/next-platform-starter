@@ -240,9 +240,7 @@ async function _POST(request: NextRequest) {
         'amazon_pay',
       ] as any;
     } else {
-      // Let Stripe show all payment methods enabled on the account (card, Link,
-      // Apple Pay, Google Pay, etc.) without hardcoding the list.
-      (sessionConfig as any).automatic_payment_methods = { enabled: true };
+      sessionConfig.payment_method_types = ['card'] as any;
     }
 
     const session = await stripe.checkout.sessions.create(sessionConfig);

@@ -192,7 +192,7 @@ function ProgramPage({
     (s) => s.heading.toLowerCase().includes('learn') || s.heading.toLowerCase().includes('module'),
   );
 
-  const adminBase = 'https://app.elevateforhumanity.org';
+  const adminBase = 'https://admin.elevateforhumanity.org';
 
   return (
     <main className="bg-white">

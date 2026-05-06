@@ -2,13 +2,12 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import type { HeroBannerConfig } from '@/content/heroBanners';
 import {
   Award, Clock, ChevronRight, MapPin, BookOpen,
   Briefcase, TrendingUp, DollarSign, AlertTriangle,
-  Building2, FileText, Users, Scissors, ClipboardList,
+  Building2, FileText, ClipboardList,
 } from 'lucide-react';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { BarberEnrollment } from './sections/BarberEnrollment';
@@ -16,11 +15,6 @@ import { BarberEnrollment } from './sections/BarberEnrollment';
 interface Props { program: ProgramSchema; heroBanner: HeroBannerConfig | null; enrollmentCount?: number; }
 
 export default function BarberApprenticeshipClient({ program: p, heroBanner: b, enrollmentCount = 0 }: Props) {
-  const [waitlistName, setWaitlistName] = useState('');
-  const [waitlistEmail, setWaitlistEmail] = useState('');
-  const [waitlistPhone, setWaitlistPhone] = useState('');
-  const [waitlistType, setWaitlistType] = useState<'apprentice' | 'shop'>('apprentice');
-  const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
@@ -57,7 +51,15 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-600">
             <span><strong>Schedule:</strong> {p.schedule}</span>
             <span><strong>Active Apprentices:</strong> {enrollmentCount > 0 ? enrollmentCount : 'Enrolling now'}</span>
-            <span><strong>Tuition:</strong> $4,980. Payment plans available.</span>
+            <span><strong>Earn while you train:</strong> $12–$15/hr at your host shop</span>
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Link
+              href="/programs/barber-apprenticeship/eligibility"
+              className="inline-flex items-center justify-center rounded-xl bg-brand-red-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-red-700"
+            >
+              Apply Now
+            </Link>
           </div>
         </div>
       </section>
@@ -67,12 +69,10 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         <div className="max-w-6xl mx-auto px-4 flex items-start gap-3">
           <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-amber-900">New Program — Now Enrolling</p>
+            <p className="font-semibold text-amber-900">Now Enrolling — Indianapolis Metro</p>
             <p className="text-sm text-amber-800 mt-1">
-              This is a new DOL Registered Apprenticeship program currently rolling out in the Indianapolis metro area.
-              We are actively seeking licensed barbershops to partner as host training sites. Apprentice spots are limited —
-              there is a waiting list. Sign up below to reserve your place or{' '}
-              <Link href="/programs/barber-apprenticeship/apply?type=partner_shop" className="underline font-medium">apply as a partner barbershop</Link>.
+              DOL Registered Apprenticeship program. Spots are limited — we match each apprentice with a licensed host barbershop.{' '}
+              <Link href="/programs/barber-apprenticeship/eligibility" className="underline font-medium">Apply now to reserve your place.</Link>
             </p>
           </div>
         </div>
@@ -156,53 +156,21 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         </div>
       </section>
 
-      {/* ═══ CTA: INQUIRY & ENROLLMENT ═══ */}
-      <section className="py-12 border-t">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-slate-900 text-center mb-3">Ready to Start?</h2>
-          <p className="text-slate-500 text-center max-w-2xl mx-auto mb-8">
-            Choose the right path for where you are in the process.
-          </p>
-          <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {/* Inquiry Application */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Inquiry Application</h3>
-              <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                Not sure if this program is right for you? Submit an inquiry and a career advisor will
-                contact you to discuss eligibility, funding options, and next steps. No commitment required.
-                {' '}<Link href="/forms/barber-apprenticeship-inquiry" className="underline font-medium text-brand-blue-600">Use the inquiry form →</Link>
-              </p>
-              <Link
-                href="/contact?program=barber-apprenticeship"
-                className="inline-block bg-brand-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-brand-blue-700 transition-colors"
-              >
-                Submit Inquiry
-              </Link>
-            </div>
-            {/* Enrollment Application */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Enrollment Application</h3>
-              <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                Ready to enroll? Complete the full application to begin the admissions process.
-                Includes funding eligibility check, background information, and program agreement.
-                BNPL payment plans available.
-              </p>
-              <Link
-                href="/programs/barber-apprenticeship/apply"
-                className="inline-block bg-brand-red-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-brand-red-700 transition-colors"
-              >
-                Apply to Enroll
-              </Link>
-            </div>
-          </div>
-
-
-        </div>
-      </section>
-
       <BarberEnrollment />
 
-
+      {/* ═══ CTA: MID-PAGE ═══ */}
+      <section className="py-10 border-t bg-slate-50">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <p className="text-slate-700 font-medium mb-4">Ready to get started? Apply first — we handle the rest.</p>
+          <Link
+            href="/programs/barber-apprenticeship/eligibility"
+            className="inline-flex items-center justify-center rounded-xl bg-brand-red-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-red-700"
+          >
+            Apply Now
+          </Link>
+          <p className="mt-3 text-sm text-slate-500">See payment options, BNPL calculator, and funding paths.</p>
+        </div>
+      </section>
 
       {/* ═══ CAREER OUTCOMES / LABOR MARKET ═══ */}
       <section className="py-10">
@@ -263,94 +231,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         </div>
       </section>
 
-      {/* ═══ WAITLIST SIGNUP ═══ */}
-      <section className="bg-brand-blue-50 py-10" id="waitlist">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-8 items-start">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
-                  <Users className="w-5 h-5 text-brand-blue-700" />
-                </div>
-                <h2 className="text-xl font-bold text-slate-900">Join the Waiting List</h2>
-              </div>
-              <p className="text-slate-700 leading-relaxed mb-4">
-                Apprentice spots are limited and fill quickly. Join the waiting list to be notified when the next
-                cohort opens. Barbershop owners can also sign up to be considered as a host training site.
-              </p>
-              <div className="relative rounded-xl overflow-hidden shadow-lg" style={{ aspectRatio: '3/2' }}>
-                <Image src="/images/pages/barber-styling-hair.jpg" alt="Barber styling a client's hair" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
-              </div>
-            </div>
-            <div className="bg-white rounded-xl border border-brand-blue-200 p-6">
-              {waitlistSubmitted ? (
-                <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Scissors className="w-8 h-8 text-brand-green-600" />
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">You&apos;re on the list!</h3>
-                  <p className="text-sm text-slate-600">We&apos;ll contact you when the next cohort opens or when a host shop spot becomes available.</p>
-                </div>
-              ) : (
-                <form onSubmit={async (e) => {
-                  e.preventDefault();
-                  try {
-                    const [firstName, ...rest] = waitlistName.trim().split(' ');
-                    const res = await fetch('/api/waitlist', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        firstName: firstName || waitlistName,
-                        lastName: rest.join(' ') || '',
-                        email: waitlistEmail,
-                        phone: waitlistPhone,
-                        programSlug: 'barber-apprenticeship',
-                        notes: waitlistType === 'shop' ? 'Interested as partner shop' : undefined,
-                      }),
-                    });
-                    const data = await res.json();
-                    if (!res.ok) throw new Error(data.error || 'Failed to join waitlist');
-                    setWaitlistSubmitted(true);
-                  } catch (err: any) {
-                    alert(err.message || 'Something went wrong. Please try again.');
-                  }
-                }} className="space-y-4">
-                  <h3 className="font-semibold text-slate-900">Waiting List Signup</h3>
-                  <div className="flex gap-3">
-                    <button type="button" onClick={() => setWaitlistType('apprentice')}
-                      className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium border transition-colors ${waitlistType === 'apprentice' ? 'bg-brand-blue-600 text-white border-brand-blue-600' : 'bg-white text-slate-700 border-slate-300 hover:border-slate-400'}`}>
-                      I want to be an Apprentice
-                    </button>
-                    <button type="button" onClick={() => setWaitlistType('shop')}
-                      className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium border transition-colors ${waitlistType === 'shop' ? 'bg-brand-orange-600 text-white border-brand-orange-600' : 'bg-white text-slate-700 border-slate-300 hover:border-slate-400'}`}>
-                      I own a Barbershop
-                    </button>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
-                    <input type="text" required value={waitlistName} onChange={(e) => setWaitlistName(e.target.value)}
-                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                    <input type="email" required value={waitlistEmail} onChange={(e) => setWaitlistEmail(e.target.value)}
-                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Phone</label>
-                    <input type="tel" value={waitlistPhone} onChange={(e) => setWaitlistPhone(e.target.value)}
-                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
-                  </div>
-                  <button type="submit"
-                    className={`w-full py-3 rounded-lg font-semibold text-sm text-white transition-colors ${waitlistType === 'shop' ? 'bg-brand-orange-600 hover:bg-brand-orange-700' : 'bg-brand-blue-600 hover:bg-brand-blue-700'}`}>
-                    {waitlistType === 'shop' ? 'Sign Up as Partner Shop' : 'Join Apprentice Waiting List'}
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* ═══ INSTITUTIONAL FOOTER ═══ */}
       <section className="border-t py-8">
@@ -380,7 +261,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             <p>Modality: {p.modality}</p>
             <p>Facility: {p.facilityInfo}</p>
             <p>Equipment: {p.equipmentIncluded}</p>
-            <p>Tuition: $4,980. Payment plans available.</p>
+            <p>Tuition: $4,980 if self-pay. Funding and payment plans available — determined after application review.</p>
           </div>
         </div>
       </section>

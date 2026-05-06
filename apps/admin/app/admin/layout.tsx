@@ -16,6 +16,7 @@ import PWAManager from '@/components/PWAManager';
 import { UpdatePrompt } from '@/components/pwa/UpdatePrompt';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export const metadata: Metadata = {
   title: 'Admin Portal - Manage Programs & Operations',

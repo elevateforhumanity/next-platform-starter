@@ -18,11 +18,13 @@ phases:
       - export COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - export NEXT_PUBLIC_SUPABASE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_URL --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SUPABASE_ANON_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY --with-decryption --query Parameter.Value --output text)
+      - export SUPABASE_SERVICE_ROLE_KEY=$(aws ssm get-parameter --name /elevate/SUPABASE_SERVICE_ROLE_KEY --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SITE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SITE_URL --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_ADMIN_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_ADMIN_URL --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export NEXT_PUBLIC_SEZZLE_MERCHANT_ID=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_MERCHANT_ID --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export NEXT_PUBLIC_SEZZLE_PUBLIC_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SEZZLE_PUBLIC_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export SEZZLE_PRIVATE_KEY=$(aws ssm get-parameter --name /elevate/SEZZLE_PRIVATE_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
 
   build:
     commands:
@@ -45,6 +47,8 @@ phases:
           echo "Build failed; skipping push and deploy."
           exit 1
         fi
+      - echo "Validating required env vars before push..."
+      - node scripts/validate-env.js lms
       - echo Pushing images...
       - docker push $IMAGE_URI:latest
       - docker push $IMAGE_URI:$COMMIT_HASH

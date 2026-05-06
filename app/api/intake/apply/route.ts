@@ -3,6 +3,7 @@ import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
     }
 
     const normalizedEmail = body.email.trim().toLowerCase();
+    const programInterest = normalizeProgramInterest(body.program_interest);
     const stage = determineStage(body);
 
     // Dedup: block same email + program within 24 hours.
@@ -64,7 +66,7 @@ export async function POST(request: NextRequest) {
       .from('applications')
       .select('id')
       .eq('email', normalizedEmail)
-      .eq('program_interest', body.program_interest || '')
+      .eq('program_interest', programInterest || '')
       .gte('created_at', oneDayAgo)
       .maybeSingle();
 
@@ -76,13 +78,20 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Create lead
+    // Split full_name for NOT NULL first_name / last_name columns on leads table
+    const leadNameParts = body.full_name.trim().split(' ');
+    const leadFirstName = leadNameParts[0] || body.full_name.trim();
+    const leadLastName = leadNameParts.slice(1).join(' ') || '';
+
     const { data: lead, error: leadError } = await supabase
       .from('leads')
       .insert({
         full_name: body.full_name.trim(),
+        first_name: leadFirstName,
+        last_name: leadLastName,
         email: normalizedEmail,
         phone: body.phone?.trim() || null,
-        program_interest: body.program_interest || null,
+        program_interest: programInterest || null,
         funding_interest: body.funding_interest || null,
         state: body.state || null,
         source: 'website-start-page',
@@ -114,7 +123,7 @@ export async function POST(request: NextRequest) {
         phone: body.phone?.trim() || null,
         city: 'Not provided',
         zip: '00000',
-        program_interest: body.program_interest || null,
+        program_interest: programInterest || null,
         reference_number: intakeRef,
         status: 'submitted',
         source: 'start-page',
@@ -145,7 +154,7 @@ export async function POST(request: NextRequest) {
       template_key: 'intake_confirmation',
       template_data: {
         full_name: body.full_name.trim(),
-        program_interest: body.program_interest || 'Not specified',
+          program_interest: programInterest || 'Not specified',
         stage,
         status_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/status/application?token=${application.public_status_token}`,
       },
@@ -163,7 +172,7 @@ export async function POST(request: NextRequest) {
         full_name: body.full_name.trim(),
         email: normalizedEmail,
         phone: body.phone?.trim() || 'Not provided',
-        program_interest: body.program_interest || 'Not specified',
+          program_interest: programInterest || 'Not specified',
         funding_interest: body.funding_interest || 'Not specified',
         stage,
         is_indiana_resident: body.is_indiana_resident ? 'Yes' : 'No',

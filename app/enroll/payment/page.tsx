@@ -123,7 +123,7 @@ function EnrollPaymentContent() {
             Payment happens after your application is reviewed.
           </p>
           <Link
-            href="/programs/barber-apprenticeship/apply"
+            href="/programs/barber-apprenticeship/eligibility"
             className="inline-flex items-center justify-center w-full px-6 py-3 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-semibold rounded-lg transition"
           >
             Start Application

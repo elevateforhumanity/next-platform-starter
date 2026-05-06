@@ -103,10 +103,14 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
 
   const [videoProgress, setVideoProgress] = useState(0);
   const [videoWatched, setVideoWatched] = useState(false);
+  const [videoError, setVideoError] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
   const [readSlides, setReadSlides] = useState<Set<number>>(new Set());
   const [acknowledged, setAcknowledged] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  // Handbook is unlocked once video is watched OR if video fails to load
+  const handbookUnlocked = videoWatched || videoError;
 
   const weeklyDollars = payment.weeklyPaymentCents / 100;
   const allSlidesRead = readSlides.size >= HANDBOOK_SLIDES.length;
@@ -182,6 +186,7 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
               playsInline
               onTimeUpdate={handleTimeUpdate}
               onEnded={() => setVideoWatched(true)}
+              onError={() => setVideoError(true)}
               className="w-full h-full object-cover"
             />
             {videoProgress === 0 && (
@@ -205,15 +210,17 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
               />
             </div>
             <p className="text-slate-500 text-xs text-right">
-              {videoWatched
-                ? '✓ Video complete — continue to handbook below'
-                : `Watch at least 80% to unlock the handbook (${Math.round(videoProgress)}%)`}
+              {videoError
+                ? 'Video unavailable — continue to handbook below'
+                : videoWatched
+                  ? '✓ Video complete — continue to handbook below'
+                  : `Watch at least 80% to unlock the handbook (${Math.round(videoProgress)}%)`}
             </p>
           </div>
         </div>
 
         {/* ── Step 2: Handbook slides ── */}
-        <div className={`space-y-4 transition-opacity duration-300 ${videoWatched ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+        <div className={`space-y-4 transition-opacity duration-300 ${handbookUnlocked ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
           <h2 className="text-white font-semibold text-sm uppercase tracking-widest">
             Step 2 — Student Handbook ({readSlides.size}/{HANDBOOK_SLIDES.length} sections read)
           </h2>

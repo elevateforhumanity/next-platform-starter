@@ -237,7 +237,7 @@ function SuccessContent() {
             Access your admin dashboard to start setting up your platform.
           </p>
           <Link
-            href="https://app.elevateforhumanity.org/admin/dashboard"
+            href="https://admin.elevateforhumanity.org/admin/dashboard"
             className="inline-flex items-center gap-2 bg-white text-brand-blue-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-brand-blue-50 transition-colors"
           >
             Open Admin Dashboard

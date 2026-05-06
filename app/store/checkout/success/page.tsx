@@ -144,7 +144,7 @@ function CheckoutSuccessContent() {
 
           <div className="mt-8 pt-6 border-t">
             <Link
-              href="https://app.elevateforhumanity.org/admin/dashboard"
+              href="https://admin.elevateforhumanity.org/admin/dashboard"
               className="block w-full text-center bg-white text-slate-900 py-4 rounded-lg font-bold text-lg hover:bg-white transition-colors"
             >
               Go to Dashboard

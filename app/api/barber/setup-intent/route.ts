@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { getStripe } from '@/lib/stripe/client';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { TUITION_CENTS, PAYMENT_TERM_WEEKS, weeklyPaymentCents } from '@/lib/barber/pricing';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -74,6 +75,9 @@ export async function POST(request: NextRequest) {
     });
 
     // Upsert barber_subscriptions with customer ID so we can find it later
+    // Default weekly amount — overridden by DB value if sub already exists
+    let defaultWeeklyAmountCents = weeklyPaymentCents(0);
+
     if (!existingSub) {
       // Get enrollment for reference
       const { data: enrollment } = await db
@@ -84,15 +88,9 @@ export async function POST(request: NextRequest) {
         .maybeSingle();
 
       const amountPaidCents = enrollment?.amount_paid_cents ?? 0;
-      const tuitionCents = 498000; // $4,980 fixed
-      const remainingCents = Math.max(0, tuitionCents - amountPaidCents);
-      // Term = OJL remaining after transfer hours ÷ 40 hrs/wk.
-      // Transfer hours reduce hours to complete (and therefore the term),
-      // which increases the weekly payment since the balance is spread over fewer weeks.
-      const transferHoursVerified = 0; // default for new enrollees — set per-student after verification
-      const ojlRemaining = Math.max(0, 2000 - transferHoursVerified);
-      const weeksRemaining = Math.ceil(ojlRemaining / 40);
-      const weeklyPaymentCents = Math.ceil(remainingCents / weeksRemaining);
+      // Payment term is fixed at PAYMENT_TERM_WEEKS (29) for all students.
+      // Transfer hours affect program duration only, never the payment schedule.
+      defaultWeeklyAmountCents = weeklyPaymentCents(amountPaidCents / 100);
 
       await db.from('barber_subscriptions').insert({
         user_id: user.id,
@@ -103,8 +101,8 @@ export async function POST(request: NextRequest) {
         status: 'pending_payment_method',
         setup_fee_paid: amountPaidCents > 0,
         setup_fee_amount: amountPaidCents,
-        weekly_payment_cents: weeklyPaymentCents,
-        weeks_remaining: weeksRemaining,
+        weekly_payment_cents: defaultWeeklyAmountCents,
+        weeks_remaining: PAYMENT_TERM_WEEKS,
       });
     } else if (!existingSub.stripe_customer_id) {
       await db
@@ -113,18 +111,18 @@ export async function POST(request: NextRequest) {
         .eq('id', existingSub.id);
     }
 
-    // Pull final weekly amount from DB (may differ if sub already existed with transfer hours applied)
+    // Pull final weekly amount from DB (may differ if sub already existed)
     const { data: finalSub } = await db
       .from('barber_subscriptions')
       .select('weekly_payment_cents, weeks_remaining')
-      .eq('user_id', userId)
+      .eq('user_id', user.id)
       .maybeSingle();
 
     return NextResponse.json({
       clientSecret: setupIntent.client_secret,
       customerId,
-      weeklyPaymentCents: finalSub?.weekly_payment_cents ?? weeklyPaymentCents,
-      weeksRemaining: finalSub?.weeks_remaining ?? weeksRemaining,
+      weeklyPaymentCents: finalSub?.weekly_payment_cents ?? defaultWeeklyAmountCents,
+      weeksRemaining: finalSub?.weeks_remaining ?? PAYMENT_TERM_WEEKS,
     });
   } catch (err) {
     logger.error('[barber/setup-intent] Error', err);

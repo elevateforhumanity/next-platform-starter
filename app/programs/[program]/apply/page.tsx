@@ -12,7 +12,7 @@ import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
 
 // Programs with dedicated enrollment flows — redirect away from this shared page.
 const DEDICATED_FLOWS: Record<string, string> = {
-  'barber-apprenticeship': '/programs/barber-apprenticeship/apply',
+  'barber-apprenticeship': '/apply?program=barber-apprenticeship',
 };
 
 type FundingType = 'wioa' | 'self_pay' | 'employer' | 'unsure';

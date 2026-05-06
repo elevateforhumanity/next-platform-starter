@@ -1,61 +1,55 @@
 import Link from 'next/link';
-import { ArrowRight, Phone, Shield, CreditCard, DollarSign, Building2, Scissors } from 'lucide-react';
-import { ProgramTutorCTA } from '@/components/ProgramTutorCTA';
+import { ArrowRight, Shield, Scissors } from 'lucide-react';
 import { ENROLLMENT_STEPS, ELIGIBILITY } from '../barber-program-data';
-import { ACTIVE_BNPL_PROVIDERS, BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 
 export function BarberEnrollment() {
   return (
     <>
-      {/* Section 10 — Tuition & Payment */}
+      {/* Section 10 — How Payment Works */}
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 text-center">Tuition &amp; Payment Options</h2>
-          <p className="text-slate-600 text-center mb-2 max-w-2xl mx-auto">
-            Total tuition: <strong>$4,980</strong>. Small down payment, small weekly payments — you pick.
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 text-center">How Payment Works</h2>
+          <p className="text-slate-600 text-center mb-10 max-w-2xl mx-auto">
+            Apply first. We determine your payment situation — you don&apos;t need to figure it out upfront.
           </p>
-          <p className="text-slate-500 text-center text-sm mb-8 max-w-2xl mx-auto">
-            Self-pay program. Payment plans and BNPL financing available — pick what works for you.
-          </p>
-          <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-            <div className="bg-white rounded-xl p-5 border border-slate-200 text-center">
-              <DollarSign className="w-8 h-8 text-brand-green-600 mx-auto mb-2" />
-              <h3 className="font-bold text-slate-900 mb-1">Pay in Full</h3>
-              <p className="text-2xl font-black text-slate-900 mb-1">$4,980</p>
-              <p className="text-slate-500 text-xs mb-3">5% discount applied at checkout</p>
-              <Link href="/programs/barber-apprenticeship/payment-setup?payment=pay_in_full" className="inline-block text-sm font-semibold text-brand-red-600 hover:text-brand-red-700">
-                Enroll Now &rarr;
-              </Link>
+
+          {/* Apply-first flow */}
+          <div className="max-w-3xl mx-auto grid sm:grid-cols-3 gap-6 mb-10">
+            <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-10 h-10 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto mb-3">1</div>
+              <h3 className="font-bold text-slate-900 mb-2">Apply</h3>
+              <p className="text-slate-600 text-sm">Submit your application. Takes 3–5 minutes.</p>
             </div>
-            <div className="bg-white rounded-xl p-5 border-2 border-brand-orange-400 text-center relative">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</span>
-              <CreditCard className="w-8 h-8 text-brand-orange-600 mx-auto mb-2" />
-              <h3 className="font-bold text-slate-900 mb-1">Payment Plan</h3>
-              <p className="text-2xl font-black text-slate-900 mb-1">from $600 <span className="text-base font-normal text-slate-500">down</span></p>
-              <p className="text-slate-500 text-xs mb-1">You choose your down payment</p>
-              <p className="text-slate-500 text-xs mb-3">Remainder split over 29 weekly payments</p>
-              <Link href="/programs/barber-apprenticeship/payment-setup?payment=payment_plan" className="inline-block bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
-                Choose My Plan &rarr;
-              </Link>
+            <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-10 h-10 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto mb-3">2</div>
+              <h3 className="font-bold text-slate-900 mb-2">We Check Eligibility</h3>
+              <p className="text-slate-600 text-sm">We review your application and check available funding sources on your behalf.</p>
             </div>
-            <div className="bg-white rounded-xl p-5 border border-slate-200 text-center">
-              <CreditCard className="w-8 h-8 text-brand-blue-600 mx-auto mb-2" />
-              <h3 className="font-bold text-slate-900 mb-1">Buy Now, Pay Later</h3>
-              <p className="text-slate-500 text-xs mb-3">Choose your provider at checkout</p>
-              <div className="flex flex-col gap-2 mb-3">
-                <Link href="/programs/barber-apprenticeship/payment-setup?payment=affirm" className="inline-block w-full bg-[#0FA0EA] hover:bg-[#0d8fd0] text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors">
-                  Affirm — Pay over time
-                </Link>
-                <Link href="/programs/barber-apprenticeship/payment-setup?payment=sezzle" className="inline-block w-full bg-[#392558] hover:bg-[#2e1d47] text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors">
-                  Sezzle — 4 payments
-                </Link>
-              </div>
-              <p className="text-slate-400 text-[10px]">Subject to provider approval</p>
+            <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-10 h-10 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto mb-3">3</div>
+              <h3 className="font-bold text-slate-900 mb-2">You Get Options</h3>
+              <p className="text-slate-600 text-sm">If funding is approved, tuition may be covered. If not, flexible payment plans are available.</p>
             </div>
           </div>
-          <p className="mt-4 text-xs text-slate-500 text-center max-w-2xl mx-auto">
-            Payment plans start at $600 down. BNPL financing available through {BNPL_PROVIDER_NAMES} — subject to provider approval.
+
+          <p className="text-center mb-10">
+            <Link href="/programs/barber-apprenticeship/eligibility" className="inline-block bg-brand-red-600 text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-brand-red-700 transition-colors">
+              See Payment Options &amp; Apply
+            </Link>
           </p>
+
+          {/* Payment details — buried below the fold of the section */}
+          <details className="max-w-2xl mx-auto bg-slate-50 border border-slate-200 rounded-xl overflow-hidden">
+            <summary className="px-6 py-4 cursor-pointer font-semibold text-slate-700 text-sm hover:bg-slate-100 transition-colors">
+              See payment plan details
+            </summary>
+            <div className="px-6 pb-6 pt-2 space-y-3 text-sm text-slate-700">
+              <p><strong>Payment Plan:</strong> Start with a $600 minimum down payment, then pay the remaining balance over 29 weekly installments. No interest.</p>
+              <p><strong>Pay in Full:</strong> Pay $4,731 upfront (5% discount — save $249).</p>
+              <p><strong>Buy Now, Pay Later:</strong> Split tuition through Affirm or Sezzle. Subject to provider approval. Selected at checkout.</p>
+              <p className="text-xs text-slate-500 pt-2">Total program cost: $4,980. Payment method is selected after your application is reviewed.</p>
+            </div>
+          </details>
         </div>
       </section>
 
@@ -85,7 +79,7 @@ export function BarberEnrollment() {
                 ))}
               </ul>
               <div className="flex flex-wrap gap-3">
-                <Link href="/programs/barber-apprenticeship/apply?type=partner_shop" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm">
+                <Link href="/partners/barbershop-apprenticeship/apply" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm">
                   Apply as Partner Shop <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link href="/programs/barber-apprenticeship/host-shops" className="inline-flex items-center gap-2 border-2 border-slate-300 hover:border-brand-blue-400 text-slate-700 font-bold px-6 py-3 rounded-xl transition-colors text-sm">
@@ -132,22 +126,6 @@ export function BarberEnrollment() {
             </div>
           </div>
 
-          {/* Payment options info */}
-          <div className="max-w-2xl mx-auto mb-10 bg-white p-6 rounded-xl border border-slate-200">
-            <h3 className="font-bold text-slate-900 mb-3">Payment Options</h3>
-            <div className="space-y-3">
-              <p className="text-sm text-slate-700">
-                <strong>Payment Plan:</strong> Start with a $600 down payment, then pay the remaining balance in small weekly installments over 29 weeks. No interest.
-              </p>
-              <p className="text-sm text-slate-700">
-                <strong>Pay in Full:</strong> Pay the full $4,980 upfront and receive a 5% discount — total $4,731.
-              </p>
-              <p className="text-sm text-slate-700">
-                <strong>BNPL Financing:</strong> Split your tuition into installments through {BNPL_PROVIDER_NAMES}. Select your preferred provider at checkout.
-              </p>
-            </div>
-          </div>
-
           {/* Steps */}
           <div className="max-w-3xl mx-auto">
             <h3 className="font-bold text-xl text-slate-900 text-center mb-6">How to Enroll</h3>
@@ -182,48 +160,6 @@ export function BarberEnrollment() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 border-t">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 bg-white text-amber-950 text-sm font-bold px-4 py-2 rounded-full mb-6">
-            <span className="w-2 h-2 bg-amber-900 rounded-full animate-pulse" />
-            Classes Starting Late May – Early June 2025
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-            Join the Waitlist
-          </h2>
-          <p className="text-xl text-slate-600 mb-4">
-            We are finalizing barbershop placement sites now. Submit your application to secure your spot — we will contact you as soon as placements are confirmed.
-          </p>
-          <p className="text-slate-500 mb-8">
-            Pay in full, use a payment plan, or apply for Buy Now Pay Later with {BNPL_PROVIDER_NAMES}.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center mb-6">
-            <Link href="/programs/barber-apprenticeship/apply" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
-              Join Waitlist <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link href="/programs/barber-apprenticeship/apply?type=partner_shop" className="inline-flex items-center gap-2 bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
-              <Building2 className="w-5 h-5" /> Apply as Partner Shop
-            </Link>
-          </div>
-          <div className="flex flex-wrap gap-3 justify-center mb-6">
-            <Link href="/programs/barber-apprenticeship/payment-setup" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-semibold transition-all border border-white/30">
-              <CreditCard className="w-4 h-4" /> BNPL Options
-            </Link>
-            <Link href="/support" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-semibold transition-all border border-white/30">
-              <Phone className="w-4 h-4" /> (317) 314-3757
-            </Link>
-          </div>
-          <div className="mt-4 flex justify-center">
-            <ProgramTutorCTA
-              programSlug="barber-apprenticeship"
-              programName="Barber Apprenticeship"
-              applyHref="/apply?program=barber-apprenticeship"
-              suggestions={['How long is the apprenticeship?', 'What license will I earn?', 'Is funding available?', 'Can I work while enrolled?']}
-            />
-          </div>
-        </div>
-      </section>
     </>
   );
 }

@@ -38,9 +38,12 @@ function IntakeForm() {
     cpr: 'cpr-first-aid',
   };
   const initialProgram = SLUG_TO_VALUE[programParam] || programParam || '';
+  // Barber is a self-pay apprenticeship — simplify the form for this program
+  const isBarberProgram = initialProgram === 'barber-apprenticeship';
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [fundingTag, setFundingTag] = useState('');
+  const [submittedProgram, setSubmittedProgram] = useState('');
   const [error, setError] = useState('');
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -61,6 +64,7 @@ function IntakeForm() {
       const result = await res.json();
 
       if (res.ok) {
+        setSubmittedProgram((data.program_interest as string) || '');
         setSubmitted(true);
         setFundingTag(result.funding_tag || '');
       } else {
@@ -74,6 +78,39 @@ function IntakeForm() {
   }
 
   if (submitted) {
+    const isBarber = submittedProgram === 'barber-apprenticeship';
+    const isBarberSelfPay = isBarber && fundingTag === 'self-pay';
+
+    // Barber self-pay: send directly to payment cart
+    if (isBarberSelfPay) {
+      return (
+        <div className="min-h-screen bg-white">
+          <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+            <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="text-2xl">✓</span>
+            </div>
+            <h1 className="text-3xl font-bold text-slate-900 mb-4">Application Received</h1>
+            <p className="text-lg text-slate-700 mb-2">
+              You&apos;re one step away from enrolling in the Barber Apprenticeship.
+            </p>
+            <p className="text-sm text-slate-600 mb-8">
+              Set up your payment plan now to secure your spot. Takes 2 minutes.
+            </p>
+            <Link
+              href="/programs/barber-apprenticeship/payment-setup"
+              className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-4 rounded-xl transition-colors text-base"
+            >
+              Set Up Payment Plan →
+            </Link>
+            <p className="mt-4 text-xs text-slate-400">
+              Check your email for a confirmation and your account login link.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // All other programs / funding paths
     return (
       <div className="min-h-screen bg-white">
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
@@ -94,13 +131,19 @@ function IntakeForm() {
               review your eligibility and contact you within 2 business days.
             </p>
           )}
-          {fundingTag === 'self-pay' && (
+          {isBarber && fundingTag !== 'self-pay' && (
+            <p className="text-base text-slate-700 mb-6">
+              We&apos;ll review your funding eligibility for the Barber Apprenticeship and contact you within 2 business days.
+              If funding isn&apos;t available, we&apos;ll walk you through payment options.
+            </p>
+          )}
+          {!isBarber && fundingTag === 'self-pay' && (
             <p className="text-base text-slate-700 mb-6">
               We&apos;ve noted your self-pay preference. Our enrollment team will contact you with
               program details and payment options within 2 business days.
             </p>
           )}
-          {(fundingTag === 'wioa' || fundingTag === 'pending-review') && (
+          {(fundingTag === 'wioa' || fundingTag === 'wioa-categorical' || fundingTag === 'wioa-income' || fundingTag === 'pending-review') && !isBarber && (
             <p className="text-base text-slate-700 mb-6">
               We will review your funding eligibility and contact you within 2 business days. You
               may qualify for WIOA, WRG, or other workforce funding.
@@ -130,11 +173,23 @@ function IntakeForm() {
       {/* Hero */}
       <section className="bg-slate-900 py-12">
         <div className="max-w-2xl mx-auto px-4">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-3">Funding & Apprenticeship Intake</h1>
-          <p className="text-black text-lg">
-            This form screens your eligibility for workforce-funded training programs including
-            WIOA, WRG, and Job Ready Indy. Funding is not guaranteed and requires partner review.
-          </p>
+          {isBarberProgram ? (
+            <>
+              <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">Barber Apprenticeship</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">Apply to Enroll</h1>
+              <p className="text-slate-300 text-base">
+                Takes 3–5 minutes. After submitting, you&apos;ll set up your payment plan and get access to the program.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">Funding &amp; Apprenticeship Intake</h1>
+              <p className="text-slate-300 text-base">
+                This form screens your eligibility for workforce-funded training programs including
+                WIOA, WRG, and Job Ready Indy. Funding is not guaranteed and requires partner review.
+              </p>
+            </>
+          )}
         </div>
       </section>
 
@@ -277,7 +332,7 @@ function IntakeForm() {
                   <select
                     id="program_interest"
                     name="program_interest"
-                    defaultValue={initialProgram || 'barbering'}
+                    defaultValue={initialProgram || 'barber-apprenticeship'}
                     className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
                   >
                     <option value="cna">Certified Nursing Assistant (CNA)</option>
@@ -349,22 +404,27 @@ function IntakeForm() {
                     <option value="student">Student</option>
                   </select>
                 </div>
-                <div>
-                  <label
-                    htmlFor="funding_needed"
-                    className="block text-sm font-semibold text-slate-700 mb-1"
-                  >
-                    Do you need funding assistance?
-                  </label>
-                  <select
-                    id="funding_needed"
-                    name="funding_needed"
-                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
-                  >
-                    <option value="true">Yes, I need funding assistance</option>
-                    <option value="false">No, I can self-pay</option>
-                  </select>
-                </div>
+                {/* Barber is self-pay — hide the funding question and default to false */}
+                {isBarberProgram ? (
+                  <input type="hidden" name="funding_needed" value="false" />
+                ) : (
+                  <div>
+                    <label
+                      htmlFor="funding_needed"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Do you need funding assistance?
+                    </label>
+                    <select
+                      id="funding_needed"
+                      name="funding_needed"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    >
+                      <option value="true">Yes, I need funding assistance</option>
+                      <option value="false">No, I can self-pay</option>
+                    </select>
+                  </div>
+                )}
                 <div>
                   <label
                     htmlFor="probation_or_reentry"
@@ -381,6 +441,8 @@ function IntakeForm() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
+                {/* WIOA income/benefits/barriers — not relevant for barber self-pay */}
+                {!isBarberProgram && <>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label
@@ -586,6 +648,7 @@ function IntakeForm() {
                     <option value="other">Other workforce program</option>
                   </select>
                 </div>
+                </>}
               </div>
             </div>
 
@@ -664,4 +727,16 @@ function IntakeForm() {
   );
 }
 
-export default IntakeForm;
+// useSearchParams() requires a Suspense boundary — wrap here so the outer
+// page.tsx Suspense fallback renders correctly instead of a blank screen.
+export default function IntakeFormInner() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center py-20">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red-600" />
+      </div>
+    }>
+      <IntakeForm />
+    </Suspense>
+  );
+}

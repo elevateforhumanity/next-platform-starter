@@ -100,6 +100,7 @@ export default tseslint.config(
       'courses/**/scripts/**',
       'check-migrations-status.mjs',
       'test-env.js',
+      'next-env.d.ts',
       'lib/dynamic-imports.ts',
       'lib/ocr/**',
     ],
