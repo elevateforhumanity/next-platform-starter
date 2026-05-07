@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import CourseIngestionWizard from './CourseIngestionWizard';
+import { QuickCreateForm } from './QuickCreateForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -64,6 +65,9 @@ export default async function CreateCoursePage() {
         </div>
 
         <CourseIngestionWizard programs={programs || []} />
+        <div className="mt-4">
+          <QuickCreateForm programs={programs || []} />
+        </div>
       </div>
     </div>
   );

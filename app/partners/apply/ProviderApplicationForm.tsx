@@ -179,6 +179,34 @@ export default function ProviderApplicationForm() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [suggesting, setSuggesting] = useState(false);
+
+  const handleAiSuggest = async () => {
+    setSuggesting(true);
+    try {
+      const res = await fetch('/api/applications/suggest-answers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fields: [
+            { fieldName: 'missionStatement', fieldLabel: 'Mission Statement' },
+            { fieldName: 'serviceArea', fieldLabel: 'Service Area' },
+            { fieldName: 'programDescription', fieldLabel: 'Program Description' },
+          ],
+        }),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      const suggestions: Record<string, string> = data.suggestions ?? {};
+      Object.entries(suggestions).forEach(([field, value]) => {
+        if (value && field in INITIAL) set(field as keyof FormData, value);
+      });
+    } catch {
+      // fail silently — suggestions are non-critical
+    } finally {
+      setSuggesting(false);
+    }
+  };
 
   const set = (field: keyof FormData, value: unknown) => {
     setForm((f) => ({ ...f, [field]: value }));
@@ -293,7 +321,17 @@ export default function ProviderApplicationForm() {
         {/* Step: Organization */}
         {step === 'org' && (
           <div className="space-y-5">
-            <h2 className="text-lg font-bold text-slate-900">Organization Information</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-slate-900">Organization Information</h2>
+              <button
+                type="button"
+                onClick={handleAiSuggest}
+                disabled={suggesting}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-brand-blue-600 border border-brand-blue-200 rounded-lg hover:bg-brand-blue-50 transition-colors disabled:opacity-50"
+              >
+                {suggesting ? '✨ Suggesting…' : '✨ AI Suggest'}
+              </button>
+            </div>
             <div>
               <Label required>Organization Name</Label>
               <Input
