@@ -46,7 +46,7 @@ export function BarberEnrollment() {
             <div className="px-6 pb-6 pt-2 space-y-3 text-sm text-slate-700">
               <p><strong>Payment Plan:</strong> Start with a $600 minimum down payment, then pay the remaining balance over 29 weekly installments. No interest.</p>
               <p><strong>Pay in Full:</strong> Pay $4,731 upfront (5% discount — save $249).</p>
-              <p><strong>Buy Now, Pay Later:</strong> Split tuition through Affirm or Sezzle. Subject to provider approval. Selected at checkout.</p>
+              <p><strong>Buy Now, Pay Later:</strong> Split tuition through our BNPL partners. Subject to provider approval. Selected at checkout.</p>
               <p className="text-xs text-slate-500 pt-2">Total program cost: $4,980. Payment method is selected after your application is reviewed.</p>
             </div>
           </details>

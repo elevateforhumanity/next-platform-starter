@@ -37,15 +37,22 @@ function getNextFriday(): string {
   return nextFriday.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 }
 
-type PaymentOption = 'weekly' | 'full' | 'custom' | 'sezzle' | 'affirm' | 'stripe_bnpl';
+// Stripe-native BNPL methods — routed through Stripe embedded checkout
+const STRIPE_BNPL_IDS = ['bnpl', 'klarna', 'afterpay', 'zip', 'cashapp', 'amazon_pay', 'us_bank_account'];
+// Separate SDK flows — provider IDs from bnpl-config that are NOT Stripe-native
+const SEPARATE_SDK_IDS = ACTIVE_BNPL_PROVIDERS
+  .map((p) => p.id)
+  .filter((id) => !STRIPE_BNPL_IDS.includes(id));
+
+type PaymentOption = 'weekly' | 'full' | 'custom' | 'stripe_bnpl' | (string & {});
 
 function resolveInitialPayment(param: string | null): PaymentOption {
   if (param === 'pay_in_full') return 'full';
   if (param === 'payment_plan') return 'custom';
-  if (param === 'affirm') return 'affirm';
-  if (param === 'sezzle') return 'sezzle';
-  // Stripe-native methods — all go through Stripe checkout
-  if (['bnpl','klarna','afterpay','zip','cashapp','amazon_pay','us_bank_account'].includes(param ?? '')) return 'stripe_bnpl';
+  // Separate SDK providers (e.g. sezzle, affirm) — matched from config
+  if (param && SEPARATE_SDK_IDS.includes(param)) return param;
+  // Stripe-native BNPL methods
+  if (param && STRIPE_BNPL_IDS.includes(param)) return 'stripe_bnpl';
   return 'weekly';
 }
 
