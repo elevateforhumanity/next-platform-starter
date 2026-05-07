@@ -39,7 +39,6 @@ export type AppRole =
   | 'provider_admin'
   | 'grant_client'
   | 'vita_staff'
-  | 'supersonic_staff';
 
 export type AuthUser = {
   id: string;

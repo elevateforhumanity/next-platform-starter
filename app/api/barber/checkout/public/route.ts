@@ -22,6 +22,7 @@ import {
 } from '@/lib/barber/pricing';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { getStripeMethodsForAmount, ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 
 /**
  * POST /api/barber/checkout/public
@@ -214,7 +215,7 @@ async function _POST(request: NextRequest) {
       custom_text: {
         submit: {
           message: payment_type === 'bnpl'
-            ? 'Select Klarna or Afterpay below to split into installments.'
+            ? 'Select your preferred BNPL provider below to split into installments.'
             : `Total program tuition: $${TUITION_DOLLARS.toLocaleString()}.`,
         },
       },
@@ -228,17 +229,10 @@ async function _POST(request: NextRequest) {
     };
 
     if (payment_type === 'bnpl') {
-      // All methods confirmed active on this Stripe account at down payment amounts.
-      // Affirm: not yet activated — enable at dashboard.stripe.com/settings/payment_methods
-      sessionConfig.payment_method_types = [
-        'card',
-        'klarna',
-        'afterpay_clearpay',
-        'zip',
-        'cashapp',
-        'us_bank_account',
-        'amazon_pay',
-      ] as any;
+      // Derived from bnpl-config — add/remove providers there, not here
+      sessionConfig.payment_method_types = getStripeMethodsForAmount(
+        checkoutAmountCents / 100,
+      ) as any;
     } else {
       sessionConfig.payment_method_types = ['card'] as any;
     }
@@ -315,7 +309,7 @@ async function _GET(request: NextRequest) {
         paymentMethod: 'Invoice sent weekly with payment link',
       },
       bnplAvailable: true,
-      bnplOptions: ['Affirm', 'Klarna', 'Afterpay'],
+      bnplOptions: ACTIVE_BNPL_PROVIDERS.map((p) => p.name),
       summary: {
         dueToday: `$${BARBER_PRICING.setupFee.toLocaleString()} (setup fee)`,
         weeklyPayment: `$${calculation.weeklyPaymentDollars.toFixed(2)}/week`,

@@ -84,7 +84,7 @@ export default async function OnboardingPage() {
                   I'm a Student
                 </h3>
                 <p className="text-black mb-6 text-center">
-                  Start your free training, access courses, and earn certifications.
+                  Start your training, access courses, and earn certifications.
                 </p>
                 <ul className="space-y-2 mb-6">
                   <li className="flex items-start text-sm">

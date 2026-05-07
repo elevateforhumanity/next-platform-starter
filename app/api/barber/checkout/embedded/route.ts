@@ -8,12 +8,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { BARBER_PRICING, calculateWeeklyPayment } from '@/lib/programs/pricing';
 import { TUITION_CENTS, PAYMENT_TERM_WEEKS, remainingHoursDisplay } from '@/lib/barber/pricing';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { getStripeMethodsForAmount } from '@/lib/bnpl-config';
 
 /**
  * POST /api/barber/checkout/embedded
  *
  * Creates a Stripe Checkout Session with ui_mode='embedded' for inline BNPL
- * (Klarna, Afterpay) without redirecting away from the application page.
+ * without redirecting away from the application page.
+ * Active providers are derived from bnpl-config — do not hardcode names here.
  *
  * Returns { clientSecret } which the client passes to <EmbeddedCheckout>.
  */
@@ -94,14 +96,15 @@ export async function POST(request: NextRequest) {
             currency: 'usd',
             product_data: {
               name: 'Barber Apprenticeship — Full Tuition',
-              description: `Complete program tuition ($${TUITION_CENTS / 100}). Klarna or Afterpay handles your installments.`,
+              description: `Complete program tuition ($${TUITION_CENTS / 100}). Your BNPL provider handles installments.`,
             },
             unit_amount: checkoutAmountCents, // TUITION_CENTS — never client-derived
           },
           quantity: 1,
         },
       ],
-      payment_method_types: ['card', 'klarna', 'afterpay_clearpay'] as any,
+      // Derived from bnpl-config — add/remove providers there, not here
+      payment_method_types: getStripeMethodsForAmount(TUITION_CENTS / 100) as any,
       metadata: {
         // ── Canonical keys read by barber webhook handler ──
         kind: 'program_enrollment',

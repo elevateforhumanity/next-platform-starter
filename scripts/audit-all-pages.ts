@@ -175,14 +175,6 @@ function generateReport(results: AuditResult[]) {
   }
 
   // SupersonicFastCash specific audit
-
-  const supersonicFiles = results.filter((r) => r.file.includes('supersonic-fast-cash'));
-  const supersonicErrors = supersonicFiles.filter((r) => r.status === 'error');
-  const supersonicWarnings = supersonicFiles.filter((r) => r.status === 'warning');
-
-  supersonicFiles.forEach((result) => {
-    if (result.issues.length > 0) {
-      result.issues.forEach((issue) => {});
     }
   });
 

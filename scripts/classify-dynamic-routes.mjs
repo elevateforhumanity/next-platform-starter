@@ -96,7 +96,6 @@ const ALWAYS_PUBLIC_PATHS = [
   '/accessibility/',
   '/workforce-partners/',
   '/rise-foundation/',
-  '/supersonic/',
   '/verify/',
   '/lms/programs/',
 ];

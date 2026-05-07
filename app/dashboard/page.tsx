@@ -44,7 +44,6 @@ export default async function DashboardRouterPage() {
     'case_manager',
     'creator',
     'vita_staff',
-    'supersonic_staff',
   ].includes(role);
 
   if (!bypassOnboarding && !profile?.onboarding_completed) {

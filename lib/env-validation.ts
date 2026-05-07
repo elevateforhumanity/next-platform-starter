@@ -21,7 +21,6 @@ export interface EnvConfig {
   SENDGRID_API_KEY?: string;
   OPENAI_API_KEY?: string;
   DID_API_KEY?: string;
-  SUPERSONIC_API_KEY?: string;
   JOTFORM_API_KEY?: string;
   SENTRY_DSN?: string;
 }
@@ -78,7 +77,6 @@ export const services = {
   stripe: () => isServiceAvailable('STRIPE_SECRET_KEY'),
   resend: () => isServiceAvailable('SENDGRID_API_KEY'),
   openai: () => isServiceAvailable('OPENAI_API_KEY'),
-  supersonic: () => isServiceAvailable('SUPERSONIC_API_KEY'),
   jotform: () => isServiceAvailable('JOTFORM_API_KEY'),
   sentry: () => isServiceAvailable('SENTRY_DSN'),
   supabaseAdmin: () => isServiceAvailable('SUPABASE_SERVICE_ROLE_KEY'),
@@ -92,7 +90,6 @@ export function getServiceStatus() {
     stripe: services.stripe(),
     resend: services.resend(),
     openai: services.openai(),
-    supersonic: services.supersonic(),
     jotform: services.jotform(),
     sentry: services.sentry(),
     supabaseAdmin: services.supabaseAdmin(),

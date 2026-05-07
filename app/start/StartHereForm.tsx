@@ -80,7 +80,7 @@ export default function StartHereForm() {
         <div className="bg-white rounded-xl p-4 text-left space-y-2 text-sm text-slate-700">
           <p className="font-semibold text-slate-900 mb-1">What happens next:</p>
           <p>1. Advisor calls or emails you within 1 business day</p>
-          <p>2. We check your eligibility for free training funding</p>
+          <p>2. We check your eligibility for WIOA, WRG, and other funding sources</p>
           <p>3. You enroll — we handle the paperwork</p>
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function StartHereForm() {
         </button>
 
         <p className="text-xs text-slate-500 text-center">
-          Most students qualify for free training. We'll confirm your eligibility on the call.
+          Many participants qualify for funded training. We confirm eligibility on the call.
         </p>
       </form>
     </div>

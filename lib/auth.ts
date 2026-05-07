@@ -202,20 +202,25 @@ export async function requireApiAuth() {
 /**
  * Require auth for pages - redirects to login if not authenticated
  */
-export async function requireAuth(redirectTo?: string) {
+export async function requireAuth(redirectTo?: string, loginBase?: string) {
   const session = await getSession();
   if (!session) {
-    const mainSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const base =
+      loginBase ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
     const loginUrl = redirectTo
-      ? `${mainSiteUrl}/login?redirect=${encodeURIComponent(redirectTo)}`
-      : `${mainSiteUrl}/login`;
+      ? `${base}/login?redirect=${encodeURIComponent(redirectTo)}`
+      : `${base}/login`;
     redirect(loginUrl);
   }
   return session;
 }
 
-export async function requireRole(allowedRoles: UserRole | UserRole[], redirectTo?: string) {
-  const session = await requireAuth(redirectTo);
+export async function requireRole(
+  allowedRoles: UserRole | UserRole[],
+  redirectTo?: string,
+  loginBase?: string,
+) {
+  const session = await requireAuth(redirectTo, loginBase);
   const role = await getUserRole();
 
   const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
@@ -232,7 +237,10 @@ export async function requireStudent() {
 }
 
 export async function requireAdmin() {
-  return requireRole(['admin', 'super_admin', 'org_admin', 'staff'], '/admin/dashboard');
+  // Admin app has its own /login page — redirect there, not the main site login.
+  const adminUrl =
+    process.env.NEXT_PUBLIC_ADMIN_URL?.trim() ?? 'https://admin.elevateforhumanity.org';
+  return requireRole(['admin', 'super_admin', 'org_admin', 'staff'], '/admin/dashboard', adminUrl);
 }
 
 export async function requireProgramHolder() {

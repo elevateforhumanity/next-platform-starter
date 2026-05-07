@@ -85,7 +85,7 @@ export default async function JRIProgramsPage() {
             <br />A Second Chance
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-3xl leading-relaxed drop-shadow mb-6">
-            JRI provides 100% free career training and wraparound support for individuals with
+            JRI provides fully funded career training and wraparound support for eligible individuals with
             justice involvement. Real credentials, real employers, real careers. Your past doesn't
             define your future.
           </p>
@@ -171,7 +171,7 @@ export default async function JRIProgramsPage() {
                 <Shield className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Free Training</h3>
-              <p className="text-black">100% free career training in high-demand fields</p>
+              <p className="text-black">Fully funded career training in high-demand fields for eligible participants</p>
             </div>
 
             <div className="text-center">
@@ -427,7 +427,7 @@ export default async function JRIProgramsPage() {
                   Workforce Development (DWD), and U.S. Department of Labor (DOL).
                 </p>
                 <p>
-                  JRI provides 100% free career training in high-demand industries, case management,
+                  JRI provides fully funded career training in high-demand industries for eligible participants, case management,
                   transportation assistance, and direct job placement with employers who hire
                   individuals with criminal backgrounds.
                 </p>
@@ -467,14 +467,14 @@ export default async function JRIProgramsPage() {
 
             <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
-                Is this training really 100% free?
+                Is this training fully funded?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
                   ▼
                 </span>
               </summary>
               <div className="mt-4 text-black space-y-3">
                 <p>
-                  <strong>Yes, completely free.</strong> JRI funding covers all tuition, books,
+                  <strong>Yes, for eligible participants.</strong> JRI funding covers all tuition, books,
                   materials, certifications, and exam fees. You pay nothing.
                 </p>
                 <p>

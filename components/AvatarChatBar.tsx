@@ -61,7 +61,7 @@ const getAvatarConfig = (pathname: string) => {
     };
   }
   // Tax preparation pages - separate from financial aid
-  if (pathname.includes('/tax') || pathname.includes('/supersonic-fast-cash')) {
+  if (pathname.includes('/tax')) {
     return {
       video: '/videos/avatars/financial-guide.mp4',
       name: 'Tax Guide',

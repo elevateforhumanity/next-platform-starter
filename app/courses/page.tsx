@@ -318,7 +318,7 @@ export default async function CoursesPage() {
             Ready to Start Your New Career?
           </h2>
           <p className="text-xl text-brand-green-100 mb-8">
-            Apply today and find out if you qualify for free WIOA-funded training.
+            Apply today and find out if you qualify for WIOA-funded training.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

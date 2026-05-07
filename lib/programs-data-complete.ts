@@ -144,32 +144,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     image: '/images/pages/barber-gallery-2.jpg',
     etplApproved: true,
   },
-  {
-    slug: 'tax-prep-financial-services',
-    name: 'Tax Preparation & Financial Services Certificate',
-    tagline: 'State-Approved Earn and Learn Program with IRS VITA/TCE certification',
-    description:
-      'The Tax Preparation & Financial Services Certificate is a State-Approved Earn and Learn Program (approved 2025-10-01) that prepares individuals to understand federal and state taxation concepts and apply them in real-world settings. Students earn QuickBooks Pro Advisor and Microsoft 365 Fundamentals certifications, plus the Rise Up Credential. Graduates gain the skills required for employment as Tax Preparers, Bookkeeping Assistants, and Financial Service Specialists.',
-    summary:
-      'Earn IRS VITA/TCE, QuickBooks, Microsoft 365, and Rise Up certifications in State-Approved Earn and Learn Program.',
-    bullets: [
-      'State-Approved Earn and Learn Program (approved 2025-10-01)',
-      '10-week comprehensive program',
-      '150 instructional hours (15 hours/week)',
-      'Earn QuickBooks Pro Advisor certification',
-      'Earn Microsoft 365 Fundamentals certification',
-      'Earn Rise Up Credential',
-      'IRS VITA/TCE certification included',
-      'Federal and state tax law training',
-      'Supervised practicum at IRS-approved VITA site',
-      'High school diploma or GED required',
-    ],
-    funding: ['WIOA', 'WRG', 'Earn and Learn'],
-    duration: '10 Weeks • 150 Hours',
-    image: '/images/pages/supersonic-tax-prep.jpg',
-    etplApproved: true,
-  },
-  {
+    {
     slug: 'public-safety-reentry-specialist',
     name: 'Public Safety Reentry Specialist Program',
     tagline: 'Career pathways for justice-involved individuals',

@@ -78,7 +78,7 @@ export function BarberDeliveryModel() {
             <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
               <div className="text-3xl font-black text-brand-red-600 mb-1">$4,980</div>
               <div className="text-sm font-bold text-slate-900">Total Cost</div>
-              <div className="text-slate-500 text-xs mt-1">BNPL Available</div>
+              <div className="text-slate-500 text-xs mt-1">Funding &amp; plans available</div>
             </div>
           </div>
 
@@ -91,7 +91,7 @@ export function BarberDeliveryModel() {
           </div>
 
           <p className="mt-4 text-sm text-slate-500">
-            Flexible payment options available including pay-in-full, payment plans, and Buy Now Pay Later (BNPL) options. Funding eligibility may vary based on individual workforce programs, partner sponsorships, or external approvals.
+            Flexible payment options available including pay-in-full and payment plans. Funding eligibility may vary based on individual workforce programs, partner sponsorships, or external approvals.
           </p>
         </div>
       </section>

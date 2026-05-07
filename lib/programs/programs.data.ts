@@ -266,25 +266,7 @@ export const PROGRAMS: Program[] = [
     secondaryCtaLabel: 'Talk to an Advisor',
     secondaryCtaHref: '/contact?topic=business-startup-marketing',
   },
-  {
-    slug: 'tax-prep-financial-services',
-    title: 'Tax Preparation & Financial Services Certificate',
-    tagline: 'IRS-approved training + supervised practicum.',
-    shortDescription:
-      'Tax prep, QuickBooks, Microsoft 365, and financial literacy certifications for building a service business.',
-    cardImage: '/images/pages/supersonic-tax-prep.jpg',
-    heroImage: '/images/pages/supersonic-tax-prep.jpg',
-    duration: '10 weeks',
-    cost: 'Funding may cover full cost',
-    format: 'Hybrid / Online',
-    level: 'Entry',
-    videoHighlights: [
-      {
-        id: 'overview',
-        title: 'Tax Business Pathway',
-        description: 'How to build a tax preparation service from training to clients.',
-      },
-      {
+        {
         id: 'workflow',
         title: 'Client Workflow',
         description: 'Intake, documentation, filing, and professional service delivery.',

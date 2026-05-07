@@ -127,7 +127,6 @@ export const NAV: NavItem[] = [
   {
     group: 'Tax',
     label: 'SupersonicFastCash (Paid)',
-    href: '/tax/supersonicfastcash',
     showInHeader: true,
     description: 'Professional tax preparation',
   },

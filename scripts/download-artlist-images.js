@@ -12,19 +12,13 @@ const path = require('path');
 
 const images = [
   {
-    name: 'Supersonic Fast Cash - Hero Banner',
     url: 'https://artlist.io/text-to-image-ai/creations/ae1fd783-34c7-4468-81a3-aba4e1e87813',
-    savePath: 'public/images/supersonic-fast-cash/hero-banner.jpg',
   },
   {
-    name: 'Supersonic Fast Cash - CTA Instant Cash',
     url: 'https://artlist.io/text-to-image-ai/creations/a6fb219d-6fb7-401d-9da9-d40a6819f204',
-    savePath: 'public/images/supersonic-fast-cash/cta-instant-cash.jpg',
   },
   {
-    name: 'Supersonic Fast Cash - Subpage Hero',
     url: 'https://artlist.io/text-to-image-ai/creations/a34be5f8-316c-47ed-925d-c65e14bcba67',
-    savePath: 'public/images/supersonic-fast-cash/subpage-hero.jpg',
   },
   {
     name: 'Career Services - Hero Banner',

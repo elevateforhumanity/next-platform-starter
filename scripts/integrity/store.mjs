@@ -54,7 +54,6 @@ async function loadProducts() {
   // Check pricing page for product definitions
   const pricingFiles = [
     path.join(rootDir, 'app', 'pricing', 'page.tsx'),
-    path.join(rootDir, 'app', 'supersonic-fast-cash', 'pricing', 'page.tsx'),
     path.join(rootDir, 'lms-data', 'paymentPlans.ts'),
   ];
 

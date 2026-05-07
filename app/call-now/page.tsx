@@ -87,7 +87,7 @@ export default function GetStartedPage() {
                 Check Funding Eligibility
               </h3>
               <p className="text-slate-700 mb-4">
-                See if you qualify for free training through WIOA, WRG, or Job Ready Indy funding.
+                See if you qualify for funded training through WIOA, WRG, or Job Ready Indy.
                 Takes less than 2 minutes.
               </p>
               <span className="text-brand-orange-600 font-semibold flex items-center gap-2">

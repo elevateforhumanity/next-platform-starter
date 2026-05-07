@@ -79,14 +79,6 @@ export const AVATARS: Record<string, AvatarConfig> = {
     role: 'VITA Tax Guide',
   },
 
-  supersonic: {
-    id: 'supersonic',
-    name: 'Rachel',
-    avatarId: 'Adriana_BizTalk_Front_public',
-    voiceId: FEMALE_VOICES.jessica,
-    gender: 'female',
-    role: 'Tax Preparation Guide',
-  },
 
   // === HEALTHCARE COURSES ===
   healthcare: {
@@ -259,7 +251,7 @@ export function getAvatarsByCategory(
     trades: ['trades', 'hvac', 'cdl', 'electrical'],
     technology: ['technology', 'itSupport', 'cybersecurity'],
     beauty: ['barber', 'cosmetology'],
-    guides: ['welcome', 'chatAssistant', 'store', 'financialAid', 'vita', 'supersonic', 'aiTutor'],
+    guides: ['welcome', 'chatAssistant', 'store', 'financialAid', 'vita', 'aiTutor'],
   };
 
   return (categories[category] || []).map((id) => AVATARS[id]).filter(Boolean);

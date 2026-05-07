@@ -10,6 +10,13 @@
 export interface BnplProvider {
   id: string;
   name: string;
+  /**
+   * Stripe payment_method_types value for this provider.
+   * Stripe uses different identifiers than our internal IDs
+   * (e.g. "afterpay_clearpay" not "afterpay", "us_bank_account" not "bank").
+   * null = not a Stripe-native method (uses separate SDK flow).
+   */
+  stripeMethodId: string | null;
   /** Tailwind classes for the pill badge */
   badgeBg: string;
   badgeText: string;
@@ -24,10 +31,11 @@ export interface BnplProvider {
 }
 
 export const BNPL_PROVIDERS: BnplProvider[] = [
-  // --- Stripe-native (confirmed active on account) ---
+  // --- Stripe-native (stripeMethodId = Stripe's payment_method_types value) ---
   {
     id: 'klarna',
     name: 'Klarna',
+    stripeMethodId: 'klarna',
     badgeBg: 'bg-pink-100',
     badgeText: 'text-pink-700',
     minAmount: 35,
@@ -38,6 +46,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
   {
     id: 'afterpay',
     name: 'Afterpay',
+    stripeMethodId: 'afterpay_clearpay', // Stripe API name differs from display name
     badgeBg: 'bg-teal-100',
     badgeText: 'text-teal-700',
     minAmount: 35,
@@ -48,16 +57,18 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
   {
     id: 'zip',
     name: 'Zip',
+    stripeMethodId: 'zip',
     badgeBg: 'bg-indigo-100',
     badgeText: 'text-indigo-700',
     minAmount: 35,
     maxAmount: 1500,
     description: 'Pay in 4 installments',
-    enabled: true, // routed through Stripe-native BNPL checkout flow
+    enabled: true,
   },
   {
     id: 'cashapp',
     name: 'Cash App Pay',
+    stripeMethodId: 'cashapp',
     badgeBg: 'bg-green-100',
     badgeText: 'text-green-700',
     minAmount: 35,
@@ -68,6 +79,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
   {
     id: 'amazon_pay',
     name: 'Amazon Pay',
+    stripeMethodId: 'amazon_pay',
     badgeBg: 'bg-orange-100',
     badgeText: 'text-orange-700',
     minAmount: 35,
@@ -78,6 +90,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
   {
     id: 'us_bank_account',
     name: 'Bank Transfer (ACH)',
+    stripeMethodId: 'us_bank_account',
     badgeBg: 'bg-blue-100',
     badgeText: 'text-blue-700',
     minAmount: 35,
@@ -85,26 +98,28 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     description: 'Direct bank transfer',
     enabled: true,
   },
-  // --- Separate SDK flows ---
+  // --- Separate SDK flows (stripeMethodId = null — not routed through Stripe) ---
   {
     id: 'affirm',
     name: 'Affirm',
+    stripeMethodId: null, // uses /api/affirm/checkout SDK flow
     badgeBg: 'bg-brand-blue-100',
     badgeText: 'text-brand-blue-700',
     minAmount: 50,
     maxAmount: 30000,
     description: 'Pay over 3–36 months',
-    enabled: true, // uses /api/affirm/checkout SDK flow
+    enabled: true,
   },
   {
     id: 'sezzle',
     name: 'Sezzle',
+    stripeMethodId: null, // uses /api/sezzle/checkout SDK flow
     badgeBg: 'bg-purple-100',
     badgeText: 'text-purple-700',
     minAmount: 35,
     maxAmount: 2500,
     description: '4 interest-free payments',
-    enabled: true, // uses /api/sezzle/checkout SDK flow
+    enabled: true,
   },
 ];
 
@@ -140,4 +155,31 @@ export function getProvidersForAmount(amount: number): BnplProvider[] {
 /** Check if BNPL is available for a given amount */
 export function isBnplAvailable(amount: number): boolean {
   return getProvidersForAmount(amount).length > 0;
+}
+
+/**
+ * Stripe payment_method_types array for all active Stripe-native BNPL providers.
+ * Always includes 'card' as the base method.
+ * Use this in stripe.checkout.sessions.create() instead of hardcoding provider names.
+ *
+ * Example: ['card', 'klarna', 'afterpay_clearpay', 'zip', 'cashapp', 'amazon_pay', 'us_bank_account']
+ */
+export const STRIPE_BNPL_PAYMENT_METHODS: string[] = [
+  'card',
+  ...ACTIVE_BNPL_PROVIDERS.filter((p) => p.stripeMethodId !== null).map(
+    (p) => p.stripeMethodId as string,
+  ),
+];
+
+/**
+ * Stripe payment_method_types for providers valid for a given dollar amount.
+ * Always includes 'card'.
+ */
+export function getStripeMethodsForAmount(amountDollars: number): string[] {
+  return [
+    'card',
+    ...getProvidersForAmount(amountDollars)
+      .filter((p) => p.stripeMethodId !== null)
+      .map((p) => p.stripeMethodId as string),
+  ];
 }

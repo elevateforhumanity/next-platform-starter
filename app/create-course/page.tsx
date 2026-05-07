@@ -214,7 +214,7 @@ export default async function CreateCoursePage() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-base md:text-lg text-blue-100 mb-8">
-              Advance your career with free, workforce-focused training programs.
+              Advance your career with workforce training programs. Funding may be available for eligible participants.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

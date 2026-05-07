@@ -248,13 +248,6 @@ export const APPLICATION_TYPES: Record<string, ApplicationTypeConfig> = {
   },
 
   // ── SupersonicFastCash (tax prep) ────────────────────────────
-  supersonic: {
-    destination: 'supersonic_applications',
-    required: ['first_name', 'last_name', 'email', 'phone'],
-    allowed: ['first_name', 'last_name', 'email', 'phone', 'service_type', 'tax_year', 'notes'],
-    defaults: {
-      status: 'submitted',
-    },
   },
 
   // ── Tax application ──────────────────────────────────────────

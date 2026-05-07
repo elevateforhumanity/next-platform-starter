@@ -640,7 +640,6 @@ const nextConfig = {
       { source: '/tax-filing/:path*', destination: '/tax/:path*', permanent: true },
       { source: '/tax-services/:path*', destination: '/tax/:path*', permanent: true },
       { source: '/tax-software/:path*', destination: '/tax/:path*', permanent: true },
-      { source: '/supersonic-fast-cash/:path*', destination: '/programs/tax-preparation', permanent: false },
 
       // Program consolidation
       { source: '/programs-catalog/:path*', destination: '/programs/:path*', permanent: true },
@@ -816,7 +815,6 @@ const nextConfig = {
       { source: '/community/groups', destination: '/community-services', permanent: false },
       { source: '/community/:path*', destination: '/community-services', permanent: true },
       // /compliance/:path* — no redirect needed
-      // /supersonic-fast-cash — external domain, no redirect needed
       // Keep docs wildcard after specific /docs/* redirects to avoid shadowing.
       // /workone-partner-packet → /snap-et-partner
       // Portal redirects:
@@ -864,7 +862,6 @@ const nextConfig = {
       { source: '/partners/login', destination: '/partner/login', permanent: true },
 
       // Tax / SupersonicFastCash — these belong in a separate repository.
-      // Do not add redirects here that point to /supersonic, /tax, or /supersonic-fast-cash.
       // Those routes are not compiled in this Netlify marketing deploy.
 
       // Store / platform aliases

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/orientation' },
   title: 'Orientation | Elevate For Humanity',
   description:
-    'Attend a virtual orientation session to learn about our free career training programs, funding options, and what to expect as a student.',
+    'Attend a virtual orientation session to learn about our career training programs, funding eligibility, and what to expect as a student.',
 };
 
 export default async function OrientationPage() {

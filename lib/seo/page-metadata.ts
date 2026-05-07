@@ -75,12 +75,6 @@ export const PAGE_METADATA: Record<
   },
 
   // Supersonic Fast Cash (Tax)
-  supersonicTax: {
-    title: 'Tax Preparation Services | Supersonic Fast Cash LLC',
-    description:
-      'File your taxes through a guided, secure process. Optional refund-based advance available to eligible filers.',
-    path: '/supersonic-fast-cash',
-  },
 
   // Security
   security: {

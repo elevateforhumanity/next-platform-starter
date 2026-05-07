@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-
 import { useState } from 'react';
+import { getProvidersForAmount } from '@/lib/bnpl-config';
 import {
   CreditCard,
   Calendar,
@@ -48,6 +48,17 @@ export default function UnifiedPaymentFlow({
 
   const monthlyPayment = Math.ceil(price / 4);
 
+  // BNPL options derived from bnpl-config — no provider names hardcoded here
+  const bnplMethods: PaymentMethod[] = getProvidersForAmount(price).map((p) => ({
+    id: p.id,
+    name: p.name,
+    description: p.description,
+    icon: '💳',
+    available: true,
+    minAmount: p.minAmount,
+    maxAmount: p.maxAmount || undefined,
+  }));
+
   const paymentMethods: PaymentMethod[] = [
     {
       id: 'card',
@@ -56,48 +67,7 @@ export default function UnifiedPaymentFlow({
       icon: '💳',
       available: true,
     },
-    {
-      id: 'klarna',
-      name: 'Klarna',
-      description: '4 interest-free payments',
-      icon: '🛍️',
-      available: price >= 35 && price <= 1000,
-      minAmount: 35,
-      maxAmount: 1000,
-    },
-    {
-      id: 'zip',
-      name: 'Zip',
-      description: 'Pay in 4 interest-free installments',
-      icon: '💜',
-      available: price >= 35 && price <= 1500,
-      minAmount: 35,
-      maxAmount: 1500,
-    },
-    {
-      id: 'afterpay',
-      name: 'Afterpay',
-      description: '4 interest-free payments',
-      icon: '💰',
-      available: price >= 35 && price <= 1000,
-      minAmount: 35,
-      maxAmount: 1000,
-    },
-    {
-      id: 'us_bank_account',
-      name: 'Bank Account (ACH)',
-      description: 'Direct debit from your bank account',
-      icon: '🏦',
-      available: true,
-    },
-    {
-      id: 'cashapp',
-      name: 'Cash App',
-      description: 'Pay with Cash App',
-      icon: '💵',
-      available: price <= 7500,
-      maxAmount: 7500,
-    },
+    ...bnplMethods,
     {
       id: 'paypal',
       name: 'PayPal',

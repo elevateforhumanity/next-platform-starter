@@ -287,7 +287,7 @@ export default function CheckEligibilityPage() {
       >
         <Image
           src="/images/pages/funding-page-2.jpg"
-          alt="Check your eligibility for free career training"
+          alt="Check your eligibility for funded career training"
           fill
           className="object-cover object-center"
           priority

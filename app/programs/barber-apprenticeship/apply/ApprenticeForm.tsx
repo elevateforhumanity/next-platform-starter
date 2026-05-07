@@ -5,10 +5,11 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CreditCard, Calculator, Info } from 'lucide-react';
 import LazyVideo from '@/components/ui/LazyVideo';
-import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
+import { ACTIVE_BNPL_PROVIDERS, getProvidersForAmount } from '@/lib/bnpl-config';
+import { BnplCheckoutWidget } from '@/components/payments/BnplCheckoutWidget';
 import { BARBER_PRICING, calculateWeeklyPayment as calcWeekly } from '@/lib/programs/pricing';
 import { loadStripe } from '@stripe/stripe-js';
-import { EmbeddedCheckout, EmbeddedCheckoutProvider } from '@stripe/react-stripe-js';
+
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -37,22 +38,21 @@ function getNextFriday(): string {
   return nextFriday.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 }
 
-// Stripe-native BNPL methods — routed through Stripe embedded checkout
-const STRIPE_BNPL_IDS = ['bnpl', 'klarna', 'afterpay', 'zip', 'cashapp', 'amazon_pay', 'us_bank_account'];
-// Separate SDK flows — provider IDs from bnpl-config that are NOT Stripe-native
-const SEPARATE_SDK_IDS = ACTIVE_BNPL_PROVIDERS
-  .map((p) => p.id)
-  .filter((id) => !STRIPE_BNPL_IDS.includes(id));
+// Derived from bnpl-config — no hardcoded provider IDs here
+const STRIPE_NATIVE_IDS = new Set(
+  ACTIVE_BNPL_PROVIDERS.filter((p) => p.stripeMethodId !== null).map((p) => p.id),
+);
+const SEPARATE_SDK_IDS = new Set(
+  ACTIVE_BNPL_PROVIDERS.filter((p) => p.stripeMethodId === null).map((p) => p.id),
+);
 
 type PaymentOption = 'weekly' | 'full' | 'custom' | 'stripe_bnpl' | (string & {});
 
 function resolveInitialPayment(param: string | null): PaymentOption {
   if (param === 'pay_in_full') return 'full';
   if (param === 'payment_plan') return 'custom';
-  // Separate SDK providers (e.g. sezzle, affirm) — matched from config
-  if (param && SEPARATE_SDK_IDS.includes(param)) return param;
-  // Stripe-native BNPL methods
-  if (param && STRIPE_BNPL_IDS.includes(param)) return 'stripe_bnpl';
+  if (param && SEPARATE_SDK_IDS.has(param)) return param;
+  if (param && STRIPE_NATIVE_IDS.has(param)) return 'stripe_bnpl';
   return 'weekly';
 }
 
@@ -63,7 +63,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
   const [nextFriday, setNextFriday] = useState('Friday');
 
   // Embedded Stripe checkout (BNPL — Klarna / Afterpay)
-  const [embeddedClientSecret, setEmbeddedClientSecret] = useState<string | null>(null);
+
 
   // Payment calculator state
   const [transferHours, setTransferHours] = useState(0);
@@ -266,30 +266,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
         }
         return;
       } else if (paymentOption === 'stripe_bnpl') {
-        // Klarna / Afterpay — open embedded checkout inline (no redirect)
-        const embeddedRes = await fetch('/api/barber/checkout/embedded', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            customer_email: formData.email,
-            customer_name: `${formData.firstName} ${formData.lastName}`,
-            customer_phone: formData.phone,
-            sms_consent: smsConsent,
-            application_id: null,
-            transferred_hours_verified: transferHours,
-            hours_per_week: hoursPerWeek,
-            has_host_shop: formData.hasHostShop,
-            host_shop_name: formData.hostShopName,
-          }),
-        });
-        const embeddedData = await embeddedRes.json();
-        if (!embeddedRes.ok || !embeddedData.clientSecret) {
-          setError(embeddedData.error || 'Unable to start checkout. Please try another payment option.');
-          setErrorSeverity('info');
-          setLoading(false);
-          return;
-        }
-        setEmbeddedClientSecret(embeddedData.clientSecret);
+        // BNPL is handled inline by BnplCheckoutWidget — nothing to do here
         setLoading(false);
         return;
       } else if (paymentOption === 'full') {
@@ -441,17 +418,10 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                 <div className="text-center">
                   <div className="text-white text-xs uppercase mb-1">Payment Options</div>
                   <div className="text-sm text-white mt-2 space-y-1">
-                    <p><strong>Pay in Full:</strong> Card or Bank</p>
-                    <p><strong>BNPL:</strong> Split into payments</p>
+                    <p><strong>Pay in Full:</strong> 5% discount — $4,731</p>
+                    <p><strong>Payment Plan:</strong> $600 down + 29 weekly installments</p>
                   </div>
                 </div>
-              </div>
-
-              {/* If not approved for full BNPL */}
-              <div className="bg-white/10 rounded-xl p-3 mt-4">
-                <p className="text-xs text-white text-center">
-                  If BNPL partially approved, remaining balance split into ~{weeks} weekly payments of ${weeklyDollars.toFixed(2)}
-                </p>
               </div>
 
               <div className="mt-4 flex items-start gap-2">
@@ -762,191 +732,60 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                     </div>
                   )}
 
-                  {/* Option 4: Affirm */}
-                  <button
-                    type="button"
-                    onClick={() => setPaymentOption('affirm')}
-                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'affirm' 
-                        ? 'border-brand-blue-600 bg-brand-blue-50' 
-                        : 'border-slate-300 bg-white hover:border-slate-400'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-bold text-black text-lg">Affirm</p>
-                        <p className="text-black text-sm">Pay over time</p>
+                  {/* Option 3: Buy Now, Pay Later — driven by bnpl-config, no hardcoded names */}
+                  {getProvidersForAmount(PRICING.fullPrice).length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setPaymentOption('stripe_bnpl')}
+                      className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
+                        paymentOption === 'stripe_bnpl'
+                          ? 'border-pink-500 bg-pink-50'
+                          : 'border-slate-300 bg-white hover:border-slate-400'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-bold text-black text-lg">Buy Now, Pay Later</p>
+                          <p className="text-black text-sm">
+                            Split into installments —{' '}
+                            {getProvidersForAmount(PRICING.fullPrice)
+                              .map((p) => p.name)
+                              .join(', ')}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-pink-600 text-lg">Split it</p>
+                          <p className="text-xs text-black">subject to approval</p>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-bold text-brand-blue-600 text-lg">You Choose</p>
-                        <p className="text-xs text-black">min ${PRICING.setupFee.toLocaleString()}</p>
-                      </div>
-                    </div>
-                  </button>
-
-                  {/* Affirm Amount Input */}
-                  {paymentOption === 'affirm' && (
-                    <div className="bg-brand-blue-50 rounded-xl p-4 mb-3 border-2 border-brand-blue-200">
-                      <label className="block text-sm font-medium text-black mb-2">
-                        How much do you want to finance with Affirm? (min ${PRICING.setupFee.toLocaleString()})
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-black">$</span>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          pattern="[0-9]*"
-                          value={customAmountStr}
-                          onChange={(e) => {
-                            const val = e.target.value.replace(/[^0-9]/g, '');
-                            setCustomAmountStr(val);
-                          }}
-                          onBlur={() => {
-                            const num = parseInt(customAmountStr) || 0;
-                            const clamped = Math.max(PRICING.setupFee, Math.min(num, PRICING.fullPrice));
-                            setCustomAmountStr(String(clamped));
-                          }}
-                          className="w-full px-4 py-3 text-2xl font-bold border-2 border-brand-blue-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                        />
-                      </div>
-                      <p className="text-sm text-black mt-2">
-                        Affirm will check your eligibility and show payment options at checkout
-                      </p>
-                    </div>
+                    </button>
                   )}
 
-                  {/* Option 5: Sezzle */}
-                  <button
-                    type="button"
-                    onClick={() => setPaymentOption('sezzle')}
-                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'sezzle' 
-                        ? 'border-indigo-600 bg-indigo-50' 
-                        : 'border-slate-300 bg-white hover:border-slate-400'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-bold text-black text-lg">Sezzle</p>
-                        <p className="text-black text-sm">Pay over time</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-indigo-600 text-lg">You Choose</p>
-                        <p className="text-xs text-black">${PRICING.setupFee.toLocaleString()} - $2,500</p>
-                      </div>
-                    </div>
-                  </button>
-
-                  {/* Sezzle Amount Input */}
-                  {paymentOption === 'sezzle' && (
-                    <div className="bg-indigo-50 rounded-xl p-4 mb-3 border-2 border-indigo-200">
-                      <label className="block text-sm font-medium text-black mb-2">
-                        How much do you want to pay with Sezzle? (${PRICING.setupFee.toLocaleString()} - $2,500)
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-black">$</span>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          pattern="[0-9]*"
-                          value={customAmountStr}
-                          onChange={(e) => {
-                            const val = e.target.value.replace(/[^0-9]/g, '');
-                            setCustomAmountStr(val);
-                          }}
-                          onBlur={() => {
-                            const num = parseInt(customAmountStr) || 0;
-                            const clamped = Math.max(PRICING.setupFee, Math.min(num, 2500));
-                            setCustomAmountStr(String(clamped));
-                          }}
-                          className="w-full px-4 py-3 text-2xl font-bold border-2 border-indigo-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        />
-                      </div>
-                      <p className="text-sm text-black mt-2">
-                        Sezzle will check your eligibility - 4 payments of ${Math.round((customAmount || 0) / 4).toLocaleString()} every 2 weeks
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Option: Klarna / Afterpay via Stripe */}
-                  <button
-                    type="button"
-                    onClick={() => setPaymentOption('stripe_bnpl')}
-                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'stripe_bnpl'
-                        ? 'border-pink-500 bg-pink-50'
-                        : 'border-slate-300 bg-white hover:border-slate-400'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-bold text-black text-lg">Klarna / Afterpay</p>
-                        <p className="text-black text-sm">4 interest-free installments via Stripe</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-pink-600 text-lg">Split it</p>
-                        <p className="text-xs text-black">chosen at checkout</p>
-                      </div>
-                    </div>
-                  </button>
+                  {/* BNPL widget — inline, config-driven */}
                   {paymentOption === 'stripe_bnpl' && (
-                    <div className="bg-pink-50 rounded-xl p-4 mb-3 border-2 border-pink-200">
-                      <p className="text-sm text-black">
-                        You'll choose between <strong>Klarna</strong> and <strong>Afterpay</strong> on the next screen. Both split your payment into 4 interest-free installments. Subject to provider approval.
-                      </p>
+                    <div className="mb-3">
+                      <BnplCheckoutWidget
+                        amountCents={PRICING.fullPrice * 100}
+                        checkoutEndpoint="/api/barber/checkout/embedded"
+                        checkoutPayload={{
+                          customer_email: formData.email,
+                          customer_name: `${formData.firstName} ${formData.lastName}`,
+                          customer_phone: formData.phone,
+                          sms_consent: smsConsent,
+                          application_id: null,
+                          transferred_hours_verified: transferHours,
+                          hours_per_week: hoursPerWeek,
+                          has_host_shop: formData.hasHostShop,
+                          host_shop_name: formData.hostShopName,
+                        }}
+                        onCancel={() => setPaymentOption('')}
+                      />
                     </div>
                   )}
-
-                  {/* Payment Methods Available */}
-                  <div className="bg-white rounded-xl p-4 mb-4">
-                    <p className="text-sm text-black font-medium mb-3">Payment methods available at checkout:</p>
-                    <div className="flex flex-wrap gap-2 justify-center mb-2">
-                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">Card</span>
-                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">Apple Pay</span>
-                      <span className="px-3 py-1 bg-white text-black border border-black rounded-full text-xs font-bold">Google Pay</span>
-                      <span className="px-3 py-1 bg-brand-blue-900 text-white rounded-full text-xs font-bold">Samsung Pay</span>
-                      <span className="px-3 py-1 bg-brand-blue-100 text-brand-blue-700 rounded-full text-xs font-bold">Link</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2 justify-center mb-2">
-                      {ACTIVE_BNPL_PROVIDERS.map((p) => (
-                        <span key={p.id} className={`px-3 py-1 ${p.badgeBg} ${p.badgeText} rounded-full text-xs font-bold`}>{p.name}</span>
-                      ))}
-                    </div>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      <span className="px-3 py-1 bg-brand-green-500 text-white rounded-full text-xs font-bold">Cash App</span>
-                      <span className="px-3 py-1 bg-brand-orange-400 text-white rounded-full text-xs font-bold">Amazon Pay</span>
-                      <span className="px-3 py-1 bg-brand-blue-600 text-white rounded-full text-xs font-bold">Bank (ACH)</span>
-                    </div>
-                    <p className="text-xs text-black mt-3 text-center">
-                      Payment options subject to eligibility. Terms and availability vary by provider.
-                    </p>
-                  </div>
                 </div>
 
-                {/* Embedded Stripe Checkout — Klarna / Afterpay */}
-                {embeddedClientSecret && (
-                  <div className="mt-4 border-2 border-pink-200 rounded-xl overflow-hidden">
-                    <div className="bg-pink-50 px-4 py-3 flex items-center justify-between">
-                      <p className="text-sm font-semibold text-pink-900">Klarna / Afterpay Checkout</p>
-                      <button
-                        type="button"
-                        onClick={() => setEmbeddedClientSecret(null)}
-                        className="text-xs text-pink-700 hover:underline"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                    <EmbeddedCheckoutProvider
-                      stripe={stripePromise}
-                      options={{ clientSecret: embeddedClientSecret }}
-                    >
-                      <EmbeddedCheckout />
-                    </EmbeddedCheckoutProvider>
-                  </div>
-                )}
-
-                {/* Pay Button — hidden while embedded checkout is open */}
-                {!embeddedClientSecret && (
+                {/* Pay Button — hidden when BNPL widget is active (it has its own submit) */}
+                {paymentOption !== 'stripe_bnpl' && (
                   <>
                     {/* Autopay disclosure — shown for weekly / custom payment plans */}
                     {(paymentOption === 'weekly' || paymentOption === 'custom') && (
@@ -977,7 +816,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                       ) : (
                         <>
                           <CreditCard className="w-5 h-5" />
-                          {paymentOption === 'stripe_bnpl' ? 'Open Klarna / Afterpay' : 'Continue to Payment'}
+                          Continue to Payment
                         </>
                       )}
                     </button>

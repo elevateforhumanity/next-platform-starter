@@ -281,7 +281,7 @@ export default function ForStudentsPage() {
                 Funding
               </p>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
-                You may qualify for free training
+                You may qualify for funded training
               </h2>
               <p className="text-black leading-relaxed mb-6">
                 Federal and Indiana state workforce funding covers tuition, books, tools, and exam

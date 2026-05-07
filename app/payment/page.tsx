@@ -167,7 +167,7 @@ export default async function PaymentPage() {
                   className="text-center p-4 rounded-lg hover:bg-white transition-colors border"
                 >
                   <h3 className="font-semibold mb-2">Check Eligibility</h3>
-                  <p className="text-sm text-slate-700">See if you qualify for free training</p>
+                  <p className="text-sm text-slate-700">See if you qualify for funded training</p>
                 </Link>
               </div>
             </div>

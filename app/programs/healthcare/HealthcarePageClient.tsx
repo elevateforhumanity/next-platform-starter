@@ -47,7 +47,7 @@ export default function HealthcarePageClient({ programs }: { programs: Program[]
               Healthcare Programs
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mb-8">
-              Start your career in healthcare with free, WIOA-funded training programs
+              Start your career in healthcare with WIOA-funded training programs — no cost for eligible participants
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -84,7 +84,7 @@ export default function HealthcarePageClient({ programs }: { programs: Program[]
               Choose Your Healthcare Path
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              All programs are free for eligible participants through WIOA funding.
+              Funding is available for eligible participants through WIOA and state grants.
             </p>
           </div>
 

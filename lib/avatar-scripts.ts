@@ -193,10 +193,6 @@ export const PAGE_SCRIPTS: Record<
     nextAction: `Click 'Schedule Appointment' to book your session.`,
   },
 
-  '/supersonic-fast-cash': {
-    opening: `Professional tax prep with same-day refund advance up to $7,500. Fees deducted from refund. Advance depends on approval.`,
-    nextAction: `Click 'Book Appointment' to schedule.`,
-  },
 
   // === PORTALS ===
   '/workforce-board': {

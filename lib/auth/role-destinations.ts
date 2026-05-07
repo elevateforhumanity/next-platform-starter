@@ -36,7 +36,6 @@ export type UserRole =
   | 'provider_admin'
   | 'grant_client'
   | 'vita_staff'
-  | 'supersonic_staff';
 
 /**
  * Maps every role to its canonical post-auth landing page.
@@ -81,9 +80,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
   // parent role handled via /parent-portal — no requireRole yet, falls through
   delegate: '/my-dashboard', // delegate portal not yet built
 
-  // ── Tax / supersonic — separate business lines ────────────────────
   vita_staff: '/tax',
-  supersonic_staff: '/supersonic-fast-cash',
 
   // ── Grant clients ─────────────────────────────────────────────────
   grant_client: '/grants',

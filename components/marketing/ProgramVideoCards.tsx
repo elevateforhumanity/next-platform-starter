@@ -48,7 +48,7 @@ const PROGRAMS = [
     full: 'Barber Apprenticeship',
     duration: '15–17 months',
     salary: '$35–$65K+/yr',
-    funding: 'Fee-Based · $4,980',
+    funding: 'Self-Pay · Funding May Apply',
     fundingColor: 'text-yellow-300',
     image: '/images/pages/programs-barber-hero-new.jpg',
     objectPosition: 'center 15%',
@@ -94,7 +94,7 @@ function ProgramCard({ prog, priority }: { prog: (typeof PROGRAMS)[number]; prio
             href={prog.applyHref}
             className="w-full text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors"
           >
-            {prog.price ? `Enroll · ${prog.price}` : 'Apply Now — Free'}
+            {prog.price ? `Enroll · ${prog.price}` : 'Apply Now'}
           </Link>
           <Link
             href={prog.href}

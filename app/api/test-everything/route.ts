@@ -142,7 +142,6 @@ export async function GET(request: Request) {
 
     // Test Suite 6: SupersonicFastCash
     try {
-      const response = await fetch(`${baseUrl}/api/test-supersonic-fast-cash`);
       const data = await response.json();
       results.test_suites.push({
         id: 6,

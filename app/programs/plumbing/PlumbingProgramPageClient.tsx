@@ -502,7 +502,7 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
             Ready to Start Your Plumbing Career?
           </h2>
           <p className="text-xl text-cyan-100 mb-8 max-w-2xl mx-auto">
-            Join a trade that's always in demand. Check your eligibility for free WIOA-funded
+            Join a trade that's always in demand. Check your eligibility for WIOA-funded
             training.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

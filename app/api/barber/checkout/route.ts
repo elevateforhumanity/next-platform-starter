@@ -19,6 +19,7 @@ import {
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { getStripeMethodsForAmount } from '@/lib/bnpl-config';
 
 /**
  * POST /api/barber/checkout
@@ -137,7 +138,8 @@ async function _POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: 'subscription',
-      payment_method_types: ['card', 'klarna', 'afterpay_clearpay'],
+      // Derived from bnpl-config — add/remove providers there, not here
+      payment_method_types: getStripeMethodsForAmount(BARBER_PRICING.setupFee) as any,
       line_items: [
         // Setup fee (one-time) - collected immediately
         {

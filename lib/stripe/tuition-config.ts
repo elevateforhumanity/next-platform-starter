@@ -1,3 +1,5 @@
+import { STRIPE_BNPL_PAYMENT_METHODS } from '@/lib/bnpl-config';
+
 /**
  * TUITION CONFIGURATION
  *
@@ -114,16 +116,18 @@ export const PROGRAM_TUITION: ProgramTuition[] = [
 
 /**
  * TIER 1: THIRD-PARTY FINANCING
- * Student applies through Klarna/Afterpay/Zip at checkout.
+ * Student applies through BNPL providers at checkout.
  * If approved, provider pays us upfront. Provider carries default risk.
+ * Active providers are derived from bnpl-config — do not hardcode names here.
  */
 export const TIER1_THIRD_PARTY_FINANCING = {
   name: 'Pay in 4',
-  providers: ['klarna', 'afterpay_clearpay', 'zip'] as const,
+  // Derived from bnpl-config at module load — add/remove providers there only
+  providers: STRIPE_BNPL_PAYMENT_METHODS.filter((m) => m !== 'card'),
   enabled: true,
 
-  // Stripe payment method types to enable
-  stripePaymentMethods: ['klarna', 'afterpay_clearpay', 'zip'] as const,
+  // Stripe payment method types — derived from bnpl-config
+  stripePaymentMethods: STRIPE_BNPL_PAYMENT_METHODS,
 
   // Terms (set by providers, not us)
   typicalTerms: {
@@ -234,7 +238,8 @@ export const TIER3B_EXTERNAL_FINANCING = {
   options: [
     {
       name: 'Pay in 4',
-      providers: ['klarna', 'afterpay', 'zip'],
+      // Derived from bnpl-config — do not hardcode provider names here
+      providers: STRIPE_BNPL_PAYMENT_METHODS.filter((m) => m !== 'card'),
       description: 'Apply at checkout. Split into 4 interest-free payments.',
     },
     {
@@ -394,13 +399,10 @@ export function calculateRefund(
 // PAYMENT METHODS CONFIGURATION
 // =============================================================================
 
-export const PAYMENT_METHODS = {
-  card: true,
-  us_bank_account: true,
-  klarna: true,
-  afterpay_clearpay: true,
-  zip: true,
-};
+// Derived from bnpl-config — do not hardcode provider names here
+export const PAYMENT_METHODS: Record<string, boolean> = Object.fromEntries(
+  STRIPE_BNPL_PAYMENT_METHODS.map((m) => [m, true]),
+);
 
 // =============================================================================
 // INSTALLMENT RULES - WEEKLY PAYMENTS

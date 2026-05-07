@@ -87,7 +87,7 @@ export default async function VerifyCertificatePage({
               [certificateId]
             </h1>
             <p className="text-base md:text-lg md:text-xl mb-8 text-gray-100 drop-shadow-lg">
-              Transform your career with free training and industry certifications
+              Transform your career with funded training and industry certifications
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -143,7 +143,7 @@ export default async function VerifyCertificatePage({
                     <p className="text-lg text-black mb-6 leading-relaxed">
                       Every great career begins with a single step. Whether you're looking to change
                       careers, upgrade your skills, or enter the workforce for the first time, we're
-                      here to help you succeed. Our programs are 100% free, government-funded, and
+                      here to help you succeed. Our programs are government-funded for eligible participants, and
                       designed to get you hired fast.
                     </p>
                     <ul className="space-y-4">
@@ -162,7 +162,7 @@ export default async function VerifyCertificatePage({
                           />
                         </svg>
                         <span className="text-black">
-                          100% free training - no tuition, no hidden costs
+                          Funded training for eligible participants — no tuition required
                         </span>
                       </li>
                       <li className="flex items-start">
@@ -242,7 +242,7 @@ export default async function VerifyCertificatePage({
                   Ready to Transform Your Career?
                 </h2>
                 <p className="text-base md:text-lg mb-8 text-blue-100">
-                  Advance your career through our free workforce training
+                  Advance your career through our workforce training programs
                   programs.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -168,7 +168,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
           >
             Apply Now
           </Link>
-          <p className="mt-3 text-sm text-slate-500">See payment options, BNPL calculator, and funding paths.</p>
+          <p className="mt-3 text-sm text-slate-500">See payment options and funding paths.</p>
         </div>
       </section>
 

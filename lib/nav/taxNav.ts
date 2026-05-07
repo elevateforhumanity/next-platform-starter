@@ -11,14 +11,9 @@ export const taxNav = {
     {
       title: 'For-Profit (SupersonicFastCash)',
       items: [
-        { label: 'Home', href: '/tax/supersonicfastcash' },
-        { label: 'Services', href: '/tax/supersonicfastcash/services' },
-        { label: 'Pricing', href: '/tax/supersonicfastcash/pricing' },
         {
           label: 'Upload Documents',
-          href: '/tax/supersonicfastcash/documents',
         },
-        { label: 'FAQ', href: '/tax/supersonicfastcash/faq' },
       ] as NavItem[],
     },
     {

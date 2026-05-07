@@ -16,6 +16,7 @@ import {
 
 import { withRuntime } from '@/lib/api/withRuntime';
 import { BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
+import { STRIPE_BNPL_PAYMENT_METHODS } from '@/lib/bnpl-config';
 
 const LMS_URL =
   (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org') + '/lms/courses';
@@ -161,7 +162,7 @@ async function _POST(request: NextRequest) {
             try {
               const pi = await stripe.paymentIntents.retrieve(paymentIntent);
               paymentMethodType = pi.payment_method_types?.[0] || 'card';
-              if (['affirm', 'klarna', 'afterpay_clearpay'].includes(paymentMethodType)) {
+              if (STRIPE_BNPL_PAYMENT_METHODS.includes(paymentMethodType)) {
                 bnplProvider = paymentMethodType;
               }
             } catch (e) {

@@ -51,7 +51,7 @@ export default function HomePage() {
           <p className="text-center text-slate-500 text-sm font-semibold mb-6">Who are you?</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
             {[
-              { label: "I'm looking for training", sub: 'Student Flow', href: '/apply/student', color: 'bg-brand-red-600 hover:bg-brand-red-700 text-white' },
+              { label: "I'm looking for training", sub: 'Student Flow', href: '/apply', color: 'bg-brand-red-600 hover:bg-brand-red-700 text-white' },
               { label: 'I receive SNAP / FSSA benefits', sub: 'FSSA Flow', href: '/fssa', color: 'bg-blue-700 hover:bg-blue-800 text-white' },
               { label: "I'm a workforce case manager", sub: 'Agency Flow', href: '/for-agencies', color: 'bg-slate-800 hover:bg-slate-900 text-white' },
               { label: 'I want to hire or host apprentices', sub: 'Employer Flow', href: '/for-employers', color: 'bg-green-700 hover:bg-green-800 text-white' },

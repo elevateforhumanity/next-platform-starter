@@ -505,12 +505,8 @@ export const footerNavigation = {
   tax: {
     title: 'Tax Services',
     links: [
-      { label: 'Tax Services', href: '/tax/supersonicfastcash' },
       { label: 'Free Tax Filing', href: '/tax/free' },
       { label: 'Professional Tax', href: '/tax/professional' },
-      { label: 'Tax FAQ', href: '/tax/supersonicfastcash/faq' },
-      { label: 'Tax Pricing', href: '/tax/supersonicfastcash/pricing' },
-      { label: 'Tax Prep Services', href: '/tax/supersonicfastcash/services' },
       { label: 'Self Prep', href: '/tax-self-prep/start' },
     ],
   },
@@ -549,28 +545,9 @@ export const footerNavigation = {
       { label: 'Purchase License', href: '/licenses/purchase' },
       { label: 'Enterprise Review', href: '/licenses/enterprise-review' },
     ],
-  },
-  supersonic: {
-    title: 'SupersonicFastCash',
-    links: [
-      { label: 'Tax Prep IL', href: '/supersonic-fast-cash/tax-preparation-illinois' },
-      { label: 'Tax Prep IN', href: '/supersonic-fast-cash/tax-preparation-indiana' },
-      { label: 'Tax Prep OH', href: '/supersonic-fast-cash/tax-preparation-ohio' },
-      { label: 'Tax Prep TN', href: '/supersonic-fast-cash/tax-preparation-tennessee' },
-      { label: 'Tax Prep TX', href: '/supersonic-fast-cash/tax-preparation-texas' },
-      { label: 'Transparency', href: '/supersonic-fast-cash/transparency' },
-      { label: 'Competency Test', href: '/supersonic-fast-cash/careers/competency-test' },
-      { label: 'Software Download', href: '/supersonic-fast-cash/tools/software-download' },
-      { label: 'Payroll Services', href: '/supersonic-fast-cash/services/payroll' },
-      { label: 'Governance', href: '/supersonic-fast-cash/governance/compliance' },
-      { label: 'Security', href: '/supersonic-fast-cash/governance/security' },
-      { label: 'Contact', href: '/supersonic-fast-cash/governance/contact' },
-      { label: 'Authoritative Docs', href: '/supersonic-fast-cash/governance/authoritative-docs' },
       {
         label: 'Operational Controls',
-        href: '/supersonic-fast-cash/governance/operational-controls',
       },
-      { label: 'SEO Indexing', href: '/supersonic-fast-cash/governance/seo-indexing' },
     ],
   },
   enrollment: {

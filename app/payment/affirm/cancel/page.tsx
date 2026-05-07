@@ -75,7 +75,7 @@ export default async function AffirmCancelPage() {
             href="/programs"
             className="text-sm text-brand-blue-600 hover:text-brand-blue-700 font-semibold"
           >
-            Learn about free training options →
+            Learn about funded training options →
           </Link>
         </div>
       </div>

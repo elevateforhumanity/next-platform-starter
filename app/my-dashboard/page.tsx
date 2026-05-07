@@ -76,7 +76,6 @@ export default async function MyDashboardPage() {
     'case_manager',
     'creator',
     'vita_staff',
-    'supersonic_staff',
   ].includes(role);
   if (!bypassOnboarding && !profile?.onboarding_completed) {
     redirect('/onboarding/learner');

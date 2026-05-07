@@ -33,8 +33,11 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Only gate protected namespaces
+  // Only gate protected namespaces.
+  // Root / is included because app/page.tsx redirects to /admin — gate it here
+  // so unauthenticated users go straight to /login without hitting the layout.
   const isProtected =
+    pathname === '/' ||
     pathname.startsWith('/admin') ||
     pathname.startsWith('/instructor') ||
     pathname.startsWith('/api/admin');

@@ -27,7 +27,6 @@ const SCOPED_PATHS = [
   'app/api/payments/',
   'app/api/programs/',
   'app/api/partners/',
-  'app/api/supersonic/',
   'app/api/funnel/',
   'app/api/intake',
   'app/api/auth/signout',

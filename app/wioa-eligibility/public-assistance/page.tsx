@@ -153,7 +153,7 @@ export default async function PublicAssistancePage() {
         <div className="bg-brand-blue-700 rounded-lg p-8 text-center text-white">
           <h3 className="text-2xl font-bold mb-4">Ready to Start Your Career?</h3>
           <p className="text-white mb-6">
-            Apply today - your public assistance status qualifies you for free training.
+            Apply today — your public assistance status may qualify you for funded training.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

@@ -345,7 +345,7 @@ export async function POST(request: NextRequest) {
     if (resend && body.email) {
       try {
         await resend.emails.send({
-          from: 'Supersonic Fast Cash <noreply@supersonicfastcash.com>',
+          from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
           to: body.email,
           subject: `Tax Return ${SOFTWARE_ID === 'PENDING_APPROVAL' ? 'Prepared' : 'Filed'} - ${taxReturn.taxYear}`,
           html: generateConfirmationEmail(taxReturn, submission.submissionId, calculation),

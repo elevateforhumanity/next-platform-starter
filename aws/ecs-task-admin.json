@@ -67,6 +67,10 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SITE_URL"
         },
         {
+          "name": "NEXT_PUBLIC_ADMIN_URL",
+          "value": "https://admin.elevateforhumanity.org"
+        },
+        {
           "name": "STRIPE_SECRET_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_SECRET_KEY"
         },

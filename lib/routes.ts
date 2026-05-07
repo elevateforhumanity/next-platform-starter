@@ -9,8 +9,6 @@ export const routes = {
   communityServices: '/community-services',
   communityServicesState: (state: string) => `/community-services/${state}`,
   cnaWaitlist: '/cna-waitlist',
-  supersonicFastCash: '/supersonic-fast-cash',
-  supersonicService: (slug: string) => `/supersonic-fast-cash/${slug}`,
   policies: '/policies',
   policy: (slug: string) => `/policies/${slug}`,
   legal: '/legal',

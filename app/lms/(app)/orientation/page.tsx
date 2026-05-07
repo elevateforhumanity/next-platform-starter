@@ -137,7 +137,7 @@ export default async function OrientationPage() {
                   </div>
                   <div>
                     <p className="font-medium text-black">Verify Eligibility</p>
-                    <p className="text-sm text-black">Check if you qualify for free training</p>
+                    <p className="text-sm text-black">Check if you qualify for funded training</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

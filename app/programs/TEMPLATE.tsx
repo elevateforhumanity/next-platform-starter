@@ -150,7 +150,7 @@ export default function ProgramTemplate() {
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-black mb-4">Funded with Funding</h2>
           <p className="text-xl text-black mb-8 max-w-3xl">
-            Most students qualify for free training through WIOA, WRG, Job Ready Indy, or
+            Most students qualify for funded training through WIOA, WRG, Job Ready Indy, or
             DOL-registered apprenticeships.
           </p>
           <div className="grid md:grid-cols-3 gap-6">

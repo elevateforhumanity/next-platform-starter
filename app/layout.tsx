@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
 
   keywords: [
-    'free career training Indianapolis',
+    'funded career training Indianapolis',
     'WIOA programs Indiana',
     'free job training Marion County',
     'HVAC training Indianapolis',

@@ -190,7 +190,6 @@ const ADMIN_ONLY = [
   'search',
   'documents',
   'compliance',
-  'supersonic',
   'tax',
   'store',
   'shop',

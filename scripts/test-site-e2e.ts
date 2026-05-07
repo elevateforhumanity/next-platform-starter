@@ -149,7 +149,6 @@ async function main() {
   await testPage('How It Works', '/how-it-works');
   await testPage('WIOA Eligibility', '/wioa-eligibility');
   await testPage('VITA', '/vita');
-  await testPage('Supersonic Fast Cash', '/supersonic-fast-cash');
 
   // ============================================================================
   // STORE PAGES

@@ -35,7 +35,7 @@ export default function FAQPage() {
     },
     {
       id: '2',
-      question: 'How do I know if I qualify for free training?',
+      question: 'How do I know if I qualify for funded training?',
       answer:
         'You likely qualify if you are unemployed, underemployed, receiving public assistance (SNAP, TANF, Medicaid), a veteran, or have household income below 200% of poverty level. Take our 2-minute eligibility check.',
       category: 'Enrollment',

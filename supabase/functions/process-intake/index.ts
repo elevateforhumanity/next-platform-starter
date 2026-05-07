@@ -207,19 +207,6 @@ const ROUTE_MAP: Record<string, RowMapper> = {
     },
   }),
 
-  supersonic: (p, _t) => ({
-    table: 'supersonic_applications',
-    record: {
-      first_name: p.first_name,
-      last_name: p.last_name,
-      email: p.email,
-      phone: p.phone,
-      service_type: p.service_type ?? null,
-      tax_year: p.tax_year ?? null,
-      notes: p.notes ?? null,
-      status: 'submitted',
-    },
-  }),
 
   tax: (p, _t) => ({
     table: 'tax_applications',

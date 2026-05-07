@@ -65,15 +65,6 @@ Our IRS-certified volunteers will prepare your taxes at no cost.
 Schedule your appointment today and keep more of your refund!`,
     filename: 'avatar-vita.mp4',
   },
-  {
-    id: 'supersonic',
-    avatarId: 'Adriana_BizTalk_Front_public',
-    voiceId: '1704ea0565c04c5188d9b67062b31a1a',
-    script: `Get your tax refund fast with Supersonic Fast Cash! 
-We offer same-day refund advances up to seventy-five hundred dollars. 
-Professional tax preparation with maximum refund guaranteed. Let's get you paid!`,
-    filename: 'avatar-supersonic.mp4',
-  },
 
   // === HEALTHCARE ===
   {

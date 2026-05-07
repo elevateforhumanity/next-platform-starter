@@ -43,7 +43,7 @@ export default function SkilledTradesPageClient({ programs }: { programs: Progra
               Skilled Trades Programs
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mb-8">
-              Build your future with free, WIOA-funded skilled trades training
+              Build your future with WIOA-funded skilled trades training — no cost for eligible participants
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -80,7 +80,7 @@ export default function SkilledTradesPageClient({ programs }: { programs: Progra
               Choose Your Trade
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              All programs are free for eligible participants through WIOA funding.
+              Funding is available for eligible participants through WIOA and state grants.
             </p>
           </div>
 

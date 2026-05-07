@@ -89,7 +89,7 @@ export default async function EnrollProgramPage({ params }: Props) {
                 {[
                   [
                     'Verify WIOA Eligibility',
-                    'Complete the eligibility check to qualify for free training',
+                    'Complete the eligibility check to qualify for funded training',
                   ],
                   [
                     'Submit Application',

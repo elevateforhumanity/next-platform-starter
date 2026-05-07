@@ -23,7 +23,6 @@ const TEST_PATTERNS = [
 
 // Endpoints that are intentionally test-like but serve production purposes
 const ALLOWLIST = [
-  'supersonic-fast-cash/competency-test', // actual user-facing competency test
   'studio/generate-tests', // studio feature
   'content/testimonials', // actual testimonials endpoint
   'testimonials', // actual testimonials endpoint
