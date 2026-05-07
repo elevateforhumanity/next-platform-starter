@@ -683,6 +683,14 @@ const TOOLS: unknown[] = [
       parameters: { type: 'object', properties: {}, required: [] },
     },
   },
+  {
+    type: 'function',
+    function: {
+      name: 'smoke_test',
+      description: 'Run a full platform smoke test — checks all critical endpoints, DB, storage, AI providers, env vars, and ECS services. Use when asked to smoke test, health check, or verify the platform is working.',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
 ];
 
 // ── SSE helpers ─────────────────────────────────────────────────────────────
@@ -1646,6 +1654,45 @@ async function executeAction(
           write(`   View at: /admin/social-media`);
         } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
       } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Smoke test ────────────────────────────────────────────────────────
+    case 'smoke_test': {
+      write('\x1b[1mRunning platform smoke test…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl.replace('www.elevateforhumanity.org', 'admin.elevateforhumanity.org')}/api/devstudio/smoke-test`, {
+          headers: { Cookie: authHeader },
+          signal: AbortSignal.timeout(55000),
+        });
+        if (!res.ok || !res.body) {
+          write(`\x1b[31m✗  Smoke test endpoint returned HTTP ${res.status}\x1b[0m`);
+          break;
+        }
+        // Stream SSE lines directly to the caller
+        const reader  = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+        while (true) {
+          const { done: d, value } = await reader.read();
+          if (d) break;
+          buf += decoder.decode(value, { stream: true });
+          const parts = buf.split('\n');
+          buf = parts.pop() ?? '';
+          for (const part of parts) {
+            if (!part.startsWith('data: ')) continue;
+            const payload = part.slice(6).trim();
+            if (payload === '[DONE]') continue;
+            try {
+              const p = JSON.parse(payload);
+              const text: string = p.line ?? p.text ?? payload;
+              if (text.trim()) write(text);
+            } catch { if (payload.trim()) write(payload); }
+          }
+        }
+      } catch (err) {
+        write(`\x1b[31m✗  Smoke test failed: ${(err as Error).message}\x1b[0m`);
+      }
       break;
     }
 

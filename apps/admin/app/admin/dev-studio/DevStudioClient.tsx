@@ -234,7 +234,7 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
     { label: '🏗 Build courses',  cmd: 'Build all courses and push to GitHub' },
     { label: '🚀 Deploy LMS',     cmd: 'Deploy the LMS service' },
     { label: '🚀 Deploy Admin',   cmd: 'Deploy the admin service' },
-    { label: '🧪 Run tests',      cmd: 'Run autopilot test suite' },
+    { label: '🧪 Smoke test',     cmd: 'Run smoke test' },
     { label: '🎬 Generate video', cmd: 'Generate a lesson video' },
     { label: '📚 Generate course',cmd: 'Generate a new course' },
   ];
@@ -268,13 +268,21 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
 
     const streamLines: string[] = [];
 
+    // Smoke test bypasses the AI round-trip — call the endpoint directly
+    const isSmokeTest = /smoke.?test|health.?check|check.*platform|verify.*platform/i.test(cmd);
+
     try {
-      const res = await fetch('/api/devstudio/execute', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ command: cmd }),
-        signal: abortRef.current.signal,
-      });
+      const res = await fetch(
+        isSmokeTest ? '/api/devstudio/smoke-test' : '/api/devstudio/execute',
+        isSmokeTest
+          ? { signal: abortRef.current.signal }
+          : {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ command: cmd }),
+              signal: abortRef.current.signal,
+            },
+      );
 
       if (!res.ok || !res.body) {
         let errText = 'Request failed';
