@@ -952,18 +952,7 @@ export default function StudentApplicationForm({
                 name="willingJobReadiness"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                Why are you applying for this program?
-              </label>
-              <textarea
-                value={eligibility.motivation}
-                onChange={(e) => setElig('motivation', e.target.value)}
-                rows={3}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
-                placeholder="Tell us what motivated you to apply and what you hope to achieve."
-              />
-            </div>
+
           </div>
 
           {/* 6. Support Needs */}

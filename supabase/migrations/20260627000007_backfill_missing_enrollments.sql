@@ -35,14 +35,7 @@ VALUES
   )
 ON CONFLICT (user_id, program_slug) DO NOTHING;
 
--- Also backfill enrollments table (the general one)
-INSERT INTO public.enrollments (
-  user_id, program_id, status, created_at, updated_at
-)
-VALUES
-  ('a1bd80f4-f8e2-4e3b-9d45-9432c0772d44', '4226f7f6-fbc1-44b5-83e8-b12ea149e4c7', 'active', now(), now()),
-  ('9f37400c-dc85-4035-acff-368794512992', '4226f7f6-fbc1-44b5-83e8-b12ea149e4c7', 'active', now(), now())
-ON CONFLICT DO NOTHING;
+-- enrollments is a view — skip direct insert, program_enrollments above is sufficient.
 
 -- Backfill program_slug on the applications so the approval pipeline doesn't re-hit this
 UPDATE public.applications SET program_slug = 'hvac-technician'

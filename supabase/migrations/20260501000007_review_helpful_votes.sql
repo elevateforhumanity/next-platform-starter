@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public.review_helpful_votes (
   id          uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   review_id   uuid NOT NULL REFERENCES public.course_reviews(id) ON DELETE CASCADE,
   user_id     uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  created_at  timestamptz DEFAULT now()
+  created_at  timestamptz DEFAULT now(),
   UNIQUE (review_id, user_id)
 );
 

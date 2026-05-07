@@ -355,6 +355,15 @@ const nextConfig = {
 
     return [
       // ============================================
+      // MISSING VIDEO ASSETS — redirect local paths to R2 CDN
+      // barber-hero-final.mp4 is not in public/videos/ — serve from R2
+      // ============================================
+      {
+        source: '/videos/barber-hero-final.mp4',
+        destination: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4',
+        permanent: false, // 307 so we can swap the asset later without cache lock-in
+      },
+      // ============================================
       // DELETED PAGE REDIRECTS
       // ============================================
       // /admin-login — real 113-line admin auth form, no redirect

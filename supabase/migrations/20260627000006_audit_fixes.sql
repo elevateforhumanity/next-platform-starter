@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS public.compliance_flags (
 
 ALTER TABLE public.compliance_flags ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "compliance_flags_admin" ON public.compliance_flags;
 CREATE POLICY "compliance_flags_admin" ON public.compliance_flags
   FOR ALL USING (
     EXISTS (
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS public.wioa_exports (
 
 ALTER TABLE public.wioa_exports ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "wioa_exports_admin" ON public.wioa_exports;
 CREATE POLICY "wioa_exports_admin" ON public.wioa_exports
   FOR ALL USING (
     EXISTS (
@@ -88,6 +90,7 @@ CREATE TABLE IF NOT EXISTS public.payroll_records (
 
 ALTER TABLE public.payroll_records ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "payroll_records_admin" ON public.payroll_records;
 CREATE POLICY "payroll_records_admin" ON public.payroll_records
   FOR ALL USING (
     EXISTS (
@@ -109,11 +112,13 @@ CREATE INDEX IF NOT EXISTS payroll_records_employee_idx ON public.payroll_record
 DROP POLICY IF EXISTS "partners_select" ON public.partners;
 
 -- Public can only see active partners (for /courses/partners, program pages etc.)
+DROP POLICY IF EXISTS "partners_public_select" ON public.partners;
 CREATE POLICY "partners_public_select" ON public.partners
   FOR SELECT
   USING (is_active = true);
 
 -- Authenticated admin/staff can see all partners
+DROP POLICY IF EXISTS "partners_admin_select" ON public.partners;
 CREATE POLICY "partners_admin_select" ON public.partners
   FOR SELECT
   USING (

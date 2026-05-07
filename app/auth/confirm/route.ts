@@ -199,8 +199,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(new URL(redirectTo, CANONICAL));
     }
 
-    // verifyOtp failed — token expired or already used
-    logger.error('Email verification error:', error);
+    // verifyOtp failed — token expired or already used. This is expected user
+    // behaviour (clicking an old link), not an application error. Log as warn.
+    logger.warn('[auth/confirm] Token verification failed (expired or already used):', {
+      type,
+      code: error.code ?? error.status,
+      message: error.message,
+    });
     const CANONICAL = process.env.NEXT_PUBLIC_SITE_URL
       ? process.env.NEXT_PUBLIC_SITE_URL
       : new URL(request.url).origin;

@@ -17,10 +17,21 @@ export async function GET(request: Request) {
   if (code && type === 'recovery') {
     try {
       const supabase = await createClient();
-      await supabase.auth.exchangeCodeForSession(code);
+      const { error: recoveryError } = await supabase.auth.exchangeCodeForSession(code);
+      if (recoveryError) {
+        // Expired or already-used recovery code — expected user behaviour, not an app error
+        logger.warn('[auth/callback] Recovery code exchange failed (expired or reused):', {
+          code: recoveryError.code ?? recoveryError.status,
+          message: recoveryError.message,
+        });
+        return NextResponse.redirect(
+          new URL('/auth/forgot-password?error=link_expired', requestUrl.origin),
+        );
+      }
       return NextResponse.redirect(new URL('/auth/reset-password', requestUrl.origin));
-    } catch {
-      return NextResponse.redirect(new URL('/login?error=reset_failed', requestUrl.origin));
+    } catch (err) {
+      logger.warn('[auth/callback] Recovery exchange threw:', err instanceof Error ? err.message : err);
+      return NextResponse.redirect(new URL('/auth/forgot-password?error=link_expired', requestUrl.origin));
     }
   }
 

@@ -99,7 +99,38 @@ export function createBrowserClient(): SupabaseClient<any> {
   }
 
   try {
-    return createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
+    const client = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
+
+    // Silently clear stale sessions when the refresh token is invalid or expired.
+    // Without this, Supabase logs "Invalid Refresh Token: Refresh Token Not Found"
+    // as an unhandled error every time a user with an old session cookie visits
+    // any page — it's expected browser behaviour, not an application error.
+    client.auth.onAuthStateChange((event, session) => {
+      if (event === 'TOKEN_REFRESHED' && !session) {
+        // Refresh succeeded but returned no session — sign out to clear cookies
+        client.auth.signOut().catch(() => {});
+      }
+    });
+
+    // Intercept token refresh errors by wrapping getSession — Supabase fires
+    // these synchronously on client init when the stored refresh token is stale.
+    const originalGetSession = client.auth.getSession.bind(client.auth);
+    client.auth.getSession = async () => {
+      const result = await originalGetSession();
+      if (
+        result.error &&
+        (result.error.message?.includes('Refresh Token Not Found') ||
+          result.error.message?.includes('Invalid Refresh Token') ||
+          result.error.message?.includes('refresh_token_not_found'))
+      ) {
+        // Stale cookie — clear it silently so the user gets a clean anonymous state
+        await client.auth.signOut().catch(() => {});
+        return { data: { session: null }, error: null };
+      }
+      return result;
+    };
+
+    return client;
   } catch {
     return noOpClient;
   }

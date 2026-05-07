@@ -338,7 +338,7 @@ CREATE TABLE IF NOT EXISTS public.program_reviews (
   review_text TEXT,
   is_verified BOOLEAN DEFAULT false,
   created_at TIMESTAMPTZ DEFAULT now(),
-  updated_at TIMESTAMPTZ DEFAULT now()
+  updated_at TIMESTAMPTZ DEFAULT now(),
   UNIQUE(program_id, user_id)
 );
 DO $$ BEGIN

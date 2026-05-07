@@ -1,13 +1,12 @@
 -- Fix Natalia Roa's enrollment state
 -- She was approved and an enrollment row was created, but her Stripe checkout
--- session expired without payment. enrollment_state='enrolled' with
--- next_required_action='AWAIT_APPROVAL' blocks the onboarding page from
--- showing the payment step.
--- Reset to 'pending' so she is routed to the payment flow on next login.
+-- session expired without payment. Reset to payment_required so she is routed
+-- to the payment flow on next login. 'pending' is not a valid enrollment_state
+-- per the CHECK constraint — payment_required is the correct value.
 
 UPDATE public.program_enrollments
 SET
-  enrollment_state      = 'pending',
+  enrollment_state      = 'payment_required',
   next_required_action  = 'PAYMENT',
   payment_status        = 'pending',
   stripe_checkout_session_id = NULL,  -- clear expired session

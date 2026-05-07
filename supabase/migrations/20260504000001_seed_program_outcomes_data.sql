@@ -1,6 +1,58 @@
 -- Seed salary ranges, employer data, and career outcomes into programs table.
 -- Replaces hardcoded arrays in pathways/outcomes and outcomes pages.
 
+-- Migrate employers and career_outcomes from text[] to jsonb.
+-- Drop all views that depend on these columns, alter, then recreate.
+DROP VIEW IF EXISTS public.v_active_programs;
+DROP VIEW IF EXISTS public.v_published_programs;
+DROP VIEW IF EXISTS public.programs_for_holder;
+
+ALTER TABLE public.programs
+  ALTER COLUMN employers       TYPE jsonb USING to_jsonb(employers),
+  ALTER COLUMN career_outcomes TYPE jsonb USING to_jsonb(career_outcomes);
+
+-- Recreate v_active_programs
+CREATE OR REPLACE VIEW public.v_active_programs AS
+  SELECT id, slug, title, category, description, estimated_weeks, estimated_hours,
+         funding_tags, is_active, created_at, full_description, what_you_learn,
+         day_in_life, salary_min, salary_max, credential_type, credential_name,
+         employers, funding_pathways, delivery_method, training_hours, prerequisites,
+         career_outcomes, industry_demand, image_url, hero_image_url, icon_url,
+         featured, wioa_approved, dol_registered, placement_rate, completion_rate,
+         total_cost, toolkit_cost, credentialing_cost, name, duration_weeks,
+         updated_at, cip_code, soc_code, funding_eligibility, state_code, organization_id
+  FROM programs p
+  WHERE COALESCE(is_active, false) = true;
+
+-- Recreate v_published_programs (same shape, filters on published=true)
+CREATE OR REPLACE VIEW public.v_published_programs AS
+  SELECT id, slug, title, category, description, estimated_weeks, estimated_hours,
+         funding_tags, is_active, created_at, full_description, what_you_learn,
+         day_in_life, salary_min, salary_max, credential_type, credential_name,
+         employers, funding_pathways, delivery_method, training_hours, prerequisites,
+         career_outcomes, industry_demand, image_url, hero_image_url, icon_url,
+         featured, wioa_approved, dol_registered, placement_rate, completion_rate,
+         total_cost, toolkit_cost, credentialing_cost, name, duration_weeks,
+         updated_at, cip_code, soc_code, funding_eligibility, state_code, organization_id
+  FROM programs p
+  WHERE COALESCE(published, false) = true;
+
+-- Recreate programs_for_holder (joins program_holder_programs)
+CREATE OR REPLACE VIEW public.programs_for_holder AS
+  SELECT php.program_holder_id, php.role_in_program, php.status AS association_status,
+         p.id, p.slug, p.title, p.category, p.description, p.estimated_weeks,
+         p.estimated_hours, p.funding_tags, p.is_active, p.created_at,
+         p.full_description, p.what_you_learn, p.day_in_life, p.salary_min,
+         p.salary_max, p.credential_type, p.credential_name, p.employers,
+         p.funding_pathways, p.delivery_method, p.training_hours, p.prerequisites,
+         p.career_outcomes, p.industry_demand, p.image_url, p.hero_image_url,
+         p.icon_url, p.featured, p.wioa_approved, p.dol_registered,
+         p.placement_rate, p.completion_rate, p.total_cost, p.toolkit_cost,
+         p.credentialing_cost, p.name, p.duration_weeks, p.updated_at,
+         p.cip_code, p.soc_code, p.funding_eligibility, p.state_code, p.organization_id
+  FROM program_holder_programs php
+  JOIN programs p ON p.id = php.program_id;
+
 UPDATE public.programs SET
   salary_min = 28000, salary_max = 42000,
   employers = '[
@@ -10,7 +62,7 @@ UPDATE public.programs SET
     {"name":"Assisted living facilities","pay":"$30K–$37K/year"},
     {"name":"Rehabilitation centers","pay":"$32K–$40K/year"}
   ]'::jsonb,
-  career_outcomes = 'Certified Nursing Assistant — legally authorized to provide direct patient care in Indiana hospitals, nursing homes, and home health agencies.'
+  career_outcomes = to_jsonb('Certified Nursing Assistant — legally authorized to provide direct patient care in Indiana hospitals, nursing homes, and home health agencies.'::text)
 WHERE slug = 'cna-cert';
 
 UPDATE public.programs SET
@@ -23,7 +75,7 @@ UPDATE public.programs SET
     {"name":"UPS Freight","pay":"$55K–$70K first year"},
     {"name":"XPO Logistics","pay":"$48K–$60K first year"}
   ]'::jsonb,
-  career_outcomes = 'Commercial Driver License (CDL) Class A or B — authorized to operate tractor-trailers, buses, and heavy trucks. Many carriers offer $5K–$15K sign-on bonuses.'
+  career_outcomes = to_jsonb('Commercial Driver License (CDL) Class A or B — authorized to operate tractor-trailers, buses, and heavy trucks. Many carriers offer $5K–$15K sign-on bonuses.'::text)
 WHERE slug = 'cdl-training';
 
 UPDATE public.programs SET
@@ -33,7 +85,7 @@ UPDATE public.programs SET
     {"name":"Barbershops (booth rental)","pay":"$40K–$60K+/year"},
     {"name":"Shop ownership","pay":"$60K–$100K+/year"}
   ]'::jsonb,
-  career_outcomes = 'Indiana Barber License — state-regulated professional license earned through a DOL Registered Apprenticeship. Earn while you learn.'
+  career_outcomes = to_jsonb('Indiana Barber License — state-regulated professional license earned through a DOL Registered Apprenticeship. Earn while you learn.'::text)
 WHERE slug = 'barber-apprenticeship';
 
 UPDATE public.programs SET
@@ -44,7 +96,7 @@ UPDATE public.programs SET
     {"name":"Commercial maintenance firms","pay":"$19–$24/hr starting"},
     {"name":"Self-employment (after experience)","pay":"$60K–$80K+/year"}
   ]'::jsonb,
-  career_outcomes = 'EPA Section 608 Certification + OSHA 30 — required by federal law to handle refrigerants. Most graduates find employment within 30 days.'
+  career_outcomes = to_jsonb('EPA Section 608 Certification + OSHA 30 — required by federal law to handle refrigerants. Most graduates find employment within 30 days.'::text)
 WHERE slug IN ('hvac-technician','hvac-2024');
 
 UPDATE public.programs SET
@@ -56,7 +108,7 @@ UPDATE public.programs SET
     {"name":"Journeyman (after 4-year apprenticeship)","pay":"$55K–$75K"},
     {"name":"Master electrician / contractor","pay":"$100K+"}
   ]'::jsonb,
-  career_outcomes = 'OSHA 10 + NCCER Electrical Level 1 — foundation for a 4-year electrical apprenticeship leading to journeyman licensure.'
+  career_outcomes = to_jsonb('OSHA 10 + NCCER Electrical Level 1 — foundation for a 4-year electrical apprenticeship leading to journeyman licensure.'::text)
 WHERE slug = 'electrical';
 
 UPDATE public.programs SET
@@ -67,7 +119,7 @@ UPDATE public.programs SET
     {"name":"Construction firms","pay":"$44K–$60K starting"},
     {"name":"Specialized (pipe, underwater, aerospace)","pay":"$80K–$150K+"}
   ]'::jsonb,
-  career_outcomes = 'AWS Welding Certifications (D1.1 Structural Steel, 3G/4G Plate) + OSHA 10 — industry standard recognized by employers worldwide.'
+  career_outcomes = to_jsonb('AWS Welding Certifications (D1.1 Structural Steel, 3G/4G Plate) + OSHA 10 — industry standard recognized by employers worldwide.'::text)
 WHERE slug = 'welding';
 
 UPDATE public.programs SET
@@ -78,7 +130,7 @@ UPDATE public.programs SET
     {"name":"IT support specialist","pay":"$42K–$60K"},
     {"name":"Field technician","pay":"$38K–$52K"}
   ]'::jsonb,
-  career_outcomes = 'Certiport IT Specialist — Device Configuration & Management. Entry point to a defined career ladder: help desk → sysadmin → network engineer → cybersecurity.'
+  career_outcomes = to_jsonb('Certiport IT Specialist — Device Configuration & Management. Entry point to a defined career ladder: help desk → sysadmin → network engineer → cybersecurity.'::text)
 WHERE slug = 'it-support';
 
 UPDATE public.programs SET
@@ -89,7 +141,7 @@ UPDATE public.programs SET
     {"name":"Cybersecurity specialist","pay":"$65K–$100K"},
     {"name":"Network security administrator","pay":"$60K–$95K"}
   ]'::jsonb,
-  career_outcomes = 'Certiport IT Specialist — Cybersecurity. Indiana 4-star DWD Top Job. Average salary $91,749. Remote work standard.'
+  career_outcomes = to_jsonb('Certiport IT Specialist — Cybersecurity. Indiana 4-star DWD Top Job. Average salary $91,749. Remote work standard.'::text)
 WHERE slug IN ('cybersecurity','cybersecurity-analyst');
 
 UPDATE public.programs SET
@@ -100,7 +152,7 @@ UPDATE public.programs SET
     {"name":"Physician offices","pay":"$36K–$50K"},
     {"name":"Urgent care centers","pay":"$37K–$52K"}
   ]'::jsonb,
-  career_outcomes = 'NHA Certified Medical Assistant (CCMA) — nationally recognized credential for clinical and administrative medical assisting.'
+  career_outcomes = to_jsonb('NHA Certified Medical Assistant (CCMA) — nationally recognized credential for clinical and administrative medical assisting.'::text)
 WHERE slug IN ('nha-medical-assistant','medical-assistant');
 
 UPDATE public.programs SET
@@ -111,7 +163,7 @@ UPDATE public.programs SET
     {"name":"Diagnostic labs","pay":"$35K–$48K"},
     {"name":"Clinics","pay":"$32K–$44K"}
   ]'::jsonb,
-  career_outcomes = 'NHA Certified Phlebotomy Technician (CPT) — nationally recognized credential for blood collection and specimen processing.'
+  career_outcomes = to_jsonb('NHA Certified Phlebotomy Technician (CPT) — nationally recognized credential for blood collection and specimen processing.'::text)
 WHERE slug = 'nha-phlebotomy';
 
 -- Seed testimonials with placeholder data (replace with real quotes when available)

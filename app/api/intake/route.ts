@@ -119,6 +119,18 @@ async function _POST(req: Request) {
     barriers.length ? `Barriers: ${barriers.join(', ')}` : null,
   ].filter(Boolean).join(' | ');
 
+  // Use maybeSingle() instead of single() — single() throws PGRST116 when RLS
+  // silently blocks the SELECT-after-insert and returns 0 rows.
+  //
+  // Root cause of mirror failures: overlapping RESTRICTIVE SELECT policies on
+  // public.applications (applications_own_read, users_own, etc.) were blocking
+  // the post-insert SELECT even when using the service_role client, because
+  // Supabase evaluates RESTRICTIVE policies on the `public` and `authenticated`
+  // roles before checking the service_role PERMISSIVE policy.
+  //
+  // Fixed by migration: 20260628000003_fix_applications_rls.sql
+  // That migration drops all conflicting policies and replaces them with a clean
+  // non-overlapping set where service_role has an explicit PERMISSIVE ALL policy.
   const { data: appRow, error: appError } = await supabase
     .from('applications')
     .insert({
@@ -149,18 +161,35 @@ async function _POST(req: Request) {
       submitted_at: new Date().toISOString(),
     })
     .select('id')
-    .single();
+    .maybeSingle();
 
   if (appError) {
-    // Non-fatal — intake record already saved. Log and continue.
-    logger.warn('[Intake API] Failed to mirror into applications table', appError.message);
+    // Mirror failure — intake record is already saved in apprenticeship_intake so
+    // the submission is not lost. Log the full error (code + details) so it's
+    // actionable in the log aggregator rather than silently swallowed.
+    logger.error('[Intake API] Mirror to applications failed — intake saved but admin queue will not show this record', {
+      error: appError.message,
+      code:    appError.code,
+      details: appError.details,
+      hint:    appError.hint,
+      email:   clean(body.email as string),
+      program: programInterest,
+    });
+  } else if (!appRow) {
+    // Insert succeeded (no error) but returned no row — RLS blocked the select
+    // after insert, or the row was filtered out. The record may still exist.
+    logger.warn('[Intake API] Mirror insert returned no row (possible RLS on SELECT)', {
+      email:   clean(body.email as string),
+      program: programInterest,
+    });
   } else {
-    logger.info('[Intake API] Application row created', appRow?.id);
+    logger.info('[Intake API] Application row created', { id: appRow.id });
   }
 
-  // Use the real UUID from the insert, or null if the insert failed.
-  // Never generate a fake intake-{timestamp} ID — those are not valid application IDs
-  // and cause 404s when the admin tries to open the review page.
+  // Never use a timestamp-based fallback ID in the response — it produces a
+  // 404 on the admin review page because no applications row has that ID.
+  // If the mirror failed, omit the applicationId from the response entirely
+  // and let the admin find the record via apprenticeship_intake.
   const applicationId = appRow?.id ?? null;
 
   // Auto-create a workforce_referrals row when the applicant came through a
@@ -181,77 +210,79 @@ async function _POST(req: Request) {
   const workforceConnectionRaw = (body.workforce_connection as string | undefined)?.toLowerCase().trim() ?? '';
   const agencyKey = WORKFORCE_AGENCY_SOURCES[referralSourceRaw] ?? WORKFORCE_AGENCY_SOURCES[workforceConnectionRaw];
 
-  if (agencyKey && body.email) {
-    (async () => {
-      try {
-        await supabase.from('workforce_referrals').insert({
-          applicant_name: (body.full_name as string).trim(),
-          applicant_email: (body.email as string).trim().toLowerCase(),
-          applicant_phone: (body.phone as string | undefined)?.trim() || null,
-          agency: agencyKey,
-          program_interest: programInterest ?? null,
-          status: 'referred',
-        });
-      } catch (refErr) {
-        logger.warn('[Intake API] workforce_referrals insert failed', {
-          error: refErr instanceof Error ? refErr.message : 'Unknown',
-        });
-      }
-    })();
+  // Non-blocking side-effects — run after the response is returned.
+  // Each is wrapped in a named async function so errors are logged with context
+  // rather than silently swallowed by the runtime.
+  const intakeEmail = (body.email as string | undefined)?.trim().toLowerCase();
+
+  async function createWorkforceReferral() {
+    if (!agencyKey || !body.email) return;
+    const { error: refErr } = await supabase.from('workforce_referrals').insert({
+      applicant_name:  (body.full_name as string).trim(),
+      applicant_email: (body.email as string).trim().toLowerCase(),
+      applicant_phone: (body.phone as string | undefined)?.trim() || null,
+      agency:          agencyKey,
+      program_interest: programInterest ?? null,
+      status: 'referred',
+    });
+    if (refErr) {
+      logger.warn('[Intake API] workforce_referrals insert failed', {
+        error: refErr.message, code: refErr.code, email: intakeEmail,
+      });
+    }
   }
 
-  // Provision a learner account if an email was provided.
-  // Non-blocking: intake record is already saved above. Auth failures are logged
-  // and surfaced in the admin intake queue for manual follow-up.
-  const intakeEmail = body.email?.trim().toLowerCase();
-  if (intakeEmail) {
-    (async () => {
-      try {
-        // inviteUserByEmail sends a magic link and creates the auth user atomically.
-        // If the user already exists, Supabase returns the existing user without error.
-        const { data: invited, error: inviteError } = await supabase.auth.admin.inviteUserByEmail(
-          intakeEmail,
-          {
-            data: {
-              full_name: body.full_name.trim(),
-              role: 'student',
-            },
-            redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/learner/dashboard`,
-          },
-        );
+  async function provisionLearner() {
+    if (!intakeEmail) return;
+    const { data: invited, error: inviteError } = await supabase.auth.admin.inviteUserByEmail(
+      intakeEmail,
+      {
+        data: { full_name: (body.full_name as string).trim(), role: 'student' },
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/learner/dashboard`,
+      },
+    );
+    if (inviteError) {
+      logger.warn('[Intake API] Auth invite failed', {
+        email: intakeEmail, error: inviteError.message,
+      });
+      return;
+    }
+    const { error: profileErr } = await supabase.from('profiles').upsert(
+      {
+        id:        invited.user.id,
+        email:     intakeEmail,
+        full_name: (body.full_name as string).trim(),
+        role:      'student',
+        phone:     (body.phone as string | undefined)?.trim() || null,
+      },
+      { onConflict: 'id', ignoreDuplicates: false },
+    );
+    if (profileErr) {
+      logger.warn('[Intake API] Profile upsert failed', {
+        email: intakeEmail, error: profileErr.message, code: profileErr.code,
+      });
+    }
+  }
 
-        if (inviteError) {
-          logger.warn('[Intake API] Auth invite failed', {
-            email: intakeEmail,
-            error: inviteError.message,
+  // Fire both side-effects without awaiting — errors are caught and logged inside
+  // each function. Using void + Promise.allSettled so unhandled-rejection warnings
+  // don't surface in the runtime.
+  void Promise.allSettled([createWorkforceReferral(), provisionLearner()])
+    .then((results) => {
+      results.forEach((r) => {
+        if (r.status === 'rejected') {
+          logger.error('[Intake API] Side-effect threw unexpectedly', {
+            error: r.reason instanceof Error ? r.reason.message : String(r.reason),
           });
-          return;
         }
-
-        // Upsert profile row so the learner portal can resolve their role and name.
-        // ON CONFLICT: if profile already exists (returning learner), update name only.
-        await supabase.from('profiles').upsert(
-          {
-            id: invited.user.id,
-            email: intakeEmail,
-            full_name: body.full_name.trim(),
-            role: 'student',
-            phone: body.phone?.trim() || null,
-          },
-          { onConflict: 'id', ignoreDuplicates: false },
-        );
-      } catch (provisionError) {
-        logger.error(
-          '[Intake API] Learner provisioning error',
-          provisionError instanceof Error ? provisionError.message : 'Unknown',
-        );
-      }
-    })();
-  }
+      });
+    });
 
   // Send email notifications (non-blocking — don't fail the response if email fails)
   const applicationData = {
-    id: applicationId,
+    // Use the real applications UUID when available; fall back to a descriptive
+    // placeholder so the admin email still renders rather than showing "null".
+    id: applicationId ?? `(mirror-failed — find in apprenticeship_intake by email: ${intakeEmail ?? 'unknown'})`,
     firstName,
     lastName,
     email: intakeEmail ?? '',
@@ -299,6 +330,12 @@ async function _POST(req: Request) {
     );
   }
 
-  return NextResponse.json({ success: true, funding_tag: fundingTag });
+  return NextResponse.json({
+    success: true,
+    funding_tag: fundingTag,
+    // Signals to the caller that the intake was saved but the admin queue mirror
+    // failed. The submission is not lost — it's in apprenticeship_intake.
+    ...(applicationId ? {} : { mirror_failed: true }),
+  });
 }
 export const POST = withApiAudit('/api/intake', _POST);

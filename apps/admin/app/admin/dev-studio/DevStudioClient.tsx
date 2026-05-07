@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import {
   Sparkles, MessageSquare, Terminal, FolderOpen, Globe, Box,
   Send, Loader2, RefreshCw, ExternalLink, Save,
   ChevronRight, File, Folder, Monitor, Smartphone, Play, X, Circle,
+  PanelRightClose, PanelRightOpen, AlertTriangle,
 } from 'lucide-react';
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
@@ -46,6 +47,104 @@ const DEFAULT_TAB_FILES: Record<Tab, string> = {
   files: 'explorer', website: 'preview.html', container: 'devcontainer.json',
 };
 
+// ── Embed-check hook ─────────────────────────────────────────────────────────
+// Calls the server-side /api/devstudio/embed-check endpoint which HEAD-fetches
+// the target URL and inspects X-Frame-Options / CSP frame-ancestors headers.
+// Returns { embeddable: boolean | null (pending), reason?: string }
+function useEmbedCheck(url: string) {
+  const [state, setState] = useState<{ embeddable: boolean | null; reason?: string }>({ embeddable: null });
+  useEffect(() => {
+    if (!url) return;
+    setState({ embeddable: null });
+    const controller = new AbortController();
+    fetch(`/api/devstudio/embed-check?url=${encodeURIComponent(url)}`, { signal: controller.signal })
+      .then((r) => r.json())
+      .then((d: { embeddable: boolean; reason?: string }) => setState(d))
+      .catch(() => setState({ embeddable: true })); // on network error, let iframe try
+    return () => controller.abort();
+  }, [url]);
+  return state;
+}
+
+// ── IframePreview ─────────────────────────────────────────────────────────────
+// Renders an iframe when embeddable, or a blocked-state UI with an open-in-tab
+// escape hatch when the target sends X-Frame-Options / CSP frame-ancestors.
+function IframePreview({
+  url,
+  title = 'Preview',
+  style,
+  className,
+}: {
+  url: string;
+  title?: string;
+  style?: React.CSSProperties;
+  className?: string;
+}) {
+  const { embeddable, reason } = useEmbedCheck(url);
+  const [loading, setLoading] = useState(true);
+
+  // Reset loading spinner whenever url changes
+  useEffect(() => { setLoading(true); }, [url]);
+
+  if (embeddable === null) {
+    return (
+      <div className={`flex items-center justify-center w-full h-full ${className ?? ''}`} style={style}>
+        <Loader2 className="w-5 h-5 animate-spin" style={{ color: '#858585' }} />
+      </div>
+    );
+  }
+
+  if (embeddable === false) {
+    return (
+      <div
+        className={`flex flex-col items-center justify-center gap-4 w-full h-full text-center px-6 ${className ?? ''}`}
+        style={{ background: '#1e1e1e', ...style }}
+      >
+        <AlertTriangle className="w-8 h-8" style={{ color: '#f0a500' }} />
+        <p className="text-sm font-medium" style={{ color: '#cccccc' }}>
+          This page can&apos;t be embedded
+        </p>
+        <p className="text-[11px] leading-relaxed" style={{ color: '#858585' }}>
+          The server returned <code className="px-1 rounded" style={{ background: '#2d2d2d', color: '#4ec9b0' }}>{reason}</code>
+          {' '}which blocks iframe embedding.
+        </p>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-4 py-2 rounded text-sm font-medium transition-colors"
+          style={{ background: '#0078d4', color: '#fff' }}
+          onMouseEnter={e => (e.currentTarget.style.background = '#005fa3')}
+          onMouseLeave={e => (e.currentTarget.style.background = '#0078d4')}
+        >
+          <ExternalLink className="w-4 h-4" />
+          Open in new tab
+        </a>
+        <p className="text-[10px]" style={{ color: '#555' }}>
+          Or use a local dev server URL (e.g. http://localhost:3000) in the address bar above.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`relative w-full h-full ${className ?? ''}`} style={style}>
+      {loading && (
+        <div className="absolute inset-x-0 top-0 flex items-center justify-center h-8 z-10 border-b"
+          style={{ background: 'rgba(30,30,30,0.85)', borderColor: '#3c3c3c' }}>
+          <Loader2 className="w-4 h-4 animate-spin" style={{ color: '#858585' }} />
+        </div>
+      )}
+      <iframe
+        src={url}
+        className="w-full h-full border-0"
+        onLoad={() => setLoading(false)}
+        title={title}
+      />
+    </div>
+  );
+}
+
 export default function DevStudioClient() {
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
@@ -55,6 +154,44 @@ export default function DevStudioClient() {
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
   const [studioConfig, setStudioConfig] = useState<DevStudioConfig | null>(null);
   const [configLoadError, setConfigLoadError] = useState(false);
+
+  // Replit-style live preview panel
+  const [previewOpen, setPreviewOpen] = useState(true);
+  const [previewWidth, setPreviewWidth] = useState(420); // px
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragStartW = useRef(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const onResizerMouseDown = useCallback((e: React.MouseEvent) => {
+    isDragging.current = true;
+    dragStartX.current = e.clientX;
+    dragStartW.current = previewWidth;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }, [previewWidth]);
+
+  useEffect(() => {
+    function onMouseMove(e: MouseEvent) {
+      if (!isDragging.current) return;
+      const delta = dragStartX.current - e.clientX; // dragging left = wider preview
+      const containerW = containerRef.current?.offsetWidth ?? window.innerWidth;
+      const next = Math.min(Math.max(dragStartW.current + delta, 280), containerW - 400);
+      setPreviewWidth(next);
+    }
+    function onMouseUp() {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    }
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, []);
 
   useEffect(() => {
     fetch('/api/admin/devstudio/config')
@@ -70,6 +207,7 @@ export default function DevStudioClient() {
   }, []);
 
   const tabFiles = { ...DEFAULT_TAB_FILES, ...(studioConfig?.tabFiles ?? {}) } as Record<Tab, string>;
+  const previewUrl = studioConfig?.defaultPreviewUrl || 'https://www.elevateforhumanity.org';
 
   function openTab(t: Tab) {
     setTab(t);
@@ -83,41 +221,76 @@ export default function DevStudioClient() {
   }
 
   return (
-    <div className="flex flex-col text-slate-800 h-[calc(100dvh-64px)] overflow-hidden" style={{ fontFamily: "'JetBrains Mono','Fira Code',monospace", background: '#f5f5f5' }}>
-      {/* Menu bar — light grey like Gitpod */}
-      <div className="flex-shrink-0 flex items-center gap-1 px-2 sm:px-3 py-1 border-b border-[#ddd] text-xs text-slate-600 select-none" style={{ background: '#f0f0f0' }}>
-        <span className="font-bold text-slate-800 mr-2">Dev Studio</span>
+    <div
+      ref={containerRef}
+      className="flex flex-col overflow-hidden"
+      style={{
+        fontFamily: "'JetBrains Mono','Fira Code','Cascadia Code',monospace",
+        background: '#1e1e1e',
+        color: '#cccccc',
+        // Fixed positioning escapes the layout's min-h-screen + pt-16 flow so the
+        // studio always fills exactly the viewport below the nav bar without allowing
+        // any outer scroll. top:64px matches the AdminNav h-16 fixed header.
+        position: 'fixed',
+        top: 64,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}
+    >
+      {/* ── Title / menu bar ── */}
+      <div className="flex-shrink-0 flex items-center gap-1 px-2 sm:px-3 py-1 border-b text-xs select-none" style={{ background: '#323233', borderColor: '#3c3c3c', color: '#cccccc' }}>
+        <span className="font-bold text-white mr-2 text-[11px]">Dev Studio</span>
         {['File','Edit','View','Terminal','Help'].map((m) => (
-          <span key={m} className="hidden sm:inline hover:bg-[#e0e0e0] cursor-pointer px-2 py-0.5 rounded">{m}</span>
+          <span key={m} className="hidden sm:inline cursor-pointer px-2 py-0.5 rounded text-[11px] transition-colors" style={{ color: '#cccccc' }}
+            onMouseEnter={e => (e.currentTarget.style.background='#3c3c3c')}
+            onMouseLeave={e => (e.currentTarget.style.background='transparent')}>{m}</span>
         ))}
-        <div className="ml-auto flex items-center gap-2 sm:gap-3 text-slate-500">
-          <span className="flex items-center gap-1 text-green-700 font-medium">
-            <Circle className="w-2 h-2 fill-green-500 text-green-500" /> main
+        <div className="ml-auto flex items-center gap-2 sm:gap-3 text-[11px]" style={{ color: '#858585' }}>
+          <span className="flex items-center gap-1" style={{ color: '#4ec9b0' }}>
+            <Circle className="w-2 h-2 fill-current" /> main
           </span>
           <span className="hidden sm:inline">Elevate LMS</span>
+          {/* Preview toggle */}
+          <button
+            title={previewOpen ? 'Hide live preview' : 'Show live preview'}
+            onClick={() => setPreviewOpen((v) => !v)}
+            className="flex items-center gap-1 px-2 py-0.5 rounded text-[11px] transition-colors"
+            style={{ color: previewOpen ? '#4ec9b0' : '#858585' }}
+            onMouseEnter={e => (e.currentTarget.style.background='#3c3c3c')}
+            onMouseLeave={e => (e.currentTarget.style.background='transparent')}
+          >
+            {previewOpen ? <PanelRightClose className="w-3.5 h-3.5" /> : <PanelRightOpen className="w-3.5 h-3.5" />}
+            <span className="hidden sm:inline">Preview</span>
+          </button>
         </div>
       </div>
+
       {configLoadError && (
-        <div className="flex-shrink-0 px-3 py-1 text-[11px] text-amber-700 bg-amber-50 border-b border-amber-200">
-          Custom studio config could not be loaded; using defaults.
+        <div className="flex-shrink-0 px-3 py-1 text-[11px] border-b" style={{ background: '#5a4a00', borderColor: '#6e5c00', color: '#ffd700' }}>
+          Studio config could not be loaded — using defaults.
         </div>
       )}
 
-      {/* Editor tab strip — white active tab, light inactive */}
-      <div className="flex-shrink-0 flex items-end border-b border-[#ddd] overflow-x-auto" style={{ background: '#ececec', scrollbarWidth: 'none' }}>
+      {/* ── Tab strip ── */}
+      <div className="flex-shrink-0 flex items-end overflow-x-auto border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c', scrollbarWidth: 'none' }}>
         {openTabs.map((t) => {
           const def = TABS.find((x) => x.id === t)!;
+          const active = tab === t;
           return (
             <button key={t} onClick={() => openTab(t)}
-              className={`flex items-center gap-1.5 px-2 sm:px-4 py-2 text-[11px] sm:text-xs border-r border-[#ddd] whitespace-nowrap flex-shrink-0 group transition-colors ${
-                tab === t
-                  ? 'bg-white text-slate-900 border-t-2 border-t-[#f97316]'
-                  : 'text-slate-500 hover:bg-[#e4e4e4]'
-              }`} style={{ background: tab === t ? '#ffffff' : undefined }}>
-              <def.Icon className="w-3.5 h-3.5 opacity-50" />
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 text-[11px] sm:text-xs whitespace-nowrap flex-shrink-0 group transition-colors border-r"
+              style={{
+                background:  active ? '#1e1e1e' : 'transparent',
+                color:       active ? '#ffffff' : '#858585',
+                borderColor: '#3c3c3c',
+                borderTop:   active ? '1px solid #0078d4' : '1px solid transparent',
+              }}>
+              <def.Icon className="w-3.5 h-3.5" style={{ opacity: active ? 1 : 0.5 }} />
               <span>{tabFiles[t]}</span>
               <span onClick={(e) => closeTab(t, e)}
-                className="ml-1.5 opacity-0 group-hover:opacity-40 hover:!opacity-80 rounded p-0.5 hover:bg-slate-200">
+                className="ml-1.5 rounded p-0.5 opacity-0 group-hover:opacity-60 hover:!opacity-100 transition-opacity"
+                style={{ color: '#cccccc' }}>
                 <X className="w-3 h-3" />
               </span>
             </button>
@@ -125,28 +298,30 @@ export default function DevStudioClient() {
         })}
       </div>
 
-      {/* Body: activity bar + editor */}
+      {/* ── Body: activity bar | editor | resizer | live preview ── */}
       <div className="flex flex-1 min-h-0 overflow-hidden">
 
-        {/* Activity bar — Gitpod uses a medium-dark sidebar */}
-        <div className="flex-shrink-0 flex flex-col items-center py-2 gap-1 w-12 border-r border-[#ddd]" style={{ background: '#e8e8e8' }}>
-          {TABS.map(({ id, Icon, label }) => (
-            <button key={id} title={label} onClick={() => openTab(id)}
-              className={`relative flex items-center justify-center w-10 h-10 rounded-lg transition-colors ${
-                tab === id
-                  ? 'bg-white text-orange-500 shadow-sm'
-                  : 'text-slate-500 hover:bg-white hover:text-slate-800 hover:shadow-sm'
-              }`}>
-              {tab === id && (
-                <span className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r" style={{ background: '#f97316' }} />
-              )}
-              <Icon className="w-5 h-5" />
-            </button>
-          ))}
+        {/* Activity bar */}
+        <div className="flex-shrink-0 flex flex-col items-center py-2 gap-0.5 w-12 border-r" style={{ background: '#333333', borderColor: '#3c3c3c' }}>
+          {TABS.map(({ id, Icon, label }) => {
+            const active = tab === id;
+            return (
+              <button key={id} title={label} onClick={() => openTab(id)}
+                className="relative flex items-center justify-center w-10 h-10 rounded transition-colors"
+                style={{ color: active ? '#ffffff' : '#858585' }}
+                onMouseEnter={e => { if (!active) e.currentTarget.style.color = '#cccccc'; }}
+                onMouseLeave={e => { if (!active) e.currentTarget.style.color = '#858585'; }}>
+                {active && (
+                  <span className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r" style={{ background: '#0078d4' }} />
+                )}
+                <Icon className="w-5 h-5" />
+              </button>
+            );
+          })}
         </div>
 
-        {/* Editor area — bright white */}
-        <div className="flex-1 min-w-0 overflow-hidden bg-white">
+        {/* Editor area */}
+        <div className="flex-1 min-w-0 overflow-hidden" style={{ background: '#1e1e1e' }}>
           {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} />}
           {tab === 'chat'      && <AIChat />}
           {tab === 'terminal'  && <TerminalTab workflowButtons={studioConfig?.workflowButtons} />}
@@ -155,15 +330,59 @@ export default function DevStudioClient() {
           {tab === 'container' && <DevContainerPanel />}
           {tab === 'documents' && <DocumentsPanel />}
         </div>
+
+        {/* Drag-to-resize handle */}
+        {previewOpen && (
+          <div
+            onMouseDown={onResizerMouseDown}
+            className="flex-shrink-0 w-1 cursor-col-resize transition-colors"
+            style={{ background: '#3c3c3c' }}
+            onMouseEnter={e => (e.currentTarget.style.background = '#0078d4')}
+            onMouseLeave={e => (e.currentTarget.style.background = '#3c3c3c')}
+          />
+        )}
+
+        {/* Live preview panel — always mounted, hidden when closed */}
+        {previewOpen && (
+          <div
+            className="flex-shrink-0 flex flex-col border-l overflow-hidden"
+            style={{ width: previewWidth, background: '#1e1e1e', borderColor: '#3c3c3c' }}
+          >
+            {/* Preview panel header */}
+            <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 border-b text-[11px] select-none" style={{ background: '#2d2d2d', borderColor: '#3c3c3c', color: '#858585' }}>
+              <Globe className="w-3.5 h-3.5" style={{ color: '#4ec9b0' }} />
+              <span style={{ color: '#cccccc' }}>Live Preview</span>
+              <span className="ml-auto opacity-60 truncate max-w-[140px]">{previewUrl}</span>
+              <a href={previewUrl} target="_blank" rel="noopener noreferrer" title="Open in new tab"
+                className="p-0.5 rounded transition-colors"
+                style={{ color: '#858585' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <button title="Close preview" onClick={() => setPreviewOpen(false)}
+                className="p-0.5 rounded transition-colors"
+                style={{ color: '#858585' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            {/* iframe — embed-check aware */}
+            <div className="flex-1 overflow-hidden" style={{ background: '#1e1e1e' }}>
+              <IframePreview url={previewUrl} title="Live Preview" />
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Status bar — Gitpod orange/brand accent */}
-      <div className="flex-shrink-0 flex items-center justify-between px-2 sm:px-3 py-1 text-white text-[10px] select-none" style={{ background: '#f97316' }}>
-        <div className="flex items-center gap-2 sm:gap-3">
+      {/* ── Status bar ── */}
+      <div className="flex-shrink-0 flex items-center justify-between px-2 sm:px-3 py-0.5 text-white text-[11px] select-none" style={{ background: '#0078d4' }}>
+        <div className="flex items-center gap-3">
           <span className="flex items-center gap-1">⎇ main</span>
-          <span className="hidden sm:inline">Elevate LMS · Dev Container</span>
+          <span className="hidden sm:inline opacity-80">Elevate LMS · Dev Container</span>
         </div>
-        <div className="hidden sm:flex items-center gap-3 opacity-90">
+        <div className="hidden sm:flex items-center gap-4 opacity-80">
           <span>UTF-8</span>
           <span>TypeScript React</span>
           <span>port 3000</span>
@@ -775,67 +994,89 @@ function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
   const [url, setUrl] = useState(defaultUrl);
   const [input, setInput] = useState(defaultUrl);
   const [viewport, setViewport] = useState<'desktop' | 'mobile'>('desktop');
-  const [loading, setLoading] = useState(true);
+
+  // Sync default URL when config loads
+  useEffect(() => {
+    setUrl(defaultUrl);
+    setInput(defaultUrl);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config?.defaultPreviewUrl]);
+
+  function navigate(next: string) {
+    setInput(next);
+    setUrl(next);
+  }
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full" style={{ background: '#1e1e1e' }}>
       {/* Browser chrome */}
-      <div className="flex-shrink-0 flex items-center gap-2 px-3 py-2 bg-slate-50 border-b border-slate-200">
+      <div className="flex-shrink-0 flex items-center gap-2 px-3 py-2 border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c' }}>
         <button onClick={() => setViewport('desktop')} title="Desktop"
-          className={`p-1.5 rounded-md transition-colors ${viewport === 'desktop' ? 'bg-orange-500 text-white' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-200'}`}>
+          className="p-1.5 rounded transition-colors"
+          style={{ background: viewport === 'desktop' ? '#0078d4' : 'transparent', color: viewport === 'desktop' ? '#fff' : '#858585' }}
+          onMouseEnter={e => { if (viewport !== 'desktop') e.currentTarget.style.color = '#cccccc'; }}
+          onMouseLeave={e => { if (viewport !== 'desktop') e.currentTarget.style.color = '#858585'; }}>
           <Monitor className="w-4 h-4" />
         </button>
         <button onClick={() => setViewport('mobile')} title="Mobile"
-          className={`p-1.5 rounded-md transition-colors ${viewport === 'mobile' ? 'bg-orange-500 text-white' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-200'}`}>
+          className="p-1.5 rounded transition-colors"
+          style={{ background: viewport === 'mobile' ? '#0078d4' : 'transparent', color: viewport === 'mobile' ? '#fff' : '#858585' }}
+          onMouseEnter={e => { if (viewport !== 'mobile') e.currentTarget.style.color = '#cccccc'; }}
+          onMouseLeave={e => { if (viewport !== 'mobile') e.currentTarget.style.color = '#858585'; }}>
           <Smartphone className="w-4 h-4" />
         </button>
-        <div className="flex-1 flex items-center gap-2 bg-white border border-slate-200 rounded-md px-3 py-1 shadow-sm">
-          <input value={input} onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && setUrl(input)}
-            className="flex-1 bg-transparent text-slate-700 text-xs outline-none font-mono" />
+        <div className="flex-1 flex items-center gap-2 rounded px-3 py-1 border" style={{ background: '#3c3c3c', borderColor: '#555' }}>
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && navigate(input)}
+            className="flex-1 bg-transparent text-xs outline-none font-mono"
+            style={{ color: '#cccccc' }}
+          />
         </div>
-        <button onClick={() => { setLoading(true); setUrl(input); }}
-          className="p-1.5 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors">
+        <button onClick={() => navigate(input)} title="Reload"
+          className="p-1.5 rounded transition-colors"
+          style={{ color: '#858585' }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
           <RefreshCw className="w-4 h-4" />
         </button>
-        <a href={url} target="_blank" rel="noopener noreferrer"
-          className="p-1.5 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors">
+        <a href={url} target="_blank" rel="noopener noreferrer" title="Open in new tab"
+          className="p-1.5 rounded transition-colors"
+          style={{ color: '#858585' }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
           <ExternalLink className="w-4 h-4" />
         </a>
       </div>
+
       {targets.length > 0 && (
-        <div className="flex-shrink-0 flex flex-wrap gap-2 px-3 py-2 border-b border-slate-200 bg-white">
+        <div className="flex-shrink-0 flex flex-wrap gap-2 px-3 py-2 border-b" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
           {targets.map((t) => (
             <button
               key={t.label}
-              onClick={() => {
-                setLoading(true);
-                setInput(t.url);
-                setUrl(t.url);
-              }}
-              className="px-2 py-1 text-[11px] rounded border border-slate-200 text-slate-600 hover:border-brand-blue-300 hover:text-brand-blue-700"
+              onClick={() => navigate(t.url)}
+              className="px-2 py-1 text-[11px] rounded border transition-colors"
+              style={{ borderColor: '#555', color: '#858585', background: 'transparent' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = '#0078d4'; e.currentTarget.style.color = '#cccccc'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = '#555'; e.currentTarget.style.color = '#858585'; }}
             >
               {t.label}
             </button>
           ))}
         </div>
       )}
-      {/* Viewport — iframe fills the panel; mobile mode centres a 390px column */}
-      <div className={`flex-1 overflow-auto flex bg-white ${viewport === 'mobile' ? 'items-start justify-center p-4 bg-slate-100' : ''}`}>
-        <div className={`relative transition-all ${viewport === 'mobile' ? 'w-[390px] max-w-full shadow-xl rounded-lg overflow-hidden' : 'w-full h-full'}`}
-          style={viewport === 'desktop' ? { height: '100%' } : undefined}>
-          {loading && (
-            <div className="absolute inset-x-0 top-0 flex items-center justify-center h-8 bg-white/80 z-10 border-b border-slate-100">
-              <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />
-            </div>
-          )}
-          <iframe
-            src={url}
-            className="w-full border-0"
-            style={{ height: viewport === 'mobile' ? '844px' : '100%' }}
-            onLoad={() => setLoading(false)}
-            title="Preview"
-          />
+
+      {/* Viewport — IframePreview handles embed-check + blocked state */}
+      <div
+        className={`flex-1 overflow-auto flex ${viewport === 'mobile' ? 'items-start justify-center p-4' : ''}`}
+        style={{ background: viewport === 'mobile' ? '#252526' : '#1e1e1e' }}
+      >
+        <div
+          className={`relative transition-all ${viewport === 'mobile' ? 'w-[390px] max-w-full shadow-xl rounded-lg overflow-hidden' : 'w-full h-full'}`}
+          style={viewport === 'desktop' ? { height: '100%' } : { height: '844px' }}
+        >
+          <IframePreview url={url} title="Preview" />
         </div>
       </div>
     </div>

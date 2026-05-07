@@ -104,8 +104,20 @@ export async function GET(req: NextRequest) {
       { key: 'ci', label: 'Run CI', description: 'Full CI pipeline' },
       { key: 'lint', label: 'Lint', description: 'Run pnpm lint' },
     ],
-    defaultPreviewUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',
+    // In dev, default to localhost so the iframe isn't blocked by X-Frame-Options on the
+    // production site. In production the admin app itself is on the same origin, so
+    // pointing at the LMS port (3000) is the safest embeddable target.
+    defaultPreviewUrl:
+      process.env.NODE_ENV === 'development'
+        ? (process.env.DEVSTUDIO_PREVIEW_URL || 'http://localhost:3000')
+        : (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'),
     previewTargets: [
+      ...(process.env.NODE_ENV === 'development'
+        ? [
+            { label: 'Local :3000', url: process.env.DEVSTUDIO_PREVIEW_URL || 'http://localhost:3000' },
+            { label: 'Local :3001', url: 'http://localhost:3001' },
+          ]
+        : []),
       { label: 'Public', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org' },
       { label: 'Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org' },
       { label: 'LMS', url: process.env.NEXT_PUBLIC_LMS_URL || 'https://admin.elevateforhumanity.org/lms' },

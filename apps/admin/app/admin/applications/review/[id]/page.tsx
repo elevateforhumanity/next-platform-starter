@@ -82,25 +82,63 @@ export default async function ReviewApplicationPage({
   if (!db) notFound();
 
   let app: Record<string, unknown> | null = null;
-  let queryError: string | undefined;
-  try {
-    const result = await withTimeout(
-      db.from('applications').select('*').eq('id', id).maybeSingle(),
-      5000,
-      'applications.select',
-    );
-    app = result.data as Record<string, unknown> | null;
-    queryError = result.error?.message;
-  } catch (err) {
-    queryError = err instanceof Error ? err.message : String(err);
+
+  // IDs starting with "intake-" are timestamp-based fallback IDs generated when
+  // the applications mirror insert failed. The real data lives in apprenticeship_intake.
+  // Try applications first (covers cases where the row was later backfilled), then
+  // fall back to apprenticeship_intake using the embedded timestamp.
+  if (id.startsWith('intake-')) {
+    const { data: appRow } = await db.from('applications').select('*').eq('id', id).maybeSingle();
+    if (appRow) {
+      app = appRow;
+    } else {
+      // Extract the Unix ms timestamp from the ID and find the intake record
+      // created within a 10-second window of that timestamp.
+      const ts = parseInt(id.replace('intake-', ''), 10);
+      if (!isNaN(ts)) {
+        const from = new Date(ts - 5000).toISOString();
+        const to   = new Date(ts + 5000).toISOString();
+        const { data: intake } = await db
+          .from('apprenticeship_intake')
+          .select('*')
+          .gte('created_at', from)
+          .lte('created_at', to)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (intake) {
+          // Normalise to the shape the rest of the page expects
+          app = {
+            id,
+            first_name:       intake.full_name ? String(intake.full_name).split(' ')[0] : '',
+            last_name:        intake.full_name ? String(intake.full_name).split(' ').slice(1).join(' ') : '',
+            full_name:        intake.full_name ?? '',
+            email:            intake.email ?? '',
+            phone:            intake.phone ?? '',
+            city:             intake.city ?? '',
+            zip:              null,
+            status:           'submitted',
+            program_interest: intake.program_interest ?? '',
+            program_id:       null,
+            program_slug:     intake.program_interest ?? '',
+            source:           intake.referral_source ?? '',
+            support_notes:    null,
+            created_at:       intake.created_at,
+            updated_at:       intake.created_at,
+            revoked_at:       null,
+            payment_status:   null,
+            _source:          'apprenticeship_intake',
+          };
+        }
+      }
+    }
+  } else {
+    const { data: appRow, error } = await db.from('applications').select('*').eq('id', id).maybeSingle();
+    if (error || !appRow) notFound();
+    app = appRow;
   }
 
-  logger.info('[review/application] query result', { id, found: !!app, error: queryError });
-
-  if (queryError || !app) {
-    logger.warn('[review/application] not found or timed out', { id, error: queryError });
-    notFound();
-  }
+  if (!app) notFound();
 
   const displayName =
     [app.first_name, app.last_name].filter(Boolean).join(' ') ||
@@ -124,6 +162,15 @@ export default async function ReviewApplicationPage({
 
   return (
     <div className="min-h-screen bg-slate-50 pb-24">
+      {/* Intake-fallback banner — shown when the applications mirror failed and data
+          was recovered directly from apprenticeship_intake */}
+      {app._source === 'apprenticeship_intake' && (
+        <div className="bg-amber-50 border-b border-amber-200 px-6 py-3 text-sm text-amber-800 flex items-center gap-2">
+          <span className="font-semibold">⚠ Intake record only</span> — this application was not
+          mirrored into the applications table. Enroll and status actions are unavailable. Contact
+          engineering to backfill the record.
+        </div>
+      )}
       {/* HERO */}
       <div className="relative w-full h-[220px] sm:h-[280px]">
         <Image sizes="100vw"
@@ -271,14 +318,21 @@ export default async function ReviewApplicationPage({
             {/* Actions */}
             <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
               <h2 className="text-base font-bold text-slate-900 mb-4">Actions</h2>
-              <ApplicationActions
-                applicationId={id}
-                currentStatus={app.status}
-                programId={resolvedProgramId}
-                programInterest={programSlug}
-                applicantEmail={app.email || ''}
-                applicantName={displayName}
-              />
+              {app._source === 'apprenticeship_intake' ? (
+                <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                  Actions unavailable — this record was not mirrored into the applications table.
+                  Ask engineering to backfill it before enrolling.
+                </p>
+              ) : (
+                <ApplicationActions
+                  applicationId={id}
+                  currentStatus={app.status as string}
+                  programId={resolvedProgramId}
+                  programInterest={programSlug}
+                  applicantEmail={(app.email as string) || ''}
+                  applicantName={displayName}
+                />
+              )}
             </div>
 
             {/* Payment link — barber applicants with pending payment */}
