@@ -8,7 +8,7 @@ export default function CodebaseProductEditor() {
   const [price, setPrice] = useState('150000');
 
   async function publish() {
-    await fetch('/api/store/create-product', {
+    await fetch('/api/admin/products/approve', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, price: Number(price) }),

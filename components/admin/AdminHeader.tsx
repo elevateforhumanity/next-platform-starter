@@ -125,8 +125,7 @@ const NAV_SECTIONS = [
     name: 'Compliance',
     icon: Shield,
     items: [
-      { name: 'Compliance Dashboard', href: '/admin/compliance-dashboard' },
-      { name: 'Compliance Audit', href: '/admin/compliance-audit' },
+      { name: 'Compliance', href: '/admin/compliance' },
       { name: 'Compliance Agreements', href: '/admin/compliance/agreements' },
       { name: 'FERPA — Access Requests', href: '/admin/ferpa/access-requests' },
       { name: 'FERPA — Audit Log', href: '/admin/ferpa/audit-log' },
@@ -175,7 +174,6 @@ const NAV_SECTIONS = [
       { name: 'Announcements', href: '/admin/announcements' },
       { name: 'Editor', href: '/admin/editor' },
       { name: 'Data Import', href: '/admin/data-import' },
-      { name: 'Import', href: '/admin/import' },
       { name: 'Migrations', href: '/admin/migrations' },
     ],
   },

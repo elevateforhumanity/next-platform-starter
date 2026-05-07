@@ -88,7 +88,7 @@ export default function MonitoringDashboard() {
     setBundleLoading(true);
     setBundleError(null);
     try {
-      const res = await fetch('/api/monitoring/bundle');
+      const res = await fetch('/api/admin/monitoring/status');
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setBundleError(data.error || `Error ${res.status}`);

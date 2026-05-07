@@ -76,7 +76,7 @@ export async function reviewDocument(docId: string, approved: boolean, notes?: s
 export async function getSignedDocumentUrl(
   filePath: string,
 ): Promise<{ url: string | null; error: string | null }> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
   try {
     const { cookies } = await import('next/headers');
     const cookieStore = await cookies();

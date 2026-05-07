@@ -44,9 +44,9 @@ export default function ComplianceAuditPage() {
   async function fetchAudits() {
     setLoading(true);
     try {
-      const res = await fetch('/api/compliance-audit');
+      const res = await fetch('/api/admin/compliance');
       const data = await res.json();
-      setAudits(data.audits || []);
+      setAudits(data.audits || data.items || []);
     } catch (error) {
       // silent
     }
@@ -56,7 +56,7 @@ export default function ComplianceAuditPage() {
   async function generateAudit() {
     setGenerating(true);
     try {
-      const res = await fetch('/api/compliance-audit', {
+      const res = await fetch('/api/admin/compliance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ month: selectedMonth, year: selectedYear }),
@@ -75,7 +75,7 @@ export default function ComplianceAuditPage() {
 
   async function signAudit(auditId: string, role: string) {
     try {
-      const res = await fetch('/api/compliance-audit', {
+      const res = await fetch('/api/admin/compliance', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ auditId, action: `sign_${role}` }),
@@ -83,7 +83,7 @@ export default function ComplianceAuditPage() {
       if (res.ok) {
         fetchAudits();
         if (selectedAudit?.id === auditId) {
-          const updated = await fetch(`/api/compliance-audit?id=${auditId}`);
+          const updated = await fetch(`/api/admin/compliance?id=${auditId}`);
           const data = await updated.json();
           setSelectedAudit(data.audits?.[0]);
         }

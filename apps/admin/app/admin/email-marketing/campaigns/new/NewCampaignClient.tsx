@@ -55,7 +55,7 @@ export default function NewCampaignPage() {
 
   const handleSaveDraft = async () => {
     // Save campaign as draft
-    const response = await fetch('/api/email/campaigns', {
+    const response = await fetch('/api/admin/email-automations', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...campaign, status: 'draft' }),
@@ -70,7 +70,7 @@ export default function NewCampaignPage() {
   const handleSendNow = async () => {
     if (!confirm('Send this campaign now?')) return;
 
-    const response = await fetch('/api/email-marketing/campaigns/send', {
+    const response = await fetch('/api/admin/send-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(campaign),
@@ -83,7 +83,7 @@ export default function NewCampaignPage() {
   };
 
   const handleSchedule = async () => {
-    const response = await fetch('/api/email-marketing/campaigns/schedule', {
+    const response = await fetch('/api/admin/email-automations', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(campaign),

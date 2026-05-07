@@ -407,7 +407,7 @@ function IntakeDetailModal({
   async function updateStep(step: string, data: any) {
     setSaving(true);
     try {
-      const res = await fetch('/api/intake/workflow', {
+      const res = await fetch('/api/admin/intakes', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -429,7 +429,7 @@ function IntakeDetailModal({
   async function assignPathway(pathway: string) {
     setSaving(true);
     try {
-      const res = await fetch('/api/intake/workflow', {
+      const res = await fetch('/api/admin/intakes', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -81,7 +81,7 @@ export default function DevStudioClient() {
   }
 
   return (
-    <div className="flex flex-col text-slate-800 min-h-[calc(100dvh-64px)]" style={{ fontFamily: "'JetBrains Mono','Fira Code',monospace", background: '#f5f5f5' }}>
+    <div className="flex flex-col text-slate-800 h-[calc(100dvh-64px)] overflow-hidden" style={{ fontFamily: "'JetBrains Mono','Fira Code',monospace", background: '#f5f5f5' }}>
       {/* Menu bar — light grey like Gitpod */}
       <div className="flex-shrink-0 flex items-center gap-1 px-2 sm:px-3 py-1 border-b border-[#ddd] text-xs text-slate-600 select-none" style={{ background: '#f0f0f0' }}>
         <span className="font-bold text-slate-800 mr-2">Dev Studio</span>
@@ -143,8 +143,8 @@ export default function DevStudioClient() {
           ))}
         </div>
 
-        {/* Editor area — bright white. flex+min-h-0 lets children use h-full correctly. */}
-        <div className="flex-1 min-w-0 min-h-0 flex flex-col overflow-hidden bg-white">
+        {/* Editor area — bright white */}
+        <div className="flex-1 min-w-0 overflow-hidden bg-white">
           {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} />}
           {tab === 'chat'      && <AIChat />}
           {tab === 'terminal'  && <TerminalTab workflowButtons={studioConfig?.workflowButtons} />}
@@ -172,15 +172,41 @@ export default function DevStudioClient() {
 
 // ── Command Tab ──────────────────────────────────────────────────────────────
 
+// ── Types ────────────────────────────────────────────────────────────────────
+
+interface LogLine { type: 'user' | 'system' | 'error' | 'stream'; text: string; }
+interface Job { id: string; command: string; status: string; log_lines: LogLine[]; started_at: string; }
+
+// ── ANSI → plain text (strip colour codes for display) ───────────────────────
+/* eslint-disable no-control-regex */
+function stripAnsi(s: string) { return s.replace(/\x1b\[[0-9;]*m/g, ''); }
+/* eslint-enable no-control-regex */
+
+// ── CommandTab ───────────────────────────────────────────────────────────────
+
 function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState<{ type: 'user' | 'system' | 'error'; text: string }[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [input, setInput]       = useState('');
+  const [lines, setLines]       = useState<LogLine[]>([]);
+  const [loading, setLoading]   = useState(false);
+  const [jobId, setJobId]       = useState<string | null>(null);
+  const [jobs, setJobs]         = useState<Job[]>([]);
+  const [activeJob, setActiveJob] = useState<Job | null>(null);
+  const [showHistory, setShowHistory] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const abortRef  = useRef<AbortController | null>(null);
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [output]);
+  // Auto-scroll on new lines
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [lines]);
 
-  const QUICK = quickCommands && quickCommands.length > 0 ? quickCommands : [
+  // Load job history on mount (reconnect support — survives page reload)
+  useEffect(() => {
+    fetch('/api/devstudio/jobs?limit=20')
+      .then(r => r.ok ? r.json() : { jobs: [] })
+      .then(d => setJobs(d.jobs ?? []))
+      .catch(() => {});
+  }, []);
+
+  const QUICK = quickCommands?.length ? quickCommands : [
     'Show git status',
     'List recent files changed',
     'Run pnpm lint',
@@ -189,50 +215,77 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
     'Show loaded secrets (key names only)',
   ];
 
-  // Stable command keys map directly to keyword patterns in the backend.
-  // Using fixed strings avoids AI routing entirely for these common actions.
-  const AUTOPILOT_QUICK = [
-    { label: '🏗️ Build courses', cmd: 'build courses' },
-    { label: '🚀 Deploy LMS',    cmd: 'deploy lms' },
-    { label: '🚀 Deploy Admin',  cmd: 'deploy admin' },
-    { label: '🧪 Run tests',     cmd: 'run autopilot test suite' },
-    { label: '📦 Check trial',   cmd: 'check trial status' },
+  const QUICK_ACTIONS = [
+    { label: 'Analytics',        cmd: 'Get platform analytics overview' },
+    { label: 'Applications',     cmd: 'List pending applications' },
+    { label: 'Students',         cmd: 'List recent students' },
+    { label: 'Enrollments',      cmd: 'List recent enrollments' },
+    { label: 'Programs',         cmd: 'List all published programs' },
+    { label: 'WIOA cases',       cmd: 'List pending WIOA cases' },
+    { label: 'Payout queue',     cmd: 'List payout queue' },
+    { label: 'System health',    cmd: 'Check system health' },
+    { label: 'Daily report',     cmd: 'Run daily report' },
+    { label: 'Enrollment report',cmd: 'Run enrollment report' },
+    { label: 'Financial report', cmd: 'Run financial report' },
+    { label: 'Export students',  cmd: 'Export students CSV' },
   ];
 
-  // Strip ANSI escape codes so terminal colour sequences don't render as raw text.
-  function stripAnsi(s: string): string {
-    // eslint-disable-next-line no-control-regex
-    return s.replace(/\x1b\[[0-9;]*m/g, '');
-  }
+  const AUTOPILOT = [
+    { label: '🏗 Build courses',  cmd: 'Build all courses and push to GitHub' },
+    { label: '🚀 Deploy LMS',     cmd: 'Deploy the LMS service' },
+    { label: '🚀 Deploy Admin',   cmd: 'Deploy the admin service' },
+    { label: '🧪 Run tests',      cmd: 'Run autopilot test suite' },
+    { label: '🎬 Generate video', cmd: 'Generate a lesson video' },
+    { label: '📚 Generate course',cmd: 'Generate a new course' },
+  ];
 
   async function run(cmd: string) {
-    if (!cmd.trim()) return;
-    setOutput((p) => [...p, { type: 'user', text: cmd }]);
+    if (!cmd.trim() || loading) return;
+
+    // Cancel any in-flight stream
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
+
     setInput('');
+    setActiveJob(null);
+    setShowHistory(false);
+
+    const startLine: LogLine = { type: 'user', text: cmd };
+    setLines([startLine]);
     setLoading(true);
 
-    // Append a placeholder system block that we'll update line-by-line as SSE arrives.
-    setOutput((p) => [...p, { type: 'system', text: '' }]);
+    // Create persistent job row
+    let currentJobId = `temp-${Date.now()}`;
+    try {
+      const jr = await fetch('/api/devstudio/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command: cmd }),
+      });
+      if (jr.ok) { const jd = await jr.json(); currentJobId = jd.jobId; }
+    } catch { /* non-fatal */ }
+    setJobId(currentJobId);
+
+    const streamLines: string[] = [];
 
     try {
       const res = await fetch('/api/devstudio/execute', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command: cmd }),
+        signal: abortRef.current.signal,
       });
 
       if (!res.ok || !res.body) {
-        let errText = `Request failed (HTTP ${res.status})`;
+        let errText = 'Request failed';
         try { const d = await res.json(); errText = d.error ?? errText; } catch { /* ignore */ }
-        setOutput((p) => {
-          const next = [...p];
-          next[next.length - 1] = { type: 'error', text: errText };
-          return next;
-        });
+        const errLine: LogLine = { type: 'error', text: errText };
+        setLines([startLine, errLine]);
+        await patchJob(currentJobId, [errText], 'failed');
         return;
       }
 
-      const reader = res.body.getReader();
+      const reader  = res.body.getReader();
       const decoder = new TextDecoder();
       let buf = '';
 
@@ -240,104 +293,179 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
         const { done, value } = await reader.read();
         if (done) break;
         buf += decoder.decode(value, { stream: true });
-        const lines = buf.split('\n');
-        buf = lines.pop() ?? '';
-
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          const payload = line.slice(6).trim();
+        const parts = buf.split('\n');
+        buf = parts.pop() ?? '';
+        for (const part of parts) {
+          if (!part.startsWith('data: ')) continue;
+          const payload = part.slice(6).trim();
           if (payload === '[DONE]') continue;
-
           let text = payload;
           try {
-            const parsed = JSON.parse(payload);
-            text = parsed.text ?? parsed.output ?? parsed.line ?? payload;
-          } catch { /* raw text */ }
-
+            const p = JSON.parse(payload);
+            text = p.line ?? p.text ?? p.output ?? payload;
+          } catch { /* raw line */ }
           const clean = stripAnsi(text);
-          if (!clean) continue;
-
-          // Append each line to the live output block as it streams in.
-          setOutput((p) => {
-            const next = [...p];
-            const last = next[next.length - 1];
-            next[next.length - 1] = {
-              ...last,
-              text: last.text ? last.text + '\n' + clean : clean,
-            };
-            return next;
-          });
+          if (!clean.trim()) continue;
+          streamLines.push(clean);
+          setLines(prev => [...prev, { type: 'stream', text: clean }]);
         }
       }
 
-      // If the block is still empty after the stream closes, show a fallback.
-      setOutput((p) => {
-        const next = [...p];
-        const last = next[next.length - 1];
-        if (!last.text) next[next.length - 1] = { ...last, text: '(no output)' };
-        return next;
-      });
-    } catch (err) {
-      const reason = err instanceof Error ? err.message : 'Unknown error';
-      setOutput((p) => {
-        const next = [...p];
-        next[next.length - 1] = { type: 'error', text: `Request failed — ${reason}` };
-        return next;
-      });
+      // Persist final log to DB
+      await patchJob(currentJobId, streamLines, 'completed');
+
+      // Refresh job history
+      fetch('/api/devstudio/jobs?limit=20')
+        .then(r => r.ok ? r.json() : { jobs: [] })
+        .then(d => setJobs(d.jobs ?? []))
+        .catch(() => {});
+
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name === 'AbortError') return;
+      const errLine: LogLine = { type: 'error', text: 'Stream disconnected — output above is preserved. Re-run to retry.' };
+      setLines(prev => [...prev, errLine]);
+      await patchJob(currentJobId, [...streamLines, errLine.text], 'failed');
     } finally {
       setLoading(false);
     }
   }
 
+  async function patchJob(id: string, newLines: string[], status: string) {
+    try {
+      await fetch('/api/devstudio/jobs', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobId: id, lines: newLines, status, finished_at: new Date().toISOString() }),
+      });
+    } catch { /* non-fatal */ }
+  }
+
+  function loadJob(job: Job) {
+    setActiveJob(job);
+    setShowHistory(false);
+    const restored: LogLine[] = [
+      { type: 'user', text: job.command },
+      ...(job.log_lines ?? []).map((l: LogLine) => ({ ...l, type: 'stream' as const })),
+    ];
+    setLines(restored);
+  }
+
+  const statusColor = (s: string) =>
+    s === 'completed' ? 'text-green-600' : s === 'failed' ? 'text-red-500' : 'text-amber-500';
+
   return (
-    <div className="flex flex-col h-full bg-white text-slate-800">
-      {/* Quick commands */}
-      <div className="flex-shrink-0 border-b border-slate-200 bg-slate-50">
-        <div className="flex flex-wrap gap-1.5 p-3 pb-2">
-          {QUICK.map((q) => (
-            <button key={q} onClick={() => run(q)}
-              className="px-2.5 py-1 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-600 hover:text-orange-700 transition-colors shadow-sm">
-              {q}
+    <div className="flex h-full overflow-hidden bg-white">
+
+      {/* ── History sidebar ── */}
+      {showHistory && (
+        <div className="w-56 flex-shrink-0 border-r border-slate-200 flex flex-col bg-slate-50 overflow-hidden">
+          <div className="flex items-center justify-between px-3 py-2 border-b border-slate-200">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">History</span>
+            <button onClick={() => setShowHistory(false)} className="text-slate-400 hover:text-slate-700">
+              <X className="w-3.5 h-3.5" />
             </button>
-          ))}
-        </div>
-        {/* Autopilot commands */}
-        <div className="flex flex-wrap gap-1.5 px-3 pb-3 border-t border-slate-100 pt-2">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest w-full mb-1">Autopilot</span>
-          {AUTOPILOT_QUICK.map(({ label, cmd }) => (
-            <button key={cmd} onClick={() => run(cmd)}
-              className="px-2.5 py-1 text-[11px] rounded-md border border-blue-200 bg-blue-50 hover:bg-blue-100 hover:border-blue-400 text-blue-700 transition-colors shadow-sm">
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-      {/* Output */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-2 font-mono text-xs bg-white">
-        {output.length === 0 && (
-          <p className="text-slate-400 italic">// Type a plain-English command or click a shortcut above</p>
-        )}
-        {output.map((o, i) => (
-          <div key={i}>
-            {o.type === 'user' && <p className="text-orange-600 font-semibold">$ {o.text}</p>}
-            {o.type === 'system' && <pre className="text-slate-700 whitespace-pre-wrap bg-slate-50 rounded p-2 border border-slate-100">{o.text}</pre>}
-            {o.type === 'error' && <pre className="text-red-600 whitespace-pre-wrap bg-red-50 rounded p-2 border border-red-100">{o.text}</pre>}
           </div>
-        ))}
-        {loading && <p className="text-orange-500 animate-pulse flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Running…</p>}
-        <div ref={bottomRef} />
-      </div>
-      {/* Input */}
-      <div className="flex-shrink-0 flex items-center gap-2 px-3 py-2 border-t border-slate-200 bg-slate-50">
-        <span className="text-orange-500 font-mono text-xs font-bold">$</span>
-        <input value={input} onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && run(input)}
-          placeholder="Enter a plain-English command…"
-          className="flex-1 bg-white border border-slate-300 rounded px-2 py-1.5 text-slate-800 text-xs outline-none focus:ring-2 focus:ring-orange-400 placeholder-slate-400 font-mono" />
-        <button onClick={() => run(input)} disabled={loading || !input.trim()}
-          className="p-1.5 rounded-md bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors">
-          <Send className="w-3.5 h-3.5 text-white" />
-        </button>
+          <div className="flex-1 overflow-y-auto">
+            {jobs.length === 0 && (
+              <p className="text-xs text-slate-400 p-3 italic">No previous jobs</p>
+            )}
+            {jobs.map(j => (
+              <button key={j.id} onClick={() => loadJob(j)}
+                className={`w-full text-left px-3 py-2.5 border-b border-slate-100 hover:bg-white transition-colors ${activeJob?.id === j.id ? 'bg-white border-l-2 border-l-orange-400' : ''}`}>
+                <p className="text-[11px] font-medium text-slate-700 truncate">{j.command}</p>
+                <p className={`text-[10px] mt-0.5 ${statusColor(j.status)}`}>
+                  {j.status} · {new Date(j.started_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Main panel ── */}
+      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+
+        {/* Quick action buttons */}
+        <div className="flex-shrink-0 border-b border-slate-200 bg-slate-50">
+          <div className="flex flex-wrap gap-1.5 p-2.5 pb-2">
+            {QUICK_ACTIONS.map(({ label, cmd }) => (
+              <button key={label} onClick={() => run(cmd)} disabled={loading}
+                className="px-2.5 py-1 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-600 hover:text-orange-700 disabled:opacity-40 transition-colors shadow-sm">
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-1.5 px-2.5 pb-2.5 border-t border-slate-100 pt-2">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest w-full mb-0.5">Autopilot</span>
+            {AUTOPILOT.map(({ label, cmd }) => (
+              <button key={label} onClick={() => run(cmd)} disabled={loading}
+                className="px-2.5 py-1 text-[11px] rounded-md border border-blue-200 bg-blue-50 hover:bg-blue-100 hover:border-blue-400 text-blue-700 disabled:opacity-40 transition-colors shadow-sm">
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Log output — live streaming */}
+        <div className="flex-1 overflow-y-auto p-3 font-mono text-xs bg-white space-y-0.5">
+          {lines.length === 0 && !loading && (
+            <p className="text-slate-400 italic pt-2">// Type a command below or click a shortcut above</p>
+          )}
+          {lines.map((l, i) => (
+            <div key={i} className={
+              l.type === 'user'   ? 'text-orange-500 font-bold' :
+              l.type === 'error'  ? 'text-red-500 bg-red-50 rounded px-1' :
+              'text-slate-700'
+            }>
+              {l.type === 'user' ? `$ ${l.text}` : l.text}
+            </div>
+          ))}
+          {loading && (
+            <div className="flex items-center gap-1.5 text-orange-400 animate-pulse pt-1">
+              <Loader2 className="w-3 h-3 animate-spin" />
+              <span>Running…</span>
+            </div>
+          )}
+          <div ref={bottomRef} />
+        </div>
+
+        {/* Input area */}
+        <div className="flex-shrink-0 border-t border-slate-200 bg-slate-50 p-3">
+          {/* Toolbar row */}
+          <div className="flex items-center gap-2 mb-2">
+            <button onClick={() => setShowHistory(h => !h)}
+              className="text-[11px] text-slate-500 hover:text-slate-800 border border-slate-200 rounded px-2 py-0.5 bg-white hover:bg-slate-50 transition-colors">
+              {showHistory ? 'Hide history' : `History (${jobs.length})`}
+            </button>
+            {loading && (
+              <button onClick={() => { abortRef.current?.abort(); setLoading(false); }}
+                className="text-[11px] text-red-500 hover:text-red-700 border border-red-200 rounded px-2 py-0.5 bg-red-50 hover:bg-red-100 transition-colors">
+                Cancel
+              </button>
+            )}
+            {jobId && !loading && (
+              <span className="text-[10px] text-slate-400 ml-auto font-mono">job {jobId.slice(0, 8)}</span>
+            )}
+          </div>
+          {/* Textarea + send */}
+          <div className="flex gap-2 items-end">
+            <span className="text-orange-500 font-mono text-sm font-bold mb-1.5">$</span>
+            <textarea
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); run(input); } }}
+              placeholder="Tell it what to do… e.g. 'Run enrollment report', 'Generate a CNA course', 'List at-risk students'"
+              rows={4}
+              disabled={loading}
+              className="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-slate-800 text-xs outline-none focus:ring-2 focus:ring-orange-400 placeholder-slate-400 font-mono resize-none disabled:opacity-60"
+            />
+            <button onClick={() => run(input)} disabled={loading || !input.trim()}
+              className="mb-0 p-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors self-end">
+              <Send className="w-4 h-4 text-white" />
+            </button>
+          </div>
+          <p className="text-[10px] text-slate-400 mt-1.5">Enter to run · Shift+Enter for new line · Output persists across page reloads</p>
+        </div>
       </div>
     </div>
   );
@@ -676,15 +804,22 @@ function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
           ))}
         </div>
       )}
-      {/* Viewport */}
-      <div className="flex-1 overflow-auto flex items-start justify-center bg-slate-100 p-4">
-        <div className={`bg-white shadow-xl rounded-lg overflow-hidden transition-all ${viewport === 'mobile' ? 'w-[390px] max-w-full' : 'w-full'} h-full`}>
+      {/* Viewport — iframe fills the panel; mobile mode centres a 390px column */}
+      <div className={`flex-1 overflow-auto flex bg-white ${viewport === 'mobile' ? 'items-start justify-center p-4 bg-slate-100' : ''}`}>
+        <div className={`relative transition-all ${viewport === 'mobile' ? 'w-[390px] max-w-full shadow-xl rounded-lg overflow-hidden' : 'w-full h-full'}`}
+          style={viewport === 'desktop' ? { height: '100%' } : undefined}>
           {loading && (
-            <div className="flex items-center justify-center h-12 bg-slate-50 border-b border-slate-200">
+            <div className="absolute inset-x-0 top-0 flex items-center justify-center h-8 bg-white/80 z-10 border-b border-slate-100">
               <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />
             </div>
           )}
-          <iframe src={url} className="w-full h-full border-0" onLoad={() => setLoading(false)} title="Preview" />
+          <iframe
+            src={url}
+            className="w-full border-0"
+            style={{ height: viewport === 'mobile' ? '844px' : '100%' }}
+            onLoad={() => setLoading(false)}
+            title="Preview"
+          />
         </div>
       </div>
     </div>

@@ -84,7 +84,7 @@ export default function PayrollClient({ staffCount, payrollRuns: initial }: Prop
     setSubmitting(true);
     setError('');
     try {
-      const res = await fetch('/api/hr/payroll', {
+      const res = await fetch('/api/admin/payouts/mark-paid', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),

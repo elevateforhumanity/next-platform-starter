@@ -15,7 +15,7 @@ export default function ProductEditor() {
   async function publish() {
     setLoading(true);
     try {
-      const res = await fetch('/api/store/create-product', {
+      const res = await fetch('/api/admin/products/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

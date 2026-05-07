@@ -23,7 +23,7 @@ export default function NewCampaignPage() {
 
   // Load templates
   useEffect(() => {
-    fetch('/api/crm/templates')
+    fetch('/api/admin/crm/follow-ups')
       .then((res) => res.json())
       .then((data) => setTemplates(data.templates || []));
   }, []);
@@ -42,7 +42,7 @@ export default function NewCampaignPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/crm/campaigns/send', {
+      const response = await fetch('/api/admin/crm/deals', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

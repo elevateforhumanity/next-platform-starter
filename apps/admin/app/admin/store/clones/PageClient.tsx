@@ -72,7 +72,7 @@ export default function StoreBuilderPage() {
   const publishProduct = async () => {
     setPublishing(true);
     try {
-      const res = await fetch('/api/store/publish', {
+      const res = await fetch('/api/admin/programs/publish', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(product),

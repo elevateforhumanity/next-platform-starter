@@ -66,7 +66,7 @@ Include Quizzes: ${formData.includeQuizzes}
 Include Assignments: ${formData.includeAssignments}
       `.trim();
 
-      const response = await fetch('/api/ai/generate-course', {
+      const response = await fetch('/api/admin/generate-course', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

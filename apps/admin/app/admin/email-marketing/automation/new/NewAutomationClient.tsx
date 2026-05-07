@@ -72,7 +72,7 @@ export default function NewWorkflowPage() {
   };
 
   const saveWorkflow = async (status: 'draft' | 'active') => {
-    const response = await fetch('/api/email/workflows', {
+    const response = await fetch('/api/admin/email-automations', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

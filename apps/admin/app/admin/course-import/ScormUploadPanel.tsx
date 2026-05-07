@@ -22,7 +22,7 @@ export default function ScormUploadPanel() {
     form.append('title', file.name.replace('.zip', ''));
 
     try {
-      const res = await fetch('/api/scorm/upload', { method: 'POST', body: form });
+      const res = await fetch('/api/admin/scorm', { method: 'POST', body: form });
       const d = await res.json().catch(() => ({}));
       if (res.ok) {
         setResult({ ok: true, message: d.message ?? 'Package uploaded successfully.' });

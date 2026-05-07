@@ -543,6 +543,146 @@ const TOOLS: unknown[] = [
       },
     },
   },
+  {
+    type: 'function',
+    function: {
+      name: 'list_at_risk',
+      description: 'List at-risk learners who have not been active recently',
+      parameters: { type: 'object', properties: { limit: { type: 'number' } }, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_completions',
+      description: 'List recent program/course completions',
+      parameters: { type: 'object', properties: { limit: { type: 'number' } }, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'export_catalog',
+      description: 'Export the full program catalog as a downloadable file',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'check_monitoring',
+      description: 'Check platform monitoring status, uptime, memory, and recent errors',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_users',
+      description: 'List platform users with optional search by name or email',
+      parameters: {
+        type: 'object',
+        properties: {
+          search: { type: 'string', description: 'Name or email search term' },
+          limit: { type: 'number' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'update_user_role',
+      description: 'Update a user\'s role (student, staff, admin, super_admin, instructor)',
+      parameters: {
+        type: 'object',
+        properties: {
+          user_id: { type: 'string', description: 'User UUID' },
+          role: { type: 'string', enum: ['student', 'staff', 'admin', 'super_admin', 'instructor'] },
+        },
+        required: ['user_id', 'role'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'send_bulk_email',
+      description: 'Send a bulk email to students or all users',
+      parameters: {
+        type: 'object',
+        properties: {
+          subject: { type: 'string' },
+          body: { type: 'string' },
+          audience: { type: 'string', enum: ['all', 'students', 'active', 'inactive'], description: 'Who to send to' },
+        },
+        required: ['subject', 'body'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'run_wioa_export',
+      description: 'Run the WIOA PIRL data export',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'run_backup',
+      description: 'Trigger a platform data backup',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'run_automation',
+      description: 'Trigger a named automation workflow',
+      parameters: {
+        type: 'object',
+        properties: {
+          automation_id: { type: 'string', description: 'Automation ID or name to run' },
+        },
+        required: ['automation_id'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_shops',
+      description: 'List barber/cosmetology shops in the system',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_promo_codes',
+      description: 'List active promo codes and discount codes',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_social_campaigns',
+      description: 'List social media campaigns',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'export_audit_log',
+      description: 'Export the admin audit log',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
 ];
 
 // ── SSE helpers ─────────────────────────────────────────────────────────────
@@ -1287,6 +1427,240 @@ async function executeAction(
         write(`\x1b[31m✗  Could not reach ${endpoint}: ${reason}\x1b[0m`);
         write(`   baseUrl: ${baseUrl}`);
       }
+      break;
+    }
+
+    // ── At-risk learners ──────────────────────────────────────────────────
+    case 'list_at_risk': {
+      write('\x1b[33m⚙  Fetching at-risk learners…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/at-risk`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const items = data.learners ?? data.students ?? data.data ?? [];
+          write(`\x1b[32m✓  ${items.length} at-risk learner(s)\x1b[0m`);
+          items.slice(0, 10).forEach((s: Record<string, unknown>) =>
+            write(`   • ${s.full_name ?? s.email ?? s.id} — ${s.reason ?? s.status ?? ''}`));
+          if (items.length > 10) write(`   … and ${items.length - 10} more`);
+          write(`   View at: /admin/at-risk`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Completions ───────────────────────────────────────────────────────
+    case 'list_completions': {
+      write('\x1b[33m⚙  Fetching completions…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/completions?limit=${args.limit ?? 20}`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const items = data.completions ?? data.data ?? [];
+          write(`\x1b[32m✓  ${items.length} completion(s)\x1b[0m`);
+          items.slice(0, 10).forEach((c: Record<string, unknown>) =>
+            write(`   • ${c.student_name ?? c.user_id} — ${c.program_name ?? c.course_name ?? ''}`));
+          write(`   View at: /admin/completions`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Catalog export ────────────────────────────────────────────────────
+    case 'export_catalog': {
+      write('\x1b[33m⚙  Exporting program catalog…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/catalog/export`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Catalog exported\x1b[0m');
+          if (data.url) write(`   Download: ${data.url}`);
+          write(`   View at: /admin/programs`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Monitoring ────────────────────────────────────────────────────────
+    case 'check_monitoring': {
+      write('\x1b[33m⚙  Checking monitoring status…\x1b[0m');
+      try {
+        const [statusRes, errorsRes] = await Promise.all([
+          fetch(`${baseUrl}/api/admin/monitoring/status`, { headers }),
+          fetch(`${baseUrl}/api/admin/monitoring/errors?limit=5`, { headers }),
+        ]);
+        const status = await statusRes.json().catch(() => ({}));
+        const errors = await errorsRes.json().catch(() => ({}));
+        write('\x1b[32m✓  Monitoring status\x1b[0m');
+        if (status.uptime) write(`   Uptime: ${status.uptime}`);
+        if (status.memory) write(`   Memory: ${status.memory}`);
+        const errs = errors.errors ?? errors.data ?? [];
+        if (errs.length > 0) {
+          write(`\x1b[33m   Recent errors (${errs.length}):\x1b[0m`);
+          errs.slice(0, 5).forEach((e: Record<string, unknown>) =>
+            write(`   • ${e.message ?? e.error ?? JSON.stringify(e)}`));
+        } else write('   No recent errors');
+        write(`   View at: /admin/monitoring`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Users / role management ───────────────────────────────────────────
+    case 'list_users': {
+      write('\x1b[33m⚙  Fetching users…\x1b[0m');
+      try {
+        const q = args.search ? `?search=${encodeURIComponent(String(args.search))}` : `?limit=${args.limit ?? 20}`;
+        const res = await fetch(`${baseUrl}/api/admin/users${q}`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const items = data.users ?? data.data ?? [];
+          write(`\x1b[32m✓  ${items.length} user(s)\x1b[0m`);
+          items.slice(0, 10).forEach((u: Record<string, unknown>) =>
+            write(`   • ${u.full_name ?? u.email} — ${u.role ?? 'student'}`));
+          write(`   View at: /admin/users`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    case 'update_user_role': {
+      write(`\x1b[33m⚙  Updating role for user ${args.user_id}…\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/users/update-role`, {
+          method: 'POST', headers,
+          body: JSON.stringify({ user_id: args.user_id, role: args.role }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) write(`\x1b[32m✓  Role updated to ${args.role}\x1b[0m`);
+        else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Bulk email ────────────────────────────────────────────────────────
+    case 'send_bulk_email': {
+      write('\x1b[33m⚙  Sending bulk email…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/send-onboarding-emails`, {
+          method: 'POST', headers,
+          body: JSON.stringify({ subject: args.subject, body: args.body, audience: args.audience ?? 'all' }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Bulk email queued\x1b[0m');
+          if (data.count) write(`   Recipients: ${data.count}`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── WIOA export ───────────────────────────────────────────────────────
+    case 'run_wioa_export': {
+      write('\x1b[33m⚙  Running WIOA PIRL export…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/wioa/pirl-export`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  WIOA export complete\x1b[0m');
+          if (data.url) write(`   Download: ${data.url}`);
+          if (data.count) write(`   Records: ${data.count}`);
+          write(`   View at: /admin/wioa`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Backup ────────────────────────────────────────────────────────────
+    case 'run_backup': {
+      write('\x1b[33m⚙  Triggering platform backup…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/backup`, { method: 'POST', headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Backup initiated\x1b[0m');
+          if (data.backupId) write(`   Backup ID: ${data.backupId}`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Automations ───────────────────────────────────────────────────────
+    case 'run_automation': {
+      write(`\x1b[33m⚙  Running automation: ${args.automation_id}…\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/automations/run`, {
+          method: 'POST', headers,
+          body: JSON.stringify({ automation_id: args.automation_id }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) write('\x1b[32m✓  Automation triggered\x1b[0m');
+        else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Shops ─────────────────────────────────────────────────────────────
+    case 'list_shops': {
+      write('\x1b[33m⚙  Fetching shops…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/shops`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const items = data.shops ?? data.data ?? [];
+          write(`\x1b[32m✓  ${items.length} shop(s)\x1b[0m`);
+          items.slice(0, 10).forEach((s: Record<string, unknown>) =>
+            write(`   • ${s.name ?? s.id} — ${s.city ?? ''} ${s.state ?? ''}`));
+          write(`   View at: /admin/shops`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Promo codes ───────────────────────────────────────────────────────
+    case 'list_promo_codes': {
+      write('\x1b[33m⚙  Fetching promo codes…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/promo-codes`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const items = data.codes ?? data.data ?? [];
+          write(`\x1b[32m✓  ${items.length} promo code(s)\x1b[0m`);
+          items.slice(0, 10).forEach((c: Record<string, unknown>) =>
+            write(`   • ${c.code} — ${c.discount_percent ?? c.discount_amount ?? ''}% off · ${c.uses ?? 0} uses`));
+          write(`   View at: /admin/promo-codes`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Social campaigns ──────────────────────────────────────────────────
+    case 'list_social_campaigns': {
+      write('\x1b[33m⚙  Fetching social campaigns…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/social-campaigns`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const items = data.campaigns ?? data.data ?? [];
+          write(`\x1b[32m✓  ${items.length} campaign(s)\x1b[0m`);
+          items.slice(0, 10).forEach((c: Record<string, unknown>) =>
+            write(`   • ${c.title ?? c.name ?? c.id} — ${c.status ?? ''}`));
+          write(`   View at: /admin/social-media`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Audit export ──────────────────────────────────────────────────────
+    case 'export_audit_log': {
+      write('\x1b[33m⚙  Exporting audit log…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/audit-export`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Audit log exported\x1b[0m');
+          if (data.url) write(`   Download: ${data.url}`);
+          write(`   View at: /admin/audit-logs`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
       break;
     }
 

@@ -30,7 +30,7 @@ export default function NewSignaturePage() {
     setError(null);
 
     try {
-      const res = await fetch('/api/signature/documents', {
+      const res = await fetch('/api/admin/sign-documents/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title.trim(), type, body: body.trim() }),

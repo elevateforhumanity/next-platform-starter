@@ -15,8 +15,21 @@ import {
   Megaphone,
   Wrench,
   ChevronRight,
+  ExternalLink,
 } from 'lucide-react';
 import { AdminGreeting } from '@/components/admin/AdminGreeting';
+
+const SITE_URL   = process.env.NEXT_PUBLIC_SITE_URL   ?? 'https://www.elevateforhumanity.org';
+const ADMIN_URL  = process.env.NEXT_PUBLIC_ADMIN_URL  ?? 'https://admin.elevateforhumanity.org';
+const LMS_URL    = process.env.NEXT_PUBLIC_LMS_URL    ?? `${SITE_URL}/lms`;
+
+const LIVE_LINKS = [
+  { label: 'Public Site',   url: SITE_URL },
+  { label: 'Admin Portal',  url: ADMIN_URL },
+  { label: 'LMS',           url: LMS_URL },
+  { label: 'Programs',      url: `${SITE_URL}/programs` },
+  { label: 'Apply',         url: `${SITE_URL}/apply` },
+];
 
 export const dynamic = 'force-dynamic';
 
@@ -154,7 +167,7 @@ export default async function AdminLandingPage() {
     {
       label: 'Revenue this month',
       value: fmtUsd(data.counts.revenueThisMonthCents),
-      href: '/admin/reporting',
+      href: '/admin/reports',
       urgent: false,
     },
     {
@@ -197,6 +210,25 @@ export default async function AdminLandingPage() {
             <ChevronRight className="w-4 h-4" />
           </Link>
         )}
+      </div>
+
+      {/* Live site links */}
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-3 border-t border-slate-100">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mr-1">Live</span>
+          {LIVE_LINKS.map((l) => (
+            <a
+              key={l.label}
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-blue-600 border border-slate-200 hover:border-blue-300 rounded-full px-3 py-1 transition-colors"
+            >
+              {l.label}
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          ))}
+        </div>
       </div>
 
       {/* Quick stats */}

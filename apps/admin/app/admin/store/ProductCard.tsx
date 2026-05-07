@@ -24,7 +24,7 @@ export default function ProductCard() {
 
   async function loadProducts() {
     try {
-      const res = await fetch('/api/store/products');
+      const res = await fetch('/api/admin/products/approve');
       const data = await res.json();
       setProducts(data || []);
     } catch (error) {
@@ -38,7 +38,7 @@ export default function ProductCard() {
   async function cloneCodebase(productId: string) {
     setCloning(productId);
     try {
-      const res = await fetch('/api/store/clone-codebase', {
+      const res = await fetch('/api/admin/products/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId }),
