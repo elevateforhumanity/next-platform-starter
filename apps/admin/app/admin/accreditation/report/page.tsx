@@ -13,6 +13,7 @@ import {
   Shield,
   FileText,
 } from 'lucide-react';
+import { DownloadReportButton } from './DownloadReportButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -111,6 +112,7 @@ export default async function AccreditationReportPage() {
             <h1 className="text-2xl font-bold text-slate-900">Accreditation Compliance Report</h1>
             <p className="text-sm text-slate-700 mt-1">Generated {now} from live platform data</p>
           </div>
+          <DownloadReportButton />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">

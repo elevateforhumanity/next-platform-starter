@@ -13,6 +13,7 @@ import {
   Clock,
   TrendingUp,
 } from 'lucide-react';
+import { StudentSearchPanel } from '../StudentSearchPanel';
 
 export const metadata: Metadata = {
   title: 'Case Manager Dashboard | Elevate Workforce Hub',
@@ -276,6 +277,9 @@ export default async function CaseManagerDashboardPage() {
             </div>
           )}
         </div>
+
+        {/* Student search */}
+        <StudentSearchPanel />
 
         {/* Quick links */}
         <div className="grid sm:grid-cols-3 gap-4">

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { AttendanceVerifyButton } from './AttendanceVerifyButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -79,9 +80,7 @@ export default async function LivePage({ params }: { params: { courseId: string 
                       {new Date(session.scheduled_at).toLocaleString()}
                     </p>
                   </div>
-                  <button className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 text-sm">
-                    Set Reminder
-                  </button>
+                  <AttendanceVerifyButton meetingId={session.id} />
                 </div>
               ))
             ) : (
