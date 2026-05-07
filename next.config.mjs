@@ -354,6 +354,8 @@ const nextConfig = {
     }));
 
     return [
+      // NOTE: /sign-in and /signin redirects are handled in proxy.ts (middleware)
+      // so they work on the live dev-build server. No next.config.mjs entries needed.
       // ============================================
       // MISSING VIDEO ASSETS — redirect local paths to R2 CDN
       // barber-hero-final.mp4 is not in public/videos/ — serve from R2
