@@ -76,6 +76,7 @@ const NAV_SECTIONS = [
       { name: 'Exam Authorizations', href: '/admin/exam-authorizations' },
       { name: 'Gradebook', href: '/admin/gradebook' },
       { name: 'Apprenticeships', href: '/admin/apprenticeships' },
+      { name: 'Learning Paths', href: '/admin/learning-paths' },
       { name: 'External Courses', href: '/admin/external-courses' },
       { name: 'External Completions', href: '/admin/external-course-completions' },
       { name: 'External Module Approvals', href: '/admin/external-modules/approvals' },

@@ -29,6 +29,7 @@ import {
   Radio,
 } from 'lucide-react';
 import { CourseModuleAccordion } from '@/components/lms/CourseModuleAccordion';
+import { CourseReviewsPanel } from '@/components/lms/CourseReviewsPanel';
 
 export const dynamic = 'force-dynamic';
 
@@ -1117,6 +1118,11 @@ export default async function CoursePage({ params }: { params: Params }) {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Reviews */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+        <CourseReviewsPanel courseId={courseId} courseName={course?.title ?? 'this course'} />
       </div>
     </div>
   );
