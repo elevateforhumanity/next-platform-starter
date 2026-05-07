@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import LazyVideo from '@/components/ui/LazyVideo';
+import { WorkforceBoardStats } from './WorkforceBoardStats';
 
 export const metadata: Metadata = {
   alternates: {
@@ -119,6 +120,11 @@ export default function WorkforceBoardPage() {
           </div>
         </div>
       </section>
+
+      {/* Live performance stats */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <WorkforceBoardStats />
+      </div>
 
       {/* Features Grid */}
       <section className="py-16 px-6">

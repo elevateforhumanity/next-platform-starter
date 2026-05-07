@@ -15,6 +15,7 @@ import {
   ChevronRight,
   MoreVertical,
 } from 'lucide-react';
+import { ScheduleInterviewButton } from './ScheduleInterviewButton';
 
 export const metadata: Metadata = {
   title: 'Interviews | Employer Portal | Elevate For Humanity',
@@ -107,10 +108,7 @@ export default async function InterviewsPage() {
               </div>
               <p className="text-slate-700">Schedule and manage candidate interviews</p>
             </div>
-            <button className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 transition-colors">
-              <Plus className="w-5 h-5" />
-              Schedule Interview
-            </button>
+            <ScheduleInterviewButton />
           </div>
         </div>
       </section>
