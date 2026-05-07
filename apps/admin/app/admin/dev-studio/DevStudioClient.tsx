@@ -189,6 +189,14 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
     'Show loaded secrets (key names only)',
   ];
 
+  const AUTOPILOT_QUICK = [
+    { label: '🏗️ Build courses', cmd: 'Build all courses and push to GitHub' },
+    { label: '🚀 Deploy LMS', cmd: 'Deploy the LMS service' },
+    { label: '🚀 Deploy Admin', cmd: 'Deploy the admin service' },
+    { label: '🧪 Run tests', cmd: 'Run autopilot test suite' },
+    { label: '📦 Check trial status', cmd: 'Check app trial status' },
+  ];
+
   async function run(cmd: string) {
     if (!cmd.trim()) return;
     setOutput((p) => [...p, { type: 'user', text: cmd }]);
@@ -249,13 +257,25 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
   return (
     <div className="flex flex-col h-full bg-white text-slate-800">
       {/* Quick commands */}
-      <div className="flex-shrink-0 flex flex-wrap gap-1.5 p-3 border-b border-slate-200 bg-slate-50">
-        {QUICK.map((q) => (
-          <button key={q} onClick={() => run(q)}
-            className="px-2.5 py-1 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-600 hover:text-orange-700 transition-colors shadow-sm">
-            {q}
-          </button>
-        ))}
+      <div className="flex-shrink-0 border-b border-slate-200 bg-slate-50">
+        <div className="flex flex-wrap gap-1.5 p-3 pb-2">
+          {QUICK.map((q) => (
+            <button key={q} onClick={() => run(q)}
+              className="px-2.5 py-1 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-600 hover:text-orange-700 transition-colors shadow-sm">
+              {q}
+            </button>
+          ))}
+        </div>
+        {/* Autopilot commands */}
+        <div className="flex flex-wrap gap-1.5 px-3 pb-3 border-t border-slate-100 pt-2">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest w-full mb-1">Autopilot</span>
+          {AUTOPILOT_QUICK.map(({ label, cmd }) => (
+            <button key={cmd} onClick={() => run(cmd)}
+              className="px-2.5 py-1 text-[11px] rounded-md border border-blue-200 bg-blue-50 hover:bg-blue-100 hover:border-blue-400 text-blue-700 transition-colors shadow-sm">
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
       {/* Output */}
       <div className="flex-1 overflow-y-auto p-4 space-y-2 font-mono text-xs bg-white">

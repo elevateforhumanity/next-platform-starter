@@ -28,6 +28,10 @@
  *   send_test_email         → POST /api/admin/test-email
  *   check_system_health     → GET  /api/admin/webhook-health
  *   ask_question            → answered directly by the AI (no action)
+ *   build_courses           → POST /api/autopilots/build-courses
+ *   deploy_autopilot        → POST /api/autopilots/deploy
+ *   run_tests               → POST /api/autopilots/run-tests
+ *   manage_app_trial        → POST /api/apps/trial/start|status or /api/apps/upgrade
  */
 
 import { NextRequest } from 'next/server';
@@ -480,6 +484,62 @@ const TOOLS: unknown[] = [
           answer: { type: 'string', description: 'The answer to the question' },
         },
         required: ['answer'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'build_courses',
+      description: 'Build and push course content files to the GitHub repository via the autopilot system',
+      parameters: {
+        type: 'object',
+        properties: {
+          course_id: { type: 'string', description: 'Optional course ID to build a specific course. Omit to build all.' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'deploy_autopilot',
+      description: 'Trigger an autopilot deployment — prepares build artifacts and initiates ECS deploy',
+      parameters: {
+        type: 'object',
+        properties: {
+          service: { type: 'string', enum: ['lms', 'admin', 'both'], description: 'Which service to deploy' },
+        },
+        required: ['service'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'run_tests',
+      description: 'Run autopilot test suite — scans course metadata and validates structure',
+      parameters: {
+        type: 'object',
+        properties: {},
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'manage_app_trial',
+      description: 'Start, check status of, or upgrade an app trial subscription for a user',
+      parameters: {
+        type: 'object',
+        properties: {
+          action: { type: 'string', enum: ['start', 'status', 'upgrade'], description: 'What to do with the trial' },
+          user_id: { type: 'string', description: 'User ID to manage trial for' },
+          app_id: { type: 'string', description: 'App ID (e.g. sam-gov, grants, website-builder)' },
+        },
+        required: ['action'],
       },
     },
   },
@@ -1058,6 +1118,92 @@ async function executeAction(
 
     case 'ask_question': {
       write('\x1b[32m✓  \x1b[0m' + String(args.answer));
+      break;
+    }
+
+    case 'build_courses': {
+      write('⚙️  Building courses...');
+      const body: Record<string, unknown> = {};
+      if (args.course_id) body.course_id = args.course_id;
+      const res = await fetch(`${baseUrl}/api/autopilots/build-courses`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', cookie: cookieHeader },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        write(`\x1b[31m✗  Build failed: ${data.error ?? res.statusText}\x1b[0m`);
+      } else {
+        write(`\x1b[32m✓  Build complete\x1b[0m`);
+        if (data.files_written) write(`   Files written: ${data.files_written}`);
+        if (data.commit_url) write(`   Commit: ${data.commit_url}`);
+      }
+      break;
+    }
+
+    case 'deploy_autopilot': {
+      const service = String(args.service ?? 'lms');
+      write(`🚀  Triggering ${service} deploy...`);
+      const res = await fetch(`${baseUrl}/api/autopilots/deploy`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', cookie: cookieHeader },
+        body: JSON.stringify({ service }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        write(`\x1b[31m✗  Deploy failed: ${data.error ?? res.statusText}\x1b[0m`);
+      } else {
+        write(`\x1b[32m✓  Deploy triggered\x1b[0m`);
+        if (data.run_url) write(`   GitHub Actions: ${data.run_url}`);
+        if (data.message) write(`   ${data.message}`);
+      }
+      break;
+    }
+
+    case 'run_tests': {
+      write('🧪  Running autopilot tests...');
+      const res = await fetch(`${baseUrl}/api/autopilots/run-tests`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', cookie: cookieHeader },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        write(`\x1b[31m✗  Tests failed: ${data.error ?? res.statusText}\x1b[0m`);
+      } else {
+        write(`\x1b[32m✓  Tests complete\x1b[0m`);
+        if (data.passed !== undefined) write(`   Passed: ${data.passed} / ${data.total ?? '?'}`);
+        if (data.failures?.length) {
+          write(`   Failures:`);
+          (data.failures as string[]).forEach((f: string) => write(`     • ${f}`));
+        }
+        if (data.summary) write(`   ${data.summary}`);
+      }
+      break;
+    }
+
+    case 'manage_app_trial': {
+      const action = String(args.action);
+      const endpoint = action === 'start'
+        ? '/api/apps/trial/start'
+        : action === 'status'
+          ? '/api/apps/trial/status'
+          : '/api/apps/upgrade';
+      write(`📦  ${action === 'start' ? 'Starting' : action === 'status' ? 'Checking' : 'Upgrading'} app trial...`);
+      const res = await fetch(`${baseUrl}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', cookie: cookieHeader },
+        body: JSON.stringify({ user_id: args.user_id, app_id: args.app_id }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        write(`\x1b[31m✗  Failed: ${data.error ?? res.statusText}\x1b[0m`);
+      } else {
+        write(`\x1b[32m✓  Done\x1b[0m`);
+        if (data.status) write(`   Status: ${data.status}`);
+        if (data.expires_at) write(`   Expires: ${data.expires_at}`);
+        if (data.checkout_url) write(`   Checkout: ${data.checkout_url}`);
+      }
       break;
     }
 
