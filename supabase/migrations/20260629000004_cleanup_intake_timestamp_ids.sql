@@ -1,20 +1,26 @@
 -- 20260629000004_cleanup_intake_timestamp_ids.sql
 --
--- Remove legacy applications rows whose id starts with 'intake-'.
+-- Convert legacy applications rows whose id starts with 'intake-' to proper UUIDs.
 -- These were created by an old version of /api/intake/route.ts that used
--- `intake-${Date.now()}` as a fallback ID when the mirror insert returned
--- no row. The bug was fixed — real mirrors now always produce UUID ids.
+-- `intake-${Date.now()}` as a fallback ID. The bug is fixed — new rows always
+-- get UUID ids. But existing rows need their id column updated so the admin
+-- review page can load them.
 --
--- These rows cannot be reviewed (the review page requires a UUID), are not
--- linked to any enrollment, and duplicate data already in apprenticeship_intake.
---
--- Safe to delete: no FK references point to non-UUID application ids.
+-- Strategy: assign gen_random_uuid() to each legacy row, preserving all data.
+-- The old intake-{timestamp} id is stored in metadata->>'legacy_id' for tracing.
 
--- Preview first (run this SELECT to confirm before deleting):
+-- Step 1: preview what will be converted
 -- SELECT id, email, program_interest, created_at
 -- FROM public.applications
 -- WHERE id LIKE 'intake-%'
 -- ORDER BY created_at DESC;
 
-DELETE FROM public.applications
+-- Step 2: convert ids to real UUIDs, stash old id in metadata
+UPDATE public.applications
+SET
+  id       = gen_random_uuid()::text,
+  metadata = COALESCE(metadata, '{}'::jsonb) || jsonb_build_object('legacy_id', id)
 WHERE id LIKE 'intake-%';
+
+-- Verify: should return 0 rows after running
+-- SELECT id FROM public.applications WHERE id LIKE 'intake-%';
