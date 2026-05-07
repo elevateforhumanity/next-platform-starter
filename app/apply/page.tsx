@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import IntakeFormInner from './IntakeFormInner';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
-import BarberApplyClient from './BarberApplyClient';
 
 export const revalidate = 3600;
 
@@ -20,12 +19,9 @@ export default function ApplyPage({
 }: {
   searchParams?: { program?: string; payment?: string };
 }) {
-  const normalizedProgram = normalizeProgramInterest(searchParams?.program);
-  const isBarberCanonical = normalizedProgram === 'barber-apprenticeship';
-
-  if (isBarberCanonical) {
-    return <BarberApplyClient payment={searchParams?.payment ?? null} />;
-  }
+  // Note: ?program=barber-apprenticeship is 301'd to /programs/barber-apprenticeship/apply
+  // by next.config.mjs before this page renders. No barber-specific branch needed here.
+  void normalizeProgramInterest(searchParams?.program);
 
   return (
     <div className="min-h-screen bg-white">

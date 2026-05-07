@@ -362,7 +362,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     videoPoster: '/images/pages/barber-styling-hair.jpg',
     variant: 'video',
     height: 'medium',
-    ctaPrimary: { label: 'Apply Now', href: '/apply?program=barber' },
+    ctaPrimary: { label: 'Apply Now', href: '/programs/barber-apprenticeship/apply' },
     ctaSecondary: { label: 'View Programs', href: '#programs' },
   },
 

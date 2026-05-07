@@ -952,26 +952,33 @@ const nextConfig = {
       // /enroll → /apply is already declared above (permanent:false, early in the list).
       // The permanent:true duplicate below was dead (first match wins). Removed.
 
-      // Barber enrollment: 1-hop to dedicated apply page (kills 3-hop chain).
-      // Must be declared before the /enroll/:path* catch-all below.
-      {
-        source: '/enroll/barber-apprenticeship',
-        destination: '/apply?program=barber-apprenticeship',
-        permanent: true,
-      },
-      {
-        source: '/programs/barber-apprenticeship/apply',
-        destination: '/apply?program=barber-apprenticeship',
-        permanent: true,
-      },
-      {
-        source: '/programs/:program(barber-apprenticeship)/apply',
-        destination: '/apply?program=:program',
-        permanent: true,
-      },
+      // ── Barber apply canonicalization ─────────────────────────────────────
+      // Canonical: /programs/barber-apprenticeship/apply
+      // All other entry points 301 to it. Order: specific before catch-all.
       {
         source: '/apply/barber-apprenticeship',
-        destination: '/apply?program=barber-apprenticeship',
+        destination: '/programs/barber-apprenticeship/apply',
+        permanent: true,
+      },
+      {
+        source: '/enroll/barber-apprenticeship',
+        destination: '/programs/barber-apprenticeship/apply',
+        permanent: true,
+      },
+      {
+        source: '/apply',
+        has: [{ type: 'query', key: 'program', value: 'barber-apprenticeship' }],
+        destination: '/programs/barber-apprenticeship/apply',
+        permanent: true,
+      },
+      {
+        source: '/pwa/barber/enroll',
+        destination: '/programs/barber-apprenticeship/apply',
+        permanent: true,
+      },
+      {
+        source: '/checkout/barber-apprenticeship',
+        destination: '/programs/barber-apprenticeship/apply',
         permanent: true,
       },
 

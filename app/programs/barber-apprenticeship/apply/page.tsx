@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ChevronDown } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -28,21 +28,19 @@ const TYPE_OPTIONS: { value: ApplicantType; label: string; desc: string }[] = [
 
 function BarberApplyPageInner() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const [applicantType, setApplicantType] = useState<ApplicantType>('');
 
-  // Redirect apprentice applicants to the canonical intake form.
-  // Partner shop and program holder types stay on this page (dedicated flows).
+  // This IS the canonical barber apply page. No redirect away from here.
+  // Partner shop type gets its own form; apprentice (default) renders ApprenticeForm.
   useEffect(() => {
     const param = searchParams.get('type') as ApplicantType | null;
-    if (!param || param === 'apprentice') {
-      router.replace('/apply?program=barber-apprenticeship');
-      return;
-    }
-    if (VALID_TYPES.includes(param)) {
+    if (param && VALID_TYPES.includes(param)) {
       setApplicantType(param);
+    } else {
+      // Default to apprentice — this is the primary flow
+      setApplicantType('apprentice');
     }
-  }, [searchParams, router]);
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -108,14 +106,10 @@ function BarberApplyPageInner() {
           )}
         </div>
 
-        {/* Render the correct form */}
-        {applicantType === '' && (
-          <div className="text-center py-16 text-slate-400 text-sm">
-            Select an application type above to continue.
-          </div>
+        {/* Render the correct form — apprentice is the default */}
+        {(applicantType === '' || applicantType === 'apprentice') && (
+          <ApprenticeForm initialPayment={searchParams.get('payment')} />
         )}
-
-        {applicantType === 'apprentice' && <ApprenticeForm initialPayment={searchParams.get('payment')} />}
         {applicantType === 'partner_shop' && <PartnerShopForm />}
       </div>
     </div>

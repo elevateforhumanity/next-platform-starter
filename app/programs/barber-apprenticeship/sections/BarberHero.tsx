@@ -42,7 +42,7 @@ export function BarberHero() {
       <section className="py-6 border-b">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex flex-col sm:flex-row gap-3">
-            <Link href="/apply?program=barber-apprenticeship" className="inline-flex items-center justify-center rounded-lg bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-700 transition-colors">
+            <Link href="/programs/barber-apprenticeship/apply" className="inline-flex items-center justify-center rounded-lg bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-700 transition-colors">
               Apply Now
             </Link>
             <Link href="/funding?program=barber-apprenticeship" className="inline-flex items-center justify-center rounded-lg border-2 border-gray-300 px-6 py-3 text-base font-semibold text-slate-900 hover:bg-gray-50 transition-colors">

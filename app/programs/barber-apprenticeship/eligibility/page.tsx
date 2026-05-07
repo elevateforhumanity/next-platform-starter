@@ -41,7 +41,7 @@ export default function BarberEligibilityPage() {
           </p>
           <ProgramFundingGate
             programName="Barber Apprenticeship"
-            applyHref="/apply?program=barber-apprenticeship"
+            applyHref="/programs/barber-apprenticeship/apply"
             selfPayCost="$4,980"
             depositAmount="$1,743"
             depositHref="https://buy.stripe.com/8x2bJ21986rletw0dN8EN0o"

@@ -45,7 +45,7 @@ export const PROGRAMS: Record<string, ProgramFacts> = {
     schedule: 'Full-time, Monday–Friday',
     fundingNotes: ['Apprenticeship model', 'WIOA eligible', 'Re-entry friendly'],
     careerOutcomes: ['Licensed barber', 'Shop owner', 'Barber instructor'],
-    applyUrl: '/apply?program=barber-apprenticeship',
+    applyUrl: '/programs/barber-apprenticeship/apply',
   },
   'cna-certification': {
     slug: 'cna-certification',

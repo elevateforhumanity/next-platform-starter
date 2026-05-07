@@ -24,3 +24,26 @@ export const routes = {
   login: siteConfig.handoff.login,
   checkout: siteConfig.handoff.checkout,
 } as const;
+
+/**
+ * Canonical application route constants.
+ *
+ * All CTA buttons and links must import ROUTES from here.
+ * Do not hardcode application paths anywhere else in the codebase.
+ *
+ * Barber apply canonical: /programs/barber-apprenticeship/apply
+ * Everything else 301s to it — see next.config.mjs redirects.
+ */
+export const ROUTES = {
+  // ── Barber Apprenticeship ─────────────────────────────────────────────────
+  BARBER_APPLY:       '/programs/barber-apprenticeship/apply',
+  BARBER_PROGRAM:     '/programs/barber-apprenticeship',
+  BARBER_ELIGIBILITY: '/programs/barber-apprenticeship/eligibility',
+
+  // ── General intake (non-barber programs) ─────────────────────────────────
+  APPLY: '/apply',
+  applyForProgram: (slug: string) => `/apply?program=${slug}`,
+
+  // ── Partner / shop apply ──────────────────────────────────────────────────
+  PARTNER_BARBERSHOP_APPLY: '/partners/barbershop-apprenticeship/apply',
+} as const;

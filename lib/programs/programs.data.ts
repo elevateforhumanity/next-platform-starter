@@ -126,7 +126,7 @@ export const PROGRAMS: Program[] = [
     outcomes: ['Licensed barber track', 'Barbershop employment', 'Independent business pathway'],
     requirements: ['Valid ID', 'Intake/eligibility verification (if funding applies)'],
     primaryCtaLabel: 'Start Inquiry',
-    primaryCtaHref: '/apply?program=barber-apprenticeship',
+    primaryCtaHref: '/programs/barber-apprenticeship/apply',
     secondaryCtaLabel: 'Talk to an Advisor',
     secondaryCtaHref: '/contact?topic=barber-apprenticeship',
     faq: [
