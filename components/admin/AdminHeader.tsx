@@ -213,6 +213,7 @@ const NAV_SECTIONS = [
       { name: 'Calendly', href: '/admin/integrations/calendly' },
       { name: 'Env Manager', href: '/admin/integrations/env-manager' },
       { name: 'Gemini AI', href: '/admin/integrations/gemini' },
+      { name: 'QuickBooks', href: '/admin/integrations/quickbooks' },
       { name: 'Salesforce', href: '/admin/integrations/salesforce' },
       { name: 'Stripe', href: '/admin/integrations/stripe' },
       { name: 'Teams', href: '/admin/integrations/teams' },
