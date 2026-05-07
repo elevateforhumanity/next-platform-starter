@@ -16,7 +16,7 @@ async function _POST(req: NextRequest) {
     if (auth.error) return auth.error;
 
     const body = await req.json().catch(() => ({}));
-    const { output, repo = 'elevateforhumanity/fix2', branch = 'main' } = body;
+    const { output, repo = 'elevateforhumanity/Elevate-lms', branch = 'main' } = body;
 
     if (!output) {
       return NextResponse.json({ error: 'Missing course output data' }, { status: 400 });

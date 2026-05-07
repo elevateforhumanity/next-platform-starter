@@ -17,7 +17,7 @@ async function _POST(req: NextRequest) {
     if (auth.error) return auth.error;
 
     const body = await req.json().catch(() => ({}));
-    const { repo = 'elevateforhumanity/fix2', branch = 'main' } = body;
+    const { repo = 'elevateforhumanity/Elevate-lms', branch = 'main' } = body;
 
     const client = gh();
     const { owner, name } = parseRepo(repo);
