@@ -100,7 +100,7 @@
     }
   ],
 
-  "Aliases": ["elevateforhumanity.org", "www.elevateforhumanity.org"],
+  "Aliases": ["elevateforhumanity.org", "www.elevateforhumanity.org", "admin.elevateforhumanity.org"],
   "ViewerCertificate": {
     "AcmCertificateArn": "arn:aws:acm:us-east-1:954718262498:certificate/YOUR_CERT_ARN",
     "_comment": "Request cert in ACM for elevateforhumanity.org + www.elevateforhumanity.org",

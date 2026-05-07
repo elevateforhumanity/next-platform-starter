@@ -92,8 +92,14 @@ Update `aws/cloudfront.json` with the certificate ARN.
 Go to: AWS Console → CloudFront → Create Distribution
 Use settings from `aws/cloudfront.json`.
 
-### 1i. Update DNS in Cloudflare
-Point `app.elevateforhumanity.org` CNAME → your CloudFront distribution domain.
+### 1i. Update DNS in Cloudflare/Route53
+Add CNAMEs pointing to your CloudFront distribution domain:
+- `www.elevateforhumanity.org` → CloudFront
+- `admin.elevateforhumanity.org` → CloudFront (same distribution — routes /admin/* to admin ALB)
+- `elevateforhumanity.org` → CloudFront (or A alias if Route53)
+
+CloudFront distribution must have all three in its Alternate Domain Names (CNAMEs).
+ACM certificate must cover `*.elevateforhumanity.org` and be attached to the distribution.
 
 ---
 
