@@ -96,7 +96,15 @@ export default function EligibilityPreQualifier() {
     if (currentStep < STEPS.length - 1) {
       setTimeout(() => setCurrentStep((prev) => prev + 1), 300);
     } else {
-      setTimeout(() => setComplete(true), 300);
+      setTimeout(() => {
+        setComplete(true);
+        // Submit eligibility answers to WIOA application API (non-blocking)
+        fetch('/api/applications/wioa', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ answers: newAnswers, source: 'eligibility_qualifier' }),
+        }).catch(() => {}); // fail silently — submission is non-critical
+      }, 300);
     }
   };
 
