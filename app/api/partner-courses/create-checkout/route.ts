@@ -74,8 +74,8 @@ async function _POST(request: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_URL || `https://${process.env.URL}` || 'http://localhost:3000'}/courses/partners/${courseId}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL || `https://${process.env.URL}` || 'http://localhost:3000'}/courses/partners/${courseId}/enroll`,
+      success_url: `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org')}/courses/partners/${courseId}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org')}/courses/partners/${courseId}/enroll`,
       customer_email: studentEmail,
       client_reference_id: studentId,
 

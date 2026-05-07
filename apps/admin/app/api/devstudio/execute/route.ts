@@ -1914,7 +1914,7 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const baseUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
   const cookieHeader = req.headers.get('cookie') || '';
 
   const stream = new ReadableStream({

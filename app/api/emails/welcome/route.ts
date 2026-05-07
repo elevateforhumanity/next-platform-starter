@@ -60,7 +60,7 @@ async function _POST(request: Request) {
 
     const studentName = profile?.full_name || profile?.email?.split('@')[0] || 'Student';
     const courseName = course?.title || 'Course';
-    const loginUrl = `${process.env.NEXT_PUBLIC_APP_URL || `https://${process.env.URL}` || 'http://localhost:3000'}/learner/dashboard`;
+    const loginUrl = `${((process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || '').trim() || 'https://www.elevateforhumanity.org')}/learner/dashboard`;
 
     const html = emailTemplates.welcome(studentName, courseName, loginUrl);
 

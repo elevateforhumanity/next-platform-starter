@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 import {
   contactRateLimit,
   strictRateLimit,
@@ -11,9 +12,6 @@ import {
 } from '@/lib/rate-limit';
 
 type Tier = 'strict' | 'contact' | 'api' | 'auth' | 'payment' | 'public' | 'pageLoad';
-
-// Tiers that must fail closed (return 503) when Redis is unavailable
-const FAIL_CLOSED_TIERS: Set<Tier> = new Set(['auth', 'payment', 'strict']);
 
 const limiters: Record<Tier, { get: () => any }> = {
   strict: strictRateLimit, // 3 req / 5 min
@@ -49,14 +47,10 @@ export async function applyRateLimit(
 ): Promise<NextResponse | null> {
   const limiter = limiters[tier]?.get();
   if (!limiter) {
-    // For auth/payment/strict tiers, fail closed when Redis is unavailable
-    if (FAIL_CLOSED_TIERS.has(tier)) {
-      return NextResponse.json(
-        { error: 'Rate limiting service unavailable. Please try again later.' },
-        { status: 503 },
-      );
-    }
-    return null; // Other tiers: fail open
+    // Redis not configured — fail open. Never block legitimate requests
+    // because the rate limiting infrastructure is unavailable.
+    logger.warn('[rate-limit] Redis unavailable — failing open', { tier });
+    return null;
   }
 
   const id = getIP(request);
@@ -76,14 +70,10 @@ export async function applyRateLimit(
         },
       );
     }
-  } catch {
-    // Redis error — fail closed for sensitive tiers
-    if (FAIL_CLOSED_TIERS.has(tier)) {
-      return NextResponse.json(
-        { error: 'Rate limiting service unavailable. Please try again later.' },
-        { status: 503 },
-      );
-    }
+  } catch (err) {
+    // Redis error (timeout, connection refused, etc.) — fail open.
+    // Log so we know Redis is unhealthy, but never block the request.
+    logger.error('[rate-limit] Redis error — failing open', { tier, error: err instanceof Error ? err.message : String(err) });
     return null;
   }
 
