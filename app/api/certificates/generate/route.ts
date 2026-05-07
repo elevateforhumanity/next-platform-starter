@@ -329,9 +329,9 @@ async function _POST(request: Request) {
 
     // 4) Load student profile
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('full_name, email')
-      .eq('user_id', enrollment.user_id)
+      .eq('id', enrollment.user_id)
       .maybeSingle();
 
     // 5) Generate certificate metadata

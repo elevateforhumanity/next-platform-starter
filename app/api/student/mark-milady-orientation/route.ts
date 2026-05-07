@@ -14,13 +14,15 @@ async function _POST(req: Request) {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
-    const { userId } = await req.json();
-
-    if (!userId) {
-      return NextResponse.json({ error: 'User ID required' }, { status: 400 });
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const supabase = await createClient();
+    // Scope to the authenticated user — ignore any userId in the body to prevent IDOR.
+    const userId = user.id;
+
     const db = await requireAdminClient();
 
     // Check if student has Milady enrollment

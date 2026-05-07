@@ -31,9 +31,9 @@ async function _POST(req: Request) {
 
     // Check if user is employer/admin/sponsor
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('role, employer_id')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     if (!profile || !['employer', 'admin', 'sponsor'].includes(profile.role)) {
@@ -68,9 +68,9 @@ async function _POST(req: Request) {
     // Employer must supervise this student
     if (profile.role === 'employer' && profile.employer_id && hourRecord.user_id) {
       const { data: studentProfile } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .select('employer_id')
-        .eq('user_id', hourRecord.user_id)
+        .eq('id', hourRecord.user_id)
         .maybeSingle();
 
       if (studentProfile?.employer_id !== profile.employer_id) {
@@ -89,7 +89,7 @@ async function _POST(req: Request) {
         status: 'approved',
         approved_by: user.email,
         approved_at: new Date().toISOString(),
-        approved_by_role: profile.role,
+        approved_by_role: profile?.role ?? null,
         accepted_hours: null,
       },
       filter: { id: hour_id, status: 'pending' },

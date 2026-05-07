@@ -67,7 +67,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
   // ── Program administration ────────────────────────────────────────
   program_holder: '/program-holder/dashboard',
   provider_admin: '/provider/dashboard',
-  sponsor: '/program-holder/dashboard', // sponsors manage programs
+  sponsor: '/employer/dashboard', // DOL apprenticeship sponsors — approve hours, manage apprenticeships
 
   // ── Employer & industry partners ─────────────────────────────────
   employer: '/employer/dashboard',
@@ -83,7 +83,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
   vita_staff: '/tax',
 
   // ── Grant clients ─────────────────────────────────────────────────
-  grant_client: '/grants',
+  grant_client: '/lms/dashboard', // grant-funded learner — lands in LMS, not public grants page
 };
 
 /**

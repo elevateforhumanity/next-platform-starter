@@ -39,15 +39,12 @@ async function _GET(req: NextRequest, { params }: { params: Promise<{ courseId: 
   // Fetch user profiles for reviews
   const userIds = data?.map((r) => r.user_id) || [];
   const { data: profiles } = await supabase
-    .from('user_profiles')
-    .select('user_id, first_name, last_name')
-    .in('user_id', userIds);
+    .from('profiles')
+    .select('id, full_name')
+    .in('id', userIds);
 
   const profileMap = new Map(
-    profiles?.map((p) => [
-      p.user_id,
-      `${p.first_name || ''} ${p.last_name || ''}`.trim() || 'Student',
-    ]),
+    profiles?.map((p) => [p.id, p.full_name || 'Student']),
   );
 
   const reviewsWithNames = data?.map((r) => ({

@@ -24,9 +24,9 @@ async function _GET(request: Request) {
     }
 
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('role')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     if (!profile || profile.role !== 'case_manager') {
@@ -38,12 +38,11 @@ async function _GET(request: Request) {
 
     // Get students assigned to this case manager
     const { data: students, error } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select(
         `
-        user_id,
-        first_name,
-        last_name,
+        id,
+        full_name,
         email,
         phone,
         created_at
@@ -64,13 +63,13 @@ async function _GET(request: Request) {
         const { data: enrollments } = await supabase
           .from('program_enrollments')
           .select(`id, status, enrolled_at, programs:program_id(name, title, slug)`)
-          .eq('user_id', student.user_id);
+          .eq('user_id', student.id);
 
         // Get hours summary from consolidated hour_entries
         const { data: hours } = await supabase
           .from('hour_entries')
           .select('hours_claimed, accepted_hours, status')
-          .eq('user_id', student.user_id);
+          .eq('user_id', student.id);
 
         const totalHours = hours?.reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
         const approvedHours =
@@ -85,7 +84,7 @@ async function _GET(request: Request) {
         const { data: readiness } = await supabase
           .from('exam_readiness')
           .select('*')
-          .eq('student_id', student.user_id)
+          .eq('student_id', student.id)
           .maybeSingle();
 
         return {

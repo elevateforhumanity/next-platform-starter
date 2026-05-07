@@ -32,13 +32,13 @@ interface Apprentice {
 
 interface ProgressEntry {
   id: string;
-  apprentice_id: string;
-  week_ending: string;
-  hours_worked: number;
+  user_id: string;
+  work_date: string;
+  hours_claimed: number;
   notes: string | null;
   status: string;
-  submitted_at: string;
-  apprentice_name?: string;
+  entered_at: string;
+  profiles?: { full_name: string; email: string } | null;
 }
 
 interface OnboardingStatus {
@@ -92,16 +92,16 @@ export default function BarberPartnerPage() {
         return;
       }
 
-      const [apprenticesRes, progressRes] = await Promise.all([
+      const [apprenticesRes, hoursRes] = await Promise.all([
         fetch('/api/partner/apprentices?program=barber'),
-        fetch('/api/partner/progress?program=barber'),
+        fetch('/api/partner/hours?status=pending'),
       ]);
 
       const apprenticesData = await apprenticesRes.json();
-      const progressData = await progressRes.json();
+      const hoursData = await hoursRes.json();
 
       setApprentices(apprenticesData.apprentices || []);
-      setProgressEntries(progressData.entries || []);
+      setProgressEntries(hoursData.hours || []);
     } catch (err) {
       logger.error('Failed to fetch data:', err);
     } finally {
@@ -116,15 +116,15 @@ export default function BarberPartnerPage() {
     setSuccess('');
 
     try {
-      const res = await fetch('/api/partner/progress', {
+      const res = await fetch('/api/partner/hours', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          apprenticeId: entryForm.apprenticeId,
-          programId: 'barber',
-          weekEnding: entryForm.weekEnding,
-          hoursWorked: parseFloat(entryForm.hoursWorked),
-          notes: entryForm.notes || null,
+          apprentice_id: entryForm.apprenticeId,
+          activity_type: 'ojt',
+          date: entryForm.weekEnding,
+          hours: parseFloat(entryForm.hoursWorked),
+          description: entryForm.notes || null,
         }),
       });
 
@@ -376,13 +376,13 @@ export default function BarberPartnerPage() {
                   {progressEntries.map((entry) => (
                     <tr key={entry.id} className="hover:bg-slate-50">
                       <td className="px-6 py-4 text-sm text-slate-900">
-                        {entry.apprentice_name || 'Unknown'}
+                        {entry.profiles?.full_name || 'Unknown'}
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-600">
-                        {new Date(entry.week_ending).toLocaleDateString()}
+                        {new Date(entry.work_date).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 text-sm font-medium text-slate-900">
-                        {entry.hours_worked}
+                        {entry.hours_claimed}
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-500 max-w-xs truncate">
                         {entry.notes || '-'}
@@ -390,9 +390,9 @@ export default function BarberPartnerPage() {
                       <td className="px-6 py-4">
                         <span
                           className={`text-xs px-2 py-1 rounded-full ${
-                            entry.status === 'verified'
+                            entry.status === 'approved'
                               ? 'bg-brand-green-100 text-brand-green-700'
-                              : entry.status === 'submitted'
+                              : entry.status === 'pending'
                                 ? 'bg-brand-blue-100 text-brand-blue-700'
                                 : 'bg-slate-100 text-slate-600'
                           }`}
@@ -401,7 +401,7 @@ export default function BarberPartnerPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-500">
-                        {new Date(entry.submitted_at).toLocaleDateString()}
+                        {new Date(entry.entered_at).toLocaleDateString()}
                       </td>
                     </tr>
                   ))}

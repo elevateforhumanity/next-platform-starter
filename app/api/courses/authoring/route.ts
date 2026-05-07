@@ -26,9 +26,9 @@ async function _GET(req: NextRequest) {
 
     // Check if user is admin or instructor
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('role')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     if (!profile || !['admin', 'instructor'].includes(profile.role)) {
@@ -73,9 +73,9 @@ async function _POST(req: NextRequest) {
 
     // Check if user is admin or instructor
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('role')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     if (!profile || !['admin', 'instructor'].includes(profile.role)) {

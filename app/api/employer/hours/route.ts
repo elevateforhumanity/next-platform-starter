@@ -24,9 +24,9 @@ async function _GET(request: Request) {
 
     // Get user profile and check role
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('role, employer_id')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     if (!profile || !['employer', 'admin', 'sponsor'].includes(profile.role)) {
@@ -62,22 +62,22 @@ async function _GET(request: Request) {
     const profileMap: Record<string, any> = {};
     if (userIds.length > 0) {
       const { data: profiles } = await supabase
-        .from('user_profiles')
-        .select('user_id, first_name, last_name, email, employer_id')
-        .in('user_id', userIds);
+        .from('profiles')
+        .select('id, full_name, email, employer_id')
+        .in('id', userIds);
       for (const p of profiles || []) {
-        profileMap[p.user_id] = p;
+        profileMap[p.id] = p;
       }
     }
 
     let hours = (pendingHours || []).map((h: any) => ({
       ...h,
-      user_profiles: profileMap[h.user_id] || null,
+      profile: profileMap[h.user_id] || null,
     }));
 
     // Filter by employer if not admin
     if (profile.role === 'employer' && profile.employer_id) {
-      hours = hours.filter((item: any) => item.user_profiles?.employer_id === profile.employer_id);
+      hours = hours.filter((item: any) => item.profile?.employer_id === profile.employer_id);
     }
 
     return NextResponse.json({ hours });

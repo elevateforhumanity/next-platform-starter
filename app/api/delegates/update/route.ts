@@ -21,9 +21,9 @@ async function _POST(req: NextRequest) {
   if (!user) return new Response('Unauthorized', { status: 401 });
 
   const { data: prof } = await supabase
-    .from('user_profiles')
+    .from('profiles')
     .select('role')
-    .eq('user_id', user.id)
+    .eq('id', user.id)
     .maybeSingle();
 
   if (prof?.role !== 'admin') return new Response('Forbidden', { status: 403 });

@@ -23,9 +23,9 @@ async function _POST(req: NextRequest) {
   if (!user) return new Response('Unauthorized', { status: 401 });
 
   const { data: prof } = await supabase
-    .from('user_profiles')
+    .from('profiles')
     .select('role')
-    .eq('user_id', user.id)
+    .eq('id', user.id)
     .maybeSingle();
 
   if (prof?.role !== 'admin') return new Response('Forbidden', { status: 403 });
@@ -65,14 +65,14 @@ async function _POST(req: NextRequest) {
     }
 
     // Update user profile with program holder and partner role
-    await supabase.from('user_profiles').upsert(
+    await supabase.from('profiles').upsert(
       {
-        user_id: u.id,
+        id: u.id,
         program_holder_id: program_holder_id,
         role: 'partner',
       },
       {
-        onConflict: 'user_id',
+        onConflict: 'id',
       },
     );
 

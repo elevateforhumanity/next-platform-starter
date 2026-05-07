@@ -97,7 +97,7 @@ async function _POST(request: NextRequest) {
     operation: 'insert',
     rowData: {
       user_id: body.apprentice_id,
-      source_type: body.activity_type === 'ojt' ? 'ojl' : 'rti',
+      source_type: body.activity_type === 'ojt' ? 'host_shop' : 'continuing_education',
       work_date: body.date,
       hours_claimed: body.hours,
       notes: body.description || null,

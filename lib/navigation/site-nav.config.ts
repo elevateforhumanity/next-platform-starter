@@ -545,10 +545,6 @@ export const footerNavigation = {
       { label: 'Purchase License', href: '/licenses/purchase' },
       { label: 'Enterprise Review', href: '/licenses/enterprise-review' },
     ],
-      {
-        label: 'Operational Controls',
-      },
-    ],
   },
   enrollment: {
     title: 'Enrollment',

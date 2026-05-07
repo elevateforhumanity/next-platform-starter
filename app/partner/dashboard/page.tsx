@@ -47,7 +47,7 @@ export default async function PartnerDashboardPage() {
 
   // Admins/staff have no partners row — send them to their own dashboard
   if (['admin', 'super_admin', 'staff'].includes(profile.role)) {
-    redirect('/admin/dashboard');
+    redirect('https://admin.elevateforhumanity.org/admin/dashboard');
   }
 
   // Resolve partner record via partner_users join (partners has no user_id column)

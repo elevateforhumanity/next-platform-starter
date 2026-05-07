@@ -28,9 +28,9 @@ async function _POST(req: NextRequest) {
 
   // Check role permissions
   const { data: prof } = await supabase
-    .from('user_profiles')
+    .from('profiles')
     .select('role')
-    .eq('user_id', user.id)
+    .eq('id', user.id)
     .maybeSingle();
 
   if (!['admin', 'partner', 'instructor'].includes(prof?.role)) {

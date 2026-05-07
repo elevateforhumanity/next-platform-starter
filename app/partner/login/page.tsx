@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Building, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 const IDENTITY_ERRORS: Record<string, string> = {
   identity: 'Your account could not be verified. Please contact support.',
@@ -68,7 +69,7 @@ function PartnerLoginPageInner() {
 
         if (profile?.role === 'partner' || profile?.role === 'partner_admin') {
           // They have partner role but no partner_users entry - allow access
-          router.push('/partner/attendance');
+          router.push(getRoleDestination(profile.role));
           return;
         }
 
@@ -89,8 +90,13 @@ function PartnerLoginPageInner() {
         throw new Error('Your partner account has been suspended. Please contact support.');
       }
 
-      // Success - redirect to partner dashboard
-      router.push('/partner/attendance');
+      // Success - route to canonical partner destination
+      const { data: partnerProfile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .maybeSingle();
+      router.push(getRoleDestination(partnerProfile?.role ?? 'partner'));
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : (err as any)?.message;
       setError(

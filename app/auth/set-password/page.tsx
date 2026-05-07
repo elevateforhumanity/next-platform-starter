@@ -4,26 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AlertCircle, CheckCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-
-// Role → portal mapping — must stay in sync with lib/auth/role-destinations.ts
-// program_holder goes to onboarding (not dashboard) — they haven't completed setup yet
-const ROLE_DESTINATIONS: Record<string, string> = {
-  admin: '/admin/dashboard',
-  super_admin: '/admin/dashboard',
-  staff: '/staff-portal/dashboard',
-  instructor: '/instructor/dashboard',
-  mentor: '/mentor/dashboard',
-  program_holder: '/program-holder/onboarding',
-  partner: '/partner/dashboard',
-  employer: '/employer/dashboard',
-  student: '/learner/dashboard',
-  learner: '/learner/dashboard',
-};
-
-function portalFor(role: string | null | undefined): string {
-  if (!role) return '/learner/dashboard';
-  return ROLE_DESTINATIONS[role] ?? '/learner/dashboard';
-}
+import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 export default function SetPasswordPage() {
   const [password, setPassword] = useState('');
@@ -101,7 +82,7 @@ export default function SetPasswordPage() {
           .select('role')
           .eq('id', user.id)
           .maybeSingle();
-        const dest = redirectParam || portalFor(profile?.role);
+        const dest = redirectParam || getRoleDestination(profile?.role);
         setPortal(dest);
         setUserRole(profile?.role ?? null);
       }
@@ -124,7 +105,7 @@ export default function SetPasswordPage() {
           </div>
           <h1 className="text-3xl font-extrabold text-black mb-3">Password Created</h1>
           <p className="text-slate-700 mb-8 text-base">
-            {userRole === 'program_holder'
+            {redirectParam?.includes('onboarding') || userRole === 'program_holder'
               ? 'Your account is ready. Complete your onboarding steps to activate your portal.'
               : redirectParam?.includes('onboarding')
                 ? 'Your account is ready. Complete your onboarding to access your courses.'

@@ -71,7 +71,7 @@ export default async function EmployerLayout({ children }: { children: React.Rea
     .maybeSingle();
 
   // Non-employer logged-in users can still see the public page
-  if (!profile || profile.role !== 'employer') {
+  if (!profile || !['employer', 'sponsor', 'admin', 'super_admin'].includes(profile.role)) {
     return <>{children}</>;
   }
 

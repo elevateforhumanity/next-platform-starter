@@ -35,9 +35,9 @@ async function _POST(req: Request) {
 
     // Check if user is admin/sponsor/employer (legacy path) or an active partner
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('role, employer_id')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     const { data: partnerUser } = await supabase
@@ -86,9 +86,9 @@ async function _POST(req: Request) {
     // OJL hours: employer must supervise this specific student
     if (profile?.role === 'employer' && profile.employer_id) {
       const { data: studentProfile } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .select('employer_id')
-        .eq('user_id', hourEntry.user_id)
+        .eq('id', hourEntry.user_id)
         .maybeSingle();
 
       if (studentProfile?.employer_id !== profile.employer_id) {
@@ -176,9 +176,9 @@ async function _PUT(req: Request) {
 
     // Check if user is admin/sponsor/employer (legacy path) or an active partner
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('role, employer_id')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     const { data: partnerUser } = await supabase
@@ -208,9 +208,9 @@ async function _PUT(req: Request) {
       if (entries) {
         const studentIds = [...new Set(entries.map((e) => e.user_id))];
         const { data: studentProfiles } = await supabase
-          .from('user_profiles')
-          .select('user_id, employer_id')
-          .in('user_id', studentIds);
+          .from('profiles')
+          .select('id, employer_id')
+          .in('id', studentIds);
 
         const unauthorized = studentProfiles?.filter(
           (sp) => sp.employer_id !== profile.employer_id,
@@ -259,7 +259,7 @@ async function _PUT(req: Request) {
         status: 'approved',
         approved_by: user.email,
         approved_at: new Date().toISOString(),
-        approved_by_role: profile.role,
+        approved_by_role: profile?.role ?? null,
       })
       .in('id', hour_ids)
       .eq('status', 'pending');

@@ -167,21 +167,21 @@ export default async function StaffDashboard() {
             <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
             <div className="space-y-2">
               <Link
-                href="/admin/students"
+                href="https://admin.elevateforhumanity.org/admin/students"
                 className="block p-3 border rounded-lg hover:bg-slate-50 transition"
               >
                 <div className="font-semibold">View All Students</div>
                 <div className="text-sm text-black">Manage student accounts and enrollments</div>
               </Link>
               <Link
-                href="/admin/programs"
+                href="https://admin.elevateforhumanity.org/admin/programs"
                 className="block p-3 border rounded-lg hover:bg-slate-50 transition"
               >
                 <div className="font-semibold">View Programs</div>
                 <div className="text-sm text-black">Browse available training programs</div>
               </Link>
               <Link
-                href="/admin/reports"
+                href="https://admin.elevateforhumanity.org/admin/reports"
                 className="block p-3 border rounded-lg hover:bg-slate-50 transition"
               >
                 <div className="font-semibold">Generate Reports</div>
@@ -406,7 +406,7 @@ export default async function StaffDashboard() {
               </Link>
 
               <Link
-                href="/admin/applicants"
+                href="https://admin.elevateforhumanity.org/admin/applicants"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
                 <div className="w-10 h-10 rounded-lg bg-brand-blue-50 flex items-center justify-center flex-shrink-0">
@@ -422,7 +422,7 @@ export default async function StaffDashboard() {
 
               {/* Employees */}
               <Link
-                href="/admin/hr/employees"
+                href="https://admin.elevateforhumanity.org/admin/hr/employees"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
                 <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
@@ -438,7 +438,7 @@ export default async function StaffDashboard() {
 
               {/* Payroll */}
               <Link
-                href="/admin/hr/payroll"
+                href="https://admin.elevateforhumanity.org/admin/hr/payroll"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
                 <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
@@ -454,7 +454,7 @@ export default async function StaffDashboard() {
 
               {/* Time tracking */}
               <Link
-                href="/admin/hr/time"
+                href="https://admin.elevateforhumanity.org/admin/hr/time"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
                 <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
@@ -470,7 +470,7 @@ export default async function StaffDashboard() {
 
               {/* Leave */}
               <Link
-                href="/admin/hr/leave"
+                href="https://admin.elevateforhumanity.org/admin/hr/leave"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
                 <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">

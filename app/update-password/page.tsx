@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import { getRoleDestination } from '@/lib/auth/role-destinations';
 import { Lock, ArrowLeft, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 export default function UpdatePasswordPage() {
@@ -13,6 +14,7 @@ export default function UpdatePasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [portal, setPortal] = useState('/learner/dashboard');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,8 +46,17 @@ export default function UpdatePasswordPage() {
         return;
       }
 
+      // Route to the user's portal, not back to /login
+      const supabase2 = createClient();
+      const { data: profileData } = await supabase2
+        .from('profiles')
+        .select('role')
+        .eq('id', (await supabase2.auth.getUser()).data.user?.id ?? '')
+        .maybeSingle();
+      const dest = getRoleDestination(profileData?.role);
+      setPortal(dest);
       setSuccess(true);
-      setTimeout(() => router.push('/login'), 3000);
+      setTimeout(() => router.push(dest), 2500);
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -62,7 +73,7 @@ export default function UpdatePasswordPage() {
           </div>
           <h1 className="text-2xl font-bold text-black mb-4">Password Updated</h1>
           <p className="text-gray-600 mb-6">
-            Your password has been updated. Redirecting you to login...
+            Your password has been updated. Redirecting you to your portal...
           </p>
           <Link
             href="/login"

@@ -1,3 +1,6 @@
+// PUBLIC ROUTE: unauthenticated tax document upload for external clients.
+// Identity is established via contactInfo (name/email/phone) in the request body.
+// Uploads go to a private storage bucket; the signed URL expires in 1 hour.
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@supabase/supabase-js';

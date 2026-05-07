@@ -18,9 +18,9 @@ async function _GET(request: Request) {
   } = await supabase.auth.getUser();
   if (!user) return new Response('Unauthorized', { status: 401 });
   const { data: prof } = await supabase
-    .from('user_profiles')
+    .from('profiles')
     .select('role')
-    .eq('user_id', user.id)
+    .eq('id', user.id)
     .maybeSingle();
   if (!['admin', 'partner'].includes(prof?.role)) return new Response('Forbidden', { status: 403 });
 

@@ -4,24 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-
-const ROLE_DESTINATIONS: Record<string, string> = {
-  admin: '/admin/dashboard',
-  super_admin: '/admin/dashboard',
-  staff: '/staff-portal/dashboard',
-  instructor: '/instructor/dashboard',
-  mentor: '/mentor/dashboard',
-  program_holder: '/program-holder/dashboard',
-  partner: '/partner/dashboard',
-  employer: '/employer/dashboard',
-  student: '/learner/dashboard',
-  learner: '/learner/dashboard',
-};
-
-function portalFor(role: string | null | undefined): string {
-  if (!role) return '/learner/dashboard';
-  return ROLE_DESTINATIONS[role] ?? '/learner/dashboard';
-}
+import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 export default function AuthResetPasswordPage() {
   const [password, setPassword] = useState('');
@@ -113,7 +96,7 @@ export default function AuthResetPasswordPage() {
             .select('role')
             .eq('id', user.id)
             .maybeSingle();
-          setPortal(portalFor(profile?.role));
+          setPortal(getRoleDestination(profile?.role));
         }
         await supabase.auth.signOut();
         setSuccess(true);

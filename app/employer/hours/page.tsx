@@ -23,9 +23,9 @@ export default async function EmployerHoursPage() {
 
   // Verify employer role
   const { data: profile } = await supabase
-    .from('user_profiles')
+    .from('profiles')
     .select('role, employer_id')
-    .eq('user_id', user.id)
+    .eq('id', user.id)
     .maybeSingle();
 
   if (!profile || !['employer', 'admin', 'sponsor'].includes(profile.role || '')) {

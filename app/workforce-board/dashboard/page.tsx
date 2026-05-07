@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import {
   Users,
@@ -39,28 +40,14 @@ export const dynamic = 'force-dynamic';
  * - Budget utilization and ROI
  */
 export default async function WorkforceBoardDashboard() {
+  const { user, profile } = await requireRole([
+    'workforce_board',
+    'admin',
+    'super_admin',
+    'org_admin',
+  ]);
+
   const supabase = await createClient();
-
-  // Require authentication
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    redirect('/login?redirect=/workforce-board/dashboard');
-  }
-
-  // Get profile and verify role
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id, role, full_name, email')
-    .eq('id', user.id)
-    .single();
-
-  // Allow workforce_board, admin, or super_admin roles
-  const allowedRoles = ['workforce_board', 'admin', 'super_admin', 'org_admin'];
-  if (!profile || !allowedRoles.includes(profile.role)) {
-    redirect('/unauthorized');
-  }
 
   // Fetch dashboard metrics
   const [enrollmentsResult, completionsResult, activeResult, programsResult, providersResult] =
