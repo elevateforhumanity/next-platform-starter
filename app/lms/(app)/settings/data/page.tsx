@@ -45,17 +45,41 @@ export default function DataSettingsPage() {
 
   const handleExportData = async () => {
     setExporting(true);
-    // Simulate export
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setExporting(false);
-    alert('Your data export has been initiated. You will receive an email with a download link.');
+    try {
+      const res = await fetch('/api/account/export');
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `elevate-data-export-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error ?? 'Export failed. Please try again.');
+      }
+    } catch {
+      alert('Network error. Please try again.');
+    } finally {
+      setExporting(false);
+    }
   };
 
   const handleDeleteAccount = async () => {
     if (deleteConfirmText !== 'DELETE') return;
-    // In production, this would call an API to delete the account
-    alert('Account deletion request submitted. You will receive a confirmation email.');
-    setShowDeleteConfirm(false);
+    try {
+      const res = await fetch('/api/account/delete', { method: 'POST' });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        alert('Account deletion request submitted. You will receive a confirmation email.');
+        setShowDeleteConfirm(false);
+      } else {
+        alert(data.error ?? 'Request failed. Please try again.');
+      }
+    } catch {
+      alert('Network error. Please try again.');
+    }
   };
 
   if (loading) {
