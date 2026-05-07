@@ -91,6 +91,11 @@ export default function MessagesClient({
     setSending(false);
   };
 
+  const deleteMessage = async (messageId: string) => {
+    const res = await fetch(`/api/messages/${messageId}`, { method: 'DELETE' });
+    if (res.ok) setMessages((prev) => prev.filter((m) => m.id !== messageId));
+  };
+
   const formatTime = (dateStr: string) => {
     const date = new Date(dateStr);
     const now = new Date();
@@ -236,21 +241,32 @@ export default function MessagesClient({
                         key={msg.id}
                         className={`flex ${msg.sender_id === userId ? 'justify-end' : 'justify-start'}`}
                       >
-                        <div
-                          className={`max-w-[70%] px-4 py-2 rounded-2xl ${
-                            msg.sender_id === userId
-                              ? 'bg-brand-blue-600 text-white'
-                              : 'bg-white border text-slate-900'
-                          }`}
-                        >
-                          <p>{msg.content}</p>
-                          <p
-                            className={`text-xs mt-1 ${
-                              msg.sender_id === userId ? 'text-white' : 'text-slate-700'
+                        <div className="group relative">
+                          <div
+                            className={`max-w-[70%] px-4 py-2 rounded-2xl ${
+                              msg.sender_id === userId
+                                ? 'bg-brand-blue-600 text-white'
+                                : 'bg-white border text-slate-900'
                             }`}
                           >
-                            {formatTime(msg.created_at)}
-                          </p>
+                            <p>{msg.content}</p>
+                            <p
+                              className={`text-xs mt-1 ${
+                                msg.sender_id === userId ? 'text-white' : 'text-slate-700'
+                              }`}
+                            >
+                              {formatTime(msg.created_at)}
+                            </p>
+                          </div>
+                          {msg.sender_id === userId && (
+                            <button
+                              onClick={() => deleteMessage(msg.id)}
+                              className="absolute -top-2 -right-2 hidden group-hover:flex w-5 h-5 bg-red-500 hover:bg-red-600 text-white rounded-full items-center justify-center text-xs leading-none"
+                              title="Delete message"
+                            >
+                              ×
+                            </button>
+                          )}
                         </div>
                       </div>
                     ))

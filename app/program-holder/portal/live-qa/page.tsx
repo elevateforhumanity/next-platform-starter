@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
+import { ScheduleMeetingButton } from './ScheduleMeetingButton';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Video, Calendar, Users, Clock, ChevronRight, Plus } from 'lucide-react';
 
@@ -55,6 +56,7 @@ export default async function LiveQAPage() {
           <h1 className="text-xl font-bold text-slate-900">Live Q&amp;A Sessions</h1>
         </div>
         <div className="flex gap-3">
+          <ScheduleMeetingButton />
           <Link
             href="/admin/live-sessions/new"
             className="inline-flex items-center gap-1.5 rounded-lg bg-brand-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-red-700"
