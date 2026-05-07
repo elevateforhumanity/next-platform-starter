@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { LifeBuoy, MessageSquare, Phone, Mail, FileText, Clock } from 'lucide-react';
 import SupportForm from '@/components/support/SupportForm';
+import SupportTicketsList from '@/components/support/SupportTicketsList';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { LiveChatSupport } from '@/components/LiveChatSupport';
 
@@ -24,14 +25,7 @@ export default async function SupportPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: tickets } = user
-    ? await supabase
-        .from('support_tickets')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(5)
-    : { data: null };
+  // Tickets are loaded client-side via /api/support/tickets in SupportTicketsList
 
   const supportOptions = [
     {
@@ -134,36 +128,7 @@ export default async function SupportPage() {
           <div>
             <h2 className="text-xl font-bold mb-6">Your Recent Tickets</h2>
             {user ? (
-              tickets && tickets.length > 0 ? (
-                <div className="space-y-4">
-                  {tickets.map((ticket: any) => (
-                    <div key={ticket.id} className="bg-white rounded-lg shadow-sm border p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-medium">{ticket.subject}</span>
-                        <span
-                          className={`text-xs px-2 py-1 rounded-full ${
-                            ticket.status === 'open'
-                              ? 'bg-brand-green-100 text-brand-green-700'
-                              : ticket.status === 'pending'
-                                ? 'bg-yellow-100 text-yellow-700'
-                                : 'bg-white text-slate-900'
-                          }`}
-                        >
-                          {ticket.status}
-                        </span>
-                      </div>
-                      <p className="text-slate-700 text-sm">
-                        {new Date(ticket.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="bg-white rounded-lg shadow-sm border p-8 text-center text-slate-700">
-                  <LifeBuoy className="w-12 h-12 mx-auto mb-4 text-slate-700" />
-                  <p>No support tickets yet</p>
-                </div>
-              )
+              <SupportTicketsList />
             ) : (
               <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
                 <LifeBuoy className="w-12 h-12 mx-auto mb-4 text-slate-700" />

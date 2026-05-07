@@ -405,6 +405,32 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ lesso
       }
     }
 
+    // Fire xAPI "completed" statement — non-fatal, best-effort
+    try {
+      const xapiEndpoint = process.env.XAPI_LRS_ENDPOINT;
+      if (xapiEndpoint) {
+        // Internal server-to-server call to /api/xapi/statement
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+        fetch(`${siteUrl}/api/xapi/statement`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            actor: { objectType: 'Agent', account: { homePage: siteUrl, name: user.id } },
+            verb: { id: 'http://adlnet.gov/expapi/verbs/completed', display: { 'en-US': 'completed' } },
+            object: {
+              objectType: 'Activity',
+              id: `${siteUrl}/lms/lessons/${lessonId}`,
+              definition: { name: { 'en-US': lesson.title }, type: 'http://adlnet.gov/expapi/activities/lesson' },
+            },
+            result: { completion: true, success: true },
+            timestamp: completedAt,
+          }),
+        }).catch(() => {}); // fire-and-forget
+      }
+    } catch {
+      // xAPI is optional — never block lesson completion
+    }
+
     return NextResponse.json({
       success: true,
       lessonId,

@@ -19,6 +19,9 @@ import {
   ChevronDown,
   GitBranch,
   RefreshCw,
+  DollarSign,
+  HeadphonesIcon,
+  Video,
 } from 'lucide-react';
 
 const NAV_SECTIONS = [
@@ -28,14 +31,25 @@ const NAV_SECTIONS = [
     icon: LayoutDashboard,
   },
   {
-    name: 'Users',
+    name: 'People',
     icon: Users,
     items: [
       { name: 'All Users', href: '/admin/users' },
       { name: 'Students', href: '/admin/students' },
+      { name: 'Staff', href: '/admin/staff' },
       { name: 'Instructors', href: '/admin/instructors' },
+      { name: 'Instructor Performance', href: '/admin/instructors/performance' },
       { name: 'Applicants', href: '/admin/applicants' },
       { name: 'Leads', href: '/admin/leads' },
+      { name: 'Contacts', href: '/admin/contacts' },
+      { name: 'Waitlist', href: '/admin/waitlist' },
+      { name: 'Delegates', href: '/admin/delegates' },
+      { name: 'Impersonate User', href: '/admin/impersonate' },
+      { name: 'At-Risk Learners', href: '/admin/at-risk' },
+      { name: 'Barriers', href: '/admin/barriers' },
+      { name: 'Activity Log', href: '/admin/activity' },
+      { name: 'Notifications', href: '/admin/notifications' },
+      { name: 'Inbox', href: '/admin/inbox' },
     ],
   },
   {
@@ -43,10 +57,30 @@ const NAV_SECTIONS = [
     icon: GraduationCap,
     items: [
       { name: 'All Programs', href: '/admin/programs' },
+      { name: 'Program Builder', href: '/admin/programs/builder' },
       { name: 'Courses', href: '/admin/courses' },
+      { name: 'Career Courses', href: '/admin/career-courses' },
+      { name: 'Course Builder', href: '/admin/course-builder/generate' },
+      { name: 'Modules', href: '/admin/modules' },
+      { name: 'Quizzes', href: '/admin/quizzes' },
+      { name: 'Curriculum Upload', href: '/admin/curriculum/upload' },
       { name: 'Enrollments', href: '/admin/enrollments' },
+      { name: 'Enrollment Overview', href: '/admin/enrollment' },
+      { name: 'Enrollment Jobs', href: '/admin/enrollment-jobs' },
+      { name: 'Partner Enrollments', href: '/admin/partner-enrollments' },
+      { name: 'Completions', href: '/admin/completions' },
+      { name: 'Progress', href: '/admin/progress' },
+      { name: 'Transfer Hours', href: '/admin/transfer-hours' },
       { name: 'Certificates', href: '/admin/certificates' },
+      { name: 'Verifications', href: '/admin/verifications' },
+      { name: 'Exam Authorizations', href: '/admin/exam-authorizations' },
+      { name: 'Gradebook', href: '/admin/gradebook' },
       { name: 'Apprenticeships', href: '/admin/apprenticeships' },
+      { name: 'External Courses', href: '/admin/external-courses' },
+      { name: 'External Completions', href: '/admin/external-course-completions' },
+      { name: 'External Module Approvals', href: '/admin/external-modules/approvals' },
+      { name: 'Proctor Portal', href: '/admin/proctor-portal' },
+      { name: 'LMS Dashboard', href: '/admin/lms-dashboard' },
     ],
   },
   {
@@ -56,7 +90,55 @@ const NAV_SECTIONS = [
       { name: 'All Partners', href: '/admin/partners' },
       { name: 'Employers', href: '/admin/employers' },
       { name: 'Program Holders', href: '/admin/program-holders' },
+      { name: 'Program Holder Docs', href: '/admin/program-holder-documents' },
+      { name: 'Acknowledgements', href: '/admin/program-holder-acknowledgements' },
+      { name: 'MOUs', href: '/admin/mou' },
+      { name: 'Providers', href: '/admin/providers' },
       { name: 'Shops', href: '/admin/shops' },
+      { name: 'Referrals', href: '/admin/referrals' },
+      { name: 'JRI', href: '/admin/jri' },
+      { name: 'Affiliates', href: '/admin/affiliates' },
+      { name: 'Tenants', href: '/admin/tenants' },
+    ],
+  },
+  {
+    name: 'Finance',
+    icon: DollarSign,
+    items: [
+      { name: 'Payout Queue', href: '/admin/payout-queue' },
+      { name: 'Funding Verification', href: '/admin/funding-verification' },
+      { name: 'Funding Allocations', href: '/admin/funding/allocations' },
+      { name: 'Grants — Apply', href: '/admin/grants/apply' },
+      { name: 'Grants — Submissions', href: '/admin/grants/submissions' },
+      { name: 'Grants — Revenue', href: '/admin/grants/revenue' },
+      { name: 'Promo Codes', href: '/admin/promo-codes' },
+      { name: 'Hours Export', href: '/admin/hours-export' },
+      { name: 'Store Catalog', href: '/admin/store/catalog' },
+      { name: 'Marketplace', href: '/admin/marketplace' },
+      { name: 'Marketplace Creators', href: '/admin/marketplace/creators' },
+      { name: 'Marketplace Payouts', href: '/admin/marketplace/payouts' },
+      { name: 'License', href: '/admin/license' },
+    ],
+  },
+  {
+    name: 'Compliance',
+    icon: Shield,
+    items: [
+      { name: 'Compliance Dashboard', href: '/admin/compliance-dashboard' },
+      { name: 'Compliance Audit', href: '/admin/compliance-audit' },
+      { name: 'Compliance Agreements', href: '/admin/compliance/agreements' },
+      { name: 'FERPA — Access Requests', href: '/admin/ferpa/access-requests' },
+      { name: 'FERPA — Audit Log', href: '/admin/ferpa/audit-log' },
+      { name: 'FERPA — Consent Forms', href: '/admin/ferpa/consent-forms' },
+      { name: 'FERPA — Directory Info', href: '/admin/ferpa/directory-info' },
+      { name: 'FERPA — Training', href: '/admin/ferpa/training' },
+      { name: 'Accreditation', href: '/admin/accreditation' },
+      { name: 'Accreditation Report', href: '/admin/accreditation/report' },
+      { name: 'CMI', href: '/admin/cmi' },
+      { name: 'WIOA IEP', href: '/admin/wioa/iep' },
+      { name: 'Outcomes', href: '/admin/outcomes' },
+      { name: 'Audit Logs', href: '/admin/audit-logs' },
+      { name: 'ETPL Dashboard', href: '/admin/dashboard/etpl' },
     ],
   },
   {
@@ -64,19 +146,57 @@ const NAV_SECTIONS = [
     icon: BarChart3,
     items: [
       { name: 'Analytics', href: '/admin/analytics' },
-      { name: 'Enrollment Reports', href: '/admin/reports/enrollment' },
-      { name: 'Financial Reports', href: '/admin/reports/financial' },
-      { name: 'Compliance', href: '/admin/compliance' },
+      { name: 'Engagement', href: '/admin/analytics/engagement' },
+      { name: 'Learning', href: '/admin/analytics/learning' },
+      { name: 'Programs', href: '/admin/analytics/programs' },
+      { name: 'Revenue', href: '/admin/analytics/revenue' },
+      { name: 'Employers', href: '/admin/analytics/employers' },
+      { name: 'Enrollment Report', href: '/admin/reports/enrollment' },
+      { name: 'Financial Report', href: '/admin/reports/financial' },
+      { name: 'Leads Report', href: '/admin/reports/leads' },
+      { name: 'Partners Report', href: '/admin/reports/partners' },
+      { name: 'Users Report', href: '/admin/reports/users' },
+      { name: 'Caseload Report', href: '/admin/reports/caseload' },
+      { name: 'Charts', href: '/admin/reports/charts' },
+      { name: 'Next Steps', href: '/admin/next-steps' },
     ],
   },
   {
     name: 'Content',
     icon: FileText,
     items: [
-      { name: 'Course Builder', href: '/admin/courses/create' },
       { name: 'Documents', href: '/admin/documents' },
+      { name: 'Document Review', href: '/admin/documents/review' },
+      { name: 'Files', href: '/admin/files' },
       { name: 'Blog', href: '/admin/blog' },
-      { name: 'Media', href: '/admin/videos' },
+      { name: 'Marketing', href: '/admin/marketing' },
+      { name: 'Email Automation', href: '/admin/email-marketing/automation' },
+      { name: 'Announcements', href: '/admin/announcements' },
+      { name: 'Editor', href: '/admin/editor' },
+      { name: 'Data Import', href: '/admin/data-import' },
+      { name: 'Import', href: '/admin/import' },
+      { name: 'Migrations', href: '/admin/migrations' },
+    ],
+  },
+  {
+    name: 'Media',
+    icon: Video,
+    items: [
+      { name: 'Video Manager', href: '/admin/video-manager' },
+      { name: 'Video Generator', href: '/admin/video-generator' },
+      { name: 'Media Library', href: '/admin/videos' },
+    ],
+  },
+  {
+    name: 'Support',
+    icon: HeadphonesIcon,
+    items: [
+      { name: 'Submissions', href: '/admin/submissions' },
+      { name: 'Review Queue', href: '/admin/review-queue' },
+      { name: 'Applications', href: '/admin/applications' },
+      { name: 'Barber Shop Applications', href: '/admin/barber-shop-applications' },
+      { name: 'Campaigns', href: '/admin/campaigns' },
+      { name: 'CRM', href: '/admin/crm' },
     ],
   },
   {
@@ -84,11 +204,22 @@ const NAV_SECTIONS = [
     icon: Settings,
     items: [
       { name: 'Settings', href: '/admin/settings' },
-      { name: 'Integrations', href: '/admin/integrations' },
       { name: 'API Keys', href: '/admin/api-keys' },
-      { name: 'Audit Logs', href: '/admin/audit-logs' },
       { name: 'System Health', href: '/admin/system-health' },
+      { name: 'System Jobs', href: '/admin/system/jobs' },
+      { name: 'Webhooks', href: '/admin/system/webhooks' },
+      { name: 'Monitoring', href: '/admin/monitoring/setup' },
+      { name: 'Automation', href: '/admin/automation' },
+      { name: 'Integrations', href: '/admin/integrations' },
+      { name: 'Calendly', href: '/admin/integrations/calendly' },
+      { name: 'Env Manager', href: '/admin/integrations/env-manager' },
+      { name: 'Gemini AI', href: '/admin/integrations/gemini' },
+      { name: 'Salesforce', href: '/admin/integrations/salesforce' },
+      { name: 'Stripe', href: '/admin/integrations/stripe' },
+      { name: 'Teams', href: '/admin/integrations/teams' },
       { name: 'Advanced Tools', href: '/admin/advanced-tools' },
+      { name: 'Dev Studio', href: '/admin/dev-studio' },
+      { name: 'AI Console', href: '/admin/ai-console' },
     ],
   },
 ];
@@ -123,16 +254,18 @@ export default function AdminHeader() {
   const handleDeploy = async () => {
     setDeploying(true);
     try {
-      // Trigger Netlify build hook or GitHub Actions
-      const response = await fetch('/api/admin/deploy', {
+      const response = await fetch('/api/autopilots/deploy', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ service: 'both' }),
       });
+      const data = await response.json().catch(() => ({}));
       if (response.ok) {
-        alert('Deployment triggered successfully!');
+        alert(data.message ?? 'Deployment triggered. Check GitHub Actions for status.');
       } else {
-        alert('Failed to trigger deployment');
+        alert(data.error ?? 'Failed to trigger deployment');
       }
-    } catch (error) {
+    } catch {
       alert('Error triggering deployment');
     } finally {
       setDeploying(false);

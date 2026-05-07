@@ -21,10 +21,23 @@ export function ProfileForm({ profile }: ProfileFormProps) {
     setSaving(true);
     setMessage(null);
 
-    const result = await updateProfile(formData);
+    // Use /api/profile/update so auditMutation fires on every save
+    const res = await fetch('/api/profile/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fields: {
+          first_name: formData.get('first_name'),
+          last_name: formData.get('last_name'),
+          phone: formData.get('phone'),
+          bio: formData.get('bio'),
+        },
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
 
-    if (result.error) {
-      setMessage({ type: 'error', text: result.error });
+    if (!res.ok) {
+      setMessage({ type: 'error', text: data.error ?? 'Profile update failed' });
     } else {
       setMessage({ type: 'success', text: 'Profile updated successfully!' });
     }

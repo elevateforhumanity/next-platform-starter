@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { createClient } from '@/lib/supabase/client';
 import { Send, Search, User, ArrowLeft, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -49,22 +48,14 @@ export default function MessagesClient({
 
   const fetchMessages = async (conversationId: string) => {
     setLoading(true);
-    const supabase = createClient();
-
-    const { data } = await supabase
-      .from('direct_messages')
-      .select('*')
-      .eq('conversation_id', conversationId)
-      .order('created_at', { ascending: true });
-
-    if (data) {
-      setMessages(data);
-      // Mark as read
-      await supabase
-        .from('direct_messages')
-        .update({ is_read: true })
-        .eq('conversation_id', conversationId)
-        .neq('sender_id', userId);
+    try {
+      const res = await fetch(`/api/messages?conversation_id=${conversationId}`);
+      if (res.ok) {
+        const d = await res.json();
+        setMessages(d.messages ?? []);
+      }
+    } catch {
+      // silently fail — messages will be empty
     }
     setLoading(false);
   };
@@ -84,30 +75,18 @@ export default function MessagesClient({
     if (!newMessage.trim() || !selectedConversation) return;
 
     setSending(true);
-    const supabase = createClient();
-
-    const { data, error } = await supabase
-      .from('direct_messages')
-      .insert({
+    const res = await fetch('/api/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         conversation_id: selectedConversation,
-        sender_id: userId,
         content: newMessage.trim(),
-      })
-      .select()
-      .maybeSingle();
-
-    if (data && !error) {
-      setMessages((prev) => [...prev, data]);
+      }),
+    });
+    if (res.ok) {
+      const d = await res.json();
+      if (d.message) setMessages((prev) => [...prev, d.message]);
       setNewMessage('');
-
-      // Update conversation preview
-      await supabase
-        .from('direct_message_conversations')
-        .update({
-          last_message_at: new Date().toISOString(),
-          last_message_preview: newMessage.trim().substring(0, 100),
-        })
-        .eq('id', selectedConversation);
     }
     setSending(false);
   };

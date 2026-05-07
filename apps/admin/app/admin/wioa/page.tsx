@@ -11,6 +11,7 @@ import {
   ChevronRight,
   ArrowRight,
 } from 'lucide-react';
+import { WioaExportButton } from './WioaExportButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -88,6 +89,7 @@ export default async function WioaPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <WioaExportButton />
             <Link
               href="/admin/wioa/iep"
               className="flex items-center gap-2 border border-slate-200 hover:border-slate-300 text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors"

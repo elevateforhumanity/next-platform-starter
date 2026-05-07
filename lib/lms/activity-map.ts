@@ -20,7 +20,8 @@ export type ActivityId =
   | 'practice'
   | 'checkpoint'
   | 'notes'
-  | 'resources';
+  | 'resources'
+  | 'ask';
 
 export interface ActivityDef {
   id: ActivityId;
@@ -38,6 +39,7 @@ const ACTIVITY_MAP: Record<string, ActivityDef[]> = {
     { id: 'reading', label: 'Reading', gatesCheckpoint: true, alwaysShow: true },
     { id: 'flashcards', label: 'Flashcards', gatesCheckpoint: false, alwaysShow: true },
     { id: 'practice', label: 'Practice Questions', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'ask', label: 'Ask AI Instructor', gatesCheckpoint: false, alwaysShow: true },
     { id: 'notes', label: 'My Notes', gatesCheckpoint: false, alwaysShow: false },
     { id: 'resources', label: 'Resources', gatesCheckpoint: false, alwaysShow: false },
   ],
@@ -46,6 +48,7 @@ const ACTIVITY_MAP: Record<string, ActivityDef[]> = {
     { id: 'reading', label: 'Reading', gatesCheckpoint: true, alwaysShow: true },
     { id: 'flashcards', label: 'Flashcards', gatesCheckpoint: false, alwaysShow: true },
     { id: 'practice', label: 'Practice Questions', gatesCheckpoint: true, alwaysShow: true },
+    { id: 'ask', label: 'Ask AI Instructor', gatesCheckpoint: false, alwaysShow: true },
     { id: 'checkpoint', label: 'Checkpoint Quiz', gatesCheckpoint: false, alwaysShow: true },
   ],
   quiz: [

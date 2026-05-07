@@ -291,6 +291,52 @@ export function ApiKeysClient({ apiKeys: initialKeys, totalKeys, activeKeys }: P
           </div>
         </div>
       )}
+
+      {/* v1 REST API Reference */}
+      <div className="mt-12">
+        <h2 className="text-xl font-bold text-slate-900 mb-2">REST API v1 — Available Endpoints</h2>
+        <p className="text-slate-500 text-sm mb-6">
+          Authenticate with <code className="bg-slate-100 px-1 rounded">Authorization: Bearer &lt;api-key&gt;</code> on all requests.
+          Base URL: <code className="bg-slate-100 px-1 rounded">{typeof window !== 'undefined' ? window.location.origin : 'https://www.elevateforhumanity.org'}</code>
+        </p>
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="bg-slate-50 border-b border-slate-200">
+              <tr>
+                {['Method', 'Endpoint', 'Description'].map((h) => (
+                  <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {[
+                { method: 'GET', path: '/api/v1/courses', desc: 'List all published courses' },
+                { method: 'GET', path: '/api/v1/users', desc: 'List users (admin only)' },
+                { method: 'GET', path: '/api/v1/enrollments', desc: 'List enrollments' },
+                { method: 'POST', path: '/api/v1/enrollments', desc: 'Create an enrollment' },
+                { method: 'GET', path: '/api/v1/certificates', desc: 'List issued certificates' },
+                { method: 'GET', path: '/api/v1/programs', desc: 'List programs' },
+                { method: 'POST', path: '/api/xapi/statement', desc: 'Submit an xAPI learning statement' },
+                { method: 'POST', path: '/api/lti/launch', desc: 'LTI 1.3 launch (external LMS)' },
+                { method: 'GET', path: '/api/lti/jwks', desc: 'LTI JWKS public key endpoint' },
+                { method: 'GET', path: '/api/lti/config', desc: 'LTI tool configuration JSON' },
+                { method: 'POST', path: '/api/scorm/tracking', desc: 'Submit SCORM CMI tracking data' },
+                { method: 'GET', path: '/api/scorm/content/:id/*', desc: 'Serve SCORM package content files' },
+              ].map((row) => (
+                <tr key={row.path} className="hover:bg-slate-50">
+                  <td className="px-4 py-3">
+                    <span className={`inline-flex px-2 py-0.5 rounded text-xs font-mono font-bold ${
+                      row.method === 'GET' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
+                    }`}>{row.method}</span>
+                  </td>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-700">{row.path}</td>
+                  <td className="px-4 py-3 text-slate-600">{row.desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </>
   );
 }

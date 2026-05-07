@@ -16,10 +16,22 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function LeaderboardPage() {
-  const supabase = await createClient();
-  const db = (await requireAdminClient()) || supabase;
-  const { data: dbRows } = await db.from('user_points').select('*').limit(50);
-  const topLearners = (dbRows as any[]) || [];
+  // Fetch via canonical leaderboard API (includes achievements + badges)
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  let topLearners: any[] = [];
+  try {
+    const res = await fetch(`${siteUrl}/api/leaderboard?limit=50`, { cache: 'no-store' });
+    if (res.ok) {
+      const d = await res.json();
+      topLearners = d.leaderboard ?? d.data ?? [];
+    }
+  } catch {
+    // fallback — direct query if API unreachable during SSR
+    const supabase = await createClient();
+    const db = (await requireAdminClient()) || supabase;
+    const { data } = await db.from('user_points').select('*').limit(50);
+    topLearners = (data as any[]) || [];
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

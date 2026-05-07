@@ -136,6 +136,39 @@ const INTEGRATIONS: Integration[] = [
     status: 'not_configured',
     configUrl: '/admin/integrations/gemini',
   },
+  {
+    name: 'LTI 1.3',
+    slug: 'lti',
+    description:
+      'Learning Tools Interoperability — allows Canvas, Moodle, and other LMS platforms to embed Elevate courses. Config URL: /api/lti/config · JWKS: /api/lti/jwks · Launch: /api/lti/launch',
+    icon: GraduationCap,
+    category: 'learning',
+    envVars: ['LTI_TOOL_URL', 'LTI_PLATFORM_JWKS_URI', 'LTI_CLIENT_ID'],
+    status: 'not_configured',
+    docsUrl: 'https://www.imsglobal.org/spec/lti/v1p3/',
+  },
+  {
+    name: 'SCORM',
+    slug: 'scorm',
+    description:
+      'Upload and deliver SCORM 1.2 / 2004 packages inside the LMS. Tracking via /api/scorm/tracking. Upload packages at /admin/course-import.',
+    icon: Database,
+    category: 'learning',
+    envVars: ['SCORM_STORAGE_BUCKET'],
+    status: 'not_configured',
+    configUrl: '/admin/course-import',
+  },
+  {
+    name: 'xAPI / TinCan',
+    slug: 'xapi',
+    description:
+      'Experience API — records learning statements (completed, passed, scored) to an LRS. Statements sent via /api/xapi/statement.',
+    icon: Database,
+    category: 'learning',
+    envVars: ['XAPI_LRS_ENDPOINT', 'XAPI_LRS_USERNAME', 'XAPI_LRS_PASSWORD'],
+    status: 'not_configured',
+    docsUrl: 'https://xapi.com/',
+  },
 ];
 
 const statusConfig: Record<

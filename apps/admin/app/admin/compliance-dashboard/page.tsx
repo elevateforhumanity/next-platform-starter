@@ -4,6 +4,7 @@ import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { Shield, AlertTriangle, CheckCircle, Clock, ArrowRight } from 'lucide-react';
+import ComplianceItemsPanel from './ComplianceItemsPanel';
 
 export const dynamic = 'force-dynamic';
 
@@ -167,6 +168,11 @@ export default async function ComplianceDashboardPage() {
             );
           })
         )}
+      </div>
+
+      {/* Compliance items checklist — sourced from /api/compliance/items */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <ComplianceItemsPanel />
       </div>
     </div>
   );

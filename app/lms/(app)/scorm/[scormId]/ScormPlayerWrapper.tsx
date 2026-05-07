@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { initializeScormAPI } from '@/lib/scorm/api';
-import { createClient } from '@/lib/supabase/client';
 import { RotateCcw } from 'lucide-react';
 
 interface ScormPlayerWrapperProps {
@@ -35,43 +34,20 @@ export function ScormPlayerWrapper({
   // Persistent attempt ID — fetched from or created in DB
   const attemptId = useRef<string>(`${packageId}-${Date.now()}`);
 
-  // On mount: find or create a persistent attempt so CMI data survives reloads
+  // On mount: find or create a persistent attempt via /api/scorm/enrollment
   useEffect(() => {
     (async () => {
       try {
-        const supabase = createClient();
-
-        // Look for an existing incomplete attempt for this user + package
-        const { data: existing } = await supabase
-          .from('scorm_attempts')
-          .select('id')
-          .eq('scorm_package_id', packageId)
-          .eq('user_id', userId)
-          .in('status', ['not_started', 'incomplete', 'in_progress'])
-          .order('created_at', { ascending: false })
-          .limit(1)
-          .maybeSingle();
-
-        if (existing) {
-          attemptId.current = existing.id;
-        } else {
-          // Create a new attempt row
-          const { data: newAttempt } = await supabase
-            .from('scorm_attempts')
-            .insert({
-              scorm_package_id: packageId,
-              user_id: userId,
-              status: 'not_started',
-            })
-            .select('id')
-            .maybeSingle();
-
-          if (newAttempt) {
-            attemptId.current = newAttempt.id;
+        // GET enrollment — returns existing attempt or creates one
+        const res = await fetch(`/api/scorm/enrollment/${packageId}`);
+        if (res.ok) {
+          const d = await res.json();
+          if (d.enrollment?.current_attempt_id) {
+            attemptId.current = d.enrollment.current_attempt_id;
           }
         }
       } catch {
-        // If DB lookup fails, fall back to timestamp-based ID (no resume, but still works)
+        // If API fails, fall back to timestamp-based ID (no resume, but still works)
       }
       setReady(true);
     })();
@@ -157,23 +133,24 @@ export function ScormPlayerWrapper({
     setProgress(0);
     setScore(null);
 
-    // Create a fresh attempt in DB
+    // Create a fresh attempt via /api/scorm/tracking (POST creates new attempt)
     try {
-      const supabase = createClient();
-      const { data: newAttempt } = await supabase
-        .from('scorm_attempts')
-        .insert({
-          scorm_package_id: packageId,
-          user_id: userId,
+      const res = await fetch('/api/scorm/tracking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scormPackageId: packageId,
+          userId,
           status: 'not_started',
-        })
-        .select('id')
-        .maybeSingle();
-
-      if (newAttempt) {
-        attemptId.current = newAttempt.id;
-      } else {
-        attemptId.current = `${packageId}-${Date.now()}`;
+          progress: 0,
+          score: null,
+          timeSpent: 0,
+          cmiData: null,
+        }),
+      });
+      if (res.ok) {
+        const d = await res.json();
+        if (d.attemptId) attemptId.current = d.attemptId;
       }
     } catch {
       attemptId.current = `${packageId}-${Date.now()}`;

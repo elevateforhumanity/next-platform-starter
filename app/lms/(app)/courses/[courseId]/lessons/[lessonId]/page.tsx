@@ -34,6 +34,10 @@ const QuizSystem = dynamic(
   { ssr: false },
 );
 const QuizPlayer = dynamic(() => import('@/components/lms/QuizPlayer'), { ssr: false });
+const AiInstructorChat = dynamic(
+  () => import('@/components/lms/AiInstructorChat').then((m) => ({ default: m.AiInstructorChat })),
+  { ssr: false },
+);
 const LessonPlayer = dynamic(() => import('@/components/lms/LessonPlayer'), { ssr: false });
 const StepSubmissionForm = dynamic(() => import('@/components/lms/StepSubmissionForm'), {
   ssr: false,
@@ -484,6 +488,50 @@ export default function LessonPage() {
       })
       .catch(() => {}); // fail silently — hours strip is non-critical
   }, [isBarberLesson]);
+
+  // Barber theory session tracking — start on lesson load, heartbeat every 60s, end on unmount.
+  // Records active viewing time against barber_training_sessions for theory hour credit.
+  useEffect(() => {
+    if (!isBarberLesson || !lesson) return;
+
+    const moduleNumber = lesson.module_order ?? 1;
+    let sessionId: string | null = null;
+    let heartbeatTimer: ReturnType<typeof setInterval> | null = null;
+
+    // Start session
+    fetch('/api/barber/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ module_number: moduleNumber, lesson_id: lessonId }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!data?.session?.id) return;
+        sessionId = data.session.id;
+
+        // Heartbeat every 60s to keep session alive and signal activity
+        heartbeatTimer = setInterval(() => {
+          fetch('/api/barber/session', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session_id: sessionId, activity: 'viewing' }),
+          }).catch(() => {});
+        }, 60_000);
+      })
+      .catch(() => {}); // fail silently — session tracking is non-critical
+
+    return () => {
+      if (heartbeatTimer) clearInterval(heartbeatTimer);
+      if (sessionId) {
+        // End session on unmount — credits theory hours
+        fetch('/api/barber/session', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId }),
+        }).catch(() => {});
+      }
+    };
+  }, [isBarberLesson, lesson, lessonId]);
 
   const markComplete = useCallback(
     async (forceComplete?: boolean) => {
@@ -1751,6 +1799,15 @@ export default function LessonPage() {
                           </div>
                         )}
                       </div>
+                    )}
+
+                    {activeActivity === 'ask' && (
+                      <AiInstructorChat
+                        lessonId={lessonId}
+                        courseId={courseId}
+                        lessonTitle={lesson.title}
+                        isHvac={isHvacCourse}
+                      />
                     )}
                   </div>
                 </>

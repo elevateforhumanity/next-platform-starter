@@ -43,37 +43,38 @@ export default async function LeaderboardPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/leaderboard');
 
-  // Fetch all profiles
-  const { data: profiles } = await supabase
-    .from('profiles')
-    .select('id, first_name, last_name, avatar_url')
-    .limit(100);
+  // Fetch via /api/gamification/leaderboard — single consolidated query
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  let leaderboardData: LeaderboardEntry[] = [];
+  try {
+    const res = await fetch(`${siteUrl}/api/gamification/leaderboard?limit=50`, {
+      cache: 'no-store',
+      headers: { Cookie: '' }, // server-to-server — no cookie needed
+    });
+    if (res.ok) {
+      const d = await res.json();
+      leaderboardData = (d.leaderboard ?? d.data ?? []).map((e: any) => ({
+        userId: e.user_id ?? e.userId,
+        name: e.name ?? e.full_name ?? 'Anonymous Learner',
+        avatarUrl: e.avatar_url ?? e.avatarUrl ?? null,
+        points: e.points ?? e.total_points ?? 0,
+        coursesCompleted: e.courses_completed ?? e.coursesCompleted ?? 0,
+        lessonsCompleted: e.lessons_completed ?? e.lessonsCompleted ?? 0,
+        quizzesPassed: e.quizzes_passed ?? e.quizzesPassed ?? 0,
+        streak: e.streak ?? 0,
+      }));
+    }
+  } catch {
+    // API unreachable during SSR — leaderboard shows empty state
+  }
 
-  // Fetch enrollment data for completed courses
-  const { data: enrollments } = await supabase
-    .from('program_enrollments')
-    .select('user_id, status, completed_lessons')
-    .eq('status', 'completed');
+  // Fallback: build minimal map so the rest of the page renders
+  const leaderboardMap = new Map<string, LeaderboardEntry>(
+    leaderboardData.map((e) => [e.userId, e])
+  );
 
-  // Fetch quiz attempts
-  const { data: quizAttempts } = await supabase
-    .from('quiz_attempts')
-    .select('user_id, score, status')
-    .eq('status', 'completed');
-
-  // Fetch student progress for lesson completions
-  const { data: progressData } = await supabase
-    .from('student_progress')
-    .select('student_id, completed')
-    .eq('completed', true);
-
-  // Fetch badges earned
-  const { data: userBadges } = await supabase.from('user_badges').select('user_id, badge_id');
-
-  // Calculate leaderboard entries
-  const leaderboardMap = new Map<string, LeaderboardEntry>();
-
-  // Initialize with profiles
+  // Shim: keep legacy code path working with empty profile seed
+  const profiles: any[] = [];
   profiles?.forEach((profile) => {
     leaderboardMap.set(profile.id, {
       userId: profile.id,
@@ -87,46 +88,13 @@ export default async function LeaderboardPage() {
     });
   });
 
-  // Add points for completed courses (100 points each)
-  enrollments?.forEach((enrollment) => {
-    const entry = leaderboardMap.get(enrollment.user_id);
-    if (entry) {
-      entry.coursesCompleted += 1;
-      entry.points += 100;
-      entry.lessonsCompleted += enrollment.completed_lessons || 0;
-    }
-  });
-
-  // Add points for completed lessons (10 points each)
-  progressData?.forEach((progress) => {
-    const entry = leaderboardMap.get(progress.student_id);
-    if (entry) {
-      entry.points += 10;
-    }
-  });
-
-  // Add points for quiz scores
-  quizAttempts?.forEach((attempt) => {
-    const entry = leaderboardMap.get(attempt.user_id);
-    if (entry) {
-      entry.quizzesPassed += 1;
-      entry.points += Math.round((attempt.score || 0) / 2); // 0-50 points based on score
-    }
-  });
-
-  // Add points for badges (25 points each)
-  userBadges?.forEach((badge) => {
-    const entry = leaderboardMap.get(badge.user_id);
-    if (entry) {
-      entry.points += 25;
-    }
-  });
-
-  // Convert to array and sort by points
-  const leaderboard = Array.from(leaderboardMap.values())
-    .filter((entry) => entry.points > 0)
-    .sort((a, b) => b.points - a.points)
-    .slice(0, 50);
+  // Leaderboard already sorted and scored by /api/gamification/leaderboard
+  const leaderboard = leaderboardData.length > 0
+    ? leaderboardData
+    : Array.from(leaderboardMap.values())
+        .filter((entry) => entry.points > 0)
+        .sort((a, b) => b.points - a.points)
+        .slice(0, 50);
 
   // Find current user's rank
   const currentUserEntry = leaderboardMap.get(user.id);

@@ -128,45 +128,40 @@ export default function ThreadDetailPage() {
     if (!replyContent.trim() || !user) return;
 
     setPosting(true);
-    const supabase = createClient();
-
-    const { error } = await supabase.from('program_discussion_replies').insert({
-      thread_id: threadId,
-      author_id: user.id,
-      content: replyContent,
+    const res = await fetch('/api/discussions/reply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ threadId, content: replyContent }),
     });
 
-    if (!error) {
+    if (res.ok) {
       setReplyContent('');
       loadData();
     } else {
-      alert('Failed to post reply');
+      const d = await res.json().catch(() => ({}));
+      alert(d.error ?? 'Failed to post reply');
     }
-
     setPosting(false);
   }
 
   async function likeThread() {
     if (!user) return;
-    const supabase = createClient();
-
-    await supabase
-      .from('program_discussions')
-      .update({ likes: (thread?.likes || 0) + 1 })
-      .eq('id', threadId);
-
+    await fetch('/api/discussions/like', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ threadId }),
+    });
     loadData();
   }
 
   async function likeReply(replyId: string, currentLikes: number) {
     if (!user) return;
+    // Optimistic update via direct Supabase for reply likes (no dedicated API endpoint)
     const supabase = createClient();
-
     await supabase
       .from('program_discussion_replies')
       .update({ likes: currentLikes + 1 })
       .eq('id', replyId);
-
     loadData();
   }
 

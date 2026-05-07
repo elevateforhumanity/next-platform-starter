@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { requireRole } from '@/lib/auth/require-role';
 import { loadLearnerDashboard } from '@/lib/learner/dashboard-loader';
 import WorkOneChecklistSection from '@/components/workone/WorkOneChecklist';
+import OjtHoursLogger from '@/components/learner/OjtHoursLogger';
 import {
   Clock,
   Play,
@@ -922,6 +923,10 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                     <p className="text-sm text-slate-700">No attendance records yet</p>
                   </div>
                 )}
+                {/* OJT hour submission — calls /api/time/entries */}
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <OjtHoursLogger />
+                </div>
               </div>
             </div>
           </div>

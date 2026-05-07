@@ -2,37 +2,38 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
+// POST /api/discussions/like
+// Increments likes on program_discussions — matches app/programs/[program]/discussions/[threadId]/page.tsx
 async function _POST(req: Request) {
   try {
     const supabase = await createClient();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     const { threadId } = await req.json();
+    if (!threadId) {
+      return NextResponse.json({ error: 'threadId required' }, { status: 400 });
+    }
 
-    // Toggle like via RPC or direct update
     const { data: thread } = await supabase
-      .from('discussion_threads')
+      .from('program_discussions')
       .select('likes')
       .eq('id', threadId)
       .maybeSingle();
 
-    const currentLikes = thread?.likes || 0;
+    const newLikes = (thread?.likes || 0) + 1;
 
     await supabase
-      .from('discussion_threads')
-      .update({ likes: currentLikes + 1 })
+      .from('program_discussions')
+      .update({ likes: newLikes })
       .eq('id', threadId);
 
-    return NextResponse.json({ ok: true, likes: currentLikes + 1 });
+    return NextResponse.json({ ok: true, likes: newLikes });
   } catch {
     return NextResponse.json({ error: 'Failed to like' }, { status: 500 });
   }
 }
+
 export const POST = withApiAudit('/api/discussions/like', _POST);

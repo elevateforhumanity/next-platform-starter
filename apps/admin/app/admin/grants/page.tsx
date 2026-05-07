@@ -3,6 +3,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { Briefcase, CheckCircle, Clock, Plus, ChevronRight, ArrowRight } from 'lucide-react';
+import { GrantsSyncButton } from './GrantsSyncButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -58,12 +59,15 @@ export default async function GrantsPage() {
               Federal, state, and private grant tracking
             </p>
           </div>
-          <Link
-            href="/admin/grants/new"
-            className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors"
-          >
-            <Plus className="w-4 h-4" /> Add Grant
-          </Link>
+          <div className="flex items-center gap-2">
+            <GrantsSyncButton />
+            <Link
+              href="/admin/grants/new"
+              className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors"
+            >
+              <Plus className="w-4 h-4" /> Add Grant
+            </Link>
+          </div>
         </div>
       </div>
 

@@ -11,6 +11,61 @@ const SpeedGrader = dynamic(() => import('@/components/gradebook/SpeedGrader'), 
   loading: () => <div className="p-8 text-center text-slate-700">Loading grader...</div>,
 });
 
+/** Inline editable progress cell — calls /api/student/progress to override enrollment progress_percent. */
+function ProgressCell({ enrollmentId, initialProgress }: { enrollmentId: string; initialProgress: number }) {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(String(initialProgress));
+  const [saved, setSaved] = useState(initialProgress);
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    const pct = Math.min(100, Math.max(0, parseInt(value, 10) || 0));
+    setSaving(true);
+    try {
+      await fetch('/api/student/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enrollmentId, progress: pct }),
+      });
+      setSaved(pct);
+      setValue(String(pct));
+    } finally {
+      setSaving(false);
+      setEditing(false);
+    }
+  }
+
+  if (editing) {
+    return (
+      <div className="flex items-center gap-1">
+        <input
+          type="number"
+          min={0}
+          max={100}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter') save(); if (e.key === 'Escape') setEditing(false); }}
+          className="w-16 border border-slate-300 rounded px-1.5 py-0.5 text-sm"
+          autoFocus
+        />
+        <button onClick={save} disabled={saving} className="text-xs text-brand-blue-600 font-medium disabled:opacity-50">
+          {saving ? '…' : 'Save'}
+        </button>
+        <button onClick={() => setEditing(false)} className="text-xs text-slate-400">✕</button>
+      </div>
+    );
+  }
+
+  return (
+    <button onClick={() => setEditing(true)} className="flex items-center gap-2 group" title="Click to override progress">
+      <div className="w-20 bg-gray-200 rounded-full h-1.5">
+        <div className="bg-brand-blue-600 h-1.5 rounded-full" style={{ width: `${saved}%` }} />
+      </div>
+      <span className="text-sm text-slate-700 group-hover:underline">{saved}%</span>
+    </button>
+  );
+}
+
 interface Enrollment {
   id: string;
   user_id: string;
@@ -228,15 +283,7 @@ export function GradebookClient({
                       <p className="text-sm text-slate-700">{s.profile.email}</p>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-20 bg-gray-200 rounded-full h-1.5">
-                          <div
-                            className="bg-brand-blue-600 h-1.5 rounded-full"
-                            style={{ width: `${s.progress || 0}%` }}
-                          />
-                        </div>
-                        <span className="text-sm text-slate-700">{s.progress || 0}%</span>
-                      </div>
+                      <ProgressCell enrollmentId={s.id} initialProgress={s.progress || 0} />
                     </td>
                     <td className="px-4 py-3 text-sm">
                       {s.assignmentAvg !== null ? `${s.assignmentAvg.toFixed(1)}%` : '-'}
@@ -318,15 +365,16 @@ export function GradebookClient({
                     points: 100,
                   }}
                   onGrade={async (submissionId, grade) => {
-                    const supabase = createClient();
-                    await supabase
-                      .from('assignment_submissions')
-                      .update({
-                        grade: grade.percentage,
-                        status: 'graded',
-                        graded_at: new Date().toISOString(),
-                      })
-                      .eq('id', submissionId);
+                    // Route through /api/grade/upsert so FERPA audit log fires
+                    await fetch('/api/grade/upsert', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        gradeItemId: submissionId,
+                        enrollmentId: submissionId,
+                        points: grade.percentage,
+                      }),
+                    });
                   }}
                 />
               )}

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Play, Clock, Search } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Play, Clock, Search, CheckCircle } from 'lucide-react';
 
 type Tutorial = {
   id: string;
@@ -27,6 +27,19 @@ export function TutorialsClient({ tutorials }: { tutorials: Tutorial[] }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [search, setSearch] = useState('');
   const [playing, setPlaying] = useState<string | null>(null);
+  // watched set — persisted via /api/tutorials
+  const [watched, setWatched] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    fetch('/api/tutorials?action=list')
+      .then((r) => r.json())
+      .then((d) => {
+        if (Array.isArray(d.tutorials)) {
+          setWatched(new Set(d.tutorials.filter((t: any) => t.completed).map((t: any) => t.tutorial_id)));
+        }
+      })
+      .catch(() => {/* not signed in — progress tracking silently skipped */});
+  }, []);
 
   const filtered = tutorials.filter((t) => {
     const matchesCat = activeCategory === 'All' || t.category === activeCategory;
@@ -40,8 +53,15 @@ export function TutorialsClient({ tutorials }: { tutorials: Tutorial[] }) {
   function handleWatch(tutorial: Tutorial) {
     if (tutorial.video_url) {
       setPlaying(tutorial.id);
+      // Mark as watched via /api/tutorials
+      fetch('/api/tutorials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tutorialId: tutorial.id, action: 'complete' }),
+      })
+        .then((r) => r.ok && setWatched((prev) => new Set([...prev, tutorial.id])))
+        .catch(() => {/* not signed in — skip */});
     } else {
-      // No video yet — open support contact as fallback
       window.location.href =
         '/support/contact?subject=' + encodeURIComponent('Tutorial request: ' + tutorial.title);
     }
@@ -143,12 +163,19 @@ export function TutorialsClient({ tutorials }: { tutorials: Tutorial[] }) {
                   <span className="text-xs font-semibold text-brand-blue-600 bg-brand-blue-50 px-2 py-0.5 rounded-full">
                     {tutorial.category}
                   </span>
-                  {tutorial.duration && (
-                    <span className="flex items-center gap-1 text-xs text-slate-400">
-                      <Clock className="w-3 h-3" />
-                      {tutorial.duration}
-                    </span>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {watched.has(tutorial.id) && (
+                      <span className="flex items-center gap-1 text-xs text-green-600">
+                        <CheckCircle className="w-3 h-3" /> Watched
+                      </span>
+                    )}
+                    {tutorial.duration && (
+                      <span className="flex items-center gap-1 text-xs text-slate-400">
+                        <Clock className="w-3 h-3" />
+                        {tutorial.duration}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-1 leading-snug">{tutorial.title}</h3>
                 {tutorial.description && (

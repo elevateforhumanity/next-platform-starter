@@ -1,10 +1,8 @@
-export const dynamic = 'force-static';
-export const revalidate = 3600;
-
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PrintButton } from '../PrintButton';
+import { OjtDigitalLogger } from './OjtDigitalLogger';
 
 export const metadata: Metadata = {
   title: 'OJT Hours Log — Barber Apprenticeship | Elevate for Humanity',
@@ -47,6 +45,11 @@ export default function OJTHoursLogPage() {
           </p>
           <PrintButton />
         </div>
+      </div>
+
+      {/* Digital submission panel — hidden on print */}
+      <div className="max-w-4xl mx-auto px-4 mt-6">
+        <OjtDigitalLogger />
       </div>
 
       {/* Print header */}

@@ -3,6 +3,7 @@ export const revalidate = 3600;
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
+import { TermsAcceptBanner } from './TermsAcceptBanner';
 
 export const metadata: Metadata = {
   title: 'Terms of Use | Elevate For Humanity',
@@ -92,7 +93,10 @@ export default function TermsPage() {
                 By using the Elevate For Humanity platform, you acknowledge that you have read and
                 agree to these Terms of Use.
               </p>
-              <div className="mt-6 flex gap-4">
+              <div className="mt-6 mb-4">
+                <TermsAcceptBanner />
+              </div>
+              <div className="mt-4 flex gap-4">
                 <Link href="/legal/privacy" className="text-brand-green-600 hover:underline">
                   Privacy Policy
                 </Link>

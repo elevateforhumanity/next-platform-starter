@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/lib/supabase/client';
+
 import { useEffect, useState } from 'react';
 import { CheckCircle, Circle, Clock, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 
@@ -50,8 +50,6 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
-  const supabase = createClient();
-
   async function seed() {
     // Only seed when the learner is actually in pending_workone status
     if (!pendingWorkone) return;
@@ -64,22 +62,11 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
 
   async function load() {
     setLoading(true);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      setLoading(false);
-      return;
+    const res = await fetch('/api/workone/list');
+    if (res.ok) {
+      const d = await res.json().catch(() => ({}));
+      setItems(d.items ?? []);
     }
-
-    const { data } = await supabase
-      .from('workone_checklist')
-      .select('id,step_key,step_label,status,notes,due_date,completed_at')
-      .eq('user_id', user.id)
-      .order('sort_order', { ascending: true })
-      .order('created_at', { ascending: true });
-
-    setItems(data ?? []);
     setLoading(false);
   }
 
