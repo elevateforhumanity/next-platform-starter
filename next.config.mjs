@@ -357,12 +357,7 @@ const nextConfig = {
       // ============================================
       // DELETED PAGE REDIRECTS
       // ============================================
-      {
-        // Duplicate admin login shell — consolidated into /login
-        source: '/admin-login',
-        destination: '/login?redirect=/admin/dashboard',
-        permanent: true,
-      },
+      // /admin-login — real 113-line admin auth form, no redirect
       {
         source: '/programs/technology/it-support',
         destination: '/programs/it-help-desk',
@@ -385,9 +380,10 @@ const nextConfig = {
       { source: '/lms/messages/support/new', destination: '/lms/messages', permanent: true },
       // building-maintenance-tech → building-services-technician (correct page)
       { source: '/programs/building-maintenance-tech', destination: '/programs/building-services-technician', permanent: true },
-      // finance-bookkeeping-accounting → bookkeeping (canonical page)
-      { source: '/programs/business-financial', destination: '/programs/bookkeeping', permanent: true },
-      { source: '/programs/finance-bookkeeping-accounting', destination: '/programs/bookkeeping', permanent: true },
+      // Short aliases → canonical finance program page
+      { source: '/programs/bookkeeping', destination: '/programs/finance-bookkeeping-accounting', permanent: true },
+      { source: '/programs/business-financial', destination: '/programs/finance-bookkeeping-accounting', permanent: true },
+      // /programs/finance-bookkeeping-accounting has a real page — no redirect needed
       // cpr-first-aid HAS its own page — no redirect needed (removed incorrect redirect)
       // cpr-first-aid-hsi redirect lives in next.config.mjs redirects above
       // direct-support-professional HAS its own page — no redirect needed
@@ -404,7 +400,7 @@ const nextConfig = {
       { source: '/programs/it-support', destination: '/programs/it-help-desk', permanent: true },
       { source: '/programs/it-support/:path*', destination: '/programs/it-help-desk/:path*', permanent: true },
       // /programs/jri → /partners/jri (JRI is a funding partner page, not a program)
-      { source: '/programs/jri', destination: '/partners/jri', permanent: true },
+      // /programs/jri has a real 819-line page — no redirect needed
       // phlebotomy HAS its own page — redirect to it, not generic /healthcare
       { source: '/programs/phlebotomy-technician', destination: '/programs/phlebotomy', permanent: true },
       {
@@ -515,16 +511,10 @@ const nextConfig = {
         permanent: true,
       },
 
-      // Staff
-      {
-        source: '/staff-portal/processes',
-        destination: '/staff-portal/qa-checklist',
-        permanent: true,
-      },
+      // /staff-portal/processes — real Supabase page with staff_processes query, no redirect
 
       // Student portal
-      { source: '/student-portal/messages', destination: '/lms/chat', permanent: true },
-      { source: '/student-portal/settings', destination: '/lms/settings', permanent: true },
+      // /student-portal/messages and /student-portal/settings — real pages with db queries, no redirect
       { source: '/student/support', destination: '/contact', permanent: false },
 
       // Governance / compliance aliases
@@ -564,7 +554,7 @@ const nextConfig = {
       // Normalize "Institute" style routes into the infrastructure model
       { source: '/institute', destination: '/', permanent: true },
       { source: '/training-institute', destination: '/programs', permanent: true },
-      { source: '/student/dashboard', destination: '/student-portal', permanent: true },
+      // /student/dashboard — real 606-line Supabase dashboard, no redirect
 
       // Fix old hero image paths
       {
@@ -782,17 +772,11 @@ const nextConfig = {
       { source: '/partner-playbook/:path*', destination: '/partners/:path*', permanent: true },
 
       // Auth consolidation
-      { source: '/reset-password', destination: '/login', permanent: false },
+      // /reset-password — real password reset form, no redirect
 
       // Missing public pages — redirect to closest marketing equivalent
-      { source: '/apply/student', destination: '/apply', permanent: false },
-      { source: '/apply/program-holder', destination: '/apply', permanent: false },
-      { source: '/apply/employer', destination: '/employers', permanent: false },
-      { source: '/for-employers', destination: '/employers', permanent: true },
-      { source: '/for-agencies', destination: '/contact', permanent: false },
-      { source: '/partnerships', destination: '/partners', permanent: true },
-      { source: '/program-holder', destination: '/apply', permanent: false },
-      { source: '/cna-waitlist', destination: '/programs', permanent: false },
+      // /apply/student, /apply/program-holder, /apply/employer all have real pages — no redirects
+      // /for-employers, /for-agencies, /partnerships, /program-holder, /cna-waitlist — real pages, no redirect
       { source: '/credentials/checksheets', destination: '/programs', permanent: false },
       {
         source: '/credentials/hvac-standards',
@@ -800,42 +784,31 @@ const nextConfig = {
         permanent: false,
       },
       { source: '/credentials/:path*', destination: '/programs', permanent: false },
-      { source: '/careers', destination: '/contact', permanent: false },
-      { source: '/donate', destination: '/contact', permanent: false },
-      { source: '/philanthropy', destination: '/contact', permanent: false },
+      // /careers, /donate, /philanthropy — real pages, no redirect
       // /tuition-fees → /tuition
-      { source: '/faq', destination: '/support', permanent: true },
-      { source: '/how-it-works', destination: '/about', permanent: false },
+      // /faq, /how-it-works — real pages, no redirect
       { source: '/mission', destination: '/about', permanent: false },
-      { source: '/impact', destination: '/about', permanent: false },
-      { source: '/site-map', destination: '/programs', permanent: false },
-      { source: '/security-and-data-protection', destination: '/privacy-policy', permanent: false },
+      // /impact, /site-map, /security-and-data-protection — real pages, no redirect
       // /consumer-education → /resources
-      { source: '/equal-opportunity', destination: '/about', permanent: false },
-      { source: '/federal-compliance', destination: '/disclosures', permanent: false },
-      { source: '/grievance', destination: '/contact', permanent: false },
-      { source: '/satisfactory-academic-progress', destination: '/disclosures', permanent: false },
-      { source: '/hire-graduates', destination: '/employers', permanent: true },
+      // /equal-opportunity, /federal-compliance, /grievance, /satisfactory-academic-progress, /hire-graduates — real pages, no redirect
       // /apprenticeship-sponsor → /partners/training-provider
-      { source: '/events', destination: '/contact', permanent: false },
-      { source: '/schedule', destination: '/contact', permanent: false },
-      { source: '/orientation/schedule', destination: '/contact', permanent: false },
-      { source: '/onboarding/learner', destination: '/login', permanent: false },
+      // /events, /schedule — real pages, no redirect
+      // /orientation/schedule — real scheduler page with OrientationScheduleClient, no redirect
+      // /onboarding/learner — real 731-line page with Supabase, no redirect
       { source: '/onboarding/:path*', destination: '/login', permanent: false },
-      { source: '/funding/dol', destination: '/funding', permanent: false },
+      // /funding/dol — real page, no redirect
       // /funding/federal-programs → /funding
-      { source: '/funding/jri', destination: '/funding', permanent: false },
+      // /funding/jri — real page, no redirect
       // /funding/state-programs → /funding
       // /funding/wrg → /funding
-      { source: '/jri', destination: '/funding', permanent: false },
+      // /jri — real 401-line page, no redirect
       // /partners/jri → /partners
       // /partners/reentry → /partners
-      { source: '/partners/sales', destination: '/partners', permanent: false },
-      { source: '/partners/technology', destination: '/partners', permanent: false },
+      // /partners/sales and /partners/technology — real PublicLandingPage pages, no redirect
       // /partners/workforce → /partners
-      { source: '/fssa-partnership-request', destination: '/contact', permanent: false },
+      // /fssa-partnership-request — real page, no redirect
 
-      { source: '/enroll', destination: '/apply', permanent: false },
+      // /enroll — real 157-line page with Supabase, no redirect
       // NOTE: /enroll/:path* wildcard intentionally omitted here.
       // Specific /enroll/* overrides are declared in the ENROLL/APPLY CONSOLIDATION
       // block below. A wildcard here would shadow those specific rules.
@@ -850,28 +823,23 @@ const nextConfig = {
       //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
       //   /instructor/:path*, /staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
       // Portal redirects:
-      { source: '/dashboard', destination: '/login', permanent: false },
-      { source: '/my-dashboard', destination: '/login', permanent: false },
+      // /dashboard (55 lines, db=5) and /my-dashboard (251 lines, db=21) — real pages, no redirect
       { source: '/employer', destination: '/employers', permanent: false },
       { source: '/employer/:path*', destination: '/login', permanent: false },
       { source: '/partner/:path*', destination: '/login', permanent: false },
       { source: '/provider/:path*', destination: '/login', permanent: false },
-      { source: '/approvals', destination: '/login', permanent: false },
+      // /approvals — real 431-line page, no redirect
       { source: '/account/:path*', destination: '/login', permanent: false },
       // /admin/:path* — gated by proxy.ts middleware
       // Missing public pages with no Railway equivalent
       { source: '/cert/verify', destination: '/verify', permanent: true },
-      { source: '/certiport-exam', destination: '/testing', permanent: false },
-      { source: '/microclasses', destination: '/programs', permanent: false },
+      // /certiport-exam (350 lines, db=7) and /microclasses (265 lines) — real pages, no redirect
       { source: '/outcomes/indiana', destination: '/about', permanent: false },
-      { source: '/orientation', destination: '/onboarding/learner', permanent: false },
+      // /orientation — real 200-line page, no redirect
       { source: '/help/:path*', destination: '/support', permanent: false },
-      { source: '/compliance', destination: '/disclosures', permanent: false },
-      { source: '/credentials', destination: '/programs', permanent: false },
+      // /compliance (327 lines, db=3) and /credentials (584 lines) — real pages, no redirect
       // Legal consolidation
-      { source: '/privacy', destination: '/privacy-policy', permanent: true },
-      { source: '/terms', destination: '/terms-of-service', permanent: true },
-      { source: '/legal/privacy', destination: '/privacy-policy', permanent: true },
+      // /privacy (160 lines), /terms (112 lines), /legal/privacy (100 lines) — real pages, no redirect
       { source: '/legal/terms-of-service', destination: '/legal/privacy', permanent: true },
       {
         source: '/legal/governance/lms',
@@ -883,15 +851,13 @@ const nextConfig = {
         destination: '/legal/governance/store-payments',
         permanent: true,
       },
-      { source: '/policies/privacy', destination: '/privacy-policy', permanent: true },
-      { source: '/policies/terms', destination: '/terms-of-service', permanent: true },
+      // /policies/privacy (344 lines) and /policies/terms (313 lines) — real pages, no redirect
       { source: '/policies/grievance', destination: '/grievance', permanent: true },
       { source: '/policies/:path*', destination: '/disclosures', permanent: false },
-      { source: '/license-agreement', destination: '/legal/license-agreement', permanent: true },
+      // /license-agreement (215 lines) — real page, no redirect
 
       // Pricing / billing consolidation
-      { source: '/pricing', destination: '/license/pricing', permanent: true },
-      { source: '/billing', destination: '/account/billing', permanent: true },
+      // /pricing (206 lines) and /billing (179 lines, db=5) — real pages, no redirect
 
       // Auth aliases
       { source: '/forgot-password', destination: '/reset-password', permanent: true },
@@ -902,10 +868,10 @@ const nextConfig = {
       // Those routes are not compiled in this Netlify marketing deploy.
 
       // Store / platform aliases
-      { source: '/store/demo', destination: '/store', permanent: true },
+      // /store/demo has a real 376-line page — no redirect needed
       { source: '/store/orders', destination: '/store', permanent: true },
       { source: '/platform/licensing', destination: '/licensing', permanent: true },
-      { source: '/chat', destination: '/support/chat', permanent: true },
+      // /chat (220 lines) — real page, no redirect
       { source: '/certificates/verify', destination: '/cert/verify', permanent: true },
 
       // Verify consolidation
@@ -936,9 +902,9 @@ const nextConfig = {
       // Old 404 URLs from Google/Netlify logs - redirect to relevant pages
       { source: '/about/founder', destination: '/about/team', permanent: true },
       { source: '/etpl-programs', destination: '/pathways', permanent: true },
-      { source: '/intake', destination: '/apply', permanent: true },
+      // /intake (85 lines) — real page, no redirect
       { source: '/home1', destination: '/', permanent: true },
-      { source: '/downloads', destination: '/resources', permanent: true },
+      // /downloads (465 lines, db=4) — real page, no redirect
       { source: '/docs/students/certificates', destination: '/credentials', permanent: true },
       { source: '/docs/:path*', destination: '/resources', permanent: false },
       { source: '/programs/food-handler', destination: '/programs', permanent: true },
@@ -976,11 +942,7 @@ const nextConfig = {
         destination: '/programs/barber-apprenticeship/apply',
         permanent: true,
       },
-      {
-        source: '/checkout/barber-apprenticeship',
-        destination: '/programs/barber-apprenticeship/apply',
-        permanent: true,
-      },
+      // /checkout/barber-apprenticeship has a real Stripe checkout page — no redirect needed
 
       // Catch-all for any remaining /enroll/* paths not matched above.
       // Declared after specific overrides so it does not shadow them.
@@ -988,12 +950,11 @@ const nextConfig = {
 
       // Duplicate student forms → canonical /apply/student
       // /apply/quick → /apply
-      { source: '/apply/full', destination: '/apply/student', permanent: true },
+      // /apply/full has a real 377-line form — no redirect needed
 
       // Duplicate status pages → canonical /apply/track
 
-      // Duplicate success pages → canonical /apply/success
-      { source: '/apply/confirmation', destination: '/apply/success', permanent: true },
+      // /apply/confirmation has real Supabase tracking — distinct from /apply/success, no redirect
 
       // Program holder apply alias
       { source: '/program-holder/apply', destination: '/apply/program-holder', permanent: true },
@@ -1009,14 +970,13 @@ const nextConfig = {
         permanent: true,
       },
       // /community/page.tsx exists (371 lines) — do not redirect away from it
-      { source: '/video', destination: '/videos', permanent: true },
+      // /video (236 lines, db=4) — real page, no redirect
 
       // LMS redirects
       { source: '/lms/my-courses', destination: '/lms/courses', permanent: true },
 
       // Student portal redirects
-      { source: '/student-portal/dashboard', destination: '/student-portal', permanent: true },
-      { source: '/student-portal/courses', destination: '/student-portal', permanent: true },
+      // /student-portal/dashboard and /student-portal/courses have real pages — no redirects
       { source: '/student-portal/certificates', destination: '/student-portal', permanent: true },
       { source: '/student-portal/progress', destination: '/student-portal', permanent: true },
       ...canonicalAliasRedirects,
@@ -1031,7 +991,7 @@ const nextConfig = {
       { source: '/ai-instructor', destination: '/ai-tutor', permanent: true },
 
       // Marketing redirects
-      { source: '/success-stories', destination: '/testimonials', permanent: true },
+      // /success-stories has a real 419-line page — no redirect needed
       { source: '/for-workforce-boards', destination: '/workforce-board', permanent: true },
       { source: '/get-started', destination: '/start', permanent: true },
 
@@ -1039,7 +999,7 @@ const nextConfig = {
 
       // /outcomes/indiana is a public page — do not redirect it
       // Other outcomes sub-routes redirect to programs until data exists
-      { source: '/metrics', destination: '/programs', permanent: false },
+      // /metrics has a real 173-line page — no redirect needed
 
       // ============================================
       // DEAD LINK FIXES — public-facing
