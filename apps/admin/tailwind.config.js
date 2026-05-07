@@ -1,9 +1,10 @@
 // Extend root Tailwind config so custom tokens (shadow-card, brand colors, etc.)
 // are available in the admin app without duplication.
-import rootConfig from '../../tailwind.config.js';
+// CJS syntax required — postcss.config.cjs loads this via require(), not ESM import.
+const rootConfig = require('../../tailwind.config.js');
 
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   ...rootConfig,
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
