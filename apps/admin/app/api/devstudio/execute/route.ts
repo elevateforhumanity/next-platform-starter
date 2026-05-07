@@ -691,6 +691,70 @@ const TOOLS: unknown[] = [
       parameters: { type: 'object', properties: {}, required: [] },
     },
   },
+  {
+    type: 'function',
+    function: {
+      name: 'run_payroll',
+      description: 'Create and run a payroll run for a pay period. Use when asked to run payroll, process payroll, or pay staff.',
+      parameters: {
+        type: 'object',
+        properties: {
+          pay_period_start: { type: 'string', description: 'Start date YYYY-MM-DD' },
+          pay_period_end:   { type: 'string', description: 'End date YYYY-MM-DD' },
+          pay_date:         { type: 'string', description: 'Pay date YYYY-MM-DD' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'export_payroll',
+      description: 'Export payroll data as a downloadable file.',
+      parameters: {
+        type: 'object',
+        properties: {
+          run_id: { type: 'string', description: 'Specific payroll run ID to export (optional)' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'run_reports',
+      description: 'Run a platform report. Types: overall, program, site, funder, dol, activity, wioa, outcomes, participants, rapids, grants, compliance, enrollment.',
+      parameters: {
+        type: 'object',
+        properties: {
+          report_type: {
+            type: 'string',
+            enum: ['overall','program','site','funder','dol','activity','wioa','outcomes','participants','rapids','grants','compliance','enrollment'],
+            description: 'Which report to run',
+          },
+        },
+        required: ['report_type'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'repo_commits',
+      description: 'Fetch recent commits from the GitHub repository. Can filter by file path or date. Use when asked about recent changes, what changed, commit history, or signing code commits.',
+      parameters: {
+        type: 'object',
+        properties: {
+          path:  { type: 'string', description: 'File or directory path to filter commits (e.g. components/SignaturePad.tsx)' },
+          since: { type: 'string', description: 'ISO date to fetch commits since (e.g. 2026-05-01T00:00:00Z)' },
+          limit: { type: 'number', description: 'Max commits to return (default 20, max 50)' },
+        },
+        required: [],
+      },
+    },
+  },
 ];
 
 // ── SSE helpers ─────────────────────────────────────────────────────────────
@@ -1707,6 +1771,121 @@ async function executeAction(
           if (data.url) write(`   Download: ${data.url}`);
           write(`   View at: /admin/audit-logs`);
         } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Run payroll ───────────────────────────────────────────────────────
+    case 'run_payroll': {
+      write('\x1b[33m⚙  Running payroll…\x1b[0m');
+      try {
+        const body: Record<string, unknown> = {};
+        if (args.pay_period_start) body.pay_period_start = args.pay_period_start;
+        if (args.pay_period_end)   body.pay_period_end   = args.pay_period_end;
+        if (args.pay_date)         body.pay_date         = args.pay_date;
+        const res = await fetch(`${baseUrl}/api/hr/payroll`, {
+          method: 'POST', headers,
+          body: JSON.stringify(body),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Payroll run created\x1b[0m');
+          if (data.id)          write(`   Run ID: ${data.id}`);
+          if (data.total_gross) write(`   Gross: $${Number(data.total_gross).toLocaleString()}`);
+          if (data.total_net)   write(`   Net:   $${Number(data.total_net).toLocaleString()}`);
+          if (data.employee_count) write(`   Employees: ${data.employee_count}`);
+          write(`   View at: /admin/hr/payroll`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    case 'export_payroll': {
+      write('\x1b[33m⚙  Exporting payroll data…\x1b[0m');
+      try {
+        const q = args.run_id ? `?run_id=${args.run_id}` : '';
+        const res = await fetch(`${baseUrl}/api/payroll/export${q}`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Payroll export ready\x1b[0m');
+          if (data.url) write(`   Download: ${data.url}`);
+          write(`   View at: /admin/hr/payroll`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Run reports ───────────────────────────────────────────────────────
+    case 'run_reports': {
+      const reportType = String(args.report_type ?? 'overall');
+      const reportRoutes: Record<string, string> = {
+        overall:      '/api/reporting/overall-metrics',
+        program:      '/api/reporting/program-metrics',
+        site:         '/api/reporting/site-metrics',
+        funder:       '/api/reporting/funder-metrics',
+        dol:          '/api/reporting/dol-dwd',
+        activity:     '/api/reporting/recent-activity',
+        wioa:         '/api/reports/wioa',
+        outcomes:     '/api/reports/outcomes',
+        participants: '/api/reports/participants',
+        rapids:       '/api/reports/rapids/export?format=json',
+        grants:       '/api/admin/grant-report/export',
+        compliance:   '/api/compliance/report',
+        enrollment:   '/api/admin/analytics/overview',
+      };
+      const route = reportRoutes[reportType] ?? reportRoutes.overall;
+      write(`\x1b[33m⚙  Running ${reportType} report…\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}${route}`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write(`\x1b[32m✓  ${reportType} report complete\x1b[0m`);
+          // Surface top-level numeric fields
+          const nums = Object.entries(data)
+            .filter(([, v]) => typeof v === 'number')
+            .slice(0, 8);
+          nums.forEach(([k, v]) => write(`   ${k}: ${v}`));
+          if (data.url) write(`   Download: ${data.url}`);
+          write(`   View at: /admin/reports`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    // ── Repo commits ──────────────────────────────────────────────────────
+    case 'repo_commits': {
+      const ghToken = process.env.GITHUB_TOKEN;
+      if (!ghToken) { write('\x1b[31m✗  GITHUB_TOKEN not set\x1b[0m'); break; }
+      const owner = 'elevateforhumanity';
+      const repo  = 'Elevate-lms';
+      const path  = args.path ? String(args.path) : '';
+      const since = args.since ? String(args.since) : '';
+      const limit = Math.min(Number(args.limit ?? 20), 50);
+
+      write(`\x1b[33m⚙  Fetching commits${path ? ` for ${path}` : ''}…\x1b[0m`);
+      try {
+        const params = new URLSearchParams({ per_page: String(limit) });
+        if (path)  params.set('path', path);
+        if (since) params.set('since', since);
+        const res = await fetch(
+          `https://api.github.com/repos/${owner}/${repo}/commits?${params}`,
+          { headers: { Authorization: `Bearer ${ghToken}`, Accept: 'application/vnd.github+json' } },
+        );
+        if (!res.ok) { write(`\x1b[31m✗  GitHub API ${res.status}\x1b[0m`); break; }
+        const commits = await res.json() as Array<{
+          sha: string;
+          commit: { message: string; author: { date: string; name: string } };
+          html_url: string;
+        }>;
+        write(`\x1b[32m✓  ${commits.length} commit(s)\x1b[0m`);
+        commits.forEach((c) => {
+          const short = c.sha.slice(0, 7);
+          const msg   = c.commit.message.split('\n')[0].slice(0, 72);
+          const date  = c.commit.author.date.slice(0, 10);
+          const author = c.commit.author.name;
+          write(`   \x1b[33m${short}\x1b[0m  ${date}  \x1b[2m${author}\x1b[0m`);
+          write(`          ${msg}`);
+        });
       } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
       break;
     }

@@ -13,13 +13,14 @@ import type { default as CodeEditorType } from '@/components/dev-studio/CodeEdit
 
 const XTerminal         = dynamic(() => import('@/components/dev-studio/XTerminal'),         { ssr: false });
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
+const DocumentsPanel    = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),    { ssr: false });
 const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
 const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   () => import('@/components/dev-studio/CodeEditor'),
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container' | 'chat';
+type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container' | 'chat' | 'documents';
 interface FileNode { name: string; path: string; type: 'file' | 'directory'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
 interface DevStudioConfig {
@@ -37,6 +38,7 @@ const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: s
   { id: 'files',     Icon: FolderOpen,    label: 'Explorer'  },
   { id: 'website',   Icon: Globe,         label: 'Preview'   },
   { id: 'container', Icon: Box,           label: 'Container' },
+  { id: 'documents', Icon: FolderOpen,    label: 'Documents' },
 ];
 
 const DEFAULT_TAB_FILES: Record<Tab, string> = {
@@ -47,7 +49,7 @@ const DEFAULT_TAB_FILES: Record<Tab, string> = {
 export default function DevStudioClient() {
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
-  const valid: Tab[] = ['command','terminal','files','website','container','chat'];
+  const valid: Tab[] = ['command','terminal','files','website','container','chat','documents'];
   const init: Tab = raw && valid.includes(raw) ? raw : 'command';
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
@@ -151,6 +153,7 @@ export default function DevStudioClient() {
           {tab === 'files'     && <FilesTab />}
           {tab === 'website'   && <WebsiteTab config={studioConfig} />}
           {tab === 'container' && <DevContainerPanel />}
+          {tab === 'documents' && <DocumentsPanel />}
         </div>
       </div>
 
@@ -224,9 +227,14 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
     { label: 'WIOA cases',       cmd: 'List pending WIOA cases' },
     { label: 'Payout queue',     cmd: 'List payout queue' },
     { label: 'System health',    cmd: 'Check system health' },
-    { label: 'Daily report',     cmd: 'Run daily report' },
+    { label: 'Daily report',     cmd: 'Run overall report' },
     { label: 'Enrollment report',cmd: 'Run enrollment report' },
     { label: 'Financial report', cmd: 'Run financial report' },
+    { label: 'WIOA report',      cmd: 'Run WIOA report' },
+    { label: 'Run payroll',      cmd: 'Run payroll' },
+    { label: 'Export payroll',   cmd: 'Export payroll' },
+    { label: 'Recent commits',   cmd: 'Show recent commits' },
+    { label: 'Signing commits',  cmd: 'Show commits for components/SignaturePad.tsx' },
     { label: 'Export students',  cmd: 'Export students CSV' },
   ];
 
