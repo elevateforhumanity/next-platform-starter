@@ -582,28 +582,26 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     .slice(0, 8);
 
   const inactiveUserIds = inactiveEnrollments.map((e: any) => e.user_id).filter(Boolean);
+  const inactiveProgramIds = [...new Set(inactiveEnrollments.map((e: any) => e.program_id).filter(Boolean))];
+
+  // Fetch profiles and program titles in parallel — they're independent of each other
+  const [inactiveProfilesRes, inactiveProgramRowsRes] = await Promise.all([
+    inactiveUserIds.length > 0
+      ? db.from('profiles').select('id, full_name, email').in('id', inactiveUserIds)
+      : Promise.resolve({ data: [] }),
+    inactiveProgramIds.length > 0
+      ? db.from('programs').select('id, name, title').in('id', inactiveProgramIds)
+      : Promise.resolve({ data: [] }),
+  ]);
+
   const inactiveProfileMap: Record<string, { full_name: string | null; email: string | null }> = {};
-  if (inactiveUserIds.length > 0) {
-    const { data: inactiveProfiles } = await db
-      .from('profiles')
-      .select('id, full_name, email')
-      .in('id', inactiveUserIds);
-    for (const p of inactiveProfiles ?? []) {
-      inactiveProfileMap[p.id] = { full_name: (p as any).full_name ?? null, email: (p as any).email ?? null };
-    }
+  for (const p of inactiveProfilesRes.data ?? []) {
+    inactiveProfileMap[(p as any).id] = { full_name: (p as any).full_name ?? null, email: (p as any).email ?? null };
   }
 
-  // Resolve program titles for inactive enrollments
-  const inactiveProgramIds = [...new Set(inactiveEnrollments.map((e: any) => e.program_id).filter(Boolean))];
   const inactiveProgramTitleMap: Record<string, string> = {};
-  if (inactiveProgramIds.length > 0) {
-    const { data: inactiveProgramRows } = await db
-      .from('programs')
-      .select('id, name, title')
-      .in('id', inactiveProgramIds);
-    for (const p of inactiveProgramRows ?? []) {
-      inactiveProgramTitleMap[p.id] = (p as any).title || (p as any).name || null;
-    }
+  for (const p of inactiveProgramRowsRes.data ?? []) {
+    inactiveProgramTitleMap[(p as any).id] = (p as any).title || (p as any).name || null;
   }
 
   const nowMs = Date.now();
@@ -744,10 +742,11 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   };
 
   // ── Recent students ───────────────────────────────────────────────────────
-  // Resolve each student's most recent enrollment + program name via separate queries.
+  // Resolve each student's most recent enrollment + program name.
+  // Step 1: fetch enrollments (needed to know which program_ids to look up).
+  // Step 2: fetch program names (depends on step 1 result — sequential by necessity).
   const recentStudentIds = recentStudentsData.map((s: any) => s.id).filter(Boolean);
   const studentProgramMap: Record<string, string | null> = {};
-  // Hoisted outside the if-block so recentStudents.map can reference them safely.
   const enrollStatusByUser: Record<string, string> = {};
   if (recentStudentIds.length > 0) {
     const { data: enrollmentRows } = await db
@@ -756,7 +755,6 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .in('user_id', recentStudentIds)
       .order('created_at', { ascending: false });
 
-    // Collect unique program_ids to look up names
     const seenUsers = new Set<string>();
     const programIdByUser: Record<string, string> = {};
     for (const row of enrollmentRows ?? []) {
@@ -809,15 +807,22 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     .slice(0, 8)
     .map(([id]) => id);
 
+  // Fetch program names and recent enrollment profiles in parallel — independent queries
+  const recentEnrollUserIds = (recentEnrollmentsRes.data ?? [])
+    .map((e: any) => e.user_id).filter(Boolean);
+
+  const [programRowsRes, rProfilesRes] = await Promise.all([
+    topProgramIds.length > 0
+      ? db.from('programs').select('id, name, title').in('id', topProgramIds)
+      : Promise.resolve({ data: [] }),
+    recentEnrollUserIds.length > 0
+      ? db.from('profiles').select('id, full_name, email').in('id', recentEnrollUserIds)
+      : Promise.resolve({ data: [] }),
+  ]);
+
   const programNamesMap: Record<string, string> = {};
-  if (topProgramIds.length > 0) {
-    const { data: programRows } = await db
-      .from('programs')
-      .select('id, name, title')
-      .in('id', topProgramIds);
-    for (const p of programRows ?? []) {
-      programNamesMap[p.id] = (p as any).name || (p as any).title || p.id.slice(0, 8);
-    }
+  for (const p of programRowsRes.data ?? []) {
+    programNamesMap[(p as any).id] = (p as any).name || (p as any).title || (p as any).id.slice(0, 8);
   }
 
   const topPrograms = topProgramIds.map(id => {
@@ -832,18 +837,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   });
 
   // ── Recent activity — merge enrollments + applications, sort by date ────────
-  // Resolve profile names for recent enrollment user_ids
-  const recentEnrollUserIds = (recentEnrollmentsRes.data ?? [])
-    .map((e: any) => e.user_id).filter(Boolean);
   const recentEnrollProfileMap: Record<string, string> = {};
-  if (recentEnrollUserIds.length > 0) {
-    const { data: rProfiles } = await db
-      .from('profiles')
-      .select('id, full_name, email')
-      .in('id', recentEnrollUserIds);
-    for (const p of rProfiles ?? []) {
-      recentEnrollProfileMap[p.id] = (p as any).full_name || (p as any).email || 'Unknown';
-    }
+  for (const p of rProfilesRes.data ?? []) {
+    recentEnrollProfileMap[(p as any).id] = (p as any).full_name || (p as any).email || 'Unknown';
   }
 
   const enrollActivityItems = (recentEnrollmentsRes.data ?? []).map((e: any) => ({

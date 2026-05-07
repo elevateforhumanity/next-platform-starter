@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+
+export const revalidate = 3600; // program detail pages are static content — revalidate hourly
 import { createPublicClient } from '@/lib/supabase/public';
 import { programs as staticPrograms } from '@/content/cf-programs';
 import { getStaticProgram } from '@/data/programs/index';

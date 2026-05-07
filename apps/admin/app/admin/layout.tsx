@@ -1,7 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { requireAdmin } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -39,24 +38,13 @@ export const metadata: Metadata = {
   },
 };
 
-async function getLicenseContext() {
-  const db = await getAdminClient();
+async function getLicenseContext(userId: string, db: Awaited<ReturnType<typeof getAdminClient>>) {
   if (!db) return null;
-
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-  if (userError)
-    throw new Error(`Auth user fetch failed in getLicenseContext: ${userError.message}`);
-  if (!user) return null;
 
   const { data: profile, error: profileError } = await db
     .from('profiles')
     .select('role, tenant_id')
-    .eq('id', user.id)
+    .eq('id', userId)
     .maybeSingle();
   // Degrade gracefully — profile missing or RLS block should not lock out the admin portal
   if (profileError || !profile?.tenant_id) return null;
@@ -72,7 +60,6 @@ async function getLicenseContext() {
     .limit(1)
     .maybeSingle();
   if (licenseError) {
-    // Non-fatal — tenant may have no license row yet; degrade to no-license mode
     logger.error('[getLicenseContext] license fetch failed', licenseError);
   }
 
@@ -84,25 +71,26 @@ async function getLicenseContext() {
 }
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Auth check — one call, result reused below
-  await requireAdmin();
-
-  // Fetch user + notifications + license context in parallel — single round-trip.
-  // Both are bounded by a timeout so a slow DB query cannot block every admin page.
+  // Single auth check — user is passed to all downstream functions to avoid
+  // redundant getUser() calls (was 3 separate calls per page load).
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/admin-login');
+
   const db = await getAdminClient();
   if (!db) return <>{children}</>;
 
+  // Verify admin role
+  const { data: roleCheck } = await db
+    .from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const adminRoles = ['admin', 'super_admin', 'staff', 'org_admin', 'instructor'];
+  if (!roleCheck || !adminRoles.includes(roleCheck.role)) redirect('/');
+
   const [context, headerData] = await Promise.all([
-    withTimeout(getLicenseContext(), 3000, 'getLicenseContext').catch(() => null),
+    withTimeout(getLicenseContext(user.id, db), 3000, 'getLicenseContext').catch(() => null),
     withTimeout(
       (async () => {
         try {
-          const {
-            data: { user },
-          } = await supabase.auth.getUser();
-          if (!user) return { userName: 'Admin', notifs: [] };
-
           const [profileRes, appsRes, docsRes, alertsRes, wioaDocsRes, staleLeadsRes] =
             await Promise.all([
               db.from('profiles').select('full_name, first_name').eq('id', user.id).maybeSingle(),
