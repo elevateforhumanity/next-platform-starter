@@ -1069,6 +1069,16 @@ const nextConfig = {
       { source: '/pwa/barber/log-hours', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/training', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/progress', destination: '/programs/barber-apprenticeship', permanent: false },
+      // Legacy stub pages — redirect at config level to avoid error boundary interference
+      { source: '/sheets', destination: '/credentials/checksheets', permanent: true },
+      { source: '/usermanagement', destination: '/admin/users', permanent: true },
+      { source: '/curriculumupload', destination: '/admin/curriculum/upload', permanent: true },
+      { source: '/community', destination: '/community-services', permanent: true },
+      { source: '/pwa/barber', destination: '/programs/barber-apprenticeship', permanent: true },
+      { source: '/pwa/cosmetology', destination: '/programs/cosmetology-apprenticeship', permanent: true },
+      { source: '/hvac', destination: '/programs/hvac-technician', permanent: true },
+      { source: '/industries/healthcare', destination: '/programs/healthcare', permanent: true },
+      { source: '/governance/security', destination: '/governance', permanent: true },
       { source: '/admin/live-sessions/new', destination: '/admin/live-sessions', permanent: false },
     ];
   },
