@@ -4,7 +4,8 @@ import Link from 'next/link';
 import {
   Wrench, Database, Upload, Download, Key, Activity,
   RefreshCw, Layers, Terminal, Shield, Clock, Webhook,
-  FileSearch, AlertTriangle, Settings,
+  FileSearch, AlertTriangle, Settings, ShoppingBag,
+  HeadphonesIcon, Users, Bot,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -51,8 +52,35 @@ const TOOL_SECTIONS = [
       { label: 'Payout Queue', href: '/admin/payout-queue', desc: 'Pending payouts and disbursements' },
       { label: 'Review Queue', href: '/admin/review-queue', desc: 'Items pending admin review' },
       { label: 'WorkOne Queue', href: '/admin/workone-queue', desc: 'WorkOne referral processing queue' },
+      { label: 'Workforce Referrals', href: '/admin/referrals', desc: 'Agency workforce referral submissions' },
+      { label: 'Booth Rental Applications', href: '/admin/shops', desc: 'Booth/suite rental signups and billing' },
       { label: 'System Jobs', href: '/admin/system/jobs', desc: 'Scheduled background jobs' },
       { label: 'System Webhooks', href: '/admin/system/webhooks', desc: 'Webhook delivery logs and retries' },
+    ],
+  },
+  {
+    title: 'Support & Tutorials',
+    icon: HeadphonesIcon,
+    iconBg: 'bg-teal-600',
+    description: 'Support tickets, calendar, and tutorial content.',
+    tools: [
+      { label: 'Support Tickets', href: '/admin/submissions', desc: 'View and respond to support ticket submissions' },
+      { label: 'Calendar Events', href: '/admin/automation', desc: 'Manage calendar_events — orientations, sessions, deadlines' },
+      { label: 'Tutorials', href: '/admin/docs', desc: 'Platform tutorial content management' },
+      { label: 'Suboffice Applications', href: '/admin/provider-applications', desc: 'Suboffice/satellite location applications' },
+    ],
+  },
+  {
+    title: 'Store & App Subscriptions',
+    icon: ShoppingBag,
+    iconBg: 'bg-indigo-600',
+    description: 'App trial management, upgrades, and store configuration.',
+    tools: [
+      { label: 'Store', href: '/admin/store', desc: 'App store listings and pricing' },
+      { label: 'App Trials', href: '/admin/store', desc: 'Start or check trial status for sam-gov, grants, website-builder' },
+      { label: 'Licenses', href: '/admin/licenses', desc: 'License assignments and expirations' },
+      { label: 'License Requests', href: '/admin/license-requests', desc: 'Pending license upgrade requests' },
+      { label: 'Promo Codes', href: '/admin/promo-codes', desc: 'Discount and promo code management' },
     ],
   },
   {
@@ -72,11 +100,13 @@ const TOOL_SECTIONS = [
     iconBg: 'bg-emerald-700',
     description: 'Developer utilities, debugging, and studio tools.',
     tools: [
-      { label: 'Dev Studio', href: '/admin/dev-studio', desc: 'Developer sandbox and testing environment' },
+      { label: 'Dev Studio', href: '/admin/dev-studio', desc: 'Autopilot commands — build courses, deploy, run tests' },
       { label: 'Automation', href: '/admin/automation', desc: 'Workflow automation rules' },
       { label: 'Workflows', href: '/admin/workflows', desc: 'Automated workflow definitions' },
       { label: 'AI Console', href: '/admin/ai-console', desc: 'AI model configuration and testing' },
       { label: 'Copilot', href: '/admin/copilot', desc: 'AI copilot management' },
+      { label: 'HVAC AI Instructor', href: '/admin/integrations/gemini', desc: 'Marcus Johnson — Gemini-powered HVAC lesson instructor' },
+      { label: 'Sentry Test', href: '/api/sentry-test', desc: 'Dev only — trigger a test error to verify Sentry capture' },
     ],
   },
   {

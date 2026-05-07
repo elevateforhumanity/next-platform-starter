@@ -46,7 +46,7 @@ function SubmitTicketContent() {
     setError('');
 
     try {
-      const response = await fetch('/api/support/tickets', {
+      const response = await fetch('/api/support/ticket', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
