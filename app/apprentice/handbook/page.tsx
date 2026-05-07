@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { BookOpen, ChevronRight, Download, Search } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { redirect } from 'next/navigation';
+import { AcknowledgeHandbookButton } from './AcknowledgeHandbookButton';
 
 export const metadata: Metadata = {
   title: 'Apprentice Handbook | Elevate For Humanity',
@@ -121,6 +122,7 @@ export default async function ApprenticeHandbookPage() {
             <Download className="w-5 h-5" />
             Download PDF
           </a>
+          <AcknowledgeHandbookButton />
         </div>
 
         {/* Table of Contents */}

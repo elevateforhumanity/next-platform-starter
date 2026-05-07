@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Users, Search, Filter, Download, Mail, Eye } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireProgramHolder } from '@/lib/auth/require-program-holder';
+import { ExportStudentsButton } from './ExportStudentsButton';
 
 export const metadata: Metadata = {
   title: 'Students | Program Holder Portal',
@@ -73,6 +74,7 @@ export default async function ProgramHolderStudentsPage() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold text-slate-900">Students</h1>
+          <ExportStudentsButton />
           <div className="flex items-center gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-700" />
