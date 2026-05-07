@@ -89,6 +89,7 @@ async function _POST(req: Request) {
     }
 
     // Dedup: block same email + program within 24 hours.
+    // Excludes intake-form mirrors — those are pre-application inquiries, not submissions.
     // Allows re-application after the window (e.g. student applies months later).
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     const { data: recentApp } = await supabase
@@ -96,6 +97,7 @@ async function _POST(req: Request) {
       .select('id')
       .eq('email', body.email.toLowerCase().trim())
       .eq('program_interest', program)
+      .neq('source', 'intake-form')
       .gte('created_at', oneDayAgo)
       .limit(1)
       .maybeSingle();

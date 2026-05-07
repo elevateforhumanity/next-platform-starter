@@ -109,15 +109,15 @@ export default async function ProviderDashboardPage() {
       label: 'Completions',
       value: String(completedCount ?? 0),
       icon: TrendingUp,
-      color: 'text-green-600',
-      bg: 'bg-green-50',
+      color: 'text-slate-600',
+      bg: 'bg-slate-50',
     },
     {
       label: 'Certificates',
       value: String(certCount ?? 0),
       icon: Award,
-      color: 'text-yellow-600',
-      bg: 'bg-yellow-50',
+      color: 'text-slate-600',
+      bg: 'bg-slate-50',
     },
   ];
 
@@ -214,9 +214,9 @@ export default async function ProviderDashboardPage() {
 
         {/* Compliance alert */}
         {expiringCount > 0 && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 flex items-center justify-between">
+          <div className="bg-slate-50 border border-yellow-200 rounded-xl p-4 mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-yellow-600" />
+              <ShieldCheck className="w-4 h-4 text-slate-600" />
               <p className="text-sm font-semibold text-yellow-800">
                 {expiringCount} compliance item{expiringCount > 1 ? 's' : ''} expiring within 30
                 days

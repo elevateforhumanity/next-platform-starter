@@ -315,8 +315,8 @@ export default async function StaffDashboard() {
               href="/booth-rental/apply"
               className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
             >
-              <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                <UserPlus className="w-5 h-5 text-emerald-600" />
+              <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
+                <UserPlus className="w-5 h-5 text-slate-600" />
               </div>
               <div>
                 <div className="font-semibold text-slate-900 text-sm">Add New Renter</div>
@@ -425,8 +425,8 @@ export default async function StaffDashboard() {
                 href="https://admin.elevateforhumanity.org/admin/hr/employees"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
-                <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                  <Users className="w-5 h-5 text-emerald-600" />
+                <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
+                  <Users className="w-5 h-5 text-slate-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Employee Directory</div>
@@ -441,8 +441,8 @@ export default async function StaffDashboard() {
                 href="https://admin.elevateforhumanity.org/admin/hr/payroll"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
-                <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                  <DollarSign className="w-5 h-5 text-emerald-600" />
+                <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
+                  <DollarSign className="w-5 h-5 text-slate-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Payroll</div>
@@ -457,8 +457,8 @@ export default async function StaffDashboard() {
                 href="https://admin.elevateforhumanity.org/admin/hr/time"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
-                <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
-                  <Timer className="w-5 h-5 text-amber-600" />
+                <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
+                  <Timer className="w-5 h-5 text-slate-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Time Tracking</div>
@@ -473,8 +473,8 @@ export default async function StaffDashboard() {
                 href="https://admin.elevateforhumanity.org/admin/hr/leave"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
-                <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
-                  <CalendarOff className="w-5 h-5 text-amber-600" />
+                <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
+                  <CalendarOff className="w-5 h-5 text-slate-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Leave Requests</div>
@@ -489,8 +489,8 @@ export default async function StaffDashboard() {
                 href="/onboarding/staff"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
-                <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center flex-shrink-0">
-                  <FileText className="w-5 h-5 text-purple-600" />
+                <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
+                  <FileText className="w-5 h-5 text-slate-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Staff Onboarding</div>

@@ -346,7 +346,7 @@ export default async function EmployerDashboardOrchestrated() {
                 href="/employer/apprenticeships"
                 className="block w-full text-center px-4 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition"
               >
-                Learn More
+                View Apprenticeships
               </a>
             </div>
           )}

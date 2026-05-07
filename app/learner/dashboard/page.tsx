@@ -100,8 +100,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
       return (
         <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
           <div className="max-w-lg w-full text-center">
-            <div className="w-20 h-20 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-6">
-              <Clock className="w-10 h-10 text-amber-600" />
+            <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-6">
+              <Clock className="w-10 h-10 text-slate-600" />
             </div>
             <h1 className="text-2xl font-black text-slate-900 mb-3">
               Thank you for completing onboarding!
@@ -558,7 +558,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   },
                   {
                     href: '/lms/attendance',
-                    icon: <Calendar className="w-7 h-7 text-amber-600" />,
+                    icon: <Calendar className="w-7 h-7 text-slate-600" />,
                     label: 'Attendance',
                   },
                   {
@@ -618,8 +618,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   <div className="space-y-4">
                     {achievements.map((item: any) => (
                       <div key={item.id} className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-                          <Trophy className="w-5 h-5 text-yellow-600" />
+                        <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
+                          <Trophy className="w-5 h-5 text-slate-600" />
                         </div>
                         <div>
                           <p className="font-medium text-slate-900 text-sm">

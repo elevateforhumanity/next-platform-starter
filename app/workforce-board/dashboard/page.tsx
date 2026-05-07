@@ -215,52 +215,52 @@ export default async function WorkforceBoardDashboard() {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-black">Completion Rate</span>
                 <span
-                  className={`text-sm font-medium ${completionRate >= 75 ? 'text-brand-green-600' : completionRate >= 50 ? 'text-yellow-600' : 'text-brand-red-600'}`}
+                  className={`text-sm font-medium ${completionRate >= 75 ? 'text-brand-green-600' : completionRate >= 50 ? 'text-slate-600' : 'text-brand-red-600'}`}
                 >
                   {completionRate}%
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
-                  className={`h-2 rounded-full ${completionRate >= 75 ? 'bg-brand-green-600' : completionRate >= 50 ? 'bg-yellow-500' : 'bg-brand-red-500'}`}
+                  className={`h-2 rounded-full ${completionRate >= 75 ? 'bg-brand-green-600' : completionRate >= 50 ? 'bg-slate-400' : 'bg-brand-red-500'}`}
                   style={{ width: `${Math.min(completionRate, 100)}%` }}
                 />
               </div>
-              <p className="text-xs text-black mt-1">Target: 75%</p>
+              <p className="text-xs text-slate-500 mt-1">WIOA target: 75%</p>
             </div>
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-black">Credential Attainment</span>
                 <span
-                  className={`text-sm font-medium ${credentialAttainment >= 70 ? 'text-brand-green-600' : credentialAttainment >= 50 ? 'text-yellow-600' : 'text-brand-red-600'}`}
+                  className={`text-sm font-medium ${credentialAttainment >= 70 ? 'text-brand-green-600' : credentialAttainment >= 50 ? 'text-slate-600' : 'text-brand-red-600'}`}
                 >
                   {credentialAttainment}%
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
-                  className={`h-2 rounded-full ${credentialAttainment >= 70 ? 'bg-brand-green-600' : credentialAttainment >= 50 ? 'bg-yellow-500' : 'bg-brand-red-500'}`}
+                  className={`h-2 rounded-full ${credentialAttainment >= 70 ? 'bg-brand-green-600' : credentialAttainment >= 50 ? 'bg-slate-400' : 'bg-brand-red-500'}`}
                   style={{ width: `${Math.min(credentialAttainment, 100)}%` }}
                 />
               </div>
-              <p className="text-xs text-black mt-1">Target: 70%</p>
+              <p className="text-xs text-slate-500 mt-1">WIOA target: 70%</p>
             </div>
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-black">Measurable Skill Gains</span>
                 <span
-                  className={`text-sm font-medium ${measurableSkillGains >= 75 ? 'text-brand-green-600' : measurableSkillGains >= 50 ? 'text-yellow-600' : 'text-brand-red-600'}`}
+                  className={`text-sm font-medium ${measurableSkillGains >= 75 ? 'text-brand-green-600' : measurableSkillGains >= 50 ? 'text-slate-600' : 'text-brand-red-600'}`}
                 >
                   {measurableSkillGains}%
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
-                  className={`h-2 rounded-full ${measurableSkillGains >= 75 ? 'bg-brand-green-600' : measurableSkillGains >= 50 ? 'bg-yellow-500' : 'bg-brand-red-500'}`}
+                  className={`h-2 rounded-full ${measurableSkillGains >= 75 ? 'bg-brand-green-600' : measurableSkillGains >= 50 ? 'bg-slate-400' : 'bg-brand-red-500'}`}
                   style={{ width: `${Math.min(measurableSkillGains, 100)}%` }}
                 />
               </div>
-              <p className="text-xs text-black mt-1">Target: 75%</p>
+              <p className="text-xs text-slate-500 mt-1">WIOA target: 75%</p>
             </div>
           </div>
           <p className="text-xs text-black mt-4">
@@ -338,7 +338,7 @@ export default async function WorkforceBoardDashboard() {
                     </div>
                     <div className="text-right">
                       <span
-                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${e.status === 'active' ? 'bg-brand-green-100 text-brand-green-800' : e.status === 'completed' ? 'bg-brand-blue-100 text-brand-blue-800' : e.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-white text-gray-800'}`}
+                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${e.status === 'active' ? 'bg-brand-green-100 text-brand-green-800' : e.status === 'completed' ? 'bg-brand-blue-100 text-brand-blue-800' : e.status === 'pending' ? 'bg-slate-100 text-slate-700' : 'bg-white text-gray-800'}`}
                       >
                         {e.status}
                       </span>

@@ -174,8 +174,8 @@ export default async function ProgramHolderDashboardPage() {
       label: 'Certificates Issued',
       value: totalCerts.toLocaleString(),
       icon: Award,
-      color: 'text-yellow-600',
-      bg: 'bg-yellow-100',
+      color: 'text-slate-600',
+      bg: 'bg-slate-100',
     },
   ];
 
