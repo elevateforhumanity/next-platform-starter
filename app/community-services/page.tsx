@@ -1,37 +1,67 @@
-import Link from 'next/link';
-import { communityServices } from '@/content/cf-community-services';
-import { buildMetadata } from '@/lib/cf-seo';
+import type { Metadata } from 'next';
+import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 
-export const metadata = buildMetadata({
-  title: 'Community Services',
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: 'Community Services | Elevate for Humanity',
   description:
-    'Free VITA tax preparation, mental wellness support, WIOA-funded job training, and employment services for qualifying Indiana residents.',
-  path: '/community-services',
-});
+    'Free community services for Indiana residents: VITA tax preparation, financial literacy, consumer education, reentry support, and workforce navigation.',
+  alternates: { canonical: 'https://www.elevateforhumanity.org/community-services' },
+};
 
 export default function CommunityServicesPage() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="text-3xl font-bold">Community Services</h1>
-      <p className="mt-4 text-slate-700">
-        Free and low-cost services for qualifying Indiana residents. One place to access tax help,
-        mental wellness support, funded job training, and employment services.
-      </p>
-      <div className="mt-8 grid gap-6 md:grid-cols-2">
-        {communityServices.map((service) => (
-          <article key={service.slug} className="rounded border p-6 hover:bg-slate-50">
-            <h2 className="text-xl font-semibold">{service.title}</h2>
-            <p className="mt-2 text-sm text-slate-700">{service.summary}</p>
-            <p className="mt-2 text-xs text-slate-600">Eligibility: {service.eligibility}</p>
-            <Link
-              href={`/community-services/${service.slug}`}
-              className="mt-4 inline-block text-sm underline"
-            >
-              Learn more
-            </Link>
-          </article>
-        ))}
-      </div>
-    </section>
+    <PublicLandingPage
+      config={{
+        breadcrumbs: [{ label: 'Community Services' }],
+        hero: {
+          image: '/images/pages/community-page-1.jpg',
+          tag: 'Community Services',
+          tagColor: 'text-brand-blue-600',
+          title: 'Free Services for Indiana Residents',
+          subtitle: 'VITA tax preparation, financial literacy, consumer education, reentry support, and workforce navigation — all free for qualifying residents.',
+        },
+        intro: {
+          heading: 'Beyond Training',
+          paragraphs: [
+            'Elevate for Humanity provides free community services that address the barriers keeping Indiana residents from economic stability. Training is one piece — but stable housing, accurate tax filing, and financial literacy are equally critical.',
+            'Our community services are available to all Indiana residents, not just enrolled students. No referral required.',
+          ],
+          image: '/images/pages/community-page-2.jpg',
+        },
+        features: {
+          heading: 'Available Services',
+          items: [
+            'VITA free tax preparation for households earning under $67,000',
+            'Financial literacy workshops: budgeting, credit, and savings',
+            'Benefits screening: SNAP, Medicaid, childcare, utility assistance',
+            'Consumer education: debt, predatory lending, tenant rights',
+            'Reentry support: employment barriers, expungement referrals',
+            'Workforce navigation: WIOA eligibility, WorkOne referrals',
+            'FAFSA and financial aid assistance',
+            'Emergency resource referrals: food, housing, transportation',
+          ],
+        },
+        steps: {
+          heading: 'How to Access Services',
+          items: [
+            { title: 'Contact Us', desc: 'Call or email to describe what you need. No appointment required for most services.' },
+            { title: 'Meet With a Navigator', desc: 'A community navigator will assess your situation and connect you to the right services.' },
+            { title: 'Get Connected', desc: 'We provide direct referrals, warm handoffs, and follow-up to make sure you get what you need.' },
+            { title: 'No Cost, No Judgment', desc: 'All community services are free and confidential.' },
+          ],
+        },
+        cta: {
+          heading: 'Get Help Today',
+          subtitle: 'Free community services for all Indiana residents. No referral required.',
+          primaryLabel: 'Contact Us',
+          primaryHref: '/contact',
+          secondaryLabel: 'Consumer Education',
+          secondaryHref: '/consumer-education',
+          bgColor: 'bg-brand-blue-700',
+        },
+      }}
+    />
   );
 }

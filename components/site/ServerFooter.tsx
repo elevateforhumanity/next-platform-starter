@@ -73,7 +73,7 @@ const footerLinks = {
   about: [
     { name: 'About Elevate', href: '/about' },
     { name: 'Our Team', href: '/about/team' },
-    { name: 'Outcomes', href: '/outcomes/indiana' },
+    { name: 'Outcomes', href: '/impact' },
     { name: 'Impact', href: '/impact' },
     { name: 'Success Stories', href: '/success-stories' },
     { name: 'Accreditation', href: '/accreditation' },
