@@ -6,6 +6,7 @@ import { logAdminAudit, AdminAction, BULK_ENTITY_ID } from '@/lib/admin/audit-lo
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 interface CopilotDeployment {
   id: string;

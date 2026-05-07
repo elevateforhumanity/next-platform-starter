@@ -106,9 +106,13 @@ export async function POST(request: Request) {
   }
 
   // Get already-sent emails to avoid duplicates
-  const { data: alreadySent } = await supabase
+  const { data: alreadySent, error: sentError } = await supabase
     .from('onboarding_email_log')
     .select('applicant_email');
+  if (sentError) {
+    logger.error('[Send Onboarding] Failed to fetch sent log:', sentError);
+    return NextResponse.json({ error: 'Failed to fetch email log' }, { status: 500 });
+  }
 
   const sentEmails = new Set((alreadySent || []).map((r) => r.applicant_email.toLowerCase()));
 

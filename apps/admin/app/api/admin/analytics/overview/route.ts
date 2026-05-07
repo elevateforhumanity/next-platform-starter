@@ -26,34 +26,38 @@ const _GET = withAuth(
     const todayStart = new Date(now.setHours(0, 0, 0, 0));
 
     // Active users (last 15 minutes)
-    const { data: activeUsers } = await db
+    const { data: activeUsers, error: activeErr } = await db
       .from('user_activity_events')
       .select('user_id')
       .eq('tenant_id', tenantId)
       .gte('created_at', fifteenMinutesAgo.toISOString());
+    if (activeErr) return NextResponse.json({ error: 'Failed to fetch active users' }, { status: 500 });
 
     const uniqueActiveUsers = new Set(activeUsers?.map((u) => u.user_id) || []).size;
 
     // Courses in progress
-    const { count: coursesInProgress } = await db
+    const { count: coursesInProgress, error: cipErr } = await db
       .from('course_enrollments')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', tenantId)
       .eq('status', 'in_progress');
+    if (cipErr) return NextResponse.json({ error: 'Failed to fetch courses in progress' }, { status: 500 });
 
     // Completions today
-    const { count: completionsToday } = await db
+    const { count: completionsToday, error: ctErr } = await db
       .from('course_completions')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', tenantId)
       .gte('completed_at', todayStart.toISOString());
+    if (ctErr) return NextResponse.json({ error: 'Failed to fetch completions' }, { status: 500 });
 
     // New enrollments today
-    const { count: enrollmentsToday } = await db
+    const { count: enrollmentsToday, error: etErr } = await db
       .from('course_enrollments')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', tenantId)
       .gte('created_at', todayStart.toISOString());
+    if (etErr) return NextResponse.json({ error: 'Failed to fetch enrollments' }, { status: 500 });
 
     return NextResponse.json({
       activeUsers: uniqueActiveUsers,
