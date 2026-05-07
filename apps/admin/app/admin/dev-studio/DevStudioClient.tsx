@@ -143,8 +143,8 @@ export default function DevStudioClient() {
           ))}
         </div>
 
-        {/* Editor area — bright white */}
-        <div className="flex-1 min-w-0 overflow-hidden bg-white">
+        {/* Editor area — bright white. flex+min-h-0 lets children use h-full correctly. */}
+        <div className="flex-1 min-w-0 min-h-0 flex flex-col overflow-hidden bg-white">
           {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} />}
           {tab === 'chat'      && <AIChat />}
           {tab === 'terminal'  && <TerminalTab workflowButtons={studioConfig?.workflowButtons} />}
@@ -189,13 +189,21 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
     'Show loaded secrets (key names only)',
   ];
 
+  // Stable command keys map directly to keyword patterns in the backend.
+  // Using fixed strings avoids AI routing entirely for these common actions.
   const AUTOPILOT_QUICK = [
-    { label: '🏗️ Build courses', cmd: 'Build all courses and push to GitHub' },
-    { label: '🚀 Deploy LMS', cmd: 'Deploy the LMS service' },
-    { label: '🚀 Deploy Admin', cmd: 'Deploy the admin service' },
-    { label: '🧪 Run tests', cmd: 'Run autopilot test suite' },
-    { label: '📦 Check trial status', cmd: 'Check app trial status' },
+    { label: '🏗️ Build courses', cmd: 'build courses' },
+    { label: '🚀 Deploy LMS',    cmd: 'deploy lms' },
+    { label: '🚀 Deploy Admin',  cmd: 'deploy admin' },
+    { label: '🧪 Run tests',     cmd: 'run autopilot test suite' },
+    { label: '📦 Check trial',   cmd: 'check trial status' },
   ];
+
+  // Strip ANSI escape codes so terminal colour sequences don't render as raw text.
+  function stripAnsi(s: string): string {
+    // eslint-disable-next-line no-control-regex
+    return s.replace(/\x1b\[[0-9;]*m/g, '');
+  }
 
   async function run(cmd: string) {
     if (!cmd.trim()) return;
@@ -203,7 +211,9 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
     setInput('');
     setLoading(true);
 
-    // The execute endpoint streams SSE — read line-by-line and append to output.
+    // Append a placeholder system block that we'll update line-by-line as SSE arrives.
+    setOutput((p) => [...p, { type: 'system', text: '' }]);
+
     try {
       const res = await fetch('/api/devstudio/execute', {
         method: 'POST',
@@ -212,17 +222,19 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
       });
 
       if (!res.ok || !res.body) {
-        // Non-streaming error response
-        let errText = 'Request failed';
+        let errText = `Request failed (HTTP ${res.status})`;
         try { const d = await res.json(); errText = d.error ?? errText; } catch { /* ignore */ }
-        setOutput((p) => [...p, { type: 'error', text: errText }]);
+        setOutput((p) => {
+          const next = [...p];
+          next[next.length - 1] = { type: 'error', text: errText };
+          return next;
+        });
         return;
       }
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buf = '';
-      let accumulated = '';
 
       while (true) {
         const { done, value } = await reader.read();
@@ -230,25 +242,48 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
         buf += decoder.decode(value, { stream: true });
         const lines = buf.split('\n');
         buf = lines.pop() ?? '';
+
         for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const payload = line.slice(6).trim();
-            if (payload === '[DONE]') continue;
-            try {
-              const parsed = JSON.parse(payload);
-              const text: string = parsed.text ?? parsed.output ?? payload;
-              accumulated += (accumulated ? '\n' : '') + text;
-            } catch {
-              // Raw text line
-              accumulated += (accumulated ? '\n' : '') + payload;
-            }
-          }
+          if (!line.startsWith('data: ')) continue;
+          const payload = line.slice(6).trim();
+          if (payload === '[DONE]') continue;
+
+          let text = payload;
+          try {
+            const parsed = JSON.parse(payload);
+            text = parsed.text ?? parsed.output ?? parsed.line ?? payload;
+          } catch { /* raw text */ }
+
+          const clean = stripAnsi(text);
+          if (!clean) continue;
+
+          // Append each line to the live output block as it streams in.
+          setOutput((p) => {
+            const next = [...p];
+            const last = next[next.length - 1];
+            next[next.length - 1] = {
+              ...last,
+              text: last.text ? last.text + '\n' + clean : clean,
+            };
+            return next;
+          });
         }
       }
 
-      setOutput((p) => [...p, { type: 'system', text: accumulated || '(no output)' }]);
-    } catch {
-      setOutput((p) => [...p, { type: 'error', text: 'Request failed — check network or server logs' }]);
+      // If the block is still empty after the stream closes, show a fallback.
+      setOutput((p) => {
+        const next = [...p];
+        const last = next[next.length - 1];
+        if (!last.text) next[next.length - 1] = { ...last, text: '(no output)' };
+        return next;
+      });
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : 'Unknown error';
+      setOutput((p) => {
+        const next = [...p];
+        next[next.length - 1] = { type: 'error', text: `Request failed — ${reason}` };
+        return next;
+      });
     } finally {
       setLoading(false);
     }

@@ -46,14 +46,16 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
       const data = await res.json();
 
       if (data.error) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: `Error: ${data.error}` }]);
+        // Surface the full error — includes actionable config instructions on 503
+        setMessages((prev) => [...prev, { role: 'assistant', content: `⚠️ ${data.error}` }]);
       } else {
         setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
       }
     } catch (error) {
+      const reason = error instanceof Error ? error.message : 'Unknown error';
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: 'Failed to connect to AI service.' },
+        { role: 'assistant', content: `Failed to connect to AI service: ${reason}` },
       ]);
     } finally {
       setIsLoading(false);
@@ -115,15 +117,15 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
   };
 
   return (
-    <div className="h-full flex flex-col bg-white">
+    <div className="h-full min-h-0 flex flex-col bg-white">
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-2 border-b border-slate-200 bg-slate-50">
+      <div className="flex-shrink-0 flex items-center gap-2 px-4 py-2 border-b border-slate-200 bg-slate-50">
         <Sparkles className="w-4 h-4 text-brand-blue-600" />
         <span className="text-sm font-medium text-slate-700">AI Assistant</span>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-auto p-4 space-y-4">
+      {/* Messages — flex-1 + min-h-0 lets this shrink so the composer stays visible */}
+      <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 ? (
           <div className="text-center py-8">
             <Bot className="w-12 h-12 text-slate-300 mx-auto mb-3" />
@@ -209,26 +211,29 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input */}
-      <div className="p-3 border-t border-slate-200 bg-slate-50">
-        <div className="flex gap-2">
+      {/* Composer — flex-shrink-0 keeps it pinned at the bottom regardless of message count */}
+      <div className="flex-shrink-0 p-3 border-t border-slate-200 bg-slate-50">
+        <div className="flex gap-2 items-end">
           <textarea
             ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask AI to help with code..."
+            placeholder="Ask AI to help with code… (Enter to send, Shift+Enter for newline)"
             rows={2}
             className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm resize-none focus:border-brand-blue-500 focus:outline-none"
           />
           <button
             onClick={sendMessage}
             disabled={!input.trim() || isLoading}
-            className="px-3 bg-brand-blue-600 hover:bg-brand-blue-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-shrink-0 px-3 py-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            <Send className="w-4 h-4" />
+            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
           </button>
         </div>
+        <p className="mt-1.5 text-[10px] text-slate-400">
+          Powered by Groq · Enter to send · Shift+Enter for newline
+        </p>
       </div>
     </div>
   );

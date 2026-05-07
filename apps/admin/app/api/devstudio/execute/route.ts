@@ -548,11 +548,40 @@ const TOOLS: unknown[] = [
 // ── SSE helpers ─────────────────────────────────────────────────────────────
 
 function encode(text: string) {
-  return new TextEncoder().encode(`data: ${JSON.stringify({ line: text })}\n\n`);
+  // Key must be "text" — the frontend reads parsed.text ?? parsed.output
+  return new TextEncoder().encode(`data: ${JSON.stringify({ text })}\n\n`);
 }
 
 function encodeDone() {
   return new TextEncoder().encode('data: [DONE]\n\n');
+}
+
+// ── Keyword-based command router (no AI required) ────────────────────────────
+// Maps plain-English command strings to action names so the autopilot quick
+// buttons work even when no AI provider key is configured.
+
+const KEYWORD_MAP: Array<{ patterns: RegExp; action: string; args?: Record<string, unknown> }> = [
+  { patterns: /run.*test|test.*suite|autopilot.*test/i,       action: 'run_tests',        args: {} },
+  { patterns: /health|system.*health|check.*health/i,         action: 'check_system_health', args: {} },
+  { patterns: /build.*course|course.*build/i,                 action: 'build_courses',    args: {} },
+  { patterns: /deploy.*lms/i,                                 action: 'deploy_autopilot', args: { service: 'lms' } },
+  { patterns: /deploy.*admin/i,                               action: 'deploy_autopilot', args: { service: 'admin' } },
+  { patterns: /deploy/i,                                      action: 'deploy_autopilot', args: { service: 'both' } },
+  { patterns: /list.*student|show.*student/i,                 action: 'list_students',    args: {} },
+  { patterns: /list.*application|show.*application/i,         action: 'list_applications', args: {} },
+  { patterns: /list.*enrollment|show.*enrollment/i,           action: 'list_enrollments', args: {} },
+  { patterns: /list.*program|show.*program/i,                 action: 'list_programs',    args: {} },
+  { patterns: /analytics|overview/i,                          action: 'get_analytics',    args: {} },
+  { patterns: /trial.*status|check.*trial/i,                  action: 'manage_app_trial', args: { action: 'status' } },
+];
+
+function matchKeyword(command: string): { action: string; args: Record<string, unknown> } | null {
+  for (const entry of KEYWORD_MAP) {
+    if (entry.patterns.test(command)) {
+      return { action: entry.action, args: entry.args ?? {} };
+    }
+  }
+  return null;
 }
 
 // ── Action executors ─────────────────────────────────────────────────────────
@@ -751,9 +780,11 @@ async function executeAction(
 
     case 'check_system_health': {
       write('\x1b[33m⚙  Checking system health...\x1b[0m');
+      logger.info('[devstudio/execute] check_system_health → GET /api/admin/webhook-health');
       try {
         const res = await fetch(`${baseUrl}/api/admin/webhook-health`, { headers });
         const data = await res.json().catch(() => ({}));
+        logger.info('[devstudio/execute] check_system_health response', { status: res.status });
         if (res.ok) {
           write('\x1b[32m✓  Health check complete\x1b[0m');
           for (const [k, v] of Object.entries(data)) {
@@ -766,10 +797,13 @@ async function executeAction(
             }
           }
         } else {
-          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+          write(`\x1b[31m✗  Failed (HTTP ${res.status}): ${data.error || res.statusText}\x1b[0m`);
         }
-      } catch {
-        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      } catch (fetchErr) {
+        const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
+        logger.error('[devstudio/execute] check_system_health fetch error', { reason });
+        write(`\x1b[31m✗  Could not reach /api/admin/webhook-health: ${reason}\x1b[0m`);
+        write(`   baseUrl: ${baseUrl}`);
       }
       break;
     }
@@ -1123,20 +1157,29 @@ async function executeAction(
 
     case 'build_courses': {
       write('⚙️  Building courses...');
-      const body: Record<string, unknown> = {};
-      if (args.course_id) body.course_id = args.course_id;
-      const res = await fetch(`${baseUrl}/api/autopilots/build-courses`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', cookie: cookieHeader },
-        body: JSON.stringify(body),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        write(`\x1b[31m✗  Build failed: ${data.error ?? res.statusText}\x1b[0m`);
-      } else {
-        write(`\x1b[32m✓  Build complete\x1b[0m`);
-        if (data.files_written) write(`   Files written: ${data.files_written}`);
-        if (data.commit_url) write(`   Commit: ${data.commit_url}`);
+      logger.info('[devstudio/execute] build_courses → POST /api/autopilots/build-courses');
+      try {
+        const body: Record<string, unknown> = {};
+        if (args.course_id) body.course_id = args.course_id;
+        const res = await fetch(`${baseUrl}/api/autopilots/build-courses`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', cookie: authHeader },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json().catch(() => ({}));
+        logger.info('[devstudio/execute] build_courses response', { status: res.status });
+        if (!res.ok) {
+          write(`\x1b[31m✗  Build failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
+          if (data.message) write(`   Detail: ${data.message}`);
+        } else {
+          write(`\x1b[32m✓  Build complete\x1b[0m`);
+          if (data.files_written) write(`   Files written: ${data.files_written}`);
+          if (data.commit_url) write(`   Commit: ${data.commit_url}`);
+        }
+      } catch (fetchErr) {
+        const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
+        logger.error('[devstudio/execute] build_courses fetch error', { reason });
+        write(`\x1b[31m✗  Could not reach /api/autopilots/build-courses: ${reason}\x1b[0m`);
       }
       break;
     }
@@ -1144,40 +1187,70 @@ async function executeAction(
     case 'deploy_autopilot': {
       const service = String(args.service ?? 'lms');
       write(`🚀  Triggering ${service} deploy...`);
-      const res = await fetch(`${baseUrl}/api/autopilots/deploy`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', cookie: cookieHeader },
-        body: JSON.stringify({ service }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        write(`\x1b[31m✗  Deploy failed: ${data.error ?? res.statusText}\x1b[0m`);
-      } else {
-        write(`\x1b[32m✓  Deploy triggered\x1b[0m`);
-        if (data.run_url) write(`   GitHub Actions: ${data.run_url}`);
-        if (data.message) write(`   ${data.message}`);
+      logger.info('[devstudio/execute] deploy_autopilot', { service });
+      try {
+        const res = await fetch(`${baseUrl}/api/autopilots/deploy`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', cookie: authHeader },
+          body: JSON.stringify({ service }),
+        });
+        const data = await res.json().catch(() => ({}));
+        logger.info('[devstudio/execute] deploy_autopilot response', { status: res.status });
+        if (!res.ok) {
+          write(`\x1b[31m✗  Deploy failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
+          if (data.message) write(`   Detail: ${data.message}`);
+        } else {
+          write(`\x1b[32m✓  Deploy triggered\x1b[0m`);
+          if (data.run_url) write(`   GitHub Actions: ${data.run_url}`);
+          if (data.message) write(`   ${data.message}`);
+        }
+      } catch (fetchErr) {
+        const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
+        logger.error('[devstudio/execute] deploy_autopilot fetch error', { reason });
+        write(`\x1b[31m✗  Could not reach /api/autopilots/deploy: ${reason}\x1b[0m`);
       }
       break;
     }
 
     case 'run_tests': {
-      write('🧪  Running autopilot tests...');
-      const res = await fetch(`${baseUrl}/api/autopilots/run-tests`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', cookie: cookieHeader },
-        body: JSON.stringify({}),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        write(`\x1b[31m✗  Tests failed: ${data.error ?? res.statusText}\x1b[0m`);
-      } else {
-        write(`\x1b[32m✓  Tests complete\x1b[0m`);
-        if (data.passed !== undefined) write(`   Passed: ${data.passed} / ${data.total ?? '?'}`);
-        if (data.failures?.length) {
-          write(`   Failures:`);
-          (data.failures as string[]).forEach((f: string) => write(`     • ${f}`));
+      write('🧪  Running autopilot test suite...');
+      logger.info('[devstudio/execute] run_tests → POST /api/autopilots/run-tests');
+      try {
+        const res = await fetch(`${baseUrl}/api/autopilots/run-tests`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', cookie: authHeader },
+          body: JSON.stringify({}),
+        });
+        const data = await res.json().catch(() => ({}));
+        logger.info('[devstudio/execute] run_tests response', { status: res.status, ok: res.ok });
+        if (!res.ok) {
+          write(`\x1b[31m✗  Tests failed (HTTP ${res.status})\x1b[0m`);
+          if (data.error)   write(`   Error: ${data.error}`);
+          if (data.message) write(`   Detail: ${data.message}`);
+        } else {
+          const summary = data.summary ?? {};
+          const passed  = summary.passed  ?? data.passed  ?? 0;
+          const total   = summary.total   ?? data.total   ?? (passed + (summary.failed ?? 0));
+          const rate    = summary.passRate ?? (total > 0 ? ((passed / total) * 100).toFixed(1) : '—');
+          write(`\x1b[32m✓  Tests complete — ${passed}/${total} passed (${rate}%)\x1b[0m`);
+          const results = data.results ?? {};
+          if (results.missingMetadata?.length) {
+            write(`   Missing metadata (${results.missingMetadata.length}):`);
+            (results.missingMetadata as string[]).slice(0, 5).forEach((f: string) => write(`     • ${f}`));
+            if (results.missingMetadata.length > 5) write(`     … and ${results.missingMetadata.length - 5} more`);
+          }
+          if (results.missingLessons?.length) {
+            write(`   Empty lesson files (${results.missingLessons.length}):`);
+            (results.missingLessons as string[]).slice(0, 5).forEach((f: string) => write(`     • ${f}`));
+            if (results.missingLessons.length > 5) write(`     … and ${results.missingLessons.length - 5} more`);
+          }
+          if (data.message) write(`   ${data.message}`);
         }
-        if (data.summary) write(`   ${data.summary}`);
+      } catch (fetchErr) {
+        const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
+        logger.error('[devstudio/execute] run_tests fetch error', { reason });
+        write(`\x1b[31m✗  Could not reach /api/autopilots/run-tests: ${reason}\x1b[0m`);
+        write(`   baseUrl: ${baseUrl}`);
       }
       break;
     }
@@ -1190,19 +1263,29 @@ async function executeAction(
           ? '/api/apps/trial/status'
           : '/api/apps/upgrade';
       write(`📦  ${action === 'start' ? 'Starting' : action === 'status' ? 'Checking' : 'Upgrading'} app trial...`);
-      const res = await fetch(`${baseUrl}${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', cookie: cookieHeader },
-        body: JSON.stringify({ user_id: args.user_id, app_id: args.app_id }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        write(`\x1b[31m✗  Failed: ${data.error ?? res.statusText}\x1b[0m`);
-      } else {
-        write(`\x1b[32m✓  Done\x1b[0m`);
-        if (data.status) write(`   Status: ${data.status}`);
-        if (data.expires_at) write(`   Expires: ${data.expires_at}`);
-        if (data.checkout_url) write(`   Checkout: ${data.checkout_url}`);
+      logger.info('[devstudio/execute] manage_app_trial', { action, endpoint });
+      try {
+        const res = await fetch(`${baseUrl}${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', cookie: authHeader },
+          body: JSON.stringify({ user_id: args.user_id, app_id: args.app_id }),
+        });
+        const data = await res.json().catch(() => ({}));
+        logger.info('[devstudio/execute] manage_app_trial response', { status: res.status });
+        if (!res.ok) {
+          write(`\x1b[31m✗  Failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
+          if (data.message) write(`   Detail: ${data.message}`);
+        } else {
+          write(`\x1b[32m✓  Done\x1b[0m`);
+          if (data.status) write(`   Status: ${data.status}`);
+          if (data.expires_at) write(`   Expires: ${data.expires_at}`);
+          if (data.checkout_url) write(`   Checkout: ${data.checkout_url}`);
+        }
+      } catch (fetchErr) {
+        const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
+        logger.error('[devstudio/execute] manage_app_trial fetch error', { reason });
+        write(`\x1b[31m✗  Could not reach ${endpoint}: ${reason}\x1b[0m`);
+        write(`   baseUrl: ${baseUrl}`);
       }
       break;
     }
@@ -1248,37 +1331,73 @@ export async function POST(req: NextRequest) {
         write(`\x1b[90m$ ${command}\x1b[0m`);
         write('');
 
-        const systemPrompt = `You are the Elevate for Humanity admin command assistant.
+        logger.info('[devstudio/execute] command received', { command: command.substring(0, 120) });
+
+        // ── Step 1: try keyword match (works without any AI key) ──────────
+        const keywordMatch = matchKeyword(command);
+
+        if (keywordMatch) {
+          logger.info('[devstudio/execute] keyword match', { action: keywordMatch.action });
+          await executeAction(keywordMatch.action, keywordMatch.args, baseUrl, cookieHeader, write);
+          write('');
+        } else {
+          // ── Step 2: AI-assisted routing ──────────────────────────────────
+          const aiAvailable = isGroqConfigured() || isGeminiConfigured();
+          if (!aiAvailable) {
+            write('\x1b[33m⚠  No AI provider configured (GROQ_API_KEY / GEMINI_API_KEY missing).\x1b[0m');
+            write('   Use one of the quick-action buttons above, or set an AI key to enable');
+            write('   natural-language commands.');
+            write('');
+            write('\x1b[90m─────────────────────────────────────\x1b[0m');
+            return;
+          }
+
+          const systemPrompt = `You are the Elevate for Humanity admin command assistant.
 The admin speaks to you in plain English and you execute the right action.
 Always use a tool — never respond with plain text unless using ask_question.
 Be decisive. If the intent is clear, act. If ambiguous, use ask_question to clarify.`;
 
-        const userPrompt = [...history.map((m: { role: string; content: string }) =>
-          `${m.role}: ${m.content}`
-        ), `user: ${command}`].join('\n');
+          const userPrompt = [...history.map((m: { role: string; content: string }) =>
+            `${m.role}: ${m.content}`
+          ), `user: ${command}`].join('\n');
 
-        const aiResponse = await callAI(systemPrompt, userPrompt, TOOLS);
-
-        const msg = {
-          content: aiResponse.content,
-          tool_calls: aiResponse.toolCalls,
-        };
-
-        if (msg.tool_calls?.length) {
-          for (const call of msg.tool_calls as { function: { name: string; arguments: string } }[]) {
-            const args = JSON.parse(call.function.arguments || '{}');
-            await executeAction(call.function.name, args, baseUrl, cookieHeader, write);
-            write('');
+          let aiResponse: Awaited<ReturnType<typeof callAI>>;
+          try {
+            aiResponse = await callAI(systemPrompt, userPrompt, TOOLS);
+          } catch (aiErr) {
+            const reason = aiErr instanceof Error ? aiErr.message : String(aiErr);
+            logger.error('[devstudio/execute] AI call failed', { reason });
+            write(`\x1b[31m✗  AI routing failed: ${reason}\x1b[0m`);
+            write('   Check that GROQ_API_KEY or GEMINI_API_KEY is set in AWS Secrets Manager.');
+            write('\x1b[90m─────────────────────────────────────\x1b[0m');
+            return;
           }
-        } else if (msg.content) {
-          write(msg.content);
+
+          const msg = {
+            content: aiResponse.content,
+            tool_calls: aiResponse.toolCalls,
+          };
+
+          if (msg.tool_calls?.length) {
+            for (const call of msg.tool_calls as { function: { name: string; arguments: string } }[]) {
+              const actionName = call.function.name;
+              const args = JSON.parse(call.function.arguments || '{}');
+              logger.info('[devstudio/execute] executing action', { action: actionName });
+              await executeAction(actionName, args, baseUrl, cookieHeader, write);
+              write('');
+            }
+          } else if (msg.content) {
+            write(msg.content);
+          } else {
+            write('\x1b[33m⚠  AI returned no action. Try rephrasing your command.\x1b[0m');
+          }
         }
 
         write('\x1b[90m─────────────────────────────────────\x1b[0m');
       } catch (err) {
-        logger.error('[devstudio/execute]', err);
-        // Write a safe message to the terminal — never expose raw error details
-        write('\x1b[31m✗  An error occurred. Check server logs for details.\x1b[0m');
+        const reason = err instanceof Error ? err.message : String(err);
+        logger.error('[devstudio/execute] unexpected error', { reason });
+        write(`\x1b[31m✗  Unexpected error: ${reason}\x1b[0m`);
       } finally {
         try {
           controller.enqueue(encodeDone());

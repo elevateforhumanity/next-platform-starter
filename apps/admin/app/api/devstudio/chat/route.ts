@@ -13,6 +13,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
@@ -21,6 +22,11 @@ async function _POST(req: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
+
+    // Ensure runtime secrets from app_secrets table are merged into process.env.
+    // ECS injects SSM params at container start, but hydrateProcessEnv fills any
+    // gaps (e.g. keys stored only in app_secrets, not SSM).
+    await hydrateProcessEnv();
 
     const { messages, fileContext } = await req.json();
 
@@ -86,8 +92,15 @@ Be concise and direct. Provide working code.`;
     }
 
     if (!assistantMessage) {
+      logger.error('[devstudio/chat] no provider available', {
+        hasGroq: isGroqConfigured(),
+        hasGemini: isGeminiConfigured(),
+      });
       return NextResponse.json(
-        { error: 'No AI provider available. Set GROQ_API_KEY or GEMINI_API_KEY.' },
+        {
+          error: 'AI Assistant is not configured. Add GROQ_API_KEY or GEMINI_API_KEY to the admin service environment (SSM Parameter Store → /elevate/GROQ_API_KEY).',
+          debug: { hasGroq: isGroqConfigured(), hasGemini: isGeminiConfigured(), service: 'admin' },
+        },
         { status: 503 }
       );
     }
