@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PrintButton } from '../PrintButton';
+import { ClaimAccountButton } from './ClaimAccountButton';
 
 export const metadata: Metadata = {
   title: 'Supervisor Verification Form — Barber Apprenticeship | Elevate for Humanity',
@@ -35,7 +36,10 @@ export default function SupervisorVerificationPage() {
           <p className="text-slate-700 mb-4">
             Required for each barbershop training site. Verifies licensed supervisor authority before apprentice placement.
           </p>
-          <PrintButton />
+          <div className="flex items-center gap-3 flex-wrap">
+            <PrintButton />
+            <ClaimAccountButton />
+          </div>
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { AcknowledgeButton } from './AcknowledgeButton';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -181,6 +182,14 @@ export default async function ProgramHolderOnboarding() {
                   </div>
                   {!step.done && (
                     <ArrowRight className="w-4 h-4 text-slate-400 flex-shrink-0 mt-1" />
+                  )}
+                  {!step.done && (step.label.toLowerCase().includes('handbook') || step.label.toLowerCase().includes('rights')) && (
+                    <div onClick={(e) => e.preventDefault()} className="ml-2">
+                      <AcknowledgeButton
+                        documentType={step.label.toLowerCase().includes('handbook') ? 'handbook' : 'rights'}
+                        label="Quick Acknowledge"
+                      />
+                    </div>
                   )}
                 </Link>
               </li>
