@@ -138,24 +138,19 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .eq('enrollment_state', 'active')
       .lt('created_at', lastMonthEndS),
 
-    // Revenue — PostgREST aggregate syntax not supported on this project version.
-    // Fetch amount_paid_cents rows and sum in JS. Row count is bounded by paid
-    // enrollments only, which stays small relative to total enrollments.
-    db.from('program_enrollments')
-      .select('amount_paid_cents')
-      .in('payment_status', ['paid', 'completed', 'setup_fee_paid']),
+    // Revenue — single RPC with conditional aggregation (replaces 3 row-fetch queries).
+    // admin_revenue_summary sums amount_paid_cents server-side using the
+    // idx_pe_payment_status_created index — no rows transferred to JS.
+    db.rpc('admin_revenue_summary', {
+      p_month_start:       thisMonthStart,
+      p_last_month_start:  lastMonthStartS,
+      p_last_month_end:    lastMonthEndS,
+    }),
 
-    db.from('program_enrollments')
-      .select('amount_paid_cents')
-      .in('payment_status', ['paid', 'completed', 'setup_fee_paid'])
-      .gte('created_at', thisMonthStart),
-
-    // Last month revenue for delta
-    db.from('program_enrollments')
-      .select('amount_paid_cents')
-      .in('payment_status', ['paid', 'completed', 'setup_fee_paid'])
-      .gte('created_at', lastMonthStartS)
-      .lt('created_at', lastMonthEndS),
+    // Placeholders — revenue is now a single RPC above; these slots kept to
+    // avoid destructuring index shifts. Resolved as no-ops below.
+    Promise.resolve({ data: null, error: null }),
+    Promise.resolve({ data: null, error: null }),
 
     // Count from both tables — certificates (legacy) and program_completion_certificates (LMS engine)
     Promise.all([
@@ -306,9 +301,8 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
 
   // Log failures but never throw — the error boundary shows a blank page with
   // no actionable info. A degraded dashboard is always better than a 500.
-  if (pendingAppsRes.error)      logger.error('[dashboard] applications query failed', pendingAppsRes.error);
-  if (revenueAllTimeRes.error)   logger.error('[dashboard] revenue (all time) query failed', revenueAllTimeRes.error);
-  if (revenueThisMonthRes.error) logger.error('[dashboard] revenue (this month) query failed', revenueThisMonthRes.error);
+  if (pendingAppsRes.error) logger.error('[dashboard] applications query failed', pendingAppsRes.error);
+  if (revenueAllTimeRes.error) logger.error('[dashboard] revenue RPC failed', revenueAllTimeRes.error);
 
   const totalPendingCount    = requireCount(allPendingAppsRes,       'applications count');
   const activeEnrollCount    = requireCount(activeEnrollmentsRes,    'active enrollments');
@@ -351,17 +345,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     recentStudentsRes,
     enrollmentsByProgramRes,
   ] = await Promise.all([
-    // inactive_learners: find active enrollments where the learner has had
-    // no lesson_progress activity in 3+ days. Uses lesson_progress.updated_at
-    // as the real activity signal — not enrollment.updated_at which reflects
-    // admin edits, not learner activity.
-    // NOTE: program_enrollments uses enrollment_state not status.
-    db.from('program_enrollments')
-      .select('id, user_id, program_id, enrolled_at, updated_at')
-      .eq('enrollment_state', 'active')
-      .not('user_id', 'is', null)
-      .order('updated_at', { ascending: true })
-      .limit(100),
+    // inactive_learners: single RPC joins lesson_progress server-side and
+    // returns only learners with no activity in 3+ days — no JS-side filtering.
+    db.rpc('admin_inactive_learners', { p_inactive_days: 3, p_limit: 20 }),
 
     db.from('programs')
       .select('id, title, slug, status, updated_at')
@@ -435,13 +421,13 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const totalPending = totalPendingCount;
   const oldestApp = pendingApps[0] ?? null;
 
-  // ── Revenue — extracted from aggregate results ────────────────────────────
-  const sumCents = (res: { data: any; error: any }) =>
-    res.error ? 0 : ((res.data as any[]) ?? []).reduce((acc: number, r: any) => acc + toSafeNumber(r.amount_paid_cents ?? 0), 0);
-
-  const revenueAllTimeCents   = sumCents(revenueAllTimeRes);
-  const revenueThisMonthCents = sumCents(revenueThisMonthRes);
-  const revenueLastMonthCents = sumCents(revenueLastMonthRes);
+  // ── Revenue — from admin_revenue_summary RPC ─────────────────────────────
+  // revenueAllTimeRes holds the RPC result; revenueThisMonthRes/LastMonthRes
+  // are no-op placeholders kept to avoid destructuring index shifts.
+  const revenueRow = (revenueAllTimeRes.data as any)?.[0] ?? null;
+  const revenueAllTimeCents   = toSafeNumber(revenueRow?.all_time_cents   ?? 0);
+  const revenueThisMonthCents = toSafeNumber(revenueRow?.this_month_cents ?? 0);
+  const revenueLastMonthCents = toSafeNumber(revenueRow?.last_month_cents ?? 0);
 
   // ── Enrollment trend — bucket by month ───────────────────────────────────
   const trendBuckets: Record<string, number> = {};
@@ -559,63 +545,22 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   }));
 
   // ── Inactive learners ─────────────────────────────────────────────────────
-  // Find learners with no lesson_progress activity in 3+ days.
-  const allEnrolledUserIds = inactiveLearnersData.map((e: any) => e.user_id).filter(Boolean);
-  const cutoff3d = new Date(Date.now() - 3 * 86400000).toISOString();
-
-  // Get user_ids that HAVE had recent activity — exclude them
-  const activeUserIds = new Set<string>();
-  if (allEnrolledUserIds.length > 0) {
-    const { data: recentActivity } = await db
-      .from('lesson_progress')
-      .select('user_id')
-      .in('user_id', allEnrolledUserIds)
-      .gte('updated_at', cutoff3d);
-    for (const r of recentActivity ?? []) {
-      if ((r as any).user_id) activeUserIds.add((r as any).user_id);
-    }
-  }
-
-  // Inactive = enrolled but no recent lesson_progress
-  const inactiveEnrollments = inactiveLearnersData
-    .filter((e: any) => !activeUserIds.has(e.user_id))
-    .slice(0, 8);
-
-  const inactiveUserIds = inactiveEnrollments.map((e: any) => e.user_id).filter(Boolean);
-  const inactiveProgramIds = [...new Set(inactiveEnrollments.map((e: any) => e.program_id).filter(Boolean))];
-
-  // Fetch profiles and program titles in parallel — they're independent of each other
-  const [inactiveProfilesRes, inactiveProgramRowsRes] = await Promise.all([
-    inactiveUserIds.length > 0
-      ? db.from('profiles').select('id, full_name, email').in('id', inactiveUserIds)
-      : Promise.resolve({ data: [] }),
-    inactiveProgramIds.length > 0
-      ? db.from('programs').select('id, name, title').in('id', inactiveProgramIds)
-      : Promise.resolve({ data: [] }),
-  ]);
-
-  const inactiveProfileMap: Record<string, { full_name: string | null; email: string | null }> = {};
-  for (const p of inactiveProfilesRes.data ?? []) {
-    inactiveProfileMap[(p as any).id] = { full_name: (p as any).full_name ?? null, email: (p as any).email ?? null };
-  }
-
-  const inactiveProgramTitleMap: Record<string, string> = {};
-  for (const p of inactiveProgramRowsRes.data ?? []) {
-    inactiveProgramTitleMap[(p as any).id] = (p as any).title || (p as any).name || null;
-  }
-
+  // admin_inactive_learners RPC returns pre-joined rows with full_name, email,
+  // and last_activity — no secondary queries needed.
   const nowMs = Date.now();
-  const inactiveLearners = inactiveEnrollments.map((e: any) => {
-    const lastActivityMs = e.enrolled_at ? new Date(e.enrolled_at).getTime() : nowMs;
-    const daysInactive = Math.floor((nowMs - lastActivityMs) / 86_400_000);
+  const inactiveLearners = inactiveLearnersData.map((e: any) => {
+    const lastMs = e.last_activity ? new Date(e.last_activity).getTime()
+                 : e.enrolled_at   ? new Date(e.enrolled_at).getTime()
+                 : nowMs;
+    const daysInactive = Math.floor((nowMs - lastMs) / 86_400_000);
     return {
-      enrollmentId: e.id,
-      userId: e.user_id,
-      enrolledAt: e.enrolled_at ?? '',
-      fullName: inactiveProfileMap[e.user_id]?.full_name ?? null,
-      email: inactiveProfileMap[e.user_id]?.email ?? null,
+      enrollmentId: e.enrollment_id,
+      userId:       e.user_id,
+      enrolledAt:   e.enrolled_at ?? '',
+      fullName:     e.full_name ?? null,
+      email:        e.email ?? null,
       daysInactive,
-      programTitle: e.program_id ? (inactiveProgramTitleMap[e.program_id] ?? null) : null,
+      programTitle: null, // program title not needed for the at-risk list
       href: `/admin/students/${e.user_id}`,
     };
   });
@@ -742,11 +687,10 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   };
 
   // ── Recent students ───────────────────────────────────────────────────────
-  // Resolve each student's most recent enrollment + program name.
-  // Step 1: fetch enrollments (needed to know which program_ids to look up).
-  // Step 2: fetch program names (depends on step 1 result — sequential by necessity).
+  // Resolve each student's most recent enrollment + program name via separate queries.
   const recentStudentIds = recentStudentsData.map((s: any) => s.id).filter(Boolean);
   const studentProgramMap: Record<string, string | null> = {};
+  // Hoisted outside the if-block so recentStudents.map can reference them safely.
   const enrollStatusByUser: Record<string, string> = {};
   if (recentStudentIds.length > 0) {
     const { data: enrollmentRows } = await db
@@ -755,6 +699,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .in('user_id', recentStudentIds)
       .order('created_at', { ascending: false });
 
+    // Collect unique program_ids to look up names
     const seenUsers = new Set<string>();
     const programIdByUser: Record<string, string> = {};
     for (const row of enrollmentRows ?? []) {
@@ -807,22 +752,15 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     .slice(0, 8)
     .map(([id]) => id);
 
-  // Fetch program names and recent enrollment profiles in parallel — independent queries
-  const recentEnrollUserIds = (recentEnrollmentsRes.data ?? [])
-    .map((e: any) => e.user_id).filter(Boolean);
-
-  const [programRowsRes, rProfilesRes] = await Promise.all([
-    topProgramIds.length > 0
-      ? db.from('programs').select('id, name, title').in('id', topProgramIds)
-      : Promise.resolve({ data: [] }),
-    recentEnrollUserIds.length > 0
-      ? db.from('profiles').select('id, full_name, email').in('id', recentEnrollUserIds)
-      : Promise.resolve({ data: [] }),
-  ]);
-
   const programNamesMap: Record<string, string> = {};
-  for (const p of programRowsRes.data ?? []) {
-    programNamesMap[(p as any).id] = (p as any).name || (p as any).title || (p as any).id.slice(0, 8);
+  if (topProgramIds.length > 0) {
+    const { data: programRows } = await db
+      .from('programs')
+      .select('id, name, title')
+      .in('id', topProgramIds);
+    for (const p of programRows ?? []) {
+      programNamesMap[p.id] = (p as any).name || (p as any).title || p.id.slice(0, 8);
+    }
   }
 
   const topPrograms = topProgramIds.map(id => {
@@ -837,9 +775,18 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   });
 
   // ── Recent activity — merge enrollments + applications, sort by date ────────
+  // Resolve profile names for recent enrollment user_ids
+  const recentEnrollUserIds = (recentEnrollmentsRes.data ?? [])
+    .map((e: any) => e.user_id).filter(Boolean);
   const recentEnrollProfileMap: Record<string, string> = {};
-  for (const p of rProfilesRes.data ?? []) {
-    recentEnrollProfileMap[(p as any).id] = (p as any).full_name || (p as any).email || 'Unknown';
+  if (recentEnrollUserIds.length > 0) {
+    const { data: rProfiles } = await db
+      .from('profiles')
+      .select('id, full_name, email')
+      .in('id', recentEnrollUserIds);
+    for (const p of rProfiles ?? []) {
+      recentEnrollProfileMap[p.id] = (p as any).full_name || (p as any).email || 'Unknown';
+    }
   }
 
   const enrollActivityItems = (recentEnrollmentsRes.data ?? []).map((e: any) => ({
