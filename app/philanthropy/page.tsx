@@ -55,7 +55,7 @@ export default function PhilanthropyPage() {
         },
         cta: {
           heading: 'Make a Gift Today',
-          subtitle: 'Every contribution directly funds a student\'s path to a career.',
+          subtitle: 'Every contribution directly funds a student\'s path to a career. Call (317) 314-3757 or email info@elevateforhumanity.org.',
           primaryLabel: 'Donate Now',
           primaryHref: '/donate',
           secondaryLabel: 'Contact Us',

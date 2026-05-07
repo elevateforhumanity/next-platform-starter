@@ -53,7 +53,7 @@ export default function JobPlacementPage() {
         },
         cta: {
           heading: 'Ready to Work?',
-          subtitle: 'Job placement support is free for all Elevate graduates.',
+          subtitle: 'Job placement support is free for all Elevate graduates. Call (317) 314-3757.',
           primaryLabel: 'Contact Career Services',
           primaryHref: '/contact',
           secondaryLabel: 'Hire Our Graduates',

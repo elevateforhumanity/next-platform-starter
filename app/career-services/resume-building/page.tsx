@@ -53,7 +53,7 @@ export default function ResumeBuildingPage() {
         },
         cta: {
           heading: 'Get Your Resume Built',
-          subtitle: 'Free for all enrolled students and graduates.',
+          subtitle: 'Free for all enrolled students and graduates. Call (317) 314-3757 to get started.',
           primaryLabel: 'Contact Career Services',
           primaryHref: '/contact',
           secondaryLabel: 'All Career Services',

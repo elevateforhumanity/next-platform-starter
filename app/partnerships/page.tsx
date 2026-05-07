@@ -16,7 +16,7 @@ export default function PartnershipsPage() {
       config={{
         breadcrumbs: [{ label: 'Partners', href: '/partners' }, { label: 'Partnerships' }],
         hero: {
-          image: '/images/pages/workforce-page-2.jpg',
+          image: '/images/pages/about-employer-partners.jpg',
           tag: 'Partnerships',
           tagColor: 'text-brand-blue-600',
           title: 'Build Something That Lasts',
@@ -28,7 +28,7 @@ export default function PartnershipsPage() {
             'Elevate for Humanity partners with employers who hire our graduates, workforce agencies who refer participants, community organizations who serve overlapping populations, and technology providers who integrate with our platform.',
             'Every partnership is structured around a shared outcome: more Indiana residents with industry credentials and living-wage jobs.',
           ],
-          image: '/images/pages/workforce-page-1.jpg',
+          image: '/images/pages/about-career-training.jpg',
         },
         features: {
           heading: 'Partnership Opportunities',
@@ -54,7 +54,7 @@ export default function PartnershipsPage() {
         },
         cta: {
           heading: 'Start a Partnership Conversation',
-          subtitle: 'Contact us to explore how we can work together to expand workforce opportunity in Indiana.',
+          subtitle: 'Contact us to explore how we can work together. Call (317) 314-3757 or use the form below.',
           primaryLabel: 'Contact Us',
           primaryHref: '/contact',
           secondaryLabel: 'View Partner Types',

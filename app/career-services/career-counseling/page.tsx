@@ -53,7 +53,7 @@ export default function CareerCounselingPage() {
         },
         cta: {
           heading: 'Schedule a Session',
-          subtitle: 'Free for all enrolled students and graduates.',
+          subtitle: 'Free for all enrolled students and graduates. Call (317) 314-3757 to schedule.',
           primaryLabel: 'Contact Career Services',
           primaryHref: '/contact',
           secondaryLabel: 'All Career Services',
