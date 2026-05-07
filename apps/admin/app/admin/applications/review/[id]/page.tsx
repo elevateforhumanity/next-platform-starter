@@ -48,6 +48,25 @@ export default async function ReviewApplicationPage({
   await requireRole(['admin', 'super_admin']);
   const { id } = await params;
 
+  // Reject non-UUID IDs immediately — legacy intake-{timestamp} IDs are not valid
+  // application records and will never resolve. Return a clear error instead of 404.
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!UUID_RE.test(id)) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        <p className="text-4xl mb-4">⚠️</p>
+        <h1 className="text-xl font-bold text-slate-900 mb-2">Invalid application ID</h1>
+        <p className="text-slate-500 mb-6">
+          <code className="bg-slate-100 px-2 py-1 rounded text-sm font-mono">{id}</code> is not a
+          valid application ID. This link may have been generated before the system was updated.
+        </p>
+        <Link href="/admin/applications" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-700 transition-colors">
+          <ArrowLeft className="w-4 h-4" /> Back to Applications
+        </Link>
+      </div>
+    );
+  }
+
   // Use admin client — applications table RLS restricts session-based reads.
   let db: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {

@@ -158,7 +158,10 @@ async function _POST(req: Request) {
     logger.info('[Intake API] Application row created', appRow?.id);
   }
 
-  const applicationId = appRow?.id ?? `intake-${Date.now()}`;
+  // Use the real UUID from the insert, or null if the insert failed.
+  // Never generate a fake intake-{timestamp} ID — those are not valid application IDs
+  // and cause 404s when the admin tries to open the review page.
+  const applicationId = appRow?.id ?? null;
 
   // Auto-create a workforce_referrals row when the applicant came through a
   // workforce agency (WorkOne, FSSA, etc.). This satisfies Fix 6 of the
