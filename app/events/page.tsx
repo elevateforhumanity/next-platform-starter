@@ -1,3 +1,4 @@
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 import Link from 'next/link';
@@ -34,6 +35,9 @@ export default async function EventsPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Events' }]} />
+      </div>
       {/* Hero Section */}
       <section className="relative bg-white text-white py-20">
         <div className="container mx-auto px-4 relative z-10">

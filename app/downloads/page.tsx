@@ -1,3 +1,4 @@
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
@@ -164,6 +165,9 @@ export default async function DownloadsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Downloads & Resources' }]} />
+      </div>
       {/* Header */}
       <section className="bg-slate-800 text-white py-16">
         <div className="container mx-auto px-4">

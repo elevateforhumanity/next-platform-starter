@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
   Users, Award, Briefcase, BookOpen, Clock, TrendingUp,
   Heart, ArrowRight, CheckCircle, MapPin, Star, Globe,
@@ -151,6 +152,9 @@ export default async function ImpactPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'About', href: '/about' }, { label: 'Impact' }]} />
+      </div>
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white overflow-hidden">

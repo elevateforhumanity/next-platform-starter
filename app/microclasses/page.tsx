@@ -1,3 +1,4 @@
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -95,6 +96,9 @@ function CourseCard({ course }: { course: PartnerCourse }) {
 export default function MicroclassesPage() {
   return (
     <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: 'Microclasses' }]} />
+      </div>
       {/* Hero */}
       <section className="bg-slate-900 text-white py-16 lg:py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">

@@ -1,3 +1,4 @@
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -208,6 +209,9 @@ export default async function SuccessStoriesPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'About', href: '/about' }, { label: 'Success Stories' }]} />
+      </div>
       <ModernLandingHero
         badge="⚡ Real People, Real Results"
         headline="Success"
