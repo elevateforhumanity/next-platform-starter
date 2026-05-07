@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Mail, Phone, MapPin, Calendar, Hash, BookOpen, Tag } from 'lucide-react';
+import { logger } from '@/lib/logger';
+import { withTimeout } from '@/lib/utils/withTimeout';
 import ApplicationActions from './ApplicationActions';
 import { resolveProgram } from '@/lib/programs/resolve';
 
@@ -45,20 +46,24 @@ export default async function ReviewApplicationPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requireRole(['admin', 'super_admin']);
+  // Auth is enforced by apps/admin/app/admin/layout.tsx — no duplicate requireRole() here.
   const { id } = await params;
+
+  logger.info('[review/application] loading', { id });
 
   // Reject non-UUID IDs immediately — legacy intake-{timestamp} IDs are not valid
   // application records and will never resolve. Return a clear error instead of 404.
   const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   if (!UUID_RE.test(id)) {
+    logger.warn('[review/application] non-UUID id rejected', { id });
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <p className="text-4xl mb-4">⚠️</p>
-        <h1 className="text-xl font-bold text-slate-900 mb-2">Invalid application ID</h1>
+        <h1 className="text-xl font-bold text-slate-900 mb-2">Application not found</h1>
         <p className="text-slate-500 mb-6">
           <code className="bg-slate-100 px-2 py-1 rounded text-sm font-mono">{id}</code> is not a
-          valid application ID. This link may have been generated before the system was updated.
+          valid application ID. This link may have been generated from an intake form submission
+          that was not converted to an application record.
         </p>
         <Link href="/admin/applications" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-700 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Applications
@@ -71,14 +76,31 @@ export default async function ReviewApplicationPage({
   let db: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {
     db = await requireAdminClient();
-  } catch (_) {
-    /* notFound() below handles null db */
+  } catch (err) {
+    logger.error('[review/application] requireAdminClient failed', err);
   }
   if (!db) notFound();
 
-  const { data: app, error } = await db.from('applications').select('*').eq('id', id).maybeSingle();
+  let app: Record<string, unknown> | null = null;
+  let queryError: string | undefined;
+  try {
+    const result = await withTimeout(
+      db.from('applications').select('*').eq('id', id).maybeSingle(),
+      5000,
+      'applications.select',
+    );
+    app = result.data as Record<string, unknown> | null;
+    queryError = result.error?.message;
+  } catch (err) {
+    queryError = err instanceof Error ? err.message : String(err);
+  }
 
-  if (error || !app) notFound();
+  logger.info('[review/application] query result', { id, found: !!app, error: queryError });
+
+  if (queryError || !app) {
+    logger.warn('[review/application] not found or timed out', { id, error: queryError });
+    notFound();
+  }
 
   const displayName =
     [app.first_name, app.last_name].filter(Boolean).join(' ') ||
