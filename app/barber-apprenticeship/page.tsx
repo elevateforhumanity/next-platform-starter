@@ -174,26 +174,26 @@ export default async function BarberApprenticeshipPage() {
           </div>
           <div className="w-full lg:w-72 shrink-0 space-y-4">
             <div className="rounded-xl border border-slate-200 bg-white p-6">
-              <h3 className="font-bold text-slate-900 mb-3">Funding Available</h3>
+              <h3 className="font-bold text-slate-900 mb-3">Payment Options</h3>
               <ul className="space-y-2 text-sm text-slate-600">
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" /> WIOA Eligible
+                  <CheckCircle className="w-4 h-4 text-green-500" /> Flexible weekly payment plan
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" /> WRG Eligible
+                  <CheckCircle className="w-4 h-4 text-green-500" /> Pay in full (5% discount)
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" /> DOL Apprenticeship Funding
+                  <CheckCircle className="w-4 h-4 text-green-500" /> Buy now, pay later (Affirm / Sezzle)
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" /> Employer Wage Subsidy
+                  <CheckCircle className="w-4 h-4 text-green-500" /> Employer-sponsored options
                 </li>
               </ul>
               <Link
-                href="/eligibility"
+                href="/programs/barber-apprenticeship/eligibility"
                 className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-red-600 hover:underline"
               >
-                Check eligibility <ArrowRight className="w-3.5 h-3.5" />
+                See payment options <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
             <div className="rounded-xl bg-brand-red-50 border border-brand-red-100 p-6">
@@ -257,10 +257,10 @@ export default async function BarberApprenticeshipPage() {
               Apply Now
             </Link>
             <Link
-              href="/programs/barber-apprenticeship"
+              href="/programs/barber-apprenticeship/apply?type=partner_shop"
               className="inline-flex items-center justify-center gap-2 rounded-lg border border-white px-6 py-3 font-semibold text-white hover:bg-white/10 transition"
             >
-              Full Program Details <ArrowRight className="w-4 h-4" />
+              Partner Barbershop <ArrowRight className="w-4 h-4" />
             </Link>
             <a
               href="tel:+13173143757"
