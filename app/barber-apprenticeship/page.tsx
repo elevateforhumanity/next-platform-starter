@@ -20,12 +20,12 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Barber Apprenticeship Program | Earn While You Learn | Elevate for Humanity',
   description:
-    "Become a licensed barber through Elevate's DOL-registered apprenticeship. Earn wages while training, complete 2,000 OJL hours, and earn your Indiana Barber License.",
+    "Become a licensed barber through Elevate's DOL-registered apprenticeship. Earn wages while training, complete 2,000 OJT hours, and earn your Indiana Barber License.",
   alternates: { canonical: 'https://www.elevateforhumanity.org/barber-apprenticeship' },
 };
 
 const PROGRAM_HIGHLIGHTS = [
-  { label: 'OJL Hours Required', value: '2,000', icon: Clock },
+  { label: 'OJT Hours Required', value: '2,000', icon: Clock },
   { label: 'Related Technical Instruction', value: '144 hrs', icon: Award },
   { label: 'Credential Earned', value: 'Indiana Barber License', icon: Award },
   { label: 'DOL Registered', value: 'Apprenticeship', icon: CheckCircle },
@@ -105,7 +105,7 @@ export default async function BarberApprenticeshipPage() {
               Barber Apprenticeship Program
             </h1>
             <p className="text-slate-200 text-lg max-w-2xl">
-              Earn wages while you train. Complete 2,000 OJL hours at a licensed barbershop and earn
+              Earn wages while you train. Complete 2,000 OJT hours at a licensed barbershop and earn
               your Indiana Barber License.
             </p>
           </div>
@@ -125,7 +125,7 @@ export default async function BarberApprenticeshipPage() {
           </div>
           <div>
             <p className="text-3xl font-extrabold text-white">2,000</p>
-            <p className="text-slate-400 text-sm mt-1">OJL Hours</p>
+            <p className="text-slate-400 text-sm mt-1">OJT Hours</p>
           </div>
           <div>
             <p className="text-3xl font-extrabold text-white">Paid</p>

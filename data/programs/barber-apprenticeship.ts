@@ -213,18 +213,18 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
   ],
 
   laborMarket: {
-    medianSalary: 0,
-    salaryRange: 'Employer-determined',
+    medianSalary: 38000,
+    salaryRange: '$30,000–$55,000+',
     growthRate: '+3–4% (average)',
     source: 'U.S. Bureau of Labor Statistics, Occupational Outlook Handbook',
     sourceYear: 2024, // BLS OES 2024; projections 2024–2034
     region: 'Indiana',
   },
   careers: [
-    { title: 'Licensed Barber', salary: 'Employer-set' },
-    { title: 'Senior Barber', salary: 'Employer-set' },
-    { title: 'Barbershop Manager', salary: 'Employer-set' },
-    { title: 'Shop Owner', salary: 'Independent' },
+    { title: 'Licensed Barber', salary: '$30K–$45K' },
+    { title: 'Senior Barber / Stylist', salary: '$40K–$55K' },
+    { title: 'Barbershop Manager', salary: '$45K–$65K' },
+    { title: 'Shop Owner', salary: '$60K–$120K+' },
   ],
 
   cta: {

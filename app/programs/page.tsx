@@ -11,6 +11,55 @@ export const metadata: Metadata = {
     'Credential-bearing programs in healthcare, skilled trades, technology, beauty, and business. WIOA and Workforce Ready Grant funding available.',
 };
 
+/**
+ * Canonical slug per program family.
+ * Near-duplicate slugs (legacy names, alternate titles) are suppressed from
+ * the public listing. The canonical page still exists and is reachable via
+ * direct URL or redirect — it just does not appear as a separate card here.
+ */
+const CANONICAL_SLUGS = new Set([
+  'barber-apprenticeship',
+  'hvac-technician',
+  'cna',
+  'medical-assistant',
+  'phlebotomy',
+  'peer-recovery-specialist',
+  'drug-collector',
+  'qma',
+  'direct-support-professional',
+  'welding',
+  'plumbing',
+  'electrical',
+  'cdl-training',
+  'building-services-technician',
+  'cosmetology-apprenticeship',
+  'esthetician',
+  'esthetician-apprenticeship',
+  'nail-technician-apprenticeship',
+  'finance-bookkeeping-accounting',
+  'tax-preparation',
+  'it-help-desk',
+  'cybersecurity-analyst',
+  'healthcare',
+  'skilled-trades',
+  'technology',
+]);
+
+/** Slugs that are near-duplicates of a canonical — suppress from listing. */
+const SUPPRESSED_SLUGS = new Set([
+  'cna-certification',
+  'cna-training',
+  'hvac',
+  'hvac-technician-program',
+  'medical-assistant-program',
+  'phlebotomy-technician',
+  'phlebotomy-technician-program',
+  'barber',
+  'barber-program',
+  'jri',           // partner page, not a program
+  'micro-programs', // category, not a program
+]);
+
 export default async function ProgramsPage() {
   const db = await getAdminClient();
   let programs: { slug: string; title: string; description: string | null }[] = [];
@@ -22,15 +71,19 @@ export default async function ProgramsPage() {
       .eq('is_active', true)
       .neq('status', 'archived')
       .order('title');
+
     if (data && data.length > 0) {
-      programs = data.map((p) => ({
-        slug: p.slug,
-        title: p.title,
-        description: p.short_description || p.description || null,
-      }));
+      programs = data
+        .filter((p) => !SUPPRESSED_SLUGS.has(p.slug))
+        .map((p) => ({
+          slug: p.slug,
+          title: p.title,
+          description: p.short_description || p.description || null,
+        }));
     }
   }
 
+  // Static fallback — already canonical, no dedup needed
   if (programs.length === 0) {
     programs = staticPrograms.map((p) => ({
       slug: p.slug,
