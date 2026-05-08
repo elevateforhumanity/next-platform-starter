@@ -244,7 +244,7 @@ async function _POST(req: Request) {
     // STEP 8: For barber program, create Stripe checkout for Elevate to pay $295
     // Note: Student doesn't pay - this is for Elevate's internal payment tracking
     if (programSlug === 'barber-apprenticeship') {
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
 
       const session = await stripe.checkout.sessions.create({
         mode: 'payment',
@@ -307,7 +307,7 @@ async function _POST(req: Request) {
       programSlug,
     });
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
 
     return NextResponse.json({
       ok: true,

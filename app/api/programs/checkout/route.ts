@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       'link',
     ];
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const baseUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
 
     let sessionConfig: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: paymentMethodTypes,

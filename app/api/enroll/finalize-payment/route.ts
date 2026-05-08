@@ -217,7 +217,7 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'Failed to initiate payment' }, { status: 500 });
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
 
     // Create Stripe Checkout session
     const session = await stripe.checkout.sessions.create({

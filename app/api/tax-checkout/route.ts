@@ -67,8 +67,8 @@ async function _POST(req: Request) {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/thank-you?service=${service_type}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/self-prepared-tax-support`,
+      success_url: `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org')}/thank-you?service=${service_type}`,
+      cancel_url: `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org')}/self-prepared-tax-support`,
     });
 
     return NextResponse.json({ sessionId: session.id, url: session.url });

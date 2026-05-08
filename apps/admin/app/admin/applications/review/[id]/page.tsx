@@ -10,7 +10,7 @@ import { withTimeout } from '@/lib/utils/withTimeout';
 import ApplicationActions from './ApplicationActions';
 import { resolveProgram } from '@/lib/programs/resolve';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org';
 
 export const dynamic = 'force-dynamic';
 

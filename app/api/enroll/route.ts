@@ -116,7 +116,7 @@ async function _POST(req: NextRequest) {
   try {
     // Create Stripe checkout session
     const checkoutResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/enroll/checkout`,
+      `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org')}/api/enroll/checkout`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

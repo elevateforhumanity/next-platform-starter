@@ -64,7 +64,7 @@ async function _POST(req: Request) {
     // Determine price - use env var or program cost
     const amount = program.total_cost ? Math.round(Number(program.total_cost) * 100) : 29500; // Default $295
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
 
     // Create Stripe checkout session (sponsor-paid)
     const session = await stripe.checkout.sessions.create({

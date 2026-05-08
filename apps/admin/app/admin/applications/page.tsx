@@ -63,6 +63,9 @@ export default async function ApplicationsPage({
   let query = adminDb
     .from('applications')
     .select('*', { count: 'exact' })
+    // Exclude legacy intake-{timestamp} rows — their IDs are not UUIDs and the
+    // review page cannot load them. Real intake mirrors always have UUID ids.
+    .filter('id', 'not.like', 'intake-%')
     .order('created_at', { ascending: false });
   if (resolvedStatuses.length === 1) query = query.eq('status', resolvedStatuses[0]);
   else if (resolvedStatuses.length > 1) query = query.in('status', resolvedStatuses);
@@ -80,7 +83,8 @@ export default async function ApplicationsPage({
 
   const { data: allApps, error: allAppsError } = await adminDb
     .from('applications')
-    .select('status');
+    .select('status')
+    .filter('id', 'not.like', 'intake-%');
   if (allAppsError)
     return (
       <div className="p-8 text-red-600">Failed to load application counts. Please refresh.</div>

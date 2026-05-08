@@ -155,7 +155,7 @@ async function _POST(req: Request) {
       }
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
 
     if (!stripe) {
       logger.error('Stripe not configured — STRIPE_SECRET_KEY missing');

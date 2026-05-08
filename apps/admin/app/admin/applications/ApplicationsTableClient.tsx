@@ -220,12 +220,18 @@ export default function ApplicationsTableClient({
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="flex items-center justify-end gap-1.5 flex-wrap">
-                    <Link
-                      href={`/admin/applications/review/${app.id}`}
-                      className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded bg-gray-100 text-slate-900 hover:bg-gray-200 transition-colors"
-                    >
-                      <Eye className="w-2.5 h-2.5" /> View
-                    </Link>
+                    {/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(app.id) ? (
+                      <Link
+                        href={`/admin/applications/review/${app.id}`}
+                        className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded bg-gray-100 text-slate-900 hover:bg-gray-200 transition-colors"
+                      >
+                        <Eye className="w-2.5 h-2.5" /> View
+                      </Link>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded bg-amber-50 text-amber-700 border border-amber-200" title="Legacy intake record — no review page available">
+                        Intake only
+                      </span>
+                    )}
                     {isActionable && (
                       <>
                         <ActionButton

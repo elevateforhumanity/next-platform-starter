@@ -20,7 +20,7 @@ async function handler(req: Request) {
     const rateLimited = await applyRateLimit(req, 'contact');
     if (rateLimited) return rateLimited;
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
     const storeUrl = `${siteUrl}/store`;
 
     const injected = injectFailureRedirect(req, `${storeUrl}?error=checkout-failed`);

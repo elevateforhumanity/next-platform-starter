@@ -49,6 +49,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
+    const barberRef = `EFH-${Date.now().toString(36).toUpperCase()}`;
+    const normalizedBarberEmail = validated.email.toLowerCase().trim();
+
     // Insert into applications table
     const { data: application, error } = await supabase
       .from('applications')
@@ -56,36 +59,47 @@ export async function POST(req: Request) {
         first_name: validated.firstName,
         last_name: validated.lastName,
         email: validated.email,
+        normalized_email: normalizedBarberEmail,
+        normalized_phone: validated.phone.replace(/\D/g, ''),
         phone: validated.phone,
         city: validated.city,
         zip: validated.zipCode,
-        program_interest: 'Barber Apprenticeship',
-        program_slug: 'barber-apprenticeship', // required for approve.ts → resolveCourseId()
-        program_id: '5ff21fcb-1968-41fd-99d3-37d69a31bd5c', // required for approve.ts enrollment block
+        program_interest: 'barber-apprenticeship',
+        program_slug: 'barber-apprenticeship',
+        program_id: '5ff21fcb-1968-41fd-99d3-37d69a31bd5c',
+        reference_number: barberRef,
         status: 'submitted',
-        // date_of_birth, address, state stored in eligibility_data (not in applications schema)
+        type: 'student',
+        source: 'barber-apply-form',
+        funding_type: validated.fundingSource || 'self-pay',
         eligibility_data: {
           date_of_birth: validated.dateOfBirth,
           address: validated.address,
           state: validated.state,
         },
-        support_notes: JSON.stringify({
-          programType: 'apprenticeship',
-          fundingSource: 'self-pay',
-          hasHostShop: validated.hasHostShop,
-          hostShopName: validated.hostShopName ?? null,
-          hostShopAddress: validated.hostShopAddress ?? null,
-          hostShopContact: validated.hostShopContact ?? null,
-          enrolledInBarberSchool: validated.enrolledInBarberSchool,
-          barberSchoolName: validated.barberSchoolName ?? null,
-          priorExperience: validated.priorExperience ?? null,
-        }),
+        support_notes: [
+          `Ref: ${barberRef}`,
+          `Program type: apprenticeship`,
+          `Funding: ${validated.fundingSource || 'self-pay'}`,
+          `Host shop: ${validated.hasHostShop}`,
+          validated.hostShopName ? `Shop name: ${validated.hostShopName}` : '',
+          validated.hostShopAddress ? `Shop address: ${validated.hostShopAddress}` : '',
+          validated.hostShopContact ? `Shop contact: ${validated.hostShopContact}` : '',
+          `Enrolled in barber school: ${validated.enrolledInBarberSchool}`,
+          validated.barberSchoolName ? `School: ${validated.barberSchoolName}` : '',
+          validated.priorExperience ? `Prior experience: ${validated.priorExperience}` : '',
+        ].filter(Boolean).join(' | '),
       })
       .select('id')
       .maybeSingle();
 
     if (error) {
-      logger.error('Supabase insert error:', error);
+      logger.error('[barber/apply] DB insert failed', {
+        code: (error as any)?.code,
+        message: (error as any)?.message,
+        hint: (error as any)?.hint,
+        email: validated.email,
+      });
       return NextResponse.json(
         { error: 'Failed to submit application. Please call 317-314-3757.' },
         { status: 500 },
