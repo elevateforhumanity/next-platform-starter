@@ -8,6 +8,69 @@ const EDUCATION_DOMAIN = 'elevateforhumanityeducation.com';
 // Connects domain - landing page at /connects, sub-routes pass through
 const CONNECTS_DOMAIN = 'elevateconnects.org';
 
+const LEARN_SUBDOMAIN = 'learn.elevateforhumanity.org';
+const PLATFORM_SUBDOMAIN = 'platform.elevateforhumanity.org';
+
+const WEBHOOK_PATHS = ['/api/webhooks', '/api/stripe/webhook'];
+
+const PROTECTED_ROUTES: Record<string, string[]> = {
+  '/admin': ['admin', 'super_admin'],
+  '/staff-portal': ['staff', 'admin', 'super_admin', 'advisor'],
+  '/instructor': ['instructor', 'admin', 'super_admin'],
+  '/program-holder': ['program_holder', 'admin', 'super_admin'],
+  '/workforce-board': ['workforce_board', 'admin', 'super_admin'],
+  '/employer': ['employer', 'admin', 'super_admin'],
+  '/partner': ['partner', 'admin', 'super_admin'],
+  '/mentor': ['mentor', 'admin', 'super_admin'],
+};
+
+const AUTH_REQUIRED_ROUTES = [
+  '/lms',
+  '/learner',
+  '/student-portal',
+  '/hub',
+  '/settings',
+  '/profile',
+  '/onboarding',
+  '/partner',
+  '/employer',
+  '/instructor',
+  '/staff-portal',
+  '/program-holder',
+];
+
+const ONBOARDING_REQUIRED_ROUTES = ['/lms', '/learner', '/hub'];
+const ENROLLMENT_REQUIRED_ROUTES = ['/lms/courses', '/lms/lesson', '/lms/dashboard'];
+const ENROLLMENT_FLOW_ROUTES = ['/enrollment'];
+const PARTNER_ROUTES = ['/partner'];
+const PARTNER_ONBOARDING_ROUTES = ['/partner/onboarding', '/partner/documents', '/partner/apply'];
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '')
+  .split(',')
+  .map((email) => email.trim())
+  .filter(Boolean);
+const PUBLIC_DASHBOARD_LANDINGS: string[] = [];
+const NOINDEX_PREFIXES = [
+  '/admin',
+  '/staff-portal',
+  '/instructor',
+  '/learner',
+  '/lms',
+  '/login',
+  '/signup',
+  '/onboarding',
+  '/partner',
+  '/employer',
+  '/program-holder',
+  '/mentor',
+];
+
+export async function middleware(request: NextRequest) {
+  const host = request.headers.get('host') || '';
+  const pathname = request.nextUrl.pathname;
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-pathname', pathname);
+  const nextWithPathname = () => NextResponse.next({ request: { headers: requestHeaders } });
+
   // ── BYPASS POLICY ────────────────────────────────────────────────────────────
   // Single definition. No other branch in this file references SKIP_ADMIN_AUTH.
   // allowDevAdminBypass is false in all production builds: NODE_ENV is set to
@@ -18,6 +81,10 @@ const CONNECTS_DOMAIN = 'elevateconnects.org';
 
   // Gitpod preview domains — treat as development for routing purposes
   const isGitpodPreview = host.includes('.gitpod.dev') || host.includes('gitpod.io');
+
+  if (allowDevAdminBypass && pathname.startsWith('/admin')) {
+    return nextWithPathname();
+  }
 
   // On Gitpod preview, redirect root to /admin/dashboard for convenience.
   // The admin namespace gate handles auth from there.
