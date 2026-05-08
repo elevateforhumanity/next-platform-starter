@@ -24,7 +24,7 @@ export default function MesmerizedByBeautyPage() {
             Apply Now
           </Link>
           <Link
-            href="/contact?program=mesmerized-by-beauty"
+            href="/contact"
             className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50"
           >
             Request Information
