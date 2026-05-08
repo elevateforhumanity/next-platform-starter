@@ -183,6 +183,8 @@ export async function middleware(request: NextRequest) {
   }
 
   if ((pathname === '/admin' || pathname.startsWith('/admin/')) && hostWithoutPort !== canonicalAdminHost) {
+    // Keep the canonical admin landing page explicit so host-only /admin requests
+    // consistently land on the admin dashboard after domain canonicalization.
     const adminPath = pathname === '/admin' ? '/admin/dashboard' : pathname;
     return NextResponse.redirect(`${adminBase}${adminPath}${search}`, { status: 308 });
   }
