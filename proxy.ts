@@ -160,7 +160,7 @@ const ADMIN_EMAILS: string[] = [
 
 export async function middleware(request: NextRequest) {
   const host = (request.headers.get('host') || '').toLowerCase();
-  const hostWithoutPort = host.split(':')[0] || '';
+  const hostWithoutPort = host.split(':')[0];
   const { pathname, search } = request.nextUrl;
 
   const requestHeaders = new Headers(request.headers);
@@ -171,12 +171,9 @@ export async function middleware(request: NextRequest) {
   }
 
   const adminBase = (process.env.NEXT_PUBLIC_ADMIN_URL || DEFAULT_ADMIN_URL).replace(/\/+$/, '');
-  let canonicalAdminHost = 'admin.elevateforhumanity.org';
-  try {
-    canonicalAdminHost = new URL(adminBase).host;
-  } catch {
-    canonicalAdminHost = 'admin.elevateforhumanity.org';
-  }
+  const canonicalAdminHost = URL.canParse(adminBase)
+    ? new URL(adminBase).host
+    : 'admin.elevateforhumanity.org';
 
   if (LEGACY_ADMIN_HOSTS.has(hostWithoutPort)) {
     return NextResponse.redirect(`${adminBase}${pathname}${search}`, { status: 301 });
