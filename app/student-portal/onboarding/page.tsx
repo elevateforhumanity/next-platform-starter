@@ -57,7 +57,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     description: 'Submit ID, proof of eligibility, and any required certifications',
     icon: Upload,
     href: '/student-portal/onboarding/documents',
-    required: false,
+    required: true,
   },
 ];
 

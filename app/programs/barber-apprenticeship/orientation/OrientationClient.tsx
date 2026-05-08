@@ -108,6 +108,7 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
   const [readSlides, setReadSlides] = useState<Set<number>>(new Set());
   const [acknowledged, setAcknowledged] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Handbook is unlocked once video is watched OR if video fails to load
   const handbookUnlocked = videoWatched || videoError;
@@ -135,15 +136,23 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
 
   async function handleComplete() {
     if (!acknowledged) return;
+    setSubmitError(null);
     setSubmitting(true);
     try {
-      await fetch('/api/enrollment/complete-orientation', {
+      const response = await fetch('/api/enrollment/complete-orientation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ program: 'barber-apprenticeship' }),
       });
-    } catch { /* non-fatal */ }
-    router.push('/programs/barber-apprenticeship/documents');
+      if (!response.ok) {
+        throw new Error('Failed to complete orientation');
+      }
+      router.push('/programs/barber-apprenticeship/documents');
+    } catch {
+      setSubmitError('We could not save your orientation completion. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -352,6 +361,9 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
           >
             {submitting ? 'Processing…' : 'Continue to Program Documents →'}
           </button>
+          {submitError && (
+            <p className="text-brand-red-400 text-xs text-center">{submitError}</p>
+          )}
           {!allSlidesRead && (
             <p className="text-slate-500 text-xs text-center">
               Read all {HANDBOOK_SLIDES.length} handbook sections to unlock this step.
