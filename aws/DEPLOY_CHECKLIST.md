@@ -88,18 +88,21 @@ Go to: AWS Console → ACM → Request Certificate
 
 Update `aws/cloudfront.json` with the certificate ARN.
 
-### 1h. Create CloudFront Distribution
+### 1h. Create CloudFront Distribution (public LMS/web only)
 Go to: AWS Console → CloudFront → Create Distribution
 Use settings from `aws/cloudfront.json`.
 
 ### 1i. Update DNS in Cloudflare/Route53
 Add CNAMEs pointing to your CloudFront distribution domain:
 - `www.elevateforhumanity.org` → CloudFront
-- `admin.elevateforhumanity.org` → CloudFront (same distribution — routes /admin/* to admin ALB)
 - `elevateforhumanity.org` → CloudFront (or A alias if Route53)
 
-CloudFront distribution must have all three in its Alternate Domain Names (CNAMEs).
-ACM certificate must cover `*.elevateforhumanity.org` and be attached to the distribution.
+Admin domain must be direct and separate:
+- `admin.elevateforhumanity.org` → CNAME to the admin ALB DNS name
+
+CloudFront distribution should include only public aliases.
+Admin TLS certificate must be attached to the **admin ALB HTTPS (443) listener**.
+Do not use raw `*.elb.amazonaws.com` URLs as public entrypoints.
 
 ---
 
@@ -137,10 +140,10 @@ Watch progress: GitHub → Actions tab.
 
 ```bash
 # LMS health check
-curl https://app.elevateforhumanity.org/api/health
+curl https://www.elevateforhumanity.org/api/health
 
 # Admin health check  
-curl https://app.elevateforhumanity.org/admin
+curl https://admin.elevateforhumanity.org/admin
 ```
 
 ---

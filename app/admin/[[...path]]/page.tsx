@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 // Admin app catch-all — redirects to the admin app at NEXT_PUBLIC_ADMIN_URL.
 // NEXT_PUBLIC_ADMIN_URL is set via SSM /elevate/NEXT_PUBLIC_ADMIN_URL and
-// baked in at build time. Falls back to app.elevateforhumanity.org.
+// baked in at build time. Falls back to admin.elevateforhumanity.org.
 export const dynamic = 'force-dynamic';
 
 export default async function AdminCatchAll({
