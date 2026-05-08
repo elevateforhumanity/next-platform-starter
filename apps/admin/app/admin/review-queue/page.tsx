@@ -157,7 +157,7 @@ export default async function ReviewQueuePage({
                     {new Date(app.created_at).toLocaleDateString()}
                   </span>
                   <Link
-                    href={`/admin/applications/${app.id}`}
+                    href={`/admin/applications/review/${app.id}`}
                     className="px-3 py-1.5 bg-brand-blue-600 text-white text-xs font-medium rounded-lg hover:bg-brand-blue-700"
                   >
                     Review

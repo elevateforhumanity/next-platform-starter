@@ -82,10 +82,17 @@ function ActionButton({
   function handleClick() {
     startTransition(async () => {
       try {
-        const res = await fetch(`/api/admin/applications/${appId}`, {
-          method: 'PATCH',
+        const isApprove = action === 'approved';
+        const endpoint = isApprove
+          ? `/api/admin/applications/${appId}/approve`
+          : `/api/admin/applications/${appId}`;
+        const method = isApprove ? 'POST' : 'PATCH';
+        const body = isApprove ? {} : { status: action };
+
+        const res = await fetch(endpoint, {
+          method,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: action }),
+          body: JSON.stringify(body),
         });
         if (res.ok) {
           onDone(appId, action);

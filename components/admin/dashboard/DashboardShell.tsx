@@ -203,7 +203,7 @@ function LearnersNeedingAttention({ learners }: { learners: InactiveLearner[] })
 
 function ReviewQueues({ data }: { data: AdminDashboardData }) {
   const queues = [
-    { label: "Enrollments awaiting review", count: data.counts.pendingApplications, context: data.counts.pendingApplications > 0 ? "Needs admin action" : "Queue is clear", href: "/admin/applications?status=submitted", urgent: data.counts.pendingApplications > 0 },
+    { label: "Applications awaiting review", count: data.counts.pendingApplications, context: data.counts.pendingApplications > 0 ? "Intake queue needs admin action" : "Queue is clear", href: "/admin/applications?status=submitted", urgent: data.counts.pendingApplications > 0 },
     { label: "WIOA documents awaiting review", count: data.pendingWioaDocs, context: data.pendingWioaDocs > 0 ? "Funding eligibility may be blocked" : "Queue is clear", href: "/admin/wioa/documents", urgent: data.pendingWioaDocs > 0 },
     { label: "Lab submissions awaiting sign-off", count: data.pendingSubmissions.length, context: data.pendingSubmissions.length > 0 ? "Instructor action required" : "Queue is clear", href: "/admin/submissions", urgent: data.pendingSubmissions.length > 0 },
   ];
@@ -335,7 +335,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>
 
-        <div className="max-w-screen-xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6">
+        <div className="w-full px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6">
 
         {/* Header */}
         <div className="mb-6">
@@ -347,8 +347,10 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         </div>
         {/* Quick-action strip — horizontally scrollable on mobile */}
         <div className="flex gap-2 overflow-x-auto pb-2 mb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-none">
-          <Link href="/admin/applications?status=submitted" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-900 text-white text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">Review Enrollments</Link>
+          <Link href="/admin/applications?status=submitted" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-900 text-white text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">Review Applications</Link>
           <Link href="/admin/compliance" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Compliance</Link>
+          <Link href="/admin/documents/templates" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Document Templates</Link>
+          <Link href="/admin/course-builder/templates" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Course Templates</Link>
           <Link href="/admin/crm/leads" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">CRM Queue</Link>
           <Link href="/admin/students" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Students</Link>
           <Link href="/admin/enrollments" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Enrollments</Link>

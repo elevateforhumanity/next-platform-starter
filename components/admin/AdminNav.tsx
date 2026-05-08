@@ -59,7 +59,6 @@ const NAV = [
       { label: 'All Students', href: '/admin/students' },
       { label: 'Students Export', href: '/admin/students/export' },
       { label: 'Applications', href: '/admin/applications' },
-      { label: 'Applicants', href: '/admin/applicants' },
       { label: 'Enrollments', href: '/admin/enrollments' },
       { label: 'Enrollment Jobs', href: '/admin/enrollment-jobs' },
       { label: 'Completions', href: '/admin/completions' },
@@ -87,7 +86,7 @@ const NAV = [
       { label: 'Next Steps', href: '/admin/next-steps' },
       { label: 'Waitlist', href: '/admin/waitlist' },
       { label: 'Intake', href: '/admin/intake' },
-      { label: 'Leads', href: '/admin/leads' },
+      { label: 'Leads', href: '/admin/crm/leads' },
       { label: 'Contacts', href: '/admin/contacts' },
       { label: 'Transfer Hours', href: '/admin/transfer-hours' },
 

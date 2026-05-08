@@ -102,9 +102,11 @@ async function _POST(req: Request) {
   // apprenticeship_intake retains the full intake detail; applications drives
   // the admin review workflow (status, enroll, inquiry actions).
   const fullName = (body.full_name as string).trim();
-  const nameParts = fullName.split(' ');
-  const firstName = nameParts[0] ?? '';
-  const lastName = nameParts.slice(1).join(' ') ?? '';
+  const nameParts = fullName.split(/\s+/);
+  const firstName = nameParts[0] ?? fullName;
+  // applications.last_name is NOT NULL — fall back to first name when only one
+  // name token is provided (e.g. "Modupe" with no surname).
+  const lastName = nameParts.slice(1).join(' ') || nameParts[0] || fullName;
 
   const supportNotes = [
     body.employment_status ? `Employment: ${body.employment_status}` : null,

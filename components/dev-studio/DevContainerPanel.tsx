@@ -41,15 +41,18 @@ export default function DevContainerPanel() {
     setStatus(null);
     try {
       const res = await fetch('/api/devstudio/devcontainer');
-      if (!res.ok) throw new Error('Failed to load');
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error((err as { error?: string }).error ?? 'Failed to load');
+      }
       const data = await res.json();
       setRaw(data.raw);
       setSha(data.sha ?? '');
       setParsed(data.parsed);
       setEditedRaw(data.raw);
       setParseError(null);
-    } catch {
-      setStatus({ type: 'error', message: 'Could not load devcontainer.json' });
+    } catch (e) {
+      setStatus({ type: 'error', message: (e as Error).message || 'Could not load devcontainer.json' });
     } finally {
       setLoading(false);
     }

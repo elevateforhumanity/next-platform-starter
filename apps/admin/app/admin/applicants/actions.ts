@@ -26,6 +26,6 @@ export async function updateApplicationStatus(
 
   if (error) return { success: false, error: error.message };
 
-  revalidatePath('/admin/applicants');
+  revalidatePath('/admin/applications');
   return { success: true };
 }

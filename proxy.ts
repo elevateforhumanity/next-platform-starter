@@ -10,6 +10,13 @@ const LEARN_SUBDOMAIN  = 'learn.elevateforhumanity.org';
 const PLATFORM_SUBDOMAIN = 'platform.elevateforhumanity.org';
 const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
 const LEGACY_ADMIN_HOSTS = new Set(['app.elevateforhumanity.org']);
+const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
+  '/admin/applicants': '/admin/applications',
+  '/admin/leads': '/admin/crm/leads',
+  '/admin/leads/new': '/admin/crm/leads/new',
+  '/admin/dashboard-enhanced': '/admin/dashboard',
+  '/admin/lms-dashboard': '/admin/dashboard',
+};
 
 // Webhook paths bypass auth — Stripe signature verification handles security.
 const WEBHOOK_PATHS = [
@@ -187,6 +194,14 @@ export async function middleware(request: NextRequest) {
     // consistently land on the admin dashboard after domain canonicalization.
     const adminPath = pathname === '/admin' ? '/admin/dashboard' : pathname;
     return NextResponse.redirect(`${adminBase}${adminPath}${search}`, { status: 301 });
+  }
+
+  // Canonicalize legacy admin paths before auth logic.
+  const legacyAdminRedirect = LEGACY_ADMIN_PATH_REDIRECTS[pathname];
+  if (legacyAdminRedirect) {
+    const url = new URL(request.url);
+    url.pathname = legacyAdminRedirect;
+    return NextResponse.redirect(url, { status: 308 });
   }
 
   // ── BYPASS POLICY ────────────────────────────────────────────────────────────

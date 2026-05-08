@@ -183,8 +183,13 @@ async function _POST(req: NextRequest) {
 
   try {
     event = constructStripeEventWithAnySecret(stripe, body, sig, webhookSecrets);
-  } catch (err: any) {
-    logger.error('Webhook signature verification failed', { error: 'Operation failed' });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    logger.error('Webhook signature verification failed', {
+      error: msg,
+      secretsConfigured: webhookSecrets.length,
+      sigHeader: sig?.slice(0, 20),
+    });
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 

@@ -24,3 +24,8 @@ jobs:
 
       - name: Run lint
         run: pnpm lint
+
+      - name: Verify Admin/LMS Separation
+        run: |
+          chmod +x scripts/check-admin-lms-separation.sh
+          ./scripts/check-admin-lms-separation.sh

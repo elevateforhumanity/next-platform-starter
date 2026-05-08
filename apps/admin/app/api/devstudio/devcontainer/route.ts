@@ -10,6 +10,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { createHash } from 'crypto';
+import { access, mkdir, readFile, writeFile } from 'fs/promises';
+import path from 'path';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -21,6 +24,57 @@ const DEVCONTAINER_GH  = '.devcontainer/devcontainer.json';
 const MAX_CONTENT_BYTES = 64 * 1024; // 64 KB
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
+function hasGitHubToken(): boolean {
+  return Boolean(process.env.GITHUB_TOKEN);
+}
+
+function computeSha(content: string): string {
+  return createHash('sha1').update(content, 'utf8').digest('hex');
+}
+
+async function resolveLocalDevcontainerPath(): Promise<string> {
+  const candidates = [
+    path.resolve(process.cwd(), DEVCONTAINER_GH),
+    path.resolve(process.cwd(), '..', '..', DEVCONTAINER_GH),
+  ];
+
+  for (const candidate of candidates) {
+    try {
+      await access(candidate);
+      return candidate;
+    } catch {
+      // Keep scanning candidates.
+    }
+  }
+
+  return candidates[0];
+}
+
+async function readLocalDevcontainer() {
+  const filePath = await resolveLocalDevcontainerPath();
+  const raw = await readFile(filePath, 'utf8');
+  const parsed = JSON.parse(raw);
+  return { raw, parsed, sha: computeSha(raw), filePath };
+}
+
+async function writeLocalDevcontainer(content: string, expectedSha: string) {
+  const current = await readLocalDevcontainer();
+
+  if (expectedSha !== current.sha) {
+    return { conflict: true as const, currentSha: current.sha };
+  }
+
+  const dir = path.dirname(current.filePath);
+  await mkdir(dir, { recursive: true });
+  await writeFile(current.filePath, content, 'utf8');
+
+  return {
+    conflict: false as const,
+    sha: computeSha(content),
+  };
+}
 
 function ghHeaders(): HeadersInit {
   const token = process.env.GITHUB_TOKEN;
@@ -41,6 +95,11 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   try {
+    if (!hasGitHubToken()) {
+      const local = await readLocalDevcontainer();
+      return NextResponse.json({ raw: local.raw, parsed: local.parsed, sha: local.sha, source: 'local' });
+    }
+
     const encodedPath = encodeURIComponent(DEVCONTAINER_GH).replace(/%2F/g, '/');
     const res = await fetch(
       `${GH_API}/repos/${REPO}/contents/${encodedPath}?ref=${BRANCH}`,
@@ -84,6 +143,19 @@ export async function PUT(request: NextRequest) {
 
     // Validate JSON before committing
     JSON.parse(content);
+
+    if (!hasGitHubToken()) {
+      const result = await writeLocalDevcontainer(content, sha);
+      if (result.conflict) {
+        return safeError('sha mismatch; reload before saving', 409);
+      }
+
+      return NextResponse.json({
+        ok: true,
+        sha: result.sha,
+        commit: 'local write (GITHUB_TOKEN not configured)',
+      });
+    }
 
     const encoded = Buffer.from(content, 'utf-8').toString('base64');
     const encodedPath = encodeURIComponent(DEVCONTAINER_GH).replace(/%2F/g, '/');

@@ -308,7 +308,7 @@ export default async function ReferralsPage({
                       />
                       {r.application_id && (
                         <Link
-                          href={`/admin/applications/${r.application_id}`}
+                          href={`/admin/applications/review/${r.application_id}`}
                           className="inline-flex items-center gap-1.5 text-xs font-semibold border border-slate-200 text-slate-600 hover:border-slate-300 px-3 py-1.5 rounded-lg transition"
                         >
                           Application <ArrowRight className="w-3 h-3" />
