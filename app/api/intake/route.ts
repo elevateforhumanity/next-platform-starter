@@ -165,22 +165,35 @@ async function _POST(req: Request) {
 
   if (appError) {
     // Mirror failure — intake record is already saved in apprenticeship_intake so
-    // the submission is not lost. Log the full error (code + details) so it's
-    // actionable in the log aggregator rather than silently swallowed.
-    logger.error('[Intake API] Mirror to applications failed — intake saved but admin queue will not show this record', {
-      error: appError.message,
-      code:    appError.code,
-      details: appError.details,
-      hint:    appError.hint,
-      email:   clean(body.email as string),
-      program: programInterest,
+    // the submission is not lost. Log the full error with Postgres code so it's
+    // actionable without needing to reproduce.
+    //
+    // Common codes:
+    //   42703 — column does not exist (schema drift)
+    //   42501 — insufficient privilege (RLS blocking INSERT — apply 20260628000003)
+    //   23502 — not-null violation (required column missing from insert)
+    //   23505 — unique violation (duplicate email+program)
+    logger.error('[Intake API] Mirror to applications failed', {
+      pg_code:  appError.code,
+      pg_msg:   appError.message,
+      pg_hint:  appError.hint,
+      pg_detail: appError.details,
+      email:    clean(body.email as string),
+      program:  programInterest,
+      action:   appError.code === '42501'
+        ? 'Apply migration 20260628000003_fix_applications_rls.sql in Supabase Dashboard'
+        : appError.code === '42703'
+        ? 'Schema drift — column in code does not exist in DB'
+        : 'Check Supabase logs for full error',
     });
   } else if (!appRow) {
-    // Insert succeeded (no error) but returned no row — RLS blocked the select
-    // after insert, or the row was filtered out. The record may still exist.
-    logger.warn('[Intake API] Mirror insert returned no row (possible RLS on SELECT)', {
+    // Insert succeeded (no error) but returned no row — RLS blocked the SELECT
+    // after insert. The record exists in applications but .maybeSingle() got 0 rows.
+    // Fix: apply migration 20260628000003_fix_applications_rls.sql
+    logger.warn('[Intake API] Mirror insert returned no row — RLS blocking SELECT after INSERT', {
       email:   clean(body.email as string),
       program: programInterest,
+      action:  'Apply migration 20260628000003_fix_applications_rls.sql in Supabase Dashboard',
     });
   } else {
     logger.info('[Intake API] Application row created', { id: appRow.id });

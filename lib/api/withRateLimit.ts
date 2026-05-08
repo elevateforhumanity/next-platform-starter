@@ -71,9 +71,18 @@ export async function applyRateLimit(
       );
     }
   } catch (err) {
-    // Redis error (timeout, connection refused, etc.) — fail open.
-    // Log so we know Redis is unhealthy, but never block the request.
-    logger.error('[rate-limit] Redis error — failing open', { tier, error: err instanceof Error ? err.message : String(err) });
+    // Redis error (timeout, connection refused, bad credentials, etc.) — fail open.
+    // Log with enough detail to diagnose without reproducing.
+    // Common causes: UPSTASH_REDIS_REST_URL/TOKEN wrong in SSM, Upstash plan expired.
+    const msg = err instanceof Error ? err.message : String(err);
+    const isCredential = msg.includes('401') || msg.includes('403') || msg.includes('Unauthorized');
+    logger.error('[rate-limit] Redis error — failing open', {
+      tier,
+      error: msg,
+      action: isCredential
+        ? 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in SSM /elevate/'
+        : 'Check Upstash dashboard for connectivity issues',
+    });
     return null;
   }
 
