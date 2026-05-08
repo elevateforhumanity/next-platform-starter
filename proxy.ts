@@ -171,9 +171,12 @@ export async function middleware(request: NextRequest) {
   }
 
   const adminBase = (process.env.NEXT_PUBLIC_ADMIN_URL || DEFAULT_ADMIN_URL).replace(/\/+$/, '');
-  const canonicalAdminHost = URL.canParse(adminBase)
-    ? new URL(adminBase).host
-    : 'admin.elevateforhumanity.org';
+  let canonicalAdminHost = 'admin.elevateforhumanity.org';
+  try {
+    canonicalAdminHost = new URL(adminBase).host;
+  } catch (error) {
+    console.error('[proxy] Invalid NEXT_PUBLIC_ADMIN_URL. Falling back to default admin host.', error);
+  }
 
   if (LEGACY_ADMIN_HOSTS.has(hostWithoutPort)) {
     return NextResponse.redirect(`${adminBase}${pathname}${search}`, { status: 301 });
@@ -183,7 +186,7 @@ export async function middleware(request: NextRequest) {
     // Keep the canonical admin landing page explicit so host-only /admin requests
     // consistently land on the admin dashboard after domain canonicalization.
     const adminPath = pathname === '/admin' ? '/admin/dashboard' : pathname;
-    return NextResponse.redirect(`${adminBase}${adminPath}${search}`, { status: 308 });
+    return NextResponse.redirect(`${adminBase}${adminPath}${search}`, { status: 301 });
   }
 
   // ── BYPASS POLICY ────────────────────────────────────────────────────────────
