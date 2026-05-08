@@ -705,8 +705,8 @@ const nextConfig = {
       },
       // Business
       // Tax programs — no tax page in this repo; send to contact
-      { source: '/programs/tax-preparation', destination: '/contact', permanent: false },
-      { source: '/programs/tax-prep', destination: '/contact', permanent: false },
+      // /programs/tax-preparation has a real page — no redirect needed
+      { source: '/programs/tax-prep', destination: '/programs/tax-preparation', permanent: true },
       {
         source: '/programs/tax-entrepreneurship',
         destination: '/programs/entrepreneurship',
@@ -803,8 +803,10 @@ const nextConfig = {
       // /apprenticeship-sponsor → /partners/training-provider
       // /events, /schedule — real pages, no redirect
       // /orientation/schedule — real scheduler page with OrientationScheduleClient, no redirect
-      // /onboarding/learner — real 731-line page with Supabase, no redirect
-      { source: '/onboarding/:path*', destination: '/login', permanent: false },
+      // /onboarding/:path* redirect REMOVED — 20+ real pages exist under /onboarding/
+      // (learner, instructor, legal, staff, employer, school, mou, start, payroll-setup, handbook)
+      // Next.js redirects take priority over page files, so a wildcard here kills all of them.
+      // Auth gating is handled by proxy.ts middleware for authenticated routes.
       // /funding/dol — real page, no redirect
       // /funding/federal-programs → /funding
       // /funding/jri — real page, no redirect
@@ -848,7 +850,7 @@ const nextConfig = {
       // /compliance (327 lines, db=3) and /credentials (584 lines) — real pages, no redirect
       // Legal consolidation
       // /privacy (160 lines), /terms (112 lines), /legal/privacy (100 lines) — real pages, no redirect
-      { source: '/legal/terms-of-service', destination: '/legal/privacy', permanent: true },
+      { source: '/legal/terms-of-service', destination: '/terms-of-service', permanent: true },
       {
         source: '/legal/governance/lms',
         destination: '/legal/governance/lms-standards',
@@ -879,7 +881,8 @@ const nextConfig = {
       { source: '/store/orders', destination: '/store', permanent: true },
       { source: '/platform/licensing', destination: '/licensing', permanent: true },
       // /chat (220 lines) — real page, no redirect
-      { source: '/certificates/verify', destination: '/cert/verify', permanent: true },
+      // Collapsed double-hop: /certificates/verify → /cert/verify → /verify
+      { source: '/certificates/verify', destination: '/verify', permanent: true },
 
       // Verify consolidation
       { source: '/verifycertificate/:path*', destination: '/verify/:path*', permanent: true },
