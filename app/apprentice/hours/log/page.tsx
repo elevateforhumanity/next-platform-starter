@@ -51,25 +51,27 @@ export default function LogApprenticeHoursPage() {
       return;
     }
 
+    if (authLoading) {
+      setError('Please wait while we verify your session.');
+      return;
+    }
+
+    if (!user) {
+      router.push('/login?redirect=/apprentice/hours/log');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      if (authLoading) {
-        setError('Please wait while we verify your session.');
-        return;
-      }
-
-      if (!user) {
-        router.push('/login?redirect=/apprentice/hours/log');
-        return;
-      }
-
       const { error: insertError } = await supabase.from('hour_entries').insert({
         user_id: user.id,
         source_type: formData.type === 'ojt' ? 'ojl' : 'rti',
         work_date: formData.date,
         hours_claimed: hours,
         entered_by_email: user.email,
+        employer: formData.employer || null,
+        supervisor_name: formData.supervisor || null,
         notes: formData.notes || null,
         status: 'pending',
       });
@@ -82,7 +84,7 @@ export default function LogApprenticeHoursPage() {
       setTimeout(() => router.push('/apprentice/hours'), 1500);
     } catch (err: any) {
       logger.error('Error logging hours:', err);
-      setError('An error occurred');
+      setError(err?.message || 'Failed to save hours. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
