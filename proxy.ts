@@ -2,11 +2,171 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Education domain - landing page at /education, sub-routes pass through
-const EDUCATION_DOMAIN = 'elevateforhumanityeducation.com';
+// ── Module-level constants ────────────────────────────────────────────────────
 
-// Connects domain - landing page at /connects, sub-routes pass through
-const CONNECTS_DOMAIN = 'elevateconnects.org';
+const EDUCATION_DOMAIN = 'elevateforhumanityeducation.com';
+const CONNECTS_DOMAIN  = 'elevateconnects.org';
+const LEARN_SUBDOMAIN  = 'learn.elevateforhumanity.org';
+const PLATFORM_SUBDOMAIN = 'platform.elevateforhumanity.org';
+
+// Webhook paths bypass auth — Stripe signature verification handles security.
+const WEBHOOK_PATHS = [
+  '/api/webhooks/stripe',
+  '/api/webhooks/',
+  '/api/license/webhook',
+  '/api/stripe/webhook',
+  '/api/donations/webhook',
+  '/api/barber/webhook',
+  '/api/micro-classes/webhook',
+  '/api/sezzle/webhook',
+  '/api/payments',
+  '/api/csp-report',
+];
+
+// Role-gated routes: key = path prefix, value = allowed roles.
+const PROTECTED_ROUTES: Record<string, string[]> = {
+  '/partner-portal/':          ['partner', 'admin', 'super_admin'],
+  '/partner/dashboard':        ['partner', 'admin', 'super_admin'],
+  '/partner/documents':        ['partner', 'admin', 'super_admin'],
+  '/partner/reports':          ['partner', 'admin', 'super_admin'],
+  '/partner/settings':         ['partner', 'admin', 'super_admin'],
+  '/partner/hours':            ['partner', 'admin', 'super_admin'],
+  '/partner/attendance':       ['partner', 'admin', 'super_admin'],
+  '/partner/courses/':         ['partner', 'admin', 'super_admin'],
+  '/partner/programs/':        ['partner', 'admin', 'super_admin'],
+  '/employer-portal/':         ['employer', 'admin', 'super_admin'],
+  '/employer/dashboard':       ['employer', 'admin', 'super_admin'],
+  '/employer/candidates':      ['employer', 'admin', 'super_admin'],
+  '/employer/jobs':            ['employer', 'admin', 'super_admin'],
+  '/employer/placements':      ['employer', 'admin', 'super_admin'],
+  '/employer/hours':           ['employer', 'admin', 'super_admin'],
+  '/employer/reports':         ['employer', 'admin', 'super_admin'],
+  '/employer/settings':        ['employer', 'admin', 'super_admin'],
+  '/employer/compliance':      ['employer', 'admin', 'super_admin'],
+  '/employer/apprenticeships': ['employer', 'admin', 'super_admin'],
+  '/employer/documents':       ['employer', 'admin', 'super_admin'],
+  '/employer/analytics':       ['employer', 'admin', 'super_admin'],
+  '/program-holder/dashboard': ['program_holder', 'admin', 'super_admin'],
+  '/program-holder/programs':  ['program_holder', 'admin', 'super_admin'],
+  '/program-holder/students':  ['program_holder', 'admin', 'super_admin'],
+  '/program-holder/documents': ['program_holder', 'admin', 'super_admin'],
+  '/program-holder/reports':   ['program_holder', 'admin', 'super_admin'],
+  '/program-holder/settings':  ['program_holder', 'admin', 'super_admin'],
+  '/program-holder/compliance':['program_holder', 'admin', 'super_admin'],
+  '/program-holder/grades':    ['program_holder', 'admin', 'super_admin'],
+  '/program-holder/mou':       ['program_holder', 'admin', 'super_admin'],
+  '/program-holder/analytics': ['program_holder', 'admin', 'super_admin'],
+  '/program-holder/onboarding':['program_holder', 'admin', 'super_admin'],
+  '/program-holder/verification':['program_holder', 'admin', 'super_admin'],
+  '/staff-portal/':            ['staff', 'admin', 'super_admin', 'advisor'],
+  '/mentor/dashboard':         ['mentor', 'admin', 'super_admin'],
+  '/mentor/sessions':          ['mentor', 'admin', 'super_admin'],
+  '/mentor/mentees':           ['mentor', 'admin', 'super_admin'],
+  '/mentor/settings':          ['mentor', 'admin', 'super_admin'],
+};
+
+// Routes requiring authentication (any role).
+const AUTH_REQUIRED_ROUTES = [
+  '/student-portal/',
+  '/lms/dashboard',
+  '/lms/courses/',
+  '/lms/programs/',
+  '/my-courses',
+  '/my-progress',
+  '/settings',
+  '/profile',
+  '/hub/',
+  '/enrollment/',
+];
+
+// Routes requiring onboarding completion before access.
+const ONBOARDING_REQUIRED_ROUTES = [
+  '/hub/',
+  '/lms/',
+  '/student-portal/',
+  '/my-courses',
+  '/my-progress',
+];
+
+// Routes requiring an active enrollment.
+const ENROLLMENT_REQUIRED_ROUTES = [
+  '/lms/courses/',
+  '/lms/programs/',
+];
+
+// Enrollment flow routes — exempt from the enrollment gate (they ARE the flow).
+const ENROLLMENT_FLOW_ROUTES = [
+  '/enrollment/',
+  '/programs/',
+  '/apply',
+  '/check-eligibility',
+];
+
+// Partner routes requiring active partner status.
+const PARTNER_ROUTES = [
+  '/partner/dashboard',
+  '/partner/programs/',
+  '/partner/courses/',
+];
+
+// Partner routes allowed before active status (document upload, onboarding).
+const PARTNER_ONBOARDING_ROUTES = [
+  '/partner/documents',
+  '/partner/onboarding',
+  '/partner/apply',
+];
+
+// Dashboard landing pages that are PUBLIC (exact match — marketing/preview).
+const PUBLIC_DASHBOARD_LANDINGS = [
+  '/admin',
+  '/staff-portal',
+  '/instructor',
+  '/program-holder',
+  '/workforce-board',
+  '/employer-portal',
+  '/employer',
+  '/student-portal',
+  '/partner-portal',
+  '/mentor',
+];
+
+// Paths that get X-Robots-Tag: noindex, nofollow.
+const NOINDEX_PREFIXES = [
+  '/admin',
+  '/staff-portal',
+  '/instructor',
+  '/program-holder',
+  '/workforce-board',
+  '/employer-portal',
+  '/employer',
+  '/student-portal',
+  '/partner-portal',
+  '/partner/',
+  '/mentor/',
+  '/hub/',
+  '/enrollment/',
+  '/onboarding',
+  '/settings',
+  '/profile',
+];
+
+// Admin emails that bypass the onboarding gate.
+const ADMIN_EMAILS: string[] = [
+  'elizabethpowell6262@gmail.com',
+];
+
+// ── Middleware entry point ────────────────────────────────────────────────────
+
+export async function middleware(request: NextRequest) {
+  const host = request.headers.get('host') || '';
+  const { pathname } = request.nextUrl;
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-pathname', pathname);
+
+  function nextWithPathname() {
+    return NextResponse.next({ request: { headers: requestHeaders } });
+  }
 
 // LMS subdomain — learn.elevateforhumanity.org → /lms
 const LEARN_SUBDOMAIN = 'learn.elevateforhumanity.org';
