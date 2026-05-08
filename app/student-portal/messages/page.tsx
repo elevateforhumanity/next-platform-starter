@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = 'force-dynamic';
+const MESSAGES_BASE = '/messages';
 
 export default async function Page() {
   const supabase = await createClient();
@@ -61,7 +62,7 @@ export default async function Page() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Recent Conversations</h2>
               <Link
-                href="/messages"
+                href={MESSAGES_BASE}
                 className="inline-flex items-center gap-1 text-brand-blue-600 hover:text-brand-blue-700 font-medium"
               >
                 Open Inbox <ArrowRight className="w-4 h-4" />
@@ -73,7 +74,7 @@ export default async function Page() {
                 {conversations.map((conversation) => (
                   <Link
                     key={conversation.id}
-                    href="/messages"
+                    href={MESSAGES_BASE}
                     className="block rounded-lg border border-slate-200 p-4 hover:border-brand-blue-300 hover:bg-slate-50 transition"
                   >
                     <p className="text-sm text-slate-700 line-clamp-2">
@@ -108,7 +109,7 @@ export default async function Page() {
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Message Center</h2>
             <div className="space-y-3">
               <Link
-                href="/messages"
+                href={MESSAGES_BASE}
                 className="flex items-center justify-between rounded-lg border border-slate-200 p-3 hover:border-brand-blue-300 hover:bg-slate-50 transition"
               >
                 <span className="inline-flex items-center gap-2 text-slate-800">
@@ -118,7 +119,7 @@ export default async function Page() {
                 <span className="text-xs text-slate-500">{count ?? 0}</span>
               </Link>
               <Link
-                href="/messages/sent"
+                href={`${MESSAGES_BASE}/sent`}
                 className="flex items-center justify-between rounded-lg border border-slate-200 p-3 hover:border-brand-blue-300 hover:bg-slate-50 transition"
               >
                 <span className="inline-flex items-center gap-2 text-slate-800">
@@ -127,7 +128,7 @@ export default async function Page() {
                 </span>
               </Link>
               <Link
-                href="/messages/archived"
+                href={`${MESSAGES_BASE}/archived`}
                 className="flex items-center justify-between rounded-lg border border-slate-200 p-3 hover:border-brand-blue-300 hover:bg-slate-50 transition"
               >
                 <span className="inline-flex items-center gap-2 text-slate-800">

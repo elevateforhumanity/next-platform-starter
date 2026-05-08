@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = 'force-dynamic';
+const FULL_SETTINGS_HREF = '/settings';
 
 export default async function Page() {
   const supabase = await createClient();
@@ -65,7 +66,7 @@ export default async function Page() {
               </Link>
 
               <Link
-                href="/settings"
+                href={`${FULL_SETTINGS_HREF}?section=notifications`}
                 className="rounded-lg border border-slate-200 p-4 hover:border-brand-blue-300 hover:bg-slate-50 transition"
               >
                 <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-blue-50 text-brand-blue-600">
@@ -78,7 +79,7 @@ export default async function Page() {
               </Link>
 
               <Link
-                href="/settings"
+                href={`${FULL_SETTINGS_HREF}?section=security`}
                 className="rounded-lg border border-slate-200 p-4 hover:border-brand-blue-300 hover:bg-slate-50 transition"
               >
                 <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-blue-50 text-brand-blue-600">
@@ -127,10 +128,10 @@ export default async function Page() {
             </div>
 
             <Link
-              href="/settings"
+              href={FULL_SETTINGS_HREF}
               className="inline-flex items-center gap-1 mt-5 text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
             >
-              Open Full Settings <ArrowRight className="w-4 h-4" />
+              Open Full Account Settings <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
