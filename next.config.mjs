@@ -539,7 +539,6 @@ const nextConfig = {
         destination: '/legal/governance/platform-overview',
         permanent: true,
       },
-      { source: '/community', destination: '/help', permanent: false },
       { source: '/financial-aid', destination: '/funding', permanent: true },
       { source: '/workforce-board/reports', destination: '/workone-partner-packet', permanent: true },
       {

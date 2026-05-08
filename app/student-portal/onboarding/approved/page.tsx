@@ -206,7 +206,7 @@ export default async function ApprovedPage() {
 
         <div className="text-center">
           <Link
-            href="/lms/dashboard"
+            href="/learner/dashboard"
             className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold px-8 py-4 rounded-lg transition-colors"
           >
             Go to Your Dashboard <ArrowRight className="w-4 h-4" />

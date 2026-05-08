@@ -44,8 +44,8 @@ export default async function TestimonialsPage() {
       {testimonials.length === 0 ? (
         <div className="mt-12 text-center py-16 bg-slate-50 rounded-2xl">
           <Quote className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-          <p className="text-slate-500 text-lg mb-2">Testimonials coming soon.</p>
-          <p className="text-slate-400 text-sm">We're collecting stories from our graduates. Check back soon.</p>
+          <p className="text-slate-500 text-lg mb-2">No published testimonials yet.</p>
+          <p className="text-slate-400 text-sm">Be the first to share your experience with Elevate for Humanity.</p>
           <div className="mt-8 flex gap-4 justify-center">
             <Link href={siteConfig.handoff.apply} className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800 transition">
               Apply Now

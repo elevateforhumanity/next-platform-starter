@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// Redirect legacy /fssa/apply path to the canonical application page.
+// ARCHIVED: FSSA apply path is retired for now.
 export default function FssaApplyRedirect() {
-  redirect('/apply/fssa');
+  redirect('/apply');
 }

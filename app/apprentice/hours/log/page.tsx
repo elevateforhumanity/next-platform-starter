@@ -23,6 +23,7 @@ export default function LogApprenticeHoursPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     const getUser = async () => {
@@ -30,6 +31,7 @@ export default function LogApprenticeHoursPage() {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
+      setAuthLoading(false);
     };
     getUser();
   }, [supabase]);
@@ -52,10 +54,13 @@ export default function LogApprenticeHoursPage() {
     setIsSubmitting(true);
 
     try {
+      if (authLoading) {
+        setError('Please wait while we verify your session.');
+        return;
+      }
+
       if (!user) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setSuccess(true);
-        setTimeout(() => router.push('/apprentice/hours'), 1500);
+        router.push('/login?redirect=/apprentice/hours/log');
         return;
       }
 
