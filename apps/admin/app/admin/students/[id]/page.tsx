@@ -373,10 +373,15 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
               <div className="px-5 py-6 text-center text-xs text-slate-400">No applications</div>
             ) : (
               <div className="divide-y divide-slate-50">
-                {applications.map((a) => (
+                {applications.map((a) => {
+                  const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(a.id);
+                  const reviewHref = isUUID
+                    ? `/admin/applications/review/${a.id}`
+                    : `/admin/applications?search=${encodeURIComponent(a.email || a.id)}`;
+                  return (
                   <Link
                     key={a.id}
-                    href={`/admin/applications/review/${a.id}`}
+                    href={reviewHref}
                     className="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 transition-colors group"
                   >
                     <div className="flex-1 min-w-0">
@@ -391,7 +396,8 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
                     <Badge status={a.status} />
                     <ExternalLink className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-500" />
                   </Link>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

@@ -102,10 +102,14 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
           const ageDays = Math.floor(
             (Date.now() - new Date(app.submitted_at || app.created_at).getTime()) / 86400000,
           );
+          const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+          const reviewHref = UUID_RE.test(app.id)
+            ? `/admin/applications/review/${app.id}`
+            : `/admin/applications?search=${encodeURIComponent(app.email || app.id)}`;
           return (
             <AlertRow
               key={app.id}
-              href={`/admin/applications/review/${app.id}`}
+              href={reviewHref}
               label={name}
               detail={`${ageDays}d in ${app.status} · ${app.program_interest ?? app.program_slug ?? 'unknown program'}`}
             />

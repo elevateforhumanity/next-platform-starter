@@ -129,9 +129,11 @@ async function _POST(req: NextRequest) {
       return NextResponse.json({ error: 'Failed to submit application' }, { status: 500 });
     }
 
-    // Also insert into applications table so admin dashboard sees intake applicants
+    // Mirror into applications table so admin dashboard sees intake applicants.
+    // Must await — we need the real application UUID for the response.
     const intakeEmail = (lead.email || '').toLowerCase().trim();
-    await supabase
+    const intakeRef = `EFH-${Date.now().toString(36).toUpperCase()}`;
+    const { data: appRow, error: appMirrorErr } = await supabase
       .from('applications')
       .insert({
         first_name: lead.first_name || '',
@@ -140,20 +142,31 @@ async function _POST(req: NextRequest) {
         phone: lead.phone || '',
         normalized_email: intakeEmail,
         normalized_phone: (lead.phone || '').replace(/\D/g, ''),
-        city: 'Not provided',
-        zip: '00000',
-        state: 'IN',
+        city: data.address.city,
+        zip: data.address.zip,
+        state: data.address.state,
         program_interest: program.title,
         program_id: program.id,
-        reference_number: `EFH-${Date.now().toString(36).toUpperCase()}`,
+        reference_number: intakeRef,
+        type: 'student',
         status: 'submitted',
         source: 'intake-funnel',
-        support_notes: `Lead ID: ${data.leadId} | ${data.additionalInfo || ''}`.trim(),
+        support_notes: [
+          `Lead ID: ${data.leadId}`,
+          `Ref: ${intakeRef}`,
+          data.additionalInfo ? `Notes: ${data.additionalInfo}` : '',
+        ].filter(Boolean).join(' | '),
       })
-      .then(({ error: appErr }) => {
-        if (appErr)
-          logger.error('Intake: failed to mirror to applications table', { error: appErr });
+      .select('id')
+      .maybeSingle();
+
+    if (appMirrorErr) {
+      logger.error('Intake: failed to mirror to applications table', {
+        code: (appMirrorErr as any)?.code,
+        message: (appMirrorErr as any)?.message,
+        leadId: data.leadId,
       });
+    }
 
     // Log event
     await supabase.from('audit_logs').insert({
@@ -171,6 +184,8 @@ async function _POST(req: NextRequest) {
       programId: data.programId,
     });
 
+    // Return the real applications table UUID — never the leadId.
+    // If the mirror failed, omit applicationId so callers don't redirect to a broken review page.
     return NextResponse.json({
       success: true,
       status: 'submitted',
@@ -178,7 +193,7 @@ async function _POST(req: NextRequest) {
       expectedResponse: '3-5 business days',
       message:
         'Your application has been submitted successfully! An advisor will review it and contact you within 3-5 business days.',
-      applicationId: data.leadId,
+      ...(appRow?.id ? { applicationId: appRow.id, referenceNumber: intakeRef } : {}),
     });
   } catch (error) {
     logger.error('Application submission error', { error });

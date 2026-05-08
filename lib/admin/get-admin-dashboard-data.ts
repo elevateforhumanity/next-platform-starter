@@ -406,7 +406,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       submitted_at: app.submitted_at ?? null,
       age_days: ageDays,
       urgent: ageDays >= 3,
-      href: `/admin/applications/review/${app.id}`,
+      href: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(app.id)
+        ? `/admin/applications/review/${app.id}`
+        : `/admin/applications?search=${encodeURIComponent(app.email ?? app.id)}`,
     };
   });
 
