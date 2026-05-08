@@ -13,6 +13,30 @@ export const dynamic = 'force-dynamic';
 // Read at request time after hydrateProcessEnv() — not at module load
 let webhookSecret = '';
 
+function getStoreWebhookSecrets(): string[] {
+  return [
+    process.env.STRIPE_WEBHOOK_SECRET_STORE,
+    process.env.STRIPE_WEBHOOK_SECRET,
+  ].filter((s): s is string => Boolean(s && s.trim()));
+}
+
+function constructStripeEventWithAnySecret(
+  stripe: Stripe,
+  body: string,
+  signature: string,
+  secrets: string[],
+): Stripe.Event {
+  let lastError: unknown = null;
+  for (const secret of secrets) {
+    try {
+      return stripe.webhooks.constructEvent(body, signature, secret);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError ?? new Error('No webhook secret available');
+}
+
 /**
  * Grant LMS course access to user via training_enrollments.
  * Accepts either a course slug or a course UUID.
@@ -136,14 +160,15 @@ async function recordPurchase(
 
 async function _POST(req: NextRequest) {
   await hydrateProcessEnv();
-  webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_STORE || '';
+  const webhookSecrets = getStoreWebhookSecrets();
+  webhookSecret = webhookSecrets[0] ?? '';
 
   const stripe = getStripe();
   if (!stripe) {
     return NextResponse.json({ received: true, warning: 'stripe_not_configured' }, { status: 200 });
   }
 
-  if (!webhookSecret) {
+  if (!webhookSecret || webhookSecrets.length === 0) {
     return NextResponse.json({ received: true, warning: 'misconfigured' }, { status: 200 });
   }
 
@@ -157,7 +182,7 @@ async function _POST(req: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+    event = constructStripeEventWithAnySecret(stripe, body, sig, webhookSecrets);
   } catch (err: any) {
     logger.error('Webhook signature verification failed', { error: 'Operation failed' });
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
