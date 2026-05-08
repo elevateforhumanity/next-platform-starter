@@ -23,7 +23,7 @@ Elevate for Humanity operates a vertically integrated **Workforce Operating Syst
 - **Credentialing** — EPA 608, OSHA 10/30, CompTIA A+/Security+, PTCB CPhT, NHA, Microsoft Office Specialist, WorkKeys NCRC, Certiport, Indiana ISDH, Indiana BMV
 - **Stakeholder portals** — learner, admin, instructor, employer, program holder, partner, mentor, staff, parent/guardian, workforce board
 - **Employer pipeline** — job postings, OJT agreements, placement tracking, 6- and 12-month outcome reporting
-- **Tax software** — MeF e-filing stack (EFIN 358459), Enrolled Agent operations under SupersonicFastCash
+- **Tax software** — MeF e-filing stack and tax operations
 
 Programs run 4–18 weeks. Most are fully funded at no cost to eligible participants through federal and Indiana state workforce programs.
 

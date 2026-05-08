@@ -107,7 +107,7 @@ export default function FounderPage() {
                 </p>
 
                 <p>
-                  Elizabeth also founded SupersonicFastCash (tax preparation software) and Selfish
+                  Elizabeth also leads Elevate tax operations and Selfish
                   Inc. — a 501(c)(3) nonprofit operating as The Rise Foundation — providing mental
                   wellness counseling, body sculpting services, VITA free tax preparation, and
                   community support programs across Indianapolis.
@@ -147,7 +147,7 @@ export default function FounderPage() {
               <ul className="space-y-2">
                 {[
                   'U.S. Army Veteran',
-                  'IRS Enrolled Agent (EA)',
+                  'Federally Authorized Tax Professional',
                   'EFIN Holder',
                   'PTIN Holder',
                   'Indiana Barber License — IN PLA',
@@ -230,7 +230,7 @@ export default function FounderPage() {
 
                   'Selfish Inc. — 501(c)(3) Nonprofit',
                   'The Rise Foundation (DBA of Selfish Inc.) — VITA Free Tax Prep',
-                  'SupersonicFastCash — Tax Software',
+                  'Elevate Tax Operations',
                 ].map((c) => (
                   <li key={c} className="flex items-start gap-2 text-slate-600 text-sm">
                     <span className="text-brand-red-400 mt-0.5">▸</span>
@@ -273,9 +273,9 @@ export default function FounderPage() {
                 href: '/rise',
               },
               {
-                name: 'SupersonicFastCash',
+                name: 'Elevate Tax Operations',
                 role: 'Tax Preparation Software',
-                desc: 'Tax preparation software company. Elizabeth is an IRS Enrolled Agent (EA) with EFIN and PTIN, authorized to represent taxpayers before the IRS at all administrative levels.',
+                desc: 'Tax preparation operations supporting compliant filing workflows and taxpayer support services.',
                 href: null,
               },
               {

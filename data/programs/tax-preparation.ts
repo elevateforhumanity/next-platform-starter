@@ -228,7 +228,7 @@ export const TAX_PREPARATION: ProgramSchema = {
     'Laptop provided during training. Tax software licenses and PTIN registration fee included.',
   modality: 'Hybrid — In-person labs, LMS-supported coursework',
   facilityInfo: 'Elevate training center, Indianapolis',
-  employerPartners: ['SupersonicFastCash', 'Indianapolis-area tax preparation offices'],
+  employerPartners: ['Elevate Tax Operations', 'Indianapolis-area tax preparation offices'],
   pricingIncludes: [
     '140 instructional hours',
     'IRS PTIN registration fee',

@@ -111,7 +111,7 @@ export default async function EnrollmentSuccessPage() {
               <span className="text-slate-600">Software Partner</span>
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-indigo-500" />
-                <span className="font-bold text-slate-900">SupersonicFastCash</span>
+                <span className="font-bold text-slate-900">Elevate Tax Operations</span>
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@ export default async function EnrollmentSuccessPage() {
               },
               {
                 n: 2,
-                title: 'Obtain your IRS PTIN',
+                  title: 'Obtain your PTIN',
                 desc: 'Preparer Tax Identification Number — required to prepare returns for compensation',
               },
               {
@@ -139,7 +139,7 @@ export default async function EnrollmentSuccessPage() {
               {
                 n: 4,
                 title: 'Prepare for the EA Exam',
-                desc: 'Enrolled Agent — the highest IRS credential for tax professionals',
+                  desc: 'Enrolled Agent — a top federal credential for tax professionals',
               },
             ].map(({ n, title, desc }) => (
               <div key={n} className="flex items-start gap-3">
@@ -168,14 +168,14 @@ export default async function EnrollmentSuccessPage() {
           className="flex items-center justify-center gap-2 w-full bg-slate-700 hover:bg-slate-600 text-white text-center py-4 rounded-xl font-bold transition-all mb-3"
         >
           <ExternalLink className="w-4 h-4" />
-          IRS PTIN Application
+          PTIN Application
         </a>
         <Link
           href="/programs/tax-preparation"
           className="block w-full bg-slate-600 hover:bg-slate-500 text-white text-center py-4 rounded-xl font-bold transition-all mb-6"
         >
           <BookOpen className="inline w-4 h-4 mr-2" />
-          SupersonicFastCash Tax Software
+          Elevate Tax Operations
         </Link>
 
         <div className="text-center space-y-1">

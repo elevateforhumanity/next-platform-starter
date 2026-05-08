@@ -91,16 +91,16 @@ export default function AccreditationPage() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Founder Credentials &amp; Authorizations</h2>
           <p className="text-slate-600 text-sm mb-8">
-            Elizabeth Greene, Founder &amp; CEO — credentials held personally and applied through Elevate for Humanity and SupersonicFastCash.
+            Elizabeth Greene, Founder &amp; CEO — credentials held personally and applied through Elevate for Humanity and Elevate tax operations.
           </p>
 
           <div className="mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">IRS &amp; Tax Authorizations</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Federal Tax Authorizations</p>
             <div className="grid sm:grid-cols-2 gap-4">
               {[
-                { label: 'IRS Enrolled Agent (EA)', detail: 'Authorized to represent taxpayers before the IRS in audits, collections, and appeals.' },
-                { label: 'EFIN — Electronic Filing Identification Number', detail: 'IRS-issued number authorizing the preparation and e-filing of federal tax returns.' },
-                { label: 'PTIN — Preparer Tax Identification Number', detail: 'IRS-required identification for all paid tax return preparers.' },
+                { label: 'Federally Authorized Tax Professional', detail: 'Authorized to represent taxpayers in federal tax matters, including audits, collections, and appeals.' },
+                { label: 'EFIN — Electronic Filing Identification Number', detail: 'Federal-issued number authorizing the preparation and e-filing of federal tax returns.' },
+                { label: 'PTIN — Preparer Tax Identification Number', detail: 'Federal-required identification for all paid tax return preparers.' },
                 { label: 'ERO — Electronic Return Originator', detail: 'Authorized IRS e-file originator for individual and business returns.' },
                 { label: 'SBIN — IRS Submitter ID', detail: 'Authorized to submit returns directly to the IRS for both for-profit and non-profit filers.' },
                 { label: 'VITA Site', detail: 'IRS-authorized Volunteer Income Tax Assistance site — free tax preparation for qualifying individuals.' },
