@@ -98,7 +98,8 @@ Add CNAMEs pointing to your CloudFront distribution domain:
 - `elevateforhumanity.org` → CloudFront (or A alias if Route53)
 
 Admin domain must be direct and separate:
-- `admin.elevateforhumanity.org` → CNAME to the admin ALB DNS name
+- Durable/Cloudflare/etc: `admin.elevateforhumanity.org` → CNAME to the admin ALB DNS name (for example `elevate-admin-alb-123456789.us-east-1.elb.amazonaws.com`)
+- Route53: create an ALIAS A-record for `admin.elevateforhumanity.org` targeting the admin ALB
 
 CloudFront distribution should include only public aliases.
 Admin TLS certificate must be attached to the **admin ALB HTTPS (443) listener**.
