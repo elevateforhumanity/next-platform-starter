@@ -4,6 +4,7 @@ import path from 'node:path';
 
 describe('AWS domain routing config', () => {
   const configPath = path.join(process.cwd(), 'aws', 'cloudfront.json');
+  expect(fs.existsSync(configPath)).toBe(true);
   const config = JSON.parse(fs.readFileSync(configPath, 'utf8')) as {
     Aliases?: string[];
     Origins?: Array<{ DomainName?: string }>;
