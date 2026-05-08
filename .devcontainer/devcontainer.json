@@ -1,17 +1,20 @@
 {
   "name": "Elevate LMS",
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
-  // Persist .next/cache across environment restarts so webpack and tsc
-  // incremental builds reuse prior compilation artifacts. Without this,
-  // every restart is a cold build. The volume is named per-project so
-  // multiple clones don't share a cache.
+  // Persist .next/cache across container restarts so webpack / tsc incremental
+  // builds reuse prior compilation artifacts.  The volume is named per-project
+  // so multiple clones don't share a cache.
   "mounts": [
     "source=elevate-lms-next-cache,target=/workspaces/Elevate-lms/.next/cache,type=volume"
   ],
-  "forwardPorts": [3000],
+  "forwardPorts": [3000, 3001],
   "portsAttributes": {
     "3000": {
-      "label": "Next.js Dev Server",
+      "label": "Next.js LMS (port 3000)",
+      "onAutoForward": "notify"
+    },
+    "3001": {
+      "label": "Admin app (port 3001)",
       "onAutoForward": "notify"
     }
   },
@@ -21,9 +24,18 @@
       "version": "20"
     }
   },
+  // onCreateCommand — runs once when the container image is first built.
+  // Install system deps (ffmpeg, chromium) that are not in the base image.
   "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg chromium python3 python3-pip libxml2-utils && sudo rm -rf /var/lib/apt/lists/*",
-  "postCreateCommand": "bash -lc 'corepack enable && corepack prepare pnpm@10.28.2 --activate && pnpm install'",
-  "postStartCommand": "bash -lc '.devcontainer/start.sh'",
+  // postCreateCommand — runs once after the workspace is created.
+  // Activates pnpm via corepack, installs deps, and bootstraps .env.local once.
+  "postCreateCommand": "bash -lc 'corepack enable && corepack prepare pnpm@10.28.2 --activate && pnpm install && bash .devcontainer/setup-env.sh'",
+  // postStartCommand — runs on every container start.
+  // Kept intentionally lightweight: only reassemble .env.local from secret
+  // chunks if they are present (e.g. Codespaces secrets injected as files).
+  // Dependency installation and media generation are one-time operations
+  // handled in postCreateCommand.
+  "postStartCommand": "bash -lc 'bash .devcontainer/setup-env.sh'",
   "remoteEnv": {
     "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium",
     "CHROMIUM_PATH": "/usr/bin/chromium",
