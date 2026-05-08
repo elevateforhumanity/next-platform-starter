@@ -8,6 +8,8 @@ const EDUCATION_DOMAIN = 'elevateforhumanityeducation.com';
 const CONNECTS_DOMAIN  = 'elevateconnects.org';
 const LEARN_SUBDOMAIN  = 'learn.elevateforhumanity.org';
 const PLATFORM_SUBDOMAIN = 'platform.elevateforhumanity.org';
+const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
+const LEGACY_ADMIN_HOSTS = new Set(['app.elevateforhumanity.org']);
 
 // Webhook paths bypass auth — Stripe signature verification handles security.
 const WEBHOOK_PATHS = [
@@ -118,7 +120,6 @@ const PARTNER_ONBOARDING_ROUTES = [
 
 // Dashboard landing pages that are PUBLIC (exact match — marketing/preview).
 const PUBLIC_DASHBOARD_LANDINGS = [
-  '/admin',
   '/staff-portal',
   '/instructor',
   '/program-holder',
@@ -158,14 +159,32 @@ const ADMIN_EMAILS: string[] = [
 // ── Middleware entry point ────────────────────────────────────────────────────
 
 export async function middleware(request: NextRequest) {
-  const host = request.headers.get('host') || '';
-  const { pathname } = request.nextUrl;
+  const host = (request.headers.get('host') || '').toLowerCase();
+  const hostWithoutPort = host.split(':')[0] || '';
+  const { pathname, search } = request.nextUrl;
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-pathname', pathname);
 
   function nextWithPathname() {
     return NextResponse.next({ request: { headers: requestHeaders } });
+  }
+
+  const adminBase = (process.env.NEXT_PUBLIC_ADMIN_URL || DEFAULT_ADMIN_URL).replace(/\/+$/, '');
+  let canonicalAdminHost = 'admin.elevateforhumanity.org';
+  try {
+    canonicalAdminHost = new URL(adminBase).host;
+  } catch {
+    canonicalAdminHost = 'admin.elevateforhumanity.org';
+  }
+
+  if (LEGACY_ADMIN_HOSTS.has(hostWithoutPort)) {
+    return NextResponse.redirect(`${adminBase}${pathname}${search}`, { status: 301 });
+  }
+
+  if ((pathname === '/admin' || pathname.startsWith('/admin/')) && hostWithoutPort !== canonicalAdminHost) {
+    const adminPath = pathname === '/admin' ? '/admin/dashboard' : pathname;
+    return NextResponse.redirect(`${adminBase}${adminPath}${search}`, { status: 308 });
   }
 
   // ── BYPASS POLICY ────────────────────────────────────────────────────────────
@@ -356,7 +375,7 @@ export async function middleware(request: NextRequest) {
   // All routes are served by the same AWS ECS container — no proxy needed.
 
   // learn.elevateforhumanity.org → /lms
-  if (host === LEARN_SUBDOMAIN) {
+  if (hostWithoutPort === LEARN_SUBDOMAIN) {
     if (pathname === '/' || pathname === '') {
       return NextResponse.rewrite(new URL('/lms/dashboard', request.url));
     }
@@ -369,7 +388,7 @@ export async function middleware(request: NextRequest) {
 
   // Education domain routing (elevateforhumanityeducation.com)
   // Root -> /admin dashboard; all other routes pass through to the full site
-  if (host.includes(EDUCATION_DOMAIN)) {
+  if (hostWithoutPort.includes(EDUCATION_DOMAIN)) {
     if (pathname === '/' || pathname === '') {
       return NextResponse.rewrite(new URL('/admin', request.url));
     }
@@ -378,7 +397,7 @@ export async function middleware(request: NextRequest) {
 
   // Connects domain routing (elevateconnects.org)
   // Root -> /connects landing page; all other routes pass through to the full site
-  if (host.includes(CONNECTS_DOMAIN)) {
+  if (hostWithoutPort.includes(CONNECTS_DOMAIN)) {
     if (pathname === '/' || pathname === '') {
       return NextResponse.rewrite(new URL('/connects', request.url));
     }
@@ -386,7 +405,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Platform subdomain routing (platform.elevateforhumanity.org -> /platform/licensing)
-  if (host === PLATFORM_SUBDOMAIN || host === 'platform.elevateforhumanity.org') {
+  if (hostWithoutPort === PLATFORM_SUBDOMAIN || hostWithoutPort === 'platform.elevateforhumanity.org') {
     // Skip for static files and API routes
     if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.includes('.')) {
       return nextWithPathname();
@@ -407,7 +426,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Redirect non-www .org to www .org
-  if (host === 'elevateforhumanity.org') {
+  if (hostWithoutPort === 'elevateforhumanity.org') {
     const url = request.nextUrl.clone();
     url.host = 'www.elevateforhumanity.org';
     url.protocol = 'https';
@@ -445,9 +464,8 @@ export async function middleware(request: NextRequest) {
     return nextWithPathname();
   }
 
-  // Admin namespace (/admin/*) is served by the separate admin app at
-  // app.elevateforhumanity.org. That app handles its own auth via
-  // apps/admin/middleware.ts. The LMS middleware does not intercept /admin routes.
+  // Admin namespace (/admin/*) is canonicalized to NEXT_PUBLIC_ADMIN_URL above.
+  // The LMS middleware does not own /admin route rendering.
 
   // Check if route requires protection (non-admin routes)
   const protectedRoute = Object.keys(PROTECTED_ROUTES).find((route) => pathname.startsWith(route));
