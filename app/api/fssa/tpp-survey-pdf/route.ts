@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: 410 tombstone — endpoint moved to SNAP intake workflows, no auth needed
 import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
