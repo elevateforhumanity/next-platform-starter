@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 
 /**
@@ -7,7 +7,7 @@ import { logger } from '@/lib/logger';
  * @returns Public URL for downloading the signed MOU
  */
 export async function getSignedMOUUrl(filename: string): Promise<string | null> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error }: any = await supabase.storage.from('mous').createSignedUrl(filename, 60); // 60-second expiry for compliance documents
 
@@ -25,7 +25,7 @@ export async function getSignedMOUUrl(filename: string): Promise<string | null> 
  * @returns Blob of the PDF file
  */
 export async function downloadSignedMOU(filename: string): Promise<Blob | null> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error }: any = await supabase.storage.from('mous').download(filename);
 
@@ -43,7 +43,7 @@ export async function downloadSignedMOU(filename: string): Promise<Blob | null> 
  * @returns Boolean indicating if file exists
  */
 export async function signedMOUExists(filename: string): Promise<boolean> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error }: any = await supabase.storage.from('mous').list('', {
     search: filename,
