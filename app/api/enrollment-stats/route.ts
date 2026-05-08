@@ -1,20 +1,17 @@
-// GET /api/admin/enrollment-stats
-// Admin dashboard enrollment counts (admin-only route).
+// GET /api/enrollment-stats
+// Public aggregate enrollment stats for marketing surfaces.
+// PUBLIC ROUTE: aggregate counts only, no PII.
 
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
+  const rateLimited = await applyRateLimit(request, 'public');
   if (rateLimited) return rateLimited;
-
-  const auth = await apiRequireAdmin(request);
-  if (auth.error) return auth.error;
 
   const supabase = await requireAdminClient();
   if (!supabase) {

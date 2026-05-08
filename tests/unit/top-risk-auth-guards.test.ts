@@ -17,7 +17,7 @@ function readRoute(routePath: string): string {
 
 describe('Top-risk routes have auth guards', () => {
   it('/api/admin/promo-codes requires apiRequireAdmin', () => {
-    const src = readRoute('app/api/admin/promo-codes/route.ts');
+    const src = readRoute('apps/admin/app/api/admin/promo-codes/route.ts');
     expect(src).toContain("import { apiRequireAdmin } from '@/lib/admin/guards'");
     expect(src).toContain('await apiRequireAdmin(');
   });

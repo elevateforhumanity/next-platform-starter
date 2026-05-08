@@ -73,7 +73,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
 
   it('returns { course: { id } } with a valid UUID on success', async () => {
     authorizedProfile();
-    const { POST } = await import('@/app/api/admin/lms/courses/route');
+    const { POST } = await import('@/apps/admin/app/api/admin/lms/courses/route');
 
     const res = await POST(makeRequest({ slug: 'test-course', title: 'Test Course' }));
     const body = await res.json();
@@ -89,7 +89,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
 
   it('does NOT return { id } at the top level (would break resolveCourseId fallback order)', async () => {
     authorizedProfile();
-    const { POST } = await import('@/app/api/admin/lms/courses/route');
+    const { POST } = await import('@/apps/admin/app/api/admin/lms/courses/route');
 
     const res = await POST(makeRequest({ slug: 'test-course', title: 'Test Course' }));
     const body = await res.json();
@@ -101,7 +101,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
 
   it('returns 400 when slug is missing', async () => {
     authorizedProfile();
-    const { POST } = await import('@/app/api/admin/lms/courses/route');
+    const { POST } = await import('@/apps/admin/app/api/admin/lms/courses/route');
 
     const res = await POST(makeRequest({ title: 'No Slug' }));
     const body = await res.json();
@@ -112,7 +112,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
 
   it('returns 400 when title is missing', async () => {
     authorizedProfile();
-    const { POST } = await import('@/app/api/admin/lms/courses/route');
+    const { POST } = await import('@/apps/admin/app/api/admin/lms/courses/route');
 
     const res = await POST(makeRequest({ slug: 'no-title' }));
     const body = await res.json();
@@ -123,7 +123,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
 
   it('returns 401 when unauthenticated', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: new Error('no session') });
-    const { POST } = await import('@/app/api/admin/lms/courses/route');
+    const { POST } = await import('@/apps/admin/app/api/admin/lms/courses/route');
 
     const res = await POST(makeRequest({ slug: 'test', title: 'Test' }));
 
@@ -137,7 +137,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
       eq: vi.fn().mockReturnThis(),
       maybeSingle: vi.fn().mockResolvedValue({ data: { role: 'student' }, error: null }),
     });
-    const { POST } = await import('@/app/api/admin/lms/courses/route');
+    const { POST } = await import('@/apps/admin/app/api/admin/lms/courses/route');
 
     const res = await POST(makeRequest({ slug: 'test', title: 'Test' }));
 
@@ -146,7 +146,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
 
   it('passes modules array through to createDraftCourse', async () => {
     authorizedProfile();
-    const { POST } = await import('@/app/api/admin/lms/courses/route');
+    const { POST } = await import('@/apps/admin/app/api/admin/lms/courses/route');
 
     const modules = [{ id: 'mod-1', title: 'Module 1', lessons: [] }];
     await POST(makeRequest({ slug: 'test', title: 'Test', modules }));

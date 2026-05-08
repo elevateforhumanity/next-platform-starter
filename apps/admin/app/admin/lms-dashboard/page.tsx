@@ -36,11 +36,11 @@ export default async function LMSDashboardPage() {
     db
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'active'),
+      .eq('enrollment_state', 'active'),
     db
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'completed'),
+      .eq('enrollment_state', 'completed'),
     db.from('lesson_progress').select('*', { count: 'exact', head: true }).eq('completed', true),
     db.from('checkpoint_scores').select('*', { count: 'exact', head: true }).eq('passed', true),
     db.from('checkpoint_scores').select('*', { count: 'exact', head: true }).eq('passed', false),
@@ -64,12 +64,12 @@ export default async function LMSDashboardPage() {
         .from('program_enrollments')
         .select('*', { count: 'exact', head: true })
         .eq('program_id', p.id)
-        .eq('status', 'active');
+        .eq('enrollment_state', 'active');
       const { count: completed } = await db
         .from('program_enrollments')
         .select('*', { count: 'exact', head: true })
         .eq('program_id', p.id)
-        .eq('status', 'completed');
+        .eq('enrollment_state', 'completed');
       return { ...p, active: active ?? 0, completed: completed ?? 0 };
     }),
   );
@@ -122,7 +122,7 @@ export default async function LMSDashboardPage() {
       sub: `${checkpointsPassed ?? 0} passed`,
       icon: CheckCircle,
       color: 'text-amber-500',
-      href: '/admin/quiz-results',
+      href: '/admin/quizzes',
     },
     {
       label: 'Certificates Issued',
@@ -138,7 +138,7 @@ export default async function LMSDashboardPage() {
       sub: 'total across all courses',
       icon: TrendingUp,
       color: 'text-slate-500',
-      href: '/admin/quiz-results',
+      href: '/admin/quizzes',
     },
   ];
 
@@ -258,9 +258,9 @@ export default async function LMSDashboardPage() {
           {[
             { label: 'All Enrollments', href: '/admin/enrollments' },
             { label: 'Lesson Progress', href: '/admin/progress' },
-            { label: 'Quiz Results', href: '/admin/quiz-results' },
+            { label: 'Quiz Results', href: '/admin/quizzes' },
             { label: 'Certificates', href: '/admin/certificates' },
-            { label: 'Master Dashboard', href: '/admin/master-dashboard' },
+            { label: 'Main Dashboard', href: '/admin/dashboard' },
           ].map((l) => (
             <Link
               key={l.href}

@@ -9,6 +9,31 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
 
+function getLicenseWebhookSecrets(): string[] {
+  return [
+    process.env.STRIPE_WEBHOOK_SECRET_LICENSE,
+    process.env.STRIPE_WEBHOOK_SECRET_LICENSES,
+    process.env.STRIPE_WEBHOOK_SECRET,
+  ].filter((s): s is string => Boolean(s && s.trim()));
+}
+
+function constructStripeEventWithAnySecret(
+  stripe: Stripe,
+  body: string,
+  signature: string,
+  secrets: string[],
+): Stripe.Event {
+  let lastError: unknown = null;
+  for (const secret of secrets) {
+    try {
+      return stripe.webhooks.constructEvent(body, signature, secret);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError ?? new Error('No webhook secret available');
+}
+
 async function _POST(request: NextRequest) {
   let body: string;
   let signature: string | null;
@@ -28,10 +53,8 @@ async function _POST(request: NextRequest) {
   let event: Stripe.Event;
   try {
     const stripe = getStripe();
-    // Use dedicated license webhook secret, fall back to generic
-    const webhookSecret =
-      process.env.STRIPE_WEBHOOK_SECRET_LICENSE || process.env.STRIPE_WEBHOOK_SECRET || '';
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    const webhookSecrets = getLicenseWebhookSecrets();
+    event = constructStripeEventWithAnySecret(stripe, body, signature, webhookSecrets);
   } catch (err) {
     logger.error('[license-webhook] Signature verification failed:', err);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });

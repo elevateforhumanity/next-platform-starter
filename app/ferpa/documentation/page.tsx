@@ -123,10 +123,13 @@ export default async function FerpaDocumentationPage() {
               <p className="text-slate-700 mt-1">FERPA policies, forms, and resources</p>
             </div>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700" />
+              <label htmlFor="ferpa-doc-search" className="block text-xs font-medium text-slate-700 mb-1">
+                Search documentation
+              </label>
+              <Search className="absolute left-3 top-[calc(50%+10px)] -translate-y-1/2 w-4 h-4 text-slate-700" />
               <input
+                id="ferpa-doc-search"
                 type="text"
-                placeholder="Search by policy title, form name, or keyword"
                 className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 w-64"
               />
             </div>

@@ -167,12 +167,14 @@ export default async function FerpaRecordsSearchPage({
                     id="q"
                     name="q"
                     defaultValue={query}
-                    placeholder="Enter full student name or verified student email"
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     minLength={2}
                     required
                   />
                 </div>
+                <p className="mt-1 text-xs text-slate-700">
+                  Search by full student name or verified student email.
+                </p>
               </div>
               <div className="sm:w-48">
                 <label htmlFor="type" className="block text-sm font-medium text-slate-900 mb-1">

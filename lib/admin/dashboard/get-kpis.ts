@@ -20,14 +20,14 @@ export async function getKpis(db: SupabaseClient): Promise<DashboardKpis> {
       db
         .from('program_enrollments')
         .select('id', { count: 'exact', head: true })
-        .eq('status', 'active'),
+        .eq('enrollment_state', 'active'),
 
       db.from('applications').select('id', { count: 'exact', head: true }).eq('stage', 'submitted'),
 
       db
         .from('program_enrollments')
         .select('id', { count: 'exact', head: true })
-        .eq('status', 'completed'),
+        .eq('enrollment_state', 'completed'),
 
       db
         .from('placements')

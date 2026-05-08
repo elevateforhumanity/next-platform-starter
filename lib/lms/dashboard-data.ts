@@ -59,8 +59,8 @@ export async function getAdminDashboardStats(orgId?: string): Promise<DashboardS
     supabase
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'active'),
-    supabase.from('program_enrollments').select('id').eq('status', 'completed'),
+      .eq('enrollment_state', 'active'),
+    supabase.from('program_enrollments').select('id').eq('enrollment_state', 'completed'),
     supabase.from('student_risk_status').select('id').eq('status', 'at_risk'),
     supabase.from('student_requirements').select('id').eq('status', 'completed'),
     supabase
@@ -94,7 +94,7 @@ export async function getStudentProgressList(programIds: string[]): Promise<Stud
     .select(
       `
       id,
-      status,
+      enrollment_state,
       updated_at,
       profiles!enrollments_student_id_fkey(
         first_name,
@@ -111,8 +111,8 @@ export async function getStudentProgressList(programIds: string[]): Promise<Stud
       )
     `,
     )
-    .in('program_id', programIds)
-    .order('updated_at', { ascending: false });
+      .in('program_id', programIds)
+      .order('updated_at', { ascending: false });
 
   if (error) {
     logger.error('Error fetching student progress:', error);
@@ -145,11 +145,11 @@ export async function getProgramMetrics(orgId: string): Promise<ProgramMetrics[]
       id,
       name,
       enrollments(
-        id,
-        status,
-        student_risk_status(
-          progress_percentage,
-          status
+      id,
+      enrollment_state,
+      student_risk_status(
+        progress_percentage,
+        status
         )
       )
     `,
@@ -163,8 +163,10 @@ export async function getProgramMetrics(orgId: string): Promise<ProgramMetrics[]
 
   return data.map((program: any) => {
     const enrollments = program.enrollments || [];
-    const activeStudents = enrollments.filter((e: any) => e.status === 'active').length;
-    const completedStudents = enrollments.filter((e: any) => e.status === 'completed').length;
+    const activeStudents = enrollments.filter((e: any) => e.enrollment_state === 'active').length;
+    const completedStudents = enrollments.filter(
+      (e: any) => e.enrollment_state === 'completed',
+    ).length;
     const atRiskCount = enrollments.filter(
       (e: any) => e.student_risk_status?.status === 'at_risk',
     ).length;

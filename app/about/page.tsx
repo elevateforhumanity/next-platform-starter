@@ -461,10 +461,10 @@ export default async function AboutPage() {
                 <p className="text-brand-red-600 font-semibold text-sm mb-4">{founder.title}</p>
                 <p className="text-sm text-slate-700 mb-4">{founder.bio}</p>
                 <p className="text-sm text-slate-700 mb-4">
-                  Elizabeth is a U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent (EA) with an EFIN
-                  and PTIN, and EPA 608 Certified Proctor. She is authorized to represent taxpayers
-                  before the IRS and to proctor EPA Section 608 refrigerant handling exams. She also
-                  operates SupersonicFastCash, a tax preparation software company.
+                  Elizabeth is a U.S. Army veteran (Unit Supply Specialist), a federally authorized tax professional
+                  with active tax filing credentials, and an EPA 608 Certified Proctor. She is authorized to support
+                  taxpayer representation and to proctor EPA Section 608 refrigerant handling exams. She also
+                  leads Elevate tax operations.
                 </p>
 
                 {/* Credentials & Authorizations */}
@@ -472,11 +472,11 @@ export default async function AboutPage() {
                   <p className="text-xs font-bold uppercase tracking-widest text-black mb-3">Credentials &amp; Authorizations</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {[
-                      { label: 'IRS Enrolled Agent (EA)', detail: 'Authorized to represent taxpayers before the IRS' },
-                      { label: 'EFIN & PTIN', detail: 'IRS Electronic Filing Identification Number and Preparer Tax Identification Number' },
-                      { label: 'ERO — Electronic Return Originator', detail: 'Authorized IRS e-file originator for individual and business returns' },
-                      { label: 'SBIN — IRS Submitter', detail: 'Authorized to submit returns directly to the IRS for both for-profit and non-profit filers' },
-                      { label: 'VITA Site', detail: 'IRS-authorized Volunteer Income Tax Assistance site' },
+                      { label: 'Federally Authorized Tax Professional', detail: 'Authorized to represent taxpayers in federal tax matters' },
+                      { label: 'EFIN & PTIN', detail: 'Federal electronic filing and paid preparer credentials' },
+                      { label: 'ERO — Electronic Return Originator', detail: 'Authorized e-file originator for individual and business returns' },
+                      { label: 'Federal Submitter', detail: 'Authorized to submit returns directly to federal e-file systems for both for-profit and non-profit filers' },
+                      { label: 'VITA Site', detail: 'Authorized Volunteer Income Tax Assistance site' },
                       { label: 'EPA 608 Certified Proctor', detail: 'Authorized to proctor EPA Section 608 refrigerant handling certification exams' },
                       { label: 'ACT WorkKeys Authorized Testing Site (Realm: 1317721865)', detail: 'Authorized to administer ACT WorkKeys assessments and issue the National Career Readiness Certificate (NCRC)' },
                       { label: 'Elevate LMS — Proctor & Partner', detail: 'Authorized proctor and curriculum partner for Elevate LMS cosmetology and barbering coursework' },

@@ -16,7 +16,12 @@ function AdminLoginForm() {
   const searchParams = useSearchParams();
   const ADMIN_URL =
     process.env.NEXT_PUBLIC_ADMIN_URL?.trim() ?? 'https://admin.elevateforhumanity.org';
-  const redirectTo = searchParams.get('redirect') || `${ADMIN_URL}/admin/dashboard`;
+  const requestedRedirect = searchParams.get('redirect');
+  const redirectTo = requestedRedirect
+    ? requestedRedirect.startsWith('http')
+      ? requestedRedirect
+      : `${ADMIN_URL}${requestedRedirect.startsWith('/') ? requestedRedirect : `/${requestedRedirect}`}`
+    : `${ADMIN_URL}/admin/dashboard`;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

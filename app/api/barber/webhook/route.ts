@@ -85,8 +85,29 @@ async function scheduleWeeklyInvoices(
 
   logger.info(`Scheduled ${weeksRemaining} weekly invoices for customer ${customerId}`);
 }
-function getWebhookSecret() {
-  return process.env.STRIPE_WEBHOOK_SECRET_BARBER || process.env.STRIPE_WEBHOOK_SECRET || '';
+function getWebhookSecrets(): string[] {
+  return [
+    process.env.STRIPE_WEBHOOK_SECRET_BARBER,
+    process.env.STRIPE_WEBHOOK_SECRET_BARBER_APPRENTICESHIP,
+    process.env.STRIPE_WEBHOOK_SECRET,
+  ].filter((s): s is string => Boolean(s && s.trim()));
+}
+
+function constructStripeEventWithAnySecret(
+  stripe: Stripe,
+  body: string,
+  signature: string,
+  secrets: string[],
+): Stripe.Event {
+  let lastError: unknown = null;
+  for (const secret of secrets) {
+    try {
+      return stripe.webhooks.constructEvent(body, signature, secret);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError ?? new Error('No webhook secret available');
 }
 
 /**
@@ -111,10 +132,10 @@ async function _POST(request: NextRequest) {
 
   let event: Stripe.Event;
   const stripe = getStripe();
-  const webhookSecret = getWebhookSecret();
+  const webhookSecrets = getWebhookSecrets();
 
   try {
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    event = constructStripeEventWithAnySecret(stripe, body, signature, webhookSecrets);
   } catch (err) {
     logger.error('Webhook signature verification failed:', err);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });

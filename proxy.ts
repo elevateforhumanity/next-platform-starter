@@ -423,13 +423,6 @@ export async function proxy(request: NextRequest) {
     return NextResponse.rewrite(new URL(`/platform/licensing${pathname}`, request.url));
   }
 
-  // /sign-in and /signin are dead paths — redirect to /login
-  if (pathname === '/sign-in' || pathname === '/signin' || pathname.startsWith('/sign-in/') || pathname.startsWith('/signin/')) {
-    const dest = new URL(request.url);
-    dest.pathname = '/login' + pathname.replace(/^\/sign-?in/, '');
-    return NextResponse.redirect(dest, { status: 308 });
-  }
-
   // Redirect non-www .org to www .org
   if (host === 'elevateforhumanity.org') {
     const url = request.nextUrl.clone();

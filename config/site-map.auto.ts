@@ -102,7 +102,7 @@ export const siteMapSections: SiteMapSection[] = [
       { label: 'Lms Integrations', href: '/admin/partners/lms-integrations' },
       { label: 'Login', href: '/admin/login' },
       { label: 'Manage', href: '/admin/courses/manage' },
-      { label: 'Master Dashboard', href: '/admin/master-dashboard' },
+      { label: 'Master Dashboard', href: '/admin/dashboard' },
       { label: 'Migrations', href: '/admin/migrations' },
       { label: 'Mobile Sync', href: '/admin/mobile-sync' },
       { label: 'Mou', href: '/admin/docs/mou' },

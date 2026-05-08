@@ -177,8 +177,8 @@ function BoothRentalApplyInner() {
                 value={formData.firstName}
                 onChange={(e) => updateField('firstName', e.target.value)}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                placeholder="Enter your first name as it appears on your license"
               />
+              <p className="mt-1 text-xs text-slate-500">Use your legal first name.</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Last Name *</label>
@@ -187,8 +187,8 @@ function BoothRentalApplyInner() {
                 value={formData.lastName}
                 onChange={(e) => updateField('lastName', e.target.value)}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                placeholder="Enter your last name as it appears on your license"
               />
+              <p className="mt-1 text-xs text-slate-500">Use your legal last name.</p>
             </div>
           </div>
           <div>
@@ -198,8 +198,8 @@ function BoothRentalApplyInner() {
               value={formData.email}
               onChange={(e) => updateField('email', e.target.value)}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-              placeholder="name@domain.com"
             />
+            <p className="mt-1 text-xs text-slate-500">Enter an email you check regularly.</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Phone Number *</label>
@@ -208,8 +208,8 @@ function BoothRentalApplyInner() {
               value={formData.phone}
               onChange={(e) => updateField('phone', e.target.value)}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-              placeholder="(317) 555-0123"
             />
+            <p className="mt-1 text-xs text-slate-500">Include area code for callback confirmation.</p>
           </div>
         </div>
 
@@ -229,8 +229,8 @@ function BoothRentalApplyInner() {
                 value={formData.licenseNumber}
                 onChange={(e) => updateField('licenseNumber', e.target.value)}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                placeholder="Enter your active state license number"
               />
+              <p className="mt-1 text-xs text-slate-500">Provide your active state license number.</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">State</label>
@@ -256,8 +256,10 @@ function BoothRentalApplyInner() {
               value={formData.boothPreference}
               onChange={(e) => updateField('boothPreference', e.target.value)}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-              placeholder="Share any station preference (location, number, or no preference)"
             />
+            <p className="mt-1 text-xs text-slate-500">
+              Share location or station preferences, or leave blank.
+            </p>
           </div>
         </div>
 
