@@ -396,8 +396,8 @@ export default function ScheduleMeetingPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                    placeholder="Enter your full legal name"
                   />
+                  <p className="mt-1 text-xs text-slate-700">Enter your full legal name.</p>
                 </div>
 
                 <div>
@@ -412,8 +412,8 @@ export default function ScheduleMeetingPage() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                    placeholder="you@elevateforhumanity.org"
                   />
+                  <p className="mt-1 text-xs text-slate-700">Use your preferred contact email.</p>
                 </div>
 
                 <div>
@@ -428,8 +428,8 @@ export default function ScheduleMeetingPage() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                    placeholder="(317) 314-3757"
                   />
+                  <p className="mt-1 text-xs text-slate-700">Include your best callback number.</p>
                 </div>
 
                 <div>
@@ -443,8 +443,10 @@ export default function ScheduleMeetingPage() {
                     value={formData.notes}
                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                    placeholder="Tell us about your goals or questions..."
                   />
+                  <p className="mt-1 text-xs text-slate-700">
+                    Share goals, questions, or topics to cover during your meeting.
+                  </p>
                 </div>
               </div>
 
