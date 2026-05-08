@@ -149,7 +149,7 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
       }
       router.push('/programs/barber-apprenticeship/documents');
     } catch {
-      setSubmitError('We could not save your orientation completion. Please try again.');
+      setSubmitError('We could not save your orientation completion. Please try again or call (317) 314-3757.');
     } finally {
       setSubmitting(false);
     }

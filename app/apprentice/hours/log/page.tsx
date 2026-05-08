@@ -55,7 +55,7 @@ export default function LogApprenticeHoursPage() {
 
     try {
       if (authLoading) {
-        setError('Checking your session. Please try again.');
+        setError('Please wait while we verify your session.');
         return;
       }
 
