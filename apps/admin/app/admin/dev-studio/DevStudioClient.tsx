@@ -12,11 +12,16 @@ import {
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
 
-const XTerminal         = dynamic(() => import('@/components/dev-studio/XTerminal'),         { ssr: false });
-const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
-const DocumentsPanel    = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),    { ssr: false });
-const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
-const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
+const XTerminal            = dynamic(() => import('@/components/dev-studio/XTerminal'),            { ssr: false });
+const DevContainerPanel    = dynamic(() => import('@/components/dev-studio/DevContainerPanel'),    { ssr: false });
+const DocumentsPanel       = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),       { ssr: false });
+const AIChat               = dynamic(() => import('@/components/dev-studio/AIChat'),               { ssr: false });
+const EcsStatusPanel       = dynamic(() => import('@/components/dev-studio/EcsStatusPanel'),       { ssr: false });
+const FileTree             = dynamic(() => import('@/components/dev-studio/FileTree'),             { ssr: false });
+const PreviewPanel         = dynamic(() => import('@/components/dev-studio/PreviewPanel'),         { ssr: false });
+const WebContainerPreview  = dynamic(() => import('@/components/dev-studio/WebContainerPreview'),  { ssr: false });
+const TerminalOutput       = dynamic(() => import('@/components/dev-studio/Terminal'),             { ssr: false });
+const CodeEditor           = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   () => import('@/components/dev-studio/CodeEditor'),
   { ssr: false },
 );
@@ -327,7 +332,7 @@ export default function DevStudioClient() {
           {tab === 'terminal'  && <TerminalTab workflowButtons={studioConfig?.workflowButtons} />}
           {tab === 'files'     && <FilesTab />}
           {tab === 'website'   && <WebsiteTab config={studioConfig} />}
-          {tab === 'container' && <DevContainerPanel />}
+          {tab === 'container' && <ContainerTab />}
           {tab === 'documents' && <DocumentsPanel />}
         </div>
 
@@ -842,40 +847,50 @@ function TerminalTab({
           </a>
         )}
       </div>
-      {/* Output log */}
-      <div className="flex-1 overflow-y-auto p-4 font-mono text-xs space-y-0.5 bg-white">
-        {lines.map((l, i) => (
-          <div key={i} className={
-            l.startsWith('▶') ? 'text-orange-600 font-semibold' :
-            l.startsWith('✅') ? 'text-green-600' :
-            l.startsWith('❌') ? 'text-red-600' :
-            l.startsWith('Run #') ? 'text-blue-600' :
-            'text-slate-600'
-          }>{l || '\u00a0'}</div>
-        ))}
-        <div ref={bottomRef} />
-      </div>
-      <div className="flex-shrink-0 flex items-center justify-between px-4 py-1.5 border-t border-slate-200 bg-slate-50">
-        <span className="text-[10px] text-slate-400">Workflows run on GitHub Actions — changes deploy automatically on push to main</span>
-        <button onClick={() => setLines([])} className="text-[10px] text-slate-400 hover:text-slate-700 px-2 py-0.5 rounded hover:bg-slate-200">Clear</button>
+      {/* Output log — Terminal component */}
+      <div className="flex-1 min-h-0">
+        <TerminalOutput output={lines} onClear={() => setLines([])} />
       </div>
     </div>
   );
 }
 // ── Files Tab ────────────────────────────────────────────────────────────────
 
+// ── ContainerTab ─────────────────────────────────────────────────────────────
+function ContainerTab() {
+  return (
+    <div className="h-full flex flex-col gap-4 overflow-y-auto p-2">
+      <EcsStatusPanel />
+      <DevContainerPanel />
+    </div>
+  );
+}
+
 function FilesTab() {
-  const [tree, setTree] = useState<FileNode[]>([]);
+  const [files, setFiles] = useState<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [content, setContent] = useState('');
   const [fileSha, setFileSha] = useState('');
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState('');
   const [commitMsg, setCommitMsg] = useState('');
-  const [showTree, setShowTree] = useState(true);
 
   useEffect(() => {
-    fetch('/api/devstudio/files').then((r) => r.json()).then((d) => setTree(d.tree ?? [])).catch(() => {});
+    fetch('/api/devstudio/files')
+      .then((r) => r.json())
+      .then((d) => {
+        // Flatten tree to path list for FileTree component
+        const flat: string[] = [];
+        function walk(nodes: any[]) {
+          for (const n of nodes ?? []) {
+            if (n.type === 'file') flat.push(n.path);
+            else walk(n.children ?? []);
+          }
+        }
+        walk(d.tree ?? []);
+        setFiles(flat);
+      })
+      .catch(() => {});
   }, []);
 
   async function loadFile(path: string) {
@@ -902,9 +917,8 @@ function FilesTab() {
       if (!r.ok) {
         setSaveMsg(`❌ ${d.error ?? 'Save failed'}`);
       } else {
-        // Update sha so next save uses the new blob sha
         if (d.sha) setFileSha(d.sha);
-        setSaveMsg(d.commit ? `✅ Committed` : '✅ Saved');
+        setSaveMsg(d.commit ? '✅ Committed' : '✅ Saved');
         setTimeout(() => setSaveMsg(''), 4000);
       }
     } catch {
@@ -914,39 +928,15 @@ function FilesTab() {
     }
   }
 
-  function renderNode(node: FileNode, depth = 0): React.ReactNode {
-    const pad = depth * 12;
-    if (node.type === 'directory') return (
-      <div key={node.path}>
-        <div className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-slate-600 hover:bg-slate-100 cursor-pointer select-none" style={{ paddingLeft: 8 + pad }}>
-          <ChevronRight className="w-3 h-3 text-slate-400" /><Folder className="w-3.5 h-3.5 text-amber-500" /><span>{node.name}</span>
-        </div>
-        {node.children?.map((c) => renderNode(c, depth + 1))}
-      </div>
-    );
-    return (
-      <div key={node.path} onClick={() => loadFile(node.path)}
-        className={`flex items-center gap-1.5 px-2 py-0.5 text-[11px] cursor-pointer select-none transition-colors ${selected === node.path ? 'bg-brand-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
-        style={{ paddingLeft: 8 + pad }}>
-        <File className={`w-3.5 h-3.5 ${selected === node.path ? 'text-white' : 'text-brand-blue-500'}`} /><span>{node.name}</span>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col md:flex-row h-full bg-white">
-      <div className="md:hidden px-3 py-2 border-b border-slate-200 bg-slate-50">
-        <button
-          onClick={() => setShowTree((prev) => !prev)}
-          className="text-xs font-semibold text-slate-700"
-        >
-          {showTree ? 'Hide Explorer' : 'Show Explorer'}
-        </button>
-      </div>
-      {/* Sidebar */}
-      <div className={`${showTree ? 'block' : 'hidden'} md:block w-full md:w-52 flex-shrink-0 border-b md:border-b-0 md:border-r border-slate-200 overflow-y-auto bg-slate-50 max-h-48 md:max-h-none`}>
-        <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">Explorer</div>
-        {tree.map((n) => renderNode(n))}
+      {/* Sidebar — FileTree component */}
+      <div className="w-full md:w-56 flex-shrink-0 border-b md:border-b-0 md:border-r border-slate-200 overflow-y-auto bg-slate-50 max-h-48 md:max-h-none">
+        <FileTree
+          files={files}
+          onFileSelect={loadFile}
+          selectedFile={selected ?? undefined}
+        />
       </div>
       {/* Editor */}
       <div className="flex-1 flex flex-col min-w-0 bg-white">
@@ -954,7 +944,7 @@ function FilesTab() {
           <>
             <div className="flex-shrink-0 flex flex-col gap-1 px-4 py-1.5 bg-slate-50 border-b border-slate-200">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-600 font-mono">{selected}</span>
+                <span className="text-[11px] text-slate-600 font-mono truncate max-w-xs">{selected}</span>
                 {saveMsg && <span className="text-[11px] text-slate-600">{saveMsg}</span>}
                 <button onClick={saveFile} disabled={saving || !fileSha}
                   className="flex items-center gap-1.5 px-3 py-1 text-[11px] rounded-md bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-50 transition-colors">
@@ -969,11 +959,7 @@ function FilesTab() {
               />
             </div>
             <div className="flex-1 min-h-0">
-              <CodeEditor
-                value={content}
-                onChange={(val) => setContent(val)}
-                filePath={selected}
-              />
+              <CodeEditor value={content} onChange={(val) => setContent(val)} filePath={selected} />
             </div>
           </>
         ) : (
@@ -993,6 +979,7 @@ function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
   const targets = config?.previewTargets ?? [];
   const [url, setUrl] = useState(defaultUrl);
   const [input, setInput] = useState(defaultUrl);
+  const [useWebContainer, setUseWebContainer] = useState(false);
   const [viewport, setViewport] = useState<'desktop' | 'mobile'>('desktop');
 
   // Sync default URL when config loads
@@ -1067,17 +1054,31 @@ function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
         </div>
       )}
 
-      {/* Viewport — IframePreview handles embed-check + blocked state */}
-      <div
-        className={`flex-1 overflow-auto flex ${viewport === 'mobile' ? 'items-start justify-center p-4' : ''}`}
-        style={{ background: viewport === 'mobile' ? '#252526' : '#1e1e1e' }}
-      >
-        <div
-          className={`relative transition-all ${viewport === 'mobile' ? 'w-[390px] max-w-full shadow-xl rounded-lg overflow-hidden' : 'w-full h-full'}`}
-          style={viewport === 'desktop' ? { height: '100%' } : { height: '844px' }}
+      {/* Toggle: standard preview vs WebContainer preview */}
+      <div className="flex-shrink-0 flex items-center gap-3 px-3 py-1.5 border-b" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
+        <button
+          onClick={() => setUseWebContainer(false)}
+          className="text-[11px] px-2 py-0.5 rounded transition-colors"
+          style={{ background: !useWebContainer ? '#0078d4' : 'transparent', color: !useWebContainer ? '#fff' : '#858585' }}
         >
-          <IframePreview url={url} title="Preview" />
-        </div>
+          Preview
+        </button>
+        <button
+          onClick={() => setUseWebContainer(true)}
+          className="text-[11px] px-2 py-0.5 rounded transition-colors"
+          style={{ background: useWebContainer ? '#0078d4' : 'transparent', color: useWebContainer ? '#fff' : '#858585' }}
+        >
+          WebContainer
+        </button>
+      </div>
+
+      {/* Viewport */}
+      <div className="flex-1 min-h-0">
+        {useWebContainer ? (
+          <WebContainerPreview url={url} />
+        ) : (
+          <PreviewPanel url={url} />
+        )}
       </div>
     </div>
   );
