@@ -54,7 +54,7 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
     db
       .from('program_enrollments')
       .select('id', { count: 'exact', head: true })
-      .eq('status', 'active')
+      .eq('enrollment_state', 'active')
       .eq('docs_verified', false),
 
     // Unresolved compliance flags (table may not exist — degrade gracefully)

@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
@@ -20,8 +21,11 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 async function _POST(req: NextRequest) {
   try {
-    const rateLimited = await applyRateLimit(req, 'api');
+    const rateLimited = await applyRateLimit(req, 'strict');
     if (rateLimited) return rateLimited;
+
+    const auth = await apiRequireAdmin(req);
+    if (auth.error) return auth.error;
 
     // Ensure runtime secrets from app_secrets table are merged into process.env.
     // ECS injects SSM params at container start, but hydrateProcessEnv fills any

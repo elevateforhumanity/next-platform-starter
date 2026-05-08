@@ -29,7 +29,7 @@ export default async function AdminEnrollmentsPage({
     .from('program_enrollments')
     .select('id, user_id, program_slug, enrolled_at, payment_status, amount_paid_cents')
     .is('access_granted_at', null)
-    .eq('status', 'pending_review')
+    .eq('enrollment_state', 'pending_review')
     .order('enrolled_at', { ascending: true });
 
   // Enrich with profile data
@@ -49,7 +49,7 @@ export default async function AdminEnrollmentsPage({
     .select('*, course:courses(id, title)')
     .order('enrolled_at', { ascending: false });
   if (programFilter) enrollmentsQuery = enrollmentsQuery.eq('program_slug', programFilter);
-  if (statusFilter) enrollmentsQuery = enrollmentsQuery.eq('status', statusFilter);
+  if (statusFilter) enrollmentsQuery = enrollmentsQuery.eq('enrollment_state', statusFilter);
 
   const { data: rawEnrollments, error: enrollmentsError } = await enrollmentsQuery;
   if (enrollmentsError)
@@ -86,11 +86,12 @@ export default async function AdminEnrollmentsPage({
   const allEnrollments = enrollments;
   const stats = {
     total: allEnrollments.length,
-    active: allEnrollments.filter((e: any) => e.status === 'active').length,
-    completed: allEnrollments.filter((e: any) => e.status === 'completed').length,
+    active: allEnrollments.filter((e: any) => (e.enrollment_state ?? e.status) === 'active').length,
+    completed: allEnrollments.filter((e: any) => (e.enrollment_state ?? e.status) === 'completed')
+      .length,
     atRisk: allEnrollments.filter((e: any) => e.at_risk).length,
     pending: allEnrollments.filter((e: any) =>
-      ['pending', 'pending_approval', 'pending_review'].includes(e.status),
+      ['pending', 'pending_approval', 'pending_review'].includes(e.enrollment_state ?? e.status),
     ).length,
   };
 

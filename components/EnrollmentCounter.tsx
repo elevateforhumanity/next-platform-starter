@@ -31,7 +31,7 @@ export default function EnrollmentCounter() {
   const activeCount = useMotionValue(0);
 
   useEffect(() => {
-    fetch('/api/admin/enrollment-stats')
+    fetch('/api/enrollment-stats')
       .then((r) => r.json())
       .then((d) => {
         if (d.data) {

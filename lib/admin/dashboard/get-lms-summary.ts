@@ -14,20 +14,20 @@ export async function getLmsSummary(db: SupabaseClient): Promise<DashboardLms> {
     db
       .from('program_enrollments')
       .select('id', { count: 'exact', head: true })
-      .eq('status', 'active'),
+      .eq('enrollment_state', 'active'),
 
-    db.from('program_enrollments').select('progress_percent').eq('status', 'active'),
+    db.from('program_enrollments').select('progress_percent').eq('enrollment_state', 'active'),
 
     db
       .from('program_enrollments')
       .select('id', { count: 'exact', head: true })
-      .eq('status', 'active')
+      .eq('enrollment_state', 'active')
       .lt('updated_at', sevenDaysAgo),
 
     db
       .from('program_enrollments')
       .select('id', { count: 'exact', head: true })
-      .eq('status', 'active')
+      .eq('enrollment_state', 'active')
       .gte('progress_percent', 90),
   ]);
 

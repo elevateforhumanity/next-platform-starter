@@ -90,7 +90,7 @@ export default async function DashboardEnhancedPage() {
       sub: `${totalQuizAttempts ?? 0} attempts`,
       icon: CheckSquare,
       color: 'text-amber-500',
-      href: '/admin/quiz-results',
+      href: '/admin/quizzes',
     },
     {
       label: 'Certificates Issued',
@@ -234,7 +234,7 @@ export default async function DashboardEnhancedPage() {
         <div className="mt-6 flex flex-wrap gap-3">
           {[
             { label: 'Curriculum Builder', href: '/admin/curriculum' },
-            { label: 'Quiz Results', href: '/admin/quiz-results' },
+            { label: 'Quiz Results', href: '/admin/quizzes' },
             { label: 'Certificates', href: '/admin/certificates' },
             { label: 'Submissions', href: '/admin/submissions' },
             { label: 'LMS Dashboard', href: '/admin/lms-dashboard' },
