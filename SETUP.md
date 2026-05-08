@@ -20,20 +20,16 @@ pnpm install
 
 ## 2. Configure environment
 
-### Option A — Gitpod / Ona (recommended)
+### Option A — Dev Container (recommended)
 
-The environment assembles `.env.local` automatically from secret chunks on every start.
-Secret chunks are stored as Gitpod environment secrets:
+Open the repo in **GitHub Codespaces** or **VS Code Dev Containers**.  The
+container runs `.devcontainer/setup-env.sh` automatically on every start,
+which assembles `.env.local` from Codespaces secret chunks (if present) or
+copies `.env.example` if `.env.local` doesn't exist yet.
 
-| Secret name   | Contains                      |
-| ------------- | ----------------------------- |
-| `ENV_LOCAL_1` | Lines 1–100 of `.env.local`   |
-| `ENV_LOCAL_2` | Lines 101–200 of `.env.local` |
-| `ENV_LOCAL_3` | Lines 201+ of `.env.local`    |
-
-The `setup-env` automation task runs `cat $ENV_LOCAL_1 $ENV_LOCAL_2 $ENV_LOCAL_3 > .env.local` on every environment start.
-
-To configure: Gitpod Dashboard → Environment → Secrets → add the three chunks.
+For GitHub Codespaces add secrets under
+**Settings → Secrets and variables → Codespaces**.  See
+`.devcontainer/README.md` for the full list of required secrets.
 
 ### Option B — Manual
 
