@@ -83,7 +83,7 @@ export default async function LegalGovernancePage() {
               training programs.
             </p>
             <p className="text-slate-700 text-sm">
-              2Exclusive LLC-S also operates SupersonicFastCash (a separate DBA) for tax preparation
+              2Exclusive LLC-S also operates a separate tax operations DBA for tax preparation
               services. Tax preparation services are governed by separate terms and security documentation.
             </p>
           </div>
@@ -190,7 +190,7 @@ export default async function LegalGovernancePage() {
               <li>&ldquo;Elevate for Humanity Career &amp; Technical Institute&rdquo; is a trade name (DBA) of 2Exclusive LLC-S.</li>
               <li>&ldquo;Rise Forward Foundation&rdquo; is a trade name of Selfish Inc.</li>
               <li>&ldquo;CurvatureBody Sculpting&rdquo; is a program of Rise Forward Foundation (not a separate entity).</li>
-              <li>&ldquo;SupersonicFastCash&rdquo; is a trade name of 2Exclusive LLC-S, used exclusively for tax preparation services.</li>
+              <li>&ldquo;Tax Operations&rdquo; is a trade name of 2Exclusive LLC-S, used exclusively for tax preparation services.</li>
             </ul>
           </div>
         </section>

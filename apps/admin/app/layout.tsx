@@ -12,9 +12,18 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Elevate Admin',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org'),
+  title: {
+    default: 'Elevate Admin',
+    template: '%s | Elevate Admin',
+  },
   description: 'Elevate for Humanity — Admin Portal',
   robots: { index: false, follow: false },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

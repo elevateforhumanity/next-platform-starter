@@ -19,8 +19,8 @@ const services = [
     image: '/images/pages/career-services.jpg',
   },
   {
-    title: 'Supersonic Fast Cash',
-    description: 'Quick refund advances and fast cash services',
+    title: 'Tax Operations',
+    description: 'Professional filing support and refund advance options',
     href: '/programs/tax-preparation',
     image: '/images/pages/apply-employer-hero.jpg',
   },

@@ -9,7 +9,7 @@ export const taxNav = {
       items: [{ label: 'Overview', href: '/tax' }] as NavItem[],
     },
     {
-      title: 'For-Profit (SupersonicFastCash)',
+      title: 'Paid Tax Services',
       items: [
         {
           label: 'Upload Documents',

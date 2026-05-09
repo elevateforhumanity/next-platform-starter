@@ -20,7 +20,7 @@ export const brandConfigs: Record<Brand, BrandConfig> = {
     accentColor: 'slate',
   },};
 
-// Supersonic domain constant for middleware matching
+// Canonical domain helper for governance links
 export function getCanonicalUrl(path: string): string {
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
   return `${base}${path}`;

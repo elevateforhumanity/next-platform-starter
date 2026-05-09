@@ -873,7 +873,7 @@ const nextConfig = {
       { source: '/forgot-password', destination: '/reset-password', permanent: true },
       { source: '/partners/login', destination: '/partner/login', permanent: true },
 
-      // Tax / SupersonicFastCash — these belong in a separate repository.
+      // Tax services routes belong in a separate repository.
       // Those routes are not compiled in this Netlify marketing deploy.
 
       // Store / platform aliases

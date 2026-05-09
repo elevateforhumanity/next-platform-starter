@@ -109,9 +109,8 @@ export default async function SecurityDocumentPage() {
               <li>Administrative, instructor, and partner portals</li>
             </ul>
             <p className="text-slate-700 leading-relaxed mt-4">
-              Tax preparation services operated under the SupersonicFastCash brand (a separate DBA of 2Exclusive LLC-S) 
-              are governed by a separate security addendum available at{' '}
-              .
+              Tax preparation services and refund-advance workflows are governed by this same
+              platform security framework and related legal governance documents.
             </p>
             <p className="text-slate-700 leading-relaxed mt-4">
               It applies to all users, including students, tax filers, instructors, administrators, 

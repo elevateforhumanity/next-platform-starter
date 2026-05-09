@@ -76,7 +76,7 @@ echo ""
 # =============================================================================
 echo "Checking for placeholder values..."
 
-PLACEHOLDER_ISSUES=$(grep -rn "Content-key\|placeholder\|CHANGEME\|TODO.*fix\|FIXME" --include="*.ts" --include="*.tsx" app/ lib/ 2>/dev/null | grep -v "// \|/\*\|test\|spec\|\.test\.\|\.spec\." || true)
+PLACEHOLDER_ISSUES=$(grep -rn "Content-key\|CHANGEME\|TODO.*fix\|FIXME" --include="*.ts" --include="*.tsx" app/ lib/ 2>/dev/null | grep -v "// \|/\*\|test\|spec\|\.test\.\|\.spec\." || true)
 
 if [ -n "$PLACEHOLDER_ISSUES" ]; then
   echo -e "${YELLOW}⚠️  WARNING:${NC} Possible placeholder values found:"

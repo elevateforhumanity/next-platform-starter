@@ -9,24 +9,24 @@ interface SupersonicScopeSectionProps {
 export function SupersonicScopeSection({ pageType }: SupersonicScopeSectionProps) {
   const content = {
     security: {
-      title: 'Application to Supersonic Fast Cash Tax Services',
+      title: 'Application to Tax Services Operations',
       description:
-        'This Security & Data Protection Statement applies to Supersonic Fast Cash tax preparation services and optional refund-based advance products, operated under 2Exclusive LLC-S.',
+        'This Security & Data Protection Statement applies to tax preparation services and optional refund-based advance products operated under 2Exclusive LLC-S.',
       points: [
         'Tax preparation data is handled according to the same security standards described above',
         'Refund advance eligibility data follows the same access controls and retention policies',
-        'No separate security policy exists for Supersonic services',
+        'No separate security policy exists for tax operations services',
         'All data protection practices are inherited from the platform-wide security framework',
       ],
     },
     compliance: {
-      title: 'Application to Supersonic Fast Cash Tax Services',
+      title: 'Application to Tax Services Operations',
       description:
-        'This Compliance & Disclosure Framework applies to Supersonic Fast Cash tax preparation services and optional refund-based advance products, operated under 2Exclusive LLC-S.',
+        'This Compliance & Disclosure Framework applies to tax preparation services and optional refund-based advance products operated under 2Exclusive LLC-S.',
       points: [
         'Tax preparation disclosures follow the same compliance standards described above',
         'Refund advance terms and eligibility are disclosed according to this framework',
-        'No separate compliance policy exists for Supersonic services',
+        'No separate compliance policy exists for tax operations services',
         'All disclosure requirements are inherited from the platform-wide compliance framework',
       ],
     },

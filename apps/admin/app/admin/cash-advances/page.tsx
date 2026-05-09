@@ -43,7 +43,7 @@ export default async function CashAdvancesAdminPage() {
       {/* Hero Image */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-black mb-2">Cash Advance Management</h1>
-        <p className="text-black">Manage Supersonic Cash advance applications and approvals</p>
+        <p className="text-black">Manage tax refund advance applications and approvals</p>
       </div>
 
       {/* Stats Grid */}

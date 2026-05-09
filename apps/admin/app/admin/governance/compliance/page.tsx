@@ -96,7 +96,7 @@ export default async function CompliancePage() {
               <li>Public website and marketing content</li>
               <li>Learning Management System (LMS) course descriptions and outcomes</li>
               <li>Store product descriptions and pricing</li>
-              <li>Supersonic Fast Cash tax preparation and refund advance disclosures</li>
+              <li>Tax preparation and refund advance disclosures</li>
               <li>Partner and affiliate communications</li>
               <li>Email and notification content</li>
             </ul>

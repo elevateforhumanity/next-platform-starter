@@ -18,7 +18,7 @@ import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Tax Preparation and Refund Advance Operations | Elevate For Humanity',
   description:
-    'Supersonic Fast Cash tax preparation services, refund advance loans, IRS compliance, and operational procedures.',
+    'Tax preparation services, refund advance loans, IRS compliance, and operational procedures.',
 };
 
 export default async function TaxOperationsPage() {
@@ -45,7 +45,7 @@ export default async function TaxOperationsPage() {
           </div>
           <h1 className="text-3xl font-bold mb-2">Tax Preparation and Refund Advance Operations</h1>
           <p className="text-gray-300">
-            Supersonic Fast Cash services, compliance, and operational procedures
+            Tax services compliance and operational procedures
           </p>
           <div className="flex items-center gap-6 mt-6 text-sm">
             <span className="flex items-center gap-2">
@@ -64,7 +64,7 @@ export default async function TaxOperationsPage() {
           <div>
             <p className="font-medium text-brand-red-900">Official Tax Operations Document</p>
             <p className="text-sm text-brand-red-700">
-              Authoritative reference for Supersonic Fast Cash tax services and refund advances.
+              Authoritative reference for tax services and refund advances.
             </p>
           </div>
           <a
@@ -134,8 +134,8 @@ export default async function TaxOperationsPage() {
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">1.1 Purpose</h3>
           <p className="text-gray-700 mb-4">
-            This document governs all tax preparation services operated under the Supersonic Fast
-            Cash brand, including individual tax return preparation, refund advance loans, and
+            This document governs all tax preparation services operated under the tax operations
+            division, including individual tax return preparation, refund advance loans, and
             related financial products. It ensures IRS compliance, consumer protection, and
             operational excellence.
           </p>
@@ -151,7 +151,7 @@ export default async function TaxOperationsPage() {
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.3 Operating Entity</h3>
           <p className="text-gray-700">
-            <strong>Supersonic Fast Cash</strong> operates as a trade name of 2Exclusive LLC-S
+            <strong>Tax Operations</strong> operates as a trade name of 2Exclusive LLC-S
             (d/b/a Elevate for Humanity), registered in Indiana. Tax preparation services are
             provided by licensed tax preparers with valid PTINs.
           </p>
@@ -321,7 +321,7 @@ export default async function TaxOperationsPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">4.3 Eligibility Requirements</h3>
           <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
             <li>Federal refund of at least $500</li>
-            <li>Tax return prepared by Supersonic Fast Cash</li>
+            <li>Tax return prepared by our tax operations team</li>
             <li>Valid government-issued ID</li>
             <li>Bank account or prepaid card for funding</li>
             <li>Pass bank's underwriting criteria</li>
@@ -521,7 +521,7 @@ export default async function TaxOperationsPage() {
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.3 Accuracy Guarantee</h3>
           <p className="text-gray-700">
-            If an error on a return prepared by Supersonic Fast Cash results in IRS penalties or
+            If an error on a return prepared by our tax operations team results in IRS penalties or
             interest, we will reimburse the client for those penalties and interest (up to $10,000)
             and prepare the amended return at no charge.
           </p>

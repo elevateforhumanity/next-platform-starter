@@ -145,7 +145,7 @@ export default async function ComplianceFrameworkPage() {
           <ul className="list-disc pl-6 space-y-2 text-gray-700">
             <li>Educational services (LMS, courses, certifications)</li>
             <li>E-commerce operations (Store, digital products)</li>
-            <li>Tax preparation services (Supersonic Fast Cash)</li>
+            <li>Tax preparation services (Tax Operations)</li>
             <li>Financial products (Refund Advance loans)</li>
             <li>Nonprofit operations (Selfish Inc. 501(c)(3))</li>
           </ul>
@@ -180,7 +180,7 @@ export default async function ComplianceFrameworkPage() {
                 <td className="border p-3">Scholarships, grants, charitable programs</td>
               </tr>
               <tr>
-                <td className="border p-3">Supersonic Fast Cash</td>
+                <td className="border p-3">Tax Operations</td>
                 <td className="border p-3">DBA</td>
                 <td className="border p-3">Indiana</td>
                 <td className="border p-3">Tax preparation services</td>

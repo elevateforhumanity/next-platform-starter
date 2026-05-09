@@ -79,7 +79,7 @@ const portals = [
     public: true,
   },
   {
-    name: 'Supersonic Fast Cash',
+    name: 'Tax Filing Services',
     description: 'Paid tax services and refund advances',
     href: '/tax-self-prep',
     icon: Zap,

@@ -135,7 +135,7 @@ export default async function SecurityStatementPage() {
           <p className="text-gray-700 mb-4">
             This document defines how Elevate For Humanity protects user data, maintains system
             security, and responds to security events. It applies to all platform components: main
-            website, LMS, Store, and Supersonic Fast Cash.
+            website, LMS, Store, and tax services operations.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.2 Security Principles</h3>
@@ -188,7 +188,7 @@ export default async function SecurityStatementPage() {
               </p>
             </div>
             <div className="border rounded-lg p-4">
-              <h4 className="font-semibold">Supersonic Fast Cash</h4>
+              <h4 className="font-semibold">Tax Services Operations</h4>
               <p className="text-gray-700 text-sm">
                 Tax documents, SSN (encrypted), income information, bank account details for refunds
               </p>

@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 /**
  * Direct IRS E-File API
- * Replaces SupersonicFastCash integration
+ * Replaces legacy tax software integration
  * EFIN: 358459
  */
 
@@ -585,7 +585,7 @@ function generateConfirmationEmail(
       
       <p>Questions? Contact us at (317) 314-3757 or reply to this email.</p>
       
-      <p>Thank you for choosing Supersonic Fast Cash!</p>
+      <p>Thank you for choosing Elevate Tax Services!</p>
     </div>
   </div>
 </body>

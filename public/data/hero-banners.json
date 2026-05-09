@@ -2136,7 +2136,7 @@
   "supersonic": {
     "pageKey": "supersonic",
     "posterImage": "/images/pages/admin-tax-preparers-hero.jpg",
-    "microLabel": "SupersonicFastCash",
+    "microLabel": "Tax Operations",
     "belowHeroHeadline": "Tax software built for speed.",
     "belowHeroSubheadline": "Professional tax preparation software for Enrolled Agents, EROs, and tax businesses. Fast refunds. Secure filing. Built for volume.",
     "primaryCta": {
@@ -2153,7 +2153,7 @@
       "EFIN & PTIN ready",
       "Bank products available"
     ],
-    "transcript": "SupersonicFastCash is professional tax software built for speed, volume, and compliance. Designed for Enrolled Agents and EROs who need fast refunds and secure filing.",
+    "transcript": "Tax Operations software is built for speed, volume, and compliance. Designed for Enrolled Agents and EROs who need fast refunds and secure filing.",
     "analyticsName": "supersonic",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/tax-career-paths.mp4",
     "videoSrcMobile": "https://videos.pexels.com/video-files/6266261/6266261-hd_1080_1920_25fps.mp4"

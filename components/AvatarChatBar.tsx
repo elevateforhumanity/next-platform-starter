@@ -66,7 +66,7 @@ const getAvatarConfig = (pathname: string) => {
       video: '/videos/avatars/financial-guide.mp4',
       name: 'Tax Guide',
       message:
-        'Need help with tax preparation? I can guide you through free VITA services or Supersonic Fast Cash options!',
+        'Need help with tax preparation? I can guide you through free VITA services or paid filing options!',
     };
   }
   // Financial aid and funding pages

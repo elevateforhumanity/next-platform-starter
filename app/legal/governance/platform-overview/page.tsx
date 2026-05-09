@@ -223,7 +223,7 @@ export default async function PlatformOverviewPage() {
             <div className="border rounded-lg p-6">
               <div className="flex items-center gap-3 mb-3">
                 <FileText className="w-6 h-6 text-brand-blue-600" />
-                <h3 className="text-lg font-semibold">2.4 Supersonic Fast Cash (Tax Services)</h3>
+                <h3 className="text-lg font-semibold">2.4 Tax Services Operations</h3>
               </div>
               <p className="text-gray-700 mb-3">
                 <strong>Function:</strong> Tax preparation services and optional refund advance
@@ -237,7 +237,7 @@ export default async function PlatformOverviewPage() {
                 preparation, e-filing, refund tracking, optional refund advance application.
               </p>
               <p className="text-gray-700">
-                <strong>Legal Entity:</strong> Operated under the Supersonic Fast Cash trade name of
+                <strong>Legal Entity:</strong> Operated under the tax operations trade name of
                 2Exclusive LLC-S. See Tax Preparation and Refund Advance Operations document for
                 complete details.
               </p>

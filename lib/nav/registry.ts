@@ -126,7 +126,8 @@ export const NAV: NavItem[] = [
   },
   {
     group: 'Tax',
-    label: 'SupersonicFastCash (Paid)',
+    label: 'Professional Tax Services (Paid)',
+    href: '/tax',
     showInHeader: true,
     description: 'Professional tax preparation',
   },
