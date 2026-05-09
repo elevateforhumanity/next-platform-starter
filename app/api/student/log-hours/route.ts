@@ -24,13 +24,27 @@ async function _POST(request: Request) {
     }
 
     const body = await parseBody<Record<string, any>>(request);
-    const { enrollment_id, date, hours, services_performed, notes } = body;
+    const { date, hours, services_performed, notes } = body;
+
+    // Resolve active program slug so logged hours can be grouped in dashboard views.
+    const { data: activeEnrollment } = await supabase
+      .from('program_enrollments')
+      .select('program_slug, programs(slug)')
+      .eq('user_id', user.id)
+      .in('status', ['active', 'enrolled', 'in_progress'])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const resolvedProgramSlug =
+      activeEnrollment?.program_slug || (activeEnrollment?.programs as any)?.slug || null;
 
     // Insert into consolidated hour_entries table
     const { data, error }: any = await supabase
       .from('hour_entries')
       .insert({
         user_id: user.id,
+        program_slug: resolvedProgramSlug,
         source_type: 'ojl',
         work_date: date,
         hours_claimed: hours,
