@@ -384,6 +384,7 @@
     "course:build": "tsx scripts/course-builder/build.ts",
     "course:run": "tsx scripts/course-builder/run.ts",
     "integrity:programs": "tsx scripts/check-program-integrity.ts",
+    "integrity:programs:strict": "STRICT_PROGRAM_INTEGRITY=true tsx scripts/check-program-integrity.ts",
     "integrity:hvac-content": "tsx scripts/check-hvac-content.ts",
     "guard:enrollment-writes": "bash scripts/guard-enrollment-writes.sh",
     "guard:admin-routes": "bash scripts/guard-admin-routes.sh",
