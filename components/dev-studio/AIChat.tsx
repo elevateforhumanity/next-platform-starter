@@ -266,8 +266,8 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask AI to help with code… (Enter to send, Shift+Enter for newline)"
-            rows={2}
-            className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm resize-none focus:border-brand-blue-500 focus:outline-none"
+            rows={4}
+            className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm resize-y min-h-[120px] max-h-[40vh] focus:border-brand-blue-500 focus:outline-none"
           />
           <button
             onClick={sendMessage}

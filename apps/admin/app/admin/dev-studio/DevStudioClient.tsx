@@ -718,9 +718,9 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); run(input); } }}
               placeholder="Tell it what to do… e.g. 'Run enrollment report', 'Generate a CNA course', 'List at-risk students'"
-              rows={4}
+              rows={7}
               disabled={loading}
-              className="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-slate-800 text-xs outline-none focus:ring-2 focus:ring-orange-400 placeholder-slate-400 font-mono resize-none disabled:opacity-60"
+              className="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-slate-800 text-sm outline-none focus:ring-2 focus:ring-orange-400 placeholder-slate-400 font-mono resize-y min-h-[170px] max-h-[45vh] disabled:opacity-60"
             />
             <button onClick={() => run(input)} disabled={loading || !input.trim()}
               className="mb-0 p-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors self-end">
