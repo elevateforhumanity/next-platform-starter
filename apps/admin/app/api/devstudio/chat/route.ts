@@ -32,7 +32,7 @@ async function _POST(req: NextRequest) {
     // gaps (e.g. keys stored only in app_secrets, not SSM).
     await hydrateProcessEnv();
 
-    const { messages, fileContext } = await req.json();
+    const { messages, fileContext, documentsContext } = await req.json();
 
     const systemPrompt = `You are an expert coding assistant integrated into Dev Studio, a browser-based IDE for the Elevate LMS platform.
 Stack: Next.js 16 App Router, Supabase (PostgreSQL), TypeScript, Tailwind CSS, AWS ECS.
@@ -50,6 +50,9 @@ When asked to edit a file, respond with the complete updated code in a fenced co
 
 Current file context:
 ${fileContext || 'No file currently open'}
+
+Uploaded documents context:
+${documentsContext || 'No uploaded documents available'}
 
 Be concise and direct. Provide working code.`;
 

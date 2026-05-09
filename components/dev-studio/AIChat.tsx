@@ -18,8 +18,53 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [documentsContext, setDocumentsContext] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadDocumentsContext() {
+      try {
+        const res = await fetch('/api/devstudio/upload');
+        if (!res.ok) return;
+        const data = await res.json();
+        const docs = (data.documents ?? []) as Array<{
+          name?: string;
+          original_name?: string;
+          content_type?: string;
+          size_bytes?: number;
+          created_at?: string;
+        }>;
+
+        if (!docs.length) {
+          if (!cancelled) setDocumentsContext('');
+          return;
+        }
+
+        const summary = docs
+          .slice(0, 12)
+          .map((d, i) => {
+            const date = d.created_at ? new Date(d.created_at).toISOString().slice(0, 10) : 'unknown-date';
+            const size = typeof d.size_bytes === 'number' ? `${Math.round(d.size_bytes / 1024)}KB` : 'unknown-size';
+            return `${i + 1}. ${d.name || d.original_name || 'unnamed'} (${d.content_type || 'unknown-type'}, ${size}, ${date})`;
+          })
+          .join('\n');
+
+        if (!cancelled) {
+          setDocumentsContext(`Uploaded Dev Studio documents:\n${summary}`);
+        }
+      } catch {
+        if (!cancelled) setDocumentsContext('');
+      }
+    }
+
+    loadDocumentsContext();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -40,6 +85,7 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
         body: JSON.stringify({
           messages: [...messages, { role: 'user', content: userMessage }],
           fileContext,
+          documentsContext,
         }),
       });
 
