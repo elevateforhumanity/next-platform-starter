@@ -160,7 +160,7 @@ export async function sendCreatorApprovalEmail(params: { email: string; name: st
   return sendEmail({
     to: params.email,
     subject: 'Your Creator Application Has Been Approved!',
-    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto"><h2 style="color:#10b981">Creator Application Approved!</h2><p>Hi ${params.name},</p><p>Your creator application has been approved. You can now start creating and selling courses.</p><p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/creator/dashboard" style="display:inline-block;padding:12px 30px;background:#10b981;color:white;text-decoration:none;border-radius:6px">Go to Creator Dashboard</a></p></div>`,
+    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto"><h2 style="color:#10b981">Creator Application Approved!</h2><p>Hi ${params.name},</p><p>Your creator application has been approved. You can now start creating and selling courses.</p><p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/creator/products" style="display:inline-block;padding:12px 30px;background:#10b981;color:white;text-decoration:none;border-radius:6px">Go to Creator Dashboard</a></p></div>`,
   });
 }
 

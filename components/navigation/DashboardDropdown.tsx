@@ -121,7 +121,7 @@ const DEFAULT_DASHBOARDS: Dashboard[] = [
   {
     id: '5',
     name: 'Creator Studio',
-    href: '/creator/dashboard',
+    href: '/creator/products',
     icon: 'Palette',
     description: 'Build and publish courses',
     color: 'text-pink-600',

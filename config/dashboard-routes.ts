@@ -12,11 +12,11 @@ export const DASHBOARD_ROUTES: Record<UserRole, string> = {
 
   // Program holders / delegates
   program_holder: '/program-holder/dashboard',
-  delegate: '/program-holder/dashboard',
+  delegate: '/my-dashboard',
 
   // Partners / sponsors
-  partner: '/partner-portal',
-  sponsor: '/partner-portal',
+  partner: '/partner/dashboard',
+  sponsor: '/employer/dashboard',
 
   // Workforce oversight
   workforce_board: '/workforce-board/dashboard',
@@ -28,7 +28,7 @@ export const DASHBOARD_ROUTES: Record<UserRole, string> = {
   mentor: '/mentor/dashboard',
 
   // Creator
-  creator: '/creator/dashboard',
+  creator: '/creator/products',
 
   // Student
   student: '/learner/dashboard',

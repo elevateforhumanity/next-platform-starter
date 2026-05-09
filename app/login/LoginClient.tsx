@@ -189,7 +189,7 @@ function LoginForm() {
                   { label: 'Case Manager', dest: '/case-manager/dashboard' },
                   { label: 'Workforce Board', dest: '/workforce-board/dashboard' },
                   { label: 'Provider Admin', dest: '/provider/dashboard' },
-                  { label: 'Creator', dest: '/creator/dashboard' },
+                  { label: 'Creator', dest: '/creator/products' },
                 ].map((item) => (
                   <Link
                     key={item.dest}

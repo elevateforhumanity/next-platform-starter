@@ -63,8 +63,16 @@ export default async function OnboardingStartPage() {
     // Redirect to appropriate dashboard based on role
     const dashboardMap: Record<string, string> = {
       PROGRAM_HOLDER: '/program-holder/dashboard',
-      WORKSITE_ONLY: '/dashboard',
-      SITE_COORDINATOR: '/coordinator/dashboard',
+      WORKSITE_ONLY: '/partner/dashboard',
+      SITE_COORDINATOR: '/partner/dashboard',
+      program_holder: '/program-holder/dashboard',
+      worksite_only: '/partner/dashboard',
+      site_coordinator: '/partner/dashboard',
+      staff: '/staff-portal/dashboard',
+      instructor: '/instructor/dashboard',
+      employer: '/employer/dashboard',
+      admin: '/admin/dashboard',
+      super_admin: '/admin/dashboard',
     };
 
     redirect(dashboardMap[profile.role] || '/dashboard');

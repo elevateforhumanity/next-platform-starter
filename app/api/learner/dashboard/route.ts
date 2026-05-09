@@ -104,18 +104,25 @@ async function _GET(request: NextRequest) {
 
     // Process hours
     const hourLogs = hoursResult.data || [];
+    const toMinutes = (log: any) => {
+      const hours = Number(log.accepted_hours ?? log.hours_claimed ?? 0);
+      return Number.isFinite(hours) ? Math.max(0, Math.round(hours * 60)) : 0;
+    };
+    const sourceType = (log: any) => String(log.source_type || '').toUpperCase();
+    const statusType = (log: any) => String(log.status || '').toUpperCase();
+
     const totalRtiMinutes = hourLogs
-      .filter((l) => l.hour_type === 'RTI')
-      .reduce((sum, l) => sum + (l.minutes || 0), 0);
+      .filter((l) => sourceType(l) === 'RTI')
+      .reduce((sum, l) => sum + toMinutes(l), 0);
     const totalOjtMinutes = hourLogs
-      .filter((l) => l.hour_type === 'OJT')
-      .reduce((sum, l) => sum + (l.minutes || 0), 0);
+      .filter((l) => sourceType(l) !== 'RTI')
+      .reduce((sum, l) => sum + toMinutes(l), 0);
     const approvedMinutes = hourLogs
-      .filter((l) => l.status === 'APPROVED')
-      .reduce((sum, l) => sum + (l.minutes || 0), 0);
+      .filter((l) => statusType(l) === 'APPROVED')
+      .reduce((sum, l) => sum + toMinutes(l), 0);
     const pendingMinutes = hourLogs
-      .filter((l) => l.status === 'SUBMITTED' || l.status === 'DRAFT')
-      .reduce((sum, l) => sum + (l.minutes || 0), 0);
+      .filter((l) => ['SUBMITTED', 'DRAFT', 'PENDING'].includes(statusType(l)))
+      .reduce((sum, l) => sum + toMinutes(l), 0);
 
     const enrollment = enrollmentResult.data;
     const requiredHours =
@@ -210,14 +217,14 @@ async function _GET(request: NextRequest) {
         : null,
       trainingLog: (hoursResult.data || []).map((log) => ({
         id: log.id,
-        date: log.logged_date,
-        hours: Math.round(((log.minutes || 0) / 60) * 10) / 10,
-        type: log.hour_type as 'OJT' | 'RTI',
-        description: log.description || '',
-        location: log.hour_type === 'RTI' ? 'Online - Elevate LMS' : 'Training Location',
-        supervisor: log.verified_by || 'Pending',
+        date: log.work_date,
+        hours: Math.round((Number(log.accepted_hours ?? log.hours_claimed ?? 0) || 0) * 10) / 10,
+        type: sourceType(log) === 'RTI' ? 'RTI' : ('OJT' as 'OJT' | 'RTI'),
+        description: log.notes || '',
+        location: sourceType(log) === 'RTI' ? 'Online - Elevate LMS' : 'Training Location',
+        supervisor: log.approved_by || 'Pending',
         status: log.status,
-        verified: log.status === 'APPROVED',
+        verified: statusType(log) === 'APPROVED',
         skills: [],
       })),
       schedule: (scheduleResult.data || []).map((event) => ({

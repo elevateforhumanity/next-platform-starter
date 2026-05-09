@@ -59,10 +59,19 @@ export default async function PartnerPortalPage() {
     .select('*', { count: 'exact', head: true })
     .eq('referrer_id', user.id);
 
-  const { count: activeStudents } = await db
-    .from('program_enrollments')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'active');
+  const partnerId = partnerUser?.partner_id ?? null;
+  const { data: placements } = partnerId
+    ? await db.from('apprentice_placements').select('student_id').eq('partner_id', partnerId)
+    : { data: [] };
+  const studentIds = [...new Set((placements ?? []).map((p: any) => p.student_id).filter(Boolean))];
+
+  const { count: activeStudents } = studentIds.length
+    ? await db
+        .from('program_enrollments')
+        .select('*', { count: 'exact', head: true })
+        .in('user_id', studentIds)
+        .eq('status', 'active')
+    : { count: 0 };
 
   const NAV_ITEMS = [
     {
@@ -78,10 +87,10 @@ export default async function PartnerPortalPage() {
       desc: 'Track referred student progress',
     },
     {
-      label: 'Referrals',
-      href: '/partner/referrals',
+      label: 'Attendance',
+      href: '/partner/attendance',
       icon: TrendingUp,
-      desc: 'Manage your referral pipeline',
+      desc: 'Track attendance and training activity',
     },
     {
       label: 'Documents',

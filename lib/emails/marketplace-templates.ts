@@ -169,7 +169,7 @@ export function generateCreatorSaleEmail(data: CreatorSaleEmailData): {
               </ul>
 
               <p style="text-align: center; margin: 30px 0;">
-                <a href="${process.env.NEXT_PUBLIC_SITE_URL}/creator/dashboard" style="display: inline-block; background: #ea580c; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Dashboard</a>
+                <a href="${process.env.NEXT_PUBLIC_SITE_URL}/creator/products" style="display: inline-block; background: #ea580c; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Dashboard</a>
               </p>
 
               <p>Keep creating amazing products!</p>
@@ -202,7 +202,7 @@ What's Next?
 - Payouts are processed monthly (minimum $50)
 - View your dashboard for detailed analytics
 
-View Dashboard: ${process.env.NEXT_PUBLIC_SITE_URL}/creator/dashboard
+View Dashboard: ${process.env.NEXT_PUBLIC_SITE_URL}/creator/products
 
 Keep creating amazing products!
 
@@ -242,7 +242,7 @@ export function generateCreatorApprovalEmail(data: CreatorApprovalEmailData): {
               <p>Congratulations! Your creator application has been approved. You can now start selling your digital products on the Elevate for Humanity Marketplace.</p>
 
               <div style="text-align: center;">
-                <a href="${process.env.NEXT_PUBLIC_SITE_URL}/creator/dashboard" class="button">Go to Creator Dashboard</a>
+                <a href="${process.env.NEXT_PUBLIC_SITE_URL}/creator/products" class="button">Go to Creator Dashboard</a>
               </div>
 
               <div class="info-box">
@@ -280,7 +280,7 @@ Hi ${data.creatorName},
 
 Congratulations! Your creator application has been approved. You can now start selling your digital products on the Elevate for Humanity Marketplace.
 
-Go to Creator Dashboard: ${process.env.NEXT_PUBLIC_SITE_URL}/creator/dashboard
+Go to Creator Dashboard: ${process.env.NEXT_PUBLIC_SITE_URL}/creator/products
 
 Getting Started:
 1. Log in to your creator dashboard
