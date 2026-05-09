@@ -72,9 +72,6 @@ export default async function ApplicationsPage({
       let query = adminDb!
         .from('applications')
         .select('*', { count: 'exact' })
-        // Exclude legacy intake-{timestamp} rows — their IDs are not UUIDs and the
-        // review page cannot load them. Real intake mirrors always have UUID ids.
-        .filter('id', 'not.like', 'intake-%')
         .order('created_at', { ascending: false });
       if (resolvedStatuses.length === 1) query = query.eq('status', resolvedStatuses[0]);
       else if (resolvedStatuses.length > 1) query = query.in('status', resolvedStatuses);
@@ -89,8 +86,7 @@ export default async function ApplicationsPage({
     // Query 2: Status counts only (head=true to avoid transferring full rows)
     adminDb
       .from('applications')
-      .select('status', { head: false })
-      .filter('id', 'not.like', 'intake-%'),
+      .select('id, status', { head: false }),
     // Query 3: Guest pending count (separate count query)
     adminDb
       .from('applications')
@@ -107,10 +103,17 @@ export default async function ApplicationsPage({
       <div className="p-8 text-red-600">Failed to load application counts. Please refresh.</div>
     );
 
+  const visibleApplications = (applications ?? []).filter((app: any) => {
+    const id = String(app?.id ?? '');
+    return !id.startsWith('intake-');
+  });
+
   // Compute status counts from countData
   const statusCounts: Record<string, number> = {};
   let totalApplications = 0;
-  countData?.forEach((app: { status: string }) => {
+  countData?.forEach((app: { id?: string; status: string }) => {
+    const id = String(app.id ?? '');
+    if (id.startsWith('intake-')) return;
     statusCounts[app.status] = (statusCounts[app.status] || 0) + 1;
     totalApplications++;
   });
@@ -215,9 +218,9 @@ export default async function ApplicationsPage({
 
       {/* Table */}
       <AdminCard>
-        {applications && applications.length > 0 ? (
+        {visibleApplications.length > 0 ? (
           <>
-            <ApplicationsTableClient applications={applications as ApplicationRow[]} />
+            <ApplicationsTableClient applications={visibleApplications as ApplicationRow[]} />
             <AdminPagination page={page} totalPages={totalPages} baseHref={baseHref} />
           </>
         ) : (
