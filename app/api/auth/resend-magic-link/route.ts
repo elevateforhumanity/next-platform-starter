@@ -30,12 +30,12 @@ export async function POST(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   let email: string;
-  let next: string;
+  let redirectPath: string;
 
   try {
     const body = await request.json();
     email = (body.email ?? '').trim().toLowerCase();
-    next = (body.next ?? '/learner/dashboard').trim();
+    redirectPath = (body.redirect ?? body.next ?? '/learner/dashboard').trim();
   } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
   }
@@ -44,9 +44,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
   }
 
-  // Sanitize next — must be a relative path on this domain
-  if (!next.startsWith('/') || next.includes('//') || next.length > 200) {
-    next = '/learner/dashboard';
+  // Sanitize redirect path — must be a relative path on this domain.
+  if (!redirectPath.startsWith('/') || redirectPath.includes('//') || redirectPath.length > 200) {
+    redirectPath = '/learner/dashboard';
   }
 
   try {
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       type: 'magiclink',
       email,
       options: {
-        redirectTo: `${SITE_URL}/auth/callback?next=${encodeURIComponent(next)}`,
+        redirectTo: `${SITE_URL}/auth/callback?redirect=${encodeURIComponent(redirectPath)}`,
       },
     });
 

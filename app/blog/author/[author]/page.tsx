@@ -16,6 +16,29 @@ export async function generateMetadata({
   return {
     title: `Articles by ${author} | Elevate For Humanity`,
     description: `Read articles written by ${author}`,
+    alternates: {
+      canonical: `https://www.elevateforhumanity.org/blog/author/${authorSlug}`,
+    },
+    openGraph: {
+      title: `Articles by ${author} | Elevate For Humanity`,
+      description: `Read articles written by ${author}`,
+      url: `https://www.elevateforhumanity.org/blog/author/${authorSlug}`,
+      type: 'website',
+      images: [
+        {
+          url: '/images/pages/social-media-1.jpg',
+          width: 1200,
+          height: 630,
+          alt: `Articles by ${author}`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `Articles by ${author} | Elevate For Humanity`,
+      description: `Read articles written by ${author}`,
+      images: ['/images/pages/social-media-1.jpg'],
+    },
   };
 }
 

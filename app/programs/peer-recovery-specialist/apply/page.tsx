@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, CreditCard, Loader2 } from 'lucide-react';
 import { PAYMENT_LINKS } from '@/lib/stripe/price-map';
+import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 
 type FundingType = 'wioa' | 'self_pay' | 'employer' | 'unsure';
 
@@ -285,7 +286,7 @@ export default function PeerRecoveryApplyPage() {
                     $1,750 today, then 6 monthly payments of $542. Total: $5,000.
                   </p>
                   <p className="text-xs text-green-700 font-medium mt-1">
-                    BNPL eligible — Klarna, Afterpay, Zip, Affirm available on deposit
+                    BNPL eligible — {BNPL_PROVIDER_SUMMARY} available on deposit
                   </p>
                 </div>
               </label>
@@ -303,7 +304,7 @@ export default function PeerRecoveryApplyPage() {
                 <div>
                   <p className="text-sm font-semibold text-slate-900">Pay in Full</p>
                   <p className="text-xs text-slate-600 mt-0.5">
-                    $5,000 one-time payment. Card, bank transfer, or BNPL accepted.
+                    $5,000 one-time payment. Card, bank transfer, or BNPL accepted at checkout.
                   </p>
                 </div>
               </label>

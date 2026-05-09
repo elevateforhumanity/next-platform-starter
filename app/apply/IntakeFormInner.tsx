@@ -697,12 +697,15 @@ function IntakeForm() {
 
             {/* Disclaimer */}
             <div className="bg-white border border-slate-200 rounded-lg p-4 text-sm text-black">
-              By submitting this form, you authorize 2Exclusive LLC-S (DBA Elevate for Humanity
-              Career &amp; Technical Institute) to review your eligibility for workforce-funded
-              training programs. Funding eligibility is determined by our workforce partners and is
-              not guaranteed. Your information will be kept confidential in accordance with our{' '}
+              By submitting, you authorize Elevate for Humanity to review your intake for training
+              and funding pathways. Final funding decisions are made by workforce partners and are
+              not guaranteed. See our{' '}
               <Link href="/privacy-policy" className="text-brand-red-600 underline">
                 privacy policy
+              </Link>
+              {' '}and{' '}
+              <Link href="/impact/methodology" className="text-brand-red-600 underline">
+                impact methodology
               </Link>
               .
             </div>
@@ -731,11 +734,21 @@ function IntakeForm() {
 // page.tsx Suspense fallback renders correctly instead of a blank screen.
 export default function IntakeFormInner() {
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red-600" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" aria-live="polite">
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Loading Secure Intake Form</h2>
+          <p className="text-slate-600 text-sm mb-5">
+            Preparing your eligibility questions and funding intake fields.
+          </p>
+          <div className="space-y-3">
+            <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
+            <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
+            <div className="h-24 w-full rounded-lg bg-slate-100 animate-pulse" />
+          </div>
+        </div>
+      }
+    >
       <IntakeForm />
     </Suspense>
   );

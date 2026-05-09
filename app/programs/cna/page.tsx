@@ -57,6 +57,7 @@ export default function CNAPage() {
       {/* HERO — CNA video + CNA poster image */}
       <HeroVideo
         videoSrcDesktop={b.videoSrcDesktop}
+        videoSrcMobile={b.videoSrcMobile}
         posterImage={b.posterImage}
         microLabel={b.microLabel}
         analyticsName={b.analyticsName}

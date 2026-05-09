@@ -98,6 +98,14 @@ export default function CertificationTestingPage() {
         </div>
       </section>
 
+      <section className="bg-brand-blue-50 border-b border-brand-blue-200 py-4 px-4">
+        <div className="max-w-3xl mx-auto text-sm text-brand-blue-900">
+          Workforce funding support is currently prioritized for Indiana participants, with
+          expansion underway. If you are not in an active funded region, you can still schedule
+          your exam using self-pay checkout.
+        </div>
+      </section>
+
       {/* ── PRICING BOX ──────────────────────────────────────────────────── */}
       <section className="py-14 px-4">
         <div className="max-w-lg mx-auto">

@@ -57,6 +57,7 @@ const DEFAULT_DASHBOARDS: Dashboard[] = [
     description: 'Your home hub',
     color: 'text-brand-blue-600',
     roles: [
+      'user',
       'student',
       'instructor',
       'mentor',
@@ -321,10 +322,7 @@ export function DashboardDropdown({ className }: Props) {
     userRoles.includes('admin') || userRoles.includes('super_admin')
       ? dashboards
       : dashboards.filter(
-          (d) =>
-            d.roles.some((role) => userRoles.includes(role)) ||
-            d.roles.includes('user') ||
-            userRoles.length === 0,
+          (d) => d.roles.some((role) => userRoles.includes(role)) || d.roles.includes('user'),
         );
 
   // Sort with recent dashboards first

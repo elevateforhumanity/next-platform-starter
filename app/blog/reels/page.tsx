@@ -11,6 +11,26 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/blog/reels',
   },
+  openGraph: {
+    title: 'Reels | Elevate For Humanity',
+    description: 'Watch short-form videos about career training and success stories',
+    url: 'https://www.elevateforhumanity.org/blog/reels',
+    type: 'website',
+    images: [
+      {
+        url: '/images/pages/social-media-1.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Elevate For Humanity reels',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Reels | Elevate For Humanity',
+    description: 'Watch short-form videos about career training and success stories',
+    images: ['/images/pages/social-media-1.jpg'],
+  },
 };
 
 export default function ReelsPage() {

@@ -6,7 +6,7 @@
  * Driven entirely by ProgramSchema data. Handles:
  *   - Auth guard (redirects to /login if no session)
  *   - Funding eligibility flow (WIOA / WRG / FSSA / IMPACT)
- *   - Self-pay: Stripe, Affirm, Sezzle, Afterpay/Klarna
+ *   - Self-pay: card/bank and BNPL provider checkouts
  *   - Funded: application saved, redirect to success
  *   - All payment options driven by program.fundingOptions
  */
@@ -18,6 +18,7 @@ import FundingEligibilityFlow, {
   type EligibilityStatus,
 } from '@/components/programs/FundingEligibilityFlow';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { ACTIVE_BNPL_PROVIDERS, BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 
 interface Props {
   program: ProgramSchema;
@@ -132,6 +133,11 @@ export default function ProgramApplyPage({ program }: Props) {
     (formData.fundingInterest === 'self-pay' || fundedReady);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const affirmName = ACTIVE_BNPL_PROVIDERS.find((p) => p.id === 'affirm')?.name ?? 'Affirm';
+  const sezzleName = ACTIVE_BNPL_PROVIDERS.find((p) => p.id === 'sezzle')?.name ?? 'Sezzle';
+  const stripeBnplNames = ACTIVE_BNPL_PROVIDERS.filter((p) => p.stripeMethodId !== null)
+    .map((p) => p.name)
+    .join(' / ');
 
   async function handleSubmit() {
     if (!canSubmit) {
@@ -192,7 +198,7 @@ export default function ProgramApplyPage({ program }: Props) {
         return;
       }
 
-      // Self-pay — Affirm
+      // Self-pay — provider SDK option
       if (paymentOption === 'affirm') {
         const res = await fetch('/api/affirm/checkout', {
           method: 'POST',
@@ -212,7 +218,7 @@ export default function ProgramApplyPage({ program }: Props) {
         });
         const data = await res.json();
         if (!res.ok || !data.checkoutConfig) {
-          setError(data.error || 'Affirm is temporarily unavailable. Please select another option.');
+          setError(data.error || `${affirmName} is temporarily unavailable. Please select another option.`);
           setErrorSeverity('info');
           setLoading(false);
           return;
@@ -233,14 +239,14 @@ export default function ProgramApplyPage({ program }: Props) {
           sdk?.checkout?.(data.checkoutConfig);
           sdk?.checkout?.open();
         } catch {
-          setError('Affirm checkout could not load. Please select another option.');
+          setError(`${affirmName} checkout could not load. Please select another option.`);
           setErrorSeverity('info');
           setLoading(false);
         }
         return;
       }
 
-      // Self-pay — Sezzle
+      // Self-pay — provider SDK option
       if (paymentOption === 'sezzle') {
         const res = await fetch('/api/sezzle/checkout', {
           method: 'POST',
@@ -255,7 +261,7 @@ export default function ProgramApplyPage({ program }: Props) {
             programName: program.title,
             amount: Math.min(2500, depositAmount),
             paymentOption: 'deposit',
-            description: `${program.title} — deposit via Sezzle`,
+            description: `${program.title} — deposit via ${sezzleName}`,
             applicationId,
           }),
         });
@@ -263,14 +269,14 @@ export default function ProgramApplyPage({ program }: Props) {
         if (res.ok && data.checkoutUrl) {
           window.location.href = data.checkoutUrl;
         } else {
-          setError(data.error || 'Sezzle is temporarily unavailable. Please select another option.');
+          setError(data.error || `${sezzleName} is temporarily unavailable. Please select another option.`);
           setErrorSeverity('info');
           setLoading(false);
         }
         return;
       }
 
-      // Self-pay — Stripe BNPL (Afterpay/Klarna)
+      // Self-pay — Stripe BNPL options
       if (paymentOption === 'stripe-bnpl') {
         const res = await fetch('/api/enroll/payment', {
           method: 'POST',
@@ -279,7 +285,7 @@ export default function ProgramApplyPage({ program }: Props) {
             amount: depositAmount,
             program: program.slug,
             paymentType: 'deposit',
-            description: `${program.title} — deposit via Afterpay/Klarna`,
+            description: `${program.title} — deposit via BNPL provider`,
             successUrl: `${siteUrl}/programs/${program.slug}/apply/success?payment=bnpl`,
             cancelUrl: `${siteUrl}/programs/${program.slug}/apply`,
           }),
@@ -288,7 +294,7 @@ export default function ProgramApplyPage({ program }: Props) {
         if (res.ok && (data.checkoutUrl || data.url)) {
           window.location.href = data.checkoutUrl || data.url;
         } else {
-          setError(data.error || 'Afterpay/Klarna unavailable. Please select another option.');
+          setError(data.error || 'BNPL checkout is temporarily unavailable. Please select another option.');
           setErrorSeverity('info');
           setLoading(false);
         }
@@ -411,7 +417,7 @@ export default function ProgramApplyPage({ program }: Props) {
                   <div className="text-xs text-white/80 space-y-1">
                     <p>• 20% deposit: ${depositAmount.toLocaleString()}</p>
                     <p>• Weekly plans available</p>
-                    <p>• Affirm · Sezzle · Afterpay · Klarna</p>
+                    <p>• BNPL providers: {BNPL_PROVIDER_NAMES}</p>
                   </div>
                 </div>
               )}
@@ -706,9 +712,9 @@ export default function ProgramApplyPage({ program }: Props) {
                     {[
                       { value: 'weekly', label: `Weekly payments (from $${minWeekly}/wk)` },
                       { value: 'full', label: `Pay in full — $${fullPrice.toLocaleString()}` },
-                      { value: 'affirm', label: 'Affirm — monthly installments' },
-                      { value: 'sezzle', label: 'Sezzle — 4 interest-free payments' },
-                      { value: 'stripe-bnpl', label: 'Afterpay / Klarna' },
+                      { value: 'affirm', label: `${affirmName} — monthly installments` },
+                      { value: 'sezzle', label: `${sezzleName} — pay over time` },
+                      { value: 'stripe-bnpl', label: `BNPL at checkout (${stripeBnplNames})` },
                     ].map((opt) => (
                       <label key={opt.value} className="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-slate-200 hover:border-brand-blue-400 transition-colors">
                         <input
@@ -723,6 +729,10 @@ export default function ProgramApplyPage({ program }: Props) {
                       </label>
                     ))}
                   </div>
+                  <p className="text-xs text-slate-500 mt-2">
+                    BNPL options are available only for self-pay selections. Funded applications do
+                    not use BNPL checkout.
+                  </p>
 
                   {paymentOption === 'weekly' && (
                     <div className="mt-3 p-4 bg-slate-50 rounded-lg">

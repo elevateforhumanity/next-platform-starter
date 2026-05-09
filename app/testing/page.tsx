@@ -109,6 +109,8 @@ export default function TestingPage() {
               <span>Credentials issued by NHA, ACT, Certiport, ESCO, NRF — not Elevate.</span>
               <span>Fees non-refundable unless exam canceled by Elevate.</span>
               <span>{TESTING_CENTER.policy.workforceFunding}</span>
+              <span>Funding support is currently prioritized for Indiana participants; regional expansion is in progress.</span>
+              <span>Self-pay remains available at checkout for all eligible exam paths.</span>
               <Link href="/federal-compliance" className="underline font-medium hover:text-amber-700">Full disclosure →</Link>
             </div>
           </div>
@@ -178,19 +180,31 @@ export default function TestingPage() {
                           const label = isObj ? (exam as ExamDefinition).name : (exam as string);
                           const desc = isObj ? (exam as ExamDefinition).description : undefined;
                           return (
-                            <Link
+                            <div
                               key={label}
-                              href={`/testing/${provider.key}`}
-                              className="flex items-start gap-2 text-sm text-slate-700 hover:text-brand-red-600 group/exam"
+                              className="flex items-start justify-between gap-3 text-sm text-slate-700"
                             >
-                              <span className="text-slate-300 flex-shrink-0 select-none">—</span>
-                              <span>
-                                <span className="font-medium group-hover/exam:underline">{label}</span>
-                                {desc && (
-                                  <span className="block text-xs text-slate-500 mt-0.5">{desc}</span>
-                                )}
-                              </span>
-                            </Link>
+                              <Link
+                                href={`/testing/${provider.key}`}
+                                className="flex items-start gap-2 hover:text-brand-red-600 group/exam min-w-0"
+                              >
+                                <span className="text-slate-300 flex-shrink-0 select-none">—</span>
+                                <span>
+                                  <span className="font-medium group-hover/exam:underline">{label}</span>
+                                  {desc && (
+                                    <span className="block text-xs text-slate-500 mt-0.5">{desc}</span>
+                                  )}
+                                </span>
+                              </Link>
+                              {provider.status === 'active' && (
+                                <Link
+                                  href={`/testing/book?exam=${provider.key}&exam_name=${encodeURIComponent(label)}`}
+                                  className="inline-flex items-center gap-1 border border-brand-red-300 text-brand-red-700 hover:border-brand-red-400 text-xs font-semibold px-2.5 py-1 rounded-md whitespace-nowrap"
+                                >
+                                  Pay
+                                </Link>
+                              )}
+                            </div>
                           );
                         })}
                       </div>

@@ -1046,11 +1046,12 @@ function BookingForm() {
               {/* Workforce funding path */}
               <div className="rounded-xl border border-green-200 bg-green-50 p-4">
                 <p className="text-xs font-bold text-green-800 mb-1">
-                  💼 Workforce-funded? Your fees may be covered.
+                  Workforce-funded in Indiana? Your fees may be covered.
                 </p>
                 <p className="text-xs text-green-700 mb-2">
-                  WIOA, WorkOne, SNAP E&T, and employer-sponsored candidates may qualify for
-                  fee coverage. Contact us before booking.
+                  Indiana participants using WIOA, WorkOne, SNAP E&T, or employer sponsorship may
+                  qualify for fee coverage. We are expanding to additional regions. If funding is
+                  not available yet, you can continue with self-pay checkout.
                 </p>
                 <a
                   href={`tel:${TESTING_CENTER.phoneTel}`}

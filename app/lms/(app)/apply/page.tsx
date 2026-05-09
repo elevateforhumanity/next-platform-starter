@@ -31,16 +31,64 @@ export default function StudentApplicationPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [qualificationMessage, setQualificationMessage] = useState('');
 
   const [formData, setFormData] = useState({
     program: '',
     education: '',
     employment_status: '',
     funding_source: '',
+    funding_readiness: '',
+    workone_center: '',
+    workone_appointment_date: '',
     start_date: '',
     goals: '',
     hear_about: '',
   });
+
+  const [workoneChecklist, setWorkoneChecklist] = useState({
+    icc_account_created: false,
+    profile_completed: false,
+    docs_uploaded: false,
+    appointment_booked: false,
+    met_advisor: false,
+  });
+
+  const isFundedFlow = ['wioa', 'wrg', 'fssa'].includes(formData.funding_source);
+  const needsWorkOnePath = ['wioa', 'wrg'].includes(formData.funding_source);
+
+  const getQualification = () => {
+    if (formData.funding_source === 'self-pay' || formData.funding_source === 'employer') {
+      return {
+        status: 'qualified',
+        headline: 'You are ready to proceed',
+        message: 'Your application can move directly to admin review and enrollment follow-up.',
+      };
+    }
+
+    if (isFundedFlow && formData.funding_readiness === 'not-started') {
+      return {
+        status: 'action_required',
+        headline: 'Action required before enrollment',
+        message:
+          'You must complete an Indiana Career Connect / agency appointment before final funding approval.',
+      };
+    }
+
+    if (isFundedFlow && ['in-progress', 'approved'].includes(formData.funding_readiness)) {
+      return {
+        status: 'pending_verification',
+        headline: 'Conditionally qualified',
+        message: 'Your application will move to funding verification and admin review.',
+      };
+    }
+
+    return {
+      status: 'review',
+      headline: 'Application will be reviewed',
+      message: 'Our team will review your answers and contact you with next steps.',
+    };
+  };
 
   const loadUserData = useCallback(async () => {
     const supabase = createClient();
@@ -88,6 +136,12 @@ export default function StudentApplicationPage() {
     setSubmitting(true);
     setError('');
 
+    if (isFundedFlow && !formData.funding_readiness) {
+      setError('Please complete the funding eligibility progress section before submitting.');
+      setSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch('/api/applications', {
         method: 'POST',
@@ -99,10 +153,26 @@ export default function StudentApplicationPage() {
           phone: user?.phone,
           program: formData.program,
           source: 'lms_portal',
+          fundingType: formData.funding_source || null,
+          fundingEligibilityStatus:
+            formData.funding_readiness === 'not-started'
+              ? 'needs_appointment'
+              : formData.funding_readiness === 'approved'
+                ? 'approved'
+                : formData.funding_readiness === 'in-progress'
+                  ? 'in_process'
+                  : null,
           notes: JSON.stringify({
             education: formData.education,
             employment_status: formData.employment_status,
             funding_source: formData.funding_source,
+            funding_readiness: formData.funding_readiness,
+            workone_center: formData.workone_center,
+            workone_appointment_date: formData.workone_appointment_date,
+            workone_checklist: Object.entries(workoneChecklist)
+              .filter(([, done]) => done)
+              .map(([key]) => key),
+            qualification: getQualification(),
             preferred_start: formData.start_date,
             goals: formData.goals,
             referral_source: formData.hear_about,
@@ -111,6 +181,7 @@ export default function StudentApplicationPage() {
       });
 
       if (response.ok) {
+        setQualificationMessage(getQualification().headline);
         setSuccess(true);
         setTimeout(() => {
           router.push('/lms/apply/status');
@@ -128,11 +199,19 @@ export default function StudentApplicationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="min-h-screen bg-white">
+        <div className="max-w-3xl mx-auto px-4 py-6">
           <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Apply' }]} />
         </div>
-        <div className="animate-spin rounded-full h-11 w-11 border-b-2 border-emerald-600"></div>
+        <div className="max-w-3xl mx-auto px-4" aria-live="polite">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-6">
+            <h1 className="text-xl font-bold text-slate-900 mb-2">Loading Your Application</h1>
+            <p className="text-sm text-slate-600 mb-4">
+              Checking your profile and existing application status.
+            </p>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -192,6 +271,7 @@ export default function StudentApplicationPage() {
         <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
           <span className="text-slate-400 flex-shrink-0">•</span>
           <h1 className="text-2xl font-bold mb-2">Application Submitted!</h1>
+          {qualificationMessage ? <p className="text-emerald-700 font-medium mb-2">{qualificationMessage}</p> : null}
           <p className="text-slate-700">Redirecting to status page...</p>
         </div>
       </div>
@@ -319,12 +399,120 @@ export default function StudentApplicationPage() {
           >
             <option value="">Select...</option>
             <option value="wioa">WIOA / Next Level Jobs (Free if eligible)</option>
+            <option value="wrg">Workforce Ready Grant (Free if eligible)</option>
             <option value="fssa">FSSA (Family &amp; Social Services Administration)</option>
             <option value="employer">Employer Sponsored</option>
             <option value="self-pay">Self Pay</option>
             <option value="financial-aid">Financial Aid</option>
             <option value="not-sure">Not Sure - Need Guidance</option>
           </select>
+        </div>
+
+        {isFundedFlow && (
+          <div>
+            <label className="block text-sm font-medium text-slate-900 mb-2">
+              Funding Eligibility Progress <span className="text-brand-red-500">*</span>
+            </label>
+            <select
+              required={isFundedFlow}
+              value={formData.funding_readiness}
+              onChange={(e) => setFormData({ ...formData, funding_readiness: e.target.value })}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            >
+              <option value="">Select...</option>
+              <option value="not-started">I have not started Indiana Career Connect / agency intake</option>
+              <option value="in-progress">I started and I am waiting for funding determination</option>
+              <option value="approved">I already have funding approval</option>
+            </select>
+          </div>
+        )}
+
+        {needsWorkOnePath && (
+          <div className="rounded-lg border border-brand-blue-200 bg-brand-blue-50 px-4 py-4 space-y-3">
+            <p className="text-sm font-semibold text-brand-blue-900">WorkOne Appointment Instructions</p>
+            <ol className="list-decimal list-inside text-sm text-brand-blue-900 space-y-1">
+              <li>Create your Indiana Career Connect account</li>
+              <li>Complete your profile and upload your resume</li>
+              <li>Schedule a WorkOne appointment with a career advisor</li>
+              <li>Request funding determination (WIOA/WRG)</li>
+            </ol>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="https://www.indianacareerconnect.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-3 py-2 rounded-md bg-brand-blue-700 text-white text-sm font-medium hover:bg-brand-blue-800"
+              >
+                Open Indiana Career Connect
+              </a>
+              <a
+                href="https://www.in.gov/dwd/find-a-workone-center/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-3 py-2 rounded-md border border-brand-blue-300 text-brand-blue-900 text-sm font-medium hover:bg-brand-blue-100"
+              >
+                Find a WorkOne Center
+              </a>
+            </div>
+          </div>
+        )}
+
+        {needsWorkOnePath && formData.funding_readiness === 'in-progress' && (
+          <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-4 space-y-3">
+            <p className="text-sm font-semibold text-slate-900">Post-WorkOne Progress Checklist</p>
+            <div className="grid sm:grid-cols-2 gap-2">
+              {[
+                ['icc_account_created', 'ICC account created'],
+                ['profile_completed', 'Profile completed'],
+                ['docs_uploaded', 'Documents uploaded'],
+                ['appointment_booked', 'Appointment booked'],
+                ['met_advisor', 'Met WorkOne advisor'],
+              ].map(([key, label]) => (
+                <label key={key} className="flex items-center gap-2 text-sm text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={workoneChecklist[key as keyof typeof workoneChecklist]}
+                    onChange={(e) =>
+                      setWorkoneChecklist((prev) => ({
+                        ...prev,
+                        [key]: e.target.checked,
+                      }))
+                    }
+                  />
+                  {label}
+                </label>
+              ))}
+            </div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-1">WorkOne center</label>
+                <input
+                  type="text"
+                  value={formData.workone_center}
+                  onChange={(e) => setFormData({ ...formData, workone_center: e.target.value })}
+                  placeholder="Example: WorkOne Indy East"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-1">Appointment date</label>
+                <input
+                  type="date"
+                  value={formData.workone_appointment_date}
+                  onChange={(e) =>
+                    setFormData({ ...formData, workone_appointment_date: e.target.value })
+                  }
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+          <p className="text-sm font-semibold text-slate-900">Qualification Preview</p>
+          <p className="text-sm text-slate-700 mt-1">{getQualification().headline}</p>
+          <p className="text-xs text-slate-600 mt-1">{getQualification().message}</p>
         </div>
 
         {/* Preferred Start Date */}

@@ -239,7 +239,9 @@ function CertiportExamContent() {
           {fundingStatus === 'funded' ? (
             <div className="flex items-center gap-2 bg-brand-green-50 border border-brand-green-200 rounded-lg px-4 py-3">
               <Shield className="w-5 h-5 text-brand-green-600" />
-              <span className="text-brand-green-800 font-medium">Funded Program — No exam fee</span>
+              <span className="text-brand-green-800 font-medium">
+                Funded Program (Indiana pathways) — No exam fee
+              </span>
             </div>
           ) : fundingStatus === 'self_pay' ? (
             <div className="flex items-center gap-2 bg-brand-blue-50 border border-brand-blue-200 rounded-lg px-4 py-3">
@@ -249,6 +251,10 @@ function CertiportExamContent() {
               </span>
             </div>
           ) : null}
+          <p className="text-xs text-slate-500 mt-2">
+            Funding support is currently centered on Indiana participants. We are expanding to
+            additional regions. Self-pay is available if funding is not yet active in your area.
+          </p>
         </div>
 
         {/* Exam selection */}

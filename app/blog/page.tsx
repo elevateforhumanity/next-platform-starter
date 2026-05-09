@@ -13,6 +13,28 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/blog',
   },
+  openGraph: {
+    title: 'Blog | Elevate For Humanity',
+    description:
+      'Workforce development insights, funding guides, credential explainers, and career training tips from Elevate for Humanity.',
+    url: 'https://www.elevateforhumanity.org/blog',
+    type: 'website',
+    images: [
+      {
+        url: '/images/pages/social-media-1.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Elevate For Humanity blog',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog | Elevate For Humanity',
+    description:
+      'Workforce development insights, funding guides, credential explainers, and career training tips from Elevate for Humanity.',
+    images: ['/images/pages/social-media-1.jpg'],
+  },
 };
 
 export const revalidate = 600;

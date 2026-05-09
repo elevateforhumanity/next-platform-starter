@@ -19,6 +19,26 @@ export async function generateMetadata({
     alternates: {
       canonical: `https://www.elevateforhumanity.org/blog/category/${categorySlug}`,
     },
+    openGraph: {
+      title: `${category} | Blog | Elevate For Humanity`,
+      description: `Browse ${category} articles from Elevate For Humanity`,
+      url: `https://www.elevateforhumanity.org/blog/category/${categorySlug}`,
+      type: 'website',
+      images: [
+        {
+          url: '/images/pages/social-media-1.jpg',
+          width: 1200,
+          height: 630,
+          alt: `${category} blog category`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${category} | Blog | Elevate For Humanity`,
+      description: `Browse ${category} articles from Elevate For Humanity`,
+      images: ['/images/pages/social-media-1.jpg'],
+    },
   };
 }
 

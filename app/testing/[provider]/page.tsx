@@ -189,7 +189,17 @@ export default async function ProviderPage({ params }: Props) {
                 const ncrc = isObj ? (exam as ExamDefinition).ncrcLevel : undefined;
                 return (
                   <div key={name} className="bg-slate-50 rounded-xl border border-slate-100 p-5">
-                    <h3 className="font-bold text-slate-900 text-base leading-snug mb-2">{name}</h3>
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <h3 className="font-bold text-slate-900 text-base leading-snug">{name}</h3>
+                      {isActive && (
+                        <Link
+                          href={`/testing/book?exam=${key}&exam_name=${encodeURIComponent(name)}`}
+                          className="inline-flex items-center gap-1 border border-brand-red-300 text-brand-red-700 hover:border-brand-red-400 text-xs font-semibold px-2.5 py-1 rounded-md whitespace-nowrap"
+                        >
+                          Pay for Test
+                        </Link>
+                      )}
+                    </div>
                     {desc && <p className="text-slate-700 text-sm leading-relaxed ml-8">{desc}</p>}
                     {(duration || questions || ncrc) && (
                       <div className="ml-8 mt-3 flex flex-wrap gap-3">
@@ -350,6 +360,12 @@ export default async function ProviderPage({ params }: Props) {
                   </div>
                 );
               })()}
+
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600">
+                Funding assistance is currently centered on Indiana workforce pathways. We are
+                expanding to additional regions. If funding is unavailable for your location, use
+                self-pay checkout to reserve your exam seat.
+              </div>
             </div>
           </div>
 

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 
 /**
  * EnrollmentOptions — shared two-track enrollment section.
@@ -84,14 +85,14 @@ export default function EnrollmentOptions({
             <h3 className="text-lg font-extrabold text-slate-900 mb-1">{selfPayCost}</h3>
             <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-1">
               {selfPayNote ??
-                'Enroll immediately without waiting for funding approval. Payment plans, BNPL (Klarna, Afterpay, Zip), and income-share options available.'}
+                `Enroll immediately without waiting for funding approval. Payment plans, BNPL (${BNPL_PROVIDER_SUMMARY}), and income-share options available.`}
             </p>
             <div className="bg-slate-50 rounded-xl p-4 mb-5 text-xs text-slate-600 space-y-1">
               {[
                 'Debit / Credit card',
                 'ACH bank transfer',
                 'Payment plan (split over time)',
-                'BNPL — Klarna, Afterpay, Zip',
+                `BNPL — ${BNPL_PROVIDER_SUMMARY}`,
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />

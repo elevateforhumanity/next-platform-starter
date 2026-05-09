@@ -25,6 +25,7 @@ import {
   ArrowRight,
   Home,
 } from 'lucide-react';
+import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 
 export type FundingType = 'wioa' | 'wrg' | 'fssa';
 
@@ -111,8 +112,8 @@ const CFG = {
 const SELF_PAY_OPTIONS = [
   { label: '20% deposit + weekly payments', detail: '$1,000 down today, then as low as $200/week' },
   { label: 'Pay in full', detail: '$5,000 one-time — start immediately' },
-  { label: 'Affirm', detail: 'Monthly installments — instant decision' },
-  { label: 'Sezzle / Afterpay / Klarna', detail: 'Split into 4 interest-free payments' },
+  { label: 'BNPL monthly installments', detail: `Providers: ${BNPL_PROVIDER_SUMMARY}` },
+  { label: 'BNPL pay-over-time options', detail: 'Provider terms and eligibility shown at checkout' },
   { label: 'Employer sponsorship', detail: 'OJT wage reimbursement or apprenticeship agreement' },
 ];
 

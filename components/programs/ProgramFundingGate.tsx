@@ -39,6 +39,7 @@ import {
   Heart,
   Building2,
 } from 'lucide-react';
+import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 
 export type FundingPath = 'fssa' | 'employer' | 'self_pay' | 'self_pay_out_of_state';
 
@@ -184,7 +185,7 @@ export default function ProgramFundingGate({
                   path: 'self_pay' as FundingPath,
                   icon: <CreditCard className="w-5 h-5 text-slate-600" />,
                   label: 'I will pay out of pocket',
-                  sub: `Deposit + weekly payments, or pay in full (${selfPayCost}). BNPL available.`,
+                  sub: `Deposit + weekly payments, or pay in full (${selfPayCost}). BNPL available at checkout.`,
                   activeCls: 'border-slate-500 bg-slate-50',
                 },
               ].map((opt) => (
@@ -480,7 +481,7 @@ function SelfPayOptions({
       </div>
 
       <p className="text-xs text-slate-500 text-center">
-        Klarna · Afterpay · Zip · Cash App Pay accepted at checkout
+        {BNPL_PROVIDER_NAMES} accepted at checkout
       </p>
 
       {outOfState && (

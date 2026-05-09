@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
+import { ACTIVE_BNPL_PROVIDERS, BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
@@ -72,8 +73,8 @@ export default async function PaymentPage() {
               <div className="bg-white rounded-lg shadow-sm border p-8">
                 <h2 className="text-2xl font-bold mb-4">Pay in 4</h2>
                 <p className="text-slate-700 mb-6">
-                  Split your payment into 4 interest-free installments with Klarna, Afterpay, or
-                  Zip.
+                  Split your payment into installments using available BNPL providers at checkout:
+                  {' '}{BNPL_PROVIDER_NAMES}.
                 </p>
                 <ul className="space-y-3 mb-6">
                   <li className="flex items-center">
@@ -85,9 +86,19 @@ export default async function PaymentPage() {
                   </li>
                   <li className="flex items-center">
                     <span className="text-slate-500 flex-shrink-0">•</span>
-                    Klarna, Afterpay, or Zip
+                    Provider availability depends on amount and checkout eligibility
                   </li>
                 </ul>
+                <div className="mb-6 flex flex-wrap gap-2">
+                  {ACTIVE_BNPL_PROVIDERS.map((p) => (
+                    <span
+                      key={p.id}
+                      className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ${p.badgeBg} ${p.badgeText}`}
+                    >
+                      {p.name}
+                    </span>
+                  ))}
+                </div>
                 <Link
                   href="/programs"
                   className="block w-full bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-center px-6 py-3 rounded-lg font-semibold transition-colors"

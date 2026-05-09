@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { ProgramVideoCards } from '@/components/marketing/ProgramVideoCards';
-import HeroVideo from '@/components/marketing/HeroVideo';
+import HomeHeroVideo from '@/components/ui/HomeHeroVideo';
 import heroBanners from '@/content/heroBanners';
 
 export const revalidate = 60;
@@ -26,24 +26,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main>
-      {/* Preload hero video during HTML parse — eliminates blank-hero delay */}
-      <link
-        rel="preload"
-        as="video"
-        href="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
-        type="video/mp4"
-      />
-      {/* HERO — no poster so the video starts immediately on a dark background */}
-      <HeroVideo
-        videoSrcDesktop={heroBanners.home.videoSrcDesktop}
-        voiceoverSrc={heroBanners.home.voiceoverSrc}
-        microLabel={heroBanners.home.microLabel}
-        belowHeroHeadline={heroBanners.home.belowHeroHeadline}
-        belowHeroSubheadline={heroBanners.home.belowHeroSubheadline}
-        ctas={[heroBanners.home.primaryCta, heroBanners.home.secondaryCta].filter(Boolean)}
-        trustIndicators={heroBanners.home.trustIndicators}
-        transcript={heroBanners.home.transcript}
-      />
+      <HomeHeroVideo banner={heroBanners.home} />
 
       {/* ROLE-BASED ENTRY */}
       <section className="bg-white border-b border-slate-100 py-10 px-6">
@@ -268,7 +251,7 @@ export default function HomePage() {
       <section className="bg-slate-900 py-14 px-6">
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
-            { stat: '2,000+', label: 'Students trained' },
+            { stat: 'Verified', label: 'Outcome Tracking' },
             { stat: '94%', label: 'Credential attainment rate' },
             { stat: '$0', label: 'Cost for eligible students' },
             { stat: '30+', label: 'Programs available' },
@@ -282,7 +265,11 @@ export default function HomePage() {
           ))}
         </div>
         <p className="max-w-5xl mx-auto mt-6 text-center text-slate-500 text-xs leading-relaxed px-4">
-          * Figures are estimates based on internal participant and credential records. Eligibility and outcomes vary by program and funding source.
+          * Figures are estimates based on internal participant and credential records. Eligibility and outcomes vary by program and funding source. See our{' '}
+          <Link href="/impact/methodology" className="underline hover:text-slate-300 transition-colors">
+            impact methodology
+          </Link>
+          .
         </p>
       </section>
 

@@ -25,7 +25,6 @@ const NAV = [
   { label: 'Student', href: '/student-portal' },
   { label: 'Employer', href: '/employer/dashboard' },
   { label: 'Staff', href: '/staff-portal' },
-  { label: 'Admin', href: '/admin-login' },
 ];
 
 const PORTALS = [
@@ -83,17 +82,6 @@ const PORTALS = [
     features: ['Outcomes Data', 'Compliance', 'Funding Reports', 'Analytics'],
     accent: 'bg-teal-600 hover:bg-teal-700',
     tagBg: 'bg-teal-50 text-teal-700',
-  },
-  {
-    title: 'Admin Dashboard',
-    desc: 'Full platform administration. Manage users, programs, enrollments, content, analytics, and system configuration.',
-    href: '/admin-login',
-    loginHref: '/login?redirect=/admin/dashboard',
-    image: '/images/pages/career-services-page-1.jpg',
-    Icon: Shield,
-    features: ['User Mgmt', 'Program Admin', 'Analytics', 'System Config'],
-    accent: 'bg-brand-red-600 hover:bg-brand-red-700',
-    tagBg: 'bg-brand-red-50 text-brand-red-700',
   },
 ];
 

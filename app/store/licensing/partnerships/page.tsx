@@ -249,7 +249,7 @@ export default function LicensingPartnershipsPage() {
                   View Licensing Plans <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
-                  href="/admin/dashboard"
+                  href="/store/demos"
                   className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 font-bold px-6 py-3 rounded-lg hover:bg-white transition-colors text-sm"
                 >
                   Try Full Demo

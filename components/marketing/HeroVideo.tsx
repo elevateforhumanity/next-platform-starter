@@ -11,7 +11,7 @@
  * - Transcript renders below the fold, never over the video.
  */
 
-import { useEffect, useRef, useState, useId } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 
@@ -81,48 +81,103 @@ export default function HeroVideo({
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const [muted, setMuted] = useState(true);
   const transcriptId = useId();
+  const [videoSrc, setVideoSrc] = useState(videoSrcDesktop);
+  const [ttsSupported, setTtsSupported] = useState(false);
 
-  // Resolve the correct video src once on mount and never change it again.
-  // Using a ref instead of state means the src is stable across re-renders,
-  // which prevents CanonicalVideo from seeing a src change and flashing the poster.
-  const videoSrcRef = useRef(videoSrcDesktop);
-  useEffect(() => {
-    if (videoSrcMobile && window.innerWidth < 768) {
-      videoSrcRef.current = videoSrcMobile;
+  const ttsText = useMemo(() => {
+    const fallback = [belowHeroHeadline, belowHeroSubheadline].filter(Boolean).join(' ');
+    return (transcript || fallback).trim();
+  }, [belowHeroHeadline, belowHeroSubheadline, transcript]);
+
+  const hasVoiceNarration = Boolean(voiceoverSrc) || (ttsSupported && ttsText.length > 0);
+
+  const startTtsNarration = useCallback(() => {
+    if (!ttsSupported || !ttsText || typeof window === 'undefined' || !window.speechSynthesis) {
+      return false;
     }
-    // No setState — intentionally not re-rendering. The video element already
-    // has the desktop src playing; switching to mobile src mid-play would cause
-    // a reload. Mobile users who land on the page get the correct src on next
-    // navigation. This matches the original intent without the blink side-effect.
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const videoSrc = videoSrcRef.current;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(ttsText);
+    utterance.rate = 0.98;
+    utterance.pitch = 1;
+    utterance.onend = () => setMuted(true);
+    utterance.onerror = () => setMuted(true);
+    window.speechSynthesis.speak(utterance);
+    setMuted(false);
+    return true;
+  }, [ttsSupported, ttsText]);
+
+  // Resolve a mobile-optimized source on mount. This can trigger one src swap
+  // on small screens, but improves startup time versus always loading desktop
+  // video on mobile.
+  useEffect(() => {
+    if (!videoSrcMobile) return;
+    if (window.innerWidth < 768) {
+      setVideoSrc(videoSrcMobile);
+    }
+  }, [videoSrcMobile]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if ('speechSynthesis' in window) {
+      setTtsSupported(true);
+    }
+    return () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   // Start voiceover on first user interaction (browser autoplay policy)
   useEffect(() => {
-    if (!voiceoverSrc) return;
+    if (!hasVoiceNarration) return;
+
     const tryPlay = () => {
+      if (!voiceoverSrc) {
+        startTtsNarration();
+        return;
+      }
+
       const a = audioRef.current;
       if (!a) return;
-      a.play().catch(() => {});
-      setMuted(false);
+      a.play()
+        .then(() => setMuted(false))
+        .catch(() => {
+          startTtsNarration();
+        });
     };
+
     window.addEventListener('click', tryPlay, { once: true });
     window.addEventListener('scroll', tryPlay, { once: true, passive: true });
     window.addEventListener('touchstart', tryPlay, { once: true, passive: true });
+
     return () => {
       window.removeEventListener('click', tryPlay);
       window.removeEventListener('scroll', tryPlay);
       window.removeEventListener('touchstart', tryPlay);
     };
-  }, [voiceoverSrc]);
+  }, [hasVoiceNarration, startTtsNarration, voiceoverSrc]);
 
   function toggleMute() {
+    if (!voiceoverSrc) {
+      if (muted) {
+        startTtsNarration();
+      } else if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        setMuted(true);
+      }
+      return;
+    }
+
     const a = audioRef.current;
     if (!a) return;
     if (muted) {
-      a.play().catch(() => {});
-      setMuted(false);
+      a.play()
+        .then(() => setMuted(false))
+        .catch(() => {
+          startTtsNarration();
+        });
     } else {
       a.pause();
       a.currentTime = 0;
@@ -187,12 +242,12 @@ export default function HeroVideo({
           </div>
         )}
 
-        {/* Sound toggle — bottom-right, only when voiceover is present */}
-        {voiceoverSrc && (
+        {/* Sound toggle — bottom-right, shown when narration is available */}
+        {hasVoiceNarration && (
           <div className="absolute bottom-4 right-4 z-10">
             <button
               onClick={toggleMute}
-              aria-label={muted ? 'Unmute voiceover' : 'Mute voiceover'}
+              aria-label={muted ? 'Unmute narration' : 'Mute narration'}
               className="flex items-center gap-2 text-white/70 hover:text-white text-xs font-semibold px-2 py-1.5 rounded-full transition-colors"
             >
               {muted ? (

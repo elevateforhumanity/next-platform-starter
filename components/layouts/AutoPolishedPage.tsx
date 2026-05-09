@@ -203,7 +203,7 @@ function getAutoConfig(section: string, label: string, route: string): AutoConfi
         audience: 'Internal staff & leadership',
         shortTagline: 'The back-office engine that keeps everything moving.',
         description: `The "${baseLabel}" page supports the admin and staff side of the Elevate For Humanity ecosystem—intake, enrollment, approvals, certificates, and more.`,
-        primaryCta: { href: '/admin/dashboard', label: 'Open admin dashboard' },
+        primaryCta: { href: '/contact', label: 'Request staff access' },
         secondaryCta: { href: '/reports', label: 'View key reports' },
         bullets: [
           "Consolidates tasks so staff aren't chasing 10 different systems",

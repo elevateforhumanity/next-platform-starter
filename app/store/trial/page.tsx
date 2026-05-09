@@ -297,7 +297,7 @@ export default function TrialPage() {
             </p>
             <p className="text-sm text-slate-600">
               Want to see the platform first?{' '}
-              <Link href="/admin/dashboard" className="text-brand-red-600 font-medium hover:underline">
+              <Link href="/store/demos" className="text-brand-red-600 font-medium hover:underline">
                 Open full demo →
               </Link>
             </p>

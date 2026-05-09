@@ -6,30 +6,58 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { apiAuthGuard } from '@/lib/admin/guards';
 
 export const dynamic = 'force-dynamic';
+
+const ALLOWED_ROLES = ['admin', 'super_admin', 'staff', 'workforce_board'] as const;
+const ALLOWED_FORMATS = ['json', 'csv', 'full'] as const;
+
+function parseIsoDate(input: string | null, fallback: string): string {
+  const value = input ?? fallback;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    throw new Error('INVALID_DATE');
+  }
+  return date.toISOString();
+}
 
 export async function GET(request: NextRequest) {
   const limited = await applyRateLimit(request, 'api');
   if (limited) return limited;
 
+  const auth = await apiAuthGuard(request);
+  if (auth.error) return auth.error;
+  if (!auth.role || !ALLOWED_ROLES.includes(auth.role as (typeof ALLOWED_ROLES)[number])) {
+    return safeError('Forbidden', 403);
+  }
+
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (authError || !user) return safeError('Unauthorized', 401);
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  const allowed = ['admin', 'super_admin', 'staff', 'workforce_board'];
-  if (!profile || !allowed.includes(profile.role)) return safeError('Forbidden', 403);
 
   const { searchParams } = new URL(request.url);
-  const from = searchParams.get('from') ?? new Date(Date.now() - 90 * 86400000).toISOString();
-  const to   = searchParams.get('to')   ?? new Date().toISOString();
-  const format = searchParams.get('format') ?? 'json'; // json | csv
+  const defaultFrom = new Date(Date.now() - 90 * 86400000).toISOString();
+  const defaultTo = new Date().toISOString();
+
+  let from = defaultFrom;
+  let to = defaultTo;
+  try {
+    from = parseIsoDate(searchParams.get('from'), defaultFrom);
+    to = parseIsoDate(searchParams.get('to'), defaultTo);
+  } catch {
+    return safeError('Invalid date range. Use ISO date values for from/to.', 400);
+  }
+
+  if (new Date(from) > new Date(to)) {
+    return safeError('Invalid date range. `from` must be before `to`.', 400);
+  }
+
+  const requestedFormat = searchParams.get('format') ?? 'json';
+  const format = ALLOWED_FORMATS.includes(requestedFormat as (typeof ALLOWED_FORMATS)[number])
+    ? requestedFormat
+    : null;
+  if (!format) {
+    return safeError('Invalid format. Supported values: json, csv, full.', 400);
+  }
 
   try {
     // Participants enrolled in WIOA-funded programs in period
@@ -38,8 +66,9 @@ export async function GET(request: NextRequest) {
       .select(`
         id, enrollment_state, created_at, completed_at,
         user_id,
-        programs(title, slug, wioa_approved)
+        programs!inner(title, slug, wioa_approved)
       `)
+      .eq('programs.wioa_approved', true)
       .gte('created_at', from)
       .lte('created_at', to);
 

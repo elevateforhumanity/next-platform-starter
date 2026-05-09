@@ -377,7 +377,21 @@ export default async function StudentApplicationPage({
               if you have questions.
             </p>
           </div>
-          <Suspense>
+          <Suspense
+            fallback={
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" aria-live="polite">
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Loading Application Form</h3>
+                <p className="text-sm text-slate-600 mb-4">
+                  We are preparing your program and funding fields now.
+                </p>
+                <div className="space-y-3">
+                  <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
+                  <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
+                  <div className="h-24 w-full rounded-lg bg-slate-100 animate-pulse" />
+                </div>
+              </div>
+            }
+          >
             <StudentApplicationForm initialProgram={initialProgram} />
           </Suspense>
         </div>

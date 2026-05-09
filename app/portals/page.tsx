@@ -110,15 +110,6 @@ const portals = [
     color: 'teal',
     features: ['Student Management', 'Attendance Tracking', 'At-Risk Flags', 'Reports'],
   },
-  {
-    icon: Shield,
-    title: 'Admin Dashboard',
-    description:
-      'Full site management — users, enrollments, programs, ETPL tracking, curriculum builder, and system settings.',
-    href: '/login?redirect=/admin/dashboard',
-    color: 'red',
-    features: ['User Management', 'Enrollments', 'ETPL Tracking', 'System Settings'],
-  },
 ];
 
 const colorClasses: Record<string, { bg: string; text: string; border: string; light: string }> = {

@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { ArrowLeft, Loader2, CheckCircle, CreditCard } from 'lucide-react';
 import { PAYMENT_LINKS } from '@/lib/stripe/price-map';
 import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
+import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 
 // Programs with dedicated enrollment flows — redirect away from this shared page.
 const DEDICATED_FLOWS: Record<string, string> = {
@@ -254,12 +255,12 @@ export default function BeautyApplyPage() {
                     value: 'deposit' as const,
                     title: `35% Deposit + Payment Plan`,
                     desc: `${depositDollars} today, then 6 monthly payments of ${monthlyDollars}. Total: ${fullDollars}.`,
-                    badge: 'BNPL eligible — Klarna, Afterpay, Zip, Affirm',
+                    badge: `BNPL eligible — ${BNPL_PROVIDER_SUMMARY}`,
                   },
                   {
                     value: 'full' as const,
                     title: `Pay in Full — ${fullDollars}`,
-                    desc: 'Card, bank transfer, or BNPL accepted.',
+                    desc: 'Card, bank transfer, or BNPL accepted at checkout.',
                     badge: null,
                   },
                 ].map(opt => (
