@@ -7,6 +7,7 @@ Output: scripts/admin-route-inventory.json
 import os, re, json, sys
 
 ADMIN_DIR = "app/admin"
+ADMIN_DIR_ALT = "apps/admin/app/admin"
 SCHEMA_FILE = "scripts/live-schema-snapshot.json"
 
 # Load live schema
@@ -195,13 +196,35 @@ def detect_audit_events(content, writes):
 # Main inventory generation
 inventory = []
 
-for root, dirs, files in os.walk(ADMIN_DIR):
+def path_to_admin_route(fpath):
+    """Convert any admin page path to /admin/... route."""
+    parts = fpath.replace("\\", "/").split("/")
+    # Find 'admin' segment and build route from there
+    try:
+        idx = parts.index("admin")
+        return "/" + "/".join(parts[idx:-1])
+    except ValueError:
+        return path_to_route(fpath)
+
+SCAN_DIRS = [ADMIN_DIR]
+if os.path.isdir(ADMIN_DIR_ALT):
+    SCAN_DIRS.append(ADMIN_DIR_ALT)
+
+seen_routes = set()
+
+for scan_dir in SCAN_DIRS:
+  for root, dirs, files in os.walk(scan_dir):
     for fname in files:
         if fname != "page.tsx":
             continue
         fpath = os.path.join(root, fname)
-        route = path_to_route(fpath)
-        
+        route = path_to_admin_route(fpath)
+
+        # Skip duplicate routes already seen from the primary scan dir
+        if route in seen_routes:
+            continue
+        seen_routes.add(route)
+
         with open(fpath) as f:
             content = f.read()
         

@@ -235,9 +235,13 @@ export default function ApplicationsTableClient({
                         <Eye className="w-2.5 h-2.5" /> View
                       </Link>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded bg-amber-50 text-amber-700 border border-amber-200" title="Legacy intake record — no review page available">
-                        Intake only
-                      </span>
+                      <Link
+                        href={`/admin/applications/review/${app.id}${app.email ? `?email=${encodeURIComponent(app.email)}` : ''}`}
+                        className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition-colors"
+                        title="Legacy intake record — load from apprenticeship intake fallback"
+                      >
+                        <Eye className="w-2.5 h-2.5" /> View Intake
+                      </Link>
                     )}
                     {isActionable && (
                       <>

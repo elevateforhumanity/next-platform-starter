@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
+import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -47,6 +48,14 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (updateError) return safeInternalError(updateError, 'Failed to approve OJT hours');
 
   logger.info('[admin/apprenticeships/hours/approve]', { logId: id, approvedBy: admin.id });
+
+  await logAdminAudit({
+    action: AdminAction.ENROLLMENT_UPDATED,
+    actorId: admin.id,
+    entityType: 'ojt_hours_log',
+    entityId: id,
+    metadata: { decision: 'approved' },
+  });
 
   return NextResponse.json({ success: true });
 }

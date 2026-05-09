@@ -272,6 +272,7 @@ export default function PartnerOnboardingPage() {
                     value={formData.shopName}
                     onChange={(e) => updateField('shopName', e.target.value)}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                    placeholder="ABC Barbershop LLC"
                   />
                 </div>
                 <div>
@@ -283,6 +284,7 @@ export default function PartnerOnboardingPage() {
                     value={formData.dba}
                     onChange={(e) => updateField('dba', e.target.value)}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                    placeholder="ABC Cuts"
                   />
                 </div>
               </div>
@@ -293,8 +295,8 @@ export default function PartnerOnboardingPage() {
                   value={formData.fein}
                   onChange={(e) => updateField('fein', e.target.value)}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                  placeholder="XX-XXXXXXX"
                 />
-                <p className="text-xs text-slate-500 mt-1">Enter your 9-digit federal EIN (format accepted with or without dash).</p>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -308,6 +310,7 @@ export default function PartnerOnboardingPage() {
                       value={formData.ownerName}
                       onChange={(e) => updateField('ownerName', e.target.value)}
                       className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                      placeholder="John Smith"
                     />
                   </div>
                 </div>
@@ -320,6 +323,7 @@ export default function PartnerOnboardingPage() {
                       value={formData.email}
                       onChange={(e) => updateField('email', e.target.value)}
                       className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                      placeholder="owner@shop.com"
                     />
                   </div>
                 </div>
@@ -333,9 +337,9 @@ export default function PartnerOnboardingPage() {
                     value={formData.phone}
                     onChange={(e) => updateField('phone', e.target.value)}
                     className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                    placeholder="(317) 314-3757"
                   />
                 </div>
-                <p className="text-xs text-slate-500 mt-1">Include area code so we can reach you for approval follow-up.</p>
               </div>
             </div>
           )}
@@ -356,6 +360,7 @@ export default function PartnerOnboardingPage() {
                   value={formData.addressLine1}
                   onChange={(e) => updateField('addressLine1', e.target.value)}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                  placeholder="123 Main Street"
                 />
               </div>
               <div className="grid md:grid-cols-3 gap-4">
@@ -366,6 +371,7 @@ export default function PartnerOnboardingPage() {
                     value={formData.city}
                     onChange={(e) => updateField('city', e.target.value)}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                    placeholder="Indianapolis"
                   />
                 </div>
                 <div>
@@ -389,10 +395,10 @@ export default function PartnerOnboardingPage() {
                     value={formData.zip}
                     onChange={(e) => updateField('zip', e.target.value)}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                    placeholder="46204"
                   />
                 </div>
               </div>
-              <p className="text-xs text-slate-500 mt-1">This should match your primary training location used for apprentice supervision.</p>
             </div>
           )}
 

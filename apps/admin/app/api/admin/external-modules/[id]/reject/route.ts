@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
+import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -46,6 +47,14 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (updateError) return safeInternalError(updateError, 'Failed to reject external module');
 
   logger.info('[admin/external-modules/reject]', { moduleId: id, rejectedBy: admin.id });
+
+  await logAdminAudit({
+    action: AdminAction.EXTERNAL_MODULE_APPROVAL_REVIEWED,
+    actorId: admin.id,
+    entityType: 'external_modules',
+    entityId: id,
+    metadata: { decision: 'rejected' },
+  });
 
   return NextResponse.json({ success: true });
 }

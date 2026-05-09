@@ -6,7 +6,10 @@
     "status": "LIVE",
     "purpose": "",
     "reads": {
-      "profiles": ["role", "tenant_id"],
+      "profiles": [
+        "role",
+        "tenant_id"
+      ],
       "licenses": [
         "canceled_at",
         "current_period_end",
@@ -35,10 +38,19 @@
     "status": "LIVE",
     "purpose": "Accreditation Readiness | Admin",
     "reads": {
-      "profiles": ["role"],
-      "programs": ["*"],
-      "program_enrollments": ["*", "program"],
-      "job_placements": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "programs": [
+        "*"
+      ],
+      "program_enrollments": [
+        "*",
+        "program"
+      ],
+      "job_placements": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -62,11 +74,31 @@
     "status": "LIVE",
     "purpose": "Accreditation Report | Admin",
     "reads": {
-      "programs": ["created_at", "id", "name", "status"],
-      "training_courses": ["course_name", "id", "is_active"],
-      "certificates": ["created_at", "id", "status"],
-      "program_enrollments": ["created_at", "id", "status"],
-      "completions": ["created_at", "id"]
+      "programs": [
+        "created_at",
+        "id",
+        "name",
+        "status"
+      ],
+      "training_courses": [
+        "course_name",
+        "id",
+        "is_active"
+      ],
+      "certificates": [
+        "created_at",
+        "id",
+        "status"
+      ],
+      "program_enrollments": [
+        "created_at",
+        "id",
+        "status"
+      ],
+      "completions": [
+        "created_at",
+        "id"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -117,7 +149,9 @@
     "status": "LIVE",
     "purpose": "Automation & Workflows",
     "reads": {
-      "settings": ["*"]
+      "settings": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -135,8 +169,12 @@
     "status": "LIVE",
     "purpose": "Affiliate Management | Admin | Elevate for Humanity",
     "reads": {
-      "affiliate_payouts": ["amount"],
-      "affiliate_applications": ["*"]
+      "affiliate_payouts": [
+        "amount"
+      ],
+      "affiliate_applications": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -166,7 +204,9 @@
     "writes": [],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["createAffiliate"],
+    "server_actions": [
+      "createAffiliate"
+    ],
     "column_mismatches": [],
     "has_mutations": false,
     "has_audit_trail": false,
@@ -179,8 +219,12 @@
     "status": "LIVE",
     "purpose": "AI Console | Admin",
     "reads": {
-      "profiles": ["role"],
-      "conversations": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "conversations": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -198,7 +242,10 @@
     "status": "LIVE",
     "purpose": "AI Tutor Logs | Admin",
     "reads": {
-      "public_ai_tutor_logs": ["*", "ip_hash"]
+      "public_ai_tutor_logs": [
+        "*",
+        "ip_hash"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -216,10 +263,19 @@
     "status": "LIVE",
     "purpose": "Analytics Dashboard | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"],
-      "training_courses": ["*"],
-      "program_enrollments": ["*"],
-      "programs": ["*"]
+      "profiles": [
+        "*",
+        "role"
+      ],
+      "training_courses": [
+        "*"
+      ],
+      "program_enrollments": [
+        "*"
+      ],
+      "programs": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -237,8 +293,16 @@
     "status": "LIVE",
     "purpose": "Engagement Analytics | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "email", "full_name", "id", "last_sign_in_at"],
-      "program_enrollments": ["*"]
+      "profiles": [
+        "*",
+        "email",
+        "full_name",
+        "id",
+        "last_sign_in_at"
+      ],
+      "program_enrollments": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -256,10 +320,21 @@
     "status": "LIVE",
     "purpose": "Learning Analytics | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "training_courses": ["*", "enrollment_count", "id", "title"],
-      "program_enrollments": ["*"],
-      "certificates": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "training_courses": [
+        "*",
+        "enrollment_count",
+        "id",
+        "title"
+      ],
+      "program_enrollments": [
+        "*"
+      ],
+      "certificates": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -277,9 +352,19 @@
     "status": "LIVE",
     "purpose": "Program Analytics | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "programs": ["*", "created_at", "id", "status", "title"],
-      "program_enrollments": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "programs": [
+        "*",
+        "created_at",
+        "id",
+        "status",
+        "title"
+      ],
+      "program_enrollments": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -297,7 +382,9 @@
     "status": "LIVE",
     "purpose": "API Keys | Admin | Elevate For Humanity",
     "reads": {
-      "api_keys": ["*"]
+      "api_keys": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -315,8 +402,13 @@
     "status": "LIVE",
     "purpose": "Applicants | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"],
-      "applications": ["*"]
+      "profiles": [
+        "*",
+        "role"
+      ],
+      "applications": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -334,7 +426,10 @@
     "status": "LIVE",
     "purpose": "Applicants Live | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -352,8 +447,13 @@
     "status": "LIVE",
     "purpose": "Applications | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "applications": ["*", "status"]
+      "profiles": [
+        "role"
+      ],
+      "applications": [
+        "*",
+        "status"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -371,8 +471,12 @@
     "status": "LIVE",
     "purpose": "Application Details | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "admin_applications_queue": ["*"],
+      "profiles": [
+        "role"
+      ],
+      "admin_applications_queue": [
+        "*"
+      ],
       "application_state_events": [
         "actor_id",
         "actor_role",
@@ -385,7 +489,9 @@
     },
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/applications/transition"],
+    "api_routes": [
+      "/api/admin/applications/transition"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -399,9 +505,16 @@
     "status": "LIVE",
     "purpose": "Review Application | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "applications": ["*"],
-      "training_courses": ["course_name", "id"]
+      "profiles": [
+        "role"
+      ],
+      "applications": [
+        "*"
+      ],
+      "training_courses": [
+        "course_name",
+        "id"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -433,8 +546,8 @@
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/at-risk",
@@ -443,8 +556,13 @@
     "status": "LIVE",
     "purpose": "At-Risk Students | Admin Dashboard",
     "reads": {
-      "profiles": ["role"],
-      "program_enrollments": ["program_id", "status"]
+      "profiles": [
+        "role"
+      ],
+      "program_enrollments": [
+        "program_id",
+        "status"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -464,7 +582,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/audit-logs?${params}"],
+    "api_routes": [
+      "/api/admin/audit-logs?${params}"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -478,10 +598,20 @@
     "status": "LIVE",
     "purpose": "Automation Log | Admin",
     "reads": {
-      "profiles": ["role"],
-      "delivery_logs": ["*"],
-      "notifications": ["*"],
-      "program_enrollments": ["created_at", "id", "profiles!"]
+      "profiles": [
+        "role"
+      ],
+      "delivery_logs": [
+        "*"
+      ],
+      "notifications": [
+        "*"
+      ],
+      "program_enrollments": [
+        "created_at",
+        "id",
+        "profiles!"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -505,8 +635,12 @@
     "status": "LIVE",
     "purpose": "",
     "reads": {
-      "automated_decisions": ["*"],
-      "review_queue": ["*"]
+      "automated_decisions": [
+        "*"
+      ],
+      "review_queue": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -528,7 +662,9 @@
     "status": "LIVE",
     "purpose": "Autopilot Management | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -546,8 +682,12 @@
     "status": "LIVE",
     "purpose": "Barriers Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "participant_barriers": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "participant_barriers": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -565,7 +705,12 @@
     "status": "LIVE",
     "purpose": "Blog Management | Admin",
     "reads": {
-      "blog_posts": ["created_at", "id", "status", "title"]
+      "blog_posts": [
+        "created_at",
+        "id",
+        "status",
+        "title"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -583,7 +728,9 @@
     "status": "LIVE",
     "purpose": "Campaigns | Admin | Elevate For Humanity",
     "reads": {
-      "marketing_campaigns": ["*"]
+      "marketing_campaigns": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -638,8 +785,13 @@
     "status": "LIVE",
     "purpose": "Cash Advances Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"],
-      "cash_advance_applications": ["*"]
+      "profiles": [
+        "*",
+        "role"
+      ],
+      "cash_advance_applications": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -657,7 +809,9 @@
     "status": "LIVE",
     "purpose": "Pending Cash Advances | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
+      "profiles": [
+        "role"
+      ],
       "cash_advances": []
     },
     "writes": [],
@@ -676,8 +830,12 @@
     "status": "LIVE",
     "purpose": "Cash Advance Reports | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "cash_advances": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "cash_advances": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -695,7 +853,9 @@
     "status": "LIVE",
     "purpose": "Cash Advance Settings | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -713,7 +873,11 @@
     "status": "LIVE",
     "purpose": "Certificates | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["full_name", "id", "role"],
+      "profiles": [
+        "full_name",
+        "id",
+        "role"
+      ],
       "issued_certificates": [
         "certificate_number",
         "created_at",
@@ -763,7 +927,9 @@
     ],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["revokeCertificate"],
+    "server_actions": [
+      "revokeCertificate"
+    ],
     "column_mismatches": [],
     "has_mutations": true,
     "has_audit_trail": true,
@@ -776,12 +942,20 @@
     "status": "LIVE",
     "purpose": "Bulk Certificate Issuance | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "certificate_templates": ["description", "id", "name"]
+      "profiles": [
+        "*"
+      ],
+      "certificate_templates": [
+        "description",
+        "id",
+        "name"
+      ]
     },
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/certificates/bulk"],
+    "api_routes": [
+      "/api/admin/certificates/bulk"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -795,14 +969,25 @@
     "status": "LIVE",
     "purpose": "Issue Certificate | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "certificate_templates": ["description", "id", "name"],
-      "training_courses": ["id", "title"]
+      "profiles": [
+        "*"
+      ],
+      "certificate_templates": [
+        "description",
+        "id",
+        "name"
+      ],
+      "training_courses": [
+        "id",
+        "title"
+      ]
     },
     "writes": [],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["issueCertificate"],
+    "server_actions": [
+      "issueCertificate"
+    ],
     "column_mismatches": [],
     "has_mutations": false,
     "has_audit_trail": false,
@@ -815,7 +1000,9 @@
     "status": "LIVE",
     "purpose": "Certifications Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -833,8 +1020,15 @@
     "status": "LIVE",
     "purpose": "Bulk Certification Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "certification_types": ["id", "name", "provider", "validity_months"]
+      "profiles": [
+        "*"
+      ],
+      "certification_types": [
+        "id",
+        "name",
+        "provider",
+        "validity_months"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -852,7 +1046,14 @@
     "status": "LIVE",
     "purpose": "Cohort Tracker | Admin",
     "reads": {
-      "profiles": ["created_at", "email", "enrollment_status", "full_name", "id", "phone"]
+      "profiles": [
+        "created_at",
+        "email",
+        "enrollment_status",
+        "full_name",
+        "id",
+        "phone"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -870,8 +1071,17 @@
     "status": "LIVE",
     "purpose": "Course Completions | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "program_enrollments": ["*", "completed_at", "courses!", "id", "profiles!", "progress"]
+      "profiles": [
+        "*"
+      ],
+      "program_enrollments": [
+        "*",
+        "completed_at",
+        "courses!",
+        "id",
+        "profiles!",
+        "progress"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -900,7 +1110,10 @@
     "status": "LIVE",
     "purpose": "Compliance Dashboard | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -920,7 +1133,10 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/compliance-audit", "/api/compliance-audit?id=${auditId}"],
+    "api_routes": [
+      "/api/compliance-audit",
+      "/api/compliance-audit?id=${auditId}"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -934,7 +1150,9 @@
     "status": "LIVE",
     "purpose": "Access Denied",
     "reads": {
-      "profiles": ["role"],
+      "profiles": [
+        "role"
+      ],
       "license_agreement_acceptances": [
         "*",
         "accepted_at",
@@ -964,7 +1182,9 @@
     "status": "LIVE",
     "purpose": "Data Deletion Requests | Admin Compliance | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -982,7 +1202,9 @@
     "status": "LIVE",
     "purpose": "Data Export Requests | Admin Compliance | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1000,7 +1222,9 @@
     "status": "LIVE",
     "purpose": "Financial Assurance | Admin | Elevate",
     "reads": {
-      "financial_assurances": ["*"]
+      "financial_assurances": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1018,8 +1242,12 @@
     "status": "LIVE",
     "purpose": "Contact Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "contact_submissions": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "contact_submissions": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1037,8 +1265,13 @@
     "status": "LIVE",
     "purpose": "AI Copilot Dashboard | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "copilot_deployments": ["copilot_type", "status"]
+      "profiles": [
+        "*"
+      ],
+      "copilot_deployments": [
+        "copilot_type",
+        "status"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1056,11 +1289,16 @@
     "status": "LIVE",
     "purpose": "Deploy AI Copilot | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/copilot/deploy", "/api/admin/copilot/deploy?id=${deploymentId}"],
+    "api_routes": [
+      "/api/admin/copilot/deploy",
+      "/api/admin/copilot/deploy?id=${deploymentId}"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1074,9 +1312,14 @@
     "status": "LIVE",
     "purpose": "Course Builder | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
+      "profiles": [
+        "role"
+      ],
       "training_courses": [],
-      "programs": ["id", "title"]
+      "programs": [
+        "id",
+        "title"
+      ]
     },
     "writes": [
       {
@@ -1093,8 +1336,8 @@
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/course-builder/assessments",
@@ -1153,7 +1396,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/ai/generate-course"],
+    "api_routes": [
+      "/api/ai/generate-course"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1167,7 +1412,10 @@
     "status": "LIVE",
     "purpose": "Course Import | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1185,7 +1433,10 @@
     "status": "LIVE",
     "purpose": "Course Templates | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1203,9 +1454,15 @@
     "status": "LIVE",
     "purpose": "Admin Courses | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "training_enrollments": ["course_id"],
-      "training_courses": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "training_enrollments": [
+        "course_id"
+      ],
+      "training_courses": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1223,9 +1480,15 @@
     "status": "LIVE",
     "purpose": "Course Content | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "training_courses": ["*"],
-      "training_lessons": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "training_courses": [
+        "*"
+      ],
+      "training_lessons": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -1254,8 +1517,8 @@
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/courses/[courseId]/edit",
@@ -1264,9 +1527,16 @@
     "status": "LIVE",
     "purpose": "Edit Course | Admin | Elevate LMS",
     "reads": {
-      "profiles": ["role"],
-      "training_courses": ["*"],
-      "programs": ["id", "title"]
+      "profiles": [
+        "role"
+      ],
+      "training_courses": [
+        "*"
+      ],
+      "programs": [
+        "id",
+        "title"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1284,9 +1554,15 @@
     "status": "LIVE",
     "purpose": "Course Quizzes | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "training_courses": ["*"],
-      "quizzes": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "training_courses": [
+        "*"
+      ],
+      "quizzes": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -1307,8 +1583,8 @@
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/courses/[courseId]/quizzes/[quizId]/questions",
@@ -1317,9 +1593,15 @@
     "status": "LIVE",
     "purpose": "Quiz Questions | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "quizzes": ["*"],
-      "quiz_questions": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "quizzes": [
+        "*"
+      ],
+      "quiz_questions": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -1340,8 +1622,8 @@
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/courses/builder",
@@ -1350,7 +1632,9 @@
     "status": "LIVE",
     "purpose": "Course Builder | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1368,8 +1652,12 @@
     "status": "LIVE",
     "purpose": "Bulk Operations | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "training_courses": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "training_courses": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1387,9 +1675,17 @@
     "status": "LIVE",
     "purpose": "Create Course | Admin | Elevate LMS",
     "reads": {
-      "profiles": ["role"],
-      "course_categories": ["id", "name"],
-      "programs": ["id", "title"]
+      "profiles": [
+        "role"
+      ],
+      "course_categories": [
+        "id",
+        "name"
+      ],
+      "programs": [
+        "id",
+        "title"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1407,8 +1703,12 @@
     "status": "LIVE",
     "purpose": "Manage Courses | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "training_courses": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "training_courses": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1442,11 +1742,22 @@
     "status": "LIVE",
     "purpose": "CRM Hub | Admin Dashboard",
     "reads": {
-      "profiles": ["*", "role"],
-      "campaigns": ["*"],
-      "leads": ["*"],
-      "follow_ups": ["*"],
-      "appointments": ["*"]
+      "profiles": [
+        "*",
+        "role"
+      ],
+      "campaigns": [
+        "*"
+      ],
+      "leads": [
+        "*"
+      ],
+      "follow_ups": [
+        "*"
+      ],
+      "appointments": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1466,7 +1777,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/crm/appointments"],
+    "api_routes": [
+      "/api/admin/crm/appointments"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1482,7 +1795,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/crm/appointments"],
+    "api_routes": [
+      "/api/admin/crm/appointments"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1496,8 +1811,12 @@
     "status": "LIVE",
     "purpose": "Email Campaigns | CRM",
     "reads": {
-      "profiles": ["role"],
-      "campaigns": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "campaigns": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1517,7 +1836,10 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/crm/campaigns/send", "/api/crm/templates"],
+    "api_routes": [
+      "/api/crm/campaigns/send",
+      "/api/crm/templates"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1531,7 +1853,9 @@
     "status": "LIVE",
     "purpose": "Contacts | CRM | Admin | Elevate For Humanity",
     "reads": {
-      "crm_contacts": ["*"]
+      "crm_contacts": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1583,7 +1907,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/crm/deals"],
+    "api_routes": [
+      "/api/admin/crm/deals"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1597,7 +1923,9 @@
     "status": "LIVE",
     "purpose": "Follow-ups | CRM Admin",
     "reads": {
-      "crm_follow_ups": ["contact"]
+      "crm_follow_ups": [
+        "contact"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1621,7 +1949,9 @@
     "status": "LIVE",
     "purpose": "Leads | CRM | Admin | Elevate For Humanity",
     "reads": {
-      "leads": ["*"]
+      "leads": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1655,7 +1985,9 @@
     "status": "LIVE",
     "purpose": "Curriculum Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1673,7 +2005,9 @@
     "status": "LIVE",
     "purpose": "Upload Curriculum | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1691,10 +2025,30 @@
     "status": "LIVE",
     "purpose": "Admin Dashboard | Elevate For Humanity",
     "reads": {
-      "profiles": ["created_at", "email", "enrollment_status", "full_name", "id", "role"],
-      "program_enrollments": ["course_id", "enrolled_at", "progress", "status"],
-      "programs": ["id", "name", "status"],
-      "training_courses": ["course_name", "id", "is_active"]
+      "profiles": [
+        "created_at",
+        "email",
+        "enrollment_status",
+        "full_name",
+        "id",
+        "role"
+      ],
+      "program_enrollments": [
+        "course_id",
+        "enrolled_at",
+        "progress",
+        "status"
+      ],
+      "programs": [
+        "id",
+        "name",
+        "status"
+      ],
+      "training_courses": [
+        "course_name",
+        "id",
+        "is_active"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1728,7 +2082,10 @@
     "status": "LIVE",
     "purpose": "Data Processor | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1746,8 +2103,12 @@
     "status": "LIVE",
     "purpose": "Delegates Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "delegates": ["profiles!"]
+      "profiles": [
+        "*"
+      ],
+      "delegates": [
+        "profiles!"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1773,7 +2134,11 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/auth/check-admin", "/api/github/file", "/api/github/repos"],
+    "api_routes": [
+      "/api/auth/check-admin",
+      "/api/github/file",
+      "/api/github/repos"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1787,7 +2152,9 @@
     "status": "LIVE",
     "purpose": "Documentation Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1805,7 +2172,9 @@
     "status": "LIVE",
     "purpose": "MOU Documentation | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1823,7 +2192,10 @@
     "status": "LIVE",
     "purpose": "Document Center | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1841,7 +2213,9 @@
     "status": "LIVE",
     "purpose": "Service Unavailable",
     "reads": {
-      "profiles": ["role"],
+      "profiles": [
+        "role"
+      ],
       "documents": []
     },
     "writes": [],
@@ -1860,8 +2234,12 @@
     "status": "LIVE",
     "purpose": "Document Center | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "documents": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "documents": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1879,7 +2257,9 @@
     "status": "LIVE",
     "purpose": "Review Documents | Admin",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1897,7 +2277,9 @@
     "status": "LIVE",
     "purpose": "Review Document | Admin",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1915,7 +2297,9 @@
     "status": "LIVE",
     "purpose": "Upload Documents | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -1935,7 +2319,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/auth/check-admin"],
+    "api_routes": [
+      "/api/auth/check-admin"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1951,7 +2337,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/auth/check-admin"],
+    "api_routes": [
+      "/api/auth/check-admin"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1967,7 +2355,10 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/auth/check-admin", "/api/email/analytics?range=${timeRange}"],
+    "api_routes": [
+      "/api/auth/check-admin",
+      "/api/email/analytics?range=${timeRange}"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1983,7 +2374,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/auth/check-admin"],
+    "api_routes": [
+      "/api/auth/check-admin"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -1999,7 +2392,10 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/auth/check-admin", "/api/email/workflows"],
+    "api_routes": [
+      "/api/auth/check-admin",
+      "/api/email/workflows"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -2034,8 +2430,12 @@
     "status": "LIVE",
     "purpose": "Employer Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "employers": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "employers": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2053,7 +2453,10 @@
     "status": "LIVE",
     "purpose": "Employers Playbook | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2071,8 +2474,12 @@
     "status": "LIVE",
     "purpose": "Employer Proposal | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "employers": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "employers": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2090,7 +2497,9 @@
     "status": "LIVE",
     "purpose": "Employer Onboarding Review | Admin",
     "reads": {
-      "employer_onboarding": ["*"]
+      "employer_onboarding": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2108,7 +2517,9 @@
     "status": "LIVE",
     "purpose": "Enrollment Jobs | Admin",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2126,10 +2537,27 @@
     "status": "LIVE",
     "purpose": "Enrollment Management | Admin Dashboard",
     "reads": {
-      "profiles": ["email", "full_name", "id", "role"],
-      "training_enrollments": ["course", "id", "student"],
-      "training_courses": ["course_name", "id"],
-      "cohorts": ["code", "id", "name", "status"]
+      "profiles": [
+        "email",
+        "full_name",
+        "id",
+        "role"
+      ],
+      "training_enrollments": [
+        "course",
+        "id",
+        "student"
+      ],
+      "training_courses": [
+        "course_name",
+        "id"
+      ],
+      "cohorts": [
+        "code",
+        "id",
+        "name",
+        "status"
+      ]
     },
     "writes": [
       {
@@ -2170,7 +2598,9 @@
       }
     ],
     "rpcs": [],
-    "api_routes": ["/api/email/send"],
+    "api_routes": [
+      "/api/email/send"
+    ],
     "server_actions": [],
     "column_mismatches": [
       {
@@ -2195,7 +2625,10 @@
     "status": "LIVE",
     "purpose": "Etpl Alignment | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2228,8 +2661,8 @@
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/external-modules/approvals",
@@ -2238,8 +2671,12 @@
     "status": "LIVE",
     "purpose": "Module Approvals | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "external_modules": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "external_modules": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -2262,8 +2699,8 @@
       }
     ],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/external-progress",
@@ -2272,11 +2709,16 @@
     "status": "LIVE",
     "purpose": "External Progress | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/external-progress/update"],
+    "api_routes": [
+      "/api/admin/external-progress/update"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -2290,9 +2732,19 @@
     "status": "LIVE",
     "purpose": "FERPA Compliance | Admin | Elevate For Humanity",
     "reads": {
-      "audit_logs": ["action", "actor_id", "created_at", "target_type"],
-      "profiles": ["*", "role"],
-      "documents": ["*"]
+      "audit_logs": [
+        "action",
+        "actor_id",
+        "created_at",
+        "target_type"
+      ],
+      "profiles": [
+        "*",
+        "role"
+      ],
+      "documents": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2310,8 +2762,16 @@
     "status": "LIVE",
     "purpose": "FERPA Training Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["created_at", "email", "full_name", "id", "role"],
-      "ferpa_training_records": ["profiles"]
+      "profiles": [
+        "created_at",
+        "email",
+        "full_name",
+        "id",
+        "role"
+      ],
+      "ferpa_training_records": [
+        "profiles"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2335,7 +2795,9 @@
     "status": "LIVE",
     "purpose": "File Manager | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2353,7 +2815,9 @@
     "status": "LIVE",
     "purpose": "Funding Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2371,7 +2835,10 @@
     "status": "LIVE",
     "purpose": "Funding Playbook | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2405,7 +2872,9 @@
     "status": "LIVE",
     "purpose": "Authoritative Documents | Governance | Elevate for Humanity",
     "reads": {
-      "compliance_documents": ["*"]
+      "compliance_documents": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2535,8 +3004,15 @@
     "status": "LIVE",
     "purpose": "Gradebook | Admin | Elevate LMS",
     "reads": {
-      "profiles": ["role"],
-      "training_courses": ["enrollment_count", "id", "status", "title"]
+      "profiles": [
+        "role"
+      ],
+      "training_courses": [
+        "enrollment_count",
+        "id",
+        "status",
+        "title"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2554,11 +3030,26 @@
     "status": "LIVE",
     "purpose": "Gradebook | Admin | Elevate LMS",
     "reads": {
-      "profiles": ["role"],
-      "training_courses": ["id", "title"],
-      "program_enrollments": ["id", "profiles!", "progress", "status", "user_id"],
-      "assignment_submissions": ["*"],
-      "quiz_attempts": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "training_courses": [
+        "id",
+        "title"
+      ],
+      "program_enrollments": [
+        "id",
+        "profiles!",
+        "progress",
+        "status",
+        "user_id"
+      ],
+      "assignment_submissions": [
+        "*"
+      ],
+      "quiz_attempts": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -2587,8 +3078,8 @@
       }
     ],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/grants",
@@ -2597,8 +3088,12 @@
     "status": "LIVE",
     "purpose": "Grant Management | Admin",
     "reads": {
-      "grant_opportunities": ["*"],
-      "grant_applications": ["*"]
+      "grant_opportunities": [
+        "*"
+      ],
+      "grant_applications": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -2637,7 +3132,9 @@
     "status": "LIVE",
     "purpose": "Grant Intake | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2658,7 +3155,9 @@
     "writes": [],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["createGrantOpportunity"],
+    "server_actions": [
+      "createGrantOpportunity"
+    ],
     "column_mismatches": [],
     "has_mutations": false,
     "has_audit_trail": false,
@@ -2671,7 +3170,9 @@
     "status": "LIVE",
     "purpose": "Grant Revenue | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2689,7 +3190,9 @@
     "status": "LIVE",
     "purpose": "Submissions | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2707,10 +3210,18 @@
     "status": "LIVE",
     "purpose": "Grants Workflow | Elevate For Humanity",
     "reads": {
-      "grants": ["*"],
-      "grant_entities": ["*"],
-      "grant_applications": ["*"],
-      "profiles": ["*"]
+      "grants": [
+        "*"
+      ],
+      "grant_entities": [
+        "*"
+      ],
+      "grant_applications": [
+        "*"
+      ],
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2730,7 +3241,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/export/weekly-hours?${params}"],
+    "api_routes": [
+      "/api/admin/export/weekly-hours?${params}"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -2744,7 +3257,9 @@
     "status": "LIVE",
     "purpose": "HR Dashboard | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2762,8 +3277,12 @@
     "status": "LIVE",
     "purpose": "Employee Directory | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "employees": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "employees": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2781,10 +3300,18 @@
     "status": "LIVE",
     "purpose": "Employee Details | HR | Admin",
     "reads": {
-      "profiles": ["role"],
-      "employees": ["managers"],
-      "time_off_requests": ["*"],
-      "performance_reviews": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "employees": [
+        "managers"
+      ],
+      "time_off_requests": [
+        "*"
+      ],
+      "performance_reviews": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2808,7 +3335,9 @@
     "status": "LIVE",
     "purpose": "Add Employee | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2826,8 +3355,12 @@
     "status": "LIVE",
     "purpose": "Leave Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "leave_requests": ["profiles!"]
+      "profiles": [
+        "*"
+      ],
+      "leave_requests": [
+        "profiles!"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2851,7 +3384,9 @@
     "status": "LIVE",
     "purpose": "Payroll Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2869,7 +3404,9 @@
     "status": "LIVE",
     "purpose": "Time Tracking | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2887,7 +3424,9 @@
     "status": "LIVE",
     "purpose": "HSI Enrollments | Admin Dashboard",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2925,7 +3464,9 @@
     "status": "LIVE",
     "purpose": "Impact Dashboard | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -2945,7 +3486,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/import"],
+    "api_routes": [
+      "/api/admin/import"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -2959,9 +3502,15 @@
     "status": "LIVE",
     "purpose": "Admin Inbox | Elevate For Humanity",
     "reads": {
-      "user_profiles": ["role"],
-      "partner_inquiries": ["*"],
-      "license_requests": ["*"]
+      "user_profiles": [
+        "role"
+      ],
+      "partner_inquiries": [
+        "*"
+      ],
+      "license_requests": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -2975,7 +3524,10 @@
     ],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["updateLicense", "updatePartner"],
+    "server_actions": [
+      "updateLicense",
+      "updatePartner"
+    ],
     "column_mismatches": [],
     "has_mutations": true,
     "has_audit_trail": true,
@@ -2995,12 +3547,14 @@
       }
     ],
     "rpcs": [],
-    "api_routes": ["/api/admin/incentives"],
+    "api_routes": [
+      "/api/admin/incentives"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/incentives/create",
@@ -3012,7 +3566,9 @@
     "writes": [],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["createIncentive"],
+    "server_actions": [
+      "createIncentive"
+    ],
     "column_mismatches": [],
     "has_mutations": false,
     "has_audit_trail": false,
@@ -3041,7 +3597,9 @@
     "status": "LIVE",
     "purpose": "Instructor Performance | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3080,7 +3638,9 @@
     "status": "LIVE",
     "purpose": "",
     "reads": {
-      "integrations": ["*"]
+      "integrations": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -3093,8 +3653,8 @@
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/integrations/google-classroom",
@@ -3103,7 +3663,9 @@
     "status": "LIVE",
     "purpose": "Google Classroom | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3123,7 +3685,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/integrations?provider=salesforce"],
+    "api_routes": [
+      "/api/admin/integrations?provider=salesforce"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -3137,7 +3701,10 @@
     "status": "LIVE",
     "purpose": "Internal Docs | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3155,8 +3722,12 @@
     "status": "LIVE",
     "purpose": "Job Postings | Admin | Elevate for Humanity",
     "reads": {
-      "job_postings": ["*"],
-      "employers": ["*"]
+      "job_postings": [
+        "*"
+      ],
+      "employers": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -3169,8 +3740,8 @@
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/jobs/new",
@@ -3182,7 +3753,9 @@
     "writes": [],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["createJob"],
+    "server_actions": [
+      "createJob"
+    ],
     "column_mismatches": [],
     "has_mutations": false,
     "has_audit_trail": false,
@@ -3195,8 +3768,12 @@
     "status": "LIVE",
     "purpose": "JRI Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "jri_participants": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "jri_participants": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3220,7 +3797,9 @@
     "status": "LIVE",
     "purpose": "Leads | Admin | Elevate For Humanity",
     "reads": {
-      "leads": ["*"]
+      "leads": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3254,7 +3833,9 @@
     "status": "LIVE",
     "purpose": "Learner Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3272,9 +3853,14 @@
     "status": "LIVE",
     "purpose": "Learner Details | Admin | Elevate for Humanity",
     "reads": {
-      "profiles": ["*", "role"],
+      "profiles": [
+        "*",
+        "role"
+      ],
       "program_enrollments": [],
-      "certificates": ["*"],
+      "certificates": [
+        "*"
+      ],
       "lesson_progress": []
     },
     "writes": [],
@@ -3293,9 +3879,16 @@
     "status": "LIVE",
     "purpose": "Lessons Management | Admin",
     "reads": {
-      "profiles": ["role"],
-      "training_courses": ["course_name", "id"],
-      "training_lessons": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "training_courses": [
+        "course_name",
+        "id"
+      ],
+      "training_lessons": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3313,7 +3906,9 @@
     "status": "LIVE",
     "purpose": "License Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3331,8 +3926,12 @@
     "status": "LIVE",
     "purpose": "Admin License Requests | Elevate For Humanity",
     "reads": {
-      "user_profiles": ["role"],
-      "license_requests": ["*"]
+      "user_profiles": [
+        "role"
+      ],
+      "license_requests": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -3342,7 +3941,9 @@
     ],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["updateStatus"],
+    "server_actions": [
+      "updateStatus"
+    ],
     "column_mismatches": [],
     "has_mutations": true,
     "has_audit_trail": true,
@@ -3376,12 +3977,17 @@
     "status": "LIVE",
     "purpose": "Create License | Admin",
     "reads": {
-      "tenants": ["id", "name"]
+      "tenants": [
+        "id",
+        "name"
+      ]
     },
     "writes": [],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["createLicense"],
+    "server_actions": [
+      "createLicense"
+    ],
     "column_mismatches": [],
     "has_mutations": false,
     "has_audit_trail": false,
@@ -3394,8 +4000,15 @@
     "status": "LIVE",
     "purpose": "License Management",
     "reads": {
-      "licenses": ["*"],
-      "tenants": ["active", "id", "name", "slug"]
+      "licenses": [
+        "*"
+      ],
+      "tenants": [
+        "active",
+        "id",
+        "name",
+        "slug"
+      ]
     },
     "writes": [
       {
@@ -3420,7 +4033,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/auth/check-admin"],
+    "api_routes": [
+      "/api/auth/check-admin"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -3434,8 +4049,13 @@
     "status": "LIVE",
     "purpose": "Marketing | Admin | Elevate For Humanity",
     "reads": {
-      "marketing_campaigns": ["*"],
-      "leads": ["*", "source"]
+      "marketing_campaigns": [
+        "*"
+      ],
+      "leads": [
+        "*",
+        "source"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3471,7 +4091,10 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/creators/approve", "/api/admin/creators/reject"],
+    "api_routes": [
+      "/api/admin/creators/approve",
+      "/api/admin/creators/reject"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -3487,7 +4110,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/payouts/mark-paid"],
+    "api_routes": [
+      "/api/admin/payouts/mark-paid"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -3503,7 +4128,10 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/products/approve", "/api/admin/products/reject"],
+    "api_routes": [
+      "/api/admin/products/approve",
+      "/api/admin/products/reject"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -3539,7 +4167,9 @@
     "status": "LIVE",
     "purpose": "Data Migrations | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3557,7 +4187,9 @@
     "status": "LIVE",
     "purpose": "Mobile Sync | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3575,7 +4207,14 @@
     "status": "LIVE",
     "purpose": "Moderation Queue | Admin",
     "reads": {
-      "forum_posts": ["content", "created_at", "id", "status", "title", "user_id"]
+      "forum_posts": [
+        "content",
+        "created_at",
+        "id",
+        "status",
+        "title",
+        "user_id"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3593,9 +4232,17 @@
     "status": "LIVE",
     "purpose": "Modules Management | Admin",
     "reads": {
-      "profiles": ["role"],
-      "programs": ["id", "name", "slug"],
-      "modules": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "programs": [
+        "id",
+        "name",
+        "slug"
+      ],
+      "modules": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -3613,7 +4260,10 @@
     ],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["createModule", "updateModule"],
+    "server_actions": [
+      "createModule",
+      "updateModule"
+    ],
     "column_mismatches": [
       {
         "table": "modules",
@@ -3622,8 +4272,8 @@
       }
     ],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/modules/new",
@@ -3632,8 +4282,14 @@
     "status": "LIVE",
     "purpose": "Create Module | Admin",
     "reads": {
-      "profiles": ["role"],
-      "programs": ["id", "name", "slug"]
+      "profiles": [
+        "role"
+      ],
+      "programs": [
+        "id",
+        "name",
+        "slug"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3653,7 +4309,10 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/monitoring/errors?limit=10", "/api/admin/monitoring/status"],
+    "api_routes": [
+      "/api/admin/monitoring/errors?limit=10",
+      "/api/admin/monitoring/status"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -3669,7 +4328,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/monitoring/verify-schema"],
+    "api_routes": [
+      "/api/admin/monitoring/verify-schema"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -3683,7 +4344,9 @@
     "status": "LIVE",
     "purpose": "MOU Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3703,7 +4366,10 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/next-steps/update", "/api/admin/next-steps?${queryString}"],
+    "api_routes": [
+      "/api/admin/next-steps/update",
+      "/api/admin/next-steps?${queryString}"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -3719,7 +4385,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/notifications/broadcast"],
+    "api_routes": [
+      "/api/notifications/broadcast"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -3733,7 +4401,9 @@
     "status": "LIVE",
     "purpose": "Operations Dashboard | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3751,7 +4421,9 @@
     "status": "LIVE",
     "purpose": "Outcomes Tracking | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3769,7 +4441,9 @@
     "status": "LIVE",
     "purpose": "Partner Enrollments | Admin",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3787,8 +4461,12 @@
     "status": "LIVE",
     "purpose": "Admin Partner Inquiries | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "partner_inquiries": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "partner_inquiries": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -3798,7 +4476,9 @@
     ],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["updateStatus"],
+    "server_actions": [
+      "updateStatus"
+    ],
     "column_mismatches": [],
     "has_mutations": true,
     "has_audit_trail": true,
@@ -3811,8 +4491,12 @@
     "status": "LIVE",
     "purpose": "Admin Partners | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "partners": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "partners": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3830,7 +4514,9 @@
     "status": "LIVE",
     "purpose": "Lms Integrations | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3848,11 +4534,21 @@
     "status": "LIVE",
     "purpose": "LMS Integration Details | Partners | Admin",
     "reads": {
-      "profiles": ["role"],
-      "partner_lms_providers": ["*"],
-      "partner_lms_sync_logs": ["*"],
-      "partner_lms_courses": ["*"],
-      "partner_lms_enrollments": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "partner_lms_providers": [
+        "*"
+      ],
+      "partner_lms_sync_logs": [
+        "*"
+      ],
+      "partner_lms_courses": [
+        "*"
+      ],
+      "partner_lms_enrollments": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3882,8 +4578,12 @@
         "op": "update"
       }
     ],
-    "rpcs": ["calculate_payroll"],
-    "api_routes": ["/api/apprentice/email-alerts"],
+    "rpcs": [
+      "calculate_payroll"
+    ],
+    "api_routes": [
+      "/api/apprentice/email-alerts"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": true,
@@ -3897,7 +4597,10 @@
     "status": "LIVE",
     "purpose": "Payroll Cards | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3915,10 +4618,20 @@
     "status": "LIVE",
     "purpose": "Performance Dashboard | Admin | Elevate For Humanity",
     "reads": {
-      "training_courses": ["*", "category", "status"],
-      "leads": ["*"],
-      "crm_contacts": ["*"],
-      "wotc_applications": ["*"]
+      "training_courses": [
+        "*",
+        "category",
+        "status"
+      ],
+      "leads": [
+        "*"
+      ],
+      "crm_contacts": [
+        "*"
+      ],
+      "wotc_applications": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3936,7 +4649,9 @@
     "status": "LIVE",
     "purpose": "Admin Portal Map",
     "reads": {
-      "pages": ["*"]
+      "pages": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3954,7 +4669,10 @@
     "status": "LIVE",
     "purpose": "Program Generator | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -3972,7 +4690,10 @@
     "status": "LIVE",
     "purpose": "Program Holder Acknowledgements | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4011,7 +4732,9 @@
     "status": "LIVE",
     "purpose": "Program Holders | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
+      "profiles": [
+        "role"
+      ],
       "program_holders": [
         "contact_email",
         "contact_name",
@@ -4024,7 +4747,9 @@
         "status",
         "user_id"
       ],
-      "program_holder_programs": ["program_holder_id"]
+      "program_holder_programs": [
+        "program_holder_id"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4042,8 +4767,18 @@
     "status": "LIVE",
     "purpose": "Review Program Holder | Admin",
     "reads": {
-      "profiles": ["email", "full_name", "id", "role"],
-      "program_holders": ["*", "contact_email", "contact_name", "organization_name"],
+      "profiles": [
+        "email",
+        "full_name",
+        "id",
+        "role"
+      ],
+      "program_holders": [
+        "*",
+        "contact_email",
+        "contact_name",
+        "organization_name"
+      ],
       "program_holder_programs": [
         "created_at",
         "id",
@@ -4052,8 +4787,19 @@
         "role_in_program",
         "status"
       ],
-      "programs": ["id", "is_active", "name", "slug", "title"],
-      "admin_audit_events": ["action", "actor_user_id", "created_at", "metadata"]
+      "programs": [
+        "id",
+        "is_active",
+        "name",
+        "slug",
+        "title"
+      ],
+      "admin_audit_events": [
+        "action",
+        "actor_user_id",
+        "created_at",
+        "metadata"
+      ]
     },
     "writes": [
       {
@@ -4098,8 +4844,12 @@
     "status": "LIVE",
     "purpose": "Countersign Mou | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "programs": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "programs": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4117,8 +4867,12 @@
     "status": "LIVE",
     "purpose": "Program Holder Verification | Admin",
     "reads": {
-      "program_holder_documents": ["*"],
-      "program_holder_banking": ["*"]
+      "program_holder_documents": [
+        "*"
+      ],
+      "program_holder_banking": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4147,8 +4901,12 @@
     "status": "LIVE",
     "purpose": "Review Program Holder | Admin",
     "reads": {
-      "program_holder_documents": ["*"],
-      "program_holder_banking": ["*"]
+      "program_holder_documents": [
+        "*"
+      ],
+      "program_holder_banking": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -4190,8 +4948,12 @@
     "status": "LIVE",
     "purpose": "Programs Management | Admin",
     "reads": {
-      "profiles": ["role"],
-      "programs": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "programs": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -4209,11 +4971,14 @@
     ],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["createProgram", "updateProgram"],
+    "server_actions": [
+      "createProgram",
+      "updateProgram"
+    ],
     "column_mismatches": [],
     "has_mutations": true,
-    "has_audit_trail": false,
-    "audit_gap": true
+    "has_audit_trail": true,
+    "audit_gap": false
   },
   {
     "route": "/admin/programs/[code]/dashboard",
@@ -4222,9 +4987,15 @@
     "status": "LIVE",
     "purpose": "Program Dashboard | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "programs": ["*"],
-      "program_enrollments": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "programs": [
+        "*"
+      ],
+      "program_enrollments": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4242,8 +5013,13 @@
     "status": "LIVE",
     "purpose": "Program Builder | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "training_courses": ["id", "title"]
+      "profiles": [
+        "*"
+      ],
+      "training_courses": [
+        "id",
+        "title"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4261,7 +5037,9 @@
     "status": "LIVE",
     "purpose": "Program Catalog Generator | Admin | Elevate",
     "reads": {
-      "programs": ["*"]
+      "programs": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4279,7 +5057,9 @@
     "status": "LIVE",
     "purpose": "Create Program | Admin",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4297,8 +5077,12 @@
     "status": "LIVE",
     "purpose": "Progress Tracking | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "program_enrollments": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "program_enrollments": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4318,7 +5102,10 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/promo-codes", "/api/admin/promo-codes?id=${id}"],
+    "api_routes": [
+      "/api/admin/promo-codes",
+      "/api/admin/promo-codes?id=${id}"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -4332,7 +5119,10 @@
     "status": "LIVE",
     "purpose": "Quiz Builder | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4350,10 +5140,19 @@
     "status": "LIVE",
     "purpose": "Quizzes Management | Admin",
     "reads": {
-      "profiles": ["role"],
-      "training_courses": ["course_name", "id"],
-      "quiz_questions": ["quiz_id"],
-      "quiz_attempts": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "training_courses": [
+        "course_name",
+        "id"
+      ],
+      "quiz_questions": [
+        "quiz_id"
+      ],
+      "quiz_attempts": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4371,7 +5170,9 @@
     "status": "LIVE",
     "purpose": "RAPIDS / USDOL Registration Status",
     "reads": {
-      "apprenticeships": ["*"]
+      "apprenticeships": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4408,7 +5209,9 @@
     "status": "LIVE",
     "purpose": "Reporting Center | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4426,12 +5229,29 @@
     "status": "LIVE",
     "purpose": "Reports | Admin",
     "reads": {
-      "leads": ["*", "created_at"],
-      "program_enrollments": ["*", "created_at"],
-      "training_courses": ["*", "id", "title"],
-      "wotc_applications": ["*"],
-      "grant_applications": ["*"],
-      "profiles": ["*", "role"]
+      "leads": [
+        "*",
+        "created_at"
+      ],
+      "program_enrollments": [
+        "*",
+        "created_at"
+      ],
+      "training_courses": [
+        "*",
+        "id",
+        "title"
+      ],
+      "wotc_applications": [
+        "*"
+      ],
+      "grant_applications": [
+        "*"
+      ],
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4449,7 +5269,9 @@
     "status": "LIVE",
     "purpose": "Caseload Reports | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4467,8 +5289,13 @@
     "status": "LIVE",
     "purpose": "Charts & Visualizations | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "enrollments": ["program_id", "status"]
+      "profiles": [
+        "*"
+      ],
+      "enrollments": [
+        "program_id",
+        "status"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4486,8 +5313,13 @@
     "status": "LIVE",
     "purpose": "Enrollment Report | Admin",
     "reads": {
-      "program_enrollments": ["*"],
-      "training_courses": ["course_name", "id"]
+      "program_enrollments": [
+        "*"
+      ],
+      "training_courses": [
+        "course_name",
+        "id"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4505,9 +5337,13 @@
     "status": "LIVE",
     "purpose": "Financial Report | Admin",
     "reads": {
-      "wotc_applications": ["*"],
+      "wotc_applications": [
+        "*"
+      ],
       "grant_applications": [],
-      "grant_opportunities": ["*"]
+      "grant_opportunities": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4525,7 +5361,9 @@
     "status": "LIVE",
     "purpose": "Lead Generation Report | Admin",
     "reads": {
-      "leads": ["*"]
+      "leads": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4543,10 +5381,28 @@
     "status": "LIVE",
     "purpose": "Partner Reports | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "partners": ["*", "city", "created_at", "id", "name", "state", "status"],
-      "partner_inquiries": ["created_at", "id", "name", "organization", "status"],
-      "partner_enrollments": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "partners": [
+        "*",
+        "city",
+        "created_at",
+        "id",
+        "name",
+        "state",
+        "status"
+      ],
+      "partner_inquiries": [
+        "created_at",
+        "id",
+        "name",
+        "organization",
+        "status"
+      ],
+      "partner_enrollments": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4564,10 +5420,29 @@
     "status": "LIVE",
     "purpose": "Sample Reports | Admin",
     "reads": {
-      "profiles": ["created_at", "email", "enrollment_status", "full_name", "id", "role"],
-      "program_enrollments": ["created_at", "id", "program_id", "status"],
-      "certificates": ["created_at", "id", "status"],
-      "completions": ["created_at", "id"]
+      "profiles": [
+        "created_at",
+        "email",
+        "enrollment_status",
+        "full_name",
+        "id",
+        "role"
+      ],
+      "program_enrollments": [
+        "created_at",
+        "id",
+        "program_id",
+        "status"
+      ],
+      "certificates": [
+        "created_at",
+        "id",
+        "status"
+      ],
+      "completions": [
+        "created_at",
+        "id"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4585,7 +5460,9 @@
     "status": "LIVE",
     "purpose": "User Activity Report | Admin",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4603,7 +5480,9 @@
     "status": "LIVE",
     "purpose": "Retention Analytics | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4621,8 +5500,13 @@
     "status": "LIVE",
     "purpose": "Review Queue | Admin",
     "reads": {
-      "profiles": ["role"],
-      "review_queue": ["*", "queue_type"]
+      "profiles": [
+        "role"
+      ],
+      "review_queue": [
+        "*",
+        "queue_type"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4640,20 +5524,38 @@
     "status": "LIVE",
     "purpose": "Review Item | Admin",
     "reads": {
-      "profiles": ["role"],
-      "review_queue": ["*"],
-      "documents": ["*"],
-      "documents_extractions": ["*"],
+      "profiles": [
+        "role"
+      ],
+      "review_queue": [
+        "*"
+      ],
+      "documents": [
+        "*"
+      ],
+      "documents_extractions": [
+        "*"
+      ],
       "transfer_hours": [],
-      "applications": ["profiles!"],
+      "applications": [
+        "profiles!"
+      ],
       "shop_routing_scores": [],
-      "partners": ["*"],
-      "automated_decisions": ["*"]
+      "partners": [
+        "*"
+      ],
+      "automated_decisions": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/review-queue/resolve"],
-    "server_actions": ["extraction"],
+    "api_routes": [
+      "/api/admin/review-queue/resolve"
+    ],
+    "server_actions": [
+      "extraction"
+    ],
     "column_mismatches": [
       {
         "table": "applications",
@@ -4672,9 +5574,15 @@
     "status": "LIVE",
     "purpose": "SAP Monitoring | Admin Dashboard",
     "reads": {
-      "profiles": ["role"],
-      "grades": ["percentage"],
-      "attendance_records": ["status"]
+      "profiles": [
+        "role"
+      ],
+      "grades": [
+        "percentage"
+      ],
+      "attendance_records": [
+        "status"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4703,7 +5611,9 @@
     "status": "LIVE",
     "purpose": "Security Settings | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4721,7 +5631,9 @@
     "status": "LIVE",
     "purpose": "Admin Settings | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4739,9 +5651,16 @@
     "status": "LIVE",
     "purpose": "Admin Shops | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "shop_applications": ["*"],
-      "shop_required_docs_status": ["approved", "required"]
+      "profiles": [
+        "role"
+      ],
+      "shop_applications": [
+        "*"
+      ],
+      "shop_required_docs_status": [
+        "approved",
+        "required"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4759,7 +5678,9 @@
     "status": "LIVE",
     "purpose": "Shop Geocoding",
     "reads": {
-      "profiles": ["role"],
+      "profiles": [
+        "role"
+      ],
       "shops": [
         "active",
         "address1",
@@ -4779,7 +5700,9 @@
     },
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/shops/geocode"],
+    "api_routes": [
+      "/api/admin/shops/geocode"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -4793,8 +5716,12 @@
     "status": "LIVE",
     "purpose": "Signatures Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "signatures": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "signatures": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4818,7 +5745,9 @@
     "status": "LIVE",
     "purpose": "Request Signature | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4836,7 +5765,9 @@
     "status": "LIVE",
     "purpose": "Site Health | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4856,7 +5787,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/auth/check-admin"],
+    "api_routes": [
+      "/api/auth/check-admin"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -4890,11 +5823,17 @@
     "status": "LIVE",
     "purpose": "Store Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/store/clone-codebase", "/api/store/create-product", "/api/store/products"],
+    "api_routes": [
+      "/api/store/clone-codebase",
+      "/api/store/create-product",
+      "/api/store/products"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -4908,7 +5847,9 @@
     "status": "LIVE",
     "purpose": "Catalog Sanity Check | Admin",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4928,7 +5869,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/store/publish"],
+    "api_routes": [
+      "/api/store/publish"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -4942,8 +5885,13 @@
     "status": "LIVE",
     "purpose": "Students Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"],
-      "program_enrollments": ["*"]
+      "profiles": [
+        "*",
+        "role"
+      ],
+      "program_enrollments": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4963,7 +5911,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/export/students?${params}"],
+    "api_routes": [
+      "/api/admin/export/students?${params}"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -4977,8 +5927,12 @@
     "status": "LIVE",
     "purpose": "Success Stories | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "success_stories": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "success_stories": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -4998,7 +5952,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/support/tickets?${params}"],
+    "api_routes": [
+      "/api/support/tickets?${params}"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -5012,7 +5968,10 @@
     "status": "LIVE",
     "purpose": "Syllabus Generator | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5030,7 +5989,10 @@
     "status": "LIVE",
     "purpose": "System Health | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5050,7 +6012,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/health"],
+    "api_routes": [
+      "/api/health"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -5064,8 +6028,12 @@
     "status": "LIVE",
     "purpose": "System Status | Admin",
     "reads": {
-      "creator_courses": ["*"],
-      "program_enrollments": ["*"]
+      "creator_courses": [
+        "*"
+      ],
+      "program_enrollments": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5083,9 +6051,16 @@
     "status": "LIVE",
     "purpose": "Tax Filing Management | Admin",
     "reads": {
-      "profiles": ["*", "role"],
-      "tax_filing_applications": ["*"],
-      "tax_preparers": ["*"]
+      "profiles": [
+        "*",
+        "role"
+      ],
+      "tax_filing_applications": [
+        "*"
+      ],
+      "tax_preparers": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5103,8 +6078,12 @@
     "status": "LIVE",
     "purpose": "Tax Filing Applications | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "tax_applications": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "tax_applications": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -5130,7 +6109,9 @@
     "writes": [],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["createTaxApplication"],
+    "server_actions": [
+      "createTaxApplication"
+    ],
     "column_mismatches": [],
     "has_mutations": false,
     "has_audit_trail": false,
@@ -5143,7 +6124,10 @@
     "status": "LIVE",
     "purpose": "Tax Preparers | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5161,7 +6145,9 @@
     "status": "LIVE",
     "purpose": "Tax Filing Reports | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5179,7 +6165,9 @@
     "status": "LIVE",
     "purpose": "Tax Preparer Training | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5197,8 +6185,12 @@
     "status": "LIVE",
     "purpose": "Tenant Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"],
-      "tenants": ["*"]
+      "profiles": [
+        "*"
+      ],
+      "tenants": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5218,7 +6210,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/test-email"],
+    "api_routes": [
+      "/api/admin/test-email"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -5234,7 +6228,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/stripe/checkout"],
+    "api_routes": [
+      "/api/stripe/checkout"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -5248,8 +6244,12 @@
     "status": "LIVE",
     "purpose": "Transfer Hours Management | Admin",
     "reads": {
-      "profiles": ["role"],
-      "transfer_hours": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "transfer_hours": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -5263,7 +6263,10 @@
     ],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["approveTransferHours", "denyTransferHours"],
+    "server_actions": [
+      "approveTransferHours",
+      "denyTransferHours"
+    ],
     "column_mismatches": [
       {
         "table": "transfer_hours",
@@ -5282,7 +6285,10 @@
     "status": "LIVE",
     "purpose": "User Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["*", "role"]
+      "profiles": [
+        "*",
+        "role"
+      ]
     },
     "writes": [
       {
@@ -5317,7 +6323,9 @@
     "status": "LIVE",
     "purpose": "Create New User | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5335,7 +6343,9 @@
     "status": "LIVE",
     "purpose": "Review ID Verifications | Admin",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5353,7 +6363,9 @@
     "status": "LIVE",
     "purpose": "Review Verification | Admin",
     "reads": {
-      "profiles": ["role"]
+      "profiles": [
+        "role"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5373,7 +6385,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/generate-lesson-videos"],
+    "api_routes": [
+      "/api/admin/generate-lesson-videos"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -5389,7 +6403,9 @@
     "reads": {},
     "writes": [],
     "rpcs": [],
-    "api_routes": ["/api/admin/videos/upload"],
+    "api_routes": [
+      "/api/admin/videos/upload"
+    ],
     "server_actions": [],
     "column_mismatches": [],
     "has_mutations": false,
@@ -5403,8 +6419,12 @@
     "status": "LIVE",
     "purpose": "Videos Management | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "media": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "media": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5428,7 +6448,9 @@
     "status": "LIVE",
     "purpose": "Upload Videos | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5446,8 +6468,12 @@
     "status": "LIVE",
     "purpose": "Waitlist | Admin | Elevate For Humanity",
     "reads": {
-      "profiles": ["role"],
-      "waitlist": ["*"]
+      "profiles": [
+        "role"
+      ],
+      "waitlist": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5517,8 +6543,12 @@
     "status": "LIVE",
     "purpose": "WIOA Reports | Admin",
     "reads": {
-      "program_enrollments": ["*"],
-      "certificates": ["*"]
+      "program_enrollments": [
+        "*"
+      ],
+      "certificates": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5545,7 +6575,15 @@
         "id",
         "last_name"
       ],
-      "documents": ["created_at", "document_type", "file_path", "file_url", "id", "status", "title"]
+      "documents": [
+        "created_at",
+        "document_type",
+        "file_path",
+        "file_url",
+        "id",
+        "status",
+        "title"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5563,7 +6601,9 @@
     "status": "LIVE",
     "purpose": "Workflow Automation | Elevate For Humanity",
     "reads": {
-      "profiles": ["*"]
+      "profiles": [
+        "*"
+      ]
     },
     "writes": [],
     "rpcs": [],
@@ -5581,7 +6621,9 @@
     "status": "LIVE",
     "purpose": "WOTC Management | Admin",
     "reads": {
-      "wotc_applications": ["*"]
+      "wotc_applications": [
+        "*"
+      ]
     },
     "writes": [
       {
@@ -5623,7 +6665,9 @@
     "writes": [],
     "rpcs": [],
     "api_routes": [],
-    "server_actions": ["createWOTCApplication"],
+    "server_actions": [
+      "createWOTCApplication"
+    ],
     "column_mismatches": [],
     "has_mutations": false,
     "has_audit_trail": false,
