@@ -91,7 +91,7 @@ export default function TransparencyPage() {
                   <div className="text-2xl font-bold">
                     {typeof outcome.value === 'number' ? `${outcome.value}+` : outcome.value}
                   </div>
-                  <div className="text-gray-600 text-sm">{outcome.label}</div>
+                  <div className="text-slate-600 text-sm">{outcome.label}</div>
                 </div>
               </div>
             ))}
@@ -115,12 +115,12 @@ export default function TransparencyPage() {
                       style={{ width: `${item.percentage}%` }}
                     />
                   </div>
-                  <p className="text-sm text-gray-600">{item.description}</p>
+                  <p className="text-sm text-slate-600">{item.description}</p>
                 </div>
               ))}
             </div>
             <div className="mt-8 pt-8 border-t">
-              <p className="text-gray-600 text-center">
+              <p className="text-slate-600 text-center">
                 The majority of funds go directly to program delivery and student services.
               </p>
             </div>
@@ -134,7 +134,7 @@ export default function TransparencyPage() {
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <FileText className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="font-semibold text-lg mb-2">2023 Annual Report</h3>
-              <p className="text-gray-600 text-sm mb-4">
+              <p className="text-slate-600 text-sm mb-4">
                 Complete overview of our programs, outcomes, and financials.
               </p>
               <span className="text-brand-blue-600 font-medium">Available on Request</span>
@@ -142,7 +142,7 @@ export default function TransparencyPage() {
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <FileText className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="font-semibold text-lg mb-2">2022 Annual Report</h3>
-              <p className="text-gray-600 text-sm mb-4">
+              <p className="text-slate-600 text-sm mb-4">
                 Our growth and impact in the second year of operations.
               </p>
               <span className="text-brand-blue-600 font-medium">Available on Request</span>
@@ -150,7 +150,7 @@ export default function TransparencyPage() {
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <FileText className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="font-semibold text-lg mb-2">Form 990</h3>
-              <p className="text-gray-600 text-sm mb-4">IRS Form 990 nonprofit tax return.</p>
+              <p className="text-slate-600 text-sm mb-4">IRS Form 990 nonprofit tax return.</p>
               <span className="text-brand-blue-600 font-medium">Available on Request</span>
             </div>
           </div>
@@ -178,7 +178,7 @@ export default function TransparencyPage() {
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <h3 className="font-semibold text-lg mb-4">Outcome Tracking</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-slate-600">
                   <li>• Enrollment and completion rates tracked in real-time</li>
                   <li>• Job placement verified through employer confirmation</li>
                   <li>• Salary data collected at 30, 90, and 180 days post-placement</li>
@@ -187,7 +187,7 @@ export default function TransparencyPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-lg mb-4">Third-Party Verification</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-slate-600">
                   <li>• Annual independent financial audit</li>
                   <li>• WIOA performance reporting to state agencies</li>
                   <li>• Student satisfaction surveys</li>

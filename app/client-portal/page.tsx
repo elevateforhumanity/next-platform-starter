@@ -92,7 +92,7 @@ export default function ClientPortalPage() {
               >
                 <feature.icon className="w-10 h-10 text-brand-blue-600 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600 text-sm">{feature.description}</p>
+                <p className="text-slate-600 text-sm">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -105,7 +105,7 @@ export default function ClientPortalPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold mb-6">Everything You Need to Manage Training</h2>
-              <p className="text-gray-600 mb-8">
+              <p className="text-slate-600 mb-8">
                 Our client portal gives you complete visibility into your workforce development
                 programs with powerful tools to track, report, and optimize.
               </p>
@@ -120,7 +120,7 @@ export default function ClientPortalPage() {
             </div>
             <div className="bg-white border rounded-xl p-8 shadow-lg">
               <h3 className="text-xl font-semibold mb-4">Request Portal Access</h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-slate-600 mb-6">
                 Contact us to set up your organization's client portal account.
               </p>
               <Link

@@ -77,8 +77,8 @@ export default function SharePage() {
                   className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col"
                 >
                   <Icon className="w-10 h-10 text-brand-blue-600 mb-4" />
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{opt.title}</h3>
-                  <p className="text-gray-600 text-sm mb-6 flex-1">{opt.desc}</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{opt.title}</h3>
+                  <p className="text-slate-600 text-sm mb-6 flex-1">{opt.desc}</p>
                   <Link
                     href={opt.href}
                     className="bg-brand-blue-600 text-white text-center px-4 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition text-sm"
@@ -95,15 +95,15 @@ export default function SharePage() {
       {/* Quick Copy Link */}
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Quick Share Link</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Quick Share Link</h2>
+          <p className="text-slate-600 mb-6">
             Copy this link and share it anywhere — social media, text message, or email.
           </p>
           <div className="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3 max-w-lg mx-auto">
-            <span className="text-gray-700 text-sm flex-1 truncate">
+            <span className="text-slate-700 text-sm flex-1 truncate">
               https://www.elevateforhumanity.org/programs
             </span>
-            <Copy className="w-5 h-5 text-gray-400" />
+            <Copy className="w-5 h-5 text-slate-400" />
           </div>
         </div>
       </section>
@@ -112,10 +112,10 @@ export default function SharePage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Heart className="w-10 h-10 text-brand-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
             Your Referral Matters
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-slate-600 text-lg max-w-2xl mx-auto">
             Many of our students found us through someone who cared enough to share. A single
             referral can lead to a career, a certification, and a better future for an entire
             family.

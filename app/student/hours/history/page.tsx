@@ -28,8 +28,8 @@ export default async function HoursHistoryPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Database connection failed.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Database connection failed.</p>
         </div>
       </div>
     );
@@ -102,21 +102,21 @@ export default async function HoursHistoryPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/student" className="hover:text-gray-700">
+          <nav className="flex items-center gap-2 text-sm text-slate-500 mb-4">
+            <Link href="/student" className="hover:text-slate-700">
               Student Portal
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href="/student/hours" className="hover:text-gray-700">
+            <Link href="/student/hours" className="hover:text-slate-700">
               Hours
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">History</span>
+            <span className="text-slate-900 font-medium">History</span>
           </nav>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Hours History</h1>
-              <p className="text-gray-600 mt-1">Track your training hours</p>
+              <h1 className="text-2xl font-bold text-slate-900">Hours History</h1>
+              <p className="text-slate-600 mt-1">Track your training hours</p>
             </div>
             <Link
               href="/student/hours/log"
@@ -133,7 +133,7 @@ export default async function HoursHistoryPage() {
         {/* Progress Overview */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Hours Progress</h2>
+            <h2 className="text-lg font-semibold text-slate-900">Hours Progress</h2>
             <span className="text-2xl font-bold text-blue-600">{progressPercent}%</span>
           </div>
           <div className="h-4 bg-gray-200 rounded-full overflow-hidden mb-4">
@@ -144,18 +144,18 @@ export default async function HoursHistoryPage() {
           </div>
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
-              <p className="text-2xl font-bold text-gray-900">{approvedHours}</p>
-              <p className="text-sm text-gray-500">Approved Hours</p>
+              <p className="text-2xl font-bold text-slate-900">{approvedHours}</p>
+              <p className="text-sm text-slate-500">Approved Hours</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-yellow-600">{pendingHours}</p>
-              <p className="text-sm text-gray-500">Pending Hours</p>
+              <p className="text-sm text-slate-500">Pending Hours</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-400">
+              <p className="text-2xl font-bold text-slate-400">
                 {Math.max(requiredHours - approvedHours, 0)}
               </p>
-              <p className="text-sm text-gray-500">Remaining</p>
+              <p className="text-sm text-slate-500">Remaining</p>
             </div>
           </div>
         </div>
@@ -163,14 +163,14 @@ export default async function HoursHistoryPage() {
         {/* Hours Log */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900">Hours Log</h2>
-            <span className="text-sm text-gray-500">{entries.length} entries</span>
+            <h2 className="text-lg font-semibold text-slate-900">Hours Log</h2>
+            <span className="text-sm text-slate-500">{entries.length} entries</span>
           </div>
 
           {entries.length === 0 ? (
             <div className="p-12 text-center">
-              <Clock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600 mb-4">No hours logged yet.</p>
+              <Clock className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+              <p className="text-slate-600 mb-4">No hours logged yet.</p>
               <Link
                 href="/student/hours/log"
                 className="text-blue-600 font-medium hover:text-blue-700"
@@ -190,8 +190,8 @@ export default async function HoursHistoryPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-4">
                         <div className="w-12 text-center">
-                          <p className="text-lg font-bold text-gray-900">{hours}</p>
-                          <p className="text-xs text-gray-500">hrs</p>
+                          <p className="text-lg font-bold text-slate-900">{hours}</p>
+                          <p className="text-xs text-slate-500">hrs</p>
                         </div>
                         <div>
                           <div className="flex items-center gap-2 mb-1">
@@ -202,21 +202,21 @@ export default async function HoursHistoryPage() {
                               </span>
                             </span>
                           </div>
-                          <p className="font-medium text-gray-900">
+                          <p className="font-medium text-slate-900">
                             {entry.notes || entry.source_type?.replace(/_/g, ' ') || 'Training'}
                           </p>
                           {entry.notes && (
-                            <p className="text-sm text-gray-500 mt-0.5">{entry.notes}</p>
+                            <p className="text-sm text-slate-500 mt-0.5">{entry.notes}</p>
                           )}
                           {entry.approved_by && (
-                            <p className="text-sm text-gray-500 mt-1">
+                            <p className="text-sm text-slate-500 mt-1">
                               Approved by {entry.approved_by}
                             </p>
                           )}
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-gray-500 flex items-center gap-1">
+                        <p className="text-sm text-slate-500 flex items-center gap-1">
                           <Calendar className="w-4 h-4" />
                           {formatDate(entry.work_date)}
                         </p>

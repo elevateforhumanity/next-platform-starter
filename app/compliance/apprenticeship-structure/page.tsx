@@ -147,9 +147,9 @@ export default function ApprenticeshipStructurePage() {
 
       {/* Print header — visible only on print */}
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
-        <h1 className="text-2xl font-bold text-gray-900">Apprenticeship & RTI Structure</h1>
-        <p className="text-sm text-gray-600">Elevate for Humanity — Master Compliance Document</p>
-        <p className="text-xs text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-slate-900">Apprenticeship & RTI Structure</h1>
+        <p className="text-sm text-slate-600">Elevate for Humanity — Master Compliance Document</p>
+        <p className="text-xs text-slate-500 mt-1">
           RAPIDS ID: 2025-IN-132301 | INTraining Location ID: 10004621
         </p>
       </div>
@@ -158,8 +158,8 @@ export default function ApprenticeshipStructurePage() {
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
           <div className="border-l-4 border-brand-blue-600 pl-6 mb-8 print:border-gray-900">
-            <h2 className="text-lg font-bold text-gray-900 mb-2">Document Purpose</h2>
-            <p className="text-gray-700 text-sm leading-relaxed">
+            <h2 className="text-lg font-bold text-slate-900 mb-2">Document Purpose</h2>
+            <p className="text-slate-700 text-sm leading-relaxed">
               This document defines the institutional structure for apprenticeship and workforce
               training programs operated under Elevate for Humanity. It serves as the backbone
               reference for workforce boards, ETPL reviewers, partnership due diligence, grant
@@ -171,20 +171,20 @@ export default function ApprenticeshipStructurePage() {
           {/* Registration */}
           <div className="grid sm:grid-cols-2 gap-4 mb-10">
             <div className="bg-white rounded-lg p-5 print:border print:bg-white">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
+              <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">
                 Registered Apprenticeship Sponsor
               </p>
-              <p className="font-bold text-gray-900">
+              <p className="font-bold text-slate-900">
                 2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute)
               </p>
-              <p className="text-sm text-gray-600 mt-1">RAPIDS ID: 2025-IN-132301</p>
+              <p className="text-sm text-slate-600 mt-1">RAPIDS ID: 2025-IN-132301</p>
             </div>
             <div className="bg-white rounded-lg p-5 print:border print:bg-white">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
+              <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">
                 ETPL / INTraining
               </p>
-              <p className="font-bold text-gray-900">Location ID: 10004621</p>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="font-bold text-slate-900">Location ID: 10004621</p>
+              <p className="text-sm text-slate-600 mt-1">
                 Indiana Department of Workforce Development (DWD)
               </p>
             </div>
@@ -195,8 +195,8 @@ export default function ApprenticeshipStructurePage() {
       {/* Institutional Hierarchy */}
       <section className="py-10 print: print:border-t">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Institutional Hierarchy</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Institutional Hierarchy</h2>
+          <p className="text-slate-600 text-sm mb-6">
             Six-level accountability structure. Each level has defined authority, scope, and
             documentation requirements.
           </p>
@@ -263,13 +263,13 @@ export default function ApprenticeshipStructurePage() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <Icon className="w-4 h-4 text-brand-blue-600 print:text-gray-700" />
-                      <p className="font-bold text-gray-900 text-sm">{item.role}</p>
+                      <Icon className="w-4 h-4 text-brand-blue-600 print:text-slate-700" />
+                      <p className="font-bold text-slate-900 text-sm">{item.role}</p>
                     </div>
-                    <p className="text-brand-blue-700 text-xs font-medium mb-1 print:text-gray-700">
+                    <p className="text-brand-blue-700 text-xs font-medium mb-1 print:text-slate-700">
                       {item.entity}
                     </p>
-                    <p className="text-gray-600 text-xs leading-relaxed">{item.scope}</p>
+                    <p className="text-slate-600 text-xs leading-relaxed">{item.scope}</p>
                   </div>
                 </div>
               );
@@ -281,10 +281,10 @@ export default function ApprenticeshipStructurePage() {
       {/* RTI/OJT Hour Map */}
       <section className="py-10">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
             RTI & OJT Hour Structure by Program
           </h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <p className="text-slate-600 text-sm mb-6">
             Fixed hour minimums per program. These are not flexible — they apply regardless of which
             credential partner delivers RTI. All hours are tracked through the institutional LMS.
           </p>
@@ -293,46 +293,46 @@ export default function ApprenticeshipStructurePage() {
             <table className="w-full text-xs border-collapse print:text-[10px]">
               <thead>
                 <tr className="bg-white print:bg-white">
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">Program</th>
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">Program</th>
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">
                     Occupation
                   </th>
-                  <th className="text-center p-2.5 font-semibold text-gray-900 border-b">
+                  <th className="text-center p-2.5 font-semibold text-slate-900 border-b">
                     RTI Hrs
                   </th>
-                  <th className="text-center p-2.5 font-semibold text-gray-900 border-b">
+                  <th className="text-center p-2.5 font-semibold text-slate-900 border-b">
                     OJT Hrs
                   </th>
-                  <th className="text-center p-2.5 font-semibold text-gray-900 border-b">Total</th>
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">
+                  <th className="text-center p-2.5 font-semibold text-slate-900 border-b">Total</th>
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">
                     RTI Method
                   </th>
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">
                     Credential
                   </th>
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">
                     Issued By
                   </th>
-                  <th className="text-center p-2.5 font-semibold text-gray-900 border-b">RAPIDS</th>
+                  <th className="text-center p-2.5 font-semibold text-slate-900 border-b">RAPIDS</th>
                 </tr>
               </thead>
               <tbody>
                 {PROGRAM_HOURS.map((p, i) => (
                   <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-white/50'}>
-                    <td className="p-2.5 font-medium text-gray-900 border-b">{p.program}</td>
-                    <td className="p-2.5 text-gray-600 border-b">{p.occupation}</td>
-                    <td className="p-2.5 text-center text-brand-blue-700 font-semibold border-b print:text-gray-900">
+                    <td className="p-2.5 font-medium text-slate-900 border-b">{p.program}</td>
+                    <td className="p-2.5 text-slate-600 border-b">{p.occupation}</td>
+                    <td className="p-2.5 text-center text-brand-blue-700 font-semibold border-b print:text-slate-900">
                       {p.rtiHours}
                     </td>
-                    <td className="p-2.5 text-center text-gray-700 border-b">
+                    <td className="p-2.5 text-center text-slate-700 border-b">
                       {p.ojtHours.toLocaleString()}
                     </td>
-                    <td className="p-2.5 text-center font-semibold text-gray-900 border-b">
+                    <td className="p-2.5 text-center font-semibold text-slate-900 border-b">
                       {p.totalHours.toLocaleString()}
                     </td>
-                    <td className="p-2.5 text-gray-600 border-b">{p.rtiMethod}</td>
-                    <td className="p-2.5 text-gray-700 border-b">{p.credential}</td>
-                    <td className="p-2.5 text-gray-600 border-b">{p.issuer}</td>
+                    <td className="p-2.5 text-slate-600 border-b">{p.rtiMethod}</td>
+                    <td className="p-2.5 text-slate-700 border-b">{p.credential}</td>
+                    <td className="p-2.5 text-slate-600 border-b">{p.issuer}</td>
                     <td className="p-2.5 text-center border-b">
                       {p.registered ? (
                         <span className="text-brand-green-700 font-semibold">Yes</span>
@@ -346,7 +346,7 @@ export default function ApprenticeshipStructurePage() {
             </table>
           </div>
 
-          <p className="text-xs text-gray-500 mt-3">
+          <p className="text-xs text-slate-500 mt-3">
             RAPIDS column indicates programs currently registered under USDOL Registered
             Apprenticeship. Non-RAPIDS programs follow the same RTI/OJT structure for institutional
             consistency.
@@ -357,8 +357,8 @@ export default function ApprenticeshipStructurePage() {
       {/* Credential Issuance Chain */}
       <section className="py-10 print: print:border-t">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Credential Issuance Chain</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Credential Issuance Chain</h2>
+          <p className="text-slate-600 text-sm mb-6">
             Dual-issuer model. Elevate does not issue industry credentials. Credential partners and
             certifying bodies issue industry credentials. Elevate issues program completion
             certificates.
@@ -367,18 +367,18 @@ export default function ApprenticeshipStructurePage() {
           <div className="space-y-4">
             <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-5 print:bg-white print:border-gray-300">
               <div className="flex items-center gap-2 mb-2">
-                <GraduationCap className="w-5 h-5 text-brand-blue-600 print:text-gray-700" />
-                <h3 className="font-bold text-gray-900">Industry Credentials</h3>
-                <span className="text-xs text-gray-500 ml-auto">
+                <GraduationCap className="w-5 h-5 text-brand-blue-600 print:text-slate-700" />
+                <h3 className="font-bold text-slate-900">Industry Credentials</h3>
+                <span className="text-xs text-slate-500 ml-auto">
                   Issued by: Credential Partner or Certifying Body
                 </span>
               </div>
-              <p className="text-sm text-gray-700 mb-2">
+              <p className="text-sm text-slate-700 mb-2">
                 CNA (ISDH), CDL (BMV), IT Specialist (Certiport), IT Specialist — Cybersecurity
                 (Certiport), EPA 608 (EPA), AWS D1.1 (AWS), Indiana Barber License (PLA), OSHA 10/30
                 (OSHA), NCCER Core (NCCER)
               </p>
-              <p className="text-xs text-gray-500 italic">
+              <p className="text-xs text-slate-500 italic">
                 Elevate facilitates enrollment, training, and exam preparation. The credential is
                 issued by the licensed authority.
               </p>
@@ -386,17 +386,17 @@ export default function ApprenticeshipStructurePage() {
 
             <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-5 print:bg-white print:border-gray-300">
               <div className="flex items-center gap-2 mb-2">
-                <FileCheck className="w-5 h-5 text-brand-green-600 print:text-gray-700" />
-                <h3 className="font-bold text-gray-900">Completion Certificates</h3>
-                <span className="text-xs text-gray-500 ml-auto">
+                <FileCheck className="w-5 h-5 text-brand-green-600 print:text-slate-700" />
+                <h3 className="font-bold text-slate-900">Completion Certificates</h3>
+                <span className="text-xs text-slate-500 ml-auto">
                   Issued by: Elevate for Humanity
                 </span>
               </div>
-              <p className="text-sm text-gray-700 mb-2">
+              <p className="text-sm text-slate-700 mb-2">
                 Program completion certificates, module completion records, workforce readiness
                 certificates, RTI hour documentation
               </p>
-              <p className="text-xs text-gray-500 italic">
+              <p className="text-xs text-slate-500 italic">
                 Documents that the student completed the Elevate training pathway. Does not replace
                 industry credentials.
               </p>
@@ -404,17 +404,17 @@ export default function ApprenticeshipStructurePage() {
 
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 print:bg-white print:border-gray-300">
               <div className="flex items-center gap-2 mb-2">
-                <Shield className="w-5 h-5 text-amber-600 print:text-gray-700" />
-                <h3 className="font-bold text-gray-900">Apprenticeship Credentials</h3>
-                <span className="text-xs text-gray-500 ml-auto">
+                <Shield className="w-5 h-5 text-amber-600 print:text-slate-700" />
+                <h3 className="font-bold text-slate-900">Apprenticeship Credentials</h3>
+                <span className="text-xs text-slate-500 ml-auto">
                   Issued by: USDOL / State Apprenticeship Agency
                 </span>
               </div>
-              <p className="text-sm text-gray-700 mb-2">
+              <p className="text-sm text-slate-700 mb-2">
                 Certificate of Completion of Apprenticeship issued through the registered
                 apprenticeship framework upon completion of all RTI and OJT requirements.
               </p>
-              <p className="text-xs text-gray-500 italic">
+              <p className="text-xs text-slate-500 italic">
                 Federal credential. Elevate is the registered sponsor; DOL issues the completion
                 certificate.
               </p>
@@ -426,13 +426,13 @@ export default function ApprenticeshipStructurePage() {
       {/* RTI Delivery Model */}
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">RTI Delivery Model</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">RTI Delivery Model</h2>
+          <p className="text-slate-600 text-sm mb-6">
             How Related Technical Instruction is delivered, tracked, and validated.
           </p>
 
           <div className="bg-white rounded-lg p-6 border print:bg-white">
-            <p className="text-sm text-gray-700 leading-relaxed mb-4">
+            <p className="text-sm text-slate-700 leading-relaxed mb-4">
               Related Technical Instruction (RTI) is delivered through state-approved training
               providers and licensed credential partners aligned to occupation-specific curriculum.
               Authorized program holders coordinate curriculum delivery and RTI scheduling under
@@ -443,10 +443,10 @@ export default function ApprenticeshipStructurePage() {
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                   RTI Delivery Sources
                 </p>
-                <ul className="space-y-1 text-sm text-gray-700">
+                <ul className="space-y-1 text-sm text-slate-700">
                   <li className="flex items-start gap-2">
                     <span
                       aria-hidden
@@ -478,10 +478,10 @@ export default function ApprenticeshipStructurePage() {
                 </ul>
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                   RTI Compliance Controls
                 </p>
-                <ul className="space-y-1 text-sm text-gray-700">
+                <ul className="space-y-1 text-sm text-slate-700">
                   <li className="flex items-start gap-2">
                     <span
                       aria-hidden
@@ -520,8 +520,8 @@ export default function ApprenticeshipStructurePage() {
       {/* OJT Structure */}
       <section className="py-10 print: print:border-t">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">OJT Structure</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">OJT Structure</h2>
+          <p className="text-slate-600 text-sm mb-6">
             On-the-Job Training requirements for employer partners.
           </p>
 
@@ -545,8 +545,8 @@ export default function ApprenticeshipStructurePage() {
               },
             ].map((item, i) => (
               <div key={i} className="bg-white rounded-lg border p-4 print:bg-white">
-                <h3 className="font-semibold text-gray-900 text-sm mb-1">{item.title}</h3>
-                <p className="text-gray-600 text-xs">{item.desc}</p>
+                <h3 className="font-semibold text-slate-900 text-sm mb-1">{item.title}</h3>
+                <p className="text-slate-600 text-xs">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -556,8 +556,8 @@ export default function ApprenticeshipStructurePage() {
       {/* Competency Verification */}
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Competency-Based Assessment</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Competency-Based Assessment</h2>
+          <p className="text-slate-600 text-sm mb-6">
             All programs use competency-based assessment aligned to industry skill standards.
             Competencies are mapped to specific RTI hours, OJT hours, assessment methods, and
             objective pass criteria. Full rubric documentation is maintained in the{' '}
@@ -572,8 +572,8 @@ export default function ApprenticeshipStructurePage() {
 
           <div className="grid sm:grid-cols-2 gap-4 mb-6">
             <div className="bg-white rounded-lg p-4 print:border print:bg-white">
-              <p className="font-semibold text-gray-900 text-sm mb-2">Assessment Authority</p>
-              <ul className="space-y-1 text-xs text-gray-700">
+              <p className="font-semibold text-slate-900 text-sm mb-2">Assessment Authority</p>
+              <ul className="space-y-1 text-xs text-slate-700">
                 <li className="flex items-start gap-2">
                   <span
                     aria-hidden
@@ -598,8 +598,8 @@ export default function ApprenticeshipStructurePage() {
               </ul>
             </div>
             <div className="bg-white rounded-lg p-4 print:border print:bg-white">
-              <p className="font-semibold text-gray-900 text-sm mb-2">Evaluation Checkpoints</p>
-              <ul className="space-y-1 text-xs text-gray-700">
+              <p className="font-semibold text-slate-900 text-sm mb-2">Evaluation Checkpoints</p>
+              <ul className="space-y-1 text-xs text-slate-700">
                 <li className="flex items-start gap-2">
                   <span
                     aria-hidden
@@ -630,8 +630,8 @@ export default function ApprenticeshipStructurePage() {
       {/* LMS as Compliance System */}
       <section className="py-10 print: print:border-t">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">LMS as Compliance Record System</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">LMS as Compliance Record System</h2>
+          <p className="text-slate-600 text-sm mb-6">
             The institutional LMS is the single source of truth for all training documentation.
           </p>
 
@@ -663,8 +663,8 @@ export default function ApprenticeshipStructurePage() {
               },
             ].map((item, i) => (
               <div key={i} className="bg-white rounded-lg p-4 print:border print:bg-white">
-                <p className="font-semibold text-gray-900 text-sm mb-1">{item.label}</p>
-                <p className="text-gray-600 text-xs">{item.desc}</p>
+                <p className="font-semibold text-slate-900 text-sm mb-1">{item.label}</p>
+                <p className="text-slate-600 text-xs">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -683,19 +683,19 @@ export default function ApprenticeshipStructurePage() {
             </Link>
             <Link
               href="/instructional-framework"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructional Framework
             </Link>
             <Link
               href="/instructor-credentials"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructor Credentials
             </Link>
             <Link
               href="/compliance/workforce-partnership-packet"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Workforce Partnership Packet
             </Link>

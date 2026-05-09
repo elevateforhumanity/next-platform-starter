@@ -17,13 +17,13 @@ export function ContentPage({ title, lead, sections, cta }: ContentPageProps) {
   return (
     <section className="mx-auto max-w-4xl px-4 py-16">
       <h1 className="text-3xl font-bold">{title}</h1>
-      {lead && <p className="mt-4 text-lg text-gray-600">{lead}</p>}
+      {lead && <p className="mt-4 text-lg text-slate-600">{lead}</p>}
 
       <div className="mt-8 space-y-8">
         {sections.map((section) => (
           <div key={section.heading}>
             <h2 className="text-xl font-semibold">{section.heading}</h2>
-            <p className="mt-3 text-gray-600">{section.body}</p>
+            <p className="mt-3 text-slate-600">{section.body}</p>
           </div>
         ))}
       </div>

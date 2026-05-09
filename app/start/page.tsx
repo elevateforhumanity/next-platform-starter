@@ -88,20 +88,20 @@ export default function StartPage() {
 
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
               <div className="rounded-2xl border border-gray-200 bg-white p-5">
-                <div className="text-lg font-semibold text-gray-900">1. Apply once</div>
-                <p className="mt-2 text-sm text-gray-600">
+                <div className="text-lg font-semibold text-slate-900">1. Apply once</div>
+                <p className="mt-2 text-sm text-slate-600">
                   One clean intake. No bouncing between pages.
                 </p>
               </div>
               <div className="rounded-2xl border border-gray-200 bg-white p-5">
-                <div className="text-lg font-semibold text-gray-900">2. Get guided</div>
-                <p className="mt-2 text-sm text-gray-600">
+                <div className="text-lg font-semibold text-slate-900">2. Get guided</div>
+                <p className="mt-2 text-sm text-slate-600">
                   We identify what you need for funding and enrollment.
                 </p>
               </div>
               <div className="rounded-2xl border border-gray-200 bg-white p-5">
-                <div className="text-lg font-semibold text-gray-900">3. Start training</div>
-                <p className="mt-2 text-sm text-gray-600">
+                <div className="text-lg font-semibold text-slate-900">3. Start training</div>
+                <p className="mt-2 text-sm text-slate-600">
                   Move from interest to approval without confusion.
                 </p>
               </div>
@@ -117,15 +117,15 @@ export default function StartPage() {
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3">
                   <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-green-600" />
-                  <span className="text-gray-700">{item}</span>
+                  <span className="text-slate-700">{item}</span>
                 </div>
               ))}
             </div>
 
             {/* Contact fallback */}
             <div className="mt-10 rounded-2xl border border-gray-200 bg-white p-5">
-              <p className="font-medium text-gray-900">Prefer to talk to someone?</p>
-              <p className="mt-1 text-sm text-gray-600">
+              <p className="font-medium text-slate-900">Prefer to talk to someone?</p>
+              <p className="mt-1 text-sm text-slate-600">
                 Call{' '}
                 <a
                   href="tel:+13173143757"
@@ -160,7 +160,7 @@ export default function StartPage() {
       {/* Pathway cards — secondary navigation */}
       <section className="border-t py-12 md:py-16">
         <div className="mx-auto max-w-5xl px-4">
-          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900">
+          <h2 className="mb-8 text-center text-2xl font-bold text-slate-900">
             Not ready to apply? Explore your options.
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -174,8 +174,8 @@ export default function StartPage() {
                   <pathway.icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">{pathway.title}</h3>
-                  <p className="mt-1 text-sm text-gray-600">{pathway.description}</p>
+                  <h3 className="font-bold text-slate-900">{pathway.title}</h3>
+                  <p className="mt-1 text-sm text-slate-600">{pathway.description}</p>
                 </div>
               </Link>
             ))}

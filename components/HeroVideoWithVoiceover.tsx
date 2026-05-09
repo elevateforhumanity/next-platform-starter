@@ -74,7 +74,7 @@ export default function HeroVideoWithVoiceover({
         {voiceoverSrc && showButton && (
           <button
             onClick={handlePlaySound}
-            className="fixed bottom-6 right-6 z-50 bg-white/90 hover:bg-white text-gray-900 px-4 py-2 rounded-full shadow-lg flex items-center gap-2 transition-all"
+            className="fixed bottom-6 right-6 z-50 bg-white/90 hover:bg-white text-slate-900 px-4 py-2 rounded-full shadow-lg flex items-center gap-2 transition-all"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path

@@ -33,8 +33,8 @@ export default async function StudentPortalPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Database connection failed.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Database connection failed.</p>
         </div>
       </div>
     );
@@ -143,8 +143,8 @@ export default async function StudentPortalPage() {
                 <BookOpen className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">{enrollments?.length || 0}</p>
-                <p className="text-sm text-gray-500">Active Courses</p>
+                <p className="text-2xl font-bold text-slate-900">{enrollments?.length || 0}</p>
+                <p className="text-sm text-slate-500">Active Courses</p>
               </div>
             </div>
           </div>
@@ -154,8 +154,8 @@ export default async function StudentPortalPage() {
                 <TrendingUp className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">{completedModules || 0}</p>
-                <p className="text-sm text-gray-500">Modules Done</p>
+                <p className="text-2xl font-bold text-slate-900">{completedModules || 0}</p>
+                <p className="text-sm text-slate-500">Modules Done</p>
               </div>
             </div>
           </div>
@@ -165,8 +165,8 @@ export default async function StudentPortalPage() {
                 <Clock className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">24</p>
-                <p className="text-sm text-gray-500">Hours Logged</p>
+                <p className="text-2xl font-bold text-slate-900">24</p>
+                <p className="text-sm text-slate-500">Hours Logged</p>
               </div>
             </div>
           </div>
@@ -176,8 +176,8 @@ export default async function StudentPortalPage() {
                 <Award className="w-5 h-5 text-yellow-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">3</p>
-                <p className="text-sm text-gray-500">Badges Earned</p>
+                <p className="text-2xl font-bold text-slate-900">3</p>
+                <p className="text-sm text-slate-500">Badges Earned</p>
               </div>
             </div>
           </div>
@@ -198,7 +198,7 @@ export default async function StudentPortalPage() {
                 >
                   <Icon className="w-6 h-6" />
                 </div>
-                <p className="font-medium text-gray-900">{link.label}</p>
+                <p className="font-medium text-slate-900">{link.label}</p>
               </Link>
             );
           })}
@@ -207,7 +207,7 @@ export default async function StudentPortalPage() {
         {/* Current Courses */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-8">
           <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900">Current Courses</h2>
+            <h2 className="text-lg font-semibold text-slate-900">Current Courses</h2>
             <Link
               href="/student/courses"
               className="text-blue-600 hover:text-blue-700 text-sm font-medium"
@@ -225,10 +225,10 @@ export default async function StudentPortalPage() {
                         <BookOpen className="w-6 h-6 text-blue-600" />
                       </div>
                       <div>
-                        <h3 className="font-medium text-gray-900">
+                        <h3 className="font-medium text-slate-900">
                           {enrollment.programs?.name || 'Course'}
                         </h3>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-slate-500">
                           {enrollment.programs?.code || 'In Progress'}
                         </p>
                       </div>
@@ -246,8 +246,8 @@ export default async function StudentPortalPage() {
             </div>
           ) : (
             <div className="px-6 py-12 text-center">
-              <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">No active courses</p>
+              <BookOpen className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+              <p className="text-slate-500">No active courses</p>
               <Link
                 href="/programs"
                 className="text-blue-600 hover:text-blue-700 text-sm font-medium mt-2 inline-block"
@@ -262,21 +262,21 @@ export default async function StudentPortalPage() {
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900">Upcoming Deadlines</h2>
+              <h2 className="text-lg font-semibold text-slate-900">Upcoming Deadlines</h2>
             </div>
             <div className="px-6 py-8 text-center">
-              <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">No upcoming deadlines</p>
+              <Calendar className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+              <p className="text-slate-500">No upcoming deadlines</p>
             </div>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900">Recent Achievements</h2>
+              <h2 className="text-lg font-semibold text-slate-900">Recent Achievements</h2>
             </div>
             <div className="px-6 py-8 text-center">
-              <Award className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">Complete modules to earn badges</p>
+              <Award className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+              <p className="text-slate-500">Complete modules to earn badges</p>
             </div>
           </div>
         </div>

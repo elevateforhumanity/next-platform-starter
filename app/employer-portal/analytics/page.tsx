@@ -108,9 +108,9 @@ export default async function AnalyticsPage() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <BarChart3 className="w-8 h-8 text-indigo-600" />
-                <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
+                <h1 className="text-3xl font-bold text-slate-900">Analytics</h1>
               </div>
-              <p className="text-gray-600">Track your hiring performance and metrics</p>
+              <p className="text-slate-600">Track your hiring performance and metrics</p>
             </div>
             <div className="flex gap-3">
               <button className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
@@ -133,8 +133,8 @@ export default async function AnalyticsPage() {
                     <metric.icon className="w-6 h-6 text-indigo-600" />
                   </div>
                 </div>
-                <p className="text-3xl font-bold text-gray-900">{metric.value}</p>
-                <p className="text-gray-500 text-sm mt-1">{metric.label}</p>
+                <p className="text-3xl font-bold text-slate-900">{metric.value}</p>
+                <p className="text-slate-500 text-sm mt-1">{metric.label}</p>
               </div>
             ))}
           </div>
@@ -146,7 +146,7 @@ export default async function AnalyticsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">Hiring Summary</h3>
+              <h3 className="text-lg font-semibold text-slate-900 mb-6">Hiring Summary</h3>
               <div className="space-y-5">
                 {[
                   { label: 'Total Job Postings', value: totalJobs.toString() },
@@ -156,9 +156,9 @@ export default async function AnalyticsPage() {
                   { label: 'Hire Rate', value: `${hireRate}%`, green: true },
                 ].map((row) => (
                   <div key={row.label} className="flex justify-between text-sm">
-                    <span className="text-gray-600">{row.label}</span>
+                    <span className="text-slate-600">{row.label}</span>
                     <span
-                      className={`font-semibold ${row.green ? 'text-brand-green-600' : 'text-gray-900'}`}
+                      className={`font-semibold ${row.green ? 'text-brand-green-600' : 'text-slate-900'}`}
                     >
                       {row.value}
                     </span>
@@ -168,7 +168,7 @@ export default async function AnalyticsPage() {
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">Job Status Breakdown</h3>
+              <h3 className="text-lg font-semibold text-slate-900 mb-6">Job Status Breakdown</h3>
               {statusEntries.length > 0 ? (
                 <div className="space-y-4">
                   {statusEntries.map(([status, count]) => {
@@ -176,8 +176,8 @@ export default async function AnalyticsPage() {
                     return (
                       <div key={status}>
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-gray-700 capitalize">{status}</span>
-                          <span className="font-semibold text-gray-900">
+                          <span className="text-slate-700 capitalize">{status}</span>
+                          <span className="font-semibold text-slate-900">
                             {count} ({pct}%)
                           </span>
                         </div>
@@ -192,7 +192,7 @@ export default async function AnalyticsPage() {
                   })}
                 </div>
               ) : (
-                <p className="text-gray-500 text-center py-8">
+                <p className="text-slate-500 text-center py-8">
                   No job postings yet. Post your first job to see analytics.
                 </p>
               )}
@@ -206,22 +206,22 @@ export default async function AnalyticsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="p-6 border-b border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900">Top Jobs by Positions Filled</h3>
+              <h3 className="text-lg font-semibold text-slate-900">Top Jobs by Positions Filled</h3>
             </div>
             {topJobs.length > 0 ? (
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                       Job Title
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                       Positions
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                       Filled
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                       Status
                     </th>
                   </tr>
@@ -230,9 +230,9 @@ export default async function AnalyticsPage() {
                   {topJobs.map((job, index) => (
                     <tr key={index} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
-                        <span className="font-medium text-gray-900">{job.title}</span>
+                        <span className="font-medium text-slate-900">{job.title}</span>
                       </td>
-                      <td className="px-6 py-4 text-gray-600">{job.positions}</td>
+                      <td className="px-6 py-4 text-slate-600">{job.positions}</td>
                       <td className="px-6 py-4">
                         <span className="text-brand-green-600 font-medium">{job.filled}</span>
                       </td>
@@ -242,7 +242,7 @@ export default async function AnalyticsPage() {
                             job.status === 'active'
                               ? 'bg-brand-green-100 text-brand-green-700'
                               : job.status === 'closed'
-                                ? 'bg-gray-100 text-gray-700'
+                                ? 'bg-gray-100 text-slate-700'
                                 : 'bg-yellow-100 text-yellow-700'
                           }`}
                         >
@@ -255,8 +255,8 @@ export default async function AnalyticsPage() {
               </table>
             ) : (
               <div className="p-12 text-center">
-                <Briefcase className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-600">No job postings yet.</p>
+                <Briefcase className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                <p className="text-slate-600">No job postings yet.</p>
                 <Link
                   href="/employer-portal/jobs/new"
                   className="inline-flex items-center gap-2 mt-4 text-brand-blue-600 hover:text-brand-blue-700 font-medium"

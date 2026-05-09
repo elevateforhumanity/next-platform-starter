@@ -87,8 +87,8 @@ export default async function JobPostingsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Job Postings</h1>
-              <p className="text-gray-600 mt-1">
+              <h1 className="text-3xl font-bold text-slate-900">Job Postings</h1>
+              <p className="text-slate-600 mt-1">
                 Manage your open positions and track applications
               </p>
             </div>
@@ -108,7 +108,7 @@ export default async function JobPostingsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search jobs..."
@@ -145,20 +145,20 @@ export default async function JobPostingsPage() {
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-xl font-bold text-gray-900">{job.title}</h3>
+                          <h3 className="text-xl font-bold text-slate-900">{job.title}</h3>
                           <span
                             className={`px-3 py-1 rounded-full text-xs font-medium ${
                               job.status === 'active'
                                 ? 'bg-brand-green-100 text-brand-green-700'
                                 : job.status === 'paused'
                                   ? 'bg-yellow-100 text-yellow-700'
-                                  : 'bg-gray-100 text-gray-700'
+                                  : 'bg-gray-100 text-slate-700'
                             }`}
                           >
                             {job.status}
                           </span>
                         </div>
-                        <div className="flex flex-wrap items-center gap-4 text-gray-500 text-sm">
+                        <div className="flex flex-wrap items-center gap-4 text-slate-500 text-sm">
                           <span className="flex items-center gap-1">
                             <MapPin className="w-4 h-4" />
                             {job.location}
@@ -178,19 +178,19 @@ export default async function JobPostingsPage() {
                         </div>
                       </div>
                       <button className="p-2 hover:bg-gray-100 rounded-lg">
-                        <MoreVertical className="w-5 h-5 text-gray-400" />
+                        <MoreVertical className="w-5 h-5 text-slate-400" />
                       </button>
                     </div>
 
                     <div className="flex items-center gap-6 mt-6">
                       <div className="flex items-center gap-2">
                         <Users className="w-5 h-5 text-brand-blue-600" />
-                        <span className="font-semibold text-gray-900">{job.positions}</span>
-                        <span className="text-gray-500">positions</span>
+                        <span className="font-semibold text-slate-900">{job.positions}</span>
+                        <span className="text-slate-500">positions</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-brand-green-600">{job.filled}</span>
-                        <span className="text-gray-500">filled</span>
+                        <span className="text-slate-500">filled</span>
                       </div>
                     </div>
 
@@ -203,7 +203,7 @@ export default async function JobPostingsPage() {
                       </Link>
                       <Link
                         href={`/employer-portal/jobs/${job.id}/edit`}
-                        className="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
+                        className="px-4 py-2 border border-gray-300 text-slate-700 font-medium rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
                       >
                         <Edit className="w-4 h-4" />
                         Edit
@@ -215,9 +215,9 @@ export default async function JobPostingsPage() {
             </div>
           ) : (
             <div className="text-center py-16">
-              <Briefcase className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No job postings yet</h3>
-              <p className="text-gray-600 mb-6">
+              <Briefcase className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">No job postings yet</h3>
+              <p className="text-slate-600 mb-6">
                 Create your first job posting to start receiving applications.
               </p>
               <Link

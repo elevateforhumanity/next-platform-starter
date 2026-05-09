@@ -17,6 +17,21 @@ export function getSiteUrl(): string {
  * Returns the canonical admin URL.
  */
 export function getAdminUrl(): string {
+  const fallback = 'https://admin.elevateforhumanity.org';
   const env = (process.env.NEXT_PUBLIC_ADMIN_URL || '').trim();
-  return env || 'https://admin.elevateforhumanity.org';
+  if (!env) return fallback;
+
+  try {
+    const url = new URL(env);
+    const host = url.hostname.toLowerCase();
+
+    // Guard against exposing raw AWS ALB hostnames in user-facing links.
+    if (host.endsWith('.elb.amazonaws.com')) {
+      return fallback;
+    }
+
+    return `${url.protocol}//${url.host}`;
+  } catch {
+    return fallback;
+  }
 }

@@ -85,7 +85,7 @@ export default function AcademicCalendarPage() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Terms */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
             <Calendar className="w-6 h-6 text-brand-blue-600" />
             {currentYear} Terms
           </h2>
@@ -95,8 +95,8 @@ export default function AcademicCalendarPage() {
                 key={term.name}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{term.name}</h3>
-                <div className="space-y-3 text-gray-600">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">{term.name}</h3>
+                <div className="space-y-3 text-slate-600">
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5 text-brand-green-600" />
                     <span>
@@ -123,7 +123,7 @@ export default function AcademicCalendarPage() {
 
         {/* Holidays */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
             <GraduationCap className="w-6 h-6 text-brand-blue-600" />
             Holidays & Breaks
           </h2>
@@ -131,17 +131,17 @@ export default function AcademicCalendarPage() {
             <table className="w-full">
               <thead className="bg-white">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">
                     Holiday
                   </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Date</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {holidays.map((holiday) => (
                   <tr key={holiday.name}>
-                    <td className="px-6 py-4 text-gray-900">{holiday.name}</td>
-                    <td className="px-6 py-4 text-gray-600">{holiday.date}</td>
+                    <td className="px-6 py-4 text-slate-900">{holiday.name}</td>
+                    <td className="px-6 py-4 text-slate-600">{holiday.date}</td>
                   </tr>
                 ))}
               </tbody>
@@ -151,8 +151,8 @@ export default function AcademicCalendarPage() {
 
         {/* CTA */}
         <section className="bg-brand-blue-50 rounded-xl p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Enroll?</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Ready to Enroll?</h2>
+          <p className="text-slate-600 mb-6">
             Start your career training journey today. Most programs are FREE through WIOA funding.
           </p>
           <Link

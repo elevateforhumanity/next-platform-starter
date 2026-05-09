@@ -54,8 +54,8 @@ export default async function ShoppingCartPage() {
 
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-2xl font-bold text-gray-900">Shopping Cart</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-2xl font-bold text-slate-900">Shopping Cart</h1>
+          <p className="text-slate-600 mt-1">
             {items.length} {items.length === 1 ? 'item' : 'items'} in your cart
           </p>
         </div>
@@ -76,18 +76,18 @@ export default async function ShoppingCartPage() {
 
             <div>
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-8">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
+                <h2 className="text-lg font-semibold text-slate-900 mb-4">Order Summary</h2>
                 <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-gray-600">
+                  <div className="flex justify-between text-slate-600">
                     <span>Subtotal</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600">
+                  <div className="flex justify-between text-slate-600">
                     <span>Tax (7%)</span>
                     <span>${tax.toFixed(2)}</span>
                   </div>
                   <div className="border-t border-gray-200 pt-3">
-                    <div className="flex justify-between text-lg font-semibold text-gray-900">
+                    <div className="flex justify-between text-lg font-semibold text-slate-900">
                       <span>Total</span>
                       <span>${total.toFixed(2)}</span>
                     </div>
@@ -99,7 +99,7 @@ export default async function ShoppingCartPage() {
                 >
                   <CreditCard className="w-5 h-5" /> Proceed to Checkout
                 </Link>
-                <div className="flex items-center justify-center gap-2 mt-4 text-sm text-gray-500">
+                <div className="flex items-center justify-center gap-2 mt-4 text-sm text-slate-500">
                   <Lock className="w-4 h-4" /> Secure checkout
                 </div>
               </div>
@@ -107,9 +107,9 @@ export default async function ShoppingCartPage() {
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-            <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
-            <p className="text-gray-600 mb-6">Browse our products and add items to your cart.</p>
+            <ShoppingCart className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold text-slate-900 mb-2">Your cart is empty</h2>
+            <p className="text-slate-600 mb-6">Browse our products and add items to your cart.</p>
             <Link
               href="/shop/products"
               className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"

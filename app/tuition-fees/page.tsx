@@ -220,8 +220,8 @@ export default async function TuitionFeesPage() {
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Important Notice */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6 mb-8">
-          <h2 className="font-bold text-gray-900 mb-2">Important Information</h2>
-          <ul className="text-gray-700 space-y-2">
+          <h2 className="font-bold text-slate-900 mb-2">Important Information</h2>
+          <ul className="text-slate-700 space-y-2">
             <li>
               • All tuition amounts are fixed and not subject to change during your enrollment
               period
@@ -261,7 +261,7 @@ export default async function TuitionFeesPage() {
             <tbody>
               {programs.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-gray-500">
+                  <td colSpan={7} className="p-8 text-center text-slate-500">
                     Program schedule is being updated.{' '}
                     <Link href="/programs" className="text-brand-orange-600 hover:underline">
                       View active programs
@@ -276,21 +276,21 @@ export default async function TuitionFeesPage() {
               ) : (
                 programs.map((program: any, index: number) => (
                   <tr key={program.name} className={index % 2 === 0 ? 'bg-white' : 'bg-white'}>
-                    <td className="p-4 font-medium text-gray-900">{program.name}</td>
-                    <td className="p-4 text-gray-700">{program.duration}</td>
-                    <td className="p-4 text-right text-gray-900">
+                    <td className="p-4 font-medium text-slate-900">{program.name}</td>
+                    <td className="p-4 text-slate-700">{program.duration}</td>
+                    <td className="p-4 text-right text-slate-900">
                       ${program.tuition.toLocaleString()}
                     </td>
-                    <td className="p-4 text-right text-gray-700">
+                    <td className="p-4 text-right text-slate-700">
                       {program.examFees > 0 ? `$${program.examFees}` : '—'}
                     </td>
-                    <td className="p-4 text-right text-gray-700">
+                    <td className="p-4 text-right text-slate-700">
                       {program.materials > 0 ? `$${program.materials}` : '—'}
                     </td>
-                    <td className="p-4 text-right font-bold text-gray-900">
+                    <td className="p-4 text-right font-bold text-slate-900">
                       ${program.total.toLocaleString()}
                     </td>
-                    <td className="p-4 text-gray-700 text-sm">{program.fundingType}</td>
+                    <td className="p-4 text-slate-700 text-sm">{program.fundingType}</td>
                   </tr>
                 ))
               )}
@@ -300,13 +300,13 @@ export default async function TuitionFeesPage() {
 
         {/* Exam Fees Explanation */}
         <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h3 className="font-bold text-gray-900 mb-4">*Third-Party Exam Fees</h3>
-          <p className="text-gray-700 mb-4">
+          <h3 className="font-bold text-slate-900 mb-4">*Third-Party Exam Fees</h3>
+          <p className="text-slate-700 mb-4">
             Some programs prepare students for industry certification exams administered by third
             parties. These fees are paid directly to the certifying organization and are not
             collected by Elevate for Humanity.
           </p>
-          <ul className="text-gray-700 space-y-2 text-sm">
+          <ul className="text-slate-700 space-y-2 text-sm">
             {programs
               .filter((p: any) => p.examFees > 0)
               .map((program: any) => (
@@ -319,27 +319,27 @@ export default async function TuitionFeesPage() {
 
         {/* Payment Options */}
         <section className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Payment Options</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Payment Options</h2>
 
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg p-6">
-              <h3 className="font-bold text-gray-900 mb-2">Pay in Full</h3>
-              <p className="text-gray-700 text-sm">
+              <h3 className="font-bold text-slate-900 mb-2">Pay in Full</h3>
+              <p className="text-slate-700 text-sm">
                 Pay the full tuition amount at enrollment. No additional fees.
               </p>
             </div>
 
             <div className="bg-white rounded-lg p-6">
-              <h3 className="font-bold text-gray-900 mb-2">Payment Plan</h3>
-              <p className="text-gray-700 text-sm">
+              <h3 className="font-bold text-slate-900 mb-2">Payment Plan</h3>
+              <p className="text-slate-700 text-sm">
                 Split your tuition into monthly payments. Down payment required at enrollment. No
                 interest charged.
               </p>
             </div>
 
             <div className="bg-white rounded-lg p-6">
-              <h3 className="font-bold text-gray-900 mb-2">Workforce Funding</h3>
-              <p className="text-gray-700 text-sm">
+              <h3 className="font-bold text-slate-900 mb-2">Workforce Funding</h3>
+              <p className="text-slate-700 text-sm">
                 Eligible programs may be funded through WIOA or WRG. Contact your local WorkOne
                 office to determine eligibility.
               </p>
@@ -349,11 +349,11 @@ export default async function TuitionFeesPage() {
 
         {/* Additional Fees */}
         <section className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Additional Information</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Additional Information</h2>
 
           <div className="bg-white rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-4">What's Included in Tuition</h3>
-            <ul className="text-gray-700 space-y-2">
+            <h3 className="font-bold text-slate-900 mb-4">What's Included in Tuition</h3>
+            <ul className="text-slate-700 space-y-2">
               <li>• All instruction (online and in-person)</li>
               <li>• Access to Learning Management System (LMS)</li>
               <li>• Course materials and handouts</li>
@@ -363,8 +363,8 @@ export default async function TuitionFeesPage() {
           </div>
 
           <div className="bg-white rounded-lg p-6 mt-4">
-            <h3 className="font-bold text-gray-900 mb-4">Not Included in Tuition</h3>
-            <ul className="text-gray-700 space-y-2">
+            <h3 className="font-bold text-slate-900 mb-4">Not Included in Tuition</h3>
+            <ul className="text-slate-700 space-y-2">
               <li>• Third-party certification exam fees (listed above)</li>
               <li>• Background checks required by employers (varies)</li>
               <li>• Drug screening required by employers (varies)</li>
@@ -376,7 +376,7 @@ export default async function TuitionFeesPage() {
 
         {/* Footer Links */}
         <div className="mt-12 pt-8 border-t text-center">
-          <p className="text-gray-600 mb-4">
+          <p className="text-slate-600 mb-4">
             Questions about tuition or payment options? Contact us at (317) 314-3757 or our contact
             form
           </p>

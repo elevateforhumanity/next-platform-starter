@@ -205,7 +205,7 @@ export default function InstructorCredentialsPage() {
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
           <div className="border-l-4 border-brand-blue-600 pl-6 mb-8">
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-slate-700 leading-relaxed">
               All instructors delivering Related Technical Instruction (RTI) through Elevate
               programs hold occupation-specific credentials that match the program they teach. This
               page documents the qualification standards for each program, the role of credential
@@ -216,37 +216,37 @@ export default function InstructorCredentialsPage() {
           <div className="grid sm:grid-cols-3 gap-4 mb-10">
             <div className="bg-white rounded-lg p-4 text-center">
               <GraduationCap className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-gray-900">Credential Partners</p>
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-sm font-semibold text-slate-900">Credential Partners</p>
+              <p className="text-xs text-slate-600 mt-1">
                 State-approved or licensed instructional authorities
               </p>
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
               <FileCheck className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-gray-900">Program Holders</p>
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-sm font-semibold text-slate-900">Program Holders</p>
+              <p className="text-xs text-slate-600 mt-1">
                 Authorized RTI coordinators under licensed supervision
               </p>
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
               <Award className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-gray-900">Subject Matter Experts</p>
-              <p className="text-xs text-gray-600 mt-1">Supplemental instruction and mentoring</p>
+              <p className="text-sm font-semibold text-slate-900">Subject Matter Experts</p>
+              <p className="text-xs text-slate-600 mt-1">Supplemental instruction and mentoring</p>
             </div>
           </div>
 
           {/* Qualification Standard */}
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-10">
-            <h2 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+            <h2 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
               <Shield className="w-5 h-5 text-amber-600" />
               Instructor Qualification Standard
             </h2>
-            <p className="text-sm text-gray-700 mb-3">
+            <p className="text-sm text-slate-700 mb-3">
               For apprenticeship compliance and ETPL review, RTI instructors must be clearly
               qualified for the occupation they teach. The following standards apply across all
               programs:
             </p>
-            <ul className="space-y-2 text-sm text-gray-700">
+            <ul className="space-y-2 text-sm text-slate-700">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                 <span>
@@ -283,10 +283,10 @@ export default function InstructorCredentialsPage() {
       {/* Per-Program Credential Details */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Program-Specific Instructor Requirements
           </h2>
-          <p className="text-gray-600 mb-8">
+          <p className="text-slate-600 mb-8">
             Detailed qualification standards for each program, including credential partner type,
             instructor requirements, program holder role, and SME scope.
           </p>
@@ -303,23 +303,23 @@ export default function InstructorCredentialsPage() {
                 <div className="p-6 space-y-5">
                   {/* Credential Partner */}
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
                       <GraduationCap className="w-3.5 h-3.5" /> Credential Partner (Tier 1)
                     </p>
-                    <p className="text-sm text-gray-900 font-medium">{prog.credentialPartner}</p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-sm text-slate-900 font-medium">{prog.credentialPartner}</p>
+                    <p className="text-xs text-slate-500 mt-1">
                       Regulatory body: {prog.regulatoryBody}
                     </p>
                   </div>
 
                   {/* Instructor Requirements */}
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                       Instructor Qualification Requirements
                     </p>
                     <ul className="space-y-1">
                       {prog.instructorRequirements.map((req, j) => (
-                        <li key={j} className="text-sm text-gray-700 flex items-start gap-2">
+                        <li key={j} className="text-sm text-slate-700 flex items-start gap-2">
                           <ClipboardCheck className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                           {req}
                         </li>
@@ -329,26 +329,26 @@ export default function InstructorCredentialsPage() {
 
                   {/* Program Holder Role */}
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
                       <FileCheck className="w-3.5 h-3.5" /> Program Holder Role (Tier 2)
                     </p>
-                    <p className="text-sm text-gray-700">{prog.programHolderRole}</p>
+                    <p className="text-sm text-slate-700">{prog.programHolderRole}</p>
                   </div>
 
                   {/* SME Scope */}
                   <div>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
                       <Award className="w-3.5 h-3.5" /> SME Scope (Tier 3)
                     </p>
-                    <p className="text-sm text-gray-700">{prog.smeScope}</p>
+                    <p className="text-sm text-slate-700">{prog.smeScope}</p>
                   </div>
 
                   {/* Credential Issued */}
                   <div className="bg-white rounded-lg p-3">
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
                       Credential Issued
                     </p>
-                    <p className="text-sm text-gray-900 font-medium">{prog.credentialIssued}</p>
+                    <p className="text-sm text-slate-900 font-medium">{prog.credentialIssued}</p>
                   </div>
                 </div>
               </div>
@@ -360,8 +360,8 @@ export default function InstructorCredentialsPage() {
       {/* MOU Framework */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">MOU & Agreement Framework</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">MOU & Agreement Framework</h2>
+          <p className="text-slate-600 mb-6">
             All instructional partners operate under signed agreements that define scope,
             accountability, and compliance requirements.
           </p>
@@ -395,10 +395,10 @@ export default function InstructorCredentialsPage() {
             ].map((item, i) => (
               <div key={i} className="border rounded-lg p-5">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
-                  <span className="font-semibold text-gray-900">{item.type}</span>
-                  <span className="text-xs text-gray-500 sm:ml-auto">{item.parties}</span>
+                  <span className="font-semibold text-slate-900">{item.type}</span>
+                  <span className="text-xs text-slate-500 sm:ml-auto">{item.parties}</span>
                 </div>
-                <p className="text-gray-600 text-sm">
+                <p className="text-slate-600 text-sm">
                   <span className="font-medium">Covers:</span> {item.covers}
                 </p>
               </div>
@@ -406,7 +406,7 @@ export default function InstructorCredentialsPage() {
           </div>
 
           <div className="mt-6 bg-white border rounded-lg p-4">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-slate-700">
               <span className="font-semibold">Disclosure:</span> Specific provider names, MOU
               documents, and instructor credential files are maintained in internal compliance
               records and disclosed to authorized reviewers (ETPL, DWD, DOL, workforce boards) upon
@@ -428,19 +428,19 @@ export default function InstructorCredentialsPage() {
             </Link>
             <Link
               href="/accreditation"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Accreditation & Approvals
             </Link>
             <Link
               href="/workone-partner-packet"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               WorkOne Partner Packet
             </Link>
             <Link
               href="/pathways/training-model"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               How Training Works
             </Link>

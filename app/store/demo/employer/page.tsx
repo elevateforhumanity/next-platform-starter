@@ -94,7 +94,7 @@ export default function EmployerDemoPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
-              <Link href="/store/demo" className="text-gray-500 hover:text-gray-700">
+              <Link href="/store/demo" className="text-slate-500 hover:text-slate-700">
                 <ArrowLeft className="w-5 h-5" />
               </Link>
               <div className="flex items-center gap-3">
@@ -103,7 +103,7 @@ export default function EmployerDemoPage() {
                 </div>
                 <div>
                   <div className="font-semibold">Acme Staffing Co.</div>
-                  <div className="text-sm text-gray-500">Employer Partner</div>
+                  <div className="text-sm text-slate-500">Employer Partner</div>
                 </div>
               </div>
             </div>
@@ -132,7 +132,7 @@ export default function EmployerDemoPage() {
                 className={`flex items-center gap-2 py-4 border-b-2 font-medium transition ${
                   activeTab === tab.id
                     ? 'border-green-600 text-green-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                    : 'border-transparent text-slate-500 hover:text-slate-700'
                 }`}
               >
                 <tab.icon className="w-4 h-4" />
@@ -151,19 +151,19 @@ export default function EmployerDemoPage() {
             <div className="grid md:grid-cols-4 gap-6">
               <div className="bg-white rounded-xl p-6 shadow-sm">
                 <div className="text-3xl font-bold text-green-600">2</div>
-                <div className="text-gray-600">Active Jobs</div>
+                <div className="text-slate-600">Active Jobs</div>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-sm">
                 <div className="text-3xl font-bold text-blue-600">20</div>
-                <div className="text-gray-600">Total Applicants</div>
+                <div className="text-slate-600">Total Applicants</div>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-sm">
                 <div className="text-3xl font-bold text-blue-600">5</div>
-                <div className="text-gray-600">Interviews Scheduled</div>
+                <div className="text-slate-600">Interviews Scheduled</div>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-sm">
                 <div className="text-3xl font-bold text-orange-600">3</div>
-                <div className="text-gray-600">Hires This Month</div>
+                <div className="text-slate-600">Hires This Month</div>
               </div>
             </div>
 
@@ -176,11 +176,11 @@ export default function EmployerDemoPage() {
                     <div key={job.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                       <div>
                         <h3 className="font-semibold">{job.title}</h3>
-                        <p className="text-sm text-gray-500">{job.location} • {job.type}</p>
+                        <p className="text-sm text-slate-500">{job.location} • {job.type}</p>
                       </div>
                       <div className="text-right">
                         <div className="font-semibold text-green-600">{job.applicants} applicants</div>
-                        <div className="text-sm text-gray-500">{job.posted}</div>
+                        <div className="text-sm text-slate-500">{job.posted}</div>
                       </div>
                     </div>
                   ))}
@@ -197,7 +197,7 @@ export default function EmployerDemoPage() {
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold">{candidate.name}</h3>
-                        <p className="text-sm text-gray-500">{candidate.program}</p>
+                        <p className="text-sm text-slate-500">{candidate.program}</p>
                       </div>
                       <div className="flex items-center gap-1 text-yellow-500">
                         <Star className="w-4 h-4 fill-current" />
@@ -226,7 +226,7 @@ export default function EmployerDemoPage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="text-lg font-bold">{job.title}</h3>
-                      <div className="flex items-center gap-4 text-sm text-gray-500 mt-2">
+                      <div className="flex items-center gap-4 text-sm text-slate-500 mt-2">
                         <span className="flex items-center gap-1">
                           <MapPin className="w-4 h-4" />
                           {job.location}
@@ -243,7 +243,7 @@ export default function EmployerDemoPage() {
                     </span>
                   </div>
                   <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                    <span className="text-sm text-gray-500">{job.applicants} applicants • Posted {job.posted}</span>
+                    <span className="text-sm text-slate-500">{job.applicants} applicants • Posted {job.posted}</span>
                     <div className="flex gap-2">
                       <button className="px-4 py-2 border rounded-lg font-medium hover:bg-gray-50">
                         View Applicants
@@ -265,7 +265,7 @@ export default function EmployerDemoPage() {
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <div className="flex gap-4">
                 <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     type="text"
                     placeholder="Search candidates by skill, program, or name..."
@@ -289,7 +289,7 @@ export default function EmployerDemoPage() {
                       </div>
                       <div>
                         <h3 className="font-bold text-lg">{candidate.name}</h3>
-                        <p className="text-sm text-gray-500">{candidate.program}</p>
+                        <p className="text-sm text-slate-500">{candidate.program}</p>
                         <div className="flex items-center gap-1 text-yellow-500 mt-1">
                           <Star className="w-4 h-4 fill-current" />
                           <span className="font-medium">{candidate.rating}</span>
@@ -298,7 +298,7 @@ export default function EmployerDemoPage() {
                     </div>
                     
                     <div className="mb-4">
-                      <div className="text-sm text-gray-500 mb-2">Skills</div>
+                      <div className="text-sm text-slate-500 mb-2">Skills</div>
                       <div className="flex flex-wrap gap-2">
                         {candidate.skills.map((skill, i) => (
                           <span key={i} className="px-2 py-1 bg-gray-100 rounded text-sm">
@@ -330,8 +330,8 @@ export default function EmployerDemoPage() {
         {activeTab === 'messages' && (
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <h2 className="text-xl font-bold mb-6">Messages</h2>
-            <div className="text-center py-12 text-gray-500">
-              <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+            <div className="text-center py-12 text-slate-500">
+              <MessageCircle className="w-12 h-12 mx-auto mb-4 text-slate-300" />
               <p>No messages yet. Start connecting with candidates!</p>
             </div>
           </div>

@@ -34,8 +34,8 @@ export default async function StudentPortalPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-700">Please try again later.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-700">Please try again later.</p>
         </div>
       </div>
     );
@@ -137,7 +137,7 @@ export default async function StudentPortalPage() {
                     <div key={enrollment.enrollment_id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                       <div className="w-16 h-12 bg-gray-200 rounded overflow-hidden flex-shrink-0 relative">
                         <div className="w-full h-full flex items-center justify-center">
-                          <BookOpen className="w-6 h-6 text-gray-400" />
+                          <BookOpen className="w-6 h-6 text-slate-400" />
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
@@ -146,7 +146,7 @@ export default async function StudentPortalPage() {
                           <span className={`text-xs px-2 py-0.5 rounded-full ${
                             enrollment.status === 'active' ? 'bg-green-100 text-green-700' :
                             enrollment.status === 'completed' ? 'bg-blue-100 text-blue-700' :
-                            'bg-gray-100 text-gray-700'
+                            'bg-gray-100 text-slate-700'
                           }`}>
                             {enrollment.status}
                           </span>
@@ -158,7 +158,7 @@ export default async function StudentPortalPage() {
                                   style={{ width: `${enrollment.progress}%` }}
                                 />
                               </div>
-                              <span className="text-sm text-gray-700">{enrollment.progress}%</span>
+                              <span className="text-sm text-slate-700">{enrollment.progress}%</span>
                             </>
                           )}
                         </div>
@@ -173,8 +173,8 @@ export default async function StudentPortalPage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-8 text-gray-700">
-                  <BookOpen className="w-10 h-10 mx-auto mb-3 text-gray-300" />
+                <div className="text-center py-8 text-slate-700">
+                  <BookOpen className="w-10 h-10 mx-auto mb-3 text-slate-300" />
                   <p>No programs enrolled yet</p>
                   <Link href="/programs" className="text-blue-600 font-medium hover:underline">
                     Browse Programs
@@ -198,15 +198,15 @@ export default async function StudentPortalPage() {
                       <h3 className="font-medium">{h.program_title}</h3>
                       <div className="grid grid-cols-3 gap-4 mt-2 text-sm">
                         <div>
-                          <p className="text-gray-700">Verified</p>
+                          <p className="text-slate-700">Verified</p>
                           <p className="font-semibold text-green-600">{h.verified_hours || 0} hrs</p>
                         </div>
                         <div>
-                          <p className="text-gray-700">Pending</p>
+                          <p className="text-slate-700">Pending</p>
                           <p className="font-semibold text-yellow-600">{h.pending_hours || 0} hrs</p>
                         </div>
                         <div>
-                          <p className="text-gray-700">Required</p>
+                          <p className="text-slate-700">Required</p>
                           <p className="font-semibold">{h.required_hours || 0} hrs</p>
                         </div>
                       </div>
@@ -230,21 +230,21 @@ export default async function StudentPortalPage() {
                     <div key={idx} className="flex items-center justify-between p-3 border rounded-lg">
                       <div>
                         <h3 className="font-medium">{task.title}</h3>
-                        <p className="text-sm text-gray-700">{task.description}</p>
+                        <p className="text-sm text-slate-700">{task.description}</p>
                       </div>
                       {task.due_date && (
                         <div className="text-right">
                           <p className="text-sm font-medium text-orange-600">
                             {new Date(task.due_date).toLocaleDateString()}
                           </p>
-                          <p className="text-xs text-gray-700">Due</p>
+                          <p className="text-xs text-slate-700">Due</p>
                         </div>
                       )}
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-6 text-gray-700">
+                <div className="text-center py-6 text-slate-700">
                   <CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-400" />
                   <p>No pending tasks</p>
                 </div>
@@ -265,14 +265,14 @@ export default async function StudentPortalPage() {
                   {announcements.map((announcement: any, idx: number) => (
                     <div key={idx} className="border-l-4 border-blue-500 pl-3">
                       <h3 className="font-medium text-sm">{announcement.title}</h3>
-                      <p className="text-xs text-gray-700 mt-1">
+                      <p className="text-xs text-slate-700 mt-1">
                         {announcement.created_at ? new Date(announcement.created_at).toLocaleDateString() : ''}
                       </p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-gray-700">No announcements</p>
+                <p className="text-sm text-slate-700">No announcements</p>
               )}
             </div>
 
@@ -282,8 +282,8 @@ export default async function StudentPortalPage() {
                 <Award className="w-5 h-5 text-yellow-500" />
                 <h2 className="text-lg font-semibold">Certificates</h2>
               </div>
-              <div className="text-center py-4 text-gray-700">
-                <Award className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+              <div className="text-center py-4 text-slate-700">
+                <Award className="w-8 h-8 mx-auto mb-2 text-slate-300" />
                 <p className="text-sm">Complete programs to earn certificates</p>
               </div>
             </div>

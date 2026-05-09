@@ -49,8 +49,8 @@ export default function HostShopInquiryPage() {
           <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-slate-400 flex-shrink-0">•</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Inquiry Received!</h1>
-          <p className="text-gray-600 mb-6">
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Inquiry Received!</h1>
+          <p className="text-slate-600 mb-6">
             Thank you for your interest in becoming a host barbershop. We'll be in touch soon.
           </p>
           <Link
@@ -72,21 +72,21 @@ export default function HostShopInquiryPage() {
       <div className="max-w-md mx-auto">
         <Link
           href="/programs/barber-apprenticeship/host-shops"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Host Shop Info
         </Link>
 
         <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Host Shop Inquiry</h1>
-          <p className="text-gray-600 mb-6">
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">Host Shop Inquiry</h1>
+          <p className="text-slate-600 mb-6">
             Interested in becoming a host barbershop? Fill out this form and we'll get back to you.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Name *</label>
               <input
                 type="text"
                 required
@@ -97,7 +97,7 @@ export default function HostShopInquiryPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Email *</label>
               <input
                 type="email"
                 required
@@ -108,7 +108,7 @@ export default function HostShopInquiryPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Phone</label>
               <input
                 type="tel"
                 value={formData.phone}
@@ -118,7 +118,7 @@ export default function HostShopInquiryPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">City</label>
               <input
                 type="text"
                 value={formData.city}
@@ -128,7 +128,7 @@ export default function HostShopInquiryPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Message *</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Message *</label>
               <textarea
                 required
                 rows={4}

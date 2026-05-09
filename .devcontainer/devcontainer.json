@@ -37,6 +37,9 @@
   // handled in postCreateCommand.
   "postStartCommand": "bash -lc 'bash .devcontainer/setup-env.sh'",
   "remoteEnv": {
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "LANGUAGE": "en_US:en",
     "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium",
     "CHROMIUM_PATH": "/usr/bin/chromium",
     "NEXT_TELEMETRY_DISABLED": "1",

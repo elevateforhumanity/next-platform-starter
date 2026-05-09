@@ -226,8 +226,8 @@ export default function ConnectsLandingPage() {
             <div key={f.title} className="flex items-start gap-3">
               <f.Icon className="w-7 h-7 mt-0.5 text-brand-blue-600 flex-shrink-0" />
               <div>
-                <div className="text-sm font-semibold text-gray-900">{f.title}</div>
-                <div className="text-xs text-gray-500">{f.desc}</div>
+                <div className="text-sm font-semibold text-slate-900">{f.title}</div>
+                <div className="text-xs text-slate-500">{f.desc}</div>
               </div>
             </div>
           ))}
@@ -238,10 +238,10 @@ export default function ConnectsLandingPage() {
       <section id="portals" className="py-16 px-6 scroll-mt-20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
               Choose Your Portal
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Each portal is tailored to your role. Sign in to access your personalized dashboard,
               tools, and resources.
             </p>
@@ -264,9 +264,9 @@ export default function ConnectsLandingPage() {
                 <div className="p-5">
                   <div className="flex items-center gap-2.5 mb-3">
                     <p.Icon className="w-9 h-9 text-slate-600 flex-shrink-0" />
-                    <h3 className="text-lg font-bold text-gray-900">{p.title}</h3>
+                    <h3 className="text-lg font-bold text-slate-900">{p.title}</h3>
                   </div>
-                  <p className="text-gray-600 text-sm mb-3">{p.desc}</p>
+                  <p className="text-slate-600 text-sm mb-3">{p.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {p.features.map((f) => (
                       <span key={f} className={`text-xs px-2 py-1 rounded-full ${p.tagBg}`}>
@@ -283,7 +283,7 @@ export default function ConnectsLandingPage() {
                     </Link>
                     <Link
                       href={p.href}
-                      className="inline-flex items-center justify-center gap-1 border border-gray-200 hover:bg-white text-gray-700 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+                      className="inline-flex items-center justify-center gap-1 border border-gray-200 hover:bg-white text-slate-700 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors"
                     >
                       Details
                     </Link>
@@ -299,10 +299,10 @@ export default function ConnectsLandingPage() {
       <section className="py-16 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <Users className="w-12 h-12 mx-auto mb-4 text-cyan-600" />
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
             Already have an account?
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-slate-600 mb-6">
             Sign in and you&apos;ll be automatically directed to your dashboard based on your role.
           </p>
           <Link
@@ -311,7 +311,7 @@ export default function ConnectsLandingPage() {
           >
             Sign In <ArrowRight className="w-5 h-5" />
           </Link>
-          <div className="mt-4 text-sm text-gray-500">
+          <div className="mt-4 text-sm text-slate-500">
             Don&apos;t have an account?{' '}
             <Link href="/start" className="text-cyan-600 hover:underline font-semibold">
               Apply for a program

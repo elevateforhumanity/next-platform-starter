@@ -107,7 +107,7 @@ function EnrollPaymentContent() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600 mx-auto mb-4" />
-          <p className="text-gray-600">Verifying your application...</p>
+          <p className="text-slate-600">Verifying your application...</p>
         </div>
       </div>
     );
@@ -117,8 +117,8 @@ function EnrollPaymentContent() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-sm border border-gray-200 p-8 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-3">Enroll</h1>
-          <p className="text-gray-600 mb-6">
+          <h1 className="text-2xl font-bold text-slate-900 mb-3">Enroll</h1>
+          <p className="text-slate-600 mb-6">
             To enroll in the Barber Apprenticeship Program, start by submitting an application.
             Payment happens after your application is reviewed.
           </p>
@@ -128,7 +128,7 @@ function EnrollPaymentContent() {
           >
             Start Application
           </Link>
-          <Link href="/programs" className="block mt-3 text-sm text-gray-500 hover:text-gray-700">
+          <Link href="/programs" className="block mt-3 text-sm text-slate-500 hover:text-slate-700">
             View all programs
           </Link>
         </div>
@@ -141,8 +141,8 @@ function EnrollPaymentContent() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Enroll</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Enroll</h1>
+          <p className="text-slate-600">
             Barber Apprenticeship Program — choose a payment option to secure your spot.
           </p>
         </div>
@@ -190,16 +190,16 @@ function EnrollPaymentContent() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <CreditCard className="w-5 h-5 text-gray-600" />
-                    <span className="font-semibold text-gray-900">{PRICING.full.label}</span>
+                    <CreditCard className="w-5 h-5 text-slate-600" />
+                    <span className="font-semibold text-slate-900">{PRICING.full.label}</span>
                     <span className="text-xs bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded-full">
                       {PRICING.full.savings}
                     </span>
                   </div>
-                  <p className="text-gray-600 text-sm mt-1">{PRICING.full.description}</p>
+                  <p className="text-slate-600 text-sm mt-1">{PRICING.full.description}</p>
                 </div>
               </div>
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-slate-900">
                 ${PRICING.full.amount.toLocaleString()}
               </span>
             </div>
@@ -229,16 +229,16 @@ function EnrollPaymentContent() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <CreditCard className="w-5 h-5 text-gray-600" />
-                    <span className="font-semibold text-gray-900">{PRICING.deposit.label}</span>
+                    <CreditCard className="w-5 h-5 text-slate-600" />
+                    <span className="font-semibold text-slate-900">{PRICING.deposit.label}</span>
                     <span className="text-xs bg-brand-blue-100 text-brand-blue-700 px-2 py-0.5 rounded-full">
                       {PRICING.deposit.savings}
                     </span>
                   </div>
-                  <p className="text-gray-600 text-sm mt-1">{PRICING.deposit.description}</p>
+                  <p className="text-slate-600 text-sm mt-1">{PRICING.deposit.description}</p>
                 </div>
               </div>
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-slate-900">
                 ${PRICING.deposit.amount.toLocaleString()}
               </span>
             </div>
@@ -268,20 +268,20 @@ function EnrollPaymentContent() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-gray-600" />
-                    <span className="font-semibold text-gray-900">{PRICING.installment.label}</span>
+                    <Calendar className="w-5 h-5 text-slate-600" />
+                    <span className="font-semibold text-slate-900">{PRICING.installment.label}</span>
                     <span className="text-xs bg-brand-blue-100 text-brand-blue-700 px-2 py-0.5 rounded-full">
                       {PRICING.installment.savings}
                     </span>
                   </div>
-                  <p className="text-gray-600 text-sm mt-1">{PRICING.installment.description}</p>
+                  <p className="text-slate-600 text-sm mt-1">{PRICING.installment.description}</p>
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-bold text-gray-900">
+                <span className="text-2xl font-bold text-slate-900">
                   ${PRICING.installment.amount.toLocaleString()}
                 </span>
-                <p className="text-xs text-gray-500">total</p>
+                <p className="text-xs text-slate-500">total</p>
               </div>
             </div>
           </button>
@@ -311,37 +311,37 @@ function EnrollPaymentContent() {
         </button>
 
         {/* Agreement checkbox would go here in production */}
-        <p className="text-center text-gray-500 text-sm mt-4">
+        <p className="text-center text-slate-500 text-sm mt-4">
           By continuing, you agree to the enrollment terms and conditions.
         </p>
 
         {/* What happens next */}
         <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
-          <h3 className="font-semibold text-gray-900 mb-4">What happens after payment?</h3>
+          <h3 className="font-semibold text-slate-900 mb-4">What happens after payment?</h3>
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <span className="w-6 h-6 rounded-full bg-brand-green-100 text-brand-green-600 flex items-center justify-center text-sm font-bold">
                 •
               </span>
-              <span className="text-gray-700">Enrollment confirmed</span>
+              <span className="text-slate-700">Enrollment confirmed</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
                 ⏳
               </span>
-              <span className="text-gray-700">Shop assignment (1-2 weeks)</span>
+              <span className="text-slate-700">Shop assignment (1-2 weeks)</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
                 ⏳
               </span>
-              <span className="text-gray-700">Compliance approval</span>
+              <span className="text-slate-700">Compliance approval</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm">
                 🔒
               </span>
-              <span className="text-gray-500">Training access unlocks after approval</span>
+              <span className="text-slate-500">Training access unlocks after approval</span>
             </div>
           </div>
         </div>
@@ -357,7 +357,7 @@ function EnrollPaymentContent() {
         </div>
 
         {/* Contact */}
-        <p className="text-center text-gray-500 text-sm mt-6">
+        <p className="text-center text-slate-500 text-sm mt-6">
           Questions?{' '}
           <a href="/faq" className="text-brand-blue-600 underline">
             Check our FAQ

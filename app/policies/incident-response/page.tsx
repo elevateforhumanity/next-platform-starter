@@ -29,7 +29,7 @@ export default async function IncidentResponsePage() {
         <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-black mb-4">Incident Response Policy</h1>
-            <p className="text-sm text-gray-600">Effective Date: January 24, 2026</p>
+            <p className="text-sm text-slate-600">Effective Date: January 24, 2026</p>
           </div>
 
           <div className="prose prose-lg max-w-none">
@@ -116,7 +116,7 @@ export default async function IncidentResponsePage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-black mb-1">Detect</h3>
-                  <p className="text-gray-700 m-0">
+                  <p className="text-slate-700 m-0">
                     Automated monitoring detects anomalies and alerts the response team.
                   </p>
                 </div>
@@ -128,7 +128,7 @@ export default async function IncidentResponsePage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-black mb-1">Contain</h3>
-                  <p className="text-gray-700 m-0">
+                  <p className="text-slate-700 m-0">
                     Immediate actions to limit impact and prevent escalation.
                   </p>
                 </div>
@@ -140,7 +140,7 @@ export default async function IncidentResponsePage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-black mb-1">Communicate</h3>
-                  <p className="text-gray-700 m-0">
+                  <p className="text-slate-700 m-0">
                     Post status update to{' '}
                     <Link href="/status" className="text-brand-blue-600 hover:underline">
                       status page
@@ -156,7 +156,7 @@ export default async function IncidentResponsePage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-black mb-1">Resolve</h3>
-                  <p className="text-gray-700 m-0">
+                  <p className="text-slate-700 m-0">
                     Implement fix and verify systems are restored to normal operation.
                   </p>
                 </div>
@@ -168,7 +168,7 @@ export default async function IncidentResponsePage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-black mb-1">Document</h3>
-                  <p className="text-gray-700 m-0">
+                  <p className="text-slate-700 m-0">
                     Record incident details, root cause, and corrective actions taken.
                   </p>
                 </div>

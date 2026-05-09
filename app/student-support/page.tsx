@@ -138,8 +138,8 @@ export default function StudentSupportPage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">How We Support You</h2>
-            <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-slate-900">How We Support You</h2>
+            <p className="text-slate-600 mt-2 max-w-2xl mx-auto">
               From your first day in class to your first day on the job — and beyond.
             </p>
           </div>
@@ -162,7 +162,7 @@ export default function StudentSupportPage() {
                   </div>
                 </div>
                 <div className="p-5">
-                  <p className="text-gray-600 text-sm mb-4">{service.description}</p>
+                  <p className="text-slate-600 text-sm mb-4">{service.description}</p>
                   <Link
                     href={service.link}
                     className="inline-flex items-center gap-2 bg-brand-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-green-700 transition"
@@ -179,18 +179,18 @@ export default function StudentSupportPage() {
       {/* Contact Support */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-10">Contact Support</h2>
+          <h2 className="text-3xl font-bold text-slate-900 text-center mb-10">Contact Support</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white rounded-xl p-6 text-center">
               <Phone className="w-10 h-10 text-brand-green-600 mx-auto mb-4" />
-              <h3 className="font-bold text-gray-900 mb-1">Phone Support</h3>
+              <h3 className="font-bold text-slate-900 mb-1">Phone Support</h3>
               <a
                 href="tel:+13173143757"
                 className="text-brand-green-600 font-semibold hover:underline"
               >
                 (317) 314-3757
               </a>
-              <p className="text-sm text-gray-500 mt-1">Mon–Fri 8am–6pm EST</p>
+              <p className="text-sm text-slate-500 mt-1">Mon–Fri 8am–6pm EST</p>
               <Link
                 href="tel:+13173143757"
                 className="inline-flex items-center gap-2 mt-4 bg-brand-green-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-green-700 transition"
@@ -200,9 +200,9 @@ export default function StudentSupportPage() {
             </div>
             <div className="bg-white rounded-xl p-6 text-center">
               <MessageSquare className="w-10 h-10 text-brand-green-600 mx-auto mb-4" />
-              <h3 className="font-bold text-gray-900 mb-1">Live Chat</h3>
-              <p className="text-gray-600">Available 24/7</p>
-              <p className="text-sm text-gray-500 mt-1">Average response: under 2 minutes</p>
+              <h3 className="font-bold text-slate-900 mb-1">Live Chat</h3>
+              <p className="text-slate-600">Available 24/7</p>
+              <p className="text-sm text-slate-500 mt-1">Average response: under 2 minutes</p>
               <Link
                 href="/support/chat"
                 className="inline-flex items-center gap-2 mt-4 bg-brand-green-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-green-700 transition"
@@ -212,9 +212,9 @@ export default function StudentSupportPage() {
             </div>
             <div className="bg-white rounded-xl p-6 text-center">
               <Calendar className="w-10 h-10 text-brand-green-600 mx-auto mb-4" />
-              <h3 className="font-bold text-gray-900 mb-1">Schedule Meeting</h3>
-              <p className="text-gray-600">Book a one-on-one</p>
-              <p className="text-sm text-gray-500 mt-1">In-person or virtual available</p>
+              <h3 className="font-bold text-slate-900 mb-1">Schedule Meeting</h3>
+              <p className="text-slate-600">Book a one-on-one</p>
+              <p className="text-sm text-slate-500 mt-1">In-person or virtual available</p>
               <Link
                 href="/student-support/schedule"
                 className="inline-flex items-center gap-2 mt-4 bg-brand-green-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-green-700 transition"

@@ -55,7 +55,7 @@ export default function SchoolLicensePage() {
           <h2 className="text-4xl font-black mb-8 text-center">Meet Maria</h2>
           
           <div className="prose prose-lg max-w-none">
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <p className="text-xl text-slate-600 leading-relaxed">
               Maria runs a workforce training center in Indianapolis. She has 8 programs, 
               400 students a year, and a team of 5. Her days used to look like this:
             </p>
@@ -72,7 +72,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">7:30 AM - Paper Applications</h4>
-                  <p className="text-gray-600">
+                  <p className="text-slate-600">
                     Maria arrives to find 12 paper applications in her inbox. She spends 2 hours 
                     entering data into three different spreadsheets—one for enrollment, one for 
                     WIOA tracking, one for her funder reports.
@@ -86,7 +86,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">10:00 AM - Phone Tag</h4>
-                  <p className="text-gray-600">
+                  <p className="text-slate-600">
                     A WorkOne advisor calls asking about a student's eligibility status. Maria 
                     digs through folders, finds the file, realizes the income verification is 
                     missing. She calls the student. Voicemail. She'll try again tomorrow.
@@ -100,7 +100,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">2:00 PM - The Compliance Scramble</h4>
-                  <p className="text-gray-600">
+                  <p className="text-slate-600">
                     Quarterly report is due Friday. Maria's compliance officer is out sick. 
                     She spends 4 hours pulling data from the LMS, cross-referencing with 
                     attendance sheets, and manually calculating completion rates. She finds 
@@ -115,7 +115,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">6:30 PM - Still There</h4>
-                  <p className="text-gray-600">
+                  <p className="text-slate-600">
                     Maria finally leaves. She didn't get to the curriculum updates she planned. 
                     Or the employer outreach. Or the grant application due next month. She spent 
                     the entire day on data entry and putting out fires.
@@ -150,7 +150,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">7:30 AM - Coffee First</h4>
-                  <p className="text-gray-600">
+                  <p className="text-slate-600">
                     Maria checks her dashboard. 8 new applications came in overnight—already 
                     processed. 6 were auto-approved (eligibility verified). 2 are waiting on 
                     documents (students got automatic reminders). She sips her coffee.
@@ -164,7 +164,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">10:00 AM - Instant Answers</h4>
-                  <p className="text-gray-600">
+                  <p className="text-slate-600">
                     WorkOne advisor calls about a student. Maria types the name, sees the 
                     complete record: application date, eligibility status, enrolled program, 
                     current progress, attendance rate. "She's at 78% completion, on track to 
@@ -179,7 +179,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">2:00 PM - One-Click Reports</h4>
-                  <p className="text-gray-600">
+                  <p className="text-slate-600">
                     Quarterly report? Maria clicks "Generate WIOA Report." The system pulls 
                     enrollment, completion, credential attainment, and employment outcomes. 
                     Formatted exactly how the state wants it. Done in 30 seconds.
@@ -193,7 +193,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">4:00 PM - Actually Growing</h4>
-                  <p className="text-gray-600">
+                  <p className="text-slate-600">
                     Maria spends the afternoon on what matters: meeting with a new employer 
                     partner, reviewing curriculum with her lead instructor, and drafting that 
                     grant application. She leaves at 5:00.
@@ -242,7 +242,7 @@ export default function SchoolLicensePage() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-black mb-4 text-center">What Maria Got (What You'll Get)</h2>
-          <p className="text-xl text-gray-600 mb-12 text-center max-w-2xl mx-auto">
+          <p className="text-xl text-slate-600 mb-12 text-center max-w-2xl mx-auto">
             Everything needed to run a training organization without the chaos.
           </p>
 
@@ -285,7 +285,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                  <p className="text-gray-600 text-sm">{item.desc}</p>
+                  <p className="text-slate-600 text-sm">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -314,7 +314,7 @@ export default function SchoolLicensePage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-lg">{step.title}</h3>
-                  <p className="text-gray-600">{step.desc}</p>
+                  <p className="text-slate-600">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -337,7 +337,7 @@ export default function SchoolLicensePage() {
             ].map((faq, i) => (
               <div key={i} className="border-b border-gray-200 pb-6">
                 <h3 className="font-bold text-lg mb-2">{faq.q}</h3>
-                <p className="text-gray-600">{faq.a}</p>
+                <p className="text-slate-600">{faq.a}</p>
               </div>
             ))}
           </div>

@@ -133,16 +133,16 @@ export default function EnterpriseTrialPage() {
           {/* Signup Form */}
           <div className="bg-white rounded-2xl p-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-900">Start your trial</h2>
+              <h2 className="text-xl font-bold text-slate-900">Start your trial</h2>
               <div className="text-right">
                 <div className="text-2xl font-black text-slate-800">${LICENSE.price.toLocaleString()}</div>
-                <div className="text-sm text-gray-500">after {LICENSE.trialDays} days</div>
+                <div className="text-sm text-slate-500">after {LICENSE.trialDays} days</div>
               </div>
             </div>
 
             <form onSubmit={handleStartTrial} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Full Name *
                 </label>
                 <input
@@ -156,7 +156,7 @@ export default function EnterpriseTrialPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Work Email *
                 </label>
                 <input
@@ -170,7 +170,7 @@ export default function EnterpriseTrialPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Organization *
                 </label>
                 <input
@@ -200,13 +200,13 @@ export default function EnterpriseTrialPage() {
                 </button>
               </div>
 
-              <p className="text-xs text-gray-500 text-center">
+              <p className="text-xs text-slate-500 text-center">
                 Enter payment details next. No charge for {LICENSE.trialDays} days.
               </p>
             </form>
 
             <div className="mt-6 pt-6 border-t">
-              <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+              <div className="flex items-center justify-center gap-6 text-sm text-slate-500">
                 <div className="flex items-center gap-1">
                   <Shield className="w-4 h-4" />
                   Secure
@@ -219,7 +219,7 @@ export default function EnterpriseTrialPage() {
             </div>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-600">
                 Skip trial?{' '}
                 <Link href={`/store/licenses/checkout/${LICENSE.slug}`} className="text-amber-600 font-medium hover:underline">
                   Buy now for ${LICENSE.price.toLocaleString()}

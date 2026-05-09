@@ -33,7 +33,7 @@ export default async function SecurityStatementPage() {
       </div>
       <div className="bg-gray-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
+          <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
               Home
             </Link>
@@ -45,7 +45,7 @@ export default async function SecurityStatementPage() {
             <span className="text-white">Security Statement</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Security and Data Protection Statement</h1>
-          <p className="text-gray-300">How we protect your data and maintain platform security</p>
+          <p className="text-slate-300">How we protect your data and maintain platform security</p>
           <div className="flex items-center gap-6 mt-6 text-sm">
             <span className="flex items-center gap-2">
               <FileText className="w-4 h-4" />
@@ -127,19 +127,19 @@ export default async function SecurityStatementPage() {
         </nav>
 
         <section id="purpose" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Shield className="w-6 h-6 text-brand-orange-600" />
             1. Security Purpose & Principles
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">1.1 Purpose</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             This document defines how Elevate For Humanity protects user data, maintains system
             security, and responds to security events. It applies to all platform components: main
             website, LMS, Store, and tax services operations.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.2 Security Principles</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>
               <strong>Least Privilege:</strong> Users and systems receive minimum access required
               for their function
@@ -161,7 +161,7 @@ export default async function SecurityStatementPage() {
         </section>
 
         <section id="data-collected" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Eye className="w-6 h-6 text-brand-orange-600" />
             2. Data Collected
           </h2>
@@ -169,27 +169,27 @@ export default async function SecurityStatementPage() {
           <div className="space-y-4">
             <div className="border rounded-lg p-4">
               <h4 className="font-semibold">Main Website</h4>
-              <p className="text-gray-700 text-sm">
+              <p className="text-slate-700 text-sm">
                 Contact information, application data, eligibility responses, communication
                 preferences
               </p>
             </div>
             <div className="border rounded-lg p-4">
               <h4 className="font-semibold">LMS</h4>
-              <p className="text-gray-700 text-sm">
+              <p className="text-slate-700 text-sm">
                 Account credentials, course progress, assessment results, certificates, attendance
                 records
               </p>
             </div>
             <div className="border rounded-lg p-4">
               <h4 className="font-semibold">Store</h4>
-              <p className="text-gray-700 text-sm">
+              <p className="text-slate-700 text-sm">
                 Billing address, order history, payment method tokens (not full card numbers)
               </p>
             </div>
             <div className="border rounded-lg p-4">
               <h4 className="font-semibold">Tax Services Operations</h4>
-              <p className="text-gray-700 text-sm">
+              <p className="text-slate-700 text-sm">
                 Tax documents, SSN (encrypted), income information, bank account details for refunds
               </p>
             </div>
@@ -235,12 +235,12 @@ export default async function SecurityStatementPage() {
         </section>
 
         <section id="storage" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Server className="w-6 h-6 text-brand-orange-600" />
             3. Data Storage & Encryption
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">3.1 Infrastructure</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Database:</strong> Supabase (PostgreSQL) with encryption at rest (AES-256)
             </li>
@@ -256,7 +256,7 @@ export default async function SecurityStatementPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.2 Encryption Standards</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>
               <strong>In Transit:</strong> TLS 1.3 for all connections
             </li>
@@ -273,12 +273,12 @@ export default async function SecurityStatementPage() {
         </section>
 
         <section id="access" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Lock className="w-6 h-6 text-brand-orange-600" />
             4. Access Controls
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">4.1 Authentication</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Email/password authentication with secure session management</li>
             <li>Optional two-factor authentication (2FA) for all users</li>
             <li>Required 2FA for Admin and Super Admin roles</li>
@@ -286,7 +286,7 @@ export default async function SecurityStatementPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.2 Authorization</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Role-based access control (RBAC) enforced at database level</li>
             <li>Row-level security (RLS) policies on all tables</li>
             <li>API endpoints validate user permissions before data access</li>
@@ -294,14 +294,14 @@ export default async function SecurityStatementPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.3 Audit Logging</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             All access to sensitive data is logged with: user ID, timestamp, action performed, data
             accessed, IP address. Logs are retained for 7 years and reviewed monthly.
           </p>
         </section>
 
         <section id="retention" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <FileText className="w-6 h-6 text-brand-orange-600" />
             5. Data Retention & Deletion
           </h2>
@@ -343,7 +343,7 @@ export default async function SecurityStatementPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.1 Deletion Requests</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             Users may request data deletion by contacting our contact form. Requests are processed
             within 30 days. Some data may be retained for legal compliance (tax records, financial
             transactions).
@@ -351,12 +351,12 @@ export default async function SecurityStatementPage() {
         </section>
 
         <section id="incident" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <AlertTriangle className="w-6 h-6 text-brand-orange-600" />
             6. Incident Response
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">6.1 Response Process</h3>
-          <ol className="list-decimal pl-6 space-y-2 text-gray-700 mb-4">
+          <ol className="list-decimal pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Detection:</strong> Automated monitoring and user reports
             </li>
@@ -378,7 +378,7 @@ export default async function SecurityStatementPage() {
           </ol>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.2 Breach Notification</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             If a data breach affects personal information, we will: notify affected users within 72
             hours, notify relevant regulators as required, provide clear information about what data
             was affected and recommended actions.
@@ -386,11 +386,11 @@ export default async function SecurityStatementPage() {
         </section>
 
         <section id="user-responsibilities" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Users className="w-6 h-6 text-brand-orange-600" />
             7. User Responsibilities
           </h2>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Use strong, unique passwords (minimum 8 characters)</li>
             <li>Enable two-factor authentication when available</li>
             <li>Do not share account credentials</li>
@@ -401,7 +401,7 @@ export default async function SecurityStatementPage() {
         </section>
 
         <section id="contact" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Contact & Reporting</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">8. Contact & Reporting</h2>
           <div className="bg-gray-50 rounded-lg p-6">
             <p className="mb-2">
               <strong>Security Issues:</strong> our contact form
@@ -419,7 +419,7 @@ export default async function SecurityStatementPage() {
         </section>
 
         <section id="versioning" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Versioning & Review</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">9. Versioning & Review</h2>
           <table className="w-full border-collapse border mb-4">
             <thead>
               <tr className="bg-gray-100">
@@ -436,13 +436,13 @@ export default async function SecurityStatementPage() {
               </tr>
             </tbody>
           </table>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             <strong>Review Schedule:</strong> Annually, or upon significant security events or
             regulatory changes.
           </p>
         </section>
 
-        <footer className="mt-12 pt-8 border-t text-sm text-gray-500">
+        <footer className="mt-12 pt-8 border-t text-sm text-slate-500">
           <p>
             <strong>Document ID:</strong> EFH-SEC-001 | <strong>Owner:</strong> Data Protection
             Officer

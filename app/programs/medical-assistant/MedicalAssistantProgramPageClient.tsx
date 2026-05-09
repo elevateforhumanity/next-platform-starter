@@ -226,8 +226,8 @@ export function MedicalAssistantProgramPageClient({
                 className="text-center"
               >
                 <stat.icon className="w-8 h-8 text-rose-600 mx-auto mb-2" />
-                <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
-                <div className="text-sm text-gray-500">{stat.label}</div>
+                <div className="text-3xl font-bold text-slate-900">{stat.value}</div>
+                <div className="text-sm text-slate-500">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -241,10 +241,10 @@ export function MedicalAssistantProgramPageClient({
             <span className="inline-block bg-rose-100 text-rose-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               Why Medical Assistant?
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               The Heart of Healthcare
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Medical Assistants are essential to patient care. You'll make a difference every day.
             </p>
           </div>
@@ -298,8 +298,8 @@ export function MedicalAssistantProgramPageClient({
                 <div className="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-4">
                   <item.icon className="w-6 h-6 text-rose-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                <p className="text-slate-600">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -313,10 +313,10 @@ export function MedicalAssistantProgramPageClient({
             <span className="inline-block bg-green-100 text-green-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               Training Program
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               20-Week Medical Assistant Curriculum
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Comprehensive training including clinical externship. Graduate ready for CMA
               certification.
             </p>
@@ -338,12 +338,12 @@ export function MedicalAssistantProgramPageClient({
                     </div>
                   </div>
                   <div className="flex-grow">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">{module.title}</h3>
+                    <h3 className="text-xl font-bold text-slate-900 mb-4">{module.title}</h3>
                     <div className="grid md:grid-cols-2 gap-4 mb-4">
                       {module.topics.map((topic, i) => (
                         <div key={i} className="flex items-center gap-2">
                           <span className="w-2 h-2 bg-slate-400 rounded-full flex-shrink-0 mt-2" />
-                          <span className="text-gray-700">{topic}</span>
+                          <span className="text-slate-700">{topic}</span>
                         </div>
                       ))}
                     </div>
@@ -366,7 +366,7 @@ export function MedicalAssistantProgramPageClient({
             <span className="inline-block bg-brand-blue-100 text-brand-blue-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               Common Questions
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Frequently Asked Questions
             </h2>
           </div>
@@ -384,16 +384,16 @@ export function MedicalAssistantProgramPageClient({
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors"
                 >
-                  <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
+                  <span className="font-semibold text-slate-900 pr-4">{faq.question}</span>
                   {openFaq === index ? (
-                    <ChevronUp className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-slate-400 flex-shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0" />
                   )}
                 </button>
                 {openFaq === index && (
                   <div className="px-6 pb-5">
-                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                    <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
                   </div>
                 )}
               </motion.div>

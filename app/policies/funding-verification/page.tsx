@@ -74,7 +74,7 @@ export default async function FundingVerificationPage() {
 
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <p className="text-sm text-gray-500 mb-8">Last Updated: December 22, 2024</p>
+          <p className="text-sm text-slate-500 mb-8">Last Updated: December 22, 2024</p>
 
           <div className="prose prose-lg max-w-none">
             <h2>Overview</h2>
@@ -88,15 +88,15 @@ export default async function FundingVerificationPage() {
 
           {/* Funding Sources */}
           <div className="my-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Accepted Funding Sources</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">Accepted Funding Sources</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {fundingSources.map((source, i) => (
                 <div key={i} className="bg-gray-50 rounded-xl p-5 border">
                   <div className="flex items-start gap-3">
                     <span className="text-slate-400 flex-shrink-0">•</span>
                     <div>
-                      <h3 className="font-bold text-gray-900 mb-1">{source.title}</h3>
-                      <p className="text-gray-600 text-sm">{source.description}</p>
+                      <h3 className="font-bold text-slate-900 mb-1">{source.title}</h3>
+                      <p className="text-slate-600 text-sm">{source.description}</p>
                     </div>
                   </div>
                 </div>
@@ -136,8 +136,8 @@ export default async function FundingVerificationPage() {
                   {item.step}
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
-                  <p className="text-gray-600 text-sm">{item.desc}</p>
+                  <h3 className="font-bold text-slate-900 mb-1">{item.title}</h3>
+                  <p className="text-slate-600 text-sm">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -173,7 +173,7 @@ export default async function FundingVerificationPage() {
             <div className="flex items-start gap-3">
               <AlertCircle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
-                <ul className="space-y-2 text-gray-700">
+                <ul className="space-y-2 text-slate-700">
                   <li>Enrollment is not finalized until funding verification is complete.</li>
                   <li>Students may not begin training until funding is confirmed.</li>
                   <li>
@@ -191,8 +191,8 @@ export default async function FundingVerificationPage() {
 
           {/* Contact */}
           <div className="mt-12 bg-slate-50 rounded-xl p-8 border">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Need Help With Funding?</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">Need Help With Funding?</h2>
+            <p className="text-slate-600 mb-6">
               Our financial aid team can help you identify funding options and complete the
               verification process.
             </p>

@@ -71,8 +71,8 @@ export default async function CardPage() {
               >
                 <feature.icon className="w-8 h-8 text-brand-green-600 flex-shrink-0" />
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-1">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.desc}</p>
+                  <h3 className="font-bold text-slate-900 mb-1">{feature.title}</h3>
+                  <p className="text-slate-600">{feature.desc}</p>
                 </div>
               </div>
             ))}
@@ -83,7 +83,7 @@ export default async function CardPage() {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold mb-4">Get Your Card</h2>
-          <p className="text-gray-600 mb-8">
+          <p className="text-slate-600 mb-8">
             Contact your program coordinator to request an Elevate Card.
           </p>
           <a

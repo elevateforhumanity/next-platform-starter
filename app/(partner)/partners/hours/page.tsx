@@ -102,8 +102,8 @@ export default function PartnerHoursApprovalPage() {
           <ChevronRight className="w-3 h-3" />
           <span className="text-slate-900 font-medium">Hour Approvals</span>
         </nav>
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Pending Hour Approvals</h1>
-        <p className="text-gray-500 text-sm mb-6">
+        <h1 className="text-2xl font-bold text-slate-900 mb-1">Pending Hour Approvals</h1>
+        <p className="text-slate-500 text-sm mb-6">
           Review and approve or reject apprentice-submitted hours before they count toward program totals.
         </p>
 

@@ -227,8 +227,8 @@ export default async function StudentBillingPage() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Billing & Payments</h1>
-            <p className="text-gray-600 mt-1">Manage your payment plan and view history</p>
+            <h1 className="text-3xl font-bold text-slate-900">Billing & Payments</h1>
+            <p className="text-slate-600 mt-1">Manage your payment plan and view history</p>
           </div>
           <Link
             href="/api/billing/portal"
@@ -246,11 +246,11 @@ export default async function StudentBillingPage() {
             <div className="p-6 border-b">
               <div className="flex items-start justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
+                  <h2 className="text-lg font-semibold text-slate-900">
                     {paymentPlan.is_funded ? 'Funding Status' : 'Payment Plan'}
                   </h2>
                   {paymentPlan.program_name && (
-                    <p className="text-gray-600">{paymentPlan.program_name}</p>
+                    <p className="text-slate-600">{paymentPlan.program_name}</p>
                   )}
                   {paymentPlan.funding_type && (
                     <p className="text-sm text-blue-600 font-medium mt-1">
@@ -267,8 +267,8 @@ export default async function StudentBillingPage() {
               {paymentPlan.total_weeks && paymentPlan.total_weeks > 0 && (
                 <div className="mb-6">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Payment Progress</span>
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm font-medium text-slate-700">Payment Progress</span>
+                    <span className="text-sm text-slate-600">
                       {paymentPlan.weeks_paid} of {paymentPlan.total_weeks} payments
                     </span>
                   </div>
@@ -284,7 +284,7 @@ export default async function StudentBillingPage() {
                       style={{ width: `${progressPercent}%` }}
                     />
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">{progressPercent}% complete</p>
+                  <p className="text-xs text-slate-500 mt-1">{progressPercent}% complete</p>
                 </div>
               )}
 
@@ -292,12 +292,12 @@ export default async function StudentBillingPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-1">
-                    <DollarSign className="w-4 h-4 text-gray-500" />
-                    <span className="text-xs text-gray-500">
+                    <DollarSign className="w-4 h-4 text-slate-500" />
+                    <span className="text-xs text-slate-500">
                       {paymentPlan.is_funded ? 'Tuition Cost' : 'Total Amount'}
                     </span>
                   </div>
-                  <p className="text-xl font-bold text-gray-900">
+                  <p className="text-xl font-bold text-slate-900">
                     ${(paymentPlan.total_amount || 0).toLocaleString()}
                   </p>
                 </div>
@@ -422,9 +422,9 @@ export default async function StudentBillingPage() {
           </div>
         ) : (
           <div className="bg-white rounded-xl border shadow-sm p-8 text-center mb-6">
-            <DollarSign className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">No Active Payment Plan</h2>
-            <p className="text-gray-600 mb-4">
+            <DollarSign className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+            <h2 className="text-lg font-semibold text-slate-900 mb-2">No Active Payment Plan</h2>
+            <p className="text-slate-600 mb-4">
               You don&apos;t have an active payment plan. If you&apos;re enrolled in a program with
               tuition, your payment plan will appear here.
             </p>
@@ -442,8 +442,8 @@ export default async function StudentBillingPage() {
         {upcomingPayments.length > 0 && (
           <div className="bg-white rounded-xl border shadow-sm mb-6">
             <div className="p-6 border-b">
-              <h2 className="text-lg font-semibold text-gray-900">Upcoming Payments</h2>
-              <p className="text-sm text-gray-600">Your scheduled payments</p>
+              <h2 className="text-lg font-semibold text-slate-900">Upcoming Payments</h2>
+              <p className="text-sm text-slate-600">Your scheduled payments</p>
             </div>
             <div className="divide-y">
               {upcomingPayments.slice(0, 8).map((payment, index) => (
@@ -451,20 +451,20 @@ export default async function StudentBillingPage() {
                   <div className="flex items-center gap-3">
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        index === 0 ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500'
+                        index === 0 ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-slate-500'
                       }`}
                     >
                       {paymentPlan!.weeks_paid + index + 1}
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-slate-900">
                         Payment {paymentPlan!.weeks_paid + index + 1}
                       </p>
-                      <p className="text-sm text-gray-500">{formatDate(payment.date)}</p>
+                      <p className="text-sm text-slate-500">{formatDate(payment.date)}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-gray-900">${payment.amount}</p>
+                    <p className="font-semibold text-slate-900">${payment.amount}</p>
                     {index === 0 && (
                       <span className="text-xs text-blue-600 font-medium">Next payment</span>
                     )}
@@ -474,7 +474,7 @@ export default async function StudentBillingPage() {
             </div>
             {upcomingPayments.length > 8 && (
               <div className="p-4 border-t bg-gray-50 text-center">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-slate-600">
                   + {upcomingPayments.length - 8} more payments remaining
                 </p>
               </div>
@@ -485,8 +485,8 @@ export default async function StudentBillingPage() {
         {/* Payment History */}
         <div className="bg-white rounded-xl border shadow-sm">
           <div className="p-6 border-b">
-            <h2 className="text-lg font-semibold text-gray-900">Payment History</h2>
-            <p className="text-sm text-gray-600">Your transactions</p>
+            <h2 className="text-lg font-semibold text-slate-900">Payment History</h2>
+            <p className="text-sm text-slate-600">Your transactions</p>
           </div>
 
           {allPayments.length > 0 ? (
@@ -512,7 +512,7 @@ export default async function StudentBillingPage() {
                       )}
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-slate-900">
                         {payment.type === 'weekly_payment'
                           ? 'Weekly Payment'
                           : payment.type === 'setup_fee'
@@ -521,7 +521,7 @@ export default async function StudentBillingPage() {
                               ? 'One-time Payment'
                               : payment.type || 'Payment'}
                       </p>
-                      <p className="text-sm text-gray-500">{formatDate(payment.created_at)}</p>
+                      <p className="text-sm text-slate-500">{formatDate(payment.created_at)}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -531,7 +531,7 @@ export default async function StudentBillingPage() {
                           ? 'text-green-600'
                           : payment.status === 'failed'
                             ? 'text-red-600'
-                            : 'text-gray-900'
+                            : 'text-slate-900'
                       }`}
                     >
                       ${(payment.amount || 0).toFixed(2)}
@@ -555,16 +555,16 @@ export default async function StudentBillingPage() {
             </div>
           ) : (
             <div className="p-8 text-center">
-              <Receipt className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600">No payment history</p>
+              <Receipt className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+              <p className="text-slate-600">No payment history</p>
             </div>
           )}
         </div>
 
         {/* Help Section */}
         <div className="mt-6 bg-slate-100 rounded-xl p-6">
-          <h3 className="font-semibold text-gray-900 mb-2">Need Help?</h3>
-          <p className="text-sm text-gray-600 mb-4">
+          <h3 className="font-semibold text-slate-900 mb-2">Need Help?</h3>
+          <p className="text-sm text-slate-600 mb-4">
             Questions about your payment plan or need to make changes?
           </p>
           <div className="flex flex-wrap gap-3">
@@ -598,7 +598,7 @@ function StatusBadge({ status, isFunded }: { status: string; isFunded?: boolean 
     active: { bg: 'bg-green-100', text: 'text-green-700', label: 'Active' },
     completed: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Paid in Full' },
     past_due: { bg: 'bg-red-100', text: 'text-red-700', label: 'Past Due' },
-    canceled: { bg: 'bg-gray-100', text: 'text-gray-700', label: 'Canceled' },
+    canceled: { bg: 'bg-gray-100', text: 'text-slate-700', label: 'Canceled' },
     unpaid: { bg: 'bg-red-100', text: 'text-red-700', label: 'Unpaid' },
     funded: { bg: 'bg-emerald-100', text: 'text-emerald-700', label: 'Fully Funded' },
   };
@@ -615,7 +615,7 @@ function StatusBadge({ status, isFunded }: { status: string; isFunded?: boolean 
 
   const { bg, text, label } = config[status] || {
     bg: 'bg-gray-100',
-    text: 'text-gray-700',
+    text: 'text-slate-700',
     label: status,
   };
 

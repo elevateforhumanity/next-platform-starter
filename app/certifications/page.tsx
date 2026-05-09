@@ -67,7 +67,7 @@ export default function CertificationsPage() {
       </section>
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">
             Available Certifications
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -91,8 +91,8 @@ export default function CertificationsPage() {
                   </span>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{cert.name}</h3>
-                  <div className="space-y-2 text-sm text-gray-600 mb-4">
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{cert.name}</h3>
+                  <div className="space-y-2 text-sm text-slate-600 mb-4">
                     <p className="flex items-center">
                       <Shield className="w-4 h-4 mr-2" />
                       {cert.industry}
@@ -116,7 +116,7 @@ export default function CertificationsPage() {
       </section>
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
             Why Certifications Matter
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -139,8 +139,8 @@ export default function CertificationsPage() {
             ].map((item, i) => (
               <div key={i} className="text-center">
                 <item.icon className="w-12 h-12 text-brand-green-600 mx-auto mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.desc}</p>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                <p className="text-slate-600">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -148,7 +148,7 @@ export default function CertificationsPage() {
       </section>
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Certification FAQ</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Certification FAQ</h2>
           <div className="space-y-4">
             {[
               {

@@ -131,28 +131,28 @@ export default function LogHoursPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
           <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Hours Submitted</h1>
-          <p className="text-gray-600 mb-6">
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">Hours Submitted</h1>
+          <p className="text-slate-600 mb-6">
             Your entry is pending instructor approval.
           </p>
 
           <div className="bg-gray-50 rounded-lg p-4 text-left mb-6 space-y-3">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Date</span>
-              <span className="font-medium text-gray-900">{displayDate}</span>
+              <span className="text-slate-500">Date</span>
+              <span className="font-medium text-slate-900">{displayDate}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Hours</span>
-              <span className="font-medium text-gray-900">{submitted.hours} hrs</span>
+              <span className="text-slate-500">Hours</span>
+              <span className="font-medium text-slate-900">{submitted.hours} hrs</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Activity</span>
-              <span className="font-medium text-gray-900">{submitted.activity}</span>
+              <span className="text-slate-500">Activity</span>
+              <span className="font-medium text-slate-900">{submitted.activity}</span>
             </div>
             {submitted.notes && (
               <div className="flex justify-between text-sm gap-4">
-                <span className="text-gray-500 shrink-0">Notes</span>
-                <span className="font-medium text-gray-900 text-right">{submitted.notes}</span>
+                <span className="text-slate-500 shrink-0">Notes</span>
+                <span className="font-medium text-slate-900 text-right">{submitted.notes}</span>
               </div>
             )}
           </div>
@@ -181,14 +181,14 @@ export default function LogHoursPage() {
     <div className="bg-gray-50 min-h-screen">
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <nav className="flex items-center text-sm text-gray-600">
+          <nav className="flex items-center text-sm text-slate-600">
             <Link href="/" className="hover:text-blue-600">Home</Link>
             <span className="mx-2">/</span>
             <Link href="/student" className="hover:text-blue-600">Student Portal</Link>
             <span className="mx-2">/</span>
             <Link href="/student/hours" className="hover:text-blue-600">Hours</Link>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Log Hours</span>
+            <span className="text-slate-900 font-medium">Log Hours</span>
           </nav>
         </div>
       </div>
@@ -196,7 +196,7 @@ export default function LogHoursPage() {
       <div className="max-w-2xl mx-auto px-4 py-8">
         <Link
           href="/student/hours"
-          className="inline-flex items-center text-gray-600 hover:text-blue-600 mb-6"
+          className="inline-flex items-center text-slate-600 hover:text-blue-600 mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Hours
@@ -208,8 +208,8 @@ export default function LogHoursPage() {
               <Clock className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Log Training Hours</h1>
-              <p className="text-gray-600">Record your completed training time</p>
+              <h1 className="text-2xl font-bold text-slate-900">Log Training Hours</h1>
+              <p className="text-slate-600">Record your completed training time</p>
             </div>
           </div>
 
@@ -223,7 +223,7 @@ export default function LogHoursPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Date <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -236,7 +236,7 @@ export default function LogHoursPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Hours <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -250,12 +250,12 @@ export default function LogHoursPage() {
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
-                <p className="mt-1 text-xs text-gray-500">0.5 – 24 hours</p>
+                <p className="mt-1 text-xs text-slate-500">0.5 – 24 hours</p>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Activity Type <span className="text-red-500">*</span>
               </label>
               <select
@@ -272,8 +272,8 @@ export default function LogHoursPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Notes <span className="text-gray-400 font-normal">(optional)</span>
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                Notes <span className="text-slate-400 font-normal">(optional)</span>
               </label>
               <textarea
                 value={formData.notes}
@@ -285,8 +285,8 @@ export default function LogHoursPage() {
             </div>
 
             <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-              <h3 className="font-semibold text-gray-900 mb-2">Important</h3>
-              <ul className="text-sm text-gray-700 space-y-1">
+              <h3 className="font-semibold text-slate-900 mb-2">Important</h3>
+              <ul className="text-sm text-slate-700 space-y-1">
                 <li>• Hours are submitted for instructor approval before counting toward your total</li>
                 <li>• Only log hours for completed training activities</li>
                 <li>• Falsifying hours may result in program dismissal</li>
@@ -296,7 +296,7 @@ export default function LogHoursPage() {
             <div className="flex items-center justify-end gap-4 pt-4 border-t">
               <Link
                 href="/student/hours"
-                className="px-6 py-3 text-gray-700 hover:text-gray-900 font-medium"
+                className="px-6 py-3 text-slate-700 hover:text-slate-900 font-medium"
               >
                 Cancel
               </Link>

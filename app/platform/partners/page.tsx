@@ -137,9 +137,9 @@ export default function PartnersPage() {
             />
           </div>
 
-          <div className="text-gray-800">
+          <div className="text-slate-800">
             <h2 className="text-2xl md:text-3xl font-bold">Two partner tracks. One system.</h2>
-            <p className="mt-4 text-gray-700">
+            <p className="mt-4 text-slate-700">
               We support both employer partners and workforce/government partners with a single
               operating model: aligned pathways, auditable processes, and measurable outcomes.
             </p>
@@ -147,7 +147,7 @@ export default function PartnersPage() {
             <div className="mt-8 grid gap-4">
               <div className="rounded-md border border-gray-200 p-5">
                 <div className="text-xl font-semibold">Employer Partners</div>
-                <ul className="mt-3 list-disc pl-5 text-gray-700">
+                <ul className="mt-3 list-disc pl-5 text-slate-700">
                   <li>Pre-aligned training pathways matched to your roles</li>
                   <li>Reduced time-to-hire with job-ready candidates</li>
                   <li>Support for reimbursement pathways (where applicable)</li>
@@ -165,7 +165,7 @@ export default function PartnersPage() {
 
               <div className="rounded-md border border-gray-200 p-5">
                 <div className="text-xl font-semibold">Workforce & Government Partners</div>
-                <ul className="mt-3 list-disc pl-5 text-gray-700">
+                <ul className="mt-3 list-disc pl-5 text-slate-700">
                   <li>Compliant, auditable pathway operations</li>
                   <li>Scalable delivery model across regions and cohorts</li>
                   <li>Outcome tracking (enrollment → completion → placement)</li>
@@ -566,7 +566,7 @@ function Benefit({ title, text }: { title: string; text: string }) {
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-6">
       <div className="text-xl font-semibold">{title}</div>
-      <p className="mt-3 text-gray-700">{text}</p>
+      <p className="mt-3 text-slate-700">{text}</p>
     </div>
   );
 }

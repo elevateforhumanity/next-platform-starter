@@ -19,8 +19,8 @@ export default async function EnrollPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
     );
@@ -58,8 +58,8 @@ export default async function EnrollPage() {
 
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-xl shadow-sm p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Complete Your Application</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Complete Your Application</h2>
+          <p className="text-slate-600 mb-6">
             Enter your contact information, location, and the program you're applying for. If your
             training is funded, we'll also ask questions tied to eligibility. If you're self-pay,
             we'll focus on enrollment and payment options.
@@ -75,14 +75,14 @@ export default async function EnrollPage() {
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900">{program.name}</h3>
+                      <h3 className="text-lg font-semibold text-slate-900">{program.name}</h3>
                       {program.description && (
-                        <p className="text-gray-600 mt-1 text-sm line-clamp-2">
+                        <p className="text-slate-600 mt-1 text-sm line-clamp-2">
                           {program.description}
                         </p>
                       )}
                       {program.duration_weeks && (
-                        <p className="text-sm text-gray-500 mt-2">
+                        <p className="text-sm text-slate-500 mt-2">
                           Duration: {program.duration_weeks} weeks
                         </p>
                       )}
@@ -98,7 +98,7 @@ export default async function EnrollPage() {
                             Free with WIOA/WRG
                           </span>
                           {program.price || program.total_cost ? (
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-slate-500 mt-1">
                               or $
                               {(
                                 (program.price || program.total_cost || 0) as number
@@ -123,7 +123,7 @@ export default async function EnrollPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-gray-600 mb-4">No programs currently available for enrollment.</p>
+              <p className="text-slate-600 mb-4">No programs currently available for enrollment.</p>
               <Link href="/programs" className="text-blue-600 hover:underline">
                 View all programs
               </Link>

@@ -117,7 +117,7 @@ export function WebsiteBuilderApp({
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl font-bold">My Websites</h2>
-            <p className="text-gray-600">
+            <p className="text-slate-600">
               {websites.length} website{websites.length !== 1 ? 's' : ''}
             </p>
           </div>
@@ -132,9 +132,9 @@ export function WebsiteBuilderApp({
         {/* Website Grid */}
         {websites.length === 0 ? (
           <div className="bg-white rounded-xl border p-12 text-center">
-            <Layout className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <Layout className="w-12 h-12 text-slate-300 mx-auto mb-4" />
             <h3 className="font-bold mb-2">No websites yet</h3>
-            <p className="text-gray-500 mb-4">Create your first website to get started</p>
+            <p className="text-slate-500 mb-4">Create your first website to get started</p>
             <button
               onClick={() => setShowNewModal(true)}
               className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg"
@@ -162,7 +162,7 @@ export function WebsiteBuilderApp({
                 {/* Info */}
                 <div className="p-4">
                   <h3 className="font-bold mb-1">{website.site_name}</h3>
-                  <p className="text-sm text-gray-500 mb-4">
+                  <p className="text-sm text-slate-500 mb-4">
                     {website.subdomain ? `${website.subdomain}.elevatesite.com` : 'Not published'}
                   </p>
 
@@ -239,10 +239,10 @@ export function WebsiteBuilderApp({
                       }`}
                     >
                       <div className="w-full aspect-video bg-white rounded mb-3 flex items-center justify-center">
-                        <Layout className="w-8 h-8 text-gray-400" />
+                        <Layout className="w-8 h-8 text-slate-400" />
                       </div>
                       <h4 className="font-bold">{template.name}</h4>
-                      <p className="text-sm text-gray-500">{template.description}</p>
+                      <p className="text-sm text-slate-500">{template.description}</p>
                     </button>
                   ))}
                 </div>

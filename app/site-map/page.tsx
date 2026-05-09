@@ -12,7 +12,7 @@ export default function SitemapPage() {
     <div className="min-h-screen py-12">
       <div className="container mx-auto px-4 max-w-6xl">
         <h1 className="text-4xl font-bold mb-4">Sitemap</h1>
-        <p className="text-xl text-gray-600 mb-12">
+        <p className="text-xl text-slate-600 mb-12">
           Complete directory of all pages on our website.
         </p>
 
@@ -25,7 +25,7 @@ export default function SitemapPage() {
                   <li key={itemIndex}>
                     <Link
                       href={item.href}
-                      className="text-gray-700 hover:text-orange-600 hover:underline"
+                      className="text-slate-700 hover:text-orange-600 hover:underline"
                     >
                       {item.label}
                     </Link>
@@ -42,7 +42,7 @@ export default function SitemapPage() {
             <li>
               <Link
                 href="/privacy-policy"
-                className="text-gray-700 hover:text-orange-600 hover:underline"
+                className="text-slate-700 hover:text-orange-600 hover:underline"
               >
                 Privacy Policy
               </Link>
@@ -50,7 +50,7 @@ export default function SitemapPage() {
             <li>
               <Link
                 href="/terms-of-service"
-                className="text-gray-700 hover:text-orange-600 hover:underline"
+                className="text-slate-700 hover:text-orange-600 hover:underline"
               >
                 Terms of Service
               </Link>
@@ -58,7 +58,7 @@ export default function SitemapPage() {
             <li>
               <Link
                 href="/accessibility"
-                className="text-gray-700 hover:text-orange-600 hover:underline"
+                className="text-slate-700 hover:text-orange-600 hover:underline"
               >
                 Accessibility
               </Link>
@@ -66,7 +66,7 @@ export default function SitemapPage() {
             <li>
               <Link
                 href="/federal-compliance"
-                className="text-gray-700 hover:text-orange-600 hover:underline"
+                className="text-slate-700 hover:text-orange-600 hover:underline"
               >
                 Compliance
               </Link>

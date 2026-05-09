@@ -32,7 +32,7 @@ export default async function LMSStandardsPage() {
       </div>
       <div className="bg-gray-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
+          <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
               Home
             </Link>
@@ -44,7 +44,7 @@ export default async function LMSStandardsPage() {
             <span className="text-white">LMS Standards</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">LMS Governance and Course Standards</h1>
-          <p className="text-gray-300">
+          <p className="text-slate-300">
             Course creation, instructor requirements, and certification policies
           </p>
           <div className="flex items-center gap-6 mt-6 text-sm">
@@ -128,19 +128,19 @@ export default async function LMSStandardsPage() {
         </nav>
 
         <section id="purpose" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <BookOpen className="w-6 h-6 text-brand-green-600" />
             1. Purpose & Scope
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">1.1 Purpose</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             This document establishes standards for course creation, instructor qualifications,
             certification issuance, and overall learning management system governance. It ensures
             consistent quality across all educational offerings.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.2 Scope</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>All courses hosted on the Elevate For Humanity LMS</li>
             <li>Instructor onboarding and ongoing requirements</li>
             <li>Certification and credential issuance</li>
@@ -150,7 +150,7 @@ export default async function LMSStandardsPage() {
         </section>
 
         <section id="course-types" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Settings className="w-6 h-6 text-brand-green-600" />
             2. Course Types & Structure
           </h2>
@@ -194,7 +194,7 @@ export default async function LMSStandardsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">2.2 Course Structure Requirements</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>
               <strong>Modules:</strong> Courses divided into logical modules (3-10 per course)
             </li>
@@ -212,13 +212,13 @@ export default async function LMSStandardsPage() {
         </section>
 
         <section id="creation" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <span className="text-slate-400 flex-shrink-0">•</span>
             3. Course Creation Standards
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.1 Content Requirements</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Learning Objectives:</strong> Clear, measurable objectives for each module
             </li>
@@ -267,7 +267,7 @@ export default async function LMSStandardsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.3 Assessment Standards</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Questions aligned with stated learning objectives</li>
             <li>Minimum 70% passing score for certifications</li>
             <li>Question bank with randomization for retakes</li>
@@ -277,7 +277,7 @@ export default async function LMSStandardsPage() {
         </section>
 
         <section id="instructors" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Users className="w-6 h-6 text-brand-green-600" />
             4. Instructor Requirements
           </h2>
@@ -319,7 +319,7 @@ export default async function LMSStandardsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.2 Instructor Onboarding</h3>
-          <ol className="list-decimal pl-6 space-y-2 text-gray-700 mb-4">
+          <ol className="list-decimal pl-6 space-y-2 text-slate-700 mb-4">
             <li>Application with credentials and sample content</li>
             <li>Background check (for courses involving minors or financial topics)</li>
             <li>Platform training (LMS tools, accessibility requirements)</li>
@@ -328,7 +328,7 @@ export default async function LMSStandardsPage() {
           </ol>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.3 Ongoing Requirements</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Maintain active credentials/licenses</li>
             <li>Update course content annually (or as regulations change)</li>
             <li>Respond to student questions within 48 hours</li>
@@ -338,7 +338,7 @@ export default async function LMSStandardsPage() {
         </section>
 
         <section id="certification" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Award className="w-6 h-6 text-brand-green-600" />
             5. Certification & Credentials
           </h2>
@@ -377,7 +377,7 @@ export default async function LMSStandardsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.2 Certificate Contents</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Student name (as registered)</li>
             <li>Course title and description</li>
             <li>Completion date</li>
@@ -388,20 +388,20 @@ export default async function LMSStandardsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.3 Verification</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             All certificates include a unique ID and QR code linking to verification page. Employers
             and institutions can verify certificate authenticity at elevateforhumanity.org/verify.
           </p>
         </section>
 
         <section id="quality" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <span className="text-slate-400 flex-shrink-0">•</span>
             6. Quality Assurance
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.1 Course Review Process</h3>
-          <ol className="list-decimal pl-6 space-y-2 text-gray-700 mb-4">
+          <ol className="list-decimal pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Initial Review:</strong> Content accuracy, alignment with objectives
             </li>
@@ -450,7 +450,7 @@ export default async function LMSStandardsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.3 Content Updates</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Annual review of all courses</li>
             <li>Immediate updates for regulatory changes (tax law, compliance)</li>
             <li>Quarterly review of student feedback</li>
@@ -459,13 +459,13 @@ export default async function LMSStandardsPage() {
         </section>
 
         <section id="student-policies" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Clock className="w-6 h-6 text-brand-green-600" />
             7. Student Policies
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.1 Enrollment</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Account required for enrollment</li>
             <li>Prerequisites clearly stated and enforced where applicable</li>
             <li>Enrollment confirmation with course access details</li>
@@ -473,7 +473,7 @@ export default async function LMSStandardsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.2 Progress & Completion</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Progress saved automatically</li>
             <li>Course access for 12 months from enrollment (or as specified)</li>
             <li>Completion requires viewing all content and passing assessments</li>
@@ -481,7 +481,7 @@ export default async function LMSStandardsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.3 Academic Integrity</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Assessments must be completed independently</li>
             <li>Sharing assessment answers prohibited</li>
             <li>Identity verification for professional certifications</li>
@@ -490,7 +490,7 @@ export default async function LMSStandardsPage() {
         </section>
 
         <section id="responsibilities" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Roles & Responsibilities</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">8. Roles & Responsibilities</h2>
           <table className="w-full border-collapse border">
             <thead>
               <tr className="bg-gray-100">
@@ -534,7 +534,7 @@ export default async function LMSStandardsPage() {
         </section>
 
         <section id="versioning" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Versioning & Review</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">9. Versioning & Review</h2>
           <table className="w-full border-collapse border mb-4">
             <thead>
               <tr className="bg-gray-100">
@@ -551,13 +551,13 @@ export default async function LMSStandardsPage() {
               </tr>
             </tbody>
           </table>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             <strong>Review Schedule:</strong> Annually, or upon significant changes to educational
             offerings or accreditation requirements.
           </p>
         </section>
 
-        <footer className="mt-12 pt-8 border-t text-sm text-gray-500">
+        <footer className="mt-12 pt-8 border-t text-sm text-slate-500">
           <p>
             <strong>Document ID:</strong> EFH-LMS-001 | <strong>Owner:</strong> Director of
             Education

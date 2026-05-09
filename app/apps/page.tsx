@@ -63,13 +63,13 @@ export default function AppsPage() {
 
       <div className="py-8 max-w-6xl mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Apps</h1>
-          <p className="text-gray-600 mt-1">Access your purchased apps and tools</p>
+          <h1 className="text-3xl font-bold text-slate-900">My Apps</h1>
+          <p className="text-slate-600 mt-1">Access your purchased apps and tools</p>
         </div>
 
         {/* Active Apps */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Active Apps</h2>
+          <h2 className="text-lg font-semibold text-slate-900 mb-4">Active Apps</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {apps
               .filter((app) => app.status === 'active' || app.status === 'trial')
@@ -93,10 +93,10 @@ export default function AppsPage() {
                         </span>
                       )}
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-brand-blue-600 transition">
+                    <h3 className="text-lg font-semibold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition">
                       {app.name}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-4">{app.description}</p>
+                    <p className="text-slate-600 text-sm mb-4">{app.description}</p>
                     <div className="flex items-center text-brand-blue-600 text-sm font-medium">
                       Open App{' '}
                       <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition" />
@@ -111,8 +111,8 @@ export default function AppsPage() {
         <div className="bg-white rounded-xl border p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Browse More Apps</h2>
-              <p className="text-gray-600 text-sm">Discover more tools to grow your organization</p>
+              <h2 className="text-lg font-semibold text-slate-900">Browse More Apps</h2>
+              <p className="text-slate-600 text-sm">Discover more tools to grow your organization</p>
             </div>
             <Link
               href="/store/apps"

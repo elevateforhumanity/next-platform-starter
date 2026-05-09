@@ -20,8 +20,8 @@ export default async function DeploymentPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
     );
@@ -58,7 +58,7 @@ export default async function DeploymentPage() {
                 <Clock className="w-5 h-5 text-green-600" />
                 <span className="font-semibold text-green-600">5 minutes</span>
               </div>
-              <ul className="space-y-2 mb-6 text-gray-700">
+              <ul className="space-y-2 mb-6 text-slate-700">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <span>One-click deployment</span>
@@ -78,7 +78,7 @@ export default async function DeploymentPage() {
               </ul>
               <div className="bg-blue-50 rounded-lg p-4 text-sm">
                 <div className="font-bold mb-1">Cost Estimate</div>
-                <div className="text-gray-700">$20-100/month depending on usage</div>
+                <div className="text-slate-700">$20-100/month depending on usage</div>
               </div>
             </div>
 
@@ -91,7 +91,7 @@ export default async function DeploymentPage() {
                 <Clock className="w-5 h-5 text-yellow-600" />
                 <span className="font-semibold text-yellow-600">30 minutes</span>
               </div>
-              <ul className="space-y-2 mb-6 text-gray-700">
+              <ul className="space-y-2 mb-6 text-slate-700">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" />
                   <span>Full infrastructure control</span>
@@ -111,7 +111,7 @@ export default async function DeploymentPage() {
               </ul>
               <div className="bg-purple-50 rounded-lg p-4 text-sm">
                 <div className="font-bold mb-1">Cost Estimate</div>
-                <div className="text-gray-700">$50-300/month depending on scale</div>
+                <div className="text-slate-700">$50-300/month depending on scale</div>
               </div>
             </div>
 
@@ -124,7 +124,7 @@ export default async function DeploymentPage() {
                 <Clock className="w-5 h-5 text-orange-600" />
                 <span className="font-semibold text-orange-600">1-2 hours</span>
               </div>
-              <ul className="space-y-2 mb-6 text-gray-700">
+              <ul className="space-y-2 mb-6 text-slate-700">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <span>Complete data ownership</span>
@@ -144,7 +144,7 @@ export default async function DeploymentPage() {
               </ul>
               <div className="bg-green-50 rounded-lg p-4 text-sm">
                 <div className="font-bold mb-1">Cost Estimate</div>
-                <div className="text-gray-700">Hardware costs + maintenance</div>
+                <div className="text-slate-700">Hardware costs + maintenance</div>
               </div>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default async function DeploymentPage() {
             <div className="bg-gray-50 rounded-xl p-8">
               <Code className="w-12 h-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-4">Complete Source Code</h3>
-              <ul className="space-y-3 text-gray-700">
+              <ul className="space-y-3 text-slate-700">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <span>Full Next.js 16 application</span>
@@ -185,7 +185,7 @@ export default async function DeploymentPage() {
             <div className="bg-gray-50 rounded-xl p-8">
               <Database className="w-12 h-12 text-purple-600 mb-4" />
               <h3 className="text-xl font-bold mb-4">Infrastructure Setup</h3>
-              <ul className="space-y-3 text-gray-700">
+              <ul className="space-y-3 text-slate-700">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <span>Supabase database configuration</span>
@@ -264,7 +264,7 @@ export default async function DeploymentPage() {
                       <h3 className="text-xl font-bold">{item.title}</h3>
                       <span className="text-sm font-semibold text-blue-600">{item.time}</span>
                     </div>
-                    <p className="text-gray-700">{item.description}</p>
+                    <p className="text-slate-700">{item.description}</p>
                   </div>
                 </div>
               ))}
@@ -278,7 +278,7 @@ export default async function DeploymentPage() {
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-12 text-center">
             <Rocket className="w-16 h-16 text-blue-600 mx-auto mb-6" />
             <h2 className="text-3xl font-bold mb-4">Ready to Deploy?</h2>
-            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-700 mb-8 max-w-2xl mx-auto">
               Get started with your own workforce training platform today. Full support included.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

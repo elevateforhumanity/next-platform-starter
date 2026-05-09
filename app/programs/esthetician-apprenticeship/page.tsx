@@ -34,8 +34,8 @@ export default async function EstheticianApprenticeshipPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
     );
@@ -81,12 +81,12 @@ export default async function EstheticianApprenticeshipPage() {
           <div className="grid lg:grid-cols-2 gap-12 mb-12">
             <div>
               <h2 className="text-3xl font-bold text-black mb-6">Program Description</h2>
-              <p className="text-lg text-gray-700 mb-4">
+              <p className="text-lg text-slate-700 mb-4">
                 Start your career in skincare and beauty through our DOL-registered esthetician
                 apprenticeship. Learn advanced skincare techniques while earning, with theory
                 instruction through Milady.
               </p>
-              <p className="text-gray-700">
+              <p className="text-slate-700">
                 Our program provides federal apprenticeship sponsorship, employer coordination, and
                 compliance reporting to help you build a successful career in esthetics.
               </p>

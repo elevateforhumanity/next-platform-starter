@@ -71,7 +71,7 @@ export default function FormsPage() {
       {/* Header */}
       <section className="bg-brand-blue-700 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <FileText className="w-10 h-10 mx-auto mb-4 text-gray-300" />
+          <FileText className="w-10 h-10 mx-auto mb-4 text-slate-300" />
           <h1 className="text-3xl md:text-4xl font-bold mb-3">Forms & Documents</h1>
           <p className="text-slate-600 text-lg">
             Download the forms you need for enrollment, funding, compliance, and partnerships.
@@ -88,7 +88,7 @@ export default function FormsPage() {
               <div key={cat.title}>
                 <div className="flex items-center gap-3 mb-6">
                   <Icon className="w-6 h-6 text-brand-blue-600" />
-                  <h2 className="text-xl font-bold text-gray-900">{cat.title}</h2>
+                  <h2 className="text-xl font-bold text-slate-900">{cat.title}</h2>
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {cat.forms.map((form) => (
@@ -96,8 +96,8 @@ export default function FormsPage() {
                       key={form.name}
                       className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-sm transition-all"
                     >
-                      <h3 className="font-semibold text-gray-900 mb-1 text-sm">{form.name}</h3>
-                      <p className="text-gray-500 text-xs mb-3">{form.desc}</p>
+                      <h3 className="font-semibold text-slate-900 mb-1 text-sm">{form.name}</h3>
+                      <p className="text-slate-500 text-xs mb-3">{form.desc}</p>
                       <span className="text-brand-blue-600 text-xs font-medium inline-flex items-center gap-1">
                         <Download className="w-3 h-3" />
                         Available upon request
@@ -114,7 +114,7 @@ export default function FormsPage() {
       {/* Contact */}
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <p className="text-gray-600 mb-4">
+          <p className="text-slate-600 mb-4">
             Need a form not listed here? Contact our enrollment team.
           </p>
           <Link

@@ -161,8 +161,8 @@ export default function DemosPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">Platform Demos</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">Platform Demos</h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Explore our platform capabilities through these detailed walkthroughs
             </p>
           </div>
@@ -198,18 +198,18 @@ export default function DemosPage() {
 
                 {/* Content */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{demo.title}</h3>
-                  <p className="text-gray-600 mb-4">{demo.description}</p>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">{demo.title}</h3>
+                  <p className="text-slate-600 mb-4">{demo.description}</p>
 
                   <div className="space-y-2 mb-6">
                     {demo.features.slice(0, 3).map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-sm text-gray-700">
+                      <div key={idx} className="flex items-center gap-2 text-sm text-slate-700">
                         <span className="text-slate-500 flex-shrink-0">•</span>
                         {feature}
                       </div>
                     ))}
                     {demo.features.length > 3 && (
-                      <p className="text-sm text-gray-500 pl-6">
+                      <p className="text-sm text-slate-500 pl-6">
                         +{demo.features.length - 3} more features
                       </p>
                     )}
@@ -259,10 +259,10 @@ export default function DemosPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
               What You&apos;ll See in a Live Demo
             </h2>
-            <p className="text-gray-600">Our team will walk you through the entire platform</p>
+            <p className="text-slate-600">Our team will walk you through the entire platform</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -270,8 +270,8 @@ export default function DemosPage() {
               <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
                 <Monitor className="w-6 h-6 text-brand-blue-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Student Experience</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Student Experience</h3>
+              <p className="text-slate-600 text-sm">
                 See how students enroll, take courses, complete assessments, and earn certificates.
               </p>
             </div>
@@ -280,8 +280,8 @@ export default function DemosPage() {
               <div className="w-12 h-12 bg-brand-green-100 rounded-lg flex items-center justify-center mb-4">
                 <Users className="w-6 h-6 text-brand-green-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Admin Tools</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Admin Tools</h3>
+              <p className="text-slate-600 text-sm">
                 Explore course creation, student management, reporting, and compliance features.
               </p>
             </div>
@@ -290,8 +290,8 @@ export default function DemosPage() {
               <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
                 <ArrowRight className="w-6 h-6 text-brand-blue-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Integration Options</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Integration Options</h3>
+              <p className="text-slate-600 text-sm">
                 Learn about API integrations, SSO, SCORM support, and white-label options.
               </p>
             </div>

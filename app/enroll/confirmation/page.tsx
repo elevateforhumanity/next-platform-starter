@@ -70,7 +70,7 @@ function EnrollConfirmationContent() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600 mx-auto mb-4" />
-          <p className="text-gray-600">Confirming your enrollment...</p>
+          <p className="text-slate-600">Confirming your enrollment...</p>
         </div>
       </div>
     );
@@ -80,7 +80,7 @@ function EnrollConfirmationContent() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-          <p className="text-gray-600 mb-6">{error}</p>
+          <p className="text-slate-600 mb-6">{error}</p>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center px-6 py-3 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-semibold rounded-lg transition"
@@ -100,25 +100,25 @@ function EnrollConfirmationContent() {
           <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <PartyPopper className="w-10 h-10 text-brand-green-600" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Enrollment Confirmed!</h1>
-          <p className="text-gray-600">Welcome to the Barber Apprenticeship Program</p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Enrollment Confirmed!</h1>
+          <p className="text-slate-600">Welcome to the Barber Apprenticeship Program</p>
         </div>
 
         {/* Payment Receipt */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-          <h2 className="font-semibold text-gray-900 mb-4">Payment Received</h2>
+          <h2 className="font-semibold text-slate-900 mb-4">Payment Received</h2>
           <div className="flex justify-between items-center py-2 border-b border-gray-100">
-            <span className="text-gray-600">Program</span>
-            <span className="font-medium text-gray-900">Barber Apprenticeship</span>
+            <span className="text-slate-600">Program</span>
+            <span className="font-medium text-slate-900">Barber Apprenticeship</span>
           </div>
           <div className="flex justify-between items-center py-2 border-b border-gray-100">
-            <span className="text-gray-600">Amount Paid</span>
-            <span className="font-medium text-gray-900">
+            <span className="text-slate-600">Amount Paid</span>
+            <span className="font-medium text-slate-900">
               ${enrollment?.amountPaid?.toLocaleString() || '999'}
             </span>
           </div>
           <div className="flex justify-between items-center py-2">
-            <span className="text-gray-600">Status</span>
+            <span className="text-slate-600">Status</span>
             <span className="inline-flex items-center gap-1 text-amber-600 font-medium">
               <Clock className="w-4 h-4" />
               Pending Approval
@@ -136,7 +136,7 @@ function EnrollConfirmationContent() {
 
         {/* Unlock Checklist */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-          <h2 className="font-semibold text-gray-900 mb-4">Your Progress</h2>
+          <h2 className="font-semibold text-slate-900 mb-4">Your Progress</h2>
           <div className="space-y-4">
             {/* Completed steps */}
             <div className="flex items-center gap-4">
@@ -144,8 +144,8 @@ function EnrollConfirmationContent() {
                 <span className="text-slate-400 flex-shrink-0">•</span>
               </div>
               <div>
-                <p className="font-medium text-gray-900">Application Submitted</p>
-                <p className="text-sm text-gray-500">Completed</p>
+                <p className="font-medium text-slate-900">Application Submitted</p>
+                <p className="text-sm text-slate-500">Completed</p>
               </div>
             </div>
 
@@ -154,8 +154,8 @@ function EnrollConfirmationContent() {
                 <span className="text-slate-400 flex-shrink-0">•</span>
               </div>
               <div>
-                <p className="font-medium text-gray-900">Payment Received</p>
-                <p className="text-sm text-gray-500">Completed</p>
+                <p className="font-medium text-slate-900">Payment Received</p>
+                <p className="text-sm text-slate-500">Completed</p>
               </div>
             </div>
 
@@ -165,8 +165,8 @@ function EnrollConfirmationContent() {
                 <Clock className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-900">Shop Assignment</p>
-                <p className="text-sm text-gray-500">In progress (1-2 weeks)</p>
+                <p className="font-medium text-slate-900">Shop Assignment</p>
+                <p className="text-sm text-slate-500">In progress (1-2 weeks)</p>
               </div>
             </div>
 
@@ -175,39 +175,39 @@ function EnrollConfirmationContent() {
                 <Clock className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-900">Compliance Approval</p>
-                <p className="text-sm text-gray-500">Pending shop assignment</p>
+                <p className="font-medium text-slate-900">Compliance Approval</p>
+                <p className="text-sm text-slate-500">Pending shop assignment</p>
               </div>
             </div>
 
             {/* Locked steps */}
             <div className="flex items-center gap-4 opacity-60">
               <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                <Lock className="w-5 h-5 text-gray-500" />
+                <Lock className="w-5 h-5 text-slate-500" />
               </div>
               <div>
-                <p className="font-medium text-gray-700">Portal Access</p>
-                <p className="text-sm text-gray-500">Unlocks after approval</p>
+                <p className="font-medium text-slate-700">Portal Access</p>
+                <p className="text-sm text-slate-500">Unlocks after approval</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4 opacity-60">
               <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                <Lock className="w-5 h-5 text-gray-500" />
+                <Lock className="w-5 h-5 text-slate-500" />
               </div>
               <div>
-                <p className="font-medium text-gray-700">Hour Tracking</p>
-                <p className="text-sm text-gray-500">Unlocks after approval</p>
+                <p className="font-medium text-slate-700">Hour Tracking</p>
+                <p className="text-sm text-slate-500">Unlocks after approval</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4 opacity-60">
               <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                <Lock className="w-5 h-5 text-gray-500" />
+                <Lock className="w-5 h-5 text-slate-500" />
               </div>
               <div>
-                <p className="font-medium text-gray-700">Training Materials (Milady)</p>
-                <p className="text-sm text-gray-500">Unlocks after approval + agreement</p>
+                <p className="font-medium text-slate-700">Training Materials (Milady)</p>
+                <p className="text-sm text-slate-500">Unlocks after approval + agreement</p>
               </div>
             </div>
           </div>
@@ -215,29 +215,29 @@ function EnrollConfirmationContent() {
 
         {/* What You Can Do Now */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-          <h2 className="font-semibold text-gray-900 mb-4">What You Can Do Now</h2>
+          <h2 className="font-semibold text-slate-900 mb-4">What You Can Do Now</h2>
           <div className="space-y-3">
             <Link
               href="/messages"
               className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition"
             >
               <MessageCircle className="w-5 h-5 text-brand-blue-600" />
-              <span className="text-gray-700">Message your enrollment advisor</span>
+              <span className="text-slate-700">Message your enrollment advisor</span>
             </Link>
             <Link
               href="/documents/upload"
               className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition"
             >
               <FileText className="w-5 h-5 text-brand-blue-600" />
-              <span className="text-gray-700">Upload required documents</span>
+              <span className="text-slate-700">Upload required documents</span>
             </Link>
           </div>
         </div>
 
         {/* Next Steps */}
         <div className="bg-slate-50 rounded-xl p-6 mb-6">
-          <h2 className="font-semibold text-gray-900 mb-3">What Happens Next?</h2>
-          <ol className="space-y-2 text-gray-700">
+          <h2 className="font-semibold text-slate-900 mb-3">What Happens Next?</h2>
+          <ol className="space-y-2 text-slate-700">
             <li className="flex gap-2">
               <span className="font-bold text-brand-blue-600">1.</span>
               We'll contact you within 2 business days to discuss shop placement.
@@ -255,8 +255,8 @@ function EnrollConfirmationContent() {
 
         {/* Contact */}
         <div className="text-center">
-          <p className="text-gray-600 mb-2">Questions about your enrollment?</p>
-          <p className="text-gray-900">
+          <p className="text-slate-600 mb-2">Questions about your enrollment?</p>
+          <p className="text-slate-900">
             <a href="/support" className="text-brand-blue-600 font-semibold underline">
               Visit our Help Center
             </a>{' '}

@@ -20,8 +20,8 @@ export default async function VideoPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
     );
@@ -48,7 +48,7 @@ export default async function VideoPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Video</h1>
-          <p className="text-base md:text-lg mb-8 text-gray-100">
+          <p className="text-base md:text-lg mb-8 text-slate-100">
             Access your dashboard and development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -76,7 +76,7 @@ export default async function VideoPage() {
             <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Video</h2>
-                <p className="text-gray-700 mb-6">Access your dashboard and development.</p>
+                <p className="text-slate-700 mb-6">Access your dashboard and development.</p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <svg
@@ -159,7 +159,7 @@ export default async function VideoPage() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-3">Learn</h3>
-                <p className="text-gray-600">Access quality training programs</p>
+                <p className="text-slate-600">Access quality training programs</p>
               </div>
 
               <div className="bg-white rounded-lg shadow-sm border p-6">
@@ -179,7 +179,7 @@ export default async function VideoPage() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-3">Certify</h3>
-                <p className="text-gray-600">Earn industry certifications</p>
+                <p className="text-slate-600">Earn industry certifications</p>
               </div>
 
               <div className="bg-white rounded-lg shadow-sm border p-6">
@@ -199,7 +199,7 @@ export default async function VideoPage() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-3">Work</h3>
-                <p className="text-gray-600">Get hired in your field</p>
+                <p className="text-slate-600">Get hired in your field</p>
               </div>
             </div>
           </div>

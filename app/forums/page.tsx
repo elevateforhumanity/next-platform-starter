@@ -68,9 +68,9 @@ export default async function ForumsPage() {
         </section>
 
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-          <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-6" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Forums In Development</h2>
-          <p className="text-gray-600 mb-8 max-w-lg mx-auto">
+          <MessageSquare className="w-16 h-16 text-slate-300 mx-auto mb-6" />
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Forums In Development</h2>
+          <p className="text-slate-600 mb-8 max-w-lg mx-auto">
             We are building a community space where students can connect, ask questions, and support
             each other. Check back soon!
           </p>
@@ -160,11 +160,11 @@ export default async function ForumsPage() {
                 Start a Discussion
               </Link>
               <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="search"
                   placeholder="Search discussions..."
-                  className="w-full pl-12 pr-4 py-3 rounded-lg text-gray-900 placeholder-gray-500"
+                  className="w-full pl-12 pr-4 py-3 rounded-lg text-slate-900 placeholder-gray-500"
                 />
               </div>
             </div>
@@ -178,19 +178,19 @@ export default async function ForumsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
               <div className="text-2xl font-bold text-indigo-600">{categories.length}</div>
-              <div className="text-gray-600 text-sm">Categories</div>
+              <div className="text-slate-600 text-sm">Categories</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-indigo-600">500+</div>
-              <div className="text-gray-600 text-sm">Members</div>
+              <div className="text-slate-600 text-sm">Members</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-indigo-600">Active</div>
-              <div className="text-gray-600 text-sm">Community</div>
+              <div className="text-slate-600 text-sm">Community</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-indigo-600">24/7</div>
-              <div className="text-gray-600 text-sm">Access</div>
+              <div className="text-slate-600 text-sm">Access</div>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@ export default async function ForumsPage() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Forum Categories */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Discussion Categories</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Discussion Categories</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category) => {
               const icon = categoryIcons[category.name] || '💬';
@@ -218,11 +218,11 @@ export default async function ForumsPage() {
                   <div className="flex items-start gap-4">
                     <div className="text-4xl">{icon}</div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition flex items-center gap-2">
+                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition flex items-center gap-2">
                         {category.name}
                         <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
                       </h3>
-                      <p className="text-gray-600 text-sm mt-1">
+                      <p className="text-slate-600 text-sm mt-1">
                         {category.description || 'Join the discussion'}
                       </p>
                     </div>
@@ -235,23 +235,23 @@ export default async function ForumsPage() {
 
         {/* Community Guidelines */}
         <section className="bg-white rounded-2xl shadow-sm border p-8 mb-12">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Community Guidelines</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Community Guidelines</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Be Respectful</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-semibold text-slate-900 mb-2">Be Respectful</h3>
+              <p className="text-slate-600 text-sm">
                 Treat all members with respect. No harassment, discrimination, or personal attacks.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Stay On Topic</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-semibold text-slate-900 mb-2">Stay On Topic</h3>
+              <p className="text-slate-600 text-sm">
                 Post in the appropriate category and keep discussions relevant to the topic.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Help Each Other</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-semibold text-slate-900 mb-2">Help Each Other</h3>
+              <p className="text-slate-600 text-sm">
                 Share your knowledge and experiences to help fellow students succeed.
               </p>
             </div>

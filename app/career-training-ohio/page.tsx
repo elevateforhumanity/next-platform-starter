@@ -47,8 +47,8 @@ export default function CareerTrainingOhioPage() {
 
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Workforce Training in Ohio</h2>
-          <p className="text-gray-600 mb-8">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">Workforce Training in Ohio</h2>
+          <p className="text-slate-600 mb-8">
             Workforce and career training programs in Ohio often emphasize:
           </p>
           <div className="grid md:grid-cols-2 gap-6">
@@ -60,7 +60,7 @@ export default function CareerTrainingOhioPage() {
             ].map((item) => (
               <div key={item} className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-700">{item}</span>
+                <span className="text-slate-700">{item}</span>
               </div>
             ))}
           </div>
@@ -69,7 +69,7 @@ export default function CareerTrainingOhioPage() {
 
       <section className="py-16 bg-gray-100">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">
             How the Learning Platform Supports Statewide Programs
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
@@ -81,11 +81,11 @@ export default function CareerTrainingOhioPage() {
             ].map((item) => (
               <div key={item} className="flex items-start gap-3 bg-white p-4 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-700">{item}</span>
+                <span className="text-slate-700">{item}</span>
               </div>
             ))}
           </div>
-          <p className="text-gray-600 mt-6">
+          <p className="text-slate-600 mt-6">
             Programs can operate across Ohio without geographic limitations.
           </p>
         </div>
@@ -93,23 +93,23 @@ export default function CareerTrainingOhioPage() {
 
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Who These Programs Are For</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">Who These Programs Are For</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="flex items-start gap-3">
               <Users className="w-5 h-5 text-blue-500 mt-0.5" />
-              <span className="text-gray-700">Students and jobseekers</span>
+              <span className="text-slate-700">Students and jobseekers</span>
             </div>
             <div className="flex items-start gap-3">
               <Award className="w-5 h-5 text-purple-500 mt-0.5" />
-              <span className="text-gray-700">Employers and workforce partners</span>
+              <span className="text-slate-700">Employers and workforce partners</span>
             </div>
             <div className="flex items-start gap-3">
               <Users className="w-5 h-5 text-green-500 mt-0.5" />
-              <span className="text-gray-700">Training administrators and instructors</span>
+              <span className="text-slate-700">Training administrators and instructors</span>
             </div>
             <div className="flex items-start gap-3">
               <Shield className="w-5 h-5 text-orange-500 mt-0.5" />
-              <span className="text-gray-700">Program sponsors and oversight entities</span>
+              <span className="text-slate-700">Program sponsors and oversight entities</span>
             </div>
           </div>
         </div>
@@ -117,10 +117,10 @@ export default function CareerTrainingOhioPage() {
 
       <section className="py-16 bg-gray-100">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">
             Governance and Program Integrity
           </h2>
-          <p className="text-gray-600 mb-8">
+          <p className="text-slate-600 mb-8">
             Programs operate within defined governance and operational standards.
           </p>
           <div className="grid md:grid-cols-2 gap-6">
@@ -129,14 +129,14 @@ export default function CareerTrainingOhioPage() {
               className="flex items-center gap-3 p-4 bg-white rounded-lg hover:bg-gray-50"
             >
               <Shield className="w-6 h-6 text-blue-600" />
-              <span className="font-semibold text-gray-900">Platform Governance</span>
+              <span className="font-semibold text-slate-900">Platform Governance</span>
             </Link>
             <Link
               href="/governance/operational-controls"
               className="flex items-center gap-3 p-4 bg-white rounded-lg hover:bg-gray-50"
             >
               <Award className="w-6 h-6 text-green-600" />
-              <span className="font-semibold text-gray-900">Operational Controls</span>
+              <span className="font-semibold text-slate-900">Operational Controls</span>
             </Link>
           </div>
         </div>
@@ -144,28 +144,28 @@ export default function CareerTrainingOhioPage() {
 
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Platform Resources</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">Platform Resources</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <Link
               href="/lms"
               className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 border border-gray-200"
             >
-              <span className="font-semibold text-gray-900">Learning Platform</span>
-              <p className="text-sm text-gray-600 mt-1">Access the learning management system</p>
+              <span className="font-semibold text-slate-900">Learning Platform</span>
+              <p className="text-sm text-slate-600 mt-1">Access the learning management system</p>
             </Link>
             <Link
               href="/resources"
               className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 border border-gray-200"
             >
-              <span className="font-semibold text-gray-900">Student Resources</span>
-              <p className="text-sm text-gray-600 mt-1">Support materials and guides</p>
+              <span className="font-semibold text-slate-900">Student Resources</span>
+              <p className="text-sm text-slate-600 mt-1">Support materials and guides</p>
             </Link>
             <Link
               href="/programs"
               className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 border border-gray-200"
             >
-              <span className="font-semibold text-gray-900">All Programs</span>
-              <p className="text-sm text-gray-600 mt-1">Browse available training programs</p>
+              <span className="font-semibold text-slate-900">All Programs</span>
+              <p className="text-sm text-slate-600 mt-1">Browse available training programs</p>
             </Link>
           </div>
         </div>
@@ -195,7 +195,7 @@ export default function CareerTrainingOhioPage() {
         </div>
       </section>
 
-      <p className="text-center text-gray-500 text-sm py-8">
+      <p className="text-center text-slate-500 text-sm py-8">
         Last reviewed: January 2026 | Service scope: Statewide digital program support
       </p>
     </div>

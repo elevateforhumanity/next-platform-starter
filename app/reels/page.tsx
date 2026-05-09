@@ -75,7 +75,7 @@ export default async function ReelsPage() {
                     {post.title}
                   </h3>
                   {post.excerpt && (
-                    <p className="text-gray-400 text-xs mt-1 line-clamp-2">{post.excerpt}</p>
+                    <p className="text-slate-400 text-xs mt-1 line-clamp-2">{post.excerpt}</p>
                   )}
                 </Link>
               ))}

@@ -49,15 +49,15 @@ export default async function CareerServicesContactPage() {
               <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Phone className="w-8 h-8 text-brand-blue-600" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Contact Us</h2>
-              <p className="text-gray-600 mb-4">Speak directly with a career advisor</p>
+              <h2 className="text-xl font-bold text-slate-900 mb-2">Contact Us</h2>
+              <p className="text-slate-600 mb-4">Speak directly with a career advisor</p>
               <a
                 href="/support"
                 className="text-2xl font-bold text-brand-blue-600 hover:text-brand-blue-700"
               >
                 Get Help Online
               </a>
-              <p className="text-sm text-gray-500 mt-2">Mon-Fri, 9am-5pm EST</p>
+              <p className="text-sm text-slate-500 mt-2">Mon-Fri, 9am-5pm EST</p>
             </div>
 
             {/* Email */}
@@ -65,15 +65,15 @@ export default async function CareerServicesContactPage() {
               <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail className="w-8 h-8 text-brand-green-600" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Email Us</h2>
-              <p className="text-gray-600 mb-4">Get a response within 24 hours</p>
+              <h2 className="text-xl font-bold text-slate-900 mb-2">Email Us</h2>
+              <p className="text-slate-600 mb-4">Get a response within 24 hours</p>
               <a
                 href="/contact"
                 className="text-lg font-bold text-brand-green-600 hover:text-brand-green-700 break-all"
               >
                 our contact form
               </a>
-              <p className="text-sm text-gray-500 mt-2">We respond within 1 business day</p>
+              <p className="text-sm text-slate-500 mt-2">We respond within 1 business day</p>
             </div>
 
             {/* Schedule */}
@@ -81,15 +81,15 @@ export default async function CareerServicesContactPage() {
               <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Calendar className="w-8 h-8 text-brand-blue-600" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Schedule Appointment</h2>
-              <p className="text-gray-600 mb-4">Book a one-on-one session</p>
+              <h2 className="text-xl font-bold text-slate-900 mb-2">Schedule Appointment</h2>
+              <p className="text-slate-600 mb-4">Book a one-on-one session</p>
               <Link
                 href="/booking"
                 className="inline-flex items-center text-lg font-bold text-brand-blue-600 hover:text-brand-blue-700"
               >
                 Book Now <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
-              <p className="text-sm text-gray-500 mt-2">In-person or virtual available</p>
+              <p className="text-sm text-slate-500 mt-2">In-person or virtual available</p>
             </div>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default async function CareerServicesContactPage() {
       {/* Office Location */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Visit Our Office</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Visit Our Office</h2>
 
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
             <div className="md:flex">
@@ -106,8 +106,8 @@ export default async function CareerServicesContactPage() {
                 <div className="flex items-start mb-6">
                   <MapPin className="w-6 h-6 text-brand-blue-600 mr-3 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-1">Career Services Center</h3>
-                    <p className="text-gray-600">
+                    <h3 className="font-bold text-slate-900 mb-1">Career Services Center</h3>
+                    <p className="text-slate-600">
                       8888 Keystone Xing Suite 1300
                       <br />
                       Indianapolis, IN 46240
@@ -118,8 +118,8 @@ export default async function CareerServicesContactPage() {
                 <div className="flex items-start mb-6">
                   <Clock className="w-6 h-6 text-brand-blue-600 mr-3 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-1">Office Hours</h3>
-                    <p className="text-gray-600">
+                    <h3 className="font-bold text-slate-900 mb-1">Office Hours</h3>
+                    <p className="text-slate-600">
                       Monday - Friday: 9:00 AM - 5:00 PM
                       <br />
                       Saturday: By appointment
@@ -132,8 +132,8 @@ export default async function CareerServicesContactPage() {
                 <div className="flex items-start">
                   <MessageSquare className="w-6 h-6 text-brand-blue-600 mr-3 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-1">Walk-ins Welcome</h3>
-                    <p className="text-gray-600">
+                    <h3 className="font-bold text-slate-900 mb-1">Walk-ins Welcome</h3>
+                    <p className="text-slate-600">
                       No appointment needed for quick questions. For in-depth sessions, please
                       schedule ahead.
                     </p>
@@ -143,8 +143,8 @@ export default async function CareerServicesContactPage() {
 
               <div className="md:w-1/2 bg-gray-200 min-h-[300px] flex items-center justify-center">
                 <div className="text-center p-8">
-                  <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">
+                  <MapPin className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+                  <p className="text-slate-600">
                     <a
                       href="https://maps.google.com/?q=8888+Keystone+Xing+Suite+1300+Indianapolis+IN+46240"
                       target="_blank"
@@ -164,7 +164,7 @@ export default async function CareerServicesContactPage() {
       {/* Services Quick Links */}
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
             Career Services Available
           </h2>
 
@@ -177,10 +177,10 @@ export default async function CareerServicesContactPage() {
                 <span className="text-2xl">📄</span>
               </div>
               <div>
-                <h3 className="font-bold text-gray-900">Resume Building</h3>
-                <p className="text-sm text-gray-600">Create a professional resume</p>
+                <h3 className="font-bold text-slate-900">Resume Building</h3>
+                <p className="text-sm text-slate-600">Create a professional resume</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-gray-400 ml-auto" />
+              <ArrowRight className="w-5 h-5 text-slate-400 ml-auto" />
             </Link>
 
             <Link
@@ -191,10 +191,10 @@ export default async function CareerServicesContactPage() {
                 <span className="text-2xl">🎯</span>
               </div>
               <div>
-                <h3 className="font-bold text-gray-900">Interview Prep</h3>
-                <p className="text-sm text-gray-600">Practice with mock interviews</p>
+                <h3 className="font-bold text-slate-900">Interview Prep</h3>
+                <p className="text-sm text-slate-600">Practice with mock interviews</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-gray-400 ml-auto" />
+              <ArrowRight className="w-5 h-5 text-slate-400 ml-auto" />
             </Link>
 
             <Link
@@ -205,10 +205,10 @@ export default async function CareerServicesContactPage() {
                 <span className="text-2xl">🧭</span>
               </div>
               <div>
-                <h3 className="font-bold text-gray-900">Career Counseling</h3>
-                <p className="text-sm text-gray-600">Explore your career options</p>
+                <h3 className="font-bold text-slate-900">Career Counseling</h3>
+                <p className="text-sm text-slate-600">Explore your career options</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-gray-400 ml-auto" />
+              <ArrowRight className="w-5 h-5 text-slate-400 ml-auto" />
             </Link>
 
             <Link
@@ -219,10 +219,10 @@ export default async function CareerServicesContactPage() {
                 <span className="text-2xl">💼</span>
               </div>
               <div>
-                <h3 className="font-bold text-gray-900">Job Placement</h3>
-                <p className="text-sm text-gray-600">Connect with employers</p>
+                <h3 className="font-bold text-slate-900">Job Placement</h3>
+                <p className="text-sm text-slate-600">Connect with employers</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-gray-400 ml-auto" />
+              <ArrowRight className="w-5 h-5 text-slate-400 ml-auto" />
             </Link>
           </div>
         </div>
@@ -231,38 +231,38 @@ export default async function CareerServicesContactPage() {
       {/* FAQ */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
             Frequently Asked Questions
           </h2>
 
           <div className="space-y-4">
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-bold text-gray-900 mb-2">Are career services free?</h3>
-              <p className="text-gray-600">
+              <h3 className="font-bold text-slate-900 mb-2">Are career services free?</h3>
+              <p className="text-slate-600">
                 Yes, all career services are free for current students and program participants.
                 Alumni also have access to many services.
               </p>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-bold text-gray-900 mb-2">Do I need an appointment?</h3>
-              <p className="text-gray-600">
+              <h3 className="font-bold text-slate-900 mb-2">Do I need an appointment?</h3>
+              <p className="text-slate-600">
                 Walk-ins are welcome for quick questions. For resume reviews, mock interviews, or
                 counseling sessions, we recommend scheduling an appointment.
               </p>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-bold text-gray-900 mb-2">Can I get help virtually?</h3>
-              <p className="text-gray-600">
+              <h3 className="font-bold text-slate-900 mb-2">Can I get help virtually?</h3>
+              <p className="text-slate-600">
                 Absolutely! We offer all services via video call. Schedule a virtual appointment
                 through our booking system.
               </p>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-bold text-gray-900 mb-2">How long are appointments?</h3>
-              <p className="text-gray-600">
+              <h3 className="font-bold text-slate-900 mb-2">How long are appointments?</h3>
+              <p className="text-slate-600">
                 Initial consultations are 30 minutes. Resume reviews and mock interviews are
                 typically 60 minutes. Career counseling sessions can be 60-90 minutes.
               </p>

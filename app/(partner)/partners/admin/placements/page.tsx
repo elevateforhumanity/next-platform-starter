@@ -25,8 +25,8 @@ export default async function AdminPlacementsPage() {
       return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-            <p className="text-gray-600">Please try again later.</p>
+            <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+            <p className="text-slate-600">Please try again later.</p>
           </div>
         </div>
       );
@@ -69,7 +69,7 @@ export default async function AdminPlacementsPage() {
           <tbody>
             {data.length === 0 ? (
               <tr>
-                <td colSpan={5} className="py-4 text-center text-gray-500">
+                <td colSpan={5} className="py-4 text-center text-slate-500">
                   No placements found
                 </td>
               </tr>

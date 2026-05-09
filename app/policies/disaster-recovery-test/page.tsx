@@ -34,7 +34,7 @@ export default async function DisasterRecoveryTestPage() {
               <Shield className="w-8 h-8 text-brand-green-600" />
               <h1 className="text-4xl font-bold text-black">Disaster Recovery Test Report</h1>
             </div>
-            <p className="text-sm text-gray-600">Test Date: January 24, 2026</p>
+            <p className="text-sm text-slate-600">Test Date: January 24, 2026</p>
           </div>
 
           <div className="prose prose-lg max-w-none">
@@ -57,19 +57,19 @@ export default async function DisasterRecoveryTestPage() {
             <div className="bg-gray-50 rounded-lg p-6 mb-6">
               <dl className="grid md:grid-cols-2 gap-4 m-0">
                 <div>
-                  <dt className="font-semibold text-gray-600">Test Type</dt>
+                  <dt className="font-semibold text-slate-600">Test Type</dt>
                   <dd className="text-black m-0">Database Restore Drill</dd>
                 </div>
                 <div>
-                  <dt className="font-semibold text-gray-600">Test Date</dt>
+                  <dt className="font-semibold text-slate-600">Test Date</dt>
                   <dd className="text-black m-0">January 24, 2026</dd>
                 </div>
                 <div>
-                  <dt className="font-semibold text-gray-600">Scope</dt>
+                  <dt className="font-semibold text-slate-600">Scope</dt>
                   <dd className="text-black m-0">Full database restore from automated backup</dd>
                 </div>
                 <div>
-                  <dt className="font-semibold text-gray-600">Environment</dt>
+                  <dt className="font-semibold text-slate-600">Environment</dt>
                   <dd className="text-black m-0">Isolated test environment (non-production)</dd>
                 </div>
               </dl>
@@ -117,7 +117,7 @@ export default async function DisasterRecoveryTestPage() {
                   </h3>
                 </div>
                 <p className="text-3xl font-black text-brand-blue-600 mb-1">18 minutes</p>
-                <p className="text-sm text-gray-600 m-0">Target: &lt; 4 hours</p>
+                <p className="text-sm text-slate-600 m-0">Target: &lt; 4 hours</p>
               </div>
 
               <div className="bg-indigo-50 rounded-lg p-6 border-2 border-indigo-200">
@@ -128,7 +128,7 @@ export default async function DisasterRecoveryTestPage() {
                   </h3>
                 </div>
                 <p className="text-3xl font-black text-indigo-600 mb-1">24 hours</p>
-                <p className="text-sm text-gray-600 m-0">Based on daily backup schedule</p>
+                <p className="text-sm text-slate-600 m-0">Based on daily backup schedule</p>
               </div>
             </div>
 

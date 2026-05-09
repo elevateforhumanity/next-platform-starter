@@ -62,8 +62,8 @@ export default async function BadgesPage() {
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs items={[{ label: 'Student Portal', href: '/student' }, { label: 'Badges' }]} />
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">My Badges</h1>
-        <p className="text-gray-600 mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">My Badges</h1>
+        <p className="text-slate-600 mb-8">
           Earn badges by completing milestones in your learning journey.
         </p>
 
@@ -78,17 +78,17 @@ export default async function BadgesPage() {
                 }`}
               >
                 <div className="text-4xl mb-2">{badge.icon}</div>
-                <h3 className={`font-semibold ${earned ? 'text-gray-900' : 'text-gray-500'}`}>
+                <h3 className={`font-semibold ${earned ? 'text-slate-900' : 'text-slate-500'}`}>
                   {badge.name}
                 </h3>
-                <p className="text-xs text-gray-500 mt-1">{badge.description}</p>
+                <p className="text-xs text-slate-500 mt-1">{badge.description}</p>
                 {earned ? (
                   <div className="mt-2 flex items-center justify-center gap-1 text-green-600 text-xs">
                     <CheckCircle className="w-3 h-3" />
                     Earned
                   </div>
                 ) : (
-                  <div className="mt-2 flex items-center justify-center gap-1 text-gray-400 text-xs">
+                  <div className="mt-2 flex items-center justify-center gap-1 text-slate-400 text-xs">
                     <Lock className="w-3 h-3" />
                     Locked
                   </div>

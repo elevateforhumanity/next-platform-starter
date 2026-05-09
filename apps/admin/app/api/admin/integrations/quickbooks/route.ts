@@ -20,6 +20,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
+import { getAdminUrl } from '@/lib/utils/siteUrl';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -88,7 +89,7 @@ export async function GET(request: NextRequest) {
 
   if (action === 'auth_url') {
     const clientId    = process.env.QB_CLIENT_ID;
-    const redirectUri = process.env.QB_REDIRECT_URI ?? `${process.env.NEXT_PUBLIC_ADMIN_URL}/admin/integrations/quickbooks/callback`;
+    const redirectUri = process.env.QB_REDIRECT_URI ?? `${getAdminUrl()}/admin/integrations/quickbooks/callback`;
     if (!clientId) return safeError('QB_CLIENT_ID not configured', 503);
 
     const state = Buffer.from(JSON.stringify({ ts: Date.now() })).toString('base64');

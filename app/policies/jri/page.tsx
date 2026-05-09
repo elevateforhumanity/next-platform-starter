@@ -55,7 +55,7 @@ export default async function JRIPage() {
       {/* Content */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <p className="text-sm text-gray-500 mb-8">Last Updated: December 22, 2024</p>
+          <p className="text-sm text-slate-500 mb-8">Last Updated: December 22, 2024</p>
 
           <div className="prose prose-lg max-w-none">
             <h2>Overview</h2>
@@ -82,7 +82,7 @@ export default async function JRIPage() {
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="text-slate-400 flex-shrink-0">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -99,7 +99,7 @@ export default async function JRIPage() {
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="text-slate-400 flex-shrink-0">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -155,8 +155,8 @@ export default async function JRIPage() {
 
           {/* Contact */}
           <div className="mt-12 bg-slate-50 rounded-xl p-8 border">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Questions About JRI?</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">Questions About JRI?</h2>
+            <p className="text-slate-600 mb-6">
               Contact our enrollment team for more information about JRI eligibility and available
               programs.
             </p>

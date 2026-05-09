@@ -32,7 +32,7 @@ export default async function StudentCoursesPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <nav className="flex items-center text-sm text-gray-600">
+          <nav className="flex items-center text-sm text-slate-600">
             <Link href="/" className="hover:text-blue-600">
               Home
             </Link>
@@ -41,12 +41,12 @@ export default async function StudentCoursesPage() {
               Student Portal
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">My Courses</span>
+            <span className="text-slate-900 font-medium">My Courses</span>
           </nav>
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">My Courses</h1>
+        <h1 className="text-3xl font-bold text-slate-900 mb-8">My Courses</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
             <div key={course.id} className="bg-white rounded-xl shadow-sm overflow-hidden">
@@ -54,14 +54,14 @@ export default async function StudentCoursesPage() {
                 <BookOpen className="w-12 h-12 text-white opacity-80" />
               </div>
               <div className="p-6">
-                <h3 className="font-bold text-gray-900 mb-2">{course.title}</h3>
-                <div className="flex items-center text-sm text-gray-600 mb-4">
+                <h3 className="font-bold text-slate-900 mb-2">{course.title}</h3>
+                <div className="flex items-center text-sm text-slate-600 mb-4">
                   <Clock className="w-4 h-4 mr-1" />
                   {course.completedLessons}/{course.totalLessons} lessons
                 </div>
                 <div className="mb-4">
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600">Progress</span>
+                    <span className="text-slate-600">Progress</span>
                     <span className="font-medium">{course.progress}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">

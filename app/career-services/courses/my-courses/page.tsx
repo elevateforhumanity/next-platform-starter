@@ -86,13 +86,13 @@ export default async function MyCoursesPage() {
       <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Purchased Courses */}
         <section className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Courses</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Your Courses</h2>
 
           {!purchases || purchases.length === 0 ? (
             <div className="bg-white rounded-xl border p-12 text-center">
-              <Lock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No courses yet</h3>
-              <p className="text-gray-600 mb-6">Purchase a course to start learning.</p>
+              <Lock className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">No courses yet</h3>
+              <p className="text-slate-600 mb-6">Purchase a course to start learning.</p>
               <Link
                 href="/career-services/courses"
                 className="inline-flex items-center bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700"
@@ -123,10 +123,10 @@ export default async function MyCoursesPage() {
                     </div>
                   </div>
                   <div className="p-5">
-                    <h3 className="font-bold text-gray-900 mb-1">{purchase.course?.title}</h3>
-                    <p className="text-sm text-gray-600 mb-3">{purchase.course?.subtitle}</p>
+                    <h3 className="font-bold text-slate-900 mb-1">{purchase.course?.title}</h3>
+                    <p className="text-sm text-slate-600 mb-3">{purchase.course?.subtitle}</p>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="flex items-center gap-1 text-gray-500">
+                      <span className="flex items-center gap-1 text-slate-500">
                         <Clock className="w-4 h-4" />
                         {purchase.course?.duration_hours} hours
                       </span>
@@ -145,7 +145,7 @@ export default async function MyCoursesPage() {
         {/* Recommended Courses */}
         {unpurchasedCourses.length > 0 && (
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Recommended for You</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">Recommended for You</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {unpurchasedCourses.map((course: any) => (
                 <div
@@ -164,10 +164,10 @@ export default async function MyCoursesPage() {
                     </div>
                   </div>
                   <div className="p-5">
-                    <h3 className="font-bold text-gray-900 mb-1">{course.title}</h3>
-                    <p className="text-sm text-gray-600 mb-3">{course.subtitle}</p>
+                    <h3 className="font-bold text-slate-900 mb-1">{course.title}</h3>
+                    <p className="text-sm text-slate-600 mb-3">{course.subtitle}</p>
                     <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-1 text-sm text-gray-500">
+                      <span className="flex items-center gap-1 text-sm text-slate-500">
                         <Clock className="w-4 h-4" />
                         {course.duration_hours} hours
                       </span>

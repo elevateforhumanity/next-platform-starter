@@ -114,15 +114,15 @@ export default async function StartTrialPage() {
               <Clock className="w-4 h-4" />
               14-Day Free Trial
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Start Your Free Trial</h2>
-            <p className="text-gray-600 mt-2">No credit card required. Cancel anytime.</p>
+            <h2 className="text-2xl font-bold text-slate-900">Start Your Free Trial</h2>
+            <p className="text-slate-600 mt-2">No credit card required. Cancel anytime.</p>
           </div>
 
           <ul className="space-y-3 mb-8">
             {features.map((feature, i) => (
               <li key={i} className="flex items-center gap-3">
                 <Check className="w-5 h-5 text-brand-green-500 flex-shrink-0" />
-                <span className="text-gray-700">{feature}</span>
+                <span className="text-slate-700">{feature}</span>
               </li>
             ))}
           </ul>
@@ -136,7 +136,7 @@ export default async function StartTrialPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-4">
+          <p className="text-center text-sm text-slate-500 mt-4">
             By starting a trial, you agree to our{' '}
             <Link href="/terms-of-service" className="text-brand-blue-600 hover:underline">Terms of Service</Link>
           </p>

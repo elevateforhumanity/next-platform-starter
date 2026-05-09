@@ -33,7 +33,7 @@ export default async function OnboardingUXPage() {
       </div>
       <div className="bg-gray-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
+          <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
               Home
             </Link>
@@ -45,7 +45,7 @@ export default async function OnboardingUXPage() {
             <span className="text-white">Onboarding & UX</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Onboarding and User Experience Standards</h1>
-          <p className="text-gray-300">
+          <p className="text-slate-300">
             User journeys, accessibility, support, and experience guidelines
           </p>
           <div className="flex items-center gap-6 mt-6 text-sm">
@@ -129,19 +129,19 @@ export default async function OnboardingUXPage() {
         </nav>
 
         <section id="purpose" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Layout className="w-6 h-6 text-teal-600" />
             1. Purpose & Scope
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">1.1 Purpose</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             This document establishes standards for user onboarding, accessibility, support, and
             overall user experience across all Elevate For Humanity platforms. It ensures
             consistent, accessible, and supportive experiences for all users.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.2 Scope</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Account creation and onboarding flows</li>
             <li>Accessibility compliance and implementation</li>
             <li>Design system and UI consistency</li>
@@ -183,13 +183,13 @@ export default async function OnboardingUXPage() {
         </section>
 
         <section id="onboarding" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <UserPlus className="w-6 h-6 text-teal-600" />
             2. Onboarding Flows
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">2.1 Account Creation</h3>
-          <ol className="list-decimal pl-6 space-y-2 text-gray-700 mb-4">
+          <ol className="list-decimal pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Entry Point:</strong> Clear CTA on homepage, contextual signup prompts
             </li>
@@ -248,7 +248,7 @@ export default async function OnboardingUXPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">2.3 Onboarding Principles</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>
               <strong>Progressive Disclosure:</strong> Show information as needed, not all at once
             </li>
@@ -268,13 +268,13 @@ export default async function OnboardingUXPage() {
         </section>
 
         <section id="accessibility" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Accessibility className="w-6 h-6 text-teal-600" />
             3. Accessibility Standards
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.1 Compliance Target</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             All platform components must meet <strong>WCAG 2.1 Level AA</strong> standards. This
             ensures accessibility for users with visual, auditory, motor, and cognitive
             disabilities.
@@ -317,7 +317,7 @@ export default async function OnboardingUXPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.3 Technical Implementation</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Semantic HTML (proper heading hierarchy, landmarks)</li>
             <li>ARIA labels for interactive elements</li>
             <li>Focus management for modals and dynamic content</li>
@@ -326,7 +326,7 @@ export default async function OnboardingUXPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.4 Testing & Validation</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Automated testing with axe-core on every deployment</li>
             <li>Manual testing with screen readers (NVDA, VoiceOver)</li>
             <li>Keyboard-only navigation testing</li>
@@ -336,13 +336,13 @@ export default async function OnboardingUXPage() {
         </section>
 
         <section id="design" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Settings className="w-6 h-6 text-teal-600" />
             4. Design System
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.1 Visual Identity</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Primary Colors:</strong> Orange (#F97316), Gray (#1F2937)
             </li>
@@ -394,7 +394,7 @@ export default async function OnboardingUXPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.3 Responsive Design</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Mobile-first approach</li>
             <li>Breakpoints: 640px (sm), 768px (md), 1024px (lg), 1280px (xl)</li>
             <li>Touch-friendly targets on mobile (minimum 44x44px)</li>
@@ -403,7 +403,7 @@ export default async function OnboardingUXPage() {
         </section>
 
         <section id="support" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <HelpCircle className="w-6 h-6 text-teal-600" />
             5. Support Channels
           </h2>
@@ -447,7 +447,7 @@ export default async function OnboardingUXPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.2 Support Tiers</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Tier 1:</strong> General inquiries, account issues, basic troubleshooting
             </li>
@@ -494,7 +494,7 @@ export default async function OnboardingUXPage() {
         </section>
 
         <section id="communication" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <MessageSquare className="w-6 h-6 text-teal-600" />
             6. User Communication
           </h2>
@@ -530,7 +530,7 @@ export default async function OnboardingUXPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.2 In-App Notifications</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Non-intrusive notification center</li>
             <li>Categorized by type (courses, account, promotions)</li>
             <li>User-controllable preferences</li>
@@ -538,7 +538,7 @@ export default async function OnboardingUXPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.3 Communication Standards</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Clear, jargon-free language</li>
             <li>Personalized where appropriate (name, relevant content)</li>
             <li>Mobile-optimized email templates</li>
@@ -548,10 +548,10 @@ export default async function OnboardingUXPage() {
         </section>
 
         <section id="feedback" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Feedback & Improvement</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">7. Feedback & Improvement</h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.1 Feedback Collection</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>In-App Feedback:</strong> Contextual feedback buttons throughout platform
             </li>
@@ -570,7 +570,7 @@ export default async function OnboardingUXPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.2 Feedback Processing</h3>
-          <ol className="list-decimal pl-6 space-y-2 text-gray-700 mb-4">
+          <ol className="list-decimal pl-6 space-y-2 text-slate-700 mb-4">
             <li>All feedback logged and categorized</li>
             <li>Weekly review of feedback themes</li>
             <li>Prioritization based on impact and frequency</li>
@@ -618,7 +618,7 @@ export default async function OnboardingUXPage() {
         </section>
 
         <section id="responsibilities" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Roles & Responsibilities</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">8. Roles & Responsibilities</h2>
           <table className="w-full border-collapse border">
             <thead>
               <tr className="bg-gray-100">
@@ -654,7 +654,7 @@ export default async function OnboardingUXPage() {
         </section>
 
         <section id="versioning" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Versioning & Review</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">9. Versioning & Review</h2>
           <table className="w-full border-collapse border mb-4">
             <thead>
               <tr className="bg-gray-100">
@@ -671,13 +671,13 @@ export default async function OnboardingUXPage() {
               </tr>
             </tbody>
           </table>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             <strong>Review Schedule:</strong> Bi-annually, or upon significant platform changes or
             accessibility standard updates.
           </p>
         </section>
 
-        <footer className="mt-12 pt-8 border-t text-sm text-gray-500">
+        <footer className="mt-12 pt-8 border-t text-sm text-slate-500">
           <p>
             <strong>Document ID:</strong> EFH-UX-001 | <strong>Owner:</strong> Director of Product
           </p>

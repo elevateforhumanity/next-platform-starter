@@ -32,7 +32,7 @@ export default async function TaxOperationsPage() {
       </div>
       <div className="bg-gray-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
+          <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
               Home
             </Link>
@@ -44,7 +44,7 @@ export default async function TaxOperationsPage() {
             <span className="text-white">Tax Operations</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Tax Preparation and Refund Advance Operations</h1>
-          <p className="text-gray-300">
+          <p className="text-slate-300">
             Tax services compliance and operational procedures
           </p>
           <div className="flex items-center gap-6 mt-6 text-sm">
@@ -128,12 +128,12 @@ export default async function TaxOperationsPage() {
         </nav>
 
         <section id="purpose" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Calculator className="w-6 h-6 text-brand-red-600" />
             1. Purpose & Scope
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">1.1 Purpose</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             This document governs all tax preparation services operated under the tax operations
             division, including individual tax return preparation, refund advance loans, and
             related financial products. It ensures IRS compliance, consumer protection, and
@@ -141,7 +141,7 @@ export default async function TaxOperationsPage() {
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.2 Scope</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Individual federal and state tax return preparation</li>
             <li>Refund Advance loan products</li>
             <li>Refund Transfer (bank product) services</li>
@@ -150,7 +150,7 @@ export default async function TaxOperationsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.3 Operating Entity</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             <strong>Tax Operations</strong> operates as a trade name of 2Exclusive LLC-S
             (d/b/a Elevate for Humanity), registered in Indiana. Tax preparation services are
             provided by licensed tax preparers with valid PTINs.
@@ -158,7 +158,7 @@ export default async function TaxOperationsPage() {
         </section>
 
         <section id="services" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <FileText className="w-6 h-6 text-brand-red-600" />
             2. Services Offered
           </h2>
@@ -202,7 +202,7 @@ export default async function TaxOperationsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">2.2 Service Channels</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>
               <strong>Online Self-Prep:</strong> Guided DIY tax preparation with review
             </li>
@@ -219,7 +219,7 @@ export default async function TaxOperationsPage() {
         </section>
 
         <section id="compliance" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Shield className="w-6 h-6 text-brand-red-600" />
             3. IRS Compliance
           </h2>
@@ -258,7 +258,7 @@ export default async function TaxOperationsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.2 EFIN Management</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Electronic Filing Identification Number (EFIN) registered with IRS</li>
             <li>EFIN holder responsible for all returns filed under the number</li>
             <li>Annual EFIN renewal and suitability check</li>
@@ -266,7 +266,7 @@ export default async function TaxOperationsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.3 Circular 230 Compliance</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Due diligence on all return positions</li>
             <li>No frivolous or fraudulent positions</li>
             <li>Proper documentation of preparer advice</li>
@@ -275,13 +275,13 @@ export default async function TaxOperationsPage() {
         </section>
 
         <section id="refund-advance" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <DollarSign className="w-6 h-6 text-brand-red-600" />
             4. Refund Advance Program
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.1 Product Overview</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             Refund Advance is a loan offered by our partner bank, secured by the taxpayer's expected
             federal refund. The loan is repaid when the IRS issues the refund.
           </p>
@@ -319,7 +319,7 @@ export default async function TaxOperationsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.3 Eligibility Requirements</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Federal refund of at least $500</li>
             <li>Tax return prepared by our tax operations team</li>
             <li>Valid government-issued ID</li>
@@ -335,7 +335,7 @@ export default async function TaxOperationsPage() {
               is less than expected, and right to cancel.
             </p>
           </div>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Truth in Lending Act (TILA) disclosures</li>
             <li>Loan agreement with all terms</li>
             <li>Risk disclosure (refund may differ from estimate)</li>
@@ -344,7 +344,7 @@ export default async function TaxOperationsPage() {
         </section>
 
         <section id="fees" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <FileText className="w-6 h-6 text-brand-red-600" />
             5. Fee Structure & Disclosures
           </h2>
@@ -416,7 +416,7 @@ export default async function TaxOperationsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.3 Fee Disclosure Requirements</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>All fees disclosed in writing before service begins</li>
             <li>Fee estimate provided after initial document review</li>
             <li>Final fee confirmed before return is filed</li>
@@ -426,13 +426,13 @@ export default async function TaxOperationsPage() {
         </section>
 
         <section id="data-security" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Shield className="w-6 h-6 text-brand-red-600" />
             6. Data Security & Privacy
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.1 Sensitive Data Handling</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>SSN:</strong> Encrypted at rest and in transit, masked in UI (XXX-XX-1234)
             </li>
@@ -448,11 +448,11 @@ export default async function TaxOperationsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.2 IRC Section 7216 Compliance</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             Tax return information cannot be disclosed or used for purposes other than tax
             preparation without written consent from the taxpayer.
           </p>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Consent form required before any data sharing</li>
             <li>Separate consent for marketing use</li>
             <li>Consent is revocable at any time</li>
@@ -460,7 +460,7 @@ export default async function TaxOperationsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.3 FTC Safeguards Rule</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Written information security program</li>
             <li>Designated security coordinator</li>
             <li>Risk assessment and mitigation</li>
@@ -470,13 +470,13 @@ export default async function TaxOperationsPage() {
         </section>
 
         <section id="quality" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <AlertTriangle className="w-6 h-6 text-brand-red-600" />
             7. Quality Assurance
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.1 Review Process</h3>
-          <ol className="list-decimal pl-6 space-y-2 text-gray-700 mb-4">
+          <ol className="list-decimal pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Preparer Review:</strong> Initial preparation and self-review
             </li>
@@ -520,7 +520,7 @@ export default async function TaxOperationsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.3 Accuracy Guarantee</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             If an error on a return prepared by our tax operations team results in IRS penalties or
             interest, we will reimburse the client for those penalties and interest (up to $10,000)
             and prepare the amended return at no charge.
@@ -528,7 +528,7 @@ export default async function TaxOperationsPage() {
         </section>
 
         <section id="responsibilities" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Users className="w-6 h-6 text-brand-red-600" />
             8. Roles & Responsibilities
           </h2>
@@ -573,7 +573,7 @@ export default async function TaxOperationsPage() {
         </section>
 
         <section id="versioning" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Versioning & Review</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">9. Versioning & Review</h2>
           <table className="w-full border-collapse border mb-4">
             <thead>
               <tr className="bg-gray-100">
@@ -590,13 +590,13 @@ export default async function TaxOperationsPage() {
               </tr>
             </tbody>
           </table>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             <strong>Review Schedule:</strong> Annually before tax season, or upon IRS regulatory
             changes.
           </p>
         </section>
 
-        <footer className="mt-12 pt-8 border-t text-sm text-gray-500">
+        <footer className="mt-12 pt-8 border-t text-sm text-slate-500">
           <p>
             <strong>Document ID:</strong> EFH-TAX-001 | <strong>Owner:</strong> Tax Operations
             Manager

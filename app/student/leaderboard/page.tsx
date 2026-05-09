@@ -40,10 +40,10 @@ export default async function LeaderboardPage() {
 
   const getRankIcon = (rank: number) => {
     if (rank === 1) return <Trophy className="w-6 h-6 text-yellow-500" />;
-    if (rank === 2) return <Medal className="w-6 h-6 text-gray-400" />;
+    if (rank === 2) return <Medal className="w-6 h-6 text-slate-400" />;
     if (rank === 3) return <Award className="w-6 h-6 text-amber-600" />;
     return (
-      <span className="w-6 h-6 flex items-center justify-center text-gray-500 font-bold">
+      <span className="w-6 h-6 flex items-center justify-center text-slate-500 font-bold">
         {rank}
       </span>
     );
@@ -55,8 +55,8 @@ export default async function LeaderboardPage() {
         items={[{ label: 'Student Portal', href: '/student' }, { label: 'Leaderboard' }]}
       />
       <div className="max-w-2xl mx-auto px-6 py-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Leaderboard</h1>
-        <p className="text-gray-600 mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">Leaderboard</h1>
+        <p className="text-slate-600 mb-8">
           Top learners this month. Keep learning to climb the ranks!
         </p>
 
@@ -86,13 +86,13 @@ export default async function LeaderboardPage() {
                         className="w-10 h-10 rounded-full object-cover"
                       />
                     ) : (
-                      <span className="text-gray-500 font-semibold">
+                      <span className="text-slate-500 font-semibold">
                         {learner.full_name?.charAt(0) || '?'}
                       </span>
                     )}
                   </div>
                   <div className="flex-1">
-                    <p className="font-semibold text-gray-900">
+                    <p className="font-semibold text-slate-900">
                       {learner.full_name || 'Anonymous'}
                       {learner.id === user.id && (
                         <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">
@@ -102,21 +102,21 @@ export default async function LeaderboardPage() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-gray-900">{learner.points || 0}</p>
-                    <p className="text-xs text-gray-500">points</p>
+                    <p className="font-bold text-slate-900">{learner.points || 0}</p>
+                    <p className="text-xs text-slate-500">points</p>
                   </div>
                 </li>
               ))}
             </ul>
           ) : (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-500">
               <p>No learners yet. Be the first to earn points!</p>
             </div>
           )}
         </div>
 
         <div className="mt-6 p-4 bg-gray-50 rounded-xl">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-slate-600">
             <strong>How to earn points:</strong> Complete lessons (+10), finish courses (+100),
             maintain streaks (+5/day), earn badges (+25).
           </p>

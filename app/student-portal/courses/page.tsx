@@ -18,8 +18,8 @@ export default async function StudentCoursesPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Database connection failed.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Database connection failed.</p>
         </div>
       </div>
     );
@@ -98,22 +98,22 @@ export default async function StudentCoursesPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/student-portal" className="hover:text-gray-700">Student Portal</Link>
+          <nav className="flex items-center gap-2 text-sm text-slate-500 mb-4">
+            <Link href="/student-portal" className="hover:text-slate-700">Student Portal</Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">My Courses</span>
+            <span className="text-slate-900 font-medium">My Courses</span>
           </nav>
-          <h1 className="text-2xl font-bold text-gray-900">My Courses</h1>
-          <p className="text-gray-600 mt-1">Continue your learning journey</p>
+          <h1 className="text-2xl font-bold text-slate-900">My Courses</h1>
+          <p className="text-slate-600 mt-1">Continue your learning journey</p>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {courses.length === 0 ? (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-            <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">No courses yet</h2>
-            <p className="text-gray-500 mb-6">You are not enrolled in any courses.</p>
+            <BookOpen className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+            <h2 className="text-lg font-semibold text-slate-900 mb-2">No courses yet</h2>
+            <p className="text-slate-500 mb-6">You are not enrolled in any courses.</p>
             <Link href="/programs" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
               Browse Programs
             </Link>
@@ -122,7 +122,7 @@ export default async function StudentCoursesPage() {
           <>
             {activeCourses.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Active Courses</h2>
+                <h2 className="text-lg font-semibold text-slate-900 mb-4">Active Courses</h2>
                 <div className="space-y-4">
                   {activeCourses.map((course) => (
                     <div key={course.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -132,7 +132,7 @@ export default async function StudentCoursesPage() {
                             <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center">
                               <BookOpen className="w-7 h-7 text-blue-600" />
                             </div>
-                            <h3 className="font-semibold text-gray-900 text-lg">{course.name}</h3>
+                            <h3 className="font-semibold text-slate-900 text-lg">{course.name}</h3>
                           </div>
                           <span className="text-2xl font-bold text-blue-600">{course.progress}%</span>
                         </div>
@@ -142,7 +142,7 @@ export default async function StudentCoursesPage() {
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="flex items-center gap-1 text-sm text-gray-500">
+                          <span className="flex items-center gap-1 text-sm text-slate-500">
                             <Clock className="w-4 h-4" />
                             Last accessed {formatDate(course.last_accessed)}
                           </span>
@@ -157,7 +157,7 @@ export default async function StudentCoursesPage() {
                       </div>
                       {course.next_lesson && (
                         <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
-                          <p className="text-sm text-gray-600"><span className="font-medium">Next up:</span> {course.next_lesson}</p>
+                          <p className="text-sm text-slate-600"><span className="font-medium">Next up:</span> {course.next_lesson}</p>
                         </div>
                       )}
                     </div>
@@ -168,7 +168,7 @@ export default async function StudentCoursesPage() {
 
             {completedCourses.length > 0 && (
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Completed Courses</h2>
+                <h2 className="text-lg font-semibold text-slate-900 mb-4">Completed Courses</h2>
                 <div className="space-y-4">
                   {completedCourses.map((course) => (
                     <div key={course.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -177,7 +177,7 @@ export default async function StudentCoursesPage() {
                           <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                             <CheckCircle className="w-6 h-6 text-green-600" />
                           </div>
-                          <h3 className="font-semibold text-gray-900">{course.name}</h3>
+                          <h3 className="font-semibold text-slate-900">{course.name}</h3>
                         </div>
                         <div className="flex items-center gap-4">
                           <span className="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">Completed</span>

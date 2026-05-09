@@ -60,20 +60,20 @@ export default async function QuickstartPage() {
       <div className="max-w-4xl mx-auto px-4">
         <Link
           href="/docs"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Docs
         </Link>
         <div className="flex items-center gap-3 mb-8">
           <Zap className="w-8 h-8 text-yellow-500" />
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Quick Start Guide</h1>
-            <p className="text-gray-600">Get up and running in minutes</p>
+            <h1 className="text-3xl font-bold text-slate-900">Quick Start Guide</h1>
+            <p className="text-slate-600">Get up and running in minutes</p>
           </div>
         </div>
         <div className="bg-white rounded-xl shadow-sm border p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Welcome to Elevate!</h2>
-          <p className="text-gray-600">
+          <h2 className="text-xl font-semibold text-slate-900 mb-4">Welcome to Elevate!</h2>
+          <p className="text-slate-600">
             Follow these steps to set up your training programs and start enrolling students. Most
             organizations complete setup in under 30 minutes.
           </p>
@@ -88,8 +88,8 @@ export default async function QuickstartPage() {
                 {step.num}
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900">{step.title}</h3>
-                <p className="text-gray-600">{step.desc}</p>
+                <h3 className="font-semibold text-slate-900">{step.title}</h3>
+                <p className="text-slate-600">{step.desc}</p>
               </div>
               <Link
                 href={step.link}

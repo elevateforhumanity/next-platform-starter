@@ -63,12 +63,12 @@ export default async function LeaderboardPage() {
                 }`}
               >
                 <Medal
-                  className={`w-10 h-10 ${i === 1 ? 'text-yellow-600' : i === 0 ? 'text-gray-600' : 'text-brand-orange-600'}`}
+                  className={`w-10 h-10 ${i === 1 ? 'text-yellow-600' : i === 0 ? 'text-slate-600' : 'text-brand-orange-600'}`}
                 />
               </div>
-              <p className="font-bold text-gray-900">{learner?.name ?? '—'}</p>
-              <p className="text-2xl font-bold text-gray-900">{(learner?.points ?? 0).toLocaleString()}</p>
-              <p className="text-gray-500 text-sm">points</p>
+              <p className="font-bold text-slate-900">{learner?.name ?? '—'}</p>
+              <p className="text-2xl font-bold text-slate-900">{(learner?.points ?? 0).toLocaleString()}</p>
+              <p className="text-slate-500 text-sm">points</p>
               <div
                 className={`mt-2 ${i === 1 ? 'h-32 bg-yellow-500' : i === 0 ? 'h-24 bg-gray-400' : 'h-20 bg-brand-orange-400'} rounded-t-lg w-24`}
               ></div>
@@ -79,7 +79,7 @@ export default async function LeaderboardPage() {
         {/* Full List */}
         <div className="bg-white rounded-xl shadow-sm border">
           <div className="p-4 border-b">
-            <h2 className="font-semibold text-gray-900">All Rankings</h2>
+            <h2 className="font-semibold text-slate-900">All Rankings</h2>
           </div>
           <div className="divide-y">
             {topLearners.map((learner, idx) => (
@@ -89,17 +89,17 @@ export default async function LeaderboardPage() {
                     learner?.rank === 1
                       ? 'bg-yellow-100 text-yellow-700'
                       : learner?.rank === 2
-                        ? 'bg-gray-100 text-gray-700'
+                        ? 'bg-gray-100 text-slate-700'
                         : learner?.rank === 3
                           ? 'bg-brand-orange-100 text-brand-orange-700'
-                          : 'bg-gray-50 text-gray-600'
+                          : 'bg-gray-50 text-slate-600'
                   }`}
                 >
                   {learner?.rank ?? idx + 1}
                 </span>
                 <div className="flex-1">
-                  <p className="font-semibold text-gray-900">{learner?.name ?? '—'}</p>
-                  <div className="flex gap-4 text-sm text-gray-500">
+                  <p className="font-semibold text-slate-900">{learner?.name ?? '—'}</p>
+                  <div className="flex gap-4 text-sm text-slate-500">
                     <span className="flex items-center gap-1">
                       <Flame className="w-4 h-4 text-brand-orange-500" /> {learner?.streak ?? 0} day
                       streak
@@ -108,8 +108,8 @@ export default async function LeaderboardPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-gray-900">{(learner?.points ?? 0).toLocaleString()}</p>
-                  <p className="text-gray-500 text-sm">points</p>
+                  <p className="font-bold text-slate-900">{(learner?.points ?? 0).toLocaleString()}</p>
+                  <p className="text-slate-500 text-sm">points</p>
                 </div>
               </div>
             ))}

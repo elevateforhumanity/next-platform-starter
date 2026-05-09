@@ -23,8 +23,8 @@ export default async function CheckoutPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
     );
@@ -67,7 +67,7 @@ export default async function CheckoutPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/store/cart" className="text-gray-500 hover:text-gray-700">
+          <Link href="/store/cart" className="text-slate-500 hover:text-slate-700">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <h1 className="text-2xl font-bold">Checkout</h1>
@@ -82,7 +82,7 @@ export default async function CheckoutPage() {
                 <h2 className="text-lg font-semibold mb-4">Contact Information</h2>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Full Name
                     </label>
                     <input
@@ -94,7 +94,7 @@ export default async function CheckoutPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Email
                     </label>
                     <input
@@ -111,12 +111,12 @@ export default async function CheckoutPage() {
               {/* Payment Information */}
               <div className="bg-white rounded-xl shadow-sm border p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <CreditCard className="w-5 h-5 text-gray-600" />
+                  <CreditCard className="w-5 h-5 text-slate-600" />
                   <h2 className="text-lg font-semibold">Payment Information</h2>
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Card Number
                     </label>
                     <input
@@ -130,7 +130,7 @@ export default async function CheckoutPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 mb-1">
                         Expiration Date
                       </label>
                       <input
@@ -143,7 +143,7 @@ export default async function CheckoutPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 mb-1">
                         CVV
                       </label>
                       <input
@@ -157,7 +157,7 @@ export default async function CheckoutPage() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Name on Card
                     </label>
                     <input
@@ -176,7 +176,7 @@ export default async function CheckoutPage() {
                 <h2 className="text-lg font-semibold mb-4">Billing Address</h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Street Address
                     </label>
                     <input
@@ -189,7 +189,7 @@ export default async function CheckoutPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 mb-1">
                         City
                       </label>
                       <input
@@ -201,7 +201,7 @@ export default async function CheckoutPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 mb-1">
                         State
                       </label>
                       <input
@@ -215,7 +215,7 @@ export default async function CheckoutPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 mb-1">
                         ZIP Code
                       </label>
                       <input
@@ -227,7 +227,7 @@ export default async function CheckoutPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 mb-1">
                         Country
                       </label>
                       <select
@@ -260,7 +260,7 @@ export default async function CheckoutPage() {
               <div className="space-y-3 mb-4">
                 {cartItems.map((item: any) => (
                   <div key={item.id} className="flex justify-between text-sm">
-                    <span className="text-gray-600">
+                    <span className="text-slate-600">
                       {item.product?.name} x {item.quantity}
                     </span>
                     <span>${((item.product?.price || 0) * item.quantity).toFixed(2)}</span>
@@ -268,11 +268,11 @@ export default async function CheckoutPage() {
                 ))}
               </div>
               <div className="border-t pt-3 space-y-2">
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-slate-600">
                   <span>Subtotal</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-slate-600">
                   <span>Tax (7%)</span>
                   <span>${tax.toFixed(2)}</span>
                 </div>
@@ -281,7 +281,7 @@ export default async function CheckoutPage() {
                   <span>${total.toFixed(2)}</span>
                 </div>
               </div>
-              <div className="flex items-center justify-center gap-2 mt-6 text-sm text-gray-500">
+              <div className="flex items-center justify-center gap-2 mt-6 text-sm text-slate-500">
                 <ShieldCheck className="w-4 h-4" />
                 256-bit SSL encryption
               </div>

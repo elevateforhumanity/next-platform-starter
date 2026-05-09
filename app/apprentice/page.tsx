@@ -206,17 +206,17 @@ export default async function ApprenticePortalPage() {
         </div>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-slate-900">
             Welcome, {profile?.full_name || 'Apprentice'}
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-slate-600 mt-2">
             Track your apprenticeship journey and progress
           </p>
         </div>
 
         {/* Progress Overview */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Hours Progress</h2>
+          <h2 className="text-xl font-semibold text-slate-900 mb-4">Hours Progress</h2>
           <div className="flex items-center gap-4">
             <div className="flex-1">
               <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
@@ -226,7 +226,7 @@ export default async function ApprenticePortalPage() {
                 />
               </div>
             </div>
-            <span className="text-lg font-medium text-gray-900">
+            <span className="text-lg font-medium text-slate-900">
               {totalHours.toLocaleString()} / {requiredHours.toLocaleString()} hours
             </span>
           </div>
@@ -241,8 +241,8 @@ export default async function ApprenticePortalPage() {
               className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
             >
               <link.icon className="w-8 h-8 text-brand-blue-600 mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-1">{link.name}</h3>
-              <p className="text-sm text-gray-600">{link.description}</p>
+              <h3 className="font-semibold text-slate-900 mb-1">{link.name}</h3>
+              <p className="text-sm text-slate-600">{link.description}</p>
             </Link>
           ))}
         </div>
@@ -250,17 +250,17 @@ export default async function ApprenticePortalPage() {
         {/* Active Enrollments */}
         {enrollments && enrollments.length > 0 && (
           <div className="bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Active Programs</h2>
+            <h2 className="text-xl font-semibold text-slate-900 mb-4">Active Programs</h2>
             <div className="space-y-4">
               {enrollments.map((enrollment) => (
                 <div key={enrollment.id} className="flex items-center justify-between p-4 bg-white rounded-lg">
                   <div>
-                    <p className="font-medium text-gray-900">Program #{enrollment.course_id}</p>
-                    <p className="text-sm text-gray-600">Status: {enrollment.status}</p>
+                    <p className="font-medium text-slate-900">Program #{enrollment.course_id}</p>
+                    <p className="text-sm text-slate-600">Status: {enrollment.status}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-lg font-semibold text-brand-blue-600">{enrollment.progress || 0}%</p>
-                    <p className="text-sm text-gray-600">Complete</p>
+                    <p className="text-sm text-slate-600">Complete</p>
                   </div>
                 </div>
               ))}

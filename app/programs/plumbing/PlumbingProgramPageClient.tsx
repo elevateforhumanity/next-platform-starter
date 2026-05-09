@@ -198,8 +198,8 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
                 className="text-center"
               >
                 <stat.icon className="w-8 h-8 text-cyan-600 mx-auto mb-2" />
-                <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
-                <div className="text-sm text-gray-500">{stat.label}</div>
+                <div className="text-3xl font-bold text-slate-900">{stat.value}</div>
+                <div className="text-sm text-slate-500">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -213,10 +213,10 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
             <span className="inline-block bg-cyan-100 text-cyan-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               Program Structure
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Delivery Model: Classroom + LMS + Employer Site Days
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
               A hybrid workforce pathway combining evening classroom instruction, self-paced LMS
               coursework, and supervised employer site days with OJT exposure.
             </p>
@@ -228,11 +228,11 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
               <div className="w-14 h-14 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <GraduationCap className="w-7 h-7 text-cyan-600" />
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">72</div>
-              <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+              <div className="text-3xl font-bold text-slate-900 mb-1">72</div>
+              <div className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">
                 Classroom Hours (RTI)
               </div>
-              <p className="text-gray-600 text-sm">
+              <p className="text-slate-600 text-sm">
                 Evening classroom instruction covering plumbing fundamentals, water supply systems,
                 drainage, fixture installation, and code compliance.
               </p>
@@ -241,11 +241,11 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
               <div className="w-14 h-14 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Briefcase className="w-7 h-7 text-cyan-600" />
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">36</div>
-              <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+              <div className="text-3xl font-bold text-slate-900 mb-1">36</div>
+              <div className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">
                 Employer Site Days (OJT Exposure)
               </div>
-              <p className="text-gray-600 text-sm">
+              <p className="text-slate-600 text-sm">
                 6 supervised visits to plumbing contractor job sites. Observe residential and
                 commercial installations, service calls, and new construction. Meet hiring managers.
               </p>
@@ -254,11 +254,11 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
               <div className="w-14 h-14 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="w-7 h-7 text-brand-green-600" />
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">36</div>
-              <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+              <div className="text-3xl font-bold text-slate-900 mb-1">36</div>
+              <div className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">
                 LMS Coursework
               </div>
-              <p className="text-gray-600 text-sm">
+              <p className="text-slate-600 text-sm">
                 Self-paced online modules with progress tracking, quizzes, and bi-weekly reporting
                 dashboards. Complete on your own schedule.
               </p>
@@ -272,7 +272,7 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
                 <Briefcase className="w-6 h-6 text-cyan-600" />
               </div>
               <h3 className="text-xl font-bold mb-3">Employer Site Days</h3>
-              <p className="text-gray-600 mb-3">
+              <p className="text-slate-600 mb-3">
                 Structured visits to plumbing contractor job sites. Observe real installations, meet
                 hiring managers, and build employer connections.
               </p>
@@ -285,14 +285,14 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
                 <Calendar className="w-6 h-6 text-cyan-600" />
               </div>
               <h3 className="text-xl font-bold mb-3">Flexible Cohort Scheduling</h3>
-              <p className="text-gray-600 mb-3">
+              <p className="text-slate-600 mb-3">
                 Cohort-based scheduling with evening and adult-friendly options available. Final
                 schedule customized per partner cohort.
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-500">
                 <strong>Format:</strong> 12 weeks, 144 total instructional hours
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-500">
                 <strong>Cohort size:</strong> 8–20 participants
               </p>
             </div>
@@ -301,11 +301,11 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
                 <Users className="w-6 h-6 text-cyan-600" />
               </div>
               <h3 className="text-xl font-bold mb-3">Bilingual Support</h3>
-              <p className="text-gray-600 mb-3">
+              <p className="text-slate-600 mb-3">
                 Bilingual (English/Spanish) instructional assistants available for cohort groups.
                 Written materials available in Spanish upon request.
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-500">
                 <strong>Admission:</strong> 18+, valid ID, no experience required
               </p>
             </div>
@@ -314,11 +314,11 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
           {/* Funding */}
           <div className="mt-12 bg-white rounded-2xl p-8 shadow-sm text-center">
             <h3 className="text-xl font-bold mb-3">Funding Options</h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-slate-600 mb-4">
               Workforce-funded cohorts, employer-sponsored training, grant-funded programs, and
               custom organizational cohorts supported.
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-500">
               Cohort-based and workforce-funded pricing available. Custom pricing provided per
               partner cohort and program scope.
             </p>
@@ -333,10 +333,10 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
             <span className="inline-block bg-cyan-100 text-cyan-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               Why Plumbing?
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Essential Work That Never Stops
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Every building needs plumbing. From new construction to emergency repairs, plumbers
               are always in demand.
             </p>
@@ -391,8 +391,8 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
                 <div className="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center mb-4">
                   <item.icon className="w-6 h-6 text-cyan-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                <p className="text-slate-600">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -406,10 +406,10 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
             <span className="inline-block bg-brand-green-100 text-brand-green-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               Training Program
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               12-Week Plumbing Fundamentals Curriculum
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Theory instruction, code preparation, and employer site days covering water supply,
               drainage, fixtures, and system design.
             </p>
@@ -431,12 +431,12 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
                     </div>
                   </div>
                   <div className="flex-grow">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">{module.title}</h3>
+                    <h3 className="text-xl font-bold text-slate-900 mb-4">{module.title}</h3>
                     <div className="grid md:grid-cols-2 gap-4 mb-4">
                       {module.topics.map((topic, i) => (
                         <div key={i} className="flex items-center gap-2">
                           <span className="w-2 h-2 bg-slate-400 rounded-full flex-shrink-0 mt-2" />
-                          <span className="text-gray-700">{topic}</span>
+                          <span className="text-slate-700">{topic}</span>
                         </div>
                       ))}
                     </div>
@@ -459,7 +459,7 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
             <span className="inline-block bg-brand-blue-100 text-brand-blue-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               Common Questions
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Frequently Asked Questions
             </h2>
           </div>
@@ -477,16 +477,16 @@ export function PlumbingProgramPageClient({ enrollmentCount = 0 }: { enrollmentC
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors"
                 >
-                  <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
+                  <span className="font-semibold text-slate-900 pr-4">{faq.question}</span>
                   {openFaq === index ? (
-                    <ChevronUp className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-slate-400 flex-shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0" />
                   )}
                 </button>
                 {openFaq === index && (
                   <div className="px-6 pb-5">
-                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                    <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
                   </div>
                 )}
               </motion.div>

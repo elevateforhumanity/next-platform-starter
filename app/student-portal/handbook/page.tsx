@@ -100,7 +100,7 @@ export default function StudentHandbookPage() {
       {/* Table of Contents */}
       <section className="py-8 border-b">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">
             Contents
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -126,9 +126,9 @@ export default function StudentHandbookPage() {
               <div key={s.id} id={s.id} className="scroll-mt-24">
                 <div className="flex items-center gap-3 mb-4">
                   <Icon className="w-6 h-6 text-brand-blue-600" />
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">{s.title}</h2>
+                  <h2 className="text-xl md:text-2xl font-bold text-slate-900">{s.title}</h2>
                 </div>
-                <p className="text-gray-700 leading-relaxed">{s.content}</p>
+                <p className="text-slate-700 leading-relaxed">{s.content}</p>
               </div>
             );
           })}
@@ -139,8 +139,8 @@ export default function StudentHandbookPage() {
       <section className="py-12 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Phone className="w-8 h-8 text-brand-blue-600 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Questions About Policies?</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Questions About Policies?</h2>
+          <p className="text-slate-600 mb-6">
             Contact your enrollment advisor or reach out to our support team.
           </p>
           <Link

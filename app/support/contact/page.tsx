@@ -111,9 +111,9 @@ export default function SupportContactPage() {
                   className="bg-white border border-gray-200 rounded-xl p-6 text-center hover:shadow-md hover:border-brand-blue-300 transition-all group"
                 >
                   <Icon className="w-8 h-8 text-brand-blue-600 mx-auto mb-4" />
-                  <h3 className="text-lg font-bold text-gray-900 mb-1">{m.title}</h3>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">{m.title}</h3>
                   <p className="text-brand-blue-600 font-medium mb-1">{m.desc}</p>
-                  <p className="text-gray-500 text-sm">{m.detail}</p>
+                  <p className="text-slate-500 text-sm">{m.detail}</p>
                 </a>
               );
             })}
@@ -126,7 +126,7 @@ export default function SupportContactPage() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-8">
             <HelpCircle className="w-7 h-7 text-brand-blue-600" />
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
               What Do You Need Help With?
             </h2>
           </div>
@@ -137,8 +137,8 @@ export default function SupportContactPage() {
                 href={t.href}
                 className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-sm hover:border-brand-blue-300 transition-all"
               >
-                <h3 className="font-bold text-gray-900 mb-1">{t.title}</h3>
-                <p className="text-gray-600 text-sm">{t.desc}</p>
+                <h3 className="font-bold text-slate-900 mb-1">{t.title}</h3>
+                <p className="text-slate-600 text-sm">{t.desc}</p>
               </Link>
             ))}
           </div>
@@ -149,13 +149,13 @@ export default function SupportContactPage() {
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <Clock className="w-8 h-8 text-brand-blue-600 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Support Hours</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Support Hours</h2>
           <div className="bg-white border border-gray-200 rounded-xl p-6 inline-block">
             <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-              <span className="text-gray-600 text-right">Monday – Friday</span>
-              <span className="font-medium text-gray-900 text-left">9:00 AM – 5:00 PM EST</span>
-              <span className="text-gray-600 text-right">Saturday – Sunday</span>
-              <span className="font-medium text-gray-900 text-left">Closed</span>
+              <span className="text-slate-600 text-right">Monday – Friday</span>
+              <span className="font-medium text-slate-900 text-left">9:00 AM – 5:00 PM EST</span>
+              <span className="text-slate-600 text-right">Saturday – Sunday</span>
+              <span className="font-medium text-slate-900 text-left">Closed</span>
             </div>
           </div>
         </div>

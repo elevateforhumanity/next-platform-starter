@@ -82,7 +82,7 @@ export function PushNotificationSettings() {
       <div className="rounded-lg border border-gray-200 p-6">
         <div className="flex items-start gap-3">
           <svg
-            className="w-6 h-6 text-gray-400 flex-shrink-0 mt-0.5"
+            className="w-6 h-6 text-slate-400 flex-shrink-0 mt-0.5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -112,7 +112,7 @@ export function PushNotificationSettings() {
         <div className="flex items-start gap-3">
           <svg
             className={`w-6 h-6 flex-shrink-0 mt-0.5 ${
-              isSubscribed ? 'text-brand-green-600' : 'text-gray-400'
+              isSubscribed ? 'text-brand-green-600' : 'text-slate-400'
             }`}
             fill="none"
             stroke="currentColor"
@@ -133,7 +133,7 @@ export function PushNotificationSettings() {
                 : 'Enable push notifications to stay updated on your learning progress.'}
             </p>
             <div className="flex items-center gap-2 mt-2">
-              <span className="text-xs text-gray-500">Status:</span>
+              <span className="text-xs text-slate-500">Status:</span>
               <span
                 className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
                   permission === 'granted'

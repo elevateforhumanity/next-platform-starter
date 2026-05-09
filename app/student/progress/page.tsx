@@ -19,8 +19,8 @@ export default async function StudentProgressPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Database connection failed.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Database connection failed.</p>
         </div>
       </div>
     );
@@ -115,15 +115,15 @@ export default async function StudentProgressPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/student" className="hover:text-gray-700">
+          <nav className="flex items-center gap-2 text-sm text-slate-500 mb-4">
+            <Link href="/student" className="hover:text-slate-700">
               Student Portal
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Progress</span>
+            <span className="text-slate-900 font-medium">Progress</span>
           </nav>
-          <h1 className="text-2xl font-bold text-gray-900">My Progress</h1>
-          <p className="text-gray-600 mt-1">Track your learning journey</p>
+          <h1 className="text-2xl font-bold text-slate-900">My Progress</h1>
+          <p className="text-slate-600 mt-1">Track your learning journey</p>
         </div>
       </div>
 
@@ -134,30 +134,30 @@ export default async function StudentProgressPage() {
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
               <Target className="w-6 h-6 text-blue-600" />
             </div>
-            <p className="text-2xl font-bold text-gray-900">{overallProgress}%</p>
-            <p className="text-sm text-gray-500">Overall Progress</p>
+            <p className="text-2xl font-bold text-slate-900">{overallProgress}%</p>
+            <p className="text-sm text-slate-500">Overall Progress</p>
           </div>
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
               <CheckCircle className="w-6 h-6 text-green-600" />
             </div>
-            <p className="text-2xl font-bold text-gray-900">{totalModules}</p>
-            <p className="text-sm text-gray-500">Lessons Done</p>
+            <p className="text-2xl font-bold text-slate-900">{totalModules}</p>
+            <p className="text-sm text-slate-500">Lessons Done</p>
           </div>
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
             <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
               <Award className="w-6 h-6 text-yellow-600" />
             </div>
-            <p className="text-2xl font-bold text-gray-900">{activeCourses.length}</p>
-            <p className="text-sm text-gray-500">Active Courses</p>
+            <p className="text-2xl font-bold text-slate-900">{activeCourses.length}</p>
+            <p className="text-sm text-slate-500">Active Courses</p>
           </div>
         </div>
 
         {/* Course Progress */}
         {courses.length === 0 ? (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-            <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-600 mb-4">No courses enrolled yet.</p>
+            <BookOpen className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+            <p className="text-slate-600 mb-4">No courses enrolled yet.</p>
             <Link href="/programs" className="text-blue-600 font-medium hover:text-blue-700">
               Browse Programs
             </Link>
@@ -165,7 +165,7 @@ export default async function StudentProgressPage() {
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900">Course Progress</h2>
+              <h2 className="text-lg font-semibold text-slate-900">Course Progress</h2>
             </div>
             <div className="divide-y divide-gray-200">
               {courses.map((course) => (
@@ -176,9 +176,9 @@ export default async function StudentProgressPage() {
                         <BookOpen className="w-6 h-6 text-blue-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">{course.name}</h3>
+                        <h3 className="font-semibold text-slate-900">{course.name}</h3>
                         {course.total_modules > 0 && (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-slate-500">
                             {course.modules_completed} of {course.total_modules} lessons completed
                           </p>
                         )}
@@ -197,7 +197,7 @@ export default async function StudentProgressPage() {
                   </div>
 
                   <div className="flex items-center justify-between text-sm">
-                    <span className="flex items-center gap-1 text-gray-500">
+                    <span className="flex items-center gap-1 text-slate-500">
                       <Clock className="w-4 h-4" />
                       Last activity: {formatDate(course.last_activity)}
                     </span>

@@ -24,7 +24,7 @@ export default async function PlatformOverviewPage() {
       {/* Document Header */}
       <div className="bg-gray-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
+          <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
               Home
             </Link>
@@ -36,7 +36,7 @@ export default async function PlatformOverviewPage() {
             <span className="text-white">Platform Overview</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Platform Overview and Governance</h1>
-          <p className="text-gray-300">
+          <p className="text-slate-300">
             Authoritative reference for platform architecture, user roles, and governance model
           </p>
           <div className="flex items-center gap-6 mt-6 text-sm">
@@ -108,7 +108,7 @@ export default async function PlatformOverviewPage() {
 
         {/* Section 1 */}
         <section id="purpose" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <span className="w-8 h-8 bg-brand-orange-100 rounded-full flex items-center justify-center text-brand-orange-600 text-sm font-bold">
               1
             </span>
@@ -116,7 +116,7 @@ export default async function PlatformOverviewPage() {
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.1 Purpose</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             This document establishes the authoritative reference for the Elevate For Humanity
             platform ecosystem. It defines what the platform is, how it operates, who uses it, and
             how decisions are made. All other documentation, marketing materials, and operational
@@ -124,23 +124,23 @@ export default async function PlatformOverviewPage() {
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.2 Scope</h3>
-          <p className="text-gray-700 mb-4">This document covers:</p>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">This document covers:</p>
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>The complete Elevate For Humanity platform ecosystem</li>
             <li>All user-facing applications and services</li>
             <li>Administrative and operational systems</li>
             <li>Third-party integrations that affect user experience</li>
           </ul>
 
-          <p className="text-gray-700 mb-4">This document does not cover:</p>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <p className="text-slate-700 mb-4">This document does not cover:</p>
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Internal HR policies (separate document)</li>
             <li>Financial accounting procedures (separate document)</li>
             <li>Physical facility operations (separate document)</li>
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.3 Audience</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             This document is intended for: executive leadership, board members, regulatory
             reviewers, enterprise partners, government agency buyers, auditors, and senior
             operational staff. It may be shared externally upon request.
@@ -149,14 +149,14 @@ export default async function PlatformOverviewPage() {
 
         {/* Section 2 */}
         <section id="components" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <span className="w-8 h-8 bg-brand-orange-100 rounded-full flex items-center justify-center text-brand-orange-600 text-sm font-bold">
               2
             </span>
             Platform Components
           </h2>
 
-          <p className="text-gray-700 mb-6">
+          <p className="text-slate-700 mb-6">
             The Elevate For Humanity platform consists of four integrated components, each serving
             distinct functions while sharing common infrastructure, authentication, and data
             governance.
@@ -168,15 +168,15 @@ export default async function PlatformOverviewPage() {
                 <Building2 className="w-6 h-6 text-brand-orange-600" />
                 <h3 className="text-lg font-semibold">2.1 Main Website (elevateforhumanity.org)</h3>
               </div>
-              <p className="text-gray-700 mb-3">
+              <p className="text-slate-700 mb-3">
                 <strong>Function:</strong> Public-facing information, program discovery, application
                 intake, and organizational communication.
               </p>
-              <p className="text-gray-700 mb-3">
+              <p className="text-slate-700 mb-3">
                 <strong>Primary Users:</strong> Prospective students, employers, partners, general
                 public.
               </p>
-              <p className="text-gray-700">
+              <p className="text-slate-700">
                 <strong>Key Capabilities:</strong> Program catalog, eligibility screening,
                 application submission, event registration, resource library, contact and support.
               </p>
@@ -187,15 +187,15 @@ export default async function PlatformOverviewPage() {
                 <BookOpen className="w-6 h-6 text-brand-blue-600" />
                 <h3 className="text-lg font-semibold">2.2 Learning Management System (LMS)</h3>
               </div>
-              <p className="text-gray-700 mb-3">
+              <p className="text-slate-700 mb-3">
                 <strong>Function:</strong> Course delivery, student progress tracking, assessments,
                 certifications, and instructor management.
               </p>
-              <p className="text-gray-700 mb-3">
+              <p className="text-slate-700 mb-3">
                 <strong>Primary Users:</strong> Enrolled students, instructors, program
                 administrators, partner organizations.
               </p>
-              <p className="text-gray-700">
+              <p className="text-slate-700">
                 <strong>Key Capabilities:</strong> Course content delivery, video lessons, quizzes
                 and assessments, progress tracking, certificate generation, attendance recording,
                 grade management.
@@ -207,14 +207,14 @@ export default async function PlatformOverviewPage() {
                 <Shield className="w-6 h-6 text-brand-green-600" />
                 <h3 className="text-lg font-semibold">2.3 Store (E-Commerce)</h3>
               </div>
-              <p className="text-gray-700 mb-3">
+              <p className="text-slate-700 mb-3">
                 <strong>Function:</strong> Product sales, course purchases, program enrollment
                 payments, and merchandise.
               </p>
-              <p className="text-gray-700 mb-3">
+              <p className="text-slate-700 mb-3">
                 <strong>Primary Users:</strong> Students, employers, general customers.
               </p>
-              <p className="text-gray-700">
+              <p className="text-slate-700">
                 <strong>Key Capabilities:</strong> Product catalog, shopping cart, secure checkout
                 (Stripe), order management, digital delivery, refund processing.
               </p>
@@ -225,18 +225,18 @@ export default async function PlatformOverviewPage() {
                 <FileText className="w-6 h-6 text-brand-blue-600" />
                 <h3 className="text-lg font-semibold">2.4 Tax Services Operations</h3>
               </div>
-              <p className="text-gray-700 mb-3">
+              <p className="text-slate-700 mb-3">
                 <strong>Function:</strong> Tax preparation services and optional refund advance
                 products.
               </p>
-              <p className="text-gray-700 mb-3">
+              <p className="text-slate-700 mb-3">
                 <strong>Primary Users:</strong> Tax clients (students and community members).
               </p>
-              <p className="text-gray-700 mb-3">
+              <p className="text-slate-700 mb-3">
                 <strong>Key Capabilities:</strong> Tax intake, document collection, return
                 preparation, e-filing, refund tracking, optional refund advance application.
               </p>
-              <p className="text-gray-700">
+              <p className="text-slate-700">
                 <strong>Legal Entity:</strong> Operated under the tax operations trade name of
                 2Exclusive LLC-S. See Tax Preparation and Refund Advance Operations document for
                 complete details.
@@ -247,14 +247,14 @@ export default async function PlatformOverviewPage() {
 
         {/* Section 3 */}
         <section id="users" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <span className="w-8 h-8 bg-brand-orange-100 rounded-full flex items-center justify-center text-brand-orange-600 text-sm font-bold">
               3
             </span>
             User Types and Roles
           </h2>
 
-          <p className="text-gray-700 mb-6">
+          <p className="text-slate-700 mb-6">
             The platform implements role-based access control. Each user is assigned exactly one
             primary role that determines their permissions and available features.
           </p>
@@ -309,14 +309,14 @@ export default async function PlatformOverviewPage() {
           </div>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.1 Role Assignment</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             Roles are assigned during account creation or by an administrator. Role changes require
             administrative approval and are logged in the audit trail. Users cannot self-assign
             elevated roles.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.2 Role Separation</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             Financial operations (refunds, payouts) require Admin or Super Admin role. Student data
             access is limited to staff with legitimate educational interest. Personal data exports
             require identity verification.
@@ -325,7 +325,7 @@ export default async function PlatformOverviewPage() {
 
         {/* Section 4 */}
         <section id="governance" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <span className="w-8 h-8 bg-brand-orange-100 rounded-full flex items-center justify-center text-brand-orange-600 text-sm font-bold">
               4
             </span>
@@ -378,14 +378,14 @@ export default async function PlatformOverviewPage() {
           </div>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.2 Change Management</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             All platform changes follow a defined process: proposal, review, approval,
             implementation, verification. Changes affecting user data, payments, or compliance
             require documented approval before deployment.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.3 Audit and Accountability</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             The platform maintains audit logs for: user authentication events, role changes, data
             access, payment transactions, and administrative actions. Logs are retained for 7 years
             and are available for regulatory review upon request.
@@ -394,7 +394,7 @@ export default async function PlatformOverviewPage() {
 
         {/* Section 5 */}
         <section id="content" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <span className="w-8 h-8 bg-brand-orange-100 rounded-full flex items-center justify-center text-brand-orange-600 text-sm font-bold">
               5
             </span>
@@ -402,17 +402,17 @@ export default async function PlatformOverviewPage() {
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.1 Claims Policy</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             All public claims about outcomes, success rates, or benefits must be: (a) supported by
             documented evidence, (b) scoped to specific programs and time periods, (c) include
             appropriate disclaimers, and (d) reviewed by the Compliance Owner before publication.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.2 Prohibited Language</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             The following are prohibited in any user-facing content:
           </p>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Guaranteed outcomes without qualification</li>
             <li>Income claims without documented basis</li>
             <li>Comparison claims without evidence</li>
@@ -421,7 +421,7 @@ export default async function PlatformOverviewPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.3 Required Disclosures</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             Specific disclosures are required for: eligibility-restricted programs, payment plans,
             refund policies, certification requirements, and employment assistance limitations. See
             Compliance and Disclosure Framework for complete requirements.
@@ -430,7 +430,7 @@ export default async function PlatformOverviewPage() {
 
         {/* Section 6 */}
         <section id="versioning" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <span className="w-8 h-8 bg-brand-orange-100 rounded-full flex items-center justify-center text-brand-orange-600 text-sm font-bold">
               6
             </span>
@@ -460,14 +460,14 @@ export default async function PlatformOverviewPage() {
           </div>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.2 Review Schedule</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             This document is reviewed: (a) annually as part of governance review, (b) upon
             significant platform changes, (c) upon regulatory or legal developments affecting
             operations, (d) upon request by board or external auditors.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.3 Amendment Process</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             Amendments require: written proposal, Executive Leadership review, legal review for
             compliance sections, board notification for material changes, and version increment with
             change log entry.
@@ -476,41 +476,41 @@ export default async function PlatformOverviewPage() {
 
         {/* Related Documents */}
         <section className="border-t pt-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Related Documents</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Related Documents</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link
               href="/legal/governance/security"
               className="block p-4 border rounded-lg hover:bg-gray-50"
             >
               <p className="font-medium">Security and Data Protection Statement</p>
-              <p className="text-sm text-gray-500">EFH-SEC-001</p>
+              <p className="text-sm text-slate-500">EFH-SEC-001</p>
             </Link>
             <Link
               href="/legal/governance/compliance"
               className="block p-4 border rounded-lg hover:bg-gray-50"
             >
               <p className="font-medium">Compliance and Disclosure Framework</p>
-              <p className="text-sm text-gray-500">EFH-CMP-001</p>
+              <p className="text-sm text-slate-500">EFH-CMP-001</p>
             </Link>
             <Link
               href="/legal/governance/lms"
               className="block p-4 border rounded-lg hover:bg-gray-50"
             >
               <p className="font-medium">LMS Governance and Course Standards</p>
-              <p className="text-sm text-gray-500">EFH-LMS-001</p>
+              <p className="text-sm text-slate-500">EFH-LMS-001</p>
             </Link>
             <Link
               href="/legal/governance/store"
               className="block p-4 border rounded-lg hover:bg-gray-50"
             >
               <p className="font-medium">Store, Payments, and Licensing Framework</p>
-              <p className="text-sm text-gray-500">EFH-PAY-001</p>
+              <p className="text-sm text-slate-500">EFH-PAY-001</p>
             </Link>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t text-sm text-gray-500">
+        <footer className="mt-12 pt-8 border-t text-sm text-slate-500">
           <p>
             <strong>Document ID:</strong> EFH-GOV-001
           </p>

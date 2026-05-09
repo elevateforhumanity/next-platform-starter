@@ -44,7 +44,7 @@ export function TimeclockWidget({
   const buttonBase =
     'px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
   const primaryButton = `${buttonBase} bg-brand-green-600 text-white hover:bg-brand-green-700`;
-  const secondaryButton = `${buttonBase} bg-gray-200 text-gray-800 hover:bg-gray-300`;
+  const secondaryButton = `${buttonBase} bg-gray-200 text-slate-800 hover:bg-gray-300`;
   const dangerButton = `${buttonBase} bg-brand-red-600 text-white hover:bg-brand-red-700`;
 
   return (

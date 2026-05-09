@@ -6,6 +6,7 @@ import { createServerClient } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { getAdminUrl } from '@/lib/utils/siteUrl';
 import type { UserRole } from '@/types/database';
 import { logger } from '@/lib/logger';
 
@@ -238,8 +239,7 @@ export async function requireStudent() {
 
 export async function requireAdmin() {
   // Admin app has its own /login page — redirect there, not the main site login.
-  const adminUrl =
-    process.env.NEXT_PUBLIC_ADMIN_URL?.trim() ?? 'https://admin.elevateforhumanity.org';
+  const adminUrl = getAdminUrl();
   return requireRole(['admin', 'super_admin', 'org_admin', 'staff'], '/admin/dashboard', adminUrl);
 }
 

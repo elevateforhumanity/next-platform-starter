@@ -36,7 +36,7 @@ export default async function PrivacyNoticePage() {
         />
         <article className="prose prose-lg max-w-none mt-6">
           <h1>Privacy Notice</h1>
-          <p className="text-xl text-gray-600 mb-8">Last Updated: December 22, 2024</p>
+          <p className="text-xl text-slate-600 mb-8">Last Updated: December 22, 2024</p>
 
           <div className="bg-brand-blue-50 border-l-4 border-brand-blue-500 p-6 mb-8">
             <p className="text-lg font-semibold text-brand-blue-900 mb-2">Your Privacy Matters</p>

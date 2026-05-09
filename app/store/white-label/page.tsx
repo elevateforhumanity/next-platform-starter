@@ -171,7 +171,7 @@ export default function WhiteLabelPage() {
               <div key={feature.title} className="p-6 rounded-xl border border-gray-200 hover:border-blue-300 transition-colors">
                 <feature.icon className="w-10 h-10 text-blue-600 mb-4" />
                 <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-slate-600">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -184,7 +184,7 @@ export default function WhiteLabelPage() {
           <h2 className="text-3xl font-black text-center mb-4">
             Simple, Predictable Pricing
           </h2>
-          <p className="text-center text-gray-600 mb-12">
+          <p className="text-center text-slate-600 mb-12">
             All plans include 14-day free trial. No credit card required to start.
           </p>
           
@@ -199,12 +199,12 @@ export default function WhiteLabelPage() {
                 }`}
               >
                 <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                <p className={`text-sm mb-4 ${plan.highlighted ? 'text-slate-300' : 'text-gray-600'}`}>
+                <p className={`text-sm mb-4 ${plan.highlighted ? 'text-slate-300' : 'text-slate-600'}`}>
                   {plan.description}
                 </p>
                 <div className="mb-6">
                   <span className="text-4xl font-black">{plan.price}</span>
-                  <span className={plan.highlighted ? 'text-slate-300' : 'text-gray-500'}>
+                  <span className={plan.highlighted ? 'text-slate-300' : 'text-slate-500'}>
                     {plan.interval}
                   </span>
                 </div>
@@ -212,7 +212,7 @@ export default function WhiteLabelPage() {
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2">
                       <Check className={`w-5 h-5 flex-shrink-0 ${plan.highlighted ? 'text-blue-400' : 'text-green-600'}`} />
-                      <span className={plan.highlighted ? 'text-slate-200' : 'text-gray-700'}>
+                      <span className={plan.highlighted ? 'text-slate-200' : 'text-slate-700'}>
                         {feature}
                       </span>
                     </li>
@@ -240,7 +240,7 @@ export default function WhiteLabelPage() {
           <h2 className="text-3xl font-black mb-4">
             Ready to Launch Your Training Platform?
           </h2>
-          <p className="text-gray-600 mb-8">
+          <p className="text-slate-600 mb-8">
             Join 50+ organizations already using Elevate LMS to train their workforce.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

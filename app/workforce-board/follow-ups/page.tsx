@@ -47,12 +47,12 @@ export default async function FollowUpsPage() {
                 </Link>
               </li>
               <li>/</li>
-              <li className="text-gray-900 font-medium">Follow-Ups</li>
+              <li className="text-slate-900 font-medium">Follow-Ups</li>
             </ol>
           </nav>
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Follow-Ups</h1>
+              <h1 className="text-3xl font-bold text-slate-900">Follow-Ups</h1>
               <p className="text-black mt-2">Track participant follow-up activities</p>
             </div>
             <button className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700">
@@ -63,7 +63,7 @@ export default async function FollowUpsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <h3 className="text-sm font-medium text-black">Total Follow-Ups</h3>
-            <p className="text-3xl font-bold text-gray-900 mt-2">{count || 0}</p>
+            <p className="text-3xl font-bold text-slate-900 mt-2">{count || 0}</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <h3 className="text-sm font-medium text-black">Overdue</h3>

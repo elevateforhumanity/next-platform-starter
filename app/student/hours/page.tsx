@@ -77,7 +77,7 @@ export default async function StudentHoursPage() {
     <div className="bg-gray-50 min-h-screen">
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <nav className="flex items-center text-sm text-gray-600">
+          <nav className="flex items-center text-sm text-slate-600">
             <Link href="/" className="hover:text-blue-600">
               Home
             </Link>
@@ -86,7 +86,7 @@ export default async function StudentHoursPage() {
               Student Portal
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Hours</span>
+            <span className="text-slate-900 font-medium">Hours</span>
           </nav>
         </div>
       </div>
@@ -94,8 +94,8 @@ export default async function StudentHoursPage() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Training Hours</h1>
-            <p className="text-gray-600">Track your program hours and progress</p>
+            <h1 className="text-3xl font-bold text-slate-900">Training Hours</h1>
+            <p className="text-slate-600">Track your program hours and progress</p>
           </div>
           <Link
             href="/student/hours/log"
@@ -108,11 +108,11 @@ export default async function StudentHoursPage() {
 
         {/* Progress Overview */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Progress Overview</h2>
+          <h2 className="text-lg font-bold text-slate-900 mb-4">Progress Overview</h2>
           <div className="mb-4">
             <div className="flex justify-between mb-2">
-              <span className="text-gray-600">Total Hours Completed</span>
-              <span className="font-bold text-gray-900">
+              <span className="text-slate-600">Total Hours Completed</span>
+              <span className="font-bold text-slate-900">
                 {totalHours} / {requiredHours} hours
               </span>
             </div>
@@ -122,7 +122,7 @@ export default async function StudentHoursPage() {
                 style={{ width: `${Math.min((totalHours / requiredHours) * 100, 100)}%` }}
               />
             </div>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-slate-500 mt-2">
               {Math.round((totalHours / requiredHours) * 100)}% complete &bull;{' '}
               {Math.max(requiredHours - totalHours, 0)} hours remaining
             </p>
@@ -131,18 +131,18 @@ export default async function StudentHoursPage() {
           <div className="grid md:grid-cols-3 gap-4 mt-6">
             <div className="bg-blue-50 rounded-lg p-4 text-center">
               <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900">{thisWeekHours}</p>
-              <p className="text-sm text-gray-600">This Week</p>
+              <p className="text-2xl font-bold text-slate-900">{thisWeekHours}</p>
+              <p className="text-sm text-slate-600">This Week</p>
             </div>
             <div className="bg-green-50 rounded-lg p-4 text-center">
               <Calendar className="w-8 h-8 text-green-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900">{thisMonthHours}</p>
-              <p className="text-sm text-gray-600">This Month</p>
+              <p className="text-2xl font-bold text-slate-900">{thisMonthHours}</p>
+              <p className="text-sm text-slate-600">This Month</p>
             </div>
             <div className="bg-purple-50 rounded-lg p-4 text-center">
               <TrendingUp className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900">{totalHours}</p>
-              <p className="text-sm text-gray-600">Total Hours</p>
+              <p className="text-2xl font-bold text-slate-900">{totalHours}</p>
+              <p className="text-sm text-slate-600">Total Hours</p>
             </div>
           </div>
         </div>
@@ -150,7 +150,7 @@ export default async function StudentHoursPage() {
         {/* Recent Logs */}
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="p-6 border-b flex items-center justify-between">
-            <h2 className="text-lg font-bold text-gray-900">Recent Hour Logs</h2>
+            <h2 className="text-lg font-bold text-slate-900">Recent Hour Logs</h2>
             <Link
               href="/student/hours/history"
               className="text-blue-600 hover:text-blue-700 text-sm font-medium"
@@ -176,14 +176,14 @@ export default async function StudentHoursPage() {
                         <Clock className="w-5 h-5 text-blue-600" />
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">
+                        <p className="font-medium text-slate-900">
                           {entry.notes || entry.source_type?.replace(/_/g, ' ') || 'Training'}
                         </p>
-                        <p className="text-sm text-gray-600">{formatDate(entry.work_date)}</p>
+                        <p className="text-sm text-slate-600">{formatDate(entry.work_date)}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="font-bold text-gray-900">{hours} hrs</span>
+                      <span className="font-bold text-slate-900">{hours} hrs</span>
                       <span
                         className={`text-xs font-medium px-2 py-1 rounded flex items-center ${
                           entry.status === 'approved'
@@ -206,8 +206,8 @@ export default async function StudentHoursPage() {
             </div>
           ) : (
             <div className="p-12 text-center">
-              <Clock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600 mb-4">No hours logged yet</p>
+              <Clock className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+              <p className="text-slate-600 mb-4">No hours logged yet</p>
               <Link
                 href="/student/hours/log"
                 className="text-blue-600 font-medium hover:text-blue-700"
@@ -220,8 +220,8 @@ export default async function StudentHoursPage() {
 
         {/* Tips */}
         <div className="mt-8 bg-blue-50 rounded-xl p-6 border border-blue-200">
-          <h3 className="font-bold text-gray-900 mb-3">Tips for Tracking Hours</h3>
-          <ul className="text-sm text-gray-700 space-y-2">
+          <h3 className="font-bold text-slate-900 mb-3">Tips for Tracking Hours</h3>
+          <ul className="text-sm text-slate-700 space-y-2">
             <li className="flex items-start">
               <CheckCircle className="w-4 h-4 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
               Log your hours daily to ensure accuracy

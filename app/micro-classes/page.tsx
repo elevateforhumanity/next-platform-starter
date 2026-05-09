@@ -98,20 +98,20 @@ export default function MicroClassesPage() {
           <div className="grid sm:grid-cols-3 gap-6 text-center">
             <div>
               <Clock className="w-8 h-8 text-brand-blue-600 mx-auto mb-2" />
-              <h3 className="font-bold text-gray-900">2–10 Hours</h3>
-              <p className="text-gray-600 text-sm">Complete in a single day or over a weekend.</p>
+              <h3 className="font-bold text-slate-900">2–10 Hours</h3>
+              <p className="text-slate-600 text-sm">Complete in a single day or over a weekend.</p>
             </div>
             <div>
               <Award className="w-8 h-8 text-brand-blue-600 mx-auto mb-2" />
-              <h3 className="font-bold text-gray-900">Earn a Credential</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-bold text-slate-900">Earn a Credential</h3>
+              <p className="text-slate-600 text-sm">
                 Each class leads to a recognized certification or badge.
               </p>
             </div>
             <div>
               <BookOpen className="w-8 h-8 text-brand-blue-600 mx-auto mb-2" />
-              <h3 className="font-bold text-gray-900">Stackable</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-bold text-slate-900">Stackable</h3>
+              <p className="text-slate-600 text-sm">
                 Combine micro-classes to build toward a full program credential.
               </p>
             </div>
@@ -122,7 +122,7 @@ export default function MicroClassesPage() {
       {/* Classes */}
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">Available Micro-Classes</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">Available Micro-Classes</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {CLASSES.map((c) => (
               <Link
@@ -130,11 +130,11 @@ export default function MicroClassesPage() {
                 href={c.href}
                 className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md hover:border-brand-blue-300 transition-all group"
               >
-                <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-brand-blue-600 transition-colors">
+                <h3 className="text-lg font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition-colors">
                   {c.title}
                 </h3>
                 <span className="text-brand-blue-600 text-sm font-medium">{c.duration}</span>
-                <p className="text-gray-600 text-sm mt-2">{c.desc}</p>
+                <p className="text-slate-600 text-sm mt-2">{c.desc}</p>
               </Link>
             ))}
           </div>

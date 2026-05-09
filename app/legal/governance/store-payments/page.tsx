@@ -33,7 +33,7 @@ export default async function StorePaymentsPage() {
       </div>
       <div className="bg-gray-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
+          <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
               Home
             </Link>
@@ -45,7 +45,7 @@ export default async function StorePaymentsPage() {
             <span className="text-white">Store & Payments</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Store, Payments, and Licensing Framework</h1>
-          <p className="text-gray-300">
+          <p className="text-slate-300">
             E-commerce operations, payment processing, and digital licensing
           </p>
           <div className="flex items-center gap-6 mt-6 text-sm">
@@ -129,19 +129,19 @@ export default async function StorePaymentsPage() {
         </nav>
 
         <section id="purpose" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <ShoppingCart className="w-6 h-6 text-brand-blue-600" />
             1. Purpose & Scope
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">1.1 Purpose</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             This document governs all e-commerce operations for the Elevate For Humanity Store,
             including product listings, payment processing, digital licensing, and customer
             policies. It ensures consistent, compliant, and customer-friendly commerce operations.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.2 Scope</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Digital product sales (templates, guides, tools)</li>
             <li>Course purchases (individual and bundled)</li>
             <li>Subscription services</li>
@@ -151,7 +151,7 @@ export default async function StorePaymentsPage() {
         </section>
 
         <section id="products" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <FileCheck className="w-6 h-6 text-brand-blue-600" />
             2. Product Types & Catalog
           </h2>
@@ -200,7 +200,7 @@ export default async function StorePaymentsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">2.2 Product Listing Requirements</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>
               <strong>Title:</strong> Clear, descriptive, accurate
             </li>
@@ -223,19 +223,19 @@ export default async function StorePaymentsPage() {
         </section>
 
         <section id="payments" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <CreditCard className="w-6 h-6 text-brand-blue-600" />
             3. Payment Processing
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.1 Payment Provider</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             All payments processed through <strong>Stripe</strong>, a PCI DSS Level 1 certified
             payment processor. Elevate For Humanity does not store credit card numbers directly.
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.2 Accepted Payment Methods</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Credit/Debit Cards (Visa, Mastercard, American Express, Discover)</li>
             <li>Digital Wallets (Apple Pay, Google Pay)</li>
             <li>Bank transfers (ACH) for subscriptions</li>
@@ -243,7 +243,7 @@ export default async function StorePaymentsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.3 Currency & Taxes</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Currency:</strong> USD (United States Dollars)
             </li>
@@ -259,7 +259,7 @@ export default async function StorePaymentsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.4 Security Measures</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>TLS 1.3 encryption for all transactions</li>
             <li>3D Secure authentication for high-risk transactions</li>
             <li>Fraud detection via Stripe Radar</li>
@@ -268,7 +268,7 @@ export default async function StorePaymentsPage() {
         </section>
 
         <section id="licensing" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Shield className="w-6 h-6 text-brand-blue-600" />
             4. Digital Licensing
           </h2>
@@ -307,7 +307,7 @@ export default async function StorePaymentsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.2 License Terms</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>License granted upon successful payment</li>
             <li>License is perpetual unless otherwise stated</li>
             <li>Updates included for 12 months (where applicable)</li>
@@ -315,7 +315,7 @@ export default async function StorePaymentsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.3 Prohibited Uses (All Licenses)</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Reselling or redistributing the original product</li>
             <li>Sharing download links or account access</li>
             <li>Removing copyright notices or attribution</li>
@@ -324,13 +324,13 @@ export default async function StorePaymentsPage() {
         </section>
 
         <section id="pricing" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <FileText className="w-6 h-6 text-brand-blue-600" />
             5. Pricing & Promotions
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.1 Pricing Guidelines</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Prices displayed in USD, inclusive of base price</li>
             <li>Sales tax added at checkout based on location</li>
             <li>Price changes do not affect existing purchases</li>
@@ -338,7 +338,7 @@ export default async function StorePaymentsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.2 Promotional Policies</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Discount Codes:</strong> Single use unless specified, cannot be combined
             </li>
@@ -355,7 +355,7 @@ export default async function StorePaymentsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.3 Subscription Billing</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Billed on same day each month/year</li>
             <li>Failed payment: 3 retry attempts over 7 days</li>
             <li>Access suspended after failed retries</li>
@@ -364,7 +364,7 @@ export default async function StorePaymentsPage() {
         </section>
 
         <section id="refunds" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <RefreshCw className="w-6 h-6 text-brand-blue-600" />
             6. Refunds & Disputes
           </h2>
@@ -400,7 +400,7 @@ export default async function StorePaymentsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.2 Refund Process</h3>
-          <ol className="list-decimal pl-6 space-y-2 text-gray-700 mb-4">
+          <ol className="list-decimal pl-6 space-y-2 text-slate-700 mb-4">
             <li>Request via our contact form within policy window</li>
             <li>Include order number and reason for refund</li>
             <li>Review completed within 3 business days</li>
@@ -409,27 +409,27 @@ export default async function StorePaymentsPage() {
           </ol>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.3 Exceptions</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Technical issues preventing product use (full refund)</li>
             <li>Product significantly different from description (full refund)</li>
             <li>Duplicate purchases (full refund)</li>
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.4 Chargebacks</h3>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             Customers should contact us before initiating chargebacks. Fraudulent chargebacks may
             result in account suspension and collection action.
           </p>
         </section>
 
         <section id="seller" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Users className="w-6 h-6 text-brand-blue-600" />
             7. Seller/Creator Policies
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.1 Creator Requirements</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Verified identity and tax information (W-9 for US creators)</li>
             <li>Agreement to Creator Terms of Service</li>
             <li>Original content or proper licensing for all materials</li>
@@ -465,7 +465,7 @@ export default async function StorePaymentsPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.3 Payouts</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Monthly payouts via Stripe Connect</li>
             <li>Minimum payout threshold: $50</li>
             <li>Payout methods: Bank transfer, debit card</li>
@@ -473,7 +473,7 @@ export default async function StorePaymentsPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">7.4 Content Guidelines</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>No plagiarized or copyright-infringing content</li>
             <li>No misleading claims or false advertising</li>
             <li>No illegal, harmful, or discriminatory content</li>
@@ -482,7 +482,7 @@ export default async function StorePaymentsPage() {
         </section>
 
         <section id="responsibilities" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Roles & Responsibilities</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">8. Roles & Responsibilities</h2>
           <table className="w-full border-collapse border">
             <thead>
               <tr className="bg-gray-100">
@@ -522,7 +522,7 @@ export default async function StorePaymentsPage() {
         </section>
 
         <section id="versioning" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Versioning & Review</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">9. Versioning & Review</h2>
           <table className="w-full border-collapse border mb-4">
             <thead>
               <tr className="bg-gray-100">
@@ -539,13 +539,13 @@ export default async function StorePaymentsPage() {
               </tr>
             </tbody>
           </table>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             <strong>Review Schedule:</strong> Annually, or upon significant changes to payment
             processing, tax requirements, or product offerings.
           </p>
         </section>
 
-        <footer className="mt-12 pt-8 border-t text-sm text-gray-500">
+        <footer className="mt-12 pt-8 border-t text-sm text-slate-500">
           <p>
             <strong>Document ID:</strong> EFH-STO-001 | <strong>Owner:</strong> Director of
             Operations

@@ -75,7 +75,7 @@ export default async function LicensesPage() {
               </span>
             </h1>
 
-            <p className="mt-6 text-xl text-gray-300 leading-relaxed max-w-2xl">
+            <p className="mt-6 text-xl text-slate-300 leading-relaxed max-w-2xl">
               Get the complete Elevate for Humanity platform with your branding.
               Everything you need to launch and scale workforce training
               programs.
@@ -147,7 +147,7 @@ export default async function LicensesPage() {
             <h2 className="text-4xl font-black text-zinc-900 mb-4">
               Choose Your License
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               One-time payment for lifetime access. No recurring fees. Full
               source code included.
             </p>
@@ -170,24 +170,24 @@ export default async function LicensesPage() {
                 )}
 
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">
                     {product.name}
                   </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <p className="text-slate-600 text-sm leading-relaxed">
                     {product.description}
                   </p>
                 </div>
 
                 <div className="mb-6">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-black text-gray-900">
+                    <span className="text-4xl font-black text-slate-900">
                       ${product.price.toLocaleString()}
                     </span>
                     {product.billingType === 'subscription' && (
-                      <span className="text-gray-500 text-lg">/mo</span>
+                      <span className="text-slate-500 text-lg">/mo</span>
                     )}
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-slate-500 mt-1">
                     {product.billingType === 'one_time'
                       ? 'One-time payment'
                       : 'Billed monthly'}
@@ -208,13 +208,13 @@ export default async function LicensesPage() {
                 </Link>
 
                 <div className="space-y-3">
-                  <p className="text-sm font-semibold text-gray-900">
+                  <p className="text-sm font-semibold text-slate-900">
                     What&apos;s included:
                   </p>
                   {product.features.slice(0, 5).map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-gray-700">{feature}</span>
+                      <span className="text-sm text-slate-700">{feature}</span>
                     </div>
                   ))}
                   {product.features.length > 5 && (
@@ -225,12 +225,12 @@ export default async function LicensesPage() {
                 </div>
 
                 <div className="mt-6 pt-6 border-t border-gray-100">
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
                     Ideal for:
                   </p>
                   <ul className="space-y-1">
                     {product.idealFor.slice(0, 3).map((use, idx) => (
-                      <li key={idx} className="text-xs text-gray-600">
+                      <li key={idx} className="text-xs text-slate-600">
                         • {use}
                       </li>
                     ))}
@@ -254,7 +254,7 @@ export default async function LicensesPage() {
               <h2 className="text-4xl font-black text-zinc-900 mb-4">
                 Clone & Self-Host
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <p className="text-xl text-slate-600 max-w-2xl mx-auto">
                 Get the complete source code and deploy on your own
                 infrastructure. Full control, no vendor lock-in.
               </p>
@@ -266,18 +266,18 @@ export default async function LicensesPage() {
                   key={license.id}
                   className="bg-gray-50 rounded-2xl p-8 border border-gray-200 hover:border-purple-300 hover:shadow-lg transition-all"
                 >
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">
                     {license.name}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <p className="text-slate-600 text-sm mb-4">
                     {license.description}
                   </p>
 
                   <div className="mb-6">
-                    <span className="text-3xl font-black text-gray-900">
+                    <span className="text-3xl font-black text-slate-900">
                       ${license.price.toLocaleString()}
                     </span>
-                    <span className="text-gray-500 ml-2">one-time</span>
+                    <span className="text-slate-500 ml-2">one-time</span>
                   </div>
 
                   <Link
@@ -291,7 +291,7 @@ export default async function LicensesPage() {
                     {license.features.slice(0, 4).map((feature, idx) => (
                       <li
                         key={idx}
-                        className="flex items-center gap-2 text-sm text-gray-700"
+                        className="flex items-center gap-2 text-sm text-slate-700"
                       >
                         <Check className="w-4 h-4 text-purple-600" />
                         {feature}
@@ -392,7 +392,7 @@ export default async function LicensesPage() {
       <section className="px-4 sm:px-6 lg:px-8 py-20 bg-gray-50">
         <div className="max-w-4xl mx-auto text-center">
           <Award className="w-12 h-12 text-green-600 mx-auto mb-6" />
-          <blockquote className="text-2xl md:text-3xl font-medium text-gray-900 leading-relaxed mb-8">
+          <blockquote className="text-2xl md:text-3xl font-medium text-slate-900 leading-relaxed mb-8">
             &ldquo;We launched our workforce training program in under a week. The
             platform had everything we needed - LMS, enrollment, payments,
             compliance reporting. It would have taken us months to build this
@@ -401,8 +401,8 @@ export default async function LicensesPage() {
           <div className="flex items-center justify-center gap-4">
             <div className="w-12 h-12 bg-gray-300 rounded-full" />
             <div className="text-left">
-              <div className="font-bold text-gray-900">Sarah Johnson</div>
-              <div className="text-gray-600 text-sm">
+              <div className="font-bold text-slate-900">Sarah Johnson</div>
+              <div className="text-slate-600 text-sm">
                 Director, Midwest Workforce Solutions
               </div>
             </div>

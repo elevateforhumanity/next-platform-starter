@@ -109,10 +109,10 @@ export default function JriPage() {
       <section className="py-16 bg-green-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
               What JRI Pays For (Everything)
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               The Justice Reinvestment Initiative covers ALL costs so you can focus on your training
               and future.
             </p>
@@ -151,8 +151,8 @@ export default function JriPage() {
                 >
                   <item.icon className="w-7 h-7" />
                 </div>
-                <h3 className="font-bold text-gray-900 text-lg mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.desc}</p>
+                <h3 className="font-bold text-slate-900 text-lg mb-2">{item.title}</h3>
+                <p className="text-slate-600">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -163,10 +163,10 @@ export default function JriPage() {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
               Career Training Programs
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-slate-600">
               Choose a career path that fits your goals. All programs lead to real jobs.
             </p>
           </div>
@@ -239,19 +239,19 @@ export default function JriPage() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="font-bold text-xl text-gray-900 mb-2">{program.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{program.desc}</p>
+                  <h3 className="font-bold text-xl text-slate-900 mb-2">{program.title}</h3>
+                  <p className="text-slate-600 text-sm mb-4">{program.desc}</p>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-500">Duration:</span>
+                      <span className="text-slate-500">Duration:</span>
                       <span className="font-medium">{program.duration}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500">You Get:</span>
+                      <span className="text-slate-500">You Get:</span>
                       <span className="font-medium text-green-600">{program.outcome}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500">Salary Range:</span>
+                      <span className="text-slate-500">Salary Range:</span>
                       <span className="font-medium">{program.salary}</span>
                     </div>
                   </div>
@@ -267,10 +267,10 @@ export default function JriPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6">
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">
                 Do You Qualify for JRI?
               </h2>
-              <p className="text-lg text-gray-600 mb-8">
+              <p className="text-lg text-slate-600 mb-8">
                 JRI is specifically for people who have been involved in the criminal justice system
                 and want to build a legitimate career. If any of these apply to you, you likely
                 qualify:
@@ -287,7 +287,7 @@ export default function JriPage() {
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-lg">{item}</span>
+                    <span className="text-slate-700 text-lg">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -309,11 +309,11 @@ export default function JriPage() {
                 className="rounded-2xl shadow-xl"
               />
               <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-6 shadow-lg max-w-xs">
-                <p className="text-gray-900 font-medium italic">
+                <p className="text-slate-900 font-medium italic">
                   &quot;JRI gave me a second chance when no one else would. Now I have my CDL and
                   make $55K a year.&quot;
                 </p>
-                <p className="text-gray-500 text-sm mt-2">— Marcus T., JRI Graduate</p>
+                <p className="text-slate-500 text-sm mt-2">— Marcus T., JRI Graduate</p>
               </div>
             </div>
           </div>
@@ -324,10 +324,10 @@ export default function JriPage() {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
               More Than Just Training
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               We know reentry is hard. JRI includes wraparound support to help you succeed.
             </p>
           </div>
@@ -367,8 +367,8 @@ export default function JriPage() {
             ].map((service, i) => (
               <div key={i} className="bg-gray-50 rounded-xl p-6 border">
                 <service.icon className="w-10 h-10 text-indigo-600 mb-4" />
-                <h3 className="font-bold text-gray-900 text-lg mb-2">{service.title}</h3>
-                <p className="text-gray-600">{service.desc}</p>
+                <h3 className="font-bold text-slate-900 text-lg mb-2">{service.title}</h3>
+                <p className="text-slate-600">{service.desc}</p>
               </div>
             ))}
           </div>
@@ -380,7 +380,7 @@ export default function JriPage() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black mb-4">How to Get Started</h2>
-            <p className="text-xl text-gray-400">Three simple steps to start your new career</p>
+            <p className="text-xl text-slate-400">Three simple steps to start your new career</p>
           </div>
 
           <div className="space-y-8">
@@ -407,7 +407,7 @@ export default function JriPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-xl mb-2">{item.title}</h3>
-                  <p className="text-gray-400">{item.desc}</p>
+                  <p className="text-slate-400">{item.desc}</p>
                 </div>
               </div>
             ))}

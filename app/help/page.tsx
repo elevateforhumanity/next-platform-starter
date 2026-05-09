@@ -69,7 +69,7 @@ export default async function HelpPage() {
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto mb-8">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search for help articles, tutorials, or FAQs..."
@@ -112,7 +112,7 @@ export default async function HelpPage() {
             <h2 className="text-3xl md:text-4xl font-black text-black mb-4">
               Choose Your Help Topic
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Find the resources you need to succeed in your training journey
             </p>
           </div>
@@ -127,7 +127,7 @@ export default async function HelpPage() {
                 <Rocket className="w-8 h-8 text-blue-600 group-hover:text-white transition" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Getting Started</h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-slate-600 mb-4">
                 Learn how to apply, enroll, and begin your training journey
               </p>
               <div className="flex items-center text-blue-600 font-semibold group-hover:gap-2 transition-all">
@@ -145,7 +145,7 @@ export default async function HelpPage() {
                 <Headphones className="w-8 h-8 text-green-600 group-hover:text-white transition" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Technical Support</h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-slate-600 mb-4">
                 Get help with login issues, platform navigation, and technical problems
               </p>
               <div className="flex items-center text-green-600 font-semibold group-hover:gap-2 transition-all">
@@ -163,7 +163,7 @@ export default async function HelpPage() {
                 <BookOpen className="w-8 h-8 text-purple-600 group-hover:text-white transition" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Course Help</h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-slate-600 mb-4">
                 Access course materials, submit assignments, and track your progress
               </p>
               <div className="flex items-center text-purple-600 font-semibold group-hover:gap-2 transition-all">
@@ -181,7 +181,7 @@ export default async function HelpPage() {
                 <Shield className="w-8 h-8 text-orange-600 group-hover:text-white transition" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Account & Billing</h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-slate-600 mb-4">
                 Manage your account settings, update information, and view billing
               </p>
               <div className="flex items-center text-orange-600 font-semibold group-hover:gap-2 transition-all">
@@ -224,7 +224,7 @@ export default async function HelpPage() {
               <h2 className="text-3xl md:text-4xl font-black text-black mb-6">
                 Popular Help Resources
               </h2>
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="text-xl text-slate-600 mb-8">
                 Quick access to our most-used guides and tutorials
               </p>
 
@@ -238,9 +238,9 @@ export default async function HelpPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold text-black mb-1">How to Apply for Programs</h3>
-                    <p className="text-sm text-gray-600">Step-by-step video guide • 5 min</p>
+                    <p className="text-sm text-slate-600">Step-by-step video guide • 5 min</p>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition" />
+                  <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600 transition" />
                 </Link>
 
                 <Link
@@ -252,9 +252,9 @@ export default async function HelpPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold text-black mb-1">Accessing Your Courses</h3>
-                    <p className="text-sm text-gray-600">Complete guide • 3 min read</p>
+                    <p className="text-sm text-slate-600">Complete guide • 3 min read</p>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-green-600 transition" />
+                  <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-green-600 transition" />
                 </Link>
 
                 <Link
@@ -266,9 +266,9 @@ export default async function HelpPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold text-black mb-1">Submitting Assignments</h3>
-                    <p className="text-sm text-gray-600">Tutorial with screenshots • 4 min</p>
+                    <p className="text-sm text-slate-600">Tutorial with screenshots • 4 min</p>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-purple-600 transition" />
+                  <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-purple-600 transition" />
                 </Link>
 
                 <Link
@@ -280,9 +280,9 @@ export default async function HelpPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold text-black mb-1">Common Technical Issues</h3>
-                    <p className="text-sm text-gray-600">Troubleshooting guide • 6 min</p>
+                    <p className="text-sm text-slate-600">Troubleshooting guide • 6 min</p>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-orange-600 transition" />
+                  <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-orange-600 transition" />
                 </Link>
               </div>
 
@@ -305,7 +305,7 @@ export default async function HelpPage() {
             <h2 className="text-3xl md:text-4xl font-black text-black mb-4">
               Need Personal Assistance?
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Our support team is available 24/7 to help you succeed
             </p>
           </div>
@@ -317,14 +317,14 @@ export default async function HelpPage() {
                 <Phone className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Call Us</h3>
-              <p className="text-gray-600 mb-6">Speak directly with a support specialist</p>
+              <p className="text-slate-600 mb-6">Speak directly with a support specialist</p>
               <a
                 href="tel:+13173143757"
                 className="text-2xl font-bold text-blue-600 hover:text-blue-700 mb-4 block"
               >
                 (317) 314-3757
               </a>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-500">
                 Mon-Fri: 9am-5pm EST
                 <br />
                 Sat: 10am-2pm EST
@@ -337,14 +337,14 @@ export default async function HelpPage() {
                 <Mail className="w-8 h-8 text-green-600" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Email Us</h3>
-              <p className="text-gray-600 mb-6">Get a detailed response within 24 hours</p>
+              <p className="text-slate-600 mb-6">Get a detailed response within 24 hours</p>
               <a
                 href="mailto:elevate4humanityedu@gmail.com"
                 className="text-lg font-bold text-green-600 hover:text-green-700 mb-4 block break-all"
               >
                 elevate4humanityedu@gmail.com
               </a>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-500">
                 Response time:
                 <br />
                 Usually within 2-4 hours
@@ -357,11 +357,11 @@ export default async function HelpPage() {
                 <MessageCircle className="w-8 h-8 text-purple-600" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Live Chat</h3>
-              <p className="text-gray-600 mb-6">Chat with us in real-time for instant help</p>
+              <p className="text-slate-600 mb-6">Chat with us in real-time for instant help</p>
               <button className="bg-purple-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-purple-700 transition mb-4">
                 Start Chat
               </button>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-500">
                 Available:
                 <br />
                 Mon-Fri: 9am-9pm EST
@@ -377,19 +377,19 @@ export default async function HelpPage() {
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl font-black text-blue-600 mb-2">24/7</div>
-              <div className="text-gray-600">Support Available</div>
+              <div className="text-slate-600">Support Available</div>
             </div>
             <div>
               <div className="text-4xl font-black text-green-600 mb-2">&lt;2hrs</div>
-              <div className="text-gray-600">Average Response Time</div>
+              <div className="text-slate-600">Average Response Time</div>
             </div>
             <div>
               <div className="text-4xl font-black text-purple-600 mb-2">500+</div>
-              <div className="text-gray-600">Help Articles</div>
+              <div className="text-slate-600">Help Articles</div>
             </div>
             <div>
               <div className="text-4xl font-black text-orange-600 mb-2">98%</div>
-              <div className="text-gray-600">Satisfaction Rate</div>
+              <div className="text-slate-600">Satisfaction Rate</div>
             </div>
           </div>
         </div>

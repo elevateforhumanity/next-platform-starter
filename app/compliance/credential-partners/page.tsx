@@ -145,8 +145,8 @@ export default function CredentialPartnersPage() {
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
           <div className="border-l-4 border-brand-blue-600 pl-6 mb-8">
-            <h2 className="text-lg font-bold text-gray-900 mb-2">Registry Purpose</h2>
-            <p className="text-gray-700 text-sm leading-relaxed">
+            <h2 className="text-lg font-bold text-slate-900 mb-2">Registry Purpose</h2>
+            <p className="text-slate-700 text-sm leading-relaxed">
               This registry documents the credential partners authorized to deliver Related
               Technical Instruction (RTI) for each Elevate program. When a workforce agency, ETPL
               reviewer, or partner asks &ldquo;Who delivers RTI?&rdquo; — this single document
@@ -159,19 +159,19 @@ export default function CredentialPartnersPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
             <div className="bg-white rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-brand-blue-600">6</p>
-              <p className="text-xs text-gray-600 mt-1">Programs Covered</p>
+              <p className="text-xs text-slate-600 mt-1">Programs Covered</p>
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-brand-blue-600">100%</p>
-              <p className="text-xs text-gray-600 mt-1">MOU Required</p>
+              <p className="text-xs text-slate-600 mt-1">MOU Required</p>
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-brand-blue-600">100%</p>
-              <p className="text-xs text-gray-600 mt-1">State/Federal Approved</p>
+              <p className="text-xs text-slate-600 mt-1">State/Federal Approved</p>
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-brand-blue-600">6</p>
-              <p className="text-xs text-gray-600 mt-1">Credential Types</p>
+              <p className="text-xs text-slate-600 mt-1">Credential Types</p>
             </div>
           </div>
         </div>
@@ -180,7 +180,7 @@ export default function CredentialPartnersPage() {
       {/* Registry Cards */}
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Per-Program Credential Partners</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Per-Program Credential Partners</h2>
 
           <div className="space-y-6">
             {CREDENTIAL_PARTNERS.map((partner, i) => (
@@ -195,25 +195,25 @@ export default function CredentialPartnersPage() {
                 <div className="p-6">
                   <div className="grid sm:grid-cols-2 gap-4 mb-4">
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
                         Partner Type
                       </p>
-                      <p className="text-sm text-gray-900 font-medium">{partner.partnerType}</p>
+                      <p className="text-sm text-slate-900 font-medium">{partner.partnerType}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
                         Licensing Body
                       </p>
-                      <p className="text-sm text-gray-700">{partner.licensingBody}</p>
+                      <p className="text-sm text-slate-700">{partner.licensingBody}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
                         Program Assignment
                       </p>
-                      <p className="text-sm text-gray-700">{partner.programAssignment}</p>
+                      <p className="text-sm text-slate-700">{partner.programAssignment}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
                         MOU Status
                       </p>
                       <p className="text-sm text-brand-green-700 font-medium flex items-center gap-1">
@@ -224,27 +224,27 @@ export default function CredentialPartnersPage() {
 
                   <div className="grid sm:grid-cols-2 gap-4 mb-4">
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
                         Credential Issued
                       </p>
-                      <p className="text-sm text-gray-900 font-medium">
+                      <p className="text-sm text-slate-900 font-medium">
                         {partner.credentialIssued}
                       </p>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-slate-500 mt-0.5">
                         Issued by: {partner.credentialIssuer}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
                         Instructor Requirements
                       </p>
-                      <p className="text-sm text-gray-700">{partner.instructorReq}</p>
+                      <p className="text-sm text-slate-700">{partner.instructorReq}</p>
                     </div>
                   </div>
 
                   {partner.notes && (
                     <div className="bg-white rounded-lg p-3 mt-3">
-                      <p className="text-xs text-gray-600">
+                      <p className="text-xs text-slate-600">
                         <span className="font-medium">Note:</span> {partner.notes}
                       </p>
                     </div>
@@ -263,13 +263,13 @@ export default function CredentialPartnersPage() {
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-bold text-gray-900 mb-2">Disclosure & Verification</h3>
-                <p className="text-sm text-gray-700 mb-2">
+                <h3 className="font-bold text-slate-900 mb-2">Disclosure & Verification</h3>
+                <p className="text-sm text-slate-700 mb-2">
                   This public registry documents the structural framework and provider type
                   requirements for each program. Specific provider names, MOU documents, and
                   instructor credential files are maintained in internal compliance records.
                 </p>
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-slate-700">
                   Authorized reviewers (ETPL, DWD, DOL, workforce boards, grant evaluators) may
                   request full provider documentation by contacting Elevate for Humanity directly.
                   Verification requests are processed within 5 business days.
@@ -292,19 +292,19 @@ export default function CredentialPartnersPage() {
             </Link>
             <Link
               href="/instructional-framework"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructional Framework
             </Link>
             <Link
               href="/instructor-credentials"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructor Credentials
             </Link>
             <Link
               href="/compliance/workforce-partnership-packet"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Workforce Partnership Packet
             </Link>

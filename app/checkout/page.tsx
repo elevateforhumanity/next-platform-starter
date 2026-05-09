@@ -40,8 +40,8 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { p
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Payment Temporarily Unavailable</h1>
-          <p className="text-gray-600 mb-4">
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Payment Temporarily Unavailable</h1>
+          <p className="text-slate-600 mb-4">
             Online payments are temporarily unavailable. Please contact us to complete your
             purchase.
           </p>
@@ -51,7 +51,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { p
           >
             Contact Us
           </a>
-          <p className="text-center text-sm text-gray-500 mt-4">Or call (317) 314-3757</p>
+          <p className="text-center text-sm text-slate-500 mt-4">Or call (317) 314-3757</p>
         </div>
       </div>
     );
@@ -70,8 +70,8 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { p
       return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-            <p className="text-gray-600">Please try again later.</p>
+            <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+            <p className="text-slate-600">Please try again later.</p>
           </div>
         </div>
       );

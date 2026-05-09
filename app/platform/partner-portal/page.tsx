@@ -134,7 +134,7 @@ export default function PartnerPortalPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Portal Features</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Portal Features</h2>
             <p className="text-lg text-black max-w-2xl mx-auto">
               A single platform to manage every aspect of your workforce training partnership.
             </p>
@@ -148,7 +148,7 @@ export default function PartnerPortalPage() {
                 <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
                   <f.icon className="w-6 h-6 text-brand-blue-600" />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{f.title}</h3>
+                <h3 className="font-bold text-slate-900 mb-2">{f.title}</h3>
                 <p className="text-black text-sm">{f.description}</p>
               </div>
             ))}
@@ -160,7 +160,7 @@ export default function PartnerPortalPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Who Uses the Partner Portal</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Who Uses the Partner Portal</h2>
             <p className="text-lg text-black">
               Tailored experiences for every type of workforce partner.
             </p>
@@ -176,7 +176,7 @@ export default function PartnerPortalPage() {
                   {i + 1}
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-1 group-hover:text-brand-blue-600 transition">
+                  <h3 className="font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition">
                     {p.title}
                   </h3>
                   <p className="text-black text-sm">{p.description}</p>
@@ -201,7 +201,7 @@ export default function PartnerPortalPage() {
               />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">What Partners Get</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">What Partners Get</h2>
               <div className="space-y-4">
                 {[
                   'Dedicated partner dashboard with real-time metrics',
@@ -215,7 +215,7 @@ export default function PartnerPortalPage() {
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <span className="text-black flex-shrink-0">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                   </div>
                 ))}
               </div>

@@ -54,7 +54,7 @@ export function VideoHero({
             {headline}
           </h1>
           {description && (
-            <p className="text-lg sm:text-xl text-gray-200 mb-10 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-slate-200 mb-10 max-w-3xl mx-auto">
               {description}
             </p>
           )}

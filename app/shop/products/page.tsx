@@ -68,12 +68,12 @@ export default async function ProductsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-              <p className="text-gray-600 mt-1">Professional tools and learning materials</p>
+              <h1 className="text-2xl font-bold text-slate-900">Products</h1>
+              <p className="text-slate-600 mt-1">Professional tools and learning materials</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type="text"
                   placeholder="Search products..."
@@ -106,7 +106,7 @@ export default async function ProductsPage() {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   category === 'All'
                     ? 'bg-brand-blue-600 text-white'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-white'
+                    : 'bg-white text-slate-700 border border-gray-300 hover:bg-white'
                 }`}
               >
                 {category}
@@ -124,10 +124,10 @@ export default async function ProductsPage() {
                 className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
               >
                 <div className="h-40 bg-white flex items-center justify-center relative">
-                  <Package className="w-16 h-16 text-gray-300" />
+                  <Package className="w-16 h-16 text-slate-300" />
                   {!product.in_stock && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="px-3 py-1 bg-white text-gray-900 rounded-full text-sm font-medium">
+                      <span className="px-3 py-1 bg-white text-slate-900 rounded-full text-sm font-medium">
                         Out of Stock
                       </span>
                     </div>
@@ -139,21 +139,21 @@ export default async function ProductsPage() {
                   )}
                 </div>
                 <div className="p-4">
-                  <span className="text-xs text-gray-500">{product.category}</span>
-                  <h3 className="font-semibold text-gray-900 mt-1 line-clamp-1">{product.name}</h3>
-                  <p className="text-sm text-gray-500 mt-1 line-clamp-2">{product.description}</p>
+                  <span className="text-xs text-slate-500">{product.category}</span>
+                  <h3 className="font-semibold text-slate-900 mt-1 line-clamp-1">{product.name}</h3>
+                  <p className="text-sm text-slate-500 mt-1 line-clamp-2">{product.description}</p>
                   {product.rating > 0 && (
                     <div className="flex items-center gap-2 mt-2">
                       <div className="flex items-center gap-1">
                         <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                        <span className="text-sm font-medium text-gray-900">{product.rating}</span>
+                        <span className="text-sm font-medium text-slate-900">{product.rating}</span>
                       </div>
-                      <span className="text-sm text-gray-500">({product.reviews_count})</span>
+                      <span className="text-sm text-slate-500">({product.reviews_count})</span>
                     </div>
                   )}
                   <div className="flex items-center justify-between mt-4">
                     <div className="flex items-center gap-2">
-                      <span className="text-lg font-bold text-gray-900">${product.price}</span>
+                      <span className="text-lg font-bold text-slate-900">${product.price}</span>
                       {product.original_price && (
                         <span className="text-sm text-slate-500 line-through">
                           ${product.original_price}
@@ -173,9 +173,9 @@ export default async function ProductsPage() {
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-            <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">No products available</h2>
-            <p className="text-gray-600 mb-6">
+            <Package className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold text-slate-900 mb-2">No products available</h2>
+            <p className="text-slate-600 mb-6">
               No products available yet. Contact us to request learning materials.
             </p>
             <Link href="/shop" className="text-brand-blue-600 hover:underline">

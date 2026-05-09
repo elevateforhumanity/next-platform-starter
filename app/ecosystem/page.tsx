@@ -128,9 +128,9 @@ export default function EcosystemPage() {
             {partners.map((p, i) => (
               <div key={i} className="bg-white rounded-xl p-6 shadow-sm border text-center">
                 <p.icon className="w-12 h-12 text-brand-blue-600 mx-auto mb-4" />
-                <div className="text-3xl font-bold text-gray-900 mb-1">{p.count}</div>
-                <h3 className="font-semibold text-gray-900 mb-2">{p.title}</h3>
-                <p className="text-gray-600 text-sm">{p.description}</p>
+                <div className="text-3xl font-bold text-slate-900 mb-1">{p.count}</div>
+                <h3 className="font-semibold text-slate-900 mb-2">{p.title}</h3>
+                <p className="text-slate-600 text-sm">{p.description}</p>
               </div>
             ))}
           </div>
@@ -141,8 +141,8 @@ export default function EcosystemPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">How the Ecosystem Works</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">How the Ecosystem Works</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Every participant in the ecosystem benefits. The platform connects all stakeholders
               through a single system.
             </p>
@@ -153,8 +153,8 @@ export default function EcosystemPage() {
                 <div className="w-14 h-14 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <item.icon className="w-7 h-7 text-brand-blue-600" />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm">{item.description}</p>
+                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+                <p className="text-slate-600 text-sm">{item.description}</p>
               </div>
             ))}
           </div>
@@ -164,7 +164,7 @@ export default function EcosystemPage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold mb-4">Join Our Network</h2>
-          <p className="text-gray-600 mb-8">
+          <p className="text-slate-600 mb-8">
             Whether you are a training provider, employer, or community organization, there is a
             place for you in our ecosystem.
           </p>

@@ -77,8 +77,8 @@ export default async function PartnerStudentsPage() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Referred Students</h1>
-            <p className="text-gray-600">Students enrolled through your organization</p>
+            <h1 className="text-3xl font-bold text-slate-900">Referred Students</h1>
+            <p className="text-slate-600">Students enrolled through your organization</p>
           </div>
           <Link
             href="/partner/programs"
@@ -93,22 +93,22 @@ export default async function PartnerStudentsPage() {
           <div className="bg-white rounded-xl p-6 border">
             <Users className="w-8 h-8 text-blue-500 mb-2" />
             <p className="text-2xl font-bold">{totalStudents || 0}</p>
-            <p className="text-gray-600 text-sm">Total Students</p>
+            <p className="text-slate-600 text-sm">Total Students</p>
           </div>
           <div className="bg-white rounded-xl p-6 border">
             <Clock className="w-8 h-8 text-green-500 mb-2" />
             <p className="text-2xl font-bold">{activeCount}</p>
-            <p className="text-gray-600 text-sm">Active</p>
+            <p className="text-slate-600 text-sm">Active</p>
           </div>
           <div className="bg-white rounded-xl p-6 border">
             <GraduationCap className="w-8 h-8 text-blue-500 mb-2" />
             <p className="text-2xl font-bold">{completedCount}</p>
-            <p className="text-gray-600 text-sm">Completed</p>
+            <p className="text-slate-600 text-sm">Completed</p>
           </div>
           <div className="bg-white rounded-xl p-6 border">
             <TrendingUp className="w-8 h-8 text-orange-500 mb-2" />
             <p className="text-2xl font-bold">{avgProgress}%</p>
-            <p className="text-gray-600 text-sm">Avg Progress</p>
+            <p className="text-slate-600 text-sm">Avg Progress</p>
           </div>
         </div>
 
@@ -116,7 +116,7 @@ export default async function PartnerStudentsPage() {
         <div className="bg-white rounded-xl border overflow-hidden">
           <div className="p-4 border-b">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search students..."
@@ -127,12 +127,12 @@ export default async function PartnerStudentsPage() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Student</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Program</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Funding</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Progress</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Status</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Enrolled</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-600">Student</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-600">Program</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-600">Funding</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-600">Progress</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-600">Status</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-600">Enrolled</th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -145,7 +145,7 @@ export default async function PartnerStudentsPage() {
                         className="hover:text-orange-600"
                       >
                         <p className="font-medium">{enrollment.student?.full_name || 'Unknown'}</p>
-                        <p className="text-sm text-gray-500">{enrollment.student?.email}</p>
+                        <p className="text-sm text-slate-500">{enrollment.student?.email}</p>
                       </Link>
                     </td>
                     <td className="px-4 py-4 text-sm">{enrollment.program?.name || 'N/A'}</td>
@@ -174,13 +174,13 @@ export default async function PartnerStudentsPage() {
                               ? 'bg-blue-100 text-blue-700'
                               : enrollment.status === 'pending'
                                 ? 'bg-yellow-100 text-yellow-700'
-                                : 'bg-gray-100 text-gray-700'
+                                : 'bg-gray-100 text-slate-700'
                         }`}
                       >
                         {enrollment.status}
                       </span>
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-500">
+                    <td className="px-4 py-4 text-sm text-slate-500">
                       {enrollment.enrolled_at
                         ? new Date(enrollment.enrolled_at).toLocaleDateString()
                         : 'N/A'}
@@ -189,8 +189,8 @@ export default async function PartnerStudentsPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="px-4 py-12 text-center text-gray-500">
-                    <Users className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                  <td colSpan={6} className="px-4 py-12 text-center text-slate-500">
+                    <Users className="w-12 h-12 mx-auto mb-3 text-slate-300" />
                     <p className="font-medium">No students yet</p>
                     <p className="text-sm">Students you refer will appear here</p>
                   </td>

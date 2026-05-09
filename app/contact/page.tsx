@@ -127,13 +127,13 @@ function ContactPageInner() {
               <div className="w-12 h-12 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <info.icon className="w-6 h-6 text-brand-blue-600" />
               </div>
-              <h2 className="font-semibold text-gray-900">{info.title}</h2>
+              <h2 className="font-semibold text-slate-900">{info.title}</h2>
               {info.href ? (
                 <a href={info.href} className="text-brand-blue-600 hover:underline mt-1 block">
                   {info.value}
                 </a>
               ) : (
-                <p className="text-gray-900 mt-1">{info.value}</p>
+                <p className="text-slate-900 mt-1">{info.value}</p>
               )}
               <p className="text-sm text-black">{info.subtitle}</p>
             </div>
@@ -142,12 +142,12 @@ function ContactPageInner() {
 
         <div className="grid lg:grid-cols-2 gap-12">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">Send us a Message</h2>
 
             {formState === 'success' ? (
               <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 text-center">
                 <span className="text-black flex-shrink-0">•</span>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Message Sent!</h3>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">Message Sent!</h3>
                 <p className="text-black mb-4">
                   Thank you for contacting us. We&apos;ll get back to you within 24 hours.
                 </p>
@@ -174,7 +174,7 @@ function ContactPageInner() {
                   <div>
                     <label
                       htmlFor="firstName"
-                      className="block text-sm font-medium text-gray-700 mb-2"
+                      className="block text-sm font-medium text-slate-700 mb-2"
                     >
                       First Name <span className="text-brand-red-500">*</span>
                     </label>
@@ -190,7 +190,7 @@ function ContactPageInner() {
                   <div>
                     <label
                       htmlFor="lastName"
-                      className="block text-sm font-medium text-gray-700 mb-2"
+                      className="block text-sm font-medium text-slate-700 mb-2"
                     >
                       Last Name <span className="text-brand-red-500">*</span>
                     </label>
@@ -207,7 +207,7 @@ function ContactPageInner() {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
                       Email <span className="text-brand-red-500">*</span>
                     </label>
                     <input
@@ -220,7 +220,7 @@ function ContactPageInner() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-2">
                       Phone (optional)
                     </label>
                     <input
@@ -234,7 +234,7 @@ function ContactPageInner() {
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-2">
                     Subject <span className="text-brand-red-500">*</span>
                   </label>
                   <select
@@ -258,7 +258,7 @@ function ContactPageInner() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
                     Message <span className="text-brand-red-500">*</span>
                   </label>
                   <textarea
@@ -304,7 +304,7 @@ function ContactPageInner() {
 
           <div>
             {/* Schedule a Meeting */}
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Schedule a Meeting</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">Schedule a Meeting</h2>
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
               <p className="text-black mb-5">
                 Pick a date and time that works for you. Once you submit, you and our team will
@@ -355,7 +355,7 @@ function ContactPageInner() {
                 <div>
                   <label
                     htmlFor="meetingName"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-slate-700 mb-1"
                   >
                     Your Name <span className="text-brand-red-500">*</span>
                   </label>
@@ -370,7 +370,7 @@ function ContactPageInner() {
                 <div>
                   <label
                     htmlFor="meetingEmail"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-slate-700 mb-1"
                   >
                     Your Email <span className="text-brand-red-500">*</span>
                   </label>
@@ -386,7 +386,7 @@ function ContactPageInner() {
                   <div>
                     <label
                       htmlFor="meetingDate"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-slate-700 mb-1"
                     >
                       Date <span className="text-brand-red-500">*</span>
                     </label>
@@ -402,7 +402,7 @@ function ContactPageInner() {
                   <div>
                     <label
                       htmlFor="meetingTime"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-slate-700 mb-1"
                     >
                       Time <span className="text-brand-red-500">*</span>
                     </label>
@@ -436,7 +436,7 @@ function ContactPageInner() {
                 <div>
                   <label
                     htmlFor="meetingTopic"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-slate-700 mb-1"
                   >
                     What do you need help with?
                   </label>
@@ -468,7 +468,7 @@ function ContactPageInner() {
 
             {/* Zoom for Virtual Meetings */}
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-              <h3 className="font-semibold text-gray-900 mb-2">Virtual Meetings via Zoom</h3>
+              <h3 className="font-semibold text-slate-900 mb-2">Virtual Meetings via Zoom</h3>
               <p className="text-black mb-4">
                 All scheduled meetings include a unique Zoom link sent to your email. Use the form
                 above to book a meeting and you will receive your personal Zoom link automatically.
@@ -486,7 +486,7 @@ function ContactPageInner() {
 
             {/* Campus Info */}
             <div className="bg-white rounded-xl shadow-sm p-6">
-              <h3 className="font-semibold text-gray-900 mb-2">Elevate for Humanity</h3>
+              <h3 className="font-semibold text-slate-900 mb-2">Elevate for Humanity</h3>
               <p className="text-black">8888 Keystone Crossing, Suite 1300</p>
               <p className="text-black">Indianapolis, IN 46240</p>
               <p className="text-black mt-3 text-sm font-medium text-amber-700">
@@ -499,7 +499,7 @@ function ContactPageInner() {
       </div>
       {/* FAQ */}
       <div className="max-w-3xl mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Contact FAQ</h2>
+        <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Contact FAQ</h2>
         <div className="space-y-4">
           {[
             {

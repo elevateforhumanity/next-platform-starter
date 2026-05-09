@@ -180,12 +180,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
       {/* What You'll Learn */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">What You'll Get</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">What You'll Get</h2>
           <div className="grid md:grid-cols-2 gap-4">
             {sortedFeatures.map((feature: any, index: number) => (
               <div key={index} className="flex items-start gap-3 bg-white p-4 rounded-lg">
                 <span className="text-slate-500 flex-shrink-0">•</span>
-                <span className="text-gray-700">{feature.feature}</span>
+                <span className="text-slate-700">{feature.feature}</span>
               </div>
             ))}
           </div>
@@ -196,8 +196,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Course Curriculum</h2>
-            <p className="text-gray-600">
+            <h2 className="text-3xl font-bold text-slate-900">Course Curriculum</h2>
+            <p className="text-slate-600">
               {sortedModules.length} lessons • {Math.floor(totalDuration / 60)}h{' '}
               {totalDuration % 60}m total
             </p>
@@ -214,23 +214,23 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                     className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
                       module.is_preview
                         ? 'bg-brand-green-100 text-brand-green-600'
-                        : 'bg-white text-gray-600'
+                        : 'bg-white text-slate-600'
                     }`}
                   >
                     {index + 1}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-gray-900">{module.title}</h3>
+                      <h3 className="font-semibold text-slate-900">{module.title}</h3>
                       {module.is_preview && (
                         <span className="text-xs bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded-full">
                           Preview
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-gray-500">{module.description}</p>
+                    <p className="text-sm text-slate-500">{module.description}</p>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="flex items-center gap-2 text-sm text-slate-500">
                     <Play className="w-4 h-4" />
                     {module.duration_minutes} min
                   </div>
@@ -249,8 +249,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ShieldCheck className="w-8 h-8 text-brand-green-600" />
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">30-Day Money Back</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-bold text-slate-900 mb-2">30-Day Money Back</h3>
+              <p className="text-slate-600 text-sm">
                 Not satisfied? Get a full refund within 30 days, no questions asked.
               </p>
             </div>
@@ -258,8 +258,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Download className="w-8 h-8 text-brand-blue-600" />
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">Lifetime Access</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-bold text-slate-900 mb-2">Lifetime Access</h3>
+              <p className="text-slate-600 text-sm">
                 Buy once, access forever. Including all future updates.
               </p>
             </div>
@@ -267,8 +267,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MessageSquare className="w-8 h-8 text-brand-blue-600" />
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">Expert Support</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-bold text-slate-900 mb-2">Expert Support</h3>
+              <p className="text-slate-600 text-sm">
                 Get your questions answered by career experts.
               </p>
             </div>

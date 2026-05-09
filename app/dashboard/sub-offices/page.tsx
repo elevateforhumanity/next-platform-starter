@@ -75,7 +75,7 @@ export default async function SubOfficesPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+        <nav className="flex items-center gap-2 text-sm text-slate-600 mb-6">
           <Link href="/" className="hover:text-orange-600">
             Home
           </Link>
@@ -84,13 +84,13 @@ export default async function SubOfficesPage() {
             Admin
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <span className="text-gray-900">Sub-Offices</span>
+          <span className="text-slate-900">Sub-Offices</span>
         </nav>
 
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Sub-Offices</h1>
-            <p className="text-gray-600">Manage regional training locations</p>
+            <h1 className="text-3xl font-bold text-slate-900">Sub-Offices</h1>
+            <p className="text-slate-600">Manage regional training locations</p>
           </div>
           <Link
             href="/dashboard/sub-offices"
@@ -105,17 +105,17 @@ export default async function SubOfficesPage() {
           <div className="bg-white rounded-xl p-6 border">
             <Building2 className="w-8 h-8 text-blue-500 mb-2" />
             <p className="text-2xl font-bold">{officesWithStats.length}</p>
-            <p className="text-gray-600 text-sm">Total Offices</p>
+            <p className="text-slate-600 text-sm">Total Offices</p>
           </div>
           <div className="bg-white rounded-xl p-6 border">
             <Users className="w-8 h-8 text-green-500 mb-2" />
             <p className="text-2xl font-bold">{totalStudents}</p>
-            <p className="text-gray-600 text-sm">Active Students</p>
+            <p className="text-slate-600 text-sm">Active Students</p>
           </div>
           <div className="bg-white rounded-xl p-6 border">
             <MapPin className="w-8 h-8 text-orange-500 mb-2" />
             <p className="text-2xl font-bold">{activeOffices}</p>
-            <p className="text-gray-600 text-sm">Active Locations</p>
+            <p className="text-slate-600 text-sm">Active Locations</p>
           </div>
         </div>
 
@@ -133,7 +133,7 @@ export default async function SubOfficesPage() {
                   </div>
                   <span
                     className={`px-2 py-1 rounded text-xs ${
-                      office.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
+                      office.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-slate-600'
                     }`}
                   >
                     {office.is_active ? 'Active' : 'Inactive'}
@@ -142,7 +142,7 @@ export default async function SubOfficesPage() {
 
                 <h3 className="font-semibold text-lg mb-2">{office.name}</h3>
 
-                <div className="space-y-2 text-sm text-gray-600 mb-4">
+                <div className="space-y-2 text-sm text-slate-600 mb-4">
                   <p className="flex items-center gap-2">
                     <MapPin className="w-4 h-4" />
                     {office.address}, {office.city}, {office.state} {office.zip_code}
@@ -163,11 +163,11 @@ export default async function SubOfficesPage() {
 
                 <div className="flex items-center justify-between pt-4 border-t">
                   <div>
-                    <p className="text-sm text-gray-500">Manager</p>
+                    <p className="text-sm text-slate-500">Manager</p>
                     <p className="font-medium">{office.manager?.full_name || 'Unassigned'}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-gray-500">Students</p>
+                    <p className="text-sm text-slate-500">Students</p>
                     <p className="font-medium">{office.studentCount}</p>
                   </div>
                 </div>
@@ -182,9 +182,9 @@ export default async function SubOfficesPage() {
             ))
           ) : (
             <div className="col-span-full bg-white rounded-xl border p-12 text-center">
-              <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <p className="font-medium text-gray-900">No sub-offices yet</p>
-              <p className="text-sm text-gray-500 mb-4">Add your first regional office</p>
+              <Building2 className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+              <p className="font-medium text-slate-900">No sub-offices yet</p>
+              <p className="text-sm text-slate-500 mb-4">Add your first regional office</p>
               <Link
                 href="/dashboard/sub-offices"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"

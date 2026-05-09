@@ -103,11 +103,11 @@ export default function EnterpriseLicensePage() {
                 {LICENSE_DATA.longDescription}
               </p>
             </div>
-            <div className="bg-white text-gray-900 rounded-2xl p-8 min-w-[300px]">
+            <div className="bg-white text-slate-900 rounded-2xl p-8 min-w-[300px]">
               <div className="text-5xl font-black text-slate-800 mb-2">
                 ${LICENSE_DATA.price.toLocaleString()}
               </div>
-              <p className="text-gray-600 mb-6">One-time payment</p>
+              <p className="text-slate-600 mb-6">One-time payment</p>
               <div className="space-y-3">
                 <Link
                   href="/store/licenses/enterprise-license/trial"
@@ -122,7 +122,7 @@ export default function EnterpriseLicensePage() {
                   Purchase Now
                 </Link>
               </div>
-              <p className="text-xs text-gray-500 mt-4 text-center">
+              <p className="text-xs text-slate-500 mt-4 text-center">
                 Trial requires payment info. Cancel anytime before trial ends.
               </p>
             </div>
@@ -242,7 +242,7 @@ export default function EnterpriseLicensePage() {
       {/* Features */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-gray-900 mb-12 text-center">
+          <h2 className="text-3xl font-black text-slate-900 mb-12 text-center">
             Everything Included
           </h2>
 
@@ -254,20 +254,20 @@ export default function EnterpriseLicensePage() {
                   <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
                     <Icon className="w-6 h-6 text-slate-700" />
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-2 text-sm">{app.name}</h3>
-                  <p className="text-gray-600 text-xs">{app.description}</p>
+                  <h3 className="font-bold text-slate-900 mb-2 text-sm">{app.name}</h3>
+                  <p className="text-slate-600 text-xs">{app.description}</p>
                 </div>
               );
             })}
           </div>
 
           <div className="bg-white rounded-2xl p-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">All Features</h3>
+            <h3 className="text-xl font-bold text-slate-900 mb-6">All Features</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {LICENSE_DATA.features.map((feature, idx) => (
                 <div key={idx} className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <span className="text-gray-700">{feature}</span>
+                  <span className="text-slate-700">{feature}</span>
                 </div>
               ))}
             </div>
@@ -278,7 +278,7 @@ export default function EnterpriseLicensePage() {
       {/* Ideal For */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-gray-900 mb-8 text-center">
+          <h2 className="text-3xl font-black text-slate-900 mb-8 text-center">
             Built For
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">

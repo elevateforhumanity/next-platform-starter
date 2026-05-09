@@ -162,8 +162,8 @@ export function NotificationBell() {
           {/* Notifications List */}
           <div className="max-h-96 overflow-y-auto">
             {notifs.length === 0 ? (
-              <div className="px-4 py-8 text-center text-gray-500">
-                <Bell className="h-12 w-12 mx-auto mb-2 text-gray-300" />
+              <div className="px-4 py-8 text-center text-slate-500">
+                <Bell className="h-12 w-12 mx-auto mb-2 text-slate-300" />
                 <p className="text-sm">No notifications</p>
               </div>
             ) : (
@@ -183,7 +183,7 @@ export function NotificationBell() {
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-black text-sm">{notif.title}</p>
                         <p className="text-sm text-black mt-1">{notif.message}</p>
-                        <p className="text-xs text-gray-400 mt-1">{notif.time}</p>
+                        <p className="text-xs text-slate-400 mt-1">{notif.time}</p>
                       </div>
                       {notif.unread && <div className="w-2 h-2 bg-white rounded-full mt-2" />}
                     </div>

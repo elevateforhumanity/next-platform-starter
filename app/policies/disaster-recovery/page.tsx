@@ -31,7 +31,7 @@ export default async function DisasterRecoveryPage() {
               <Shield className="w-8 h-8 text-brand-orange-600" />
               <h1 className="text-4xl font-bold text-black">Disaster Recovery Policy</h1>
             </div>
-            <p className="text-sm text-gray-600">Last Updated: January 24, 2026</p>
+            <p className="text-sm text-slate-600">Last Updated: January 24, 2026</p>
           </div>
 
           <div className="prose prose-lg max-w-none">
@@ -58,7 +58,7 @@ export default async function DisasterRecoveryPage() {
                   </h3>
                 </div>
                 <p className="text-3xl font-black text-brand-blue-600 mb-1">&lt; 4 hours</p>
-                <p className="text-sm text-gray-600 m-0">Maximum acceptable downtime</p>
+                <p className="text-sm text-slate-600 m-0">Maximum acceptable downtime</p>
               </div>
 
               <div className="bg-brand-blue-50 rounded-lg p-6 border-2 border-brand-blue-200">
@@ -69,7 +69,7 @@ export default async function DisasterRecoveryPage() {
                   </h3>
                 </div>
                 <p className="text-3xl font-black text-brand-blue-600 mb-1">24 hours</p>
-                <p className="text-sm text-gray-600 m-0">Maximum acceptable data loss</p>
+                <p className="text-sm text-slate-600 m-0">Maximum acceptable data loss</p>
               </div>
             </div>
 

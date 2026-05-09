@@ -143,9 +143,9 @@ export default function WorkforcePartnershipPacketPage() {
 
       {/* Print header */}
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
-        <h1 className="text-2xl font-bold text-gray-900">Workforce Partnership Packet</h1>
-        <p className="text-sm text-gray-600">Elevate for Humanity — Partnership Documentation</p>
-        <p className="text-xs text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-slate-900">Workforce Partnership Packet</h1>
+        <p className="text-sm text-slate-600">Elevate for Humanity — Partnership Documentation</p>
+        <p className="text-xs text-slate-500 mt-1">
           RAPIDS ID: 2025-IN-132301 | INTraining Location ID: 10004621
         </p>
       </div>
@@ -153,70 +153,70 @@ export default function WorkforcePartnershipPacketPage() {
       {/* Organization Overview */}
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Organization Overview</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Organization Overview</h2>
 
           <div className="grid sm:grid-cols-2 gap-6 mb-8">
             <div>
               <dl className="space-y-3 text-sm">
                 <div>
-                  <dt className="font-semibold text-gray-500 text-xs uppercase tracking-wider">
+                  <dt className="font-semibold text-slate-500 text-xs uppercase tracking-wider">
                     Organization
                   </dt>
-                  <dd className="text-gray-900 font-medium">
+                  <dd className="text-slate-900 font-medium">
                     Elevate for Humanity Career &amp; Technical Institute
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-semibold text-gray-500 text-xs uppercase tracking-wider">
+                  <dt className="font-semibold text-slate-500 text-xs uppercase tracking-wider">
                     Legal Entity
                   </dt>
-                  <dd className="text-gray-900">
+                  <dd className="text-slate-900">
                     2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute)
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-semibold text-gray-500 text-xs uppercase tracking-wider">
+                  <dt className="font-semibold text-slate-500 text-xs uppercase tracking-wider">
                     Classification
                   </dt>
-                  <dd className="text-gray-900">
+                  <dd className="text-slate-900">
                     Hybrid Workforce Training Provider & Registered Apprenticeship Sponsor
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-semibold text-gray-500 text-xs uppercase tracking-wider">
+                  <dt className="font-semibold text-slate-500 text-xs uppercase tracking-wider">
                     Location
                   </dt>
-                  <dd className="text-gray-900">Indianapolis, Indiana</dd>
+                  <dd className="text-slate-900">Indianapolis, Indiana</dd>
                 </div>
               </dl>
             </div>
             <div>
               <dl className="space-y-3 text-sm">
                 <div>
-                  <dt className="font-semibold text-gray-500 text-xs uppercase tracking-wider">
+                  <dt className="font-semibold text-slate-500 text-xs uppercase tracking-wider">
                     RAPIDS Registration
                   </dt>
-                  <dd className="text-gray-900">2025-IN-132301</dd>
+                  <dd className="text-slate-900">2025-IN-132301</dd>
                 </div>
                 <div>
-                  <dt className="font-semibold text-gray-500 text-xs uppercase tracking-wider">
+                  <dt className="font-semibold text-slate-500 text-xs uppercase tracking-wider">
                     INTraining Location
                   </dt>
-                  <dd className="text-gray-900">10004621</dd>
+                  <dd className="text-slate-900">10004621</dd>
                 </div>
                 <div>
-                  <dt className="font-semibold text-gray-500 text-xs uppercase tracking-wider">
+                  <dt className="font-semibold text-slate-500 text-xs uppercase tracking-wider">
                     Approvals
                   </dt>
-                  <dd className="text-gray-900">
+                  <dd className="text-slate-900">
                     WIOA Eligible Training Provider, WRG Provider, Indiana DWD Listed
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-semibold text-gray-500 text-xs uppercase tracking-wider">
+                  <dt className="font-semibold text-slate-500 text-xs uppercase tracking-wider">
                     Cohort Setup Time
                   </dt>
-                  <dd className="text-gray-900 font-medium">
+                  <dd className="text-slate-900 font-medium">
                     ~2 weeks from agreement to enrollment
                   </dd>
                 </div>
@@ -226,8 +226,8 @@ export default function WorkforcePartnershipPacketPage() {
 
           {/* Delivery Model Summary */}
           <div className="bg-white rounded-lg p-6 border print:bg-white print:border-gray-300">
-            <h3 className="font-bold text-gray-900 mb-3">Delivery Model</h3>
-            <p className="text-sm text-gray-700 leading-relaxed mb-4">
+            <h3 className="font-bold text-slate-900 mb-3">Delivery Model</h3>
+            <p className="text-sm text-slate-700 leading-relaxed mb-4">
               Training is delivered through licensed credential partners and approved program
               holders under centralized institutional oversight, with employer partners providing
               structured on-the-job training. Elevate manages enrollment, funding navigation,
@@ -240,7 +240,7 @@ export default function WorkforcePartnershipPacketPage() {
                   aria-hidden
                   className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
                 />
-                <span className="text-gray-700">
+                <span className="text-slate-700">
                   RTI via licensed credential partners (mapped hours)
                 </span>
               </div>
@@ -249,14 +249,14 @@ export default function WorkforcePartnershipPacketPage() {
                   aria-hidden
                   className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
                 />
-                <span className="text-gray-700">OJT via approved employer partners</span>
+                <span className="text-slate-700">OJT via approved employer partners</span>
               </div>
               <div className="flex items-start gap-2">
                 <span
                   aria-hidden
                   className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
                 />
-                <span className="text-gray-700">
+                <span className="text-slate-700">
                   Competency-based assessment with mapped standards
                 </span>
               </div>
@@ -265,7 +265,7 @@ export default function WorkforcePartnershipPacketPage() {
                   aria-hidden
                   className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
                 />
-                <span className="text-gray-700">
+                <span className="text-slate-700">
                   LMS tracking for RTI hours, modules, and evaluations
                 </span>
               </div>
@@ -274,7 +274,7 @@ export default function WorkforcePartnershipPacketPage() {
                   aria-hidden
                   className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
                 />
-                <span className="text-gray-700">
+                <span className="text-slate-700">
                   Credentials issued by licensed authorities (not Elevate)
                 </span>
               </div>
@@ -283,7 +283,7 @@ export default function WorkforcePartnershipPacketPage() {
                   aria-hidden
                   className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
                 />
-                <span className="text-gray-700">MOU-governed partner relationships</span>
+                <span className="text-slate-700">MOU-governed partner relationships</span>
               </div>
             </div>
           </div>
@@ -293,8 +293,8 @@ export default function WorkforcePartnershipPacketPage() {
       {/* Program Catalog */}
       <section className="py-10 print: print:border-t">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Program Catalog</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Program Catalog</h2>
+          <p className="text-slate-600 text-sm mb-6">
             All programs include mapped RTI hours, OJT hours, and industry-recognized credentials.
           </p>
 
@@ -302,25 +302,25 @@ export default function WorkforcePartnershipPacketPage() {
             <table className="w-full text-xs border-collapse print:text-[10px]">
               <thead>
                 <tr className="bg-white print:bg-white">
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">Program</th>
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">Duration</th>
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">Format</th>
-                  <th className="text-center p-2.5 font-semibold text-gray-900 border-b">
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">Program</th>
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">Duration</th>
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">Format</th>
+                  <th className="text-center p-2.5 font-semibold text-slate-900 border-b">
                     RTI Hrs
                   </th>
-                  <th className="text-center p-2.5 font-semibold text-gray-900 border-b">
+                  <th className="text-center p-2.5 font-semibold text-slate-900 border-b">
                     OJT Hrs
                   </th>
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">
                     Credential
                   </th>
-                  <th className="text-left p-2.5 font-semibold text-gray-900 border-b">Funding</th>
+                  <th className="text-left p-2.5 font-semibold text-slate-900 border-b">Funding</th>
                 </tr>
               </thead>
               <tbody>
                 {PROGRAMS.map((p, i) => (
                   <tr key={i} className={i % 2 === 0 ? 'bg-white/50' : 'bg-white'}>
-                    <td className="p-2.5 font-medium text-gray-900 border-b">
+                    <td className="p-2.5 font-medium text-slate-900 border-b">
                       {p.name}
                       {p.registered && (
                         <span className="ml-1 text-[10px] text-brand-green-700 font-semibold">
@@ -328,16 +328,16 @@ export default function WorkforcePartnershipPacketPage() {
                         </span>
                       )}
                     </td>
-                    <td className="p-2.5 text-gray-700 border-b">{p.duration}</td>
-                    <td className="p-2.5 text-gray-700 border-b">{p.format}</td>
-                    <td className="p-2.5 text-center text-brand-blue-700 font-semibold border-b print:text-gray-900">
+                    <td className="p-2.5 text-slate-700 border-b">{p.duration}</td>
+                    <td className="p-2.5 text-slate-700 border-b">{p.format}</td>
+                    <td className="p-2.5 text-center text-brand-blue-700 font-semibold border-b print:text-slate-900">
                       {p.rtiHours}
                     </td>
-                    <td className="p-2.5 text-center text-gray-700 border-b">
+                    <td className="p-2.5 text-center text-slate-700 border-b">
                       {p.ojtHours.toLocaleString()}
                     </td>
-                    <td className="p-2.5 text-gray-700 border-b">{p.credential}</td>
-                    <td className="p-2.5 text-gray-600 border-b">{p.funding}</td>
+                    <td className="p-2.5 text-slate-700 border-b">{p.credential}</td>
+                    <td className="p-2.5 text-slate-600 border-b">{p.funding}</td>
                   </tr>
                 ))}
               </tbody>
@@ -349,8 +349,8 @@ export default function WorkforcePartnershipPacketPage() {
       {/* Progress Reporting */}
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Progress Reporting for Partners</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Progress Reporting for Partners</h2>
+          <p className="text-slate-600 text-sm mb-6">
             Workforce partners and cohort sponsors receive structured progress reports through the
             institutional LMS. Reports are available on a schedule agreed upon in the partnership
             MOU.
@@ -395,16 +395,16 @@ export default function WorkforcePartnershipPacketPage() {
                   key={i}
                   className="bg-white rounded-lg p-4 border print:bg-white print:border-gray-300"
                 >
-                  <Icon className="w-5 h-5 text-brand-blue-600 mb-2 print:text-gray-700" />
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{item.title}</h3>
-                  <p className="text-gray-600 text-xs">{item.desc}</p>
+                  <Icon className="w-5 h-5 text-brand-blue-600 mb-2 print:text-slate-700" />
+                  <h3 className="font-semibold text-slate-900 text-sm mb-1">{item.title}</h3>
+                  <p className="text-slate-600 text-xs">{item.desc}</p>
                 </div>
               );
             })}
           </div>
 
           <div className="mt-6 bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 print:bg-white print:border-gray-300">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-slate-700">
               <span className="font-semibold">Reporting frequency:</span> Weekly, biweekly, or
               monthly — configured per partnership agreement. Real-time dashboard access available
               for authorized partner contacts.
@@ -416,8 +416,8 @@ export default function WorkforcePartnershipPacketPage() {
       {/* Cohort Timeline */}
       <section className="py-10 print: print:border-t">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Cohort Setup Timeline</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Cohort Setup Timeline</h2>
+          <p className="text-slate-600 text-sm mb-6">
             From initial agreement to student enrollment in approximately 2 weeks.
           </p>
 
@@ -453,12 +453,12 @@ export default function WorkforcePartnershipPacketPage() {
                 key={i}
                 className="flex gap-4 items-start bg-white rounded-lg p-4 border print:border-gray-300"
               >
-                <div className="flex-shrink-0 w-20 text-xs font-bold text-brand-blue-600 bg-brand-blue-50 px-2 py-1 rounded text-center print:bg-white print:text-gray-900">
+                <div className="flex-shrink-0 w-20 text-xs font-bold text-brand-blue-600 bg-brand-blue-50 px-2 py-1 rounded text-center print:bg-white print:text-slate-900">
                   {step.day}
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900 text-sm">{step.title}</p>
-                  <p className="text-gray-600 text-xs mt-0.5">{step.desc}</p>
+                  <p className="font-semibold text-slate-900 text-sm">{step.title}</p>
+                  <p className="text-slate-600 text-xs mt-0.5">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -469,18 +469,18 @@ export default function WorkforcePartnershipPacketPage() {
       {/* Assessment & Verification */}
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Assessment & Competency Verification
           </h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <p className="text-slate-600 text-sm mb-6">
             Competency-based assessment aligned to industry skill standards.
           </p>
 
           <div className="bg-white rounded-lg p-6 border print:bg-white print:border-gray-300">
             <div className="space-y-4 text-sm">
               <div>
-                <p className="font-semibold text-gray-900 mb-1">Assessment Authority</p>
-                <ul className="space-y-1 text-gray-700 text-xs">
+                <p className="font-semibold text-slate-900 mb-1">Assessment Authority</p>
+                <ul className="space-y-1 text-slate-700 text-xs">
                   <li className="flex items-start gap-2">
                     <span
                       aria-hidden
@@ -505,8 +505,8 @@ export default function WorkforcePartnershipPacketPage() {
                 </ul>
               </div>
               <div>
-                <p className="font-semibold text-gray-900 mb-1">Evaluation Checkpoints</p>
-                <ul className="space-y-1 text-gray-700 text-xs">
+                <p className="font-semibold text-slate-900 mb-1">Evaluation Checkpoints</p>
+                <ul className="space-y-1 text-slate-700 text-xs">
                   <li className="flex items-start gap-2">
                     <span
                       aria-hidden
@@ -545,35 +545,35 @@ export default function WorkforcePartnershipPacketPage() {
       {/* Contact */}
       <section className="py-10 print: print:border-t">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Partnership Inquiries</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Partnership Inquiries</h2>
           <div className="bg-white rounded-lg border p-6 print:border-gray-300">
             <div className="grid sm:grid-cols-2 gap-4 text-sm">
               <div className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-brand-blue-600 flex-shrink-0 print:text-gray-700" />
+                <Mail className="w-5 h-5 text-brand-blue-600 flex-shrink-0 print:text-slate-700" />
                 <div>
-                  <p className="font-semibold text-gray-900">Email</p>
-                  <p className="text-gray-700">info@elevateforhumanity.org</p>
+                  <p className="font-semibold text-slate-900">Email</p>
+                  <p className="text-slate-700">info@elevateforhumanity.org</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-brand-blue-600 flex-shrink-0 print:text-gray-700" />
+                <Phone className="w-5 h-5 text-brand-blue-600 flex-shrink-0 print:text-slate-700" />
                 <div>
-                  <p className="font-semibold text-gray-900">Phone</p>
-                  <p className="text-gray-700">(317) 794-0484</p>
+                  <p className="font-semibold text-slate-900">Phone</p>
+                  <p className="text-slate-700">(317) 794-0484</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-brand-blue-600 flex-shrink-0 print:text-gray-700" />
+                <MapPin className="w-5 h-5 text-brand-blue-600 flex-shrink-0 print:text-slate-700" />
                 <div>
-                  <p className="font-semibold text-gray-900">Location</p>
-                  <p className="text-gray-700">Indianapolis, Indiana</p>
+                  <p className="font-semibold text-slate-900">Location</p>
+                  <p className="text-slate-700">Indianapolis, Indiana</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Shield className="w-5 h-5 text-brand-blue-600 flex-shrink-0 print:text-gray-700" />
+                <Shield className="w-5 h-5 text-brand-blue-600 flex-shrink-0 print:text-slate-700" />
                 <div>
-                  <p className="font-semibold text-gray-900">Website</p>
-                  <p className="text-gray-700">www.elevateforhumanity.org</p>
+                  <p className="font-semibold text-slate-900">Website</p>
+                  <p className="text-slate-700">www.elevateforhumanity.org</p>
                 </div>
               </div>
             </div>
@@ -593,19 +593,19 @@ export default function WorkforcePartnershipPacketPage() {
             </Link>
             <Link
               href="/compliance/credential-partners"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Credential Partner Registry
             </Link>
             <Link
               href="/instructional-framework"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructional Framework
             </Link>
             <Link
               href="/workone-partner-packet"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               WorkOne Partner Packet
             </Link>

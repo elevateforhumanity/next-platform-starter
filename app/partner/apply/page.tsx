@@ -100,11 +100,11 @@ export default function PartnerApplyPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
           <CheckCircle className="w-16 h-16 text-brand-green-600 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Application Submitted</h1>
-          <p className="text-gray-600 mb-4">
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">Application Submitted</h1>
+          <p className="text-slate-600 mb-4">
             Our team will review your application and contact you within 1-3 business days.
           </p>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-slate-500 mb-6">
             A confirmation email has been sent to <strong>{formData.email}</strong>.
           </p>
           <div className="space-y-3">
@@ -159,8 +159,8 @@ export default function PartnerApplyPage() {
 
       <div className="max-w-2xl mx-auto px-4 py-12">
         <div className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Partner Application</h2>
-          <p className="text-gray-500 text-sm mb-6">
+          <h2 className="text-xl font-bold text-slate-900 mb-1">Partner Application</h2>
+          <p className="text-slate-500 text-sm mb-6">
             All fields marked * are required. For the full onboarding with document uploads,{' '}
             <Link href="/partner/onboarding" className="text-brand-blue-600 hover:underline">
               start here instead
@@ -177,7 +177,7 @@ export default function PartnerApplyPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Partnership Type *
               </label>
               <div className="grid gap-3">
@@ -200,8 +200,8 @@ export default function PartnerApplyPage() {
                       className="mt-1"
                     />
                     <div>
-                      <div className="font-medium text-gray-900">{t.label}</div>
-                      <div className="text-sm text-gray-500">{t.desc}</div>
+                      <div className="font-medium text-slate-900">{t.label}</div>
+                      <div className="text-sm text-slate-500">{t.desc}</div>
                     </div>
                   </label>
                 ))}
@@ -209,7 +209,7 @@ export default function PartnerApplyPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Organization / Business Name *
               </label>
               <input
@@ -224,7 +224,7 @@ export default function PartnerApplyPage() {
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Contact Name *
                 </label>
                 <input
@@ -237,7 +237,7 @@ export default function PartnerApplyPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Email *</label>
                 <input
                   type="email"
                   required
@@ -250,7 +250,7 @@ export default function PartnerApplyPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Phone *</label>
               <input
                 type="tel"
                 required
@@ -262,7 +262,7 @@ export default function PartnerApplyPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Street Address *
               </label>
               <input
@@ -276,7 +276,7 @@ export default function PartnerApplyPage() {
             </div>
             <div className="grid md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">City *</label>
                 <input
                   type="text"
                   required
@@ -287,7 +287,7 @@ export default function PartnerApplyPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">State *</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">State *</label>
                 <select
                   required
                   value={formData.state}
@@ -304,7 +304,7 @@ export default function PartnerApplyPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">ZIP *</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">ZIP *</label>
                 <input
                   type="text"
                   required
@@ -318,7 +318,7 @@ export default function PartnerApplyPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Additional Information
               </label>
               <textarea
@@ -346,7 +346,7 @@ export default function PartnerApplyPage() {
               )}
             </button>
 
-            <p className="text-xs text-gray-500 text-center">
+            <p className="text-xs text-slate-500 text-center">
               By submitting, you agree to be contacted by Elevate for Humanity regarding your
               partnership application.
             </p>

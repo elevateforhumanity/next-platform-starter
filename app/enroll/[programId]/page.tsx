@@ -221,7 +221,7 @@ export default function EnrollPage() {
             className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"
             aria-hidden="true"
           ></div>
-          <p className="text-gray-600">Loading program details...</p>
+          <p className="text-slate-600">Loading program details...</p>
           <span className="sr-only">Loading program information, please wait</span>
         </div>
       </div>
@@ -233,8 +233,8 @@ export default function EnrollPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Program Not Found</h2>
-          <p className="text-gray-600">The program you're looking for doesn't exist.</p>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Program Not Found</h2>
+          <p className="text-slate-600">The program you're looking for doesn't exist.</p>
         </div>
       </div>
     );
@@ -321,12 +321,12 @@ export default function EnrollPage() {
 
               {program.requires_license && (
                 <div className="mb-4 sm:mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     License Key *
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Key className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+                      <Key className="h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
                     </div>
                     <input
                       type="text"
@@ -339,38 +339,38 @@ export default function EnrollPage() {
                       className="block w-full pl-9 sm:pl-10 pr-3 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
-                  <p className="mt-2 text-xs sm:text-sm text-gray-500">
+                  <p className="mt-2 text-xs sm:text-sm text-slate-500">
                     This program requires a valid license key to enroll
                   </p>
                 </div>
               )}
 
               <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
-                <h3 className="font-semibold text-gray-900 mb-3 sm:mb-4 text-base sm:text-lg">
+                <h3 className="font-semibold text-slate-900 mb-3 sm:mb-4 text-base sm:text-lg">
                   What You'll Get:
                 </h3>
                 <ul className="space-y-2 sm:space-y-3">
                   <li className="flex items-start gap-2 sm:gap-3">
                     <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm sm:text-base">
+                    <span className="text-slate-700 text-sm sm:text-base">
                       Full access to course materials
                     </span>
                   </li>
                   <li className="flex items-start gap-2 sm:gap-3">
                     <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm sm:text-base">
+                    <span className="text-slate-700 text-sm sm:text-base">
                       Interactive lessons and assessments
                     </span>
                   </li>
                   <li className="flex items-start gap-2 sm:gap-3">
                     <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm sm:text-base">
+                    <span className="text-slate-700 text-sm sm:text-base">
                       Certificate upon completion
                     </span>
                   </li>
                   <li className="flex items-start gap-2 sm:gap-3">
                     <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm sm:text-base">Instructor support</span>
+                    <span className="text-slate-700 text-sm sm:text-base">Instructor support</span>
                   </li>
                 </ul>
               </div>
@@ -399,7 +399,7 @@ export default function EnrollPage() {
                 </button>
                 <button
                   onClick={() => router.back()}
-                  className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 text-slate-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>

@@ -96,22 +96,22 @@ export default function MOUPage() {
           <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-10 h-10 text-brand-green-600" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">MOU Signed Successfully</h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <h1 className="text-3xl font-bold text-slate-900 mb-4">MOU Signed Successfully</h1>
+          <p className="text-lg text-slate-600 mb-8">
             Your Memorandum of Understanding has been digitally signed and recorded. You will
             receive a confirmation email.
           </p>
           <div className="bg-gray-50 rounded-xl p-6 max-w-md mx-auto mb-8 text-left">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-slate-600">
               <strong>Shop:</strong> {shopName}
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-slate-600">
               <strong>Partner:</strong> {partnerName}
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-slate-600">
               <strong>Supervisor:</strong> {supervisorName}
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-slate-600">
               <strong>Date:</strong> {effectiveDate}
             </p>
           </div>
@@ -149,7 +149,7 @@ export default function MOUPage() {
         <div className="max-w-4xl mx-auto px-4 flex items-center justify-between">
           <Link
             href="/partners/barbershop-apprenticeship"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Partner Info
           </Link>
@@ -370,7 +370,7 @@ export default function MOUPage() {
 
         {/* Digital Signature Section */}
         <div className="print:hidden" id="sign">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Digital Signature</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Digital Signature</h2>
 
           {!user && (
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
@@ -402,10 +402,10 @@ export default function MOUPage() {
               )}
 
               <div className="bg-gray-50 rounded-xl p-6 space-y-4">
-                <h3 className="text-lg font-bold text-gray-900">Worksite Partner Information</h3>
+                <h3 className="text-lg font-bold text-slate-900">Worksite Partner Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Shop Name *
                     </label>
                     <input
@@ -417,7 +417,7 @@ export default function MOUPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Owner / Authorized Signer Name *
                     </label>
                     <input
@@ -432,10 +432,10 @@ export default function MOUPage() {
               </div>
 
               <div className="bg-gray-50 rounded-xl p-6 space-y-4">
-                <h3 className="text-lg font-bold text-gray-900">Supervising Barber</h3>
+                <h3 className="text-lg font-bold text-slate-900">Supervising Barber</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Supervisor Name *
                     </label>
                     <input
@@ -447,7 +447,7 @@ export default function MOUPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Indiana License # *
                     </label>
                     <input
@@ -462,7 +462,7 @@ export default function MOUPage() {
               </div>
 
               <div className="bg-gray-50 rounded-xl p-6 space-y-4">
-                <h3 className="text-lg font-bold text-gray-900">Compensation Model *</h3>
+                <h3 className="text-lg font-bold text-slate-900">Compensation Model *</h3>
                 <div className="grid md:grid-cols-3 gap-3">
                   {[
                     { value: 'hourly', label: 'Hourly Wage' },
@@ -481,15 +481,15 @@ export default function MOUPage() {
                         onChange={(e) => setCompensationModel(e.target.value)}
                         className="text-brand-blue-600"
                       />
-                      <span className="text-gray-700 font-medium">{model.label}</span>
+                      <span className="text-slate-700 font-medium">{model.label}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
               <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-1">Worksite Partner Signature</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <h3 className="text-lg font-bold text-slate-900 mb-1">Worksite Partner Signature</h3>
+                <p className="text-sm text-slate-600 mb-4">
                   The shop owner or authorized representative must sign below.
                 </p>
                 <SignatureInput
@@ -503,10 +503,10 @@ export default function MOUPage() {
               </div>
 
               <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-1">
+                <h3 className="text-lg font-bold text-slate-900 mb-1">
                   Supervising Barber Signature
                 </h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-slate-600 mb-4">
                   The supervising licensed barber must sign below.
                 </p>
                 <SignatureInput
@@ -536,7 +536,7 @@ export default function MOUPage() {
               </button>
 
               {!canSubmit && (
-                <p className="text-sm text-gray-500 text-center">
+                <p className="text-sm text-slate-500 text-center">
                   Complete all fields and both signatures above to submit.
                 </p>
               )}
@@ -584,7 +584,7 @@ export default function MOUPage() {
           </div>
         </div>
 
-        <div className="mt-8 text-center text-sm text-gray-500 print:mt-12">
+        <div className="mt-8 text-center text-sm text-slate-500 print:mt-12">
           <p>2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute)</p>
           <p>Indianapolis, Indiana | www.elevateforhumanity.org</p>
           <p>RAPIDS Program ID: 2025-IN-132301</p>

@@ -20,7 +20,7 @@ export default function CommunityServicesIndianaPage() {
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">
           Community Services in Indiana
         </h1>
-        <p className="text-xl text-gray-600 text-center max-w-3xl mx-auto mb-12">
+        <p className="text-xl text-slate-600 text-center max-w-3xl mx-auto mb-12">
           Trusted support services for Indiana families. We connect Hoosiers with resources for
           employment, housing, financial stability, and personal growth.
         </p>
@@ -51,7 +51,7 @@ export default function CommunityServicesIndianaPage() {
               className="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500"
             >
               <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-              <p className="text-gray-600">{service.desc}</p>
+              <p className="text-slate-600">{service.desc}</p>
             </div>
           ))}
         </div>
@@ -105,7 +105,7 @@ export default function CommunityServicesIndianaPage() {
           </div>
         </div>
 
-        <div className="mt-8 text-center text-sm text-gray-500">
+        <div className="mt-8 text-center text-sm text-slate-500">
           <p>
             Serving: Indianapolis, Fort Wayne, Evansville, South Bend, Carmel, Fishers, Bloomington
           </p>

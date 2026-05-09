@@ -92,7 +92,7 @@ export default function FullApplicationPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
-        <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+        <nav className="flex items-center gap-2 text-sm text-slate-600 mb-6">
           <Link href="/" className="hover:text-orange-600">
             Home
           </Link>
@@ -101,11 +101,11 @@ export default function FullApplicationPage() {
             Apply
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <span className="text-gray-900">Full Application</span>
+          <span className="text-slate-900">Full Application</span>
         </nav>
 
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Program Application</h1>
-        <p className="text-gray-600 mb-8">Complete all steps to submit your application</p>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">Program Application</h1>
+        <p className="text-slate-600 mb-8">Complete all steps to submit your application</p>
 
         <div className="flex items-center justify-between mb-8">
           {steps.map((step, idx) => (
@@ -116,7 +116,7 @@ export default function FullApplicationPage() {
                     ? 'bg-green-500 text-white'
                     : currentStep === step.id
                       ? 'bg-orange-500 text-white'
-                      : 'bg-gray-200 text-gray-500'
+                      : 'bg-gray-200 text-slate-500'
                 }`}
               >
                 {currentStep > step.id ? (
@@ -126,7 +126,7 @@ export default function FullApplicationPage() {
                 )}
               </div>
               <span
-                className={`ml-2 text-sm hidden sm:block ${currentStep === step.id ? 'font-medium text-gray-900' : 'text-gray-500'}`}
+                className={`ml-2 text-sm hidden sm:block ${currentStep === step.id ? 'font-medium text-slate-900' : 'text-slate-500'}`}
               >
                 {step.name}
               </span>
@@ -155,7 +155,7 @@ export default function FullApplicationPage() {
                   ] as [string, string, string][]
                 ).map(([label, field, type]) => (
                   <div key={field}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">{label}</label>
                     <input
                       type={type}
                       value={(formData as any)[field]}
@@ -181,7 +181,7 @@ export default function FullApplicationPage() {
                   ] as [string, string, string][]
                 ).map(([label, field, type]) => (
                   <div key={field}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">{label}</label>
                     <input
                       type={type}
                       value={(formData as any)[field]}
@@ -191,7 +191,7 @@ export default function FullApplicationPage() {
                   </div>
                 ))}
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
                     Major/Field of Study
                   </label>
                   <input
@@ -210,7 +210,7 @@ export default function FullApplicationPage() {
               <h2 className="text-xl font-semibold mb-4">Work Experience</h2>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
                     Currently employed?
                   </label>
                   <select
@@ -230,7 +230,7 @@ export default function FullApplicationPage() {
                   ] as [string, string, string][]
                 ).map(([label, field, type]) => (
                   <div key={field}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">{label}</label>
                     <input
                       type={type}
                       value={(formData as any)[field]}
@@ -240,7 +240,7 @@ export default function FullApplicationPage() {
                   </div>
                 ))}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
                     Years of Experience
                   </label>
                   <select
@@ -269,9 +269,9 @@ export default function FullApplicationPage() {
                 ] as [string, string, string, string][]
               ).map(([label, field, accept, hint]) => (
                 <div key={field} className="border-2 border-dashed rounded-lg p-6 text-center">
-                  <FileText className="w-10 h-10 text-gray-400 mx-auto mb-2" />
+                  <FileText className="w-10 h-10 text-slate-400 mx-auto mb-2" />
                   <p className="font-medium">{label}</p>
-                  <p className="text-sm text-gray-500 mb-2">{hint}</p>
+                  <p className="text-sm text-slate-500 mb-2">{hint}</p>
                   <input
                     type="file"
                     accept={accept}
@@ -293,28 +293,28 @@ export default function FullApplicationPage() {
               <h2 className="text-xl font-semibold mb-4">Review Your Application</h2>
               <div className="space-y-3">
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-medium text-gray-900 mb-1">Personal Information</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="font-medium text-slate-900 mb-1">Personal Information</h3>
+                  <p className="text-sm text-slate-600">
                     {formData.firstName} {formData.lastName}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-slate-600">
                     {formData.email} · {formData.phone}
                   </p>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-medium text-gray-900 mb-1">Education</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="font-medium text-slate-900 mb-1">Education</h3>
+                  <p className="text-sm text-slate-600">
                     {formData.highSchool} ({formData.graduationYear})
                   </p>
                   {formData.college && (
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-slate-600">
                       {formData.college} — {formData.major}
                     </p>
                   )}
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-medium text-gray-900 mb-1">Experience</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="font-medium text-slate-900 mb-1">Experience</h3>
+                  <p className="text-sm text-slate-600">
                     {formData.employer || 'Not provided'} — {formData.jobTitle || 'N/A'}
                   </p>
                 </div>
@@ -330,7 +330,7 @@ export default function FullApplicationPage() {
                     onChange={(e) => setAgreed(e.target.checked)}
                     className="mt-0.5 rounded"
                   />
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-slate-700">
                     I certify that all information provided is accurate and complete. I understand
                     that providing false information may result in disqualification.
                   </span>
@@ -343,7 +343,7 @@ export default function FullApplicationPage() {
             <button
               onClick={() => setCurrentStep((s) => Math.max(1, s - 1))}
               disabled={currentStep === 1}
-              className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 text-slate-600 hover:text-slate-900 disabled:opacity-50"
             >
               <ChevronLeft className="w-4 h-4" /> Previous
             </button>

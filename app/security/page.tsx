@@ -115,7 +115,7 @@ export default function SecurityPage() {
                   <div key={index} className="bg-white rounded-lg shadow-sm p-6">
                     <Icon className="w-8 h-8 text-brand-blue-600 mb-3" />
                     <h3 className="font-bold text-lg mb-2">{measure.title}</h3>
-                    <p className="text-gray-600">{measure.description}</p>
+                    <p className="text-slate-600">{measure.description}</p>
                   </div>
                 );
               })}
@@ -130,7 +130,7 @@ export default function SecurityPage() {
                 {dataProtection.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <span className="text-slate-500 flex-shrink-0">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -163,10 +163,10 @@ export default function SecurityPage() {
                     </div>
                     <h3 className="font-bold text-lg mb-1">{cert.name}</h3>
                     {cert.description && (
-                      <p className="text-sm text-gray-600 mb-2">{cert.description}</p>
+                      <p className="text-sm text-slate-600 mb-2">{cert.description}</p>
                     )}
                     {cert.valid_until && (
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-slate-500">
                         Valid until {new Date(cert.valid_until).toLocaleDateString()}
                       </p>
                     )}
@@ -183,7 +183,7 @@ export default function SecurityPage() {
               Report a Security Concern
             </h2>
             <div className="bg-white rounded-lg shadow-sm p-8">
-              <p className="text-gray-700 mb-4">
+              <p className="text-slate-700 mb-4">
                 If you believe you've discovered a security vulnerability or have concerns about
                 data protection, please contact us immediately:
               </p>
@@ -206,27 +206,27 @@ export default function SecurityPage() {
                 className="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition"
               >
                 <h3 className="font-semibold">Privacy Policy</h3>
-                <p className="text-sm text-gray-600">How we collect and use data</p>
+                <p className="text-sm text-slate-600">How we collect and use data</p>
               </Link>
               <Link
                 href="/terms-of-service"
                 className="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition"
               >
                 <h3 className="font-semibold">Terms of Service</h3>
-                <p className="text-sm text-gray-600">Platform usage terms</p>
+                <p className="text-sm text-slate-600">Platform usage terms</p>
               </Link>
               <Link
                 href="/cookies"
                 className="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition"
               >
                 <h3 className="font-semibold">Cookie Policy</h3>
-                <p className="text-sm text-gray-600">How we use cookies</p>
+                <p className="text-sm text-slate-600">How we use cookies</p>
               </Link>
             </div>
           </section>
 
           {/* Last Updated */}
-          <div className="mt-12 text-center text-sm text-gray-500">
+          <div className="mt-12 text-center text-sm text-slate-500">
             <p>Last security audit: {auditInfo?.value || 'January 2025'}</p>
             <p>This page was last updated: January 2025</p>
           </div>

@@ -72,7 +72,7 @@ export default function UpdatePasswordPage() {
             <Lock className="w-8 h-8 text-brand-green-600" />
           </div>
           <h1 className="text-2xl font-bold text-black mb-4">Password Updated</h1>
-          <p className="text-gray-600 mb-6">
+          <p className="text-slate-600 mb-6">
             Your password has been updated. Redirecting you to your portal...
           </p>
           <Link
@@ -91,7 +91,7 @@ export default function UpdatePasswordPage() {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-black mb-2">Set New Password</h1>
-          <p className="text-gray-600">Enter your new password below.</p>
+          <p className="text-slate-600">Enter your new password below.</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-8">
@@ -106,7 +106,7 @@ export default function UpdatePasswordPage() {
             <div>
               <label className="block text-sm font-medium text-black mb-2">New Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
@@ -119,7 +119,7 @@ export default function UpdatePasswordPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -129,7 +129,7 @@ export default function UpdatePasswordPage() {
             <div>
               <label className="block text-sm font-medium text-black mb-2">Confirm Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
@@ -154,7 +154,7 @@ export default function UpdatePasswordPage() {
           <div className="mt-6 text-center">
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 text-gray-600 hover:text-black transition"
+              className="inline-flex items-center gap-2 text-slate-600 hover:text-black transition"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Login

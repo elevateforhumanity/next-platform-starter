@@ -11,7 +11,7 @@ export function ProgramCard({ slug, title, summary, basePath = '/programs' }: Pr
   return (
     <article className="rounded border p-6 hover:bg-gray-50">
       <h2 className="text-xl font-semibold">{title}</h2>
-      <p className="mt-2 text-sm text-gray-600">{summary}</p>
+      <p className="mt-2 text-sm text-slate-600">{summary}</p>
       <Link href={`${basePath}/${slug}`} className="mt-4 inline-block text-sm underline">
         View program
       </Link>

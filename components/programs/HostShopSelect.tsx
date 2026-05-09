@@ -56,7 +56,7 @@ export default function HostShopSelect({ program, value, onChange }: Props) {
       <label className="block text-sm font-medium text-black mb-1">Select Your Training Shop</label>
 
       {loading ? (
-        <div className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-400 text-sm">
+        <div className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-slate-400 text-sm">
           Loading approved shops…
         </div>
       ) : (

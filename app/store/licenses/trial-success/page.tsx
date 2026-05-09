@@ -35,10 +35,10 @@ function TrialSuccessContent() {
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-12 h-12 text-green-600" />
           </div>
-          <h1 className="text-3xl font-black text-gray-900 mb-3">
+          <h1 className="text-3xl font-black text-slate-900 mb-3">
             Your Trial Has Started!
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-slate-600">
             You now have full access to {license.name}
           </p>
         </div>
@@ -62,7 +62,7 @@ function TrialSuccessContent() {
             </div>
           </div>
 
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Next Steps</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Next Steps</h2>
           
           <div className="space-y-4">
             <div className="flex gap-4 p-4 bg-gray-50 rounded-xl">
@@ -70,8 +70,8 @@ function TrialSuccessContent() {
                 <Download className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900">Download the codebase</h3>
-                <p className="text-sm text-gray-600 mb-2">
+                <h3 className="font-bold text-slate-900">Download the codebase</h3>
+                <p className="text-sm text-slate-600 mb-2">
                   Access the complete Next.js codebase from your dashboard.
                 </p>
                 <Link 
@@ -88,8 +88,8 @@ function TrialSuccessContent() {
                 <BookOpen className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900">Read the documentation</h3>
-                <p className="text-sm text-gray-600 mb-2">
+                <h3 className="font-bold text-slate-900">Read the documentation</h3>
+                <p className="text-sm text-slate-600 mb-2">
                   Learn how to deploy, customize, and configure your platform.
                 </p>
                 <Link 
@@ -106,8 +106,8 @@ function TrialSuccessContent() {
                 <MessageCircle className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900">Get support</h3>
-                <p className="text-sm text-gray-600 mb-2">
+                <h3 className="font-bold text-slate-900">Get support</h3>
+                <p className="text-sm text-slate-600 mb-2">
                   Have questions? Our team is here to help you succeed.
                 </p>
                 <Link 
@@ -122,7 +122,7 @@ function TrialSuccessContent() {
         </div>
 
         {/* Cancel Info */}
-        <div className="text-center text-sm text-gray-500">
+        <div className="text-center text-sm text-slate-500">
           <p>
             Need to cancel? Go to{' '}
             <Link href="/account/billing" className="text-blue-600 hover:underline">

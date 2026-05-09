@@ -83,14 +83,14 @@ function StepIndicator({ current }: { current: number }) {
                     ? 'bg-green-600 text-white'
                     : active
                     ? 'bg-brand-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-500'
+                    : 'bg-gray-200 text-slate-500'
                 }`}
               >
                 {done ? <CheckCircle className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
               </div>
               <span
                 className={`mt-1 text-xs font-medium ${
-                  active ? 'text-brand-blue-700' : done ? 'text-green-700' : 'text-gray-400'
+                  active ? 'text-brand-blue-700' : done ? 'text-green-700' : 'text-slate-400'
                 }`}
               >
                 {label}

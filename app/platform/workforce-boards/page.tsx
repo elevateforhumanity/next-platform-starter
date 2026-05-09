@@ -168,7 +168,7 @@ export default function WorkforceBoardsPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Platform Features</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Platform Features</h2>
             <p className="text-lg text-black max-w-2xl mx-auto">
               Built specifically for workforce development boards and their unique compliance
               requirements.
@@ -183,7 +183,7 @@ export default function WorkforceBoardsPage() {
                 <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
                   <f.icon className="w-6 h-6 text-brand-blue-600" />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{f.title}</h3>
+                <h3 className="font-bold text-slate-900 mb-2">{f.title}</h3>
                 <p className="text-black text-sm">{f.description}</p>
               </div>
             ))}
@@ -195,7 +195,7 @@ export default function WorkforceBoardsPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Built for WIOA Compliance</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Built for WIOA Compliance</h2>
             <p className="text-lg text-black">
               Every compliance area covered, from eligibility to performance reporting.
             </p>
@@ -203,12 +203,12 @@ export default function WorkforceBoardsPage() {
           <div className="grid md:grid-cols-2 gap-8">
             {complianceAreas.map((area, i) => (
               <div key={i} className="bg-white rounded-xl p-6 border">
-                <h3 className="font-bold text-gray-900 mb-4 text-lg">{area.title}</h3>
+                <h3 className="font-bold text-slate-900 mb-4 text-lg">{area.title}</h3>
                 <div className="space-y-2">
                   {area.items.map((item, j) => (
                     <div key={j} className="flex items-center gap-2">
                       <span className="text-black flex-shrink-0">•</span>
-                      <span className="text-gray-700 text-sm">{item}</span>
+                      <span className="text-slate-700 text-sm">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -223,7 +223,7 @@ export default function WorkforceBoardsPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">
                 Integrates With Your Ecosystem
               </h2>
               <p className="text-black mb-6">
@@ -240,7 +240,7 @@ export default function WorkforceBoardsPage() {
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <span className="text-black flex-shrink-0">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                   </div>
                 ))}
               </div>

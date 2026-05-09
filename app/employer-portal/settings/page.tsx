@@ -87,10 +87,10 @@ export default async function EmployerSettingsPage() {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3">
-            <Settings className="w-8 h-8 text-gray-600" />
+            <Settings className="w-8 h-8 text-slate-600" />
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-              <p className="text-gray-600">Manage your account and preferences</p>
+              <h1 className="text-2xl font-bold text-slate-900">Settings</h1>
+              <p className="text-slate-600">Manage your account and preferences</p>
             </div>
           </div>
         </div>
@@ -102,18 +102,18 @@ export default async function EmployerSettingsPage() {
             <div key={section.id} className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <section.icon className="w-5 h-5 text-gray-600" />
+                  <section.icon className="w-5 h-5 text-slate-600" />
                 </div>
                 <div>
-                  <h2 className="font-bold text-gray-900">{section.name}</h2>
-                  <p className="text-sm text-gray-500">{section.description}</p>
+                  <h2 className="font-bold text-slate-900">{section.name}</h2>
+                  <p className="text-sm text-slate-500">{section.description}</p>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 {section.fields.map((field) => (
                   <div key={field.name}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       {field.label}
                     </label>
                     <input
@@ -132,11 +132,11 @@ export default async function EmployerSettingsPage() {
           <div className="bg-white rounded-xl shadow-sm p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                <Bell className="w-5 h-5 text-gray-600" />
+                <Bell className="w-5 h-5 text-slate-600" />
               </div>
               <div>
-                <h2 className="font-bold text-gray-900">Notifications</h2>
-                <p className="text-sm text-gray-500">Configure how you receive alerts</p>
+                <h2 className="font-bold text-slate-900">Notifications</h2>
+                <p className="text-sm text-slate-500">Configure how you receive alerts</p>
               </div>
             </div>
             <div className="space-y-3">
@@ -146,7 +146,7 @@ export default async function EmployerSettingsPage() {
                     key={item}
                     className="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer"
                   >
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                     <input
                       type="checkbox"
                       defaultChecked

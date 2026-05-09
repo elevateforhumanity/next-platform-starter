@@ -125,8 +125,8 @@ export default function EqualOpportunityPage() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* EEO Statement */}
         <section className="rounded-xl shadow-sm border p-8 mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Commitment</h2>
-          <div className="prose prose-lg max-w-none text-gray-700">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Our Commitment</h2>
+          <div className="prose prose-lg max-w-none text-slate-700">
             <p>
               Elevate for Humanity is an Equal Opportunity Employer and Training Provider. We are
               committed to creating and maintaining a workplace and learning environment free from
@@ -154,8 +154,8 @@ export default function EqualOpportunityPage() {
 
         {/* Non-Discrimination Policies */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Non-Discrimination Policies</h2>
-          <p className="text-gray-600 mb-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Non-Discrimination Policies</h2>
+          <p className="text-slate-600 mb-8">
             Click on each policy below to read the full policy document and understand your rights
             and our obligations under federal law.
           </p>
@@ -176,11 +176,11 @@ export default function EqualOpportunityPage() {
                       <Icon className={`w-6 h-6 ${colors.icon}`} />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-brand-blue-600 transition flex items-center gap-2">
+                      <h3 className="text-lg font-semibold text-slate-900 group-hover:text-brand-blue-600 transition flex items-center gap-2">
                         {policy.title}
                         <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
                       </h3>
-                      <p className="text-gray-600 text-sm mt-1">{policy.description}</p>
+                      <p className="text-slate-600 text-sm mt-1">{policy.description}</p>
                     </div>
                   </div>
                 </Link>
@@ -191,8 +191,8 @@ export default function EqualOpportunityPage() {
 
         {/* Protected Classes */}
         <section className="rounded-xl shadow-sm border p-8 mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Protected Classes</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Protected Classes</h2>
+          <p className="text-slate-600 mb-6">
             We do not discriminate against any individual based on the following protected
             characteristics:
           </p>
@@ -214,7 +214,7 @@ export default function EqualOpportunityPage() {
               'Marital Status',
               'Political Affiliation',
             ].map((item) => (
-              <div key={item} className="flex items-center gap-2 text-gray-700">
+              <div key={item} className="flex items-center gap-2 text-slate-700">
                 <div className="w-2 h-2 bg-white rounded-full" />
                 {item}
               </div>
@@ -224,23 +224,23 @@ export default function EqualOpportunityPage() {
 
         {/* How to File a Complaint */}
         <section className="bg-brand-blue-50 rounded-xl border-2 border-brand-blue-200 p-8 mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">How to File a Complaint</h2>
-          <p className="text-gray-700 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">How to File a Complaint</h2>
+          <p className="text-slate-700 mb-6">
             If you believe you have been discriminated against, you have the right to file a
             complaint. You may file a complaint with:
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white rounded-lg p-6">
-              <h3 className="font-semibold text-gray-900 mb-2">Internal Complaint</h3>
-              <p className="text-gray-600 text-sm mb-4">Contact our Equal Opportunity Officer:</p>
-              <p className="text-gray-900">
+              <h3 className="font-semibold text-slate-900 mb-2">Internal Complaint</h3>
+              <p className="text-slate-600 text-sm mb-4">Contact our Equal Opportunity Officer:</p>
+              <p className="text-slate-900">
                 Email:{' '}
                 <a href="/contact" className="text-brand-blue-600 hover:underline">
                   Contact Us
                 </a>
               </p>
-              <p className="text-gray-900">
+              <p className="text-slate-900">
                 Phone:{' '}
                 <a href="/support" className="text-brand-blue-600 hover:underline">
                   Visit Support Center
@@ -257,11 +257,11 @@ export default function EqualOpportunityPage() {
             </div>
 
             <div className="bg-white rounded-lg p-6">
-              <h3 className="font-semibold text-gray-900 mb-2">External Complaint</h3>
-              <p className="text-gray-600 text-sm mb-4">
+              <h3 className="font-semibold text-slate-900 mb-2">External Complaint</h3>
+              <p className="text-slate-600 text-sm mb-4">
                 File with the appropriate federal agency:
               </p>
-              <ul className="text-sm text-gray-700 space-y-1">
+              <ul className="text-sm text-slate-700 space-y-1">
                 <li>• U.S. Equal Employment Opportunity Commission (EEOC)</li>
                 <li>• U.S. Department of Labor Civil Rights Center</li>
                 <li>• U.S. Department of Education Office for Civil Rights</li>
@@ -272,8 +272,8 @@ export default function EqualOpportunityPage() {
         </section>
 
         {/* Footer Notice */}
-        <section className="text-center text-gray-500 text-sm border-t pt-8">
-          <p className="font-medium text-gray-700">
+        <section className="text-center text-slate-500 text-sm border-t pt-8">
+          <p className="font-medium text-slate-700">
             This institution is an equal opportunity provider and employer.
           </p>
           <p className="mt-2">

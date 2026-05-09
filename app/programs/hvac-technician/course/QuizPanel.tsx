@@ -80,17 +80,17 @@ export function QuizPanel({
           ) : (
             <XCircle className="w-16 h-16 text-brand-red-400 mx-auto mb-4" />
           )}
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">
             {passed ? 'Quiz Passed!' : 'Not Quite — Try Again'}
           </h3>
-          <p className="text-lg text-gray-600 mb-1">
+          <p className="text-lg text-slate-600 mb-1">
             Score:{' '}
             <span className="font-bold">
               {score}/{questions.length}
             </span>{' '}
             ({Math.round((score / questions.length) * 100)}%)
           </p>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-slate-500 mb-6">
             {passed
               ? 'You demonstrated mastery of this material. Great work!'
               : `You need ${passingScore}/${questions.length} (70%) to pass. Review the material and try again.`}
@@ -130,7 +130,7 @@ export function QuizPanel({
         </div>
 
         {/* Question */}
-        <h4 className="text-lg font-semibold text-gray-900 mb-5 leading-relaxed">{q.question}</h4>
+        <h4 className="text-lg font-semibold text-slate-900 mb-5 leading-relaxed">{q.question}</h4>
 
         {/* Options */}
         <div className="space-y-3 mb-6">
@@ -163,7 +163,7 @@ export function QuizPanel({
                 >
                   {String.fromCharCode(65 + idx)}
                 </span>
-                <span className="text-sm text-gray-800 leading-relaxed">{opt}</span>
+                <span className="text-sm text-slate-800 leading-relaxed">{opt}</span>
                 {showResult && idx === q.correctAnswer && (
                   <CheckCircle className="w-5 h-5 text-brand-green-500 shrink-0 ml-auto mt-0.5" />
                 )}
@@ -180,10 +180,10 @@ export function QuizPanel({
           <div
             className={`rounded-xl p-4 mb-5 ${isCorrect ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-amber-50 border border-amber-200'}`}
           >
-            <p className="text-sm font-semibold text-gray-800 mb-1">
+            <p className="text-sm font-semibold text-slate-800 mb-1">
               {isCorrect ? 'Correct!' : 'Explanation:'}
             </p>
-            <p className="text-sm text-gray-700 leading-relaxed">{q.explanation}</p>
+            <p className="text-sm text-slate-700 leading-relaxed">{q.explanation}</p>
           </div>
         )}
 

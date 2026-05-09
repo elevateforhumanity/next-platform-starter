@@ -99,7 +99,7 @@ export default function StatusPage() {
               >
                 <div className="flex items-center gap-3">
                   <StatusIcon status={service.status} />
-                  <span className="font-medium text-gray-900">{service.name}</span>
+                  <span className="font-medium text-slate-900">{service.name}</span>
                 </div>
                 <StatusBadge status={service.status} />
               </div>
@@ -127,21 +127,21 @@ export default function StatusPage() {
             <Clock className="w-5 h-5" />
             Incident History
           </h2>
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-slate-500">
             <p>No incidents reported in the last 90 days.</p>
           </div>
         </section>
 
         {/* Links */}
         <section className="text-center">
-          <p className="text-gray-600 mb-4">
+          <p className="text-slate-600 mb-4">
             For support inquiries, please visit our{' '}
             <Link href="/contact" className="text-brand-blue-600 hover:underline">
               contact page
             </Link>
             .
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-500">
             View our{' '}
             <Link href="/policies/sla" className="text-brand-blue-600 hover:underline">
               Service Level Agreement

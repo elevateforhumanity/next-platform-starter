@@ -21,8 +21,8 @@ export default async function IntegrationsPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
     );
@@ -66,7 +66,7 @@ export default async function IntegrationsPage() {
                   </span>
                 </div>
               </div>
-              <p className="text-gray-700 mb-6">
+              <p className="text-slate-700 mb-6">
                 Bi-directional sync with Salesforce. Automatically create leads, update opportunities, and track student outcomes in your CRM.
               </p>
               <ul className="space-y-3 mb-6">
@@ -93,7 +93,7 @@ export default async function IntegrationsPage() {
               </ul>
               <div className="bg-brand-blue-50 rounded-lg p-4">
                 <div className="font-bold mb-2">Setup Time</div>
-                <div className="text-gray-700">15-30 minutes with guided wizard</div>
+                <div className="text-slate-700">15-30 minutes with guided wizard</div>
               </div>
             </div>
 
@@ -109,7 +109,7 @@ export default async function IntegrationsPage() {
                   </span>
                 </div>
               </div>
-              <p className="text-gray-700 mb-6">
+              <p className="text-slate-700 mb-6">
                 Connect to 1000+ apps without code. Automate workflows, sync data, and trigger actions across your entire tech stack.
               </p>
               <ul className="space-y-3 mb-6">
@@ -136,7 +136,7 @@ export default async function IntegrationsPage() {
               </ul>
               <div className="bg-brand-blue-50 rounded-lg p-4">
                 <div className="font-bold mb-2">Setup Time</div>
-                <div className="text-gray-700">5-10 minutes per integration</div>
+                <div className="text-slate-700">5-10 minutes per integration</div>
               </div>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default async function IntegrationsPage() {
               <div key={idx} className="bg-gray-50 rounded-lg p-6 hover:shadow-lg transition">
                 <integration.icon className={`w-12 h-12 text-${integration.color}-600 mb-4`} />
                 <h3 className="font-bold text-lg mb-2">{integration.name}</h3>
-                <p className="text-sm text-gray-600">{integration.description}</p>
+                <p className="text-sm text-slate-600">{integration.description}</p>
               </div>
             ))}
           </div>
@@ -172,13 +172,13 @@ export default async function IntegrationsPage() {
             <div className="bg-white rounded-xl p-8 shadow-lg mb-8">
               <Code className="w-12 h-12 text-indigo-600 mb-4" />
               <h3 className="text-2xl font-bold mb-4">Full API Access</h3>
-              <p className="text-gray-700 mb-6">
+              <p className="text-slate-700 mb-6">
                 Complete REST API with authentication, rate limiting, and comprehensive documentation. Build custom integrations and automate workflows.
               </p>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <h4 className="font-bold mb-3">Available Endpoints</h4>
-                  <ul className="space-y-2 text-sm text-gray-700">
+                  <ul className="space-y-2 text-sm text-slate-700">
                     <li className="flex items-center gap-2">
                       <Circle className="w-4 h-4 text-green-600" />
                       <code className="bg-gray-100 px-2 py-2 rounded">POST /api/students</code>
@@ -203,7 +203,7 @@ export default async function IntegrationsPage() {
                 </div>
                 <div>
                   <h4 className="font-bold mb-3">Features</h4>
-                  <ul className="space-y-2 text-sm text-gray-700">
+                  <ul className="space-y-2 text-sm text-slate-700">
                     <li className="flex items-start gap-2">
                       <Circle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
                       <span>OAuth 2.0 authentication</span>
@@ -254,7 +254,7 @@ export default async function IntegrationsPage() {
           <div className="bg-slate-100 rounded-2xl p-12 text-center">
             <Plug className="w-16 h-16 text-indigo-600 mx-auto mb-6" />
             <h2 className="text-3xl font-bold mb-4">Need a Custom Integration?</h2>
-            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-700 mb-8 max-w-2xl mx-auto">
               Our team can build custom integrations for your specific needs. Salesforce, ERP systems, HRIS, and more.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

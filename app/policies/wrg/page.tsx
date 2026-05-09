@@ -53,13 +53,13 @@ export default async function WRGPage() {
 
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <p className="text-sm text-gray-500 mb-8">Last Updated: December 22, 2024</p>
+          <p className="text-sm text-slate-500 mb-8">Last Updated: December 22, 2024</p>
 
           {/* Award Highlight */}
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 mb-12 text-center">
             <DollarSign className="w-12 h-12 text-brand-green-600 mx-auto mb-3" />
             <p className="text-4xl font-bold text-brand-green-700 mb-2">Up to $7,500/year</p>
-            <p className="text-gray-600">
+            <p className="text-slate-600">
               Tuition and fees covered for qualifying Indiana residents
             </p>
           </div>
@@ -90,7 +90,7 @@ export default async function WRGPage() {
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="text-slate-400 flex-shrink-0">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -107,7 +107,7 @@ export default async function WRGPage() {
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="text-slate-400 flex-shrink-0">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -158,8 +158,8 @@ export default async function WRGPage() {
 
           {/* Contact */}
           <div className="mt-12 bg-slate-50 rounded-xl p-8 border">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Questions About WRG?</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">Questions About WRG?</h2>
+            <p className="text-slate-600 mb-6">
               Our financial aid team can help determine your eligibility and guide you through the
               application process.
             </p>

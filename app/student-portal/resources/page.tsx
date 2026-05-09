@@ -194,9 +194,9 @@ export default async function StudentPortalResourcesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10">
         {Object.keys(grouped).length === 0 && (
           <div className="text-center py-16">
-            <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">No resources available yet</h2>
-            <p className="text-gray-500 mb-4">
+            <BookOpen className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+            <h2 className="text-lg font-semibold text-slate-900 mb-2">No resources available yet</h2>
+            <p className="text-slate-500 mb-4">
               Your program resources will appear here once your enrollment is confirmed.
             </p>
             <a

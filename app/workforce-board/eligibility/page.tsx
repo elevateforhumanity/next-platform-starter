@@ -78,7 +78,7 @@ export default function EligibilityPage() {
       {/* Basic Requirements */}
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Basic Requirements</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Basic Requirements</h2>
           <p className="text-black mb-8">
             To be eligible for WIOA-funded training, you must meet the following criteria:
           </p>
@@ -87,7 +87,7 @@ export default function EligibilityPage() {
               {ELIGIBLE.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <span className="text-black flex-shrink-0">•</span>
-                  <span className="text-gray-700">{item}</span>
+                  <span className="text-slate-700">{item}</span>
                 </li>
               ))}
             </ul>
@@ -98,7 +98,7 @@ export default function EligibilityPage() {
       {/* Priority Populations */}
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
             Priority Populations
           </h2>
           <p className="text-black mb-8">
@@ -111,7 +111,7 @@ export default function EligibilityPage() {
                 className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex items-center gap-3"
               >
                 <div className="w-2 h-2 bg-white rounded-full flex-shrink-0" />
-                <span className="text-gray-700 text-sm">{item}</span>
+                <span className="text-slate-700 text-sm">{item}</span>
               </div>
             ))}
           </div>
@@ -123,12 +123,12 @@ export default function EligibilityPage() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-6">
             <FileText className="w-7 h-7 text-brand-blue-600" />
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Documents You May Need</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Documents You May Need</h2>
           </div>
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6">
             <ul className="space-y-3">
               {DOCUMENTS_NEEDED.map((doc) => (
-                <li key={doc} className="flex items-start gap-3 text-gray-700">
+                <li key={doc} className="flex items-start gap-3 text-slate-700">
                   <span className="text-brand-blue-600 font-bold">-</span>
                   {doc}
                 </li>

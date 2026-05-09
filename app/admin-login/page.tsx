@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Shield, Eye, EyeOff, AlertCircle, ArrowRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { getAdminUrl } from '@/lib/utils/siteUrl';
 
 const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin', 'staff'];
 
@@ -14,8 +15,7 @@ function AdminLoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const searchParams = useSearchParams();
-  const ADMIN_URL =
-    process.env.NEXT_PUBLIC_ADMIN_URL?.trim() ?? 'https://admin.elevateforhumanity.org';
+  const ADMIN_URL = getAdminUrl();
   const requestedRedirect = searchParams.get('redirect');
   const redirectTo = requestedRedirect
     ? requestedRedirect.startsWith('http')

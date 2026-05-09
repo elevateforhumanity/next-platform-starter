@@ -96,7 +96,7 @@ export default function InstitutionalDemoPage() {
               <p className="text-slate-400 text-sm mt-1">8–10 minutes</p>
             </div>
           </div>
-          <p className="text-center text-sm text-gray-500 mt-4">
+          <p className="text-center text-sm text-slate-500 mt-4">
             This demo reflects the live production system.
           </p>
         </div>
@@ -106,7 +106,7 @@ export default function InstitutionalDemoPage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-center mb-4">Demo Flow</h2>
-          <p className="text-center text-gray-600 mb-12">What you'll see in this walkthrough</p>
+          <p className="text-center text-slate-600 mb-12">What you'll see in this walkthrough</p>
           
           <div className="space-y-6">
             {demoSteps.map((step) => {
@@ -123,8 +123,8 @@ export default function InstitutionalDemoPage() {
                       <span className="text-xs font-bold text-blue-600">STEP {step.step}</span>
                       <h3 className="font-bold text-lg">{step.title}</h3>
                     </div>
-                    <p className="text-gray-700 mb-2">{step.description}</p>
-                    <p className="text-sm text-gray-500">{step.detail}</p>
+                    <p className="text-slate-700 mb-2">{step.description}</p>
+                    <p className="text-sm text-slate-500">{step.detail}</p>
                   </div>
                 </div>
               );
@@ -137,7 +137,7 @@ export default function InstitutionalDemoPage() {
       <section className="py-12 bg-slate-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-xl font-bold mb-4">What This Replaces</h2>
-          <p className="text-gray-700 max-w-2xl mx-auto">
+          <p className="text-slate-700 max-w-2xl mx-auto">
             This replaces <strong>registrar coordination</strong>, <strong>compliance staff tracking</strong>, 
             and <strong>internal reporting prep</strong>. Reports generate from live data, not manual assembly.
           </p>

@@ -287,7 +287,7 @@ export default async function CareersPage() {
       {/* FAQ */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Careers FAQ</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Careers FAQ</h2>
           <div className="space-y-4">
             {[
               {

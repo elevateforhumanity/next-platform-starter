@@ -111,8 +111,8 @@ export default function WritingCenterPage() {
       {/* Intro */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Writing Center</h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Writing Center</h1>
+          <p className="text-lg text-slate-600 max-w-3xl mx-auto">
             Get help with essays, resumes, cover letters, professional communication, and any
             writing assignment. Submit drafts for written feedback (48-hour turnaround) or book a
             live session with a writing tutor. Included with your enrollment at no extra cost.
@@ -141,12 +141,12 @@ export default function WritingCenterPage() {
               </div>
               <div className="p-8">
                 <h3 className="text-xl font-bold mb-3">Submit for Written Review</h3>
-                <p className="text-gray-600 mb-4">
+                <p className="text-slate-600 mb-4">
                   Upload your draft through the LMS. A writing tutor reviews it and returns
                   detailed, line-by-line feedback within 48 hours. Best for polishing a near-final
                   draft or getting a second set of eyes on your work.
                 </p>
-                <div className="space-y-2 text-sm text-gray-500">
+                <div className="space-y-2 text-sm text-slate-500">
                   <div>Turnaround: 48 hours</div>
                   <div>Format: Written comments on your document</div>
                   <div>Limit: 3 submissions per week</div>
@@ -169,12 +169,12 @@ export default function WritingCenterPage() {
               </div>
               <div className="p-8">
                 <h3 className="text-xl font-bold mb-3">Book a Live Session</h3>
-                <p className="text-gray-600 mb-4">
+                <p className="text-slate-600 mb-4">
                   Meet one-on-one with a writing tutor via Zoom or in person. Work through your
                   writing in real time — brainstorm ideas, build an outline, revise a draft, or
                   practice for a timed writing exam.
                 </p>
-                <div className="space-y-2 text-sm text-gray-500">
+                <div className="space-y-2 text-sm text-slate-500">
                   <div>Duration: 30 minutes per session</div>
                   <div>Format: Zoom or in-person</div>
                   <div>Limit: 2 live sessions per week</div>
@@ -189,7 +189,7 @@ export default function WritingCenterPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">What We Help With</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">What We Help With</h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
@@ -211,7 +211,7 @@ export default function WritingCenterPage() {
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                  <p className="text-gray-600 text-sm">{service.description}</p>
+                  <p className="text-slate-600 text-sm">{service.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -230,11 +230,11 @@ export default function WritingCenterPage() {
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
                   className="w-full flex items-center justify-between p-6 text-left hover:bg-white transition"
                 >
-                  <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
+                  <span className="font-semibold text-slate-900 pr-4">{faq.question}</span>
                   {openFaq === index ? (
-                    <ChevronUp className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-slate-400 flex-shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0" />
                   )}
                 </button>
                 {openFaq === index && (
@@ -243,7 +243,7 @@ export default function WritingCenterPage() {
                     animate={{ opacity: 1, height: 'auto' }}
                     className="px-6 pb-6"
                   >
-                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                    <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
                   </motion.div>
                 )}
               </div>

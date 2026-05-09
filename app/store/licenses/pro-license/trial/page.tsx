@@ -48,10 +48,10 @@ export default function ProTrialPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-bold mb-4">
             Most Popular
           </div>
-          <h1 className="text-3xl font-black text-gray-900 mb-3">
+          <h1 className="text-3xl font-black text-slate-900 mb-3">
             Start Your {LICENSE.trialDays}-Day Free Trial
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-slate-600">
             Try {LICENSE.name} free for {LICENSE.trialDays} days. Cancel anytime before the trial ends.
           </p>
         </div>
@@ -59,7 +59,7 @@ export default function ProTrialPage() {
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Trial Info */}
           <div className="bg-white rounded-2xl p-8 shadow-sm">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">How it works</h2>
+            <h2 className="text-xl font-bold text-slate-900 mb-6">How it works</h2>
             
             <div className="space-y-6">
               <div className="flex gap-4">
@@ -67,8 +67,8 @@ export default function ProTrialPage() {
                   <span className="text-purple-600 font-bold">1</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">Start free today</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="font-bold text-slate-900">Start free today</h3>
+                  <p className="text-slate-600 text-sm">
                     Get instant access to the full platform. No charge until trial ends.
                   </p>
                 </div>
@@ -79,8 +79,8 @@ export default function ProTrialPage() {
                   <span className="text-purple-600 font-bold">2</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">Deploy multiple sites</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="font-bold text-slate-900">Deploy multiple sites</h3>
+                  <p className="text-slate-600 text-sm">
                     Test multi-site deployment, use Dev Studio, explore all Pro features.
                   </p>
                 </div>
@@ -91,8 +91,8 @@ export default function ProTrialPage() {
                   <span className="text-purple-600 font-bold">3</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">Keep using or cancel</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="font-bold text-slate-900">Keep using or cancel</h3>
+                  <p className="text-slate-600 text-sm">
                     After {LICENSE.trialDays} days, you'll be charged ${LICENSE.price} to continue. Cancel anytime before.
                   </p>
                 </div>
@@ -114,10 +114,10 @@ export default function ProTrialPage() {
             </div>
 
             <div className="mt-6 pt-6 border-t">
-              <h3 className="font-bold text-gray-900 mb-4">What's included:</h3>
+              <h3 className="font-bold text-slate-900 mb-4">What's included:</h3>
               <ul className="space-y-2">
                 {LICENSE.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-center gap-2 text-gray-700">
+                  <li key={idx} className="flex items-center gap-2 text-slate-700">
                     <Check className="w-4 h-4 text-green-600" />
                     {feature}
                   </li>
@@ -129,16 +129,16 @@ export default function ProTrialPage() {
           {/* Signup Form */}
           <div className="bg-white rounded-2xl p-8 shadow-sm border-2 border-purple-200">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-900">Start your trial</h2>
+              <h2 className="text-xl font-bold text-slate-900">Start your trial</h2>
               <div className="text-right">
                 <div className="text-2xl font-black text-purple-600">${LICENSE.price}</div>
-                <div className="text-sm text-gray-500">after trial</div>
+                <div className="text-sm text-slate-500">after trial</div>
               </div>
             </div>
 
             <form onSubmit={handleStartTrial} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Full Name
                 </label>
                 <input
@@ -152,7 +152,7 @@ export default function ProTrialPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Email Address
                 </label>
                 <input
@@ -166,7 +166,7 @@ export default function ProTrialPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Company / Organization (optional)
                 </label>
                 <input
@@ -195,13 +195,13 @@ export default function ProTrialPage() {
                 </button>
               </div>
 
-              <p className="text-xs text-gray-500 text-center">
+              <p className="text-xs text-slate-500 text-center">
                 You'll enter payment details on the next page. You won't be charged until your trial ends.
               </p>
             </form>
 
             <div className="mt-6 pt-6 border-t">
-              <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+              <div className="flex items-center justify-center gap-6 text-sm text-slate-500">
                 <div className="flex items-center gap-1">
                   <Shield className="w-4 h-4" />
                   Secure checkout
@@ -214,7 +214,7 @@ export default function ProTrialPage() {
             </div>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-600">
                 Don't want a trial?{' '}
                 <Link href={`/store/licenses/checkout/${LICENSE.slug}`} className="text-purple-600 font-medium hover:underline">
                   Purchase now for ${LICENSE.price}

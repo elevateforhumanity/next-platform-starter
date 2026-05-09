@@ -271,18 +271,18 @@ Come back anytime if you need help!`,
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <details className="group">
             <summary className="flex items-center justify-between cursor-pointer list-none">
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-xl font-bold text-slate-900">
                 What You'll Need
               </h2>
-              <ChevronDown className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" />
+              <ChevronDown className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" />
             </summary>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
               <div className="bg-gray-50 rounded-xl p-4 text-center">
                 <div className="w-10 h-10 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <FileText className="w-5 h-5 text-brand-blue-600" />
                 </div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1">EIN Number</h3>
-                <p className="text-xs text-gray-600">
+                <h3 className="font-bold text-slate-900 text-sm mb-1">EIN Number</h3>
+                <p className="text-xs text-slate-600">
                   Tax ID from IRS (free at irs.gov)
                 </p>
               </div>
@@ -290,8 +290,8 @@ Come back anytime if you need help!`,
                 <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <Building2 className="w-5 h-5 text-green-600" />
                 </div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1">Business Address</h3>
-                <p className="text-xs text-gray-600">
+                <h3 className="font-bold text-slate-900 text-sm mb-1">Business Address</h3>
+                <p className="text-xs text-slate-600">
                   Physical location (no PO Box)
                 </p>
               </div>
@@ -299,8 +299,8 @@ Come back anytime if you need help!`,
                 <div className="w-10 h-10 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <CreditCard className="w-5 h-5 text-brand-blue-600" />
                 </div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1">Bank Account</h3>
-                <p className="text-xs text-gray-600">
+                <h3 className="font-bold text-slate-900 text-sm mb-1">Bank Account</h3>
+                <p className="text-xs text-slate-600">
                   For receiving payments
                 </p>
               </div>
@@ -308,8 +308,8 @@ Come back anytime if you need help!`,
                 <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <Users className="w-5 h-5 text-orange-600" />
                 </div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1">Contact Info</h3>
-                <p className="text-xs text-gray-600">
+                <h3 className="font-bold text-slate-900 text-sm mb-1">Contact Info</h3>
+                <p className="text-xs text-slate-600">
                   Name, phone, email
                 </p>
               </div>
@@ -370,7 +370,7 @@ Come back anytime if you need help!`,
                     className={`max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 py-3 ${
                       message.type === 'user'
                         ? 'bg-brand-blue-600 text-white'
-                        : 'bg-white text-gray-900 shadow-sm'
+                        : 'bg-white text-slate-900 shadow-sm'
                     }`}
                   >
                     <div
@@ -428,7 +428,7 @@ Come back anytime if you need help!`,
               href="https://sam.gov"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
+              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium text-slate-700"
             >
               <ExternalLink className="w-4 h-4" />
               <span className="hidden sm:inline">SAM.gov</span>
@@ -438,7 +438,7 @@ Come back anytime if you need help!`,
               href="https://login.gov"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
+              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium text-slate-700"
             >
               <ExternalLink className="w-4 h-4" />
               <span className="hidden sm:inline">Login.gov</span>
@@ -448,7 +448,7 @@ Come back anytime if you need help!`,
               href="https://grants.gov"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
+              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium text-slate-700"
             >
               <ExternalLink className="w-4 h-4" />
               <span className="hidden sm:inline">Grants.gov</span>
@@ -461,7 +461,7 @@ Come back anytime if you need help!`,
       {/* Related Products */}
       <section className="py-12 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">
+          <h2 className="text-xl font-bold text-slate-900 mb-6 text-center">
             Related Resources
           </h2>
           <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
@@ -469,10 +469,10 @@ Come back anytime if you need help!`,
               href="/store/digital"
               className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
             >
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
+              <h3 className="text-lg font-bold text-slate-900 mb-2">
                 Grant Readiness Guide
               </h3>
-              <p className="text-gray-600 text-sm mb-3">
+              <p className="text-slate-600 text-sm mb-3">
                 Prepare winning grant applications with our compliance checklist.
               </p>
               <span className="text-brand-blue-600 font-semibold text-sm">
@@ -483,10 +483,10 @@ Come back anytime if you need help!`,
               href="/grants"
               className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
             >
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
+              <h3 className="text-lg font-bold text-slate-900 mb-2">
                 Grants Overview
               </h3>
-              <p className="text-gray-600 text-sm mb-3">
+              <p className="text-slate-600 text-sm mb-3">
                 Learn about grant opportunities and funding for your programs.
               </p>
               <span className="text-brand-blue-600 font-semibold text-sm">

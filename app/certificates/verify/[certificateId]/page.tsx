@@ -25,8 +25,8 @@ export default async function VerifyCertificatePage({
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
     );
@@ -86,7 +86,7 @@ export default async function VerifyCertificatePage({
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-2xl">
               [certificateId]
             </h1>
-            <p className="text-base md:text-lg md:text-xl mb-8 text-gray-100 drop-shadow-lg">
+            <p className="text-base md:text-lg md:text-xl mb-8 text-slate-100 drop-shadow-lg">
               Transform your career with funded training and industry certifications
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

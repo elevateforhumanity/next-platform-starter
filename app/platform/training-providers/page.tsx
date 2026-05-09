@@ -164,7 +164,7 @@ export default function TrainingProvidersPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Partner With Us</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Why Partner With Us</h2>
             <p className="text-lg text-black max-w-2xl mx-auto">
               Everything you need to run funded training programs, from enrollment to employment
               outcomes.
@@ -180,7 +180,7 @@ export default function TrainingProvidersPage() {
                   <b.icon className="w-6 h-6 text-teal-600" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-2">{b.title}</h3>
+                  <h3 className="font-bold text-slate-900 mb-2">{b.title}</h3>
                   <p className="text-black text-sm">{b.description}</p>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export default function TrainingProvidersPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">How It Works</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">How It Works</h2>
             <p className="text-lg text-black">Four steps to start receiving funded students.</p>
           </div>
           <div className="grid md:grid-cols-4 gap-8">
@@ -202,7 +202,7 @@ export default function TrainingProvidersPage() {
                 <div className="w-14 h-14 bg-brand-blue-700 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                   {item.step}
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
+                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
                 <p className="text-black text-sm">{item.description}</p>
               </div>
             ))}
@@ -215,7 +215,7 @@ export default function TrainingProvidersPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">What You Get as a Provider</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">What You Get as a Provider</h2>
               <div className="space-y-4">
                 {[
                   'Branded course pages with your logo and content',
@@ -229,7 +229,7 @@ export default function TrainingProvidersPage() {
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <span className="text-black flex-shrink-0">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                   </div>
                 ))}
               </div>

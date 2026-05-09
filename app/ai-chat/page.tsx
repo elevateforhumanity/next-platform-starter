@@ -112,16 +112,16 @@ export default function AIChatPage() {
                   <Bot className="w-5 h-5 text-brand-blue-600" />
                 </div>
                 <div className="bg-white rounded-2xl rounded-tl-none p-4 shadow-sm max-w-md">
-                  <p className="text-gray-700">
+                  <p className="text-slate-700">
                     Hi! I'm your AI learning assistant. I can help you with:
                   </p>
-                  <ul className="mt-2 space-y-1 text-gray-600 text-sm">
+                  <ul className="mt-2 space-y-1 text-slate-600 text-sm">
                     <li>• Course content and study tips</li>
                     <li>• Career guidance and job search</li>
                     <li>• Program information and eligibility</li>
                     <li>• Technical support</li>
                   </ul>
-                  <p className="mt-2 text-gray-700">What can I help you with today?</p>
+                  <p className="mt-2 text-slate-700">What can I help you with today?</p>
                 </div>
               </div>
 
@@ -138,10 +138,10 @@ export default function AIChatPage() {
                   <Bot className="w-5 h-5 text-brand-blue-600" />
                 </div>
                 <div className="bg-white rounded-2xl rounded-tl-none p-4 shadow-sm max-w-md">
-                  <p className="text-gray-700">
+                  <p className="text-slate-700">
                     Great question! For healthcare careers, I recommend starting with:
                   </p>
-                  <ul className="mt-2 space-y-2 text-gray-600 text-sm">
+                  <ul className="mt-2 space-y-2 text-slate-600 text-sm">
                     <li className="flex items-start gap-2">
                       <span className="text-slate-500 flex-shrink-0">•</span>
                       <span>
@@ -162,7 +162,7 @@ export default function AIChatPage() {
                       </span>
                     </li>
                   </ul>
-                  <p className="mt-2 text-gray-700">
+                  <p className="mt-2 text-slate-700">
                     Would you like me to tell you more about any of these programs?
                   </p>
                 </div>
@@ -200,8 +200,8 @@ export default function AIChatPage() {
                 <div className="w-16 h-16 bg-brand-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <feature.icon className="w-8 h-8 text-brand-blue-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600 text-sm">{feature.description}</p>
+                <h3 className="font-semibold text-slate-900 mb-2">{feature.title}</h3>
+                <p className="text-slate-600 text-sm">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -220,8 +220,8 @@ export default function AIChatPage() {
                 className="flex items-center gap-3 p-4 bg-white rounded-xl border hover:border-brand-blue-300 hover:shadow-md transition-all"
               >
                 <MessageSquare className="w-5 h-5 text-brand-blue-600 flex-shrink-0" />
-                <span className="text-gray-700">{question}</span>
-                <ArrowRight className="w-4 h-4 text-gray-400 ml-auto" />
+                <span className="text-slate-700">{question}</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 ml-auto" />
               </Link>
             ))}
           </div>

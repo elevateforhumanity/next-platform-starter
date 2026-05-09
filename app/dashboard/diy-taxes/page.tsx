@@ -557,13 +557,13 @@ export default function DIYTaxesPage() {
                 <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                   <h4 className="font-medium mb-2">Personal Information</h4>
                   <div className="grid grid-cols-2 gap-2 text-sm">
-                    <span className="text-gray-500">Name:</span>
+                    <span className="text-slate-500">Name:</span>
                     <span>
                       {taxpayer.firstName} {taxpayer.lastName}
                     </span>
-                    <span className="text-gray-500">Filing Status:</span>
+                    <span className="text-slate-500">Filing Status:</span>
                     <span className="capitalize">{filingStatus.replace(/_/g, ' ')}</span>
-                    <span className="text-gray-500">Address:</span>
+                    <span className="text-slate-500">Address:</span>
                     <span>
                       {taxpayer.street}, {taxpayer.city}, {taxpayer.state} {taxpayer.zip}
                     </span>
@@ -630,7 +630,7 @@ export default function DIYTaxesPage() {
               <div
                 className={`p-6 rounded-lg text-center ${taxSummary.isRefund ? 'bg-green-50 dark:bg-green-950' : 'bg-red-50 dark:bg-red-950'}`}
               >
-                <p className="text-sm text-gray-500 mb-1">
+                <p className="text-sm text-slate-500 mb-1">
                   {taxSummary.isRefund ? 'Your Estimated Refund' : 'Amount You Owe'}
                 </p>
                 <p
@@ -719,15 +719,15 @@ export default function DIYTaxesPage() {
 
                   <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-gray-500">Submission ID</span>
+                      <span className="text-slate-500">Submission ID</span>
                       <span className="font-mono">{submissionResult.submissionId}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500">Status</span>
+                      <span className="text-slate-500">Status</span>
                       <Badge variant="warning">Pending IRS Acknowledgment</Badge>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500">Expected Refund</span>
+                      <span className="text-slate-500">Expected Refund</span>
                       <span className="font-medium text-green-600">
                         ${taxSummary?.refundOrOwed.toLocaleString()}
                       </span>
@@ -736,7 +736,7 @@ export default function DIYTaxesPage() {
 
                   <div className="space-y-2">
                     <h4 className="font-medium">What&apos;s Next?</h4>
-                    <ul className="text-sm text-gray-500 space-y-1">
+                    <ul className="text-sm text-slate-500 space-y-1">
                       <li>• The IRS will process your return within 24-48 hours</li>
                       <li>• You&apos;ll receive an email when your return is accepted</li>
                       <li>• If accepted, expect your refund in 10-21 days (direct deposit)</li>

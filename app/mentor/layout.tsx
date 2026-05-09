@@ -59,7 +59,7 @@ export default async function MentorLayout({ children }: { children: React.React
                   <a
                     key={item.href}
                     href={item.href}
-                    className="text-sm text-gray-600 hover:text-brand-blue-700 transition-colors"
+                    className="text-sm text-slate-600 hover:text-brand-blue-700 transition-colors"
                   >
                     {item.label}
                   </a>
@@ -67,7 +67,7 @@ export default async function MentorLayout({ children }: { children: React.React
               </div>
             </div>
             <div className="flex items-center">
-              <a href="/api/auth/signout" className="text-sm text-gray-500 hover:text-gray-700">
+              <a href="/api/auth/signout" className="text-sm text-slate-500 hover:text-slate-700">
                 Sign out
               </a>
             </div>

@@ -155,7 +155,7 @@ export default function JRIPage() {
                 <div key={index} className="text-center">
                   <IconComponent className="w-8 h-8 text-brand-green-500 mx-auto mb-2" />
                   <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-gray-500 text-sm">{stat.label}</div>
+                  <div className="text-slate-500 text-sm">{stat.label}</div>
                 </div>
               );
             })}
@@ -166,8 +166,8 @@ export default function JRIPage() {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">What is the Job Ready Indy?</h2>
-            <p className="text-lg text-gray-600">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">What is the Job Ready Indy?</h2>
+            <p className="text-lg text-slate-600">
               Job Ready Indy is an Indiana state-funded program designed to reduce recidivism by
               investing in workforce training and support services. Instead of cycling people back
               through the criminal justice system, Job Ready Indy helps build sustainable careers.
@@ -203,10 +203,10 @@ export default function JRIPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">
                 Do You Qualify for Job Ready Indy?
               </h2>
-              <p className="text-lg text-gray-600 mb-8">
+              <p className="text-lg text-slate-600 mb-8">
                 Job Ready Indy funding is available to Indiana residents who meet the following
                 criteria.
               </p>
@@ -215,7 +215,7 @@ export default function JRIPage() {
                 {eligibilityRequirements.map((req, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <span className="text-slate-500 flex-shrink-0">•</span>
-                    <span className="text-gray-700">{req}</span>
+                    <span className="text-slate-700">{req}</span>
                   </li>
                 ))}
               </ul>
@@ -229,8 +229,8 @@ export default function JRIPage() {
             </div>
 
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Check Your Eligibility</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">Check Your Eligibility</h3>
+              <p className="text-slate-600 mb-6">
                 Not sure if you qualify? Our team can help determine your eligibility.
               </p>
               <div className="space-y-4">
@@ -242,7 +242,7 @@ export default function JRIPage() {
                 </Link>
                 <a
                   href="/support"
-                  className="block w-full border-2 border-gray-300 text-gray-700 text-center px-6 py-4 rounded-lg font-semibold hover:bg-white transition"
+                  className="block w-full border-2 border-gray-300 text-slate-700 text-center px-6 py-4 rounded-lg font-semibold hover:bg-white transition"
                 >
                   Contact Us: (317) 314-3757
                 </a>
@@ -255,10 +255,10 @@ export default function JRIPage() {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
               Job Ready Indy-Approved Training Programs
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Choose from high-demand career paths. All programs are fully funded through Job Ready
               Indy.
             </p>
@@ -276,10 +276,10 @@ export default function JRIPage() {
                     Job Ready Indy Approved
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{program.name}</h3>
-                <p className="text-gray-600 text-sm mb-4">{program.description}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{program.name}</h3>
+                <p className="text-slate-600 text-sm mb-4">{program.description}</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center gap-1 text-xs bg-white text-gray-700 px-2 py-1 rounded">
+                  <span className="inline-flex items-center gap-1 text-xs bg-white text-slate-700 px-2 py-1 rounded">
                     <Clock className="w-3 h-3" />
                     {program.duration}
                   </span>
@@ -305,7 +305,7 @@ export default function JRIPage() {
       {/* FAQ */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">
             Job Ready Indy Program FAQ
           </h2>
           <div className="space-y-4">

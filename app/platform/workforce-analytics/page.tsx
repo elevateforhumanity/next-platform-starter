@@ -154,7 +154,7 @@ export default function WorkforceAnalyticsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {metrics.map((m, i) => (
               <div key={i} className="bg-white rounded-xl p-6 shadow-sm border text-center">
-                <p className="text-3xl font-bold text-gray-900">{m.value}</p>
+                <p className="text-3xl font-bold text-slate-900">{m.value}</p>
                 <p className="text-black text-sm mb-2">{m.label}</p>
                 <span className="text-brand-green-600 text-sm font-medium">{m.change} YoY</span>
               </div>
@@ -167,7 +167,7 @@ export default function WorkforceAnalyticsPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Analytics Features</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Analytics Features</h2>
             <p className="text-lg text-black max-w-2xl mx-auto">
               Everything you need to measure, report, and improve workforce development outcomes.
             </p>
@@ -181,7 +181,7 @@ export default function WorkforceAnalyticsPage() {
                 <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
                   <f.icon className="w-6 h-6 text-indigo-600" />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{f.title}</h3>
+                <h3 className="font-bold text-slate-900 mb-2">{f.title}</h3>
                 <p className="text-black text-sm">{f.description}</p>
               </div>
             ))}
@@ -193,7 +193,7 @@ export default function WorkforceAnalyticsPage() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Built-In Report Types</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Built-In Report Types</h2>
             <p className="text-lg text-black">
               Pre-configured reports ready for federal and state reporting requirements.
             </p>
@@ -204,7 +204,7 @@ export default function WorkforceAnalyticsPage() {
                 <div className="flex items-start gap-3">
                   <span className="text-black flex-shrink-0">•</span>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-1">{r.title}</h3>
+                    <h3 className="font-bold text-slate-900 mb-1">{r.title}</h3>
                     <p className="text-black text-sm">{r.description}</p>
                   </div>
                 </div>
@@ -228,7 +228,7 @@ export default function WorkforceAnalyticsPage() {
               />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">
                 Integrated With Your Workflow
               </h2>
               <p className="text-black mb-6">
@@ -244,7 +244,7 @@ export default function WorkforceAnalyticsPage() {
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <span className="text-black flex-shrink-0">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-slate-700">{item}</span>
                   </div>
                 ))}
               </div>

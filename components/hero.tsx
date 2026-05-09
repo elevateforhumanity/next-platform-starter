@@ -23,7 +23,7 @@ export function Hero({
     <section className="mx-auto max-w-6xl px-4 py-20">
       <div className="max-w-3xl">
         <h1 className="text-4xl font-bold tracking-tight">{heading}</h1>
-        <p className="mt-6 text-lg text-gray-600">{subheading}</p>
+        <p className="mt-6 text-lg text-slate-600">{subheading}</p>
         <div className="mt-8 flex flex-wrap gap-4">
           {isExternal(primaryHref) ? (
             <a

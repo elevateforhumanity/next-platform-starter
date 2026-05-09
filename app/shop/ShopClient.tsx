@@ -51,13 +51,13 @@ export function ShopClient({ products, categories }: ShopClientProps) {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4" data-tour="shop-categories">
-          <Filter className="w-5 h-5 text-gray-500" />
+          <Filter className="w-5 h-5 text-slate-500" />
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-lg text-sm ${activeCategory === cat ? 'bg-brand-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-white'}`}
+                className={`px-4 py-2 rounded-lg text-sm ${activeCategory === cat ? 'bg-brand-blue-600 text-white' : 'bg-white text-slate-700 hover:bg-white'}`}
               >
                 {cat}
               </button>
@@ -66,7 +66,7 @@ export function ShopClient({ products, categories }: ShopClientProps) {
         </div>
         <div className="flex items-center gap-4">
           <form onSubmit={handleSearch} className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
             <input
               type="text"
               placeholder="Search products..."
@@ -78,7 +78,7 @@ export function ShopClient({ products, categories }: ShopClientProps) {
           </form>
           <Link
             href="/shop/cart"
-            className="relative p-2 text-gray-600 hover:text-brand-blue-600"
+            className="relative p-2 text-slate-600 hover:text-brand-blue-600"
             aria-label="Shopping cart"
             data-tour="shop-cart"
           >
@@ -110,16 +110,16 @@ export function ShopClient({ products, categories }: ShopClientProps) {
             </div>
             <div className="p-6">
               <span className="text-xs text-brand-blue-600 font-medium">{product.category}</span>
-              <h2 className="font-semibold text-gray-900 mt-1">{product.name}</h2>
+              <h2 className="font-semibold text-slate-900 mt-1">{product.name}</h2>
               <div className="flex items-center gap-2 mt-2">
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                  <span className="text-sm font-medium text-gray-900">{product.rating}</span>
+                  <span className="text-sm font-medium text-slate-900">{product.rating}</span>
                 </div>
-                <span className="text-sm text-gray-500">({product.review_count} reviews)</span>
+                <span className="text-sm text-slate-500">({product.review_count} reviews)</span>
               </div>
               <div className="flex items-center justify-between mt-4">
-                <span className="text-xl font-bold text-gray-900">${product.price}</span>
+                <span className="text-xl font-bold text-slate-900">${product.price}</span>
                 <button
                   onClick={(e) => handleAddToCart(e, product)}
                   className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-brand-blue-700"

@@ -47,17 +47,17 @@ export default function MentorResourcesPage() {
       </div>
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <nav className="flex items-center text-sm text-gray-600">
+          <nav className="flex items-center text-sm text-slate-600">
             <Link href="/mentor/dashboard" className="hover:text-brand-blue-600">
               Mentor Dashboard
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Resources</span>
+            <span className="text-slate-900 font-medium">Resources</span>
           </nav>
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Mentor Resources</h1>
+        <h1 className="text-3xl font-bold text-slate-900 mb-8">Mentor Resources</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {resources.map((resource) => (
             <div
@@ -75,8 +75,8 @@ export default function MentorResourcesPage() {
                   )}
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 mb-1">{resource.title}</h3>
-                  <p className="text-sm text-gray-500 mb-3">{resource.category}</p>
+                  <h3 className="font-semibold text-slate-900 mb-1">{resource.title}</h3>
+                  <p className="text-sm text-slate-500 mb-3">{resource.category}</p>
                   <a
                     href={resource.url}
                     target="_blank"

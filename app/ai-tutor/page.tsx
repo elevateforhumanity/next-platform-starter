@@ -83,8 +83,8 @@ export default function AiTutorPage() {
               return (
                 <div key={f.title} className="bg-white border border-gray-200 rounded-xl p-6">
                   <Icon className="w-8 h-8 text-brand-blue-600 mb-4" />
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{f.title}</h3>
-                  <p className="text-gray-600 text-sm">{f.desc}</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{f.title}</h3>
+                  <p className="text-slate-600 text-sm">{f.desc}</p>
                 </div>
               );
             })}
@@ -95,8 +95,8 @@ export default function AiTutorPage() {
       {/* Access */}
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">How to Access</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-xl font-bold text-slate-900 mb-4">How to Access</h2>
+          <p className="text-slate-600 mb-6">
             The AI Tutor is available to enrolled students through the student portal. Log in to
             start a conversation.
           </p>

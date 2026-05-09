@@ -61,15 +61,15 @@ export default async function ProgramHolderGuidePage() {
       <div className="max-w-4xl mx-auto px-4">
         <Link
           href="/docs"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Docs
         </Link>
         <div className="flex items-center gap-3 mb-8">
           <BookOpen className="w-8 h-8 text-brand-blue-600" />
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Program Holder Guide</h1>
-            <p className="text-gray-600">Complete guide to managing your training programs</p>
+            <h1 className="text-3xl font-bold text-slate-900">Program Holder Guide</h1>
+            <p className="text-slate-600">Complete guide to managing your training programs</p>
           </div>
         </div>
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mb-8">
@@ -100,11 +100,11 @@ export default async function ProgramHolderGuidePage() {
                 <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                   <section.icon className="w-5 h-5 text-brand-blue-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900">{section.title}</h3>
+                <h3 className="font-semibold text-slate-900">{section.title}</h3>
               </div>
               <ul className="space-y-2">
                 {section.items.map((item, j) => (
-                  <li key={j} className="flex items-center gap-2 text-gray-600">
+                  <li key={j} className="flex items-center gap-2 text-slate-600">
                     <span className="text-slate-400 flex-shrink-0">•</span> {item}
                   </li>
                 ))}
@@ -113,8 +113,8 @@ export default async function ProgramHolderGuidePage() {
           ))}
         </div>
         <div className="mt-8 bg-white rounded-xl shadow-sm border p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Need Help?</h2>
-          <p className="text-gray-600 mb-4">
+          <h2 className="text-xl font-semibold text-slate-900 mb-4">Need Help?</h2>
+          <p className="text-slate-600 mb-4">
             Our support team is available to assist you with any questions.
           </p>
           <div className="flex gap-4">

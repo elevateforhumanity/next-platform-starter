@@ -84,7 +84,7 @@ export default function EmploymentPage() {
       {/* Services Grid */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2 text-center">
             How We Help You Get Hired
           </h2>
           <p className="text-black text-center mb-12 max-w-2xl mx-auto">
@@ -96,7 +96,7 @@ export default function EmploymentPage() {
               return (
                 <div key={s.title} className="bg-white border border-gray-200 rounded-xl p-6">
                   <Icon className="w-8 h-8 text-brand-blue-600 mb-4" />
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{s.title}</h3>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{s.title}</h3>
                   <p className="text-black text-sm">{s.desc}</p>
                 </div>
               );
@@ -108,7 +108,7 @@ export default function EmploymentPage() {
       {/* Process */}
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
             Your Path to Employment
           </h2>
           <div className="grid md:grid-cols-4 gap-6">
@@ -138,7 +138,7 @@ export default function EmploymentPage() {
                 <div className="w-12 h-12 bg-brand-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                   {item.step}
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
+                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
                 <p className="text-black text-sm">{item.desc}</p>
               </div>
             ))}

@@ -91,8 +91,8 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
           <div className="w-16 h-16 bg-brand-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <Lock className="w-8 h-8 text-brand-red-600" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Access Required</h1>
-          <p className="text-gray-600 mb-6">
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Access Required</h1>
+          <p className="text-slate-600 mb-6">
             You need to purchase this course to access the content.
           </p>
           <div className="space-y-3">
@@ -104,7 +104,7 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
             </Link>
             <Link
               href="/career-services/courses"
-              className="block w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-white"
+              className="block w-full border border-gray-300 text-slate-700 px-6 py-3 rounded-lg font-medium hover:bg-white"
             >
               Browse All Courses
             </Link>
@@ -122,7 +122,7 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
           <div className="flex items-center gap-4">
             <Link
               href="/career-services/courses/my-courses"
-              className="text-gray-400 hover:text-white"
+              className="text-slate-400 hover:text-white"
             >
               <ArrowLeft className="w-5 h-5" />
             </Link>

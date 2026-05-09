@@ -9,7 +9,7 @@ export default function CourseYouTubeEmbed({
 }: CourseYouTubeEmbedProps) {
   return (
     <div className="w-full rounded-2xl border bg-white p-4 shadow-sm">
-      <h3 className="mb-3 text-lg font-semibold text-gray-900">{title}</h3>
+      <h3 className="mb-3 text-lg font-semibold text-slate-900">{title}</h3>
 
       <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black">
         <iframe

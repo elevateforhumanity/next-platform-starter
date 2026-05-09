@@ -44,17 +44,17 @@ export default function CandidatesPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b border-gray-200 px-6 py-5">
-        <nav className="flex items-center gap-1.5 text-xs text-gray-500 mb-3">
-          <Link href="/employer-portal" className="hover:text-gray-700">Employer Portal</Link>
+        <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-3">
+          <Link href="/employer-portal" className="hover:text-slate-700">Employer Portal</Link>
           <ChevronRight className="w-3 h-3" />
-          <span className="text-gray-900 font-medium">Candidates</span>
+          <span className="text-slate-900 font-medium">Candidates</span>
         </nav>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
               <Users className="w-6 h-6 text-brand-blue-600" /> Matched Candidates
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-slate-500 mt-1">
               Graduates and learners matched to your open positions
             </p>
           </div>

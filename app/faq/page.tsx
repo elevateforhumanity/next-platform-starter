@@ -320,7 +320,7 @@ export default function FAQPage() {
             </Link>
             <Link
               href="/contact"
-              className="px-4 py-2 bg-white text-gray-800 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 bg-white text-slate-800 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors"
             >
               Contact Us
             </Link>
@@ -335,7 +335,7 @@ export default function FAQPage() {
               <a
                 key={cat}
                 href={`#${cat}`}
-                className="px-4 py-2 bg-white border rounded-full text-sm font-medium text-gray-700 hover:bg-white capitalize"
+                className="px-4 py-2 bg-white border rounded-full text-sm font-medium text-slate-700 hover:bg-white capitalize"
               >
                 {cat}
               </a>
@@ -350,7 +350,7 @@ export default function FAQPage() {
         <div className="mt-12 bg-brand-orange-50 rounded-xl p-8 text-center">
           <MessageSquare className="w-12 h-12 text-brand-orange-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold mb-2">Still have questions?</h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-slate-600 mb-4">
             Our team is here to help you find the answers you need.
           </p>
           <Link

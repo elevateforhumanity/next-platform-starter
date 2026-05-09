@@ -4,6 +4,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { getAdminUrl } from '@/lib/utils/siteUrl';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -12,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org'),
+  metadataBase: new URL(getAdminUrl()),
   title: {
     default: 'Elevate Admin',
     template: '%s | Elevate Admin',

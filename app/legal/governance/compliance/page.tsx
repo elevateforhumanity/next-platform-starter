@@ -33,7 +33,7 @@ export default async function ComplianceFrameworkPage() {
       </div>
       <div className="bg-gray-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
+          <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
               Home
             </Link>
@@ -45,7 +45,7 @@ export default async function ComplianceFrameworkPage() {
             <span className="text-white">Compliance Framework</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Compliance and Disclosure Framework</h1>
-          <p className="text-gray-300">
+          <p className="text-slate-300">
             Regulatory requirements, disclosures, and legal compliance
           </p>
           <div className="flex items-center gap-6 mt-6 text-sm">
@@ -129,12 +129,12 @@ export default async function ComplianceFrameworkPage() {
         </nav>
 
         <section id="purpose" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Scale className="w-6 h-6 text-brand-blue-600" />
             1. Purpose & Scope
           </h2>
           <h3 className="text-lg font-semibold mt-6 mb-3">1.1 Purpose</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-slate-700 mb-4">
             This document establishes the compliance framework for Elevate For Humanity, ensuring
             all platform operations meet applicable legal, regulatory, and ethical requirements. It
             serves as the authoritative reference for compliance obligations across all business
@@ -142,7 +142,7 @@ export default async function ComplianceFrameworkPage() {
           </p>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">1.2 Scope</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Educational services (LMS, courses, certifications)</li>
             <li>E-commerce operations (Store, digital products)</li>
             <li>Tax preparation services (Tax Operations)</li>
@@ -152,7 +152,7 @@ export default async function ComplianceFrameworkPage() {
         </section>
 
         <section id="entity" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Building className="w-6 h-6 text-brand-blue-600" />
             2. Entity Structure & Registration
           </h2>
@@ -189,7 +189,7 @@ export default async function ComplianceFrameworkPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">2.2 Required Registrations</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>
               <strong>IRS:</strong> EIN registration, 501(c)(3) determination letter (Selfish Inc.)
             </li>
@@ -206,7 +206,7 @@ export default async function ComplianceFrameworkPage() {
         </section>
 
         <section id="regulatory" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <FileCheck className="w-6 h-6 text-brand-blue-600" />
             3. Regulatory Framework
           </h2>
@@ -327,13 +327,13 @@ export default async function ComplianceFrameworkPage() {
         </section>
 
         <section id="disclosures" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <AlertCircle className="w-6 h-6 text-brand-blue-600" />
             4. Required Disclosures
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.1 Website Disclosures</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Privacy Policy:</strong> Data collection, use, sharing, and user rights
             </li>
@@ -351,7 +351,7 @@ export default async function ComplianceFrameworkPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.2 Tax Service Disclosures</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>
               <strong>Fee Disclosure:</strong> All fees disclosed before service begins
             </li>
@@ -367,7 +367,7 @@ export default async function ComplianceFrameworkPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">4.3 Educational Disclosures</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>
               <strong>Accreditation Status:</strong> Clear statement of accreditation (or
               non-accreditation)
@@ -383,7 +383,7 @@ export default async function ComplianceFrameworkPage() {
         </section>
 
         <section id="consumer" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Users className="w-6 h-6 text-brand-blue-600" />
             5. Consumer Protection
           </h2>
@@ -421,7 +421,7 @@ export default async function ComplianceFrameworkPage() {
           </table>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">5.2 Dispute Resolution</h3>
-          <ol className="list-decimal pl-6 space-y-2 text-gray-700">
+          <ol className="list-decimal pl-6 space-y-2 text-slate-700">
             <li>
               <strong>Internal Resolution:</strong> Contact support within 30 days of issue
             </li>
@@ -438,20 +438,20 @@ export default async function ComplianceFrameworkPage() {
         </section>
 
         <section id="accessibility" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
             <Globe className="w-6 h-6 text-brand-blue-600" />
             6. Accessibility Compliance
           </h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.1 Standards</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>WCAG 2.1 Level AA compliance target</li>
             <li>Section 508 compliance for federal accessibility requirements</li>
             <li>ADA Title III compliance for public accommodations</li>
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">6.2 Implementation</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Semantic HTML structure throughout platform</li>
             <li>Keyboard navigation support</li>
             <li>Screen reader compatibility</li>
@@ -462,7 +462,7 @@ export default async function ComplianceFrameworkPage() {
         </section>
 
         <section id="responsibilities" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Compliance Responsibilities</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">7. Compliance Responsibilities</h2>
           <table className="w-full border-collapse border">
             <thead>
               <tr className="bg-gray-100">
@@ -502,10 +502,10 @@ export default async function ComplianceFrameworkPage() {
         </section>
 
         <section id="monitoring" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Monitoring & Reporting</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">8. Monitoring & Reporting</h2>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">8.1 Compliance Monitoring</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 mb-4">
             <li>Quarterly compliance audits of all business units</li>
             <li>Annual third-party accessibility audit</li>
             <li>Continuous monitoring of regulatory changes</li>
@@ -513,7 +513,7 @@ export default async function ComplianceFrameworkPage() {
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">8.2 Reporting</h3>
-          <ul className="list-disc pl-6 space-y-2 text-gray-700">
+          <ul className="list-disc pl-6 space-y-2 text-slate-700">
             <li>Monthly compliance dashboard to leadership</li>
             <li>Quarterly board compliance report</li>
             <li>Annual compliance certification</li>
@@ -522,7 +522,7 @@ export default async function ComplianceFrameworkPage() {
         </section>
 
         <section id="versioning" className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Versioning & Review</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">9. Versioning & Review</h2>
           <table className="w-full border-collapse border mb-4">
             <thead>
               <tr className="bg-gray-100">
@@ -539,13 +539,13 @@ export default async function ComplianceFrameworkPage() {
               </tr>
             </tbody>
           </table>
-          <p className="text-gray-700">
+          <p className="text-slate-700">
             <strong>Review Schedule:</strong> Annually, or upon regulatory changes affecting
             platform operations.
           </p>
         </section>
 
-        <footer className="mt-12 pt-8 border-t text-sm text-gray-500">
+        <footer className="mt-12 pt-8 border-t text-sm text-slate-500">
           <p>
             <strong>Document ID:</strong> EFH-COM-001 | <strong>Owner:</strong> Chief Compliance
             Officer

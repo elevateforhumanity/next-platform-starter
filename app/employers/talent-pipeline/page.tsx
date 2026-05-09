@@ -121,8 +121,8 @@ export default async function TalentPipelinePage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
     );
@@ -207,10 +207,10 @@ export default async function TalentPipelinePage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               How the Talent Pipeline Works
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               A simple, streamlined process to connect you with qualified candidates
             </p>
           </div>
@@ -220,8 +220,8 @@ export default async function TalentPipelinePage() {
                 <div className="bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-4">
                   {item.step}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                <p className="text-slate-600">{item.description}</p>
                 {item.step < 4 && (
                   <ArrowRight className="hidden lg:block absolute top-6 -right-4 w-8 h-8 text-orange-300" />
                 )}
@@ -235,10 +235,10 @@ export default async function TalentPipelinePage() {
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Why Partner With Us
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Reduce hiring costs and time while accessing a diverse pool of qualified candidates
             </p>
           </div>
@@ -246,8 +246,8 @@ export default async function TalentPipelinePage() {
             {benefits.map((benefit) => (
               <div key={benefit.title} className="bg-white p-8 rounded-xl shadow-sm">
                 <benefit.icon className="w-12 h-12 text-orange-600 mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.title}</h3>
-                <p className="text-gray-600">{benefit.description}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{benefit.title}</h3>
+                <p className="text-slate-600">{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -258,10 +258,10 @@ export default async function TalentPipelinePage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Industries We Serve
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               We train candidates for high-demand roles across multiple industries
             </p>
           </div>
@@ -269,10 +269,10 @@ export default async function TalentPipelinePage() {
             {industries.map((industry) => (
               <div key={industry.name} className="bg-gray-50 p-6 rounded-xl">
                 <div className="text-4xl mb-4">{industry.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{industry.name}</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{industry.name}</h3>
                 <ul className="space-y-2">
                   {industry.roles.map((role) => (
-                    <li key={role} className="text-gray-600 flex items-center gap-2">
+                    <li key={role} className="text-slate-600 flex items-center gap-2">
                       <CheckCircle className="w-4 h-4 text-orange-600" />
                       {role}
                     </li>

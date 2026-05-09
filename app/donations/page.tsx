@@ -73,7 +73,7 @@ export default async function DonationsPage() {
             {impactStats.map((stat, i) => (
               <div key={i}>
                 <p className="text-4xl font-bold text-brand-red-600">{stat.number}</p>
-                <p className="text-gray-600">{stat.label}</p>
+                <p className="text-slate-600">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -82,7 +82,7 @@ export default async function DonationsPage() {
 
       <section id="donate" className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Make a Donation</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Make a Donation</h2>
 
           <div className="bg-gray-50 rounded-xl p-8">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
@@ -91,15 +91,15 @@ export default async function DonationsPage() {
                   key={i}
                   className="bg-white border-2 border-gray-200 hover:border-brand-red-500 rounded-lg p-4 text-center transition"
                 >
-                  <p className="text-2xl font-bold text-gray-900">${level.amount}</p>
+                  <p className="text-2xl font-bold text-slate-900">${level.amount}</p>
                 </button>
               ))}
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Custom Amount</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Custom Amount</label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="number"
                   placeholder="Enter amount"
@@ -114,7 +114,7 @@ export default async function DonationsPage() {
                   type="checkbox"
                   className="w-4 h-4 text-brand-red-600 border-gray-300 rounded focus:ring-brand-red-500"
                 />
-                <span className="ml-2 text-gray-700">Make this a monthly donation</span>
+                <span className="ml-2 text-slate-700">Make this a monthly donation</span>
               </label>
             </div>
 
@@ -122,7 +122,7 @@ export default async function DonationsPage() {
               Complete Donation
             </button>
 
-            <p className="text-center text-sm text-gray-500 mt-4">
+            <p className="text-center text-sm text-slate-500 mt-4">
               Elevate for Humanity is a 501(c)(3) nonprofit. Your donation is tax-deductible.
             </p>
           </div>
@@ -131,7 +131,7 @@ export default async function DonationsPage() {
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Your Impact</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Your Impact</h2>
           <div className="space-y-4">
             {donationLevels.map((level, i) => (
               <div key={i} className="bg-white rounded-lg p-4 flex items-center shadow-sm">
@@ -139,7 +139,7 @@ export default async function DonationsPage() {
                   <span className="text-xl font-bold text-brand-red-600">${level.amount}</span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-gray-900 font-medium">{level.impact}</p>
+                  <p className="text-slate-900 font-medium">{level.impact}</p>
                 </div>
                 <span className="text-slate-400 flex-shrink-0">•</span>
               </div>

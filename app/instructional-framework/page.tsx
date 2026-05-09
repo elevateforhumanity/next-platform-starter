@@ -277,8 +277,8 @@ export default function InstructionalFrameworkPage() {
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
           <div className="border-l-4 border-brand-blue-600 pl-6 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-3">RTI Governance Statement</h2>
-            <p className="text-gray-700 leading-relaxed">
+            <h2 className="text-xl font-bold text-slate-900 mb-3">RTI Governance Statement</h2>
+            <p className="text-slate-700 leading-relaxed">
               Related Technical Instruction (RTI) is delivered through state-approved training
               providers and licensed credential partners aligned to occupation-specific curriculum.
               Authorized program holders coordinate curriculum delivery and RTI scheduling under
@@ -293,22 +293,22 @@ export default function InstructionalFrameworkPage() {
 
           <div className="grid sm:grid-cols-2 gap-6 mb-8">
             <div className="bg-white rounded-lg p-5">
-              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+              <h3 className="font-semibold text-slate-900 mb-2 flex items-center gap-2">
                 <Shield className="w-5 h-5 text-brand-blue-600" />
                 Institutional Classification
               </h3>
-              <p className="text-gray-700 text-sm">
+              <p className="text-slate-700 text-sm">
                 Hybrid Workforce Training Provider — Registered Apprenticeship Sponsor with
                 authorized RTI providers and employer OJT sites operating under centralized
                 curriculum oversight.
               </p>
             </div>
             <div className="bg-white rounded-lg p-5">
-              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+              <h3 className="font-semibold text-slate-900 mb-2 flex items-center gap-2">
                 <FileCheck className="w-5 h-5 text-brand-blue-600" />
                 Curriculum Ownership
               </h3>
-              <p className="text-gray-700 text-sm">
+              <p className="text-slate-700 text-sm">
                 Elevate maintains curriculum standards and assessment protocols for all programs.
                 RTI providers deliver instruction under these standards. Curriculum alignment is
                 verified through MOU agreements and periodic program reviews.
@@ -316,10 +316,10 @@ export default function InstructionalFrameworkPage() {
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Instructional Authority Hierarchy
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-slate-600 mb-6">
             Six-level accountability structure defining who is responsible at each stage of training
             delivery.
           </p>
@@ -368,9 +368,9 @@ export default function InstructionalFrameworkPage() {
                   {i + 1}
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">{item.role}</p>
+                  <p className="font-semibold text-slate-900">{item.role}</p>
                   <p className="text-brand-blue-700 text-sm font-medium">{item.entity}</p>
-                  <p className="text-gray-600 text-sm mt-1">{item.detail}</p>
+                  <p className="text-slate-600 text-sm mt-1">{item.detail}</p>
                 </div>
               </div>
             ))}
@@ -378,23 +378,23 @@ export default function InstructionalFrameworkPage() {
 
           {/* Role Definitions */}
           <div className="mt-10 bg-amber-50 border border-amber-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-3">Formal Role Definitions</h3>
-            <p className="text-sm text-gray-600 mb-4">
+            <h3 className="font-bold text-slate-900 mb-3">Formal Role Definitions</h3>
+            <p className="text-sm text-slate-600 mb-4">
               These definitions standardize terminology across all compliance documents, partnership
               packets, and ETPL submissions.
             </p>
             <dl className="space-y-3 text-sm">
               <div>
-                <dt className="font-semibold text-gray-900">Credential Partner</dt>
-                <dd className="text-gray-700 ml-4">
+                <dt className="font-semibold text-slate-900">Credential Partner</dt>
+                <dd className="text-slate-700 ml-4">
                   A state-approved or licensed instructional authority whose credentials match the
                   occupation they teach. Credential Partners are the primary RTI providers and may
                   issue industry certifications.
                 </dd>
               </div>
               <div>
-                <dt className="font-semibold text-gray-900">Program Holder</dt>
-                <dd className="text-gray-700 ml-4">
+                <dt className="font-semibold text-slate-900">Program Holder</dt>
+                <dd className="text-slate-700 ml-4">
                   An authorized RTI coordinator who manages curriculum delivery under the
                   instructional supervision of a Credential Partner. Program Holders are not
                   independent instructors — they coordinate scheduling, module delivery, and
@@ -402,16 +402,16 @@ export default function InstructionalFrameworkPage() {
                 </dd>
               </div>
               <div>
-                <dt className="font-semibold text-gray-900">Subject Matter Expert (SME)</dt>
-                <dd className="text-gray-700 ml-4">
+                <dt className="font-semibold text-slate-900">Subject Matter Expert (SME)</dt>
+                <dd className="text-slate-700 ml-4">
                   An industry professional with occupation-specific credentials who provides
                   supplemental instruction, mentoring, and lab support. SMEs are never the sole RTI
                   authority for any program.
                 </dd>
               </div>
               <div>
-                <dt className="font-semibold text-gray-900">Employer Partner</dt>
-                <dd className="text-gray-700 ml-4">
+                <dt className="font-semibold text-slate-900">Employer Partner</dt>
+                <dd className="text-slate-700 ml-4">
                   An approved employer providing structured OJT under a documented work process
                   schedule with designated supervisors and periodic evaluations.
                 </dd>
@@ -424,8 +424,8 @@ export default function InstructionalFrameworkPage() {
       {/* Provider Tier System */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Provider Tier System</h2>
-          <p className="text-gray-600 mb-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Provider Tier System</h2>
+          <p className="text-slate-600 mb-8">
             All instructional partners are classified into three tiers based on authorization level,
             credential requirements, and scope of instruction.
           </p>
@@ -444,26 +444,26 @@ export default function InstructionalFrameworkPage() {
                         <span className="text-xs font-bold text-brand-blue-600 bg-brand-blue-50 px-2 py-0.5 rounded">
                           TIER {tier.tier}
                         </span>
-                        <span className="text-xs text-gray-500">{tier.role}</span>
+                        <span className="text-xs text-slate-500">{tier.role}</span>
                       </div>
-                      <h3 className="text-lg font-bold text-gray-900">{tier.label}</h3>
+                      <h3 className="text-lg font-bold text-slate-900">{tier.label}</h3>
                     </div>
                   </div>
-                  <p className="text-gray-700 text-sm mb-4">{tier.description}</p>
+                  <p className="text-slate-700 text-sm mb-4">{tier.description}</p>
                   <div className="mb-3">
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                       Requirements
                     </p>
                     <ul className="space-y-1">
                       {tier.requirements.map((req, i) => (
-                        <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
+                        <li key={i} className="text-sm text-slate-700 flex items-start gap-2">
                           <ClipboardCheck className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                           {req}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-slate-500">
                     <span className="font-medium">Examples:</span> {tier.examples}
                   </p>
                 </div>
@@ -476,8 +476,8 @@ export default function InstructionalFrameworkPage() {
       {/* RTI Hours Table */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">RTI Hour Structure by Program</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">RTI Hour Structure by Program</h2>
+          <p className="text-slate-600 mb-6">
             Fixed RTI hour minimums per program regardless of provider. All hours are tracked
             through the institutional LMS.
           </p>
@@ -486,37 +486,37 @@ export default function InstructionalFrameworkPage() {
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="bg-white">
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">Program</th>
-                  <th className="text-center p-3 font-semibold text-gray-900 border-b">
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">Program</th>
+                  <th className="text-center p-3 font-semibold text-slate-900 border-b">
                     Total Hours
                   </th>
-                  <th className="text-center p-3 font-semibold text-gray-900 border-b">
+                  <th className="text-center p-3 font-semibold text-slate-900 border-b">
                     RTI Hours
                   </th>
-                  <th className="text-center p-3 font-semibold text-gray-900 border-b">
+                  <th className="text-center p-3 font-semibold text-slate-900 border-b">
                     OJT Hours
                   </th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">Delivery</th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">Credential</th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">Issued By</th>
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">Delivery</th>
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">Credential</th>
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">Issued By</th>
                 </tr>
               </thead>
               <tbody>
                 {RTI_PROGRAMS.map((p, i) => (
                   <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-white/50'}>
-                    <td className="p-3 font-medium text-gray-900 border-b">{p.program}</td>
-                    <td className="p-3 text-center text-gray-700 border-b">
+                    <td className="p-3 font-medium text-slate-900 border-b">{p.program}</td>
+                    <td className="p-3 text-center text-slate-700 border-b">
                       {p.totalHours.toLocaleString()}
                     </td>
                     <td className="p-3 text-center text-brand-blue-700 font-medium border-b">
                       {p.rtiHours}
                     </td>
-                    <td className="p-3 text-center text-gray-700 border-b">
+                    <td className="p-3 text-center text-slate-700 border-b">
                       {p.ojtHours.toLocaleString()}
                     </td>
-                    <td className="p-3 text-gray-700 border-b">{p.method}</td>
-                    <td className="p-3 text-gray-700 border-b">{p.credential}</td>
-                    <td className="p-3 text-gray-700 border-b text-xs">{p.credentialIssuer}</td>
+                    <td className="p-3 text-slate-700 border-b">{p.method}</td>
+                    <td className="p-3 text-slate-700 border-b">{p.credential}</td>
+                    <td className="p-3 text-slate-700 border-b text-xs">{p.credentialIssuer}</td>
                   </tr>
                 ))}
               </tbody>
@@ -528,10 +528,10 @@ export default function InstructionalFrameworkPage() {
       {/* Authorized RTI Provider Registry */}
       <section className="py-12">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Authorized RTI Provider Registry
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-slate-600 mb-6">
             Per-program registry of credential partners, program holders, and RTI authorization.
             This registry answers the question: &ldquo;Who delivers RTI for each program?&rdquo;
           </p>
@@ -540,21 +540,21 @@ export default function InstructionalFrameworkPage() {
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="bg-white">
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">Program</th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">Program</th>
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">
                     Credential Partner
                   </th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">
                     Partner Type
                   </th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">
                     Program Holder
                   </th>
-                  <th className="text-center p-3 font-semibold text-gray-900 border-b">
+                  <th className="text-center p-3 font-semibold text-slate-900 border-b">
                     RTI Hours
                   </th>
-                  <th className="text-center p-3 font-semibold text-gray-900 border-b">MOU</th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">
+                  <th className="text-center p-3 font-semibold text-slate-900 border-b">MOU</th>
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">
                     Credential Issued
                   </th>
                 </tr>
@@ -562,10 +562,10 @@ export default function InstructionalFrameworkPage() {
               <tbody>
                 {RTI_REGISTRY.map((r, i) => (
                   <tr key={i} className={i % 2 === 0 ? 'bg-white/50' : 'bg-white'}>
-                    <td className="p-3 font-medium text-gray-900 border-b">{r.program}</td>
-                    <td className="p-3 text-gray-700 border-b">{r.credentialPartner}</td>
-                    <td className="p-3 text-gray-700 border-b text-xs">{r.partnerType}</td>
-                    <td className="p-3 text-gray-700 border-b">{r.programHolder}</td>
+                    <td className="p-3 font-medium text-slate-900 border-b">{r.program}</td>
+                    <td className="p-3 text-slate-700 border-b">{r.credentialPartner}</td>
+                    <td className="p-3 text-slate-700 border-b text-xs">{r.partnerType}</td>
+                    <td className="p-3 text-slate-700 border-b">{r.programHolder}</td>
                     <td className="p-3 text-center text-brand-blue-700 font-medium border-b">
                       {r.rtiHours}
                     </td>
@@ -574,7 +574,7 @@ export default function InstructionalFrameworkPage() {
                         {r.mouStatus}
                       </span>
                     </td>
-                    <td className="p-3 text-gray-700 border-b text-xs">{r.credentialIssued}</td>
+                    <td className="p-3 text-slate-700 border-b text-xs">{r.credentialIssued}</td>
                   </tr>
                 ))}
               </tbody>
@@ -582,7 +582,7 @@ export default function InstructionalFrameworkPage() {
           </div>
 
           <div className="mt-6 bg-white border rounded-lg p-4">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-slate-700">
               <span className="font-semibold">Note:</span> Specific provider names are maintained in
               internal compliance files and disclosed to authorized reviewers (ETPL, DWD, DOL,
               workforce boards) upon request. This public registry documents the structural
@@ -595,10 +595,10 @@ export default function InstructionalFrameworkPage() {
       {/* Competency & Assessment */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Competency Tracking & Assessment
           </h2>
-          <p className="text-gray-600 mb-8">
+          <p className="text-slate-600 mb-8">
             How student progress is measured, documented, and reported across all programs.
           </p>
 
@@ -639,8 +639,8 @@ export default function InstructionalFrameworkPage() {
               return (
                 <div key={i} className="bg-white rounded-lg border p-5">
                   <Icon className="w-5 h-5 text-brand-blue-600 mb-3" />
-                  <h3 className="font-semibold text-gray-900 mb-2">{item.title}</h3>
-                  <p className="text-gray-600 text-sm">{item.desc}</p>
+                  <h3 className="font-semibold text-slate-900 mb-2">{item.title}</h3>
+                  <p className="text-slate-600 text-sm">{item.desc}</p>
                 </div>
               );
             })}
@@ -651,8 +651,8 @@ export default function InstructionalFrameworkPage() {
       {/* OJT Structure */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Employer OJT Structure</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Employer OJT Structure</h2>
+          <p className="text-slate-600 mb-6">
             On-the-Job Training requirements for employer partners participating in registered
             apprenticeship and workforce training programs.
           </p>
@@ -677,11 +677,11 @@ export default function InstructionalFrameworkPage() {
               },
             ].map((item, i) => (
               <div key={i} className="border rounded-lg p-5">
-                <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <h3 className="font-semibold text-slate-900 mb-2 flex items-center gap-2">
                   <Clock className="w-4 h-4 text-brand-blue-600" />
                   {item.title}
                 </h3>
-                <p className="text-gray-600 text-sm">{item.desc}</p>
+                <p className="text-slate-600 text-sm">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -691,10 +691,10 @@ export default function InstructionalFrameworkPage() {
       {/* Credential Issuance */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Credential Issuance (Dual-Issuer Model)
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-slate-600 mb-6">
             Elevate operates a dual-issuer model: credential partners and certifying bodies issue
             industry credentials, while Elevate issues program completion certificates. This
             separation ensures credential legitimacy and clear institutional accountability.
@@ -729,11 +729,11 @@ export default function InstructionalFrameworkPage() {
             ].map((item, i) => (
               <div key={i} className={`rounded-lg border p-5 ${item.color}`}>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
-                  <span className="font-semibold text-gray-900">{item.type}</span>
-                  <span className="text-xs text-gray-500 sm:ml-auto">Issued by: {item.issuer}</span>
+                  <span className="font-semibold text-slate-900">{item.type}</span>
+                  <span className="text-xs text-slate-500 sm:ml-auto">Issued by: {item.issuer}</span>
                 </div>
-                <p className="text-gray-700 text-sm mb-2">{item.examples}</p>
-                <p className="text-gray-500 text-xs italic">{item.note}</p>
+                <p className="text-slate-700 text-sm mb-2">{item.examples}</p>
+                <p className="text-slate-500 text-xs italic">{item.note}</p>
               </div>
             ))}
           </div>
@@ -743,26 +743,26 @@ export default function InstructionalFrameworkPage() {
       {/* Registration & Links */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">
             Registration & Compliance References
           </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="bg-white rounded-lg p-5">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
+              <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">
                 Registered Apprenticeship Sponsor
               </p>
-              <p className="font-semibold text-gray-900">RAPIDS ID: 2025-IN-132301</p>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="font-semibold text-slate-900">RAPIDS ID: 2025-IN-132301</p>
+              <p className="text-sm text-slate-600 mt-1">
                 Sponsor of Record: 2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical
                 Institute)
               </p>
             </div>
             <div className="bg-white rounded-lg p-5">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
+              <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">
                 ETPL / INTraining
               </p>
-              <p className="font-semibold text-gray-900">Location ID: 10004621</p>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="font-semibold text-slate-900">Location ID: 10004621</p>
+              <p className="text-sm text-slate-600 mt-1">
                 Indiana Department of Workforce Development
               </p>
             </div>
@@ -777,19 +777,19 @@ export default function InstructionalFrameworkPage() {
             </Link>
             <Link
               href="/workone-partner-packet"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               WorkOne Partner Packet
             </Link>
             <Link
               href="/pathways/training-model"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               How Training Works
             </Link>
             <Link
               href="/training-providers"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructor Credentials
             </Link>

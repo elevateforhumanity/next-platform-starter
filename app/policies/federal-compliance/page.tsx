@@ -68,8 +68,8 @@ export default async function FederalCompliancePage() {
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Introduction */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Policy Statement</h2>
-          <div className="prose prose-lg max-w-none text-gray-700">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Policy Statement</h2>
+          <div className="prose prose-lg max-w-none text-slate-700">
             <p>
               Elevate for Humanity ("the Institution") is committed to maintaining full compliance
               with all applicable federal laws, regulations, and guidelines that govern educational
@@ -96,12 +96,12 @@ export default async function FederalCompliancePage() {
               <FileText className="w-7 h-7 text-brand-blue-600" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">FERPA Compliance</h2>
-              <p className="text-gray-600">Family Educational Rights and Privacy Act</p>
+              <h2 className="text-2xl font-bold text-slate-900">FERPA Compliance</h2>
+              <p className="text-slate-600">Family Educational Rights and Privacy Act</p>
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none text-gray-700">
+          <div className="prose prose-lg max-w-none text-slate-700">
             <p>
               The Family Educational Rights and Privacy Act (FERPA) is a federal law that protects
               the privacy of student education records. FERPA applies to all schools that receive
@@ -109,7 +109,7 @@ export default async function FederalCompliancePage() {
               Humanity fully complies with FERPA requirements.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">
               Student Rights Under FERPA
             </h3>
             <p>Under FERPA, eligible students have the following rights:</p>
@@ -141,7 +141,7 @@ export default async function FederalCompliancePage() {
               Washington, DC 20202.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Directory Information</h3>
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">Directory Information</h3>
             <p>
               The Institution may disclose "directory information" without prior consent unless the
               student has opted out. Directory information includes: student name, address,
@@ -167,12 +167,12 @@ export default async function FederalCompliancePage() {
               <Scale className="w-7 h-7 text-brand-blue-600" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Title IX Compliance</h2>
-              <p className="text-gray-600">Education Amendments of 1972</p>
+              <h2 className="text-2xl font-bold text-slate-900">Title IX Compliance</h2>
+              <p className="text-slate-600">Education Amendments of 1972</p>
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none text-gray-700">
+          <div className="prose prose-lg max-w-none text-slate-700">
             <p>
               Title IX of the Education Amendments of 1972 prohibits discrimination on the basis of
               sex in any education program or activity receiving federal financial assistance.
@@ -180,7 +180,7 @@ export default async function FederalCompliancePage() {
               programs, activities, or employment practices.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Scope of Protection</h3>
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">Scope of Protection</h3>
             <p>
               Title IX protects students, employees, applicants for admission and employment, and
               other persons from all forms of sex discrimination, including discrimination based on
@@ -189,7 +189,7 @@ export default async function FederalCompliancePage() {
               and gender-based harassment.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Prohibited Conduct</h3>
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">Prohibited Conduct</h3>
             <p>The following conduct is prohibited under Title IX:</p>
             <p>
               <strong>Sexual Harassment:</strong> Unwelcome conduct of a sexual nature, including
@@ -209,7 +209,7 @@ export default async function FederalCompliancePage() {
               with gender stereotypes.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Title IX Coordinator</h3>
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">Title IX Coordinator</h3>
             <p>
               The Institution has designated a Title IX Coordinator to oversee compliance with Title
               IX requirements. The Title IX Coordinator is responsible for coordinating the
@@ -217,7 +217,7 @@ export default async function FederalCompliancePage() {
               sex discrimination and sexual harassment.
             </p>
             <div className="bg-white rounded-lg p-4 mt-4">
-              <p className="font-semibold text-gray-900">Title IX Coordinator Contact:</p>
+              <p className="font-semibold text-slate-900">Title IX Coordinator Contact:</p>
               <p>
                 Email:{' '}
                 <a href="/contact" className="text-brand-blue-600 hover:underline">
@@ -236,12 +236,12 @@ export default async function FederalCompliancePage() {
               <Accessibility className="w-7 h-7 text-brand-green-600" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">ADA & Section 504 Compliance</h2>
-              <p className="text-gray-600">Americans with Disabilities Act & Rehabilitation Act</p>
+              <h2 className="text-2xl font-bold text-slate-900">ADA & Section 504 Compliance</h2>
+              <p className="text-slate-600">Americans with Disabilities Act & Rehabilitation Act</p>
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none text-gray-700">
+          <div className="prose prose-lg max-w-none text-slate-700">
             <p>
               The Americans with Disabilities Act (ADA) and Section 504 of the Rehabilitation Act
               prohibit discrimination against individuals with disabilities. Elevate for Humanity is
@@ -249,7 +249,7 @@ export default async function FederalCompliancePage() {
               individuals with disabilities.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Reasonable Accommodations</h3>
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">Reasonable Accommodations</h3>
             <p>
               The Institution provides reasonable accommodations to qualified individuals with
               disabilities to ensure equal access to educational programs and employment
@@ -264,7 +264,7 @@ export default async function FederalCompliancePage() {
               accessibility modifications.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Requesting Accommodations</h3>
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">Requesting Accommodations</h3>
             <p>
               Students and employees seeking accommodations should contact the Disability Services
               Coordinator. Requests should be made as early as possible to allow adequate time for
@@ -272,7 +272,7 @@ export default async function FederalCompliancePage() {
               accommodation requests.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">
               Physical and Digital Accessibility
             </h3>
             <p>
@@ -298,12 +298,12 @@ export default async function FederalCompliancePage() {
               <Users className="w-7 h-7 text-brand-orange-600" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">WIOA Compliance</h2>
-              <p className="text-gray-600">Workforce Innovation and Opportunity Act</p>
+              <h2 className="text-2xl font-bold text-slate-900">WIOA Compliance</h2>
+              <p className="text-slate-600">Workforce Innovation and Opportunity Act</p>
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none text-gray-700">
+          <div className="prose prose-lg max-w-none text-slate-700">
             <p>
               The Workforce Innovation and Opportunity Act (WIOA) is the primary federal workforce
               development legislation. As a WIOA-approved Eligible Training Provider, Elevate for
@@ -311,7 +311,7 @@ export default async function FederalCompliancePage() {
               eligibility, data collection, and performance reporting.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">
               Equal Opportunity Requirements
             </h3>
             <p>
@@ -322,7 +322,7 @@ export default async function FederalCompliancePage() {
               or participation in a WIOA Title I-financially assisted program or activity.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">
               Data Collection and Privacy
             </h3>
             <p>
@@ -333,7 +333,7 @@ export default async function FederalCompliancePage() {
               protected from unauthorized disclosure.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">
+            <h3 className="text-xl font-bold text-slate-900 mt-6 mb-3">
               Performance Accountability
             </h3>
             <p>
@@ -355,14 +355,14 @@ export default async function FederalCompliancePage() {
         {/* Reporting and Contact */}
         <section className="bg-gray-900 text-white rounded-2xl p-8">
           <h2 className="text-2xl font-bold mb-6">Reporting Compliance Concerns</h2>
-          <p className="text-gray-300 mb-6">
+          <p className="text-slate-300 mb-6">
             If you believe the Institution has violated any federal compliance requirement, you may
             report your concern through the following channels:
           </p>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white/10 rounded-xl p-6">
               <h3 className="font-bold text-lg mb-3">Internal Reporting</h3>
-              <div className="space-y-2 text-gray-300">
+              <div className="space-y-2 text-slate-300">
                 <p className="flex items-center gap-2">
                   <Mail className="w-4 h-4" /> our contact form
                 </p>
@@ -379,7 +379,7 @@ export default async function FederalCompliancePage() {
             </div>
             <div className="bg-white/10 rounded-xl p-6">
               <h3 className="font-bold text-lg mb-3">External Reporting</h3>
-              <div className="text-gray-300 text-sm space-y-1">
+              <div className="text-slate-300 text-sm space-y-1">
                 <p>U.S. Department of Education Office for Civil Rights</p>
                 <p>U.S. Department of Labor Civil Rights Center</p>
                 <p>Indiana Civil Rights Commission</p>

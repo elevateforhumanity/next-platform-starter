@@ -33,8 +33,8 @@ export default async function PartnerDashboardPage() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Partner Dashboard</h1>
-          <p className="text-gray-600 mt-1">Training metrics for your organization</p>
+          <h1 className="text-2xl font-bold text-slate-900">Partner Dashboard</h1>
+          <p className="text-slate-600 mt-1">Training metrics for your organization</p>
         </div>
 
         {/* Stats Grid */}
@@ -44,9 +44,9 @@ export default async function PartnerDashboardPage() {
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <Users className="w-5 h-5 text-brand-blue-600" />
               </div>
-              <span className="text-sm text-gray-500">Active Students</span>
+              <span className="text-sm text-slate-500">Active Students</span>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.activeStudents}</p>
+            <p className="text-3xl font-bold text-slate-900">{stats.activeStudents}</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border p-6">
@@ -54,9 +54,9 @@ export default async function PartnerDashboardPage() {
               <div className="p-2 bg-brand-green-100 rounded-lg">
                 <BookOpen className="w-5 h-5 text-brand-green-600" />
               </div>
-              <span className="text-sm text-gray-500">Total Enrollments</span>
+              <span className="text-sm text-slate-500">Total Enrollments</span>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.totalEnrollments}</p>
+            <p className="text-3xl font-bold text-slate-900">{stats.totalEnrollments}</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border p-6">
@@ -64,9 +64,9 @@ export default async function PartnerDashboardPage() {
               <div className="p-2 bg-purple-100 rounded-lg">
                 <GraduationCap className="w-5 h-5 text-purple-600" />
               </div>
-              <span className="text-sm text-gray-500">Completed</span>
+              <span className="text-sm text-slate-500">Completed</span>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.completedEnrollments}</p>
+            <p className="text-3xl font-bold text-slate-900">{stats.completedEnrollments}</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border p-6">
@@ -74,9 +74,9 @@ export default async function PartnerDashboardPage() {
               <div className="p-2 bg-brand-orange-100 rounded-lg">
                 <TrendingUp className="w-5 h-5 text-brand-orange-600" />
               </div>
-              <span className="text-sm text-gray-500">Completion Rate</span>
+              <span className="text-sm text-slate-500">Completion Rate</span>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.completionRate}%</p>
+            <p className="text-3xl font-bold text-slate-900">{stats.completionRate}%</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border p-6">
@@ -84,9 +84,9 @@ export default async function PartnerDashboardPage() {
               <div className="p-2 bg-yellow-100 rounded-lg">
                 <Award className="w-5 h-5 text-yellow-600" />
               </div>
-              <span className="text-sm text-gray-500">Certificates Issued</span>
+              <span className="text-sm text-slate-500">Certificates Issued</span>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.certificatesIssued}</p>
+            <p className="text-3xl font-bold text-slate-900">{stats.certificatesIssued}</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border p-6">
@@ -94,9 +94,9 @@ export default async function PartnerDashboardPage() {
               <div className="p-2 bg-teal-100 rounded-lg">
                 <BarChart3 className="w-5 h-5 text-teal-600" />
               </div>
-              <span className="text-sm text-gray-500">Avg Progress</span>
+              <span className="text-sm text-slate-500">Avg Progress</span>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.avgProgress}%</p>
+            <p className="text-3xl font-bold text-slate-900">{stats.avgProgress}%</p>
           </div>
         </div>
 
@@ -108,14 +108,14 @@ export default async function PartnerDashboardPage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-semibold text-gray-900 group-hover:text-brand-blue-600">
+                <h3 className="font-semibold text-slate-900 group-hover:text-brand-blue-600">
                   View Students
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-slate-500 mt-1">
                   See individual student progress and course enrollment
                 </p>
               </div>
-              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-brand-blue-600" />
+              <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-brand-blue-600" />
             </div>
           </Link>
 
@@ -125,12 +125,12 @@ export default async function PartnerDashboardPage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-semibold text-gray-900 group-hover:text-brand-blue-600">
+                <h3 className="font-semibold text-slate-900 group-hover:text-brand-blue-600">
                   Attendance
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">Track student attendance and hours</p>
+                <p className="text-sm text-slate-500 mt-1">Track student attendance and hours</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-brand-blue-600" />
+              <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-brand-blue-600" />
             </div>
           </Link>
 
@@ -140,12 +140,12 @@ export default async function PartnerDashboardPage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-semibold text-gray-900 group-hover:text-brand-blue-600">
+                <h3 className="font-semibold text-slate-900 group-hover:text-brand-blue-600">
                   Approve Hours
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">Review and sign off on apprentice-submitted hours</p>
+                <p className="text-sm text-slate-500 mt-1">Review and sign off on apprentice-submitted hours</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-brand-blue-600" />
+              <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-brand-blue-600" />
             </div>
           </Link>
 
@@ -155,12 +155,12 @@ export default async function PartnerDashboardPage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-semibold text-gray-900 group-hover:text-brand-blue-600">
+                <h3 className="font-semibold text-slate-900 group-hover:text-brand-blue-600">
                   Export Data
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">Download completion report as CSV</p>
+                <p className="text-sm text-slate-500 mt-1">Download completion report as CSV</p>
               </div>
-              <Download className="w-5 h-5 text-gray-400 group-hover:text-brand-blue-600" />
+              <Download className="w-5 h-5 text-slate-400 group-hover:text-brand-blue-600" />
             </div>
           </a>
         </div>

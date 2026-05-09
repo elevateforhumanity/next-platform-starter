@@ -147,7 +147,7 @@ function PortalsDirectory() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">Portals & Dashboards</h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
             Access all Elevate for Humanity services, training portals, and dashboards
           </p>
         </div>
@@ -169,10 +169,10 @@ function PortalsDirectory() {
                   >
                     <portal.icon className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className="font-bold text-xl text-gray-900 group-hover:text-blue-600 transition mb-2">
+                  <h3 className="font-bold text-xl text-slate-900 group-hover:text-blue-600 transition mb-2">
                     {portal.name}
                   </h3>
-                  <p className="text-gray-600 mb-4">{portal.description}</p>
+                  <p className="text-slate-600 mb-4">{portal.description}</p>
                   <span className="inline-flex items-center text-blue-600 font-medium">
                     Access Portal <ArrowRight className="w-4 h-4 ml-1" />
                   </span>
@@ -203,7 +203,7 @@ function PortalsDirectory() {
                       <h3 className="font-bold text-lg text-white group-hover:text-blue-300 transition">
                         {portal.name}
                       </h3>
-                      <p className="text-gray-400 text-sm">{portal.description}</p>
+                      <p className="text-slate-400 text-sm">{portal.description}</p>
                       <span className="inline-flex items-center text-blue-400 text-sm mt-2">
                         Login Required <ArrowRight className="w-3 h-3 ml-1" />
                       </span>

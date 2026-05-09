@@ -92,18 +92,18 @@ export default function EducationLandingPage() {
             </Link>
             <nav className="hidden lg:flex items-center gap-1">
               {NAV.map((n) => (
-                <Link key={n.label} href={n.href} className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-brand-red-600 hover:bg-white rounded-lg transition-colors">{n.label}</Link>
+                <Link key={n.label} href={n.href} className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-brand-red-600 hover:bg-white rounded-lg transition-colors">{n.label}</Link>
               ))}
               <Link href="/start" className="ml-1 px-5 py-2.5 text-sm font-bold bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 rounded-lg transition-colors">Apply Now</Link>
               <Link href="/login" className="ml-1 px-4 py-2.5 text-sm font-semibold text-brand-blue-600 border border-brand-blue-200 hover:bg-brand-blue-50 rounded-lg transition-colors">Sign In</Link>
             </nav>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-white" aria-label="Menu">
+            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-white" aria-label="Menu">
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
           {mobileOpen && (
             <div className="lg:hidden border-t py-3 space-y-1">
-              {NAV.map((n) => <Link key={n.label} href={n.href} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-white rounded-lg">{n.label}</Link>)}
+              {NAV.map((n) => <Link key={n.label} href={n.href} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-white rounded-lg">{n.label}</Link>)}
               <Link href="/start" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-bold text-brand-red-600">Apply Now</Link>
               <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-brand-blue-600">Sign In</Link>
             </div>
@@ -137,8 +137,8 @@ export default function EducationLandingPage() {
             <div key={s.label} className="flex items-center gap-3 justify-center">
               <s.Icon className="w-9 h-9 text-brand-red-600 flex-shrink-0" />
               <div>
-                <div className="text-2xl font-bold text-gray-900">{s.value}</div>
-                <div className="text-sm text-gray-500">{s.label}</div>
+                <div className="text-2xl font-bold text-slate-900">{s.value}</div>
+                <div className="text-sm text-slate-500">{s.label}</div>
               </div>
             </div>
           ))}
@@ -149,8 +149,8 @@ export default function EducationLandingPage() {
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Choose Your Career Path</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Industry-recognized certifications and hands-on training. Many programs are fully funded through WIOA and state workforce grants.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Choose Your Career Path</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">Industry-recognized certifications and hands-on training. Many programs are fully funded through WIOA and state workforce grants.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {PROGRAMS.map((p) => (
@@ -159,8 +159,8 @@ export default function EducationLandingPage() {
                   <Image src={p.image} alt={`${p.title} training`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
                 </div>
                 <div className="p-5">
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">{p.title}</h3>
-                  <p className="text-gray-600 text-sm mb-3">{p.desc}</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">{p.title}</h3>
+                  <p className="text-slate-600 text-sm mb-3">{p.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {p.tags.map((t) => <span key={t} className="text-xs bg-white text-slate-700 px-2 py-1 rounded-full">{t}</span>)}
                   </div>
@@ -178,8 +178,8 @@ export default function EducationLandingPage() {
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Pick Your Location</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Training across five states. Select a location to see programs, schedules, and enrollment near you.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Pick Your Location</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">Training across five states. Select a location to see programs, schedules, and enrollment near you.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {LOCATIONS.map((loc) => (
@@ -190,9 +190,9 @@ export default function EducationLandingPage() {
                 <div className="p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <MapPin className="w-5 h-5 text-brand-red-500" />
-                    <h3 className="text-lg font-bold text-gray-900">{loc.state}</h3>
+                    <h3 className="text-lg font-bold text-slate-900">{loc.state}</h3>
                   </div>
-                  <p className="text-gray-600 text-sm mb-3">{loc.desc}</p>
+                  <p className="text-slate-600 text-sm mb-3">{loc.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {loc.cities.map((c) => <span key={c} className="text-xs bg-white text-slate-600 px-2 py-0.5 rounded">{c}</span>)}
                   </div>
@@ -212,8 +212,8 @@ export default function EducationLandingPage() {
           <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
             <Clock className="w-4 h-4" /> Now Enrolling
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Training Funding Available</h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Many programs are available at no cost through WIOA, state workforce grants, DOL Registered Apprenticeships, and other funding. Self-pay options also available.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Training Funding Available</h2>
+          <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">Many programs are available at no cost through WIOA, state workforce grants, DOL Registered Apprenticeships, and other funding. Self-pay options also available.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/funding" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors">Check Funding Eligibility</Link>
             <Link href="/start" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors">Start Your Application</Link>

@@ -29,8 +29,8 @@ export default async function PartnerStudentsPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Students</h1>
-            <p className="text-gray-600 mt-1">Training progress for your placed students</p>
+            <h1 className="text-2xl font-bold text-slate-900">Students</h1>
+            <p className="text-slate-600 mt-1">Training progress for your placed students</p>
           </div>
           <a
             href="/api/partner/exports/completions"
@@ -49,7 +49,7 @@ export default async function PartnerStudentsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold">{totalStudents}</p>
-              <p className="text-sm text-gray-500">Total Students</p>
+              <p className="text-sm text-slate-500">Total Students</p>
             </div>
           </div>
           <div className="bg-white rounded-xl shadow-sm border p-5 flex items-center gap-4">
@@ -58,7 +58,7 @@ export default async function PartnerStudentsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold">{withCourses}</p>
-              <p className="text-sm text-gray-500">Enrolled in Courses</p>
+              <p className="text-sm text-slate-500">Enrolled in Courses</p>
             </div>
           </div>
           <div className="bg-white rounded-xl shadow-sm border p-5 flex items-center gap-4">
@@ -67,7 +67,7 @@ export default async function PartnerStudentsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold">{completed}</p>
-              <p className="text-sm text-gray-500">Completed a Course</p>
+              <p className="text-sm text-slate-500">Completed a Course</p>
             </div>
           </div>
         </div>
@@ -77,22 +77,22 @@ export default async function PartnerStudentsPage() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                   Student
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                   Location
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                   Courses
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                   Progress
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                   Certificates
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                   Status
                 </th>
               </tr>
@@ -102,21 +102,21 @@ export default async function PartnerStudentsPage() {
                 students.map((student) => (
                   <tr key={student.student_id} className="hover:bg-gray-50">
                     <td className="px-4 py-3">
-                      <p className="font-medium text-gray-900">{student.student_name}</p>
+                      <p className="font-medium text-slate-900">{student.student_name}</p>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{student.shop_name}</td>
+                    <td className="px-4 py-3 text-sm text-slate-600">{student.shop_name}</td>
                     <td className="px-4 py-3">
                       {student.courses.length > 0 ? (
                         <div className="space-y-1">
                           {student.courses.map((course) => (
                             <div key={course.course_id} className="text-sm">
-                              <span className="text-gray-900">{course.course_title}</span>
-                              <span className="text-gray-400 ml-2">{course.progress}%</span>
+                              <span className="text-slate-900">{course.course_title}</span>
+                              <span className="text-slate-400 ml-2">{course.progress}%</span>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <span className="text-sm text-gray-400">Not enrolled</span>
+                        <span className="text-sm text-slate-400">Not enrolled</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
@@ -135,7 +135,7 @@ export default async function PartnerStudentsPage() {
                             }}
                           />
                         </div>
-                        <span className="text-sm text-gray-600">{student.overall_progress}%</span>
+                        <span className="text-sm text-slate-600">{student.overall_progress}%</span>
                       </div>
                     </td>
                     <td className="px-4 py-3 text-sm">
@@ -145,7 +145,7 @@ export default async function PartnerStudentsPage() {
                           {student.certificate_count}
                         </span>
                       ) : (
-                        <span className="text-gray-400">—</span>
+                        <span className="text-slate-400">—</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
@@ -155,7 +155,7 @@ export default async function PartnerStudentsPage() {
                             ? 'bg-brand-green-50 text-brand-green-700'
                             : student.placement_status === 'completed'
                               ? 'bg-brand-blue-50 text-brand-blue-700'
-                              : 'bg-gray-100 text-gray-600'
+                              : 'bg-gray-100 text-slate-600'
                         }`}
                       >
                         {student.placement_status}
@@ -165,7 +165,7 @@ export default async function PartnerStudentsPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={6} className="px-4 py-8 text-center text-slate-500">
                     No students placed at your locations yet.
                   </td>
                 </tr>

@@ -63,12 +63,12 @@ export default async function TrainingPage() {
                 </Link>
               </li>
               <li>/</li>
-              <li className="text-gray-900 font-medium">Training</li>
+              <li className="text-slate-900 font-medium">Training</li>
             </ol>
           </nav>
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Training Programs</h1>
+              <h1 className="text-3xl font-bold text-slate-900">Training Programs</h1>
               <p className="text-black mt-2">Manage training programs and providers</p>
             </div>
             <button className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700">

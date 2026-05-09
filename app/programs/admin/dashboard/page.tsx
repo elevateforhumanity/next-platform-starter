@@ -62,8 +62,8 @@ export default async function ProgramAdminDashboardPage() {
     <main className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto space-y-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Program Admin Dashboard</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-3xl font-bold text-slate-900">Program Admin Dashboard</h1>
+          <p className="text-slate-500 mt-1">
             Manage all programs, enrollments, and publishing status.
           </p>
         </div>
@@ -80,14 +80,14 @@ export default async function ProgramAdminDashboardPage() {
               className="bg-white rounded-xl border border-gray-200 p-5 text-center"
             >
               <p className="text-3xl font-bold text-blue-600">{stat.value}</p>
-              <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
+              <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
             </div>
           ))}
         </div>
 
         {Object.keys(categoryMap).length > 0 && (
           <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Programs by Category</h2>
+            <h2 className="text-lg font-semibold text-slate-800 mb-4">Programs by Category</h2>
             <div className="flex flex-wrap gap-3">
               {Object.entries(categoryMap).map(([cat, count]) => (
                 <span
@@ -106,7 +106,7 @@ export default async function ProgramAdminDashboardPage() {
 
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800">All Programs</h2>
+            <h2 className="text-lg font-semibold text-slate-800">All Programs</h2>
             <a
               href="/admin/programs/new"
               className="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -115,11 +115,11 @@ export default async function ProgramAdminDashboardPage() {
             </a>
           </div>
           {programs.length === 0 ? (
-            <div className="p-12 text-center text-gray-400">No programs found.</div>
+            <div className="p-12 text-center text-slate-400">No programs found.</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
+                <thead className="bg-gray-50 text-slate-500 uppercase text-xs">
                   <tr>
                     <th className="px-6 py-3 text-left">Title</th>
                     <th className="px-6 py-3 text-left">Category</th>
@@ -133,14 +133,14 @@ export default async function ProgramAdminDashboardPage() {
                 <tbody className="divide-y divide-gray-100">
                   {programs.map((program) => (
                     <tr key={program.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-900">{program.title}</td>
-                      <td className="px-6 py-4 text-gray-500">{program.category}</td>
+                      <td className="px-6 py-4 font-medium text-slate-900">{program.title}</td>
+                      <td className="px-6 py-4 text-slate-500">{program.category}</td>
                       <td className="px-6 py-4">
                         <span
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                             program.is_active
                               ? 'bg-green-100 text-green-700'
-                              : 'bg-gray-100 text-gray-500'
+                              : 'bg-gray-100 text-slate-500'
                           }`}
                         >
                           {program.is_active ? 'Active' : 'Inactive'}
@@ -157,10 +157,10 @@ export default async function ProgramAdminDashboardPage() {
                           {program.published ? 'Published' : 'Draft'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-right font-medium text-gray-700">
+                      <td className="px-6 py-4 text-right font-medium text-slate-700">
                         {enrollmentMap[program.id] ?? 0}
                       </td>
-                      <td className="px-6 py-4 text-gray-400">
+                      <td className="px-6 py-4 text-slate-400">
                         {new Date(program.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4">
