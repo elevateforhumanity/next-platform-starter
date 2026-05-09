@@ -248,7 +248,6 @@ export default function TppSurveyClient() {
 
   const totalWeeklyHours = (parseInt(form.weekly_hours_structured || '0') + parseInt(form.weekly_hours_supervised || '0'));
   const snapEligibleCosts = parseFloat(form.snap_eligible_costs || '0');
-  const estimatedReimbursement = snapEligibleCosts * 0.5;
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -548,14 +547,6 @@ export default function TppSurveyClient() {
               <input type="number" className={inputCls} value={form.admin_cost} onChange={e => set('admin_cost', e.target.value)} min="0" />
             </div>
           </div>
-          {snapEligibleCosts > 0 && (
-            <div className="rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3">
-              <p className="text-sm text-emerald-700">
-                Estimated SNAP E&T reimbursement (50% of eligible costs):{' '}
-                <strong className="text-emerald-800">{fmt$(estimatedReimbursement)}</strong>
-              </p>
-            </div>
-          )}
         </div>
       )}
 
@@ -601,7 +592,6 @@ export default function TppSurveyClient() {
               { label: 'Placement Rate Target', value: `${form.placement_rate}%` },
               { label: 'Total Program Cost', value: fmt$(parseFloat(form.total_program_cost || '0')) },
               { label: 'SNAP-Eligible Costs', value: fmt$(snapEligibleCosts) },
-              { label: 'Est. Reimbursement (50%)', value: fmt$(estimatedReimbursement) },
             ].map(({ label, value }) => (
               <div key={label} className="flex justify-between px-4 py-2.5">
                 <span className="text-slate-500">{label}</span>
