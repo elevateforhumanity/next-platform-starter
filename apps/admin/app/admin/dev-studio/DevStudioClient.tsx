@@ -160,6 +160,9 @@ export default function DevStudioClient() {
   const [studioConfig, setStudioConfig] = useState<DevStudioConfig | null>(null);
   const [configLoadError, setConfigLoadError] = useState(false);
 
+  // Responsive behavior: avoid collapsing editor space on smaller screens.
+  const [viewportWidth, setViewportWidth] = useState(1280);
+
   // Replit-style live preview panel
   const [previewOpen, setPreviewOpen] = useState(true);
   const [previewWidth, setPreviewWidth] = useState(420); // px
@@ -175,6 +178,22 @@ export default function DevStudioClient() {
     document.body.style.cursor = 'col-resize';
     document.body.style.userSelect = 'none';
   }, [previewWidth]);
+
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  const isNarrowViewport = viewportWidth < 1100;
+
+  // On narrow screens, default to no side preview so the editor remains usable.
+  useEffect(() => {
+    if (isNarrowViewport && previewOpen) {
+      setPreviewOpen(false);
+    }
+  }, [isNarrowViewport, previewOpen]);
 
   useEffect(() => {
     function onMouseMove(e: MouseEvent) {
@@ -233,14 +252,11 @@ export default function DevStudioClient() {
         fontFamily: "'JetBrains Mono','Fira Code','Cascadia Code',monospace",
         background: '#1e1e1e',
         color: '#cccccc',
-        // Fixed positioning escapes the layout's min-h-screen + pt-16 flow so the
-        // studio always fills exactly the viewport below the nav bar without allowing
-        // any outer scroll. top:64px matches the AdminNav h-16 fixed header.
-        position: 'fixed',
-        top: 64,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        // Keep studio in normal document flow under the admin header while still
+        // occupying the full visible viewport area across mobile/desktop.
+        position: 'relative',
+        height: 'calc(100dvh - 64px)',
+        minHeight: 'calc(100vh - 64px)',
       }}
     >
       {/* ── Title / menu bar ── */}
@@ -260,8 +276,9 @@ export default function DevStudioClient() {
           <button
             title={previewOpen ? 'Hide live preview' : 'Show live preview'}
             onClick={() => setPreviewOpen((v) => !v)}
+            disabled={isNarrowViewport}
             className="flex items-center gap-1 px-2 py-0.5 rounded text-[11px] transition-colors"
-            style={{ color: previewOpen ? '#4ec9b0' : '#858585' }}
+            style={{ color: previewOpen ? '#4ec9b0' : '#858585', opacity: isNarrowViewport ? 0.45 : 1 }}
             onMouseEnter={e => (e.currentTarget.style.background='#3c3c3c')}
             onMouseLeave={e => (e.currentTarget.style.background='transparent')}
           >
@@ -270,6 +287,12 @@ export default function DevStudioClient() {
           </button>
         </div>
       </div>
+
+      {isNarrowViewport && (
+        <div className="flex-shrink-0 px-3 py-1 text-[11px] border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c', color: '#858585' }}>
+          Live side preview is disabled on smaller screens to preserve editor space.
+        </div>
+      )}
 
       {configLoadError && (
         <div className="flex-shrink-0 px-3 py-1 text-[11px] border-b" style={{ background: '#5a4a00', borderColor: '#6e5c00', color: '#ffd700' }}>
@@ -348,7 +371,7 @@ export default function DevStudioClient() {
         )}
 
         {/* Live preview panel — always mounted, hidden when closed */}
-        {previewOpen && (
+        {previewOpen && !isNarrowViewport && (
           <div
             className="flex-shrink-0 flex flex-col border-l overflow-hidden"
             style={{ width: previewWidth, background: '#1e1e1e', borderColor: '#3c3c3c' }}
