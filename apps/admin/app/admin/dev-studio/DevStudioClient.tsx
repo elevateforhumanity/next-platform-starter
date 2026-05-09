@@ -723,8 +723,8 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
               className="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-slate-800 text-sm outline-none focus:ring-2 focus:ring-orange-400 placeholder-slate-400 font-mono resize-y min-h-[170px] max-h-[45vh] disabled:opacity-60"
             />
             <button onClick={() => run(input)} disabled={loading || !input.trim()}
-              className="mb-0 p-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors self-end">
-              <Send className="w-4 h-4 text-white" />
+              className="mb-0 p-1.5 sm:p-2 rounded-md bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors self-end">
+              <Send className="w-3.5 h-3.5 text-white" />
             </button>
           </div>
           <p className="text-[10px] text-slate-400 mt-1.5">Enter to run · Shift+Enter for new line · Output persists across page reloads</p>
@@ -970,8 +970,8 @@ function FilesTab() {
                 <span className="text-[11px] text-slate-600 font-mono truncate max-w-xs">{selected}</span>
                 {saveMsg && <span className="text-[11px] text-slate-600">{saveMsg}</span>}
                 <button onClick={saveFile} disabled={saving || !fileSha}
-                  className="flex items-center gap-1.5 px-3 py-1 text-[11px] rounded-md bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-50 transition-colors">
-                  <Save className="w-3 h-3" />{saving ? 'Committing…' : 'Commit'}
+                  className="flex items-center gap-1 px-2 py-0.5 text-[10px] rounded bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-50 transition-colors">
+                  <Save className="w-2.5 h-2.5" />{saving ? 'Committing…' : 'Commit'}
                 </button>
               </div>
               <input

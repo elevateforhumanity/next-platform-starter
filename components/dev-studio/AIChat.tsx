@@ -272,9 +272,9 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
           <button
             onClick={sendMessage}
             disabled={!input.trim() || isLoading}
-            className="flex-shrink-0 px-3 py-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex-shrink-0 px-2 py-1.5 bg-brand-blue-600 hover:bg-brand-blue-700 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
           </button>
         </div>
         <p className="mt-1.5 text-[10px] text-slate-400">
