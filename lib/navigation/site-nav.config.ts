@@ -583,7 +583,7 @@ export const footerNavigation = {
       { label: 'Reels', href: '/reels' },
       { label: 'Share', href: '/share' },
       { label: 'Social', href: '/social' },
-      { label: 'Rise Foundation', href: '/rise' },
+      { label: 'Community Tax Support', href: '/tax' },
       { label: 'Microclasses', href: '/microclasses' },
       { label: 'Educator Hub', href: '/educatorhub' },
       { label: 'Hub About', href: '/hub/about' },

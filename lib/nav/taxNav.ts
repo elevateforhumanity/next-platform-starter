@@ -17,7 +17,7 @@ export const taxNav = {
       ] as NavItem[],
     },
     {
-      title: 'Free (Rise Up Foundation / VITA)',
+      title: 'Free (VITA Community Program)',
       items: [
         { label: 'Home', href: '/tax/rise-up-foundation' },
         {

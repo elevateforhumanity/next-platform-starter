@@ -67,7 +67,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
       .maybeSingle();
 
     if (!application) {
-      return NextResponse.json({ error: 'Application not found' }, { status: 404 });
+      return NextResponse.json({ error: 'No matching application was found.' }, { status: 404 });
     }
 
     const partnerEmail = application.contact_email;

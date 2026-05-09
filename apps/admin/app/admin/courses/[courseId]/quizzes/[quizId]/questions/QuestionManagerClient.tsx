@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 
 interface Question {
@@ -43,8 +42,6 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
     correct_answer: '',
     points: '1',
   });
-
-  const supabase = createClient();
 
   const resetForm = () => {
     setFormData({
@@ -110,24 +107,23 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
 
     try {
       if (editingQuestion) {
-        const { data, error: updateError } = await supabase
-          .from('quiz_questions')
-          .update(questionData)
-          .eq('id', editingQuestion.id)
-          .select()
-          .single();
-
-        if (updateError) throw updateError;
-        setQuestions(questions.map((q) => (q.id === editingQuestion.id ? data : q)));
+        const res = await fetch('/api/admin/courses/quiz-questions', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingQuestion.id, ...questionData }),
+        });
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload.error || 'Failed to update question');
+        setQuestions(questions.map((q) => (q.id === editingQuestion.id ? payload.data : q)));
       } else {
-        const { data, error: insertError } = await supabase
-          .from('quiz_questions')
-          .insert(questionData)
-          .select()
-          .single();
-
-        if (insertError) throw insertError;
-        setQuestions([...questions, data]);
+        const res = await fetch('/api/admin/courses/quiz-questions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(questionData),
+        });
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload.error || 'Failed to create question');
+        setQuestions([...questions, payload.data]);
       }
 
       setShowModal(false);
@@ -144,11 +140,13 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
 
     setLoading(true);
     try {
-      const { error: deleteError } = await supabase
-        .from('quiz_questions')
-        .delete()
-        .eq('id', questionId);
-      if (deleteError) throw deleteError;
+      const res = await fetch('/api/admin/courses/quiz-questions', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: questionId }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error || 'Failed to delete question');
       setQuestions(questions.filter((q) => q.id !== questionId));
     } catch (err: any) {
       setError('An error occurred');

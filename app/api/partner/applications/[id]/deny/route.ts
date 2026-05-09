@@ -34,7 +34,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
       .maybeSingle();
 
     if (fetchError || !application) {
-      return NextResponse.json({ error: 'Application not found' }, { status: 404 });
+      return NextResponse.json({ error: 'No matching application was found.' }, { status: 404 });
     }
 
     if (application.status !== 'pending') {

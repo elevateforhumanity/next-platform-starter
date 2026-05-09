@@ -120,10 +120,12 @@ export default function PartnerSettingsForm({ initialData }: { initialData: Sett
                 type="text"
                 value={settings.state}
                 maxLength={2}
-                placeholder="IN"
-                onChange={(e) => setSettings({ ...settings, state: e.target.value })}
+                onChange={(e) =>
+                  setSettings({ ...settings, state: e.target.value.toUpperCase().slice(0, 2) })
+                }
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
               />
+              <p className="text-xs text-slate-500 mt-1">Use the two-letter USPS state code.</p>
             </div>
           </div>
         </div>

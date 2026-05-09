@@ -48,7 +48,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       logger.error('[revoke] RPC error', { applicationId, requestId, error: error.message });
       if (error.message.includes('ACTOR_NOT_AUTHORIZED')) return safeError('Forbidden', 403);
       if (error.message.includes('APPLICATION_NOT_FOUND'))
-        return safeError('Application not found', 404);
+        return safeError('Requested application is unavailable', 404);
       // RPC not yet deployed — migration 20260503000011_approval_hardening.sql
       // must be applied in Supabase Dashboard before revoke is available.
       if (

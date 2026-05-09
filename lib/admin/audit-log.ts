@@ -73,6 +73,13 @@ export const AdminAction = {
   MODULE_CREATED: 'module.created',
   MODULE_UPDATED: 'module.updated',
   MODULE_DELETED: 'module.deleted',
+  QUIZ_CREATED: 'quiz.created',
+  QUIZ_UPDATED: 'quiz.updated',
+  QUIZ_DELETED: 'quiz.deleted',
+  QUIZ_QUESTION_CREATED: 'quiz_question.created',
+  QUIZ_QUESTION_UPDATED: 'quiz_question.updated',
+  QUIZ_QUESTION_DELETED: 'quiz_question.deleted',
+  EXTERNAL_MODULE_APPROVAL_REVIEWED: 'external_module_approval.reviewed',
 
   // Program holders
   PROGRAM_HOLDER_UPDATED: 'program_holder.updated',

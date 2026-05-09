@@ -88,7 +88,7 @@ export default function TrackApplicationPage() {
 
       if (!response.ok) {
         if (response.status === 404) {
-          throw new Error('Application not found. Please check your ID or email.');
+          throw new Error('We could not verify those details. Please confirm and try again.');
         }
         throw new Error('Failed to retrieve application status');
       }

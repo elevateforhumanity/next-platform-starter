@@ -1,7 +1,5 @@
 'use client';
 
-import Script from 'next/script';
-
 /**
  * Sit Selfish Inc — Google tag IDs
  *   AW-16712632425  Google Ads conversion account
@@ -23,29 +21,9 @@ export const CONVERSION_ACTIONS = {
 } as const;
 
 export function GoogleAds() {
-  return (
-    <>
-      {/* Google Tag Manager container */}
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`}
-        strategy="lazyOnload"
-      />
-      {/* Google Ads conversion tag */}
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
-        strategy="lazyOnload"
-      />
-      <Script id="google-ads-init" strategy="lazyOnload">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GOOGLE_TAG_ID}');
-          gtag('config', '${GOOGLE_ADS_ID}', { allow_enhanced_conversions: true });
-        `}
-      </Script>
-    </>
-  );
+  // Canonical gtag injection/config happens in components/analytics/google-analytics.tsx.
+  // Keep this component as a harmless compatibility mount point.
+  return null;
 }
 
 /**

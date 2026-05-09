@@ -40,6 +40,16 @@ const CAPABILITY_LABELS: Record<string, string> = {
   CENTER_REMOTE_ALLOWED: 'In-person or live online',
 };
 
+const TESTING_APPLY_LINKS: Record<string, string> = {
+  esco: '/apply/student?program=hvac-technician',
+  nrf: '/apply/student?program=nrf-riseup',
+  certiport: '/apply/student?program=it-help-desk',
+  nha: '/apply/student?program=medical-assistant',
+  workkeys: '/apply/student?program=workforce-ready-grant',
+  careersafe: '/apply/student?program=emergency-health-safety',
+  midland: '/apply/student?program=drug-collector',
+};
+
 export default function TestingPage() {
   return (
     <main className="min-h-screen bg-white">
@@ -256,6 +266,12 @@ export default function TestingPage() {
                             : 'Book a Seat'}
                         </Link>
                       )}
+                      <Link
+                        href={TESTING_APPLY_LINKS[provider.key] || '/apply/student'}
+                        className="inline-flex items-center gap-2 border border-brand-blue-300 text-brand-blue-700 hover:border-brand-blue-400 text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
+                      >
+                        Apply for Training →
+                      </Link>
                       {provider.key === 'certiport' && provider.status === 'active' && (
                         <Link
                           href="/certiport-exam"
@@ -463,6 +479,12 @@ export default function TestingPage() {
             >
               {TESTING_CENTER.phone}
             </a>
+            <Link
+              href="/apply/student"
+              className="inline-flex items-center gap-2 border-2 border-brand-blue-300 hover:border-brand-blue-400 text-brand-blue-700 px-8 py-4 rounded-full font-bold text-lg transition-colors"
+            >
+              Apply for a Program
+            </Link>
           </div>
           <p className="text-slate-500 text-sm">
             Not enrolled in training yet?{' '}

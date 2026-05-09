@@ -1,16 +1,13 @@
-// Force static generation for performance
-
+export const revalidate = 3600;
 
 import Link from 'next/link';
 import { CredentialsOutcomes } from '@/components/programs/CredentialsOutcomes';
 import Image from 'next/image';
 import { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
+import { createPublicClient } from '@/lib/supabase/server';
 
 import { Shield, CheckCircle, Users, Award } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-
-export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Federal Funded Programs | WIOA & WRG | Elevate for Humanity',
@@ -31,7 +28,7 @@ const federalFundedSlugs = [
 ];
 
 export default async function FederalFundedProgramsPage() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   if (!supabase) {
     return (
@@ -47,7 +44,7 @@ export default async function FederalFundedProgramsPage() {
   // Fetch federal funded programs
   const { data: dbPrograms } = await supabase
     .from('programs')
-    .select('*')
+    .select('slug,name,duration,heroImage,heroImageAlt')
     .eq('funding_type', 'federal');
 
   const federalPrograms = dbPrograms ?? [];

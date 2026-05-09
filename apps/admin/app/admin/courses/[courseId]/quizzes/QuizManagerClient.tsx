@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 
 interface Quiz {
@@ -40,8 +39,6 @@ export default function QuizManagerClient({ course, initialQuizzes, courseId }: 
     passing_score: '70',
     max_attempts: '3',
   });
-
-  const supabase = createClient();
 
   const resetForm = () => {
     setFormData({
@@ -90,24 +87,23 @@ export default function QuizManagerClient({ course, initialQuizzes, courseId }: 
 
     try {
       if (editingQuiz) {
-        const { data, error: updateError } = await supabase
-          .from('quizzes')
-          .update(quizData)
-          .eq('id', editingQuiz.id)
-          .select()
-          .single();
-
-        if (updateError) throw updateError;
-        setQuizzes(quizzes.map((q) => (q.id === editingQuiz.id ? data : q)));
+        const res = await fetch('/api/admin/courses/quizzes', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingQuiz.id, ...quizData }),
+        });
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload.error || 'Failed to update quiz');
+        setQuizzes(quizzes.map((q) => (q.id === editingQuiz.id ? payload.data : q)));
       } else {
-        const { data, error: insertError } = await supabase
-          .from('quizzes')
-          .insert(quizData)
-          .select()
-          .single();
-
-        if (insertError) throw insertError;
-        setQuizzes([data, ...quizzes]);
+        const res = await fetch('/api/admin/courses/quizzes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(quizData),
+        });
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload.error || 'Failed to create quiz');
+        setQuizzes([payload.data, ...quizzes]);
       }
 
       setShowModal(false);
@@ -125,8 +121,13 @@ export default function QuizManagerClient({ course, initialQuizzes, courseId }: 
 
     setLoading(true);
     try {
-      const { error: deleteError } = await supabase.from('quizzes').delete().eq('id', quizId);
-      if (deleteError) throw deleteError;
+      const res = await fetch('/api/admin/courses/quizzes', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: quizId }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error || 'Failed to delete quiz');
       setQuizzes(quizzes.filter((q) => q.id !== quizId));
     } catch (err: any) {
       setError('An error occurred');

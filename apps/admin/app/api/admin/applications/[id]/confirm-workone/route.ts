@@ -25,7 +25,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     .maybeSingle();
 
   if (fetchErr) return safeDbError(fetchErr, 'Lookup failed');
-  if (!app) return safeError('Application not found', 404);
+  if (!app) return safeError('Requested application is unavailable', 404);
   if (!['pending_workone', 'funding_review', 'submitted'].includes(app.status)) {
     return safeError(`Cannot confirm WorkOne on application with status: ${app.status}`, 409);
   }

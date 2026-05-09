@@ -68,7 +68,7 @@ async function _POST(request: NextRequest) {
 
     if (appError || !application) {
       return NextResponse.json(
-        { error: 'Application not found. You must apply before payment.' },
+        { error: 'No eligible application was found for this payment request.' },
         { status: 400 },
       );
     }

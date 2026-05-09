@@ -40,7 +40,7 @@ export default function SchoolLicensePage() {
           </div>
           <div className="flex gap-4">
             <Link href="/contact?subject=School%20License" className="bg-white text-slate-900 px-6 py-3 rounded-lg font-bold hover:bg-slate-100">
-              Schedule Demo
+              Book Walkthrough
             </Link>
             <Link href="/store/checkout?license=school" className="bg-orange-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-orange-700">
               Purchase Now
@@ -356,7 +356,7 @@ export default function SchoolLicensePage() {
               href="/contact?subject=School%20License%20Demo"
               className="bg-white text-orange-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-orange-50"
             >
-              Schedule a Demo
+              Book Walkthrough
             </Link>
             <Link 
               href="/store/checkout?license=school"

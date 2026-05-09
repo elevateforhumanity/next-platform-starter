@@ -219,7 +219,7 @@ export async function updateGrantApplicationStatus(
     .select('id')
     .eq('id', id)
     .maybeSingle();
-  if (!existing) return { error: 'Grant application not found' };
+  if (!existing) return { error: 'Requested grant application is unavailable' };
 
   const updateData: Record<string, unknown> = {
     status,

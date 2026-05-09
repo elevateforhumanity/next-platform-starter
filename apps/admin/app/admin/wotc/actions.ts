@@ -87,7 +87,7 @@ export async function updateWOTCApplication(id: string, formData: FormData) {
     .select('id')
     .eq('id', id)
     .maybeSingle();
-  if (!_existing) return { error: 'WOTC application not found' };
+  if (!_existing) return { error: 'Requested WOTC record is unavailable' };
 
   const targetGroups = formData.getAll('targetGroups') as string[];
 
@@ -147,7 +147,7 @@ export async function submitWOTCApplication(id: string) {
     .select('id, status')
     .eq('id', id)
     .maybeSingle();
-  if (!_rec) return { error: 'WOTC application not found' };
+  if (!_rec) return { error: 'Requested WOTC record is unavailable' };
   if (_rec.status !== 'draft') return { error: 'Only draft applications can be submitted' };
 
   const { error } = await db
@@ -183,7 +183,7 @@ export async function updateWOTCStatus(id: string, status: string, notes?: strin
     .select('id')
     .eq('id', id)
     .maybeSingle();
-  if (!_rec2) return { error: 'WOTC application not found' };
+  if (!_rec2) return { error: 'Requested WOTC record is unavailable' };
 
   const updateData: Record<string, unknown> = {
     status,
@@ -225,7 +225,7 @@ export async function deleteWOTCApplication(id: string) {
     .select('id')
     .eq('id', id)
     .maybeSingle();
-  if (!_rec3) return { error: 'WOTC application not found' };
+  if (!_rec3) return { error: 'Requested WOTC record is unavailable' };
 
   const { error } = await db.from('wotc_applications').delete().eq('id', id);
 

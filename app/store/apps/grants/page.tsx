@@ -196,7 +196,7 @@ export default function GrantsAppPage() {
               Start Free Trial
             </Link>
             <Link href="/contact" className="border border-slate-300 hover:bg-white text-slate-900 px-8 py-4 rounded-lg font-bold">
-              Schedule Demo
+              Contact Sales
             </Link>
           </div>
         </div>

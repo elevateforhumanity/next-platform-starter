@@ -97,19 +97,14 @@ export default function FounderPage() {
                 </p>
 
                 <p>
-                  Under her leadership, Elevate has secured approvals across federal, state, and
-                  local agencies: U.S. DOL Registered Apprenticeship Sponsor (RAPIDS:
-                  2025-IN-132301), Indiana ETPL listed, Workforce Ready Grant (WRG) approved, WIOA
-                  and Job Ready Indy funding approved, and Job Ready Indy partner. Elevate is
-                  enrolled in PECOS with an NPI, is SAM.gov registered as a federal government
-                  contractor, ITAP/INDOT registered, and ByBlack certified through the U.S. Black
-                  Chambers / NAACP.
+                  Under her leadership, Elevate has secured workforce approvals and partnerships
+                  across federal, state, and local agencies, including DOL Registered
+                  Apprenticeship sponsorship and Indiana workforce funding pathways.
                 </p>
 
                 <p>
-                  Elizabeth also leads Elevate tax operations and Selfish
-                  Inc. — a 501(c)(3) nonprofit operating as The Rise Foundation — providing mental
-                  wellness counseling, body sculpting services, VITA free tax preparation, and
+                  Elizabeth also leads Elevate tax operations and Selfish Inc., a 501(c)(3)
+                  nonprofit providing mental wellness counseling, VITA free tax preparation, and
                   community support programs across Indianapolis.
                 </p>
               </div>
@@ -191,7 +186,7 @@ export default function FounderPage() {
               </p>
               <ul className="space-y-2">
                 {[
-                  'DOL Apprenticeship Sponsor — RAPIDS 2025-IN-132301',
+                  'DOL Registered Apprenticeship Sponsor',
                   'Indiana ETPL Listed Provider',
                   'Workforce Ready Grant (WRG) Approved',
                   'WIOA Funding Approved',
@@ -229,7 +224,7 @@ export default function FounderPage() {
                   'Certiport Authorized Testing Center (CATC)',
 
                   'Selfish Inc. — 501(c)(3) Nonprofit',
-                  'The Rise Foundation (DBA of Selfish Inc.) — VITA Free Tax Prep',
+                  'Selfish Inc. — VITA Free Tax Prep',
                   'Elevate Tax Operations',
                 ].map((c) => (
                   <li key={c} className="flex items-start gap-2 text-slate-600 text-sm">
@@ -267,10 +262,10 @@ export default function FounderPage() {
                 href: '/about',
               },
               {
-                name: 'Selfish Inc. — The Rise Foundation',
-                role: '501(c)(3) Nonprofit · DBA: The Rise Foundation',
-                desc: 'IRS-recognized 501(c)(3) nonprofit. The Rise Foundation is the operating DBA of Selfish Inc. Programs include mental wellness counseling, CurvatureBody Sculpting, Meri-Go-Round wellness products, and free VITA tax preparation for Indianapolis families.',
-                href: '/rise',
+                name: 'Selfish Inc.',
+                role: '501(c)(3) Nonprofit',
+                desc: 'IRS-recognized 501(c)(3) nonprofit supporting mental wellness services, community programming, and free VITA tax preparation for Indianapolis families.',
+                href: '/tax',
               },
               {
                 name: 'Elevate Tax Operations',

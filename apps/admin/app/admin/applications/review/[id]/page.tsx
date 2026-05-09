@@ -84,12 +84,8 @@ export default async function ReviewApplicationPage({
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <p className="text-4xl mb-4">⚠️</p>
-        <h1 className="text-xl font-bold text-slate-900 mb-2">Application not found</h1>
-        <p className="text-slate-500 mb-6">
-          <code className="bg-slate-100 px-2 py-1 rounded text-sm font-mono">{id}</code> is not a
-          valid application ID. This link may have been generated from an intake form submission
-          that was not converted to an application record.
-        </p>
+        <h1 className="text-xl font-bold text-slate-900 mb-2">Application unavailable</h1>
+        <p className="text-slate-500 mb-6">The requested application could not be loaded.</p>
         <Link href="/admin/applications" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-700 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Applications
         </Link>

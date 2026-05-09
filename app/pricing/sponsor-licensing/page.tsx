@@ -570,13 +570,13 @@ export default async function SponsorLicensingPage() {
             Let's discuss which tier fits your organization.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="tel:+13173143757"
+            <Link
+              href="/contact?subject=Sponsor%20Licensing"
               className="inline-flex items-center justify-center gap-2 bg-white text-blue-600 hover:bg-slate-100 px-10 py-5 rounded-xl font-bold text-lg transition shadow-2xl"
             >
               <Phone className="w-5 h-5" />
-              (317) 314-3757
-            </a>
+              Contact Licensing Team
+            </Link>
             <a
               href="mailto:elevate4humanityedu@gmail.com"
               className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 border-2 border-white text-white px-10 py-5 rounded-xl font-bold text-lg transition"

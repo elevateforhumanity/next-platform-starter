@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 
 interface Lesson {
@@ -49,8 +48,6 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
   const [videoGenMessage, setVideoGenMessage] = useState<string | null>(null);
   const [generatingLessonId, setGeneratingLessonId] = useState<string | null>(null);
 
-  const supabase = createClient();
-
   const hasVideoProfile = !!(course?.video_config || course?.video_profile);
   const missingVideos = lessons.filter(
     (l) => !l.video_url || l.video_url.startsWith('/videos/'),
@@ -96,22 +93,23 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
     };
     try {
       if (editingLesson) {
-        const { data, error: e } = await supabase
-          .from('training_lessons')
-          .update(lessonData)
-          .eq('id', editingLesson.id)
-          .select()
-          .single();
-        if (e) throw e;
-        setLessons(lessons.map((l) => (l.id === editingLesson.id ? data : l)));
+        const res = await fetch('/api/admin/courses/lessons', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingLesson.id, ...lessonData }),
+        });
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload.error || 'Failed to update lesson');
+        setLessons(lessons.map((l) => (l.id === editingLesson.id ? payload.data : l)));
       } else {
-        const { data, error: e } = await supabase
-          .from('training_lessons')
-          .insert(lessonData)
-          .select()
-          .single();
-        if (e) throw e;
-        setLessons([...lessons, data]);
+        const res = await fetch('/api/admin/courses/lessons', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(lessonData),
+        });
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload.error || 'Failed to create lesson');
+        setLessons([...lessons, payload.data]);
       }
       setShowModal(false);
       resetForm();
@@ -126,8 +124,13 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
     if (!confirm('Delete this lesson?')) return;
     setLoading(true);
     try {
-      const { error: e } = await supabase.from('training_lessons').delete().eq('id', lessonId);
-      if (e) throw e;
+      const res = await fetch('/api/admin/courses/lessons', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: lessonId }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error || 'Failed to delete lesson');
       setLessons(lessons.filter((l) => l.id !== lessonId));
     } catch {
       setError('Failed to delete lesson.');
@@ -146,16 +149,16 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
     const newLessons = [...lessons];
     [newLessons[index], newLessons[newIndex]] = [newLessons[newIndex], newLessons[index]];
     try {
-      await Promise.all([
-        supabase
-          .from('training_lessons')
-          .update({ order_index: newIndex })
-          .eq('id', newLessons[newIndex].id),
-        supabase
-          .from('training_lessons')
-          .update({ order_index: index })
-          .eq('id', newLessons[index].id),
-      ]);
+      const res = await fetch('/api/admin/courses/lessons', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lessonA: { id: newLessons[newIndex].id, order_index: newIndex },
+          lessonB: { id: newLessons[index].id, order_index: index },
+        }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error || 'Failed to reorder lessons');
       setLessons(newLessons.map((l, i) => ({ ...l, order_index: i })));
     } catch {
       setError('Failed to reorder lessons.');
@@ -163,12 +166,11 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
   };
 
   const refreshLessons = async () => {
-    const { data } = await supabase
-      .from('course_lessons')
-      .select('*')
-      .eq('course_id', courseId)
-      .order('order_index');
-    if (data) setLessons(data as any);
+    const res = await fetch(`/api/admin/courses/lessons?courseId=${encodeURIComponent(courseId)}`);
+    if (!res.ok) return;
+    const payload = await res.json();
+    const nextLessons = (payload?.data ?? []) as Lesson[];
+    setLessons(nextLessons);
   };
 
   const handleGenerateVideos = async (opts: { lessonId?: string; force?: boolean } = {}) => {

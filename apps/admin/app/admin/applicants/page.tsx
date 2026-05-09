@@ -6,24 +6,25 @@ export const dynamic = 'force-dynamic';
 export default async function ApplicantsLegacyPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string; q?: string; page?: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   await requireAdmin();
 
   const params = await searchParams;
   const nextParams = new URLSearchParams();
 
-  if (params.status && params.status !== 'all') {
-    nextParams.set('status', params.status);
-  }
+  for (const [key, value] of Object.entries(params)) {
+    if (value == null) continue;
 
-  // Legacy `q` parameter maps to canonical `search`.
-  if (params.q) {
-    nextParams.set('search', params.q);
-  }
+    const values = Array.isArray(value) ? value : [value];
+    const targetKey = key === 'q' ? 'search' : key;
 
-  if (params.page && params.page !== '1') {
-    nextParams.set('page', params.page);
+    for (const v of values) {
+      if (!v) continue;
+      if (targetKey === 'status' && v === 'all') continue;
+      if (targetKey === 'page' && v === '1') continue;
+      nextParams.append(targetKey, v);
+    }
   }
 
   const query = nextParams.toString();

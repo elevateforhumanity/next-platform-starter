@@ -1,6 +1,5 @@
-export const dynamic = 'force-dynamic';
-
 // Force static generation for performance
+export const revalidate = 3600;
 
 import Link from 'next/link';
 import { CredentialsOutcomes } from '@/components/programs/CredentialsOutcomes';
@@ -35,7 +34,10 @@ export default async function MicroProgramsPage() {
   }
 
   // Fetch micro programs
-  const { data: dbMicroPrograms } = await supabase.from('programs').select('*').eq('type', 'micro');
+  const { data: dbMicroPrograms } = await supabase
+    .from('programs')
+    .select('slug,name,duration')
+    .eq('type', 'micro');
 
   const microPrograms = dbMicroPrograms ?? [];
 

@@ -12,7 +12,7 @@ export const teamMembers: TeamMember[] = [
     name: 'Elizabeth Greene',
     title: 'Founder & Chief Executive Officer',
     headshotSrc: '/images/team/elizabeth-greene-headshot.jpg',
-    bio: 'Elizabeth Greene is a U.S. Army Veteran (Unit Supply Specialist), federally authorized tax professional, EPA 608 Certified Proctor, Indiana Substitute Teacher, and Licensed Barber. She founded Elevate for Humanity Technical and Career Institute — a DOL Registered Apprenticeship Sponsor (RAPIDS #2025-IN-132301), ETPL provider, WIOA/WRG/JRI approved, Job Ready Indy partner, WorkOne partner, EmployIndy partner, HSI affiliate, CareerSafe OSHA provider, Milady partner, NRF Rise Up provider, Certiport Authorized Testing Center (CATC), SAM.gov registered federal government contractor (CAGE: 0Q856), and ByBlack certified. Elizabeth also leads Elevate tax operations and Selfish Inc., a 501(c)(3) nonprofit (DBA: The Rise Foundation) providing VITA free tax preparation and community services to underserved Indianapolis residents.',
+    bio: 'Elizabeth Greene is a U.S. Army Veteran (Unit Supply Specialist), federally authorized tax professional, EPA 608 Certified Proctor, Indiana Substitute Teacher, and Licensed Barber. She founded Elevate for Humanity Technical and Career Institute — a DOL Registered Apprenticeship Sponsor, ETPL provider, and workforce partner across Indiana. Elizabeth also leads Elevate tax operations and Selfish Inc., a 501(c)(3) nonprofit providing VITA free tax preparation and community services to underserved Indianapolis residents.',
   },
   {
     slug: 'carlina-wilkes',

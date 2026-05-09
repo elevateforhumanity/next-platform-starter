@@ -33,7 +33,7 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ id: strin
     .maybeSingle();
 
   if (appErr || !app) {
-    return NextResponse.json({ error: 'Application not found' }, { status: 404 });
+    return NextResponse.json({ error: 'Requested application is unavailable' }, { status: 404 });
   }
 
   if (!app.email) {

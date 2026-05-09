@@ -147,7 +147,7 @@ export default async function ComplianceFrameworkPage() {
             <li>E-commerce operations (Store, digital products)</li>
             <li>Tax preparation services (Supersonic Fast Cash)</li>
             <li>Financial products (Refund Advance loans)</li>
-            <li>Nonprofit operations (Rise Foundation)</li>
+            <li>Nonprofit operations (Selfish Inc. 501(c)(3))</li>
           </ul>
         </section>
 
@@ -174,7 +174,7 @@ export default async function ComplianceFrameworkPage() {
                 <td className="border p-3">Platform operations, LMS, Store</td>
               </tr>
               <tr className="bg-gray-50">
-                <td className="border p-3">Rise Foundation</td>
+                <td className="border p-3">Selfish Inc.</td>
                 <td className="border p-3">501(c)(3)</td>
                 <td className="border p-3">Indiana</td>
                 <td className="border p-3">Scholarships, grants, charitable programs</td>
@@ -191,8 +191,7 @@ export default async function ComplianceFrameworkPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">2.2 Required Registrations</h3>
           <ul className="list-disc pl-6 space-y-2 text-gray-700">
             <li>
-              <strong>IRS:</strong> EIN registration, 501(c)(3) determination letter (Rise
-              Foundation)
+              <strong>IRS:</strong> EIN registration, 501(c)(3) determination letter (Selfish Inc.)
             </li>
             <li>
               <strong>Indiana Secretary of State:</strong> Business registration, annual reports

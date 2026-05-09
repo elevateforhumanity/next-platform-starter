@@ -197,7 +197,8 @@ export async function middleware(request: NextRequest) {
   }
 
   // Canonicalize legacy admin paths before auth logic.
-  const legacyAdminRedirect = LEGACY_ADMIN_PATH_REDIRECTS[pathname];
+  // Use case-insensitive lookup so old bookmarks like /Admin/Applicants still work.
+  const legacyAdminRedirect = LEGACY_ADMIN_PATH_REDIRECTS[pathname.toLowerCase()];
   if (legacyAdminRedirect) {
     const url = new URL(request.url);
     url.pathname = legacyAdminRedirect;

@@ -41,7 +41,7 @@ export async function POST(
       .eq('id', appId)
       .maybeSingle();
 
-    if (fetchError || !app) return safeError('Application not found', 404);
+    if (fetchError || !app) return safeError('No matching application was found.', 404);
     if (app.status !== 'pending') {
       return safeError(`Application is already ${app.status}`, 409);
     }

@@ -57,7 +57,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       id,
       detail: fetchError?.message,
     });
-    return NextResponse.json({ error: 'Application not found' }, { status: 404 });
+    return NextResponse.json({ error: 'Requested application is unavailable' }, { status: 404 });
   }
 
   if (application.status === 'approved') {

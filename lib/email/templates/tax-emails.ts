@@ -1,13 +1,13 @@
 /**
  * Tax Services Email Templates
- * PART A: Rise Up Foundation (FREE - VITA Compliant)
+ * PART A: VITA Community Program (FREE - VITA Compliant)
  * PART B: SupersonicFastCash (PAID)
  *
  * CRITICAL: These must remain completely separated for IRS compliance
  */
 
 // ============================================================================
-// PART A: RISE UP FOUNDATION (FREE TAX - VITA)
+// PART A: VITA COMMUNITY PROGRAM (FREE TAX - VITA)
 // ============================================================================
 
 export const riseUpFoundationEmails = {
@@ -21,7 +21,7 @@ export const riseUpFoundationEmails = {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Hello ${data.firstName},</p>
 
-        <p>We've received your request for free tax preparation services through the Rise Up Foundation.</p>
+        <p>We've received your request for free tax preparation services through the VITA Community Program.</p>
 
         <div style="background-color: #f9fafb; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #e5e7eb;">
           <p style="margin: 0;"><strong>What happens next:</strong></p>
@@ -40,7 +40,7 @@ export const riseUpFoundationEmails = {
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Rise Up Foundation</strong><br />
+          <strong>VITA Community Program</strong><br />
           Free Community Tax Services
         </p>
       </div>
@@ -48,7 +48,7 @@ export const riseUpFoundationEmails = {
     getText: (data: { firstName: string }) => `
 Hello ${data.firstName},
 
-We've received your request for free tax preparation services through the Rise Up Foundation.
+We've received your request for free tax preparation services through the VITA Community Program.
 
 What happens next:
 • Eligibility review
@@ -61,7 +61,7 @@ No paid services are offered.
 You'll receive a follow-up shortly with scheduling details.
 
 —
-Rise Up Foundation
+VITA Community Program
 Free Community Tax Services
     `,
   },
@@ -99,7 +99,7 @@ Free Community Tax Services
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Rise Up Foundation</strong>
+          <strong>VITA Community Program</strong>
         </p>
       </div>
     `,
@@ -121,7 +121,7 @@ Please bring or upload the following:
 All services are provided by trained volunteers following IRS VITA/TCE guidelines.
 
 —
-Rise Up Foundation
+VITA Community Program
     `,
   },
 
@@ -144,7 +144,7 @@ Rise Up Foundation
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Rise Up Foundation</strong>
+          <strong>VITA Community Program</strong>
         </p>
       </div>
     `,
@@ -158,7 +158,7 @@ You'll receive copies of your return and confirmation details during or after yo
 Thank you for allowing us to support you.
 
 —
-Rise Up Foundation
+VITA Community Program
     `,
   },
 };

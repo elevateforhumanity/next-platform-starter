@@ -87,7 +87,7 @@ async function reconcileApplication(db: SupabaseClient, applicationId: string, a
     .eq('id', applicationId)
     .maybeSingle();
 
-  if (appErr || !app) return safeError('Application not found', 404);
+  if (appErr || !app) return safeError('No matching application was found.', 404);
 
   // 2. Check existing enrollment
   const { data: existingEnrollment } = await db!

@@ -6,7 +6,7 @@ const teamMembers = [
     name: 'Elizabeth Greene',
     title: 'Founder & Chief Executive Officer',
     image: '/images/team/elizabeth-greene-headshot.jpg',
-    bio: 'U.S. Army veteran (Unit Supply Specialist), federally authorized tax professional, EPA 608 Certified Proctor (ESCO Group & Mainstream Engineering). Elizabeth founded Elevate for Humanity to connect people to funded workforce training. She also leads Elevate tax operations and Selfish Inc. — a 501(c)(3) nonprofit (DBA: The Rise Foundation) providing VITA free tax preparation, mental wellness counseling, and community services. Elevate for Humanity is a DOL Registered Apprenticeship Sponsor (RAPIDS: 2025-IN-132301), ETPL listed, WRG approved, WIOA and JRI approved, Job Ready Indy partner, WorkOne partner, EmployIndy partner, HSI affiliate, CareerSafe OSHA training provider, NRF Rise Up provider, Certiport CATC, Choice Medical CNA School partner, PECOS enrolled (Medicare provider), NPI registered, ITAP/INDOT registered, Indiana State Bidder, SAM.gov registered (UEI: VX2GK5S8SZH8, CAGE: 0Q856), federal government contractor, and ByBlack certified (U.S. Black Chambers / NAACP).',
+    bio: 'U.S. Army veteran, federally authorized tax professional, and EPA 608 certified proctor. Elizabeth founded Elevate for Humanity to connect people to funded workforce training. She also leads Elevate tax operations and Selfish Inc., a 501(c)(3) nonprofit supporting VITA free tax preparation and community services. Elevate operates as a DOL Registered Apprenticeship Sponsor with state and local workforce partnerships across Indiana.',
   },
   {
     name: 'Jozanna George',

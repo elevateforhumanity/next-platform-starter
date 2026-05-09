@@ -179,6 +179,75 @@
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://videos.pexels.com/video-files/12896415/12896415-hd_1080_1920_24fps.mp4"
   },
+  "building-services-technician": {
+    "pageKey": "building-services-technician",
+    "posterImage": "/images/programs/efh-building-tech-hero.jpg",
+    "microLabel": "DOL Apprenticeship",
+    "belowHeroHeadline": "Building Services Technician Apprenticeship",
+    "belowHeroSubheadline": "Earn while you learn with paid on-the-job training and a DOL Registered pathway.",
+    "primaryCta": {
+      "label": "Apply Now",
+      "href": "/apply?program=building-services-technician"
+    },
+    "secondaryCta": {
+      "label": "Request Information",
+      "href": "/inquiry?program=building-services-technician",
+      "variant": "secondary"
+    },
+    "trustIndicators": [
+      "DOL Registered",
+      "Paid OJT",
+      "Employer-connected"
+    ],
+    "transcript": "Building Services Technician apprenticeship combines paid work experience with structured training and a nationally recognized pathway.",
+    "analyticsName": "building-services-technician"
+  },
+  "federal-funded": {
+    "pageKey": "federal-funded",
+    "posterImage": "/hero-images/federal-funded-hero.jpg",
+    "microLabel": "Funded Programs",
+    "belowHeroHeadline": "Federal-Funded Career Training",
+    "belowHeroSubheadline": "WIOA, WRG, and state-aligned funding pathways for eligible learners.",
+    "primaryCta": {
+      "label": "Check Eligibility",
+      "href": "/check-eligibility"
+    },
+    "secondaryCta": {
+      "label": "Apply Now",
+      "href": "/apply",
+      "variant": "secondary"
+    },
+    "trustIndicators": [
+      "WIOA aligned",
+      "ETPL pathways",
+      "No-cost options"
+    ],
+    "transcript": "Federal-funded programs connect eligible learners to workforce training at little or no upfront cost.",
+    "analyticsName": "federal-funded"
+  },
+  "micro-programs": {
+    "pageKey": "micro-programs",
+    "posterImage": "/images/pages/testing-page-1.jpg",
+    "microLabel": "Micro Credentials",
+    "belowHeroHeadline": "Short Programs, Fast Credentials",
+    "belowHeroSubheadline": "Complete targeted certifications in days or weeks and move into work faster.",
+    "primaryCta": {
+      "label": "Apply Now",
+      "href": "/apply"
+    },
+    "secondaryCta": {
+      "label": "Browse Programs",
+      "href": "/programs",
+      "variant": "secondary"
+    },
+    "trustIndicators": [
+      "Short duration",
+      "Industry-recognized",
+      "Career-ready"
+    ],
+    "transcript": "Micro programs are designed for quick credential attainment and rapid workforce entry.",
+    "analyticsName": "micro-programs"
+  },
   "learner": {
     "pageKey": "learner",
     "posterImage": "/images/pages/learner-page-1.jpg",

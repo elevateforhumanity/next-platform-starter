@@ -231,14 +231,14 @@ export const headerNav: NavSection[] = [
     ],
   },
   {
-    label: 'Rise Foundation',
-    href: '/rise-foundation',
+    label: 'Community Services',
+    href: '/tax',
     items: [
-      { label: 'About', href: '/rise-foundation/about' },
-      { label: 'Donate', href: '/rise-foundation/donate' },
-      { label: 'Events', href: '/rise-foundation/events' },
-      { label: 'Programs', href: '/rise-foundation/programs' },
-      { label: 'Get Involved', href: '/rise-foundation/get-involved' },
+      { label: 'Tax Services', href: '/tax' },
+      { label: 'Book Appointment', href: '/tax/appointments' },
+      { label: 'Volunteer Portal', href: '/vita/volunteer-portal' },
+      { label: 'VITA Resources', href: '/vita/resources' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
 ];

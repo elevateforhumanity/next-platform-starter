@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       .eq('id', application_id)
       .maybeSingle();
 
-    if (fetchErr || !app) return safeError('Application not found', 404);
+    if (fetchErr || !app) return safeError('Requested application is unavailable', 404);
     if (app.program_slug !== 'cna')
       return safeError('This route only handles CNA applications', 400);
     if (app.status === 'approved') return safeError('Application already approved', 409);

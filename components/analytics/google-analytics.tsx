@@ -11,6 +11,7 @@ import { useEffect } from 'react';
  * If missing, logs a warning to console (not silent) so operators notice.
  */
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-16712632425';
 
 export function GoogleAnalytics() {
   useEffect(() => {
@@ -52,6 +53,10 @@ export function GoogleAnalytics() {
             page_path: window.location.pathname,
             anonymize_ip: true,
           });
+
+          if ('${GOOGLE_ADS_ID}') {
+            gtag('config', '${GOOGLE_ADS_ID}', { allow_enhanced_conversions: true });
+          }
         `}
       </Script>
     </>

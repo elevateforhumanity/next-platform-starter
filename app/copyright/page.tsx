@@ -137,7 +137,7 @@ export default function CopyrightPage() {
           </h3>
 
           <div className="mb-4">
-            <h4 className="font-bold text-black mb-2">Free Tax Services (Rise Up Foundation)</h4>
+            <h4 className="font-bold text-black mb-2">Free Tax Services (VITA Community Program)</h4>
             <ul className="space-y-1 text-black text-sm">
               <li>• Operates under IRS VITA/TCE guidelines</li>
               <li>• Volunteers are authorized and trained annually</li>

@@ -227,9 +227,9 @@ export default function ConnectPage() {
                   type="url"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://www.yoursite.com"
-                  className="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
+                <p className="text-slate-300 text-xs mt-2">Enter your full public website URL, including https://</p>
               </div>
 
               <div className="flex gap-4">

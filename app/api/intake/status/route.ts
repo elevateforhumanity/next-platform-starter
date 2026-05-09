@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
       .maybeSingle();
 
     if (error || !data) {
-      return NextResponse.json({ error: 'Application not found.' }, { status: 404 });
+      return NextResponse.json({ error: 'No matching application status could be verified.' }, { status: 404 });
     }
 
     const stage = data.intake_stage || 'submitted';

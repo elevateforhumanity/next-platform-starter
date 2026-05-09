@@ -328,11 +328,11 @@ export default function WIOACompliancePage() {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-black mb-4">Ready for WIOA Compliance?</h2>
           <p className="text-white mb-8">
-            Schedule a demo to see how our WIOA toolkit can streamline your compliance workflow.
+            See how our WIOA toolkit can streamline your compliance workflow.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/store/demos" className="inline-flex items-center justify-center gap-2 bg-white text-brand-green-700 px-8 py-4 rounded-lg font-bold hover:bg-brand-green-50 transition">
-              Schedule Demo
+              View Product Demo
             </Link>
             <Link href="/contact" className="inline-flex items-center justify-center gap-2 border-2 border-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition">
               Contact Sales

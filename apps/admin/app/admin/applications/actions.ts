@@ -74,7 +74,7 @@ export async function rejectApplication(id: string): Promise<void> {
     .eq('id', id)
     .maybeSingle();
 
-  if (fetchError || !record) throw new Error('Application not found');
+  if (fetchError || !record) throw new Error('Requested application is unavailable');
   if (record.status === 'rejected') throw new Error('Application already rejected');
 
   const { error } = await db

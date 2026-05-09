@@ -51,7 +51,7 @@ async function _GET(request: NextRequest) {
       .maybeSingle();
 
     if (error || !data) {
-      return NextResponse.json({ error: 'Application not found' }, { status: 404 });
+      return NextResponse.json({ error: 'No matching application was found for the provided details.' }, { status: 404 });
     }
 
     // Normalize submitted_at — some rows use created_at, some submitted_at

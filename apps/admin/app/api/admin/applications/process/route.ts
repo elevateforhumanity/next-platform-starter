@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
 
   if (fetchError || !app) {
-    return NextResponse.json({ error: 'Application not found' }, { status: 404 });
+    return NextResponse.json({ error: 'Requested application is unavailable' }, { status: 404 });
   }
 
   const steps: Array<{ action: string; from: string; to: string }> = [];

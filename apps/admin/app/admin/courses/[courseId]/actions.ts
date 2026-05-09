@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient as getAdminDb } from '@/lib/supabase/admin';
+import { AdminAction, logAdminAudit } from '@/lib/admin/audit-log';
 
 async function requireAdminClient() {
   const supabase = await createClient();
@@ -16,13 +17,13 @@ async function requireAdminClient() {
     .eq('id', user.id)
     .maybeSingle();
   if (!profile || !['admin', 'super_admin'].includes(profile.role)) throw new Error('Forbidden');
-  return getAdminDb();
+  return { db: await getAdminDb(), userId: user.id };
 }
 
 // ── Course-level actions ──────────────────────────────────────────────────────
 
 export async function startCourseGeneration(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const courseId = String(formData.get('courseId') || '').trim();
   const prompt = String(formData.get('prompt') || '').trim();
 
@@ -42,6 +43,14 @@ export async function startCourseGeneration(formData: FormData) {
 
   if (error) throw new Error(error.message);
 
+  await logAdminAudit({
+    action: AdminAction.COURSE_DEFINITIONS_SYNCED,
+    actorId: userId,
+    entityType: 'courses',
+    entityId: courseId,
+    metadata: { operation: 'start_generation' },
+  });
+
   // Fire-and-forget — generation runs async in the API route
   fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/api/admin/courses/${courseId}/generate`, {
     method: 'POST',
@@ -53,18 +62,25 @@ export async function startCourseGeneration(formData: FormData) {
 }
 
 export async function pauseCourseGeneration(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const courseId = String(formData.get('courseId') || '').trim();
   if (!courseId) throw new Error('Missing courseId');
 
   const { error } = await db.from('courses').update({ generation_paused: true }).eq('id', courseId);
 
   if (error) throw new Error(error.message);
+  await logAdminAudit({
+    action: AdminAction.COURSE_DEFINITIONS_SYNCED,
+    actorId: userId,
+    entityType: 'courses',
+    entityId: courseId,
+    metadata: { operation: 'pause_generation' },
+  });
   revalidatePath(`/admin/courses/${courseId}`);
 }
 
 export async function resumeCourseGeneration(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const courseId = String(formData.get('courseId') || '').trim();
   if (!courseId) throw new Error('Missing courseId');
 
@@ -85,6 +101,14 @@ export async function resumeCourseGeneration(formData: FormData) {
 
   if (error) throw new Error(error.message);
 
+  await logAdminAudit({
+    action: AdminAction.COURSE_DEFINITIONS_SYNCED,
+    actorId: userId,
+    entityType: 'courses',
+    entityId: courseId,
+    metadata: { operation: 'resume_generation' },
+  });
+
   fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/api/admin/courses/${courseId}/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -95,7 +119,7 @@ export async function resumeCourseGeneration(formData: FormData) {
 }
 
 export async function publishCourse(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const courseId = String(formData.get('courseId') || '').trim();
   if (!courseId) throw new Error('Missing courseId');
 
@@ -120,12 +144,19 @@ export async function publishCourse(formData: FormData) {
     .eq('id', courseId);
 
   if (error) throw new Error(error.message);
+  await logAdminAudit({
+    action: AdminAction.COURSE_PUBLISHED,
+    actorId: userId,
+    entityType: 'courses',
+    entityId: courseId,
+    metadata: {},
+  });
   revalidatePath(`/admin/courses/${courseId}`);
   revalidatePath('/admin/courses');
 }
 
 export async function unpublishCourse(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const courseId = String(formData.get('courseId') || '').trim();
   if (!courseId) throw new Error('Missing courseId');
 
@@ -139,6 +170,13 @@ export async function unpublishCourse(formData: FormData) {
     .eq('id', courseId);
 
   if (error) throw new Error(error.message);
+  await logAdminAudit({
+    action: AdminAction.COURSE_UNPUBLISHED,
+    actorId: userId,
+    entityType: 'courses',
+    entityId: courseId,
+    metadata: {},
+  });
   revalidatePath(`/admin/courses/${courseId}`);
   revalidatePath('/admin/courses');
 }
@@ -146,7 +184,7 @@ export async function unpublishCourse(formData: FormData) {
 // ── Lesson-level actions ──────────────────────────────────────────────────────
 
 export async function toggleLessonLock(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const lessonId = String(formData.get('lessonId') || '').trim();
   const courseId = String(formData.get('courseId') || '').trim();
   const locked = String(formData.get('locked') || '') === 'true';
@@ -156,11 +194,18 @@ export async function toggleLessonLock(formData: FormData) {
   const { error } = await db.from('course_lessons').update({ locked }).eq('id', lessonId);
 
   if (error) throw new Error(error.message);
+  await logAdminAudit({
+    action: AdminAction.LESSON_UPDATED,
+    actorId: userId,
+    entityType: 'course_lessons',
+    entityId: lessonId,
+    metadata: { locked },
+  });
   revalidatePath(`/admin/courses/${courseId}`);
 }
 
 export async function approveLesson(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const lessonId = String(formData.get('lessonId') || '').trim();
   const courseId = String(formData.get('courseId') || '').trim();
 
@@ -176,11 +221,18 @@ export async function approveLesson(formData: FormData) {
     .eq('id', lessonId);
 
   if (error) throw new Error(error.message);
+  await logAdminAudit({
+    action: AdminAction.LESSON_PUBLISHED,
+    actorId: userId,
+    entityType: 'course_lessons',
+    entityId: lessonId,
+    metadata: { courseId },
+  });
   revalidatePath(`/admin/courses/${courseId}`);
 }
 
 export async function unapproveLesson(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const lessonId = String(formData.get('lessonId') || '').trim();
   const courseId = String(formData.get('courseId') || '').trim();
 
@@ -196,11 +248,18 @@ export async function unapproveLesson(formData: FormData) {
     .eq('id', lessonId);
 
   if (error) throw new Error(error.message);
+  await logAdminAudit({
+    action: AdminAction.LESSON_UNPUBLISHED,
+    actorId: userId,
+    entityType: 'course_lessons',
+    entityId: lessonId,
+    metadata: { courseId },
+  });
   revalidatePath(`/admin/courses/${courseId}`);
 }
 
 export async function saveLessonContent(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const lessonId = String(formData.get('lessonId') || '').trim();
   const courseId = String(formData.get('courseId') || '').trim();
   const title = String(formData.get('title') || '').trim();
@@ -219,11 +278,18 @@ export async function saveLessonContent(formData: FormData) {
     .eq('id', lessonId);
 
   if (error) throw new Error(error.message);
+  await logAdminAudit({
+    action: AdminAction.LESSON_UPDATED,
+    actorId: userId,
+    entityType: 'course_lessons',
+    entityId: lessonId,
+    metadata: { title },
+  });
   revalidatePath(`/admin/courses/${courseId}`);
 }
 
 export async function regenerateLessonAction(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const lessonId = String(formData.get('lessonId') || '').trim();
   const courseId = String(formData.get('courseId') || '').trim();
 
@@ -280,11 +346,19 @@ export async function regenerateLessonAction(formData: FormData) {
     })
     .eq('id', lessonId);
 
+  await logAdminAudit({
+    action: AdminAction.LESSON_VIDEO_GENERATED,
+    actorId: userId,
+    entityType: 'course_lessons',
+    entityId: lessonId,
+    metadata: { regenerated: true },
+  });
+
   revalidatePath(`/admin/courses/${courseId}`);
 }
 
 export async function deleteLesson(formData: FormData) {
-  const db = await requireAdminClient();
+  const { db, userId } = await requireAdminClient();
   const lessonId = String(formData.get('lessonId') || '').trim();
   const courseId = String(formData.get('courseId') || '').trim();
 
@@ -292,5 +366,12 @@ export async function deleteLesson(formData: FormData) {
 
   const { error } = await db.from('course_lessons').delete().eq('id', lessonId);
   if (error) throw new Error(error.message);
+  await logAdminAudit({
+    action: AdminAction.LESSON_DELETED,
+    actorId: userId,
+    entityType: 'course_lessons',
+    entityId: lessonId,
+    metadata: { courseId },
+  });
   revalidatePath(`/admin/courses/${courseId}`);
 }

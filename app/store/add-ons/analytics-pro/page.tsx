@@ -217,7 +217,7 @@ export default function AnalyticsProPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to Unlock Your Data?</h2>
           <p className="text-xl text-indigo-100 mb-8">
-            Purchase Analytics Pro today or schedule a demo to see it in action.
+            Purchase Analytics Pro today or review the product demo to see it in action.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

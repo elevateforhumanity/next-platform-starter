@@ -56,7 +56,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       // Surface structured DB exceptions as 409 or 403 where appropriate
       if (error.message.includes('ACTOR_NOT_AUTHORIZED')) return safeError('Forbidden', 403);
       if (error.message.includes('APPLICATION_NOT_FOUND'))
-        return safeError('Application not found', 404);
+        return safeError('Requested application is unavailable', 404);
       return safeInternalError(error, 'Approval failed');
     }
 

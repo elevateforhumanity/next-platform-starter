@@ -379,12 +379,12 @@ export default function LicensingPartnershipsPage() {
             >
               Apply to Partner
             </Link>
-            <a
-              href="tel:317-314-3757"
+            <Link
+              href="/contact?subject=Partnership%20Licensing"
               className="inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-8 py-4 rounded-lg font-bold hover:bg-white transition-colors"
             >
-              <Phone className="w-4 h-4" /> (317) 314-3757
-            </a>
+              <Phone className="w-4 h-4" /> Contact Partnership Team
+            </Link>
           </div>
           <p className="text-black text-sm mt-6">
             Zoom link sent automatically after booking. No app download required.

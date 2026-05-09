@@ -362,7 +362,7 @@ export default function SourceUseLicensePage() {
           </div>
           <p className="text-center text-slate-600 text-sm mt-6">
             Security documentation and compliance certifications available under NDA.{' '}
-            <Link href="/contact?subject=Security%20Documentation%20Request" className="text-red-600 hover:text-red-700 underline">Request access</Link>
+            <Link href="/contact?subject=Security%20Documentation%20Request" className="text-red-600 hover:text-red-700 underline">Contact sales</Link>
           </p>
         </div>
       </section>

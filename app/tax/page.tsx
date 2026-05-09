@@ -38,7 +38,7 @@ const NAV_ITEMS = [
     icon: ClipboardList,
   },
   {
-    title: 'Rise Up Foundation — Free Tax Help',
+    title: 'Free Tax Help',
     desc: 'Public VITA free tax help program information.',
     href: '/tax/rise-up-foundation/free-tax-help',
     icon: ArrowRight,

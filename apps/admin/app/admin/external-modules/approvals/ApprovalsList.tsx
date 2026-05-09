@@ -5,8 +5,6 @@ import React from 'react';
 // app/admin/external-modules/approvals/ApprovalsList.tsx
 // Client component for managing external module approvals
 
-import { createBrowserClient } from '@/lib/supabase/client';
-const supabase = createBrowserClient();
 import { useState } from 'react';
 
 type Submission = {
@@ -51,23 +49,13 @@ export default function ApprovalsList({
     setMessage(null);
 
     try {
-      if (!supabase || typeof supabase === 'string') {
-        throw new Error('Supabase client not initialized');
-      }
-
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) throw new Error('Not authenticated');
-
-      const { error } = await supabase
-        .from('external_partner_progress')
-        .update({
-          status: 'approved',
-          approved_by: userData.user.id,
-          approved_at: new Date().toISOString(),
-        })
-        .eq('id', submissionId);
-
-      if (error) throw error;
+      const res = await fetch(`/api/admin/external-modules/approvals/${submissionId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'approve' }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error || 'Failed to approve submission');
 
       // Move from pending to approved
       const submission = pending.find((s) => s.id === submissionId);
@@ -92,19 +80,13 @@ export default function ApprovalsList({
     setMessage(null);
 
     try {
-      if (!supabase || typeof supabase === 'string') {
-        throw new Error('Supabase client not initialized');
-      }
-
-      const { error } = await supabase
-        .from('external_partner_progress')
-        .update({
-          status: 'in_progress',
-          proof_file_url: null,
-        })
-        .eq('id', submissionId);
-
-      if (error) throw error;
+      const res = await fetch(`/api/admin/external-modules/approvals/${submissionId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'reject' }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error || 'Failed to reject submission');
 
       setPending(pending.filter((s) => s.id !== submissionId));
       setMessage('Submission rejected - student can resubmit');

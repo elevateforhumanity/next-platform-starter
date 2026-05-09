@@ -119,7 +119,7 @@ export const NAV: NavItem[] = [
   },
   {
     group: 'Tax',
-    label: 'Rise Up Foundation (Free)',
+    label: 'VITA Community Program (Free)',
     href: '/vita',
     showInHeader: true,
     description: 'Free tax help for eligible individuals',

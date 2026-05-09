@@ -241,6 +241,30 @@ const sourceToRegex = (source) => {
 };
 const redirectPatterns = redirectSources.map(sourceToRegex);
 
+const dynamicRouteToRegex = (routePath) => {
+  if (routePath === '/') return /^\/$/;
+
+  const segments = routePath.split('/').filter(Boolean);
+  const pattern = segments
+    .map((segment) => {
+      if (/^\[\[\.\.\..+\]\]$/.test(segment)) {
+        // Optional catch-all: can be omitted or contain one or more segments.
+        return '(?:\/.*)?';
+      }
+      if (/^\[\.\.\..+\]$/.test(segment)) {
+        // Required catch-all: must contain at least one segment.
+        return '\/.+';
+      }
+      if (/^\[.+\]$/.test(segment)) {
+        return '\/[^/]+';
+      }
+      return `\/${escapeRegExp(segment)}`;
+    })
+    .join('');
+
+  return new RegExp(`^${pattern}$`);
+};
+
 // Combine all valid paths
 const allValidPaths = new Set([
   ...pageRoutes,
@@ -261,10 +285,9 @@ for (const link of links) {
   }
   
   // Allow links that match a dynamic route pattern (e.g. /lms/courses/<uuid>)
-  const isDynamicMatch = Array.from(allValidPaths).some(p => {
+  const isDynamicMatch = Array.from(allValidPaths).some((p) => {
     if (!p.includes('[')) return false;
-    const pattern = p.replace(/\[.*?\]/g, '[^/]+');
-    return new RegExp('^' + pattern + '$').test(link);
+    return dynamicRouteToRegex(p).test(link);
   });
   if (isDynamicMatch) {
     validLinks.push({ link, status: 'dynamic-match' });

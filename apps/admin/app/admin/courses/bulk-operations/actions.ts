@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
+import { AdminAction, BULK_ENTITY_ID, logAdminAudit } from '@/lib/admin/audit-log';
 
 export async function bulkUpdateCourseStatus(
   ids: string[],
@@ -28,6 +29,14 @@ export async function bulkUpdateCourseStatus(
     .in('id', ids);
 
   if (error) return { success: false, error: error.message };
+
+  await logAdminAudit({
+    action: AdminAction.COURSE_DEFINITIONS_SYNCED,
+    actorId: auth.id,
+    entityType: 'training_courses',
+    entityId: BULK_ENTITY_ID,
+    metadata: { operation: 'bulk_status_update', status, count: ids.length },
+  });
 
   revalidatePath('/admin/courses');
   revalidatePath('/admin/courses/bulk-operations');

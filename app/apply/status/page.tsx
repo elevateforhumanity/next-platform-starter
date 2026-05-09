@@ -40,7 +40,7 @@ export default function ApplicationStatusPage() {
         setApplication(data.application);
       } else {
         setError(
-          data.error || 'Application not found. Please check your Application ID and email.',
+          data.error || 'We could not verify those details. Please check and try again.',
         );
       }
     } catch (error) {

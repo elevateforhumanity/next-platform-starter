@@ -57,7 +57,7 @@ function EnrollPaymentContent() {
         if (res.ok) {
           setApplicationValid(true);
         } else {
-          setError('Application not found or not eligible for payment. Please apply first.');
+          setError('We could not verify this application for payment. Please confirm your details or submit a new application.');
         }
       } catch {
         // If verification endpoint doesn't exist, allow proceeding
