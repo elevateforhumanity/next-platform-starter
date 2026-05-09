@@ -62,6 +62,16 @@ export default function ProgramApplyPage({ program }: Props) {
 
   const [fundingEligibilityStatus, setFundingEligibilityStatus] =
     useState<EligibilityStatus | null>(null);
+  const [workoneIntakeCompleted, setWorkoneIntakeCompleted] = useState<'yes' | 'no' | ''>('');
+  const [workoneAppointmentDate, setWorkoneAppointmentDate] = useState('');
+  const [workoneCenter, setWorkoneCenter] = useState('');
+  const [workoneChecklist, setWorkoneChecklist] = useState({
+    iccAccountCreated: false,
+    profileCompleted: false,
+    documentsReady: false,
+    appointmentBooked: false,
+    metAdvisor: false,
+  });
 
   // Auth guard
   useEffect(() => {
@@ -81,20 +91,44 @@ export default function ProgramApplyPage({ program }: Props) {
 
   const updateField = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    if (field === 'fundingInterest') setFundingEligibilityStatus(null);
+    if (field === 'fundingInterest') {
+      setFundingEligibilityStatus(null);
+      setWorkoneIntakeCompleted('');
+      setWorkoneAppointmentDate('');
+      setWorkoneCenter('');
+      setWorkoneChecklist({
+        iccAccountCreated: false,
+        profileCompleted: false,
+        documentsReady: false,
+        appointmentBooked: false,
+        metAdvisor: false,
+      });
+    }
   };
 
   const isFunded = ['wioa', 'wrg', 'fssa', 'impact'].includes(formData.fundingInterest);
+  const isWorkoneFunding = ['wioa', 'wrg'].includes(formData.fundingInterest);
+  const finalFundingEligibilityStatus: EligibilityStatus | null =
+    fundingEligibilityStatus ??
+    (isWorkoneFunding
+      ? workoneIntakeCompleted === 'yes'
+        ? 'in_process'
+        : workoneIntakeCompleted === 'no'
+          ? 'needs_appointment'
+          : null
+      : null);
+
   const fundedReady =
     formData.fundingInterest === 'employer' ||
     formData.fundingInterest === 'unsure' ||
-    (isFunded && fundingEligibilityStatus !== null);
+    (isFunded && finalFundingEligibilityStatus !== null);
 
   const canSubmit =
     formData.firstName &&
     formData.lastName &&
     formData.email &&
     formData.phone &&
+    (!isWorkoneFunding || workoneIntakeCompleted !== '') &&
     (formData.fundingInterest === 'self-pay' || fundedReady);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
@@ -118,7 +152,16 @@ export default function ProgramApplyPage({ program }: Props) {
           program: program.title,
           programSlug: program.slug,
           fundingType: formData.fundingInterest,
-          fundingEligibilityStatus: fundingEligibilityStatus ?? undefined,
+          fundingEligibilityStatus: finalFundingEligibilityStatus ?? undefined,
+          workoneIntakeCompleted: workoneIntakeCompleted || undefined,
+          workoneAppointmentDate: workoneAppointmentDate || undefined,
+          workoneCenter: workoneCenter || undefined,
+          workoneChecklist:
+            isWorkoneFunding
+              ? Object.entries(workoneChecklist)
+                  .filter(([, done]) => done)
+                  .map(([key]) => key)
+              : undefined,
           source: 'program-page',
           paymentOption: formData.fundingInterest === 'self-pay' ? paymentOption : 'funded',
         }),
@@ -523,6 +566,135 @@ export default function ProgramApplyPage({ program }: Props) {
                     }
                     onReady={(status) => setFundingEligibilityStatus(status)}
                   />
+                </div>
+              )}
+
+              {/* WorkOne intake tracking (WIOA / WRG only) */}
+              {isWorkoneFunding && (
+                <div className="border border-slate-200 rounded-xl p-4 bg-white">
+                  <h3 className="text-base font-bold text-slate-900 mb-2">
+                    WorkOne Intake Status
+                  </h3>
+                  <p className="text-sm text-slate-600 mb-3">
+                    Have you completed your WorkOne intake yet? This determines your funding qualification path.
+                  </p>
+
+                  <div className="space-y-2 mb-4">
+                    <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-slate-200 hover:border-brand-blue-400 transition-colors">
+                      <input
+                        type="radio"
+                        name="workoneIntakeCompleted"
+                        value="yes"
+                        checked={workoneIntakeCompleted === 'yes'}
+                        onChange={() => setWorkoneIntakeCompleted('yes')}
+                        className="text-brand-blue-600"
+                      />
+                      <span className="text-sm font-medium text-slate-700">
+                        Yes — I already started/completed WorkOne intake
+                      </span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-slate-200 hover:border-brand-blue-400 transition-colors">
+                      <input
+                        type="radio"
+                        name="workoneIntakeCompleted"
+                        value="no"
+                        checked={workoneIntakeCompleted === 'no'}
+                        onChange={() => setWorkoneIntakeCompleted('no')}
+                        className="text-brand-blue-600"
+                      />
+                      <span className="text-sm font-medium text-slate-700">
+                        No — I need to schedule my WorkOne intake
+                      </span>
+                    </label>
+                  </div>
+
+                  {workoneIntakeCompleted === 'no' && (
+                    <div className="rounded-lg bg-amber-50 border border-amber-200 p-4 space-y-2">
+                      <p className="text-sm font-semibold text-amber-800">
+                        Next step: schedule your WorkOne appointment
+                      </p>
+                      <ol className="list-decimal list-inside text-sm text-amber-700 space-y-1">
+                        <li>Create your Indiana Career Connect account</li>
+                        <li>Find your nearest WorkOne center</li>
+                        <li>Book an intake appointment with a career advisor</li>
+                        <li>Bring your documents and request WIOA/WRG eligibility review</li>
+                      </ol>
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        <a
+                          href="https://www.indianacareerconnect.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-brand-blue-700 text-white text-sm font-semibold hover:bg-brand-blue-800"
+                        >
+                          Open Indiana Career Connect
+                        </a>
+                        <a
+                          href="https://www.in.gov/dwd/find-a-workone-center/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-300 text-slate-700 text-sm font-semibold hover:bg-slate-50"
+                        >
+                          Find a WorkOne Center
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
+                  {workoneIntakeCompleted === 'yes' && (
+                    <div className="rounded-lg bg-brand-blue-50 border border-brand-blue-200 p-4 space-y-3">
+                      <p className="text-sm font-semibold text-brand-blue-800">
+                        Post-WorkOne checklist (for progress tracking)
+                      </p>
+                      <div className="grid sm:grid-cols-2 gap-2">
+                        {[
+                          ['iccAccountCreated', 'ICC account created'],
+                          ['profileCompleted', 'Profile completed'],
+                          ['documentsReady', 'Documents prepared'],
+                          ['appointmentBooked', 'Appointment booked'],
+                          ['metAdvisor', 'Met WorkOne advisor'],
+                        ].map(([key, label]) => (
+                          <label key={key} className="flex items-center gap-2 text-sm text-slate-700">
+                            <input
+                              type="checkbox"
+                              checked={workoneChecklist[key as keyof typeof workoneChecklist]}
+                              onChange={(e) =>
+                                setWorkoneChecklist((prev) => ({
+                                  ...prev,
+                                  [key]: e.target.checked,
+                                }))
+                              }
+                            />
+                            {label}
+                          </label>
+                        ))}
+                      </div>
+                      <div className="grid sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1">
+                            WorkOne appointment date (optional)
+                          </label>
+                          <input
+                            type="date"
+                            value={workoneAppointmentDate}
+                            onChange={(e) => setWorkoneAppointmentDate(e.target.value)}
+                            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-1">
+                            WorkOne center (optional)
+                          </label>
+                          <input
+                            type="text"
+                            value={workoneCenter}
+                            onChange={(e) => setWorkoneCenter(e.target.value)}
+                            placeholder="Example: WorkOne Indy East"
+                            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

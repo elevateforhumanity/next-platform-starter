@@ -125,6 +125,16 @@ async function _POST(req: Request) {
       `Program Interest: ${program}`,
       body.preferredContact ? `Preferred Contact: ${body.preferredContact}` : '',
       body.fundingType ? `Funding Type: ${body.fundingType}` : '',
+      body.workoneIntakeCompleted
+        ? `WorkOne Intake Completed: ${body.workoneIntakeCompleted}`
+        : '',
+      body.workoneAppointmentDate
+        ? `WorkOne Appointment Date: ${body.workoneAppointmentDate}`
+        : '',
+      body.workoneCenter ? `WorkOne Center: ${body.workoneCenter}` : '',
+      body.workoneChecklist && Array.isArray(body.workoneChecklist)
+        ? `WorkOne Checklist: ${body.workoneChecklist.join(', ')}`
+        : '',
       body.source ? `Source: ${body.source}` : '',
       body.hasHostShop ? `Has Host Shop: ${body.hasHostShop}` : '',
       body.hostShopName ? `Host Shop Name: ${body.hostShopName}` : '',

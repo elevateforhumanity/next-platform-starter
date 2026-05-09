@@ -34,7 +34,7 @@ const FUNDING_TYPES = [
     full: 'IMPACT Program',
     who: 'SNAP recipients referred through FSSA or WorkOne',
     covers: 'Training, support services, transportation assistance',
-    href: '/fssa',
+    href: '/funding/how-it-works',
   },
   {
     name: 'JRI',
