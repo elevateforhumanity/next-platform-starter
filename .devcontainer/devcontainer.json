@@ -39,7 +39,16 @@
   "remoteEnv": {
     "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium",
     "CHROMIUM_PATH": "/usr/bin/chromium",
-    "NEXT_TELEMETRY_DISABLED": "1"
+    "NEXT_TELEMETRY_DISABLED": "1",
+    // AI providers — Dev Studio AI chat requires at least one of these.
+    // Set them as Codespaces secrets or in your host shell before opening the container.
+    "GROQ_API_KEY": "${localEnv:GROQ_API_KEY}",
+    "GEMINI_API_KEY": "${localEnv:GEMINI_API_KEY}",
+    "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}",
+    // Supabase — needed for any admin DB operations inside the container
+    "SUPABASE_SERVICE_ROLE_KEY": "${localEnv:SUPABASE_SERVICE_ROLE_KEY}",
+    "NEXT_PUBLIC_SUPABASE_URL": "${localEnv:NEXT_PUBLIC_SUPABASE_URL}",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "${localEnv:NEXT_PUBLIC_SUPABASE_ANON_KEY}"
   },
   "customizations": {
     "vscode": {
@@ -67,7 +76,16 @@
         },
         "typescript.tsdk": "node_modules/typescript/lib",
         "typescript.enablePromptUseWorkspaceTsdk": true,
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "terminal.integrated.defaultProfile.linux": "bash",
+        // GitHub Copilot — enabled in all editor contexts
+        "github.copilot.enable": {
+          "*": true,
+          "plaintext": true,
+          "markdown": true,
+          "yaml": true
+        },
+        "github.copilot.chat.localeOverride": "en",
+        "github.copilot.advanced": {}
       }
     },
     "codespaces": {

@@ -129,7 +129,7 @@ Be concise and direct. Provide working code.`;
       logger.warn('[devstudio/chat] DB log failed', err);
     }
 
-    return NextResponse.json({ message: assistantMessage });
+    return NextResponse.json({ message: assistantMessage, provider });
   } catch (error) {
     logger.error('[devstudio/chat] error', error);
     return NextResponse.json({ error: 'Failed to get AI response' }, { status: 500 });

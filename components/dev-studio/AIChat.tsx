@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Copy, Check, Sparkles } from 'lucide-react';
+import { Send, Bot, User, Loader2, Copy, Check, Sparkles, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -19,8 +19,33 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [documentsContext, setDocumentsContext] = useState('');
+  const [aiStatus, setAiStatus] = useState<'checking' | 'ready' | 'unconfigured'>('checking');
+  const [aiProvider, setAiProvider] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Probe AI availability on mount
+  useEffect(() => {
+    async function checkAi() {
+      try {
+        const res = await fetch('/api/devstudio/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: [{ role: 'user', content: 'ping' }] }),
+        });
+        const data = await res.json();
+        if (res.status === 503 || data?.debug) {
+          setAiStatus('unconfigured');
+        } else {
+          setAiStatus('ready');
+          if (data?.provider) setAiProvider(data.provider);
+        }
+      } catch {
+        setAiStatus('unconfigured');
+      }
+    }
+    checkAi();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -170,7 +195,25 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
         <span className="text-sm font-medium text-slate-700">AI Assistant</span>
       </div>
 
-      {/* Messages — flex-1 + min-h-0 lets this shrink so the composer stays visible */}
+      {/* AI status banner */}
+      {aiStatus === 'unconfigured' && (
+        <div className="flex-shrink-0 flex items-start gap-2 bg-amber-50 border-b border-amber-200 px-4 py-2.5">
+          <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div className="text-xs text-amber-800 leading-snug">
+            <strong>AI not configured.</strong> Add <code className="bg-amber-100 px-1 rounded">GROQ_API_KEY</code> or{' '}
+            <code className="bg-amber-100 px-1 rounded">GEMINI_API_KEY</code> to the container environment
+            (Codespaces secrets or SSM <code className="bg-amber-100 px-1 rounded">/elevate/GROQ_API_KEY</code>).
+          </div>
+        </div>
+      )}
+      {aiStatus === 'ready' && (
+        <div className="flex-shrink-0 flex items-center gap-2 bg-green-50 border-b border-green-200 px-4 py-1.5">
+          <CheckCircle2 className="w-3.5 h-3.5 text-brand-green-600" />
+          <span className="text-xs text-green-800">
+            AI ready{aiProvider ? ` · ${aiProvider}` : ''}
+          </span>
+        </div>
+      )}
       <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 ? (
           <div className="text-center py-8">
