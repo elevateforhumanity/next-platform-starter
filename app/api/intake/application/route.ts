@@ -1,9 +1,15 @@
-// PUBLIC ROUTE: public intake application form
-
-// =====================================================
-// INTAKE STAGE 3: APPLICATION
-// Full application submission after eligibility confirmed
-// =====================================================
+/**
+ * ARCHIVED: /api/intake/application → /api/applications
+ *
+ * This multi-stage intake workflow has been consolidated into the main application
+ * submission flow at /api/applications for a unified user experience.
+ *
+ * Previous users of this endpoint should migrate to /api/applications, which accepts:
+ * - firstName, lastName, email, phone, program (+ optional fields)
+ * - Direct submission without pre-created lead records
+ *
+ * The lead-based intake system remains available in the admin panel for staff-driven enrollments.
+ */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/auth';
@@ -61,7 +67,28 @@ const ApplicationSchema = z.object({
   additionalInfo: z.string().optional(),
 });
 
-async function _POST(req: NextRequest) {
+/**
+ * Archived POST handler — redirects to /api/applications
+ * The unified application endpoint handles both simple and detailed submissions.
+ */
+export async function POST(req: NextRequest) {
+  // Return 410 Gone with archive notice
+  return NextResponse.json(
+    {
+      error: 'This endpoint has been archived',
+      message: 'Please use /api/applications for application submissions',
+      migrateUrl: '/api/applications',
+      details:
+        'This multi-stage intake workflow has been consolidated into /api/applications for unified user experience.',
+    },
+    { status: 410 },
+  );
+}
+
+/**
+ * Old implementation (archived below for reference)
+ */
+async function _POST_ARCHIVED(req: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(req, 'strict');
     if (rateLimited) return rateLimited;
@@ -200,4 +227,10 @@ async function _POST(req: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-export const POST = withApiAudit('/api/intake/application', _POST);
+
+/**
+ * Archive note: withApiAudit wrapped version is no longer exported.
+ * Use /api/applications instead.
+ *
+ * export const POST = withApiAudit('/api/intake/application', _POST);
+ */
