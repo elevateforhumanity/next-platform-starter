@@ -87,6 +87,31 @@ function ghHeaders(): HeadersInit {
   };
 }
 
+async function readGitHubDevcontainer(authenticated: boolean) {
+  const encodedPath = encodeURIComponent(DEVCONTAINER_GH).replace(/%2F/g, '/');
+  const res = await fetch(
+    `${GH_API}/repos/${REPO}/contents/${encodedPath}?ref=${BRANCH}`,
+    {
+      headers: authenticated
+        ? ghHeaders()
+        : {
+            Accept: 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28',
+          },
+      cache: 'no-store',
+    },
+  );
+
+  if (!res.ok) {
+    return { ok: false as const, status: res.status };
+  }
+
+  const data = await res.json();
+  const raw = Buffer.from(data.content, 'base64').toString('utf-8');
+  const parsed = JSON.parse(raw);
+  return { ok: true as const, raw, parsed, sha: data.sha };
+}
+
 export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
@@ -95,26 +120,46 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   try {
-    if (!hasGitHubToken()) {
+    if (hasGitHubToken()) {
+      const gh = await readGitHubDevcontainer(true);
+      if (!gh.ok) {
+        if (gh.status === 404) return safeError('devcontainer.json not found in repo', 404);
+        return safeError('GitHub API error', gh.status);
+      }
+      return NextResponse.json({
+        raw: gh.raw,
+        parsed: gh.parsed,
+        sha: gh.sha,
+        source: 'github',
+        writable: true,
+      });
+    }
+
+    // No GITHUB_TOKEN: prefer local file (dev env), then fallback to unauthenticated
+    // GitHub read (public repo) so the panel still works in ECS as read-only.
+    try {
       const local = await readLocalDevcontainer();
-      return NextResponse.json({ raw: local.raw, parsed: local.parsed, sha: local.sha, source: 'local' });
+      return NextResponse.json({
+        raw: local.raw,
+        parsed: local.parsed,
+        sha: local.sha,
+        source: 'local',
+        writable: true,
+      });
+    } catch {
+      const gh = await readGitHubDevcontainer(false);
+      if (!gh.ok) {
+        if (gh.status === 404) return safeError('devcontainer.json not found in repo', 404);
+        return safeError('Devcontainer unavailable: set GITHUB_TOKEN or ensure repo is publicly readable', 503);
+      }
+      return NextResponse.json({
+        raw: gh.raw,
+        parsed: gh.parsed,
+        sha: gh.sha,
+        source: 'github-readonly',
+        writable: false,
+      });
     }
-
-    const encodedPath = encodeURIComponent(DEVCONTAINER_GH).replace(/%2F/g, '/');
-    const res = await fetch(
-      `${GH_API}/repos/${REPO}/contents/${encodedPath}?ref=${BRANCH}`,
-      { headers: ghHeaders() },
-    );
-
-    if (!res.ok) {
-      if (res.status === 404) return safeError('devcontainer.json not found in repo', 404);
-      return safeError('GitHub API error', res.status);
-    }
-
-    const data = await res.json();
-    const raw = Buffer.from(data.content, 'base64').toString('utf-8');
-    const parsed = JSON.parse(raw);
-    return NextResponse.json({ raw, parsed, sha: data.sha });
   } catch (err) {
     return safeInternalError(err, 'Failed to read devcontainer.json');
   }
@@ -145,16 +190,20 @@ export async function PUT(request: NextRequest) {
     JSON.parse(content);
 
     if (!hasGitHubToken()) {
-      const result = await writeLocalDevcontainer(content, sha);
-      if (result.conflict) {
-        return safeError('sha mismatch; reload before saving', 409);
-      }
+      try {
+        const result = await writeLocalDevcontainer(content, sha);
+        if (result.conflict) {
+          return safeError('sha mismatch; reload before saving', 409);
+        }
 
-      return NextResponse.json({
-        ok: true,
-        sha: result.sha,
-        commit: 'local write (GITHUB_TOKEN not configured)',
-      });
+        return NextResponse.json({
+          ok: true,
+          sha: result.sha,
+          commit: 'local write (GITHUB_TOKEN not configured)',
+        });
+      } catch {
+        return safeError('Save requires GITHUB_TOKEN in production/ECS environments', 503);
+      }
     }
 
     const encoded = Buffer.from(content, 'utf-8').toString('base64');

@@ -31,6 +31,8 @@ export default function DevContainerPanel() {
   const [status, setStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'visual' | 'raw'>('visual');
+  const [writable, setWritable] = useState(true);
+  const [source, setSource] = useState<string>('unknown');
 
   useEffect(() => {
     load();
@@ -51,6 +53,14 @@ export default function DevContainerPanel() {
       setParsed(data.parsed);
       setEditedRaw(data.raw);
       setParseError(null);
+      setWritable(data.writable !== false);
+      setSource(data.source ?? 'unknown');
+      if (data.writable === false) {
+        setStatus({
+          type: 'error',
+          message: 'Read-only mode: set GITHUB_TOKEN to enable saving from Dev Studio.',
+        });
+      }
     } catch (e) {
       setStatus({ type: 'error', message: (e as Error).message || 'Could not load devcontainer.json' });
     } finally {
@@ -74,7 +84,7 @@ export default function DevContainerPanel() {
   };
 
   const save = async () => {
-    if (parseError) return;
+    if (parseError || !writable) return;
     setSaving(true);
     setStatus(null);
     try {
@@ -123,6 +133,7 @@ export default function DevContainerPanel() {
         <div className="flex items-center gap-2">
           <Box className="w-4 h-4 text-brand-blue-600" />
           <span className="font-semibold text-sm text-slate-700">.devcontainer/devcontainer.json</span>
+          <span className="text-xs text-slate-500">({source})</span>
           {hasChanges && (
             <span className="text-xs bg-yellow-600 text-white px-2 py-0.5 rounded">unsaved</span>
           )}
@@ -137,7 +148,7 @@ export default function DevContainerPanel() {
           </button>
           <button
             onClick={save}
-            disabled={!hasChanges || !!parseError || saving}
+            disabled={!hasChanges || !!parseError || saving || !writable}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:opacity-40 disabled:cursor-not-allowed rounded text-sm text-white transition-colors"
           >
             <Save className="w-3.5 h-3.5" />
