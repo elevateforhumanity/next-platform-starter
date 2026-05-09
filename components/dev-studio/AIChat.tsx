@@ -23,6 +23,7 @@ const TOOL_META: Record<string, { label: string; color: string; icon: React.Elem
   get_dashboard_stats:     { label: 'Stats',        color: 'text-amber-700',       icon: Zap      },
   get_recent_applications: { label: 'Applications', color: 'text-orange-700',      icon: Database },
   list_blueprints:         { label: 'Blueprints',   color: 'text-purple-700',      icon: Database },
+  design_page_template:    { label: 'Page Template',color: 'text-indigo-700',      icon: Sparkles },
   run_safe_command:        { label: 'Shell',        color: 'text-slate-700',       icon: Terminal },
 };
 

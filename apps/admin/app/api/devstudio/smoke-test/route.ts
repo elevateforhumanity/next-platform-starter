@@ -23,6 +23,7 @@ import { NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminUrl } from '@/lib/utils/siteUrl';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -72,7 +73,7 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
-  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://admin.elevateforhumanity.org';
+  const adminUrl = getAdminUrl();
 
   const stream = new ReadableStream({
     async start(controller) {

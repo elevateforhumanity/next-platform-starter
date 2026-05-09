@@ -3,6 +3,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
+import { getAdminUrl } from '@/lib/utils/siteUrl';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -89,6 +90,8 @@ export async function GET(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
+  const adminUrl = getAdminUrl();
+
   const fallback: DevStudioConfigResponse = {
     quickCommands: [
       'Show git status',
@@ -119,7 +122,7 @@ export async function GET(req: NextRequest) {
           ]
         : []),
       { label: 'Public', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org' },
-      { label: 'Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org' },
+      { label: 'Admin', url: adminUrl },
       { label: 'LMS', url: process.env.NEXT_PUBLIC_LMS_URL || 'https://admin.elevateforhumanity.org/lms' },
     ],
     tabFiles: {
