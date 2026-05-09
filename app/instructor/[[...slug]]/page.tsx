@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
+import { InstructorIntakeForm } from '@/components/instructor/InstructorIntakeForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -95,27 +96,21 @@ export default async function InstructorWorkspacePage({
 
         {showStudentNew ? (
           <section className="bg-white rounded-xl border border-slate-200 p-6">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">Add Student Record</h2>
-            <p className="text-slate-600 mb-4">
-              Use this workflow to collect onboarding details before placing students into course cohorts.
-            </p>
-            <div className="grid md:grid-cols-2 gap-4 mb-5">
-              <input className="rounded-lg border border-slate-300 px-3 py-2" placeholder="Full name" />
-              <input className="rounded-lg border border-slate-300 px-3 py-2" placeholder="Email address" />
-              <input className="rounded-lg border border-slate-300 px-3 py-2" placeholder="Phone" />
-              <input className="rounded-lg border border-slate-300 px-3 py-2" placeholder="Program interest" />
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <button className="px-5 py-2.5 rounded-lg bg-brand-blue-600 text-white hover:bg-brand-blue-700 font-semibold" type="button">
-                Save Draft
-              </button>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Add Student to Intake</h2>
+                <p className="text-slate-600 text-sm mt-1">
+                  Collect onboarding details to enroll students into programs and track their progress.
+                </p>
+              </div>
               <Link
                 href="/instructor/students"
-                className="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-800 hover:bg-white font-semibold"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50"
               >
-                Back to Students
+                Back
               </Link>
             </div>
+            <InstructorIntakeForm />
           </section>
         ) : (
           <section className="bg-white rounded-xl border border-slate-200 p-6">

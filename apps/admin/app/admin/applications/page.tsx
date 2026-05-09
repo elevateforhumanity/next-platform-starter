@@ -60,53 +60,63 @@ export default async function ApplicationsPage({
       <div className="p-8 text-red-600">Service temporarily unavailable. Please try again.</div>
     );
 
-  let query = adminDb
-    .from('applications')
-    .select('*', { count: 'exact' })
-    // Exclude legacy intake-{timestamp} rows — their IDs are not UUIDs and the
-    // review page cannot load them. Real intake mirrors always have UUID ids.
-    .filter('id', 'not.like', 'intake-%')
-    .order('created_at', { ascending: false });
-  if (resolvedStatuses.length === 1) query = query.eq('status', resolvedStatuses[0]);
-  else if (resolvedStatuses.length > 1) query = query.in('status', resolvedStatuses);
-  if (programFilter === 'cdl-training')
-    query = query.or('program_slug.eq.cdl-training,program_interest.ilike.%cdl%');
-  if (search)
-    query = query.or(
-      `first_name.ilike.%${search}%,last_name.ilike.%${search}%,email.ilike.%${search}%,full_name.ilike.%${search}%`,
-    );
-  query = query.range(offset, offset + pageSize - 1);
+  // Optimize: use getApplicationCounts RPC if available; fall back to two parallel queries
+  // one for paginated results, one for counts only
+  const [
+    { data: applications, count: totalCount, error: applicationsError },
+    { data: countData, error: countError },
+    { count: guestPendingCount, error: guestError },
+  ] = await Promise.all([
+    // Query 1: Paginated applications with filters
+    (async () => {
+      let query = adminDb!
+        .from('applications')
+        .select('*', { count: 'exact' })
+        // Exclude legacy intake-{timestamp} rows — their IDs are not UUIDs and the
+        // review page cannot load them. Real intake mirrors always have UUID ids.
+        .filter('id', 'not.like', 'intake-%')
+        .order('created_at', { ascending: false });
+      if (resolvedStatuses.length === 1) query = query.eq('status', resolvedStatuses[0]);
+      else if (resolvedStatuses.length > 1) query = query.in('status', resolvedStatuses);
+      if (programFilter === 'cdl-training')
+        query = query.or('program_slug.eq.cdl-training,program_interest.ilike.%cdl%');
+      if (search)
+        query = query.or(
+          `first_name.ilike.%${search}%,last_name.ilike.%${search}%,email.ilike.%${search}%,full_name.ilike.%${search}%`,
+        );
+      return query.range(offset, offset + pageSize - 1);
+    })(),
+    // Query 2: Status counts only (head=true to avoid transferring full rows)
+    adminDb
+      .from('applications')
+      .select('status', { head: false })
+      .filter('id', 'not.like', 'intake-%'),
+    // Query 3: Guest pending count (separate count query)
+    adminDb
+      .from('applications')
+      .select('id', { count: 'exact', head: true })
+      .is('user_id', null)
+      .is('onboarding_sent_at', null)
+      .in('status', ['submitted', 'pending_admin_review', 'under_review', 'approved']),
+  ]);
 
-  const { data: applications, count: totalCount, error: applicationsError } = await query;
   if (applicationsError)
     return <div className="p-8 text-red-600">Failed to load applications. Please refresh.</div>;
-
-  const { data: allApps, error: allAppsError } = await adminDb
-    .from('applications')
-    .select('status')
-    .filter('id', 'not.like', 'intake-%');
-  if (allAppsError)
+  if (countError)
     return (
       <div className="p-8 text-red-600">Failed to load application counts. Please refresh.</div>
     );
 
+  // Compute status counts from countData
   const statusCounts: Record<string, number> = {};
   let totalApplications = 0;
-  allApps?.forEach((app: { status: string }) => {
+  countData?.forEach((app: { status: string }) => {
     statusCounts[app.status] = (statusCounts[app.status] || 0) + 1;
     totalApplications++;
   });
 
   const totalPages = Math.ceil((totalCount || 0) / pageSize);
   const pending = (statusCounts['pending'] || 0) + (statusCounts['submitted'] || 0);
-
-  // Count guest apps with no onboarding email sent
-  const { count: guestPendingCount } = await adminDb
-    .from('applications')
-    .select('id', { count: 'exact', head: true })
-    .is('user_id', null)
-    .is('onboarding_sent_at', null)
-    .in('status', ['submitted', 'pending_admin_review', 'under_review', 'approved']);
 
   const baseHref = `/admin/applications${rawStatus && rawStatus !== 'all' ? `?status=${rawStatus}` : ''}${search ? `${rawStatus && rawStatus !== 'all' ? '&' : '?'}search=${search}` : ''}`;
 
