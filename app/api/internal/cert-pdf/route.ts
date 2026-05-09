@@ -8,8 +8,28 @@ export const runtime = 'nodejs';
 
 export async function POST(req: NextRequest) {
   try {
+    const secret = process.env.CRON_SECRET;
+    const providedSecret = req.headers.get('x-internal-secret');
+    if (!secret || providedSecret !== secret) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { studentName, courseName, completionDate, certificateNumber, verifyUrl } =
       await req.json();
+
+    if (
+      !studentName ||
+      !courseName ||
+      !completionDate ||
+      !certificateNumber ||
+      !verifyUrl ||
+      String(studentName).length > 160 ||
+      String(courseName).length > 200 ||
+      String(certificateNumber).length > 120 ||
+      String(verifyUrl).length > 500
+    ) {
+      return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+    }
 
     const { PDFDocument, StandardFonts, rgb } = await import('pdf-lib');
 
@@ -103,6 +123,7 @@ export async function POST(req: NextRequest) {
       headers: {
         'Content-Type': 'application/pdf',
         'Cache-Control': 'no-store',
+        'X-Content-Type-Options': 'nosniff',
       },
     });
   } catch (e: unknown) {

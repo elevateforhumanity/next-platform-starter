@@ -41,6 +41,30 @@ const statusColors: Record<string, string> = {
   revoked: 'bg-brand-red-100 text-brand-red-800 border-brand-red-300',
 };
 
+type ReviewApplication = {
+  id: string;
+  first_name?: string | null;
+  last_name?: string | null;
+  full_name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  city?: string | null;
+  zip?: string | null;
+  status?: string | null;
+  program_interest?: string | null;
+  program_id?: string | null;
+  program_slug?: string | null;
+  source?: string | null;
+  support_notes?: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+  revoked_at?: string | null;
+  payment_status?: string | null;
+  _source?: 'apprenticeship_intake';
+};
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export default async function ReviewApplicationPage({
   params,
 }: {
@@ -48,13 +72,14 @@ export default async function ReviewApplicationPage({
 }) {
   // Auth is enforced by apps/admin/app/admin/layout.tsx — no duplicate requireRole() here.
   const { id } = await params;
+  const isUuid = UUID_RE.test(id);
+  const isLegacyIntakeId = id.startsWith('intake-');
 
   logger.info('[review/application] loading', { id });
 
-  // Reject non-UUID IDs immediately — legacy intake-{timestamp} IDs are not valid
-  // application records and will never resolve. Return a clear error instead of 404.
-  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  if (!UUID_RE.test(id)) {
+  // Accept canonical UUID IDs and legacy intake-* IDs.
+  // Reject everything else with a clear, deterministic message.
+  if (!isUuid && !isLegacyIntakeId) {
     logger.warn('[review/application] non-UUID id rejected', { id });
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
@@ -81,13 +106,13 @@ export default async function ReviewApplicationPage({
   }
   if (!db) notFound();
 
-  let app: Record<string, unknown> | null = null;
+  let app: ReviewApplication | null = null;
 
   // IDs starting with "intake-" are timestamp-based fallback IDs generated when
   // the applications mirror insert failed. The real data lives in apprenticeship_intake.
   // Try applications first (covers cases where the row was later backfilled), then
   // fall back to apprenticeship_intake using the embedded timestamp.
-  if (id.startsWith('intake-')) {
+  if (isLegacyIntakeId) {
     const { data: appRow } = await db.from('applications').select('*').eq('id', id).maybeSingle();
     if (appRow) {
       app = appRow;
@@ -151,13 +176,13 @@ export default async function ReviewApplicationPage({
 
   // Resolve program_interest to a program UUID for enrollment creation.
   // Priority: application.program_id (already resolved) → resolveProgram utility.
-  const resolvedProgram = await resolveProgram(db!, app.program_interest);
+  const resolvedProgram = await resolveProgram(db!, app.program_interest ?? null);
   const resolvedProgramId: string | null = app.program_id ?? resolvedProgram?.id ?? null;
   const programSlug: string =
     app.program_slug ?? resolvedProgram?.slug ?? app.program_interest ?? '';
 
   // Parse support_notes for structured data
-  const notes = (app.support_notes || '') as string;
+  const notes = app.support_notes || '';
   const noteFields = notes.split(' | ').filter(Boolean);
 
   return (

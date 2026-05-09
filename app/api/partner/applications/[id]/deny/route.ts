@@ -58,7 +58,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          to: application.email,
+          to: application.contact_email,
           subject: 'Partner Application Update - Elevate for Humanity',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

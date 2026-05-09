@@ -52,7 +52,7 @@ export const AlertTemplates = {
       <p><strong>Email:</strong> ${data.email}</p>
       <p><strong>Program:</strong> ${data.program}</p>
       <p><strong>Application ID:</strong> ${data.id}</p>
-      <p><a href="https://www.elevateforhumanity.org/admin/applications/${data.id}">Review Application</a></p>
+      <p><a href="https://www.elevateforhumanity.org/admin/applications/review/${data.id}">Review Application</a></p>
       <hr>
       <p><small>SLA: Respond within 48 hours</small></p>
     `,

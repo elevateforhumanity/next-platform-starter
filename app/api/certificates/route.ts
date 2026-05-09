@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 
 import { parseBody } from '@/lib/api-helpers';
 import { createServerSupabaseClient, getCurrentUser } from '@/lib/auth';
-import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { safeDbError, safeError, safeInternalError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -17,7 +17,7 @@ async function _GET(request: Request) {
 
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return safeError('Unauthorized', 401);
     }
 
     const supabase = await createServerSupabaseClient();
@@ -40,12 +40,12 @@ async function _GET(request: Request) {
       .order('issued_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeDbError(error, 'Failed to fetch certificates');
     }
 
     return NextResponse.json({ certificates: certificates || [] });
   } catch (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error, 'Failed to fetch certificates');
   }
 }
 
@@ -56,16 +56,32 @@ async function _POST(request: Request) {
 
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return safeError('Unauthorized', 401);
     }
 
     const body = await parseBody<Record<string, any>>(request);
 
     if (!body.courseId) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+      return safeError('Missing required fields', 400);
     }
 
     const supabase = await createServerSupabaseClient();
+
+    const { data: existing, error: existingError } = await supabase
+      .from('certificates')
+      .select('id')
+      .eq('student_id', user.id)
+      .eq('course_id', body.courseId)
+      .limit(1)
+      .maybeSingle();
+
+    if (existingError) {
+      return safeDbError(existingError, 'Failed to check existing certificate');
+    }
+
+    if (existing) {
+      return safeError('Certificate already exists for this course', 409);
+    }
 
     const { data: certificate, error } = await supabase
       .from('certificates')
@@ -79,12 +95,12 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeDbError(error, 'Failed to generate certificate');
     }
 
     return NextResponse.json(certificate, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error, 'Failed to generate certificate');
   }
 }
 export const GET = withApiAudit('/api/certificates', _GET);

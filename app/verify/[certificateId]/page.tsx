@@ -25,6 +25,17 @@ export default async function VerifyCertificatePage({
   params: Promise<{ certificateId: string }>;
 }) {
   const { certificateId } = await params;
+  const normalizedCertificateId = certificateId.trim();
+  const isSafeCertificateId = /^[A-Za-z0-9_-]{6,128}$/.test(normalizedCertificateId);
+  const isUuid =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      normalizedCertificateId,
+    );
+
+  if (!isSafeCertificateId) {
+    notFound();
+  }
+
   const supabase = await createClient();
 
   // Start to find certificate in multiple tables
@@ -85,13 +96,30 @@ export default async function VerifyCertificatePage({
 
   // Check main certificates table (by certificate_number or verification_token)
   if (!certificate) {
-    const { data: mainCert } = await supabase
+    const { data: byCertificateNumber } = await supabase
       .from('certificates')
       .select('*, profiles:student_id(full_name, email)')
-      .or(
-        `certificate_number.eq.${certificateId},verification_token.eq.${certificateId},id.eq.${certificateId}`,
-      )
+      .eq('certificate_number', normalizedCertificateId)
       .maybeSingle();
+
+    let mainCert = byCertificateNumber;
+    if (!mainCert) {
+      const { data: byVerificationToken } = await supabase
+        .from('certificates')
+        .select('*, profiles:student_id(full_name, email)')
+        .eq('verification_token', normalizedCertificateId)
+        .maybeSingle();
+      mainCert = byVerificationToken;
+    }
+
+    if (!mainCert && isUuid) {
+      const { data: byId } = await supabase
+        .from('certificates')
+        .select('*, profiles:student_id(full_name, email)')
+        .eq('id', normalizedCertificateId)
+        .maybeSingle();
+      mainCert = byId;
+    }
 
     if (mainCert) {
       certificate = mainCert;
@@ -208,7 +236,7 @@ export default async function VerifyCertificatePage({
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-slate-700">Certificate Number</p>
-                    <p className="font-semibold text-lg">{certificateId}</p>
+                    <p className="font-semibold text-lg">{normalizedCertificateId}</p>
                   </div>
                   <div>
                     <p className="text-sm text-slate-700">Certificate Type</p>
@@ -245,7 +273,7 @@ export default async function VerifyCertificatePage({
                 <div className="inline-block p-4 bg-white border-2 border-gray-200 rounded-lg">
                   <Image
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
-                      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://elevateforhumanity.com'}/verify/${certificateId}`,
+                      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://elevateforhumanity.com'}/verify/${normalizedCertificateId}`,
                     )}`}
                     alt="QR Code"
                     width={192}

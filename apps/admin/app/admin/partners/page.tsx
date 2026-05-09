@@ -24,6 +24,11 @@ export default async function PartnersPage() {
     .select('*', { count: 'exact', head: true })
     .eq('status', 'active');
 
+  const { count: pendingApplications } = await supabase
+    .from('partner_applications')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'pending');
+
   // Fetch relevant data
   const { data: items, count: totalItems } = await supabase
     .from('partners')
@@ -54,7 +59,7 @@ export default async function PartnersPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <h3 className="text-sm font-medium text-black mb-2">Total Items</h3>
                 <p className="text-3xl font-bold text-brand-blue-600">{totalItems || 0}</p>
@@ -62,6 +67,10 @@ export default async function PartnersPage() {
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <h3 className="text-sm font-medium text-black mb-2">Active</h3>
                 <p className="text-3xl font-bold text-brand-green-600">{activePartners || 0}</p>
+              </div>
+              <div className="bg-white rounded-lg shadow-sm border p-6">
+                <h3 className="text-sm font-medium text-black mb-2">Pending Applications</h3>
+                <p className="text-3xl font-bold text-amber-600">{pendingApplications || 0}</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <h3 className="text-sm font-medium text-black mb-2">Recent</h3>
@@ -108,14 +117,20 @@ export default async function PartnersPage() {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
-                href="/admin/partners"
+                href="/admin/partners/applications"
                 className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 text-lg"
+              >
+                Review Applications
+              </Link>
+              <Link
+                href="/admin/partners"
+                className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-blue-600 border-2 border-white text-lg"
               >
                 View Partners
               </Link>
               <Link
                 href="/admin/program-holders"
-                className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-blue-600 border-2 border-white text-lg"
+                className="bg-brand-blue-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-blue-700 border-2 border-white text-lg"
               >
                 View Program Holders
               </Link>

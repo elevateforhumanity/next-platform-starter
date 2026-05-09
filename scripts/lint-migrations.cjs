@@ -195,10 +195,22 @@ for (const file of files) {
           detail: codeTrimed.trim().slice(0, 80),
         });
       }
+
+      // If the next non-blank line is a table constraint, a trailing comma on the
+      // last column is valid and required (e.g. "created_at ...," before UNIQUE()).
+      let nextNonBlank = '';
+      for (let n = endIdx + 1; n <= blockEnd; n++) {
+        const candidate = lines[n].replace(/--.*$/, '').trim();
+        if (!candidate) continue;
+        nextNonBlank = candidate;
+        break;
+      }
+      const nextIsTableConstraint = /^,?\s*(CONSTRAINT|PRIMARY\s+KEY|UNIQUE|CHECK|FOREIGN\s+KEY|EXCLUDE)\b/i.test(nextNonBlank);
+
       // For multi-line columns the comma on the CHECK line is the separator for
       // the *next* column, not a trailing comma on the last column. Only flag
-      // TRAILING_COMMA when the column is single-line (endIdx === startIdx).
-      if (isLast && hasComma && !isMultiLine) {
+      // TRAILING_COMMA when there is no following table constraint.
+      if (isLast && hasComma && !isMultiLine && !nextIsTableConstraint) {
         issues.push({
           type: 'TRAILING_COMMA',
           file,

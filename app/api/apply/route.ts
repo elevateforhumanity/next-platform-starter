@@ -62,6 +62,14 @@ export const POST = withRateLimit(
       const needsWorkOneIntake = WORKFORCE_FUNDING_KEYS.some((k) =>
         (funding ?? '').toLowerCase().includes(k),
       );
+      const isWorkforceFunded = WORKFORCE_FUNDING_KEYS.some((k) =>
+        (funding ?? '').toLowerCase().includes(k),
+      );
+      const applicationStatus = needsWorkOneIntake
+        ? 'pending_workone'
+        : isWorkforceFunded
+          ? 'pending_admin_review'
+          : 'submitted';
 
       // Split name into first and last
       const nameParts = name.trim().split(' ');
@@ -110,9 +118,10 @@ export const POST = withRateLimit(
         program_interest: program,
         program_id: resolvedProgramId,
         reference_number: referenceNumber,
-        status: 'submitted',
+        status: applicationStatus,
         type: 'student',
         funding_type: funding || null,
+        source: source || 'website',
         support_notes: `Funding: ${funding}. ${eligible ? 'Prescreen pass' : 'Manual review'}${pathway_slug ? `. Pathway: ${pathway_slug}` : ''}`,
       };
 
@@ -123,7 +132,6 @@ export const POST = withRateLimit(
         const result = await insertWithPreAuthCheck(supabase, 'applications', {
           ...insertData,
           pathway_slug: pathway_slug || null,
-          source: source || 'direct',
         })
           .select('id')
           .maybeSingle();
@@ -226,7 +234,11 @@ export const POST = withRateLimit(
       }
 
       if (contentType?.includes('application/json')) {
-        return NextResponse.json({ success: true, pending_workone: needsWorkOneIntake });
+        return NextResponse.json({
+          success: true,
+          status: applicationStatus,
+          pending_workone: needsWorkOneIntake,
+        });
       }
 
       // Workforce-funded applicants → WorkOne intake page

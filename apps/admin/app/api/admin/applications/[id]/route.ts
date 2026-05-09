@@ -11,12 +11,15 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 async function _GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
   const { id } = await params;
+  if (!UUID_RE.test(id)) return safeError('Invalid application ID', 400);
   try {
     const data = await getApplication(id);
     if (!data) return safeError('Not found', 404);
@@ -32,6 +35,7 @@ async function _PATCH(request: Request, { params }: { params: Promise<{ id: stri
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
   const { id } = await params;
+  if (!UUID_RE.test(id)) return safeError('Invalid application ID', 400);
 
   try {
     const before = await getApplication(id);
@@ -92,6 +96,7 @@ async function _DELETE(request: Request, { params }: { params: Promise<{ id: str
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
   const { id } = await params;
+  if (!UUID_RE.test(id)) return safeError('Invalid application ID', 400);
 
   try {
     const before = await getApplication(id);

@@ -471,7 +471,7 @@ function WorkforcePanel({ data }: { data: any }) {
             {data.pendingApps.slice(0, 6).map((a: any) => (
               <Link
                 key={a.id}
-                href={`/admin/applications/${a.id}`}
+                href={`/admin/applications/review/${a.id}`}
                 className="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 py-3 hover:bg-slate-50"
               >
                 <div>

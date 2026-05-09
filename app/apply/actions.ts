@@ -692,25 +692,31 @@ async function insertApplication(payload: {
     }
   }
 
-  // Path B: Email-only fallback — DB unavailable, no record created.
-  // Return success:true so the user gets a confirmation, but status:'email_only'
-  // so the form routes to the thank-you page instead of checkout.
-  try {
-    await sendEnrollmentEmails();
-    return {
-      success: true,
-      status: 'email_only' as const,
-      applicationId: `email-${referenceNumber}`,
-      referenceNumber,
-    };
-  } catch (emailError) {
-    logger.error(`[Application] Email send failed for ${payload.email}`, emailError as Error);
-    return {
-      success: false,
-      error:
-        'We could not process your application. Please email us directly at elevate4humanityedu@gmail.com with your name, phone number, and program interest.',
-    };
-  }
+  // Path B: hard failure — never report success when no DB record exists.
+  logger.error('[Application] Submission failed before persistence', {
+    email: payload.email,
+    source: payload.source,
+    referenceNumber,
+  });
+  await Promise.all(
+    ADMIN_EMAILS.map((to) =>
+      sendEmailDirect(
+        to,
+        `Application submission failed: ${payload.email}`,
+        `<p>A learner submission failed before database persistence.</p>
+         <p><strong>Reference:</strong> ${referenceNumber}</p>
+         <p><strong>Email:</strong> ${payload.email}</p>
+         <p><strong>Source:</strong> ${payload.source}</p>
+         <p>Please follow up manually.</p>`,
+      ),
+    ),
+  ).catch((err) => logger.warn('[Apply] Failed to send DB failure alert email', err));
+
+  return {
+    success: false,
+    error:
+      'We could not save your application right now. Please try again in a moment or call 317-314-3757 so we can assist immediately.',
+  };
 }
 
 export async function submitStudentApplication(data: StudentApplicationData) {

@@ -99,7 +99,19 @@ async function _POST(request: NextRequest) {
         programs_requested: programsRequested,
         agreed_to_terms: true,
         status: 'pending',
-        intake: {},
+        // Preserve full partner form payload so admin review has complete context
+        // even when columns are normalized over time.
+        intake: {
+          ein: ein || null,
+          address_line2: addressLine2 || null,
+          website: website || null,
+          apprentice_capacity: apprenticeCapacity || null,
+          schedule_notes: scheduleNotes || null,
+          license_number: licenseNumber || null,
+          license_state: licenseState || null,
+          license_expiry: licenseExpiry || null,
+          additional_notes: additionalNotes || null,
+        },
       })
       .select()
       .maybeSingle();
@@ -179,7 +191,7 @@ async function _POST(request: NextRequest) {
               </table>
               
               <div style="margin-top: 24px; text-align: center;">
-                <a href="${siteUrl}/admin/partners" style="display: inline-block; background: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Review Application</a>
+                <a href="${siteUrl}/admin/partners/applications" style="display: inline-block; background: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Review Application</a>
               </div>
             </div>
           `,

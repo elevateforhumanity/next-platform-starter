@@ -40,7 +40,7 @@ const complianceAreas = [
       'Access Work Opportunity Tax Credits for hiring from eligible populations. Credits range from $2,400 to $9,600 per qualified hire.',
     status: 'Active',
     actions: [
-      { label: 'View Eligible Hires', href: '/employer-portal/wotc' },
+      { label: 'View Eligible Hires', href: '/employer/wotc' },
       { label: 'Download Forms', href: '/employer/documents' },
     ],
   },

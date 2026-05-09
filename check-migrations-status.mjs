@@ -11,7 +11,8 @@ async function checkMigrations() {
 
   const { count, error: countError } = await supabase
     .from('_migrations')
-    .select('*', { count: 'exact', head: true });
+    .select('filename', { count: 'exact' })
+    .limit(1);
 
   if (countError) {
     console.info('❌ Migration tracking table:', countError.message);
@@ -21,7 +22,12 @@ async function checkMigrations() {
     return;
   }
 
-  console.info('✅ Total migrations executed:', count);
+  if (count == null) {
+    console.info('⚠️  Could not determine migration count from _migrations (count is null).');
+    console.info('   Verify PostgREST count settings and table visibility for service role.');
+  } else {
+    console.info('✅ Total migrations executed:', count);
+  }
 
   const { data, error } = await supabase
     .from('_migrations')

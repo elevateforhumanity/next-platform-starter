@@ -51,7 +51,10 @@ async function _GET(req: NextRequest) {
   // Generate PDF via internal API route (runs on same ECS container)
   const pdfResponse = await fetch(`${origin}/api/internal/cert-pdf`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-internal-secret': process.env.CRON_SECRET ?? '',
+    },
     body: JSON.stringify({
       studentName: cert.student_name || u?.email || 'Learner',
       courseName: cert.course_name || c?.title || 'Course',

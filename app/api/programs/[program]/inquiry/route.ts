@@ -80,7 +80,7 @@ export async function POST(request: NextRequest, { params }: { params: { program
         ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
         ${message ? `<p><strong>Message:</strong> ${message}</p>` : ''}
         ${fundingQuestion ? `<p><strong>Funding question:</strong> ${fundingQuestion}</p>` : ''}
-        <p><a href="https://www.elevateforhumanity.org/admin/applications/${application.id}">View in Admin</a></p>
+        <p><a href="https://www.elevateforhumanity.org/admin/applications/review/${application.id}">View in Admin</a></p>
       `,
     });
   } catch (emailErr) {

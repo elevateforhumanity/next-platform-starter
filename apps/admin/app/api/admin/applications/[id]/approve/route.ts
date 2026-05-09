@@ -12,6 +12,8 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 async function _POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
@@ -22,6 +24,9 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ id: strin
   const adminUserId = auth.id;
 
   const { id } = await params;
+  if (!UUID_RE.test(id)) {
+    return NextResponse.json({ error: 'Invalid application ID' }, { status: 400 });
+  }
   const db = await requireAdminClient();
   if (!db) {
     return NextResponse.json({ error: 'Database not configured' }, { status: 503 });

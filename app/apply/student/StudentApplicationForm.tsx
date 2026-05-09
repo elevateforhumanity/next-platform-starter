@@ -432,8 +432,8 @@ export default function StudentApplicationForm({
       if (result.success) {
         trackEvent('application_complete', 'conversion', data.programInterest);
 
-        // Inquiry path or email-only fallback — thank you page, no payment
-        if (applicationType === 'inquiry' || result.status === 'email_only') {
+        // Inquiry path — thank you page, no payment
+        if (applicationType === 'inquiry') {
           router.push(
             `/apply/confirmation?ref=${encodeURIComponent(result.referenceNumber || '')}&program=${encodeURIComponent(data.programInterest || '')}`,
           );

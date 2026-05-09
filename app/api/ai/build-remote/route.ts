@@ -85,19 +85,38 @@ export async function POST(request: NextRequest) {
 
   const embedScript = generateEmbedScript(siteId, apiKey, features);
   const setupSteps = generateSetupSteps(platform);
+  const shopName = (() => {
+    try {
+      return `Integration Request: ${new URL(url).hostname}`;
+    } catch {
+      return 'Integration Request';
+    }
+  })();
 
-  // Save integration request as a partner application for follow-up
+  // Save integration request as a partner application for follow-up.
+  // Keep non-student integration leads out of the student applications queue.
   try {
     const db = await requireAdminClient();
     if (db) {
-      await db.from('applications').insert({
-        first_name: 'Integration',
-        last_name: 'Request',
-        email: `integration+${siteId}@pending.elevateforhumanity.org`,
-        program_interest: `Site Integration — ${platform} — ${url}`,
-        program_slug: 'partner-integration',
-        status: 'submitted',
-        support_notes: `Platform: ${platform} | URL: ${url} | Features: ${features.join(', ')} | SiteId: ${siteId}`,
+      await db.from('partner_applications').insert({
+        shop_name: shopName,
+        owner_name: 'Integration Request',
+        contact_email: `integration+${siteId}@pending.elevateforhumanity.org`,
+        phone: 'N/A',
+        address_line1: 'Not provided',
+        city: 'Not provided',
+        state: 'IN',
+        zip: '00000',
+        programs_requested: ['lms-integration'],
+        agreed_to_terms: true,
+        status: 'pending',
+        intake: {
+          platform,
+          url,
+          features,
+          site_id: siteId,
+          api_key: apiKey,
+        },
       });
     }
   } catch (err) {
