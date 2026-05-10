@@ -3,6 +3,7 @@ import { requireAdmin } from '@/lib/auth';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { FileText, Upload, ChevronRight, Download, ArrowRight } from 'lucide-react';
+import SamGrantAutoFillPanel from './SamGrantAutoFillPanel';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -182,6 +183,8 @@ export default async function DocumentsPage() {
           </>
         )}
       </div>
+
+      <SamGrantAutoFillPanel />
     </div>
   );
 }
