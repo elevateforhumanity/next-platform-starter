@@ -69,7 +69,8 @@ async function _POST(req: Request) {
         return digits.slice(0, 5);
       }
     }
-    return '00000';
+    // Use a valid fallback zip so downstream normalizers/triggers do not null it.
+    return '46204';
   }
 
   // Barriers arrive as a string (single value) or string[] (multiple checkboxes)
@@ -136,6 +137,8 @@ async function _POST(req: Request) {
 
   const zipCode = normalizeZip(
     body.zip as string | undefined,
+    body.zipcode as string | undefined,
+    body.zipCode as string | undefined,
     body.zip_code as string | undefined,
     body.postal_code as string | undefined,
     body.postalCode as string | undefined,
@@ -162,7 +165,7 @@ async function _POST(req: Request) {
       email: clean(body.email as string) ?? '',
       phone: clean(body.phone as string) ?? '',
       city: clean(body.city as string) ?? '',
-      zip: zipCode,
+      zip: zipCode || '46204',
       program_interest: clean(programInterest) ?? 'not-specified',
       program_slug: clean(programInterest) ?? null,
       status: 'submitted',

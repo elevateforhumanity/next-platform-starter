@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    # Admin deploy source of truth:
+    # - Only trigger from apps/admin and shared libs used by admin.
+    # - Do not add app/** here (that is LMS container scope).
     paths:
       - "apps/admin/**"
       - "lib/**"
@@ -50,4 +53,5 @@ jobs:
         run: |
           aws codebuild start-build \
             --project-name elevate-admin-build \
+            --buildspec-override aws/buildspec-admin.yml \
             --region us-east-1

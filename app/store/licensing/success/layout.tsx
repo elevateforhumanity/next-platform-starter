@@ -1,14 +1,2 @@
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'License Purchase Success | Elevate for Humanity',
-  robots: { index: false, follow: false },
-};
-
-export default function LicenseSuccessLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return children;
-}
+export { metadata } from '@/app/store/licenses/success/layout';
+export { default } from '@/app/store/licenses/success/layout';

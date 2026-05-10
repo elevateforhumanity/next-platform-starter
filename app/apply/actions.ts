@@ -353,9 +353,12 @@ async function insertApplication(payload: {
   | { success: false; error: string }
 > {
   let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
+  let persistenceFailureReason = 'unknown';
   try {
     supabase = await requireAdminClient();
   } catch (err) {
+    persistenceFailureReason =
+      err instanceof Error ? `admin client init failed: ${err.message}` : 'admin client init failed';
     logger.error('[Apply] getAdminClient failed in insertApplication', err);
   }
   const referenceNumber = generateReferenceNumber();
@@ -596,30 +599,47 @@ async function insertApplication(payload: {
         .eq('slug', programSlug)
         .maybeSingle();
 
-      const { data, error } = await supabase
-        .from('applications')
-        .insert({
-          first_name: payload.firstName,
-          last_name: payload.lastName,
+      const insertPayload = {
+        first_name: payload.firstName,
+        last_name: payload.lastName,
+        email: payload.email,
+        phone: payload.phone,
+        normalized_email: normalizedEmail,
+        normalized_phone: normalizedPhone,
+        city: payload.city,
+        zip: payload.zip,
+        program_interest: payload.programInterest,
+        program_id: programRow?.id || null,
+        support_notes: `Reference: ${referenceNumber} | ${payload.supportNotes}`,
+        reference_number: referenceNumber,
+        status: 'submitted',
+        source: payload.source,
+        type: 'student',
+        funding_type: payload.fundingType || null,
+      };
+
+      const tryInsert = async () =>
+        supabase
+          .from('applications')
+          .insert(insertPayload)
+          .select('id')
+          .maybeSingle();
+
+      let { data, error } = await tryInsert();
+      if (error) {
+        logger.warn('[Application] First DB insert attempt failed, retrying once', {
           email: payload.email,
-          phone: payload.phone,
-          normalized_email: normalizedEmail,
-          normalized_phone: normalizedPhone,
-          city: payload.city,
-          zip: payload.zip,
-          program_interest: payload.programInterest,
-          program_id: programRow?.id || null,
-          support_notes: `Reference: ${referenceNumber} | ${payload.supportNotes}`,
-          reference_number: referenceNumber,
-          status: 'submitted',
           source: payload.source,
-          type: 'student',
-          funding_type: payload.fundingType || null,
-        })
-        .select('id')
-        .maybeSingle();
+          referenceNumber,
+          error: error.message,
+        });
+        const retryResult = await tryInsert();
+        data = retryResult.data;
+        error = retryResult.error;
+      }
 
       if (error) {
+        persistenceFailureReason = `applications insert failed: ${error.message}`;
         logger.error(
           `[Application] DB insert failed for ${payload.email}`,
           new Error(error.message),
@@ -688,6 +708,8 @@ async function insertApplication(payload: {
         };
       }
     } catch (error) {
+      persistenceFailureReason =
+        error instanceof Error ? `insertApplication exception: ${error.message}` : 'insertApplication exception';
       logger.error(`[Application] DB error for ${payload.email}`, error as Error);
     }
   }
@@ -697,6 +719,7 @@ async function insertApplication(payload: {
     email: payload.email,
     source: payload.source,
     referenceNumber,
+    reason: persistenceFailureReason,
   });
   await Promise.all(
     ADMIN_EMAILS.map((to) =>
@@ -707,6 +730,13 @@ async function insertApplication(payload: {
          <p><strong>Reference:</strong> ${referenceNumber}</p>
          <p><strong>Email:</strong> ${payload.email}</p>
          <p><strong>Source:</strong> ${payload.source}</p>
+         <p><strong>Reason:</strong> ${persistenceFailureReason}</p>
+         <p><strong>Name:</strong> ${payload.firstName} ${payload.lastName}</p>
+         <p><strong>Phone:</strong> ${payload.phone}</p>
+         <p><strong>Program:</strong> ${payload.programInterest}</p>
+         <p><strong>Funding:</strong> ${payload.fundingType || 'n/a'}</p>
+         <p><strong>City/ZIP:</strong> ${payload.city} ${payload.zip}</p>
+         <p><strong>Notes:</strong> ${payload.supportNotes || 'n/a'}</p>
          <p>Please follow up manually.</p>`,
       ),
     ),

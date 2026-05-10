@@ -22,9 +22,18 @@ const adminConfig = {
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
 
+  experimental: {
+    workerThreads: false,
+    cpus: 1,
+    parallelServerCompiles: false,
+    parallelServerBuildTraces: false,
+  },
+
   // Resolve @/* to repo root so shared lib/, components/, types/ work
   webpack(config) {
     config.resolve.alias['@'] = ROOT;
+    // Keep peak memory stable during admin builds on low-RAM runners.
+    config.parallelism = 1;
     return config;
   },
 
