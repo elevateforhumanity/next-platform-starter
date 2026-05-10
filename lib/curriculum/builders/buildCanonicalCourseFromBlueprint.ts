@@ -25,6 +25,7 @@ import type {
 } from '../blueprints/types';
 import { logger } from '@/lib/logger';
 import { defaultActivities } from '../activities';
+import { loadIndustryStandards, type IndustryStandards } from '@/lib/industry/standards-loader';
 
 // ─── curriculum_lessons row shape (fields we read) ───────────────────────────
 
@@ -134,6 +135,49 @@ export interface BuildCanonicalCourseResult {
   warnings: string[];
 }
 
+function buildIndustryStandardsNote(
+  standards: IndustryStandards,
+  lessonRef: BlueprintLessonRef,
+): string {
+  const topTask = standards.top_tasks[0] ?? 'n/a';
+  const topSkill = standards.top_skills[0] ?? 'n/a';
+  const median = standards.median_annual_wage
+    ? `$${standards.median_annual_wage.toLocaleString()}`
+    : 'n/a';
+  const growth =
+    standards.projected_growth_pct != null
+      ? `${standards.projected_growth_pct}% (${standards.projected_growth_cat ?? 'unknown'})`
+      : 'n/a';
+
+  return [
+    '[Industry Standards Context]',
+    `SOC: ${standards.soc_code} - ${standards.occupation_title || 'Occupation'}`,
+    `Top task signal: ${topTask}`,
+    `Top skill signal: ${topSkill}`,
+    `Median wage: ${median}`,
+    `Growth outlook: ${growth}`,
+    `Sources: ${standards.sources.join(', ')}`,
+    `Lesson slug: ${lessonRef.slug}`,
+  ].join('\n');
+}
+
+function mergeInstructorNotes(
+  lessonRef: BlueprintLessonRef,
+  standards: IndustryStandards | null,
+): string | null {
+  const notes = [...(lessonRef.instructorNotes ?? [])];
+
+  if (standards) {
+    notes.push(buildIndustryStandardsNote(standards, lessonRef));
+  }
+
+  if (lessonRef.competencyChecks?.length) {
+    notes.push(`Competency checks: ${lessonRef.competencyChecks.join('; ')}`);
+  }
+
+  return notes.length ? notes.join('\n\n') : null;
+}
+
 // ─── Preflight validator ──────────────────────────────────────────────────────
 
 function validateLessons(modules: CredentialBlueprint['modules']): void {
@@ -180,6 +224,7 @@ export async function buildCanonicalCourseFromBlueprint(
 ): Promise<BuildCanonicalCourseResult> {
   const db = await requireAdminClient();
   const warnings: string[] = [];
+  let industryStandards: IndustryStandards | null = null;
 
   const slug = input.courseSlug ?? input.blueprint.programSlug;
   const title = input.courseTitle ?? input.blueprint.credentialTitle;
@@ -276,6 +321,25 @@ export async function buildCanonicalCourseFromBlueprint(
   }
 
   // ── 5. Upsert modules + lessons in blueprint order ────────────────────────
+  if (input.blueprint.socCode) {
+    try {
+      industryStandards = await loadIndustryStandards(
+        input.blueprint.socCode,
+        input.blueprint.credentialCode ?? null,
+      );
+      if (!industryStandards) {
+        warnings.push(
+          `Industry standards unavailable for SOC ${input.blueprint.socCode} (O*NET/BLS not loaded)`,
+        );
+      }
+    } catch (err) {
+      warnings.push(
+        `Industry standards load failed for SOC ${input.blueprint.socCode}: ${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
+  }
+
+  // ── 5. Upsert modules + lessons in blueprint order ────────────────────────
   let totalLessons = 0;
   let skipped = 0;
   const contentFailures: LessonFailure[] = [];
@@ -318,6 +382,7 @@ export async function buildCanonicalCourseFromBlueprint(
           lessonRef,
           curRow ?? null,
           input.blueprint.videoConfig,
+          industryStandards,
         );
         if (ok) {
           totalLessons++;
@@ -353,6 +418,7 @@ export async function buildCanonicalCourseFromBlueprint(
           mod,
           lessonRef,
           input.blueprint.videoConfig,
+          industryStandards,
         );
         if (ok) {
           totalLessons++;
@@ -445,6 +511,7 @@ async function upsertLesson(
   mod: BlueprintModule,
   lessonRef: BlueprintLessonRef,
   videoConfig?: BlueprintVideoConfig,
+  industryStandards?: IndustryStandards | null,
 ): Promise<boolean> {
   // order_index encoding: module * 1000 + lesson (matches course-service.ts convention)
   const orderIndex = mod.orderIndex * 1000 + lessonRef.order;
@@ -462,6 +529,8 @@ async function upsertLesson(
   if (lessonRef.durationMinutes != null)
     contentPayload.duration_minutes = lessonRef.durationMinutes;
   if (lessonRef.partnerExamCode) contentPayload.partner_exam_code = lessonRef.partnerExamCode;
+  const instructorNotes = mergeInstructorNotes(lessonRef, industryStandards ?? null);
+  if (instructorNotes) contentPayload.instructor_notes = instructorNotes;
 
   const { data: existing } = await db
     .from('course_lessons')
@@ -541,6 +610,7 @@ async function upsertLessonFromCurriculum(
   lessonRef: BlueprintLessonRef,
   cur: CurriculumRow | null,
   videoConfig?: BlueprintVideoConfig,
+  industryStandards?: IndustryStandards | null,
 ): Promise<boolean> {
   const orderIndex = mod.orderIndex * 1000 + lessonRef.order;
 
@@ -561,6 +631,9 @@ async function upsertLessonFromCurriculum(
     activities,
     ...(videoConfig ? { video_config: videoConfig } : {}),
   };
+
+  const instructorNotes = mergeInstructorNotes(lessonRef, industryStandards ?? null);
+  if (instructorNotes) payload.instructor_notes = instructorNotes;
 
   // Merge curriculum_lessons content when available
   if (cur) {
