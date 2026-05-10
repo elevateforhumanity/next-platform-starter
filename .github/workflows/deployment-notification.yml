@@ -93,7 +93,7 @@ jobs:
               comment.body.includes('Deployment Status')
             );
 
-            const body = `## 🚀 Deployment Status: ${{ steps.deployment.outputs.state == 'success' ? '✅ Success' : '❌ Failed' }}
+            const body = `## 🚀 Deployment Status: ${{ steps.deployment.outputs.state == 'success' && '✅ Success' || '❌ Failed' }}
 
             **Environment:** ${{ steps.deployment.outputs.environment }}
             **URL:** ${{ steps.deployment.outputs.url }}
