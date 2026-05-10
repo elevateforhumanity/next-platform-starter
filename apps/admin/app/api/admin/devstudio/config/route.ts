@@ -100,6 +100,7 @@ export async function GET(req: NextRequest) {
       'Show build errors',
       'List open ports',
       'Show loaded secrets (key names only)',
+      'Build full premium course (blueprint + seed + assessments + queued videos)',
     ],
     workflowButtons: [
       { key: 'deploy-lms', label: 'Deploy LMS', description: 'Build + push LMS to ECS' },

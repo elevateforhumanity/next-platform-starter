@@ -1,8 +1,9 @@
 'use client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   Sparkles,
   Loader2,
@@ -33,6 +34,10 @@ interface GeneratedCourse {
 export default function CourseGeneratorPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [building, setBuilding] = useState(false);
+  const [programId, setProgramId] = useState('');
+  const [programs, setPrograms] = useState<Array<{ id: string; title: string; slug?: string | null }>>([]);
+  const [programsLoading, setProgramsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState<GeneratedCourse | null>(null);
 
@@ -46,6 +51,39 @@ export default function CourseGeneratorPage() {
     includeQuizzes: true,
     includeAssignments: true,
   });
+
+  useEffect(() => {
+    let active = true;
+    async function loadPrograms() {
+      setProgramsLoading(true);
+      try {
+        const res = await fetch('/api/admin/programs');
+        const json = await res.json().catch(() => ({ data: [] }));
+        if (!res.ok || !Array.isArray(json?.data)) {
+          if (active) setPrograms([]);
+          return;
+        }
+        if (!active) return;
+        const mapped = json.data
+          .map((p: any) => ({
+            id: String(p.id ?? ''),
+            title: String(p.title ?? p.name ?? p.slug ?? 'Untitled Program'),
+            slug: p.slug ?? null,
+          }))
+          .filter((p: { id: string }) => p.id.length > 0)
+          .sort((a: { title: string }, b: { title: string }) => a.title.localeCompare(b.title));
+        setPrograms(mapped);
+      } catch {
+        if (active) setPrograms([]);
+      } finally {
+        if (active) setProgramsLoading(false);
+      }
+    }
+    loadPrograms();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,6 +144,40 @@ Include Assignments: ${formData.includeAssignments}
     }
   };
 
+  const handleBuildFullPremiumCourse = async () => {
+    if (!programId.trim()) {
+      setError('Program ID is required to run one-click full build.');
+      return;
+    }
+
+    setBuilding(true);
+    setError('');
+    try {
+      const res = await fetch(
+        `/api/admin/programs/${encodeURIComponent(programId.trim())}/auto-generate-course`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode: 'missing-only',
+            videoMode: 'queue',
+          }),
+        },
+      );
+      const data = await res.json();
+      if (!res.ok || !data?.ok) {
+        throw new Error(data?.error || 'Auto-generation failed');
+      }
+
+      const command = `Auto-generated course ${data.courseId ?? 'unknown'} for program ${programId.trim()} using blueprint ${data.blueprintId ?? 'unknown'} with queued videos`;
+      window.location.href = `/admin/dev-studio?tab=command&command=${encodeURIComponent(command)}`;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Auto-generation failed');
+    } finally {
+      setBuilding(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white p-8">
       {/* Hero Image */}
@@ -123,6 +195,32 @@ Include Assignments: ${formData.includeAssignments}
           <p className="text-slate-700">
             Generate complete courses with modules, lessons, and quizzes using AI
           </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link
+              href="/admin/course-builder/generate"
+              className="text-xs px-3 py-1.5 rounded border border-brand-blue-300 bg-brand-blue-50 text-brand-blue-700 hover:bg-brand-blue-100 transition-colors"
+            >
+              Open Central Processing Generator
+            </Link>
+            <Link
+              href="/admin/dev-studio?tab=command&command=Generate%20a%20new%20course"
+              className="text-xs px-3 py-1.5 rounded border border-gray-300 text-slate-900 hover:bg-gray-50 transition-colors"
+            >
+              Open Dev Studio
+            </Link>
+            <Link
+              href="/admin/media-studio"
+              className="text-xs px-3 py-1.5 rounded border border-gray-300 text-slate-900 hover:bg-gray-50 transition-colors"
+            >
+              Open Media Studio
+            </Link>
+            <Link
+              href="/admin/video-generator"
+              className="text-xs px-3 py-1.5 rounded border border-gray-300 text-slate-900 hover:bg-gray-50 transition-colors"
+            >
+              Open Video Generator
+            </Link>
+          </div>
         </div>
 
         {success && (
@@ -202,6 +300,36 @@ Include Assignments: ${formData.includeAssignments}
                   onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   placeholder="e.g., HVAC Fundamentals, Medical Billing Basics, CDL Test Preparation"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-2">Program Lookup</label>
+                <select
+                  value={programId}
+                  onChange={(e) => setProgramId(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  disabled={programsLoading}
+                >
+                  <option value="">{programsLoading ? 'Loading programs...' : 'Select a program'}</option>
+                  {programs.map((program) => (
+                    <option key={program.id} value={program.id}>
+                      {program.title}{program.slug ? ` (${program.slug})` : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-2">
+                  Program ID (manual override)
+                </label>
+                <input
+                  type="text"
+                  value={programId}
+                  onChange={(e) => setProgramId(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  placeholder="UUID from /admin/programs"
                 />
               </div>
 
@@ -324,6 +452,22 @@ Include Assignments: ${formData.includeAssignments}
                     <Sparkles className="w-5 h-5" />
                     <span>Generate Course with AI</span>
                   </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={handleBuildFullPremiumCourse}
+                disabled={building || !programId.trim()}
+                className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-brand-red-600 text-white rounded-lg font-semibold hover:bg-brand-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {building ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Building full premium course...</span>
+                  </>
+                ) : (
+                  <span>Build Full Premium Course (Auto + Studio)</span>
                 )}
               </button>
             </div>

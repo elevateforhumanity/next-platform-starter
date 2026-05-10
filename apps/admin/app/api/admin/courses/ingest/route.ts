@@ -6,6 +6,10 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { ingestCourse } from '@/lib/ai/course-ingestion';
 import { saveCourseBlueprint } from '@/lib/db/courses';
 import { isOpenAIConfigured, getOpenAIClient } from '@/lib/openai-client';
+import { loadIndustryStandards } from '@/lib/industry/standards-loader';
+import { buildBlueprintSystemPrompt } from '@/lib/ai/prompts/course-blueprint';
+import { logger } from '@/lib/logger';
+import { queueCourseLessonVideos } from '@/lib/course-builder/video-queue';
 import {
   SAFE_CHARS,
   MAX_CHARS,
@@ -18,6 +22,56 @@ import {
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
+
+type IndustryContext = {
+  socCode: string | null;
+  credentialCode: string | null;
+};
+
+async function resolveIndustryContext(args: {
+  programId?: string | null;
+  explicitSocCode?: string | null;
+  explicitCredentialCode?: string | null;
+}): Promise<IndustryContext> {
+  const explicitSoc = typeof args.explicitSocCode === 'string' ? args.explicitSocCode.trim() : '';
+  const explicitCredential =
+    typeof args.explicitCredentialCode === 'string' ? args.explicitCredentialCode.trim() : '';
+
+  if (explicitSoc) {
+    return {
+      socCode: explicitSoc,
+      credentialCode: explicitCredential || null,
+    };
+  }
+
+  if (!args.programId) {
+    return { socCode: null, credentialCode: explicitCredential || null };
+  }
+
+  try {
+    const db = await requireAdminClient();
+    const { data: program } = await db
+      .from('programs')
+      .select('soc_code, code, credential_type')
+      .eq('id', args.programId)
+      .maybeSingle();
+
+    const socCode = program?.soc_code?.trim() || null;
+    const credentialCode =
+      explicitCredential ||
+      program?.code?.trim() ||
+      program?.credential_type?.trim() ||
+      null;
+
+    return { socCode, credentialCode };
+  } catch (err) {
+    logger.warn('[courses/ingest] Failed to resolve industry context from program', {
+      programId: args.programId,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    return { socCode: null, credentialCode: explicitCredential || null };
+  }
+}
 
 /**
  * POST /api/admin/courses/ingest
@@ -54,10 +108,14 @@ async function _POST(request: Request) {
     source_text,
     course_mode,
     program_id,
+    soc_code,
+    credential_code,
     certificate_enabled,
     preview_only,
     blueprint_override,
     compile_lessons,
+    queue_videos,
+    video_queue_limit,
   } = body;
 
   // blueprint_override: client sends back the edited blueprint for the save pass
@@ -68,6 +126,23 @@ async function _POST(request: Request) {
         program_id: program_id || null,
         created_by: auth.profile.id,
       });
+
+      let videoQueueResult: Awaited<ReturnType<typeof queueCourseLessonVideos>> | null = null;
+      if (queue_videos !== false && result.courseId) {
+        try {
+          videoQueueResult = await queueCourseLessonVideos({
+            courseId: result.courseId,
+            limit: typeof video_queue_limit === 'number' ? video_queue_limit : null,
+            onlyMissing: true,
+          });
+        } catch (err) {
+          logger.warn('[courses/ingest] Failed to queue videos after blueprint save', {
+            courseId: result.courseId,
+            error: err instanceof Error ? err.message : String(err),
+          });
+        }
+      }
+
       return NextResponse.json(
         {
           courseId: result.courseId,
@@ -75,6 +150,10 @@ async function _POST(request: Request) {
           lessonCount: result.lessonCount,
           questionCount: result.questionCount,
           warnings: blueprint_override.warnings ?? [],
+          videosQueued: videoQueueResult?.queued ?? 0,
+          videoQueueFailed: videoQueueResult?.failed ?? 0,
+          videoStudioUrl: `/admin/video-generator?courseId=${result.courseId}`,
+          studioCommand: `Build premium course for ${result.courseId} with queued videos`,
         },
         { status: 201 },
       );
@@ -117,6 +196,41 @@ async function _POST(request: Request) {
   try {
     let textForExtraction = source_text.trim();
     const ingestionWarnings: string[] = [];
+    let systemPromptOverride: string | undefined;
+
+    const industryContext = await resolveIndustryContext({
+      programId: program_id || null,
+      explicitSocCode: soc_code ?? null,
+      explicitCredentialCode: credential_code ?? null,
+    });
+
+    if (industryContext.socCode) {
+      try {
+        const standards = await loadIndustryStandards(
+          industryContext.socCode,
+          industryContext.credentialCode,
+        );
+
+        if (standards) {
+          systemPromptOverride = buildBlueprintSystemPrompt(standards);
+          ingestionWarnings.push(
+            `Industry standards loaded for SOC ${industryContext.socCode} (${standards.sources.join(', ')}).`,
+          );
+        } else {
+          ingestionWarnings.push(
+            `Industry standards unavailable for SOC ${industryContext.socCode}. Continuing with default prompt.`,
+          );
+        }
+      } catch (err) {
+        logger.warn('[courses/ingest] Industry standards load failed', {
+          socCode: industryContext.socCode,
+          error: err instanceof Error ? err.message : String(err),
+        });
+        ingestionWarnings.push(
+          `Industry standards lookup failed for SOC ${industryContext.socCode}. Continuing with default prompt.`,
+        );
+      }
+    }
 
     if (isLarge) {
       const openai = getOpenAIClient();
@@ -144,6 +258,7 @@ async function _POST(request: Request) {
       program_id: program_id || null,
       certificate_enabled: certificate_enabled ?? true,
       compile_lessons: !preview_only && compile_lessons !== false,
+      systemPromptOverride,
     });
 
     // Merge any large-doc warnings into blueprint warnings
@@ -162,6 +277,22 @@ async function _POST(request: Request) {
       created_by: auth.profile.id,
     });
 
+    let videoQueueResult: Awaited<ReturnType<typeof queueCourseLessonVideos>> | null = null;
+    if (queue_videos !== false && result.courseId) {
+      try {
+        videoQueueResult = await queueCourseLessonVideos({
+          courseId: result.courseId,
+          limit: typeof video_queue_limit === 'number' ? video_queue_limit : null,
+          onlyMissing: true,
+        });
+      } catch (err) {
+        logger.warn('[courses/ingest] Failed to queue videos after ingest save', {
+          courseId: result.courseId,
+          error: err instanceof Error ? err.message : String(err),
+        });
+      }
+    }
+
     return NextResponse.json(
       {
         courseId: result.courseId,
@@ -170,6 +301,10 @@ async function _POST(request: Request) {
         questionCount: result.questionCount,
         warnings: blueprint.warnings,
         blueprint,
+        videosQueued: videoQueueResult?.queued ?? 0,
+        videoQueueFailed: videoQueueResult?.failed ?? 0,
+        videoStudioUrl: `/admin/video-generator?courseId=${result.courseId}`,
+        studioCommand: `Build premium course for ${result.courseId} with queued videos`,
       },
       { status: 201 },
     );
@@ -257,16 +392,52 @@ async function _GET(request: Request) {
   try {
     await updateIngestionDraftStage(jobId, 'extracting');
 
+    const industryContext = await resolveIndustryContext({
+      programId: draft.program_id,
+      explicitSocCode: null,
+      explicitCredentialCode: null,
+    });
+
+    let systemPromptOverride: string | undefined;
+    const resumeWarnings: string[] = [];
+    if (industryContext.socCode) {
+      try {
+        const standards = await loadIndustryStandards(
+          industryContext.socCode,
+          industryContext.credentialCode,
+        );
+        if (standards) {
+          systemPromptOverride = buildBlueprintSystemPrompt(standards);
+          resumeWarnings.push(
+            `Industry standards loaded for SOC ${industryContext.socCode} (${standards.sources.join(', ')}).`,
+          );
+        }
+      } catch (err) {
+        logger.warn('[courses/ingest] Resume standards load failed', {
+          socCode: industryContext.socCode,
+          error: err instanceof Error ? err.message : String(err),
+        });
+        resumeWarnings.push(
+          `Industry standards lookup failed for SOC ${industryContext.socCode}. Continuing with default prompt.`,
+        );
+      }
+    }
+
     const blueprint = await ingestCourse({
       source_type: draft.source_type as any,
       source_text: draft.summarized_text || '',
       course_mode: draft.course_mode as any,
       program_id: draft.program_id,
       certificate_enabled: draft.certificate_enabled,
+      systemPromptOverride,
     });
 
-    if (draft.warnings?.length) {
-      blueprint.warnings = [...draft.warnings, ...(blueprint.warnings || [])];
+    if (draft.warnings?.length || resumeWarnings.length) {
+      blueprint.warnings = [
+        ...(draft.warnings || []),
+        ...resumeWarnings,
+        ...(blueprint.warnings || []),
+      ];
     }
 
     await updateIngestionDraftStage(jobId, 'done');

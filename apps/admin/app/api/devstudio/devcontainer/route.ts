@@ -26,6 +26,64 @@ const MAX_CONTENT_BYTES = 64 * 1024; // 64 KB
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+function stripJsonCommentsAndTrailingCommas(input: string): string {
+  let out = '';
+  let inString = false;
+  let quote = '';
+  let i = 0;
+
+  while (i < input.length) {
+    const ch = input[i];
+    const next = input[i + 1];
+
+    if (inString) {
+      out += ch;
+      if (ch === '\\') {
+        if (i + 1 < input.length) {
+          out += input[i + 1];
+          i += 2;
+          continue;
+        }
+      } else if (ch === quote) {
+        inString = false;
+        quote = '';
+      }
+      i += 1;
+      continue;
+    }
+
+    if (ch === '"' || ch === "'") {
+      inString = true;
+      quote = ch;
+      out += ch;
+      i += 1;
+      continue;
+    }
+
+    if (ch === '/' && next === '/') {
+      i += 2;
+      while (i < input.length && input[i] !== '\n') i += 1;
+      continue;
+    }
+
+    if (ch === '/' && next === '*') {
+      i += 2;
+      while (i + 1 < input.length && !(input[i] === '*' && input[i + 1] === '/')) i += 1;
+      i += 2;
+      continue;
+    }
+
+    out += ch;
+    i += 1;
+  }
+
+  return out.replace(/,\s*([}\]])/g, '$1');
+}
+
+function parseJsonc(content: string): unknown {
+  return JSON.parse(stripJsonCommentsAndTrailingCommas(content));
+}
+
 function hasGitHubToken(): boolean {
   return Boolean(process.env.GITHUB_TOKEN);
 }
@@ -55,7 +113,7 @@ async function resolveLocalDevcontainerPath(): Promise<string> {
 async function readLocalDevcontainer() {
   const filePath = await resolveLocalDevcontainerPath();
   const raw = await readFile(filePath, 'utf8');
-  const parsed = JSON.parse(raw);
+  const parsed = parseJsonc(raw);
   return { raw, parsed, sha: computeSha(raw), filePath };
 }
 
@@ -108,7 +166,7 @@ async function readGitHubDevcontainer(authenticated: boolean) {
 
   const data = await res.json();
   const raw = Buffer.from(data.content, 'base64').toString('utf-8');
-  const parsed = JSON.parse(raw);
+  const parsed = parseJsonc(raw);
   return { ok: true as const, raw, parsed, sha: data.sha };
 }
 
@@ -186,8 +244,8 @@ export async function PUT(request: NextRequest) {
       return safeError(`content exceeds maximum size of ${MAX_CONTENT_BYTES / 1024} KB`, 413);
     }
 
-    // Validate JSON before committing
-    JSON.parse(content);
+    // Validate JSONC before committing
+    parseJsonc(content);
 
     if (!hasGitHubToken()) {
       try {

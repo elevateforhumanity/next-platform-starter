@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Save, RefreshCw, CheckCircle, AlertCircle, Box } from 'lucide-react';
+import { Save, RefreshCw, CheckCircle, AlertCircle, Box, Trash2 } from 'lucide-react';
 
 interface DevContainerConfig {
   name?: string;
@@ -19,6 +19,105 @@ interface DevContainerConfig {
       settings?: Record<string, unknown>;
     };
   };
+  xElevateEnvironments?: {
+    active?: string;
+    profiles?: Record<
+      string,
+      {
+        remoteEnv?: Record<string, string>;
+        forwardPorts?: number[];
+        postStartCommand?: string;
+      }
+    >;
+  };
+}
+
+interface ContainerEnvEntry {
+  key: string;
+  scope: 'runtime' | 'build' | 'unused';
+  description?: string;
+  masked_value: string;
+  has_value: boolean;
+  updated_at?: string;
+}
+
+function stripJsonCommentsAndTrailingCommas(input: string): string {
+  let out = '';
+  let inString = false;
+  let quote = '';
+  let i = 0;
+
+  while (i < input.length) {
+    const ch = input[i];
+    const next = input[i + 1];
+
+    if (inString) {
+      out += ch;
+      if (ch === '\\') {
+        if (i + 1 < input.length) {
+          out += input[i + 1];
+          i += 2;
+          continue;
+        }
+      } else if (ch === quote) {
+        inString = false;
+        quote = '';
+      }
+      i += 1;
+      continue;
+    }
+
+    if (ch === '"' || ch === "'") {
+      inString = true;
+      quote = ch;
+      out += ch;
+      i += 1;
+      continue;
+    }
+
+    if (ch === '/' && next === '/') {
+      i += 2;
+      while (i < input.length && input[i] !== '\n') i += 1;
+      continue;
+    }
+
+    if (ch === '/' && next === '*') {
+      i += 2;
+      while (i + 1 < input.length && !(input[i] === '*' && input[i + 1] === '/')) i += 1;
+      i += 2;
+      continue;
+    }
+
+    out += ch;
+    i += 1;
+  }
+
+  return out.replace(/,\s*([}\]])/g, '$1');
+}
+
+function parseJsonc(value: string): DevContainerConfig {
+  return JSON.parse(stripJsonCommentsAndTrailingCommas(value));
+}
+
+function toPrettyJson(value: DevContainerConfig): string {
+  return JSON.stringify(value, null, 2);
+}
+
+function parseEnvBlock(block: string): Record<string, string> {
+  const rows = block
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0 && !line.startsWith('#'));
+
+  const env: Record<string, string> = {};
+  for (const row of rows) {
+    const idx = row.indexOf('=');
+    if (idx <= 0) continue;
+    const key = row.slice(0, idx).trim();
+    const value = row.slice(idx + 1).trim();
+    if (key) env[key] = value;
+  }
+  return env;
 }
 
 export default function DevContainerPanel() {
@@ -30,13 +129,31 @@ export default function DevContainerPanel() {
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'visual' | 'raw'>('visual');
+  const [activeTab, setActiveTab] = useState<'visual' | 'environments' | 'raw'>('visual');
   const [writable, setWritable] = useState(true);
   const [source, setSource] = useState<string>('unknown');
+  const [envEntries, setEnvEntries] = useState<ContainerEnvEntry[]>([]);
+  const [envLoading, setEnvLoading] = useState(false);
+  const [envSaving, setEnvSaving] = useState(false);
+  const [envForm, setEnvForm] = useState({
+    key: '',
+    value: '',
+    scope: 'runtime' as 'runtime' | 'build' | 'unused',
+    description: '',
+  });
+  const [profileName, setProfileName] = useState('local');
+  const [profileEnvBlock, setProfileEnvBlock] = useState('');
 
   useEffect(() => {
     load();
+    loadContainerEnv();
   }, []);
+
+  const updateParsed = (next: DevContainerConfig) => {
+    setParsed(next);
+    setEditedRaw(toPrettyJson(next));
+    setParseError(null);
+  };
 
   const load = async () => {
     setLoading(true);
@@ -68,10 +185,27 @@ export default function DevContainerPanel() {
     }
   };
 
+  const loadContainerEnv = async () => {
+    setEnvLoading(true);
+    try {
+      const res = await fetch('/api/devstudio/env');
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error((err as { error?: string }).error ?? 'Failed to load container environment');
+      }
+      const data = await res.json();
+      setEnvEntries(Array.isArray(data.entries) ? data.entries : []);
+    } catch (e) {
+      setStatus({ type: 'error', message: (e as Error).message || 'Could not load container environment' });
+    } finally {
+      setEnvLoading(false);
+    }
+  };
+
   const handleRawChange = (value: string) => {
     setEditedRaw(value);
     try {
-      const p = JSON.parse(value);
+      const p = parseJsonc(value);
       setParsed(p);
       setParseError(null);
     } catch (e) {
@@ -80,6 +214,151 @@ export default function DevContainerPanel() {
       // Visual with parsed=null would silently fall through to the raw editor
       // with no indication of what happened.
       setActiveTab('raw');
+    }
+  };
+
+  const saveProfile = () => {
+    if (!parsed) return;
+    const name = profileName.trim();
+    if (!name) {
+      setStatus({ type: 'error', message: 'Profile name is required.' });
+      return;
+    }
+
+    const profileEnv = parseEnvBlock(profileEnvBlock);
+    const next: DevContainerConfig = {
+      ...parsed,
+      xElevateEnvironments: {
+        active: parsed.xElevateEnvironments?.active ?? name,
+        profiles: {
+          ...(parsed.xElevateEnvironments?.profiles ?? {}),
+          [name]: {
+            ...(parsed.xElevateEnvironments?.profiles?.[name] ?? {}),
+            remoteEnv: profileEnv,
+          },
+        },
+      },
+    };
+
+    updateParsed(next);
+    setStatus({ type: 'success', message: `Saved environment profile ${name}.` });
+  };
+
+  const applyPresetProfile = (preset: 'local' | 'staging' | 'production') => {
+    const presets: Record<'local' | 'staging' | 'production', Record<string, string>> = {
+      local: {
+        NODE_ENV: 'development',
+        NEXT_PUBLIC_SITE_URL: 'http://localhost:3000',
+        NEXT_PUBLIC_APP_URL: 'http://localhost:3000',
+      },
+      staging: {
+        NODE_ENV: 'production',
+        NEXT_PUBLIC_SITE_URL: 'https://staging.elevateforhumanity.org',
+        NEXT_PUBLIC_APP_URL: 'https://staging.elevateforhumanity.org',
+      },
+      production: {
+        NODE_ENV: 'production',
+        NEXT_PUBLIC_SITE_URL: 'https://www.elevateforhumanity.org',
+        NEXT_PUBLIC_APP_URL: 'https://www.elevateforhumanity.org',
+      },
+    };
+
+    const vars = presets[preset];
+    setProfileName(preset);
+    setProfileEnvBlock(
+      Object.entries(vars)
+        .map(([k, v]) => `${k}=${v}`)
+        .join('\n'),
+    );
+    setStatus({ type: 'success', message: `Loaded ${preset} profile template. Save then apply.` });
+  };
+
+  const applyProfile = (name: string) => {
+    if (!parsed) return;
+    const profile = parsed.xElevateEnvironments?.profiles?.[name];
+    if (!profile) return;
+
+    const next: DevContainerConfig = {
+      ...parsed,
+      remoteEnv: {
+        ...(parsed.remoteEnv ?? {}),
+        ...(profile.remoteEnv ?? {}),
+      },
+      forwardPorts: profile.forwardPorts ?? parsed.forwardPorts,
+      postStartCommand: profile.postStartCommand ?? parsed.postStartCommand,
+      xElevateEnvironments: {
+        ...(parsed.xElevateEnvironments ?? {}),
+        active: name,
+        profiles: parsed.xElevateEnvironments?.profiles ?? {},
+      },
+    };
+
+    updateParsed(next);
+    setProfileName(name);
+    setProfileEnvBlock(
+      Object.entries(profile.remoteEnv ?? {})
+        .map(([k, v]) => `${k}=${v}`)
+        .join('\n'),
+    );
+    setStatus({ type: 'success', message: `Applied environment profile ${name} to remoteEnv.` });
+  };
+
+  const saveContainerEnvEntry = async () => {
+    const key = envForm.key.trim().toUpperCase();
+    if (!/^[A-Z][A-Z0-9_]{1,127}$/.test(key)) {
+      setStatus({ type: 'error', message: 'Use ENV-style keys like API_KEY or NEXT_PUBLIC_SITE_URL.' });
+      return;
+    }
+    if (!envForm.value) {
+      setStatus({ type: 'error', message: 'Value is required for container env keys.' });
+      return;
+    }
+
+    setEnvSaving(true);
+    try {
+      const res = await fetch('/api/devstudio/env', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entries: [
+            {
+              key,
+              value: envForm.value,
+              scope: envForm.scope,
+              description: envForm.description,
+            },
+          ],
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error((data as { error?: string }).error ?? 'Failed to save environment key');
+      }
+
+      setEnvForm({ key: '', value: '', scope: 'runtime', description: '' });
+      await loadContainerEnv();
+      setStatus({ type: 'success', message: `Saved ${key} to container environment.` });
+    } catch (e) {
+      setStatus({ type: 'error', message: (e as Error).message || 'Failed to save environment key' });
+    } finally {
+      setEnvSaving(false);
+    }
+  };
+
+  const deleteContainerEnvEntry = async (key: string) => {
+    if (!confirm(`Delete ${key} from container environment?`)) return;
+
+    try {
+      const res = await fetch(`/api/devstudio/env?key=${encodeURIComponent(key)}`, { method: 'DELETE' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error((data as { error?: string }).error ?? 'Delete failed');
+      }
+      await loadContainerEnv();
+      setStatus({ type: 'success', message: `Deleted ${key}.` });
+    } catch (e) {
+      setStatus({ type: 'error', message: (e as Error).message || 'Failed to delete key' });
     }
   };
 
@@ -177,7 +456,7 @@ export default function DevContainerPanel() {
 
       {/* Tabs */}
       <div className="flex border-b border-slate-200 flex-shrink-0">
-        {(['visual', 'raw'] as const).map((tab) => (
+        {(['visual', 'environments', 'raw'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -187,7 +466,7 @@ export default function DevContainerPanel() {
                 : 'text-slate-500 hover:text-slate-700'
             }`}
           >
-            {tab === 'visual' ? 'Visual' : 'Raw JSON'}
+            {tab === 'visual' ? 'Visual' : tab === 'environments' ? 'Environments' : 'Raw JSON'}
           </button>
         ))}
       </div>
@@ -320,6 +599,175 @@ export default function DevContainerPanel() {
                 </pre>
               </Section>
             )}
+          </div>
+        ) : activeTab === 'environments' ? (
+          <div className="p-4 space-y-6">
+            <Section title="Environment Profiles (Gitpod-style)">
+              <p className="text-xs text-slate-500 mb-3">
+                Create named container profiles and apply one into devcontainer remoteEnv.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 mb-1">Profile Name</label>
+                  <input
+                    value={profileName}
+                    onChange={(e) => setProfileName(e.target.value)}
+                    className="w-full border border-slate-300 rounded px-3 py-2 text-sm"
+                    placeholder="local"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 mb-1">Active Profile</label>
+                  <input
+                    value={parsed?.xElevateEnvironments?.active ?? 'none'}
+                    readOnly
+                    className="w-full border border-slate-200 bg-slate-50 rounded px-3 py-2 text-sm"
+                  />
+                </div>
+              </div>
+
+              <label className="block text-xs font-semibold text-slate-500 mt-3 mb-1">Profile Variables</label>
+              <textarea
+                value={profileEnvBlock}
+                onChange={(e) => setProfileEnvBlock(e.target.value)}
+                spellCheck={false}
+                className="w-full border border-slate-300 rounded px-3 py-2 text-xs font-mono min-h-[120px]"
+                placeholder={'NODE_ENV=development\nNEXT_PUBLIC_SITE_URL=http://localhost:3000'}
+              />
+
+              <div className="flex flex-wrap gap-2 mt-3">
+                <button
+                  onClick={() => applyPresetProfile('local')}
+                  className="px-3 py-1.5 rounded text-sm border border-slate-300 hover:border-slate-400"
+                >
+                  One-click Local
+                </button>
+                <button
+                  onClick={() => applyPresetProfile('staging')}
+                  className="px-3 py-1.5 rounded text-sm border border-indigo-300 text-indigo-700 hover:bg-indigo-50"
+                >
+                  One-click Staging
+                </button>
+                <button
+                  onClick={() => applyPresetProfile('production')}
+                  className="px-3 py-1.5 rounded text-sm border border-fuchsia-300 text-fuchsia-700 hover:bg-fuchsia-50"
+                >
+                  One-click Production
+                </button>
+                <button
+                  onClick={saveProfile}
+                  className="px-3 py-1.5 rounded text-sm bg-brand-blue-600 hover:bg-brand-blue-700 text-white"
+                >
+                  Save Profile
+                </button>
+                {Object.keys(parsed?.xElevateEnvironments?.profiles ?? {}).map((name) => (
+                  <button
+                    key={name}
+                    onClick={() => applyProfile(name)}
+                    className="px-3 py-1.5 rounded text-sm border border-slate-300 hover:border-brand-blue-500 hover:text-brand-blue-600"
+                  >
+                    Apply {name}
+                  </button>
+                ))}
+              </div>
+            </Section>
+
+            <Section title="Container Secrets and Variables">
+              <p className="text-xs text-slate-500 mb-3">
+                Add runtime/build keys for the container directly from this dashboard.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <input
+                  value={envForm.key}
+                  onChange={(e) => setEnvForm((p) => ({ ...p, key: e.target.value }))}
+                  className="border border-slate-300 rounded px-3 py-2 text-sm"
+                  placeholder="GROQ_API_KEY"
+                />
+                <select
+                  value={envForm.scope}
+                  onChange={(e) =>
+                    setEnvForm((p) => ({
+                      ...p,
+                      scope: e.target.value as 'runtime' | 'build' | 'unused',
+                    }))
+                  }
+                  className="border border-slate-300 rounded px-3 py-2 text-sm"
+                >
+                  <option value="runtime">runtime</option>
+                  <option value="build">build</option>
+                  <option value="unused">unused</option>
+                </select>
+                <input
+                  value={envForm.value}
+                  onChange={(e) => setEnvForm((p) => ({ ...p, value: e.target.value }))}
+                  className="border border-slate-300 rounded px-3 py-2 text-sm md:col-span-2"
+                  placeholder="Secret or variable value"
+                />
+                <input
+                  value={envForm.description}
+                  onChange={(e) => setEnvForm((p) => ({ ...p, description: e.target.value }))}
+                  className="border border-slate-300 rounded px-3 py-2 text-sm md:col-span-2"
+                  placeholder="Description (optional)"
+                />
+              </div>
+
+              <div className="flex gap-2 mt-3">
+                <button
+                  onClick={saveContainerEnvEntry}
+                  disabled={envSaving}
+                  className="px-3 py-1.5 rounded text-sm bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white"
+                >
+                  {envSaving ? 'Saving…' : 'Save Key'}
+                </button>
+                <button
+                  onClick={loadContainerEnv}
+                  disabled={envLoading}
+                  className="px-3 py-1.5 rounded text-sm border border-slate-300 hover:border-slate-400"
+                >
+                  Refresh
+                </button>
+              </div>
+
+              <div className="mt-4 border border-slate-200 rounded overflow-hidden">
+                <div className="grid grid-cols-[2fr_80px_120px_1fr_90px] gap-2 bg-slate-50 border-b border-slate-200 px-3 py-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                  <span>Key</span>
+                  <span>Scope</span>
+                  <span>Value</span>
+                  <span>Description</span>
+                  <span>Action</span>
+                </div>
+                <div className="max-h-[260px] overflow-auto divide-y divide-slate-100">
+                  {envEntries.length === 0 && (
+                    <div className="px-3 py-3 text-xs text-slate-500">No container env keys yet.</div>
+                  )}
+                  {envEntries.map((entry) => (
+                    <div
+                      key={entry.key}
+                      className="grid grid-cols-[2fr_80px_120px_1fr_90px] gap-2 px-3 py-2 text-xs items-center"
+                    >
+                      <span className="font-mono text-slate-700 truncate" title={entry.key}>{entry.key}</span>
+                      <span className="text-slate-600">{entry.scope}</span>
+                      <span className="font-mono text-slate-500 truncate" title={entry.masked_value}>
+                        {entry.masked_value}
+                      </span>
+                      <span className="text-slate-600 truncate" title={entry.description || ''}>
+                        {entry.description || '—'}
+                      </span>
+                      <button
+                        onClick={() => deleteContainerEnvEntry(entry.key)}
+                        className="inline-flex items-center gap-1 text-red-600 hover:text-red-700"
+                        title={`Delete ${entry.key}`}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Section>
           </div>
         ) : (
           // Raw JSON tab

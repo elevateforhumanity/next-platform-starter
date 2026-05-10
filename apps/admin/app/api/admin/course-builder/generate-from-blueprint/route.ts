@@ -36,6 +36,9 @@ import {
   generateSynthesiaVideo,
 } from '@/lib/video/generate';
 import { getInstructorForCourse } from '@/lib/ai-instructors';
+import { loadIndustryStandards } from '@/lib/industry/standards-loader';
+import { buildIndustryStandardsBlock } from '@/lib/ai/prompts/course-blueprint';
+import { queueCourseLessonVideos } from '@/lib/course-builder/video-queue';
 
 export const maxDuration = 300;
 export const dynamic = 'force-dynamic';
@@ -46,6 +49,9 @@ interface GenerateFromBlueprintRequest {
   blueprintId: string;
   programId: string;
   mode?: 'replace' | 'missing-only';
+  videoMode?: 'queue' | 'inline' | 'off';
+  videoQueueLimit?: number;
+  inlineVideoLimit?: number;
 }
 
 interface LessonContent {
@@ -66,6 +72,7 @@ async function generateLessonContent(
   moduleTitle: string,
   courseTitle: string,
   state: string,
+  standardsBlock?: string,
 ): Promise<LessonContent> {
   const isCheckpoint = lesson.slug.includes('checkpoint');
   const isExam = lesson.slug.includes('exam') || lesson.slug.includes('final');
@@ -77,6 +84,8 @@ Course: ${courseTitle} (${state})
 Module: ${moduleTitle}
 Lesson: ${lesson.title}
 Type: ${isExam ? 'final exam' : isCheckpoint ? 'checkpoint quiz' : 'lesson'}
+
+${standardsBlock ? `INDUSTRY STANDARDS CONTEXT:\n${standardsBlock}\n\nUse this standards context as authoritative. Lesson objective, content, and quiz questions must trace back to listed job tasks/skills/credential domains when applicable.` : ''}
 
 Return ONLY valid JSON — no markdown, no prose:
 {
@@ -121,6 +130,7 @@ export async function POST(req: NextRequest) {
   if (!body?.programId) return safeError('programId is required', 400);
 
   const mode = body.mode ?? 'replace';
+  const videoMode = body.videoMode ?? 'queue';
 
   // ── Step 1: Load blueprint ─────────────────────────────────────────────────
   const registry = await getAllBlueprints();
@@ -129,6 +139,22 @@ export async function POST(req: NextRequest) {
 
   const courseTitle = blueprint.credentialTitle;
   const state = blueprint.state ?? 'Indiana';
+  let standardsBlock: string | undefined;
+
+  if (blueprint.socCode) {
+    try {
+      const standards = await loadIndustryStandards(blueprint.socCode, blueprint.credentialCode);
+      if (standards) {
+        standardsBlock = buildIndustryStandardsBlock(standards);
+      }
+    } catch (err) {
+      logger.warn('[generate-from-blueprint] standards load failed', {
+        blueprintId: blueprint.id,
+        socCode: blueprint.socCode,
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+  }
 
   // ── Step 2: Generate content for every lesson via GPT-4o ──────────────────
   const enrichedBlueprint = { ...blueprint, modules: blueprint.modules.map((m) => ({ ...m })) };
@@ -146,7 +172,13 @@ export async function POST(req: NextRequest) {
       }
 
       try {
-        const generated = await generateLessonContent(lesson, mod.title, courseTitle, state);
+        const generated = await generateLessonContent(
+          lesson,
+          mod.title,
+          courseTitle,
+          state,
+          standardsBlock,
+        );
 
         enrichedLessons.push({
           ...lesson,
@@ -232,76 +264,104 @@ export async function POST(req: NextRequest) {
     logger.error('[generate-from-blueprint] assessment-generator error:', err);
   }
 
-  // ── Step 5: Generate videos directly (no HTTP hop, no cookie dependency) ──
+  // ── Step 5: Queue or generate lesson videos ───────────────────────────────
   let videosQueued = 0;
-  try {
-    const { data: lessonRows } = await db
-      .from('course_lessons')
-      .select('id, title, content, lesson_type')
-      .eq('course_id', courseId)
-      .is('video_url', null)
-      .limit(10);
+  let videoQueueFailed = 0;
 
-    const instructor = getInstructorForCourse(courseTitle);
-    const VOICE_MAP: Record<string, string> = {
-      'dr-sarah-chen': 'nova',
-      'marcus-johnson': 'onyx',
-      'james-williams': 'echo',
-      'lisa-martinez': 'shimmer',
-      'robert-davis': 'fable',
-      'angela-thompson': 'alloy',
-    };
-    const voice = VOICE_MAP[instructor.id] ?? 'nova';
-
-    for (const lesson of lessonRows ?? []) {
-      const script =
-        `Welcome to ${courseTitle}, lesson: ${lesson.title}. ${(lesson.content ?? '').replace(/<[^>]+>/g, '').substring(0, 300)}`.trim();
-      let videoUrl: string | null = null;
-
-      // Synthesia first
-      if (process.env.SYNTHESIA_API_KEY && !videoUrl) {
-        try {
-          const r = await generateSynthesiaVideo(script, 'anna_costume1_cameraA');
-          videoUrl = r.videoUrl;
-        } catch {
-          /* fall through */
-        }
-      }
-
-      // D-ID second
-      if (process.env.DID_API_KEY && !videoUrl) {
-        try {
-          const { audioBuffer } = await generateNaturalVoiceover(script, voice, instructor.id);
-          const audioDataUrl = `data:audio/mp3;base64,${audioBuffer.toString('base64')}`;
-          const r = await generateDIDVideo(script, instructor.avatar, audioDataUrl);
-          videoUrl = r.videoUrl;
-        } catch {
-          /* fall through */
-        }
-      }
-
-      // TTS audio fallback
-      if (!videoUrl && process.env.OPENAI_API_KEY) {
-        try {
-          const { audioBuffer } = await generateNaturalVoiceover(script, voice, instructor.id);
-          const path = `course-videos/${courseId}/${lesson.id}.mp3`;
-          await db.storage
-            .from('course-videos')
-            .upload(path, audioBuffer, { contentType: 'audio/mp3', upsert: true });
-          const { data: urlData } = db.storage.from('course-videos').getPublicUrl(path);
-          videoUrl = urlData.publicUrl;
-        } catch {
-          /* non-fatal */
-        }
-      }
-
-      if (videoUrl) {
-        await db.from('course_lessons').update({ video_url: videoUrl }).eq('id', lesson.id);
-        videosQueued++;
-      }
+  if (videoMode === 'queue') {
+    try {
+      const queued = await queueCourseLessonVideos({
+        courseId,
+        onlyMissing: true,
+        limit: typeof body.videoQueueLimit === 'number' ? body.videoQueueLimit : null,
+      });
+      videosQueued = queued.queued;
+      videoQueueFailed = queued.failed;
+    } catch (err) {
+      logger.error('[generate-from-blueprint] video queue error:', err);
     }
-  } catch (err) {
-    logger.error('[generate-from-blueprint] video generation error:', err);
+  }
+
+  if (videoMode === 'inline') {
+    try {
+      const inlineLimit = typeof body.inlineVideoLimit === 'number' ? body.inlineVideoLimit : null;
+      let query = db
+        .from('course_lessons')
+        .select('id, title, content, lesson_type')
+        .eq('course_id', courseId)
+        .is('video_url', null);
+
+      if (inlineLimit && inlineLimit > 0) {
+        query = query.limit(inlineLimit);
+      }
+
+      const { data: lessonRows } = await query;
+
+      const instructor = getInstructorForCourse(courseTitle);
+      const VOICE_MAP: Record<string, string> = {
+        'dr-sarah-chen': 'nova',
+        'marcus-johnson': 'onyx',
+        'james-williams': 'echo',
+        'lisa-martinez': 'shimmer',
+        'robert-davis': 'fable',
+        'angela-thompson': 'alloy',
+      };
+      const voice = VOICE_MAP[instructor.id] ?? 'nova';
+
+      for (const lesson of lessonRows ?? []) {
+        const script =
+          `Welcome to ${courseTitle}, lesson: ${lesson.title}. ${(lesson.content ?? '').replace(/<[^>]+>/g, '').substring(0, 300)}`.trim();
+        let videoUrl: string | null = null;
+
+        // Synthesia first
+        if (process.env.SYNTHESIA_API_KEY && !videoUrl) {
+          try {
+            const r = await generateSynthesiaVideo(script, 'anna_costume1_cameraA');
+            videoUrl = r.videoUrl;
+          } catch {
+            /* fall through */
+          }
+        }
+
+        // D-ID second
+        if (process.env.DID_API_KEY && !videoUrl) {
+          try {
+            const { audioBuffer } = await generateNaturalVoiceover(script, voice, instructor.id);
+            const audioDataUrl = `data:audio/mp3;base64,${audioBuffer.toString('base64')}`;
+            const r = await generateDIDVideo(script, instructor.avatar, audioDataUrl);
+            videoUrl = r.videoUrl;
+          } catch {
+            /* fall through */
+          }
+        }
+
+        // TTS audio fallback
+        if (!videoUrl && process.env.OPENAI_API_KEY) {
+          try {
+            const { audioBuffer } = await generateNaturalVoiceover(script, voice, instructor.id);
+            const path = `course-videos/${courseId}/${lesson.id}.mp3`;
+            await db.storage
+              .from('course-videos')
+              .upload(path, audioBuffer, { contentType: 'audio/mp3', upsert: true });
+            const { data: urlData } = db.storage.from('course-videos').getPublicUrl(path);
+            videoUrl = urlData.publicUrl;
+          } catch {
+            /* non-fatal */
+          }
+        }
+
+        if (videoUrl) {
+          await db.from('course_lessons').update({ video_url: videoUrl }).eq('id', lesson.id);
+          videosQueued++;
+        }
+      }
+    } catch (err) {
+      logger.error('[generate-from-blueprint] inline video generation error:', err);
+    }
+  }
+
+  if (videoMode === 'off') {
+    videosQueued = 0;
   }
 
   // ── Step 6: Audit log ─────────────────────────────────────────────────────
@@ -319,6 +379,8 @@ export async function POST(req: NextRequest) {
       generationFailures: generationFailures.length,
       assessmentsGenerated,
       videosQueued,
+      videoMode,
+      videoQueueFailed,
     },
     req,
   });
@@ -334,7 +396,10 @@ export async function POST(req: NextRequest) {
     generationFailures,
     assessmentsGenerated,
     videosQueued,
+    videoQueueFailed,
+    videoMode,
     videoStudioUrl: `/admin/video-generator?courseId=${courseId}`,
+    studioCommand: `POST /api/admin/course-builder/generate-from-blueprint {"blueprintId":"${body.blueprintId}","programId":"${body.programId}","videoMode":"queue"}`,
     courseUrl: `/admin/courses/${courseId}`,
   });
 }

@@ -37,6 +37,13 @@ interface DevStudioConfig {
   tabFiles?: Partial<Record<Tab, string>>;
 }
 
+interface DevStudioHealth {
+  hasGroq: boolean;
+  hasGemini: boolean;
+  hasOpenAI: boolean;
+  hasGitHub: boolean;
+}
+
 const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: string }[] = [
   { id: 'command',   Icon: Sparkles,      label: 'Command'   },
   { id: 'chat',      Icon: MessageSquare, label: 'AI Chat'   },
@@ -153,12 +160,14 @@ function IframePreview({
 export default function DevStudioClient() {
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
+  const initialCommand = searchParams.get('command') ?? '';
   const valid: Tab[] = ['command','terminal','files','website','container','chat','documents'];
-  const init: Tab = raw && valid.includes(raw) ? raw : 'command';
+  const init: Tab = raw && valid.includes(raw) ? raw : (initialCommand ? 'command' : 'command');
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
   const [studioConfig, setStudioConfig] = useState<DevStudioConfig | null>(null);
   const [configLoadError, setConfigLoadError] = useState(false);
+  const [studioHealth, setStudioHealth] = useState<DevStudioHealth | null>(null);
 
   // Responsive behavior: avoid collapsing editor space on smaller screens.
   const [viewportWidth, setViewportWidth] = useState(1280);
@@ -230,8 +239,16 @@ export default function DevStudioClient() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch('/api/devstudio/health')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setStudioHealth(d))
+      .catch(() => setStudioHealth(null));
+  }, []);
+
   const tabFiles = { ...DEFAULT_TAB_FILES, ...(studioConfig?.tabFiles ?? {}) } as Record<Tab, string>;
   const previewUrl = studioConfig?.defaultPreviewUrl || 'https://www.elevateforhumanity.org';
+  const hasAnyAI = !!(studioHealth?.hasGroq || studioHealth?.hasGemini || studioHealth?.hasOpenAI);
 
   function openTab(t: Tab) {
     setTab(t);
@@ -271,6 +288,28 @@ export default function DevStudioClient() {
           <span className="flex items-center gap-1" style={{ color: '#4ec9b0' }}>
             <Circle className="w-2 h-2 fill-current" /> main
           </span>
+          {studioHealth && (
+            <>
+              <span
+                className="hidden md:inline px-1.5 py-0.5 rounded border"
+                style={{
+                  color: studioHealth.hasGitHub ? '#4ec9b0' : '#fca5a5',
+                  borderColor: studioHealth.hasGitHub ? '#4ec9b0' : '#fca5a5',
+                }}
+              >
+                {studioHealth.hasGitHub ? 'GitHub Connected' : 'GitHub Not Connected'}
+              </span>
+              <span
+                className="hidden md:inline px-1.5 py-0.5 rounded border"
+                style={{
+                  color: hasAnyAI ? '#4ec9b0' : '#f0a500',
+                  borderColor: hasAnyAI ? '#4ec9b0' : '#f0a500',
+                }}
+              >
+                {hasAnyAI ? 'English Commands Ready' : 'Enable AI Key For English Commands'}
+              </span>
+            </>
+          )}
           <span className="hidden sm:inline">Elevate LMS</span>
           {/* Preview toggle */}
           <button
@@ -350,7 +389,7 @@ export default function DevStudioClient() {
 
         {/* Editor area */}
         <div className="flex-1 min-w-0 overflow-hidden" style={{ background: '#1e1e1e' }}>
-          {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} />}
+          {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} initialCommand={initialCommand} />}
           {tab === 'chat'      && <AIChat />}
           {tab === 'terminal'  && <TerminalTab workflowButtons={studioConfig?.workflowButtons} />}
           {tab === 'files'     && <FilesTab />}
@@ -434,7 +473,7 @@ function stripAnsi(s: string) { return s.replace(/\x1b\[[0-9;]*m/g, ''); }
 
 // ── CommandTab ───────────────────────────────────────────────────────────────
 
-function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
+function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[]; initialCommand?: string }) {
   const [input, setInput]       = useState('');
   const [lines, setLines]       = useState<LogLine[]>([]);
   const [loading, setLoading]   = useState(false);
@@ -455,6 +494,11 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
       .then(d => setJobs(d.jobs ?? []))
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!initialCommand) return;
+    setInput(initialCommand);
+  }, [initialCommand]);
 
   const QUICK = quickCommands?.length ? quickCommands : [
     'Show git status',
@@ -648,6 +692,10 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
       {/* ── Main panel ── */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
 
+        <div className="flex-shrink-0 px-3 py-1.5 border-b border-blue-100 bg-blue-50 text-[11px] text-blue-700">
+          Use plain English commands: "Generate a CNA course", "Run enrollment report", "Deploy LMS".
+        </div>
+
         {/* Quick action buttons */}
         <div className="flex-shrink-0 border-b border-slate-200 bg-slate-50">
           <div className="flex flex-wrap gap-1.5 p-2.5 pb-2">
@@ -711,23 +759,22 @@ function CommandTab({ quickCommands }: { quickCommands?: string[] }) {
             )}
           </div>
           {/* Textarea + send */}
-          <div className="flex gap-2 items-end">
-            <span className="text-orange-500 font-mono text-sm font-bold mb-1.5">$</span>
-            <textarea
+          <div className="flex gap-2 items-center">
+            <span className="text-orange-500 font-mono text-sm font-bold">$</span>
+            <input
               value={input}
               onChange={e => setInput(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); run(input); } }}
+              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); run(input); } }}
               placeholder="Tell it what to do… e.g. 'Run enrollment report', 'Generate a CNA course', 'List at-risk students'"
-              rows={7}
               disabled={loading}
-              className="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-slate-800 text-sm outline-none focus:ring-2 focus:ring-orange-400 placeholder-slate-400 font-mono resize-y min-h-[170px] max-h-[45vh] disabled:opacity-60"
+              className="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 text-sm outline-none focus:ring-2 focus:ring-orange-400 placeholder-slate-400 font-mono h-10 disabled:opacity-60"
             />
             <button onClick={() => run(input)} disabled={loading || !input.trim()}
-              className="mb-0 p-1.5 sm:p-2 rounded-md bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors self-end">
+              className="p-2 rounded-md bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors h-10 w-10 inline-flex items-center justify-center">
               <Send className="w-3.5 h-3.5 text-white" />
             </button>
           </div>
-          <p className="text-[10px] text-slate-400 mt-1.5">Enter to run · Shift+Enter for new line · Output persists across page reloads</p>
+          <p className="text-[10px] text-slate-400 mt-1.5">Enter to run · Output persists across page reloads</p>
         </div>
       </div>
     </div>
