@@ -40,8 +40,11 @@ function checkHeaders(res: Response): EmbedResult {
   const faMatch = csp.match(/frame-ancestors\s+([^;]+)/i);
   if (faMatch) {
     const fa = faMatch[1].trim();
-    if (/^'none'$/i.test(fa) || /^'self'$/i.test(fa)) {
-      return { embeddable: false, reason: `CSP frame-ancestors: ${fa}` };
+    // 'none' → no framing allowed at all.
+    // 'self' → same-origin framing is allowed; the admin app embeds its own
+    //          origin so this is embeddable. Do NOT block on 'self'.
+    if (/^'none'$/i.test(fa)) {
+      return { embeddable: false, reason: `CSP frame-ancestors: 'none'` };
     }
   }
 

@@ -1075,10 +1075,11 @@ const nextConfig = {
         key: 'Strict-Transport-Security',
         value: 'max-age=63072000; includeSubDomains; preload',
       },
-      {
-        key: 'X-Frame-Options',
-        value: 'DENY',
-      },
+      // X-Frame-Options: DENY in production to prevent clickjacking.
+      // Omitted in dev so Dev Studio's iframe preview can load same-origin pages.
+      ...(isProduction
+        ? [{ key: 'X-Frame-Options', value: 'DENY' }]
+        : []),
       {
         key: 'X-Content-Type-Options',
         value: 'nosniff',
@@ -1112,7 +1113,8 @@ const nextConfig = {
           "object-src 'none'",
           "base-uri 'self'",
           "form-action 'self' https://js.stripe.com",
-          "frame-ancestors 'none'",
+          // Production: no framing allowed. Dev: allow same-origin for Dev Studio iframe.
+          isProduction ? "frame-ancestors 'none'" : "frame-ancestors 'self'",
           'upgrade-insecure-requests',
           // CSP violation reporting endpoint
           'report-uri /api/csp-report',
