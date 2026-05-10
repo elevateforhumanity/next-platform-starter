@@ -29,14 +29,14 @@ function getStoreWebhookSecrets(): string[] {
 
 function constructStripeEventWithAnySecret(
   stripe: Stripe,
-  body: string,
+  payload: Buffer,
   signature: string,
   secrets: string[],
 ): Stripe.Event {
   let lastError: unknown = null;
   for (const secret of secrets) {
     try {
-      return stripe.webhooks.constructEvent(body, signature, secret);
+      return stripe.webhooks.constructEvent(payload, signature, secret);
     } catch (err) {
       lastError = err;
     }
@@ -179,7 +179,7 @@ async function _POST(req: NextRequest) {
     return NextResponse.json({ received: true, warning: 'misconfigured' }, { status: 200 });
   }
 
-  const body = await req.text();
+  const payload = Buffer.from(await req.arrayBuffer());
   const sig = req.headers.get('stripe-signature');
 
   if (!sig) {
@@ -189,7 +189,7 @@ async function _POST(req: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    event = constructStripeEventWithAnySecret(stripe, body, sig, webhookSecrets);
+    event = constructStripeEventWithAnySecret(stripe, payload, sig, webhookSecrets);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('Webhook signature verification failed', {
