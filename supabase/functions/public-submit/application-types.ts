@@ -247,9 +247,6 @@ export const APPLICATION_TYPES: Record<string, ApplicationTypeConfig> = {
     },
   },
 
-  // ── SupersonicFastCash (tax prep) ────────────────────────────
-  },
-
   // ── Tax application ──────────────────────────────────────────
   tax: {
     destination: 'tax_applications',

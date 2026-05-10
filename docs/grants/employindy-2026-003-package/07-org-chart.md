@@ -99,7 +99,7 @@ Indianapolis, Indiana
 
 U.S. Army Veteran · IRS Enrolled Agent (EA) · EFIN and PTIN Holder · EPA 608 Certified Proctor · Indiana Substitute Teacher · Licensed Barber · DOL Registered Apprenticeship Sponsor · SAM.gov Registered Federal Government Contractor (CAGE: 0Q856) · ByBlack Certified · IMM Certified · EmployIndy Partner · WorkOne Partner · ETPL Provider · WIOA/WRG/JRI Approved · Job Ready Indy Partner · HSI Affiliate · CareerSafe OSHA Provider · Milady Partner · NRF Rise Up Provider · Certiport CATC
 
-Elizabeth founded Elevate for Humanity to eliminate barriers between Indianapolis residents and living-wage employment. She also operates SupersonicFastCash (tax preparation software) and Selfish Inc., a 501(c)(3) nonprofit (DBA: The Rise Foundation) providing VITA free tax preparation and community services.
+Elizabeth founded Elevate for Humanity to eliminate barriers between Indianapolis residents and living-wage employment. She also operates IRS-aligned tax preparation software and Selfish Inc., a 501(c)(3) nonprofit (DBA: The Rise Foundation) providing VITA free tax preparation and community services.
 
 ---
 

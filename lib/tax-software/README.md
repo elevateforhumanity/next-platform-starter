@@ -1,4 +1,4 @@
-# Supersonic Fast Cash E-File System
+# Tax Services E-File System
 
 ## Overview
 
@@ -53,7 +53,7 @@ lib/tax-software/
 ## Environment Variables
 
 ```env
-IRS_EFIN=358459                    # 6-digit EFIN (Supersonic Fast Cash)
+IRS_EFIN=358459                    # 6-digit EFIN (tax services)
 IRS_SOFTWARE_ID=PENDING            # IRS-assigned after ATS certification
 IRS_ENVIRONMENT=test               # test | production
 IRS_TEST_CERT_PATH=certs/test/client.crt

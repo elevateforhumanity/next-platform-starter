@@ -52,7 +52,7 @@ All other seed files have been moved to `archive/` folder:
 
 Some seed data is included in migrations:
 
-- `20260101_seed_eps_lessons.sql` - SupersonicFastCash tax training lessons
+- `20260101_seed_eps_lessons.sql` - tax training lessons
 - These are applied automatically with migrations
 
 ## Data Sources

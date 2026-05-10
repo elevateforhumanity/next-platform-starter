@@ -69,10 +69,10 @@ It's that straightforward.`,
     filename: 'hero-video-segment-with-narration.mp3',
     type: 'audio',
     voice: 'nova',
-    description: 'Supersonic Fast Cash hero narration',
+    description: 'Tax services hero narration',
     script: `Professional tax preparation, made simple.
 
-Supersonic Fast Cash helps you file your taxes accurately and get your refund faster.
+  Our tax services platform helps you file your taxes accurately and get your refund faster.
 
 Our certified preparers handle everything from simple W-2 returns to complex filings.
 

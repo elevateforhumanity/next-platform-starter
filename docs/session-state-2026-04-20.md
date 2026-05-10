@@ -19,7 +19,7 @@
 
 ### Pages removed from Elevate-lms
 
-- app/supersonic, app/tax/supersonicfastcash, app/api/supersonic\*, app/api/supersonic-cash
+- app/supersonic, app/tax legacy product routes, app/api/supersonic\*, app/api/supersonic-cash
 - Test pages: sentry-test, test-enrollment, test-images, cache-diagnostic, demos, micro-classes
 
 ### Pending

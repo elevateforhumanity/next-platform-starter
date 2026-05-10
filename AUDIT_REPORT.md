@@ -177,8 +177,8 @@ Evidence: `audit_artifacts/no-rate-limit-routes.log`
 
 - `app/api/identity/verify-ssn/route.ts`
 - `app/api/hr/payroll/route.ts`
-- `app/api/supersonic-fast-cash/file-return/route.ts`
-- `app/api/supersonic-fast-cash/clients/route.ts`
+- `app/api/tax/file-return/route.ts`
+- `app/api/tax/clients/route.ts`
 - `app/api/tax/file-return/route.ts`
 - `app/api/tax/calculate/route.ts`
 - `app/api/tax/validate/route.ts`

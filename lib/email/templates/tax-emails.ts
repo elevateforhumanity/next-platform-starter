@@ -1,7 +1,7 @@
 /**
  * Tax Services Email Templates
  * PART A: VITA Community Program (FREE - VITA Compliant)
- * PART B: SupersonicFastCash (PAID)
+ * PART B: Professional Tax Services (PAID)
  *
  * CRITICAL: These must remain completely separated for IRS compliance
  */

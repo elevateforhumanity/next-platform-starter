@@ -74,7 +74,7 @@ export const PAGE_METADATA: Record<
     path: '/store',
   },
 
-  // Supersonic Fast Cash (Tax)
+  // Tax services
 
   // Security
   security: {

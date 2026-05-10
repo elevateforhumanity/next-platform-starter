@@ -66,7 +66,7 @@ Indianapolis, Indiana
 **Delivery Method:**
 
 - **Employability Bootcamp:** Workplace behavior, professionalism, communication, and conflict resolution delivered via LMS and in-person sessions at Warren Central.
-- **Financial Literacy:** Module covering budgeting, banking, credit, and tax basics — informed by Elizabeth Greene's background as an IRS Enrolled Agent and SupersonicFastCash operator.
+- **Financial Literacy:** Module covering budgeting, banking, credit, and tax basics — informed by Elizabeth Greene's background as an IRS Enrolled Agent and tax-services operator.
 - **Employer-Led Sessions:** 2Exclusive Platinum Cleaning leadership delivers workplace expectations and professional development sessions for participants.
 - **Team-Based Projects:** LMS includes collaborative learning activities building accountability and peer leadership skills.
 
@@ -115,7 +115,7 @@ Indianapolis, Indiana
 
 ## Element 11 — Financial Literacy
 
-**Delivery Method:** Financial literacy module delivered via Elevate's LMS covering budgeting, banking, credit building, tax basics, and financial goal-setting. Content is informed by Elizabeth Greene's background as an IRS Enrolled Agent and operator of SupersonicFastCash tax preparation services. Participants learn to read a pay stub, understand withholding, and build a basic budget before entering employment.
+**Delivery Method:** Financial literacy module delivered via Elevate's LMS covering budgeting, banking, credit building, tax basics, and financial goal-setting. Content is informed by Elizabeth Greene's background as an IRS Enrolled Agent and operator of IRS-aligned tax preparation services. Participants learn to read a pay stub, understand withholding, and build a basic budget before entering employment.
 
 **Staff Responsible:** Career Coach, LMS platform, Elizabeth Greene (content development)
 

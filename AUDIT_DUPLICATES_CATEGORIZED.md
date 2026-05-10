@@ -16,7 +16,7 @@
 | `/app/apply/impact` | `/apply?program=impact` | Query param |
 | `/app/apply/program-holder` | `/apply?program-holder=true` | Query param |
 | `/app/fssa/apply` | `/apply?program=fssa` | Redirect |
-| `/app/supersonic-fast-cash/apply` | `/apply?program=tax-prep` | Redirect |
+| `/app/tax/apply` | `/apply?program=tax-prep` | Redirect |
 | `/app/booth-rental/apply` | `/apply?program=booth-rental` | Redirect |
 | `/app/help/tutorials/how-to-apply` | `/help/apply-tutorial` | Training content (keep) |
 | `/app/lms/(app)/apply` | `/apply` | Authenticated → canonical |
@@ -168,8 +168,8 @@
 ### D. Separate Products (Keep Separate)
 | System | Reason |
 |---|---|
-| `/api/tax-intake` | SupersonicFastCash (separate product) |
-| `/app/supersonic-fast-cash/*` | Tax prep application (different domain) |
+| `/api/tax-intake` | tax services workflow |
+| `/app/tax/*` | Tax prep application flow |
 | `/api/tax-filing/applications` | Tax filing, not training |
 
 **No action needed**—different business line.

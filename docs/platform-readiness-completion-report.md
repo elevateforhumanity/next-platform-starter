@@ -151,7 +151,7 @@ Run in order in Supabase Dashboard → SQL Editor:
 
 ## 11. Cloudflare Configuration
 
-- Add WAF rule: block requests to `/api/supersonic-fast-cash/jotform-webhook` where header `x-jotform-secret` is absent AND source IP is not in JotForm range
+- Add WAF rule: block requests to `/api/tax/jotform-webhook` where header `x-jotform-secret` is absent AND source IP is not in JotForm range
 - Add rate limit rule: `/api/provider/programs/submit` — 5 req/min per IP
 - Optional: Cloudflare Access policy on `/admin/*` and `/case-manager/*` for MFA enforcement
 - No Workers changes required

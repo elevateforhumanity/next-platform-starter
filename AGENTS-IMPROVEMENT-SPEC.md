@@ -185,7 +185,7 @@ These shims have inconsistent behavior — some throw on missing env vars, some 
 
 - `app/api/studio/*` (10 files) — all import `supabaseServer` from `@/lib/supabase-server`
 - `app/api/admin/export/enrollments/route.ts` — imports `supabaseAdmin` from `@/lib/supabaseClients`
-- `app/api/supersonic-fast-cash/jotform-webhook/route.ts` — imports from `@/lib/supabaseServer`
+- `app/api/tax/jotform-webhook/route.ts` — imports from `@/lib/supabaseServer`
 
 **Fix:** Migrate all 30 to `@/lib/supabase/server` (server components) or `@/lib/supabase/admin` (service role). Then delete the shim files.
 

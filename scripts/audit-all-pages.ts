@@ -174,10 +174,6 @@ function generateReport(results: AuditResult[]) {
     });
   }
 
-  // SupersonicFastCash specific audit
-    }
-  });
-
   // Save detailed report to file
   const reportPath = path.join(process.cwd(), 'audit-report.json');
   fs.writeFileSync(reportPath, JSON.stringify(results, null, 2));

@@ -7,5 +7,5 @@ compilation (`tsconfig.json`), and ESLint (`eslint.config.mjs`).
 **Do not import from `_archived/` in live code.**
 **Do not add new files there — use git history for archival instead.**
 
-Sub-projects archived there include: pwa, supersonic-fast-cash, store, franchise,
+Sub-projects archived there include: pwa, legacy tax-product routes, store, franchise,
 policies, legal, community, creator, and others removed during consolidation.

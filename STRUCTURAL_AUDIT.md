@@ -85,8 +85,8 @@ app/api/webhooks/stripe/route.ts          (2,492 lines, @ts-nocheck)
 app/api/stripe/webhook/route.ts           (570 lines)
 app/api/barber/webhook/route.ts           (871 lines)
 app/api/webhooks/stripe/career-courses/route.ts (139 lines)
-app/api/supersonic-fast-cash/stripe-webhook/route.ts (264 lines)
-app/api/supersonic-fast-cash/payment-webhook/route.ts (90 lines)
+app/api/tax/stripe-webhook/route.ts (264 lines)
+app/api/tax/payment-webhook/route.ts (90 lines)
 ```
 
 All six handle `checkout.session.completed`. Only one can be registered in Stripe at a time — the others are either dead code or registered on separate Stripe accounts. The canonical handler (`/api/webhooks/stripe`) is 2,492 lines with `@ts-nocheck` and writes to 11 tables inline. If a second handler is accidentally registered, the same event fires twice, creating duplicate enrollments.
@@ -254,7 +254,7 @@ An application submitted via `/api/apply` is reviewed via `/api/admin/applicatio
 
 ---
 
-### S3-15 — Tax domain (`/api/tax/`, `/api/supersonic-fast-cash/`) is entangled with LMS auth
+### S3-15 — Tax domain (`/api/tax/`) is entangled with LMS auth
 
 `/api/tax/book-appointment` and `/api/tax/file-return` use `createAdminClient` from `@/lib/supabase/admin` — the same admin client used by LMS enrollment. A misconfigured service role key breaks both the tax filing system and the LMS simultaneously. These should use separate Supabase projects or at minimum separate service accounts.
 

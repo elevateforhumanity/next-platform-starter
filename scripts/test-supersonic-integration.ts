@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 /**
- * Integration test for SupersonicFastCash features
+ * Integration test for tax services features
  * Tests database connections, API routes, and Supabase storage
  */
 

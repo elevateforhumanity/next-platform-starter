@@ -32,7 +32,7 @@ const VIDEO_SPECS = [
   {
     audioFile: 'hero-video-segment-with-narration.mp3',
     videoFile: 'hero-video-segment-with-narration.mp4',
-    title: 'Supersonic Fast Cash',
+    title: 'Tax Services',
     subtitle: 'Professional Tax Preparation',
     bgColor: '#1e40af', // blue-800
     textColor: '#ffffff',

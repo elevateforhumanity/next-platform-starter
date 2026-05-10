@@ -389,6 +389,8 @@ const nextConfig = {
       { source: '/verifyemail', destination: '/verify-email', permanent: true },
       { source: '/lms/messages/new', destination: '/lms/messages', permanent: true },
       { source: '/lms/messages/support/new', destination: '/lms/messages', permanent: true },
+      { source: '/supersonic-fast-cash/apply', destination: '/contact', permanent: true },
+      { source: '/supersonic-fast-cash/book-appointment', destination: '/contact', permanent: true },
       // building-maintenance-tech → building-services-technician (correct page)
       { source: '/programs/building-maintenance-tech', destination: '/programs/building-services-technician', permanent: true },
       // Short aliases → canonical finance program page

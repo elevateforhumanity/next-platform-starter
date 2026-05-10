@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 /**
  * JotForm API Integration
- * Connects client intake forms to SupersonicFastCash
+ * Connects client intake forms to the tax services workflow
  */
 
 export interface JotFormSubmission {
