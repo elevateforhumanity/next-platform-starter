@@ -39,6 +39,7 @@ async function _GET(request: Request) {
       .select(
         `
         id,
+        program_slug,
         status,
         enrolled_at,
         program:programs (
@@ -47,11 +48,12 @@ async function _GET(request: Request) {
           slug,
           category,
           duration_weeks,
-          required_hours
+          required_hours,
+          total_hours
         )
       `,
       )
-      .eq('student_id', studentId)
+      .eq('user_id', studentId)
       .in('status', ['active', 'enrolled', 'in_progress'])
       .order('enrolled_at', { ascending: false });
 
@@ -59,26 +61,13 @@ async function _GET(request: Request) {
       logger.error('Enrollments fetch error:', enrollError);
     }
 
-    // Fetch verified hours grouped by enrollment
-    const { data: verifiedHours, error: verifiedError } = await supabase
-      .from('student_hours')
-      .select('enrollment_id, hours')
-      .eq('student_id', studentId)
-      .eq('verified', true);
+    const { data: hourEntries, error: hoursError } = await supabase
+      .from('hour_entries')
+      .select('program_slug, status, hours_claimed, accepted_hours')
+      .eq('user_id', studentId);
 
-    if (verifiedError) {
-      logger.error('Verified hours fetch error:', verifiedError);
-    }
-
-    // Fetch pending hours grouped by enrollment
-    const { data: pendingHours, error: pendingError } = await supabase
-      .from('student_hours')
-      .select('enrollment_id, hours')
-      .eq('student_id', studentId)
-      .eq('verified', false);
-
-    if (pendingError) {
-      logger.error('Pending hours fetch error:', pendingError);
+    if (hoursError) {
+      logger.error('Hours fetch error:', hoursError);
     }
 
     // Fetch tasks for student's enrollments
@@ -113,21 +102,26 @@ async function _GET(request: Request) {
       }
     }
 
-    // Aggregate hours by enrollment
+    // Aggregate hours by enrollment (mapped by program_slug)
     const hoursByEnrollment: Record<string, { verified: number; pending: number }> = {};
+    const enrollmentIdBySlug = new Map<string, string>();
+    for (const enrollment of enrollments || []) {
+      const slug = enrollment.program_slug || enrollment.program?.slug;
+      if (slug) enrollmentIdBySlug.set(slug, enrollment.id);
+    }
 
-    (verifiedHours || []).forEach((h) => {
-      if (!hoursByEnrollment[h.enrollment_id]) {
-        hoursByEnrollment[h.enrollment_id] = { verified: 0, pending: 0 };
+    (hourEntries || []).forEach((h: any) => {
+      const enrollmentId = (h.program_slug && enrollmentIdBySlug.get(h.program_slug)) || null;
+      if (!enrollmentId) return;
+      if (!hoursByEnrollment[enrollmentId]) {
+        hoursByEnrollment[enrollmentId] = { verified: 0, pending: 0 };
       }
-      hoursByEnrollment[h.enrollment_id].verified += Number(h.hours);
-    });
-
-    (pendingHours || []).forEach((h) => {
-      if (!hoursByEnrollment[h.enrollment_id]) {
-        hoursByEnrollment[h.enrollment_id] = { verified: 0, pending: 0 };
+      const amount = Number(h.accepted_hours ?? h.hours_claimed ?? 0);
+      if (String(h.status || '').toLowerCase() === 'approved') {
+        hoursByEnrollment[enrollmentId].verified += amount;
+      } else {
+        hoursByEnrollment[enrollmentId].pending += amount;
       }
-      hoursByEnrollment[h.enrollment_id].pending += Number(h.hours);
     });
 
     // Build response with enriched enrollment data

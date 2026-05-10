@@ -73,9 +73,9 @@ export default async function StudentPortalPage() {
     { icon: BookOpen, title: 'My Courses', href: '/lms/courses', color: 'blue' },
     { icon: Calendar, title: 'Schedule', href: '/student-portal/schedule', color: 'green' },
     { icon: BarChart3, title: 'Grades', href: '/student-portal/grades', color: 'blue' },
-    { icon: Users, title: 'Instructors', href: '/student-portal/instructors', color: 'orange' },
+    { icon: Users, title: 'Instructors', href: '/lms/support', color: 'orange' },
     { icon: Briefcase, title: 'Career Services', href: '/career-services', color: 'teal' },
-    { icon: FileText, title: 'Documents', href: '/student-portal/documents', color: 'indigo' },
+    { icon: FileText, title: 'Documents', href: '/lms/files', color: 'indigo' },
   ];
 
   return (
@@ -188,7 +188,7 @@ export default async function StudentPortalPage() {
               <div className="bg-white rounded-xl shadow-sm border p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl font-semibold">Hours Progress</h2>
-                  <Link href="/apprentice/hours" className="text-blue-600 text-sm font-medium hover:underline">
+                  <Link href="/student-portal/hours" className="text-blue-600 text-sm font-medium hover:underline">
                     View Details
                   </Link>
                 </div>

@@ -35,15 +35,18 @@ async function _GET(request: Request) {
       .select(
         `
         id,
+        program_slug,
         program:programs (
           id,
           name,
           slug,
+          title,
+          total_hours,
           required_hours
         )
       `,
       )
-      .eq('student_id', studentId)
+      .eq('user_id', studentId)
       .in('status', ['active', 'enrolled', 'in_progress', 'completed']);
 
     if (enrollError) {
@@ -55,24 +58,45 @@ async function _GET(request: Request) {
       return NextResponse.json({ enrollments: [] });
     }
 
-    // Fetch all hours for this student
+    const enrollmentBySlug = new Map<string, any>();
+    for (const enrollment of enrollments || []) {
+      const slug = enrollment.program_slug || enrollment.program?.slug;
+      if (slug) enrollmentBySlug.set(slug, enrollment);
+    }
+
+    // Fetch all hours for this student from canonical hour_entries
     const { data: hours, error: hoursError } = await supabase
-      .from('student_hours')
-      .select('*')
-      .eq('student_id', studentId)
-      .order('logged_date', { ascending: false });
+      .from('hour_entries')
+      .select(
+        'id, program_slug, work_date, hours_claimed, accepted_hours, status, notes, approved_by, approved_at, created_at',
+      )
+      .eq('user_id', studentId)
+      .order('work_date', { ascending: false });
 
     if (hoursError) {
       logger.error('Hours fetch error:', hoursError);
     }
 
-    // Group hours by enrollment
-    const hoursByEnrollment: Record<string, typeof hours> = {};
-    (hours || []).forEach((h) => {
-      if (!hoursByEnrollment[h.enrollment_id]) {
-        hoursByEnrollment[h.enrollment_id] = [];
+    // Group hours by enrollment id using program_slug mapping
+    const hoursByEnrollment: Record<string, any[]> = {};
+    const fallbackEnrollmentId = enrollments[0]?.id;
+    (hours || []).forEach((h: any) => {
+      const mapped = h.program_slug ? enrollmentBySlug.get(h.program_slug) : null;
+      const enrollmentId = mapped?.id || fallbackEnrollmentId;
+      if (!enrollmentId) return;
+      if (!hoursByEnrollment[enrollmentId]) {
+        hoursByEnrollment[enrollmentId] = [];
       }
-      hoursByEnrollment[h.enrollment_id].push(h);
+      hoursByEnrollment[enrollmentId].push({
+        id: h.id,
+        hours: Number(h.accepted_hours ?? h.hours_claimed ?? 0),
+        description: h.notes || null,
+        logged_date: h.work_date,
+        verified: String(h.status || '').toLowerCase() === 'approved',
+        verified_by: h.approved_by || null,
+        verified_at: h.approved_at || null,
+        created_at: h.created_at,
+      });
     });
 
     // Build response
@@ -89,9 +113,10 @@ async function _GET(request: Request) {
 
         return {
           enrollment_id: enrollment.id,
-          program_name: enrollment.program?.name || 'Unknown Program',
-          program_slug: enrollment.program?.slug || '',
-          required_hours: enrollment.program?.required_hours || null,
+          program_name: enrollment.program?.name || enrollment.program?.title || 'Unknown Program',
+          program_slug: enrollment.program_slug || enrollment.program?.slug || '',
+          required_hours:
+            enrollment.program?.required_hours || enrollment.program?.total_hours || null,
           entries,
           verified_total,
           pending_total,

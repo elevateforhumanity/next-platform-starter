@@ -91,9 +91,9 @@ async function _POST(request: NextRequest) {
     }
 
     // Validate required fields (partner_id is optional — some apprentices have no shop yet)
-    if (!action || !apprentice_id || !program_id || !site_id) {
+    if (!action || !apprentice_id || !site_id) {
       return NextResponse.json(
-        { error: 'Missing required fields: action, apprentice_id, program_id, site_id' },
+        { error: 'Missing required fields: action, apprentice_id, site_id' },
         { status: 400 },
       );
     }
@@ -113,6 +113,27 @@ async function _POST(request: NextRequest) {
     const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+    }
+
+    // Resolve program id server-side when clients do not provide it.
+    let resolvedProgramId = program_id;
+    if (!resolvedProgramId) {
+      const { data: enrollment } = await supabase
+        .from('program_enrollments')
+        .select('program_id')
+        .eq('user_id', user.id)
+        .in('status', ['active', 'enrolled', 'in_progress'])
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      resolvedProgramId = enrollment?.program_id || null;
+    }
+
+    if (!resolvedProgramId) {
+      return NextResponse.json(
+        { error: 'No active enrollment found to determine program_id' },
+        { status: 400 },
+      );
     }
 
     // Load site geofence from apprentice_sites
@@ -174,7 +195,7 @@ async function _POST(request: NextRequest) {
           .insert({
             apprentice_id,
             partner_id,
-            program_id,
+            program_id: resolvedProgramId,
             site_id,
             work_date: serverDate,
             week_ending: weekEndingStr,

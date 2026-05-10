@@ -159,7 +159,7 @@ export default function HoursTracker() {
                 </div>
                 <div className="h-3 bg-white rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-white rounded-full transition-all"
+                    className="h-full bg-brand-blue-500 rounded-full transition-all"
                     style={{ width: `${progress}%` }}
                   />
                 </div>

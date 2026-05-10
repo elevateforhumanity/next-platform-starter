@@ -93,6 +93,41 @@ async function _GET(request: NextRequest) {
       }
     }
 
+    if (!isAdmin && !apprentice) {
+      return NextResponse.json(
+        { error: 'No active apprentice profile found for this account' },
+        { status: 403 },
+      );
+    }
+
+    // Resolve active enrollment context for timeclock payload and progress UI.
+    const { data: activeEnrollment } = await supabase
+      .from('program_enrollments')
+      .select('program_id, required_hours, program_slug, programs(title, slug, total_hours)')
+      .eq('user_id', user.id)
+      .in('status', ['active', 'enrolled', 'in_progress'])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const programId = activeEnrollment?.program_id || null;
+    const programSlug = activeEnrollment?.program_slug || (activeEnrollment?.programs as any)?.slug;
+    const programName = (activeEnrollment?.programs as any)?.title || 'Barber Apprenticeship';
+    const hoursRequired =
+      activeEnrollment?.required_hours || (activeEnrollment?.programs as any)?.total_hours || 2000;
+
+    const { data: approvedEntries } = await supabase
+      .from('hour_entries')
+      .select('accepted_hours, hours_claimed')
+      .eq('user_id', user.id)
+      .eq('status', 'approved')
+      .eq('program_slug', programSlug || 'barber-apprenticeship');
+
+    const hoursCompleted = (approvedEntries || []).reduce(
+      (sum: number, row: any) => sum + Number(row.accepted_hours ?? row.hours_claimed ?? 0),
+      0,
+    );
+
     // Get employer/shop info
     let shopId: string | null = null;
     let shopName: string | null = null;
@@ -182,6 +217,11 @@ async function _GET(request: NextRequest) {
       userId: user.id,
       userName: profile?.full_name || user.email,
       role,
+      programId,
+      programName,
+      partnerId: apprentice?.employer_id || null,
+      hoursCompleted,
+      hoursRequired,
       shopId,
       shopName,
       defaultSiteId: allowedSites[0]?.id || null,
