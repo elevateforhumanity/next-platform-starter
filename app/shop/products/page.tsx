@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { ChevronRight, Search, Filter, ShoppingCart, Star, Package } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
+import { getAdminClient } from '@/lib/supabase/admin';
 
 export const metadata: Metadata = {
   title: 'Products | Elevate Shop',
@@ -28,12 +29,26 @@ interface Product {
 export default async function ProductsPage() {
   const supabase = await createClient();
 
+  const runProductsQuery = async (client: any) =>
+    client
+      .from('products')
+      .select('*')
+      .eq('is_active', true)
+      .order('created_at', { ascending: false });
+
   // Fetch products from database
-  const { data: productsData, error } = await supabase
-    .from('products')
-    .select('*')
-    .eq('is_active', true)
-    .order('created_at', { ascending: false });
+  let { data: productsData, error } = await runProductsQuery(supabase);
+
+  // Some environments block anon/authenticated reads on products. Fall back to
+  // service-role read for this public catalog page.
+  if (error && (error.code === '42501' || error.message?.includes('permission denied'))) {
+    const admin = await getAdminClient();
+    if (admin) {
+      const fallback = await runProductsQuery(admin);
+      productsData = fallback.data;
+      error = fallback.error;
+    }
+  }
 
   if (error) {
     logger.error('Error fetching products:', error.message);

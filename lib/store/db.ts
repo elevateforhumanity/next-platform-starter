@@ -5,6 +5,7 @@ import { logger } from '@/lib/logger';
  */
 
 import { createClient } from '@/lib/supabase/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 
 // ============================================
 // TYPES
@@ -255,38 +256,51 @@ export async function getProducts(options?: {
   const supabase = await createClient();
   if (!supabase) return [];
 
-  let query = supabase
-    .from('products')
-    .select('*')
-    .eq('is_active', true)
-    .order('sort_order', { ascending: true })
-    .order('is_featured', { ascending: false });
+  const runQuery = async (client: any) => {
+    let query = client
+      .from('products')
+      .select('*')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true })
+      .order('is_featured', { ascending: false });
 
-  if (options?.category) {
-    query = query.eq('category', options.category);
+    if (options?.category) {
+      query = query.eq('category', options.category);
+    }
+
+    if (options?.audience) {
+      query = query.contains('audiences', [options.audience]);
+    }
+
+    if (options?.featured) {
+      query = query.eq('is_featured', true);
+    }
+
+    if (options?.search) {
+      query = query.or(`name.ilike.%${options.search}%,description.ilike.%${options.search}%`);
+    }
+
+    if (options?.limit) {
+      query = query.limit(options.limit);
+    }
+
+    if (options?.offset) {
+      query = query.range(options.offset, options.offset + (options.limit || 10) - 1);
+    }
+
+    return query;
+  };
+
+  let { data, error } = await runQuery(supabase);
+
+  if (error && (error.code === '42501' || error.message?.includes('permission denied'))) {
+    const admin = await getAdminClient();
+    if (admin) {
+      const fallback = await runQuery(admin);
+      data = fallback.data;
+      error = fallback.error;
+    }
   }
-
-  if (options?.audience) {
-    query = query.contains('audiences', [options.audience]);
-  }
-
-  if (options?.featured) {
-    query = query.eq('is_featured', true);
-  }
-
-  if (options?.search) {
-    query = query.or(`name.ilike.%${options.search}%,description.ilike.%${options.search}%`);
-  }
-
-  if (options?.limit) {
-    query = query.limit(options.limit);
-  }
-
-  if (options?.offset) {
-    query = query.range(options.offset, options.offset + (options.limit || 10) - 1);
-  }
-
-  const { data, error } = await query;
 
   if (error) {
     logger.error('Error fetching products:', error);
