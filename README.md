@@ -145,11 +145,32 @@ Programs run 4–18 weeks. Most are fully funded at no cost to eligible particip
 | Package manager | pnpm |
 | Auth | Supabase Auth + custom role system |
 | Payments | Stripe + Affirm |
-| Email | Resend |
+| Email | SendGrid + Resend |
 | Rate limiting | Upstash Redis |
 | Storage | Cloudflare R2 |
 | Analytics | Google Analytics (G-SWPG2HVYVH) |
 | Tax e-filing | IRS MeF stack (EFIN 358459) |
+
+---
+
+## Admin Automation Center
+
+The admin platform now includes an operations-first automation center for curriculum, documents, and compliance workflows.
+
+- **Course Builder Control Center** (`/admin/course-builder/generate`):
+	- one-click course generation (blueprint + seed + queued videos)
+	- one-click staging and production deployment orchestration
+	- migration readiness checks and live platform feed
+	- **SCORM package linking** to canonical courses via the existing SCORM package system
+
+- **Documents Automation** (`/admin/documents`):
+	- **SAM.gov grant auto-lookup** and opportunity search
+	- one-click grant prefill package generation (DOCX + PDF)
+	- optional email distribution through SendGrid
+	- event timeline for generated grant packages
+	- **Minority certification one-click autofill** (DOCX + PDF + timeline + optional SendGrid email)
+
+- **File handling support** in document operations includes image uploads, PDF parsing, DOCX generation, and ZIP processing paths where applicable.
 
 ---
 
@@ -206,6 +227,67 @@ The public header nav (`lib/navigation.ts`) covers 8 top-level sections:
 6. **About** — Mission, team, impact, blog, FAQ, contact, advising
 7. **Apply** — Single funnel entry point
 8. **Donate**
+
+---
+
+## Automation Control Center
+
+The Admin Course Builder Generator now acts as a central processing center for platform operations:
+
+- One-click premium course generation and seeding
+- Live course spin-up feed (modules, lessons, video queue visibility)
+- Deployment orchestration (staging and production one-click flows)
+- Migration health checks and smoke-test controls
+- SCORM package linking directly from Generator to canonical courses
+
+Path: `/admin/course-builder/generate`
+
+---
+
+## SCORM Integration
+
+SCORM packages are supported through upload/import + course linking:
+
+- Upload and inspect packages: `/admin/course-import`
+- Link SCORM packages to canonical courses from the Generator control center
+- API: `/api/admin/course-builder/scorm-link`
+
+This enables SCORM content to be operationally tied to live course records without leaving the builder workflow.
+
+---
+
+## Grants and Certification Auto-Fill
+
+### SAM.gov Grant Feed Auto-Lookup
+
+- Auto-lookup SAM grant opportunities in Admin Documents
+- One-click prefill package generation (DOCX + PDF)
+- Optional SendGrid email dispatch of generated package links
+- Timeline events captured in audit logs
+
+APIs:
+
+- `/api/admin/grants/sam/search`
+- `/api/admin/grants/sam/prefill`
+- `/api/admin/grants/sam/timeline`
+
+UI:
+
+- `/admin/documents` -> SAM.gov Grant Auto-Fill panel
+
+### Minority Certification Application Auto-Fill
+
+- One-click minority certification draft generation (DOCX + PDF)
+- Optional SendGrid email dispatch
+- Timeline events tracked in audit logs
+
+API:
+
+- `/api/admin/certifications/minority/prefill`
+
+UI:
+
+- `/admin/documents` -> Minority Certification Auto-Fill panel
 
 ---
 

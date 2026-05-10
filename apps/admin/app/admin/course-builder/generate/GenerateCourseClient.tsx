@@ -47,6 +47,15 @@ interface MigrationCheckResponse {
   results?: Array<{ migration: string; status: string; error?: string }>;
 }
 
+interface ScormPackage {
+  id: string;
+  title: string | null;
+  course_id: string | null;
+  status: string | null;
+  created_at: string | null;
+  launch_url: string | null;
+}
+
 /* eslint-disable no-control-regex */
 function stripAnsi(value: string) {
   return value.replace(/\x1b\[[0-9;]*m/g, '');
@@ -84,6 +93,11 @@ export function GenerateCourseClient() {
   const [liveLoading, setLiveLoading] = useState(false);
   const [autopilotRunning, setAutopilotRunning] = useState(false);
   const [autopilotLog, setAutopilotLog] = useState<string[]>([]);
+  const [scormPackages, setScormPackages] = useState<ScormPackage[]>([]);
+  const [scormLoading, setScormLoading] = useState(false);
+  const [selectedScormPackageId, setSelectedScormPackageId] = useState('');
+  const [selectedScormCourseId, setSelectedScormCourseId] = useState('');
+  const [scormLinking, setScormLinking] = useState(false);
 
   function set<K extends keyof GenerateForm>(key: K, value: GenerateForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -120,6 +134,23 @@ export function GenerateCourseClient() {
     return () => {
       active = false;
     };
+  }, []);
+
+  useEffect(() => {
+    async function loadScormPackages() {
+      setScormLoading(true);
+      try {
+        const res = await fetch('/api/admin/course-builder/scorm-link');
+        const data = await res.json();
+        if (res.ok && Array.isArray(data.packages)) {
+          setScormPackages(data.packages);
+        }
+      } finally {
+        setScormLoading(false);
+      }
+    }
+
+    loadScormPackages();
   }, []);
 
   useEffect(() => {
@@ -371,6 +402,42 @@ export function GenerateCourseClient() {
       ]);
     } finally {
       setAutopilotRunning(false);
+    }
+  }
+
+  async function linkScormToCourse() {
+    const courseId = (selectedScormCourseId || programId || '').trim();
+    const scormPackageId = selectedScormPackageId.trim();
+
+    if (!courseId || !scormPackageId) {
+      setError('Select both a course and SCORM package to link.');
+      return;
+    }
+
+    setScormLinking(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/admin/course-builder/scorm-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ courseId, scormPackageId }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || 'Failed to link SCORM package');
+      }
+
+      setAutopilotLog((prev) => [...prev, `✓ SCORM package linked to course ${courseId}`]);
+
+      const listRes = await fetch('/api/admin/course-builder/scorm-link');
+      const listData = await listRes.json();
+      if (listRes.ok && Array.isArray(listData.packages)) {
+        setScormPackages(listData.packages);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to link SCORM');
+    } finally {
+      setScormLinking(false);
     }
   }
 
@@ -684,6 +751,57 @@ export function GenerateCourseClient() {
                 autopilotLog.slice(-120).map((line, idx) => <div key={`${idx}-${line.slice(0, 8)}`}>{line}</div>)
               )}
             </div>
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-slate-600 bg-slate-900/60 p-4 space-y-3">
+          <h3 className="text-sm font-semibold text-white">SCORM Integration (Linked To Course Builder)</h3>
+          <p className="text-xs text-slate-400">
+            Link uploaded SCORM packages to canonical courses directly from the generator center.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <select
+              value={selectedScormCourseId}
+              onChange={(e) => setSelectedScormCourseId(e.target.value)}
+              className="bg-slate-900 border border-slate-600 rounded px-3 py-2 text-xs text-white"
+            >
+              <option value="">Select course from live feed</option>
+              {liveCourses.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {(course.title || course.slug || course.id).slice(0, 80)}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={selectedScormPackageId}
+              onChange={(e) => setSelectedScormPackageId(e.target.value)}
+              className="bg-slate-900 border border-slate-600 rounded px-3 py-2 text-xs text-white"
+            >
+              <option value="">{scormLoading ? 'Loading SCORM packages...' : 'Select SCORM package'}</option>
+              {scormPackages.map((pkg) => (
+                <option key={pkg.id} value={pkg.id}>
+                  {(pkg.title || pkg.id).slice(0, 70)} {pkg.course_id ? '(linked)' : '(unlinked)'}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={linkScormToCourse}
+              disabled={scormLinking || !selectedScormCourseId || !selectedScormPackageId}
+              className="px-3 py-2 rounded bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-xs font-medium disabled:opacity-50"
+            >
+              {scormLinking ? 'Linking SCORM...' : 'Link SCORM To Course'}
+            </button>
+            <Link
+              href="/admin/course-import"
+              className="px-3 py-2 rounded border border-slate-500 hover:border-orange-400 text-slate-100 text-xs font-medium"
+            >
+              Open SCORM Import
+            </Link>
           </div>
         </div>
 

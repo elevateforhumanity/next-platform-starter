@@ -54,6 +54,9 @@ export default function SamGrantAutoFillPanel() {
 
   useEffect(() => {
     loadTimeline();
+    searchSamGrants();
+    // Auto-lookup once on mount with default keyword + agency
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function searchSamGrants() {
