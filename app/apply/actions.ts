@@ -641,8 +641,16 @@ async function insertApplication(payload: {
       if (error) {
         persistenceFailureReason = `applications insert failed: ${error.message}`;
         logger.error(
-          `[Application] DB insert failed for ${payload.email}`,
+          '[Application] DB insert failed',
           new Error(error.message),
+          {
+            email: payload.email,
+            source: payload.source,
+            referenceNumber,
+            pgCode: error.code,
+            pgDetails: error.details,
+            pgHint: error.hint,
+          },
         );
       } else {
         // Derive the profile role and onboarding destination from the application source.
@@ -710,17 +718,30 @@ async function insertApplication(payload: {
     } catch (error) {
       persistenceFailureReason =
         error instanceof Error ? `insertApplication exception: ${error.message}` : 'insertApplication exception';
-      logger.error(`[Application] DB error for ${payload.email}`, error as Error);
+      logger.error(
+        '[Application] DB error before persistence',
+        error instanceof Error ? error : new Error(String(error)),
+        {
+          email: payload.email,
+          source: payload.source,
+          referenceNumber,
+          reason: persistenceFailureReason,
+        },
+      );
     }
   }
 
   // Path B: hard failure — never report success when no DB record exists.
-  logger.error('[Application] Submission failed before persistence', {
-    email: payload.email,
-    source: payload.source,
-    referenceNumber,
-    reason: persistenceFailureReason,
-  });
+  logger.error(
+    `[Application] Submission failed before persistence [ref=${referenceNumber}] [source=${payload.source}] [email=${payload.email}] [reason=${persistenceFailureReason}]`,
+    new Error(persistenceFailureReason),
+    {
+      email: payload.email,
+      source: payload.source,
+      referenceNumber,
+      reason: persistenceFailureReason,
+    },
+  );
   await Promise.all(
     ADMIN_EMAILS.map((to) =>
       sendEmailDirect(
