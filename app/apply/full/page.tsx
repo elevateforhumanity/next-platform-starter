@@ -59,27 +59,22 @@ export default function FullApplicationPage() {
     setSubmitting(true);
     setError(null);
     try {
-      const body = new FormData();
-      body.append('first_name', formData.firstName);
-      body.append('last_name', formData.lastName);
-      body.append('email', formData.email);
-      body.append('phone', formData.phone);
-      body.append('date_of_birth', formData.dob);
-      body.append('address', formData.address);
-      body.append('high_school', formData.highSchool);
-      body.append('graduation_year', formData.graduationYear);
-      body.append('gpa', formData.gpa);
-      body.append('college', formData.college);
-      body.append('major', formData.major);
-      body.append('currently_employed', formData.employed);
-      body.append('current_employer', formData.employer);
-      body.append('job_title', formData.jobTitle);
-      body.append('years_experience', formData.yearsExperience);
-      body.append('application_type', 'full');
-      if (formData.resume) body.append('resume', formData.resume);
-      if (formData.transcript) body.append('transcript', formData.transcript);
+      const payload = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        dateOfBirth: formData.dob || null,
+        address: formData.address || null,
+        program: 'general',
+        source: 'apply-full',
+      };
 
-      const res = await fetch('/api/apply', { method: 'POST', body });
+      const res = await fetch('/api/applications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? 'Submission failed');
       router.push('/apply/success');
