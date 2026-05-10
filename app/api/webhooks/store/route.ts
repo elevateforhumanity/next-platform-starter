@@ -14,10 +14,17 @@ export const dynamic = 'force-dynamic';
 let webhookSecret = '';
 
 function getStoreWebhookSecrets(): string[] {
-  return [
+  const explicit = [
     process.env.STRIPE_WEBHOOK_SECRET_STORE,
     process.env.STRIPE_WEBHOOK_SECRET,
-  ].filter((s): s is string => Boolean(s && s.trim()));
+  ];
+
+  // Support rotated/alternate store webhook secret names without code changes.
+  const rotated = Object.entries(process.env)
+    .filter(([key, value]) => key.startsWith('STRIPE_WEBHOOK_SECRET_STORE_') && Boolean(value))
+    .map(([, value]) => value as string);
+
+  return Array.from(new Set([...explicit, ...rotated].map((s) => s?.trim()).filter(Boolean))) as string[];
 }
 
 function constructStripeEventWithAnySecret(
