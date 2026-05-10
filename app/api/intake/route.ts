@@ -59,6 +59,19 @@ async function _POST(req: Request) {
     return s.slice(0, max);
   }
 
+  // applications.zip is NOT NULL. Normalize user-provided zip fields and
+  // guarantee a stable fallback value if no zip is provided.
+  function normalizeZip(...values: Array<string | undefined | null>): string {
+    for (const value of values) {
+      if (typeof value !== 'string') continue;
+      const digits = value.replace(/\D/g, '');
+      if (digits.length >= 5) {
+        return digits.slice(0, 5);
+      }
+    }
+    return '00000';
+  }
+
   // Barriers arrive as a string (single value) or string[] (multiple checkboxes)
   const barriersRaw = body.barriers;
   const barriers: string[] = Array.isArray(barriersRaw)
@@ -121,6 +134,13 @@ async function _POST(req: Request) {
     barriers.length ? `Barriers: ${barriers.join(', ')}` : null,
   ].filter(Boolean).join(' | ');
 
+  const zipCode = normalizeZip(
+    body.zip as string | undefined,
+    body.zip_code as string | undefined,
+    body.postal_code as string | undefined,
+    body.postalCode as string | undefined,
+  );
+
   // Use maybeSingle() instead of single() — single() throws PGRST116 when RLS
   // silently blocks the SELECT-after-insert and returns 0 rows.
   //
@@ -142,7 +162,7 @@ async function _POST(req: Request) {
       email: clean(body.email as string) ?? '',
       phone: clean(body.phone as string) ?? '',
       city: clean(body.city as string) ?? '',
-      zip: '',
+      zip: zipCode,
       program_interest: clean(programInterest) ?? 'not-specified',
       program_slug: clean(programInterest) ?? null,
       status: 'submitted',
@@ -304,7 +324,7 @@ async function _POST(req: Request) {
     phone: (body.phone as string | undefined)?.trim(),
     programInterest: programInterest || 'general',
     city: (body.city as string | undefined)?.trim(),
-    zipCode: '',
+    zipCode,
     submittedAt: new Date().toISOString(),
     // Full intake fields for the admin email
     dateOfBirth: (body.date_of_birth as string | undefined)?.trim(),
