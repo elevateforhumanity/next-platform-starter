@@ -1,0 +1,108 @@
+name: Fix ALB HTTP→HTTPS Redirect Hostnames
+
+# One-shot fix: ALB HTTP listeners were redirecting to the raw ALB hostname
+# instead of the custom domain, causing ERR_CERT_COMMON_NAME_INVALID.
+# Run once, then this workflow can be deleted.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fix-alb-redirects:
+    name: Fix HTTP→HTTPS redirect on both ALBs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Fix Admin ALB redirect (admin.elevateforhumanity.org)
+        run: |
+          echo "Looking up Admin ALB..."
+          ADMIN_ALB_ARN=$(aws elbv2 describe-load-balancers \
+            --names elevate-admin-alb \
+            --region us-east-1 \
+            --query 'LoadBalancers[0].LoadBalancerArn' \
+            --output text)
+          echo "Admin ALB ARN: $ADMIN_ALB_ARN"
+
+          ADMIN_HTTP_LISTENER_ARN=$(aws elbv2 describe-listeners \
+            --load-balancer-arn "$ADMIN_ALB_ARN" \
+            --region us-east-1 \
+            --query 'Listeners[?Port==`80`].ListenerArn' \
+            --output text)
+          echo "Admin HTTP Listener ARN: $ADMIN_HTTP_LISTENER_ARN"
+
+          aws elbv2 modify-listener \
+            --listener-arn "$ADMIN_HTTP_LISTENER_ARN" \
+            --region us-east-1 \
+            --default-actions '[{
+              "Type": "redirect",
+              "RedirectConfig": {
+                "Protocol": "HTTPS",
+                "Host": "admin.elevateforhumanity.org",
+                "Port": "443",
+                "Path": "/#{path}",
+                "Query": "#{query}",
+                "StatusCode": "HTTP_301"
+              }
+            }]'
+          echo "Admin ALB redirect fixed."
+
+      - name: Fix LMS ALB redirect (www.elevateforhumanity.org)
+        run: |
+          echo "Looking up LMS ALB..."
+          LMS_ALB_ARN=$(aws elbv2 describe-load-balancers \
+            --names elevate-lms-alb \
+            --region us-east-1 \
+            --query 'LoadBalancers[0].LoadBalancerArn' \
+            --output text)
+          echo "LMS ALB ARN: $LMS_ALB_ARN"
+
+          LMS_HTTP_LISTENER_ARN=$(aws elbv2 describe-listeners \
+            --load-balancer-arn "$LMS_ALB_ARN" \
+            --region us-east-1 \
+            --query 'Listeners[?Port==`80`].ListenerArn' \
+            --output text)
+          echo "LMS HTTP Listener ARN: $LMS_HTTP_LISTENER_ARN"
+
+          aws elbv2 modify-listener \
+            --listener-arn "$LMS_HTTP_LISTENER_ARN" \
+            --region us-east-1 \
+            --default-actions '[{
+              "Type": "redirect",
+              "RedirectConfig": {
+                "Protocol": "HTTPS",
+                "Host": "www.elevateforhumanity.org",
+                "Port": "443",
+                "Path": "/#{path}",
+                "Query": "#{query}",
+                "StatusCode": "HTTP_301"
+              }
+            }]'
+          echo "LMS ALB redirect fixed."
+
+      - name: Verify redirects
+        run: |
+          echo "Waiting 5s for changes to propagate..."
+          sleep 5
+
+          echo "--- Admin ALB redirect ---"
+          curl -sI --max-time 10 http://elevate-admin-alb-803695409.us-east-1.elb.amazonaws.com \
+            | grep -E "HTTP/|Location:"
+
+          echo "--- LMS ALB redirect ---"
+          curl -sI --max-time 10 http://elevate-lms-alb-1854717895.us-east-1.elb.amazonaws.com \
+            | grep -E "HTTP/|Location:"
+
+          echo ""
+          echo "Expected:"
+          echo "  Admin → Location: https://admin.elevateforhumanity.org/..."
+          echo "  LMS   → Location: https://www.elevateforhumanity.org/..."
