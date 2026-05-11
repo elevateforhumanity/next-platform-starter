@@ -16,6 +16,7 @@ phases:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - export IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
       - export COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - export COMMIT_REF=$CODEBUILD_RESOLVED_SOURCE_VERSION
       - export NEXT_PUBLIC_SUPABASE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_URL --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SUPABASE_ANON_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY --with-decryption --query Parameter.Value --output text)
       - export SUPABASE_SERVICE_ROLE_KEY=$(aws ssm get-parameter --name /elevate/SUPABASE_SERVICE_ROLE_KEY --with-decryption --query Parameter.Value --output text)
@@ -56,7 +57,7 @@ phases:
       - node scripts/stamp-sw.mjs
       - pnpm next build
       - echo Packaging Docker image...
-      - docker buildx build --platform linux/amd64 --load -f Dockerfile.package -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
+      - docker buildx build --platform linux/amd64 --load -f Dockerfile.package --build-arg COMMIT_REF=$COMMIT_REF -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 
   post_build:
     commands:
