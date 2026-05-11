@@ -56,7 +56,6 @@ export const siteMapSections: SiteMapSection[] = [
       { label: 'Completions', href: '/admin/completions' },
       { label: 'Compliance', href: '/admin/compliance' },
       { label: 'Compliance Dashboard', href: '/admin/compliance-dashboard' },
-      { label: 'Console', href: '/admin/console' },
       { label: 'Contacts', href: '/admin/contacts' },
       { label: 'Copilot', href: '/admin/copilot' },
       { label: 'Course Builder', href: '/admin/course-builder' },
