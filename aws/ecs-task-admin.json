@@ -50,7 +50,7 @@
         },
         {
           "name": "NEXT_PUBLIC_SITE_URL",
-          "value": "https://www.elevateforhumanity.org"
+          "value": "https://admin.elevateforhumanity.org"
         },
         {
           "name": "NEXT_PUBLIC_ADMIN_URL",
@@ -69,14 +69,6 @@
         {
           "name": "SUPABASE_SERVICE_ROLE_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_ROLE_KEY"
-        },
-        {
-          "name": "NEXT_PUBLIC_SITE_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SITE_URL"
-        },
-        {
-          "name": "NEXT_PUBLIC_ADMIN_URL",
-          "value": "https://admin.elevateforhumanity.org"
         },
         {
           "name": "STRIPE_SECRET_KEY",
