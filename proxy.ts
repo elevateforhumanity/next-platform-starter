@@ -189,7 +189,16 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(`${adminBase}${pathname}${search}`, { status: 301 });
   }
 
-  if ((pathname === '/admin' || pathname.startsWith('/admin/')) && hostWithoutPort !== canonicalAdminHost) {
+  const isLocalHost =
+    hostWithoutPort === 'localhost' ||
+    hostWithoutPort === '127.0.0.1' ||
+    hostWithoutPort === '::1';
+
+  if (
+    (pathname === '/admin' || pathname.startsWith('/admin/')) &&
+    hostWithoutPort !== canonicalAdminHost &&
+    !(process.env.NODE_ENV === 'development' && isLocalHost)
+  ) {
     // Keep the canonical admin landing page explicit so host-only /admin requests
     // consistently land on the admin dashboard after domain canonicalization.
     const adminPath = pathname === '/admin' ? '/admin/dashboard' : pathname;

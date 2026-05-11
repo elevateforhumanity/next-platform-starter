@@ -15,7 +15,16 @@ function AdminLoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const searchParams = useSearchParams();
-  const ADMIN_URL = getAdminUrl();
+  const configuredAdminUrl = (process.env.NEXT_PUBLIC_ADMIN_URL || '').trim();
+  const isLocalConfiguredAdminUrl = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/i.test(
+    configuredAdminUrl,
+  );
+  const ADMIN_URL =
+    process.env.NODE_ENV === 'development'
+      ? isLocalConfiguredAdminUrl
+        ? configuredAdminUrl
+        : 'http://localhost:3001'
+      : getAdminUrl();
   const requestedRedirect = searchParams.get('redirect');
   const redirectTo = requestedRedirect
     ? requestedRedirect.startsWith('http')

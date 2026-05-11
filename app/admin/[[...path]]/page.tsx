@@ -12,7 +12,15 @@ export default async function AdminCatchAll({
   params: Promise<{ path?: string[] }>;
 }) {
   const { path } = await params;
-  const adminBase = getAdminUrl();
+  const devAdminUrl = (process.env.NEXT_PUBLIC_ADMIN_URL || '').trim();
+  const useDevAdminUrl =
+    process.env.NODE_ENV === 'development' &&
+    /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/i.test(devAdminUrl);
+  const adminBase = useDevAdminUrl
+    ? devAdminUrl
+    : process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3001'
+      : getAdminUrl();
   const subPath = path?.length ? `/${path.join('/')}` : '/dashboard';
   redirect(`${adminBase}/admin${subPath}`);
 }
