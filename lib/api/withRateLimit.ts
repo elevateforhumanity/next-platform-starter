@@ -33,6 +33,14 @@ function getIP(request: Request): string {
   );
 }
 
+// IPs that should never consume Upstash quota.
+// ECS health checks originate from localhost (task-internal) or the VPC CIDR.
+const INTERNAL_IP_PREFIXES = ['127.', '::1', '10.', '172.16.', '172.17.', '172.18.', '172.19.', '172.20.', '172.21.', '172.22.', '172.23.', '172.24.', '172.25.', '172.26.', '172.27.', '172.28.', '172.29.', '172.30.', '172.31.'];
+
+function isInternalIP(ip: string): boolean {
+  return INTERNAL_IP_PREFIXES.some((prefix) => ip.startsWith(prefix));
+}
+
 /**
  * Check rate limit and return 429 response if exceeded.
  * Returns null if the request is allowed.
@@ -61,6 +69,10 @@ export async function applyRateLimit(
   }
 
   const id = getIP(request);
+
+  // Skip Redis for internal/ECS health check IPs — they are not external callers
+  // and would otherwise burn ~1,440 Upstash requests/day per task per route.
+  if (isInternalIP(id)) return null;
 
   try {
     const result = await limiter.limit(id);

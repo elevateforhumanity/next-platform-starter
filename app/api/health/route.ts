@@ -1,10 +1,9 @@
-// PUBLIC ROUTE: health check — no auth possible
+// PUBLIC ROUTE: health check — no auth, no rate limiting (ECS calls this every 30s)
 import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { toErrorMessage } from '@/lib/safe';
 import { getAppVersion } from '@/lib/version/getAppVersion';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getAuditTelemetry } from '@/lib/audit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -15,8 +14,8 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 async function _GET(request: Request) {
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
+  // No rate limiting — ECS health checks call this every 30s per task instance.
+  // Applying Redis rate limiting here burns ~1,440 Upstash requests/day per task.
   const checks: Record<string, any> = {
     status: 'healthy',
     timestamp: new Date().toISOString(),

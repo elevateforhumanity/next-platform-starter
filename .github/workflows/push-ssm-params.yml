@@ -12,8 +12,8 @@ on:
         required: true
         type: string
       stripe_webhook_secret_barber:
-        description: 'STRIPE_WEBHOOK_SECRET_BARBER (whsec_... from Stripe Dashboard → Webhooks → barber endpoint)'
-        required: true
+        description: 'STRIPE_WEBHOOK_SECRET_BARBER (whsec_... from Stripe Dashboard → Webhooks → barber endpoint). Leave blank to skip.'
+        required: false
         type: string
 
 permissions:
@@ -43,6 +43,7 @@ jobs:
           echo "GROQ_API_KEY pushed."
 
       - name: Push STRIPE_WEBHOOK_SECRET_BARBER
+        if: ${{ github.event.inputs.stripe_webhook_secret_barber != '' }}
         run: |
           aws ssm put-parameter \
             --name /elevate/STRIPE_WEBHOOK_SECRET_BARBER \
