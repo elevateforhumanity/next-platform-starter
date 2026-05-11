@@ -693,21 +693,22 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
           Use plain English commands: "Generate a CNA course", "Run enrollment report", "Deploy LMS".
         </div>
 
-        {/* Quick action buttons */}
+        {/* Quick action buttons — single scrollable row, no wrapping */}
         <div className="flex-shrink-0 border-b border-slate-200 bg-slate-50">
-          <div className="flex flex-wrap gap-1.5 p-2.5 pb-2">
+          <div className="flex items-center gap-1.5 px-2.5 py-2 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
             {QUICK_ACTIONS.map(({ label, cmd }) => (
               <button key={label} onClick={() => run(cmd)} disabled={loading}
-                className="px-2.5 py-1 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-600 hover:text-orange-700 disabled:opacity-40 transition-colors shadow-sm">
+                className="flex-shrink-0 px-2.5 py-1 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-600 hover:text-orange-700 disabled:opacity-40 transition-colors shadow-sm whitespace-nowrap">
                 {label}
               </button>
             ))}
           </div>
-          <div className="flex flex-wrap gap-1.5 px-2.5 pb-2.5 border-t border-slate-100 pt-2">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest w-full mb-0.5">Autopilot</span>
+          {/* Autopilot — single scrollable row */}
+          <div className="flex items-center gap-1.5 px-2.5 pb-2 border-t border-slate-100 pt-1.5 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+            <span className="flex-shrink-0 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Autopilot</span>
             {AUTOPILOT.map(({ label, cmd }) => (
               <button key={label} onClick={() => run(cmd)} disabled={loading}
-                className="px-2.5 py-1 text-[11px] rounded-md border border-blue-200 bg-blue-50 hover:bg-blue-100 hover:border-blue-400 text-blue-700 disabled:opacity-40 transition-colors shadow-sm">
+                className="flex-shrink-0 px-2.5 py-1 text-[11px] rounded-md border border-blue-200 bg-blue-50 hover:bg-blue-100 hover:border-blue-400 text-blue-700 disabled:opacity-40 transition-colors shadow-sm whitespace-nowrap">
                 {label}
               </button>
             ))}
