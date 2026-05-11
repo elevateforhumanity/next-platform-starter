@@ -32,11 +32,25 @@ export default async function EditCoursePage({
     redirect('/unauthorized');
   }
 
-  const { data: course } = await supabase
-    .from('training_courses')
-    .select('*')
+  // Try canonical courses table first, fall back to legacy training_courses
+  let course: Record<string, unknown> | null = null;
+
+  const { data: canonicalCourse } = await supabase
+    .from('courses')
+    .select('id, title, slug, short_description, description, status, program_id, created_at, updated_at')
     .eq('id', courseId)
     .maybeSingle();
+
+  if (canonicalCourse) {
+    course = { ...canonicalCourse, _source: 'courses' };
+  } else {
+    const { data: legacyCourse } = await supabase
+      .from('training_courses')
+      .select('*')
+      .eq('id', courseId)
+      .maybeSingle();
+    if (legacyCourse) course = { ...legacyCourse, _source: 'training_courses' };
+  }
 
   if (!course) notFound();
 

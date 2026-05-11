@@ -27,33 +27,54 @@ export default async function CourseContentPage({
     .eq('id', courseId)
     .maybeSingle();
 
-  // Also check courses table for video_config / video_profile (set by blueprint seeder)
+  // Canonical courses table — always checked for video_config / video_profile / title
   const { data: canonicalCourse } = await supabase
     .from('courses')
-    .select('video_config, video_profile')
+    .select('id, title, slug, description, video_config, video_profile, status')
     .eq('id', courseId)
     .maybeSingle();
 
-  const course = rawCourse
+  // Prefer canonical course data, fall back to legacy
+  const course = canonicalCourse
     ? {
-        ...rawCourse,
-        title: rawCourse.course_name || rawCourse.title,
-        video_config: canonicalCourse?.video_config ?? null,
-        video_profile: canonicalCourse?.video_profile ?? null,
+        ...canonicalCourse,
+        course_name: canonicalCourse.title,
+        video_config: canonicalCourse.video_config ?? null,
+        video_profile: canonicalCourse.video_profile ?? null,
       }
-    : null;
+    : rawCourse
+      ? {
+          ...rawCourse,
+          title: rawCourse.course_name || rawCourse.title,
+          video_config: null,
+          video_profile: null,
+        }
+      : null;
 
-  const { data: lessons } = await supabase
-    .from('training_lessons')
-    .select('*')
+  // Lessons: try curriculum_lessons (canonical) first, fall back to training_lessons (legacy)
+  let lessons: unknown[] = [];
+  const { data: curriculumLessons } = await supabase
+    .from('curriculum_lessons')
+    .select('id, title, slug, lesson_order, step_type, status, module_id')
     .eq('course_id', courseId)
-    .order('lesson_number');
+    .order('lesson_order');
 
-  // Extract quiz data from metadata JSONB (set by AI ingestion pipeline)
-  const quizMeta = rawCourse?.metadata as {
+  if (curriculumLessons && curriculumLessons.length > 0) {
+    lessons = curriculumLessons;
+  } else {
+    const { data: legacyLessons } = await supabase
+      .from('training_lessons')
+      .select('*')
+      .eq('course_id', courseId)
+      .order('lesson_number');
+    lessons = legacyLessons ?? [];
+  }
+
+  // Extract quiz data from metadata JSONB (set by AI ingestion pipeline — legacy path only)
+  const quizMeta = (rawCourse?.metadata ?? null) as {
     quiz_title?: string;
     quiz_passing_score?: number;
-    quiz_questions?: any[];
+    quiz_questions?: unknown[];
   } | null;
 
   return (

@@ -287,12 +287,9 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
                   <p className="text-slate-600 text-xs leading-relaxed">
                     Modules, lessons, quizzes, competencies, hours, validation. What learners
                     actually run. Linked to a program via{' '}
-                    <Link
-                      href="/api/admin/course-builder/program-map"
-                      className="text-brand-blue-600 hover:underline font-mono text-[11px]"
-                    >
+                    <code className="text-brand-blue-600 font-mono text-[11px] bg-slate-100 px-1 rounded">
                       program_course_map
-                    </Link>
+                    </code>
                     .
                   </p>
                 </div>
