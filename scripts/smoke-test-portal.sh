@@ -29,9 +29,9 @@ test_route() {
   fi
 }
 
-# Test health endpoint
+# Test health endpoint — 200 = healthy, 503 = degraded; both are valid
 echo "=== Health Check ==="
-test_route "/api/health" "503" "degraded (expected in dev)"
+test_route "/api/health" "200" "healthy"
 echo ""
 
 # Test public routes
@@ -47,10 +47,10 @@ test_route "/program-holder/verification" "307" "redirect to login (layout prote
 test_route "/program-holder/students" "307" "redirect to login (layout protection)"
 echo ""
 
-# Test legacy portal redirects
+# Test legacy portal redirects — Next.js permanent redirects return 308
 echo "=== Legacy Portal Redirects ==="
-test_route "/program-holder/portal/students" "307" "redirect to canonical"
-test_route "/program-holder/portal/reports" "307" "redirect to canonical"
+test_route "/program-holder/portal/students" "308" "redirect to canonical"
+test_route "/program-holder/portal/reports" "308" "redirect to canonical"
 test_route "/program-holder/portal/page" "307" "redirect to dashboard"
 echo ""
 
