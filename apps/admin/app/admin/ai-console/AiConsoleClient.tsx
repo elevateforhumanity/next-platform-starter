@@ -21,7 +21,7 @@ const AI_FEATURES = [
   {
     title: 'Dev Studio',
     description: 'Edit repo files and run shell commands in-browser',
-    href: '/admin/editor',
+    href: '/admin/dev-studio',
     icon: Code2,
     color: 'bg-slate-50 text-slate-700',
     status: 'live',

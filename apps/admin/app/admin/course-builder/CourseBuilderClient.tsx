@@ -421,7 +421,7 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
                 {filteredCourses.map((course) => (
                   <div
                     key={course.id}
-                    className="px-6 py-4 hover:bg-gray-50 flex items-center justify-between"
+                    className="px-6 py-4 hover:bg-gray-50 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-3">
@@ -450,7 +450,7 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2 sm:justify-end">
                       <button
                         onClick={() => togglePublish(course)}
                         className={`px-3 py-1.5 text-sm rounded-lg ${course.status === 'published' ? 'bg-brand-orange-100 text-brand-orange-700 hover:bg-brand-orange-200' : 'bg-brand-green-100 text-brand-green-700 hover:bg-brand-green-200'}`}
