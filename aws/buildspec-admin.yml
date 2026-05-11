@@ -22,6 +22,7 @@ phases:
       - export SSN_SALT=$(aws ssm get-parameter --name /elevate/SSN_SALT --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export OPENAI_API_KEY=$(aws ssm get-parameter --name /elevate/OPENAI_API_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export GEMINI_API_KEY=$(aws ssm get-parameter --name /elevate/GEMINI_API_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export GROQ_API_KEY=$(aws ssm get-parameter --name /elevate/GROQ_API_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export SENDGRID_API_KEY=$(aws ssm get-parameter --name /elevate/SENDGRID_API_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export STRIPE_SECRET_KEY=$(aws ssm get-parameter --name /elevate/STRIPE_SECRET_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export STRIPE_PUBLISHABLE_KEY=$(aws ssm get-parameter --name /elevate/STRIPE_PUBLISHABLE_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")

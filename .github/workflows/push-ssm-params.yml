@@ -1,0 +1,84 @@
+name: Push SSM parameters
+
+# One-shot: pushes AI and Stripe webhook secrets to SSM in account 954718262498,
+# then force-redeploys both ECS services so containers pick up the new values.
+# Run via workflow_dispatch only — never on push.
+
+on:
+  workflow_dispatch:
+    inputs:
+      groq_api_key:
+        description: 'GROQ_API_KEY (gsk_...)'
+        required: true
+        type: string
+      stripe_webhook_secret_barber:
+        description: 'STRIPE_WEBHOOK_SECRET_BARBER (whsec_... from Stripe Dashboard → Webhooks → barber endpoint)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  push-secrets:
+    name: Push to SSM + redeploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Push GROQ_API_KEY
+        run: |
+          aws ssm put-parameter \
+            --name /elevate/GROQ_API_KEY \
+            --value "${{ github.event.inputs.groq_api_key }}" \
+            --type SecureString \
+            --overwrite \
+            --region us-east-1
+          echo "GROQ_API_KEY pushed."
+
+      - name: Push STRIPE_WEBHOOK_SECRET_BARBER
+        run: |
+          aws ssm put-parameter \
+            --name /elevate/STRIPE_WEBHOOK_SECRET_BARBER \
+            --value "${{ github.event.inputs.stripe_webhook_secret_barber }}" \
+            --type SecureString \
+            --overwrite \
+            --region us-east-1
+          echo "STRIPE_WEBHOOK_SECRET_BARBER pushed."
+
+      - name: Force redeploy LMS service (picks up new SSM values)
+        run: |
+          aws ecs update-service \
+            --cluster elevate-cluster \
+            --service elevate-lms-service \
+            --force-new-deployment \
+            --region us-east-1 \
+            --query 'service.deployments[0].{status:status,desired:desiredCount}' \
+            --output json
+          echo "LMS redeployment triggered."
+
+      - name: Force redeploy Admin service
+        run: |
+          aws ecs update-service \
+            --cluster elevate-cluster \
+            --service elevate-admin-service \
+            --force-new-deployment \
+            --region us-east-1 \
+            --query 'service.deployments[0].{status:status,desired:desiredCount}' \
+            --output json
+          echo "Admin redeployment triggered."
+
+      - name: Verify SSM params exist
+        run: |
+          echo "Verifying params..."
+          aws ssm get-parameter --name /elevate/GROQ_API_KEY --region us-east-1 \
+            --query 'Parameter.{Name:Name,Type:Type,LastModified:LastModifiedDate}' --output json
+          aws ssm get-parameter --name /elevate/STRIPE_WEBHOOK_SECRET_BARBER --region us-east-1 \
+            --query 'Parameter.{Name:Name,Type:Type,LastModified:LastModifiedDate}' --output json
+          echo "Done. ECS will pull new values on next task start (~2 min)."
