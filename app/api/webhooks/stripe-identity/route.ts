@@ -63,40 +63,48 @@ async function _POST(request: NextRequest) {
     .insert({ stripe_event_id: event.id, event_type: event.type, status: 'processing' })
     .catch(() => {});
 
+  let processingError = false;
+
   // Handle verification session events
   if (event.type === 'identity.verification_session.verified') {
     const session = event.data.object as Stripe.Identity.VerificationSession;
     const userId = session.metadata?.user_id;
-
-    if (!userId) {
-      /* Condition handled */
-    }
+    const verifiedAt = new Date().toISOString();
 
     try {
-      const { error: verifyUpdateError } = await supabase
+      // Prefer exact match by Stripe verification session ID to avoid cross-updating rows.
+      let verifyUpdateError: { message?: string } | null = null;
+      const sessionScopedUpdate = await supabase
         .from('program_holder_verification')
         .update({
           status: 'verified',
-          verified_at: new Date().toISOString(),
+          verified_at: verifiedAt,
         })
-        .eq('stripe_verification_session_id', session.id);
+        .eq('stripe_verification_session_id', session.id)
+        .eq('status', 'pending')
+        .select('id');
 
-      if (verifyUpdateError) {
-        return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
+      verifyUpdateError = sessionScopedUpdate.error;
+
+      if (!verifyUpdateError && sessionScopedUpdate.data.length === 0 && userId) {
+        const fallbackUpdate = await supabase
+          .from('program_holder_verification')
+          .update({
+            status: 'verified',
+            verified_at: verifiedAt,
+          })
+          .eq('user_id', userId)
+          .eq('status', 'pending');
+        verifyUpdateError = fallbackUpdate.error;
       }
 
-      if (userId) {
-        await supabase
-          .from('program_holder_verification')
-          .update({ status: 'verified', verified_at: new Date().toISOString() })
-          .eq('user_id', userId)
-          .in('status', ['pending', 'failed'])
-          .catch(() => {});
+      if (verifyUpdateError) {
+        processingError = true;
       }
 
       // Email notification handled by trigger to user
-    } catch (error) {
-      return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
+    } catch {
+      processingError = true;
     }
   }
 
@@ -107,44 +115,54 @@ async function _POST(request: NextRequest) {
   ) {
     const session = event.data.object as Stripe.Identity.VerificationSession;
     const userId = session.metadata?.user_id;
-
-    if (!userId) {
-      /* Condition handled */
-    }
+    const failureReason = session.last_error?.reason || 'Verification failed';
 
     try {
-      const { error: failUpdateError } = await supabase
+      // Prefer exact match by Stripe verification session ID to avoid cross-updating rows.
+      let failUpdateError: { message?: string } | null = null;
+      const sessionScopedUpdate = await supabase
         .from('program_holder_verification')
         .update({
           status: 'failed',
-          notes: session.last_error?.reason || 'Verification failed',
+          notes: failureReason,
         })
-        .eq('stripe_verification_session_id', session.id);
+        .eq('stripe_verification_session_id', session.id)
+        .eq('status', 'pending')
+        .select('id');
 
-      if (failUpdateError) {
-        return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
+      failUpdateError = sessionScopedUpdate.error;
+
+      if (!failUpdateError && sessionScopedUpdate.data.length === 0 && userId) {
+        const fallbackUpdate = await supabase
+          .from('program_holder_verification')
+          .update({
+            status: 'failed',
+            notes: failureReason,
+          })
+          .eq('user_id', userId)
+          .eq('status', 'pending');
+        failUpdateError = fallbackUpdate.error;
       }
 
-      if (userId) {
-        await supabase
-          .from('program_holder_verification')
-          .update({ status: 'failed', notes: session.last_error?.reason || 'Verification failed' })
-          .eq('user_id', userId)
-          .eq('status', 'pending')
-          .catch(() => {});
+      if (failUpdateError) {
+        processingError = true;
       }
 
       // Email notification handled by trigger to user
-    } catch (error) {
-      return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
+    } catch {
+      processingError = true;
     }
   }
 
   await supabase
     .from('stripe_webhook_events')
-    .update({ status: 'processed' })
+    .update({ status: processingError ? 'failed' : 'processed' })
     .eq('stripe_event_id', event.id)
     .catch(() => {});
+
+  if (processingError) {
+    return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
+  }
 
   return NextResponse.json({ received: true });
 }

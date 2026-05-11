@@ -61,6 +61,8 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Program holder record not found' }, { status: 404 });
     }
 
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_URL || request.nextUrl.origin;
+
     // Create Stripe Identity verification session
     const session = await stripe.identity.verificationSessions.create({
       type: 'document',
@@ -75,11 +77,11 @@ async function _POST(request: NextRequest) {
           require_matching_selfie: true,
         },
       },
-      return_url: `${process.env.NEXT_PUBLIC_URL}/program-holder/verify-identity?session_id={VERIFICATION_SESSION_ID}`,
+      return_url: `${baseUrl}/program-holder/verify-identity?session_id={VERIFICATION_SESSION_ID}`,
     });
 
     // Store verification session in database
-    await supabase.from('program_holder_verification').insert({
+    const { error: insertError } = await supabase.from('program_holder_verification').insert({
       user_id: userId,
       program_holder_id: programHolderId,
       verification_type: 'stripe_identity',
@@ -87,6 +89,10 @@ async function _POST(request: NextRequest) {
       stripe_verification_session_id: session.id,
       created_at: new Date().toISOString(),
     });
+
+    if (insertError) {
+      return NextResponse.json({ error: 'Failed to save verification session' }, { status: 500 });
+    }
 
     return NextResponse.json({
       sessionId: session.id,
