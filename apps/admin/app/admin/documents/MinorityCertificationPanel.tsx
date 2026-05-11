@@ -122,17 +122,27 @@ export default function MinorityCertificationPanel() {
         <div className="rounded-lg border border-fuchsia-200 bg-fuchsia-50 p-3 space-y-2">
           <div className="text-sm font-semibold text-fuchsia-800">Generated Files</div>
           <div className="flex flex-wrap gap-2">
-            {files.map((f, idx) => (
-              <a
-                key={`${f.type}-${idx}`}
-                href={f.signedUrl || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded border border-fuchsia-300 px-2 py-1 text-xs text-fuchsia-800 hover:bg-white"
-              >
-                <Download className="w-3 h-3" /> {f.type.toUpperCase()}
-              </a>
-            ))}
+            {files.map((f, idx) =>
+              f.signedUrl ? (
+                <a
+                  key={`${f.type}-${idx}`}
+                  href={f.signedUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded border border-fuchsia-300 px-2 py-1 text-xs text-fuchsia-800 hover:bg-white"
+                >
+                  <Download className="w-3 h-3" /> {f.type.toUpperCase()}
+                </a>
+              ) : (
+                <span
+                  key={`${f.type}-${idx}`}
+                  className="inline-flex items-center gap-1 rounded border border-fuchsia-200 px-2 py-1 text-xs text-fuchsia-400 cursor-not-allowed"
+                  title="File not available"
+                >
+                  <Download className="w-3 h-3" /> {f.type.toUpperCase()}
+                </span>
+              )
+            )}
           </div>
         </div>
       )}

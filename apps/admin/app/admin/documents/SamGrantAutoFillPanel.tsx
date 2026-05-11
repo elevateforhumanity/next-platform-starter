@@ -218,16 +218,26 @@ export default function SamGrantAutoFillPanel() {
         <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 space-y-2">
           <div className="text-sm font-semibold text-emerald-800">Generated Files</div>
           <div className="flex flex-wrap gap-2">
-            {resultFiles.map((f, idx) => (
-              <a
-                key={`${f.type}-${idx}`}
-                href={f.signedUrl || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded border border-emerald-300 px-2 py-1 text-xs text-emerald-800 hover:bg-white"
-              >
-                <Download className="w-3 h-3" /> {f.type.toUpperCase()}
-              </a>
+            {resultFiles.map((f, idx) =>
+              f.signedUrl ? (
+                <a
+                  key={`${f.type}-${idx}`}
+                  href={f.signedUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded border border-emerald-300 px-2 py-1 text-xs text-emerald-800 hover:bg-white"
+                >
+                  <Download className="w-3 h-3" /> {f.type.toUpperCase()}
+                </a>
+              ) : (
+                <span
+                  key={`${f.type}-${idx}`}
+                  className="inline-flex items-center gap-1 rounded border border-emerald-200 px-2 py-1 text-xs text-emerald-400 cursor-not-allowed"
+                  title="File not available"
+                >
+                  <Download className="w-3 h-3" /> {f.type.toUpperCase()}
+                </span>
+              )
             ))}
           </div>
         </div>
