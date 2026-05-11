@@ -18,6 +18,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
+import { getOpenAIClient, isOpenAIConfigured } from '@/lib/openai-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type Groq from 'groq-sdk';
 
@@ -417,18 +418,36 @@ Be direct and actionable.`;
       }
     }
 
+    if (!assistantMessage && isOpenAIConfigured()) {
+      try {
+        const openai = getOpenAIClient();
+        const completion = await openai.chat.completions.create({
+          model: 'gpt-4.1-mini',
+          messages: [{ role: 'system', content: systemPrompt }, ...messages],
+          temperature: 0.4,
+          max_tokens: 4096,
+        });
+        assistantMessage = completion.choices[0]?.message?.content ?? null;
+        provider = 'openai';
+      } catch (err) {
+        logger.warn('[devstudio/chat] OpenAI failed', err);
+      }
+    }
+
     if (!assistantMessage) {
       logger.error('[devstudio/chat] no provider available', {
         hasGroq: isGroqConfigured(),
         hasGemini: isGeminiConfigured(),
+        hasOpenAI: isOpenAIConfigured(),
       });
       return NextResponse.json(
         {
           error:
-            'AI Assistant is not configured. Add GROQ_API_KEY or GEMINI_API_KEY to the admin service environment.',
+            'AI Assistant is not configured. Add GROQ_API_KEY, GEMINI_API_KEY, or OPENAI_API_KEY to the admin service environment.',
           debug: {
             hasGroq: isGroqConfigured(),
             hasGemini: isGeminiConfigured(),
+            hasOpenAI: isOpenAIConfigured(),
             service: 'admin',
           },
         },
