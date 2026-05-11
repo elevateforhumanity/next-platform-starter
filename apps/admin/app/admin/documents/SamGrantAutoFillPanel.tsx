@@ -218,7 +218,7 @@ export default function SamGrantAutoFillPanel() {
         <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 space-y-2">
           <div className="text-sm font-semibold text-emerald-800">Generated Files</div>
           <div className="flex flex-wrap gap-2">
-            {resultFiles.map((f, idx) =>
+            {resultFiles.map((f, idx) => (
               f.signedUrl ? (
                 <a
                   key={`${f.type}-${idx}`}
