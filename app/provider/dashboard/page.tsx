@@ -14,6 +14,7 @@ import {
   TrendingUp,
   Award,
   ChevronRight,
+  Globe,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -21,6 +22,17 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = 'force-dynamic';
+
+function getHostFromEnv(value: string | undefined, fallback: string): string {
+  const candidate = (value || '').trim();
+  if (!candidate) return fallback;
+
+  try {
+    return new URL(candidate).host;
+  } catch {
+    return fallback;
+  }
+}
 
 export default async function ProviderDashboardPage() {
   const { user } = await requireRole(['provider_admin', 'admin', 'super_admin', 'staff']);
@@ -36,6 +48,30 @@ export default async function ProviderDashboardPage() {
   if (!profile?.tenant_id) redirect('/unauthorized');
 
   const tenantId = profile.tenant_id;
+
+  const appHost = getHostFromEnv(
+    process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_BASE_URL,
+    'www.elevateforhumanity.org',
+  );
+  const adminHost = getHostFromEnv(
+    process.env.NEXT_PUBLIC_ADMIN_URL,
+    'admin.elevateforhumanity.org',
+  );
+
+  const { data: organization } = await db
+    .from('organizations')
+    .select('id, name, slug, domain')
+    .eq('tenant_id', tenantId)
+    .maybeSingle();
+
+  const { data: tenantDomains } = organization?.id
+    ? await db
+        .from('tenant_domains')
+        .select('domain, status, verified_at')
+        .eq('organization_id', organization.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+    : { data: null };
 
   const [
     { data: onboardingSteps },
@@ -87,6 +123,13 @@ export default async function ProviderDashboardPage() {
     if (!a.expires_at) return false;
     return Math.ceil((new Date(a.expires_at).getTime() - Date.now()) / 86400000) <= 30;
   }).length;
+
+  const domainRecord = tenantDomains?.[0] ?? null;
+  const customDomain = domainRecord?.domain ?? null;
+  const dnsStatus = domainRecord?.status ?? null;
+  const verifiedAt = domainRecord?.verified_at
+    ? new Date(domainRecord.verified_at).toLocaleDateString()
+    : null;
 
   const firstName = profile.full_name?.split(' ')[0] ?? '';
 
@@ -230,6 +273,75 @@ export default async function ProviderDashboardPage() {
             </Link>
           </div>
         )}
+
+        <div className="bg-white rounded-xl border border-slate-200 p-5 mb-6">
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <Globe className="w-4 h-4 text-slate-600" />
+                <h2 className="font-semibold text-slate-900 text-sm">Domain & DNS</h2>
+              </div>
+              <p className="text-sm text-slate-500">
+                {customDomain
+                  ? 'Your custom domain status and the live DNS target.'
+                  : 'Set up a custom domain and point DNS to the live application host.'}
+              </p>
+            </div>
+            <Link
+              href="/provider/settings"
+              className="text-xs text-brand-blue-600 hover:underline font-medium"
+            >
+              Manage settings →
+            </Link>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4 mb-4">
+            <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
+              <p className="text-xs font-medium text-slate-500 mb-1">Custom Domain</p>
+              <p className="text-sm font-semibold text-slate-900">
+                {customDomain ?? 'Not configured'}
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                {customDomain
+                  ? dnsStatus === 'active' || dnsStatus === 'verified'
+                    ? `Verified${verifiedAt ? ` on ${verifiedAt}` : ''}`
+                    : `Status: ${dnsStatus ?? 'pending'}`
+                  : 'Add a domain in settings to start verification.'}
+              </p>
+            </div>
+
+            <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
+              <p className="text-xs font-medium text-slate-500 mb-1">DNS Target</p>
+              <p className="text-sm font-semibold text-slate-900 break-all">{appHost}</p>
+              <p className="text-xs text-slate-500 mt-1">
+                Create a CNAME from your chosen subdomain to this host.
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-brand-blue-200 bg-brand-blue-50 p-4">
+            <div className="grid sm:grid-cols-3 gap-3 text-sm">
+              <div>
+                <p className="text-xs font-medium text-brand-blue-700 mb-1">Record Type</p>
+                <p className="font-semibold text-brand-blue-950">CNAME</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-brand-blue-700 mb-1">Host / Name</p>
+                <p className="font-semibold text-brand-blue-950">
+                  {customDomain ? customDomain.split('.').slice(0, 1).join('.') || '@' : 'training'}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-brand-blue-700 mb-1">Value / Target</p>
+                <p className="font-semibold text-brand-blue-950 break-all">{appHost}</p>
+              </div>
+            </div>
+            <p className="text-xs text-brand-blue-900 mt-3">
+              Admin access remains on {adminHost}. Your public domain goes live after DNS
+              propagation and verification.
+            </p>
+          </div>
+        </div>
 
         {/* Recent programs */}
         {(recentPrograms ?? []).length > 0 && (

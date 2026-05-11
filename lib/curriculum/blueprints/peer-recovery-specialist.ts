@@ -1072,4 +1072,28 @@ export const peerRecoverySpecialistBlueprint: CredentialBlueprint = {
       ],
     },
   ],
+
+  assessmentRules: [
+    {
+      assessmentType: 'module',
+      scope: 'all',
+      minQuestions: 8,
+      maxQuestions: 15,
+      passingThreshold: 0.7,
+    },
+    {
+      assessmentType: 'final',
+      scope: 'prs-career-exam',
+      minQuestions: 50,
+      maxQuestions: 75,
+      passingThreshold: 0.8,
+      distributionConstraints: {
+        foundations: 0.2,
+        ethics: 0.2,
+        advocacy: 0.2,
+        mentoring: 0.2,
+        career_readiness: 0.2,
+      },
+    },
+  ],
 };
