@@ -129,7 +129,11 @@ export default function DevContainerPanel() {
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'visual' | 'environments' | 'raw'>('visual');
+  const [activeTab, setActiveTab] = useState<'visual' | 'environments' | 'raw' | 'ai'>('visual');
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [aiResponse, setAiResponse] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiSuggested, setAiSuggested] = useState<string | null>(null);
   const [writable, setWritable] = useState(true);
   const [source, setSource] = useState<string>('unknown');
   const [envEntries, setEnvEntries] = useState<ContainerEnvEntry[]>([]);
@@ -459,7 +463,7 @@ export default function DevContainerPanel() {
 
       {/* Tabs */}
       <div className="flex border-b border-slate-200 flex-shrink-0">
-        {(['visual', 'environments', 'raw'] as const).map((tab) => (
+        {(['visual', 'environments', 'raw', 'ai'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -469,7 +473,7 @@ export default function DevContainerPanel() {
                 : 'text-slate-500 hover:text-slate-700'
             }`}
           >
-            {tab === 'visual' ? 'Visual' : tab === 'environments' ? 'Environments' : 'Raw JSON'}
+            {tab === 'visual' ? 'Visual' : tab === 'environments' ? 'Environments' : tab === 'raw' ? 'Raw JSON' : '✦ AI'}
           </button>
         ))}
       </div>
@@ -771,6 +775,86 @@ export default function DevContainerPanel() {
                 </div>
               </div>
             </Section>
+          </div>
+        ) : activeTab === 'ai' ? (
+          // AI tab — describe what you want, get a suggested devcontainer.json patch
+          <div className="h-full flex flex-col p-4 gap-4 overflow-y-auto">
+            <p className="text-xs text-slate-500">
+              Describe a change to your dev container and AI will suggest an updated <code>devcontainer.json</code>. Review the suggestion, then apply it with one click.
+            </p>
+            <textarea
+              value={aiPrompt}
+              onChange={(e) => setAiPrompt(e.target.value)}
+              placeholder="e.g. Add a PostgreSQL service, install the GitHub CLI, set NODE_ENV=development..."
+              rows={3}
+              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm resize-none outline-none focus:ring-2 focus:ring-brand-blue-300"
+            />
+            <button
+              disabled={aiLoading || !aiPrompt.trim()}
+              onClick={async () => {
+                setAiLoading(true);
+                setAiResponse('');
+                setAiSuggested(null);
+                try {
+                  const res = await fetch('/api/devstudio/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      message: `You are a devcontainer.json expert. The current devcontainer.json is:\n\n${raw}\n\nUser request: ${aiPrompt}\n\nRespond with ONLY the complete updated devcontainer.json as valid JSON. No explanation, no markdown fences.`,
+                      context: 'devcontainer',
+                    }),
+                  });
+                  const data = await res.json();
+                  if (!res.ok) {
+                    setAiResponse(data.error || 'AI request failed');
+                  } else {
+                    const msg = data.message || '';
+                    // Extract JSON from response
+                    const jsonMatch = msg.match(/\{[\s\S]*\}/);
+                    if (jsonMatch) {
+                      setAiSuggested(jsonMatch[0]);
+                      setAiResponse('');
+                    } else {
+                      setAiResponse(msg);
+                    }
+                  }
+                } catch (e) {
+                  setAiResponse('Network error — check AI provider configuration.');
+                } finally {
+                  setAiLoading(false);
+                }
+              }}
+              className="self-start px-4 py-2 bg-brand-blue-600 text-white text-sm rounded-lg hover:bg-brand-blue-700 disabled:opacity-40 transition-colors"
+            >
+              {aiLoading ? 'Thinking…' : 'Ask AI'}
+            </button>
+
+            {aiResponse && (
+              <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {aiResponse}
+              </div>
+            )}
+
+            {aiSuggested && (
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-600">Suggested devcontainer.json</span>
+                  <button
+                    onClick={() => {
+                      handleRawChange(aiSuggested);
+                      setActiveTab('raw');
+                    }}
+                    className="px-3 py-1 text-xs bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    Apply suggestion →
+                  </button>
+                </div>
+                <pre className="text-xs bg-slate-900 text-green-300 rounded-lg p-3 overflow-auto max-h-64 font-mono">
+                  {aiSuggested}
+                </pre>
+                <p className="text-xs text-slate-400">Clicking "Apply suggestion" loads it into Raw JSON for review. Save manually when ready.</p>
+              </div>
+            )}
           </div>
         ) : (
           // Raw JSON tab
