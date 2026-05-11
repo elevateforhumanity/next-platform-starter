@@ -1,10 +1,7 @@
+// Root loading fallback — shown while a page segment streams in.
+// Intentionally invisible: the header is already rendered, so a full-screen
+// spinner causes a jarring layout shift. Pages that need a visible loading
+// state should define their own loading.tsx in their route segment.
 export default function Loading() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="flex flex-col items-center gap-4">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" />
-        <span className="sr-only">Loading</span>
-      </div>
-    </div>
-  );
+  return <div className="min-h-[60vh]" aria-hidden="true" />;
 }

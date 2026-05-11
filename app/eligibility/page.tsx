@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import EligibilityPreQualifier from '@/components/enrollment/EligibilityPreQualifier';
 import { CheckCircle, XCircle, AlertCircle, ArrowRight, Users } from 'lucide-react';
 
@@ -54,21 +54,33 @@ const QUICK_CHECKS = [
 ];
 
 export default async function EligibilityPage() {
-  const db = await requireAdminClient();
+  // Use getAdminClient (returns null on failure) so a DB outage renders the
+  // page gracefully instead of throwing and showing a streaming error.
+  const db = await getAdminClient();
 
-  // Pull published programs for the eligibility quiz context
-  const { data: programs } = await db
-    .from('programs')
-    .select('id, title, slug, credential_type, short_description')
-    .eq('published', true)
-    .eq('is_active', true)
-    .order('title')
-    .limit(12);
+  let programs: { id: string; title: string; slug: string; credential_type: string | null; short_description: string | null }[] = [];
+  let activeEnrollments: number | null = null;
 
-  const { count: activeEnrollments } = await db
-    .from('program_enrollments')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'active');
+  if (db) {
+    try {
+      const { data } = await db
+        .from('programs')
+        .select('id, title, slug, credential_type, short_description')
+        .eq('published', true)
+        .eq('is_active', true)
+        .order('title')
+        .limit(12);
+      programs = data ?? [];
+    } catch { /* render without programs list */ }
+
+    try {
+      const { count } = await db
+        .from('program_enrollments')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'active');
+      activeEnrollments = count;
+    } catch { /* render without enrollment count */ }
+  }
 
   return (
     <div className="min-h-screen bg-white">

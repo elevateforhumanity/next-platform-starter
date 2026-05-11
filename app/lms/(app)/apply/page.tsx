@@ -203,12 +203,13 @@ export default function StudentApplicationPage() {
         <div className="max-w-3xl mx-auto px-4 py-6">
           <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Apply' }]} />
         </div>
-        <div className="max-w-3xl mx-auto px-4" aria-live="polite">
+        <div className="max-w-3xl mx-auto px-4" aria-live="polite" role="status">
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-6">
-            <h1 className="text-xl font-bold text-slate-900 mb-2">Loading Your Application</h1>
-            <p className="text-sm text-slate-600 mb-4">
-              Checking your profile and existing application status.
-            </p>
+            <span className="sr-only">Loading your application…</span>
+            <div className="space-y-3 mb-4">
+              <div className="h-5 w-48 rounded bg-slate-200 animate-pulse" />
+              <div className="h-4 w-72 rounded bg-slate-200 animate-pulse" />
+            </div>
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600" />
           </div>
         </div>

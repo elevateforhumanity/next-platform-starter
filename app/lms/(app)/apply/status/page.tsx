@@ -55,12 +55,13 @@ export default function ApplicationStatusPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white">
-        <div className="max-w-2xl mx-auto py-12 px-4" aria-live="polite">
+        <div className="max-w-2xl mx-auto py-12 px-4" aria-live="polite" role="status">
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center">
-            <h1 className="text-xl font-bold text-slate-900 mb-2">Loading Application Status</h1>
-            <p className="text-sm text-slate-600 mb-4">
-              Fetching your latest application record.
-            </p>
+            <span className="sr-only">Loading application status…</span>
+            <div className="space-y-3 mb-4">
+              <div className="h-5 w-40 rounded bg-slate-200 animate-pulse mx-auto" />
+              <div className="h-4 w-56 rounded bg-slate-200 animate-pulse mx-auto" />
+            </div>
             <div className="mx-auto animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
           </div>
         </div>

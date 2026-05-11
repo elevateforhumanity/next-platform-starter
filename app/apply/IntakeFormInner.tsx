@@ -736,12 +736,10 @@ export default function IntakeFormInner() {
   return (
     <Suspense
       fallback={
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" aria-live="polite">
-          <h2 className="text-xl font-bold text-slate-900 mb-2">Loading Secure Intake Form</h2>
-          <p className="text-slate-600 text-sm mb-5">
-            Preparing your eligibility questions and funding intake fields.
-          </p>
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" aria-live="polite" role="status">
+          <span className="sr-only">Loading intake form…</span>
           <div className="space-y-3">
+            <div className="h-5 w-48 rounded bg-slate-100 animate-pulse mb-5" />
             <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
             <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
             <div className="h-24 w-full rounded-lg bg-slate-100 animate-pulse" />

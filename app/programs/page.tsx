@@ -47,17 +47,63 @@ const CANONICAL_SLUGS = new Set([
 
 /** Slugs that are near-duplicates of a canonical — suppress from listing. */
 const SUPPRESSED_SLUGS = new Set([
+  // CNA duplicates → canonical: cna
   'cna-certification',
+  'cna-cert',
   'cna-training',
+  // HVAC duplicates → canonical: hvac-technician
   'hvac',
   'hvac-technician-program',
+  'hvac-2024',
+  // Medical assistant duplicates → canonical: medical-assistant
   'medical-assistant-program',
+  'nha-medical-assistant',
+  // Phlebotomy duplicates → canonical: phlebotomy
   'phlebotomy-technician',
   'phlebotomy-technician-program',
+  'nha-phlebotomy',
+  // Pharmacy duplicates → canonical: pharmacy-technician
+  'nha-pharmacy-technician',
+  // Barber duplicates → canonical: barber-apprenticeship
   'barber',
   'barber-program',
-  'jri',           // partner page, not a program
-  'micro-programs', // category, not a program
+  // Cosmetology duplicates → canonical: cosmetology-apprenticeship
+  'cosmetology',
+  // Nail tech duplicates → canonical: nail-technician-apprenticeship
+  'nail-technician',
+  // CPR duplicates → canonical: cpr-first-aid
+  'cpr-cert',
+  // Emergency health duplicates → canonical: emergency-health-safety
+  'health-safety',
+  // Forklift duplicates → canonical: forklift
+  'forklift-operator',
+  // Tax prep duplicates → canonical: tax-preparation
+  'tax-prep',
+  // IT duplicates → canonical: it-help-desk
+  'it-support',
+  'it-support-specialist',
+  // Cybersecurity duplicates → canonical: cybersecurity-analyst
+  'cybersecurity',
+  // Bookkeeping duplicates → canonical: bookkeeping
+  'bookkeeping-fundamentals',
+  // Entrepreneurship duplicates → canonical: entrepreneurship
+  'entrepreneurship-small-business',
+  // Peer recovery duplicates → canonical: peer-recovery-specialist
+  'peer-recovery-specialist-jri',
+  // AI-generated slugs (seeder artifacts)
+  'ai-advanced-project-management-1774494313718',
+  'ai-forklift-safety-certification-1774495387731',
+  // JRI micro-badges — not standalone programs
+  'jri-badge-1-mindsets',
+  'jri-badge-2-self-management',
+  'jri-badge-3-learning-strategies',
+  'jri-badge-4-social-skills',
+  'jri-badge-5-workplace-skills',
+  'jri-badge-6-launch-a-career',
+  'jri-introduction',
+  // Category/partner pages, not programs
+  'jri',
+  'micro-programs',
 ]);
 
 export default async function ProgramsPage() {
@@ -75,11 +121,16 @@ export default async function ProgramsPage() {
     if (data && data.length > 0) {
       programs = data
         .filter((p) => !SUPPRESSED_SLUGS.has(p.slug))
-        .map((p) => ({
-          slug: p.slug,
-          title: p.title,
-          description: p.short_description || p.description || null,
-        }));
+        .map((p) => {
+          let desc: string | null = p.short_description || p.description || null;
+          // Guard against DB values truncated mid-sentence: if the description
+          // doesn't end with terminal punctuation, trim to the last complete sentence.
+          if (desc && !/[.!?]$/.test(desc.trim())) {
+            const lastPeriod = Math.max(desc.lastIndexOf('.'), desc.lastIndexOf('!'), desc.lastIndexOf('?'));
+            desc = lastPeriod > 20 ? desc.slice(0, lastPeriod + 1) : null;
+          }
+          return { slug: p.slug, title: p.title, description: desc };
+        });
     }
   }
 

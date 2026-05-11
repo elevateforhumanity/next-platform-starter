@@ -5,6 +5,9 @@ import { ProgramVideoCards } from '@/components/marketing/ProgramVideoCards';
 import HomeHeroVideo from '@/components/ui/HomeHeroVideo';
 import heroBanners from '@/content/heroBanners';
 
+// Override layout's force-dynamic — homepage data is static JSON, no DB calls.
+// ISR at 60s keeps the cache warm without blocking the initial render.
+export const dynamic = 'force-static';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
