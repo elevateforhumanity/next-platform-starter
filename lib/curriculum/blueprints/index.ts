@@ -39,17 +39,23 @@ export async function getAllBlueprints(): Promise<CredentialBlueprint[]> {
     { barberApprenticeshipBlueprint },
     { crsIndianaBlueprint },
     { peerRecoverySpecialistBlueprint },
+    { CCMA_BLUEPRINT },
+    { prsIndianaBlueprint },
   ] = await Promise.all([
     import('./bookkeeping-quickbooks'),
     import('./barber-apprenticeship'),
     import('./crs-indiana'),
     import('./peer-recovery-specialist'),
+    import('./ccma'),
+    import('./prs-indiana'),
   ]);
   _registry = [
     bookkeepingQuickbooksBlueprint,
     barberApprenticeshipBlueprint,
     crsIndianaBlueprint,
     peerRecoverySpecialistBlueprint,
+    CCMA_BLUEPRINT,
+    prsIndianaBlueprint,
   ];
   return _registry;
 }
