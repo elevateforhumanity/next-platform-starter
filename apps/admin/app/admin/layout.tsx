@@ -75,7 +75,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // redundant getUser() calls (was 3 separate calls per page load).
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/admin-login');
+  if (!user) redirect('/login');
 
   const db = await getAdminClient();
   if (!db) return <>{children}</>;
@@ -83,8 +83,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Verify admin role
   const { data: roleCheck } = await db
     .from('profiles').select('role').eq('id', user.id).maybeSingle();
-  const adminRoles = ['admin', 'super_admin', 'staff', 'org_admin', 'instructor'];
-  if (!roleCheck || !adminRoles.includes(roleCheck.role)) redirect('/');
+  const adminRoles = ['admin', 'super_admin', 'staff', 'org_admin'];
+  if (!roleCheck || !adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
 
   const [context, headerData] = await Promise.all([
     withTimeout(getLicenseContext(user.id, db), 3000, 'getLicenseContext').catch(() => null),

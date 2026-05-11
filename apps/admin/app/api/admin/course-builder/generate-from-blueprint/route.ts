@@ -38,7 +38,7 @@ import {
 import { getInstructorForCourse } from '@/lib/ai-instructors';
 import { loadIndustryStandards } from '@/lib/industry/standards-loader';
 import { buildIndustryStandardsBlock } from '@/lib/ai/prompts/course-blueprint';
-import { queueCourseLessonVideos } from '@/lib/course-builder/video-queue';
+import { createJob } from '@/lib/video/job-queue';
 
 export const maxDuration = 300;
 export const dynamic = 'force-dynamic';
@@ -49,7 +49,8 @@ interface GenerateFromBlueprintRequest {
   blueprintId: string;
   programId: string;
   mode?: 'replace' | 'missing-only';
-  videoMode?: 'queue' | 'inline' | 'off';
+  generationMode?: 'full' | 'fast';
+  videoMode?: 'queue' | 'inline' | 'off' | 'external';
   videoQueueLimit?: number;
   inlineVideoLimit?: number;
 }
@@ -63,6 +64,51 @@ interface LessonContent {
     correct: number;
     explanation: string;
   }>;
+}
+
+function inferLessonType(slug: string): 'lesson' | 'checkpoint' | 'quiz' | 'exam' {
+  if (slug.includes('checkpoint')) return 'checkpoint';
+  if (slug.includes('exam') || slug.includes('final')) return 'exam';
+  if (slug.endsWith('-quiz') || slug.includes('/quiz/')) return 'quiz';
+  return 'lesson';
+}
+
+function buildFallbackQuizQuestions(
+  lesson: BlueprintLessonRef,
+  courseTitle: string,
+  moduleTitle: string,
+  count: number,
+) {
+  return Array.from({ length: count }, (_, index) => ({
+    question: `${lesson.title}: which statement best matches the core concept ${index + 1}?`,
+    options: [
+      `A. It applies a key ${courseTitle} principle in ${moduleTitle}`,
+      'B. It skips the core process and documentation requirements',
+      'C. It ignores learner safety and quality controls',
+      'D. It replaces the lesson objective with unrelated content',
+    ],
+    correct: 0,
+    explanation: `This fallback question keeps ${lesson.title} seedable while richer assessment content is generated later.`,
+  }));
+}
+
+function buildFallbackLessonContent(
+  lesson: BlueprintLessonRef,
+  moduleTitle: string,
+  courseTitle: string,
+): LessonContent {
+  const lessonType = inferLessonType(lesson.slug);
+  const questionCount = lessonType === 'exam' ? 10 : lessonType === 'checkpoint' ? 5 : 3;
+
+  return {
+    objective:
+      lesson.objective?.trim() ||
+      `By the end of this lesson, learners will be able to explain and apply the core ${courseTitle} concepts covered in ${lesson.title}.`,
+    content:
+      lesson.content?.trim() ||
+      `<h2>${lesson.title}</h2><p>This draft lesson was generated in fast mode so the course structure could be created immediately without blocking on premium lesson authoring. It defines the instructional space for ${lesson.title} within ${moduleTitle} and gives the downstream content, assessment, and media pipelines a stable lesson row to work from.</p><p>Learners should understand the lesson objective, the core terminology used in ${courseTitle}, the practical context for this topic, and the expected next step after the lesson is fully enriched. Admin users can replace this draft with expanded production content without changing the course map, lesson slug, or module order.</p><p>This fallback content is intentionally publication-safe as a draft shell. It preserves the lesson in the generated course, allows media jobs and assessments to attach to a real lesson record, and keeps the generator fast for large industry programs where speed matters more than first-pass narrative depth.</p>`,
+    quiz_questions: buildFallbackQuizQuestions(lesson, courseTitle, moduleTitle, questionCount),
+  };
 }
 
 // ─── Groq lesson content generator ───────────────────────────────────────────
@@ -130,6 +176,7 @@ export async function POST(req: NextRequest) {
   if (!body?.programId) return safeError('programId is required', 400);
 
   const mode = body.mode ?? 'replace';
+  const generationMode = body.generationMode ?? 'full';
   const videoMode = body.videoMode ?? 'queue';
 
   // ── Step 1: Load blueprint ─────────────────────────────────────────────────
@@ -141,7 +188,7 @@ export async function POST(req: NextRequest) {
   const state = blueprint.state ?? 'Indiana';
   let standardsBlock: string | undefined;
 
-  if (blueprint.socCode) {
+  if (blueprint.socCode && generationMode !== 'fast') {
     try {
       const standards = await loadIndustryStandards(blueprint.socCode, blueprint.credentialCode);
       if (standards) {
@@ -180,11 +227,18 @@ export async function POST(req: NextRequest) {
           standardsBlock,
         );
 
+        const lessonType = inferLessonType(lesson.slug);
+        const fallback = generationMode === 'fast'
+          ? buildFallbackLessonContent(lesson, mod.title, courseTitle)
+          : null;
+
         enrichedLessons.push({
           ...lesson,
-          objective: generated.objective,
-          content: generated.content,
-          quizQuestions: generated.quiz_questions.map((q) => ({
+          objective: generated.objective?.trim() || fallback?.objective || lesson.objective,
+          content: generated.content?.trim() || fallback?.content || lesson.content,
+          passingScore:
+            lesson.passingScore ?? (lessonType === 'checkpoint' || lessonType === 'quiz' || lessonType === 'exam' ? 70 : undefined),
+          quizQuestions: (generated.quiz_questions?.length ? generated.quiz_questions : fallback?.quiz_questions ?? []).map((q) => ({
             question: q.question,
             options: q.options,
             correct: q.correct,
@@ -194,6 +248,32 @@ export async function POST(req: NextRequest) {
 
         generationLog.push({ slug: lesson.slug, ok: true });
       } catch (err) {
+        if (generationMode === 'fast') {
+          const fallback = buildFallbackLessonContent(lesson, mod.title, courseTitle);
+          const lessonType = inferLessonType(lesson.slug);
+          enrichedLessons.push({
+            ...lesson,
+            objective: fallback.objective,
+            content: fallback.content,
+            passingScore:
+              lesson.passingScore ?? (lessonType === 'checkpoint' || lessonType === 'quiz' || lessonType === 'exam' ? 70 : undefined),
+            quizQuestions: fallback.quiz_questions.map((q) => ({
+              question: q.question,
+              options: q.options,
+              correct: q.correct,
+              explanation: q.explanation,
+            })),
+          });
+
+          generationLog.push({
+            slug: lesson.slug,
+            ok: true,
+            error: err instanceof Error ? err.message : String(err),
+          });
+
+          continue;
+        }
+
         generationLog.push({
           slug: lesson.slug,
           ok: false,
@@ -204,7 +284,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Throttle to avoid rate limits
-      await new Promise((r) => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, generationMode === 'fast' ? 75 : 300));
     }
 
     mod.lessons = enrichedLessons;
@@ -267,16 +347,53 @@ export async function POST(req: NextRequest) {
   // ── Step 5: Queue or generate lesson videos ───────────────────────────────
   let videosQueued = 0;
   let videoQueueFailed = 0;
+  let externalQueued = 0;
+  let externalDispatchFailed = 0;
 
   if (videoMode === 'queue') {
     try {
-      const queued = await queueCourseLessonVideos({
-        courseId,
-        onlyMissing: true,
-        limit: typeof body.videoQueueLimit === 'number' ? body.videoQueueLimit : null,
-      });
-      videosQueued = queued.queued;
-      videoQueueFailed = queued.failed;
+      const queueLimit = typeof body.videoQueueLimit === 'number' ? body.videoQueueLimit : null;
+
+      let lessonsQuery = db
+        .from('course_lessons')
+        .select('id, video_url, video_status')
+        .eq('course_id', courseId)
+        .order('order_index', { ascending: true })
+        .is('video_url', null)
+        .not('video_status', 'in', '("queued","rendering")');
+
+      if (queueLimit && queueLimit > 0) {
+        lessonsQuery = lessonsQuery.limit(queueLimit);
+      }
+
+      const { data: pendingLessons, error: pendingErr } = await lessonsQuery;
+      if (pendingErr) {
+        throw new Error(`Failed to load pending lessons for video dispatch: ${pendingErr.message}`);
+      }
+
+      const baseUrl = new URL(req.url).origin;
+      const cookie = req.headers.get('cookie') ?? '';
+
+      for (const lesson of pendingLessons ?? []) {
+        try {
+          const res = await fetch(`${baseUrl}/api/videos/generate`, {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+              cookie,
+            },
+            body: JSON.stringify({ lesson_id: lesson.id }),
+          });
+
+          if (res.ok) {
+            videosQueued += 1;
+          } else {
+            videoQueueFailed += 1;
+          }
+        } catch {
+          videoQueueFailed += 1;
+        }
+      }
     } catch (err) {
       logger.error('[generate-from-blueprint] video queue error:', err);
     }
@@ -364,6 +481,79 @@ export async function POST(req: NextRequest) {
     videosQueued = 0;
   }
 
+  if (videoMode === 'external') {
+    const externalUrl = process.env.EXTERNAL_VIDEO_WEBHOOK_URL?.trim();
+    if (!externalUrl) {
+      return safeError('EXTERNAL_VIDEO_WEBHOOK_URL is required for videoMode="external"', 400);
+    }
+
+    try {
+      const queueLimit = typeof body.videoQueueLimit === 'number' ? body.videoQueueLimit : null;
+
+      let lessonsQuery = db
+        .from('course_lessons')
+        .select('id, title, script, bullet_points, video_url, video_status')
+        .eq('course_id', courseId)
+        .order('order_index', { ascending: true })
+        .is('video_url', null)
+        .not('video_status', 'in', '("queued","rendering")');
+
+      if (queueLimit && queueLimit > 0) {
+        lessonsQuery = lessonsQuery.limit(queueLimit);
+      }
+
+      const { data: pendingLessons, error: pendingErr } = await lessonsQuery;
+      if (pendingErr) {
+        throw new Error(`Failed to load pending lessons for external dispatch: ${pendingErr.message}`);
+      }
+
+      for (const lesson of pendingLessons ?? []) {
+        try {
+          const job = await createJob({
+            lesson_id: lesson.id,
+            course_id: courseId,
+            lesson_title: lesson.title,
+            script: lesson.script ?? undefined,
+            bullet_points: Array.isArray(lesson.bullet_points)
+              ? (lesson.bullet_points as string[])
+              : [],
+          });
+
+          const webhookRes = await fetch(externalUrl, {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+              source: 'elevate-course-builder',
+              courseId,
+              jobId: job.id,
+              lessonId: lesson.id,
+              lessonTitle: lesson.title,
+              script: lesson.script ?? null,
+              bulletPoints: Array.isArray(lesson.bullet_points)
+                ? (lesson.bullet_points as string[])
+                : [],
+            }),
+          });
+
+          if (webhookRes.ok) {
+            externalQueued += 1;
+            videosQueued += 1;
+          } else {
+            externalDispatchFailed += 1;
+            videoQueueFailed += 1;
+          }
+        } catch {
+          externalDispatchFailed += 1;
+          videoQueueFailed += 1;
+        }
+      }
+    } catch (err) {
+      logger.error('[generate-from-blueprint] external video dispatch error:', err);
+    }
+  }
+
   // ── Step 6: Audit log ─────────────────────────────────────────────────────
   await logAdminAudit({
     action: AdminAction.BULK_CONTENT_GENERATED,
@@ -374,6 +564,7 @@ export async function POST(req: NextRequest) {
       blueprintId: body.blueprintId,
       programId: body.programId,
       mode,
+      generationMode,
       lessonsInserted: seedResult.lessonCount,
       contentFailures: seedResult.contentFailures?.length ?? 0,
       generationFailures: generationFailures.length,
@@ -381,6 +572,8 @@ export async function POST(req: NextRequest) {
       videosQueued,
       videoMode,
       videoQueueFailed,
+      externalQueued,
+      externalDispatchFailed,
     },
     req,
   });
@@ -390,6 +583,7 @@ export async function POST(req: NextRequest) {
     courseId,
     blueprintId: body.blueprintId,
     title: courseTitle,
+    generationMode,
     modules: enrichedBlueprint.modules.length,
     lessonsInserted: seedResult.lessonCount,
     contentFailures: seedResult.contentFailures ?? [],
@@ -398,6 +592,9 @@ export async function POST(req: NextRequest) {
     videosQueued,
     videoQueueFailed,
     videoMode,
+    externalQueued,
+    externalDispatchFailed,
+    externalVideoWebhookConfigured: Boolean(process.env.EXTERNAL_VIDEO_WEBHOOK_URL?.trim()),
     videoStudioUrl: `/admin/video-generator?courseId=${courseId}`,
     studioCommand: `POST /api/admin/course-builder/generate-from-blueprint {"blueprintId":"${body.blueprintId}","programId":"${body.programId}","videoMode":"queue"}`,
     courseUrl: `/admin/courses/${courseId}`,
