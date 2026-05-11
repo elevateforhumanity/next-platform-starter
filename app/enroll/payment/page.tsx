@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { CreditCard, Calendar, Loader2 } from 'lucide-react';
 import { BARBER_PRICING } from '@/lib/programs/pricing';
@@ -32,7 +33,7 @@ const PRICING = {
 type PaymentOption = 'full' | 'deposit' | 'installment';
 
 function EnrollPaymentContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const router = useRouter();
   const applicationId = searchParams.get('application_id');
   const canceled = searchParams.get('canceled');
@@ -374,14 +375,6 @@ function EnrollPaymentContent() {
 
 export default function EnrollPaymentPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600" />
-        </div>
-      }
-    >
-      <EnrollPaymentContent />
-    </Suspense>
+          <EnrollPaymentContent />
   );
 }

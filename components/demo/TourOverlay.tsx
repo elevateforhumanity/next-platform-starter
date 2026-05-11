@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { X, ChevronRight, ChevronLeft, Play, ExternalLink, User, RotateCcw } from 'lucide-react';
 import { getTour, getTourStep, getTourStepCount } from '@/lib/demo/tours';
@@ -22,7 +23,7 @@ interface TourOverlayProps {
 
 export function TourOverlay({ tourId: propTourId, stepNumber: propStepNumber }: TourOverlayProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
 
   // Get tour info from props or URL params
   const tourId = propTourId || (searchParams.get('demoTour') as DemoLicenseType | null);
@@ -265,7 +266,7 @@ export function TourOverlay({ tourId: propTourId, stepNumber: propStepNumber }: 
  * Wrapper to conditionally show tour overlay based on URL params
  */
 export function TourOverlayWrapper() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const tourId = searchParams.get('demoTour') as DemoLicenseType | null;
 
   if (!tourId) return null;

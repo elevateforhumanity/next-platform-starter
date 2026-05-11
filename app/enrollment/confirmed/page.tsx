@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { createClient } from '@/lib/supabase/client';
 import { Calendar, Building2, Award, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -16,7 +17,7 @@ interface EnrollmentData {
 
 function EnrollmentConfirmedContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const [enrollment, setEnrollment] = useState<EnrollmentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [confirming, setConfirming] = useState(false);
@@ -222,14 +223,6 @@ function EnrollmentConfirmedContent() {
 
 export default function EnrollmentConfirmedPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-blue-600"></div>
-        </div>
-      }
-    >
-      <EnrollmentConfirmedContent />
-    </Suspense>
+          <EnrollmentConfirmedContent />
   );
 }

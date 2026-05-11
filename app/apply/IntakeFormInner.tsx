@@ -1,12 +1,11 @@
 'use client';
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { Suspense } from 'react';
 
 function IntakeForm() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const programParam = searchParams.get('program') || '';
 
   // Map legacy/alias slugs → canonical registry slugs
@@ -730,24 +729,8 @@ function IntakeForm() {
   );
 }
 
-// useSearchParams() requires a Suspense boundary — wrap here so the outer
-// page.tsx Suspense fallback renders correctly instead of a blank screen.
+// No Suspense boundary needed — useSafeSearchParams reads from context
+// provided by SafeSearchParamsProvider in PublicLayout.
 export default function IntakeFormInner() {
-  return (
-    <Suspense
-      fallback={
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" aria-live="polite" role="status">
-          <span className="sr-only">Loading intake form…</span>
-          <div className="space-y-3">
-            <div className="h-5 w-48 rounded bg-slate-100 animate-pulse mb-5" />
-            <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
-            <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
-            <div className="h-24 w-full rounded-lg bg-slate-100 animate-pulse" />
-          </div>
-        </div>
-      }
-    >
-      <IntakeForm />
-    </Suspense>
-  );
+  return <IntakeForm />;
 }

@@ -1,7 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import {
   CheckCircle,
@@ -20,7 +19,7 @@ const LICENSES: Record<string, { name: string; price: number }> = {
 };
 
 function TrialSuccessContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const licenseSlug = searchParams.get('license') || 'starter-license';
   const license = LICENSES[licenseSlug] || LICENSES['starter-license'];
 
@@ -146,8 +145,6 @@ function LoadingFallback() {
 
 export default function TrialSuccessPage() {
   return (
-    <Suspense fallback={<LoadingFallback />}>
-      <TrialSuccessContent />
-    </Suspense>
+          <TrialSuccessContent />
   );
 }

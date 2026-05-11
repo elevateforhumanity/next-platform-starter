@@ -2,15 +2,14 @@
 import Image from 'next/image';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from "next/navigation";
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from "next/link";
 import { XCircle, ArrowLeft, HelpCircle } from "lucide-react";
-import { Suspense } from "react";
 
 import { createBrowserClient } from '@supabase/ssr';
 
 function CancelContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const product = searchParams.get("product");
 
   return (
@@ -90,14 +89,6 @@ export default function StoreCheckoutCancelPage() {
   }, []);
 
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span>
-        </div>
-      }
-    >
-      <CancelContent />
-    </Suspense>
+          <CancelContent />
   );
 }

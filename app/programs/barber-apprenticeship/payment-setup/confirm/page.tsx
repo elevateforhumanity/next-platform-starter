@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { Loader2, CheckCircle2, XCircle } from 'lucide-react';
 
 // Stripe redirects here after 3DS authentication with ?setup_intent=... and ?redirect_status=...
 function ConfirmInner() {
-  const params = useSearchParams();
+  const params = useSafeSearchParams();
   const router = useRouter();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [errorMsg, setErrorMsg] = useState('');
@@ -84,12 +85,6 @@ function ConfirmInner() {
 
 export default function PaymentSetupConfirmPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <Loader2 className="w-10 h-10 text-amber-400 animate-spin" />
-      </div>
-    }>
-      <ConfirmInner />
-    </Suspense>
+          <ConfirmInner />
   );
 }

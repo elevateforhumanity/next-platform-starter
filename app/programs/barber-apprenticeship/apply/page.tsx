@@ -1,8 +1,7 @@
 'use client';
 
-import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowLeft, ChevronDown } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -27,7 +26,7 @@ const TYPE_OPTIONS: { value: ApplicantType; label: string; desc: string }[] = [
 ];
 
 function BarberApplyPageInner() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const [applicantType, setApplicantType] = useState<ApplicantType>('');
 
   // This IS the canonical barber apply page. No redirect away from here.
@@ -117,9 +116,5 @@ function BarberApplyPageInner() {
 }
 
 export default function BarberApplyPage() {
-  return (
-    <Suspense>
-      <BarberApplyPageInner />
-    </Suspense>
-  );
+  return (<BarberApplyPageInner />);
 }

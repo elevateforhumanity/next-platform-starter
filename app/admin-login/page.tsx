@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { Shield, Eye, EyeOff, AlertCircle, ArrowRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
@@ -14,7 +15,7 @@ function AdminLoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const configuredAdminUrl = (process.env.NEXT_PUBLIC_ADMIN_URL || '').trim();
   const isLocalConfiguredAdminUrl = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/i.test(
     configuredAdminUrl,
@@ -125,5 +126,5 @@ function AdminLoginForm() {
 }
 
 export default function AdminLoginPage() {
-  return <Suspense><AdminLoginForm /></Suspense>;
+  return <AdminLoginForm />;
 }

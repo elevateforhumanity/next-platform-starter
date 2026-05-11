@@ -1,14 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { Check, Calendar, CreditCard, ArrowRight, Loader2 } from 'lucide-react';
 import { TRIAL_DAYS } from '@/lib/license/types';
 
 function CheckoutSuccessContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const sessionId = searchParams.get('session_id');
   const [loading, setLoading] = useState(true);
   const [sessionData, setSessionData] = useState<{
@@ -191,8 +191,6 @@ function LoadingFallback() {
 
 export default function CheckoutSuccessPage() {
   return (
-    <Suspense fallback={<LoadingFallback />}>
-      <CheckoutSuccessContent />
-    </Suspense>
+          <CheckoutSuccessContent />
   );
 }

@@ -6,7 +6,8 @@ import React from 'react';
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { Suspense } from 'react';
 import {
   ChevronLeft,
@@ -127,7 +128,7 @@ const TikTokStyleVideoPlayer = dynamic(() => import('@/components/video/TikTokSt
 // Defined outside LessonPage so it has a stable identity across renders.
 // onActivity MUST be useCallback-stable — do not pass an inline function.
 function ActivityParamSync({ onActivity }: { onActivity: (a: ActivityId) => void }) {
-  const sp = useSearchParams();
+  const sp = useSafeSearchParams();
   const initialised = React.useRef(false);
   useEffect(() => {
     if (initialised.current) return;

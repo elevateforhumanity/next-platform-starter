@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { AlertTriangle, CheckCircle, Phone, Mail, Loader2 } from 'lucide-react';
 
 function BillingRequiredContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const updated = searchParams.get('updated') === '1';
 
   const [loading, setLoading] = useState(false);
@@ -126,14 +126,6 @@ function BillingRequiredContent() {
 
 export default function BillingRequiredPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-slate-400" />
-        </div>
-      }
-    >
-      <BillingRequiredContent />
-    </Suspense>
+          <BillingRequiredContent />
   );
 }

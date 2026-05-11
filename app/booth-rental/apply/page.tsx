@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CreditCard, Scissors, Sparkles, Flower2, Hand } from 'lucide-react';
 import { BOOTH_RENTAL_TIERS, type BoothRentalDiscipline } from '@/lib/programs/pricing';
@@ -16,7 +17,7 @@ const DISCIPLINE_ICONS: Record<BoothRentalDiscipline, React.ReactNode> = {
 const DISCIPLINES = Object.values(BOOTH_RENTAL_TIERS);
 
 function BoothRentalApplyInner() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const router = useRouter();
 
   const [discipline, setDiscipline] = useState<BoothRentalDiscipline | ''>('');
@@ -316,14 +317,6 @@ function BoothRentalApplyInner() {
 
 export default function BoothRentalApplyPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
-        </div>
-      }
-    >
-      <BoothRentalApplyInner />
-    </Suspense>
+          <BoothRentalApplyInner />
   );
 }

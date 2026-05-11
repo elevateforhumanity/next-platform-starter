@@ -1,8 +1,8 @@
 'use client';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import ModernLandingHero from '@/components/landing/ModernLandingHero';
 import Turnstile from '@/components/Turnstile';
 import { resolveProgram, getActiveProgramsByCategory } from '@/lib/program-registry';
@@ -10,7 +10,7 @@ import { resolveProgram, getActiveProgramsByCategory } from '@/lib/program-regis
 const programGroups = getActiveProgramsByCategory();
 
 function InquiryForm() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const [selectedProgram, setSelectedProgram] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -219,10 +219,6 @@ function InquiryForm() {
 
 export default function Inquiry() {
   return (
-    <Suspense
-      fallback={<div className="min-h-screen flex items-center justify-center"><div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span></div>}
-    >
-      <InquiryForm />
-    </Suspense>
+          <InquiryForm />
   );
 }

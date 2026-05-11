@@ -2,8 +2,9 @@
 
 import React from 'react';
 
-import { useEffect, Suspense, useCallback } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useEffect, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 
 /**
  * Self-Hosted Analytics - 100% Free
@@ -18,7 +19,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
  */
 function SelfHostedAnalyticsContent() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
 
   useEffect(() => {
     // Track page view
@@ -111,8 +112,6 @@ export function useAnalytics() {
 
 export default function SelfHostedAnalytics() {
   return (
-    <Suspense fallback={null}>
-      <SelfHostedAnalyticsContent />
-    </Suspense>
+          <SelfHostedAnalyticsContent />
   );
 }

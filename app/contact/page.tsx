@@ -1,8 +1,7 @@
 'use client';
 
-import { Suspense } from 'react';
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -43,7 +42,7 @@ const contactInfo = [
 ];
 
 function ContactPageInner() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const prefillProgram = searchParams.get('program') || '';
   // Auto-select subject: explicit ?subject= wins, else default to 'programs' when ?program= is set
   const prefillSubject = searchParams.get('subject') || (prefillProgram ? 'programs' : '');
@@ -591,9 +590,5 @@ function ContactPageInner() {
 }
 
 export default function ContactPage() {
-  return (
-    <Suspense>
-      <ContactPageInner />
-    </Suspense>
-  );
+  return (<ContactPageInner />);
 }

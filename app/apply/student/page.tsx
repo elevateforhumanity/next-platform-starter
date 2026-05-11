@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Suspense } from 'react';
 import StudentApplicationForm from './StudentApplicationForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { resolveSlug } from '@/lib/program-registry';
@@ -377,21 +376,7 @@ export default async function StudentApplicationPage({
               if you have questions.
             </p>
           </div>
-          <Suspense
-            fallback={
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" aria-live="polite" role="status">
-                <span className="sr-only">Loading application form…</span>
-                <div className="space-y-3">
-                  <div className="h-5 w-48 rounded bg-slate-100 animate-pulse mb-4" />
-                  <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
-                  <div className="h-10 w-full rounded-lg bg-slate-100 animate-pulse" />
-                  <div className="h-24 w-full rounded-lg bg-slate-100 animate-pulse" />
-                </div>
-              </div>
-            }
-          >
-            <StudentApplicationForm initialProgram={initialProgram} />
-          </Suspense>
+          <StudentApplicationForm initialProgram={initialProgram} />
         </div>
       </section>
 

@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowLeft, Save, AlertCircle, CheckCircle2, Scissors, Clock, History } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { Suspense } from 'react';
 
 type Skill = {
   id: string;
@@ -18,7 +18,7 @@ type Skill = {
 
 function LogCompetencyForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const preselectedSkillId = searchParams.get('skill') ?? '';
 
   const supabase = createClient();
@@ -403,9 +403,5 @@ function LogCompetencyForm() {
 }
 
 export default function LogCompetencyPage() {
-  return (
-    <Suspense>
-      <LogCompetencyForm />
-    </Suspense>
-  );
+  return (<LogCompetencyForm />);
 }

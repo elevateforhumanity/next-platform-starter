@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { Clock, Lock, Loader2, PartyPopper, MessageCircle, FileText } from 'lucide-react';
 
@@ -14,7 +14,7 @@ interface EnrollmentStatus {
 }
 
 function EnrollConfirmationContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const sessionId = searchParams.get('session_id');
 
   const [loading, setLoading] = useState(true);
@@ -280,14 +280,6 @@ function EnrollConfirmationContent() {
 
 export default function EnrollConfirmationPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600" />
-        </div>
-      }
-    >
-      <EnrollConfirmationContent />
-    </Suspense>
+          <EnrollConfirmationContent />
   );
 }

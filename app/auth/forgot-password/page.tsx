@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { Mail, ArrowLeft, AlertCircle, CheckCircle } from 'lucide-react';
 import { sendRecoveryEmail } from './actions';
@@ -11,7 +11,7 @@ function ForgotPasswordForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
 
   useEffect(() => {
     if (searchParams.get('error') === 'link_expired') {
@@ -133,9 +133,5 @@ function ForgotPasswordForm() {
 }
 
 export default function ForgotPasswordPage() {
-  return (
-    <Suspense>
-      <ForgotPasswordForm />
-    </Suspense>
-  );
+  return (<ForgotPasswordForm />);
 }

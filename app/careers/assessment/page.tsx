@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { CheckCircle, ChevronRight, Clock, AlertCircle, Loader2 } from 'lucide-react';
-import { Suspense } from 'react';
 
 // General-purpose competency questions for all Elevate staff roles
 const QUESTIONS = [
@@ -143,7 +143,7 @@ const QUESTIONS = [
 const PASSING_SCORE = 80;
 
 function AssessmentContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const router = useRouter();
   const applicationId = searchParams.get('applicationId') ?? '';
   const position = searchParams.get('position') ?? 'Staff Position';
@@ -384,14 +384,6 @@ function AssessmentContent() {
 
 export default function AssessmentPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600" />
-        </div>
-      }
-    >
-      <AssessmentContent />
-    </Suspense>
+          <AssessmentContent />
   );
 }

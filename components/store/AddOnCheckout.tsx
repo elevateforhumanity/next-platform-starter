@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Shield, Loader2, AlertCircle, CreditCard } from 'lucide-react';
@@ -32,7 +32,7 @@ function CheckoutForm({
   accentColor,
   features,
 }: AddOnCheckoutProps) {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const plan = searchParams.get('plan');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -396,14 +396,6 @@ function CheckoutForm({
 
 export default function AddOnCheckout(props: AddOnCheckoutProps) {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <Loader2 className="w-10 h-10 text-slate-700 animate-spin" />
-        </div>
-      }
-    >
-      <CheckoutForm {...props} />
-    </Suspense>
+          <CheckoutForm {...props} />
   );
 }

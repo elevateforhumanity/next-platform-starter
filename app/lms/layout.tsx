@@ -1,5 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { SafeSearchParamsProvider } from '@/hooks/useSafeSearchParams';
 
 // Root LMS layout - NO AUTH CHECKS HERE
 // Auth is handled in app/lms/(app)/layout.tsx
@@ -20,5 +21,5 @@ export default function LMSLayout({ children }: { children: React.ReactNode }) {
   // The (app) route group has its own layout with auth + sidebar
   // The (public) route group renders standalone
 
-  return <>{children}</>;
+  return <SafeSearchParamsProvider>{children}</SafeSearchParamsProvider>;
 }

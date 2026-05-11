@@ -4,9 +4,10 @@
 
 import React from 'react';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import Image from 'next/image';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
@@ -18,7 +19,7 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   // Support both 'next' and 'redirect' params for backward compatibility
   const rawNext = searchParams.get('next') || searchParams.get('redirect') || '';
   const next = validateRedirect(rawNext, '');
@@ -267,8 +268,6 @@ function LoginSkeleton() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<LoginSkeleton />}>
-      <LoginForm />
-    </Suspense>
+          <LoginForm />
   );
 }
