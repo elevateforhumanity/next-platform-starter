@@ -1,9 +1,9 @@
 'use client';
-import { Suspense } from 'react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { Building, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
@@ -16,7 +16,7 @@ const IDENTITY_ERRORS: Record<string, string> = {
 
 function PartnerLoginPageInner() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const supabase = createClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -274,9 +274,5 @@ function PartnerLoginPageInner() {
 }
 
 export default function PartnerLoginPage() {
-  return (
-    <Suspense>
-      <PartnerLoginPageInner />
-    </Suspense>
-  );
+  return (<PartnerLoginPageInner />);
 }

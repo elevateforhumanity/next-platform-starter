@@ -1,12 +1,11 @@
 'use client';
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { Suspense } from 'react';
 
 function IntakeForm() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const programParam = searchParams.get('program') || '';
 
   // Map legacy/alias slugs → canonical registry slugs
@@ -730,12 +729,8 @@ function IntakeForm() {
   );
 }
 
-// useSearchParams() requires a Suspense boundary — wrap here so the outer
-// page.tsx Suspense fallback renders correctly instead of a blank screen.
+// No Suspense boundary needed — useSafeSearchParams reads from context
+// provided by SafeSearchParamsProvider in PublicLayout.
 export default function IntakeFormInner() {
-  return (
-    <Suspense fallback={<span className="sr-only">Loading form…</span>}>
-      <IntakeForm />
-    </Suspense>
-  );
+  return <IntakeForm />;
 }

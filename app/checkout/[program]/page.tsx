@@ -1,9 +1,10 @@
 // @ts-nocheck
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { loadStripe } from '@stripe/stripe-js';
 import { Calendar, CheckCircle, CreditCard, Lightbulb } from 'lucide-react';
@@ -43,7 +44,7 @@ const programPricing: Record<string, ProgramPricing> = {
 
 function CheckoutPageInner() {
   const params = useParams();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const program = params.program as string;
   const method = searchParams.get('method') || 'stripe';
   const applicationId = searchParams.get('applicationId');
@@ -418,10 +419,6 @@ function CheckoutPageInner() {
 
 export default function CheckoutPage() {
   return (
-    <Suspense
-      fallback={<div className="min-h-screen flex items-center justify-center"><div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span></div>}
-    >
-      <CheckoutPageInner />
-    </Suspense>
+          <CheckoutPageInner />
   );
 }

@@ -1,8 +1,8 @@
 'use client';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowLeft, Send, AlertCircle, Loader2 } from 'lucide-react';
 
@@ -23,7 +23,7 @@ const priorities = [
 ];
 
 function SubmitTicketContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const initialCategory = searchParams.get('category') || 'general';
 
   const [formData, setFormData] = useState({
@@ -285,8 +285,6 @@ function LoadingFallback() {
 
 export default function SubmitTicketPage() {
   return (
-    <Suspense fallback={<LoadingFallback />}>
-      <SubmitTicketContent />
-    </Suspense>
+          <SubmitTicketContent />
   );
 }

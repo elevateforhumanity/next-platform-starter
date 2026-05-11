@@ -1,6 +1,7 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { BnplCheckoutWidget } from '@/components/payments/BnplCheckoutWidget';
 import { TUITION_CENTS, TUITION_DOLLARS } from '@/lib/barber/pricing';
 import { Shield, ArrowLeft } from 'lucide-react';
@@ -8,7 +9,7 @@ import Link from 'next/link';
 
 export function BnplPageClient() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
 
   // Optional context passed from the apply form via query params
   const email = searchParams.get('email') ?? '';

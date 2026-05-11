@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { createClient } from '@/lib/supabase/client';
 import { Award, Lock, ArrowRight, Shield, MapPin, Clock } from 'lucide-react';
 import { CERTIPORT_EXAMS } from '@/lib/partners/certiport';
@@ -12,21 +13,13 @@ type CourseStatus = 'complete' | 'incomplete' | 'loading';
 
 export default function CertiportExamPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span>
-        </div>
-      }
-    >
-      <CertiportExamContent />
-    </Suspense>
+          <CertiportExamContent />
   );
 }
 
 function CertiportExamContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const cancelled = searchParams.get('cancelled');
 
   const [selectedExam, setSelectedExam] = useState<CertiportExamCode | ''>('');

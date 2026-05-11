@@ -4,13 +4,14 @@ import { createClient } from '@/lib/supabase/client';
 
 import React from 'react';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect, Suspense } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
+import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 
 function GlobalSearchContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const initial = searchParams?.get('q') ?? '';
   const [query, setQuery] = useState(initial);
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -104,21 +105,6 @@ function GlobalSearchContent() {
 
 export function GlobalSearch() {
   return (
-    <Suspense
-      fallback={
-        <form className="relative w-full max-w-2xl">
-          <div className="relative">
-            <input
-              type="search"
-              placeholder="Search courses..."
-              className="w-full rounded-full border-2 border-slate-200 bg-white px-6 py-3 pr-32 text-base shadow-sm focus:border-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-500/20 transition-all duration-200"
-              disabled
-            />
-          </div>
-        </form>
-      }
-    >
-      <GlobalSearchContent />
-    </Suspense>
+          <GlobalSearchContent />
   );
 }

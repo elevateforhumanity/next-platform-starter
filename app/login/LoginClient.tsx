@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import Image from 'next/image';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
@@ -16,7 +17,7 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const rawNext = searchParams.get('next') || searchParams.get('redirect') || '';
   const next = validateRedirect(rawNext, '');
 
@@ -241,8 +242,6 @@ function LoginSkeleton() {
 
 export default function LoginClient({ redirectTo }: { redirectTo?: string }) {
   return (
-    <Suspense fallback={<LoginSkeleton />}>
-      <LoginForm />
-    </Suspense>
+          <LoginForm />
   );
 }

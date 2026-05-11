@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { CheckCircle, Clock, AlertCircle, ArrowRight, FileText, Phone } from 'lucide-react';
 
@@ -78,7 +78,7 @@ function StageIcon({ stage }: { stage: string }) {
 }
 
 function StatusContent() {
-  const params = useSearchParams();
+  const params = useSafeSearchParams();
   const token = params.get('token');
 
   const [data, setData] = useState<StatusResponse | null>(null);
@@ -230,15 +230,6 @@ function StatusContent() {
 
 export default function ApplicationStatusPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="mx-auto max-w-3xl px-4 py-12">
-          <div className="h-8 w-48 animate-pulse rounded bg-gray-200" />
-          <div className="mt-6 h-64 animate-pulse rounded-3xl bg-white" />
-        </div>
-      }
-    >
-      <StatusContent />
-    </Suspense>
+          <StatusContent />
   );
 }

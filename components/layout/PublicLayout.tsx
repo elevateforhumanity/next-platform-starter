@@ -12,6 +12,7 @@ import Header from '@/components/site/Header';
 import ServerFooter from '@/components/site/ServerFooter';
 import ClientWidgets from './ClientWidgets';
 import MarketingChromeGuardLoader from './MarketingChromeGuardLoader';
+import { SafeSearchParamsProvider } from '@/hooks/useSafeSearchParams';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ interface PublicLayoutProps {
 
 export default function PublicLayout({ children }: PublicLayoutProps) {
   return (
+    <SafeSearchParamsProvider>
     <>
       <div data-public-layout-root>
         <div data-marketing-chrome>
@@ -48,5 +50,6 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
       <MarketingChromeGuardLoader />
     </>
+    </SafeSearchParamsProvider>
   );
 }

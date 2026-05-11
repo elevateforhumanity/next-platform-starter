@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { CreditCard, Lock, ArrowLeft, AlertCircle } from 'lucide-react';
 
@@ -19,7 +19,7 @@ import { CreditCard, Lock, ArrowLeft, AlertCircle } from 'lucide-react';
  */
 
 function CheckoutContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const attemptId = searchParams.get('attemptId');
   const program = searchParams.get('program') || 'cna';
   const amount = searchParams.get('amount') || '200';
@@ -292,14 +292,6 @@ function CheckoutContent() {
 
 export default function CheckoutPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-2 border-brand-blue-600 border-t-transparent" />
-        </div>
-      }
-    >
-      <CheckoutContent />
-    </Suspense>
+          <CheckoutContent />
   );
 }

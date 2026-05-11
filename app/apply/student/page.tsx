@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Suspense } from 'react';
 import StudentApplicationForm from './StudentApplicationForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { resolveSlug } from '@/lib/program-registry';
@@ -377,9 +376,7 @@ export default async function StudentApplicationPage({
               if you have questions.
             </p>
           </div>
-          <Suspense fallback={<span className="sr-only">Loading form…</span>}>
-            <StudentApplicationForm initialProgram={initialProgram} />
-          </Suspense>
+          <StudentApplicationForm initialProgram={initialProgram} />
         </div>
       </section>
 

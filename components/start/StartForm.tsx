@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 
 type SubmitState =
   | { type: 'idle' }
@@ -41,7 +41,7 @@ const inputClass =
 const selectClass = `${inputClass} bg-white`;
 
 export default function StartForm() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const preselectedProgram = searchParams.get('program') || '';
 
   const [submitState, setSubmitState] = useState<SubmitState>({ type: 'idle' });

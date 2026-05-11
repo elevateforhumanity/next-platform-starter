@@ -2,9 +2,10 @@
 
 import React from 'react';
 
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import Turnstile from '@/components/Turnstile';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
@@ -13,7 +14,7 @@ import { validatePassword } from '@/lib/auth/password-validation';
 export const dynamic = 'force-dynamic';
 
 function SignupFormContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const next = validateRedirect(
     searchParams.get('next') || searchParams.get('redirect'),
     '/learner/dashboard',
@@ -436,20 +437,6 @@ function SignupFormContent() {
 
 export default function SignupForm() {
   return (
-    <Suspense
-      fallback={
-        <div className="bg-white rounded-lg shadow-sm border p-8">
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-200 rounded w-1/2 mx-auto"></div>
-            <div className="h-10 bg-gray-200 rounded"></div>
-            <div className="h-10 bg-gray-200 rounded"></div>
-            <div className="h-10 bg-gray-200 rounded"></div>
-            <div className="h-12 bg-brand-blue-200 rounded"></div>
-          </div>
-        </div>
-      }
-    >
-      <SignupFormContent />
-    </Suspense>
+          <SignupFormContent />
   );
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { Info, ArrowRight } from 'lucide-react';
-import { Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { DemoTrialFunnelEvents } from '@/lib/analytics/events';
 
 const notices: Record<string, { message: string; cta?: string; href?: string }> = {
@@ -25,7 +25,7 @@ const notices: Record<string, { message: string; cta?: string; href?: string }> 
 };
 
 function NoticeContent() {
-  const params = useSearchParams();
+  const params = useSafeSearchParams();
   const reason = params.get('reason');
   const from = params.get('from');
 
@@ -63,8 +63,6 @@ function NoticeContent() {
 
 export function RedirectNotice() {
   return (
-    <Suspense fallback={null}>
-      <NoticeContent />
-    </Suspense>
+          <NoticeContent />
   );
 }

@@ -1,12 +1,12 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { useState, useEffect, Suspense } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { CheckCircle2, XCircle, Loader2, Phone, Mail } from 'lucide-react';
 
 function ConfirmContent() {
-  const params = useSearchParams();
+  const params = useSafeSearchParams();
   const token = params.get('token');
   const response = params.get('response') as 'yes' | 'no' | null;
 
@@ -134,12 +134,6 @@ function ConfirmContent() {
 
 export default function BarberConfirmPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <Loader2 className="w-10 h-10 text-brand-blue-600 animate-spin" />
-      </div>
-    }>
-      <ConfirmContent />
-    </Suspense>
+          <ConfirmContent />
   );
 }

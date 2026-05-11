@@ -1,8 +1,7 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
-import { Suspense } from 'react';
 
 const REASON_MESSAGES: Record<string, { title: string; body: string }> = {
   missing_params: {
@@ -24,7 +23,7 @@ const REASON_MESSAGES: Record<string, { title: string; body: string }> = {
 };
 
 function PaymentErrorContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const reason = searchParams.get('reason') ?? 'unknown';
   const msg = REASON_MESSAGES[reason] ?? {
     title: 'Something Went Wrong',
@@ -62,14 +61,6 @@ function PaymentErrorContent() {
 
 export default function PaymentErrorPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span>
-        </div>
-      }
-    >
-      <PaymentErrorContent />
-    </Suspense>
+          <PaymentErrorContent />
   );
 }

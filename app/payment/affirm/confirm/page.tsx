@@ -4,13 +4,14 @@ import React from 'react';
 
 export const dynamic = 'force-dynamic';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { CheckCircle, Loader2 } from 'lucide-react';
 
 function AffirmConfirmContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const router = useRouter();
   const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing');
   const [transactionId, setTransactionId] = useState<string>('');
@@ -127,17 +128,6 @@ function AffirmConfirmContent() {
 
 export default function AffirmConfirmPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-            <Loader2 className="w-16 h-16 text-brand-blue-600 animate-spin mx-auto mb-4" />
-            <span className="sr-only">Loading</span>
-          </div>
-        </div>
-      }
-    >
-      <AffirmConfirmContent />
-    </Suspense>
+          <AffirmConfirmContent />
   );
 }

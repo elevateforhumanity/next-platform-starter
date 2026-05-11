@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import {
   ChevronRight,
@@ -36,7 +36,7 @@ const PROCTORING_MODE_LABELS: Record<string, string> = {
 };
 
 function BookingForm() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const typeParam = searchParams.get('type') ?? '';
   const examParam = searchParams.get('exam') ?? '';
 
@@ -1082,14 +1082,6 @@ function BookingForm() {
 
 export default function BookTestingPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-brand-red-600" /><span className="sr-only">Loading</span>
-        </div>
-      }
-    >
-      <BookingForm />
-    </Suspense>
+          <BookingForm />
   );
 }

@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { logger } from '@/lib/logger';
 import {
@@ -64,7 +64,7 @@ const NEXT_STEPS = [
 ];
 
 function SuccessContent() {
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
   const [loading, setLoading] = useState(true);
   const [tenantData, setTenantData] = useState<any>(null);
 
@@ -264,8 +264,6 @@ function LoadingFallback() {
 
 export default function LicenseSuccessPage() {
   return (
-    <Suspense fallback={<LoadingFallback />}>
-      <SuccessContent />
-    </Suspense>
+          <SuccessContent />
   );
 }
