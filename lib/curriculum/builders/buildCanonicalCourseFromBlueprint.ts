@@ -199,8 +199,9 @@ function validateLessons(modules: CredentialBlueprint['modules']): void {
 
       const stepType = inferStepType(lesson.slug);
       if (stepType === 'exam' && !lesson.slug.includes('practice')) {
-        // Certification exams must have a recognisable exam code in the slug
-        // (enforced at DB level via partner_exam_code — validated here as a preflight)
+        // Generated programs may use generic final-exam slugs (for example,
+        // `prs-career-exam`). Keep a lightweight warning for auditing, but do
+        // not hard-fail seeding on slug naming alone.
         const hasCode =
           lesson.slug.includes('qbocu') ||
           lesson.slug.includes('icbp') ||
@@ -210,8 +211,11 @@ function validateLessons(modules: CredentialBlueprint['modules']): void {
           lesson.slug.includes('state-board') ||
           lesson.slug.includes('nha') ||
           lesson.slug.includes('act-workkeys');
-        if (!hasCode)
-          throw new Error(`Exam lesson '${lesson.slug}' has no recognisable cert code in slug`);
+        if (!hasCode) {
+          logger.warn(
+            `[seeder] Exam lesson '${lesson.slug}' has a generic slug; continuing with seeding.`,
+          );
+        }
       }
     }
   }

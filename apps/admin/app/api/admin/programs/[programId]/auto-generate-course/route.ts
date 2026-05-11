@@ -42,6 +42,10 @@ export async function POST(
       return NextResponse.json({ ok: false, ...result }, { status: 422 });
     }
 
+    if (!result.ok) {
+      return NextResponse.json({ ok: false, ...result }, { status: 422 });
+    }
+
     return NextResponse.json({ ok: true, ...result }, { status: 200 });
   } catch (error) {
     return safeInternalError(error, 'Auto course generation failed');

@@ -2,10 +2,13 @@
  * lib/gemini-client.ts
  *
  * Google Gemini inference client — fallback for Groq in content generation.
- * Model: gemini-1.5-flash — fast, free tier (15 req/min, 1M req/day).
+ * Uses a small model cascade so content generation can keep moving when a
+ * single Gemini model is unavailable or rate-limited.
  */
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
+
+const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite', 'gemini-1.5-flash'];
 
 let _client: GoogleGenerativeAI | null = null;
 
@@ -28,18 +31,52 @@ export function isGeminiConfigured(): boolean {
  */
 export async function geminiJSON<T = unknown>(prompt: string): Promise<T> {
   const genAI = getGeminiClient();
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-1.5-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      temperature: 0.4,
-      maxOutputTokens: 2048,
-    },
-    systemInstruction:
-      'You are a professional curriculum architect. Always respond with valid JSON only. No markdown, no prose, no code fences.',
-  });
+  let lastError: unknown = null;
 
-  const result = await model.generateContent(prompt);
-  const raw = result.response.text();
-  return JSON.parse(raw) as T;
+  for (const modelName of GEMINI_MODELS) {
+    try {
+      const model = genAI.getGenerativeModel({
+        model: modelName,
+        generationConfig: {
+          responseMimeType: 'application/json',
+          temperature: 0.4,
+          maxOutputTokens: 2048,
+        },
+        systemInstruction:
+          'You are a professional curriculum architect. Always respond with valid JSON only. No markdown, no prose, no code fences.',
+      });
+
+      const result = await model.generateContent(prompt);
+      const raw = result.response.text().trim();
+      const cleaned = normalizeJsonPayload(raw);
+      return JSON.parse(cleaned) as T;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new Error('All Gemini models failed');
+}
+
+function normalizeJsonPayload(raw: string): string {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    throw new Error('Gemini returned an empty response');
+  }
+
+  const fenceMatch = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
+  if (fenceMatch?.[1]) {
+    return fenceMatch[1].trim();
+  }
+
+  try {
+    JSON.parse(trimmed);
+    return trimmed;
+  } catch {
+    const objectMatch = trimmed.match(/\{[\s\S]*\}/);
+    if (objectMatch?.[0]) {
+      return objectMatch[0];
+    }
+    throw new Error('Gemini returned non-JSON content');
+  }
 }

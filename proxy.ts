@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 // ── Module-level constants ────────────────────────────────────────────────────
 
@@ -28,7 +29,7 @@ const WEBHOOK_PATHS = [
   '/api/barber/webhook',
   '/api/micro-classes/webhook',
   '/api/sezzle/webhook',
-  '/api/payments',
+  '/api/payments/webhook',
   '/api/csp-report',
 ];
 
@@ -158,6 +159,55 @@ const NOINDEX_PREFIXES = [
   '/profile',
 ];
 
+function inferApiRateLimitTier(pathname: string): 'strict' | 'contact' | 'api' | 'auth' | 'payment' | 'public' | null {
+  // Webhooks are signature-authenticated and can receive burst retries from providers.
+  if (pathname.includes('/webhook')) return null;
+
+  // Cron routes are protected by secrets and should not be throttled by client IP.
+  if (pathname === '/api/cron' || pathname.startsWith('/api/cron/')) return null;
+
+  if (pathname === '/api/auth' || pathname.startsWith('/api/auth/')) return 'auth';
+
+  if (
+    pathname.includes('/checkout') ||
+    pathname.includes('/payment') ||
+    pathname.includes('/billing') ||
+    pathname.startsWith('/api/stripe/') ||
+    pathname.startsWith('/api/sezzle/') ||
+    pathname.startsWith('/api/affirm/')
+  ) {
+    return 'payment';
+  }
+
+  if (
+    pathname === '/api/admin' ||
+    pathname.startsWith('/api/admin/') ||
+    pathname === '/api/staff' ||
+    pathname.startsWith('/api/staff/') ||
+    pathname === '/api/instructor' ||
+    pathname.startsWith('/api/instructor/')
+  ) {
+    return 'strict';
+  }
+
+  if (
+    pathname === '/api/contact' ||
+    pathname.startsWith('/api/contact/') ||
+    pathname.includes('/schedule-consultation')
+  ) {
+    return 'contact';
+  }
+
+  if (
+    pathname.startsWith('/api/ai-tutor/public') ||
+    pathname.startsWith('/api/public/')
+  ) {
+    return 'public';
+  }
+
+  return 'api';
+}
+
 // Admin emails that bypass the onboarding gate.
 const ADMIN_EMAILS: string[] = [
   'elizabethpowell6262@gmail.com',
@@ -254,6 +304,12 @@ export async function middleware(request: NextRequest) {
   // CORS: Block cross-origin API requests from unknown origins
   // ============================================
   if (pathname.startsWith('/api/')) {
+    const rateLimitTier = inferApiRateLimitTier(pathname);
+    if (rateLimitTier) {
+      const blocked = await applyRateLimit(request, rateLimitTier);
+      if (blocked) return blocked;
+    }
+
     const origin = request.headers.get('origin');
     const allowedOrigins = [
       process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',

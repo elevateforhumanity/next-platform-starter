@@ -46,9 +46,16 @@ export async function applyRateLimit(
   tier: Tier = 'contact',
 ): Promise<NextResponse | null> {
   const limiter = limiters[tier]?.get();
+  const failClosed = tier === 'strict';
+
   if (!limiter) {
-    // Redis not configured — fail open. Never block legitimate requests
-    // because the rate limiting infrastructure is unavailable.
+    if (failClosed) {
+      logger.error('[rate-limit] Redis unavailable — failing closed', { tier });
+      return NextResponse.json({ error: 'Rate limiting temporarily unavailable' }, { status: 503 });
+    }
+
+    // Redis not configured — fail open for non-strict tiers to keep public
+    // traffic functional during transient infra issues.
     logger.warn('[rate-limit] Redis unavailable — failing open', { tier });
     return null;
   }
@@ -71,18 +78,23 @@ export async function applyRateLimit(
       );
     }
   } catch (err) {
-    // Redis error (timeout, connection refused, bad credentials, etc.) — fail open.
-    // Log with enough detail to diagnose without reproducing.
+    // Redis error (timeout, connection refused, bad credentials, etc.).
+    // Strict tier fails closed; other tiers fail open.
     // Common causes: UPSTASH_REDIS_REST_URL/TOKEN wrong in SSM, Upstash plan expired.
     const msg = err instanceof Error ? err.message : String(err);
     const isCredential = msg.includes('401') || msg.includes('403') || msg.includes('Unauthorized');
-    logger.error('[rate-limit] Redis error — failing open', {
+    logger.error(`[rate-limit] Redis error — ${failClosed ? 'failing closed' : 'failing open'}`, {
       tier,
       error: msg,
       action: isCredential
         ? 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in SSM /elevate/'
         : 'Check Upstash dashboard for connectivity issues',
     });
+
+    if (failClosed) {
+      return NextResponse.json({ error: 'Rate limiting temporarily unavailable' }, { status: 503 });
+    }
+
     return null;
   }
 
