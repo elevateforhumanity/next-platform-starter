@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import { requireRole } from '@/lib/auth/require-role';
+import { logger } from '@/lib/logger';
 import Link from 'next/link';
 import { Inbox, Clock, CheckCircle, XCircle, Eye, Users } from 'lucide-react';
 import {
@@ -57,7 +58,15 @@ export default async function ApplicationsPage({
   }
   if (!adminDb)
     return (
-      <div className="p-8 text-red-600">Service temporarily unavailable. Please try again.</div>
+      <div className="p-8">
+        <p className="text-red-600 font-semibold mb-2">Service temporarily unavailable.</p>
+        <p className="text-slate-500 text-sm mb-4">
+          The admin database client could not be initialised. This usually means
+          <code className="mx-1 px-1 bg-slate-100 rounded">SUPABASE_SERVICE_ROLE_KEY</code>
+          is missing from the container environment.
+        </p>
+        <a href="/admin/applications" className="text-sm text-blue-600 underline">Retry</a>
+      </div>
     );
 
   // Optimize: use getApplicationCounts RPC if available; fall back to two parallel queries
@@ -96,12 +105,32 @@ export default async function ApplicationsPage({
       .in('status', ['submitted', 'pending_admin_review', 'under_review', 'approved']),
   ]);
 
-  if (applicationsError)
-    return <div className="p-8 text-red-600">Failed to load applications. Please refresh.</div>;
-  if (countError)
+  if (applicationsError) {
+    logger.error('[admin/applications] query failed', applicationsError);
     return (
-      <div className="p-8 text-red-600">Failed to load application counts. Please refresh.</div>
+      <div className="p-8">
+        <p className="text-red-600 font-semibold mb-2">Failed to load applications.</p>
+        <p className="text-slate-500 text-sm mb-1">
+          Database error: <code className="px-1 bg-slate-100 rounded">{applicationsError.code}</code>{' '}
+          — {applicationsError.message}
+        </p>
+        <a href="/admin/applications" className="text-sm text-blue-600 underline">Retry</a>
+      </div>
     );
+  }
+  if (countError) {
+    logger.error('[admin/applications] count query failed', countError);
+    return (
+      <div className="p-8">
+        <p className="text-red-600 font-semibold mb-2">Failed to load application counts.</p>
+        <p className="text-slate-500 text-sm mb-1">
+          Database error: <code className="px-1 bg-slate-100 rounded">{countError.code}</code>{' '}
+          — {countError.message}
+        </p>
+        <a href="/admin/applications" className="text-sm text-blue-600 underline">Retry</a>
+      </div>
+    );
+  }
 
   const visibleApplications = (applications ?? []).filter((app: any) => {
     const id = String(app?.id ?? '');

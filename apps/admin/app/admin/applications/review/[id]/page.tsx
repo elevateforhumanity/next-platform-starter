@@ -80,12 +80,19 @@ export default async function ReviewApplicationPage({
   // Accept canonical UUID IDs and legacy intake-* IDs.
   // Reject everything else with a clear, deterministic message.
   if (!isUuid && !isLegacyIntakeId) {
-    logger.warn('[review/application] non-UUID id rejected', { id });
+    logger.warn('[review/application] invalid id format', { id });
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <p className="text-4xl mb-4">⚠️</p>
         <h1 className="text-xl font-bold text-slate-900 mb-2">Application unavailable</h1>
-        <p className="text-slate-500 mb-6">The requested application could not be loaded.</p>
+        <p className="text-slate-500 mb-2">
+          The ID <code className="px-1 bg-slate-100 rounded text-sm">{id}</code> is not a valid
+          application ID. Expected a UUID or a legacy <code className="px-1 bg-slate-100 rounded text-sm">intake-*</code> ID.
+        </p>
+        <p className="text-slate-400 text-sm mb-6">
+          This usually means a link was generated with a stale or malformed ID. Check the
+          applications list for the correct record.
+        </p>
         <Link href="/admin/applications" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-700 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Applications
         </Link>

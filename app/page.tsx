@@ -24,8 +24,13 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const heroPoster = heroBanners.home?.posterImage;
   return (
     <main>
+      {/* Preload hero poster so it paints before any below-fold images are discovered */}
+      {heroPoster && (
+        <link rel="preload" as="image" href={heroPoster} fetchPriority="high" />
+      )}
       <HomeHeroVideo banner={heroBanners.home} />
 
       {/* ROLE-BASED ENTRY */}
@@ -117,6 +122,7 @@ export default function HomePage() {
             fill
             className="object-cover"
             sizes="33vw"
+            loading="lazy"
           />
         </div>
         <div className="relative">
@@ -126,6 +132,7 @@ export default function HomePage() {
             fill
             className="object-cover"
             sizes="33vw"
+            loading="lazy"
           />
         </div>
         <div className="relative">
@@ -135,6 +142,7 @@ export default function HomePage() {
             fill
             className="object-cover"
             sizes="33vw"
+            loading="lazy"
           />
         </div>
       </section>
@@ -177,6 +185,7 @@ export default function HomePage() {
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 384px"
+              loading="lazy"
             />
           </div>
         </div>
@@ -229,6 +238,7 @@ export default function HomePage() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 640px) 100vw, 33vw"
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
@@ -281,6 +291,7 @@ export default function HomePage() {
           fill
           className="object-cover object-center"
           sizes="100vw"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center">
           <p className="text-white text-xl sm:text-3xl font-extrabold text-center px-6 drop-shadow-lg">
