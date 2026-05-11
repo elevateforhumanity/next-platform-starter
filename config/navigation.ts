@@ -202,7 +202,7 @@ export const headerNav: NavSection[] = [
       { label: 'Live Chat', href: '/admin/live-chat' },
       { label: 'Notifications', href: '/admin/notifications' },
       { label: 'Settings', href: '/admin/settings' },
-      { label: 'AI Course Builder', href: '/admin/ai-course-builder' },
+      { label: 'AI Course Builder', href: '/admin/courses/ai-builder' },
       { label: 'Security', href: '/admin/security' },
     ],
   },

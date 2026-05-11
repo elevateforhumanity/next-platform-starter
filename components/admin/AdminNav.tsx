@@ -149,6 +149,7 @@ const NAV = [
       { label: 'Assessment Bank', href: '/admin/course-builder/assessments' },
       { label: 'Media Library', href: '/admin/course-builder/media' },
       { label: 'Course Templates', href: '/admin/course-builder/templates' },
+      { label: 'Template Records', href: '/admin/course-templates' },
       { label: 'Course Import', href: '/admin/course-import' },
       { label: 'Editor', href: '/admin/editor' },
       { label: 'Media Studio', href: '/admin/media-studio' },

@@ -37,9 +37,8 @@ export const siteMapSections: SiteMapSection[] = [
     title: 'Admin & Staff',
     items: [
       { label: 'Admin', href: '/admin' },
-      { label: 'Adminconsole', href: '/admin/adminconsole' },
       { label: 'Ai Console', href: '/admin/ai-console' },
-      { label: 'Ai Course Builder', href: '/admin/ai-course-builder' },
+      { label: 'AI Course Builder', href: '/admin/courses/ai-builder' },
       { label: 'Analytics', href: '/admin/analytics' },
       { label: 'Applicants', href: '/admin/applicants' },
       { label: 'Applicants Live', href: '/admin/applicants-live' },
@@ -60,7 +59,6 @@ export const siteMapSections: SiteMapSection[] = [
       { label: 'Console', href: '/admin/console' },
       { label: 'Contacts', href: '/admin/contacts' },
       { label: 'Copilot', href: '/admin/copilot' },
-      { label: 'Course Authoring', href: '/admin/course-authoring' },
       { label: 'Course Builder', href: '/admin/course-builder' },
       { label: 'Course Generator', href: '/admin/course-generator' },
       { label: 'Course Import', href: '/admin/course-import' },

@@ -92,7 +92,12 @@ export default async function CourseTemplatesPage() {
                       </td>
                       <td className="px-6 py-4 text-slate-500 text-xs">{new Date(t.created_at).toLocaleDateString()}</td>
                       <td className="px-6 py-4">
-                        <Link href={`/admin/course-templates/${t.id}`} className="text-brand-blue-600 hover:underline text-xs font-medium">Edit →</Link>
+                        <Link
+                          href="/admin/course-builder/templates"
+                          className="text-brand-blue-600 hover:underline text-xs font-medium"
+                        >
+                          Open Gallery →
+                        </Link>
                       </td>
                     </tr>
                   ))}

@@ -35,13 +35,13 @@ const featureChecks = [
   },
   {
     name: 'Course Authoring',
-    files: ['app/admin/course-authoring/page.tsx', 'app/api/courses/authoring/route.ts'],
+    files: ['components/lms/CourseAuthoringTool-placeholder.tsx', 'app/api/courses/authoring/route.ts'],
   },
   {
     name: 'AI Tutor & AI Course Builder',
     files: [
       'app/lms/chat/page.tsx',
-      'app/admin/ai-course-builder/page.tsx',
+      'apps/admin/app/admin/courses/ai-builder/page.tsx',
       'app/api/ai/course-builder/route.ts',
     ],
   },
