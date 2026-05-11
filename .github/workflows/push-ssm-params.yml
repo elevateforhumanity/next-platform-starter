@@ -15,6 +15,10 @@ on:
         description: 'STRIPE_WEBHOOK_SECRET_BARBER (whsec_... from Stripe Dashboard → Webhooks → barber endpoint). Leave blank to skip.'
         required: false
         type: string
+      stripe_secret_key:
+        description: 'STRIPE_SECRET_KEY (sk_live_... or sk_test_...). Leave blank to skip.'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -41,6 +45,17 @@ jobs:
             --overwrite \
             --region us-east-1
           echo "GROQ_API_KEY pushed."
+
+      - name: Push STRIPE_SECRET_KEY
+        if: ${{ github.event.inputs.stripe_secret_key != '' }}
+        run: |
+          aws ssm put-parameter \
+            --name /elevate/STRIPE_SECRET_KEY \
+            --value "${{ github.event.inputs.stripe_secret_key }}" \
+            --type SecureString \
+            --overwrite \
+            --region us-east-1
+          echo "STRIPE_SECRET_KEY pushed."
 
       - name: Push STRIPE_WEBHOOK_SECRET_BARBER
         if: ${{ github.event.inputs.stripe_webhook_secret_barber != '' }}
