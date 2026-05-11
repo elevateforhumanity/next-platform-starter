@@ -7,6 +7,7 @@ import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
+const stripe = getStripe();
 
 export const dynamic = 'force-dynamic';
 
@@ -35,15 +36,29 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Get user email
+    // Get profile and canonical program_holder_id
     const { data: profile } = await supabase
       .from('profiles')
-      .select('email')
+      .select('email, program_holder_id')
       .eq('id', userId)
       .maybeSingle();
 
     if (!profile) {
       return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
+    }
+
+    let programHolderId: string | null = profile.program_holder_id ?? null;
+    if (!programHolderId) {
+      const { data: fallbackHolder } = await supabase
+        .from('program_holders')
+        .select('id')
+        .eq('user_id', userId)
+        .maybeSingle();
+      programHolderId = fallbackHolder?.id ?? null;
+    }
+
+    if (!programHolderId) {
+      return NextResponse.json({ error: 'Program holder record not found' }, { status: 404 });
     }
 
     // Create Stripe Identity verification session
@@ -65,20 +80,13 @@ async function _POST(request: NextRequest) {
 
     // Store verification session in database
     await supabase.from('program_holder_verification').insert({
-      program_holder_id: userId,
+      user_id: userId,
+      program_holder_id: programHolderId,
       verification_type: 'stripe_identity',
       status: 'pending',
       stripe_verification_session_id: session.id,
       created_at: new Date().toISOString(),
     });
-
-    // Update program holder status
-    await supabase
-      .from('program_holders')
-      .update({
-        verification_status: 'pending',
-      })
-      .eq('user_id', userId);
 
     return NextResponse.json({
       sessionId: session.id,

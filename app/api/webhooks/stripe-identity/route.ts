@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import type Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe/client';
 import { hydrateProcessEnv } from '@/lib/secrets';
 
-import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-import * as Sentry from '@sentry/nextjs';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -41,26 +40,28 @@ async function _POST(request: NextRequest) {
   try {
     event = stripeClient.webhooks.constructEvent(body, signature, webhookSecret);
   } catch {
-    /* non-fatal */
+    return NextResponse.json({ error: 'Invalid webhook signature' }, { status: 400 });
+  }
+
+  if (!supabase) {
+    return NextResponse.json({ received: true, warning: 'supabase_not_configured' }, { status: 200 });
   }
 
   // Idempotency check
-  if (supabase) {
-    const { data: existing } = await supabase
-      .from('stripe_webhook_events')
-      .select('id')
-      .eq('stripe_event_id', event.id)
-      .maybeSingle();
+  const { data: existing } = await supabase
+    .from('stripe_webhook_events')
+    .select('id')
+    .eq('stripe_event_id', event.id)
+    .maybeSingle();
 
-    if (existing) {
-      return NextResponse.json({ received: true, duplicate: true });
-    }
-
-    await supabase
-      .from('stripe_webhook_events')
-      .insert({ stripe_event_id: event.id, event_type: event.type, status: 'processing' })
-      .catch(() => {});
+  if (existing) {
+    return NextResponse.json({ received: true, duplicate: true });
   }
+
+  await supabase
+    .from('stripe_webhook_events')
+    .insert({ stripe_event_id: event.id, event_type: event.type, status: 'processing' })
+    .catch(() => {});
 
   // Handle verification session events
   if (event.type === 'identity.verification_session.verified') {
@@ -72,8 +73,7 @@ async function _POST(request: NextRequest) {
     }
 
     try {
-      // Update verification record
-      await supabase
+      const { error: verifyUpdateError } = await supabase
         .from('program_holder_verification')
         .update({
           status: 'verified',
@@ -81,14 +81,18 @@ async function _POST(request: NextRequest) {
         })
         .eq('stripe_verification_session_id', session.id);
 
-      // Update program holder status
-      await supabase
-        .from('program_holders')
-        .update({
-          verification_status: 'verified',
-          status: 'verified_no_students',
-        })
-        .eq('user_id', userId);
+      if (verifyUpdateError) {
+        return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
+      }
+
+      if (userId) {
+        await supabase
+          .from('program_holder_verification')
+          .update({ status: 'verified', verified_at: new Date().toISOString() })
+          .eq('user_id', userId)
+          .in('status', ['pending', 'failed'])
+          .catch(() => {});
+      }
 
       // Email notification handled by trigger to user
     } catch (error) {
@@ -109,8 +113,7 @@ async function _POST(request: NextRequest) {
     }
 
     try {
-      // Update verification record
-      await supabase
+      const { error: failUpdateError } = await supabase
         .from('program_holder_verification')
         .update({
           status: 'failed',
@@ -118,19 +121,32 @@ async function _POST(request: NextRequest) {
         })
         .eq('stripe_verification_session_id', session.id);
 
-      // Update program holder status
-      await supabase
-        .from('program_holders')
-        .update({
-          verification_status: 'failed',
-        })
-        .eq('user_id', userId);
+      if (failUpdateError) {
+        return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
+      }
+
+      if (userId) {
+        await supabase
+          .from('program_holder_verification')
+          .update({ status: 'failed', notes: session.last_error?.reason || 'Verification failed' })
+          .eq('user_id', userId)
+          .eq('status', 'pending')
+          .catch(() => {});
+      }
 
       // Email notification handled by trigger to user
     } catch (error) {
       return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
     }
   }
+
+  await supabase
+    .from('stripe_webhook_events')
+    .update({ status: 'processed' })
+    .eq('stripe_event_id', event.id)
+    .catch(() => {});
+
+  return NextResponse.json({ received: true });
 }
 export const POST = withApiAudit('/api/webhooks/stripe-identity', _POST, {
   actor_type: 'webhook',

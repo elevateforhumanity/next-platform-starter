@@ -71,6 +71,10 @@ export default function IdentityVerificationFlow({
     setError(null);
 
     try {
+      if (!programHolder?.id) {
+        throw new Error('Program holder record not found');
+      }
+
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -97,14 +101,16 @@ export default function IdentityVerificationFlow({
       // Create document records
       await supabase.from('program_holder_documents').insert([
         {
-          program_holder_id: userId,
+          user_id: userId,
+          program_holder_id: programHolder.id,
           document_type: 'id',
           file_path: idPath,
           file_name: uploadedDocs.id.name,
           uploaded_at: new Date().toISOString(),
         },
         {
-          program_holder_id: userId,
+          user_id: userId,
+          program_holder_id: programHolder.id,
           document_type: 'ssn',
           file_path: ssnPath,
           file_name: uploadedDocs.ssn.name,
@@ -114,19 +120,12 @@ export default function IdentityVerificationFlow({
 
       // Create verification record
       await supabase.from('program_holder_verification').insert({
-        program_holder_id: userId,
+        user_id: userId,
+        program_holder_id: programHolder.id,
         verification_type: 'manual',
         status: 'pending',
         created_at: new Date().toISOString(),
       });
-
-      // Update program holder status
-      await supabase
-        .from('program_holders')
-        .update({
-          verification_status: 'pending',
-        })
-        .eq('user_id', userId);
 
       router.push('/program-holder/verification-pending');
       router.refresh();

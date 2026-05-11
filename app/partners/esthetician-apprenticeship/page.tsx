@@ -15,14 +15,14 @@ export default async function EstheticianPartnerPage() {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
+    if (user?.email) {
       const { data } = await supabase
         .from('partner_applications')
         .select('status')
-        .eq('user_id', user.id)
-        .eq('program_type', 'esthetician-apprenticeship')
+        .eq('contact_email', user.email)
+        .eq('status', 'approved')
         .maybeSingle();
-      isApproved = data?.status === 'approved';
+      isApproved = !!data;
     }
   } catch {
     // unauthenticated — show public page

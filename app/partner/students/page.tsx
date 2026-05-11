@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Users, GraduationCap, Clock, TrendingUp, Search } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { getMyPartnerContext } from '@/lib/partner/access';
+import { getPartnerStudentsWithTraining } from '@/lib/partner/students';
 
 export const metadata: Metadata = {
   title: 'Students | Partner Portal | Elevate For Humanity',
@@ -22,41 +24,53 @@ export default async function PartnerStudentsPage() {
     redirect('/login?redirect=/partner/students');
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role, full_name')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile || !['delegate', 'program_holder', 'admin', 'super_admin'].includes(profile.role)) {
-    redirect('/');
+  const ctx = await getMyPartnerContext();
+  if (!ctx) {
+    redirect('/partner/login');
   }
 
-  // Get partner's program holder record if applicable
-  const { data: programHolder } = await supabase
-    .from('program_holders')
-    .select('id, name')
-    .eq('owner_id', user.id)
-    .single();
+  const shopIds = ctx.shops.map((s) => s.shop_id).filter(Boolean);
+  const students = await getPartnerStudentsWithTraining(shopIds);
+  const rows = students.flatMap((student) => {
+    if (!student.courses.length) {
+      return [
+        {
+          id: `${student.student_id}-none`,
+          status: student.placement_status || 'active',
+          progress: student.overall_progress || 0,
+          funding_type: null,
+          created_at: student.placement_start,
+          student: {
+            id: student.student_id,
+            full_name: student.student_name,
+            email: student.student_email,
+          },
+          program: {
+            name: 'Not enrolled yet',
+          },
+        },
+      ];
+    }
 
-  // Fetch students referred by this partner
-  const { data: enrollments, count: totalStudents } = await supabase
-    .from('enrollments')
-    .select(
-      `
-      id,
-      status,
-      progress,
-      funding_type,
-      enrolled_at,
-      completed_at,
-      student:profiles!enrollments_student_id_fkey(id, full_name, email, created_at),
-      program:programs(id, name, slug)
-    `,
-      { count: 'exact' },
-    )
-    .eq(programHolder ? 'program_holder_id' : 'delegate_id', programHolder?.id || user.id)
-    .order('enrolled_at', { ascending: false });
+    return student.courses.map((course) => ({
+      id: `${student.student_id}-${course.course_id}`,
+      status: course.status || student.placement_status || 'active',
+      progress: course.progress || 0,
+      funding_type: null,
+      created_at: course.enrolled_at || student.placement_start,
+      student: {
+        id: student.student_id,
+        full_name: student.student_name,
+        email: student.student_email,
+      },
+      program: {
+        name: course.course_title,
+      },
+    }));
+  });
+
+  const enrollments = rows;
+  const totalStudents = students.length;
 
   // Calculate stats
   const activeCount = enrollments?.filter((e) => e.status === 'active').length || 0;
@@ -181,8 +195,8 @@ export default async function PartnerStudentsPage() {
                       </span>
                     </td>
                     <td className="px-4 py-4 text-sm text-slate-500">
-                      {enrollment.enrolled_at
-                        ? new Date(enrollment.enrolled_at).toLocaleDateString()
+                      {enrollment.created_at
+                        ? new Date(enrollment.created_at).toLocaleDateString()
                         : 'N/A'}
                     </td>
                   </tr>

@@ -33,11 +33,29 @@ export async function POST(req: Request) {
     const admin = await requireAdminClient();
     if (!admin) return NextResponse.json({ error: 'Server error' }, { status: 500 });
 
-    // 1. Check MOU + welcome_email_sent flag
+    // 1. Resolve holder ID canonically from profile, then check MOU + welcome_email_sent flag
+    const { data: profileLink } = await admin
+      .from('profiles')
+      .select('program_holder_id')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    let holderId: string | null = profileLink?.program_holder_id ?? null;
+    if (!holderId) {
+      const { data: legacyHolder } = await admin
+        .from('program_holders')
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      holderId = legacyHolder?.id ?? null;
+    }
+
+    if (!holderId) return NextResponse.json({ complete: false, reason: 'no_holder_row' });
+
     const { data: holder } = await admin
       .from('program_holders')
       .select('id, mou_signed, welcome_email_sent, organization_name')
-      .eq('user_id', user.id)
+      .eq('id', holderId)
       .maybeSingle();
 
     if (!holder) return NextResponse.json({ complete: false, reason: 'no_holder_row' });
@@ -95,7 +113,7 @@ export async function POST(req: Request) {
     });
 
     // Mark welcome email sent — column may not exist yet; ignore error gracefully
-    await admin.from('program_holders').update({ welcome_email_sent: true }).eq('user_id', user.id);
+    await admin.from('program_holders').update({ welcome_email_sent: true }).eq('id', holderId);
 
     logger.info('[onboarding-complete] Welcome email sent', { userId: user.id });
     return NextResponse.json({ complete: true, email_sent: true });

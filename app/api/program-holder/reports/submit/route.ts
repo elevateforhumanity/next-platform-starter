@@ -28,7 +28,7 @@ async function _POST(request: NextRequest) {
     // Verify user is a program holder
     const { data: profile } = await supabase
       .from('profiles')
-      .select('role')
+      .select('role, program_holder_id')
       .eq('id', user.id)
       .maybeSingle();
 
@@ -39,18 +39,22 @@ async function _POST(request: NextRequest) {
       );
     }
 
-    // Get program holder record
-    const { data: programHolder, error: phError } = await supabase
-      .from('program_holders')
-      .select('id')
-      .eq('user_id', user.id)
-      .maybeSingle();
+    // Get program holder record (prefer profiles.program_holder_id; fallback to legacy user_id link)
+    let programHolderId: string | null = profile.program_holder_id ?? null;
+    if (!programHolderId) {
+      const { data: fallbackHolder, error: phError } = await supabase
+        .from('program_holders')
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-    if (phError || !programHolder) {
-      return NextResponse.json(
-        { error: 'Program holder record not found' },
-        { status: 404 }
-      );
+      if (phError || !fallbackHolder) {
+        return NextResponse.json(
+          { error: 'Program holder record not found' },
+          { status: 404 }
+        );
+      }
+      programHolderId = fallbackHolder.id;
     }
 
     // Parse form data
@@ -73,7 +77,7 @@ async function _POST(request: NextRequest) {
     const { data: report, error: insertError } = await supabase
       .from('apprentice_weekly_reports')
       .insert({
-        program_holder_id: programHolder.id,
+        program_holder_id: programHolderId,
         week_ending: weekEnding,
         hours_worked: hoursWorked,
         skills_practiced: skillsPracticed,

@@ -87,11 +87,32 @@ export async function POST(request: NextRequest) {
 
     // Update program holder verification status if SSN verified
     if (result.verified) {
-      await supabase.from('program_holder_verification').upsert({
-        program_holder_id: user.id,
-        ssn_verified: true,
-        ssn_verified_at: new Date().toISOString(),
-      });
+      const { data: profileLink } = await supabase
+        .from('profiles')
+        .select('program_holder_id')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      let programHolderId: string | null = profileLink?.program_holder_id ?? null;
+      if (!programHolderId) {
+        const { data: legacyHolder } = await supabase
+          .from('program_holders')
+          .select('id')
+          .eq('user_id', user.id)
+          .maybeSingle();
+        programHolderId = legacyHolder?.id ?? null;
+      }
+
+      if (programHolderId) {
+        await supabase.from('program_holder_verification').upsert({
+          user_id: user.id,
+          program_holder_id: programHolderId,
+          verification_type: 'ssn_verification',
+          status: 'verified',
+          ssn_verified: true,
+          ssn_verified_at: new Date().toISOString(),
+        });
+      }
     }
 
     return NextResponse.json({

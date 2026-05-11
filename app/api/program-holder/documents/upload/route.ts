@@ -191,11 +191,29 @@ async function _POST(req: Request) {
     try {
       const admin = await requireAdminClient();
       if (admin) {
-        const { data: holder } = await admin
-          .from('program_holders')
-          .select('mou_signed, welcome_email_sent, organization_name')
-          .eq('user_id', user.id)
+        const { data: profileLink } = await admin
+          .from('profiles')
+          .select('program_holder_id')
+          .eq('id', user.id)
           .maybeSingle();
+
+        let holderId: string | null = profileLink?.program_holder_id ?? null;
+        if (!holderId) {
+          const { data: legacyHolder } = await admin
+            .from('program_holders')
+            .select('id')
+            .eq('user_id', user.id)
+            .maybeSingle();
+          holderId = legacyHolder?.id ?? null;
+        }
+
+        const { data: holder } = holderId
+          ? await admin
+              .from('program_holders')
+              .select('mou_signed, welcome_email_sent, organization_name')
+              .eq('id', holderId)
+              .maybeSingle()
+          : { data: null as any };
 
         if (holder?.mou_signed && !holder?.welcome_email_sent) {
           const { data: acks } = await admin

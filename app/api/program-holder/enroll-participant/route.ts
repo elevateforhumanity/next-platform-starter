@@ -33,7 +33,7 @@ async function _POST(req: NextRequest) {
   const db = await requireAdminClient();
   const { data: profile } = await db
     .from('profiles')
-    .select('id, role')
+    .select('id, role, program_holder_id')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -41,18 +41,20 @@ async function _POST(req: NextRequest) {
     return safeError('Forbidden — program holder role required', 403);
   }
 
-  // Resolve program holder record
-  const { data: holder } = await db
-    .from('program_holders')
-    .select('id')
-    .eq('user_id', user.id)
-    .maybeSingle();
-
-  if (!holder?.id && !['admin', 'super_admin', 'staff'].includes(profile.role)) {
-    return safeError('No program holder record found for this user', 403);
+  // Resolve program holder record (prefer profile link; fallback to legacy user_id mapping)
+  let programHolderId: string | null = profile.program_holder_id ?? null;
+  if (!programHolderId) {
+    const { data: holder } = await db
+      .from('program_holders')
+      .select('id')
+      .eq('user_id', user.id)
+      .maybeSingle();
+    programHolderId = holder?.id ?? null;
   }
 
-  const programHolderId = holder?.id ?? null;
+  if (!programHolderId && !['admin', 'super_admin', 'staff'].includes(profile.role)) {
+    return safeError('No program holder record found for this user', 403);
+  }
 
   // MOU must be fully executed before enrollment
   if (programHolderId) {

@@ -70,8 +70,8 @@ export default async function PendingStudentsPage() {
       { count: 'exact' },
     )
     .eq('program_holder_id', programHolder.id)
-    .eq('status', 'pending')
-    .order('enrolled_at', { ascending: false });
+    .in('status', ['pending', 'submitted', 'under_review'])
+    .order('enrolled_at', { ascending: false, nullsFirst: false });
 
   return (
     <div className="min-h-screen bg-white">

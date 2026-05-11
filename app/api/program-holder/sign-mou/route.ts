@@ -22,6 +22,26 @@ async function _POST(request: NextRequest) {
     } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('program_holder_id')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    let holderId: string | null = profile?.program_holder_id ?? null;
+    if (!holderId) {
+      const { data: fallbackHolder } = await supabase
+        .from('program_holders')
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      holderId = fallbackHolder?.id ?? null;
+    }
+
+    if (!holderId) {
+      return NextResponse.json({ error: 'Program holder record not found' }, { status: 404 });
+    }
+
     const { signatureDataUrl, signerName, signerTitle } = await request.json();
 
     if (!signatureDataUrl || !signerName || !signerTitle) {
@@ -36,7 +56,7 @@ async function _POST(request: NextRequest) {
     const { data: holderRow } = await admin
       .from('program_holders')
       .select('id, mou_signed')
-      .eq('user_id', user.id)
+      .eq('id', holderId)
       .maybeSingle();
 
     if (holderRow?.mou_signed) {
@@ -77,7 +97,7 @@ async function _POST(request: NextRequest) {
           mou_status: 'holder_signed',
           status: 'active',
         })
-        .eq('user_id', user.id);
+        .eq('id', holderId);
     }
 
     return NextResponse.json({ success: true, signature_id: signature.id });

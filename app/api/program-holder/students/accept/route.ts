@@ -27,10 +27,10 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Verify user is a program holder
+    // Verify user is a program holder and resolve holder ID from canonical profile link
     const { data: profile } = await supabase
       .from('profiles')
-      .select('role')
+      .select('role, program_holder_id')
       .eq('id', user.id)
       .maybeSingle();
 
@@ -41,15 +41,19 @@ async function _POST(request: NextRequest) {
       );
     }
 
-    // Get program holder record
-    const { data: programHolder, error: phError } = await supabase
-      .from('program_holders')
-      .select('id')
-      .eq('user_id', user.id)
-      .maybeSingle();
+    // Get program holder record (prefer profiles.program_holder_id; fallback to legacy user_id link)
+    let programHolderId: string | null = profile.program_holder_id ?? null;
+    if (!programHolderId) {
+      const { data: fallbackHolder, error: phError } = await supabase
+        .from('program_holders')
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-    if (phError || !programHolder) {
-      return NextResponse.json({ error: 'Program holder record not found' }, { status: 404 });
+      if (phError || !fallbackHolder) {
+        return NextResponse.json({ error: 'Program holder record not found' }, { status: 404 });
+      }
+      programHolderId = fallbackHolder.id;
     }
 
     // Parse request body
@@ -65,21 +69,17 @@ async function _POST(request: NextRequest) {
       .from('program_holder_students')
       .select('*')
       .eq('id', enrollment_id)
-      .eq('program_holder_id', programHolder.id)
+      .eq('program_holder_id', programHolderId)
       .maybeSingle();
 
     if (enrollmentError || !enrollment) {
       return NextResponse.json({ error: 'Enrollment not found or access denied' }, { status: 404 });
     }
 
-    // Update enrollment status to active
+    // Update enrollment status only; avoid writes to optional columns that may not exist in all environments.
     const { data: updated, error: updateError } = await supabase
       .from('program_holder_students')
-      .update({
-        status: 'active',
-        accepted_at: new Date().toISOString(),
-        accepted_by: user.id,
-      })
+      .update({ status: 'active' })
       .eq('id', enrollment_id)
       .select()
       .maybeSingle();

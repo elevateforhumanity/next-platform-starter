@@ -40,7 +40,7 @@ async function _POST(request: NextRequest) {
     const idFront = formData.get('id_front') as File;
     const idBack = formData.get('id_back') as File | null;
     const selfie = formData.get('selfie') as File;
-    const userId = formData.get('user_id') as string;
+    const userId = user.id;
     const userName = formData.get('user_name') as string;
     const userEmail = formData.get('user_email') as string;
 
@@ -128,13 +128,34 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to save verification record' }, { status: 500 });
     }
 
-    // Update program holder verification status
-    await supabase.from('program_holder_verification').upsert({
-      program_holder_id: userId,
-      identity_documents_uploaded: true,
-      identity_documents_uploaded_at: new Date().toISOString(),
-      identity_verification_status: 'pending',
-    });
+    // Update program holder verification status (resolve canonical holder id)
+    const { data: profileLink } = await supabase
+      .from('profiles')
+      .select('program_holder_id')
+      .eq('id', userId)
+      .maybeSingle();
+
+    let programHolderId: string | null = profileLink?.program_holder_id ?? null;
+    if (!programHolderId) {
+      const { data: legacyHolder } = await supabase
+        .from('program_holders')
+        .select('id')
+        .eq('user_id', userId)
+        .maybeSingle();
+      programHolderId = legacyHolder?.id ?? null;
+    }
+
+    if (programHolderId) {
+      await supabase.from('program_holder_verification').upsert({
+        user_id: userId,
+        program_holder_id: programHolderId,
+        verification_type: 'manual_identity_upload',
+        status: 'pending',
+        identity_documents_uploaded: true,
+        identity_documents_uploaded_at: new Date().toISOString(),
+        identity_verification_status: 'pending',
+      });
+    }
 
     // Send email notification to admin
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/email/send`, {
@@ -150,11 +171,11 @@ async function _POST(request: NextRequest) {
           <p><strong>User:</strong> ${userName} (${userEmail})</p>
           <p><strong>User ID:</strong> ${userId}</p>
           <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
-          <p><strong>Documents:</strong></p>
+          <p><strong>Document Paths:</strong></p>
           <ul>
-            <li>ID Front: <a href="${idFrontUrl.publicUrl}">View</a></li>
-            ${idBackUrl ? `<li>ID Back: <a href="${idBackUrl.publicUrl}">View</a></li>` : ''}
-            <li>Selfie: <a href="${selfieUrl.publicUrl}">View</a></li>
+            <li>ID Front: ${idFrontPath}</li>
+            ${idBackPath ? `<li>ID Back: ${idBackPath}</li>` : ''}
+            <li>Selfie: ${selfiePath}</li>
           </ul>
           <p><a href="${process.env.NEXT_PUBLIC_BASE_URL}/admin/program-holders">Review in Admin Dashboard</a></p>
         `,

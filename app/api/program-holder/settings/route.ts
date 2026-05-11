@@ -22,7 +22,7 @@ export async function PATCH(req: NextRequest) {
   const db = await requireAdminClient();
   const { data: profile } = await db
     .from('profiles')
-    .select('role')
+    .select('role, program_holder_id')
     .eq('id', user.id)
     .maybeSingle();
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) return safeError('Forbidden', 403);
@@ -56,20 +56,24 @@ export async function PATCH(req: NextRequest) {
     typeof body.notify_enrollments === 'boolean' ||
     typeof body.notify_weekly_reports === 'boolean'
   ) {
-    const { data: holder } = await db
-      .from('program_holders')
-      .select('id')
-      .eq('user_id', user.id)
-      .maybeSingle();
+    let holderId: string | null = profile.program_holder_id ?? null;
+    if (!holderId) {
+      const { data: fallbackHolder } = await db
+        .from('program_holders')
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      holderId = fallbackHolder?.id ?? null;
+    }
 
-    if (holder) {
+    if (holderId) {
       const notifUpdates: Record<string, unknown> = {};
       if (typeof body.notify_enrollments === 'boolean')
         notifUpdates.notify_enrollments = body.notify_enrollments;
       if (typeof body.notify_weekly_reports === 'boolean')
         notifUpdates.notify_weekly_reports = body.notify_weekly_reports;
 
-      await db.from('program_holders').update(notifUpdates).eq('id', holder.id);
+      await db.from('program_holders').update(notifUpdates).eq('id', holderId);
     }
   }
 

@@ -16,11 +16,29 @@ export async function checkAndSendOnboardingCompleteEmail(
   admin: any,
   userId: string,
 ): Promise<{ sent: boolean; reason?: string }> {
-  // 1. MOU + already-sent guard
+  // 1. Resolve holder ID canonically, then check MOU + already-sent guard
+  const { data: profileLink } = await admin
+    .from('profiles')
+    .select('program_holder_id')
+    .eq('id', userId)
+    .maybeSingle();
+
+  let holderId: string | null = profileLink?.program_holder_id ?? null;
+  if (!holderId) {
+    const { data: legacyHolder } = await admin
+      .from('program_holders')
+      .select('id')
+      .eq('user_id', userId)
+      .maybeSingle();
+    holderId = legacyHolder?.id ?? null;
+  }
+
+  if (!holderId) return { sent: false, reason: 'no_holder_row' };
+
   const { data: holder } = await admin
     .from('program_holders')
     .select('id, mou_signed, welcome_email_sent, organization_name')
-    .eq('user_id', userId)
+    .eq('id', holderId)
     .maybeSingle();
 
   if (!holder) return { sent: false, reason: 'no_holder_row' };
@@ -64,7 +82,7 @@ export async function checkAndSendOnboardingCompleteEmail(
   await admin
     .from('program_holders')
     .update({ welcome_email_sent: true })
-    .eq('user_id', userId)
+    .eq('id', holderId)
     .catch(() => {});
 
   logger.info('[onboarding-complete] Welcome email sent', { userId, email: profile.email });
