@@ -39,6 +39,7 @@ import { getInstructorForCourse } from '@/lib/ai-instructors';
 import { loadIndustryStandards } from '@/lib/industry/standards-loader';
 import { buildIndustryStandardsBlock } from '@/lib/ai/prompts/course-blueprint';
 import { createJob } from '@/lib/video/job-queue';
+import { matchAllLessonsToVideos, summariseMatchResults } from '@/lib/video/pexels-matcher';
 
 export const maxDuration = 300;
 export const dynamic = 'force-dynamic';
@@ -50,9 +51,11 @@ interface GenerateFromBlueprintRequest {
   programId: string;
   mode?: 'replace' | 'missing-only';
   generationMode?: 'full' | 'fast';
-  videoMode?: 'queue' | 'inline' | 'off' | 'external';
+  videoMode?: 'queue' | 'inline' | 'off' | 'external' | 'pexels-auto';
   videoQueueLimit?: number;
   inlineVideoLimit?: number;
+  pexelsThreshold?: number;
+  pexelsDelayMs?: number;
 }
 
 interface LessonContent {
@@ -349,6 +352,7 @@ export async function POST(req: NextRequest) {
   let videoQueueFailed = 0;
   let externalQueued = 0;
   let externalDispatchFailed = 0;
+  let pexelsSummary: ReturnType<typeof summariseMatchResults> | null = null;
 
   if (videoMode === 'queue') {
     try {
@@ -481,6 +485,59 @@ export async function POST(req: NextRequest) {
     videosQueued = 0;
   }
 
+  if (videoMode === 'pexels-auto') {
+    if (!process.env.PEXELS_API_KEY?.trim()) {
+      return safeError('PEXELS_API_KEY is required for videoMode="pexels-auto"', 400);
+    }
+
+    try {
+      const queueLimit = typeof body.videoQueueLimit === 'number' ? body.videoQueueLimit : null;
+
+      let lessonsQuery = db
+        .from('course_lessons')
+        .select('id, slug, title, objective, content, script, video_url')
+        .eq('course_id', courseId)
+        .order('order_index', { ascending: true })
+        .or('video_url.is.null,video_url.eq.')
+        .not('title', 'is', null);
+
+      if (queueLimit && queueLimit > 0) {
+        lessonsQuery = lessonsQuery.limit(queueLimit);
+      }
+
+      const { data: pendingLessons, error: pendingErr } = await lessonsQuery;
+      if (pendingErr) {
+        throw new Error(`Failed to load lessons for pexels-auto: ${pendingErr.message}`);
+      }
+
+      const results = await matchAllLessonsToVideos(
+        (pendingLessons ?? []).map((lesson) => ({
+          id: lesson.id,
+          slug: lesson.slug,
+          title: lesson.title,
+          objective: lesson.objective,
+          content: lesson.content,
+          script: lesson.script,
+          programSlug: blueprint.programSlug,
+        })),
+        {
+          apiKey: process.env.PEXELS_API_KEY.trim(),
+          supabase: db,
+          applyToDb: true,
+          threshold: typeof body.pexelsThreshold === 'number' ? body.pexelsThreshold : 0.86,
+          delayMs: typeof body.pexelsDelayMs === 'number' ? body.pexelsDelayMs : 250,
+          strictDuration: true,
+        },
+      );
+
+      pexelsSummary = summariseMatchResults(results);
+      videosQueued += pexelsSummary.appliedToDb;
+      videoQueueFailed += pexelsSummary.needsReview + pexelsSummary.failed;
+    } catch (err) {
+      logger.error('[generate-from-blueprint] pexels-auto match error:', err);
+    }
+  }
+
   if (videoMode === 'external') {
     const externalUrl = process.env.EXTERNAL_VIDEO_WEBHOOK_URL?.trim();
     if (!externalUrl) {
@@ -574,6 +631,7 @@ export async function POST(req: NextRequest) {
       videoQueueFailed,
       externalQueued,
       externalDispatchFailed,
+      pexelsSummary,
     },
     req,
   });
@@ -594,6 +652,7 @@ export async function POST(req: NextRequest) {
     videoMode,
     externalQueued,
     externalDispatchFailed,
+    pexelsSummary,
     externalVideoWebhookConfigured: Boolean(process.env.EXTERNAL_VIDEO_WEBHOOK_URL?.trim()),
     videoStudioUrl: `/admin/video-generator?courseId=${courseId}`,
     studioCommand: `POST /api/admin/course-builder/generate-from-blueprint {"blueprintId":"${body.blueprintId}","programId":"${body.programId}","videoMode":"queue"}`,
