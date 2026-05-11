@@ -90,21 +90,29 @@ export async function applyRateLimit(
       );
     }
   } catch (err) {
-    // Redis error (timeout, connection refused, bad credentials, etc.).
+    // Redis error (timeout, connection refused, bad credentials, plan limit exceeded, etc.).
     // Strict tier fails closed; other tiers fail open.
-    // Common causes: UPSTASH_REDIS_REST_URL/TOKEN wrong in SSM, Upstash plan expired.
     const msg = err instanceof Error ? err.message : String(err);
+    const isQuotaExhausted = msg.includes('max requests limit exceeded');
     const isCredential = msg.includes('401') || msg.includes('403') || msg.includes('Unauthorized');
-    logger.error(`[rate-limit] Redis error — ${failClosed ? 'failing closed' : 'failing open'}`, {
-      tier,
-      error: msg,
-      action: isCredential
-        ? 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in SSM /elevate/'
-        : 'Check Upstash dashboard for connectivity issues',
-    });
 
     if (failClosed) {
+      // Only strict tier logs at error — it's actually blocking traffic.
+      logger.error(`[rate-limit] Redis error — failing closed`, { tier, error: msg });
       return NextResponse.json({ error: 'Rate limiting temporarily unavailable' }, { status: 503 });
+    }
+
+    if (isQuotaExhausted) {
+      // Monthly quota exhausted — log once at warn, not error, to avoid Sentry spam.
+      // Failing open: traffic continues normally until quota resets.
+      logger.warn('[rate-limit] Upstash monthly quota exhausted — failing open until reset', { tier });
+    } else if (isCredential) {
+      logger.error('[rate-limit] Redis credential error — failing open', {
+        tier,
+        action: 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in SSM /elevate/',
+      });
+    } else {
+      logger.warn('[rate-limit] Redis unavailable — failing open', { tier, error: msg });
     }
 
     return null;
