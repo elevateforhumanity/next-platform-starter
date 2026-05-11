@@ -175,7 +175,10 @@ export default function DevContainerPanel() {
       if (data.writable === false) {
         setStatus({
           type: 'error',
-          message: 'Read-only mode: set GITHUB_TOKEN to enable saving from Dev Studio.',
+          message:
+            data.source === 'github-readonly'
+              ? 'Read-only source (GitHub public fallback). Run in a writable workspace checkout or set GITHUB_TOKEN to commit via GitHub API.'
+              : 'Read-only mode: current devcontainer source is not writable from this environment.',
         });
       }
     } catch (e) {

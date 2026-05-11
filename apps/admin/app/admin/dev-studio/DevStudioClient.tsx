@@ -168,8 +168,6 @@ export default function DevStudioClient() {
   const [studioConfig, setStudioConfig] = useState<DevStudioConfig | null>(null);
   const [configLoadError, setConfigLoadError] = useState(false);
   const [studioHealth, setStudioHealth] = useState<DevStudioHealth | null>(null);
-
-  // Responsive behavior: avoid collapsing editor space on smaller screens.
   const [viewportWidth, setViewportWidth] = useState(1280);
 
   // Replit-style live preview panel
@@ -189,27 +187,13 @@ export default function DevStudioClient() {
   }, [previewWidth]);
 
   useEffect(() => {
-    const onResize = () => setViewportWidth(window.innerWidth);
-    onResize();
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
-
-  const isNarrowViewport = viewportWidth < 1100;
-
-  // On narrow screens, default to no side preview so the editor remains usable.
-  useEffect(() => {
-    if (isNarrowViewport && previewOpen) {
-      setPreviewOpen(false);
-    }
-  }, [isNarrowViewport, previewOpen]);
-
-  useEffect(() => {
     function onMouseMove(e: MouseEvent) {
       if (!isDragging.current) return;
       const delta = dragStartX.current - e.clientX; // dragging left = wider preview
       const containerW = containerRef.current?.offsetWidth ?? window.innerWidth;
-      const next = Math.min(Math.max(dragStartW.current + delta, 280), containerW - 400);
+      const minWidth = 280;
+      const maxWidth = Math.max(minWidth, containerW - 400);
+      const next = Math.min(Math.max(dragStartW.current + delta, minWidth), maxWidth);
       setPreviewWidth(next);
     }
     function onMouseUp() {
@@ -224,6 +208,13 @@ export default function DevStudioClient() {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
     };
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   useEffect(() => {
@@ -249,6 +240,7 @@ export default function DevStudioClient() {
   const tabFiles = { ...DEFAULT_TAB_FILES, ...(studioConfig?.tabFiles ?? {}) } as Record<Tab, string>;
   const previewUrl = studioConfig?.defaultPreviewUrl || 'https://www.elevateforhumanity.org';
   const hasAnyAI = !!(studioHealth?.hasGroq || studioHealth?.hasGemini || studioHealth?.hasOpenAI);
+  const isCompactLayout = viewportWidth < 1024;
 
   function openTab(t: Tab) {
     setTab(t);
@@ -315,9 +307,8 @@ export default function DevStudioClient() {
           <button
             title={previewOpen ? 'Hide live preview' : 'Show live preview'}
             onClick={() => setPreviewOpen((v) => !v)}
-            disabled={isNarrowViewport}
             className="flex items-center gap-1 px-2 py-0.5 rounded text-[11px] transition-colors"
-            style={{ color: previewOpen ? '#4ec9b0' : '#858585', opacity: isNarrowViewport ? 0.45 : 1 }}
+            style={{ color: previewOpen ? '#4ec9b0' : '#858585' }}
             onMouseEnter={e => (e.currentTarget.style.background='#3c3c3c')}
             onMouseLeave={e => (e.currentTarget.style.background='transparent')}
           >
@@ -326,12 +317,6 @@ export default function DevStudioClient() {
           </button>
         </div>
       </div>
-
-      {isNarrowViewport && (
-        <div className="flex-shrink-0 px-3 py-1 text-[11px] border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c', color: '#858585' }}>
-          Live side preview is disabled on smaller screens to preserve editor space.
-        </div>
-      )}
 
       {configLoadError && (
         <div className="flex-shrink-0 px-3 py-1 text-[11px] border-b" style={{ background: '#5a4a00', borderColor: '#6e5c00', color: '#ffd700' }}>
@@ -366,20 +351,26 @@ export default function DevStudioClient() {
       </div>
 
       {/* ── Body: activity bar | editor | resizer | live preview ── */}
-      <div className="flex flex-1 min-h-0 overflow-hidden">
+      <div className={`flex flex-1 min-h-0 overflow-hidden ${isCompactLayout ? 'flex-col' : 'flex-row'}`}>
 
         {/* Activity bar */}
-        <div className="flex-shrink-0 flex flex-col items-center py-2 gap-0.5 w-12 border-r" style={{ background: '#333333', borderColor: '#3c3c3c' }}>
+        <div
+          className={`flex-shrink-0 flex ${isCompactLayout ? 'flex-row w-full px-2 py-1 gap-1 overflow-x-auto border-b' : 'flex-col items-center py-2 gap-0.5 w-12 border-r'}`}
+          style={{ background: '#333333', borderColor: '#3c3c3c' }}
+        >
           {TABS.map(({ id, Icon, label }) => {
             const active = tab === id;
             return (
               <button key={id} title={label} onClick={() => openTab(id)}
-                className="relative flex items-center justify-center w-10 h-10 rounded transition-colors"
+                className={`relative flex items-center justify-center rounded transition-colors ${isCompactLayout ? 'w-9 h-9 flex-shrink-0' : 'w-10 h-10'}`}
                 style={{ color: active ? '#ffffff' : '#858585' }}
                 onMouseEnter={e => { if (!active) e.currentTarget.style.color = '#cccccc'; }}
                 onMouseLeave={e => { if (!active) e.currentTarget.style.color = '#858585'; }}>
                 {active && (
-                  <span className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r" style={{ background: '#0078d4' }} />
+                  <span
+                    className={isCompactLayout ? 'absolute inset-x-2 bottom-0 h-0.5 rounded-t' : 'absolute left-0 top-2 bottom-2 w-0.5 rounded-r'}
+                    style={{ background: '#0078d4' }}
+                  />
                 )}
                 <Icon className="w-5 h-5" />
               </button>
@@ -399,7 +390,7 @@ export default function DevStudioClient() {
         </div>
 
         {/* Drag-to-resize handle */}
-        {previewOpen && (
+        {previewOpen && !isCompactLayout && (
           <div
             onMouseDown={onResizerMouseDown}
             className="flex-shrink-0 w-1 cursor-col-resize transition-colors"
@@ -410,10 +401,16 @@ export default function DevStudioClient() {
         )}
 
         {/* Live preview panel — always mounted, hidden when closed */}
-        {previewOpen && !isNarrowViewport && (
+        {previewOpen && (
           <div
-            className="flex-shrink-0 flex flex-col border-l overflow-hidden"
-            style={{ width: previewWidth, background: '#1e1e1e', borderColor: '#3c3c3c' }}
+            className={`flex-shrink-0 flex flex-col overflow-hidden ${isCompactLayout ? 'border-t' : 'border-l'}`}
+            style={{
+              width: isCompactLayout ? '100%' : previewWidth,
+              height: isCompactLayout ? '42dvh' : undefined,
+              minHeight: isCompactLayout ? 220 : undefined,
+              background: '#1e1e1e',
+              borderColor: '#3c3c3c',
+            }}
           >
             {/* Preview panel header */}
             <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 border-b text-[11px] select-none" style={{ background: '#2d2d2d', borderColor: '#3c3c3c', color: '#858585' }}>
