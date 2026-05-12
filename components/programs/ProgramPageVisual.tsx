@@ -45,7 +45,7 @@ export function ProgramPageVisual({ program }: Props) {
         {program.heroVideo ? (
           <CanonicalVideo
             src={program.heroVideo}
-            poster={program.heroImage || '/images/og-default.jpg'}
+            poster={program.heroImage || '/images/og-default.webp'}
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (

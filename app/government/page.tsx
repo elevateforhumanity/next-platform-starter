@@ -355,7 +355,7 @@ export default async function GovernmentPage() {
             <div className="space-y-6">
               <div className="relative h-64 rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/pages/government-1.jpg"
+                  src="/images/pages/government-1.webp"
                   alt="DOL Program"
                   fill
                   className="object-cover"
@@ -495,7 +495,7 @@ export default async function GovernmentPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/government-5.jpg"
+                  src="/images/pages/government-5.webp"
                   alt="Transparent Reporting"
                   fill
                   className="object-cover"
@@ -542,7 +542,7 @@ export default async function GovernmentPage() {
                 name: 'Workforce Ready Grant',
                 desc: 'Indiana state grant for high-demand certifications. Covers tuition and fees for eligible Indiana residents.',
                 icon: Award,
-                image: '/images/pages/funding-impact-1.jpg',
+                image: '/images/pages/funding-impact-1.webp',
               },
               {
                 name: 'SNAP E&T',
@@ -566,7 +566,7 @@ export default async function GovernmentPage() {
                 name: 'Veterans Programs',
                 desc: 'GI Bill and VR&E approved programs for veterans and service members transitioning to civilian careers.',
                 icon: Award,
-                image: '/images/pages/government-5.jpg',
+                image: '/images/pages/government-5.webp',
               },
               {
                 name: 'Reentry Programs',

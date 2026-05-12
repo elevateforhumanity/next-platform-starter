@@ -150,7 +150,7 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
         {config.heroVideo ? (
           <CanonicalVideo
             src={config.heroVideo}
-            poster={config.heroPoster || config.heroImage || '/images/og-default.jpg'}
+            poster={config.heroPoster || config.heroImage || '/images/og-default.webp'}
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : config.heroImage ? (

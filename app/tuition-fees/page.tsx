@@ -197,7 +197,7 @@ export default async function TuitionFeesPage() {
       {/* Hero Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[340px] overflow-hidden">
         <Image
-          src="/images/pages/tuition-fees-page-1.jpg"
+          src="/images/pages/tuition-fees-page-1.webp"
           alt="Tuition and fee information"
           fill
           sizes="100vw"

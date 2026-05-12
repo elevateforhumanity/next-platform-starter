@@ -20,7 +20,7 @@ const features = [
   {
     title: 'Participant Intake & Eligibility',
     description: 'Automated eligibility verification with document upload and digital signatures.',
-    image: '/images/pages/wioa-meeting.jpg',
+    image: '/images/pages/wioa-meeting.webp',
     items: ['Digital intake forms', 'Eligibility checklist automation', 'Document management', 'E-signature integration'],
   },
   {
@@ -38,7 +38,7 @@ const features = [
   {
     title: 'Quarterly & Annual Reports',
     description: 'Pre-built report templates for all required WIOA submissions.',
-    image: '/images/pages/job-placement.jpg',
+    image: '/images/pages/job-placement.webp',
     items: ['ETA-9169 reports', 'ETA-9170 reports', 'Custom report builder', 'Scheduled generation'],
   },
 ];
@@ -223,10 +223,10 @@ export default function WIOACompliancePage() {
           <h2 className="text-3xl font-black text-black mb-8 text-center">How It Works</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { step: '1', title: 'Setup', desc: 'Configure your program and eligibility criteria', image: '/images/pages/wioa-meeting.jpg' },
+              { step: '1', title: 'Setup', desc: 'Configure your program and eligibility criteria', image: '/images/pages/wioa-meeting.webp' },
               { step: '2', title: 'Enroll', desc: 'Participants complete digital intake forms', image: '/images/pages/adult-learner.jpg' },
               { step: '3', title: 'Track', desc: 'Automatic performance metric tracking', image: '/images/pages/store-recommendations.jpg' },
-              { step: '4', title: 'Report', desc: 'Generate PIRL exports and quarterly reports', image: '/images/pages/graduation-ceremony.jpg' },
+              { step: '4', title: 'Report', desc: 'Generate PIRL exports and quarterly reports', image: '/images/pages/graduation-ceremony.webp' },
             ].map((item) => (
               <div key={item.step} className="text-center">
                 <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-brand-green-600">

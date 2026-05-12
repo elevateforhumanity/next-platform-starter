@@ -17,14 +17,14 @@ export const metadata: Metadata = {
       'CNA, HHA, Medical Assistant, Phlebotomy, and Patient Care Tech training in Indianapolis. State-approved. WIOA funding may be available.',
     url: CANONICAL,
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Healthcare Training Indianapolis' }],
+    images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Healthcare Training Indianapolis' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Healthcare Training Indianapolis | Elevate for Humanity',
     description: 'CNA, HHA, Medical Assistant, and Patient Care Technician training in Indianapolis.',
-    images: ['/og-default.jpg'],
+    images: ['/og-default.webp'],
   },
 };
 

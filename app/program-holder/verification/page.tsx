@@ -101,7 +101,7 @@ export default async function VerificationPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/program-holder-page-4.jpg"
+          src="/images/pages/program-holder-page-4.webp"
           alt="Verification"
           fill
           className="object-cover"

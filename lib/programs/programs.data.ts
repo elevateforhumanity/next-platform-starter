@@ -488,8 +488,8 @@ export const PROGRAMS: Program[] = [
     tagline: 'Job readiness skills for work and training success.',
     shortDescription:
       'Communication, resume/interview prep, and workplace expectations for youth and adults.',
-    cardImage: '/images/pages/training-page-2.jpg',
-    heroImage: '/images/pages/training-page-3.jpg',
+    cardImage: '/images/pages/training-page-2.webp',
+    heroImage: '/images/pages/training-page-3.webp',
     duration: '4-8 weeks',
     cost: 'Free',
     format: 'Hybrid / Online',
@@ -527,7 +527,7 @@ export const PROGRAMS: Program[] = [
     tagline: 'Support-focused training for justice-involved and career changers.',
     shortDescription:
       'Pathway aligned to peer recovery and reentry support roles with trauma-informed care training.',
-    cardImage: '/images/pages/training-cohort.jpg',
+    cardImage: '/images/pages/training-cohort.webp',
     heroImage: '/images/pages/training-page-1.jpg',
     duration: '10-12 weeks',
     cost: 'Funding may cover full cost',

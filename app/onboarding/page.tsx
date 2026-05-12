@@ -113,7 +113,7 @@ export default async function OnboardingPage() {
             >
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/prog-hero-main-2.jpg"
+                  src="/images/pages/prog-hero-main-2.webp"
                   alt="Program Holder"
                   fill
                   sizes="100vw"

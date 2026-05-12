@@ -32,13 +32,13 @@ const features = [
   {
     title: 'Visual Accessibility',
     description: 'Color contrast, text sizing, and visual presentation compliance.',
-    image: '/images/pages/tech-classroom.jpg',
+    image: '/images/pages/tech-classroom.webp',
     items: ['4.5:1 contrast ratio', 'Resizable text', 'No color-only info', 'Reduced motion'],
   },
   {
     title: 'Multimedia Accessibility',
     description: 'Captions, transcripts, and audio descriptions for all media.',
-    image: '/images/pages/tech-classroom.jpg',
+    image: '/images/pages/tech-classroom.webp',
     items: ['Closed captions', 'Transcripts', 'Audio descriptions', 'Sign language'],
   },
 ];

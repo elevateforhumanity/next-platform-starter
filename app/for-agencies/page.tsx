@@ -98,7 +98,7 @@ export default async function ForAgenciesPage() {
       {/* Hero */}
       <section className="relative h-[280px] sm:h-[360px] overflow-hidden">
         <Image
-          src="/images/pages/government-1.jpg"
+          src="/images/pages/government-1.webp"
           alt="Workforce agency partnership"
           fill
           sizes="100vw"

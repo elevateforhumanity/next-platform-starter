@@ -97,7 +97,7 @@ export default function InstructorCampaignsPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/instructor-page-2.jpg"
+          src="/images/pages/instructor-page-2.webp"
           alt="Instructor portal"
           fill
           sizes="100vw"

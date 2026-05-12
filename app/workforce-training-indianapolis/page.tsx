@@ -17,14 +17,14 @@ export const metadata: Metadata = {
       'WIOA-funded career training in healthcare, skilled trades, and IT. Indianapolis and Indiana-wide. Employer placement pipeline. Agency referrals accepted.',
     url: CANONICAL,
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Workforce Training Indianapolis' }],
+    images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Workforce Training Indianapolis' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Workforce Training Indianapolis | Elevate for Humanity',
     description: 'WIOA-funded career training in healthcare, skilled trades, and IT. Indianapolis and Indiana-wide.',
-    images: ['/og-default.jpg'],
+    images: ['/og-default.webp'],
   },
 };
 

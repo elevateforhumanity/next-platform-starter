@@ -76,7 +76,7 @@ export default function StoreDigitalPage() {
             <div className="bg-white rounded-2xl overflow-hidden">
               <StoreProductVideo
                 src="/videos/store/store-ai-studio.mp4"
-                poster="/images/pages/store-digital-hero.jpg"
+                poster="/images/pages/store-digital-hero.webp"
                 alt="AI Studio demo"
                 label="AI Studio Demo"
               />

@@ -326,7 +326,7 @@ export const partnerEmployerContent: LocalizedContent = {
     hero: {
       title: 'Partner Information',
       purpose: 'This page explains partnership opportunities and how to get started.',
-      image: '/images/partners/hero.jpg',
+      image: '/images/partners/hero.webp',
       imageAlt: 'Partnership opportunities',
     },
     sections: {
@@ -355,7 +355,7 @@ export const partnerEmployerContent: LocalizedContent = {
     hero: {
       title: 'Información para socios',
       purpose: 'Esta página explica oportunidades de asociación y cómo comenzar.',
-      image: '/images/partners/hero.jpg',
+      image: '/images/partners/hero.webp',
       imageAlt: 'Oportunidades de asociación',
     },
     cta: {
@@ -519,7 +519,7 @@ export const systemUtilityContent: LocalizedContent = {
     hero: {
       title: 'Page Not Found',
       purpose: "The page you're looking for doesn't exist or has been moved.",
-      image: '/images/pages/training-cohort.jpg',
+      image: '/images/pages/training-cohort.webp',
       imageAlt: 'Page not found',
     },
     sections: {

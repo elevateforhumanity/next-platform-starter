@@ -259,7 +259,7 @@ export default function WorkOnePartnerPacketPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
               <div className="relative h-32 overflow-hidden">
                 <Image
-                  src="/images/pages/partner-page-14.jpg"
+                  src="/images/pages/partner-page-14.webp"
                   alt="Enrollment"
                   fill
                   sizes="100vw"
@@ -282,7 +282,7 @@ export default function WorkOnePartnerPacketPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
               <div className="relative h-32 overflow-hidden">
                 <Image
-                  src="/images/pages/workone-packet-1.jpg"
+                  src="/images/pages/workone-packet-1.webp"
                   alt="Training"
                   fill
                   sizes="100vw"

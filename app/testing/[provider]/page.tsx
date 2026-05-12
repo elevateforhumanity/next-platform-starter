@@ -28,7 +28,7 @@ const LEVEL_COLORS: Record<string, string> = {
 const PROVIDER_HERO: Record<string, string> = {
   esco: '/images/pages/hvac-technician.jpg',
   certiport: '/images/pages/programs-it-hero.jpg',
-  nha: '/images/pages/medical-assistant.jpg',
+  nha: '/images/pages/medical-assistant.webp',
   nrf: '/images/pages/apply-employer-hero.jpg',
   workkeys: '/images/pages/career-services-page-4.jpg',
   careersafe: '/images/pages/apprenticeships-hero.jpg',

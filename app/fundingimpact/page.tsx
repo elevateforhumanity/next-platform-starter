@@ -113,7 +113,7 @@ export default function FundingImpactPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/funding-impact-1.jpg"
+                  src="/images/pages/funding-impact-1.webp"
                   alt="Credential attainment"
                   fill
                   className="object-cover"
@@ -153,7 +153,7 @@ export default function FundingImpactPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/job-placement.jpg"
+                  src="/images/pages/job-placement.webp"
                   alt="Wage increase"
                   fill
                   className="object-cover"
@@ -433,7 +433,7 @@ export default function FundingImpactPage() {
             <div className="bg-indigo-50 rounded-xl overflow-hidden border border-indigo-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/pages/graduation-ceremony.jpg"
+                  src="/images/pages/graduation-ceremony.webp"
                   alt="Family stability"
                   fill
                   className="object-cover"

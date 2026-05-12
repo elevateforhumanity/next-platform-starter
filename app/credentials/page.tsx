@@ -103,7 +103,7 @@ const industryCerts = [
     issuer: 'Certiport',
     field: 'Technology',
     desc: 'Vendor certification in business applications, administered through Certiport.',
-    img: '/images/pages/it-help-desk.jpg',
+    img: '/images/pages/it-help-desk.webp',
   },
   {
     name: 'CompTIA A+',
@@ -145,7 +145,7 @@ const industryCerts = [
     issuer: 'NHA',
     field: 'Healthcare',
     desc: 'Clinical and administrative medical assisting. Exam administered on-site at Elevate — NHA Authorized Testing Center.',
-    img: '/images/pages/medical-assistant.jpg',
+    img: '/images/pages/medical-assistant.webp',
   },
   {
     name: 'Indiana CPRS',

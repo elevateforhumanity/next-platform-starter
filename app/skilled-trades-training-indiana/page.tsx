@@ -17,14 +17,14 @@ export const metadata: Metadata = {
       'HVAC, electrical, construction, OSHA, and EPA 608 training in Indiana. DOL-registered apprenticeship sponsor. OJT and work-based learning available.',
     url: CANONICAL,
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Skilled Trades Training Indiana' }],
+    images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Skilled Trades Training Indiana' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Skilled Trades Training Indiana | Elevate for Humanity',
     description: 'HVAC, electrical, construction, OSHA, and EPA 608 training in Indiana. DOL-registered apprenticeship sponsor.',
-    images: ['/og-default.jpg'],
+    images: ['/og-default.webp'],
   },
 };
 

@@ -168,7 +168,7 @@ export default function PartnerHoursPendingPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/partner-page-7.jpg"
+          src="/images/pages/partner-page-7.webp"
           alt="Pending hours"
           fill
           sizes="100vw"

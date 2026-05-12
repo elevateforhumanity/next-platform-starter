@@ -155,7 +155,7 @@ const PROGRAMS = [
   },
   {
     name: 'Welding',
-    image: '/images/pages/welding.jpg',
+    image: '/images/pages/welding.webp',
     href: '/programs/welding',
     duration: '12–16 weeks (400+ hours hands-on)',
     credential: 'AWS Welding Certifications + OSHA 10',
@@ -167,7 +167,7 @@ const PROGRAMS = [
   },
   {
     name: 'IT Support',
-    image: '/images/pages/it-help-desk.jpg',
+    image: '/images/pages/it-help-desk.webp',
     href: '/programs/it-help-desk',
     duration: '8–12 weeks',
     credential: 'IT Specialist — Device Configuration & Management',
@@ -203,7 +203,7 @@ export default function PathwaysPage() {
       {/* ── Visual Hero (no text overlay) ── */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
         <Image
-          src="/images/pages/pathways-page-2.jpg"
+          src="/images/pages/pathways-page-2.webp"
           alt="Workforce training students in a classroom and lab setting"
           fill
           sizes="100vw"
@@ -536,7 +536,7 @@ export default function PathwaysPage() {
             <div className="flex gap-4 items-start">
               <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                 <Image
-                  src="/images/pages/mentorship-page-3.jpg"
+                  src="/images/pages/mentorship-page-3.webp"
                   alt="Ongoing support"
                   fill
                   sizes="80px"

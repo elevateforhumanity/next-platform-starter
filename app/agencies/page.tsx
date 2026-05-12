@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const complianceFeatures = [
   {
-    image: '/images/pages/government-1.jpg',
+    image: '/images/pages/government-1.webp',
     alt: 'DOL Registered apprenticeship compliance',
     title: 'DOL Registered',
     description: 'Registered apprenticeship sponsor with the Department of Labor',

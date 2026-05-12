@@ -63,7 +63,7 @@ async function _POST(request: NextRequest) {
       ? certificate.profiles[0]
       : certificate.profiles;
 
-    const verificationUrl = `${((process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || '').trim() || 'https://www.elevateforhumanity.org')}/cert/verify/${certificate.verification_code}`;
+    const verificationUrl = `${((process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || '').trim() || 'https://www.elevateforhumanity.org')}/verify/${certificate.verification_code}`;
 
     const html = emailTemplates.certificateIssued(
       certificate.student_name,

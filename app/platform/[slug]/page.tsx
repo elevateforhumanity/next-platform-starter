@@ -64,7 +64,7 @@ export default async function ProductDetailPage({
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/platform-page-1.jpg"
+          src="/images/pages/platform-page-1.webp"
           alt={product.name}
           fill
           className="object-cover"

@@ -31,13 +31,13 @@ const FEATURES = [
     icon: Eye,
     title: 'Monitor Progress',
     desc: 'View lesson completion, quiz scores, and credential milestones in real time.',
-    image: '/images/pages/student-portal-page-2.jpg',
+    image: '/images/pages/student-portal-page-2.webp',
   },
   {
     icon: Calendar,
     title: 'Track Attendance',
     desc: 'See daily attendance records and receive alerts for absences or tardiness.',
-    image: '/images/pages/student-portal-page-3.jpg',
+    image: '/images/pages/student-portal-page-3.webp',
   },
   {
     icon: MessageSquare,

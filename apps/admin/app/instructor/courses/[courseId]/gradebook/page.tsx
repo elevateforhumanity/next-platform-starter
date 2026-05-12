@@ -45,7 +45,7 @@ export default async function GradebookPage({ params }: { params: { courseId: st
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/instructor-page-6.jpg"
+          src="/images/pages/instructor-page-6.webp"
           alt="Instructor portal"
           fill
           sizes="100vw"

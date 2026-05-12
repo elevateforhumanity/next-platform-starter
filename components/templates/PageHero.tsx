@@ -49,7 +49,7 @@ export default function PageHero({ title, description, forceHero }: PageHeroProp
       {isVideo ? (
         <CanonicalVideo
           src={heroSrc}
-          poster="/images/og-default.jpg"
+          poster="/images/og-default.webp"
           className="absolute inset-0 w-full h-full object-cover"
           autoPlayOnMount
         />

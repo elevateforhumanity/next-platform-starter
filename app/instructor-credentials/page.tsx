@@ -182,7 +182,7 @@ export default function InstructorCredentialsPage() {
       {/* Hero */}
       <section className="relative h-[260px] sm:h-[340px] overflow-hidden">
         <Image
-          src="/images/pages/instructor-credentials-page-1.jpg"
+          src="/images/pages/instructor-credentials-page-1.webp"
           alt="Professional instructor working with students"
           fill
           sizes="100vw"

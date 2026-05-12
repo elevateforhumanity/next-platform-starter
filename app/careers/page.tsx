@@ -18,14 +18,14 @@ export const metadata: Metadata = {
       'Join our mission to provide career training at no cost to eligible participants and workforce development.',
     url: 'https://www.elevateforhumanity.org/careers',
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Careers at Elevate' }],
+    images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Careers at Elevate' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Careers at Elevate for Humanity',
     description: 'Join our mission to provide career training at no cost to eligible participants.',
-    images: ['/og-default.jpg'],
+    images: ['/og-default.webp'],
   },
 };
 

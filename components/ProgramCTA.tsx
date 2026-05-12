@@ -110,7 +110,7 @@ export default function ProgramCTA({ programName = 'this program' }: ProgramCTAP
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="relative h-[300px] sm:h-[400px] rounded-lg overflow-hidden shadow-2xl order-2 md:order-1">
               <Image
-                src="/images/pages/training-cohort.jpg"
+                src="/images/pages/training-cohort.webp"
                 alt="Indiana Career Connect"
                 fill
                 className="object-cover"
@@ -211,7 +211,7 @@ export default function ProgramCTA({ programName = 'this program' }: ProgramCTAP
             <div className="bg-slate-50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
               <div className="relative h-48">
                 <Image
-                  src="/images/pages/training-cohort.jpg"
+                  src="/images/pages/training-cohort.webp"
                   alt="Job placement"
                   fill
                   className="object-cover"

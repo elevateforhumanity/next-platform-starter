@@ -172,7 +172,7 @@ export function TutorialSystem({ tutorial, userId, onComplete, onClose }: Tutori
                 controls
                 playsInline
                 className="w-full"
-                poster="/images/pages/training-cohort.jpg"
+                poster="/images/pages/training-cohort.webp"
               >
                 Your browser does not support the video tag.
               </video>

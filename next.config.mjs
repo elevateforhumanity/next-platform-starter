@@ -468,13 +468,27 @@ const nextConfig = {
       { source: '/employer/login', destination: '/login', permanent: true },
       { source: '/employer/postings/new', destination: '/employer', permanent: true },
       { source: '/employer/register', destination: '/apply/employer', permanent: true },
+      // employer-portal → canonical /employer/dashboard (legacy portal consolidation)
+      { source: '/employer-portal', destination: '/employer/dashboard', permanent: true },
+      { source: '/employer-portal/dashboard', destination: '/employer/dashboard', permanent: true },
+      { source: '/employer-portal/jobs', destination: '/employer/jobs', permanent: true },
+      { source: '/employer-portal/applications', destination: '/employer/applications', permanent: true },
+      { source: '/employer-portal/candidates', destination: '/employer/candidates', permanent: true },
+      { source: '/employer-portal/analytics', destination: '/employer/analytics', permanent: true },
+      { source: '/employer-portal/company', destination: '/employer/company', permanent: true },
+      { source: '/employer-portal/settings', destination: '/employer/settings', permanent: true },
+      { source: '/employer-portal/messages', destination: '/employer/dashboard', permanent: true },
+      { source: '/employer-portal/interviews', destination: '/employer/candidates', permanent: true },
+      { source: '/employer-portal/programs', destination: '/employer/opportunities', permanent: true },
+      { source: '/employer-portal/wotc', destination: '/employer/wotc', permanent: true },
+      { source: '/employer-portal/:path*', destination: '/employer/:path*', permanent: true },
 
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
 
       // Mentor / Mentorship
       { source: '/mentor', destination: '/mentor/dashboard', permanent: false },
-      { source: '/mentor/apply', destination: '/mentor', permanent: true },
+      { source: '/mentor/apply', destination: '/mentor/dashboard', permanent: true },
       { source: '/mentorship/apply', destination: '/apply', permanent: true },
 
       // Partner (app-side) - skip /partner-with-us and /partners intermediaries
@@ -620,7 +634,7 @@ const nextConfig = {
       },
       {
         source: '/program-holders/universal-mou',
-        destination: '/legal/program-holder-mou',
+        destination: '/legal/program-host-agreement',
         permanent: true,
       },
       {
@@ -836,7 +850,7 @@ const nextConfig = {
       //   /instructor/:path*, /staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
       // Portal redirects:
       // /dashboard (55 lines, db=5) and /my-dashboard (251 lines, db=21) — real pages, no redirect
-      { source: '/employer', destination: '/employers', permanent: false },
+      { source: '/employer', destination: '/employer/dashboard', permanent: false },
       { source: '/employer/:path*', destination: '/login', permanent: false },
       { source: '/partner/:path*', destination: '/login', permanent: false },
       { source: '/provider/:path*', destination: '/login', permanent: false },
@@ -852,7 +866,7 @@ const nextConfig = {
       // /compliance (327 lines, db=3) and /credentials (584 lines) — real pages, no redirect
       // Legal consolidation
       // /privacy (160 lines), /terms (112 lines), /legal/privacy (100 lines) — real pages, no redirect
-      { source: '/legal/terms-of-service', destination: '/terms-of-service', permanent: true },
+      { source: '/legal/terms-of-service', destination: '/legal', permanent: true },
       {
         source: '/legal/governance/lms',
         destination: '/legal/governance/lms-standards',
@@ -991,6 +1005,8 @@ const nextConfig = {
       // /student-portal/dashboard and /student-portal/courses have real pages — no redirects
       { source: '/student-portal/certificates', destination: '/student-portal', permanent: true },
       { source: '/student-portal/progress', destination: '/student-portal', permanent: true },
+      // my-dashboard → canonical learner dashboard (legacy portal consolidation)
+      { source: '/my-dashboard', destination: '/learner/dashboard', permanent: true },
       ...canonicalAliasRedirects,
       // /student-portal/settings → /lms/settings handled by middleware (Rule B)
 
@@ -1052,6 +1068,67 @@ const nextConfig = {
       { source: '/industries/healthcare', destination: '/programs/healthcare', permanent: true },
       { source: '/governance/security', destination: '/governance', permanent: true },
       { source: '/admin/live-sessions/new', destination: '/admin/live-sessions', permanent: false },
+
+      // ── AUTH DUPLICATES ────────────────────────────────────────────────────
+      // Canonical login: /login  Canonical signup: /signup  Canonical forgot-pw: /reset-password
+      { source: '/auth/signin', destination: '/login', permanent: true },
+      { source: '/auth/signup', destination: '/signup', permanent: true },
+      { source: '/register', destination: '/signup', permanent: true },
+      { source: '/auth/forgot-password', destination: '/reset-password', permanent: true },
+      { source: '/auth/verify-email', destination: '/verify-email', permanent: true },
+
+      // ── STUDENT PORTAL DUPLICATES ──────────────────────────────────────────
+      // Canonical: /learner/dashboard  (my-dashboard already redirected above)
+      { source: '/student', destination: '/learner/dashboard', permanent: true },
+      { source: '/student/dashboard', destination: '/learner/dashboard', permanent: true },
+
+      // ── EMPLOYER DUPLICATES ────────────────────────────────────────────────
+      // Canonical: /employer  (employer-portal/* already redirected above)
+      { source: '/employers', destination: '/employer/dashboard', permanent: true },
+      { source: '/employers/post-job', destination: '/employer/post-job', permanent: true },
+      { source: '/employers/apprenticeships', destination: '/employer/apprenticeships', permanent: true },
+      { source: '/employers/benefits', destination: '/employer/dashboard', permanent: true },
+      { source: '/employers/talent-pipeline', destination: '/employer/dashboard', permanent: true },
+
+      // ── PARTNER PORTAL DUPLICATES ──────────────────────────────────────────
+      // Canonical: /partner/dashboard
+      { source: '/partner-portal', destination: '/partner/dashboard', permanent: true },
+
+      // ── CERTIFICATE / VERIFY DUPLICATES ────────────────────────────────────
+      // Canonical verify: /verify/:certificateId
+      { source: '/cert/verify', destination: '/verify', permanent: true },
+      { source: '/cert/verify/:id', destination: '/verify/:id', permanent: true },
+      { source: '/certificates/verify/:id', destination: '/verify/:id', permanent: true },
+      { source: '/verify-credential', destination: '/verify', permanent: true },
+      { source: '/certifications', destination: '/certificates', permanent: true },
+      { source: '/certification', destination: '/certificates', permanent: true },
+
+      // ── PRIVACY/TERMS DUPLICATES ────────────────────────────────────────────
+      // Canonical: /legal (has sub-pages for each doc)
+      { source: '/privacy', destination: '/legal/privacy', permanent: true },
+      { source: '/privacy-policy', destination: '/legal/privacy', permanent: true },
+      { source: '/terms', destination: '/legal', permanent: true },
+      { source: '/terms-of-service', destination: '/legal', permanent: true },
+      { source: '/eula', destination: '/legal/eula', permanent: true },
+      { source: '/license-agreement', destination: '/legal/license-agreement', permanent: true },
+      { source: '/disclosures', destination: '/legal/disclosures', permanent: true },
+
+      // ── MISC ONE-WORD DUPLICATES ────────────────────────────────────────────
+      { source: '/micro-classes', destination: '/microclasses', permanent: true },
+      { source: '/donations', destination: '/donate', permanent: true },
+      { source: '/funding-impact', destination: '/fundingimpact', permanent: true },
+      { source: '/for/students', destination: '/for-students', permanent: true },
+      { source: '/connects', destination: '/connect', permanent: true },
+
+      // ── STORE LICENSES DUPLICATES ─────────────────────────────────────────
+      // Canonical: /store/licenses  (more complete at 461 lines)
+      { source: '/store/licensing', destination: '/store/licenses', permanent: true },
+      { source: '/store/licensing/enterprise', destination: '/store/licenses/enterprise-license', permanent: true },
+      { source: '/store/licensing/managed', destination: '/store/licenses/managed', permanent: true },
+      { source: '/store/licensing/:path*', destination: '/store/licenses/:path*', permanent: true },
+
+      // ── GEOGRAPHIC TRAINING SEO PAGES ─────────────────────────────────────
+      // /career-training and /community-services are hub pages; state variants are SEO pages — keep all
     ];
   },
   async headers() {

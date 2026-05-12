@@ -119,7 +119,7 @@ export default async function LearningPathsPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/lms-page-4.jpg"
+          src="/images/pages/lms-page-4.webp"
           alt="Learning Paths"
           fill
           className="object-cover"

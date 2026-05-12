@@ -1793,7 +1793,7 @@ export const programs: Program[] = [
     shortDescription:
       'Train to become a dental assistant. Chairside support and patient care in dental offices.',
     longDescription: `Our Dental Assistant program prepares you for a rewarding career in dental healthcare. You'll learn chairside assisting, dental radiography, infection control, and patient management.`,
-    heroImage: '/images/pages/medical-assistant-desk.jpg',
+    heroImage: '/images/pages/medical-assistant-desk.webp',
     heroImageAlt: 'Dental Assistant training at Elevate for Humanity',
     heroVideo: '/videos/healthcare-cna.mp4',
     duration: '12 weeks',

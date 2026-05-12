@@ -4,7 +4,7 @@ export const SITE = {
   name: 'Elevate for Humanity',
   domain: 'www.elevateforhumanity.org',
   url: 'https://www.elevateforhumanity.org',
-  ogImage: '/images/og-default.jpg',
+  ogImage: '/images/og-default.webp',
   twitter: '@ElevateForHuman',
 };
 

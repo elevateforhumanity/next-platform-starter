@@ -17,14 +17,14 @@ export const metadata: Metadata = {
       'WIOA-funded career training in Indiana. WorkOne referrals accepted. Workforce Ready Grant and FSSA IMPACT eligible programs. Eligibility determined by your agency.',
     url: CANONICAL,
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'WIOA Funded Training Indiana' }],
+    images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'WIOA Funded Training Indiana' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'WIOA Funded Training Indiana | Elevate for Humanity',
     description: 'WIOA-funded career training in Indiana. WorkOne referrals, Workforce Ready Grant, FSSA IMPACT.',
-    images: ['/og-default.jpg'],
+    images: ['/og-default.webp'],
   },
 };
 

@@ -158,7 +158,7 @@ export default function BankingPage() {
             <div className="bg-white border-2 border-brand-blue-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
                 <Image
-                  src="/images/pages/pathways-page-6.jpg"
+                  src="/images/pages/pathways-page-6.webp"
                   alt="Prepaid debit card for tax refund disbursement"
                   fill
                   className="object-cover"

@@ -98,7 +98,7 @@ export const cnaVisuals: PageVisualConfig = {
   heroes: [
     {
       id: 'cna-hero-main',
-      imageSrc: '/images/pages/funding-impact-1.jpg',
+      imageSrc: '/images/pages/funding-impact-1.webp',
       imageAlt: 'CNA student practicing vital signs on a mannequin.',
       eyebrow: 'Certified Nursing Assistant',
       title: 'Step Into Healthcare With CNA Training That Leads to Real Work.',
@@ -128,7 +128,7 @@ export const cnaVisuals: PageVisualConfig = {
         'Healthcare safety and drug-free workplace modules to meet employer expectations.',
         'Soft skills, professionalism, and job readiness through Job Ready Indy and EFH modules.',
       ],
-      imageSrc: '/images/pages/funding-impact-1.jpg',
+      imageSrc: '/images/pages/funding-impact-1.webp',
       imageAlt: 'Students practicing CNA skills in a lab environment.',
     },
     {

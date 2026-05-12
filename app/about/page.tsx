@@ -66,7 +66,7 @@ export default async function AboutPage() {
           {/* Contained headshot */}
           <div className="relative w-40 h-40 sm:w-52 sm:h-52 flex-shrink-0 rounded-2xl overflow-hidden shadow-lg border border-slate-200">
             <Image
-              src="/images/team/elizabeth-greene.jpg"
+              src="/images/team/elizabeth-greene.webp"
               alt="Elizabeth Greene, Founder & CEO of Elevate for Humanity"
               fill
               className="object-cover object-top"
@@ -327,7 +327,7 @@ export default async function AboutPage() {
               },
               {
                 title: 'Low-Income Adults & Dislocated Workers',
-                image: '/images/pages/wioa-meeting.jpg',
+                image: '/images/pages/wioa-meeting.webp',
                 desc: 'Indiana residents who meet WIOA income guidelines or receive public assistance (SNAP, TANF, Medicaid). WIOA funding covers tuition, books, supplies, and in some cases transportation and childcare.',
               },
               {
@@ -626,7 +626,7 @@ export default async function AboutPage() {
             </Link>
             <Link href="/pathways" className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition">
               <div className="relative h-40 overflow-hidden">
-                <Image src="/images/pages/job-placement.jpg" alt="Career pathways" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" />
+                <Image src="/images/pages/job-placement.webp" alt="Career pathways" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" />
               </div>
               <div className="p-5">
                 <h3 className="font-bold text-slate-900 mb-2">Career Pathways Framework</h3>

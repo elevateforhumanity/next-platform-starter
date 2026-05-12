@@ -79,7 +79,7 @@ export default function TrainingModelPage() {
               <div className="flex flex-col sm:flex-row">
                 <div className="relative h-48 sm:h-auto sm:w-64 flex-shrink-0 overflow-hidden">
                   <Image
-                    src="/images/pages/pathways-page-10.jpg"
+                    src="/images/pages/pathways-page-10.webp"
                     alt="Hands-on trades training"
                     fill
                     sizes="(max-width: 640px) 100vw, 256px"

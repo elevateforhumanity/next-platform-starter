@@ -83,7 +83,7 @@ const PARTNER_TYPES = [
     ],
     cta: { label: 'Learn More', href: '/partners/training-provider' },
     apply: { label: 'Apply as Training Provider', href: '/apply/program-holder' },
-    image: '/images/pages/tech-classroom.jpg',
+    image: '/images/pages/tech-classroom.webp',
   },
   {
     icon: Shield,

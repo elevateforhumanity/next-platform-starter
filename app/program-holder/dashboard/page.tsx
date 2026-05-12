@@ -262,7 +262,7 @@ export default async function ProgramHolderDashboardPage() {
             {
               label: 'Completions',
               value: totalCompleted.toLocaleString(),
-              img: '/images/pages/graduation-ceremony.jpg',
+              img: '/images/pages/graduation-ceremony.webp',
               href: '/program-holder/reports',
             },
             {

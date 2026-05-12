@@ -13,7 +13,7 @@ export default function ProgramCard({ program }: { program: Program }) {
       {/* Flush top image — 16:9 */}
       <div className="relative aspect-[16/9] overflow-hidden">
         <Image
-          src={program.cardImage || program.heroImage || '/images/pages/training-cohort.jpg'}
+          src={program.cardImage || program.heroImage || '/images/pages/training-cohort.webp'}
           alt={program.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"

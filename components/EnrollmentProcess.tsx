@@ -38,7 +38,7 @@ const steps = [
     title: 'Meet with Your Advisor',
     desc: 'Your career advisor will verify your eligibility, explain funding options, and help you select Elevate for Humanity as your training provider. They can also discuss supportive services like transportation and childcare assistance.',
     note: 'Mention you want to train with Elevate for Humanity. We\u2019re an approved WIOA provider in Marion County.',
-    image: '/images/pages/wioa-meeting.jpg',
+    image: '/images/pages/wioa-meeting.webp',
     alt: 'Workforce advisor reviewing training options',
   },
   {

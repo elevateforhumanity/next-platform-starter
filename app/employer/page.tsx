@@ -18,7 +18,7 @@ const INCENTIVES = [
   {
     title: 'WOTC Tax Credit',
     desc: 'Up to $9,600 per qualifying hire through the Work Opportunity Tax Credit program.',
-    img: '/images/pages/funding-impact-1.jpg',
+    img: '/images/pages/funding-impact-1.webp',
     alt: 'WOTC tax credit for employers',
   },
   {
@@ -69,13 +69,13 @@ const SECTORS = [
     credential: 'Indiana BMV Class A',
     img: '/images/pages/cdl-training.jpg',
   },
-  { label: 'IT Support', credential: 'CompTIA A+', img: '/images/pages/it-help-desk.jpg' },
+  { label: 'IT Support', credential: 'CompTIA A+', img: '/images/pages/it-help-desk.webp' },
   {
     label: 'Barbers',
     credential: 'Indiana IPLA License',
     img: '/images/pages/barber-hero-main.jpg',
   },
-  { label: 'Welders', credential: 'NCCER Core', img: '/images/pages/welding.jpg' },
+  { label: 'Welders', credential: 'NCCER Core', img: '/images/pages/welding.webp' },
 ];
 
 const STEPS = [
@@ -101,7 +101,7 @@ const STEPS = [
     n: '4',
     title: 'Ongoing Support',
     desc: 'Upskill your team, sponsor apprentices, or run group credential testing at our center.',
-    img: '/images/pages/training-page-2.jpg',
+    img: '/images/pages/training-page-2.webp',
   },
 ];
 

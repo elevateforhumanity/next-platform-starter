@@ -57,7 +57,7 @@ export default function InstructorPortalLanding() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border">
               <div className="relative h-32 overflow-hidden">
                 <Image
-                  src="/images/pages/instructor-page-2.jpg"
+                  src="/images/pages/instructor-page-2.webp"
                   alt="Course Management"
                   fill
                   sizes="100vw"

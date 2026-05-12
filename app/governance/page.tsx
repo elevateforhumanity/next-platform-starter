@@ -18,7 +18,7 @@ export default function GovernancePage() {
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] overflow-hidden">
         <Image
-          src="/images/pages/governance-page-1.jpg"
+          src="/images/pages/governance-page-1.webp"
           alt="Governance and program structure"
           fill
           sizes="100vw"

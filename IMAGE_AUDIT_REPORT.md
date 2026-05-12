@@ -126,7 +126,7 @@ These files indicate images that were planned but never created. They are NOT re
 
 ### Team Images
 
-- ✅ /images/team/elizabeth-greene.jpg
+- ✅ /images/team/elizabeth-greene.webp
 - ✅ /images/team/founder/elizabeth-greene-founder-hero-01.jpg
 - ✅ /images/team-hq/team-meeting.jpg
 - ✅ /images/team-hq/instructor-1.jpg through instructor-3.jpg
@@ -181,7 +181,7 @@ cp public/images/testimonials-hq/person-1.jpg public/images/testimonials/maria.j
 cp public/images/testimonials-hq/person-2.jpg public/images/testimonials/james.jpg
 cp public/images/testimonials-hq/person-3.jpg public/images/testimonials/sarah.jpg
 cp public/images/testimonials-hq/person-4.jpg public/images/testimonials/michael.jpg
-cp public/images/testimonials-hq/person-5.jpg public/images/testimonials/lisa.jpg
+cp public/images/testimonials-hq/person-5.webp public/images/testimonials/lisa.jpg
 cp public/images/testimonials-hq/person-6.jpg public/images/testimonials/david.jpg
 ```
 

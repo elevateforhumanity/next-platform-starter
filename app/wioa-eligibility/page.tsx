@@ -28,7 +28,7 @@ export default function WIOAEligibilityPage() {
       {/* Hero */}
       <section className="relative h-[220px] sm:h-[320px] md:h-[400px] overflow-hidden">
         <Image
-          src="/images/pages/wioa-meeting.jpg"
+          src="/images/pages/wioa-meeting.webp"
           alt="WIOA funded career training"
           fill
           sizes="100vw"
@@ -74,7 +74,7 @@ export default function WIOAEligibilityPage() {
                 step: '2',
                 title: 'WorkOne Appointment',
                 desc: 'Schedule a meeting at your local WorkOne center. They determine your funding eligibility.',
-                image: '/images/pages/wioa-meeting.jpg',
+                image: '/images/pages/wioa-meeting.webp',
                 cta: 'Find WorkOne',
                 href: 'https://www.in.gov/dwd/workone/workone-locations/',
                 external: true,
@@ -141,7 +141,7 @@ export default function WIOAEligibilityPage() {
             {[
               { title: 'Tuition', image: '/images/pages/homepage-why-elevate.jpg' },
               { title: 'Books & Supplies', image: '/images/pages/homepage-why-elevate.jpg' },
-              { title: 'Certification Exams', image: '/images/pages/wioa-meeting.jpg' },
+              { title: 'Certification Exams', image: '/images/pages/wioa-meeting.webp' },
               { title: 'Support Services', image: '/images/pages/comp-home-highlight-health.jpg' },
             ].map((item) => (
               <div
@@ -225,7 +225,7 @@ export default function WIOAEligibilityPage() {
                 title: 'Workforce Ready Grant',
                 desc: 'Indiana state grant for high-demand certifications. No income requirements.',
                 href: '/funding',
-                image: '/images/pages/wioa-meeting.jpg',
+                image: '/images/pages/wioa-meeting.webp',
               },
               {
                 title: 'Job Ready Indy',
@@ -237,7 +237,7 @@ export default function WIOAEligibilityPage() {
                 title: 'Payment Plans',
                 desc: 'Flexible payments, Sezzle, and Affirm for programs not covered by grants.',
                 href: '/apply',
-                image: '/images/pages/wioa-meeting.jpg',
+                image: '/images/pages/wioa-meeting.webp',
               },
             ].map((item) => (
               <Link

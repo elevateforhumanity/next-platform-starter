@@ -82,7 +82,7 @@ export default async function EmployerProgramsPage() {
               <div className="md:flex">
                 <div className="md:w-1/3 relative h-64 md:h-auto overflow-hidden">
                   <Image
-                    src={program.image_url ?? '/images/pages/programs-cna-hero.jpg'}
+                    src={program.image_url ?? '/images/pages/programs-cna-hero.webp'}
                     alt={program.title}
                     fill
                     className="object-cover"

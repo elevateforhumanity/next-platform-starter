@@ -423,7 +423,7 @@ export function AutoPolishedPage({ route, label, section }: AutoPolishedPageProp
       case 'students':
         return '/images/pages/healthcare-classroom.jpg';
       case 'lms':
-        return '/images/pages/training-cohort.jpg';
+        return '/images/pages/training-cohort.webp';
       case 'employers':
         return '/images/pages/for-employers-page-1.jpg';
       case 'community':

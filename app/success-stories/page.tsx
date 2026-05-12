@@ -19,14 +19,14 @@ export const metadata: Metadata = {
       'Inspiring stories from graduates who transformed their lives through workforce training.',
     url: 'https://www.elevateforhumanity.org/success-stories',
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Success Stories' }],
+    images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Success Stories' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Success Stories - Real People, Real Results',
     description: 'Inspiring stories from workforce training graduates.',
-    images: ['/og-default.jpg'],
+    images: ['/og-default.webp'],
   },
 };
 
@@ -141,7 +141,7 @@ const successStories = [
     name: 'Lisa Anderson',
     age: 38,
     program: 'Medical Assistant',
-    image: '/images/programs/workforce-readiness-hero.jpg',
+    image: '/images/programs/workforce-readiness-hero.webp',
     beforeJob: 'Restaurant server, $25,000/year',
     afterJob: 'Medical Assistant at Family Practice',
     salary: '$40,000/year',

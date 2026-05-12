@@ -44,7 +44,7 @@ export default function GrievancePage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/grievance-page-1.jpg"
+          src="/images/pages/grievance-page-1.webp"
           alt="Grievance process"
           fill
           sizes="100vw"

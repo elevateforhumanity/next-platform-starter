@@ -656,7 +656,7 @@ export const footerNavigation = {
       { label: 'Access Paused', href: '/access-paused' },
       { label: 'License Suspended', href: '/license-suspended' },
       { label: 'Reset Password', href: '/auth/reset-password' },
-      { label: 'Verify Email', href: '/auth/verify-email' },
+      { label: 'Verify Email', href: '/verify-email' },
       { label: 'Enterprise', href: '/enterprise' },
       { label: 'Licensing', href: '/licensing' },
       { label: 'Payment Cancel', href: '/payment/cancel' },

@@ -74,7 +74,7 @@ const audiences = [
     cta: 'Agency overview',
   },
   {
-    image: '/images/pages/platform-page-10.jpg',
+    image: '/images/pages/platform-page-10.webp',
     alt: 'Employer hiring portal and apprenticeship management',
     title: 'Employers',
     desc: 'Access a verified pipeline of credentialed graduates. Manage apprenticeship agreements, track OJT hours, and document WOTC eligibility — all in one place.',
@@ -324,7 +324,7 @@ export default function PlatformPage() {
               style={{ aspectRatio: '4/3' }}
             >
               <Image
-                src="/images/pages/platform-page-12.jpg"
+                src="/images/pages/platform-page-12.webp"
                 alt="Compliance and audit infrastructure"
                 fill
                 className="object-cover"

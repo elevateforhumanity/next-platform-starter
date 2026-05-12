@@ -143,7 +143,7 @@ export default function AuthResetPasswordPage() {
             This password reset link is invalid or has expired. Request a new one.
           </p>
           <Link
-            href="/auth/forgot-password"
+            href="/reset-password"
             className="inline-block bg-brand-red-600 text-white font-bold px-10 py-4 rounded-lg text-lg hover:bg-brand-red-700 transition"
           >
             Request New Link

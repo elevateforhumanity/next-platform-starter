@@ -36,7 +36,7 @@ export default function HVACCurriculumPage() {
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px]">
         <Image
-          src="/images/pages/hvac-hero.jpg"
+          src="/images/pages/hvac-hero.webp"
           alt="HVAC Technician Training"
           fill
           sizes="100vw"

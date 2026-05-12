@@ -102,7 +102,7 @@ export const HERO_IMAGES = {
 
   // LMS/Portal
   lms: {
-    studentPortal: '/images/pages/training-cohort.jpg',
+    studentPortal: '/images/pages/training-cohort.webp',
     dashboard: '/images/pages/healthcare-classroom.jpg',
     courses: '/images/pages/training-classroom.jpg',
   },
@@ -291,7 +291,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
   '/student-portal': {
     title: 'Student Portal',
     subtitle: 'Access your courses, track progress, and manage your training journey.',
-    image: '/images/pages/training-cohort.jpg',
+    image: '/images/pages/training-cohort.webp',
     variant: 'split',
     height: 'compact',
   },
@@ -462,7 +462,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     title: 'My Courses',
     subtitle: 'Access your enrolled courses and track your progress.',
     videoSrc: VIDEO_HEROES.lmsCourses,
-    videoPoster: '/images/pages/training-cohort.jpg',
+    videoPoster: '/images/pages/training-cohort.webp',
     variant: 'video',
     height: 'compact',
   },

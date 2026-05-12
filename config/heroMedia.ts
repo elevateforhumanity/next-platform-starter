@@ -91,7 +91,7 @@ export const HERO_MEDIA: Record<string, HeroMediaEntry> = {
   // ── Program pages (video shows the work, no narration needed) ────────────
   'programs/hvac-technician': {
     video: '/videos/hvac-technician.mp4',
-    poster: '/images/pages/hvac-hero.jpg',
+    poster: '/images/pages/hvac-hero.webp',
     alt: 'HVAC technician training — hands-on systems work',
     size: 'program',
   },
@@ -121,7 +121,7 @@ export const HERO_MEDIA: Record<string, HeroMediaEntry> = {
   },
   'programs/medical-assistant': {
     video: '/videos/healthcare-cna.mp4',
-    poster: '/images/pages/medical-assistant-hero.jpg',
+    poster: '/images/pages/medical-assistant-hero.webp',
     alt: 'Medical assistant training — clinical and administrative skills',
     size: 'program',
   },

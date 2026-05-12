@@ -25,7 +25,7 @@ const OJT_BENEFITS = [
   {
     title: 'Customized Training',
     desc: 'Training plan is built around your specific job requirements — not a generic curriculum.',
-    img: '/images/pages/training-page-3.jpg',
+    img: '/images/pages/training-page-3.webp',
   },
   {
     title: 'WOTC Tax Credits',
@@ -59,7 +59,7 @@ export default function OjtAndFundingPage() {
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
         <LazyVideo
           src="/videos/training-providers-hero.mp4"
-          poster="/images/pages/ojt-and-funding-page-1.jpg"
+          poster="/images/pages/ojt-and-funding-page-1.webp"
           className="absolute inset-0 w-full h-full object-cover"
         />
       </section>

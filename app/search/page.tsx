@@ -30,7 +30,7 @@ const programs = [
   {
     name: 'Healthcare',
     href: '/programs/healthcare',
-    image: '/images/pages/programs-cna-hero.jpg',
+    image: '/images/pages/programs-cna-hero.webp',
     certs: ['CNA', 'Medical Assistant', 'Phlebotomy*'],
     funding: 'WIOA & WRG eligible · *Phlebotomy self-pay',
   },
@@ -51,7 +51,7 @@ const programs = [
   {
     name: 'Barber Apprenticeship',
     href: '/programs/barber-apprenticeship',
-    image: '/images/pages/programs-barber-hero-new.jpg',
+    image: '/images/pages/programs-barber-hero-new.webp',
     certs: ['Barber License'],
     funding: 'Earn while you learn — paid apprenticeship',
   },

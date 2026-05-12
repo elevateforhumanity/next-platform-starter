@@ -41,7 +41,7 @@ export default async function MobileAppPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/mobile-app-page-1.jpg"
+          src="/images/pages/mobile-app-page-1.webp"
           alt="Mobile App"
           fill
           className="object-cover"

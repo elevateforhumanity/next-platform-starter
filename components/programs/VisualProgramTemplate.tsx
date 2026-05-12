@@ -36,7 +36,7 @@ const PROGRAM_HERO_MEDIA: Record<
   'hvac-technician': {
     video: '/videos/hvac-hero-final.mp4',
     audio: '/audio/heroes/skilled-trades.mp3',
-    poster: '/images/pages/hvac-hero.jpg',
+    poster: '/images/pages/hvac-hero.webp',
     microLabel: 'HVAC Technician',
     script: `HVAC Technicians are in demand across Indiana — and the shortage is growing. The Elevate HVAC Technician program runs 12 weeks and prepares you for EPA Section 608 certification, OSHA 10-Hour, and entry-level employment at $18 to $28 per hour. You train on real equipment. You leave with a nationally recognized credential. Most students qualify for full funding through WIOA or the Workforce Ready Grant. Apply today.`,
   },

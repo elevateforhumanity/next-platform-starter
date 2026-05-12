@@ -39,7 +39,7 @@ export function ProgramHero({ program }: { program: Program }) {
           {hasVideo ? (
             <CanonicalVideo
               src="/videos/hero-home.mp4"
-              poster={program.heroImage || '/images/pages/training-cohort.jpg'}
+              poster={program.heroImage || '/images/pages/training-cohort.webp'}
               className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (

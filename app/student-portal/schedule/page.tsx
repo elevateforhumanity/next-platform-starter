@@ -226,7 +226,7 @@ export default async function StudentPortalSchedulePage() {
             <div className="relative rounded-2xl overflow-hidden border border-gray-200">
               <div className="relative h-56 sm:h-72">
                 <Image
-                  src="/images/pages/student-portal-page-3.jpg"
+                  src="/images/pages/student-portal-page-3.webp"
                   alt="Browse programs"
                   fill
                   sizes="100vw"
@@ -573,12 +573,12 @@ export default async function StudentPortalSchedulePage() {
               {
                 label: 'My Courses',
                 href: '/lms/courses',
-                img: '/images/pages/student-portal-page-1.jpg',
+                img: '/images/pages/student-portal-page-1.webp',
               },
               {
                 label: 'Grades & Progress',
                 href: '/student-portal/grades',
-                img: '/images/pages/student-portal-page-2.jpg',
+                img: '/images/pages/student-portal-page-2.webp',
               },
               {
                 label: 'Documents',
@@ -588,7 +588,7 @@ export default async function StudentPortalSchedulePage() {
               {
                 label: 'Contact Support',
                 href: '/contact',
-                img: '/images/pages/student-portal-page-9.jpg',
+                img: '/images/pages/student-portal-page-9.webp',
               },
             ].map((link) => (
               <Link

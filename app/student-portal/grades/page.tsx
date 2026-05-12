@@ -115,7 +115,7 @@ export default async function StudentPortalGradesPage() {
     <div className="min-h-screen bg-white">
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/student-portal-page-3.jpg"
+          src="/images/pages/student-portal-page-3.webp"
           alt="Grades"
           fill
           sizes="100vw"

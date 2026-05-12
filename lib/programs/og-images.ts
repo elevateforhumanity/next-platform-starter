@@ -19,7 +19,7 @@ export const PROGRAM_OG_IMAGES: Record<string, string> = {
   // ── Skilled Trades ────────────────────────────────────────────────────────
   'hvac-technician':                '/images/pages/programs-hvac-hero.jpg',
   'hvac':                           '/images/pages/programs-hvac-hero.jpg',
-  'electrical':                     '/images/pages/programs-electrical-apply-hero.jpg',
+  'electrical':                     '/images/pages/programs-electrical-apply-hero.webp',
   'plumbing':                       '/images/pages/programs-plumbing-apply-hero.jpg',
   'welding':                        '/images/pages/programs-welding-apply-hero.jpg',
   'cdl-training':                   '/images/pages/programs-cdl-hero.jpg',
@@ -28,14 +28,14 @@ export const PROGRAM_OG_IMAGES: Record<string, string> = {
   'construction-trades-certification': '/images/pages/programs-welding-apply-hero.jpg',
 
   // ── Healthcare ────────────────────────────────────────────────────────────
-  'cna':                            '/images/pages/programs-cna-hero.jpg',
-  'cna-certification':              '/images/pages/programs-cna-hero.jpg',
-  'certified-nursing-assistant':    '/images/pages/programs-cna-hero.jpg',
+  'cna':                            '/images/pages/programs-cna-hero.webp',
+  'cna-certification':              '/images/pages/programs-cna-hero.webp',
+  'certified-nursing-assistant':    '/images/pages/programs-cna-hero.webp',
   'medical-assistant':              '/images/pages/programs-medical-apply-hero.jpg',
   'phlebotomy':                     '/images/pages/programs-medical-apply-hero.jpg',
   'pharmacy-technician':            '/images/pages/programs-medical-apply-hero.jpg',
-  'home-health-aide':               '/images/pages/programs-cna-hero.jpg',
-  'peer-recovery-specialist':       '/images/pages/programs-cna-hero.jpg',
+  'home-health-aide':               '/images/pages/programs-cna-hero.webp',
+  'peer-recovery-specialist':       '/images/pages/programs-cna-hero.webp',
   'sanitation-infection-control':   '/images/pages/programs-medical-apply-hero.jpg',
   'emergency-health-safety':        '/images/pages/programs-medical-apply-hero.jpg',
   'cpr-first-aid':                  '/images/pages/programs-medical-apply-hero.jpg',
@@ -53,13 +53,13 @@ export const PROGRAM_OG_IMAGES: Record<string, string> = {
   // ── Technology ────────────────────────────────────────────────────────────
   'cybersecurity-analyst':          '/images/pages/cybersecurity-hero.jpg',
   'cybersecurity':                  '/images/pages/cybersecurity-hero.jpg',
-  'it-help-desk':                   '/images/pages/networking-hero.jpg',
-  'it-support':                     '/images/pages/networking-hero.jpg',
-  'network-administration':         '/images/pages/networking-hero.jpg',
-  'network-support-technician':     '/images/pages/networking-hero.jpg',
-  'software-development':           '/images/pages/networking-hero.jpg',
-  'web-development':                '/images/pages/networking-hero.jpg',
-  'cad-drafting':                   '/images/pages/networking-hero.jpg',
+  'it-help-desk':                   '/images/pages/networking-hero.webp',
+  'it-support':                     '/images/pages/networking-hero.webp',
+  'network-administration':         '/images/pages/networking-hero.webp',
+  'network-support-technician':     '/images/pages/networking-hero.webp',
+  'software-development':           '/images/pages/networking-hero.webp',
+  'web-development':                '/images/pages/networking-hero.webp',
+  'cad-drafting':                   '/images/pages/networking-hero.webp',
 
   // ── Business ─────────────────────────────────────────────────────────────
   'business-administration':        '/images/programs/efh-business-startup-marketing-hero.jpg',
@@ -75,8 +75,8 @@ export const PROGRAM_OG_IMAGES: Record<string, string> = {
 
   // ── Hospitality / Other ───────────────────────────────────────────────────
   'hospitality':                    '/images/pages/programs-hvac-hero.jpg',
-  'technology':                     '/images/pages/networking-hero.jpg',
-  'direct-support-professional':    '/images/pages/programs-cna-hero.jpg',
+  'technology':                     '/images/pages/networking-hero.webp',
+  'direct-support-professional':    '/images/pages/programs-cna-hero.webp',
 };
 
 /** Returns the OG image path for a program slug. Always returns a valid path. */

@@ -57,7 +57,7 @@ const testimonials: Testimonial[] = [
     afterJob: 'Medical Coder at Community Health Network',
     salary: '$48,000/year',
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    thumbnail: '/images/pages/medical-assistant-desk.jpg',
+    thumbnail: '/images/pages/medical-assistant-desk.webp',
     quote:
       'I can work from home now and spend more time with my kids. This program gave me flexibility and financial security.',
     duration: '2:45',

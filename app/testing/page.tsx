@@ -28,7 +28,7 @@ const PROVIDER_IMAGES: Record<string, string> = {
   esco: '/images/pages/hvac-unit.jpg',
   nrf: '/images/pages/certifications-page-1.jpg',
   certiport: '/images/pages/testing-page-1.jpg',
-  nha: '/images/pages/medical-assistant.jpg',
+  nha: '/images/pages/medical-assistant.webp',
   workkeys: '/images/pages/career-services-page-1.jpg',
   careersafe: '/images/pages/programs-emergency-health-safety-hero.jpg',
   midland: '/images/pages/competency-test-hero.jpg',

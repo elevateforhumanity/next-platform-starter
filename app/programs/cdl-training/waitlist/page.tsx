@@ -119,7 +119,7 @@ export default function CDLWaitlistPage() {
       <section className="relative py-16 overflow-hidden border-t">
         <div className="absolute inset-0">
           <Image
-            src="/images/pages/programs-cdl-waitlist-hero.jpg"
+            src="/images/pages/programs-cdl-waitlist-hero.webp"
             alt="CDL truck training"
             fill
             className="object-cover"

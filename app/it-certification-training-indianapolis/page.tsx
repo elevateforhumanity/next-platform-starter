@@ -17,14 +17,14 @@ export const metadata: Metadata = {
       'CompTIA, Microsoft, cybersecurity, and digital literacy training in Indianapolis. Industry certifications. WIOA funding may be available for qualifying residents.',
     url: CANONICAL,
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'IT Certification Training Indianapolis' }],
+    images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'IT Certification Training Indianapolis' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'IT Certification Training Indianapolis | Elevate for Humanity',
     description: 'CompTIA, Microsoft, cybersecurity, and digital skills training in Indianapolis.',
-    images: ['/og-default.jpg'],
+    images: ['/og-default.webp'],
   },
 };
 

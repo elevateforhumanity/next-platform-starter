@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 
 const baseUrl = 'https://www.elevateforhumanity.org';
 const siteName = 'Elevate for Humanity';
-const defaultImage = `${baseUrl}/images/og-default.jpg`;
+const defaultImage = `${baseUrl}/images/og-default.webp`;
 
 // Homepage Meta
 export const homePageMeta: Metadata = {

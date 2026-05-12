@@ -51,7 +51,7 @@ const certPrograms = [
     name: 'CPR/AED/First Aid (HSI)',
     duration: '1 day',
     cost: '$65-$85',
-    image: '/images/pages/training-page-2.jpg',
+    image: '/images/pages/training-page-2.webp',
     href: '/programs/cpr-first-aid',
   },
   {
@@ -65,7 +65,7 @@ const certPrograms = [
     name: 'Welding Certification',
     duration: '8-12 weeks',
     cost: 'Free with WIOA',
-    image: '/images/pages/welding.jpg',
+    image: '/images/pages/welding.webp',
     href: '/programs/skilled-trades',
   },
 ];

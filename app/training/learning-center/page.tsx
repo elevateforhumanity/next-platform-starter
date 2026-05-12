@@ -58,7 +58,7 @@ export default function LearningCenterPage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
           <Image
-            src="/images/pages/training-page-2.jpg"
+            src="/images/pages/training-page-2.webp"
             alt="Learning center resources"
             fill
             className="object-cover"

@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `https://www.elevateforhumanity.org/career-training-${state.slug}`,
       siteName: 'Elevate for Humanity',
       images: [
-        { url: '/og-default.jpg', width: 1200, height: 630, alt: `${state.name} Career Training` },
+        { url: '/og-default.webp', width: 1200, height: 630, alt: `${state.name} Career Training` },
       ],
       type: 'website',
     },
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: `${state.careerTraining.headline} | Elevate for Humanity`,
       description: state.careerTraining.description,
-      images: ['/og-default.jpg'],
+      images: ['/og-default.webp'],
     },
   };
 }

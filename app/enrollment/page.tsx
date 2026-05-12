@@ -79,7 +79,7 @@ const FEATURED = [
     weeks: '1',
     credentials: '2',
     href: '/apply/student?program=forklift',
-    image: '/images/pages/forklift.jpg',
+    image: '/images/pages/forklift.webp',
     tag: 'Logistics',
   },
 ];

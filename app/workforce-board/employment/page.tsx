@@ -61,7 +61,7 @@ export default function EmploymentPage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
           <Image
-            src="/images/pages/workforce-board-page-1.jpg"
+            src="/images/pages/workforce-board-page-1.webp"
             alt="Employment services"
             fill
             className="object-cover"

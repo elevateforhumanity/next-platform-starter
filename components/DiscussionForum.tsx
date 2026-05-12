@@ -42,7 +42,7 @@ export function DiscussionForum({ courseId, posts = [] }: DiscussionForumProps) 
         const formatted: ForumPost[] = data.map((p) => ({
           id: p.id,
           author: p.profiles?.full_name || 'Anonymous',
-          avatar: p.profiles?.avatar_url || '/images/team/elizabeth-greene.jpg',
+          avatar: p.profiles?.avatar_url || '/images/team/elizabeth-greene.webp',
           content: p.content,
           timestamp: new Date(p.created_at).toLocaleString('en-US', { timeZone: 'UTC' }),
           likes: p.likes_count || 0,
@@ -83,7 +83,7 @@ export function DiscussionForum({ courseId, posts = [] }: DiscussionForumProps) 
       const post: ForumPost = {
         id: data.id,
         author: user?.email?.split('@')[0] || 'Current User',
-        avatar: '/images/team/elizabeth-greene.jpg',
+        avatar: '/images/team/elizabeth-greene.webp',
         content: newPost,
         timestamp: 'Just now',
         likes: 0,

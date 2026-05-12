@@ -48,7 +48,7 @@ const moreAddOns = [
     href: '/store/add-ons/analytics-pro',
     price: '$1,497',
     video: '/videos/store/store-analytics-pro.mp4',
-    poster: '/images/pages/wioa-meeting.jpg',
+    poster: '/images/pages/wioa-meeting.webp',
   },
   {
     id: 'compliance-automation',

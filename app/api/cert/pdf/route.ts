@@ -46,7 +46,7 @@ async function _GET(req: NextRequest) {
 
   // Generate verification URL
   const origin = req.headers.get('origin') || 'https://www.elevateforhumanity.org';
-  const verifyUrl = `${origin}/cert/verify/${cert.verification_code || cert.serial}`;
+  const verifyUrl = `${origin}/verify/${cert.verification_code || cert.serial}`;
 
   // Generate PDF via internal API route (runs on same ECS container)
   const pdfResponse = await fetch(`${origin}/api/internal/cert-pdf`, {

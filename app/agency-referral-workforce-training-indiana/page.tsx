@@ -17,14 +17,14 @@ export const metadata: Metadata = {
       'Indiana workforce agency referral partner. WorkOne referrals, FSSA IMPACT, ETPL-approved, WIOA-compliant. Outcome tracking and participant support services.',
     url: CANONICAL,
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Agency Referral Workforce Training Indiana' }],
+    images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Agency Referral Workforce Training Indiana' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Agency Referral Workforce Training Indiana | Elevate for Humanity',
     description: 'Indiana ETPL-approved, WIOA-compliant workforce training provider. WorkOne and FSSA IMPACT referrals accepted.',
-    images: ['/og-default.jpg'],
+    images: ['/og-default.webp'],
   },
 };
 

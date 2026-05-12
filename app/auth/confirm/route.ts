@@ -212,7 +212,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'recovery') {
       // Send back to forgot-password with a clear message instead of silent login redirect
-      return NextResponse.redirect(new URL('/auth/forgot-password?error=link_expired', CANONICAL));
+      return NextResponse.redirect(new URL('/reset-password?error=link_expired', CANONICAL));
     }
 
     return NextResponse.redirect(new URL('/login?error=verification_failed', CANONICAL));

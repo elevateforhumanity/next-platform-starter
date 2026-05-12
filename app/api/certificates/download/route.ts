@@ -72,7 +72,7 @@ async function _GET(request: NextRequest) {
         issuedAt: certificate.issued_at,
         certificateNumber:
           certificate.certificate_number || certificate.id.slice(0, 8).toUpperCase(),
-        verificationUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/verify-credential?id=${certificate.id}`,
+        verificationUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/verify/${certificate.id}`,
       },
       downloadUrl: certificate.pdf_url || null,
       message: certificate.pdf_url

@@ -145,7 +145,7 @@ export const ADMIN_SCENES: DemoScene[] = [
     description:
       'Students track their own progress, log hours, and download credentials — all from their phone.',
     videoSrc: '/videos/demo/demo-admin-enrollment.mp4',
-    poster: '/images/pages/student-portal-page-1.jpg',
+    poster: '/images/pages/student-portal-page-1.webp',
     choices: [
       {
         label: 'Employer Portal',
@@ -288,7 +288,7 @@ export const STUDENT_SCENES: DemoScene[] = [
     description:
       'Track your courses, log apprenticeship hours, and download your credentials — all from your phone.',
     videoSrc: '/videos/demo/demo-learner-overview.mp4',
-    poster: '/images/pages/student-portal-page-1.jpg',
+    poster: '/images/pages/student-portal-page-1.webp',
     choices: [
       {
         label: 'My Courses',
@@ -317,7 +317,7 @@ export const STUDENT_SCENES: DemoScene[] = [
     description:
       'Video lessons, interactive quizzes, and checkpoint exams — all in your browser or on your phone.',
     videoSrc: '/videos/demo/demo-learner-course.mp4',
-    poster: '/images/pages/student-portal-page-3.jpg',
+    poster: '/images/pages/student-portal-page-3.webp',
     choices: [
       {
         label: 'Log Hours',

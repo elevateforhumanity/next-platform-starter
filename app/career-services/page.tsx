@@ -46,17 +46,17 @@ export default function CareerServicesPage() {
               {
                 title: 'Resume Building',
                 desc: 'Work one-on-one with a career advisor to build a professional resume tailored to your industry. We format, proofread, and optimize for applicant tracking systems.',
-                image: '/images/pages/resume-building-hero.jpg',
+                image: '/images/pages/resume-building-hero.webp',
               },
               {
                 title: 'Interview Preparation',
                 desc: 'Practice with mock interviews, get feedback on your answers, and learn how to present yourself confidently. We cover behavioral, technical, and situational questions.',
-                image: '/images/pages/networking-hero.jpg',
+                image: '/images/pages/networking-hero.webp',
               },
               {
                 title: 'Job Fairs & Hiring Events',
                 desc: 'Attend exclusive hiring events where our employer partners interview and hire on the spot. We host events monthly across Indiana.',
-                image: '/images/pages/job-placement.jpg',
+                image: '/images/pages/job-placement.webp',
               },
               {
                 title: 'Direct Employer Connections',

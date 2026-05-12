@@ -9,7 +9,7 @@ export function BarberHero() {
       {/* Hero — image only, no text on frame */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
         <Image
-          src="/images/pages/programs-barber-hero-new.jpg"
+          src="/images/pages/programs-barber-hero-new.webp"
           alt="Barber apprentice cutting hair in a licensed barbershop"
           fill sizes="100vw"
           className="object-cover"

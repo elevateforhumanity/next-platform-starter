@@ -18,7 +18,7 @@ interface ScrollVideoProps {
 
 export function ScrollVideo({
   src,
-  poster = '/images/og-default.jpg',
+  poster = '/images/og-default.webp',
   className,
   threshold = 0.3,
 }: ScrollVideoProps) {

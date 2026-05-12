@@ -135,7 +135,7 @@ export default async function IntegrationsPage() {
               </div>
               <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/images/pages/lms-page-10.jpg"
+                  src="/images/pages/lms-page-10.webp"
                   alt="Platform integrations"
                   fill
                   className="object-cover"

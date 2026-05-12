@@ -25,7 +25,7 @@ interface LazyVideoProps {
 
 export default function LazyVideo({
   src,
-  poster = '/images/og-default.jpg',
+  poster = '/images/og-default.webp',
   className = '',
 }: LazyVideoProps) {
   return <CanonicalVideo src={src} poster={poster} className={className} />;

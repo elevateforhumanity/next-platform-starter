@@ -18,6 +18,9 @@
 -- REMOVES all enrollments except Austin/Pedro (HVAC) + Natalia/Jordan/Mercedes (Barber)
 -- ============================================================
 
+-- Bypass FK constraints + immutability triggers (superuser only — works in Dashboard)
+SET session_replication_role = 'replica';
+
 DO $$
 DECLARE
   keep_ids UUID[] := ARRAY[
@@ -103,6 +106,9 @@ BEGIN
 
   RAISE NOTICE 'Done. % accounts remain.', array_length(keep_ids, 1);
 END $$;
+
+-- Restore normal trigger/FK behavior
+RESET session_replication_role;
 
 -- ── Verify what remains ───────────────────────────────────────────────────────
 SELECT

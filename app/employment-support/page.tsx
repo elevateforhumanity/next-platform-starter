@@ -88,7 +88,7 @@ export default function EmploymentSupportPage() {
               {
                 title: 'Post-Placement Retention',
                 desc: 'Follow-up support after you start working to help you stay employed, resolve workplace issues, and advance in your career.',
-                image: '/images/pages/job-placement.jpg',
+                image: '/images/pages/job-placement.webp',
               },
             ].map((item) => (
               <div

@@ -22,7 +22,7 @@ const demos = [
     description:
       'See how students navigate courses, track progress, earn certificates, and interact with AI tutors.',
     duration: '15 min',
-    thumbnail: '/images/pages/tech-classroom.jpg',
+    thumbnail: '/images/pages/tech-classroom.webp',
     features: [
       'Student dashboard walkthrough',
       'Course enrollment and navigation',

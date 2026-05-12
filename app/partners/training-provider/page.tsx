@@ -33,7 +33,7 @@ const BENEFITS = [
   {
     title: 'LMS & Student Tracking',
     desc: 'Access our platform for enrollment management, attendance tracking, credential issuance, and compliance reporting.',
-    image: '/images/pages/partners-pub-page-1.jpg',
+    image: '/images/pages/partners-pub-page-1.webp',
   },
   {
     title: 'Automated Outcome Reports',
@@ -149,13 +149,13 @@ export default function TrainingProviderPage() {
                 step: '1',
                 title: 'Apply',
                 desc: 'Submit your provider application. We review your programs, credentials, and outcomes.',
-                image: '/images/pages/partners-pub-page-1.jpg',
+                image: '/images/pages/partners-pub-page-1.webp',
               },
               {
                 step: '2',
                 title: 'Get Listed',
                 desc: 'We help you get on the Indiana ETPL and connect you to our referral pipeline.',
-                image: '/images/pages/partners-pub-page-4.jpg',
+                image: '/images/pages/partners-pub-page-4.webp',
               },
               {
                 step: '3',

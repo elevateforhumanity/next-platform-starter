@@ -47,7 +47,7 @@ export default async function NetworkingEventsPage() {
       {/* Hero */}
       <div className="relative h-64 sm:h-80 w-full overflow-hidden">
         <Image
-          src="/images/pages/networking-hero.jpg"
+          src="/images/pages/networking-hero.webp"
           alt="Networking events and career fairs"
           fill
           className="object-cover"

@@ -55,7 +55,7 @@ const TYPE_LABEL: Record<CourseLesson['type'], string> = {
  */
 const MODULE_PHOTO: string[] = [
   '/images/pages/admin-ferpa-training-hero.jpg', // 1  Orientation — students in class
-  '/images/pages/hvac-hero.jpg', // 2  Fundamentals — HVAC hero shot
+  '/images/pages/hvac-hero.webp', // 2  Fundamentals — HVAC hero shot
   '/images/pages/electrical.jpg', // 3  Electrical — wiring/panels
   '/images/pages/hvac-technician.jpg', // 4  Heating — HVAC tech at work
   '/images/pages/hvac-technician.jpg', // 5  Cooling — technician on unit
@@ -294,7 +294,7 @@ export default function HvacCourseHome({
       {/* HERO */}
       <div className="relative h-[280px] md:h-[340px]">
         <Image sizes="100vw"
-          src="/images/pages/hvac-hero.jpg"
+          src="/images/pages/hvac-hero.webp"
           alt="HVAC technician"
           fill
           className="object-cover"
