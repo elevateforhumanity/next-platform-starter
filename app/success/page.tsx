@@ -135,7 +135,7 @@ export default async function SuccessStoriesPage() {
           <h2 className="text-3xl font-bold text-center mb-12">Our Impact by the Numbers</h2>
           <div className="grid md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
             <div>
-              <div className="text-4xl font-bold text-brand-orange-600 mb-2">5,000+</div>
+              <div className="text-4xl font-bold text-brand-orange-600 mb-2">Many</div>
               <p className="text-black">Students Trained</p>
             </div>
             <div>

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { statLabel } from '@/lib/site-stats';
 import {
   BookOpen,
   Circle,
@@ -107,7 +108,7 @@ export default function HiringGuidePage() {
             { icon: DollarSign, label: 'Avg. Tax Credit', value: '$4,800', color: 'green' },
             { icon: Clock, label: 'Time to Hire', value: '2-3 weeks', color: 'blue' },
             { icon: Users, label: 'Candidates Available', value: 'Active', color: 'blue' },
-            { icon: Award, label: 'Success Rate', value: '94%', color: 'orange' },
+            { icon: Award, label: 'Success Rate', value: statLabel.placement, color: 'orange' },
           ].map((stat, index) => (
             <div key={index} className="bg-white rounded-xl p-6 shadow-sm text-center">
               <stat.icon className={`w-8 h-8 text-${stat.color}-600 mx-auto mb-3`} />

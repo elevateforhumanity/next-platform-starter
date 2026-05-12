@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { SITE_STATS, statLabel } from '@/lib/site-stats';
 import {
   GraduationCap,
   Award,
@@ -102,9 +103,9 @@ const features = [
 ];
 
 const stats = [
-  { value: '94%', label: 'credential attainment rate' },
-  { value: '30+', label: 'industry certifications offered' },
-  { value: '500+', label: 'K-12 students served annually' },
+  { value: statLabel.placement, label: 'credential attainment rate' },
+  { value: `${SITE_STATS.programsOffered}+`, label: 'industry certifications offered' },
+  { value: 'Many', label: 'K-12 students served annually' },
   { value: '$0', label: 'cost with Perkins V funding' },
 ];
 

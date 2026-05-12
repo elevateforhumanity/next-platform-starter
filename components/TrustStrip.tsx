@@ -2,19 +2,11 @@
 
 /**
  * TrustStrip — static stat display. No DB queries on render.
- * Numbers are updated here when real data warrants a change.
+ * All values come from lib/site-stats — update there, not here.
  */
 
 import { Users, GraduationCap, Briefcase, Award, TrendingUp, Building2 } from 'lucide-react';
-
-const STATS = {
-  studentsEnrolled: 2500,
-  programsOffered: 56,
-  jobPlacementRate: 94,
-  certificatesIssued: 1800,
-  employerPartners: 150,
-  fundingSecured: 5000000,
-};
+import { SITE_STATS, statLabel } from '@/lib/site-stats';
 
 interface Props {
   variant?: 'default' | 'compact' | 'detailed';
@@ -22,10 +14,11 @@ interface Props {
   className?: string;
 }
 
-function fmt(num: number) {
-  if (num >= 1000000) return `$${(num / 1000000).toFixed(1)}M`;
-  if (num >= 1000) return num.toLocaleString('en-US');
-  return num.toString();
+function fmt(n: string | number) {
+  if (typeof n === 'string') return n;
+  if (n >= 1000000) return `$${(n / 1000000).toFixed(1)}M`;
+  if (n >= 1000) return n.toLocaleString('en-US');
+  return n.toString();
 }
 
 export default function TrustStrip({ variant = 'default', className }: Props) {
@@ -37,11 +30,11 @@ export default function TrustStrip({ variant = 'default', className }: Props) {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <div className="text-center">
-              <div className="text-3xl font-extrabold">{fmt(STATS.studentsEnrolled)}+</div>
+              <div className="text-3xl font-extrabold">Many</div>
               <div className="text-sm text-white font-medium">Students Trained</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-extrabold">{STATS.jobPlacementRate}%</div>
+              <div className="text-3xl font-extrabold">{statLabel.placement}</div>
               <div className="text-sm text-white font-medium">Job Placement</div>
             </div>
             <div className="text-center">
@@ -62,40 +55,38 @@ export default function TrustStrip({ variant = 'default', className }: Props) {
     return (
       <section className={`py-16 bg-white ${className || ''}`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Trusted by Thousands</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Trusted by Students &amp; Employers</h2>
           <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-6 max-w-6xl mx-auto">
             <div className="text-center p-6 rounded-xl bg-blue-50 hover:bg-blue-100 transition">
               <Users className="w-8 h-8 text-blue-600 mx-auto mb-3" />
-              <div className="text-3xl font-bold text-slate-900">
-                {fmt(STATS.studentsEnrolled)}+
-              </div>
+              <div className="text-3xl font-bold text-slate-900">Many</div>
               <div className="text-sm text-slate-700">Students Enrolled</div>
             </div>
             <div className="text-center p-6 rounded-xl bg-green-50 hover:bg-green-100 transition">
               <GraduationCap className="w-8 h-8 text-green-600 mx-auto mb-3" />
-              <div className="text-3xl font-bold text-slate-900">{STATS.programsOffered}</div>
+              <div className="text-3xl font-bold text-slate-900">{statLabel.programs}</div>
               <div className="text-sm text-slate-700">Training Programs</div>
             </div>
             <div className="text-center p-6 rounded-xl bg-purple-50 hover:bg-purple-100 transition">
               <TrendingUp className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-              <div className="text-3xl font-bold text-slate-900">{STATS.jobPlacementRate}%</div>
+              <div className="text-3xl font-bold text-slate-900">{statLabel.placement}</div>
               <div className="text-sm text-slate-700">Job Placement Rate</div>
             </div>
             <div className="text-center p-6 rounded-xl bg-orange-50 hover:bg-orange-100 transition">
               <Award className="w-8 h-8 text-orange-600 mx-auto mb-3" />
               <div className="text-3xl font-bold text-slate-900">
-                {fmt(STATS.certificatesIssued)}
+                {statLabel.credentials}
               </div>
               <div className="text-sm text-slate-700">Certificates Issued</div>
             </div>
             <div className="text-center p-6 rounded-xl bg-indigo-50 hover:bg-indigo-100 transition">
               <Briefcase className="w-8 h-8 text-indigo-600 mx-auto mb-3" />
-              <div className="text-3xl font-bold text-slate-900">{STATS.employerPartners}+</div>
+              <div className="text-3xl font-bold text-slate-900">{statLabel.employers}</div>
               <div className="text-sm text-slate-700">Employer Partners</div>
             </div>
             <div className="text-center p-6 rounded-xl bg-teal-50 hover:bg-teal-100 transition">
               <Building2 className="w-8 h-8 text-teal-600 mx-auto mb-3" />
-              <div className="text-3xl font-bold text-slate-900">{fmt(STATS.fundingSecured)}</div>
+              <div className="text-3xl font-bold text-slate-900">{statLabel.funding}</div>
               <div className="text-sm text-slate-700">Funding Secured</div>
             </div>
           </div>
@@ -117,13 +108,11 @@ export default function TrustStrip({ variant = 'default', className }: Props) {
             <div className="text-slate-700">Funded Programs</div>
           </div>
           <div>
-            <div className="text-3xl font-extrabold text-blue-600">
-              {fmt(STATS.studentsEnrolled)}+
-            </div>
+            <div className="text-3xl font-extrabold text-blue-600">Many</div>
             <div className="text-slate-700">Students Trained</div>
           </div>
           <div>
-            <div className="text-3xl font-extrabold text-green-600">{STATS.jobPlacementRate}%</div>
+            <div className="text-3xl font-extrabold text-green-600">{statLabel.placement}</div>
             <div className="text-slate-700">Job Placement</div>
           </div>
         </div>

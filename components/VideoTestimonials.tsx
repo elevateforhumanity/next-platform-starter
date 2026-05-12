@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, X, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { statLabel } from '@/lib/site-stats';
 
 interface Testimonial {
   id: string;
@@ -298,7 +299,7 @@ export default function VideoTestimonials() {
         >
           <div className="text-center">
             <div className="text-4xl font-bold text-brand-blue-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
-              94%
+              {statLabel.placement}
             </div>
             <div className="text-black">Graduate Employment Rate</div>
           </div>

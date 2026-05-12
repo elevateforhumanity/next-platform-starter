@@ -307,7 +307,7 @@ Together, we maintain comprehensive federal and state certifications, positionin
 
 ### Student Success:
 
-- **1,247+** Students trained annually
+- **Many** Students trained annually
 - **87%** Graduation rate
 - **92%** Job placement rate
 - **$2.85M** Funding distributed

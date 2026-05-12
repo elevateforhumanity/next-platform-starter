@@ -376,7 +376,7 @@ async function _POST(req: NextRequest) {
                   <h2>Enrollment Approved</h2>
                   <p>Hello ${phProfile.full_name || 'Program Holder'},</p>
                   <p>A student enrollment for ${programHolder.organization_name} has been approved.</p>
-                  <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/partner-portal">View Dashboard</a></p>
+                  <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/partner/dashboard">View Dashboard</a></p>
                 `,
               });
               logger.info('Program holder notification sent', {

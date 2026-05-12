@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { ProgramVideoCards } from '@/components/marketing/ProgramVideoCards';
 import HomeHeroVideo from '@/components/ui/HomeHeroVideo';
 import heroBanners from '@/content/heroBanners';
+import { SITE_STATS, statLabel } from '@/lib/site-stats';
 
 // Override layout's force-dynamic — homepage data is static JSON, no DB calls.
 // ISR at 60s keeps the cache warm without blocking the initial render.
@@ -265,9 +266,9 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
             { stat: 'Verified', label: 'Outcome Tracking' },
-            { stat: '94%', label: 'Credential attainment rate' },
+            { stat: statLabel.placement, label: 'Credential attainment rate' },
             { stat: '$0', label: 'Cost for eligible students' },
-            { stat: '30+', label: 'Programs available' },
+            { stat: `${SITE_STATS.programsOffered}+`, label: 'Programs available' },
           ].map((item) => (
             <div key={item.label}>
               <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1">{item.stat}</p>

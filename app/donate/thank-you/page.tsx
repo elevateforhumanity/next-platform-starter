@@ -41,7 +41,7 @@ export default function DonateThankYouPage() {
         {/* Impact preview */}
         <div className="grid grid-cols-3 gap-4 mb-10">
           {[
-            { icon: Users, value: '500+', label: 'Students Trained' },
+            { icon: Users, value: 'Many', label: 'Students Trained' },
             { icon: Award, value: '200+', label: 'Credentials Issued' },
             { icon: Briefcase, value: '150+', label: 'Jobs Placed' },
           ].map((stat) => (

@@ -180,7 +180,7 @@ export default function SolutionsPage() {
                 <div className="text-white mb-6">Healthcare • Trades • Technology</div>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div className="bg-white/20 rounded-lg p-4">
-                    <div className="text-3xl font-bold">10K+</div>
+                    <div className="text-3xl font-bold">Many</div>
                     <div className="text-white">Students Trained</div>
                   </div>
                   <div className="bg-white/20 rounded-lg p-4">

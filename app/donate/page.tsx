@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 const PRESET_AMOUNTS = [25, 50, 100, 250, 500, 1000];
 
 const IMPACT_STATS = [
-  { icon: Users, value: '500+', label: 'Students Trained', color: 'text-blue-600', bg: 'bg-blue-50' },
+  { icon: Users, value: 'Many', label: 'Students Trained', color: 'text-blue-600', bg: 'bg-blue-50' },
   { icon: Award, value: '200+', label: 'Credentials Issued', color: 'text-green-600', bg: 'bg-green-50' },
   { icon: Briefcase, value: '150+', label: 'Jobs Placed', color: 'text-purple-600', bg: 'bg-purple-50' },
   { icon: Globe, value: '10+', label: 'Programs Offered', color: 'text-orange-600', bg: 'bg-orange-50' },

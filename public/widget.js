@@ -177,7 +177,7 @@
           font-family: ${CONFIG.styles.fontFamily};
         ">
           <div style="text-align: center; padding: 20px; background: #f9fafb; border-radius: 8px;">
-            <div style="font-size: 36px; font-weight: bold; color: ${CONFIG.styles.primary};">500+</div>
+            <div style="font-size: 36px; font-weight: bold; color: ${CONFIG.styles.primary};">Many</div>
             <div style="font-size: 14px; color: #6b7280; margin-top: 8px;">Students Trained</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #f9fafb; border-radius: 8px;">

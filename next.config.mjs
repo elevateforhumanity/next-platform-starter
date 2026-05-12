@@ -151,6 +151,7 @@ const nextConfig = {
   experimental: {
     workerThreads: false,
     cpus: 1,
+    staticPageGenerationConcurrency: 1,
     serverActions: {
       allowedOrigins: [
         'localhost:3000',

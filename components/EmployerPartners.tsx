@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Building2, Briefcase, Users, ArrowRight, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { SITE_STATS } from '@/lib/site-stats';
 
 interface Partner {
   id: string;
@@ -89,8 +90,8 @@ export default function EmployerPartners({
   const [partners, setPartners] = useState<Partner[]>(DEFAULT_PARTNERS);
   const [stats, setStats] = useState<Stats>({
     totalPartners: 50,
-    placementRate: 94,
-    graduatesHired: 2500,
+    placementRate: SITE_STATS.jobPlacementRate,
+    graduatesHired: 0,
     avgSalary: 52000,
   });
   const [loading, setLoading] = useState(true);
@@ -148,8 +149,8 @@ export default function EmployerPartners({
           const parsedStats = JSON.parse(siteStats.value);
           setStats({
             totalPartners: partnerCount || parsedStats.totalPartners || 50,
-            placementRate: parsedStats.placementRate || 94,
-            graduatesHired: parsedStats.graduatesHired || 2500,
+            placementRate: parsedStats.placementRate || SITE_STATS.jobPlacementRate,
+            graduatesHired: parsedStats.graduatesHired || 0,
             avgSalary: parsedStats.avgSalary || 52000,
           });
         } else {

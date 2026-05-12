@@ -83,7 +83,7 @@ const partnerTypes = [
   {
     title: 'Employers',
     description: 'Hire graduates and host apprentices.',
-    href: '/platform/employer-portal',
+    href: '/for-employers',
   },
 ];
 
