@@ -73,191 +73,68 @@ export const barberApprenticeshipBlueprint: CredentialBlueprint = {
             'Describe the history and legal framework of barbering in Indiana, explain the DOL apprenticeship structure, and identify the scope of practice for licensed barbers.',
           durationMinutes: 25,
           videoFile: '/videos/barber-course-intro-with-voice.mp4',
-          content: `<h2>Introduction to Barbering</h2>
-
-<h3>Objective</h3>
-<p>By the end of this lesson, you will be able to: (1) describe the history of barbering and the origin of the barber pole; (2) explain Indiana's licensing requirements and scope of practice; (3) describe the DOL apprenticeship structure and your obligations as a registered apprentice; (4) identify the consequences of practicing without a license.</p>
-
-<h3>Key Concepts</h3>
-<ul>
-  <li><strong>Scope of practice</strong> — the specific services a licensed barber is legally permitted to perform in Indiana</li>
-  <li><strong>Indiana Code Title 25, Article 8</strong> — the state law governing barbering licensure and practice</li>
-  <li><strong>Indiana Professional Licensing Agency (IPLA)</strong> — the state body that issues and regulates barber licenses</li>
-  <li><strong>DOL-registered apprenticeship</strong> — a federally recognized training program combining on-the-job hours with related technical instruction</li>
-  <li><strong>Related Technical Instruction (RTI)</strong> — the coursework you are completing now; required alongside your 2,000 OJT hours</li>
-  <li><strong>Supervision requirement</strong> — apprentices must work under a licensed barber at all times; independent practice is illegal</li>
-</ul>
-
-<h3>Explanation</h3>
-
-<h4>History of Barbering</h4>
-<p>The barber pole — red, white, and blue — is one of the oldest professional symbols in the world. In medieval Europe, barbers performed surgery, tooth extractions, and bloodletting alongside haircuts. The red stripe represents blood, the white represents bandages, and the blue (added in the United States) represents veins. The rotating pole mimics the bandages wrung out after bloodletting.</p>
-<p>By the 19th century, medicine and barbering separated into distinct professions. Today, barbering is a regulated trade in all 50 states. The first barber licensing law in the United States was passed in Minnesota in 1897.</p>
-
-<h4>Indiana Licensing Requirements</h4>
-<table style="width:100%; border-collapse:collapse; margin:1rem 0;">
-  <thead>
-    <tr style="background:#f3f4f6;">
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">Requirement</th>
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">Standard Path</th>
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">Apprenticeship Path</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="padding:8px; border:1px solid #d1d5db;">Training hours</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">1,500 school hours</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">2,000 OJT hours + RTI</td>
-    </tr>
-    <tr style="background:#f9fafb;">
-      <td style="padding:8px; border:1px solid #d1d5db;">Written exam</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Required</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Required</td>
-    </tr>
-    <tr>
-      <td style="padding:8px; border:1px solid #d1d5db;">Practical exam</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Required</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Required</td>
-    </tr>
-    <tr style="background:#f9fafb;">
-      <td style="padding:8px; border:1px solid #d1d5db;">License renewal</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Every 2 years</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Every 2 years</td>
-    </tr>
-    <tr>
-      <td style="padding:8px; border:1px solid #d1d5db;">License display</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">At workstation</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">At workstation</td>
-    </tr>
-  </tbody>
-</table>
-
-<h4>Indiana Scope of Practice</h4>
-<p>Indiana-licensed barbers are authorized to perform the following services on the head, face, and neck:</p>
-<ul>
-  <li>Haircutting and styling</li>
-  <li>Shaving and beard trimming</li>
-  <li>Scalp treatments and massages</li>
-  <li>Limited chemical services (color, relaxers) — within training</li>
-  <li>Eyebrow arching (with blade or thread)</li>
-</ul>
-<p>Barbers are <strong>not</strong> authorized to perform nail services, full-body waxing, or medical procedures. Performing services outside your scope of practice is a licensing violation.</p>
-
-<h4>Your DOL Apprenticeship Obligations</h4>
-<p>As a registered apprentice, you have three obligations: (1) complete your 2,000 OJT hours under a licensed supervising barber; (2) complete all RTI coursework (this program); (3) maintain your apprenticeship registration with the DOL. Your supervising barber is legally responsible for your work. If you perform a service without supervision and something goes wrong, both you and your supervisor face liability.</p>
-
-<h3>Real-World Application</h3>
-<p>On your first day, a walk-in client asks if you can cut their hair. Your supervisor is in the back. You are a registered apprentice — not yet licensed. The correct response: "I'm an apprentice — let me get my supervising barber." Do not start the service. Do not ask the client to wait while you "just do a quick trim." There is no such thing as a quick trim that is legally protected for an unsupervised apprentice. Get your supervisor first, every time.</p>
-
-<h3>Summary</h3>
-<ul>
-  <li>The barber pole's red/white/blue stripes trace to medieval surgical practice</li>
-  <li>Indiana requires 2,000 OJT hours + RTI + written and practical exams for the apprenticeship path</li>
-  <li>Scope of practice: head, face, and neck services only — no nail or medical services</li>
-  <li>Apprentices must work under licensed supervision at all times — no exceptions</li>
-  <li>License must be displayed at your workstation and renewed every 2 years</li>
-</ul>
-
-<h4>State Board Alignment</h4>
-<ul>
-  <li>Indiana Code Title 25, Article 8 — Barbering Licensure</li>
-  <li>Indiana Professional Licensing Agency — License Requirements</li>
-  <li>U.S. Department of Labor — Registered Apprenticeship Standards</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Barbering in Indiana is regulated under the Indiana Department of Labor (DOL) and requires apprentices to complete a structured, competency-based program combining classroom instruction with supervised practical experience. This lesson introduces the legal framework governing barber licensure, the apprenticeship pathway structure, and the defined scope of practice that licensed barbers must operate within. Understanding these foundational elements ensures compliance with state regulations and prepares apprentices for professional responsibilities.</p><h2>Tools Required</h2><ul><li>Straight razor with leather strop</li><li>Safety razor or clipper with multiple guard sizes</li><li>Scissors and thinning shears</li><li>Comb (wide-tooth and fine-tooth)</li><li>Disinfectant solution (EPA-registered barbicide or equivalent)</li><li>Sterilization pouches and autoclave equipment</li><li>Personal protective equipment (gloves, mask, apron)</li></ul><h2>Decision Tree for Client Variation</h2><ul><li><strong>IF</strong> client has coarse, curly hair and sensitive scalp, <strong>THEN</strong> use wider clipper guard, apply pre-shave oil, and select chemical-free aftershave to prevent irritation.</li><li><strong>IF</strong> client presents with visible skin abrasions or lesions, <strong>THEN</strong> DO NOT proceed with service; refer to healthcare provider and document in client file per DOL requirements.</li><li><strong>IF</strong> client has fine, thin hair and prone to ingrown hairs, <strong>THEN</strong> use smaller clipper guard, employ exfoliating pre-shave preparation, and recommend post-service beard oil application.</li></ul><h2>Sanitation and Disinfection</h2><p>All tools must be sanitized before each client service. Immerse implements in EPA-registered disinfectant (such as Barbicide) for the manufacturer-specified duration, typically 10-15 minutes. Rinse thoroughly with clean water, then dry with a lint-free towel. Tools contacting blood or open wounds require high-level disinfection or sterilization via autoclave at 250°F for 15-30 minutes. Single-use items (razors, applicators) must be discarded immediately after use. Reusable towels and capes are laundered at 160°F minimum.</p><h2>Critical Contraindication</h2><p><strong>DO NOT cut, trim, or style the hair of any client presenting with active contagious scalp or skin infection (ringworm, impetigo, head lice, severe dermatitis). Performing services on infected clients violates Indiana barber law, exposes the barber to liability, contaminates the barbershop environment, and spreads disease to subsequent clients. Politely decline service, document the refusal with client consent, and recommend medical evaluation before rescheduling.</strong></p><h2>Failure Mode and Recovery</h2><p>Failure Mode: Disinfectant solution becomes contaminated or expires before use. Cause: Tools were immersed in old solution, solution was left uncovered, or expiration date was not monitored. Recovery: (1) Immediately discard contaminated solution; (2) Visually inspect all tools for residue and rinse under running water; (3) Prepare fresh disinfectant per manufacturer instructions and note preparation date; (4) Re-immerse all tools for full recommended contact time; (5) Review tool sanitation log to prevent future lapses; (6) Document the incident and corrective action in the shop maintenance record.</p><h2>Visual Execution Cues</h2><p>Position yourself at a 45-degree angle to the client, maintaining clear sight lines to both ears and the nape. The client's head should be upright and neutral, not tilted or rotated. Observe the natural hairline and growth pattern—note any cowlicks, waves, or asymmetries. Work from the sides inward, maintaining consistent clipper or scissor angles relative to the contour of the head. The finished cut should appear symmetrical, with smooth transitions between sections, clean edges at the nape and sideburns, and appropriate fade or taper blending. Run your comb through the final cut; no stray hairs should catch or pull.</p><h2>Procedure</h2><ol><li>Greet client, confirm service requested, and review any allergies, skin conditions, or previous reactions documented in client record.</li><li>Perform hand hygiene: wash hands with soap and warm water for 20 seconds, then apply hand sanitizer and don clean gloves.</li><li>Sanitize all tools by immersing in EPA-registered disinfectant solution for the required contact time, then rinse and dry thoroughly.</li><li>Drape client with clean cape and neck strip, ensuring no skin contact with contaminated surfaces, and position client upright at neutral head angle.</li><li>Analyze hair type, texture, density, and scalp condition; assess any contraindications that would prevent safe service delivery.</li><li>Consult Indiana barber scope-of-practice guidelines to confirm the requested service falls within your licensure authority and apprenticeship level.</li><li>Perform the barbering service (cut, shave, or style) using proper technique, sanitation, and safety protocols throughout the entire process.</li><li>Inspect completed work for symmetry, clean lines, and appropriate finishing; make final corrections as needed to meet professional standards.</li><li>Remove cape and brush away all clippings; allow client to inspect final result and address any concerns or adjustments.</li><li>Document service rendered, any observations (skin conditions, product recommendations), and client satisfaction in the shop record system.</li></ol><h2>Safety</h2><p>Maintain current knowledge of Indiana Department of Labor barbering regulations and apprenticeship requirements. All services must comply with the defined scope of practice—barbers are licensed to cut, trim, style, and shave hair and provide scalp massage. Barbers are NOT licensed to diagnose scalp or skin conditions, prescribe treatments, or perform chemical services (permanent waves, relaxers) unless separately credentialed. Follow bloodborne pathogens protocols per OSHA standards. Always use single-use instruments for open wounds; never reuse razors or lancets. Report any needlestick injuries or blood exposure immediately to your supervising journeyman and the shop owner. Maintain confidentiality of client health information and follow all state privacy regulations.</p>`,
           quizQuestions: [
-            {
-              id: 'mod1-l1-q1',
-              question: 'What does the red stripe on the barber pole historically represent?',
-              options: [
-                'Red hair dye used in ancient Rome',
-                'Blood from surgical and bloodletting services',
-                'The red uniform of medieval barbers',
-                'A warning sign for dangerous tools',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'The red stripe represents blood from the surgical and bloodletting services barbers performed in medieval Europe.',
-            },
-            {
-              id: 'mod1-l1-q2',
-              question:
-                'Under the Indiana apprenticeship path, how many on-the-job training hours are required before licensure?',
-              options: ['1,000', '1,500', '2,000', '2,500'],
-              correctAnswer: 2,
-              explanation:
-                'The Indiana apprenticeship path requires 2,000 OJT hours plus completion of Related Technical Instruction (RTI).',
-            },
-            {
-              id: 'mod1-l1-q3',
-              question:
-                'A walk-in client asks you to cut their hair. Your supervisor is in the back. You are a registered apprentice. What do you do?',
-              options: [
-                'Start the cut — it is just a trim',
-                'Ask the client to sign a waiver, then proceed',
-                'Tell the client you are an apprentice and get your supervising barber first',
-                'Do a dry cut only since that does not require supervision',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Apprentices must work under licensed supervision at all times. There is no unsupervised service that is legally protected.',
-            },
-            {
-              id: 'mod1-l1-q4',
-              question:
-                'Which of the following is OUTSIDE the scope of practice for an Indiana-licensed barber?',
-              options: [
-                'Scalp treatments',
-                'Beard trimming',
-                'Full-body waxing',
-                'Eyebrow arching with a blade',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Full-body waxing is outside the barber scope of practice in Indiana. Barbers are licensed for head, face, and neck services only.',
-            },
-            {
-              id: 'mod1-l1-q5',
-              question: 'Indiana barber licenses must be renewed every:',
-              options: ['1 year', '2 years', '3 years', '5 years'],
-              correctAnswer: 1,
-              explanation: 'Indiana requires barber license renewal every two years.',
-            },
-            {
-              id: 'mod1-l1-q6',
-              question:
-                'A barber performs a chemical relaxer service on a client without having received training in relaxers. This is:',
-              options: [
-                'Acceptable if the client consents',
-                'A violation of scope of practice',
-                'Allowed if the barber has 5+ years of experience',
-                'Only a problem if the client is harmed',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Performing services outside your training is a scope of practice violation regardless of client consent or experience level.',
-            },
-            {
-              id: 'mod1-l1-q7',
-              question:
-                'The first barber licensing law in the United States was passed in which state?',
-              options: ['New York', 'Indiana', 'Minnesota', 'California'],
-              correctAnswer: 2,
-              explanation:
-                'Minnesota passed the first barber licensing law in the United States in 1897.',
-            },
-            {
-              id: 'mod1-l1-q8',
-              question: 'Which body issues and regulates barber licenses in Indiana?',
-              options: [
-                'U.S. Department of Labor',
-                'Indiana Professional Licensing Agency (IPLA)',
-                'Indiana Department of Health',
-                'National Barber Association',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'The Indiana Professional Licensing Agency (IPLA) issues and regulates barber licenses under Indiana Code Title 25, Article 8.',
-            },
+                    {
+                              "id": "barber-lesson-1-q1",
+                              "question": "What is the minimum contact time for tools immersed in EPA-registered barbicide?",
+                              "options": [
+                                        "A. 5 minutes",
+                                        "B. 10-15 minutes",
+                                        "C. 20-25 minutes",
+                                        "D. 30 minutes"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "EPA-registered disinfectants like Barbicide typically require 10-15 minutes of contact time to ensure proper sanitation of barber tools. Always follow the manufacturer's specific instructions."
+                    },
+                    {
+                              "id": "barber-lesson-1-q2",
+                              "question": "Which of the following services falls OUTSIDE the scope of practice for an Indiana licensed barber?",
+                              "options": [
+                                        "A. Hair cutting and styling",
+                                        "B. Straight razor shaving and trimming",
+                                        "C. Scalp massage",
+                                        "D. Chemical hair relaxing treatments"
+                              ],
+                              "correctAnswer": 3,
+                              "explanation": "Barbers in Indiana are licensed to cut, trim, style, and shave hair and provide scalp massage. Chemical services like permanent waves or relaxers require separate licensure and credentials beyond basic barber licensing."
+                    },
+                    {
+                              "id": "barber-lesson-1-q3",
+                              "question": "What is the required water temperature for laundering reusable barbershop towels and capes?",
+                              "options": [
+                                        "A. 120°F minimum",
+                                        "B. 140°F minimum",
+                                        "C. 160°F minimum",
+                                        "D. 180°F minimum"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Reusable towels, capes, and linens must be laundered at 160°F minimum to achieve adequate sanitation and eliminate potential pathogens."
+                    },
+                    {
+                              "id": "barber-lesson-1-q4",
+                              "question": "SCENARIO: A client arrives with visible ringworm on the scalp. What is the correct action?",
+                              "options": [
+                                        "A. Proceed with the haircut using extra disinfectant on tools",
+                                        "B. Politely decline service, document the refusal, and recommend medical evaluation before rescheduling",
+                                        "C. Perform the service but charge a higher fee for the extra sanitation required",
+                                        "D. Use a barrier cream to isolate the affected area and proceed with service"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Active contagious scalp infections are absolute contraindications. Performing services on an infected client violates Indiana barber law, exposes the barber to liability, and spreads disease. Always decline, document, and refer to healthcare provider."
+                    },
+                    {
+                              "id": "barber-lesson-1-q5",
+                              "question": "SCENARIO: During tool preparation, you notice the disinfectant solution smells foul and appears cloudy. What is the correct response?",
+                              "options": [
+                                        "A. Add fresh disinfectant to the container and proceed with tool immersion",
+                                        "B. Immediately discard contaminated solution, prepare fresh disinfectant per manufacturer instructions, and re-immerse tools for full contact time",
+                                        "C. Strain the solution through a filter and reuse it",
+                                        "D. Proceed with service using only surface-wiped tools"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Contaminated or expired disinfectant cannot protect clients or prevent disease transmission. Discard immediately, prepare fresh solution, and document the incident. This ensures full compliance with Indiana health and safety regulations."
+                    }
           ],
         },
         {
@@ -342,92 +219,68 @@ export const barberApprenticeshipBlueprint: CredentialBlueprint = {
             'Identify, name, and describe the correct use of essential barbering tools and equipment.',
           durationMinutes: 25,
           videoFile: '/videos/course-barber-clipper-techniques.mp4',
-          content: `<h2>Tools & Equipment</h2>
-
-<h3>Objective</h3>
-<p>By the end of this lesson, you will be able to identify every essential barbering tool, explain its purpose, and describe the correct technique for holding and using each one safely.</p>
-
-<h3>Key Concepts</h3>
-<ul>
-  <li>Clippers — electric tools used for bulk cutting and fading; guards control length</li>
-  <li>Trimmers (edgers) — smaller electric tools for detail work, lineups, and edges</li>
-  <li>Shears (scissors) — used for scissor-over-comb, texturizing, and finishing</li>
-  <li>Straight razor — used for shaving, lineups, and neck cleanup; requires a license</li>
-  <li>Combs — wide-tooth for detangling, fine-tooth for cutting guides</li>
-  <li>Brushes — neck brush for removing clippings; boar bristle for styling</li>
-  <li>Cape and neck strip — protect client clothing and prevent hair contact with skin</li>
-</ul>
-
-<h3>Explanation</h3>
-<p><strong>Clippers:</strong> Hold the clipper with your dominant hand, thumb on top for control. Move against the grain for shorter cuts, with the grain for blending. Guards range from 0 (skin) to 8 (1 inch). Always oil clipper blades before and after use.</p>
-<p><strong>Shears:</strong> Insert your thumb and ring finger into the rings. Only the thumb moves — the bottom blade stays still. Keep your pinky off the finger rest unless stabilizing. Dull shears push hair instead of cutting it — keep them sharp.</p>
-<p><strong>Straight razor:</strong> Hold with four fingers on the shank and thumb underneath. The blade angle should be 30 degrees to the skin. Never use a straight razor on broken skin or active acne.</p>
-<p><strong>Combs:</strong> Use the wide-tooth end to detangle before cutting. Use the fine-tooth end as a cutting guide for scissor-over-comb and clipper-over-comb techniques.</p>
-
-<h3>Real-World Application</h3>
-<p>You are setting up your station before your first client. Your clippers are not cutting cleanly — they are pulling hair instead of cutting. Before reaching for a new blade, check: Are the blades oiled? Is the taper lever in the correct position? Is there hair buildup between the blades? Most clipper problems are maintenance problems, not equipment failures.</p>
-
-<h3>Summary</h3>
-<ul>
-  <li>Know every tool by name and purpose before using it on a client</li>
-  <li>Clippers use guards to control length; oil blades before and after every use</li>
-  <li>Only the thumb moves when using shears</li>
-  <li>Straight razor angle: 30 degrees; never use on broken skin</li>
-  <li>Most tool problems are maintenance problems</li>
-</ul>`,
+          content: `<h2>Tools & Equipment</h2><p><strong>Lesson Slug:</strong> barber-lesson-3<br><strong>Module:</strong> Module 1: Infection Control & Safety<br><strong>Estimated Duration:</strong> 25 minutes</p><h3>Learning Objective</h3><p>By the end of this lesson, you will be able to identify, name, and describe the correct use of essential barbering tools and equipment, understand proper sanitation protocols for each tool, and recognize safety contraindications.</p><h3>Introduction</h3><p>The foundation of professional barbering rests on understanding and properly using your tools. In Indiana's regulated barbering environment, every tool serves a specific purpose, and improper use or sanitation can compromise both client safety and the quality of your work. This lesson covers the essential tools you will use daily, how to identify them, their proper applications, sanitation requirements, and critical safety rules.</p><h3>Essential Barbering Tools & Equipment</h3><h4>Cutting Tools</h4><ul><li><strong>Straight Razor:</strong> A folding blade with a handle, typically 5/8 inch wide, used for precise cutting, outlining, and close shaving. The blade must be stropped before each use and honed regularly. Straight razors require meticulous sanitation—they must be cleaned with a brush and soap, disinfected in an EPA-registered disinfectant for a minimum of 10 minutes, and stored in a clean, dry location. <strong>DO NOT</strong> use a straight razor that shows signs of rust, chips, or dullness.</li><li><strong>Clipper:</strong> A motorized tool with oscillating or rotating blades for cutting hair to various lengths. Clipper guards (numbered 0.5 to 4) determine cutting length. Clippers must be cleaned of hair and debris after each client, lubricated with clipper oil, and disinfected by wiping with an EPA-registered disinfectant or placing in a sanitizing container. Blade guards must be disinfected separately.</li><li><strong>Scissors (Shears):</strong> Used for detailed work, blending, and styling. Available in various blade configurations (straight, curved, texturizing). Scissors must be sanitized between clients by wiping with disinfectant and stored with blades closed. Dull scissors produce ragged cuts and require sharpening by a professional.</li><li><strong>Thinning Shears:</strong> Specialized scissors with teeth on one blade, used for removing bulk and creating texture while maintaining length. Sanitization protocols match standard scissors.</li></ul><h4>Styling & Finishing Tools</h4><ul><li><strong>Comb:</strong> Essential for sectioning, detangling, and guiding the blade. Metal combs withstand disinfection better than plastic. Combs must be cleaned of hair and disinfected in an EPA-registered solution for 10 minutes between each client.</li><li><strong>Brush:</strong> Used for applying lather and removing loose hair. Brushes accumulate bacteria and must be thoroughly cleaned daily and disinfected. Replace brushes regularly—typically every 3-6 months depending on usage.</li><li><strong>Blow Dryer:</strong> For drying and styling finished haircuts. The external surface must be wiped with disinfectant between clients; the nozzle should be cleaned of lint regularly.</li><li><strong>Clipper Trimmer/Edger:</strong> Precision tool for detailing around ears, neckline, and sideburns. Sanitization and maintenance match clippers.</li></ul><h4>Preparation & Sanitation Equipment</h4><ul><li><strong>Disinfectant Container:</strong> An EPA-registered disinfectant solution in which tools are soaked. Solution must be changed daily and concentration verified according to product instructions.</li><li><strong>Towels and Neck Strips:</strong> Single-use or laundered between clients. Must be clean and stored in a sanitary manner.</li><li><strong>Lather/Shaving Cream:</strong> Applied with a brush or hands. Do not double-dip brushes into shared containers—dispense a fresh application for each client or use single-use packets.</li><li><strong>Styptic Powder or Liquid:</strong> Applied to minor cuts to stop bleeding. Keep container sealed and store safely.</li></ul><h3>Proper Use & Positioning</h3><h4>Clipper Use</h4><p>Hold the clipper at a 45-degree angle against the scalp in the direction of hair growth. The blade should glide smoothly without resistance. Correct execution shows even, parallel lines with no missed patches or visible blade marks. Move in smooth strokes from lower to upper areas, overlapping slightly for even coverage. The clipper should produce a soft humming sound—a grinding or stuttering noise indicates dull blades or improper technique.</p><h4>Straight Razor Use</h4><p>Position the straight razor at a 30-45 degree angle relative to the skin. The spine of the blade (not the edge) guides the cut, with the edge meeting the skin at the correct angle. Proper execution produces a smooth outline with no razor burn, nicks, or uneven edges. The cut line should be clean and precise, following natural facial contours. Incorrect angle or excessive pressure causes razor burn, skin irritation, or cuts.</p><h4>Scissors/Shears Use</h4><p>Hold scissors with the thumb in the lower loop, fingers in the upper loop, and the pinky finger supporting the ring. The hand holding the comb guides the blade. Correct execution produces even, clean cut lines without chewing or fraying. The scissors should open and close smoothly—resistance or grinding indicates blade misalignment or dullness requiring professional sharpening.</p><h3>Decision Block: Tool Selection Based on Hair & Client Variation</h3><p><strong>IF</strong> a client presents with <strong>very coarse, thick facial hair</strong> requiring a close shave, <strong>THEN</strong> use a straight razor rather than electric clippers, as the straight razor cuts closer to the skin and produces a smoother finish. However, ensure the client has no open cuts, razor sensitivity, or bleeding disorders. Perform a patch test on a small area first.</p><p><strong>IF</strong> a client has <strong>sensitive skin or a history of razor burn</strong>, <strong>THEN</strong> use a clipper with appropriate guard length or electric shaver rather than a straight razor. Apply pre-shave oil or balm to reduce friction and irritation. Monitor skin response throughout the service.</p><p><strong>IF</strong> a client requests <strong>precise detailing or blending between fade lengths</strong>, <strong>THEN</strong> use thinning shears or texturizing shears after clipper work to soften harsh lines. This requires scissors skill and cannot be achieved with clippers alone.</p><h3>Failure Mode: Dull Clipper Blades</h3><p><strong>What goes wrong:</strong> Dull clipper blades pull and chew hair rather than cutting cleanly, leaving a ragged appearance, causing discomfort to the client, and producing visible stubble within hours.</p><p><strong>Why it happens:</strong> Blades dull from regular use, exposure to moisture, or lack of lubrication. Cutting over dirt or debris accelerates dulling.</p><p><strong>How to recover:</strong> Stop the service immediately. Explain the issue to the client professionally. Replace the blade guard with a fresh one if available, or use an alternate clipper. If neither option exists, reschedule the client at no charge and provide a discount on a future visit as service recovery. Document the equipment failure and send blades for professional sharpening or replacement. Between services, always test clippers on a sample of hair before beginning—dull clippers require noticeably more pressure to cut.</p><h3>Critical Safety Contraindications</h3><ul><li><strong>DO NOT</strong> use a straight razor on a client with active bleeding, open wounds, or cuts on the face or neck. Wait until skin has healed.</li><li><strong>DO NOT</strong> use clippers or razors that show visible damage, rust, or misalignment. This violates Indiana barber regulations and risks client injury.</li><li><strong>DO NOT</strong> reuse disinfectant solution beyond the recommended time frame or concentrate. Weak disinfectant fails to eliminate pathogens. Change solution daily.</li><li><strong>DO NOT</strong> place disinfected tools on an unclean surface. Store them in a designated clean holder or on a disinfected towel.</li><li><strong>DO NOT</strong> allow a second client to use the same towel, neck strip, or brush without disinfection. Cross-contamination spreads infection.</li><li><strong>DO NOT</strong> touch your face or other surfaces with unclean tools during a service.</li></ul><h3>Sanitation & Infection Control Summary</h3><p>Every tool that contacts skin or blood must be cleaned and disinfected according to Indiana Health Department regulations. The standard protocol is: (1) Remove visible debris with soap and water or a cleaning brush. (2) Immerse in EPA-registered disinfectant for the time specified on the product label (typically 10 minutes minimum). (3) Rinse with clean water or allow to air dry. (4) Store in a clean, dry container. Tools that contact mucous membranes or blood require enhanced disinfection. Never assume a tool is clean—treat every tool as potentially contaminated after each use.</p><h3>Visual Reference: Correct Execution Indicators</h3><ul><li><strong>Well-executed clipper cut:</strong> Uniform length, parallel lines, smooth fade transitions, no missed spots, sharp blade sound, skin is not irritated.</li><li><strong>Well-executed straight razor outline:</strong> Clean, precise line following natural contours, no razor burn (redness), even pressure marks, skin is smooth and not nicked.</li><li><strong>Well-executed scissor work:</strong> Clean edges without fraying, blended transitions, no visible chop marks, hair lays naturally, skin is not irritated.</li><li><strong>Clean, sanitized tools:</strong> No visible hair, debris, or discoloration; tools feel smooth and operate without grinding or resistance; tools stored in a designated, clean location.</li></ul><h3>Conclusion</h3><p>Mastery of barbering tools is not simply about technique—it is about understanding each tool's purpose, maintaining it to professional standards, and prioritizing client safety and infection control. Throughout your apprenticeship, you will develop muscle memory with these tools, but your foundation must be respect for their power and commitment to sanitation. Regular inspection, proper maintenance, and adherence to infection control protocols protect your clients and your professional reputation.</p>`,
           quizQuestions: [
-            {
-              id: 'mod1-l3-q1',
-              question:
-                'Your clippers are pulling hair instead of cutting cleanly. What is the most likely cause?',
-              options: [
-                'The guard is the wrong size',
-                'The blades need oiling or cleaning',
-                "The client's hair is too thick",
-                'The clipper motor is failing',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Pulling is almost always a maintenance issue — dirty or dry blades. Oil and clean before assuming equipment failure.',
-            },
-            {
-              id: 'mod1-l3-q2',
-              question: 'When using shears, which finger should be the only one that moves?',
-              options: ['Index finger', 'Ring finger', 'Thumb', 'Pinky'],
-              correctAnswer: 2,
-              explanation:
-                'Only the thumb moves when cutting with shears. The bottom blade stays stationary.',
-            },
-            {
-              id: 'mod1-l3-q3',
-              question: 'What is the correct blade angle when using a straight razor on a client?',
-              options: ['10 degrees', '20 degrees', '30 degrees', '45 degrees'],
-              correctAnswer: 2,
-              explanation:
-                'A 30-degree angle provides the correct balance between closeness and safety.',
-            },
-            {
-              id: 'mod1-l3-q4',
-              question: 'Which tool is used for detail work, lineups, and edges?',
-              options: ['Clipper', 'Trimmer (edger)', 'Wide-tooth comb', 'Boar bristle brush'],
-              correctAnswer: 1,
-              explanation:
-                'Trimmers (edgers) are smaller and more precise than clippers — designed for detail work.',
-            },
-            {
-              id: 'mod1-l3-q5',
-              question:
-                'A client sits down and you notice their collar is exposed. Before starting, you should:',
-              options: [
-                'Begin cutting — the collar will be fine',
-                'Apply a neck strip and cape to protect the client',
-                'Ask the client to tuck in their collar',
-                'Use a towel instead of a cape',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'A fresh neck strip and clean cape are required for every client to prevent hair contact with skin and protect clothing.',
-            },
+                    {
+                              "id": "barber-lesson-3-q1",
+                              "question": "Which of the following is the minimum time a straight razor must remain in an EPA-registered disinfectant solution?",
+                              "options": [
+                                        "A. 5 minutes",
+                                        "B. 10 minutes",
+                                        "C. 15 minutes",
+                                        "D. 20 minutes"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "According to Indiana barber regulations and industry standards, tools that contact skin must be immersed in EPA-registered disinfectant for a minimum of 10 minutes. Five minutes is insufficient to eliminate pathogens. Fifteen and twenty minutes are acceptable but exceed the minimum requirement."
+                    },
+                    {
+                              "id": "barber-lesson-3-q2",
+                              "question": "A client arrives for a haircut but mentions they had a small razor cut on their neck from a prior service at another barbershop three days ago. The area appears mostly healed but is still slightly pink. What should you do?",
+                              "options": [
+                                        "A. Proceed with a straight razor shave since the cut is mostly healed and the client consents",
+                                        "B. Postpone straight razor work, use clippers or electric shaver instead, and monitor the area closely for any irritation during the service",
+                                        "C. Perform a full straight razor shave but apply extra lather to protect the area",
+                                        "D. Use a straight razor only on the unaffected areas and avoid the healing wound entirely"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "A healing wound on the face or neck is a contraindication for straight razor use. Even if mostly healed, the skin is still vulnerable to infection and irritation. Using clippers or an electric shaver avoids direct blade contact with the sensitive area while still delivering quality service. Monitoring the client's skin response demonstrates professional care and protects both the client and your liability."
+                    },
+                    {
+                              "id": "barber-lesson-3-q3",
+                              "question": "During a haircut using clippers, you notice the blade is making a grinding sound rather than its normal humming sound, and it requires more pressure to cut. What is the most likely issue and what should you do?",
+                              "options": [
+                                        "A. The blade is dull; stop the service, replace the blade or clipper, and resume the cut",
+                                        "B. The clipper needs more oil; apply clipper oil and continue cutting",
+                                        "C. The blade is too tight; loosen the tension screw and continue",
+                                        "D. This is normal; continue the service as the blade will warm up"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "A grinding sound and increased cutting pressure are classic signs of dull clipper blades. Continuing with dull blades produces a ragged cut, discomforts the client, and violates service standards. Immediately stop the service, replace the blade guard or use a fresh clipper, and resume. Clipper oil addresses lubrication issues but will not fix a dull blade. The sound and pressure will not improve with continued use."
+                    },
+                    {
+                              "id": "barber-lesson-3-q4",
+                              "question": "Which tool should be used when a client requests precise blending between two different clipper fade lengths to create a smooth transition?",
+                              "options": [
+                                        "A. Straight razor",
+                                        "B. Thinning shears or texturizing shears",
+                                        "C. Comb only",
+                                        "D. A second pass with the same clipper guard"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Thinning or texturizing shears soften harsh lines between clipper lengths and create smooth blending. A straight razor is for outlining and shaving, not blending. A comb alone cannot cut hair. A second pass with the same guard will not create a transition between different lengths. Scissors blending is a critical skill in barbering."
+                    },
+                    {
+                              "id": "barber-lesson-3-q5",
+                              "question": "You finish disinfecting a set of scissors in an EPA-registered solution. You remove the scissors, rinse them with clean water, and set them on your workstation counter to air dry. What is the infection control concern with this approach?",
+                              "options": [
+                                        "A. The rinsing step removes the disinfectant and re-contaminates the tool",
+                                        "B. Air drying is slower than towel drying and allows bacterial growth",
+                                        "C. The workstation counter may not be clean, potentially re-contaminating the disinfected tool",
+                                        "D. Disinfected scissors should never touch any surface until used on the next client"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "After disinfection, a tool must be stored on a clean surface—a dirty or unclean workstation counter risks re-contamination, negating the disinfection process. Disinfected tools should be placed on a designated clean holder, disinfected towel, or in a sealed storage container. Rinsing is appropriate (removes residual disinfectant), and air drying is acceptable. The critical error is the storage surface itself."
+                    }
           ],
         },
         {

@@ -7,6 +7,7 @@
  */
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { extractJSON } from '@/lib/extract-json';
 
 const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite', 'gemini-1.5-flash'];
 
@@ -48,35 +49,11 @@ export async function geminiJSON<T = unknown>(prompt: string): Promise<T> {
 
       const result = await model.generateContent(prompt);
       const raw = result.response.text().trim();
-      const cleaned = normalizeJsonPayload(raw);
-      return JSON.parse(cleaned) as T;
+      return extractJSON<T>(raw);
     } catch (err) {
       lastError = err;
     }
   }
 
   throw lastError instanceof Error ? lastError : new Error('All Gemini models failed');
-}
-
-function normalizeJsonPayload(raw: string): string {
-  const trimmed = raw.trim();
-  if (!trimmed) {
-    throw new Error('Gemini returned an empty response');
-  }
-
-  const fenceMatch = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
-  if (fenceMatch?.[1]) {
-    return fenceMatch[1].trim();
-  }
-
-  try {
-    JSON.parse(trimmed);
-    return trimmed;
-  } catch {
-    const objectMatch = trimmed.match(/\{[\s\S]*\}/);
-    if (objectMatch?.[0]) {
-      return objectMatch[0];
-    }
-    throw new Error('Gemini returned non-JSON content');
-  }
 }

@@ -40,44 +40,29 @@ if (!blueprintArg) {
 // ── Prompt builder ─────────────────────────────────────────────────────────
 
 function buildPrompt(lesson: BlueprintLessonRef, programTitle: string, moduleTitle: string): string {
-  return `You are a professional barber curriculum author writing for a DOL-registered Indiana Barber Apprenticeship program.
+  return `You are a barber curriculum author for a DOL-registered Indiana Barber Apprenticeship program.
 
-Write a full lesson for the following:
-- Program: ${programTitle}
-- Module: ${moduleTitle}
-- Lesson Title: ${lesson.title}
-- Lesson Slug: ${lesson.slug}
-- Learning Objective: ${lesson.objective || 'Master the practical and theoretical components of this lesson.'}
-- Estimated Duration: ${lesson.durationMinutes || 20} minutes
+Write a lesson. Output ONLY a raw JSON object — no markdown, no fences, no preamble.
 
-STRICT REQUIREMENTS (all must be met — this is a quality gate):
-1. Minimum 400 words of instructional content
-2. Must list specific tools, equipment, or materials required
-3. Must include at least one IF/THEN decision block covering: hair type variation, skin condition variation, or client situation variation
-4. Must reference sanitation, disinfection, or infection control
-5. Must include at least one contraindication or "do NOT" safety rule
-6. Must describe at least one failure mode: what goes wrong, why, and how to recover
-7. Must describe what correct execution looks like visually (angles, positioning, appearance cues)
-8. Must include 5 quiz questions — at least 2 must be judgment/scenario-based (not pure recall)
+Lesson: ${lesson.title}
+Module: ${moduleTitle}
+Objective: ${lesson.objective || 'Master the practical and theoretical components of this lesson.'}
 
-FORMAT: Respond ONLY with a valid JSON object, no markdown fences, no explanation text, exactly this shape:
+Content requirements (all 7 must appear — each section 60-120 words):
+1. Tools/equipment/materials list (ul, at least 6 items)
+2. IF/THEN decision block for hair type, skin, or client variation (p or ul, 2+ scenarios)
+3. Sanitation/disinfection reference with specific product or method (p)
+4. One "do NOT" contraindication with consequence (p strong)
+5. One failure mode: specific cause + step-by-step recovery (p)
+6. Visual execution cues: angles, positioning, appearance descriptors (p)
+7. Step-by-step procedure (ol, 6-10 steps, each step 15-25 words)
 
-{
-  "content": "<full HTML content — use h2, h3, p, ul, ol, li, strong, table tags>",
-  "quizQuestions": [
-    {
-      "id": "${lesson.slug}-q1",
-      "question": "...",
-      "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
-      "correctAnswer": 0,
-      "explanation": "..."
-    }
-  ]
-}
+Total content: 500-700 words. Use compact HTML — no whitespace between tags.
 
-The content field must be production-ready HTML with proper structure. Each section should have a heading.
-For quiz questions: correctAnswer is the 0-based index of the correct option in the options array.
-Make at least 2 questions scenario-based like: "A client presents with X. What do you do?"`;
+JSON schema (output this exact shape, nothing else):
+{"content":"<h2>Overview</h2><p>...</p><h2>Tools Required</h2><ul><li>...</li></ul><h2>Procedure</h2><ol><li>...</li></ol><h2>Safety</h2><p>...</p><h2>Visual Cues</h2><p>...</p>","quizQuestions":[{"id":"${lesson.slug}-q1","question":"...","options":["A. ...","B. ...","C. ...","D. ..."],"correctAnswer":0,"explanation":"..."},{"id":"${lesson.slug}-q2","question":"...","options":["A. ...","B. ...","C. ...","D. ..."],"correctAnswer":1,"explanation":"..."},{"id":"${lesson.slug}-q3","question":"...","options":["A. ...","B. ...","C. ...","D. ..."],"correctAnswer":0,"explanation":"..."},{"id":"${lesson.slug}-q4","question":"SCENARIO: A client presents with [condition]. What do you do?","options":["A. ...","B. ...","C. ...","D. ..."],"correctAnswer":2,"explanation":"..."},{"id":"${lesson.slug}-q5","question":"SCENARIO: During the service you notice [issue]. Correct response?","options":["A. ...","B. ...","C. ...","D. ..."],"correctAnswer":1,"explanation":"..."}]}
+
+Rules: correctAnswer is 0-based index. Questions 4-5 must be scenario-based. No literal newlines in the JSON string values.`;
 }
 
 // ── AI content generation via groqJSON (Groq + Gemini fallback) ──────────────

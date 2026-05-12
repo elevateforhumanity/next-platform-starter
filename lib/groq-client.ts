@@ -10,6 +10,7 @@
 
 import Groq from 'groq-sdk';
 import { geminiJSON, isGeminiConfigured } from '@/lib/gemini-client';
+import { anthropicJSON, isAnthropicConfigured } from '@/lib/anthropic-client';
 import { logger } from '@/lib/logger';
 
 let _client: Groq | null = null;
@@ -56,14 +57,24 @@ export async function groqJSON<T = unknown>(prompt: string): Promise<T> {
       return JSON.parse(raw) as T;
     } catch (err) {
       const reason = err instanceof Error ? err.message : String(err);
-      logger.warn(`[groq-client] Groq failed (${reason}) — falling back to Gemini`);
+      logger.warn(`[groq-client] Groq failed (${reason}) — falling back to Anthropic`);
     }
   }
 
-  // ── Fallback: Gemini ──────────────────────────────────────────────────────
+  // ── Fallback 1: Anthropic Claude ─────────────────────────────────────────
+  if (isAnthropicConfigured()) {
+    try {
+      return await anthropicJSON<T>(prompt);
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : String(err);
+      logger.warn(`[groq-client] Anthropic failed (${reason}) — falling back to Gemini`);
+    }
+  }
+
+  // ── Fallback 2: Gemini ────────────────────────────────────────────────────
   if (isGeminiConfigured()) {
     return geminiJSON<T>(prompt);
   }
 
-  throw new Error('No AI provider available. Set GROQ_API_KEY or GEMINI_API_KEY.');
+  throw new Error('No AI provider available. Set GROQ_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY.');
 }
