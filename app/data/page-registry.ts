@@ -80,7 +80,7 @@ export const NAV_REGISTRY: NavCategory[] = [
     key: 'partners',
     items: [
       { label: 'Partner With Us', href: '/partners', description: 'Become a training partner' },
-      { label: 'Employers', href: '/employers', description: 'Hire our graduates' },
+      { label: 'Employers', href: '/employer/dashboard', description: 'Hire our graduates' },
       {
         label: 'Training Providers',
         href: '/platform/training-providers',
@@ -113,8 +113,8 @@ export const NAV_REGISTRY: NavCategory[] = [
       { label: 'Blog', href: '/resources', description: 'Latest news and updates' },
       { label: 'Help Center', href: '/help', description: 'Get support' },
       { label: 'Accessibility', href: '/accessibility', description: 'Accessibility statement' },
-      { label: 'Privacy Policy', href: '/privacy-policy', description: 'How we protect your data' },
-      { label: 'Terms of Service', href: '/terms-of-service', description: 'Terms and conditions' },
+      { label: 'Privacy Policy', href: '/legal/privacy', description: 'How we protect your data' },
+      { label: 'Terms of Service', href: '/legal', description: 'Terms and conditions' },
     ],
   },
 ];

@@ -290,7 +290,7 @@ export default async function CompliancePage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Policies</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <Link
-              href="/privacy-policy"
+              href="/legal/privacy"
               className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition block"
             >
               <h3 className="font-semibold text-slate-900">Privacy Policy</h3>
@@ -299,7 +299,7 @@ export default async function CompliancePage() {
               </p>
             </Link>
             <Link
-              href="/terms-of-service"
+              href="/legal"
               className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition block"
             >
               <h3 className="font-semibold text-slate-900">Terms of Service</h3>

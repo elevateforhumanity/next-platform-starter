@@ -149,7 +149,7 @@ export default function CookieConsent() {
                     personalized content. By clicking &ldquo;Accept&rdquo;, you consent to our use
                     of cookies.{' '}
                     <a
-                      href="/privacy-policy"
+                      href="/legal/privacy"
                       className="text-brand-blue-600 hover:text-brand-blue-700 underline"
                     >
                       Learn more

@@ -145,21 +145,21 @@ export const PAGE_METADATA: Record<
     title: 'For Employers',
     description:
       'Partner with Elevate for Humanity to access trained graduates, workforce solutions, and OJT funding.',
-    path: '/employers',
+    path: '/employer/dashboard',
   },
 
   // Privacy Policy
   privacy: {
     title: 'Privacy Policy',
     description: 'How Elevate for Humanity collects, uses, and protects your personal information.',
-    path: '/privacy',
+    path: '/legal/privacy',
   },
 
   // Terms of Service
   terms: {
     title: 'Terms of Service',
     description: 'Terms and conditions for using Elevate for Humanity services and platform.',
-    path: '/terms',
+    path: '/legal',
   },
 
   // Store Licenses

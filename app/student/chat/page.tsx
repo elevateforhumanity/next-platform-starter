@@ -216,7 +216,7 @@ export default function StudentChatPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Student', href: '/student' }, { label: 'Chat' }]} />
+          <Breadcrumbs items={[{ label: 'Student', href: '/learner/dashboard' }, { label: 'Chat' }]} />
         </div>
       </div>
 

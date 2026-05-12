@@ -53,7 +53,7 @@ export default function EnterpriseReviewPage() {
             signed agreement before any access is granted.
           </p>
           <Link
-            href="/store/licensing"
+            href="/store/licenses"
             className="text-brand-blue-400 font-semibold hover:underline"
           >
             Return to Platform Licensing

@@ -54,9 +54,9 @@ const slides: Slide[] = [
     body: 'Elevate plugs into courts, boards, and HR so funded training actually turns into staffed positions and measurable outcomes.',
     image: '/images/pages/training-cohort.webp',
     primaryCtaLabel: 'Partner with Elevate',
-    primaryCtaHref: '/employers',
+    primaryCtaHref: '/employer/dashboard',
     secondaryCtaLabel: 'View employer one-pager',
-    secondaryCtaHref: '/employers/resources',
+    secondaryCtaHref: '/for-employers',
   },
 ];
 

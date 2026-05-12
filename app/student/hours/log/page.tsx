@@ -184,7 +184,7 @@ export default function LogHoursPage() {
           <nav className="flex items-center text-sm text-slate-600">
             <Link href="/" className="hover:text-blue-600">Home</Link>
             <span className="mx-2">/</span>
-            <Link href="/student" className="hover:text-blue-600">Student Portal</Link>
+            <Link href="/learner/dashboard" className="hover:text-blue-600">Student Portal</Link>
             <span className="mx-2">/</span>
             <Link href="/student/hours" className="hover:text-blue-600">Hours</Link>
             <span className="mx-2">/</span>

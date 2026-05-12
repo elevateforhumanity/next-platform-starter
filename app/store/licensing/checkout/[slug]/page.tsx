@@ -160,7 +160,7 @@ export default function LicenseCheckoutPage() {
         setLoading(false);
       })
       .catch(() => {
-        router.push(`/store/licensing?reason=invalid-product&from=/store/licensing/checkout/${slug}`);
+        router.push(`/store/licenses?reason=invalid-product&from=/store/licensing/checkout/${slug}`);
       });
   }, [params.slug, router]);
 
@@ -212,7 +212,7 @@ export default function LicenseCheckoutPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Link */}
         <Link
-          href="/store/licensing"
+          href="/store/licenses"
           className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-8"
         >
           <ArrowLeft size={20} />

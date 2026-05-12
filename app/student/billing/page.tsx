@@ -220,7 +220,7 @@ export default async function StudentBillingPage() {
     <div className="min-h-screen bg-slate-50">
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Student', href: '/student' }, { label: 'Billing' }]} />
+          <Breadcrumbs items={[{ label: 'Student', href: '/learner/dashboard' }, { label: 'Billing' }]} />
         </div>
       </div>
 

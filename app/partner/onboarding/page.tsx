@@ -564,11 +564,11 @@ export default function PartnerOnboardingPage() {
                 />
                 <div className="text-sm text-slate-600">
                   I agree to the{' '}
-                  <Link href="/terms-of-service" className="text-brand-blue-600 hover:underline">
+                  <Link href="/legal" className="text-brand-blue-600 hover:underline">
                     Terms of Service
                   </Link>{' '}
                   and{' '}
-                  <Link href="/privacy-policy" className="text-brand-blue-600 hover:underline">
+                  <Link href="/legal/privacy" className="text-brand-blue-600 hover:underline">
                     Privacy Policy
                   </Link>
                   .

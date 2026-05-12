@@ -306,7 +306,7 @@ export default function EmploymentSupportPage() {
               Apply Now <ArrowRight className="w-4 h-4 inline ml-1" />
             </Link>
             <Link
-              href="/employers"
+              href="/employer/dashboard"
               className="border-2 border-white text-white font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
             >
               Employer Partnerships

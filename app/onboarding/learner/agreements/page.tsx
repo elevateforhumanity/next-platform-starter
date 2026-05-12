@@ -15,13 +15,13 @@ const REQUIRED_READINGS = [
     id: 'privacy',
     label: 'Privacy Policy',
     description: 'How we collect, use, and protect your personal data (FERPA, WIOA, Indiana law).',
-    href: '/privacy-policy',
+    href: '/legal/privacy',
   },
   {
     id: 'terms',
     label: 'Terms of Service',
     description: 'Platform usage terms, program conditions, and governing law.',
-    href: '/terms-of-service',
+    href: '/legal',
   },
   {
     id: 'handbook',

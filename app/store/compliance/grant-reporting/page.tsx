@@ -183,7 +183,7 @@ export default function GrantReportingPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/store/licensing" className={`block text-center py-3 rounded-lg font-bold ${plan.popular ? 'bg-brand-red-600 text-white' : 'bg-white text-black'}`}>
+                <Link href="/store/licenses" className={`block text-center py-3 rounded-lg font-bold ${plan.popular ? 'bg-brand-red-600 text-white' : 'bg-white text-black'}`}>
                   Get Started
                 </Link>
               </div>

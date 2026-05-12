@@ -21,7 +21,6 @@ export default function robots(): MetadataRoute.Robots {
           '/login',
           '/signup',
           '/reset-password',
-          '/forgot-password',
 
           // Protected portals
           '/admin/',

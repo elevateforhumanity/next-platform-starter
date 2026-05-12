@@ -382,8 +382,8 @@ export default function SourceUseLicensePage() {
           <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm mb-8">
             <h4 className="text-slate-900 font-semibold mb-3">Governing Documents</h4>
             <ul className="text-slate-600 text-sm space-y-2">
-              <li>• <Link href="/terms-of-service" className="text-red-600 hover:text-red-700 underline">Terms of Service</Link></li>
-              <li>• <Link href="/privacy-policy" className="text-red-600 hover:text-red-700 underline">Privacy Policy</Link></li>
+              <li>• <Link href="/legal" className="text-red-600 hover:text-red-700 underline">Terms of Service</Link></li>
+              <li>• <Link href="/legal/privacy" className="text-red-600 hover:text-red-700 underline">Privacy Policy</Link></li>
               <li>• <Link href="/admin/governance/data" className="text-red-600 hover:text-red-700 underline">Data Processing & Privacy</Link></li>
               <li>• <Link href="/governance/security" className="text-red-600 hover:text-red-700 underline">Security Policy</Link></li>
               <li>• <Link href="/accessibility" className="text-red-600 hover:text-red-700 underline">Accessibility Statement</Link></li>

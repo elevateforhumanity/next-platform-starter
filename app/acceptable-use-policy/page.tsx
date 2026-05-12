@@ -68,7 +68,7 @@ export default function AcceptableUsePolicyPage() {
             <p className="text-slate-700">
               Users are responsible for maintaining the confidentiality of their account
               credentials. Personal data is handled in accordance with our{' '}
-              <Link href="/privacy-policy" className="text-brand-red-600 hover:underline">
+              <Link href="/legal/privacy" className="text-brand-red-600 hover:underline">
                 Privacy Policy
               </Link>
               , FERPA regulations, and applicable Indiana and federal law.

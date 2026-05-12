@@ -82,7 +82,7 @@ export default async function StudentHoursPage() {
               Home
             </Link>
             <span className="mx-2">/</span>
-            <Link href="/student" className="hover:text-blue-600">
+            <Link href="/learner/dashboard" className="hover:text-blue-600">
               Student Portal
             </Link>
             <span className="mx-2">/</span>

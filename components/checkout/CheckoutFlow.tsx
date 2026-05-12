@@ -321,7 +321,7 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
               Start Learning Now
             </button>
             <button
-              onClick={() => (window.location.href = '/student/dashboard')}
+              onClick={() => (window.location.href = '/learner/dashboard')}
               className="w-full bg-gray-200 text-black py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
             >
               Go to Dashboard

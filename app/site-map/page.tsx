@@ -41,7 +41,7 @@ export default function SitemapPage() {
           <ul className="grid md:grid-cols-2 gap-2">
             <li>
               <Link
-                href="/privacy-policy"
+                href="/legal/privacy"
                 className="text-slate-700 hover:text-orange-600 hover:underline"
               >
                 Privacy Policy
@@ -49,7 +49,7 @@ export default function SitemapPage() {
             </li>
             <li>
               <Link
-                href="/terms-of-service"
+                href="/legal"
                 className="text-slate-700 hover:text-orange-600 hover:underline"
               >
                 Terms of Service

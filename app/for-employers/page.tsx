@@ -85,13 +85,13 @@ export default async function ForEmployersPage() {
           </p>
           <div className="flex flex-wrap gap-3 mt-5">
             <Link
-              href="/employers"
+              href="/employer/dashboard"
               className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-2.5 rounded-lg font-bold transition text-sm"
             >
               <Building2 className="w-4 h-4" /> Employer Portal
             </Link>
             <Link
-              href="/employers/post-job"
+              href="/employer/post-job"
               className="inline-flex items-center gap-2 border-2 border-slate-300 text-slate-700 px-6 py-2.5 rounded-lg font-bold hover:bg-white transition text-sm"
             >
               Post a Job — Free
@@ -167,7 +167,7 @@ export default async function ForEmployersPage() {
                 ))}
               </ul>
               <Link
-                href="/employers/talent-pipeline"
+                href="/employer/dashboard"
                 className="bg-green-600 hover:bg-green-700 text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors"
               >
                 Browse Talent Pipeline →
@@ -294,31 +294,31 @@ export default async function ForEmployersPage() {
             {[
               {
                 title: 'Employer Portal',
-                href: '/employers',
+                href: '/employer/dashboard',
                 description: 'Manage jobs, review candidates, track hires',
                 icon: Building2,
               },
               {
                 title: 'Post a Job',
-                href: '/employers/post-job',
+                href: '/employer/post-job',
                 description: 'Free job postings to our candidate pool',
                 icon: Briefcase,
               },
               {
                 title: 'Talent Pipeline',
-                href: '/employers/talent-pipeline',
+                href: '/employer/dashboard',
                 description: 'Browse available candidates by skill',
                 icon: Users,
               },
               {
                 title: 'Apprenticeships',
-                href: '/employers/apprenticeships',
+                href: '/employer/apprenticeships',
                 description: 'DOL registered earn-and-learn programs',
                 icon: Award,
               },
               {
                 title: 'Employer Benefits',
-                href: '/employers/benefits',
+                href: '/employer/dashboard',
                 description: 'WOTC credits, OJT reimbursement, more',
                 icon: DollarSign,
               },
@@ -363,7 +363,7 @@ export default async function ForEmployersPage() {
               Apply Now
             </Link>
             <Link
-              href="/employers"
+              href="/employer/dashboard"
               className="inline-flex items-center justify-center gap-2 bg-white text-brand-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-white transition text-lg"
             >
               <Building2 className="w-5 h-5" />

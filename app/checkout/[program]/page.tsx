@@ -400,11 +400,11 @@ function CheckoutPageInner() {
               <div className="mt-8 pt-6 border-t">
                 <p className="text-xs text-black text-center">
                   By completing this purchase, you agree to our{' '}
-                  <Link href="/terms" className="underline">
+                  <Link href="/legal" className="underline">
                     Terms of Service
                   </Link>{' '}
                   and{' '}
-                  <Link href="/privacy" className="underline">
+                  <Link href="/legal/privacy" className="underline">
                     Privacy Policy
                   </Link>
                 </p>

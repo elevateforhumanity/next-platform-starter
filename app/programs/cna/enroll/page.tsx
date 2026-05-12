@@ -477,7 +477,7 @@ export default function CNAEnrollPage() {
                       <span className="text-sm text-black">
                         I agree to the{' '}
                         <Link
-                          href="/terms-of-service"
+                          href="/legal"
                           className="text-brand-blue-600 hover:underline"
                         >
                           Terms of Service

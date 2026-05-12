@@ -83,7 +83,7 @@ const quickLinks = [
     href: '/career-services',
     desc: 'Resume help, interview prep, job placement',
   },
-  { label: 'Employer Partners', href: '/employers', desc: 'Hire trained, certified graduates' },
+  { label: 'Employer Partners', href: '/employer/dashboard', desc: 'Hire trained, certified graduates' },
   { label: 'About Elevate', href: '/about', desc: 'Our mission, team, and programs' },
   { label: 'Contact Us', href: '/contact', desc: 'Talk to an enrollment advisor' },
 ];
@@ -270,7 +270,7 @@ export default function SearchPage() {
                 </li>
               </ul>
               <Link
-                href="/employers"
+                href="/employer/dashboard"
                 className="inline-block bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-full font-bold transition hover:scale-105 shadow-lg"
               >
                 Employer Portal →

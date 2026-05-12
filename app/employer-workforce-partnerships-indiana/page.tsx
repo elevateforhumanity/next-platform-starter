@@ -86,7 +86,7 @@ export default function EmployerWorkforcePartnershipsIndianaPage() {
           subtitle:
             'Partner with Elevate for Humanity to access trained, certified candidates in healthcare, skilled trades, and technology — plus OJT wage reimbursement, registered apprenticeship programs, and Work Opportunity Tax Credit support.',
           primaryCta: { label: 'Contact Us', href: '/contact' },
-          secondaryCta: { label: 'Learn More', href: '/employers' },
+          secondaryCta: { label: 'Learn More', href: '/employer/dashboard' },
         }}
         trustBadges={[
           { label: 'DOL Registered', detail: 'Apprenticeship Sponsor' },
@@ -133,7 +133,7 @@ export default function EmployerWorkforcePartnershipsIndianaPage() {
             name: 'OJT Wage Reimbursement',
             description:
               'Eligible employers can receive reimbursement for a portion of new hire wages during structured on-the-job training. Rates and eligibility set by WorkOne.',
-            href: '/employers',
+            href: '/employer/dashboard',
           },
           {
             name: 'Registered Apprenticeship',
@@ -151,7 +151,7 @@ export default function EmployerWorkforcePartnershipsIndianaPage() {
             name: 'Work Opportunity Tax Credit (WOTC)',
             description:
               'Federal tax credit for hiring from qualifying target groups. WOTC certification through Indiana DWD. Consult a tax advisor for your specific situation.',
-            href: '/employers',
+            href: '/employer/dashboard',
           },
           {
             name: 'Training Site Partnership',
@@ -174,7 +174,7 @@ export default function EmployerWorkforcePartnershipsIndianaPage() {
           { label: 'Skilled Trades Programs', href: '/skilled-trades-training-indiana' },
           { label: 'IT Programs', href: '/it-certification-training-indianapolis' },
           { label: 'All Programs', href: '/programs' },
-          { label: 'Employers Page', href: '/employers' },
+          { label: 'Employers Page', href: '/employer/dashboard' },
           { label: 'Contact Us', href: '/contact' },
         ]}
         complianceNotes={[
@@ -187,7 +187,7 @@ export default function EmployerWorkforcePartnershipsIndianaPage() {
         ctaHeading="Partner with Indiana's Workforce Training Provider"
         ctaSubtitle="Contact our employer partnership team to explore OJT, apprenticeships, and candidate pipelines for your business."
         ctaPrimary={{ label: 'Contact Us', href: '/contact' }}
-        ctaSecondary={{ label: 'Learn About OJT & WOTC', href: '/employers' }}
+        ctaSecondary={{ label: 'Learn About OJT & WOTC', href: '/employer/dashboard' }}
       />
     </>
   );

@@ -163,7 +163,7 @@ export const adminNavigation: (NavItem | NavSection)[] = [
     children: [
       { href: '/admin/docs/mou', label: 'MOUs', icon: FileText },
       { href: '/onboarding/handbook', label: 'Handbooks', icon: BookOpen },
-      { href: '/privacy-policy', label: 'Privacy Policy', icon: Shield },
+      { href: '/legal/privacy', label: 'Privacy Policy', icon: Shield },
       {
         href: '/onboarding/handbook',
         label: 'Employee Handbook',

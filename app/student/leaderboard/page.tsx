@@ -52,7 +52,7 @@ export default async function LeaderboardPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs
-        items={[{ label: 'Student Portal', href: '/student' }, { label: 'Leaderboard' }]}
+        items={[{ label: 'Student Portal', href: '/learner/dashboard' }, { label: 'Leaderboard' }]}
       />
       <div className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Leaderboard</h1>

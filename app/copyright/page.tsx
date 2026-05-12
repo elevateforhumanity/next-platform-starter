@@ -163,7 +163,7 @@ export default function CopyrightPage() {
 
         <div className="grid md:grid-cols-2 gap-6">
           <Link
-            href="/store/licensing"
+            href="/store/licenses"
             className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border-2 border-gray-200 hover:border-brand-blue-500"
           >
             <Shield className="w-8 h-8 text-brand-blue-600 mb-3" />

@@ -770,7 +770,7 @@ export default function PartnerShopForm() {
                   />
                   <span className="text-sm text-slate-700">
                     I certify that all information provided in this application is true and accurate. I consent to be contacted regarding this application and acknowledge that my information will be handled per the{' '}
-                    <Link href="/privacy-policy" className="text-brand-blue-600 underline">Privacy Policy</Link>. *
+                    <Link href="/legal/privacy" className="text-brand-blue-600 underline">Privacy Policy</Link>. *
                   </span>
                 </label>
               </div>

@@ -210,7 +210,7 @@ export default function DocumentsPage() {
                 private secure storage, and only accessible to authorized compliance staff. Your SSN
                 is hashed immediately upon submission and is never stored or displayed in plain
                 text. For details, see our{' '}
-                <Link href="/privacy-policy" className="underline font-medium">
+                <Link href="/legal/privacy" className="underline font-medium">
                   Privacy Policy
                 </Link>{' '}
                 and{' '}

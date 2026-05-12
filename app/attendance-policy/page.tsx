@@ -280,7 +280,7 @@ export default function AttendancePolicyPage() {
             Questions about attendance? Contact your program coordinator or call (317) 314-3757.
           </p>
           <div className="flex flex-wrap gap-4 text-sm">
-            <Link href="/disclosures" className="text-brand-orange-600 hover:underline">
+            <Link href="/legal/disclosures" className="text-brand-orange-600 hover:underline">
               Student Disclosures
             </Link>
             <Link

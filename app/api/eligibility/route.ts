@@ -85,7 +85,7 @@ function evaluate(input: EligibilityInput) {
     reason: employerEligible
       ? 'Your employer may sponsor your training. Contact us to confirm.'
       : 'Ask your employer about OJT or tuition reimbursement programs.',
-    cta: '/employers/apprenticeships',
+    cta: '/employer/apprenticeships',
   });
 
   const eligible = results.filter(r => r.eligible);

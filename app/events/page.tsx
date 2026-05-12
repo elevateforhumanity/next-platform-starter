@@ -168,7 +168,7 @@ export default async function EventsPage() {
                   Third Thursday of Jan, Apr, Jul, Oct. Meet 20+ employers hiring our graduates.
                 </p>
                 <Link
-                  href="/employers"
+                  href="/employer/dashboard"
                   className="text-brand-blue-600 font-semibold hover:text-brand-blue-700"
                 >
                   Learn More →

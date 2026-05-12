@@ -922,11 +922,11 @@ export default function HvacApplyPage() {
 
                 <p className="text-xs text-black text-center">
                   By submitting, you agree to our{' '}
-                  <Link href="/terms-of-service" className="underline">
+                  <Link href="/legal" className="underline">
                     Terms of Service
                   </Link>{' '}
                   and{' '}
-                  <Link href="/privacy-policy" className="underline">
+                  <Link href="/legal/privacy" className="underline">
                     Privacy Policy
                   </Link>
                   .

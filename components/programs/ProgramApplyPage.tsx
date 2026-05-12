@@ -772,8 +772,8 @@ export default function ProgramApplyPage({ program }: Props) {
 
               <p className="text-xs text-slate-500 text-center">
                 By submitting you agree to our{' '}
-                <Link href="/terms" className="underline">Terms</Link> and{' '}
-                <Link href="/privacy" className="underline">Privacy Policy</Link>.
+                <Link href="/legal" className="underline">Terms</Link> and{' '}
+                <Link href="/legal/privacy" className="underline">Privacy Policy</Link>.
               </p>
             </div>
           </div>

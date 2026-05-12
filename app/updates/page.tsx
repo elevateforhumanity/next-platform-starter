@@ -36,7 +36,7 @@ const updates = [
     title: 'New Employer Partnership Program',
     description:
       'Introducing employer-sponsored training with post-hire reimbursement. Companies can now sponsor student tuition with flexible payment terms.',
-    href: '/employers',
+    href: '/employer/dashboard',
     category: 'Partnerships',
     icon: Building2,
   },

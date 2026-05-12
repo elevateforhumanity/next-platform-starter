@@ -26,7 +26,7 @@ function getPriority(route: string): number {
   if (SEO_HUB_PREFIXES.some(p => route.startsWith(p))) return 1.0;
   if (route.startsWith('/programs/')) return 0.9;
   if (route.startsWith('/apprenticeships')) return 0.9;
-  if (route === '/employers' || route === '/how-it-works') return 0.9;
+  if (route === '/employer/dashboard' || route === '/how-it-works') return 0.9;
   if (route.startsWith('/about') || route === '/contact') return 0.8;
   if (route.startsWith('/funding') || route.startsWith('/career')) return 0.8;
   // State-specific SEO pages - high priority
@@ -35,7 +35,7 @@ function getPriority(route: string): number {
   if (route.startsWith('/courses')) return 0.8;
   if (route.startsWith('/store/guides')) return 0.8;
   if (route.startsWith('/blog') || route.startsWith('/resources')) return 0.7;
-  if (route.startsWith('/policies') || route.startsWith('/privacy') || route.startsWith('/terms'))
+  if (route.startsWith('/policies') || route.startsWith('/legal/privacy') || route.startsWith('/legal'))
     return 0.4;
   return 0.6;
 }
@@ -51,7 +51,7 @@ function getChangeFreq(
   // State-specific pages update monthly
   if (route.startsWith('/career-training-') || route.startsWith('/community-services-'))
     return 'monthly';
-  if (route.startsWith('/policies') || route.startsWith('/privacy')) return 'yearly';
+  if (route.startsWith('/policies') || route.startsWith('/legal/privacy')) return 'yearly';
   return 'monthly';
 }
 
@@ -81,7 +81,7 @@ const PUBLIC_ROUTES = [
   '/dmca',
   '/donate',
   '/employer',
-  '/employers',
+  '/employer/dashboard',
   '/faq',
   '/federal-funded',
   '/for-employers',
@@ -98,7 +98,7 @@ const PUBLIC_ROUTES = [
   '/policies/copyright',
   '/policies/privacy',
   '/policies/terms',
-  '/privacy-policy',
+  '/legal/privacy',
   '/programs',
   '/programs/barber-apprenticeship',
   '/programs/building-services-technician',
@@ -125,7 +125,7 @@ const PUBLIC_ROUTES = [
   '/programs/welding',
   '/resources',
   '/sitemap',
-  '/terms-of-service',
+  '/legal',
   '/verify',
   '/workforce',
   '/workforce-training-indianapolis',

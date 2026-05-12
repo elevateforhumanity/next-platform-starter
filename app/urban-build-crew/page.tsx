@@ -59,7 +59,7 @@ export default function UrbanBuildCrewPage() {
               <p className="text-slate-700 mb-4">
                 Get OSHA 10 and OSHA 30 safety certifications required for job sites.
               </p>
-              <Link href="/certifications" className="text-brand-orange-600 font-medium">
+              <Link href="/certificates" className="text-brand-orange-600 font-medium">
                 Learn More →
               </Link>
             </div>

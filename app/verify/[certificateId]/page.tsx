@@ -333,7 +333,7 @@ export default async function VerifyCertificatePage({
             {/* Actions */}
             <div className="mt-8 flex justify-center">
               <Link
-                href="/cert/verify"
+                href="/verify"
                 className="px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition-colors"
               >
                 Verify Another Certificate

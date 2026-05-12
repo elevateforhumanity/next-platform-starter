@@ -97,7 +97,7 @@ export const NAV: NavItem[] = [
   {
     group: 'Employers',
     label: 'For Employers',
-    href: '/employers',
+    href: '/employer/dashboard',
     showInHeader: true,
     description: 'Hire qualified talent',
   },

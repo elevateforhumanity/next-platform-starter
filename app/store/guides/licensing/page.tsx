@@ -238,7 +238,7 @@ export default function LicensingGuidePage() {
                   <li>• Hosting, security, and updates handled by Elevate</li>
                   <li>• Self-service checkout — no sales call required</li>
                 </ul>
-                <Link href="/store/licensing/managed" className="text-brand-blue-600 font-semibold text-sm hover:underline inline-flex items-center gap-1">
+                <Link href="/store/licenses/managed" className="text-brand-blue-600 font-semibold text-sm hover:underline inline-flex items-center gap-1">
                   View Managed License <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -250,7 +250,7 @@ export default function LicensingGuidePage() {
                   <li>• Internal use only — no resale or sublicensing</li>
                   <li>• You assume full operational responsibility</li>
                 </ul>
-                <Link href="/store/licensing" className="text-slate-600 font-semibold text-sm hover:underline inline-flex items-center gap-1">
+                <Link href="/store/licenses" className="text-slate-600 font-semibold text-sm hover:underline inline-flex items-center gap-1">
                   View Source-Use License <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -346,7 +346,7 @@ export default function LicensingGuidePage() {
               Try Demo First
             </Link>
             <Link
-              href="/store/licensing/managed"
+              href="/store/licenses/managed"
               className="inline-flex items-center justify-center gap-2 bg-brand-blue-900 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-800 transition-colors"
             >
               Start License Setup <ArrowRight className="w-5 h-5" />

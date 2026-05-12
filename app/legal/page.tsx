@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 };
 
 const LEGAL_DOCS = [
-  { icon: FileText, title: 'Terms of Service', desc: 'User agreement governing access to the Elevate platform and programs.', href: '/terms-of-service' },
-  { icon: Lock, title: 'Privacy Policy', desc: 'How we collect, use, and protect your personal information.', href: '/privacy-policy' },
+  { icon: FileText, title: 'Terms of Service', desc: 'User agreement governing access to the Elevate platform and programs.', href: '/legal' },
+  { icon: Lock, title: 'Privacy Policy', desc: 'How we collect, use, and protect your personal information.', href: '/legal/privacy' },
   { icon: Shield, title: 'Security & Data Protection', desc: 'Technical and organizational measures protecting student and partner data.', href: '/security-and-data-protection' },
-  { icon: Scale, title: 'License Agreement', desc: 'Software license terms for LMS platform licensees.', href: '/license-agreement' },
+  { icon: Scale, title: 'License Agreement', desc: 'Software license terms for LMS platform licensees.', href: '/legal/license-agreement' },
   { icon: FileText, title: 'Policies', desc: 'Academic, enrollment, refund, and conduct policies.', href: '/policies' },
-  { icon: FileText, title: 'Disclosures', desc: 'Regulatory disclosures, ETPL listing, and accreditation information.', href: '/disclosures' },
+  { icon: FileText, title: 'Disclosures', desc: 'Regulatory disclosures, ETPL listing, and accreditation information.', href: '/legal/disclosures' },
   { icon: Scale, title: 'Equal Opportunity', desc: 'Non-discrimination policy and equal opportunity statement.', href: '/equal-opportunity' },
   { icon: FileText, title: 'Grievance Policy', desc: 'Student and participant grievance procedures.', href: '/grievance' },
   { icon: FileText, title: 'Satisfactory Academic Progress', desc: 'SAP standards and appeal procedures for funded students.', href: '/satisfactory-academic-progress' },

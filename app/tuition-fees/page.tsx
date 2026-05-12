@@ -381,7 +381,7 @@ export default async function TuitionFeesPage() {
             form
           </p>
           <div className="flex justify-center gap-6 text-sm">
-            <Link href="/disclosures" className="text-brand-orange-600 hover:underline">
+            <Link href="/legal/disclosures" className="text-brand-orange-600 hover:underline">
               Student Disclosures
             </Link>
             <Link href="/refund-policy" className="text-brand-orange-600 hover:underline">

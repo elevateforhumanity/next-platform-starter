@@ -127,11 +127,11 @@ export function ComplianceFooter() {
             criteria. Contact us to verify your eligibility.
           </p>
           <div className="flex flex-wrap gap-4 mt-4">
-            <Link href="/privacy-policy" aria-label="Link" className="hover:text-brand-orange-600">
+            <Link href="/legal/privacy" aria-label="Link" className="hover:text-brand-orange-600">
               Privacy Policy
             </Link>
             <Link
-              href="/terms-of-service"
+              href="/legal"
               aria-label="Link"
               className="hover:text-brand-orange-600"
             >

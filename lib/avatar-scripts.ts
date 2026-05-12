@@ -124,7 +124,7 @@ export const PAGE_SCRIPTS: Record<
   },
 
   // === DASHBOARD / STATUS ===
-  '/student': {
+  '/learner/dashboard': {
     opening: `This dashboard shows your status and the one step blocking progress. Status flow: submitted → under review → approved/denied → enrolled → completed.`,
     nextAction: `Open Requirements/Documents and complete the first incomplete item.`,
   },
@@ -205,7 +205,7 @@ export const PAGE_SCRIPTS: Record<
     nextAction: `Click 'Post Position' or 'Browse Candidates'.`,
   },
 
-  '/employers': {
+  '/employer/dashboard': {
     opening: `Partner with us: hire graduates, sponsor training, or host apprentices. Multiple partnership options available.`,
     nextAction: `Click 'Partner With Us' or 'Post a Job'.`,
   },

@@ -85,7 +85,7 @@ export default function OjtAndFundingPage() {
               Talk to Us <ChevronRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/employers"
+              href="/employer/dashboard"
               className="inline-flex items-center gap-2 border border-slate-200 hover:border-slate-300 text-slate-700 font-semibold px-5 py-3 rounded-lg transition-colors text-sm"
             >
               Employer Overview
@@ -170,7 +170,7 @@ export default function OjtAndFundingPage() {
                   Get Started <ChevronRight className="w-4 h-4" />
                 </Link>
                 <Link
-                  href="/employers"
+                  href="/employer/dashboard"
                   className="inline-flex items-center gap-2 border border-white/20 hover:border-white/40 text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm"
                 >
                   Employer Overview

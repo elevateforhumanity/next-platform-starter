@@ -275,7 +275,7 @@ export default function FederalCompliancePage() {
           {/* Related Links */}
           <div className="mt-12 grid md:grid-cols-3 gap-6">
             <Link
-              href="/privacy-policy"
+              href="/legal/privacy"
               className="block p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-brand-blue-600 transition"
             >
               <h4 className="font-bold text-black mb-2">Privacy Policy</h4>

@@ -202,7 +202,7 @@ export default async function ProductDetailPage({
 
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <Link
-                    href="/store/licensing"
+                    href="/store/licenses"
                     className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-semibold"
                   >
                     View License Terms →

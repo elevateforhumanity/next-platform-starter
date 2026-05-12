@@ -14,8 +14,8 @@ export default function AuthError({
       error={error}
       reset={reset}
       title="Authentication Error"
-      backHref="/auth/login"
-      backLabel="Back to Authentication"
+      backHref="/login"
+      backLabel="Back to Login"
     />
   );
 }

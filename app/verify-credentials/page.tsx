@@ -399,7 +399,7 @@ export default function VerifyCredentialsPage() {
                   <ExternalLink className="w-4 h-4 text-slate-700" />
                 </Link>
                 <Link
-                  href="/disclosures"
+                  href="/legal/disclosures"
                   className="flex items-center justify-between p-3 bg-white rounded-lg border hover:border-brand-blue-300 transition"
                 >
                   <span className="font-medium">Disclosures</span>

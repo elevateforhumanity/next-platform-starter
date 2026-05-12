@@ -88,7 +88,7 @@ const fundingOptions = [
       'Pass background check',
       'Meet employer requirements',
     ],
-    link: '/employers',
+    link: '/employer/dashboard',
   },
   {
     title: 'Need-Based Scholarships',

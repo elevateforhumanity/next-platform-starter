@@ -35,7 +35,7 @@ export default async function CredentialSharePage({ params }: PageProps) {
 
   if (error || !shareLink) {
     logger.warn('Invalid share token', { token });
-    redirect('/verify-credential?error=invalid_token');
+    redirect('/verify?error=invalid_token');
   }
 
   // Check expiration
@@ -44,13 +44,13 @@ export default async function CredentialSharePage({ params }: PageProps) {
 
   if (expiresAt < now) {
     logger.info('Expired share token', { token });
-    redirect('/verify-credential?error=expired_token');
+    redirect('/verify?error=expired_token');
   }
 
   // Check if one-time use and already used
   if (shareLink.one_time_use && shareLink.used_at) {
     logger.info('Share token already used', { token });
-    redirect('/verify-credential?error=token_used');
+    redirect('/verify?error=token_used');
   }
 
   // Mark as used if one-time
@@ -73,5 +73,5 @@ export default async function CredentialSharePage({ params }: PageProps) {
   });
 
   // Redirect to verification page with code
-  redirect(`/verify-credential?code=${shareLink.credential_code}`);
+  redirect(`/verify?code=${shareLink.credential_code}`);
 }

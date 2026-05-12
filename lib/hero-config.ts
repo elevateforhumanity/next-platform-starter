@@ -341,7 +341,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
   },
 
   // Privacy Policy (Governance)
-  '/privacy': {
+  '/legal/privacy': {
     title: 'Privacy Policy',
     subtitle: 'How we collect, use, and protect your information.',
     image: '/images/pages/about-hero.jpg',

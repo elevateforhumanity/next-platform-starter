@@ -60,7 +60,7 @@ const resourceCategories = [
       {
         title: 'Employer Partners',
         description: 'Companies hiring our graduates',
-        href: '/employers',
+        href: '/employer/dashboard',
         type: 'directory',
       },
     ],

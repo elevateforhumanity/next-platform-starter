@@ -269,7 +269,7 @@ export default function SecurityAndDataProtectionPage() {
               Contact Us
             </Link>
             <Link
-              href="/privacy-policy"
+              href="/legal/privacy"
               className="border border-slate-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-slate-800 transition-colors"
             >
               Privacy Policy

@@ -246,7 +246,7 @@ export default function EducationLandingPage() {
                 <Link href="/locations" className="block hover:text-slate-900">Locations</Link>
                 <Link href="/about" className="block hover:text-slate-900">About Us</Link>
                 <Link href="/contact" className="block hover:text-slate-900">Contact</Link>
-                <Link href="/privacy-policy" className="block hover:text-slate-900">Privacy Policy</Link>
+                <Link href="/legal/privacy" className="block hover:text-slate-900">Privacy Policy</Link>
               </div>
             </div>
           </div>

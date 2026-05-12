@@ -196,7 +196,7 @@ export const ORIENTATION_STEPS: GuideStep[] = [
     title: 'Your Student Dashboard',
     script:
       "This is your home base. Here you'll see your enrolled courses, progress, upcoming deadlines, and announcements. Check it daily!",
-    action: { label: 'View Dashboard', href: '/student/dashboard' },
+    action: { label: 'View Dashboard', href: '/learner/dashboard' },
   },
   {
     title: 'Accessing Your Courses',

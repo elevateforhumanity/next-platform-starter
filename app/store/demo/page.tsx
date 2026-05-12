@@ -81,7 +81,7 @@ const DEMO_SECTIONS: DemoSection[] = [
     icon: <Briefcase className="w-6 h-6" />,
     pages: [
       { name: 'Employer Dashboard', path: '/employer', description: 'Hiring overview' },
-      { name: 'Post a Job', path: '/employers/post-job', description: 'Create job listings' },
+      { name: 'Post a Job', path: '/employer/post-job', description: 'Create job listings' },
       { name: 'Browse Graduates', path: '/employer/candidates', description: 'Find qualified candidates' },
       { name: 'Hire Graduates', path: '/hire-graduates', description: 'Partnership information' },
     ],

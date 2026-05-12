@@ -95,7 +95,7 @@ export default function StudentPrivacyPage() {
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Student', href: '/student' }, { label: 'Privacy' }]} />
+          <Breadcrumbs items={[{ label: 'Student', href: '/learner/dashboard' }, { label: 'Privacy' }]} />
         </div>
       </div>
 
@@ -175,7 +175,7 @@ export default function StudentPrivacyPage() {
                     You have the right to inspect your education records, request amendments, and
                     control disclosure of your information. For more information, see our{' '}
                     <a
-                      href="/privacy-policy"
+                      href="/legal/privacy"
                       className="text-blue-600 hover:underline font-semibold"
                     >
                       Privacy Policy

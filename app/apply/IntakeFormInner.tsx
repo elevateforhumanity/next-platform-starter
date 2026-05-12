@@ -699,7 +699,7 @@ function IntakeForm() {
               By submitting, you authorize Elevate for Humanity to review your intake for training
               and funding pathways. Final funding decisions are made by workforce partners and are
               not guaranteed. See our{' '}
-              <Link href="/privacy-policy" className="text-brand-red-600 underline">
+              <Link href="/legal/privacy" className="text-brand-red-600 underline">
                 privacy policy
               </Link>
               {' '}and{' '}

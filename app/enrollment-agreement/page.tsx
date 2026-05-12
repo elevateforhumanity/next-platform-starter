@@ -367,7 +367,7 @@ export default function EnrollmentAgreementPage() {
               </li>
               <li>
                 You have reviewed the{' '}
-                <Link href="/disclosures" className="text-brand-orange-600 hover:underline">
+                <Link href="/legal/disclosures" className="text-brand-orange-600 hover:underline">
                   Student Consumer Information
                 </Link>
               </li>
@@ -398,7 +398,7 @@ export default function EnrollmentAgreementPage() {
             Questions about this agreement? Contact us at (317) 314-3757 or our contact form
           </p>
           <div className="flex flex-wrap gap-4 text-sm">
-            <Link href="/disclosures" className="text-brand-orange-600 hover:underline">
+            <Link href="/legal/disclosures" className="text-brand-orange-600 hover:underline">
               Student Disclosures
             </Link>
             <Link href="/tuition-fees" className="text-brand-orange-600 hover:underline">

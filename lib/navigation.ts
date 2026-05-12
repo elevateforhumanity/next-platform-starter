@@ -89,7 +89,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     id: 'certifications',
     name: 'Certifications',
-    href: '/certifications',
+    href: '/certificates',
     subItems: [
       { name: '— Testing & Verification —', href: '/testing', isHeader: true },
       { name: 'NHA Healthcare Exams', href: '/testing' },
@@ -130,11 +130,11 @@ export const NAV_ITEMS: NavItem[] = [
       // Employers
       { name: '— Employers —', href: '/for-employers', isHeader: true },
       { name: 'Hire Our Graduates', href: '/for-employers' },
-      { name: 'Employer Hub', href: '/employers' },
-      { name: 'Post a Job / OJT', href: '/employers/post-job' },
-      { name: 'Talent Pipeline', href: '/employers/talent-pipeline' },
-      { name: 'Apprenticeship Sponsorship', href: '/employers/apprenticeships' },
-      { name: 'Employer Benefits', href: '/employers/benefits' },
+      { name: 'Employer Hub', href: '/employer/dashboard' },
+      { name: 'Post a Job / OJT', href: '/employer/post-job' },
+      { name: 'Talent Pipeline', href: '/employer/dashboard' },
+      { name: 'Apprenticeship Sponsorship', href: '/employer/apprenticeships' },
+      { name: 'Employer Benefits', href: '/employer/dashboard' },
       // Workforce Agencies
       { name: '— Workforce Agencies —', href: '/for-agencies', isHeader: true },
       { name: 'WIOA / WorkOne Referrals', href: '/for-agencies' },

@@ -72,7 +72,7 @@ export default async function SignupPage() {
             Not ready to create an account? Apply first
           </Link>
           <Link
-            href="/privacy-policy"
+            href="/legal/privacy"
             aria-label="Link"
             className="underline hover:text-brand-blue-600"
           >

@@ -255,7 +255,7 @@ export default function StoreDigitalPage() {
           <h2 className="text-3xl font-black text-slate-900 mb-4">Need the Complete Platform?</h2>
           <p className="text-xl text-indigo-100 mb-8">Get the full Elevate LMS with all features included.</p>
           <Link
-            href="/store/licensing"
+            href="/store/licenses"
             className="inline-flex items-center gap-2 bg-white text-indigo-700 px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-50 transition-colors"
           >
             View Platform Licenses <ArrowRight className="w-5 h-5" />

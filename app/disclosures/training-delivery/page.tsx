@@ -23,7 +23,7 @@ export default function TrainingDeliveryDisclosure() {
           <Breadcrumbs
             items={[
               { label: 'Home', href: '/' },
-              { label: 'Disclosures', href: '/disclosures' },
+              { label: 'Disclosures', href: '/legal/disclosures' },
               { label: 'Training Delivery Model' },
             ]}
           />
@@ -283,7 +283,7 @@ export default function TrainingDeliveryDisclosure() {
               Contact Us <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
             <Link
-              href="/disclosures"
+              href="/legal/disclosures"
               className="inline-flex items-center justify-center px-6 py-3 border-2 border-white/30 text-white font-bold rounded-lg hover:bg-white/10 transition"
             >
               All Disclosures

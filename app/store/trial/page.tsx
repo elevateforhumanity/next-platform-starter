@@ -291,7 +291,7 @@ export default function TrialPage() {
           <div className="mt-8 text-center lg:text-left space-y-3">
             <p className="text-sm text-slate-600">
               Already know what you need?{' '}
-              <Link href="/store/licensing/managed" className="text-brand-red-600 font-medium hover:underline">
+              <Link href="/store/licenses/managed" className="text-brand-red-600 font-medium hover:underline">
                 Purchase directly
               </Link>
             </p>

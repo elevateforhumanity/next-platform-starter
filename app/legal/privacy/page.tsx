@@ -84,7 +84,7 @@ export default function PrivacyPolicyPage() {
                 <Link href="/legal/acceptable-use" className="text-brand-green-600 hover:underline">
                   Acceptable Use Policy
                 </Link>
-                <Link href="/terms" className="text-brand-green-600 hover:underline">
+                <Link href="/legal" className="text-brand-green-600 hover:underline">
                   Terms of Use
                 </Link>
                 <Link href="/legal/disclosures" className="text-brand-green-600 hover:underline">

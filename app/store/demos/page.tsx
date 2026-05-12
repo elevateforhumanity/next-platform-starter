@@ -142,7 +142,7 @@ export default function StoreDemosPage() {
               Start Free Trial <ArrowRight className="w-5 h-5" />
             </Link>
             <div className="flex gap-4 text-sm text-slate-500">
-              <Link href="/store/licensing" className="hover:underline">Compare licenses</Link>
+              <Link href="/store/licenses" className="hover:underline">Compare licenses</Link>
               <span>·</span>
               <Link href="/contact" className="hover:underline">Questions?</Link>
             </div>

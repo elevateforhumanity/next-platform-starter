@@ -78,7 +78,7 @@ const audiences = [
     alt: 'Employer hiring portal and apprenticeship management',
     title: 'Employers',
     desc: 'Access a verified pipeline of credentialed graduates. Manage apprenticeship agreements, track OJT hours, and document WOTC eligibility — all in one place.',
-    href: '/employers',
+    href: '/employer/dashboard',
     cta: 'Employer portal',
   },
   {
@@ -86,7 +86,7 @@ const audiences = [
     alt: 'Platform licensing for workforce organizations',
     title: 'License the Platform',
     desc: 'Organizations running their own workforce programs can license the full infrastructure stack — enrollment, compliance, credentialing, reporting, and employer pipeline.',
-    href: '/store/licensing',
+    href: '/store/licenses',
     cta: 'Licensing options',
   },
 ];
@@ -165,7 +165,7 @@ export default function PlatformPage() {
                 Schedule a Demo <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href="/store/licensing"
+                href="/store/licenses"
                 className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-bold hover:bg-slate-50 transition text-sm"
               >
                 Licensing Options
@@ -362,7 +362,7 @@ export default function PlatformPage() {
               Provider Requirements
             </Link>
             <Link
-              href="/store/licensing"
+              href="/store/licenses"
               className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition"
             >
               Licensing Options

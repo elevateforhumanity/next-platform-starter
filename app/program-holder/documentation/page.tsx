@@ -84,7 +84,7 @@ export default async function DocumentationPage() {
           type: 'Web',
         },
         { name: 'MOU Template', url: '/program-holder/mou', type: 'Web' },
-        { name: 'Privacy Policy', url: '/privacy', type: 'Web' },
+        { name: 'Privacy Policy', url: '/legal/privacy', type: 'Web' },
       ],
     },
   ];

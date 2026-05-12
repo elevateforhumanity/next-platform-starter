@@ -51,7 +51,7 @@ export default function LicenseRequestPage() {
             setup and onboarding.
           </p>
           <Link
-            href="/store/licensing"
+            href="/store/licenses"
             className="text-brand-blue-600 font-semibold hover:underline"
           >
             Return to Platform Licensing

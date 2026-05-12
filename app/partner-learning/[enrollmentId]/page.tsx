@@ -91,11 +91,11 @@ export default async function PartnerLearningPage({ params }: Props) {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-6 py-6">
           <Link
-            href="/student-portal"
+            href="/learner/dashboard"
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Student Portal
+            Back to Learner Dashboard
           </Link>
 
           <div className="flex items-start justify-between gap-4">

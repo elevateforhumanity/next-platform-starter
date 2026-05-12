@@ -98,8 +98,8 @@ const footerLinks = {
   ],
 
   legal: [
-    { name: 'Terms of Service', href: '/terms-of-service' },
-    { name: 'Privacy Policy', href: '/privacy-policy' },
+    { name: 'Terms of Service', href: '/legal' },
+    { name: 'Privacy Policy', href: '/legal/privacy' },
     { name: 'Policies', href: '/policies/terms' },
     { name: 'Security & Data', href: '/security-and-data-protection' },
     { name: 'Accessibility', href: '/accessibility' },

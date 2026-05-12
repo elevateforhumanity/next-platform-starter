@@ -157,8 +157,8 @@ export const footerNavigation = {
   legal: {
     title: 'Legal',
     links: [
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/legal' },
+      { label: 'Privacy Policy', href: '/legal/privacy' },
       { label: 'Refund Policy', href: '/refund' },
       { label: 'Accessibility', href: '/accessibility' },
       { label: 'Security', href: '/security' },

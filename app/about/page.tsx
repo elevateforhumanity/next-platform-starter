@@ -431,7 +431,7 @@ export default async function AboutPage() {
                 <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
                 Indiana DWD — Training Opportunities
               </a>
-              <Link href="/cert/verify" className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
+              <Link href="/verify" className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
                 <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
                 Verify a Student Certificate
               </Link>

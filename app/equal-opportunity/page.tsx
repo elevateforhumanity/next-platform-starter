@@ -53,7 +53,7 @@ const policies = [
   },
   {
     title: 'Privacy Policy',
-    href: '/privacy-policy',
+    href: '/legal/privacy',
     description: 'How we collect, use, and protect your personal information.',
     icon: Shield,
     color: 'indigo',
@@ -68,7 +68,7 @@ const policies = [
   },
   {
     title: 'Terms of Service',
-    href: '/terms-of-service',
+    href: '/legal',
     description: 'Terms and conditions for using our services and programs.',
     icon: FileText,
     color: 'amber',

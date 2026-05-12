@@ -50,7 +50,7 @@ async function _GET(request: Request) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ redirectTo: '/auth/login' });
+      return NextResponse.json({ redirectTo: '/login' });
     }
 
     const { data: profile, error } = await supabase
@@ -61,7 +61,7 @@ async function _GET(request: Request) {
 
     if (error || !profile) {
       logger.error('Error fetching profile:', error);
-      return NextResponse.json({ redirectTo: '/auth/login' });
+      return NextResponse.json({ redirectTo: '/login' });
     }
 
     const redirectTo = getRoleDestination(profile.role as string);

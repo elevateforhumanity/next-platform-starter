@@ -191,7 +191,7 @@ export function ApplicationConsent({
       <span className="text-sm text-slate-900">
         I understand that submitting this application does not guarantee eligibility, funding
         approval, or enrollment. I acknowledge that I have read and agree to the{' '}
-        <Link href="/terms-of-service" className="text-brand-blue-600 hover:underline">
+        <Link href="/legal" className="text-brand-blue-600 hover:underline">
           Terms of Service
         </Link>{' '}
         and{' '}
@@ -214,10 +214,10 @@ export function ComplianceFooterLinks({ className = '' }: DisclaimerProps) {
         <Link href="/legal/disclosures" className="hover:underline">
           Disclosures
         </Link>
-        <Link href="/terms-of-service" className="hover:underline">
+        <Link href="/legal" className="hover:underline">
           Terms of Service
         </Link>
-        <Link href="/privacy-policy" className="hover:underline">
+        <Link href="/legal/privacy" className="hover:underline">
           Privacy Policy
         </Link>
         <Link href="/legal/acceptable-use" className="hover:underline">

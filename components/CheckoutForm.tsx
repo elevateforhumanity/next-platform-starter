@@ -177,11 +177,11 @@ function PaymentForm({
       {/* Terms */}
       <p className="text-xs text-slate-700 text-center">
         By completing this purchase, you agree to our{' '}
-        <a href="/terms-of-service" className="text-brand-blue-600 hover:underline">
+        <a href="/legal" className="text-brand-blue-600 hover:underline">
           Terms of Service
         </a>{' '}
         and{' '}
-        <a href="/privacy-policy" className="text-brand-blue-600 hover:underline">
+        <a href="/legal/privacy" className="text-brand-blue-600 hover:underline">
           Privacy Policy
         </a>
       </p>

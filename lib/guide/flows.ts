@@ -48,7 +48,7 @@ export const storeGuideFlow: GuideFlow = {
           id: 'license-platform',
           label: 'I want to license it',
           icon: 'server',
-          route: '/store/licensing',
+          route: '/store/licenses',
           startTour: true,
           tourId: 'licenses-tour',
           description:

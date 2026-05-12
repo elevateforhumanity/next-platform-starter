@@ -82,7 +82,7 @@ export default function TestingPage() {
             <span className="text-slate-500">→</span>
             <span className="text-brand-red-600 font-bold">Get Tested</span>
             <span className="text-slate-500">→</span>
-            <Link href="/employers" className="hover:text-brand-red-600 transition-colors">
+            <Link href="/employer/dashboard" className="hover:text-brand-red-600 transition-colors">
               Get Hired
             </Link>
           </div>

@@ -351,8 +351,8 @@ export default function FssaApplicationForm() {
 
           <p className="text-xs text-slate-500">
             By submitting this form you agree to Elevate for Humanity&apos;s{' '}
-            <a href="/privacy" className="underline">Privacy Policy</a> and{' '}
-            <a href="/terms" className="underline">Terms of Service</a>.
+            <a href="/legal/privacy" className="underline">Privacy Policy</a> and{' '}
+            <a href="/legal" className="underline">Terms of Service</a>.
             This application does not guarantee enrollment.
           </p>
         </div>

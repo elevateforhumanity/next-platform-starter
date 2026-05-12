@@ -43,7 +43,7 @@ export default function PartnerNav({ isAdmin }: { isAdmin: boolean }) {
         <nav className="flex flex-col gap-0.5" aria-label="Partner navigation">
           {items.map((i) => {
             const active =
-              pathname === i.href || (i.href !== '/partner-portal' && pathname.startsWith(i.href));
+              pathname === i.href || (i.href !== '/partner/dashboard' && pathname.startsWith(i.href));
             return (
               <Link
                 key={i.href}

@@ -103,7 +103,7 @@ export default async function HoursHistoryPage() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-500 mb-4">
-            <Link href="/student" className="hover:text-slate-700">
+            <Link href="/learner/dashboard" className="hover:text-slate-700">
               Student Portal
             </Link>
             <ChevronRight className="w-4 h-4" />

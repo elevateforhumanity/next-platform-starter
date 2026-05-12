@@ -14,7 +14,7 @@ const steps = [
     num: 1,
     title: 'Create Your Account',
     desc: 'Sign up and verify your email to get started.',
-    link: '/register',
+    link: '/signup',
   },
   {
     num: 2,

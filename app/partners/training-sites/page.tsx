@@ -464,8 +464,8 @@ export default async function TrainingSitesPage() {
             {[
               { label: 'Training Delivery Disclosure', href: '/disclosures/training-delivery' },
               { label: 'Approvals & Credentials', href: '/accreditation' },
-              { label: 'For Employers', href: '/employers' },
-              { label: 'All Disclosures', href: '/disclosures' },
+              { label: 'For Employers', href: '/employer/dashboard' },
+              { label: 'All Disclosures', href: '/legal/disclosures' },
             ].map((link) => (
               <Link
                 key={link.href}

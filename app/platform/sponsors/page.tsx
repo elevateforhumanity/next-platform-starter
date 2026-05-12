@@ -33,7 +33,7 @@ export default function SponsorLicensingPage() {
             Elevate Workforce Operating System
           </a>
           .{' '}
-          <a href="/store/licensing" className="hover:underline">
+          <a href="/store/licenses" className="hover:underline">
             View pricing →
           </a>
         </p>
@@ -131,7 +131,7 @@ export default function SponsorLicensingPage() {
               </div>
 
               <Link
-                href="/store/licensing"
+                href="/store/licenses"
                 className="block w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-center px-6 py-4 rounded-xl font-bold transition"
               >
                 Get Started
@@ -213,7 +213,7 @@ export default function SponsorLicensingPage() {
               </div>
 
               <Link
-                href="/store/licensing"
+                href="/store/licenses"
                 className="block w-full bg-white text-indigo-600 hover:bg-white text-center px-6 py-4 rounded-xl font-bold transition"
               >
                 Get Started
@@ -457,7 +457,7 @@ export default function SponsorLicensingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/store/licensing"
+              href="/store/licenses"
               className="inline-flex items-center justify-center gap-2 bg-white text-brand-blue-600 hover:bg-white px-10 py-5 rounded-xl font-bold text-lg transition shadow-2xl"
             >
               Get Started <ArrowRight className="w-5 h-5" />

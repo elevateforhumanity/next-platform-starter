@@ -198,7 +198,7 @@ export default async function DisclosuresPage() {
                 <Link href="/legal/eula" className="text-brand-green-600 hover:underline">
                   EULA
                 </Link>
-                <Link href="/terms-of-service" className="text-brand-green-600 hover:underline">
+                <Link href="/legal" className="text-brand-green-600 hover:underline">
                   Terms of Service
                 </Link>
                 <Link href="/legal/acceptable-use" className="text-brand-green-600 hover:underline">

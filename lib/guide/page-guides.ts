@@ -561,7 +561,7 @@ export const DASHBOARD_GUIDES: Record<string, PageGuide> = {
         type: 'tip',
         message:
           'Hiring WIOA participants? You may qualify for On-the-Job Training (OJT) reimbursement - up to 50% of wages for the first 6 months.',
-        action: { label: 'Learn About OJT', href: '/employers/ojt-program' },
+        action: { label: 'Learn About OJT', href: '/for-employers' },
       },
     ],
     quickTips: [

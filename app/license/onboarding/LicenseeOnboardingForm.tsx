@@ -44,7 +44,7 @@ export default function LicenseeOnboardingForm({
     };
     const urls: Record<string, string> = {
       eula: '/legal/eula',
-      tos: '/terms-of-service',
+      tos: '/legal',
       aup: '/legal/acceptable-use',
       disclosures: '/legal/disclosures',
       license: '/legal/license-agreement',

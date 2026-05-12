@@ -310,7 +310,7 @@ export default function SAPPolicyPage() {
             form
           </p>
           <div className="flex flex-wrap gap-4 text-sm">
-            <Link href="/disclosures" className="text-brand-orange-600 hover:underline">
+            <Link href="/legal/disclosures" className="text-brand-orange-600 hover:underline">
               Student Disclosures
             </Link>
             <Link href="/attendance-policy" className="text-brand-orange-600 hover:underline">

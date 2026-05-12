@@ -60,7 +60,7 @@ export default async function BadgesPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs items={[{ label: 'Student Portal', href: '/student' }, { label: 'Badges' }]} />
+      <Breadcrumbs items={[{ label: 'Student Portal', href: '/learner/dashboard' }, { label: 'Badges' }]} />
       <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">My Badges</h1>
         <p className="text-slate-600 mb-8">

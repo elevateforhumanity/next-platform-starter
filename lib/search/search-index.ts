@@ -352,7 +352,7 @@ export const SEARCH_INDEX: SearchItem[] = [
     id: 'employer-portal',
     title: 'Employer Portal',
     description: 'Find trained candidates, post jobs, and access OJT programs.',
-    href: '/employers',
+    href: '/employer/dashboard',
     category: 'dashboard',
     audiences: ['employers'],
     keywords: ['employer', 'hiring', 'jobs', 'candidates', 'ojt', 'workforce'],

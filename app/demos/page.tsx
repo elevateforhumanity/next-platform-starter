@@ -49,7 +49,7 @@ const demos = [
       'Analytics and reports',
     ],
     videoUrl: '/videos/hero-home.mp4',
-    demoUrl: '/employer-portal',
+    demoUrl: '/employer/dashboard',
     status: 'available' as const,
   },
   {

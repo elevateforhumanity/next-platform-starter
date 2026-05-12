@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 
 export type AutoPolishedPageProps = {
-  route: string; // e.g. "/student/dashboard"
+  route: string; // e.g. "/learner/dashboard"
   label: string; // e.g. "Student Dashboard"
   section: string; // e.g. "For Students"
 };
@@ -155,8 +155,8 @@ function getAutoConfig(section: string, label: string, route: string): AutoConfi
         audience: 'Employers, HR leaders, talent partners',
         shortTagline: 'A faster way to hire job-ready talent with wraparound support.',
         description: `The "${baseLabel}" page supports employers using Elevate For Humanity to find, train, and retain talent. It brings job postings, candidate pipelines, and support services into one consistent experience.`,
-        primaryCta: { href: '/employers/hire-graduates', label: 'Hire graduates' },
-        secondaryCta: { href: '/employers', label: 'Employer overview' },
+        primaryCta: { href: '/for-employers', label: 'Hire graduates' },
+        secondaryCta: { href: '/employer/dashboard', label: 'Employer overview' },
         bullets: [
           'Reduce time- with pre-screened, supported candidates',
           'Align job descriptions with training and credential pathways',

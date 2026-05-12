@@ -22,7 +22,7 @@ const REQUIRED_AGREEMENTS: Agreement[] = [
     type: 'terms_of_service',
     title: 'Terms of Service',
     description: 'Platform usage terms and conditions',
-    documentUrl: '/terms-of-service',
+    documentUrl: '/legal',
     version: '2024.1',
     signed: false,
   },
@@ -30,7 +30,7 @@ const REQUIRED_AGREEMENTS: Agreement[] = [
     type: 'privacy_policy',
     title: 'Privacy Policy',
     description: 'How we collect, use, and protect your data',
-    documentUrl: '/privacy-policy',
+    documentUrl: '/legal/privacy',
     version: '2024.1',
     signed: false,
   },
@@ -173,8 +173,8 @@ export default function LegalOnboardingPage() {
         .then(() => {})
         .catch(() => {});
 
-      // Redirect to student portal — middleware gate now passes
-      router.push('/student-portal');
+      // Redirect to learner dashboard — middleware gate now passes
+      router.push('/learner/dashboard');
     } catch (err: any) {
       setError('Failed to complete onboarding. Please try again or contact support.');
     } finally {

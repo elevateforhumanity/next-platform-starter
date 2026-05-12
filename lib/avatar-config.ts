@@ -421,7 +421,7 @@ export const PAGE_AVATAR_CONFIGS: Record<string, AvatarContext> = {
     maxMessages: 0,
   },
 
-  '/privacy': {
+  '/legal/privacy': {
     enabled: false,
     speakOnLoad: false,
     role: 'system',
@@ -430,7 +430,7 @@ export const PAGE_AVATAR_CONFIGS: Record<string, AvatarContext> = {
     maxMessages: 0,
   },
 
-  '/terms': {
+  '/legal': {
     enabled: false,
     speakOnLoad: false,
     role: 'system',

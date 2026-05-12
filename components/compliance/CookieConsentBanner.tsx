@@ -141,7 +141,7 @@ export default function CookieConsentBanner() {
                   </p>
                   <div className="flex flex-wrap gap-2 text-xs">
                     <Link
-                      href="/privacy-policy"
+                      href="/legal/privacy"
                       aria-label="Link"
                       className="text-brand-blue-600 hover:underline"
                     >

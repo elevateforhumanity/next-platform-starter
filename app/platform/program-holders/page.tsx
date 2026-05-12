@@ -45,7 +45,7 @@ export default async function ProgramHolderLicensePage() {
             Elevate Workforce Operating System
           </a>
           .{' '}
-          <a href="/store/licensing" className="hover:underline">
+          <a href="/store/licenses" className="hover:underline">
             View pricing →
           </a>
         </p>

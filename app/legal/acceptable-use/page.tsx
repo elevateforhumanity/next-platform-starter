@@ -151,7 +151,7 @@ export default async function AcceptableUsePage() {
                 <Link href="/legal/eula" className="text-brand-green-600 hover:underline">
                   EULA
                 </Link>
-                <Link href="/terms-of-service" className="text-brand-green-600 hover:underline">
+                <Link href="/legal" className="text-brand-green-600 hover:underline">
                   Terms of Service
                 </Link>
                 <Link href="/legal/disclosures" className="text-brand-green-600 hover:underline">

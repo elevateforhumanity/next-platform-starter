@@ -25,7 +25,7 @@ const portals = [
   {
     name: 'Student Portal',
     description: 'Track your enrollment, courses, and progress',
-    href: '/student-portal',
+    href: '/learner/dashboard',
     icon: GraduationCap,
     color: 'bg-blue-500',
     public: true,
