@@ -341,7 +341,7 @@ export default function PartnersPage() {
                   {
                     name: 'HVAC Technician',
                     href: canonicalRoutes.programs.hvacTechnician,
-                    duration: '12 weeks',
+                    duration: '6–8 weeks',
                     credential: 'EPA 608 + OSHA 10',
                     funding: 'WIOA, WRG, Employer',
                   },

@@ -39,7 +39,7 @@ const FUNDING_SOURCES = [
 ];
 
 const PROGRAMS = [
-  { name: 'HVAC Technician', credential: 'EPA 608 Universal', duration: '12 weeks', href: '/programs/hvac-technician' },
+  { name: 'HVAC Technician', credential: 'EPA 608 Universal', duration: '6–8 weeks', href: '/programs/hvac-technician' },
   { name: 'Barber Apprenticeship', credential: 'Indiana Barber License', duration: '2 years', href: '/programs/barber-apprenticeship' },
   { name: 'Cosmetology Apprenticeship', credential: 'Indiana Cosmetology License', duration: '2 years', href: '/programs/cosmetology-apprenticeship' },
   { name: 'CNA Certification', credential: 'Indiana CNA License', duration: '6 weeks', href: '/programs/cna-certification' },

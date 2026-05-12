@@ -571,7 +571,7 @@ export default async function AboutPage() {
             {[
               { name: 'CNA Certification', duration: '4–6 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/cna' },
               { name: 'CDL Training', duration: '4–6 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/cdl-training' },
-              { name: 'HVAC Technician', duration: '12 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/hvac-technician' },
+              { name: 'HVAC Technician', duration: '6–8 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/hvac-technician' },
               { name: 'Electrical', duration: '12–16 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/electrical' },
               { name: 'Barber Apprenticeship', duration: '~18 months', image: '/images/pages/about-hero.jpg', href: '/programs/barber-apprenticeship' },
               { name: 'IT & Cybersecurity', duration: '8–16 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/technology' },

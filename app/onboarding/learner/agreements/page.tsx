@@ -44,7 +44,7 @@ const AGREEMENT_POINTS = [
   {
     image: '/images/pages/career-services-page-2.jpg',
     title: 'Program Terms',
-    body: '12-week training, 240 hours of instruction, hands-on labs at employer sites.',
+    body: '6–8 week training, 240 hours of instruction, hands-on labs at employer sites.',
   },
   {
     image: '/images/pages/adult-learner.jpg',

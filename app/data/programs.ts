@@ -90,7 +90,7 @@ export const programs: Program[] = [
     heroImage: '/images/pages/hvac-technician.jpg',
     heroImageAlt: 'HVAC student working on an air conditioning unit',
     heroVideo: '/videos/hvac-hero-final.mp4',
-    duration: '12 weeks (240 hours)',
+    duration: '6–8 weeks',
     clockHours: 240,
     schedule: '6–8 weeks classroom + 2–4 weeks hands-on/OJT',
     delivery: 'Hybrid — Online RTI via LMS + hands-on labs at training facility',

@@ -190,7 +190,7 @@ export default function TrainingModelPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-slate-900 mb-3">What a Typical Week Looks Like</h2>
           <p className="text-black mb-8">
-            Here is an example week for an HVAC or Electrical student in a 12-week program.
+            Here is an example week for an HVAC or Electrical student in a 6–8 week program.
             Schedules vary by program, but this gives you a realistic picture.
           </p>
 
@@ -371,10 +371,10 @@ export default function TrainingModelPage() {
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-slate-900 mb-3">
-            Example: 12-Week Skilled Trades Program Timeline
+            Example: 6–8 Week Skilled Trades Program Timeline
           </h2>
           <p className="text-black mb-6 text-sm">
-            This is a real example of how a 12-week HVAC, Electrical, or Welding program flows from
+            This is a real example of how a 6–8 week HVAC, Electrical, or Welding program flows from
             enrollment to employment.
           </p>
 

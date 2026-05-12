@@ -122,7 +122,7 @@ const PROGRAM_META: Record<
   { duration: string; hours: string; credentials: string[]; hasOJT: boolean }
 > = {
   'hvac-technician': {
-    duration: '12 weeks',
+    duration: '6–8 weeks',
     hours: '240 hours',
     credentials: [
       'EPA 608 Universal',

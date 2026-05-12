@@ -599,9 +599,9 @@ export const COURSES: Course[] = [
     id: 'epa-608-prep-bundle',
     slug: 'epa-608-prep-exam-bundle',
     name: 'EPA 608 Prep + Exam Bundle',
-    shortDescription: '12-week certification prep course with proctored exam access',
+    shortDescription: '6-week certification prep course with proctored exam access',
     description:
-      'Complete EPA Section 608 Universal certification pathway. 12-week structured prep course covering Core, Type I, Type II, and Type III sections. Study kit provided at no cost. Practice exams included. Proctored on-site through both ESCO Group (Proctor ID: 358010) and Mainstream Engineering.',
+      'Complete EPA Section 608 Universal certification pathway. 6-week structured prep course covering Core, Type I, Type II, and Type III sections. Study kit provided at no cost. Practice exams included. Proctored on-site through both ESCO Group (Proctor ID: 358010) and Mainstream Engineering.',
     provider: 'Elevate for Humanity Career & Technical Institute',
     category: 'HVAC & Trades',
     price: 199,
@@ -610,7 +610,7 @@ export const COURSES: Course[] = [
     hours: 90,
     image: '/images/pages/training-classroom.jpg',
     features: [
-      '12-week structured certification prep curriculum',
+      '6-week structured certification prep curriculum',
       'Study kit provided free to every student',
       'Full practice test bank — Core, Type I, II, III',
       'Proctored certification exam included',
@@ -631,7 +631,7 @@ export const COURSES: Course[] = [
     name: 'HVAC Certification Pathway',
     shortDescription: 'EPA 608 prep + exam + study kit — full certification pathway',
     description:
-      'Everything you need to go from zero to EPA 608 Universal certified. Includes the 12-week certification prep course, study kit, practice exams, and proctored exam through EPA-approved certifying organizations. Designed for students in the Elevate HVAC Technician program or anyone preparing for EPA 608 certification independently.',
+      'Everything you need to go from zero to EPA 608 Universal certified. Includes the 6-week certification prep course, study kit, practice exams, and proctored exam through EPA-approved certifying organizations. Designed for students in the Elevate HVAC Technician program or anyone preparing for EPA 608 certification independently.',
     provider: 'Elevate for Humanity Career & Technical Institute',
     category: 'HVAC & Trades',
     price: 249,
@@ -640,7 +640,7 @@ export const COURSES: Course[] = [
     hours: 90,
     image: '/images/pages/hvac-technician.jpg',
     features: [
-      'Complete 12-week EPA 608 prep curriculum',
+      'Complete 6-week EPA 608 prep curriculum',
       'Physical study kit shipped to your address',
       'Practice exams for all four sections',
       'Proctored Universal certification exam',
