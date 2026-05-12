@@ -333,334 +333,68 @@ Barbicide check: watch the student submerge tools — partial submersion is a fa
 Razor check: confirm the used blade goes directly into the sharps container — not the trash.
 Neck strip check: cape must not touch skin before the strip is placed.
 Indiana State Board inspectors check disinfection logs — remind students to document every session.`,
-          content: `<h2>Sanitation & Infection Control</h2>
-
-<h3>Objective</h3>
-<p>By the end of this lesson, you will be able to: differentiate between cleaning, disinfecting, and sterilization; identify types of microorganisms and how they spread in a barbering environment; apply proper infection control procedures in compliance with OSHA standards; execute blood exposure protocol correctly; maintain a sanitary workstation that meets state board requirements.</p>
-
-<h3>Key Concepts</h3>
-<ul>
-  <li><strong>Pathogens</strong> — bacteria, viruses, fungi, parasites</li>
-  <li><strong>Modes of transmission</strong> — direct contact, indirect contact (contaminated tools), airborne/droplet</li>
-  <li><strong>Levels of decontamination</strong> — cleaning, disinfecting, sterilization</li>
-  <li><strong>EPA-registered disinfectants</strong> — required by Indiana state board for all tools</li>
-  <li><strong>Contact time</strong> — disinfectant must remain wet for the full manufacturer-specified duration</li>
-  <li><strong>Bloodborne pathogens</strong> — hepatitis B, hepatitis C, HIV</li>
-  <li><strong>Cross-contamination</strong> — transferring pathogens from one surface or person to another via tools, hands, or linens</li>
-  <li><strong>Universal Precautions</strong> — treat every client as potentially infectious, every service</li>
-</ul>
-
-<h3>Explanation</h3>
-
-<h4>1. Types of Microorganisms — What You Are Actually Fighting</h4>
-<p>You are not "cleaning tools." You are interrupting biological transmission chains. Understanding what you are fighting determines how you fight it.</p>
-<ul>
-  <li><strong>Bacteria</strong> — single-celled organisms. Some are harmless; some are pathogenic. <em>Staphylococcus aureus</em> causes skin infections and folliculitis — spread by contaminated clippers and combs. Bacteria are destroyed by EPA-registered disinfectants.</li>
-  <li><strong>Viruses</strong> — require a living host to survive and reproduce. Examples: hepatitis B (survives on dry surfaces up to 7 days), hepatitis C, HIV. HIV is fragile outside the body; hepatitis B is not. Both are inactivated by proper disinfection.</li>
-  <li><strong>Fungi</strong> — cause conditions like ringworm (tinea capitis). Ringworm is not a worm — it is a fungal infection presenting as a circular, scaly patch on the scalp. Highly contagious through contaminated clippers, combs, and hats. A client with active ringworm is a contraindication — do not perform services.</li>
-  <li><strong>Parasites</strong> — live on or in a host. Head lice (pediculosis capitis) are the most common barbershop parasite. Spread by direct contact and shared tools. A client with visible lice is a contraindication — refer out immediately.</li>
-</ul>
-
-<h4>2. How Infection Spreads in a Barbershop</h4>
-<p>Your tools are the primary infection vehicle — not the client's hands or breath.</p>
-<table style="width:100%; border-collapse:collapse; margin:1rem 0;">
-  <thead>
-    <tr style="background:#f3f4f6;">
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">Route</th>
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">How It Happens</th>
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">Barbershop Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="padding:8px; border:1px solid #d1d5db;"><strong>Direct contact</strong></td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Skin-to-skin or blood-to-skin</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Barber touches client's open wound without gloves</td>
-    </tr>
-    <tr style="background:#f9fafb;">
-      <td style="padding:8px; border:1px solid #d1d5db;"><strong>Indirect contact</strong></td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Contaminated object touches skin</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Undisinfected clipper used on next client — most common route</td>
-    </tr>
-    <tr>
-      <td style="padding:8px; border:1px solid #d1d5db;"><strong>Droplet/Airborne</strong></td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Respiratory droplets</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Client coughs or sneezes during service</td>
-    </tr>
-  </tbody>
-</table>
-
-<h4>3. Levels of Decontamination — Heavily Tested on State Board</h4>
-<table style="width:100%; border-collapse:collapse; margin:1rem 0;">
-  <thead>
-    <tr style="background:#f3f4f6;">
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">Level</th>
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">What It Does</th>
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">Required For</th>
-      <th style="padding:8px; border:1px solid #d1d5db; text-align:left;">State Board Rule</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="padding:8px; border:1px solid #d1d5db;"><strong>Cleaning</strong></td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Removes visible debris with soap/detergent. Does NOT kill pathogens.</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">First step before disinfection</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Never sufficient alone for tools</td>
-    </tr>
-    <tr style="background:#f9fafb;">
-      <td style="padding:8px; border:1px solid #d1d5db;"><strong>Disinfecting</strong></td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Kills most microorganisms using EPA-approved chemical agents</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">All tools between every client</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Minimum required standard in Indiana</td>
-    </tr>
-    <tr>
-      <td style="padding:8px; border:1px solid #d1d5db;"><strong>Sterilization</strong></td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Destroys ALL microorganisms including spores. Typically via autoclave.</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Invasive instruments with blood exposure risk</td>
-      <td style="padding:8px; border:1px solid #d1d5db;">Not required for standard barbering tools</td>
-    </tr>
-  </tbody>
-</table>
-<p><strong>State board trap:</strong> If a tool has blood exposure risk, cleaning alone is never enough. The answer is always disinfection at minimum.</p>
-
-<h4>4. Bloodborne Pathogens & OSHA Compliance</h4>
-<p>OSHA Standard 29 CFR 1910.1030 requires all barbershops to have a written Exposure Control Plan. High-risk scenarios in barbering:</p>
-<ul>
-  <li>Nicks from straight razors or clippers</li>
-  <li>Cuts from scissors</li>
-  <li>Skin abrasions from aggressive technique</li>
-</ul>
-<p>Universal Precautions means you treat every client as potentially infectious — every service, every time. You do not ask. You do not assume. You protect.</p>
-
-<h4>5. Blood Exposure Protocol — Memorize This</h4>
-<p>This is tested on the Indiana state board written exam. Missing any step is a fail risk.</p>
-<ol>
-  <li><strong>Stop the service immediately</strong></li>
-  <li><strong>Put on gloves</strong> before touching the wound or any blood</li>
-  <li><strong>Clean the wound</strong> with soap and water</li>
-  <li><strong>Apply antiseptic</strong> to the wound</li>
-  <li><strong>Cover with a sterile bandage</strong></li>
-  <li><strong>Dispose of contaminated materials</strong> — double-bag in biohazard bags</li>
-  <li><strong>Disinfect all tools and surfaces</strong> that contacted blood</li>
-  <li><strong>Wash hands thoroughly</strong> with soap and water</li>
-</ol>
-<p>Document the incident: date, time, what happened, actions taken. If your skin was exposed to the client's blood, report to your supervisor and seek medical evaluation immediately.</p>
-
-<h4>6. Tool & Workstation Sanitation Standards</h4>
-<p><strong>The most common mistake barbers make:</strong> spraying disinfectant and wiping immediately. That is not disinfection. That is cleaning. Disinfection requires full contact time — the surface must remain wet for the manufacturer's specified duration (typically 10 minutes for most barbershop disinfectants).</p>
-<p><strong>Minimum standards:</strong></p>
-<ul>
-  <li>Disinfect all tools after every client — no exceptions</li>
-  <li>Use a fresh towel and neck strip for every client</li>
-  <li>Clean and disinfect the workstation between every client</li>
-  <li>Store disinfected tools in a clean, closed container — not back in the disinfectant jar</li>
-  <li>Change disinfectant solution daily or when visibly contaminated</li>
-  <li>Maintain a disinfection log — Indiana inspectors will ask for it</li>
-</ul>
-
-<h3>Real-World Application</h3>
-<p>A barber finishes a fade, brushes hair off the clippers, sprays them with disinfectant, and immediately picks them up to use on the next client. The spray contact time is 10 minutes.</p>
-<p><strong>What went wrong:</strong> No cleaning step (hair debris still on blades). No contact time (wiped immediately). High risk of cross-contamination — any pathogen from the previous client is still on those blades.</p>
-<p><strong>Correct procedure:</strong> Remove all debris. Clean with soap and water. Apply EPA-registered disinfectant. Wait the full contact time. Store in a clean container. Only then use on the next client. On a busy Saturday, this means having multiple sets of blades rotating through the disinfection process — not rushing one set.</p>
-
-<h3>Summary</h3>
-<ul>
-  <li>Infection control is about breaking transmission chains — not just "cleaning"</li>
-  <li>Your tools are the highest-risk infection vector in barbering — not the client's hands</li>
-  <li>Disinfection is the minimum professional standard; cleaning alone is never enough for tools</li>
-  <li>Contact time is non-negotiable — spraying and wiping immediately is not disinfection</li>
-  <li>Blood exposure requires an 8-step protocol — memorize it for state board</li>
-  <li>Universal Precautions: treat every client as potentially infectious, every time</li>
-</ul>
-
-<h4>State Board Alignment</h4>
-<ul>
-  <li>Indiana State Board — Infection Control & Safety Standards</li>
-  <li>OSHA Standard 29 CFR 1910.1030 — Bloodborne Pathogens</li>
-  <li>EPA Disinfectant Registration Requirements</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Infection control and safety form the foundation of professional barbering. This lesson distinguishes cleaning (physical removal of debris), disinfection (killing pathogens on surfaces), and sterilization (eliminating all microorganisms). Understanding bacteria, viruses, and fungi transmission routes—contact, airborne, and bloodborne—enables you to implement OSHA standards, execute proper exposure protocols, and maintain state board-compliant workstations that protect both you and your clients.</p><h2>Tools Required</h2><ul><li>EPA-registered disinfectant (quaternary ammonium or phenolic-based)</li><li>Autoclave or dry heat sterilizer for metal implements</li><li>Barbicide jar or disinfectant immersion container</li><li>Personal protective equipment (nitrile gloves, face mask, eye protection)</li><li>Sharps container for contaminated needles or lancets</li><li>Clean white towels and disposable cape liners</li><li>Bloodborne pathogen kit including gauze, antiseptic, and incident log</li></ul><h2>Procedure</h2><ol><li>Put on nitriles, mask, and eye protection; inspect workstation for visible debris, hair, or contamination before each client.</li><li>Clean all surfaces with soap and water, removing organic matter; use friction for 30 seconds on chairs, mirrors, and tools.</li><li>Spray EPA-registered disinfectant (contact time 10 minutes per product label) on all non-porous surfaces and allow to air dry completely.</li><li>Place single-use items (capes, neck strips, towels) in designated hamper; never reuse without laundering at 160°F minimum.</li><li>Immerse all metal cutting tools in Barbicide or approved disinfectant for minimum contact time specified by manufacturer (typically 15 minutes).</li><li>Remove implements with sanitized tongs, rinse under running water, and pat dry with clean towel before placing in sterile container.</li><li>If blood exposure occurs, immediately stop service, don fresh gloves, apply direct pressure with gauze, and clean wound with antiseptic soap.</li><li>Document incident with date, time, client, exposure type, and action taken; notify supervisor and follow OSHA recordkeeping requirements within 24 hours.</li></ol><h2>Safety</h2><p><strong>DO NOT reuse single-use items or skip disinfection steps.</strong> Consequence: cross-contamination spreads bloodborne pathogens (HIV, Hepatitis B/C), violates Indiana State Board rules, triggers OSHA penalties, and causes serious client illness or legal liability.</p><p><strong>Failure Mode & Recovery:</strong> You immerse tools but forget to air-dry the disinfectant, causing chemical residue on client skin. Recovery: (1) Stop immediately when chemical contact noticed; (2) rinse client area with cool water for 15 seconds; (3) dry thoroughly; (4) document on client intake form; (5) revise drying protocol by using lint-free towels and allowing 5-minute air-dry post-rinse; (6) discard contaminated tools and restart sterilization cycle properly.</p><p><strong>IF/THEN Decision Block—Client Variations:</strong> IF client has open cuts or lesions on scalp or neck, THEN defer service and require physician clearance; do not proceed. IF client reports recent hepatitis exposure, THEN use fresh gloves, avoid contact with any bleeding areas, and increase disinfection frequency on all touched surfaces. IF client has active ringworm or fungal infection, THEN refuse service per state law until treated and documented clear.</p><h2>Visual Cues</h2><p>Proper workstation appearance: mirror spotless and streak-free, chair upholstered surface free of hair or stains, all metal tools gleaming without water spots or dried disinfectant residue. Correct implement positioning: handles point outward in sterile container; no tools touching non-sterile surfaces. Your personal appearance shows rolled sleeves exposing clean forearms, clean-fitting shirt or uniform without visible debris, and properly fitted gloves creating seal at wrist without wrinkles or tears. Disinfectant contact is complete when surfaces appear wet for full duration specified on product label before air-drying to a clean, dry finish with no visible contamination.</p>`,
           quizQuestions: [
-            {
-              id: 'mod1-l4-q1',
-              question:
-                'What type of microorganism requires a living host to survive and reproduce?',
-              options: ['Bacteria', 'Virus', 'Fungus', 'Parasite'],
-              correctAnswer: 1,
-              explanation:
-                'Viruses cannot reproduce without a host cell. Examples relevant to barbering: hepatitis B, hepatitis C, HIV.',
-            },
-            {
-              id: 'mod1-l4-q2',
-              question:
-                'What is the minimum required level of decontamination for barber tools between clients in Indiana?',
-              options: [
-                'Cleaning',
-                'Disinfecting',
-                'Sterilization',
-                'Sanitizing with alcohol wipes',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Disinfection with an EPA-registered product is the minimum standard required by Indiana state board for all tools between clients.',
-            },
-            {
-              id: 'mod1-l4-q3',
-              question:
-                'A barber reuses a towel on a second client after shaking the hair out. What risk is present?',
-              options: [
-                'No risk — the hair was removed',
-                'Cross-contamination — pathogens from the first client remain on the towel',
-                'Only a risk if the first client had visible skin conditions',
-                'Risk only if the towel is wet',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Shaking hair out does not remove pathogens. Reusing towels transfers microorganisms from one client to another — cross-contamination.',
-            },
-            {
-              id: 'mod1-l4-q4',
-              question:
-                'A clipper is sprayed with disinfectant and immediately picked up for the next client. What step was skipped?',
-              options: [
-                'Removing the blade guard',
-                'Oiling the blades',
-                'Allowing the full contact time for the disinfectant to work',
-                'Rinsing with water first',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Spraying and wiping immediately is cleaning, not disinfection. The disinfectant must remain wet for the full manufacturer-specified contact time.',
-            },
-            {
-              id: 'mod1-l4-q5',
-              question: 'Which method destroys ALL microorganisms, including bacterial spores?',
-              options: [
-                'Disinfection with EPA-registered solution',
-                'Sanitizing with 70% isopropyl alcohol',
-                'Sterilization via autoclave',
-                'Cleaning with soap and water',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Sterilization (typically via autoclave) is the only method that destroys all microorganisms including spores. Disinfection does not destroy spores.',
-            },
-            {
-              id: 'mod1-l4-q6',
-              question: 'What is the FIRST step after a client begins bleeding during a service?',
-              options: [
-                'Apply antiseptic to the wound',
-                'Stop the service immediately',
-                'Put on gloves',
-                'Ask the client if they want to continue',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Step 1 of the blood exposure protocol is to stop the service immediately. Gloves come second — before touching the wound.',
-            },
-            {
-              id: 'mod1-l4-q7',
-              question: 'Why is contact time critical in disinfection?',
-              options: [
-                'Longer contact time makes tools smell cleaner',
-                'The disinfectant must remain wet on the surface long enough to chemically destroy pathogens',
-                'Contact time only matters for sterilization, not disinfection',
-                'It prevents the disinfectant from damaging metal tools',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Disinfectants work through a chemical reaction that requires time. Removing tools before the contact time is complete means the process failed — pathogens may still be present.',
-            },
-            {
-              id: 'mod1-l4-q8',
-              question: 'What is the minimum time tools must remain submerged in Barbicide?',
-              options: ['2 minutes', '5 minutes', '10 minutes', '15 minutes'],
-              correctAnswer: 2,
-              explanation:
-                'Barbicide requires a minimum 10-minute full submersion to achieve proper disinfection. Partial soaking or early removal does not meet the standard.',
-            },
-            {
-              id: 'mod1-l4-q9',
-              question:
-                'What level of decontamination is primarily used in barbering between clients?',
-              options: ['Sanitation', 'Disinfection', 'Sterilization', 'Dehydration'],
-              correctAnswer: 1,
-              explanation:
-                'Disinfection with an EPA-registered product is the primary standard in barbering. Sterilization is not required for standard barbering tools.',
-            },
-            {
-              id: 'mod1-l4-q10',
-              question: 'Razor blades are classified as:',
-              options: [
-                'Reusable if cleaned with alcohol',
-                'Single-use only — replaced for every client',
-                'Optional replacement based on sharpness',
-                'Reusable if sterilized in an autoclave',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Razor blades are single-use. A fresh blade must be used for every client and the used blade disposed of immediately in a sharps container.',
-            },
-            {
-              id: 'mod1-l4-q11',
-              question: "What item prevents the cape from directly touching the client's skin?",
-              options: ['A clean towel', 'A neck strip', 'Gloves', 'An apron'],
-              correctAnswer: 1,
-              explanation:
-                "A clean neck strip is applied before the cape to create a barrier between the cape and the client's skin. This is a client protection requirement.",
-            },
-            {
-              id: 'mod1-l4-q12',
-              question: 'Cross-contamination in a barbershop most commonly occurs through:',
-              options: [
-                'Mixing disinfectant chemicals',
-                'Using tools on multiple clients without disinfecting between uses',
-                'Drying tools with a clean towel',
-                'Wearing gloves during chemical services',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Cross-contamination is the transfer of pathogens from one client to another via contaminated tools, hands, or surfaces. Disinfecting between every client is the primary prevention.',
-            },
-            {
-              id: 'mod1-l4-q13',
-              question:
-                'A client presents with a circular, scaly patch on the scalp. What is the correct action?',
-              options: [
-                'Proceed with the service using gloves',
-                'Apply antifungal spray before the service',
-                'Decline the service — this is a contraindication',
-                'Use a fresh blade and proceed normally',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'A circular scaly patch is a sign of ringworm (tinea capitis), a highly contagious fungal infection. Active ringworm is a contraindication — do not perform services and refer the client to a physician.',
-            },
-            {
-              id: 'mod1-l4-q14',
-              question: 'How often should Barbicide solution be changed?',
-              options: [
-                'Once a week',
-                'Every three days',
-                'Daily or when visibly contaminated',
-                'Only when it changes color',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Barbicide solution must be changed daily or whenever it becomes visibly contaminated. Using old or dirty solution does not meet disinfection standards.',
-            },
-            {
-              id: 'mod1-l4-q15',
-              question: 'Universal Precautions means:',
-              options: [
-                'Wearing gloves only when a client has a known infection',
-                'Treating every client as potentially infectious on every service',
-                'Asking clients about their health history before each service',
-                'Using sterilization instead of disinfection for all tools',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Universal Precautions require treating every client as potentially infectious on every service — not just clients who appear sick or disclose a condition. This is the OSHA standard.',
-            },
+                    {
+                              "id": "barber-lesson-4-q1",
+                              "question": "Which of the following correctly defines the difference between disinfection and sterilization?",
+                              "options": [
+                                        "A. Disinfection removes all microorganisms; sterilization kills only pathogens on surfaces.",
+                                        "B. Sterilization eliminates all microorganisms including spores; disinfection kills most pathogens but not all.",
+                                        "C. Both terms mean the same thing and can be used interchangeably in barbering.",
+                                        "D. Disinfection is only used for tools; sterilization is only used for surfaces."
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Sterilization is the most rigorous process, eliminating all microorganisms including bacterial spores via autoclave or dry heat. Disinfection kills most pathogens using chemical agents but does not eliminate all resistant forms. Both are essential in barbering, but sterilization is required for metal implements that contact blood."
+                    },
+                    {
+                              "id": "barber-lesson-4-q2",
+                              "question": "According to OSHA and Indiana State Board standards, what is the minimum contact time for most EPA-registered disinfectants on barber workstation surfaces?",
+                              "options": [
+                                        "A. 5 minutes of wet contact time.",
+                                        "B. 10 minutes of wet contact time as specified on the product label.",
+                                        "C. 20 minutes regardless of product type.",
+                                        "D. Contact time is not regulated; visual cleanliness is sufficient."
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "EPA-registered disinfectants require a contact time (typically 10 minutes) that must be followed per the product label. Surfaces must remain visibly wet for the entire contact duration to ensure pathogen kill. Shorter times do not achieve adequate disinfection and violate state regulations."
+                    },
+                    {
+                              "id": "barber-lesson-4-q3",
+                              "question": "Which items in a barber shop MUST be discarded after each client rather than disinfected and reused?",
+                              "options": [
+                                        "A. Neck strips, single-use capes, and paper towels.",
+                                        "B. All metal tools and combs.",
+                                        "C. Only items that visibly touch blood.",
+                                        "D. Chairs and mirrors after every service."
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Single-use items including neck strips, disposable capes, and paper towels must be discarded after each client to prevent cross-contamination. Metal tools are disinfected and sterilized for reuse. Reusing single-use items violates Indiana State Board rules and OSHA standards."
+                    },
+                    {
+                              "id": "barber-lesson-4-q4",
+                              "question": "SCENARIO: A client mentions they recently had a blood test at a medical clinic and has a small cut on their scalp. What is the correct action?",
+                              "options": [
+                                        "A. Proceed with the haircut using standard precautions and gloves.",
+                                        "B. Ask if the test was related to infectious disease; if no recent exposure, use double gloves and proceed carefully.",
+                                        "C. Refuse service until the client provides physician clearance or written documentation showing no bloodborne pathogen exposure.",
+                                        "D. Use triple gloves and aggressive disinfection to proceed safely."
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Indiana State Board regulations require deferral of service for clients with recent potential bloodborne pathogen exposure or open lesions. A physician clearance letter documents safety and protects both you and the client. Using extra gloves does not eliminate transmission risk and does not comply with state law."
+                    },
+                    {
+                              "id": "barber-lesson-4-q5",
+                              "question": "SCENARIO: During a fade, you accidentally cut the client's ear, causing light bleeding. After applying pressure and stopping the bleed, what must you do next?",
+                              "options": [
+                                        "A. Continue the service immediately while wearing fresh gloves and monitoring the area.",
+                                        "B. Stop service, document the incident with date/time/type of exposure, apply first aid, change gloves, and follow OSHA recordkeeping within 24 hours.",
+                                        "C. Clean the area with disinfectant only and resume service without documentation.",
+                                        "D. Refer the client to an emergency room regardless of bleed severity."
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "OSHA bloodborne pathogen standard requires documentation of all exposure incidents including date, time, client, type of exposure, and actions taken. Incident logs must be maintained and reported within 24 hours. Proper first aid (pressure, antiseptic) and fresh PPE are applied, but documentation is mandatory for compliance and liability protection."
+                    }
           ],
         },
 
@@ -699,67 +433,67 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             },
           ],
           instructorNotes: `Chemical storage check: confirm all products are in original or labeled containers, stored away from heat sources. SDS check: student must locate and read the SDS for at least one product without assistance. Hazard walk-through: conduct in the actual shop, not from memory.`,
-          content: `<h2>Workplace Safety</h2><p>As a barber, it is essential to maintain a safe working environment for yourself and your clients. This includes following OSHA workplace safety standards and identifying hazards specific to barbershop environments. In this lesson, we will cover the tools, equipment, and materials required to ensure a safe workplace, as well as the importance of sanitation, disinfection, and infection control.</p><h3>Tools, Equipment, and Materials</h3><p>The following tools, equipment, and materials are required for a safe barbershop environment:</p><ul><li>Sanitizing solutions and disinfectants</li><li>Gloves and other personal protective equipment (PPE)</li><li>First aid kit</li><li>Fire extinguisher</li><li>Slip-resistant flooring</li><li>Proper lighting</li></ul><h3>Safety Procedures</h3><p>To ensure a safe workplace, the following procedures must be followed:</p><ol><li>Sanitize and disinfect all equipment and surfaces after each use</li><li>Wear gloves and other PPE when necessary</li><li>Use caution when handling sharp objects and chemicals</li><li>Keep the floor clear of clutter and tripping hazards</li><li>Ensure proper ventilation</li></ol><h3>IF/THEN Decision Block</h3><p>When dealing with clients, it is essential to consider their individual needs and circumstances. For example:</p><p>IF a client presents with a skin condition, such as eczema or psoriasis, THEN you should take extra precautions to avoid irritating the condition. This may include using gentle products and avoiding certain techniques that may exacerbate the condition.</p><h3>Contraindications and Safety Rules</h3><p>There are certain contraindications and safety rules that must be followed in a barbershop environment. For example:</p><p>DO NOT use sharp objects or chemicals near open flames or sparks</p><p>DO NOT touch clients' faces or bodies without proper sanitation and disinfection procedures</p><h3>Failure Mode and Recovery</h3><p>A failure mode that can occur in a barbershop environment is a slip or fall due to wet or slippery floors. This can happen when a client spills water or a barber drops a wet towel on the floor. To recover from this failure mode, the barber should immediately clean up the spill and dry the floor to prevent further accidents.</p><h3>Correct Execution</h3><p>Correct execution of workplace safety procedures can be observed visually by looking for the following cues:</p><ul><li>Barbers wearing gloves and other PPE when necessary</li><li>Equipment and surfaces being sanitized and disinfected after each use</li><li>A clean and clutter-free floor</li><li>Proper lighting and ventilation</li></ul><h3>Sanitation, Disinfection, and Infection Control</h3><p>Sanitation, disinfection, and infection control are crucial in a barbershop environment. This includes sanitizing and disinfecting all equipment and surfaces, washing hands frequently, and using proper techniques to prevent the spread of infection.</p>`,
+          content: `<h2>Overview</h2><p>Workplace safety in barbershops requires strict adherence to OSHA standards and identification of environmental hazards. This lesson covers essential safety protocols, hazard recognition, and proper response procedures to protect barbers, apprentices, and clients. Understanding bloodborne pathogens, chemical exposure, ergonomic risks, and emergency procedures ensures a safe, compliant barbershop environment.</p><h2>Tools Required</h2><ul><li>OSHA Bloodborne Pathogens Standard documentation</li><li>Safety Data Sheets (SDS) for all chemical products</li><li>First aid kit with biohazard sharps container</li><li>Personal protective equipment: gloves, masks, eye protection</li><li>Disinfectant solutions (EPA-registered hospital-grade or barbicide)</li><li>Fire extinguisher (Class B and C rated)</li><li>Spill kits and absorbent materials</li><li>Ergonomic footrest and anti-fatigue mat</li></ul><h2>Client Variation Decision Tree</h2><ul><li><strong>IF</strong> client has open cuts, sores, or bleeding skin condition, <strong>THEN</strong> refuse service, document reason, and refer to healthcare provider. Never proceed with service on compromised skin.</li><li><strong>IF</strong> client reports recent tattoo or piercing (less than 4 weeks), <strong>THEN</strong> avoid that area completely and use extra precautions; contact may introduce infection to healing tissue.</li><li><strong>IF</strong> client presents with visible fungal infection, rash, or unusual scalp lesions, <strong>THEN</strong> decline service, document observations, and recommend dermatological evaluation before returning.</li></ul><h2>Sanitation Protocol</h2><p>All non-porous tools must be immersed in EPA-registered hospital-grade disinfectant (such as Barbicide) for minimum 10 minutes at proper concentration per manufacturer instructions. Verify disinfectant solution is changed daily and chemical strength is tested with color-change strips. Reusable towels must be washed in hot water with high-heat drying cycle; single-use neck strips are preferred. Workspace surfaces, including chairs and mirrors, require spray disinfection between each client with hospital-grade surface cleaner.</p><h2>Critical Contraindication</h2><p><strong>DO NOT proceed with any service if you observe or suspect bloodborne pathogen exposure risk without proper PPE and engineering controls in place. Failure to implement infection control increases liability, violates OSHA regulations, and risks serious illness or legal consequences for yourself, your employer, and the establishment.</strong></p><h2>Failure Mode: Chemical Spill Response</h2><p><strong>Cause:</strong> Disinfectant bottle knocked over during cleaning, creating slip hazard and chemical exposure risk. <strong>Recovery Steps:</strong> (1) Alert nearby personnel and cordon off area with caution sign; (2) Don nitrile gloves and eye protection immediately; (3) Allow spill to evaporate or carefully absorb with absorbent material into biohazard waste container; (4) Spray affected area with appropriate neutralizing solution or disinfectant per SDS; (5) Wipe thoroughly with clean cloth and allow to air dry completely; (6) Document incident, notify supervisor, and verify no residual hazard exists before resuming operations.</p><h2>Visual Execution Cues</h2><p>When observing proper ergonomic positioning, barber's feet should be shoulder-width apart with weight distributed evenly; knees remain slightly bent, never locked. Shoulders stay relaxed and level, avoiding forward slouch toward client. Elbows maintain 90-degree angle with workstation. Client chair height adjusts so work area sits at barber's elbow level, eliminating excessive reaching or bending. All sharp tools are stored point-down in proper containers; scissors never left on work surface. Gloves show no tears, and fresh pair is donned before each new client. Clean workspace is organized, clutter-free, with all chemical bottles labeled and closed.</p><h2>Procedure</h2><ol><li>Review OSHA Bloodborne Pathogens Standard and barbershop-specific hazard assessment documentation before beginning any shift or new apprentice orientation.</li><li>Inspect all tools, equipment, and workstation for damage, contamination, or hazards; report unsafe conditions to supervisor immediately and do not use compromised items.</li><li>Don appropriate PPE including nitrile gloves, mask, and eye protection; verify fit and integrity before client interaction or tool handling.</li><li>Verify disinfectant solution concentration using color-change test strips; discard and replace solution if concentration is inadequate or solution is visibly contaminated.</li><li>Screen each client for contraindications: open wounds, recent piercings, skin infections, or communicable diseases; document refusals and provide referrals when appropriate.</li><li>Immerse all non-porous tools in hospital-grade disinfectant for full 10-minute contact time; remove with clean forceps and air-dry on clean towel before use.</li><li>Perform service using proper ergonomic positioning with shoulders relaxed, elbows at 90 degrees, and client chair adjusted to workstation height.</li><li>Handle all sharps with extreme care; place used blades immediately in designated sharps container; never recap, bend, or hand-pass sharp instruments to others.</li><li>Disinfect workspace, chair, and mirrors between clients using EPA-registered hospital-grade surface spray; allow adequate contact time per product instructions.</li><li>Document any incidents, exposures, or safety concerns in establishment incident log and report to supervisor or safety officer within 24 hours.</li></ol><h2>Safety Standards and Hazard Recognition</h2><p>OSHA requires barbershops to maintain bloodborne pathogen compliance, including exposure control plans, training documentation, and vaccination records. Chemical hazards include disinfectant inhalation, skin irritation, and eye exposure; all SDS must be accessible and reviewed. Sharps injuries are leading cause of occupational injury in barbershops; proper handling and disposal eliminates 95% of incidents. Ergonomic hazards develop over time; proper positioning prevents chronic back, neck, and shoulder injuries. Fire safety requires accessible extinguishers rated for electrical and chemical fires. Maintain incident log for all exposures or injuries; report to OSHA within 24 hours if serious injury occurs. Apprentices must receive documented training on all hazards before independent work and annually thereafter.</p><h2>Visual Cues</h2><p>Proper hand positioning shows wrists straight and fingers relaxed, avoiding excessive force or tension during tool manipulation. Safe tool storage displays all sharp instruments point-down in dedicated containers, never scattered on surfaces or handles-first in jars. Clean workspace organization keeps disinfectants away from client areas, chemical bottles capped and labeled clearly, and reusable items in covered containers. Correct PPE appearance includes intact gloves with no visible tears, mask fitting snugly across nose and mouth, and eye protection sitting securely. Client chair positioning appears comfortable and at optimal height where barber's elbows align naturally with work surface, eliminating visible reaching, bending, or slouching.</p>`,
           quizQuestions: [
                     {
                               "id": "barber-lesson-5-q1",
-                              "question": "What should you do if a client presents with a skin condition, such as eczema or psoriasis?",
+                              "question": "According to OSHA Bloodborne Pathogens Standard, what is the minimum contact time for tools immersed in hospital-grade disinfectant?",
                               "options": [
-                                        "Use a gentle product and avoid certain techniques",
-                                        "Use a harsh product to try to cure the condition",
-                                        "Touch the affected area without proper sanitation and disinfection",
-                                        "Refuse to serve the client"
+                                        "A. 10 minutes",
+                                        "B. 5 minutes",
+                                        "C. 15 minutes",
+                                        "D. 20 minutes"
                               ],
                               "correctAnswer": 0,
-                              "explanation": "When dealing with clients who have skin conditions, it is essential to take extra precautions to avoid irritating the condition. This includes using gentle products and avoiding certain techniques that may exacerbate the condition."
+                              "explanation": "OSHA and barbershop infection control protocols require minimum 10-minute immersion time in EPA-registered hospital-grade disinfectant such as Barbicide. Shorter times do not ensure adequate pathogen elimination."
                     },
                     {
                               "id": "barber-lesson-5-q2",
-                              "question": "What is the correct procedure for handling a slip or fall due to a wet or slippery floor?",
+                              "question": "Which of the following is NOT acceptable for storing reusable towels in a barbershop?",
                               "options": [
-                                        "Clean up the spill and dry the floor immediately",
-                                        "Leave the spill and continue working",
-                                        "Call for emergency assistance",
-                                        "Blame the client for the accident"
+                                        "A. Hot water washing with high-heat drying cycle",
+                                        "B. Leaving damp towels in closed container overnight",
+                                        "C. Separate storage from contaminated items",
+                                        "D. Single-use towels when available"
                               ],
-                              "correctAnswer": 0,
-                              "explanation": "A slip or fall due to a wet or slippery floor can be a serious accident. To recover from this failure mode, the barber should immediately clean up the spill and dry the floor to prevent further accidents."
+                              "correctAnswer": 1,
+                              "explanation": "Damp towels left in closed containers overnight create ideal conditions for bacterial and fungal growth, violating OSHA sanitation standards. All reusable towels must be fully dried after hot-water washing."
                     },
                     {
                               "id": "barber-lesson-5-q3",
-                              "question": "What is a contraindication in a barbershop environment?",
+                              "question": "What is the correct ergonomic position for a barber's elbows while working?",
                               "options": [
-                                        "Using sharp objects or chemicals near open flames or sparks",
-                                        "Wearing gloves and other PPE when necessary",
-                                        "Sanitizing and disinfecting all equipment and surfaces",
-                                        "Touching clients' faces or bodies without proper sanitation and disinfection"
+                                        "A. 90-degree angle with workstation",
+                                        "B. Fully extended straight",
+                                        "C. Bent at 45 degrees",
+                                        "D. Locked in fixed position"
                               ],
                               "correctAnswer": 0,
-                              "explanation": "Using sharp objects or chemicals near open flames or sparks is a contraindication in a barbershop environment, as it can cause serious injury or start a fire."
+                              "explanation": "Proper ergonomic positioning maintains elbows at 90-degree angle with the workstation, preventing strain, fatigue, and chronic injury to shoulders, arms, and back over time."
                     },
                     {
                               "id": "barber-lesson-5-q4",
-                              "question": "A client presents with a highly contagious infection, such as ringworm. What do you do?",
+                              "question": "SCENARIO: A client presents with a fresh tattoo on their neck from 2 weeks ago and visible redness around the site. What is the correct response?",
                               "options": [
-                                        "Refuse to serve the client",
-                                        "Use proper sanitation and disinfection procedures to prevent the spread of infection",
-                                        "Touch the affected area without proper sanitation and disinfection",
-                                        "Use a harsh product to try to cure the infection"
+                                        "A. Proceed with service but avoid the tattoo area completely",
+                                        "B. Perform full service as normal; tattoo is healed after 2 weeks",
+                                        "C. Decline service and recommend client wait 2 more weeks before returning",
+                                        "D. Use extra disinfectant around the area to ensure safety"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "When dealing with clients who have contagious infections, it is essential to use proper sanitation and disinfection procedures to prevent the spread of infection."
+                              "correctAnswer": 2,
+                              "explanation": "Fresh tattoos require 4-week minimum healing time. Visible redness indicates incomplete healing. Service refusal protects the client from infection risk and the barber from bloodborne pathogen exposure. Document the refusal and recommend client return after full healing."
                     },
                     {
                               "id": "barber-lesson-5-q5",
-                              "question": "What is an example of correct execution of workplace safety procedures?",
+                              "question": "SCENARIO: During a haircut, you notice the disinfectant solution in the tool container appears cloudy and slightly discolored. What is the correct action?",
                               "options": [
-                                        "A cluttered and dirty floor",
-                                        "A barber not wearing gloves or other PPE when necessary",
-                                        "A client being touched without proper sanitation and disinfection",
-                                        "A clean and clutter-free floor, with barbers wearing gloves and other PPE when necessary"
+                                        "A. Continue using the solution; it is still effective when discolored",
+                                        "B. Immediately stop using the solution, change it with fresh disinfectant, and retest concentration with color-change strips",
+                                        "C. Add more concentrated disinfectant to the existing solution to restore strength",
+                                        "D. Use the solution only for non-critical tools and change it at end of shift"
                               ],
-                              "correctAnswer": 3,
-                              "explanation": "Correct execution of workplace safety procedures can be observed visually by looking for cues such as a clean and clutter-free floor, barbers wearing gloves and other PPE when necessary, and proper lighting and ventilation."
+                              "correctAnswer": 1,
+                              "explanation": "Cloudy or discolored disinfectant indicates contamination or degraded effectiveness. OSHA standards require immediate replacement with fresh solution and verification of proper concentration using color-change test strips before resuming tool use."
                     }
           ],
         },
@@ -790,113 +524,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             },
           ],
           instructorNotes: `Observe the full consultation — student must ask about scalp conditions, allergies, and service history. Refusal criteria must be stated correctly if a contraindication is present.`,
-          content: `<h2>Client Consultation</h2>
-
-<h3>Objective</h3>
-<p>By the end of this lesson, you will be able to conduct a structured client consultation, identify contraindications that prevent service, and document client preferences for future visits.</p>
-
-<h3>Key Concepts</h3>
-<ul>
-  <li>Consultation happens before every service — not just the first visit</li>
-  <li>Contraindications — conditions that prevent you from performing a service safely</li>
-  <li>Client history — medications, allergies, and scalp conditions affect service outcomes</li>
-  <li>Managing expectations — be honest about what is achievable with the client's hair type</li>
-  <li>Client record cards — document preferences, products used, and any reactions</li>
-</ul>
-
-<h3>Explanation</h3>
-<p><strong>The consultation process:</strong></p>
-<ol>
-  <li><strong>Greet and seat</strong> — welcome the client, apply neck strip and cape</li>
-  <li><strong>Ask open-ended questions</strong> — "What are we doing today?" not "Same as last time?"</li>
-  <li><strong>Assess the hair and scalp</strong> — look for conditions before touching</li>
-  <li><strong>Identify contraindications</strong> — scalp infections, open wounds, contagious conditions</li>
-  <li><strong>Confirm the service</strong> — repeat back what you will do before starting</li>
-  <li><strong>Document</strong> — record the service, products used, and any client notes</li>
-</ol>
-<p><strong>Contraindications that require referral:</strong> Active scalp infections (ringworm, impetigo), open wounds or sores, contagious skin conditions, severe scalp inflammation. Do not perform services on these clients — refer them to a physician.</p>
-<p><strong>Managing expectations:</strong> If a client shows you a photo of a style that will not work with their hair type, be honest. Explain what is achievable and offer an alternative. A client who gets a realistic result they were prepared for is more loyal than one who got a surprise.</p>
-
-<h3>Real-World Application</h3>
-<p>A new client sits down and asks for a skin fade. During your scalp assessment, you notice a circular, scaly patch near the crown — a classic sign of ringworm (tinea capitis). You must decline the service, explain that you noticed a scalp condition that requires a doctor's evaluation, and refer them out. Do not name the condition as a diagnosis — you are not a physician. Simply say you cannot safely perform the service and recommend they see a doctor before their next visit.</p>
-
-<h3>Summary</h3>
-<ul>
-  <li>Consult before every service — conditions change between visits</li>
-  <li>Assess the scalp visually before touching</li>
-  <li>Contraindications require referral, not service</li>
-  <li>Confirm the service plan before starting — eliminate surprises</li>
-  <li>Document every service on a client record card</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Client consultation is the foundation of every barbering service. Before cutting, shaving, or treating hair and skin, you must conduct a thorough consultation to identify the client's needs, assess for contraindications, and establish realistic service goals. This prevents service failures, protects client health, and builds trust and professional credibility. A complete consultation takes 5–10 minutes and involves questioning, visual assessment, and documentation.</p><h2>Tools Required</h2><ul><li>Consultation form or intake sheet (printed or digital)</li><li>Pen or stylus for recording notes</li><li>Hand mirror and overhead mirror for client viewing</li><li>Magnifying lamp or loupe to inspect scalp and skin condition</li><li>Color wheel or shade guide (if color services discussed)</li><li>Hair texture/type reference chart</li><li>Disinfectant wipes and clean towel for mirror and lamp surfaces</li></ul><h2>Procedure</h2><ol><li>Greet the client warmly, offer a seat in the consultation area, and confirm whether this is a first visit or returning client.</li><li>Ask open-ended questions: desired style, hair concerns, daily grooming routine, and any recent scalp or skin treatments or reactions.</li><li>Inspect the client's hair type, texture, density, and growth pattern; note curl pattern, damage, or thinning areas using the magnifying lamp.</li><li>Examine the scalp for signs of infection, irritation, lesions, dandruff, or contraindicated conditions; document all findings.</li><li>Assess skin condition on face and neck; ask about sensitivity, allergies, or recent shaving reactions before any service.</li><li>Review contraindications and determine if the service is safe to perform; if unsafe, explain professionally and suggest alternatives or referral.</li><li>Discuss service timeline, maintenance requirements, and aftercare instructions; clarify pricing and confirm the client's agreement.</li><li>Document all consultation findings, signed consent, and any service restrictions in the client file for future reference.</li></ol><h2>Decision Tree: Hair Type & Skin Variations</h2><p><strong>IF</strong> client has coarse, curly hair: THEN ask about curl definition goals, discuss fade or taper techniques that enhance texture, and recommend curl-defining products. <strong>IF</strong> client has fine or thinning hair: THEN assess for androgenetic alopecia, avoid aggressive techniques, and recommend gentle clipper work or scissor-over-comb methods. <strong>IF</strong> client has sensitive skin or reports razor burn history: THEN use single-use or freshly sterilized straight razors, apply pre-shave oil, and plan shorter contact time with the blade.</p><h2>Sanitation & Disinfection</h2><p>Before and after consultation, disinfect all contact surfaces with EPA-registered hospital-grade disinfectant (such as Barbicide or 10% bleach solution) using clean paper towels. Wipe mirrors, lamp handles, and armrests. Allow 10 seconds contact time. Use clean, lint-free towels to dry. If using a magnifying lamp with a client, place a disposable cover over the lens or disinfect the exterior lens with an alcohol wipe before client use. Never share consultation forms between clients; use individual, dated records.</p><h2>Contraindications & Do-NOT Statement</h2><p><strong>DO NOT perform any shaving or clipper service on a client with active bacterial, viral, or fungal scalp infection (such as impetigo, ringworm, or severe folliculitis), as doing so will spread the infection to other clients and contaminate your tools, resulting in license suspension, legal liability, and harm to public health. Always refer such clients to a dermatologist and document the referral.</strong></p><h2>Failure Mode & Recovery</h2><p><strong>Failure:</strong> You begin a service and the client suddenly reports a metal allergy or mentions a recent scalp treatment you missed during consultation. <strong>Recovery Step 1:</strong> Stop the service immediately and do not proceed. <strong>Step 2:</strong> Apologize and review the intake form to identify the missed information. <strong>Step 3:</strong> Ask clarifying questions about the allergy or treatment type and timing. <strong>Step 4:</strong> Assess whether the service remains safe; if unsafe, reschedule and refer as needed. <strong>Step 5:</strong> Update the client file with the new information and implement a checklist to prevent recurrence.</p><h2>Visual Execution Cues</h2><p>During consultation, position yourself at a 45-degree angle to the client so both of you can see the mirror clearly. Tilt the client's head slightly forward to inspect the crown and nape; tilt sideways to assess temple density and ear area hair growth. Use the magnifying lamp with the beam directed at the scalp at a 90-degree angle to reveal texture, shedding, and inflammation. Observe the client's posture and facial expression for signs of discomfort or hesitation, which may indicate unreported contraindications or anxiety about the service.</p><h2>Safety</h2><p>Client consultation prevents infection transmission, allergic reactions, and service failure. Always sanitize mirrors and lamps before each use. Never assume a returning client has no new health concerns—ask every time. If you observe signs of contagious scalp or skin disease, do not proceed; politely explain that a dermatologist clearance is required. Document all findings, contraindications, and client agreement in writing. Keep consultation records confidential and retain per Indiana State Board of Health regulations (minimum 1 year). If a client refuses to disclose health information or denies visible contraindicated conditions, you may decline the service to protect public health.</p>`,
           quizQuestions: [
-            {
-              id: 'mod1-l6-q1',
-              question:
-                "During a scalp assessment, you notice a circular, scaly patch on a new client's scalp. What should you do?",
-              options: [
-                'Proceed — it is probably just dry skin',
-                'Apply a medicated shampoo and continue',
-                'Decline the service and refer the client to a physician',
-                'Disinfect the area and proceed with gloves',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Circular, scaly patches may indicate ringworm — a contraindication. Decline and refer. Do not diagnose.',
-            },
-            {
-              id: 'mod1-l6-q2',
-              question:
-                'A client shows you a photo of a style. You know it will not work with their hair type. You should:',
-              options: [
-                'Attempt it anyway — the client knows what they want',
-                'Be honest, explain what is achievable, and offer an alternative',
-                'Do the style and let the client decide if they like it',
-                'Refuse the service',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Managing expectations honestly builds trust and loyalty. Surprises — even well-intentioned ones — damage the relationship.',
-            },
-            {
-              id: 'mod1-l6-q3',
-              question: 'Which question is better for a client consultation?',
-              options: [
-                '"Same as last time?"',
-                '"Short or long?"',
-                '"What are we doing today?"',
-                '"Do you want a fade?"',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Open-ended questions give the client space to describe what they want rather than confirming assumptions.',
-            },
-            {
-              id: 'mod1-l6-q4',
-              question: 'Why should you document each client service on a record card?',
-              options: [
-                'It is required by Indiana law for all services',
-                'To track products used, preferences, and any reactions for future visits',
-                "To calculate the client's total spend",
-                'To share with other barbers in the shop',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Client records allow you to replicate successful services and avoid repeating mistakes.',
-            },
-            {
-              id: 'mod1-l6-q5',
-              question:
-                'At what point in the service should you confirm the service plan with the client?',
-              options: [
-                'After the first cut',
-                'At the end of the service',
-                'Before starting — after the consultation',
-                'Only if the client asks',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Confirming before you start eliminates misunderstandings and protects both you and the client.',
-            },
+                    {
+                              "id": "barber-lesson-6-q1",
+                              "question": "What is the primary purpose of a client consultation before any barbering service?",
+                              "options": [
+                                        "A. To fill time and make the client comfortable waiting.",
+                                        "B. To identify needs, assess contraindications, and establish realistic service goals while protecting client health.",
+                                        "C. To sell additional products to increase revenue.",
+                                        "D. To determine if the client can pay for the service."
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Client consultation is a clinical and professional step that identifies client needs, assesses for contraindications (conditions that make service unsafe), and sets service expectations. It protects both the client and the barber."
+                    },
+                    {
+                              "id": "barber-lesson-6-q2",
+                              "question": "When inspecting the client's scalp with a magnifying lamp, at what angle should the lamp beam be directed for optimal visibility?",
+                              "options": [
+                                        "A. At a 45-degree angle from the side.",
+                                        "B. At a 90-degree angle (perpendicular) to the scalp surface.",
+                                        "C. At a 30-degree angle from above.",
+                                        "D. At any angle, as long as the client can see it."
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "A 90-degree (perpendicular) beam angle reveals texture, shedding, inflammation, and contraindicated conditions most clearly without casting shadows."
+                    },
+                    {
+                              "id": "barber-lesson-6-q3",
+                              "question": "What should you do immediately after noticing signs of an active scalp infection during consultation?",
+                              "options": [
+                                        "A. Proceed with the service but use extra disinfectant afterward.",
+                                        "B. Stop the service, do not proceed, and refer the client to a dermatologist while documenting the referral.",
+                                        "C. Ask the client to return after treating it at home.",
+                                        "D. Perform the service but charge a reduced rate."
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Active infections are contraindications. Proceeding spreads infection to other clients and equipment, risking your license and legal liability. Always refer and document."
+                    },
+                    {
+                              "id": "barber-lesson-6-q4",
+                              "question": "SCENARIO: A client presents with a history of severe razor burn from a previous barber and reports sensitive skin. What do you do?",
+                              "options": [
+                                        "A. Use the same technique the previous barber used to provide consistency.",
+                                        "B. Decline the shaving service entirely and offer only clipper work.",
+                                        "C. Document the sensitivity, use a freshly sterilized or single-use straight razor, apply pre-shave oil, and plan shorter blade contact time.",
+                                        "D. Ask the client to apply numbing cream before the appointment."
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Sensitive skin and prior razor burn are managed through documentation, tool selection (fresh or single-use razor), protective measures (pre-shave oil), and modified technique (shorter contact), not avoidance."
+                    },
+                    {
+                              "id": "barber-lesson-6-q5",
+                              "question": "SCENARIO: After beginning a haircut, the client mentions a recent metal allergy and a scalp treatment from three days ago that you missed during consultation. What is the correct response?",
+                              "options": [
+                                        "A. Continue the service since you have already started; bring it up at the next visit.",
+                                        "B. Stop immediately, apologize, review the missed information, assess safety, reschedule if unsafe, and update the client file with a checklist.",
+                                        "C. Switch to a different tool and continue the service without stopping.",
+                                        "D. Charge the client less because of the missed information."
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Stopping immediately prevents service failure and potential harm. Reviewing, assessing, and updating records ensures the error is corrected and prevents future recurrence."
+                    }
           ],
         },
         {
@@ -908,138 +597,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Demonstrate mastery of professional conduct, tools, sanitation, workplace safety, and client consultation.',
           durationMinutes: 20,
           passingScore: 70,
-          content: `<h2>Module 1 Checkpoint — Foundations & Safety</h2>
-<p>This checkpoint covers all six lessons in Module 1: Introduction to Barbering, Professional Conduct & Ethics, Tools & Equipment, Sanitation & Infection Control, Workplace Safety, and Client Consultation.</p>
-<p>You must score <strong>70% or higher</strong> to unlock Module 2. Review your lesson notes before starting.</p>`,
+          content: `<h2>Overview</h2><p>Module 1 Checkpoint assesses your mastery of infection control, safety protocols, tool sterilization, professional conduct, and client consultation. This checkpoint ensures you meet Indiana Department of Labor apprenticeship standards for barbering services. Successful completion demonstrates readiness for hands-on barbering procedures with live clients and mastery of foundational competencies required throughout your apprenticeship.</p><h2>Tools Required</h2><ul><li>Straight razors (sanitized and stropped)</li><li>Clipper sets with sanitized guards and blades</li><li>Scissors (shears) and thinning shears, sterilized</li><li>Combs, brushes, and sectioning clips</li><li>Autoclave sterilizer or EPA-registered liquid disinfectant (e.g., Barbicide or 10% bleach solution)</li><li>Towels, neck strips, and single-use cape liners</li><li>Barrier cream, aftershave balm, and professional grooming products</li></ul><h2>Client Consultation Decision Matrix</h2><ul><li>IF client has fine, thin hair THEN use longer clipper guards, reduce tension, and avoid aggressive texturizing to prevent scalp irritation and uneven weight distribution.</li><li>IF client presents with sensitive skin or razor bumps THEN apply pre-shave oil, use single-pass technique with straight razor, and recommend post-service aftercare to minimize inflammation.</li><li>IF client requests fade or undercut THEN establish baseline length preference, confirm blend zone, and verify client expectations through visual references before beginning service.</li></ul><h2>Sanitation &amp; Disinfection</h2><p>All multi-use tools must be sterilized via autoclave (15 minutes at 250°F) or submerged in EPA-registered disinfectant (e.g., Barbicide) for minimum contact time per manufacturer instructions—typically 10-15 minutes. Single-use items (razors, blades, neck strips) must be discarded immediately after use. Workstations must be cleaned with hospital-grade disinfectant between clients. Wash hands thoroughly with soap and warm water for minimum 20 seconds before and after client contact. Never reuse tools from one client on another without proper sterilization.</p><h2>Critical Contraindication</h2><p><strong>DO NOT perform any cutting, shaving, or chemical service on clients with open wounds, active infections, severe dermatitis, or contagious skin conditions. Proceeding violates sanitation codes, risks cross-contamination, and may cause serious skin damage, infection spread, and legal liability for the shop and apprentice.</strong></p><h2>Failure Mode &amp; Recovery</h2><p>Failure: Clipper blade becomes dull or pulls hair during fade service. Cause: Inadequate sterilization left residue dulling blade edge. Recovery: (1) Stop service immediately. (2) Remove blade and inspect for debris or buildup. (3) Soak blade in hot disinfectant for 15 minutes. (4) Use soft brush to gently clean grooves. (5) Rinse under warm water. (6) Dry completely. (7) Test on spare hair or practice pad. (8) If pulling persists, replace blade. (9) Apologize to client and explain maintenance issue. (10) Resume with fresh blade and adjusted technique.</p><h2>Visual Execution Cues</h2><p>Maintain 45-degree blade angle to scalp for clipper work; hold clipper body parallel to client's head during fades. Position clippers with grain for smooth cutting, against grain for closer cuts. Straight razor angle should be 15-30 degrees to skin surface with light pressure. Client should sit upright with neck relaxed, head tilted slightly forward for nape work. Scissor grip: thumb in one loop, ring and middle fingers in other loop, index finger stabilizing shears. Final appearance: clean lines, even blend zones, no visible clipper marks or scissor tracks, consistent fade progression, smooth skin feel without irritation.</p><h2>Step-by-Step Procedure</h2><ol><li>Greet client professionally, confirm service request, verify identity, and document any allergies or skin sensitivities on intake form before proceeding.</li><li>Perform visual and tactile scalp assessment; identify hair texture, density, growth patterns, and any contraindications requiring service modification or referral.</li><li>Sanitize hands with soap and warm water for 20 seconds; don fresh gloves and apply clean, sanitized cape with neck strip protecting client clothing.</li><li>Section hair using clean, sanitized clips; establish baseline guide length and confirm client preference using reference images or demonstration haircut.</li><li>Use sanitized clipper with appropriate guard, working systematically from sides to top, maintaining consistent blade angle and even pressure throughout fade area.</li><li>Refine blend zones using thinning shears or clipper-over-comb technique; verify symmetry by comparing both sides and adjusting as needed for balance.</li><li>Clean neck and ears with sanitized straight razor or trimmer, using light pressure and smooth, controlled strokes following hair growth direction.</li><li>Apply aftershave balm or conditioning product; remove cape carefully without dropping hair on client, and provide grooming and home-care recommendations.</li><li>Document service completion, product used, client feedback, and any concerns in apprenticeship logbook for supervisor review and quality assurance.</li></ol><h2>Safety &amp; Professional Standards</h2><p>Maintain universal precautions at all times: assume all clients may carry bloodborne pathogens. Never cut if you have open wounds on hands; cover with bandage and glove. Dispose of razors in sharps container only. Report any accidental cuts to supervisor immediately and follow bloodborne pathogen exposure protocol. Maintain professional posture to prevent back strain; take breaks and adjust chair height. Keep work area organized and clutter-free to prevent tripping hazards. Communicate clearly with client throughout service and address concerns immediately. Document all services, products, and client preferences in apprenticeship record for continuous improvement and legal compliance.</p>`,
           quizQuestions: [
-            {
-              id: 'cp1-q1',
-              question:
-                'A walk-in asks you to cut their hair. You are a registered apprentice, not yet licensed. What is the correct action?',
-              options: [
-                'Perform the cut — apprentices can work independently',
-                'Decline and get your supervising licensed barber',
-                'Do a dry cut only since that does not require a license',
-                'Ask the client to sign a waiver',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Apprentices must work under licensed supervision at all times. Independent practice violates Indiana law.',
-            },
-            {
-              id: 'cp1-q2',
-              question:
-                'Your clipper cord has a crack in the insulation. A client is waiting. You should:',
-              options: [
-                'Use it carefully for this one client',
-                'Wrap the crack with electrical tape and proceed',
-                'Not use it — report it and use a backup',
-                'Finish the client, then report it',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Damaged electrical equipment is an electrocution risk. Never use it regardless of client wait time.',
-            },
-            {
-              id: 'cp1-q3',
-              question:
-                'What level of decontamination is required for barbering tools between clients in Indiana?',
-              options: ['Sanitation', 'Disinfection', 'Sterilization', 'Hot water rinse'],
-              correctAnswer: 1,
-              explanation:
-                'Indiana requires EPA-registered disinfection of all tools between every client.',
-            },
-            {
-              id: 'cp1-q4',
-              question:
-                'During a scalp assessment, you notice a circular scaly patch on a new client. You should:',
-              options: [
-                'Proceed — it is probably dandruff',
-                'Apply medicated shampoo and continue',
-                'Decline the service and refer the client to a physician',
-                'Disinfect the area and proceed with gloves',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Circular scaly patches may indicate ringworm — a contraindication. Decline and refer without diagnosing.',
-            },
-            {
-              id: 'cp1-q5',
-              question:
-                'Mid-haircut, your blade nicks a client and draws blood. Your FIRST action is:',
-              options: [
-                'Apply a styptic pencil immediately',
-                'Stop the service and put on gloves before touching the area',
-                'Finish the cut quickly, then address the nick',
-                'Ask the client if they want you to continue',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Universal Precautions: gloves before any blood contact. Stop the service first.',
-            },
-            {
-              id: 'cp1-q6',
-              question: 'When using shears, which finger should be the only one that moves?',
-              options: ['Index finger', 'Ring finger', 'Thumb', 'Pinky'],
-              correctAnswer: 2,
-              explanation:
-                'Only the thumb moves when cutting with shears. The bottom blade stays stationary.',
-            },
-            {
-              id: 'cp1-q7',
-              question:
-                'A client shares personal information in the chair. Another client later asks about them. You should:',
-              options: [
-                'Share only general information',
-                'Say nothing — client conversations are confidential',
-                'Tell them to ask the person directly',
-                'Share if the information is not sensitive',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Client confidentiality is an ethical obligation. All personal information stays private.',
-            },
-            {
-              id: 'cp1-q8',
-              question:
-                'What document is required on file for every chemical product in a barbershop?',
-              options: [
-                'Product receipt',
-                'Safety Data Sheet (SDS)',
-                'Manufacturer warranty',
-                'OSHA inspection report',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'OSHA requires a Safety Data Sheet (SDS) for every chemical product, accessible to all employees.',
-            },
-            {
-              id: 'cp1-q9',
-              question:
-                'Which consultation question is most effective for understanding what a client wants?',
-              options: [
-                '"Same as last time?"',
-                '"Short or long?"',
-                '"What are we doing today?"',
-                '"Do you want a fade?"',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Open-ended questions give clients space to describe their needs rather than confirming assumptions.',
-            },
-            {
-              id: 'cp1-q10',
-              question: 'How often must disinfectant solution be changed?',
-              options: [
-                'Once a week',
-                'Once a month',
-                'Daily or when visibly contaminated',
-                'Only when it changes color',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Disinfectant loses effectiveness when contaminated. Indiana requires daily changes at minimum.',
-            },
+                    {
+                              "id": "barber-module-1-checkpoint-q1",
+                              "question": "Which of the following is the correct minimum sterilization time for tools submerged in Barbicide?",
+                              "options": [
+                                        "A. 5 minutes",
+                                        "B. 10-15 minutes per manufacturer instructions",
+                                        "C. 20 minutes",
+                                        "D. 30 minutes"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "EPA-registered disinfectants like Barbicide require minimum contact time of 10-15 minutes per manufacturer specifications. Shorter times reduce effectiveness and violate sanitation standards."
+                    },
+                    {
+                              "id": "barber-module-1-checkpoint-q2",
+                              "question": "What is the recommended straight razor angle relative to the skin surface for safe, effective shaving?",
+                              "options": [
+                                        "A. 45-60 degrees",
+                                        "B. 75-90 degrees",
+                                        "C. 15-30 degrees",
+                                        "D. 0-5 degrees (flat against skin)"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "A 15-30 degree angle ensures proper blade contact, minimizes nick risk, and provides smooth cutting. Angles exceeding 45 degrees reduce control and increase trauma to skin."
+                    },
+                    {
+                              "id": "barber-module-1-checkpoint-q3",
+                              "question": "Which single-use barbering item must be discarded immediately after use rather than sterilized?",
+                              "options": [
+                                        "A. Clipper guards",
+                                        "B. Straight razor blades and neck strips",
+                                        "C. Metal scissors",
+                                        "D. Combs"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Single-use items like razor blades and neck strips must be discarded in appropriate waste containers to prevent cross-contamination. Reusable metal tools are sterilized via autoclave or disinfectant."
+                    },
+                    {
+                              "id": "barber-module-1-checkpoint-q4",
+                              "question": "SCENARIO: A client presents with visible razor bumps on the neck and mentions sensitive skin history. What is your correct response?",
+                              "options": [
+                                        "A. Proceed with standard shaving technique to build client tolerance",
+                                        "B. Apply pre-shave oil, use single-pass straight razor technique, and recommend aftercare to minimize inflammation",
+                                        "C. Substitute clippers for razors without discussing with client",
+                                        "D. Decline service entirely and refuse to work with sensitive skin"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Professional modification ensures client safety and comfort. Pre-shave oil reduces friction, single-pass minimizes trauma, and aftercare recommendations prevent infection. Proceeding without modification risks complications."
+                    },
+                    {
+                              "id": "barber-module-1-checkpoint-q5",
+                              "question": "SCENARIO: During a fade, your clipper blade begins pulling and snagging hair instead of cutting cleanly. What is your first corrective action?",
+                              "options": [
+                                        "A. Switch to scissors to complete the service quickly",
+                                        "B. Stop immediately, soak blade in hot disinfectant, inspect for debris, and test on practice pad before resuming",
+                                        "C. Continue with increased pressure to compensate for blade dullness",
+                                        "D. Replace the clipper entirely without investigating the cause"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Stopping immediately protects client comfort and prevents damage. Disinfection and inspection address the root cause (residue or dullness). Testing ensures blade readiness before resuming service."
+                    }
           ],
         },
       ],
@@ -1081,67 +700,67 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Explain how scalp anatomy affects service decisions',
             'Distinguish between the five layers of the scalp',
           ],
-          content: `<h2>Introduction to Hair and Scalp Structure</h2><p>In this lesson, we will explore the layers of the hair shaft and scalp anatomy, which are essential for barbers to understand in order to provide effective and safe services. As a barber, it is crucial to have a thorough knowledge of the hair and scalp structure to identify potential issues and provide personalized advice to clients.</p><h3>Layers of the Hair Shaft</h3><p>The hair shaft is composed of three main layers: the medulla, cortex, and cuticle. The medulla is the innermost layer, but it is not always present in all hair types. The cortex is the middle layer, making up the majority of the hair shaft, and is responsible for the hair's strength, elasticity, and texture. The cuticle is the outermost layer, providing a protective barrier against external factors.</p><h3>Scalp Anatomy</h3><p>The scalp is composed of five layers: the epidermis, dermis, hypodermis, galea aponeurotica, and periosteum. The epidermis is the outermost layer, providing a barrier against external factors. The dermis is the layer beneath the epidermis, containing blood vessels, nerve endings, and hair follicles. The hypodermis is the subcutaneous layer, attaching the scalp to the skull. The galea aponeurotica is a fibrous layer, providing a protective covering for the scalp. The periosteum is the innermost layer, covering the skull bone.</p><h3>Tools and Equipment</h3><p>The following tools and equipment are required for this lesson:</p><ul><li>Magnifying glass or microscope</li><li>Hair samples (different types and textures)</li><li>Scalp models or diagrams</li><li>Sanitizing solutions and equipment</li></ul><h3>Sanitation and Infection Control</h3><p>It is essential to maintain a clean and sanitized environment when working with clients. This includes sanitizing equipment and tools, washing hands regularly, and using disposable gloves when necessary. Failure to follow proper sanitation and infection control procedures can lead to the spread of infections and diseases.</p><h3>Decision Block: Hair Type Variation</h3><p>IF a client has curly hair, THEN it is essential to use a wide-tooth comb or a detangling brush to minimize breakage and prevent damage. IF a client has straight hair, THEN a regular comb or brush can be used. However, IF a client has damaged or fragile hair, THEN it is recommended to use a gentle, sulfate-free shampoo and a wide-tooth comb or a detangling brush to minimize further damage.</p><h3>Contraindication: Do NOT Use Excessive Heat</h3><p>Do NOT use excessive heat when styling hair, as it can cause damage to the hair shaft and scalp. Excessive heat can lead to dryness, brittleness, and breakage, especially for clients with damaged or fragile hair.</p><h3>Failure Mode: Incorrect Angle</h3><p>What goes wrong: Using an incorrect angle when cutting or styling hair can lead to unevenness, choppy ends, and damage to the hair shaft. Why: This is often due to a lack of understanding of the hair and scalp structure, as well as poor technique. How to recover: To recover from this failure mode, it is essential to re-evaluate the client's hair and scalp, and adjust the angle and technique accordingly. This may involve using a different tool or equipment, or seeking guidance from a more experienced barber.</p><h3>Correct Execution</h3><p>Correct execution looks like this: the barber is standing at a 45-degree angle to the client, with the client's head positioned at a comfortable height. The barber is using a comb or brush to section the hair, and is cutting or styling the hair at a slight angle to prevent choppy ends. The barber is also maintaining a clean and sanitized environment, and is using proper sanitation and infection control procedures.</p>`,
+          content: `<h2>Overview</h2><p>Understanding hair and scalp structure is foundational to barbering. The hair shaft consists of three layers—cuticle, cortex, and medulla—each with distinct properties affecting texture, strength, and appearance. The scalp is living skin with specialized glands and follicles. Mastering this anatomy enables accurate assessment, appropriate service selection, and client communication. This lesson covers microscopic and macroscopic anatomy essential for safe, effective barbering practices.</p><h2>Tools Required</h2><ul><li>Magnifying glass or lighted magnifier (10x minimum)</li><li>Hair strand samples: straight, wavy, curly, coily</li><li>Scalp assessment chart or diagram</li><li>Microscope slides and cover slips (optional)</li><li>Disinfectant solution (EPA-registered quaternary ammonium or phenolic)</li><li>Disposable gloves and applicator sticks</li><li>Anatomical chart or model of hair follicle cross-section</li></ul><h2>Procedure</h2><ol><li>Don gloves and inspect client scalp under magnification, noting follicle pattern, oil distribution, and visible irritation or lesions systematically.</li><li>Examine hair samples under magnifier, identifying cuticle layer characteristics: smooth (healthy), raised (damaged), or missing sections (severe damage).</li><li>Assess cortex layer density by gently bending hair strands, observing elasticity and resistance to breakage during slight tension application.</li><li>Evaluate medulla presence in coarse hair; note that fine or thin hair may lack visible medulla under standard magnification.</li><li>Document scalp condition: oily, dry, normal, or combination; correlate to sebaceous gland activity and client hygiene practices.</li><li>Identify follicle type and density; explain findings to client using anatomical chart to set service expectations and aftercare parameters.</li><li>Apply sanitation protocol: disinfect all tools and magnification equipment with EPA-registered solution per manufacturer contact time before and after examination.</li><li>Record observations on client consultation form, noting any contraindications requiring referral to dermatologist before proceeding with chemical services.</li></ol><h2>Safety</h2><p>Sanitization is critical: all magnification tools contact scalp surfaces and must be disinfected with EPA-registered quaternary ammonium (Barbicide, Lysol) or phenolic solution for minimum 10 minutes between clients. <strong>Do NOT proceed with chemical services (color, relaxer, perm) on scalp showing active lesions, severe flaking, or open wounds; consequences include chemical burns, infection spread, and client harm.</strong> If scalp contraindications exist, document findings and recommend dermatological evaluation before rescheduling chemical services. Failure mode: Client reports scalp burning during service due to undetected sensitivity. Recovery: (1) Stop service immediately; (2) Rinse scalp thoroughly with lukewarm water for 5+ minutes; (3) Apply soothing, non-irritant conditioner; (4) Contact supervising barber; (5) Document incident and client response; (6) Advise patch test 48 hours before rescheduling.</p><h2>Decision Logic</h2><ul><li>IF hair appears fine and straight with smooth cuticle, THEN use gentle handling, avoid over-processing, and recommend protein-based treatments to strengthen cortex.</li><li>IF scalp shows seborrheic buildup or flaking, THEN recommend medicated shampoo and lighter oil products; avoid heavy pomades that trap bacteria.</li><li>IF client reports previous color damage with raised cuticle, THEN assess cortex integrity and may recommend conditioning treatments or referral before additional chemical service.</li></ul><h2>Visual Cues</h2><p>Healthy hair cuticle appears smooth, flat, and reflective under magnification; raised or splintered cuticle indicates damage or over-processing. Cortex elasticity shows as hair stretching 20-30% when wet before returning to original length; excessive stretch or snapping indicates cortex weakness. Scalp should appear pink or tan with even follicle distribution; red, inflamed, or scaly areas signal inflammation or infection requiring referral. Follicle angles determine hair texture: straight follicles produce straight hair; curved follicles (90-180°) produce wavy, curly, or coily patterns. Observe client's head position at 45° angle to assess crown density and occipital contour during consultation.</p><h2>Client Variation Scenarios</h2><p>Coarse, curly hair: cortex is denser, medulla usually visible, cuticle layers thicker; requires stronger conditioning and careful heat application to prevent frizz and breakage. Fine, straight hair: thin cortex, minimal or absent medulla, delicate cuticle easily raised; use low-alkali products and avoid excessive tension during service. Oily scalp with dry ends: sebaceous glands overactive near roots while distal hair lacks moisture; address with clarifying shampoo at scalp only and moisture-rich treatments at mid-length and ends.</p>`,
           quizQuestions: [
                     {
                               "id": "barber-lesson-8-q1",
-                              "question": "What is the outermost layer of the hair shaft?",
+                              "question": "Which layer of the hair shaft is primarily responsible for hair strength and elasticity?",
                               "options": [
-                                        "Medulla",
-                                        "Cortex",
-                                        "Cuticle",
-                                        "Dermis"
+                                        "A. Cuticle",
+                                        "B. Cortex",
+                                        "C. Medulla",
+                                        "D. Sebaceous gland"
                               ],
-                              "correctAnswer": 2,
-                              "explanation": "The cuticle is the outermost layer of the hair shaft, providing a protective barrier against external factors."
+                              "correctAnswer": 1,
+                              "explanation": "The cortex is the thickest layer containing protein chains (keratin) and melanin; it determines hair strength, elasticity, and color. The cuticle protects it; the medulla is the innermost core."
                     },
                     {
                               "id": "barber-lesson-8-q2",
-                              "question": "A client presents with curly hair and asks for a haircut. What do you do?",
+                              "question": "Under magnification, what does a smooth, flat cuticle layer indicate?",
                               "options": [
-                                        "Use a regular comb and cut the hair straight",
-                                        "Use a wide-tooth comb and cut the hair at an angle",
-                                        "Use a detangling brush and cut the hair in small sections",
-                                        "Use a razor and cut the hair close to the scalp"
+                                        "A. Severe damage requiring cutting",
+                                        "B. Healthy, undamaged hair",
+                                        "C. Excess sebum buildup",
+                                        "D. Medulla exposure"
                               ],
                               "correctAnswer": 1,
-                              "explanation": "When working with curly hair, it is essential to use a wide-tooth comb or a detangling brush to minimize breakage and prevent damage. Cutting the hair at an angle also helps to prevent choppy ends and unevenness."
+                              "explanation": "A smooth, flat, reflective cuticle under magnification indicates the hair has not been over-processed and is in good condition. Raised or splintered cuticle indicates damage."
                     },
                     {
                               "id": "barber-lesson-8-q3",
-                              "question": "What is the layer of the scalp that attaches the scalp to the skull?",
+                              "question": "What is the minimum magnification recommended for accurate scalp and hair examination?",
                               "options": [
-                                        "Epidermis",
-                                        "Dermis",
-                                        "Hypodermis",
-                                        "Galea aponeurotica"
+                                        "A. 5x magnification",
+                                        "B. 10x magnification or greater",
+                                        "C. 3x magnification",
+                                        "D. No magnification needed"
                               ],
-                              "correctAnswer": 2,
-                              "explanation": "The hypodermis is the subcutaneous layer that attaches the scalp to the skull, providing a protective covering for the scalp."
+                              "correctAnswer": 1,
+                              "explanation": "Professional practice requires at least 10x magnification to clearly observe cuticle condition, follicle pattern, scalp health, and potential contraindications before service."
                     },
                     {
                               "id": "barber-lesson-8-q4",
-                              "question": "A client has damaged and fragile hair. What do you recommend?",
+                              "question": "SCENARIO: A client presents with an active scalp lesion and requests a color service. What is the correct action?",
                               "options": [
-                                        "Use a sulfate-based shampoo and a regular comb",
-                                        "Use a gentle, sulfate-free shampoo and a wide-tooth comb",
-                                        "Use a heat styling tool to add volume and texture",
-                                        "Use a razor to cut the hair close to the scalp"
+                                        "A. Proceed with color and monitor closely",
+                                        "B. Apply additional protective barrier and color",
+                                        "C. Document the lesion and recommend dermatological evaluation before chemical service",
+                                        "D. Use a gentler color formula to reduce irritation"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "When working with damaged and fragile hair, it is essential to use a gentle, sulfate-free shampoo and a wide-tooth comb or a detangling brush to minimize further damage and prevent breakage."
+                              "correctAnswer": 2,
+                              "explanation": "Chemical services on compromised scalp skin risk severe burns and infection. Document findings, recommend dermatologist referral, and reschedule the service after scalp heals."
                     },
                     {
                               "id": "barber-lesson-8-q5",
-                              "question": "What is the consequence of using excessive heat when styling hair?",
+                              "question": "SCENARIO: During scalp examination, you notice the client's hair stretches excessively when wet and snaps without returning to original length. What does this indicate?",
                               "options": [
-                                        "It adds volume and texture to the hair",
-                                        "It causes damage to the hair shaft and scalp",
-                                        "It prevents breakage and split ends",
-                                        "It makes the hair more manageable and easy to style"
+                                        "A. Normal elasticity; proceed with any service",
+                                        "B. Cortex damage from over-processing; recommend conditioning and caution with chemical services",
+                                        "C. Medulla exposure requiring immediate cutting",
+                                        "D. Sebaceous gland dysfunction"
                               ],
                               "correctAnswer": 1,
-                              "explanation": "Using excessive heat when styling hair can cause damage to the hair shaft and scalp, leading to dryness, brittleness, and breakage, especially for clients with damaged or fragile hair."
+                              "explanation": "Excessive stretch with snapping indicates compromised cortex integrity from prior chemical damage or heat. Recommend protein treatments and avoid additional processing until cortex strength improves."
                     }
           ],
         },
@@ -1153,16 +772,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Explain the three phases of the hair growth cycle.',
           durationMinutes: 15,
           videoFile: '/videos/course-barber-consultation-narrated.mp4',
-          content: `<h2>The Hair Growth Cycle</h2>
-<p>Hair grows in a continuous cycle with three distinct phases:</p>
-<h3>Anagen (Growth Phase)</h3>
-<p>Active growth phase lasting 2–7 years. About 85% of scalp hairs are in anagen at any time. Hair grows approximately 1/2 inch per month.</p>
-<h3>Catagen (Transition Phase)</h3>
-<p>A short transitional phase lasting 2–3 weeks. The follicle shrinks and detaches from the dermal papilla.</p>
-<h3>Telogen (Resting Phase)</h3>
-<p>The resting phase lasting 3–4 months. The old hair is shed and a new anagen hair begins to grow. Losing 50–100 hairs per day is normal.</p>
-<h3>Why This Matters for Barbers</h3>
-<p>Understanding the growth cycle helps explain why haircuts grow out at different rates and why some clients experience thinning.</p>`,
+          content: `<h2>Overview</h2><p>The hair growth cycle consists of three distinct phases: anagen (growth), catagen (transition), and telogen (resting). Understanding these phases is essential for barbers to assess client scalp health, predict hair shedding patterns, and recommend appropriate treatments. Knowledge of the growth cycle informs cutting techniques, helps identify scalp conditions, and enables professionals to educate clients about normal hair loss and growth expectations.</p><h2>Tools Required</h2><ul><li>Magnifying glass or loupe (10x magnification)</li><li>Scalp probe or metal comb</li><li>Hair sample collection bag</li><li>Client intake form with hair history section</li><li>Disinfectant spray (EPA-approved, quaternary ammonium-based)</li><li>Disposable gloves and barrier tissues</li><li>Mirror or video scalp microscope for client education</li></ul><h2>Client Variation Decision Matrix</h2><ul><li><strong>IF</strong> client has fine, thin hair <strong>THEN</strong> expect shorter anagen phase (2-3 years) and more frequent shedding; recommend gentle handling and moisturizing treatments.</li><li><strong>IF</strong> client reports recent illness, medication change, or high stress <strong>THEN</strong> suspect telogen effluvium; observe increased shedding and advise dermatology referral if excessive.</li><li><strong>IF</strong> client has coarse, thick hair <strong>THEN</strong> expect longer anagen phase (5-7 years) and denser follicle population; cutting will appear fuller longer.</li></ul><h2>Sanitation Protocol</h2><p>Before examining any client's scalp, disinfect your magnifying glass and scalp probe using EPA-approved quaternary ammonium disinfectant spray. Allow 30 seconds contact time. Wear fresh disposable gloves for each client. Between clients, spray all tools with disinfectant and wipe with clean paper towel. Never reuse barrier tissues. This prevents cross-contamination and meets Indiana Board of Cosmetology sanitation standards.</p><h2>Critical Contraindication</h2><p><strong>DO NOT attempt to extract hair by force or aggressive pulling during scalp analysis.</strong> Forceful extraction can trigger premature catagen phase, damage follicles, and cause client pain and potential infection. This may result in temporary alopecia, client complaints, and liability issues.</p><h2>Failure Mode & Recovery</h2><p><strong>Scenario:</strong> During scalp assessment, you observe what appears to be dead (telogen) hairs but client reports sudden, excessive shedding beyond normal 50-100 hairs daily. <strong>Recovery:</strong> (1) Stop active pulling; (2) Document shedding pattern and duration in client notes; (3) Examine hair root bulb—if white, it is telogen; if black, client may have anagen effluvium; (4) Ask client about recent illness, weight loss, or medications; (5) Recommend dermatology consultation before proceeding with chemical services; (6) Schedule follow-up assessment in 4-6 weeks.</p><h2>Visual Execution Cues</h2><p>Position client under bright, natural or LED lighting. Part hair in four quadrants; examine each section systematically. Look for hair bulbs: white bulbs indicate telogen (resting), black bulbs indicate anagen (growing). Healthy scalp shows minimal visible sebum. Anagen hairs appear shiny and pigmented; telogen hairs appear matte and lighter. Observe hair angle perpendicular to scalp; anagen hairs emerge at 90 degrees, while telogen hairs may angle slightly outward.</p><h2>Procedure: Hair Growth Cycle Assessment</h2><ol><li>Cleanse hands and don fresh disposable gloves; disinfect magnifying glass and scalp probe with quaternary ammonium solution.</li><li>Seat client comfortably; explain the three-phase cycle and why you are assessing scalp health today.</li><li>Part hair into four sections (front-left, front-right, back-left, back-right) using tail comb; secure sections with clips.</li><li>Examine first section under magnification; gently (without pulling) observe 10-15 hairs, noting bulb color and root appearance.</li><li>Document bulb colors, shedding patterns, and scalp condition; repeat for remaining three sections.</li><li>Gently pluck 3-5 naturally shed hairs (client-offered) and place in sample bag; compare bulb characteristics to anagen/catagen/telogen references.</li><li>Release hair sections; educate client on findings using visual aids; explain normal shedding (50-100 daily) versus abnormal patterns.</li><li>Recommend appropriate treatment or referral based on observations; note assessment in client record for continuity of care.</li></ol><h2>Safety & Professional Standards</h2><p>Always maintain client confidentiality and document findings accurately. If scalp conditions appear infected, inflamed, or abnormal, refer client to a licensed dermatologist rather than proceeding with chemical services. Ensure proper hand hygiene, tool sanitation, and barrier precautions. Communicate clearly with clients about what you observe; avoid diagnosing medical conditions outside your scope of practice.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-9-q1",
+                              "question": "During the anagen phase, which characteristic best describes the hair bulb?",
+                              "options": [
+                                        "A. White, club-shaped bulb indicating dormant follicle",
+                                        "B. Black, pigmented bulb indicating active growth and division",
+                                        "C. Elongated gray bulb indicating transition",
+                                        "D. Hardened white bulb with no pigmentation"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "During anagen, the hair matrix actively produces new cells. The bulb appears black or dark because melanin is being incorporated into the growing hair shaft. White bulbs are telogen hairs."
+                    },
+                    {
+                              "id": "barber-lesson-9-q2",
+                              "question": "What is the typical daily hair shedding range considered normal for clients?",
+                              "options": [
+                                        "A. 10-25 hairs per day",
+                                        "B. 50-100 hairs per day",
+                                        "C. 150-200 hairs per day",
+                                        "D. 250+ hairs per day"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Normal telogen shedding is 50-100 hairs daily. Hair in the resting phase naturally releases. Shedding exceeding 100 daily may indicate telogen effluvium or other conditions requiring dermatology referral."
+                    },
+                    {
+                              "id": "barber-lesson-9-q3",
+                              "question": "Which disinfectant method is required for scalp assessment tools between clients?",
+                              "options": [
+                                        "A. Rinse with warm water only",
+                                        "B. Wipe with dry cloth",
+                                        "C. Apply EPA-approved quaternary ammonium spray, allow 30 seconds contact time, then wipe clean",
+                                        "D. Soak in alcohol for 5 minutes"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Indiana Board of Cosmetology standards require EPA-approved disinfectants with proper contact time. Quaternary ammonium solutions effectively kill pathogens on tools used for scalp assessment."
+                    },
+                    {
+                              "id": "barber-lesson-9-q4",
+                              "question": "SCENARIO: A client reports suddenly noticing significant hair shedding over the past two weeks, more than normal brushing out. Upon scalp examination, you observe mostly white bulbs on shed hairs. What should you do?",
+                              "options": [
+                                        "A. Proceed with all scheduled chemical services; shedding will resolve naturally",
+                                        "B. Recommend the client see a dermatologist before proceeding; document findings and ask about recent illness or stress",
+                                        "C. Immediately pluck more hairs to gather additional samples for diagnosis",
+                                        "D. Prescribe a scalp treatment that will stop the shedding cycle"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Excessive shedding with white (telogen) bulbs may indicate telogen effluvium, often triggered by stress, illness, or medication changes. This requires professional medical evaluation. You should not proceed with chemical services until cleared by a dermatologist, and you cannot prescribe medical treatments."
+                    },
+                    {
+                              "id": "barber-lesson-9-q5",
+                              "question": "SCENARIO: While examining a client's scalp, you notice what appears to be an inflamed, weeping follicle with pustule formation in the occipital area. What is the correct professional response?",
+                              "options": [
+                                        "A. Continue with haircut and recommend the client use over-the-counter acne treatment",
+                                        "B. Stop the service, do not touch the affected area, and refer the client to a dermatologist before proceeding with any chemical services",
+                                        "C. Apply disinfectant directly to the area and continue with a modified service",
+                                        "D. Document it as seborrheic dermatitis and recommend medicated shampoo"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Signs of infection, inflammation, or pustules indicate a scalp condition requiring medical evaluation. Barbers must not perform chemical services or aggressive manipulation on infected scalps. Professional referral protects client health and prevents service complications."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-10',
@@ -1172,67 +844,67 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Assess hair texture, density, and porosity to select appropriate techniques.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-consultation-narrated.mp4',
-          content: `<h2>Lesson Overview</h2><p>This lesson covers the fundamentals of hair texture, density, and porosity, and how to assess these factors to select appropriate techniques for clients. By the end of this lesson, you will be able to identify and analyze hair texture, density, and porosity, and apply this knowledge to provide effective hair care services.</p><h2>Tools and Equipment</h2><p>The following tools and equipment are required for this lesson:</p><ul><li>Hair analysis tools (e.g. hair texture analyzer, density gauge)</li><li>Sanitizing solutions (e.g. Barbicide)</li><li>Disinfectant wipes</li><li>Gloves</li><li>Hair samples (various textures and densities)</li></ul><h2>Assessing Hair Texture, Density, and Porosity</h2><p>Hair texture refers to the natural curl pattern or straightness of the hair. Density refers to the amount of hair on the scalp, while porosity refers to the hair's ability to absorb moisture. To assess these factors, follow these steps:</p><ol><li>Wash and towel-dry the hair to remove any product or impurities.</li><li>Use a hair analysis tool to determine the hair texture and density.</li><li>Perform a porosity test by applying a small amount of water to a strand of hair and observing how quickly it absorbs.</li></ol><h2>Decision Making</h2><p>When assessing hair texture, density, and porosity, consider the following IF/THEN decision block:</p><p>IF the client has fine, fragile hair, THEN use gentle techniques and avoid excessive heat or chemical processing.</p><p>IF the client has coarse, curly hair, THEN use more intense techniques and consider using a moisturizing treatment to enhance manageability.</p><h2>Sanitation and Infection Control</h2><p>It is essential to maintain proper sanitation and infection control when working with clients. Always:</p><ul><li>Wear gloves when handling hair or scalp.</li><li>Use sanitizing solutions to clean and disinfect equipment and tools.</li><li>Disinfect the work area and chair between clients.</li></ul><p>DO NOT touch your face or eyes while working with clients, as this can spread infection.</p><h2>Contraindications and Safety Rules</h2><p>When working with clients, be aware of the following contraindications and safety rules:</p><ul><li>DO NOT use excessive heat or chemical processing on damaged or fragile hair.</li><li>DO NOT perform services on clients with certain skin conditions (e.g. open sores, eczema) without proper precautions and consent.</li></ul><h2>Failure Modes and Recovery</h2><p>Failure to properly assess hair texture, density, and porosity can result in:</p><ul><li>Over- or under-processing of hair, leading to damage or unwanted results.</li><li>Inadequate sanitation and infection control, leading to the spread of infection.</li></ul><p>To recover from these failure modes, re-assess the hair and adjust techniques accordingly, and always prioritize sanitation and infection control.</p><h2>Correct Execution</h2><p>Correct execution of hair texture, density, and porosity assessment involves:</p><ul><li>Using the correct angles and positioning when analyzing hair (e.g. holding the hair at a 45-degree angle to assess texture).</li><li>Observing the hair's appearance cues (e.g. shine, elasticity) to determine its condition and porosity.</li></ul>`,
+          content: `<h2>Overview</h2><p>Hair texture, density, and porosity are foundational properties that determine how hair responds to cutting, styling, and chemical services. Texture refers to the diameter of individual hair strands (fine, medium, coarse). Density describes the number of hair follicles per square inch of scalp. Porosity indicates the hair's ability to absorb and retain moisture, determined by the cuticle layer's condition. Mastering assessment of these properties enables barbers to select appropriate techniques, recommend suitable products, and deliver results that meet client expectations while maintaining scalp and hair health.</p><h2>Tools Required</h2><ul><li>Pull-out hair sample card (texture reference guide with fine, medium, coarse standards)</li><li>Magnifying glass or digital microscope for strand diameter examination</li><li>Sectioning clips (minimum 4) for organized scalp assessment</li><li>Fine-tooth comb for detangling and porosity testing</li><li>Spray bottle with distilled water for hydration assessment</li><li>Sectioning cape to isolate assessment areas and prevent cross-contamination</li><li>Client consultation worksheet with texture-density-porosity documentation fields</li></ul><h2>Procedure</h2><ol><li>Drape client securely with cape; ask about current hair care routine, chemical history, and environmental exposure to inform assessment accuracy.</li><li>Section hair into four quadrants using sectioning clips; begin assessment at crown, progressing to temporal and occipital regions systematically.</li><li>Remove single strand from each quadrant; compare strand diameter against pull-out reference card under consistent lighting to determine texture classification.</li><li>Assess density by observing scalp visibility: part hair and count approximate follicles per square inch; classify as sparse, normal, or dense.</li><li>Perform porosity test by spraying small hair section with distilled water; observe how quickly water absorbs and if hair appears dull or shiny after moisture contact.</li><li>Document all findings on consultation worksheet, noting any variations across scalp regions that may affect service planning or product selection decisions.</li><li>Discuss assessment results with client; explain how texture, density, and porosity influence service outcomes and maintenance requirements moving forward.</li><li>Recommend cutting angles and techniques aligned with identified properties; explain why specific approaches optimize results for their hair type.</li></ol><h2>Decision Factors</h2><ul><li><strong>IF</strong> client has fine texture AND high porosity: THEN use moisturizing shampoo, avoid aggressive detangling, select techniques that minimize breakage (e.g., blunt cuts rather than tapered fades on delicate strands).</li><li><strong>IF</strong> client has coarse texture AND low porosity: THEN recommend clarifying shampoo, use deeper conditioning treatments, employ techniques like texturizing or point-cutting to manage density and reduce bulk.</li><li><strong>IF</strong> density is sparse: THEN avoid clipper-over-comb techniques on short lengths; use scissor-over-comb for controlled, conservative removal to preserve fullness perception.</li></ul><h2>Sanitation</h2><p>All tools contacting scalp or hair must be disinfected before use. Immerse combs, sectioning clips, and reference cards in 10% bleach solution (or hospital-grade disinfectant per state board standards) for minimum 10 minutes, then rinse thoroughly with clean water and air-dry. Pull-out reference cards should be placed in clear plastic sleeves; replace sleeve weekly or when visibly soiled. Spray bottles must be filled with fresh distilled water daily; do not reuse water between clients. Hands must be washed with antimicrobial soap before and after each client assessment.</p><h2>Contraindications</h2><p><strong>Do NOT attempt chemical relaxer or permanent wave services on hair showing signs of severe damage, breakage, or extreme porosity without consulting a licensed cosmetologist or performing a patch test first. Failure to assess porosity can result in over-processing, chemical burns to scalp, hair breakage, and potential liability claims.</strong></p><h2>Failure Mode & Recovery</h2><p><strong>Failure:</strong> Misidentifying texture as coarse when it is actually fine, leading to aggressive cutting techniques that create unwanted taper or reduce perceived volume. <strong>Recovery:</strong> (1) Stop service and re-examine strand under magnifying glass alongside reference card. (2) Compare sample against multiple reference standards to confirm actual texture. (3) Adjust blade angle and cutting pressure immediately; shift to gentler scissor-over-comb or blunt-cut approach. (4) Communicate change to client transparently, explaining texture reassessment. (5) Document correct classification in service notes for future appointments. (6) Demonstrate adapted technique on inconspicuous section before continuing visible areas.</p><h2>Visual Cues</h2><p><strong>Texture Assessment:</strong> Fine hair appears almost transparent when isolated; medium hair displays visible diameter without magnification; coarse hair shows prominent, almost wire-like strand structure. <strong>Density Observation:</strong> Sparse density reveals scalp easily when hair is parted; normal density partially conceals scalp with slight visibility; dense hair completely obscures scalp when parted. <strong>Porosity Indicators:</strong> Low porosity hair repels water droplets, appearing shiny and tightly aligned; high porosity hair absorbs water rapidly, appearing dull and slightly raised from scalp. Healthy cuticles lay flat and smooth; damaged high-porosity hair shows lifted, rough cuticle appearance and may feel rough or cottony to touch.</p><h2>Safety</h2><p>Never force combs through tangled hair when assessing wet porosity; use detangling spray and gentle pressure to avoid scalp injury. Avoid prolonged magnifying glass use; position lighting to reduce eye strain. If client reports scalp sensitivity, itching, or irritation, discontinue assessment and refer to dermatologist before proceeding with chemical services. Always perform patch tests 48 hours before chemical applications on clients with unknown history or newly identified high porosity. Maintain proper posture during assessment to prevent repetitive strain injury; position client and magnification tools at ergonomic height.</p>`,
           quizQuestions: [
                     {
                               "id": "barber-lesson-10-q1",
-                              "question": "What is the primary factor that determines hair texture?",
+                              "question": "Which of the following best defines hair porosity in professional barber context?",
                               "options": [
-                                        "Genetics",
-                                        "Hair care routine",
-                                        "Scalp condition",
-                                        "Environmental factors"
+                                        "A. The hair's ability to absorb and retain moisture, determined by cuticle layer condition",
+                                        "B. The diameter measurement of individual hair strands from follicle to tip",
+                                        "C. The number of hair follicles per square inch of scalp surface",
+                                        "D. The natural color pigment concentration within the hair cortex"
                               ],
                               "correctAnswer": 0,
-                              "explanation": "Hair texture is primarily determined by genetics, although it can be influenced by other factors such as hair care routine and environmental factors."
+                              "explanation": "Porosity specifically refers to moisture absorption capacity and cuticle condition. Texture (B) is strand diameter, density (C) is follicle count, and color (D) is unrelated to porosity assessment."
                     },
                     {
                               "id": "barber-lesson-10-q2",
-                              "question": "A client presents with fine, fragile hair. What do you do?",
+                              "question": "When assessing a client with fine texture and high porosity, which service approach is MOST appropriate?",
                               "options": [
-                                        "Use intense heat styling tools",
-                                        "Apply a moisturizing treatment",
-                                        "Use a gentle, sulfate-free shampoo",
-                                        "Perform a chemical processing treatment"
+                                        "A. Aggressive clipper-over-comb fading to remove bulk quickly",
+                                        "B. Use moisturizing shampoo and select blunt cuts to minimize breakage risk",
+                                        "C. Apply clarifying shampoo and perform heavy texturizing techniques",
+                                        "D. Recommend permanent wave service to add strength to delicate strands"
                               ],
-                              "correctAnswer": 2,
-                              "explanation": "When working with fine, fragile hair, it is essential to use gentle techniques and avoid excessive heat or chemical processing. Using a gentle, sulfate-free shampoo is the best option to minimize damage and preserve the hair's natural moisture."
+                              "correctAnswer": 1,
+                              "explanation": "Fine + high porosity hair is delicate and susceptible to breakage. Moisturizing products and conservative blunt cuts protect the hair. Aggressive techniques (A), clarifying shampoo (C), and chemical services (D) would damage this hair type."
                     },
                     {
                               "id": "barber-lesson-10-q3",
-                              "question": "What is the purpose of performing a porosity test on a client's hair?",
+                              "question": "Which tool is essential for comparing hair strand diameter during texture assessment?",
                               "options": [
-                                        "To determine hair texture",
-                                        "To assess hair density",
-                                        "To evaluate the hair's ability to absorb moisture",
-                                        "To diagnose scalp conditions"
+                                        "A. Pull-out hair sample reference card with fine, medium, and coarse standards",
+                                        "B. Digital pH meter to measure scalp acidity levels",
+                                        "C. Spectrophotometer to analyze light reflection from hair surface",
+                                        "D. Moisture meter to determine water content percentage"
                               ],
-                              "correctAnswer": 2,
-                              "explanation": "A porosity test is used to evaluate the hair's ability to absorb moisture, which can help determine the best course of treatment for the client's hair."
+                              "correctAnswer": 0,
+                              "explanation": "Pull-out reference cards provide direct visual comparison for texture classification. pH meters (B), spectrophotometers (C), and moisture meters (D) measure other properties unrelated to texture diameter assessment."
                     },
                     {
                               "id": "barber-lesson-10-q4",
-                              "question": "A client has a skin condition that requires special precautions when performing hair services. What do you do?",
+                              "question": "SCENARIO: A client presents with coarse hair texture, normal density, and low porosity. Upon questioning, they reveal past relaxer use and frequent heat styling. What is your appropriate response?",
                               "options": [
-                                        "Perform the service as usual",
-                                        "Use gloves and sanitize equipment",
-                                        "Refer the client to a dermatologist",
-                                        "Decline to perform the service"
+                                        "A. Proceed with clipper-over-comb fade immediately; low porosity means hair is resistant",
+                                        "B. Recommend clarifying shampoo, use point-cutting to manage texture, and discuss heat protectant products for maintenance",
+                                        "C. Schedule chemical relaxer service to further smooth the coarse texture",
+                                        "D. Defer service to cosmetologist; barbers cannot cut heat-damaged coarse hair"
                               ],
                               "correctAnswer": 1,
-                              "explanation": "When working with clients who have skin conditions, it is essential to take special precautions to prevent the spread of infection. Using gloves and sanitizing equipment is the best option to minimize the risk of infection."
+                              "explanation": "Coarse + low porosity benefits from clarifying treatment and texturizing techniques. Point-cutting manages bulk; heat protectant recommendations support maintenance. Clipper technique (A) ignores texture characteristics. Relaxer service (C) risks over-processing. Deferral (D) is unnecessary; barbers assess and cut all texture types."
                     },
                     {
                               "id": "barber-lesson-10-q5",
-                              "question": "What is a common failure mode when assessing hair texture, density, and porosity, and how can it be recovered?",
+                              "question": "SCENARIO: During density assessment, you part the client's hair and observe scalp visibility throughout. Upon further examination with magnification, you realize you initially misidentified texture as medium when it is actually fine. What is the correct corrective action?",
                               "options": [
-                                        "Over-processing of hair, which can be recovered by re-assessing the hair and adjusting techniques",
-                                        "Under-processing of hair, which can be recovered by using more intense techniques",
-                                        "Inadequate sanitation and infection control, which can be recovered by re-sanitizing equipment and tools",
-                                        "All of the above"
+                                        "A. Continue service with original medium-texture cutting technique; admitting error reduces client confidence",
+                                        "B. Stop service, re-examine strand against reference card, document correct classification, and adjust blade angle and pressure to gentler techniques before continuing",
+                                        "C. Complete the cut using medium-texture approach, then recommend corrective service in two weeks",
+                                        "D. Ask client if they prefer medium or fine haircut result; let them decide which technique to use"
                               ],
-                              "correctAnswer": 3,
-                              "explanation": "All of the above options are common failure modes when assessing hair texture, density, and porosity. Over-processing of hair can be recovered by re-assessing the hair and adjusting techniques, under-processing of hair can be recovered by using more intense techniques, and inadequate sanitation and infection control can be recovered by re-sanitizing equipment and tools."
+                              "correctAnswer": 1,
+                              "explanation": "Professional recovery requires immediate reassessment, transparent communication, and technique adjustment before continuing. Proceeding with wrong approach (A, C) risks damage. Client decisions on technique (D) are barber's responsibility. Correct identification protects hair integrity and service quality."
                     }
           ],
         },
@@ -1244,17 +916,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Identify common scalp conditions and determine when to refer clients.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-shampoo-narrated.mp4',
-          content: `<h2>Common Scalp Conditions</h2>
-<h3>Dandruff (Pityriasis)</h3>
-<p>Excessive shedding of dead scalp cells. Can be treated with medicated shampoos. Not contagious.</p>
-<h3>Seborrheic Dermatitis</h3>
-<p>Inflammatory condition causing red, flaky, greasy patches. More severe than dandruff. Refer to a dermatologist for persistent cases.</p>
-<h3>Tinea Capitis (Ringworm)</h3>
-<p>A fungal infection of the scalp. Highly contagious. Do NOT perform services — refer to a physician immediately.</p>
-<h3>Alopecia</h3>
-<p>Hair loss that can be caused by genetics, stress, hormones, or autoimmune conditions. Androgenetic alopecia (male pattern baldness) is the most common type.</p>
-<h3>Psoriasis</h3>
-<p>Autoimmune condition causing thick, silvery scales. Not contagious. Services can be performed if skin is not broken.</p>`,
+          content: `<h2>Overview</h2><p>Barbers must identify common scalp conditions and disorders to provide safe, effective services and recognize when professional medical referral is necessary. This lesson covers clinical assessment techniques, condition recognition, sanitation protocols, and appropriate boundaries of barber scope of practice. Proper scalp analysis protects client health and establishes professional credibility.</p><h2>Tools Required</h2><ul><li>Scalp magnifier or headband magnifying glass (10x magnification)</li><li>Sterilized metal scalp probe or applicator stick</li><li>Wood's lamp for fungal detection</li><li>Disposable gloves (nitrile, non-powdered)</li><li>Barrier spray or disinfectant (70% isopropyl alcohol or EPA-registered spray)</li><li>Client intake form with scalp condition checklist</li><li>Referral resource list (dermatologist, trichologist contacts)</li><li>Clean towels and headrest covers</li></ul><h2>Decision Scenarios</h2><ul><li><strong>IF</strong> client has oily scalp with visible flaking and mild odor, <strong>THEN</strong> assess for seborrheic dermatitis; observe distribution and severity; if confined to scalp and mild, proceed with gentle service; if spreading to face or severe, refer to dermatologist.</li><li><strong>IF</strong> client reports itching, burning, or scaling following a recent chemical service, <strong>THEN</strong> examine for contact dermatitis; check timing of onset relative to service date; if symptoms appeared within 24-48 hours post-service, document and refer; do not repeat similar chemical service without medical clearance.</li><li><strong>IF</strong> scalp shows pustules, crusting, or weeping areas, <strong>THEN</strong> suspect bacterial or fungal infection; do not proceed with cutting or chemical services; refer client to physician immediately; maintain sanitation barriers.</li></ul><h2>Sanitation Protocol</h2><p>Before and after every scalp assessment, sanitize all contact surfaces and tools. Use EPA-registered disinfectant spray on magnifying equipment and headrest covers between clients. Sterilize metal probes in a dry-heat sterilizer at 320°F for 15 minutes or autoclave at 250°F for 3 minutes. Always wear fresh nitrile gloves during assessment. If client has known fungal or parasitic infection, use disposable barrier cape and isolate all contaminated materials in sealed biohazard bag per Indiana health code requirements.</p><h2>Critical Contraindication</h2><p><strong>DO NOT cut, shave, treat, or apply any chemical service to a scalp displaying signs of active ringworm (tinea capitis), lice infestation, or bacterial infection.</strong> Continuing service spreads contagion to other clients, violates state board regulations, and exposes you to disciplinary action or license suspension. Immediate referral to physician is legally and ethically required.</p><h2>Failure Mode & Recovery</h2><p><strong>Failure:</strong> During scalp examination, you misidentify seborrheic dermatitis as simple dandruff and proceed with harsh scrubbing or medicated treatment. Client experiences increased inflammation, redness, and burning within hours. <strong>Recovery Steps:</strong> (1) Stop service immediately and explain findings. (2) Document what you observed and client's reaction. (3) Recommend client apply cool compress and avoid hot water. (4) Provide written referral to dermatologist with specific concern noted. (5) Follow up via phone within 24 hours. (6) Discuss with supervising barber or instructor to refine your assessment technique. (7) Review condition characteristics to prevent recurrence.</p><h2>Visual Execution Cues</h2><p>Position client upright in chair with neck supported on headrest. Part hair systematically using metal probe, working from center front scalp backward in 1-inch sections. Maintain magnifier at 2-3 inches from scalp surface. Look for: raised or flat red patches (erythema), white or yellow scaling (desquamation), pustules or crusts (exudation), areas of hair loss (alopecia), or threadlike objects on hair shafts (lice nits). Compare left and right sides; note symmetry or localization. Healthy scalp appears pale pink to tan with minimal visible scaling and no odor.</p><h2>Procedure</h2><ol><li>Review client intake form and ask targeted questions: recent itching, flaking, scaling, hair loss, or chemical exposure. Note any medications or allergies affecting scalp.</li><li>Don fresh nitrile gloves and inspect scalp under natural light first, observing overall color, texture, and visible lesions or patterns without touching.</li><li>Position magnifier 2-3 inches above scalp. Systematically part hair in 1-inch sections from front to crown, examining each area for inflammation, scaling, pustules, crusting, or foreign objects.</li><li>Use sterilized metal probe to gently separate hair and observe scalp surface; note distribution (localized vs. generalized) and severity of any abnormalities.</li><li>If fungal infection suspected, use Wood's lamp in dimmed room; tinea capitis shows blue-green fluorescence. Document findings and do not proceed with service.</li><li>Assess client sensation: ask if scalp is tender or painful. Extreme tenderness with visible lesions indicates infection or inflammatory condition requiring referral.</li><li>If condition is within barber scope (mild dandruff, seborrhea without active inflammation), document findings and recommend appropriate home care or gentle scalp massage service.</li><li>For any suspicious, severe, spreading, or unidentifiable condition, provide written referral to dermatologist or physician; do not attempt treatment or chemical service.</li><li>Document all findings on client card with date, description, and any referrals made; maintain confidentiality per HIPAA principles.</li><li>Dispose of all materials in appropriate waste containers; spray chair and headrest with disinfectant; remove and discard gloves in biohazard container.</li></ol><h2>Safety</h2><p><strong>Do NOT diagnose medical conditions.</strong> Your role is to identify signs and refer appropriately. Never apply medicated products, shampoos, or treatments to an undiagnosed scalp condition. Always use barrier protection and maintain strict sanitation to prevent cross-contamination of fungal or parasitic infections. Maintain confidentiality regarding any scalp conditions observed. If client refuses referral for a serious condition, document the conversation and your recommendation in writing. Understand Indiana barber scope of practice: you can assess, observe, and refer, but cannot treat medical conditions. Keep current contact information for local dermatologists and trichologists for client referrals.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-11-q1",
+                              "question": "Which tool is most appropriate for systematically examining scalp sections during condition assessment?",
+                              "options": [
+                                        "A. Straight razor",
+                                        "B. Sterilized metal scalp probe and magnifier",
+                                        "C. Electric clipper",
+                                        "D. Standard comb"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "A sterilized metal probe allows gentle separation of hair to view scalp surface clearly, while a magnifier (10x) provides clinical detail. Razors, clippers, and combs are cutting/styling tools, not diagnostic instruments."
+                    },
+                    {
+                              "id": "barber-lesson-11-q2",
+                              "question": "What does blue-green fluorescence under a Wood's lamp indicate on the scalp?",
+                              "options": [
+                                        "A. Healthy scalp with normal bacteria",
+                                        "B. Contact dermatitis or allergic reaction",
+                                        "C. Suspected tinea capitis (ringworm)",
+                                        "D. Seborrheic dermatitis or dandruff"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Wood's lamp produces characteristic blue-green fluorescence when tinea capitis fungal spores are present. This is a clinical diagnostic sign requiring immediate referral to a physician. Other conditions do not produce this fluorescence."
+                    },
+                    {
+                              "id": "barber-lesson-11-q3",
+                              "question": "Which scalp condition is WITHIN the barber scope of practice to address with a gentle service?",
+                              "options": [
+                                        "A. Mild seborrhea with flaking but no active inflammation",
+                                        "B. Active ringworm with pustules and crusting",
+                                        "C. Bacterial scalp infection with weeping lesions",
+                                        "D. Lice infestation with visible nits"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Mild seborrhea without active inflammation (redness, pustules, crusting) is within scope; you can provide gentle scalp massage and recommend home care. Active infections, ringworm, and parasitic infestations require immediate physician referral and are contraindications to service."
+                    },
+                    {
+                              "id": "barber-lesson-11-q4",
+                              "question": "SCENARIO: A client presents with tender, localized pustules and crusting on the scalp. Yellow fluid is visible on the affected area. What is your correct response?",
+                              "options": [
+                                        "A. Proceed with haircut using careful technique around the affected area.",
+                                        "B. Apply a medicated scalp treatment to address the infection.",
+                                        "C. Stop service immediately, document findings, and provide written referral to physician. Do not proceed with any cutting or chemical service.",
+                                        "D. Use the Wood's lamp to confirm the condition, then treat with antiseptic spray."
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Pustules, crusting, and exudate indicate active bacterial or fungal infection. This is a contraindication to all barber services. Immediate physician referral is legally and ethically required. Continuing service spreads infection and violates state regulations. Never attempt treatment of active infections."
+                    },
+                    {
+                              "id": "barber-lesson-11-q5",
+                              "question": "SCENARIO: During scalp examination, you misidentify mild seborrheic dermatitis as simple dandruff and perform harsh scalp scrubbing. Within two hours, the client reports increased burning and visible redness. What is your correct recovery step?",
+                              "options": [
+                                        "A. Recommend the client use ice and a gentle shampoo at home and schedule another service.",
+                                        "B. Stop immediately, apologize, document the incident, apply cool compress guidance, and refer to dermatologist with written notes on your findings and the client's reaction.",
+                                        "C. Explain that this is a normal reaction and the condition will improve in a few days.",
+                                        "D. Apply soothing lotion to the scalp to reduce inflammation and reassure the client."
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When a client experiences adverse reaction to your service, you must immediately stop, document everything, provide comfort guidance, and refer to a medical professional. This protects the client, documents your professional response, and creates a record for your protection. Never minimize client symptoms or attempt further treatment."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-12',
@@ -1265,20 +989,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Conduct a professional client consultation to assess needs and set expectations.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-consultation-narrated.mp4',
-          content: `<h2>The Client Consultation</h2>
-<p>Every service begins with a consultation. This protects you legally and ensures client satisfaction.</p>
-<h3>What to Assess</h3>
-<ul>
-<li>Hair type, texture, density, and porosity</li>
-<li>Scalp condition — any contraindications?</li>
-<li>Client's desired style and lifestyle</li>
-<li>Previous chemical services</li>
-<li>Allergies or sensitivities</li>
-</ul>
-<h3>Communication Skills</h3>
-<p>Use open-ended questions: "What are you looking for today?" and "How do you style your hair at home?" Listen more than you talk.</p>
-<h3>Managing Expectations</h3>
-<p>If a client's desired style is not achievable with their hair type, explain why and offer realistic alternatives. Never promise results you cannot deliver.</p>`,
+          content: `<h2>Overview</h2><p>Client consultation is the foundation of every successful barber service. A professional consultation assesses the client's hair type, scalp condition, lifestyle, and expectations while establishing trust and setting realistic service outcomes. This lesson teaches apprentices how to conduct thorough consultations using systematic observation, targeted questioning, and clear communication to deliver customized barbering services that exceed client expectations.</p><h2>Tools Required</h2><ul><li>Consultation card or digital intake form</li><li>Hand mirror and wall-mounted mirror for client viewing</li><li>Scalp analysis light or magnifying glass</li><li>Color swatches or style reference photos</li><li>Disposable gloves for scalp examination</li><li>Disinfectant spray (EPA-approved, such as Barbicide or hospital-grade quaternary ammonium solution)</li><li>Clean towel for draping during assessment</li></ul><h2>Decision Matrix: Hair Type & Scalp Variations</h2><p><strong>IF</strong> client has fine, thin hair with visible scalp: <strong>THEN</strong> recommend shorter lengths, lighter products, and frequent trims to maintain shape and avoid matting. Avoid heavy conditioning treatments that weigh hair down.</p><p><strong>IF</strong> client presents with oily scalp but dry ends: <strong>THEN</strong> assess for buildup from product misuse, recommend clarifying wash monthly, lightweight pomade on ends only, and oil-controlling shampoo for scalp.</p><p><strong>IF</strong> client has textured or curly hair with visible dryness or flaking: <strong>THEN</strong> examine for fungal conditions versus simple dehydration, recommend moisture-rich products, and refer to dermatologist if scaling persists after two weeks.</p><h2>Sanitation Protocol</h2><p>Before and after each consultation, disinfect all tools and surfaces. Spray consultation mirrors, color swatches, and magnifying glasses with EPA-approved Barbicide spray or equivalent hospital-grade disinfectant. Allow 10-second contact time. Use fresh disposable gloves when examining scalp; remove gloves immediately after assessment and dispose in biohazard container. Wash hands with antimicrobial soap for 20 seconds. Never reuse consultation cards without sanitizing clipboard surfaces between clients.</p><h2>Critical Contraindication</h2><p><strong>Do NOT proceed with any scalp service if you observe signs of contagious conditions such as active ringworm, head lice, severe psoriasis with open lesions, or bacterial infection.</strong> Proceeding exposes you, other clients, and the barbershop to legal liability, regulatory violations, and license suspension. Always refer the client to a physician, document the observation in writing, and inform the shop owner immediately.</p><h2>Failure Mode & Recovery</h2><p><strong>Failure:</strong> Client states they want a specific style, but after consultation you realize their hair texture cannot achieve that look without chemical treatment or excessive damage. <strong>Recovery steps:</strong> (1) Acknowledge their desired outcome respectfully. (2) Explain the hair science limitation clearly using the mirror to show texture and growth patterns. (3) Show photos of similar styles achievable with their hair type. (4) Offer a modified version that approximates their goal while maintaining hair health. (5) Document the conversation and recommendation on their consultation card. (6) Follow up at next visit to confirm satisfaction and adjust expectations collaboratively.</p><h2>Visual Execution Cues</h2><p>Position the client upright in the chair with shoulders relaxed and head level with yours. Use cross-lighting (natural light from window plus overhead fixture) to observe scalp color, texture, and condition clearly. Part hair in three sections: center crown, left and right sides. Examine at 45-degree angles by lifting sections toward you. Healthy scalp appears light pink with no visible flaking, inflammation, or odor. Hair should feel smooth when stroked from root to tip, with consistent diameter and shine. Document any asymmetries, scars, moles, or unusual features that may affect cutting angles or safety.</p><h2>Step-by-Step Consultation Procedure</h2><ol><li>Greet client warmly, offer refreshment, and seat them comfortably. Drape shoulders with clean towel and position mirror for full-face and head visibility from both angles.</li><li>Begin conversation by asking about their occupation, hobbies, and hair maintenance routine to understand lifestyle demands and time available for grooming.</li><li>Ask about previous haircuts: what they liked, disliked, and why. Inquire about frequency of visits and current products they use at home.</li><li>Show reference photos or style examples and ask clarifying questions about length, fade depth, texture preference, and overall aesthetic direction they envision.</li><li>Don safety gloves and perform systematic scalp examination by parting hair in sections, observing color, texture, moisture level, and any signs of irritation or infection.</li><li>Assess hair density, diameter, and growth patterns by lifting sections and observing how hair falls naturally and resists or follows gravity and directional flow.</li><li>Discuss findings with client in simple, non-technical language. Explain any limitations or recommendations based on hair type, scalp health, and their stated lifestyle.</li><li>Document all information on consultation card including hair type, scalp condition, style preference, contraindications, and any special requests or allergies.</li><li>Set clear expectations by explaining the recommended service, timeframe, aftercare instructions, and maintenance frequency needed to sustain the style.</li><li>Confirm client understanding and gain their verbal agreement before beginning the actual service. Ask if they have questions or concerns.</li></ol><h2>Safety</h2><p>Always wear disposable gloves during scalp examination. Never use personal tools or equipment that has not been disinfected. Maintain professional distance and respect client comfort; ask permission before touching their hair. If client reports pain, tenderness, or discomfort during assessment, stop immediately and refer to medical provider. Document any observed skin conditions, allergies, or sensitivities. Keep consultation records confidential and secure. If you observe signs of abuse, neglect, or trafficking, follow mandatory reporting procedures outlined in your barbershop policy and Indiana law.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-2-q1",
+                              "question": "What is the primary purpose of a professional client consultation in barbering?",
+                              "options": [
+                                        "A. To upsell additional products to the client",
+                                        "B. To assess client needs, hair type, scalp condition, and set realistic expectations",
+                                        "C. To determine how much to charge for the service",
+                                        "D. To complete paperwork as quickly as possible"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "A consultation assesses the client's hair characteristics, health, and expectations to deliver customized, safe services. While documentation and pricing occur, the primary purpose is understanding the client's needs and educating them on achievable outcomes."
+                    },
+                    {
+                              "id": "barber-lesson-2-q2",
+                              "question": "Which of the following is the correct disinfection procedure for consultation mirrors?",
+                              "options": [
+                                        "A. Wipe with dry cloth between clients",
+                                        "B. Spray with EPA-approved disinfectant, allow 10-second contact time, then wipe clean",
+                                        "C. Rinse with warm water only",
+                                        "D. Soak in Barbicide overnight once per week"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "EPA-approved disinfectants like Barbicide require proper contact time (typically 10 seconds) to kill pathogens. Dry wiping and water rinses are insufficient. Overnight soaking may be part of maintenance but cannot replace between-client sanitation."
+                    },
+                    {
+                              "id": "barber-lesson-2-q3",
+                              "question": "What visual appearance indicates a healthy scalp during consultation?",
+                              "options": [
+                                        "A. Dark red or inflamed surface with visible flaking",
+                                        "B. Light pink color with no flaking, inflammation, or odor, consistent throughout",
+                                        "C. Yellow or greasy appearance with strong odor",
+                                        "D. White or chalky patches indicating good exfoliation"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "A healthy scalp is light pink, free from inflammation, flaking, and odor. Red, yellow, white patches, or strong odors indicate conditions requiring medical referral or product adjustment."
+                    },
+                    {
+                              "id": "barber-lesson-2-q4",
+                              "question": "SCENARIO: During consultation, you observe what appears to be active ringworm on the client's scalp with visible circular lesions and scaling. What is your correct response?",
+                              "options": [
+                                        "A. Proceed with the haircut but use extra disinfectant afterward",
+                                        "B. Tell the client you can treat it with a special shampoo from your barber supply",
+                                        "C. Stop immediately, do not touch the scalp further, refer to physician, document observation, inform shop owner, and reschedule after medical clearance",
+                                        "D. Suggest the client come back after applying over-the-counter antifungal cream"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Ringworm is contagious and legally reportable. Proceeding creates liability, health risk, and potential regulatory violations. Medical referral is mandatory. Documentation protects you, the client, and the barbershop."
+                    },
+                    {
+                              "id": "barber-lesson-2-q5",
+                              "question": "SCENARIO: During consultation, the client requests a fade with very short sides and requests their hair be cut in a way that their visible scalp scar from previous surgery is concealed as much as possible. How should you respond?",
+                              "options": [
+                                        "A. Tell them the scar will always be visible and refuse to accommodate their request",
+                                        "B. Acknowledge the scar, listen to their preference, show them styling options that work with their hair type and scalp shape, document their request, and explain how you'll position the fade to minimize visibility while maintaining style integrity",
+                                        "C. Cut the hair exactly as requested without discussing the scar to avoid embarrassment",
+                                        "D. Recommend they grow their hair longer instead to cover the scar"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Professional consultation requires acknowledging client concerns with sensitivity, offering practical solutions, and documenting preferences. Respecting the client's goals while using your technical expertise builds trust and ensures they feel heard and cared for."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-13',
@@ -1288,25 +1061,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Perform a professional shampoo service and scalp massage.',
           durationMinutes: 15,
           videoFile: '/videos/course-barber-shampoo-narrated.mp4',
-          content: `<h2>Shampoo Service</h2>
-<h3>Selecting the Right Shampoo</h3>
-<ul>
-<li>Normal hair — balanced pH shampoo</li>
-<li>Oily scalp — clarifying shampoo</li>
-<li>Dry or damaged hair — moisturizing shampoo</li>
-<li>Color-treated hair — sulfate-free shampoo</li>
-</ul>
-<h3>Shampoo Procedure</h3>
-<ol>
-<li>Drape client with towel and cape</li>
-<li>Adjust water temperature — test on your wrist first</li>
-<li>Wet hair thoroughly</li>
-<li>Apply shampoo and work into a lather</li>
-<li>Massage scalp using rotary movements with fingertips (not nails)</li>
-<li>Rinse thoroughly — no residue</li>
-<li>Apply conditioner if needed, rinse</li>
-<li>Towel dry gently</li>
-</ol>`,
+          content: `<h2>Overview</h2><p>Professional shampoo and scalp massage are foundational barbering services that cleanse hair, stimulate blood circulation, and provide therapeutic relaxation. Mastering proper technique protects scalp health, enhances client comfort, and builds the trust essential to a thriving barbering practice. This lesson covers assessment, safe product selection, and execution standards for all hair and scalp types.</p><h2>Tools Required</h2><ul><li>Shampoo basin or sink with adjustable water temperature and pressure controls</li><li>Barbicide or EPA-registered disinfectant for tools and surfaces</li><li>Clean towels (minimum two: one neck protector, one head wrap)</li><li>pH-balanced shampoo appropriate for client hair type</li><li>Scalp massager or fingertips for therapeutic massage application</li><li>Water thermometer to verify safe temperature (95–110°F)</li><li>Comb or brush for gentle detangling post-shampoo</li></ul><h2>Client Assessment &amp; Variation</h2><p><strong>IF</strong> client has fine or thinning hair, <strong>THEN</strong> use gentle circular motions with light pressure and volumizing shampoo; avoid vigorous friction. <strong>IF</strong> client presents with oily scalp or dandruff, <strong>THEN</strong> apply clarifying or medicated shampoo and focus massage on scalp for 3–5 minutes to increase circulation. <strong>IF</strong> client reports scalp sensitivity or recent color treatment, <strong>THEN</strong> use sulfate-free, color-safe shampoo and reduce water temperature to 100°F maximum.</p><h2>Sanitation Protocol</h2><p>Before each service, sanitize the shampoo basin with Barbicide solution for 10 minutes or use EPA-approved spray disinfectant. Wash hands thoroughly with antimicrobial soap. Inspect towels for stains or odors; use only fresh, clean linens for each client. If using a scalp massager tool, submerge in Barbicide for the required contact time. Replace water in the basin between clients and check temperature with a thermometer to prevent scalding.</p><h2>Critical Contraindication</h2><p><strong>Do NOT proceed with shampooing if the client has open wounds, severe burns, or acute scalp infections (ringworm, impetigo, or oozing lesions).</strong> Performing a shampoo under these conditions risks spreading infection, increases client pain, causes cross-contamination, and violates Indiana barber licensing regulations. Always refer the client to a dermatologist and document the referral in writing.</p><h2>Failure Mode: Water Temperature Shock</h2><p><strong>Cause:</strong> Water suddenly becomes too hot, causing client discomfort or scalp burn. <strong>Recovery Step 1:</strong> Immediately reduce water temperature to lukewarm (below 100°F). <strong>Step 2:</strong> Pause the service and ask the client if they are okay. <strong>Step 3:</strong> Test water on your inner wrist before resuming. <strong>Step 4:</strong> Resume shampooing with gradual temperature increases, communicating each change to the client. <strong>Step 5:</strong> Document the incident and inform your instructor or supervisor.</p><h2>Visual Execution Cues</h2><p>Position the client's head at a 45-degree angle over the basin, with the nape resting securely on the rim. The client's shoulders should be covered with a towel and cape to prevent water drips. Fingers and thumbs work in rhythmic, overlapping circles across the scalp, moving from the hairline toward the crown and down the occipital area. The massage should appear fluid and synchronized; the client's scalp skin should move slightly beneath your fingers, indicating proper pressure—not so light as to tickle, not so deep as to cause tenderness.</p><h2>Step-by-Step Procedure</h2><ol><li>Greet client, review any scalp or hair concerns, and select appropriate shampoo product based on hair type and condition.</li><li>Drape client with clean neck towel and cape; adjust water temperature to 100–105°F and test on your wrist before wetting hair.</li><li>Wet hair thoroughly from hairline to nape, using gentle water pressure to avoid splashing; ensure scalp is saturated evenly.</li><li>Apply shampoo using one quarter-sized amount; distribute across scalp using fingertips in systematic circular motions, section by section.</li><li>Perform 3–5 minute scalp massage using alternating thumbs and fingers, working from temporal areas toward the center crown and down to the nape.</li><li>Rinse thoroughly with lukewarm water, ensuring no shampoo residue remains; repeat rinse until water runs clear.</li><li>Optional: Apply conditioner to ends for 1–2 minutes if hair type requires, then rinse completely with cool water to seal cuticles.</li><li>Gently squeeze excess water from hair; wrap head in clean towel and allow client to sit upright for 1–2 minutes before proceeding.</li></ol><h2>Safety &amp; Compliance</h2><p>Always maintain professional boundaries during scalp massage—keep contact to the scalp and neck area only. Monitor the client's comfort verbally and non-verbally throughout. Never use products not listed on the salon's approved inventory. Document any client reactions or scalp abnormalities observed during the service. Follow Indiana State Board of Cosmetology &amp; Barbers regulations regarding sanitation, water safety, and professional conduct.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-13-q1",
+                              "question": "What is the recommended water temperature range for professional shampooing?",
+                              "options": [
+                                        "A. 110–120°F to ensure deep cleansing",
+                                        "B. 95–110°F to prevent scalp irritation and burns",
+                                        "C. 70–80°F for client comfort",
+                                        "D. 120°F or higher for sanitization"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Water between 95–110°F is warm enough for effective cleansing and massage without causing scalp burns or discomfort. Temperatures above 110°F increase risk of thermal injury; below 95°F may feel uncomfortably cold and reduce product effectiveness."
+                    },
+                    {
+                              "id": "barber-lesson-13-q2",
+                              "question": "Which shampoo product selection is correct for a client with fine, thinning hair?",
+                              "options": [
+                                        "A. Heavy moisturizing shampoo with strong lather",
+                                        "B. Clarifying shampoo with vigorous massage",
+                                        "C. Gentle, volumizing shampoo with light pressure and minimal friction",
+                                        "D. Medicated shampoo regardless of scalp condition"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine and thinning hair requires gentle handling to prevent breakage. Volumizing formulas add body without weight, and light pressure during massage protects delicate strands. Heavy moisturizers and vigorous friction would cause additional hair loss and damage."
+                    },
+                    {
+                              "id": "barber-lesson-13-q3",
+                              "question": "According to sanitation protocol, how should a shampoo basin be disinfected between clients?",
+                              "options": [
+                                        "A. Rinse with hot water only",
+                                        "B. Submerge tools in Barbicide for 10 minutes or use EPA-approved spray disinfectant",
+                                        "C. Wipe with a damp cloth",
+                                        "D. Replace water without additional sanitization"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Barbicide immersion for 10 minutes or EPA-registered spray disinfectants are required by Indiana barber regulations to eliminate pathogens. Hot water alone and wiping are insufficient to meet state sanitation standards and protect against cross-contamination."
+                    },
+                    {
+                              "id": "barber-lesson-13-q4",
+                              "question": "SCENARIO: A client presents with an oozing scalp lesion and reports it appeared three days ago. What is your correct action?",
+                              "options": [
+                                        "A. Proceed with shampooing using medicated shampoo only",
+                                        "B. Perform a brief scalp massage to stimulate healing",
+                                        "C. Proceed with shampooing but use extra Barbicide afterward",
+                                        "D. Decline the service, refer the client to a dermatologist, and document the referral in writing"
+                              ],
+                              "correctAnswer": 3,
+                              "explanation": "Oozing lesions indicate a possible infection (ringworm, impetigo, etc.). Shampooing risks spreading infection, causes pain, and violates licensing regulations. Referral to a dermatologist is mandatory, and all barbering services must be declined until cleared by a healthcare provider."
+                    },
+                    {
+                              "id": "barber-lesson-13-q5",
+                              "question": "SCENARIO: During shampooing, the water suddenly becomes too hot and the client flinches. What is your immediate corrective response?",
+                              "options": [
+                                        "A. Continue at current temperature; the client will adjust",
+                                        "B. Immediately reduce water temperature to lukewarm, pause the service, ask if the client is okay, then test water on your wrist before resuming",
+                                        "C. Stop all water flow and proceed with dry shampoo instead",
+                                        "D. Blame the water heater and apologize without taking action"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Immediate temperature reduction prevents scalp burns and demonstrates professional care. Pausing to check on the client shows attentiveness, testing water on your wrist prevents recurrence, and resuming with clear communication rebuilds client trust and safety."
+                    }
+          ],
         },
         {
           slug: 'barber-module-2-checkpoint',
@@ -1316,62 +1133,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Demonstrate mastery of hair science and scalp analysis.',
           durationMinutes: 20,
           passingScore: 70,
-          content: `<h2>Module 2 Review — Hair Science & Scalp Analysis</h2><p>Review before taking this checkpoint: hair shaft layers (cuticle, cortex, medulla), the three growth phases (anagen, catagen, telogen), hair texture/density/porosity, common scalp conditions and contraindications, client consultation, and shampoo procedure. Score 70% or higher to advance.</p>`,
+          content: `<h2>Overview</h2><p>Hair science and scalp analysis form the foundation of professional barbering. This checkpoint verifies your ability to identify hair types, scalp conditions, and appropriate service recommendations. Mastery ensures client safety, satisfaction, and proper service selection based on individual characteristics.</p><h2>Tools Required</h2><ul><li>Magnifying glass or lighted magnifier</li><li>Scalp analysis chart or reference guide</li><li>Hair type classification cards</li><li>Disinfectant spray (EPA-registered barbicide solution)</li><li>Clean towels and drapes</li><li>Sectioning clips and comb</li><li>Dermoscope or Wood's lamp (optional advanced tool)</li></ul><h2>Decision Matrix: Client Hair & Scalp Variations</h2><p><strong>IF</strong> client presents with fine, straight hair: THEN recommend conservative fade heights and avoid aggressive texturizing to prevent breakage. <strong>IF</strong> client has coily or textured hair: THEN select appropriate clipper guards and consider edge work techniques that complement curl pattern. <strong>IF</strong> client displays flaking or visible irritation on scalp: THEN assess for dandruff versus dermatitis and recommend professional scalp treatment before cutting service.</p><h2>Sanitation Protocol</h2><p>All tools must be cleaned and disinfected using EPA-registered barbicide solution per Indiana State Board guidelines. Immerse implements in solution for minimum 15 minutes. All combs, brushes, and clippers contact skin and must be disinfected between clients. Work surface and chair must be sprayed with disinfectant and wiped clean with disposable towel after each client.</p><h2>Critical Contraindication</h2><p><strong>DO NOT attempt to cut or treat hair showing signs of active fungal infection, severe dermatitis, or open sores on the scalp.</strong> Proceeding risks cross-contamination, client harm, regulatory violation, and potential license disciplinary action. Refer client to dermatologist and document refusal in client record.</p><h2>Failure Mode & Recovery</h2><p><strong>Failure:</strong> Misidentified scalp condition as non-contagious when client actually has tinea capitis (ringworm). <strong>Recovery Step 1:</strong> Stop service immediately upon recognition of circular patches with inflammation. Step 2: Disinfect all tools used. Step 3: Politely inform client condition requires medical evaluation before barbering services. Step 4: Recommend dermatologist referral. Step 5: Document incident and condition observation in client file. Step 6: Disinfect entire workstation and chair per protocol.</p><h2>Visual Execution Cues</h2><p>Position client facing mirror with good overhead lighting. Scalp should be visible in sections; part hair systematically from front hairline to nape in half-inch sections. Healthy scalp appears uniform color, free of flaking or inflammation. Hair shaft should lie flat when combed; cuticle should reflect light evenly. Assess hair diameter by comparison to reference fiber samples. Note any areas of excessive oiliness, dryness, or discoloration as indicators of condition type.</p><h2>Step-by-Step Procedure</h2><ol><li>Drape client properly and wash hands; don clean gloves if necessary for detailed scalp examination and analysis.</li><li>Part hair into five sections using clips; create vertical sections from center front to nape dividing crown area into quadrants.</li><li>Examine scalp under each section using magnifying glass, noting color, texture, flaking, redness, or unusual odor indicators.</li><li>Feel scalp texture with fingertips; note tightness, oiliness, or dryness; compare findings to scalp analysis chart provided.</li><li>Assess individual hair strand diameter, elasticity, and porosity by stretching single strands and observing recovery and moisture absorption.</li><li>Determine overall hair type classification using reference guide; document findings in client service record clearly.</li><li>Recommend appropriate service plan based on analysis; discuss maintenance and home care aligned with identified hair type.</li><li>Disinfect magnifying glass and all tools used during analysis with EPA-registered solution before next client service begins.</li></ol><h2>Safety & Compliance Notes</h2><p>Always maintain professional boundaries during scalp analysis. Refer clients with suspicious lesions, infections, or dermatological conditions to medical professionals. Document all findings and recommendations. Maintain client privacy and confidentiality regarding any scalp or hair condition observations. Follow Indiana State Board regulations regarding scope of practice; barbers diagnose conditions for service appropriateness only, not medical diagnosis.</p>`,
           quizQuestions: [
-            {
-              id: 'hs-q1',
-              question: 'Which layer of the hair shaft contains melanin and determines hair color?',
-              options: ['Cuticle', 'Cortex', 'Medulla', 'Follicle'],
-              correctAnswer: 1,
-              explanation: 'The cortex contains melanin granules that give hair its color.',
-            },
-            {
-              id: 'hs-q2',
-              question: 'During which phase of the hair growth cycle is hair actively growing?',
-              options: ['Telogen', 'Catagen', 'Anagen', 'Exogen'],
-              correctAnswer: 2,
-              explanation: 'Anagen is the active growth phase, lasting 2-7 years.',
-            },
-            {
-              id: 'hs-q3',
-              question: 'A client has tinea capitis. What should you do?',
-              options: [
-                'Proceed with extra sanitation precautions',
-                'Perform a dry cut only',
-                'Decline service and refer to a physician',
-                'Use medicated shampoo and proceed',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Tinea capitis is a contagious fungal infection — no services should be performed.',
-            },
-            {
-              id: 'hs-q4',
-              question: 'Hair that absorbs moisture quickly but loses it fast has:',
-              options: ['Low porosity', 'Normal porosity', 'High porosity', 'No porosity'],
-              correctAnswer: 2,
-              explanation: 'High porosity hair has a damaged cuticle that cannot retain moisture.',
-            },
-            {
-              id: 'hs-q5',
-              question: 'What is the correct water temperature check before shampooing a client?',
-              options: [
-                'Test on the back of your hand',
-                'Test on your wrist',
-                'Ask the client to test it',
-                'Use cold water always',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Testing on your wrist gives a more accurate temperature reading than the hand.',
-            },
-            {
-              id: 'hs-q6',
-              question: 'Approximately how much hair does a person normally shed per day?',
-              options: ['5-10 hairs', '50-100 hairs', '200-300 hairs', '500+ hairs'],
-              correctAnswer: 1,
-              explanation: 'Losing 50-100 hairs per day is normal as part of the telogen phase.',
-            },
+                    {
+                              "id": "barber-module-2-checkpoint-q1",
+                              "question": "What is the minimum immersion time for tools in EPA-registered barbicide disinfectant solution?",
+                              "options": [
+                                        "A. 15 minutes",
+                                        "B. 5 minutes",
+                                        "C. 30 minutes",
+                                        "D. 1 minute"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Indiana State Board regulations and EPA guidelines require minimum 15-minute immersion in registered barbicide solution for proper disinfection of implements that contact skin."
+                    },
+                    {
+                              "id": "barber-module-2-checkpoint-q2",
+                              "question": "When analyzing a client's hair type, which tool provides the most detailed magnified view of scalp condition?",
+                              "options": [
+                                        "A. Regular comb",
+                                        "B. Magnifying glass or lighted magnifier",
+                                        "C. Mirror only",
+                                        "D. Visual inspection without tools"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "A magnifying glass or lighted magnifier allows detailed visualization of scalp condition, hair shaft characteristics, and potential issues that are invisible to the naked eye."
+                    },
+                    {
+                              "id": "barber-module-2-checkpoint-q3",
+                              "question": "Which of the following is NOT an appropriate response to identifying a fungal scalp infection?",
+                              "options": [
+                                        "A. Stop service immediately and refer to dermatologist",
+                                        "B. Proceed with service and apply medicated product",
+                                        "C. Document findings in client record",
+                                        "D. Disinfect all tools used"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Proceeding with service on a fungal infection risks cross-contamination, violates health regulations, and causes client harm. Immediate referral and service termination are required by law."
+                    },
+                    {
+                              "id": "barber-module-2-checkpoint-q4",
+                              "question": "SCENARIO: A client presents with visible flaking, redness on the scalp, and reports itching. You observe this during initial consultation. What do you do?",
+                              "options": [
+                                        "A. Begin cutting immediately; the condition is not your concern",
+                                        "B. Apply conditioner to mask the appearance and proceed with service",
+                                        "C. Assess whether this is dandruff or dermatitis; recommend professional scalp treatment before cutting service",
+                                        "D. Tell the client to wash their hair more frequently"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Professional assessment distinguishes between treatable dandruff and conditions requiring medical referral. Proper diagnosis guides appropriate service recommendations and protects client health and regulatory compliance."
+                    },
+                    {
+                              "id": "barber-module-2-checkpoint-q5",
+                              "question": "SCENARIO: During scalp analysis, you notice circular patches with inflammation and suspect tinea capitis. Your correct recovery response is:",
+                              "options": [
+                                        "A. Continue service but use extra disinfectant on tools",
+                                        "B. Stop service, disinfect tools, refer client to dermatologist, and document incident",
+                                        "C. Recommend the client purchase antifungal shampoo and return next week",
+                                        "D. Treat the area with store-bought fungal cream yourself"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Suspected fungal infections require immediate service termination, professional referral, complete disinfection of tools and workspace, and detailed documentation. Barbers cannot treat infections; medical professionals must evaluate and manage."
+                    }
           ],
         },
       ],

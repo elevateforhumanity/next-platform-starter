@@ -89,6 +89,22 @@ async function generateLessonContent(
   }
 }
 
+function countWords(text: string): number {
+  return text
+    .replace(/<[^>]*>/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
+
+function lessonPassesLqs(lesson: BlueprintLessonRef): { passed: boolean; violations: string[] } {
+  const [result] = validateBlueprintLessons([lesson]);
+  return {
+    passed: result?.passed ?? false,
+    violations: (result?.violations ?? []).map((v) => v.category),
+  };
+}
+
 // ── Blueprint file patcher ─────────────────────────────────────────────────
 
 function escapeForTemplateLiteral(str: string): string {
@@ -229,6 +245,7 @@ async function main() {
 
   let enriched = 0;
   let failed = 0;
+  const maxAttempts = 4;
 
   for (let i = 0; i < toEnrich.length; i++) {
     const failure = toEnrich[i];
@@ -248,15 +265,46 @@ async function main() {
       await new Promise((resolve) => setTimeout(resolve, 400));
     }
 
-    const generated = await generateLessonContent(
-      entry.lesson,
-      blueprint.credentialTitle,
-      entry.moduleTitle,
-    );
+    let generated: { content: string; quizQuestions: any[] } | null = null;
+    let lqsCheck: { passed: boolean; violations: string[] } = { passed: false, violations: [] };
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      generated = await generateLessonContent(
+        entry.lesson,
+        blueprint.credentialTitle,
+        entry.moduleTitle,
+      );
+
+      if (!generated) {
+        console.log(`  Attempt ${attempt}/${maxAttempts}: generation failed`);
+        continue;
+      }
+
+      const candidateLesson: BlueprintLessonRef = {
+        ...entry.lesson,
+        content: generated.content,
+        quizQuestions: generated.quizQuestions,
+      };
+
+      lqsCheck = lessonPassesLqs(candidateLesson);
+      const words = countWords(generated.content);
+
+      if (lqsCheck.passed && words >= 500) {
+        break;
+      }
+
+      console.log(
+        `  Attempt ${attempt}/${maxAttempts}: retrying (words=${words}, LQS=${lqsCheck.passed ? 'pass' : 'fail'}${lqsCheck.violations.length ? `, violations=${lqsCheck.violations.join(', ')}` : ''})`,
+      );
+
+      if (attempt === maxAttempts) {
+        generated = null;
+      }
+    }
 
     if (!generated) {
       failed++;
-      console.log(`  ✗ Generation failed — skipping\n`);
+      console.log(`  ✗ Could not generate LQS-compliant content after ${maxAttempts} attempts — skipping\n`);
       continue;
     }
 
@@ -269,7 +317,8 @@ async function main() {
 
     if (patched) {
       enriched++;
-      console.log(`  ✓ Patched (${generated.content.split(' ').length} words, ${generated.quizQuestions.length} questions)\n`);
+      const finalWords = countWords(generated.content);
+      console.log(`  ✓ Patched (${finalWords} words, ${generated.quizQuestions.length} questions)\n`);
     } else {
       failed++;
       console.log(`  ✗ Patch failed\n`);
