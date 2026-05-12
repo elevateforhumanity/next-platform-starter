@@ -212,14 +212,12 @@ export default function GrantsPage() {
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <a
-                      href="https://www.in.gov/fssa/dfr/impact-job-training"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Link
+                      href="/fssa-impact"
                       className="text-purple-700 font-semibold hover:underline inline-flex items-center gap-1 text-sm"
                     >
                       FSSA IMPACT Program Page <ArrowRight className="w-4 h-4" />
-                    </a>
+                    </Link>
                     <Link
                       href="/fssa-impact"
                       className="text-purple-700 font-semibold hover:underline inline-flex items-center gap-1 text-sm"

@@ -117,14 +117,12 @@ export default async function LmsProgramsPage() {
             >
               WorkOne / WIOA — Schedule Appointment →
             </a>
-            <a
-              href="https://www.in.gov/fssa/dfr/"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/funding/state-programs"
               className="inline-flex items-center gap-1.5 bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-blue-800 transition"
             >
               FSSA / SNAP &amp; TANF Benefits →
-            </a>
+            </Link>
             <span className="inline-flex items-center gap-1.5 bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1.5 rounded-full">
               IMPACT Partnership Scholarships
             </span>

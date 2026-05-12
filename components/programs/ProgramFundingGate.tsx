@@ -298,15 +298,9 @@ function FssaPath({
         </ol>
 
         <div className="pt-2 border-t border-slate-100 space-y-1">
-          <a
-            href="https://www.in.gov/fssa/dfr/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm text-purple-700 font-medium hover:underline"
-          >
-            <ExternalLink className="w-4 h-4" />
-            FSSA Division of Family Resources
-          </a>
+          <p className="flex items-center gap-2 text-sm text-purple-700 font-medium">
+            FSSA Division of Family Resources — contact your case worker
+          </p>
           <div className="flex items-center gap-2 text-sm text-slate-600">
             <Phone className="w-4 h-4 text-slate-400" />
             <a href="tel:18004030864" className="hover:text-purple-700">
