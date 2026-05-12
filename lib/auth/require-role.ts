@@ -16,6 +16,8 @@ export interface AuthResult {
     last_name?: string;
     full_name?: string;
   };
+  /** All roles this user holds (profile.role + any user_roles entries). Use this for inline role checks instead of profile.role to support multi-role users. */
+  effectiveRoles: string[];
 }
 
 /**
@@ -62,23 +64,22 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
     .eq('id', user.id)
     .maybeSingle();
 
-  // Primary role check
-  const primaryAllowed = profile && allowedRoles.includes(profile.role);
+  // Load secondary roles from user_roles table (multi-role users)
+  const { data: userRoleRows } = await supabase
+    .from('user_roles')
+    .select('roles(name)')
+    .eq('user_id', user.id);
+  const secondaryRoles = (userRoleRows || [])
+    .map((r: any) => r.roles?.name)
+    .filter(Boolean) as string[];
 
-  // Secondary role check via user_roles table (multi-role users)
-  let secondaryAllowed = false;
-  if (!primaryAllowed && profile) {
-    const { data: userRoleRows } = await supabase
-      .from('user_roles')
-      .select('roles(name)')
-      .eq('user_id', user.id);
-    const secondaryRoles = (userRoleRows || [])
-      .map((r: any) => r.roles?.name)
-      .filter(Boolean);
-    secondaryAllowed = secondaryRoles.some((r: string) => allowedRoles.includes(r));
-  }
+  const effectiveRoles = profile
+    ? Array.from(new Set([profile.role, ...secondaryRoles]))
+    : [];
 
-  if (!profile || (!primaryAllowed && !secondaryAllowed)) {
+  const allowed = effectiveRoles.some((r) => allowedRoles.includes(r));
+
+  if (!profile || !allowed) {
     const unauthorizedPath =
       process.env.SERVICE_ROLE === 'admin'
         ? `${process.env.NEXT_PUBLIC_SITE_URL || ''}/unauthorized`
@@ -92,6 +93,7 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
       email: user.email,
     },
     profile,
+    effectiveRoles,
   };
 }
 

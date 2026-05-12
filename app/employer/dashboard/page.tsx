@@ -30,7 +30,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function EmployerDashboardOrchestrated() {
   // requireRole handles auth + redirect; employer, sponsor, and admins allowed
-  const { user } = await requireRole(['employer', 'sponsor', 'admin', 'super_admin']);
+  const { user, effectiveRoles } = await requireRole(['employer', 'sponsor', 'admin', 'super_admin']);
   const supabase = await createClient();
 
   // Get full employer profile (select * needed for company_name, verified, etc.)
@@ -42,13 +42,12 @@ export default async function EmployerDashboardOrchestrated() {
 
   if (!profile) redirect('/unauthorized');
 
-  // Non-employer/sponsor roles (admin viewing) skip the pending state
-  if (!['employer', 'sponsor', 'admin', 'super_admin'].includes(profile.role)) {
-    redirect('/unauthorized');
-  }
+  // requireRole already enforced the role gate — this is just for behavior branching
+  const isEmployer = effectiveRoles.includes('employer') || effectiveRoles.includes('sponsor');
+  const isAdmin = effectiveRoles.includes('admin') || effectiveRoles.includes('super_admin');
 
   // Employer account exists but not yet approved — show pending state
-  if (profile.role === 'employer' && !profile.verified) {
+  if (isEmployer && !isAdmin && !profile.verified) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
