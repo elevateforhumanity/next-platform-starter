@@ -3,7 +3,7 @@ export const revalidate = 3600;
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
+import PathwayCTA from '@/components/pathways/PathwayCTA';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
@@ -402,29 +402,11 @@ export default function PartnersPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-14 bg-brand-blue-700 text-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Set Up a Cohort?</h2>
-          <p className="text-lg text-white mb-8 max-w-2xl mx-auto">
-            Tell us about your organization, your participants, and your timeline. We typically have
-            a cohort plan ready within one week.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition inline-flex items-center"
-            >
-              Contact Us to Start <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
-            <Link
-              href="/pathways"
-              className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg text-lg font-bold transition border-2 border-white/30"
-            >
-              Back to Career Pathways
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PathwayCTA
+        heading="Ready to Set Up a Cohort?"
+        body="Tell us about your organization, your participants, and your timeline. We typically have a cohort plan ready within one week."
+        secondary={{ label: 'Back to Career Pathways', href: '/pathways' }}
+      />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import PathwayCTA from '@/components/pathways/PathwayCTA';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const metadata: Metadata = {
@@ -593,29 +594,7 @@ export default function PathwaysPage() {
         </div>
       </section>
       {/* ── CTA ── */}
-      <section className="py-14 bg-brand-blue-700 text-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start?</h2>
-          <p className="text-lg text-white mb-8 max-w-2xl mx-auto">
-            The first step is checking your eligibility. It takes about 5 minutes online. If you
-            qualify for funding, your entire training can be free.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/start"
-              className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition"
-            >
-              Check Eligibility &amp; Apply
-            </Link>
-            <Link
-              href="/contact"
-              className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg text-lg font-bold transition border-2 border-white/30"
-            >
-              Talk to Someone First
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PathwayCTA />
     </div>
   );
 }
