@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { FileText, Shield, Scale, Lock } from 'lucide-react';
+import { TermsAcceptBanner } from '@/app/terms/TermsAcceptBanner';
 
 export const revalidate = 3600;
 
@@ -46,7 +47,10 @@ export default function LegalPage() {
             </Link>
           ))}
         </div>
-        <div className="mt-10 text-center text-sm text-slate-500">
+        <div className="mt-10">
+          <TermsAcceptBanner />
+        </div>
+        <div className="mt-6 text-center text-sm text-slate-500">
           Questions about our legal documents? <Link href="/contact" className="text-brand-blue-600 hover:underline">Contact us</Link>.
         </div>
       </section>
