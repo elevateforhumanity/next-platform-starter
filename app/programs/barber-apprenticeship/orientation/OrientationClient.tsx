@@ -189,7 +189,7 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
           <div className="relative bg-black rounded-2xl overflow-hidden aspect-video shadow-2xl">
             <video
               ref={videoRef}
-              src="/videos/barber-course-intro-with-voice.mp4"
+              src="/videos/barber-lessons/barber-apprenticeship-intro.mp4"
               poster="/images/pages/about-career-training.jpg"
               controls
               playsInline
@@ -225,6 +225,17 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
                   ? '✓ Video complete — continue to handbook below'
                   : `Watch at least 80% to unlock the handbook (${Math.round(videoProgress)}%)`}
             </p>
+            {!videoWatched && !videoError && (
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={() => setVideoWatched(true)}
+                  className="text-xs text-brand-blue-400 hover:text-brand-blue-300 underline"
+                >
+                  Continue to handbook without finishing video
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

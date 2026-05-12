@@ -12,7 +12,7 @@ DECLARE
 
   -- slug → videoFile mapping from blueprint
   mapping jsonb := '{
-    "barber-lesson-1":  "/videos/barber-course-intro-with-voice.mp4",
+    "barber-lesson-1":  "/videos/barber-lessons/barber-apprenticeship-intro.mp4",
     "barber-lesson-2":  "/videos/course-barber-sanitation-narrated.mp4",
     "barber-lesson-3":  "/videos/course-barber-sanitation.mp4",
     "barber-lesson-4":  "/videos/course-barber-sanitation-narrated.mp4",
@@ -50,7 +50,7 @@ DECLARE
     "barber-lesson-42": "/videos/barber-shop-culture.mp4",
     "barber-lesson-43": "/videos/barber-client-experience.mp4",
     "barber-lesson-44": "/videos/course-barber-styling-narrated.mp4",
-    "barber-lesson-46": "/videos/barber-course-intro-with-voice.mp4",
+    "barber-lesson-46": "/videos/barber-lessons/barber-apprenticeship-intro.mp4",
     "barber-lesson-47": "/videos/course-barber-sanitation-narrated.mp4",
     "barber-lesson-48": "/videos/course-barber-fade-narrated.mp4",
     "barber-lesson-49": "/videos/course-barber-scissors-narrated.mp4"

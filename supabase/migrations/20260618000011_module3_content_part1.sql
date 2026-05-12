@@ -10,7 +10,7 @@ BEGIN
   -- Lesson 15: Foundations of Haircutting
   UPDATE public.course_lessons SET
     title       = 'Foundations of Haircutting',
-    video_url   = '/videos/barber-course-intro-with-voice.mp4',
+    video_url   = '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
     content     = to_jsonb($html$<h2>Foundations of Haircutting</h2>
 
 <h3>Objective</h3>
@@ -72,7 +72,7 @@ BEGIN
   -- Lesson 16: Sectioning, Parting, and Control
   UPDATE public.course_lessons SET
     title       = 'Sectioning, Parting, and Control',
-    video_url   = '/videos/barber-course-intro-with-voice.mp4',
+    video_url   = '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
     content     = to_jsonb($html$<h2>Sectioning, Parting, and Control</h2>
 
 <h3>Objective</h3>
@@ -132,7 +132,7 @@ BEGIN
   -- Lesson 17: Elevation, Angles, and Weight Distribution
   UPDATE public.course_lessons SET
     title       = 'Elevation, Angles, and Weight Distribution',
-    video_url   = '/videos/barber-course-intro-with-voice.mp4',
+    video_url   = '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
     content     = to_jsonb($html$<h2>Elevation, Angles, and Weight Distribution</h2>
 
 <h3>Objective</h3>

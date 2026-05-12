@@ -86,7 +86,7 @@ export default async function HvacLessonPage({
       {/* Top nav */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3 text-sm">
-          <Link href="/hvac" className="text-slate-400 hover:text-white">
+          <Link href="/programs/hvac-technician" className="text-slate-400 hover:text-white">
             ← HVAC Course
           </Link>
           <span className="text-slate-600">/</span>
@@ -282,7 +282,7 @@ export default async function HvacLessonPage({
             </Link>
           ) : (
             <Link
-              href="/hvac"
+              href="/programs/hvac-technician"
               className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg text-sm font-semibold transition-colors"
             >
               Course Complete ✓

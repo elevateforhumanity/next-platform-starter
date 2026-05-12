@@ -90,12 +90,23 @@ jobs:
         run: pnpm run audit:dashboard
 
       - name: Type check
-        run: pnpm run typecheck || echo "⚠️ TypeScript errors found — non-blocking until backlog is cleared"
-        continue-on-error: true # 543 files have pre-existing TS errors; next build uses ignoreBuildErrors
+        run: pnpm run typecheck
+
+      - name: Route governance (strict)
+        run: pnpm run platform:doctor:strict
+
+      - name: SEO governance
+        run: pnpm run seo:check
 
       - name: Archetype + Quality Gates
         run: pnpm run archetype:check
         continue-on-error: true
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Browser E2E (CI-safe)
+        run: pnpm run test:e2e:ci
 
       - name: Build
         env:

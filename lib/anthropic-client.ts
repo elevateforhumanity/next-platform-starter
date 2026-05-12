@@ -31,8 +31,8 @@ export async function anthropicJSON<T = unknown>(prompt: string): Promise<T> {
   const client = getAnthropicClient();
 
   const message = await client.messages.create({
-    model: 'claude-haiku-4-5',
-    max_tokens: 4096,
+    model: 'claude-sonnet-4-5',
+    max_tokens: 8192,
     system:
       'You are a professional curriculum architect. Always respond with valid JSON only. No markdown, no prose, no code fences.',
     messages: [{ role: 'user', content: prompt }],

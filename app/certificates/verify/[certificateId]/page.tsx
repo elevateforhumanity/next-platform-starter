@@ -7,9 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/certificates/verify/[certificateId]',
-  },
+  robots: { index: false, follow: false },
   title: 'Verify Certificate | Elevate For Humanity',
   description: 'Verify the authenticity of an Elevate For Humanity certificate',
 };

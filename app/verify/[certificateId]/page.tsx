@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ certifica
     alternates: {
       canonical: `https://www.elevateforhumanity.org/verify/${certificateId}`,
     },
-    robots: { index: true, follow: true },
+    robots: { index: false, follow: false },
   };
 }
 

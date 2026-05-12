@@ -21,6 +21,72 @@ import { STRIPE_BNPL_PAYMENT_METHODS } from '@/lib/bnpl-config';
 const LMS_URL =
   (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org') + '/lms/courses';
 
+async function notifyPaymentSucceeded(
+  supabase: Awaited<ReturnType<typeof getAdminClient>>,
+  params: {
+    userId: string | null;
+    amountCents: number;
+    invoiceId: string;
+    invoiceUrl: string | null;
+    customerEmail: string | null;
+  },
+) {
+  const { userId, amountCents, invoiceId, invoiceUrl, customerEmail } = params;
+  const amountDollars = (amountCents / 100).toFixed(2);
+
+  // Learner in-app notification
+  if (userId) {
+    await supabase
+      .from('notifications')
+      .insert({
+        user_id: userId,
+        type: 'billing',
+        title: 'Payment received',
+        message: `We received your weekly payment of $${amountDollars}.`,
+        action_label: invoiceUrl ? 'View receipt' : null,
+        action_url: invoiceUrl,
+        link: invoiceUrl,
+        read: false,
+        metadata: {
+          invoice_id: invoiceId,
+          amount_cents: amountCents,
+          source: 'barber_webhook_invoice_paid',
+        },
+        idempotency_key: `barber-invoice-paid-learner-${invoiceId}-${userId}`,
+      })
+      .catch(() => {});
+  }
+
+  // Admin/staff in-app notifications
+  const { data: adminUsers } = await supabase
+    .from('profiles')
+    .select('id')
+    .in('role', ['admin', 'super_admin', 'staff'])
+    .limit(200);
+
+  if (adminUsers?.length) {
+    const adminNotifications = adminUsers.map((admin) => ({
+      user_id: admin.id,
+      type: 'billing',
+      title: 'Barber payment succeeded',
+      message: `A barber weekly payment of $${amountDollars} was processed${customerEmail ? ` for ${customerEmail}` : ''}.`,
+      action_label: 'Billing monitor',
+      action_url: '/admin/monitoring',
+      link: '/admin/monitoring',
+      read: false,
+      metadata: {
+        invoice_id: invoiceId,
+        amount_cents: amountCents,
+        customer_email: customerEmail,
+        source: 'barber_webhook_invoice_paid',
+      },
+      idempotency_key: `barber-invoice-paid-admin-${invoiceId}-${admin.id}`,
+    }));
+
+    await supabase.from('notifications').insert(adminNotifications).catch(() => {});
+  }
+}
+
 /**
  * Schedule weekly invoices for a customer
  * Creates invoice items for each Friday until program completion
@@ -1005,6 +1071,14 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
           .select('id, user_id, payment_status, customer_email, customer_name')
           .eq('stripe_subscription_id', subscriptionId)
           .maybeSingle();
+
+        await notifyPaymentSucceeded(supabase, {
+          userId: subRecord?.user_id ?? subMeta.user_id ?? null,
+          amountCents: invoice.amount_paid || 0,
+          invoiceId: invoice.id,
+          invoiceUrl: invoice.hosted_invoice_url ?? null,
+          customerEmail: subRecord?.customer_email ?? null,
+        });
 
         if (subRecord && ['past_due', 'suspended'].includes(subRecord.payment_status ?? '')) {
           await supabase

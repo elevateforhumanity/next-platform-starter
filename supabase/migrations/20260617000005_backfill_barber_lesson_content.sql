@@ -8,7 +8,7 @@ DECLARE
 BEGIN
 
   UPDATE public.course_lessons SET
-    video_url = '/videos/barber-course-intro-with-voice.mp4',
+    video_url = '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
     content = to_jsonb($html$<h2>Welcome to Your Barber Apprenticeship</h2>
 <p>This program is a U.S. Department of Labor registered apprenticeship. You will complete 2,000 hours of on-the-job training alongside this related technical instruction.</p>
 <h3>What You Will Learn</h3>
@@ -801,7 +801,7 @@ BEGIN
   WHERE course_id = barber_course_id AND slug = 'barber-module-7-checkpoint';
 
   UPDATE public.course_lessons SET
-    video_url = '/videos/barber-course-intro-with-voice.mp4',
+    video_url = '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
     content = to_jsonb($html$<h2>Indiana State Board Exam</h2>
 <h3>Exam Components</h3>
 <ul>

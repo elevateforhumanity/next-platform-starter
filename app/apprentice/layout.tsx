@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -7,6 +10,36 @@ export const metadata: Metadata = {
 };
 export const dynamic = 'force-dynamic';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/login?redirect=/apprentice');
+  }
+
+  const db = await getAdminClient();
+  if (db) {
+    const { data: barberSub } = await db
+      .from('barber_subscriptions')
+      .select('payment_status, suspension_deadline')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const isSuspended =
+      barberSub?.payment_status === 'suspended' ||
+      (barberSub?.payment_status === 'past_due' &&
+        !!barberSub.suspension_deadline &&
+        new Date(barberSub.suspension_deadline) < new Date());
+
+    if (isSuspended) {
+      redirect('/billing-required?reason=payment_failed');
+    }
+  }
+
   return children;
 }

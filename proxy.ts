@@ -1,4 +1,3 @@
-import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -382,6 +381,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
       }
 
+      const { createServerClient } = await import('@supabase/ssr');
       const apiSupabase = createServerClient(supabaseUrl, supabaseKey, {
         cookies: {
           getAll() {
@@ -572,6 +572,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl, { status: 307 });
   }
 
+  const { createServerClient } = await import('@supabase/ssr');
   const supabase = createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
       getAll() {

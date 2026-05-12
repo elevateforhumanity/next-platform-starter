@@ -122,8 +122,8 @@ export async function runBarberPostPayment(
               email: studentEmail,
               full_name: studentName,
               phone: app.phone ?? null,
-              // Payment received — hold at pending_review until admin grants access.
-              status: 'pending_review',
+              // Payment received — auto-enroll immediately (no admin gate for paid students)
+              status: 'active', // AUTO-ENROLLED: Payment received immediately triggers enrollment (no admin gate)
               enrollment_state: 'enrolled',
               funding_source: 'self_pay',
               amount_paid_cents: amountPaidCents,
@@ -203,8 +203,8 @@ export async function runBarberPostPayment(
   // ── Step 4: Send student welcome + onboarding email ───────────────────────
   try {
     const { sendEmail } = await import('@/lib/email/sendgrid');
-    const onboardingUrl = `${siteUrl}/onboarding/barber-apprenticeship`;
-    const dashboardUrl = `${siteUrl}/learner/dashboard`;
+    const onboardingUrl = `${siteUrl}/programs/barber-apprenticeship/orientation`;
+    const dashboardUrl = `${siteUrl}/apprentice`;
     const loginUrl = `${siteUrl}/login`;
 
     await sendEmail({

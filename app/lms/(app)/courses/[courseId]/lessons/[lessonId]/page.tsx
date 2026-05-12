@@ -507,8 +507,9 @@ export default function LessonPage() {
     })
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
-        if (!data?.session?.id) return;
-        sessionId = data.session.id;
+        const startedSessionId = data?.session_id || data?.session?.id;
+        if (!startedSessionId) return;
+        sessionId = startedSessionId;
 
         // Heartbeat every 60s to keep session alive and signal activity
         heartbeatTimer = setInterval(() => {

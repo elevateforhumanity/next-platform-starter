@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import HeroVideo from '@/components/marketing/HeroVideo';
@@ -14,7 +15,36 @@ import { BarberEnrollment } from './sections/BarberEnrollment';
 
 interface Props { program: ProgramSchema; heroBanner: HeroBannerConfig | null; enrollmentCount?: number; }
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+}
+
 export default function BarberApprenticeshipClient({ program: p, heroBanner: b, enrollmentCount = 0 }: Props) {
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [installing, setInstalling] = useState(false);
+
+  useEffect(() => {
+    const onBeforeInstallPrompt = (event: Event) => {
+      event.preventDefault();
+      setInstallPrompt(event as BeforeInstallPromptEvent);
+    };
+
+    window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);
+    return () => window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt);
+  }, []);
+
+  const handleInstallPwa = async () => {
+    if (!installPrompt) return;
+    setInstalling(true);
+    try {
+      await installPrompt.prompt();
+      await installPrompt.userChoice;
+    } finally {
+      setInstallPrompt(null);
+      setInstalling(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -60,6 +90,23 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             >
               Apply Now
             </Link>
+            {installPrompt ? (
+              <button
+                type="button"
+                onClick={handleInstallPwa}
+                disabled={installing}
+                className="inline-flex items-center justify-center rounded-xl border border-brand-blue-600 px-6 py-3 text-base font-semibold text-brand-blue-700 transition-colors hover:bg-brand-blue-50 disabled:opacity-60"
+              >
+                {installing ? 'Opening install prompt...' : 'Download Student App'}
+              </button>
+            ) : (
+              <Link
+                href="/pwa/barber/onboarding"
+                className="inline-flex items-center justify-center rounded-xl border border-brand-blue-600 px-6 py-3 text-base font-semibold text-brand-blue-700 transition-colors hover:bg-brand-blue-50"
+              >
+                Open Mobile App View
+              </Link>
+            )}
           </div>
         </div>
       </section>

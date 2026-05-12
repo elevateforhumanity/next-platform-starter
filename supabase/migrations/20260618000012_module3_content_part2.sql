@@ -10,7 +10,7 @@ BEGIN
   -- Lesson 18: Shear, Clipper, and Trimmer Techniques
   UPDATE public.course_lessons SET
     title       = 'Shear, Clipper, and Trimmer Techniques',
-    video_url   = '/videos/barber-course-intro-with-voice.mp4',
+    video_url   = '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
     content     = to_jsonb($html$<h2>Shear, Clipper, and Trimmer Techniques</h2>
 
 <h3>Objective</h3>
@@ -75,7 +75,7 @@ BEGIN
   -- Lesson 19: Fading, Tapering, and Blending
   UPDATE public.course_lessons SET
     title       = 'Fading, Tapering, and Blending',
-    video_url   = '/videos/barber-course-intro-with-voice.mp4',
+    video_url   = '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
     content     = to_jsonb($html$<h2>Fading, Tapering, and Blending</h2>
 
 <h3>Objective</h3>
@@ -136,7 +136,7 @@ BEGIN
   -- Lesson 20: Head Shape, Face Shape, and Cut Selection
   UPDATE public.course_lessons SET
     title       = 'Head Shape, Face Shape, and Cut Selection',
-    video_url   = '/videos/barber-course-intro-with-voice.mp4',
+    video_url   = '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
     content     = to_jsonb($html$<h2>Head Shape, Face Shape, and Cut Selection</h2>
 
 <h3>Objective</h3>

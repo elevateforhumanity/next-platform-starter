@@ -1,11 +1,76 @@
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
+
+async function notifyHourDecision(
+  adminDb: any,
+  params: {
+    hourId: string;
+    studentUserId: string;
+    action: 'approved' | 'rejected';
+    actorEmail: string | null;
+  },
+) {
+  const { hourId, studentUserId, action, actorEmail } = params;
+  const studentTitle = action === 'approved' ? 'Hours approved' : 'Hours rejected';
+  const studentMessage =
+    action === 'approved'
+      ? 'Your submitted apprenticeship hours were approved.'
+      : 'Your submitted apprenticeship hours were rejected. Please review feedback and resubmit.';
+
+  await adminDb
+    .from('notifications')
+    .insert({
+      user_id: studentUserId,
+      type: 'hours',
+      title: studentTitle,
+      message: studentMessage,
+      action_label: 'View hours',
+      action_url: '/apprentice/hours',
+      link: '/apprentice/hours',
+      read: false,
+      metadata: {
+        hour_id: hourId,
+        action,
+        decided_by: actorEmail,
+      },
+      idempotency_key: `hours-${action}-learner-${hourId}-${studentUserId}`,
+    })
+    .catch(() => {});
+
+  const { data: admins } = await adminDb
+    .from('profiles')
+    .select('id')
+    .in('role', ['admin', 'super_admin', 'staff'])
+    .limit(200);
+
+  if (admins?.length) {
+    const adminRows = admins.map((admin: { id: string }) => ({
+      user_id: admin.id,
+      type: 'hours',
+      title: `Hours ${action}`,
+      message: `A student's apprenticeship hours were ${action} by ${actorEmail || 'a reviewer'}.`,
+      action_label: 'Review hours',
+      action_url: '/admin/notifications',
+      link: '/admin/notifications',
+      read: false,
+      metadata: {
+        hour_id: hourId,
+        student_user_id: studentUserId,
+        action,
+        decided_by: actorEmail,
+      },
+      idempotency_key: `hours-${action}-admin-${hourId}-${admin.id}`,
+    }));
+    await adminDb.from('notifications').insert(adminRows).catch(() => {});
+  }
+}
 
 export const dynamic = 'force-dynamic';
 
@@ -143,6 +208,16 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: `Failed to ${action} hours` }, { status: 500 });
     }
 
+    const adminDb = await requireAdminClient();
+    if (adminDb) {
+      await notifyHourDecision(adminDb, {
+        hourId: hour_id,
+        studentUserId: hourEntry.user_id,
+        action: action === 'approve' ? 'approved' : 'rejected',
+        actorEmail: user.email ?? null,
+      });
+    }
+
     return NextResponse.json({ success: true, action });
   } catch (err: any) {
     // Error: $1
@@ -253,6 +328,12 @@ async function _PUT(req: Request) {
     }
 
     // Bulk approve — only pending entries, trigger enforces attestation
+    const { data: targetEntries } = await supabase
+      .from('hour_entries')
+      .select('id, user_id')
+      .in('id', hour_ids)
+      .eq('status', 'pending');
+
     const { error } = await supabase
       .from('hour_entries')
       .update({
@@ -267,6 +348,18 @@ async function _PUT(req: Request) {
     if (error) {
       // Error: $1
       return NextResponse.json({ error: 'Failed to approve hours' }, { status: 500 });
+    }
+
+    const adminDb = await requireAdminClient();
+    if (adminDb && targetEntries?.length) {
+      for (const entry of targetEntries) {
+        await notifyHourDecision(adminDb, {
+          hourId: entry.id,
+          studentUserId: entry.user_id,
+          action: 'approved',
+          actorEmail: user.email ?? null,
+        });
+      }
     }
 
     return NextResponse.json({ success: true, count: hour_ids.length });

@@ -13,9 +13,9 @@ type TimeclockAction = 'clock_in' | 'lunch_start' | 'lunch_end' | 'clock_out';
 
 interface ActionPayload {
   action: TimeclockAction;
-  apprentice_id: string;
-  partner_id: string;
-  program_id: string;
+  apprentice_id?: string;
+  partner_id?: string;
+  program_id?: string;
   site_id: string;
   progress_entry_id?: string;
   lat: number;
@@ -57,6 +57,65 @@ async function raiseAdminAlert(supabase: any, alertType: string, details: Record
   }
 }
 
+async function notifyClockIn(
+  supabase: any,
+  params: {
+    entryId: string;
+    apprenticeUserId: string;
+    siteName: string | null;
+    clockInAt: string;
+  },
+) {
+  const { entryId, apprenticeUserId, siteName, clockInAt } = params;
+
+  await supabase
+    .from('notifications')
+    .insert({
+      user_id: apprenticeUserId,
+      type: 'timeclock',
+      title: 'Clock-in recorded',
+      message: `Your clock-in was recorded${siteName ? ` at ${siteName}` : ''}.`,
+      action_label: 'View timeclock',
+      action_url: '/apprentice/timeclock',
+      link: '/apprentice/timeclock',
+      read: false,
+      metadata: {
+        progress_entry_id: entryId,
+        site_name: siteName,
+        clock_in_at: clockInAt,
+      },
+      idempotency_key: `timeclock-clock-in-learner-${entryId}-${apprenticeUserId}`,
+    })
+    .catch(() => {});
+
+  const { data: admins } = await supabase
+    .from('profiles')
+    .select('id')
+    .in('role', ['admin', 'super_admin', 'staff'])
+    .limit(200);
+
+  if (admins?.length) {
+    const adminRows = admins.map((admin: { id: string }) => ({
+      user_id: admin.id,
+      type: 'timeclock',
+      title: 'Student clocked in',
+      message: `A student clocked in${siteName ? ` at ${siteName}` : ''}.`,
+      action_label: 'Review timeclock',
+      action_url: '/admin/notifications',
+      link: '/admin/notifications',
+      read: false,
+      metadata: {
+        progress_entry_id: entryId,
+        apprentice_user_id: apprenticeUserId,
+        site_name: siteName,
+        clock_in_at: clockInAt,
+      },
+      idempotency_key: `timeclock-clock-in-admin-${entryId}-${admin.id}`,
+    }));
+    await supabase.from('notifications').insert(adminRows).catch(() => {});
+  }
+}
+
 async function _POST(request: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
@@ -66,7 +125,6 @@ async function _POST(request: NextRequest) {
     const {
       action,
       apprentice_id,
-      partner_id,
       program_id,
       site_id,
       progress_entry_id,
@@ -75,25 +133,26 @@ async function _POST(request: NextRequest) {
       accuracy_m,
     } = body;
 
-    // Suspension gate — block hour logging for suspended/past-due accounts
+    // Require authenticated user for all timeclock actions.
     const authClient = await createClient();
-    if (authClient) {
-      const {
-        data: { user },
-      } = await authClient.auth.getUser();
-      if (user) {
-        const db = await requireAdminClient();
-        if (db) {
-          const suspended = await checkBarberSuspension(user.id, db);
-          if (suspended) return suspended;
-        }
-      }
+    const {
+      data: { user },
+      error: authError,
+    } = await authClient.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Validate required fields (partner_id is optional — some apprentices have no shop yet)
-    if (!action || !apprentice_id || !site_id) {
+    // Suspension gate — block hour logging for suspended/past-due accounts
+    const db = await requireAdminClient();
+    if (db) {
+      const suspended = await checkBarberSuspension(user.id, db);
+      if (suspended) return suspended;
+    }
+
+    if (!action || !site_id) {
       return NextResponse.json(
-        { error: 'Missing required fields: action, apprentice_id, site_id' },
+        { error: 'Missing required fields: action, site_id' },
         { status: 400 },
       );
     }
@@ -114,6 +173,41 @@ async function _POST(request: NextRequest) {
     if (!supabase) {
       return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }
+
+    // Resolve apprentice from authenticated user (authoritative server-side mapping).
+    let resolvedApprentice: { id: string; employer_id: string | null; shop_id: string | null } | null = null;
+    const { data: byUserId } = await supabase
+      .from('apprentices')
+      .select('id, employer_id, shop_id')
+      .eq('user_id', user.id)
+      .eq('status', 'active')
+      .maybeSingle();
+    if (byUserId) {
+      resolvedApprentice = byUserId;
+    } else if (user.email) {
+      const { data: byEmail } = await supabase
+        .from('apprentices')
+        .select('id, employer_id, shop_id')
+        .eq('email', user.email)
+        .eq('status', 'active')
+        .maybeSingle();
+      resolvedApprentice = byEmail ?? null;
+    }
+
+    if (!resolvedApprentice) {
+      return NextResponse.json({ error: 'No active apprentice profile found' }, { status: 403 });
+    }
+
+    if (apprentice_id && apprentice_id !== resolvedApprentice.id) {
+      return NextResponse.json(
+        { error: 'Forbidden: apprentice_id does not match authenticated user' },
+        { status: 403 },
+      );
+    }
+
+    const resolvedApprenticeId = resolvedApprentice.id;
+    const resolvedPartnerId = resolvedApprentice.employer_id;
+    const resolvedShopId = resolvedApprentice.shop_id || resolvedApprentice.employer_id;
 
     // Resolve program id server-side when clients do not provide it.
     let resolvedProgramId = program_id;
@@ -139,12 +233,16 @@ async function _POST(request: NextRequest) {
     // Load site geofence from apprentice_sites
     const { data: site, error: siteError } = await supabase
       .from('apprentice_sites')
-      .select('id, latitude, longitude, radius_meters, name')
+      .select('id, latitude, longitude, radius_meters, name, shop_id')
       .eq('id', site_id)
       .maybeSingle();
 
     if (siteError || !site) {
       return NextResponse.json({ error: 'Site not found' }, { status: 404 });
+    }
+
+    if (resolvedShopId && site.shop_id !== resolvedShopId) {
+      return NextResponse.json({ error: 'Forbidden: selected site is not assigned to apprentice' }, { status: 403 });
     }
 
     // Validate inside geofence
@@ -154,7 +252,7 @@ async function _POST(request: NextRequest) {
     if (!withinGeofence) {
       // Raise admin alert for attempted action outside geofence
       await raiseAdminAlert(supabase, 'geofence_violation', {
-        apprentice_id,
+        apprentice_id: resolvedApprenticeId,
         site_id,
         site_name: site.name,
         action,
@@ -193,8 +291,8 @@ async function _POST(request: NextRequest) {
         const { data: newEntry, error: insertError } = await supabase
           .from('progress_entries')
           .insert({
-            apprentice_id,
-            partner_id,
+            apprentice_id: resolvedApprenticeId,
+            partner_id: resolvedPartnerId,
             program_id: resolvedProgramId,
             site_id,
             work_date: serverDate,
@@ -210,6 +308,13 @@ async function _POST(request: NextRequest) {
           logger.error('[Timeclock] clock_in insert error:', insertError);
           return NextResponse.json({ error: 'Failed to clock in' }, { status: 500 });
         }
+
+        await notifyClockIn(supabase, {
+          entryId: newEntry.id,
+          apprenticeUserId: user.id,
+          siteName: site.name ?? null,
+          clockInAt: serverNow,
+        });
 
         return NextResponse.json({
           success: true,
@@ -232,6 +337,7 @@ async function _POST(request: NextRequest) {
           .from('progress_entries')
           .select('id, clock_in_at, clock_out_at, lunch_start_at')
           .eq('id', progress_entry_id)
+          .eq('apprentice_id', resolvedApprenticeId)
           .maybeSingle();
 
         if (entryError || !entry) {
@@ -276,6 +382,7 @@ async function _POST(request: NextRequest) {
           .from('progress_entries')
           .select('id, clock_in_at, clock_out_at, lunch_start_at, lunch_end_at')
           .eq('id', progress_entry_id)
+          .eq('apprentice_id', resolvedApprenticeId)
           .maybeSingle();
 
         if (entryError || !entry) {
@@ -307,7 +414,7 @@ async function _POST(request: NextRequest) {
         // Raise alert if lunch exceeded standard duration
         if (lunchMinutes > LUNCH_DURATION_MINUTES) {
           await raiseAdminAlert(supabase, 'excessive_lunch', {
-            apprentice_id,
+            apprentice_id: resolvedApprenticeId,
             progress_entry_id,
             lunch_minutes: Math.round(lunchMinutes),
             standard_minutes: LUNCH_DURATION_MINUTES,
@@ -338,6 +445,7 @@ async function _POST(request: NextRequest) {
           .from('progress_entries')
           .select('id, clock_in_at, clock_out_at, lunch_start_at, lunch_end_at')
           .eq('id', progress_entry_id)
+          .eq('apprentice_id', resolvedApprenticeId)
           .maybeSingle();
 
         if (entryError || !entry) {
@@ -355,7 +463,7 @@ async function _POST(request: NextRequest) {
 
         if (shiftHours >= 6 && !entry.lunch_start_at) {
           await raiseAdminAlert(supabase, 'missing_lunch', {
-            apprentice_id,
+            apprentice_id: resolvedApprenticeId,
             progress_entry_id,
             shift_hours: Math.round(shiftHours * 10) / 10,
             timestamp: serverNow,

@@ -19,6 +19,10 @@ function getRedis(): Redis | null {
   return redis;
 }
 
+export function getRedisClient(): Redis | null {
+  return getRedis();
+}
+
 // Rate limit configurations
 const RATE_LIMITS = {
   auth: { requests: 5, window: '1 m' }, // 5 requests per minute

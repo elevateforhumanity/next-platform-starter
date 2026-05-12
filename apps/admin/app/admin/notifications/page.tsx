@@ -34,17 +34,33 @@ export default async function AdminNotificationsPage() {
   await requireAdmin();
   const db = await requireAdminClient();
 
-  const [logsRes, statsRes] = await Promise.all([
+  const { data: adminUsers } = await db
+    .from('profiles')
+    .select('id')
+    .in('role', ['admin', 'super_admin', 'staff'])
+    .limit(200);
+  const adminIds = (adminUsers ?? []).map((u) => u.id);
+
+  const [logsRes, statsRes, inAppRes] = await Promise.all([
     db
       .from('notification_logs')
       .select('id, title, body, type, status, sent_at, error_message, user_id')
       .order('sent_at', { ascending: false })
       .limit(50),
     db.from('notification_logs').select('status'),
+    adminIds.length
+      ? db
+          .from('notifications')
+          .select('id, title, message, type, created_at, action_url, metadata')
+          .in('user_id', adminIds)
+          .order('created_at', { ascending: false })
+          .limit(50)
+      : Promise.resolve({ data: [] as any[] } as any),
   ]);
 
   const logs = logsRes.data ?? [];
   const stats = statsRes.data ?? [];
+  const inApp = inAppRes.data ?? [];
   const totalSent = stats.filter((r) => r.status === 'sent').length;
   const totalFailed = stats.filter((r) => r.status === 'failed').length;
   const total = stats.length;
@@ -142,6 +158,50 @@ export default async function AdminNotificationsPage() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* In-app admin alerts sourced from notifications table */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+          <h2 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <Bell className="w-4 h-4 text-slate-400" /> In-App Admin Alerts
+          </h2>
+          <Link href="/admin/monitoring" className="text-xs font-semibold text-brand-blue-700 hover:text-brand-blue-800">
+            Open Monitoring
+          </Link>
+        </div>
+
+        {inApp.length === 0 ? (
+          <div className="py-10 text-center">
+            <Bell className="w-7 h-7 text-slate-300 mx-auto mb-2" />
+            <p className="text-sm text-slate-500">No in-app alerts yet</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-slate-50 max-h-[420px] overflow-y-auto">
+            {inApp.map((n) => {
+              const isBilling = n.type === 'billing';
+              return (
+                <div key={n.id} className="px-5 py-3.5 flex items-start gap-3">
+                  <span
+                    className={`mt-0.5 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold flex-shrink-0 ${
+                      isBilling ? 'bg-brand-blue-100 text-brand-blue-800' : 'bg-slate-100 text-slate-600'
+                    }`}
+                  >
+                    <Bell className="w-3 h-3" />
+                    {n.type || 'system'}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-slate-900 truncate">{n.title ?? '—'}</p>
+                    {n.message && <p className="text-xs text-slate-500 truncate mt-0.5">{n.message}</p>}
+                  </div>
+                  <p className="text-xs text-slate-400 flex-shrink-0 whitespace-nowrap">
+                    {n.created_at ? fmtDate(n.created_at) : '—'}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

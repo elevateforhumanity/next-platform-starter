@@ -110,12 +110,12 @@ const TAB_LINKS: Record<string, { label: string; href: string }[]> = {
     { label: 'Schedule', href: '/schedule/select' },
   ],
   trades: [
-    { label: 'Barber App', href: '/pwa/barber' },
+    { label: 'Barber App', href: '/pwa/barber/onboarding' },
     { label: 'Cosmetology App', href: '/pwa/cosmetology' },
     { label: 'Esthetician App', href: '/pwa/esthetician' },
     { label: 'Nail Tech App', href: '/pwa/nail-tech' },
     { label: 'Partner Shop Portal', href: '/partner/dashboard' },
-    { label: 'Log Hours', href: '/pwa/barber/log-hours' },
+    { label: 'Log Hours', href: '/pwa/barber/onboarding' },
   ],
   workforce: [
     { label: 'Case Manager Portal', href: '/case-manager/dashboard' },
@@ -713,7 +713,7 @@ export default function MyDashboard({
                 },
                 {
                   label: 'Barber App',
-                  href: '/pwa/barber',
+                  href: '/pwa/barber/onboarding',
                   roles: ['student', 'partner', 'admin', 'super_admin'],
                 },
                 {

@@ -2,8 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   globalSetup: './tests/e2e/global-setup.ts',
-  testDir: './tests',
-  testMatch: ['**/*.spec.ts', '**/e2e/**/*.test.ts'],
+  testDir: './tests/e2e',
+  // Browser E2E only. Node/DB integration tests run via dedicated scripts.
+  testMatch: ['**/*.spec.ts'],
   testIgnore: ['**/unit/**'],
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
@@ -32,7 +33,8 @@ export default defineConfig({
   ...(!process.env.PLAYWRIGHT_BASE_URL || process.env.PLAYWRIGHT_BASE_URL.includes('localhost')
     ? {
         webServer: {
-          command: 'pnpm dev',
+          // Avoid predev hooks in CI: run Next dev server directly.
+          command: 'pnpm next dev --turbopack',
           url: 'http://localhost:3000',
           reuseExistingServer: true,
           timeout: 180000,

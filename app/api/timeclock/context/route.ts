@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
  *
  * Site access is role-based:
  * - admin/super_admin/staff: all active sites
- * - apprentice: only sites linked to their employer
+ * - apprentice: only sites linked to their assigned shop/employer
  * - others: empty list
  */
 async function _GET(request: NextRequest) {
@@ -53,6 +53,7 @@ async function _GET(request: NextRequest) {
         id,
         referral_id,
         employer_id,
+        shop_id,
         rapids_id,
         start_date,
         status
@@ -73,6 +74,7 @@ async function _GET(request: NextRequest) {
           id,
           referral_id,
           employer_id,
+          shop_id,
           rapids_id,
           start_date,
           status,
@@ -131,11 +133,12 @@ async function _GET(request: NextRequest) {
     // Get employer/shop info
     let shopId: string | null = null;
     let shopName: string | null = null;
-    if (apprentice?.employer_id) {
+    const apprenticeSiteScopeId = apprentice?.shop_id || apprentice?.employer_id || null;
+    if (apprenticeSiteScopeId) {
       const { data: shop } = await supabase
         .from('shops')
         .select('id, name')
-        .eq('id', apprentice.employer_id)
+        .eq('id', apprenticeSiteScopeId)
         .maybeSingle();
       if (shop) {
         shopId = shop.id;
@@ -163,9 +166,9 @@ async function _GET(request: NextRequest) {
       .eq('is_active', true);
 
     // Restrict sites for non-admin users
-    if (!isAdmin && apprentice?.employer_id) {
-      // Apprentice: only sites linked to their employer
-      sitesQuery = sitesQuery.eq('shop_id', apprentice.employer_id);
+    if (!isAdmin && apprenticeSiteScopeId) {
+      // Apprentice: only sites linked to their assigned shop/employer scope.
+      sitesQuery = sitesQuery.eq('shop_id', apprenticeSiteScopeId);
     } else if (!isAdmin) {
       // No apprentice record and not admin: no sites
       sitesQuery = sitesQuery.eq('id', '00000000-0000-0000-0000-000000000000'); // Returns empty

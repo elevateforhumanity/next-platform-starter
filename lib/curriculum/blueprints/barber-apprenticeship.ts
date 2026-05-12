@@ -72,7 +72,7 @@ export const barberApprenticeshipBlueprint: CredentialBlueprint = {
           objective:
             'Describe the history and legal framework of barbering in Indiana, explain the DOL apprenticeship structure, and identify the scope of practice for licensed barbers.',
           durationMinutes: 25,
-          videoFile: '/videos/barber-course-intro-with-voice.mp4',
+          videoFile: '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
           content: `<h2>Overview</h2><p>Barbering in Indiana is regulated under the Indiana Department of Labor (DOL) and requires apprentices to complete a structured, competency-based program combining classroom instruction with supervised practical experience. This lesson introduces the legal framework governing barber licensure, the apprenticeship pathway structure, and the defined scope of practice that licensed barbers must operate within. Understanding these foundational elements ensures compliance with state regulations and prepares apprentices for professional responsibilities.</p><h2>Tools Required</h2><ul><li>Straight razor with leather strop</li><li>Safety razor or clipper with multiple guard sizes</li><li>Scissors and thinning shears</li><li>Comb (wide-tooth and fine-tooth)</li><li>Disinfectant solution (EPA-registered barbicide or equivalent)</li><li>Sterilization pouches and autoclave equipment</li><li>Personal protective equipment (gloves, mask, apron)</li></ul><h2>Decision Tree for Client Variation</h2><ul><li><strong>IF</strong> client has coarse, curly hair and sensitive scalp, <strong>THEN</strong> use wider clipper guard, apply pre-shave oil, and select chemical-free aftershave to prevent irritation.</li><li><strong>IF</strong> client presents with visible skin abrasions or lesions, <strong>THEN</strong> DO NOT proceed with service; refer to healthcare provider and document in client file per DOL requirements.</li><li><strong>IF</strong> client has fine, thin hair and prone to ingrown hairs, <strong>THEN</strong> use smaller clipper guard, employ exfoliating pre-shave preparation, and recommend post-service beard oil application.</li></ul><h2>Sanitation and Disinfection</h2><p>All tools must be sanitized before each client service. Immerse implements in EPA-registered disinfectant (such as Barbicide) for the manufacturer-specified duration, typically 10-15 minutes. Rinse thoroughly with clean water, then dry with a lint-free towel. Tools contacting blood or open wounds require high-level disinfection or sterilization via autoclave at 250°F for 15-30 minutes. Single-use items (razors, applicators) must be discarded immediately after use. Reusable towels and capes are laundered at 160°F minimum.</p><h2>Critical Contraindication</h2><p><strong>DO NOT cut, trim, or style the hair of any client presenting with active contagious scalp or skin infection (ringworm, impetigo, head lice, severe dermatitis). Performing services on infected clients violates Indiana barber law, exposes the barber to liability, contaminates the barbershop environment, and spreads disease to subsequent clients. Politely decline service, document the refusal with client consent, and recommend medical evaluation before rescheduling.</strong></p><h2>Failure Mode and Recovery</h2><p>Failure Mode: Disinfectant solution becomes contaminated or expires before use. Cause: Tools were immersed in old solution, solution was left uncovered, or expiration date was not monitored. Recovery: (1) Immediately discard contaminated solution; (2) Visually inspect all tools for residue and rinse under running water; (3) Prepare fresh disinfectant per manufacturer instructions and note preparation date; (4) Re-immerse all tools for full recommended contact time; (5) Review tool sanitation log to prevent future lapses; (6) Document the incident and corrective action in the shop maintenance record.</p><h2>Visual Execution Cues</h2><p>Position yourself at a 45-degree angle to the client, maintaining clear sight lines to both ears and the nape. The client's head should be upright and neutral, not tilted or rotated. Observe the natural hairline and growth pattern—note any cowlicks, waves, or asymmetries. Work from the sides inward, maintaining consistent clipper or scissor angles relative to the contour of the head. The finished cut should appear symmetrical, with smooth transitions between sections, clean edges at the nape and sideburns, and appropriate fade or taper blending. Run your comb through the final cut; no stray hairs should catch or pull.</p><h2>Procedure</h2><ol><li>Greet client, confirm service requested, and review any allergies, skin conditions, or previous reactions documented in client record.</li><li>Perform hand hygiene: wash hands with soap and warm water for 20 seconds, then apply hand sanitizer and don clean gloves.</li><li>Sanitize all tools by immersing in EPA-registered disinfectant solution for the required contact time, then rinse and dry thoroughly.</li><li>Drape client with clean cape and neck strip, ensuring no skin contact with contaminated surfaces, and position client upright at neutral head angle.</li><li>Analyze hair type, texture, density, and scalp condition; assess any contraindications that would prevent safe service delivery.</li><li>Consult Indiana barber scope-of-practice guidelines to confirm the requested service falls within your licensure authority and apprenticeship level.</li><li>Perform the barbering service (cut, shave, or style) using proper technique, sanitation, and safety protocols throughout the entire process.</li><li>Inspect completed work for symmetry, clean lines, and appropriate finishing; make final corrections as needed to meet professional standards.</li><li>Remove cape and brush away all clippings; allow client to inspect final result and address any concerns or adjustments.</li><li>Document service rendered, any observations (skin conditions, product recommendations), and client satisfaction in the shop record system.</li></ol><h2>Safety</h2><p>Maintain current knowledge of Indiana Department of Labor barbering regulations and apprenticeship requirements. All services must comply with the defined scope of practice—barbers are licensed to cut, trim, style, and shave hair and provide scalp massage. Barbers are NOT licensed to diagnose scalp or skin conditions, prescribe treatments, or perform chemical services (permanent waves, relaxers) unless separately credentialed. Follow bloodborne pathogens protocols per OSHA standards. Always use single-use instruments for open wounds; never reuse razors or lancets. Report any needlestick injuries or blood exposure immediately to your supervising journeyman and the shop owner. Maintain confidentiality of client health information and follow all state privacy regulations.</p>`,
           quizQuestions: [
                     {
@@ -1247,25 +1247,92 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             },
           ],
           instructorNotes: `Blade tension check: student must demonstrate both too-loose and correct tension settings. Oil application must be on the correct points — not flooded. Blade must be removed and cleaned, not just sprayed.`,
-          content: `<h2>Clippers and Trimmers</h2>
+          content: `<h2>Clippers and Trimmers — Professional Equipment Guide</h2>
+<p>Clippers and trimmers are the most frequently used tools in the barbershop. Understanding their differences, proper guard selection, and maintenance is foundational to producing consistent, professional cuts. Every barber must be able to select the right tool, set it correctly, maintain it between clients, and adjust their approach based on the client's hair type and density.</p>
+<h3>Required Tools and Equipment</h3>
+<ul>
+<li>Corded or cordless clippers with guard set (#0 through #8)</li>
+<li>T-liner or outliner trimmer for edging and detail work</li>
+<li>Clipper oil (light mineral oil) for blade lubrication</li>
+<li>Cleaning brush for debris removal between clients</li>
+<li>EPA-registered clipper disinfectant spray</li>
+<li>Detachable blades or multiple blade sizes (if using detachable system)</li>
+</ul>
 <h3>Types of Clippers</h3>
+<p><strong>Corded clippers</strong> provide consistent, uninterrupted power and are preferred for heavy bulk removal, especially on coarse or thick hair. <strong>Cordless clippers</strong> offer freedom of movement and are ideal for a fast-paced shop environment, though they require disciplined charging between clients. <strong>Detachable blade clippers</strong> allow the blade to be swapped for different fixed lengths — popular for fade work because blade changes are fast and precise.</p>
+<h3>Guard Sizes and Corresponding Hair Lengths</h3>
 <ul>
-<li><strong>Corded clippers</strong> — consistent power, best for heavy-duty cutting</li>
-<li><strong>Cordless clippers</strong> — freedom of movement, requires charging</li>
-<li><strong>Detachable blade clippers</strong> — blades swap out for different lengths</li>
+<li>#0 (no guard / balding blade) — skin-level, used for the shortest portion of a skin fade</li>
+<li>#1 — 1/8 inch; short taper base, common for low fades</li>
+<li>#2 — 1/4 inch; standard short sides and backs</li>
+<li>#3 — 3/8 inch; medium-short sides</li>
+<li>#4 — 1/2 inch; balanced all-around crop</li>
+<li>#7 and #8 — longer guards for bulk removal on top before scissor work</li>
 </ul>
-<h3>Guard Sizes</h3>
-<p>Guards (also called attachments) control cutting length:</p>
-<ul>
-<li>#0 (no guard) — closest cut, skin fade</li>
-<li>#1 — 1/8 inch</li>
-<li>#2 — 1/4 inch</li>
-<li>#3 — 3/8 inch</li>
-<li>#4 — 1/2 inch</li>
-<li>#7 and #8 — longer lengths for bulk removal</li>
-</ul>
-<h3>Trimmers</h3>
-<p>Trimmers (T-liners) are used for edging, lining, and detail work. They have a narrower blade than clippers.</p>`,
+<h3>Trimmers (T-Liners / Outliners)</h3>
+<p>Trimmers use a narrower, more precise blade than clippers. They are used for hairline edging, cleanup around the ears, beard shaping, and fine detail work. Trimmers are never used for bulk cutting — their narrow blade cannot handle it and will overheat. Always switch to the trimmer only after bulk clipper work is complete.</p>
+<h3>Decision Rules — Matching Equipment to the Client</h3>
+<p><strong>If the client has coarse, thick hair</strong>, use a corded clipper for the bulk of the cut to maintain consistent blade speed, and make slower passes to avoid blade drag. <strong>If the client has fine or thin hair</strong>, use a lighter touch — a cordless clipper works well, and reduce the guard size by one level to compensate for the hair's visual thinness. <strong>If the client has dense, tightly coiled hair</strong>, use a wide-blade detachable clipper, adjust blade tension if hair is being pulled rather than cut, and allow the clipper to move slowly through dense sections.</p>
+<h3>Blade Tension and Alignment</h3>
+<p>Correct blade alignment: the top (moving) blade must sit slightly behind the bottom blade — never overhanging it. Correct blade tension allows full contact without vibration. Too loose: the blade vibrates without cutting cleanly. Too tight: the clipper overheats. The correct position produces a smooth, even cut without pulling. Hold the clipper at a <strong>90-degree angle</strong> to the head surface for even cutting, or angle it to approximately <strong>45 degrees</strong> when flicking at the end of a fade stroke.</p>
+<h3>Sanitation Between Clients</h3>
+<p>Apply EPA-registered clipper disinfectant spray to the blades between every client and allow the full manufacturer-specified contact time before proceeding. Do not wipe off immediately — the contact time is what disinfects the blade. Remove all hair debris with the cleaning brush before applying disinfectant, because debris blocks the disinfectant from reaching the metal surface. After service, apply 2–3 drops of clipper oil to the blade while the clipper is running, then wipe off excess. <strong>Do not share clipper blades between clients without disinfection. Do not submerge the electronic clipper body in liquid.</strong></p>
+<h3>Failure Mode — Blade Pulling or Rough Cutting</h3>
+<p><strong>Cause:</strong> Blade is dirty, under-oiled, or misaligned. Symptoms: uneven cutting, clipper hopping over hair, or visible lines. <strong>Recovery:</strong> Stop, brush debris from the blade, re-oil, re-check alignment, and test on a low-visibility section of the head before continuing on the main cut area. If the blade still performs poorly after these steps, replace it.</p>
+<h3>What Correct Execution Looks Like</h3>
+<p>A correctly operating clipper moves smoothly through the hair with no pulling, skipping, or vibration. With a #2 guard, hair length should look uniform across the entire section — no individual hairs visibly longer than the rest. The result should feel smooth when you run your palm against it. Incorrect execution shows as stair-step lines between guard sizes, indicating poor blending technique or the wrong angle of entry.</p>`,
+          quizQuestions: [
+            {
+              id: 'l15-q1',
+              question: 'Which clipper type provides the most consistent power for heavy bulk removal on coarse hair?',
+              options: ['Cordless clipper', 'Corded clipper', 'T-liner trimmer', 'Detachable blade trimmer'],
+              correctAnswer: 1,
+              explanation: 'Corded clippers maintain constant power output, making them the best choice for heavy bulk removal on coarse or thick hair where consistent blade speed prevents drag.',
+            },
+            {
+              id: 'l15-q2',
+              question: 'What guard size produces a 1/4 inch cut?',
+              options: ['#1', '#2', '#3', '#4'],
+              correctAnswer: 1,
+              explanation: 'A #2 guard cuts to 1/4 inch — a standard length for short sides and backs on most fade and taper styles.',
+            },
+            {
+              id: 'l15-q3',
+              question: 'A client has dense, tightly coiled hair and the clipper seems to be pulling rather than cutting. What should you do?',
+              options: [
+                'Use a smaller guard and move faster',
+                'Adjust blade tension, move slowly, and use a wide-blade detachable clipper',
+                'Switch to scissors for the entire cut',
+                'Apply oil to the hair before cutting',
+              ],
+              correctAnswer: 1,
+              explanation: 'Dense coiled hair requires wider blades, slower passes, and correct blade tension to cut cleanly without pulling — speed and smaller guards increase drag.',
+            },
+            {
+              id: 'l15-q4',
+              question: 'After applying clipper disinfectant spray, when should you wipe off the blades?',
+              options: [
+                'Immediately after spraying',
+                'After the full manufacturer-specified contact time has elapsed',
+                'Only when the spray looks dry',
+                'Never — let it air dry on its own',
+              ],
+              correctAnswer: 1,
+              explanation: 'The disinfectant must remain in contact with the blade for the full contact time on the label — wiping immediately makes disinfection ineffective.',
+            },
+            {
+              id: 'l15-q5',
+              question: 'During a fade, you notice visible stair-step lines between guard sizes. What is the most likely cause?',
+              options: [
+                'Clipper is too fast',
+                'Poor blending technique or incorrect angle of entry between guard transitions',
+                'Guard sizes are too far apart in length',
+                'Hair is too clean',
+              ],
+              correctAnswer: 1,
+              explanation: 'Stair-step lines between guard changes indicate insufficient blending or the wrong approach angle during the transition — the key fade technique issue.',
+            },
+          ],
         },
         {
           slug: 'barber-lesson-16',
@@ -1373,25 +1440,99 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             },
           ],
           instructorNotes: `Blade change: used blade must go directly into sharps container — not the trash, not the counter. Straight razor grip: check thumb placement and blade angle before any live client work. Student must not proceed to live shaving until both checks are signed off.`,
-          content: `<h2>Razors in Barbering</h2>
-<h3>Straight Razor (Cut-Throat Razor)</h3>
-<p>The traditional barber's razor. Requires skill and practice. Used for shaving, edging, and razor cutting techniques.</p>
+          content: `<h2>Straight Razor and Safety Razor — Safe Handling and Technique</h2>
+<p>The razor is the most hazardous cutting instrument in the barbershop and demands proper training before any live client contact. This lesson covers the three razor types used in professional barbering, correct grip and angle, blade disposal protocols, and the decision rules that determine when a razor can and cannot be used safely.</p>
+<h3>Required Tools and Equipment</h3>
 <ul>
-<li>Must be stropped before each use to align the blade edge</li>
-<li>Honed periodically to restore sharpness</li>
-<li>Never used on a client with skin infections or open wounds</li>
+<li>Straight razor (traditional) with leather strop for edge maintenance</li>
+<li>Shavette (disposable-blade straight razor) with replacement blades</li>
+<li>Safety razor with double-edge blades</li>
+<li>Sharps disposal container (puncture-resistant, labeled biohazard)</li>
+<li>Shaving lather or gel</li>
+<li>EPA-registered disinfectant for razor guard and handle disinfection</li>
+<li>Nitrile gloves</li>
 </ul>
-<h3>Shavette (Disposable Blade Straight Razor)</h3>
-<p>Uses replaceable blades — the professional standard for sanitation. Each blade is used once and disposed of in a sharps container.</p>
-<h3>Safety Razor</h3>
-<p>Double-edge safety razor with a guard bar. Less aggressive than a straight razor. Good for beginners learning shaving technique.</p>
-<h3>Razor Safety Rules</h3>
-<ul>
-<li>Always cut with the grain on the first pass</li>
-<li>Keep the skin taut with your free hand</li>
-<li>Never leave a razor open and unattended</li>
-<li>Dispose of blades immediately after use</li>
-</ul>`,
+<h3>Razor Types</h3>
+<p><strong>Straight Razor</strong> — the traditional cut-throat razor. Requires skill and regular maintenance. The blade must be stropped before each use to realign the edge, and honed periodically to restore sharpness when stropping no longer restores a clean edge. Never used on a client with skin infections or open wounds. Because the same blade is reused, the straight razor requires strict sanitation protocols between clients.</p>
+<p><strong>Shavette</strong> — looks like a straight razor but uses disposable single-use blades inserted into the handle. Each blade is used on ONE client and immediately disposed of in a sharps container. The shavette is the professional standard for sanitation because cross-contamination risk is eliminated with every new blade.</p>
+<p><strong>Safety Razor</strong> — a double-edge razor with a guard bar that limits blade exposure. Less aggressive than a straight razor and better for beginners learning shaving technique. Double-edge blades must also be disposed of in a puncture-resistant sharps container — NEVER in an open trash can.</p>
+<h3>Step-by-Step Razor Procedure</h3>
+<ol>
+<li>Verify skin condition: inspect for cuts, active acne, infections, keloid scars, or open wounds. Do NOT proceed if contraindications are present.</li>
+<li>For shavette/safety razor: load a fresh blade and confirm secure seating in the handle.</li>
+<li>Apply shaving lather — work into the area to lubricate and lift the hair.</li>
+<li>Stretch the skin firmly with your non-dominant hand before each stroke.</li>
+<li>Hold the razor at a <strong>30-degree angle</strong> to the skin surface — this is the standard angle for safety and efficiency.</li>
+<li>Execute the first pass with the grain (in the direction of hair growth), using short, controlled strokes with light pressure.</li>
+<li>Wipe the blade on a damp towel between strokes to remove lather and cut hair. Do not press hard against the blade edge.</li>
+<li>Apply cold towel or astringent after completion to close pores and soothe the skin.</li>
+<li>Immediately place used blades in the sharps container — never on the counter, never in regular trash.</li>
+</ol>
+<h3>Decision Rules for Razor Use</h3>
+<p><strong>If the client has coarse, thick beard hair</strong>, use heavier lather, stretch the skin more firmly, and work in smaller sections — coarse hair requires more passes but do not increase pressure; that increases the risk of cuts. <strong>If the client has sensitive skin or a history of razor bumps</strong>, use a shavette with a fresh blade, reduce passes to one with-the-grain, skip across-grain and against-grain passes, and apply a calming aftershave balm. <strong>If the client has active acne or open skin</strong>, do NOT proceed with razor service — this is a hard contraindication.</p>
+<h3>Sanitation Requirements</h3>
+<p>Disinfect all reusable razor handles and guards with EPA-registered disinfectant between every client. Single-use blades must be discarded after each use — do not attempt to disinfect and reuse disposable razor blades. The sharps container must be properly sealed and disposed of through a medical waste service when three-quarters full. <strong>Never</strong> attempt to manually remove a used blade by hand — use the safety mechanism on the razor handle.</p>
+<h3>Failure Mode — Nick or Cut During Service</h3>
+<p><strong>Cause:</strong> inadequate skin tension, wrong blade angle, rushing through a stroke, or using a dull blade. <strong>Recovery:</strong> stop immediately, apply light pressure with a clean gauze or tissue, use a styptic pencil or alum block if allowed by shop protocol, apply an antiseptic, document the incident, and allow the client to see the area. Do not continue service over a fresh nick. Replace the blade before resuming work.</p>
+<h3>Visual Cues for Correct Execution</h3>
+<p>A correctly executed razor stroke leaves a smooth, pink, irritation-free skin surface behind it. The skin should appear clean and close-shaved without redness or drag lines. At 30 degrees, the blade glides — you should feel very little resistance. If you feel a scraping or dragging sensation, the blade is dull, the angle is wrong, or skin tension is insufficient. Incorrect execution shows as razor burn (red, irritated streaks), missed patches of hair, or nicks.</p>`,
+          quizQuestions: [
+            {
+              id: 'l17-q1',
+              question: 'What is the standard blade angle for professional razor shaving?',
+              options: ['15 degrees', '30 degrees', '45 degrees', '60 degrees'],
+              correctAnswer: 1,
+              explanation: 'A 30-degree angle provides the optimal balance of blade efficiency and skin safety for professional shaving.',
+            },
+            {
+              id: 'l17-q2',
+              question: 'A client arrives for a straight razor shave and you notice active acne on the cheek area. What should you do?',
+              options: [
+                'Proceed carefully, avoiding only the most inflamed pimples',
+                'Decline the razor service on the affected area — active acne is a contraindication',
+                'Use a dull blade to reduce the risk',
+                'Apply extra lather over the acne and proceed normally',
+              ],
+              correctAnswer: 1,
+              explanation: 'Active acne is a hard contraindication for razor services. Proceeding spreads bacteria, causes pain, and risks infection.',
+            },
+            {
+              id: 'l17-q3',
+              question: 'After using a shavette blade on a client, where must the blade be disposed?',
+              options: [
+                'In the regular trash after wrapping in paper',
+                'In a puncture-resistant sharps container',
+                'Soaked in disinfectant for reuse',
+                'Left on the workstation for the next barber',
+              ],
+              correctAnswer: 1,
+              explanation: 'All used razor blades — shavette, double-edge, or disposable — must be placed immediately in a labeled, puncture-resistant sharps container. Regular trash is a bloodborne pathogen risk.',
+            },
+            {
+              id: 'l17-q4',
+              question: 'Why is it important to strop a straight razor before each use?',
+              options: [
+                'To disinfect the blade',
+                'To realign the blade edge for a smooth, clean cut',
+                'To remove rust',
+                'To soften the steel',
+              ],
+              correctAnswer: 1,
+              explanation: 'Stropping realigns the microscopic edge of the blade that folds during use, restoring sharpness without removing metal.',
+            },
+            {
+              id: 'l17-q5',
+              question: 'During a shave, you feel a scraping or dragging sensation with the razor. What is the most likely cause?',
+              options: [
+                'The client has the wrong hair type',
+                'The blade is dull, the angle is wrong, or skin tension is insufficient',
+                'The lather is too thick',
+                'The razor needs more disinfectant',
+              ],
+              correctAnswer: 1,
+              explanation: 'Scraping or dragging indicates one of three issues: a dull blade (requires replacement), incorrect 30-degree angle (needs correction), or inadequate skin tension (must stretch more firmly).',
+            },
+          ],
         },
         {
           slug: 'barber-lesson-18',
@@ -1402,20 +1543,95 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Perform routine clipper maintenance to extend tool life and ensure performance.',
           durationMinutes: 15,
           videoFile: '/videos/course-barber-clipper-techniques.mp4',
-          content: `<h2>Clipper Maintenance</h2>
-<h3>Daily Maintenance</h3>
+          content: `<h2>Clipper Maintenance and Blade Care</h2>
+<p>Proper clipper maintenance directly affects the quality of every haircut, the safety of every client, and the lifespan of your most important tools. Neglected clippers pull hair, cause skin irritation, create uneven cuts, and harbor pathogens. This lesson covers the complete maintenance routine — from the between-client quick clean to the end-of-day deep care protocol.</p>
+<h3>Required Maintenance Materials</h3>
+<ul>
+<li>Clipper cleaning brush (stiff nylon bristle)</li>
+<li>Clipper oil — light mineral oil, manufacturer-supplied or equivalent</li>
+<li>EPA-registered clipper blade disinfectant spray</li>
+<li>Clean lint-free cloths or paper towels</li>
+<li>Flat-head screwdriver (for blade adjustment screws)</li>
+<li>Replacement blades or a blade sharpening service schedule</li>
+</ul>
+<h3>Between Every Client — Quick Protocol</h3>
 <ol>
-<li>Brush hair from blades after every client</li>
-<li>Apply 2–3 drops of clipper oil to the blade while running</li>
-<li>Wipe excess oil with a clean cloth</li>
-<li>Spray blades with disinfectant spray between clients</li>
+<li>Turn off and unplug (or lock) the clipper before touching the blade.</li>
+<li>Remove the blade from the clipper body if it is a detachable system.</li>
+<li>Brush all hair and debris from the blade using the cleaning brush — this step must happen BEFORE disinfectant application, as debris blocks disinfectant contact.</li>
+<li>Apply EPA-registered clipper disinfectant spray and allow the full manufacturer-specified contact time (commonly 60 seconds for spray formats).</li>
+<li>Reattach the blade and apply 2–3 drops of clipper oil to the blade while the clipper is briefly running to distribute oil across the full blade surface.</li>
+<li>Wipe any excess oil with a lint-free cloth — over-oiling attracts debris and can stain the client's neck.</li>
 </ol>
-<h3>Blade Alignment</h3>
-<p>If clippers are pulling or cutting unevenly, the blades may need alignment. The top blade should sit slightly behind the bottom blade — never extend past it.</p>
-<h3>Blade Sharpening</h3>
-<p>Dull blades pull hair instead of cutting cleanly. Have blades professionally sharpened or replaced every 3–6 months depending on use.</p>
-<h3>Motor Care</h3>
-<p>Never submerge clippers in liquid. Keep vents clear of hair buildup. Store in a dry location.</p>`,
+<h3>Blade Alignment Check</h3>
+<p>Correct alignment: the top (moving) blade sits slightly <em>behind</em> the bottom blade — the bottom blade teeth extend past the top blade by approximately 1mm. The correct position allows full contact without the top blade overhanging. If the clipper is pulling or leaving visible lines, check alignment first. Loosen the screws slightly, reposition the blade to the correct position, and re-tighten evenly. Do NOT over-tighten — stripped screws are a common clipper maintenance failure.</p>
+<h3>Decision Rules — When to Oil vs. When to Replace</h3>
+<p><strong>If the blade cuts unevenly or pulls hair despite being clean and oiled</strong>, the blade edge is dull and requires professional sharpening or replacement. Continuing to use a dull blade causes discomfort to clients and produces inferior results. <strong>If the clipper runs hot to the touch during a cut</strong>, the blade tension may be too tight, or the blade is overdue for oiling — stop and address it before continuing.</p>
+<h3>Blade Sharpening Schedule</h3>
+<p>Blades used daily should be professionally sharpened or replaced every 3–6 months. Signs a blade needs sharpening: hair is pulled rather than cut cleanly, the cut feels rough or uneven, or there are visible nicks on the blade teeth when inspected under light. Keep a maintenance log to track sharpening dates for each blade.</p>
+<h3>Motor and Body Care</h3>
+<p>Never submerge the clipper body in liquid — the motor and electronics will be destroyed. Keep the blade vent slots clear of hair buildup by brushing them out daily. Store clippers in a dry location — humidity accelerates blade rust. If a clipper begins making unusual noise or vibrating more than normal, inspect for loose screws, damaged blades, or a worn motor before using it on a client.</p>
+<h3>Failure Mode — Clipper Leaves Lines or Stops Cutting Evenly</h3>
+<p><strong>Cause:</strong> Blade is dirty, misaligned, dull, or insufficiently oiled. <strong>Recovery:</strong> Follow the between-client protocol: clean, disinfect, re-oil, check alignment. If the issue persists, the blade needs sharpening or replacement. Attempting to finish a cut with a malfunctioning clipper creates uneven results that are difficult to correct and can irritate the client's scalp.</p>
+<h3>Visual Inspection — What Good Maintenance Looks Like</h3>
+<p>A well-maintained blade should look clean and bright under light — no rust spots, no visible debris packed between teeth, and no nicks visible along the blade edge. When running, the blade should move smoothly and quietly. The position of the top blade should be uniform across its width — look at the blade head-on; if one side of the top blade extends past the bottom blade, the alignment is off and needs correction.</p>`,
+          quizQuestions: [
+            {
+              id: 'l18-q1',
+              question: 'Why must hair debris be brushed off the blade BEFORE applying disinfectant spray?',
+              options: [
+                'It makes the blade look cleaner',
+                'Debris blocks the disinfectant from reaching the metal surface, making disinfection ineffective',
+                'Hair clogs the spray nozzle',
+                'The spray dissolves hair debris automatically',
+              ],
+              correctAnswer: 1,
+              explanation: 'Disinfectant must contact the blade surface directly to kill pathogens. Hair and debris create a physical barrier that prevents effective disinfection.',
+            },
+            {
+              id: 'l18-q2',
+              question: 'What is the correct position of the top blade relative to the bottom blade?',
+              options: [
+                'Top blade extends past bottom blade for a closer cut',
+                'Top blade sits slightly behind the bottom blade, with bottom teeth extending slightly past',
+                'Both blades are exactly flush',
+                'Top blade is lower to reduce pull',
+              ],
+              correctAnswer: 1,
+              explanation: 'The bottom blade should extend approximately 1mm past the top blade. If the top blade overhangs, it will dig into the skin.',
+            },
+            {
+              id: 'l18-q3',
+              question: 'During a cut, your clipper becomes hot to the touch. What should you do?',
+              options: [
+                'Continue cutting — warming is normal',
+                'Stop and check blade tension and oil level before continuing on the client',
+                'Apply water to cool the blade',
+                'Switch to a trimmer and finish with that instead',
+              ],
+              correctAnswer: 1,
+              explanation: 'Excessive heat indicates the blade tension may be too tight or the blade is under-oiled — both damage the blade and can burn the client. Always stop and address overheating before continuing.',
+            },
+            {
+              id: 'l18-q4',
+              question: 'How often should a clipper blade used daily in a busy shop be professionally sharpened?',
+              options: ['Every week', 'Every 1–2 months', 'Every 3–6 months', 'Every 1–2 years'],
+              correctAnswer: 2,
+              explanation: 'Daily-use blades in a professional shop typically need sharpening every 3–6 months, depending on volume and hair texture handled.',
+            },
+            {
+              id: 'l18-q5',
+              question: 'A client notices their haircut looks uneven after you finish. You inspect the clipper and the cut appears stepped. What is the most likely maintenance-related cause?',
+              options: [
+                'The clipper was too fast',
+                'The blade is dull or misaligned, causing inconsistent cutting height',
+                'The guard was wrong',
+                'The client moved during the cut',
+              ],
+              correctAnswer: 1,
+              explanation: 'Uneven or stepped cuts are often caused by a dull or misaligned blade cutting at different heights across its width. A properly aligned, sharp blade cuts evenly.',
+            },
+          ],
         },
         {
           slug: 'barber-lesson-19',
@@ -1425,24 +1641,103 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Apply ergonomic principles to prevent injury during barbering services.',
           durationMinutes: 15,
           videoFile: '/videos/barber-client-experience.mp4',
-          content: `<h2>Ergonomics for Barbers</h2>
-<p>Barbering is physically demanding. Poor posture and repetitive motion cause chronic injuries that end careers.</p>
-<h3>Posture</h3>
+          content: `<h2>Ergonomics and Body Mechanics for Barbers</h2>
+<p>Barbering is one of the most physically demanding professions in the service industry. A working barber stands for 8–10 hours per day performing repetitive overhead and hand movements. Without proper body mechanics, cumulative strain injuries — including chronic lower back pain, carpal tunnel syndrome, and shoulder impingement — are almost inevitable. This lesson teaches you how to set up your workstation correctly, position your body for each cut, and maintain your physical health long-term.</p>
+<h3>Required Tools and Equipment for Ergonomic Setup</h3>
 <ul>
-<li>Stand with feet shoulder-width apart</li>
-<li>Keep your back straight — do not hunch over the client</li>
-<li>Adjust the chair height so you work at elbow level</li>
-<li>Shift weight between feet — do not lock your knees</li>
+<li>Height-adjustable barber chair (adjust to your working elbow level)</li>
+<li>Anti-fatigue mat to stand on during services</li>
+<li>Well-balanced scissors and clippers (heavy or unbalanced tools increase grip strain)</li>
+<li>Properly sized scissor finger rings — too large or too small increases tension</li>
+<li>Massage ball or hand stretching tool for inter-client recovery</li>
 </ul>
-<h3>Wrist and Hand Health</h3>
+<h3>Workstation Setup</h3>
+<ol>
+<li>Adjust the barber chair height so the client's head is at your elbow level when you're standing with arms relaxed — this prevents hunching or reaching overhead.</li>
+<li>Position yourself directly in line with the area you're cutting — never twist your spine to reach across the client.</li>
+<li>Stand with feet shoulder-width apart and keep your weight distributed evenly — do NOT lock your knees.</li>
+<li>Keep your back straight and core lightly engaged. Avoid hunching over the client — lower the chair instead.</li>
+<li>Keep elbows close to your body when cutting. Raising elbows above shoulder level for extended periods causes rotator cuff strain.</li>
+</ol>
+<h3>Hand and Wrist Position</h3>
+<p>Keep your wrists in a neutral (straight) position while holding scissors or clippers. A bent wrist compresses the carpal tunnel, which over time leads to numbness, tingling, and eventually surgery. Do not grip tools tightly — a relaxed grip with scissors prevents unnecessary tension. Use your ring finger and pinky to anchor the scissor handle, not all four fingers, to allow free, fluid motion.</p>
+<h3>Decision Rules — Adjusting for Client Height and Position</h3>
+<p><strong>If the client is significantly taller than average</strong>, raise the chair before cutting rather than standing on your toes or bending sideways — lateral spinal loading is a common injury source. <strong>If cutting a seated child client</strong>, consider a booster seat to bring the client to working height — never bend down to the child's level for more than a moment. <strong>If you feel shoulder fatigue during a long cut</strong>, lower your elbows and take a brief pause to roll your shoulders — continuing through significant fatigue compounds injury risk.</p>
+<h3>Sanitation and Posture Interaction</h3>
+<p>Barbers who rush sanitation steps often do so while awkwardly bending over the station — this compounds back strain. Set up your station so disinfectant, clipper oil, and cleaning brushes are all at counter height and within arm's reach. Reaching across the station or bending down to a low tray adds unnecessary repetitive strain.</p>
+<h3>Common Failure Mode — Cumulative Strain</h3>
+<p><strong>Cause:</strong> Ignoring early symptoms — mild numbness, occasional tingling, occasional sharp pain — and continuing to work through them. <strong>Recovery:</strong> Early symptoms caught within the first few weeks can often be fully resolved with rest, ergonomic correction, and hand stretches. Ignoring them for months leads to chronic conditions that may require surgery and time away from the profession. Address warning signs immediately and see a physical therapist or occupational health provider if symptoms persist more than two weeks.</p>
+<h3>Stretches Between Clients</h3>
 <ul>
-<li>Keep wrists in a neutral position when cutting</li>
-<li>Do not grip tools too tightly</li>
-<li>Stretch hands and wrists between clients</li>
-<li>Carpal tunnel syndrome is common in barbers — address early symptoms immediately</li>
+<li>Wrist flexion and extension: hold one arm out straight, gently pull fingers back, hold 15 seconds each direction</li>
+<li>Shoulder rolls: 5 forward, 5 backward, between every 2 clients</li>
+<li>Lower back: stand straight, hands on hips, gentle backward arch to counteract forward bending posture</li>
+<li>Neck side-stretch: ear toward shoulder, hold 15 seconds, alternate sides</li>
 </ul>
-<h3>Breaks</h3>
-<p>Take a 5-minute break every 2 hours. Sit down, stretch, and rest your hands.</p>`,
+<h3>What Correct Ergonomic Positioning Looks Like</h3>
+<p>Correct position: you should be able to cut with your elbows at approximately 90-degree angle to your torso, wrists flat, back straight, and feet planted. You should NOT be reaching forward, bending sideways, or twisting your spine. After a full day of work in correct position, normal mild fatigue is expected — sharp pain, numbness, or tingling in the hands or back is a signal that something in your mechanics needs correction.</p>`,
+          quizQuestions: [
+            {
+              id: 'l19-q1',
+              question: 'At what height should you adjust the barber chair before beginning a haircut?',
+              options: [
+                'As low as possible for better visibility',
+                'So the client\'s head is at your elbow level when standing with arms relaxed',
+                'At standard height — do not adjust',
+                'So the client\'s head is at your shoulder level',
+              ],
+              correctAnswer: 1,
+              explanation: 'Chair height at elbow level allows you to cut without hunching over or reaching overhead — both common sources of chronic back and shoulder injury in barbers.',
+            },
+            {
+              id: 'l19-q2',
+              question: 'A barber notices occasional tingling in their hand and wrist after long shifts. What is the correct response?',
+              options: [
+                'Ignore it and continue working — it will go away',
+                'Address it immediately: correct grip and wrist position, stretch between clients, and see a health provider if symptoms persist more than two weeks',
+                'Switch to heavier scissors for more control',
+                'Cut back to part-time hours permanently',
+              ],
+              correctAnswer: 1,
+              explanation: 'Tingling and numbness are early warning signs of carpal tunnel syndrome. Caught early, they can be resolved with ergonomic correction. Ignored, they progress to chronic conditions requiring surgery.',
+            },
+            {
+              id: 'l19-q3',
+              question: 'What is the recommended wrist position when holding scissors during a haircut?',
+              options: [
+                'Bent downward for better angle control',
+                'Neutral (flat/straight) to avoid carpal tunnel compression',
+                'Bent upward to see the cut better',
+                'Any position that feels natural',
+              ],
+              correctAnswer: 1,
+              explanation: 'A neutral (straight) wrist is required to keep the carpal tunnel open. A consistently bent wrist compresses the median nerve over time, causing carpal tunnel syndrome.',
+            },
+            {
+              id: 'l19-q4',
+              question: 'During a long cut on a very tall client, you start to feel back pain. What should you do?',
+              options: [
+                'Finish the cut as fast as possible and rest after',
+                'Raise the chair to bring the client\'s head to your working height before continuing',
+                'Stand on your toes to reach the top sections',
+                'Ask the client to slouch down in the chair',
+              ],
+              correctAnswer: 1,
+              explanation: 'Raising the chair to the correct working height removes the need to reach or twist — pausing to adjust is always better than continuing in a harmful position.',
+            },
+            {
+              id: 'l19-q5',
+              question: 'What is the correct elbow position during a haircut for optimal ergonomics?',
+              options: [
+                'Raised above shoulder level to see better',
+                'Extended fully forward with forearms parallel to the floor',
+                'Close to your body at approximately a 90-degree angle to your torso',
+                'Position does not matter as long as the scissors are moving correctly',
+              ],
+              correctAnswer: 2,
+              explanation: 'Elbows close to the body at about 90 degrees keeps the shoulder joint in a stable, low-stress position. Raised elbows cause rotator cuff fatigue and injury over time.',
+            },
+          ],
         },
         {
           slug: 'barber-lesson-20',
@@ -1452,22 +1747,102 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Properly drape a client for haircut and shaving services.',
           durationMinutes: 10,
           videoFile: '/videos/course-barber-consultation.mp4',
-          content: `<h2>Draping the Client</h2>
-<h3>Haircut Draping</h3>
+          content: `<h2>Draping and Client Preparation</h2>
+<p>Proper draping is both a sanitation requirement and a professional standard. The state board tests draping on every practical exam — incorrect draping (the cape touching bare skin, a missing neck strip, or an insecure cape) is a scored deduction. Beyond the exam, correct draping protects the client's clothing, prevents trimmings from irritating the skin, establishes your professionalism before the first cut, and creates a physical barrier between the barber's implements and the client's clothing.</p>
+<h3>Required Materials</h3>
+<ul>
+<li>Single-use neck strip for each client (porous items cannot be disinfected — never reuse)</li>
+<li>Cutting cape (clean, laundered at minimum 160°F)</li>
+<li>Clean client towels for shave service</li>
+<li>Cape hook, snap, or Velcro fastener in working condition</li>
+</ul>
+<h3>Haircut Draping Procedure</h3>
 <ol>
-<li>Place a clean neck strip around the client's neck</li>
-<li>Drape the cutting cape over the client</li>
-<li>Secure the cape — snug but not tight</li>
-<li>Tuck the neck strip over the cape collar to prevent hair from falling inside</li>
+<li>Seat the client in the barber chair before beginning any draping.</li>
+<li>Ask the client to tuck in any collared shirts or remove ties — avoid items that bunch under the cape.</li>
+<li>Unroll a fresh single-use neck strip and wrap it around the client's neck — snug enough to stay in place, but not tight enough to restrict breathing or cause discomfort.</li>
+<li>Drape the cutting cape over the client's front, ensuring it covers both shoulders and the full torso.</li>
+<li>Secure the cape at the back — snug but not compressing the neck. You should be able to fit two fingers between the fastener and the back of the neck.</li>
+<li>Fold the top of the neck strip outward over the cape collar so the cape cannot contact the skin directly at the neck.</li>
+<li>Check that the cape drapes fully to the knees and that no clothing is visibly exposed below the cape edge.</li>
 </ol>
-<h3>Shave Draping</h3>
+<h3>Shave Service Draping Procedure</h3>
 <ol>
-<li>Recline the chair to a comfortable shaving position</li>
-<li>Place a clean towel across the client's chest</li>
-<li>Tuck a neck strip or towel around the collar</li>
+<li>Recline the chair to the shaving position before the client settles in.</li>
+<li>Apply a chest towel across the client's torso.</li>
+<li>Place a neck strip or clean towel collar around the neck to protect it from product drips.</li>
+<li>Confirm the client is comfortable and the headrest is supporting the head before proceeding.</li>
 </ol>
-<h3>Why Draping Matters</h3>
-<p>Proper draping protects the client's clothing, prevents hair from irritating the skin, and presents a professional image.</p>`,
+<h3>Decision Rules for Draping Variations</h3>
+<p><strong>If the client is wearing a garment with a high collar (turtleneck, hoodie)</strong>, ask them to remove or adjust the garment before draping — bulky material under the cape prevents a clean neck strip seal, and cut hair can fall inside the collar. <strong>If the client has neck or shoulder sensitivity</strong>, use a lighter-weight cape and ensure the neck strip is not pulled too tight — always ask before adjusting. <strong>If a child is in the chair</strong>, use a smaller child cape if available, and fold the adult cape under to keep it from slipping off the chair during the cut.</p>
+<h3>Sanitation and Infection Control</h3>
+<p>Neck strips are single-use, disposable items. Never reuse a neck strip — they are porous and cannot be disinfected. Capes must be laundered after each client or between clients if soiled with product, blood, or heavy debris. Shave towels must be laundered separately from dry cutting towels. Do NOT use a cape that is visibly soiled on the next client.</p>
+<h3>Failure Mode — Client's Clothing Gets Soiled or Cape Falls During Service</h3>
+<p><strong>Cause:</strong> The neck strip was too loose, the cape was not properly secured, or the client moved significantly and was not re-checked. <strong>Recovery:</strong> Apologize professionally, pause the service to re-drape, and offer to cover any cleaning cost for soiled clothing. Prevention is far more effective: check the cape security at the start of service and after the client adjusts their position.</p>
+<h3>What Correct Draping Looks Like</h3>
+<p>A correctly draped client should have: (1) the neck strip visibly folded over the top of the cape collar — the cape should NOT be in direct contact with the skin, (2) the cape laying flat and evenly across both shoulders with no bunching, and (3) the fastener positioned centrally at the back of the neck with no visible skin gap. The position of the cape should remain stable throughout the service without slipping or requiring continuous adjustment. If the cape slips frequently, re-drape and check if the neck strip is the correct size for the client.</p>`,
+          quizQuestions: [
+            {
+              id: 'l20-q1',
+              question: 'Why must a new neck strip be used for every client?',
+              options: [
+                'Neck strips are required by the Cape Manufacturer',
+                'Neck strips are porous and cannot be disinfected — they must be discarded and replaced for each client',
+                'Clients prefer the fresh feel',
+                'They only come in single packs',
+              ],
+              correctAnswer: 1,
+              explanation: 'Porous items like neck strips absorb bodily fluids and debris and cannot be effectively disinfected with EPA-registered disinfectants. Single-use means one client, one neck strip.',
+            },
+            {
+              id: 'l20-q2',
+              question: 'After securing the cape, how should the neck strip be positioned?',
+              options: [
+                'Tucked inside the cape, against the skin',
+                'Folded outward over the top of the cape collar so the cape does not touch the skin',
+                'Removed after the cape is on',
+                'Wrapped tightly to keep all hair out',
+              ],
+              correctAnswer: 1,
+              explanation: 'The neck strip folds outward to create a barrier between the cape and the skin — the cape must never contact bare skin directly.',
+            },
+            {
+              id: 'l20-q3',
+              question: 'A client is wearing a high-collared hoodie and sits down for a cut. What should you do?',
+              options: [
+                'Apply the cape directly over the hoodie',
+                'Ask the client to remove or adjust the garment before draping to prevent hair falling into the collar',
+                'Use extra neck strips to seal any gaps',
+                'Proceed normally — hoodies are not a draping concern',
+              ],
+              correctAnswer: 1,
+              explanation: 'A high collar prevents a proper neck strip seal and allows cut hair to fall inside the client\'s clothing. Always resolve the garment issue before draping.',
+            },
+            {
+              id: 'l20-q4',
+              question: 'During a cut, the cape slips off one shoulder and the client\'s shirt is exposed. What is the correct response?',
+              options: [
+                'Continue cutting and re-drape at the end',
+                'Pause the service, re-drape properly, and verify the cape is secure before resuming',
+                'Ask the client to hold the cape in place',
+                'Ignore it if the shoulder being cut is still covered',
+              ],
+              correctAnswer: 1,
+              explanation: 'A slipped cape must be corrected immediately — continuing risks soiling the client\'s clothing with cut hair or products, which creates a professional and liability issue.',
+            },
+            {
+              id: 'l20-q5',
+              question: 'What is the correct tightness for the cape fastener at the back of the neck?',
+              options: [
+                'As tight as possible to prevent any hair from entering',
+                'Snug but not compressing the neck — approximately two fingers should fit between the fastener and the neck',
+                'Completely loose — just resting on the shoulders',
+                'Tight against the neck strip',
+              ],
+              correctAnswer: 1,
+              explanation: 'The two-finger rule ensures the cape stays in place without restricting the client\'s breathing or causing neck discomfort during the service.',
+            },
+          ],
         },
         {
           slug: 'barber-module-3-checkpoint',
@@ -1626,7 +2001,11 @@ Indiana State Board inspectors check disinfection logs — remind students to do
 <li>Clean and disinfect any blood-contaminated tools with EPA-registered disinfectant.</li>
 <li>Double-bag contaminated waste before disposal.</li>
 <li>Wash hands thoroughly after removing gloves.</li>
-</ol>`,
+</ol>
+<h3>Decision Rules — Adapting Sectioning to Head Shape</h3>
+<p><strong>If the client has a flat or low crown</strong>, adjust the sectioning lines higher to add visual height at the crown — start the fade above the occipital bone rather than at it. <strong>If the client has a round head shape</strong>, emphasize horizontal sectioning lines to visually elongate — avoid high fades that reinforce roundness. <strong>If the client has a prominent occipital bone</strong>, use that bone as your primary reference point for the fade line and communicate to the client that the fade may appear tighter at that protrusion. Depending on hair growth pattern, dense growth at the crown may require the top section to be subdivided before cutting to avoid removing too much bulk at once.</p>
+<h3>Visual Reference — What Correct Sectioning Looks Like</h3>
+<p>Correctly established sections should appear as clean, straight, or symmetrically curved partings when viewed from directly above the head. The guide line position should appear at the same angle and height on both sides when you step back and view the client from the rear. A common mistake is sections that look even from the side but are not aligned when viewed from the back — always check both angles before beginning the cut. If the parting lines look uneven when the client tilts their head forward, re-section before cutting — cutting on an asymmetrical section will produce an asymmetrical result.</p>`,
           competencyChecks: [
             'Identifies all head sections and reference points correctly',
             'Follows pre-clean → disinfect → contact time sequence before service',
@@ -1778,7 +2157,11 @@ Indiana State Board inspectors check disinfection logs — remind students to do
 <li>Clean and disinfect blood-contaminated tools with EPA-registered disinfectant.</li>
 <li>Double-bag contaminated waste before disposal.</li>
 <li>Wash hands thoroughly after removing gloves.</li>
-</ol>`,
+</ol>
+<h3>Decision Rules — When to Use Clipper Over Comb</h3>
+<p><strong>If the client has hair that is too long for guards but needs precision cutting</strong>, clipper over comb is the correct technique — it provides clipper precision on lengths that guards cannot reach. <strong>If the client has fine hair</strong>, use a lighter touch and move quickly — fine hair is cut fast and it is easy to remove too much. <strong>If the client has very coarse or dense hair</strong>, slow your passes and use a wider-tooth comb to prevent dragging, which produces uneven results. <strong>If a client requests a custom blended length not achievable with a guard</strong>, clipper over comb is the best choice for precise length control between guard sizes.</p>
+<h3>Comb Angle and Length Control</h3>
+<p>The comb angle determines the final cut length — holding the comb at a steeper angle away from the head leaves more length; holding it flatter and closer cuts shorter. Always test on a small section to confirm the desired length before committing to a full pass. The result should look like a smooth, even transition from the clipper section into any scissor-cut sections above it — no visible weight lines or step changes. If you see a visible ridge, the comb angle changed mid-pass or the clipper was not following the comb's curve consistently.</p>`,
           competencyChecks: [
             'Executes clipper-over-comb with consistent angle and smooth motion',
             'Follows pre-clean → disinfect → contact time sequence before service',
@@ -2296,7 +2679,13 @@ Indiana State Board inspectors check disinfection logs — remind students to do
 <li>Clean and disinfect blood-contaminated tools with EPA-registered disinfectant.</li>
 <li>Double-bag contaminated waste before disposal.</li>
 <li>Wash hands thoroughly after removing gloves.</li>
-</ol>`,
+</ol>
+<h3>Decision Rules — Adapting the Flat Top and Taper</h3>
+<p><strong>If the client has a round head shape</strong>, the flat top will require extra height building at the crown to make the flat top plane look truly level — a flat top on a round head without height compensation will look concave. <strong>If the client has fine hair</strong>, avoid the flat top entirely unless the client is aware of the high maintenance required — fine hair does not hold a flat top plane well between cuts. <strong>If the classic taper is growing out unevenly</strong>, identify the guide line position on both sides before cutting — depending on the growth pattern, one side may be longer and will need an extra pass to match. <strong>For a taper on coarse hair</strong>, use wider guards and more overlap between passes to prevent a choppy appearance at the guard transitions.</p>
+<h3>Failure Mode — Concave or Uneven Flat Top</h3>
+<p><strong>Cause:</strong> Working too fast across the top without checking the plane from the front, or the client moved between sections. <strong>Recovery:</strong> Step back, view the top of the head from directly in front at eye level, identify the high and low points, and correct by taking the high spots down to match — never try to add back what was removed. Prevention: use a flat top comb as a visual level guide across the full width before each pass. If the flat surface looks uneven or curved when you hold the comb across it, that is the problem area to address.</p>
+<h3>Visual Cues for Correct Execution</h3>
+<p>A correct flat top should look perfectly flat when viewed from the front — position yourself at the client's eye level, not above. The flat comb held across the top section should be parallel to the floor. The taper should show a smooth visual gradient from lighter at the nape to the full length at the top — you should see no defined lines between guard sizes. The angle of the taper line should be consistent on both sides of the head when viewed from the rear.</p>`,
           competencyChecks: [
             'Executes flat top with level, even surface across the top',
             'Executes classic taper with smooth transitions from top to nape',
@@ -2314,7 +2703,19 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Demonstrate mastery of haircutting techniques.',
           durationMinutes: 20,
           passingScore: 70,
-          content: `<h2>Module 4 Review — Haircutting Techniques</h2><p>Review before taking this checkpoint: head sections and reference points, low/mid/high fade technique, clipper over comb, scissor over comb, lineup and edging, and classic cuts. Score 70% or higher to advance.</p>`,
+          content: `<h2>Module 4 Review — Haircutting Techniques</h2>
+<p>This checkpoint evaluates your mastery of the core haircutting skills from Module 4. Review all of the following before attempting the quiz.</p>
+<h3>Head Shape and Sectioning</h3>
+<p>The seven key areas of the head are: top, sides, back, nape, crown, temples, and occipital. The occipital bone is the bony protrusion at the back of the skull — used as the primary reference for fade start lines. The parietal ridge is the widest section of the head — used to determine where the high fade transitions to length. Always establish your guide line before you begin cutting to ensure consistent weight distribution and symmetry across both sides.</p>
+<h3>Low, Mid, and High Fade</h3>
+<p>A low fade starts just above the ear and nape, transitioning from skin to length over a short vertical distance. A mid fade starts at the temple, with a longer blending zone up the sides. A high fade starts above the temple, often near the parietal ridge, with the bulk of the length removed from the sides. In all three fade types, blade and guard changes must be blended with smooth transitions — visible step-lines between guard sizes indicate incomplete blending.</p>
+<h3>Clipper Over Comb and Scissor Over Comb</h3>
+<p>Clipper over comb is used for hair that is too long for guards but requires clipper precision. The comb angle determines the cut length — holding the comb at a steeper angle leaves more length. Scissor over comb produces a softer, more textured result and is the standard technique for longer lengths and classic tapers. In both techniques, the comb must follow the curve of the head smoothly — lifting away from the head creates uneven results.</p>
+<h3>Lineup and Edging</h3>
+<p>The lineup defines the front hairline, temples, sideburns, and nape. Never cut above the natural temple hairline — this creates an unnatural, receded appearance. The trimmer defines the shape first; the razor refines only after shape is confirmed. Never use a razor on broken skin, active acne, or inflamed bumps.</p>
+<h3>Flat Top and Classic Taper</h3>
+<p>The flat top requires a perfectly level surface across the top of the head — view from the front at eye level to check the plane. The classic taper shows a smooth gradient from shorter at the nape to fuller at the top, with no visible lines between guard transitions. The angle of the taper line must be consistent on both sides when viewed from the rear of the head.</p>
+<p>Score 70% or higher to advance to Module 5.</p>`,
           quizQuestions: [
             {
               id: 'hc-q1',
@@ -2419,22 +2820,38 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Prepare the skin for a professional shave using hot towel and pre-shave products.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-razor-narrated.mp4',
-          content: `<h2>Shave Preparation</h2>
-<h3>Why Preparation Matters</h3>
-<p>Proper preparation softens the beard, opens the pores, and reduces razor drag — preventing irritation and ingrown hairs.</p>
-<h3>Hot Towel Application</h3>
-<ol>
-<li>Soak a clean towel in hot water (test temperature on your wrist)</li>
-<li>Wring out excess water</li>
-<li>Apply to the face for 2–3 minutes</li>
-<li>Remove and apply pre-shave oil or cream</li>
-</ol>
-<h3>Pre-Shave Products</h3>
+          content: `<h2>Shave Preparation and Hot Towel Service</h2>
+<p>Professional shave preparation is not optional — it is the foundation of a comfortable, close shave and the primary defense against razor burns, ingrown hairs, and skin irritation. A properly prepared face softens the beard hair, opens the pores, and creates a protective lather layer that allows the razor to glide without drag. Rushed or skipped preparation leads to client discomfort and reduces the quality of the shave regardless of the barber's technical skill.</p>
+<h3>Required Tools and Materials</h3>
 <ul>
-<li><strong>Pre-shave oil</strong> — lubricates and protects the skin</li>
-<li><strong>Shaving cream</strong> — creates a protective lather</li>
-<li><strong>Shaving soap</strong> — traditional, requires a brush to lather</li>
-</ul>`,
+<li>Clean hand towels (pre-soaked in hot water or steamer-heated)</li>
+<li>Pre-shave oil (lubricant and skin protector)</li>
+<li>Shaving cream, shaving soap, or gel</li>
+<li>Shaving brush (for soap or cream requiring lather)</li>
+<li>Sanitized razor or shavette</li>
+<li>Aftershave balm or astringent</li>
+<li>EPA-registered disinfectant for tools</li>
+<li>Gloves</li>
+</ul>
+<h3>Hot Towel Application Procedure</h3>
+<ol>
+<li>Disinfect your razor and all metal tools before beginning. Place single-use items (neck strips, disposable blades) within arm's reach.</li>
+<li>Heat the towel: soak in hot water or use a hot towel steamer. The towel should be hot but not scalding. Always test temperature by pressing the towel briefly against your own inner wrist — it should feel hot but not painful.</li>
+<li>Wring out excess water so the towel is damp but not dripping.</li>
+<li>Warn the client: tell them a warm towel is being applied before you place it on their face.</li>
+<li>Apply the towel firmly but gently over the beard area and neck. Leave in place for 2–3 minutes.</li>
+<li>Remove the towel and immediately apply pre-shave oil to the still-warm skin.</li>
+<li>Apply shaving cream or soap over the oil and work into a rich lather using a brush in circular motions.</li>
+<li>Proceed to shave within 30 seconds of lather application — the lather loses lubrication as it dries.</li>
+</ol>
+<h3>Decision Rules — Adapting Preparation to Skin Type</h3>
+<p><strong>If the client has sensitive skin or a history of razor bumps</strong>, apply two hot towel passes before the shave to fully soften the hair, use a fragrance-free shaving gel, and skip any alcohol-based aftershave in favor of a calming balm. <strong>If the client has coarse, thick beard hair</strong>, extend the hot towel time to 3–4 minutes and apply a heavier shaving cream — coarser hair requires more softening time before the razor will glide cleanly. <strong>If the client has dry skin</strong>, apply a slightly heavier layer of pre-shave oil and ensure the lather is dense before beginning — a thin lather on dry skin causes friction and irritation.</p>
+<h3>Sanitation Requirements</h3>
+<p>Disinfect all reusable metal tools with an EPA-registered disinfectant before every client. Do not use the same towel on multiple clients — hot towels are single-use. Hot water alone does not disinfect — laundering at ≥160°F is the minimum sanitation standard for reuse. Never reuse disposable razor blades — place them directly in a sharps container after each client.</p>
+<h3>Failure Mode — Razor Drag Despite Preparation</h3>
+<p><strong>Cause:</strong> Lather was applied too thin, the hot towel did not adequately soften the hair, or the blade is not sharp enough. <strong>Recovery:</strong> Stop, re-apply a dense layer of lather, and proceed slowly. If drag continues, replace the blade before continuing. A dragging razor creates micro-abrasions that cause post-shave burning and breakouts.</p>
+<h3>Visual Cues for Correct Preparation</h3>
+<p>After the hot towel application, the beard hair should appear relaxed and the skin slightly flushed (pink) from the heat — this indicates adequate pore opening. The lather should appear thick and white with no dry or transparent patches. If you see the skin through the lather, it is too thin and will not protect effectively. After shaving, the skin should look smooth with a slight shine — result should show no red streaks or visible razor lines.</p>`,
           quizQuestions: [
             {
               id: 'l29-q1',
@@ -2574,27 +2991,38 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: "Design and shape a beard to complement the client's face shape.",
           durationMinutes: 20,
           videoFile: '/videos/course-barber-beard-narrated.mp4',
-          content: `<h2>Beard Design</h2>
-<h3>Face Shapes</h3>
+          content: `<h2>Beard Design and Shaping</h2>
+<p>Beard shaping is both a technical and artistic service. A well-designed beard enhances facial symmetry, complements the client's bone structure, and reflects the client's personal style. A poorly designed beard — particularly one with a neckline that is set too high — is one of the most visually obvious mistakes in the barbershop and one of the most common reasons clients switch barbers.</p>
+<h3>Face Shapes and Recommended Beard Approaches</h3>
 <ul>
-<li><strong>Oval</strong> — most beard styles work; maintain natural proportions</li>
-<li><strong>Round</strong> — add length on the chin; keep sides tight</li>
-<li><strong>Square</strong> — round the corners; fuller on the chin</li>
-<li><strong>Oblong</strong> — keep sides full; minimize chin length</li>
+<li><strong>Oval</strong> — most beard styles work without adjustment; maintain natural proportions</li>
+<li><strong>Round</strong> — add length on the chin to create vertical elongation; keep sides tight to avoid widening</li>
+<li><strong>Square</strong> — round the corners; fuller on the chin to soften the jaw line</li>
+<li><strong>Oblong</strong> — keep sides full for width; minimize chin length to avoid elongating further</li>
+<li><strong>Diamond</strong> — fuller chin and fuller cheeks; avoid very narrow or tight styles</li>
 </ul>
-<h3>Beard Lines</h3>
-<ul>
-<li><strong>Cheek line</strong> — natural or defined; never too low</li>
-<li><strong>Neckline</strong> — two finger-widths above the Adam's apple; the most common mistake is setting it too high</li>
-<li><strong>Mustache line</strong> — follow the natural lip line</li>
-</ul>
-<h3>Trimming Technique</h3>
+<h3>Primary Beard Lines</h3>
+<p><strong>Cheek line</strong>: Can be natural (following the natural growth boundary) or defined (trimmed straighter or more precisely). Never set the cheek line too low below the natural line — this creates a patchy appearance. <strong>Neckline</strong>: The industry standard is two finger-widths above the Adam's apple. This is the single most important line in beard shaping. The most common mistake is setting the neckline too high, which shortens the visual neck length and looks unnatural. <strong>Mustache line</strong>: Follow the natural lip line; do not cut above it or you remove the visual framing of the upper lip.</p>
+<h3>Beard Trimming Procedure</h3>
 <ol>
-<li>Comb beard downward to its natural fall</li>
-<li>Trim to desired length with guards</li>
-<li>Define lines with trimmer and razor</li>
-<li>Apply beard oil to finish</li>
-</ol>`,
+<li>Disinfect all tools (trimmer blades, combs) with EPA-registered disinfectant before beginning.</li>
+<li>Apply a neck strip and cape to protect the client's clothing.</li>
+<li>Comb the beard downward to its natural fall to reveal the true length and growth direction.</li>
+<li>Trim the bulk to the desired length using guards — start longer than needed; you can always remove more.</li>
+<li>Define the cheek line using the trimmer — use the natural line as your guide.</li>
+<li>Set the neckline at two fingers above the Adam's apple — mark with the trimmer before committing.</li>
+<li>Clean up the mustache line along the upper lip.</li>
+<li>Use a razor or shavette only after the trimmer has fully defined all lines.</li>
+<li>Apply beard oil or balm to the finished shape.</li>
+</ol>
+<h3>Decision Rules — Adapting to the Client</h3>
+<p><strong>If the client has a patchy beard</strong>, do not attempt to define lines in areas of sparse growth — this emphasizes the patches. Instead, keep lines conservative and close to natural growth. <strong>If the client has dense, coarse beard hair</strong>, use heavy-tension trimmer guards and slow passes — coarse hair can jam standard guards and produce uneven results if you move too fast. <strong>If skin type is sensitive or has active razor bumps</strong>, avoid razor detailing on affected areas and stick to trimmer-only shaping to reduce irritation.</p>
+<h3>Sanitation</h3>
+<p>Disinfect trimmer blades and combs between every client with EPA-registered clipper disinfectant spray, waiting the full contact time. Do not use a trimmer on a client with active skin infections, open cuts, or conditions that contraindicate blade contact. Avoid cross-contamination by keeping used towels separate from clean ones throughout the service.</p>
+<h3>Failure Mode — Neckline Set Too High</h3>
+<p>This is the most common and most visible beard shaping mistake. <strong>Cause:</strong> Barber rushed the measurement or guessed the neckline position without marking it first. <strong>Recovery:</strong> Once set too high, the only correction is to rebalance by trimming the overall beard shorter to restore proportion — there is no way to add back what was removed. Prevention: always mark the neckline with the trimmer before full removal, check with the client before committing.</p>
+<h3>Visual Cues for Correct Execution</h3>
+<p>A correctly shaped beard should show clean, symmetrical lines on both sides when the client faces forward. The neckline position should appear at the same height on both sides of the neck. The angle of the cheek line should be consistent left to right. When viewed in the mirror, the overall shape should complement the face — not fight it. The beard oil should give the finished result a healthy sheen without appearing greasy.</p>`,
           quizQuestions: [
             {
               id: 'l31-q1',
@@ -2738,22 +3166,41 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: "Trim and style a mustache to complement the client's features.",
           durationMinutes: 15,
           videoFile: '/videos/course-barber-beard.mp4',
-          content: `<h2>Mustache Services</h2>
+          content: `<h2>Mustache Trimming and Styling</h2>
+<p>The mustache is one of the most personal facial features a client can have, and mustache services require the same precision as any other barbering technique. Whether the client wants a simple trim or a styled statement piece like the handlebar, success depends on understanding the style, using the right tools, and making clean, deliberate cuts that complement the shape of the lip and face.</p>
 <h3>Mustache Styles</h3>
 <ul>
-<li><strong>Natural</strong> — trimmed to follow the lip line</li>
-<li><strong>Chevron</strong> — full, thick, trimmed straight across</li>
-<li><strong>Handlebar</strong> — long ends styled upward with wax</li>
-<li><strong>Pencil</strong> — thin line above the lip</li>
+<li><strong>Natural</strong> — trimmed to follow the upper lip line with no extreme shaping</li>
+<li><strong>Chevron</strong> — full, thick, trimmed straight across just above the lip — a classic and low-maintenance style</li>
+<li><strong>Handlebar</strong> — long ends grown out and styled upward or outward with wax; requires regular upkeep</li>
+<li><strong>Pencil</strong> — thin, precise line directly above the upper lip; requires careful trimmer work</li>
 </ul>
-<h3>Trimming Procedure</h3>
+<h3>Required Tools and Materials</h3>
+<ul>
+<li>Mustache or barber scissors (fine-point preferred)</li>
+<li>Fine-tooth or mustache comb</li>
+<li>T-liner trimmer or outliner for edge detailing</li>
+<li>Mustache wax (for handlebar and styled cuts)</li>
+<li>EPA-registered disinfectant spray for trimmer blades</li>
+<li>Neck strip and cape</li>
+</ul>
+<h3>Mustache Trimming Procedure</h3>
 <ol>
-<li>Comb mustache downward</li>
-<li>Trim bulk with scissors or guards</li>
-<li>Define the lip line with a trimmer</li>
-<li>Clean up the philtrum (area between nose and lip)</li>
-<li>Apply mustache wax if styling</li>
-</ol>`,
+<li>Disinfect all trimmer blades and scissors before beginning.</li>
+<li>Comb the mustache downward to reveal the natural fall and identify stray or long hairs.</li>
+<li>Trim the bulk length with scissors or a guard (always start longer — you can always shorten).</li>
+<li>Define the upper lip line with the T-liner trimmer, following the natural border of the lip.</li>
+<li>Clean up the philtrum area (the vertical groove between the nose and upper lip) with the trimmer.</li>
+<li>If styling a handlebar, apply a small amount of wax warmed between the fingertips, then shape from center outward, curling the ends upward.</li>
+</ol>
+<h3>Decision Rules — Adapting to Client and Style</h3>
+<p><strong>If the client has sparse mustache growth</strong>, avoid the pencil style — it requires dense, even growth across the upper lip or the thinness of the style will expose the patches. Recommend the natural style which works with varying density. <strong>If the client has coarse, thick mustache hair</strong>, use scissors for bulk reduction before the trimmer — running the trimmer directly through very dense mustaches can snag or create uneven results. <strong>If the client requests a very thin pencil line</strong>, confirm the style by showing the client a reference image before committing — the pencil style is difficult to grow back if the client changes their mind.</p>
+<h3>Sanitation</h3>
+<p>Disinfect trimmer blades with EPA-registered disinfectant spray between each client, maintaining full contact time. Do not use shared combs without cleaning and disinfection. Avoid trimmer contact with active acne, open bumps, or broken skin around the upper lip — do not proceed in areas with visible skin conditions. Never apply wax to broken or irritated skin.</p>
+<h3>Failure Mode — Lip Line Cut Too High</h3>
+<p><strong>Cause:</strong> Moving too fast with the trimmer along the upper lip line, or not following the natural lip border carefully. <strong>Recovery:</strong> If the lip line has been cut too high on one side, balance the other side to match and allow the mustache to grow back into the correct position — there is no immediate fix. Warn the client honestly. Prevention: use slow, deliberate trimmer passes along the lip line, always working from the center outward on each side.</p>
+<h3>Visual Cues for Correct Execution</h3>
+<p>The finished mustache should have clean, symmetrical lines on both sides of the philtrum when the client faces forward. The lip line should follow the natural upper lip border, not be cut above it. For the handlebar, the swept ends should appear at the same angle and height on both sides. The overall appearance should look intentional and well-maintained — not jagged or uneven when the client smiles or moves their face.</p>`,
           quizQuestions: [
             {
               id: 'l33-q1',
@@ -3816,7 +4263,7 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective:
             'Understand the format and requirements of the Indiana barber state board exam.',
           durationMinutes: 20,
-          videoFile: '/videos/barber-course-intro-with-voice.mp4',
+          videoFile: '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
           content: `<h2>Indiana State Board Exam</h2>
 <h3>Exam Components</h3>
 <ul>

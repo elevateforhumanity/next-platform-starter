@@ -59,7 +59,7 @@ export default async function ApprenticePortalPage() {
     // Barber/cosmetology students are written to program_enrollments by the webhook.
     const { data: progEnrollment } = await supabase
       .from('program_enrollments')
-      .select('id, status, created_at, programs:program_id(slug, title)')
+      .select('id, status, orientation_completed_at, documents_submitted_at, created_at, programs:program_id(slug, title)')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(1)
@@ -67,30 +67,16 @@ export default async function ApprenticePortalPage() {
 
     if (progEnrollment) {
       // Normalize to the same shape the rest of the page uses.
-      // program_enrollments doesn't track orientation/documents — treat as incomplete
-      // so the gate below sends them through the correct onboarding steps.
       enrollment = {
         id: progEnrollment.id,
         status: progEnrollment.status,
-        orientation_completed_at: null,
-        documents_submitted_at: null,
+        orientation_completed_at: progEnrollment.orientation_completed_at ?? null,
+        documents_submitted_at: progEnrollment.documents_submitted_at ?? null,
         course_id: null,
         programs: Array.isArray(progEnrollment.programs)
           ? progEnrollment.programs[0] ?? null
           : (progEnrollment.programs as { slug: string; title?: string } | null),
       };
-    }
-  }
-
-  // Gate: Redirect if orientation or documents not complete
-  if (enrollment) {
-    if (!enrollment.orientation_completed_at) {
-      const programSlug = enrollment.programs?.slug || 'barber-apprenticeship';
-      redirect(`/programs/${programSlug}/orientation`);
-    }
-    if (!enrollment.documents_submitted_at) {
-      const programSlug = enrollment.programs?.slug || 'barber-apprenticeship';
-      redirect(`/programs/${programSlug}/documents`);
     }
   }
 

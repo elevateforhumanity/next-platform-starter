@@ -10,7 +10,7 @@ BEGIN
 
   UPDATE public.course_lessons SET
     title = 'Introduction to Barbering',
-    video_url = '/videos/barber-course-intro-with-voice.mp4',
+    video_url = '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
     content = to_jsonb($html$<h2>Introduction to Barbering</h2>
 
 <h3>Objective</h3>

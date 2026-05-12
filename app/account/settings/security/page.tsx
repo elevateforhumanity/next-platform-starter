@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { Key, Smartphone, History } from 'lucide-react';
+import { Key, Smartphone, History, Mail } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,9 +52,36 @@ export default async function SecuritySettingsPage() {
                 <p className="text-slate-700 text-sm mt-1">
                   Change your password to keep your account secure.
                 </p>
-                <button className="mt-4 px-4 py-2 bg-white text-slate-900 rounded-lg hover:bg-gray-200 transition">
+                <Link
+                  href="/update-password"
+                  className="mt-4 inline-block px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition font-medium text-sm"
+                >
                   Change Password
-                </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Email / Username */}
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-slate-100 rounded-lg">
+                <Mail className="w-6 h-6 text-slate-600" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold text-slate-900">Email Address (Username)</h2>
+                <p className="text-slate-700 text-sm mt-1">
+                  Your email address is your username. You can update it in your profile.
+                </p>
+                <p className="text-slate-500 text-xs mt-1">
+                  Logged in as: <span className="font-mono">{user.email}</span>
+                </p>
+                <Link
+                  href="/account/profile"
+                  className="mt-4 inline-block px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium text-sm"
+                >
+                  Update Email
+                </Link>
               </div>
             </div>
           </div>

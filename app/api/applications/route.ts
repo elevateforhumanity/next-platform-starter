@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { getProgramEnrollmentState } from '@/lib/programs/program-state';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { getRedisClient } from '@/lib/rate-limit';
 import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email/sendgrid';
 
@@ -16,31 +17,153 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-// CORS preflight for cross-origin form submissions
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
-  });
+function getAllowedOrigins(): Set<string> {
+  const configured = (process.env.APPLICATION_INTAKE_ALLOWED_ORIGINS || '')
+    .split(',')
+    .map((v) => v.trim())
+    .filter(Boolean);
+
+  const defaults = [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    'https://www.elevateforhumanity.org',
+    process.env.NEXT_PUBLIC_ADMIN_URL,
+  ].filter(Boolean) as string[];
+
+  return new Set([...configured, ...defaults]);
 }
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
+function getRequestOrigin(req: Request): string {
+  return req.headers.get('origin') || '';
+}
+
+function isAllowedOrigin(origin: string, allowedOrigins: Set<string>): boolean {
+  if (!origin) return true;
+  return allowedOrigins.has(origin);
+}
+
+function corsHeadersForOrigin(origin: string, allowedOrigins: Set<string>) {
+  const fallback = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const allowOrigin = origin && allowedOrigins.has(origin) ? origin : fallback;
+  return {
+    'Access-Control-Allow-Origin': allowOrigin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, X-Idempotency-Key',
+    Vary: 'Origin',
+  } as const;
+}
+
+async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+  if (!token) return false;
+
+  try {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        secret,
+        response: token,
+        remoteip: ip,
+      }),
+    });
+    const result = (await response.json()) as { success?: boolean };
+    return !!result.success;
+  } catch {
+    return false;
+  }
+}
+
+function getClientIp(req: Request): string {
+  return (
+    req.headers.get('cf-connecting-ip') ||
+    req.headers.get('x-real-ip') ||
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    'unknown'
+  );
+}
+
+async function claimIdempotencyKey(
+  rawKey: string,
+  fingerprint: string,
+): Promise<{ duplicate: boolean; samePayload: boolean }> {
+  if (!rawKey) return { duplicate: false, samePayload: false };
+
+  const redis = getRedisClient();
+  if (!redis) return { duplicate: false, samePayload: false };
+
+  const key = `idempotency:applications:${rawKey}`;
+  const ttlSeconds = Number(process.env.APPLICATION_INTAKE_IDEMPOTENCY_TTL_SECONDS || '86400');
+  const value = JSON.stringify({ fingerprint, at: new Date().toISOString() });
+
+  try {
+    const setResult = await redis.set(key, value, { nx: true, ex: ttlSeconds });
+    const claimed = setResult === 'OK' || setResult === 1 || setResult === true;
+    if (claimed) {
+      return { duplicate: false, samePayload: false };
+    }
+
+    const existing = await redis.get(key);
+    const samePayload =
+      typeof existing === 'string' &&
+      existing.includes(`"fingerprint":"${fingerprint.replace(/"/g, '\\"')}"`);
+    return { duplicate: true, samePayload };
+  } catch (error) {
+    logger.warn('[api/applications] idempotency check unavailable; continuing', {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return { duplicate: false, samePayload: false };
+  }
+}
+
+// CORS preflight for cross-origin form submissions
+export async function OPTIONS(req: Request) {
+  const allowedOrigins = getAllowedOrigins();
+  const origin = getRequestOrigin(req);
+  if (!isAllowedOrigin(origin, allowedOrigins)) {
+    return NextResponse.json({ error: 'Origin not allowed' }, { status: 403 });
+  }
+
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeadersForOrigin(origin, allowedOrigins),
+  });
+}
 
 // Public endpoint — anonymous application submissions
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'api');
+    const allowedOrigins = getAllowedOrigins();
+    const origin = getRequestOrigin(req);
+    if (!isAllowedOrigin(origin, allowedOrigins)) {
+      return NextResponse.json(
+        { error: 'Origin not allowed' },
+        { status: 403, headers: corsHeadersForOrigin(origin, allowedOrigins) },
+      );
+    }
+
+    const rateLimited = await applyRateLimit(req, 'contact');
     if (rateLimited) return rateLimited;
 
     const body = await req.json();
+
+    // Honeypot field for commodity bots.
+    if (body.website && String(body.website).trim() !== '') {
+      return NextResponse.json(
+        { ok: true, accepted: true },
+        { status: 202, headers: corsHeadersForOrigin(origin, allowedOrigins) },
+      );
+    }
+
+    const turnstileToken = body.turnstileToken || body.cfTurnstileToken || '';
+    const clientIp = getClientIp(req);
+    const humanVerified = await verifyTurnstile(turnstileToken, clientIp);
+    if (!humanVerified) {
+      return NextResponse.json(
+        { error: 'Bot verification failed' },
+        { status: 403, headers: corsHeadersForOrigin(origin, allowedOrigins) },
+      );
+    }
 
     // Basic required fields - core fields that all forms must have
     const coreRequired = ['firstName', 'lastName', 'phone', 'email'];
@@ -48,12 +171,43 @@ async function _POST(req: Request) {
     // Program is required but can come from different field names
     const program = body.program || body.programSlug;
     if (!program) {
-      return NextResponse.json({ error: 'Missing required field: program' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Missing required field: program' },
+        { status: 400, headers: corsHeadersForOrigin(origin, allowedOrigins) },
+      );
     }
 
     for (const field of coreRequired) {
       if (!body[field] || String(body[field]).trim() === '') {
-        return NextResponse.json({ error: `Missing required field: ${field}` }, { status: 400 });
+        return NextResponse.json(
+          { error: `Missing required field: ${field}` },
+          { status: 400, headers: corsHeadersForOrigin(origin, allowedOrigins) },
+        );
+      }
+    }
+
+    const normalizedPhone = String(body.phone || '').replace(/\D/g, '');
+    const idempotencyKey =
+      (req.headers.get('x-idempotency-key') || body.idempotencyKey || '').trim().toLowerCase();
+    if (idempotencyKey && idempotencyKey.length < 12) {
+      return NextResponse.json(
+        { error: 'Invalid idempotency key' },
+        { status: 400, headers: corsHeadersForOrigin(origin, allowedOrigins) },
+      );
+    }
+
+    const fingerprint = `${String(body.email || '').toLowerCase().trim()}|${program}|${normalizedPhone}`;
+    if (idempotencyKey) {
+      const claim = await claimIdempotencyKey(idempotencyKey, fingerprint);
+      if (claim.duplicate) {
+        return NextResponse.json(
+          {
+            error: claim.samePayload
+              ? 'Duplicate submission detected. Your application is already being processed.'
+              : 'Idempotency key has already been used with a different payload.',
+          },
+          { status: 409, headers: corsHeadersForOrigin(origin, allowedOrigins) },
+        );
       }
     }
 
@@ -65,7 +219,7 @@ async function _POST(req: Request) {
           error:
             'Service temporarily unavailable. Please call 317-314-3757 for immediate assistance.',
         },
-        { status: 503 },
+        { status: 503, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
     }
 
@@ -78,13 +232,13 @@ async function _POST(req: Request) {
           waitlisted: true,
           waitlistUrl: `/programs/${program}`,
         },
-        { status: 409 },
+        { status: 409, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
     }
     if (enrollmentState === 'closed') {
       return NextResponse.json(
         { error: 'This program is not currently accepting applications.' },
-        { status: 410 },
+        { status: 410, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
     }
 
@@ -102,13 +256,29 @@ async function _POST(req: Request) {
       .limit(1)
       .maybeSingle();
 
-    if (recentApp) {
+    let recentByPhone: { id: string } | null = null;
+    if (normalizedPhone.length >= 10) {
+      const phoneQuery = await supabase
+        .from('applications')
+        .select('id')
+        .eq('normalized_phone', normalizedPhone)
+        .eq('program_interest', program)
+        .neq('source', 'intake-form')
+        .gte('created_at', oneDayAgo)
+        .limit(1)
+        .maybeSingle();
+      if (!phoneQuery.error) {
+        recentByPhone = phoneQuery.data;
+      }
+    }
+
+    if (recentApp || recentByPhone) {
       return NextResponse.json(
         {
           error:
             'An application for this program was already submitted with this email in the last 24 hours. Please call 317-314-3757 if you need to make changes.',
         },
-        { status: 409 },
+        { status: 409, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
     }
 
@@ -520,14 +690,16 @@ async function _POST(req: Request) {
         referenceNumber: referenceNumber,
         emailStatus,
       },
-      { status: 200 },
+      { status: 200, headers: corsHeadersForOrigin(origin, allowedOrigins) },
     );
   } catch (error) {
+    const allowedOrigins = getAllowedOrigins();
+    const origin = getRequestOrigin(req);
     return NextResponse.json(
       {
         error: 'Unexpected error. Please call 317-314-3757 for immediate assistance.',
       },
-      { status: 500 },
+      { status: 500, headers: corsHeadersForOrigin(origin, allowedOrigins) },
     );
   }
 }
