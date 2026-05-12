@@ -62,7 +62,23 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !allowedRoles.includes(profile.role)) {
+  // Primary role check
+  const primaryAllowed = profile && allowedRoles.includes(profile.role);
+
+  // Secondary role check via user_roles table (multi-role users)
+  let secondaryAllowed = false;
+  if (!primaryAllowed && profile) {
+    const { data: userRoleRows } = await supabase
+      .from('user_roles')
+      .select('roles(name)')
+      .eq('user_id', user.id);
+    const secondaryRoles = (userRoleRows || [])
+      .map((r: any) => r.roles?.name)
+      .filter(Boolean);
+    secondaryAllowed = secondaryRoles.some((r: string) => allowedRoles.includes(r));
+  }
+
+  if (!profile || (!primaryAllowed && !secondaryAllowed)) {
     const unauthorizedPath =
       process.env.SERVICE_ROLE === 'admin'
         ? `${process.env.NEXT_PUBLIC_SITE_URL || ''}/unauthorized`
