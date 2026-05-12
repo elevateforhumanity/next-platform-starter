@@ -1,0 +1,307 @@
+#!/usr/bin/env tsx
+/**
+ * scripts/enrich-blueprint-lessons.ts
+ *
+ * Reads a blueprint, runs LQS validation to find failing lessons, then uses
+ * Groq to generate full LQS-compliant content for each one. Patches the
+ * blueprint TS file in-place — no manual editing required.
+ *
+ * Usage:
+ *   pnpm tsx scripts/enrich-blueprint-lessons.ts --blueprint barber-apprenticeship-v1
+ *   pnpm tsx scripts/enrich-blueprint-lessons.ts --blueprint barber-apprenticeship-v1 --dry-run
+ *   pnpm tsx scripts/enrich-blueprint-lessons.ts --blueprint barber-apprenticeship-v1 --slug barber-lesson-8
+ */
+
+import { config } from 'dotenv';
+import path from 'path';
+
+config({ path: path.resolve(process.cwd(), '.env.local') });
+
+import fs from 'fs';
+import { getBlueprintById, getBlueprintByProgramSlug } from '../lib/curriculum/blueprints';
+import { validateBlueprintLessons } from '../lib/curriculum/lqs-validator';
+import { groqJSON } from '../lib/groq-client';
+import type { BlueprintLessonRef } from '../lib/curriculum/blueprints/types';
+
+function getArg(flag: string): string | undefined {
+  const idx = process.argv.indexOf(flag);
+  return idx !== -1 ? process.argv[idx + 1] : undefined;
+}
+
+const blueprintArg = getArg('--blueprint');
+const slugFilter = getArg('--slug'); // enrich a single lesson by slug
+const dryRun = process.argv.includes('--dry-run');
+
+if (!blueprintArg) {
+  console.error('Usage: pnpm tsx scripts/enrich-blueprint-lessons.ts --blueprint <id> [--slug <slug>] [--dry-run]');
+  process.exit(1);
+}
+
+// ── Prompt builder ─────────────────────────────────────────────────────────
+
+function buildPrompt(lesson: BlueprintLessonRef, programTitle: string, moduleTitle: string): string {
+  return `You are a professional barber curriculum author writing for a DOL-registered Indiana Barber Apprenticeship program.
+
+Write a full lesson for the following:
+- Program: ${programTitle}
+- Module: ${moduleTitle}
+- Lesson Title: ${lesson.title}
+- Lesson Slug: ${lesson.slug}
+- Learning Objective: ${lesson.objective || 'Master the practical and theoretical components of this lesson.'}
+- Estimated Duration: ${lesson.durationMinutes || 20} minutes
+
+STRICT REQUIREMENTS (all must be met — this is a quality gate):
+1. Minimum 400 words of instructional content
+2. Must list specific tools, equipment, or materials required
+3. Must include at least one IF/THEN decision block covering: hair type variation, skin condition variation, or client situation variation
+4. Must reference sanitation, disinfection, or infection control
+5. Must include at least one contraindication or "do NOT" safety rule
+6. Must describe at least one failure mode: what goes wrong, why, and how to recover
+7. Must describe what correct execution looks like visually (angles, positioning, appearance cues)
+8. Must include 5 quiz questions — at least 2 must be judgment/scenario-based (not pure recall)
+
+FORMAT: Respond ONLY with a valid JSON object, no markdown fences, no explanation text, exactly this shape:
+
+{
+  "content": "<full HTML content — use h2, h3, p, ul, ol, li, strong, table tags>",
+  "quizQuestions": [
+    {
+      "id": "${lesson.slug}-q1",
+      "question": "...",
+      "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
+      "correctAnswer": 0,
+      "explanation": "..."
+    }
+  ]
+}
+
+The content field must be production-ready HTML with proper structure. Each section should have a heading.
+For quiz questions: correctAnswer is the 0-based index of the correct option in the options array.
+Make at least 2 questions scenario-based like: "A client presents with X. What do you do?"`;
+}
+
+// ── AI content generation via groqJSON (Groq + Gemini fallback) ──────────────
+
+async function generateLessonContent(
+  lesson: BlueprintLessonRef,
+  programTitle: string,
+  moduleTitle: string,
+): Promise<{ content: string; quizQuestions: any[] } | null> {
+  const prompt = buildPrompt(lesson, programTitle, moduleTitle);
+
+  try {
+    const result = await groqJSON<{ content: string; quizQuestions: any[] }>(prompt);
+
+    if (!result.content || !Array.isArray(result.quizQuestions)) {
+      console.error(`  ✗ Unexpected shape from AI for ${lesson.slug}`);
+      return null;
+    }
+
+    return result;
+  } catch (err: any) {
+    console.error(`  ✗ AI generation error for ${lesson.slug}: ${err.message}`);
+    return null;
+  }
+}
+
+// ── Blueprint file patcher ─────────────────────────────────────────────────
+
+function escapeForTemplateLiteral(str: string): string {
+  return str
+    .replace(/\\/g, '\\\\')
+    .replace(/`/g, '\\`')
+    .replace(/\$\{/g, '\\${');
+}
+
+function patchBlueprintFile(
+  filePath: string,
+  slug: string,
+  newContent: string,
+  newQuizQuestions: any[],
+): boolean {
+  let src = fs.readFileSync(filePath, 'utf-8');
+
+  // Find the lesson block by slug
+  const slugMarker = `slug: '${slug}'`;
+  const slugIdx = src.indexOf(slugMarker);
+  if (slugIdx === -1) {
+    console.error(`  ✗ Could not find slug ${slug} in blueprint file`);
+    return false;
+  }
+
+  // Replace content template literal
+  const contentStart = src.indexOf('content: `', slugIdx);
+  const nextSlugIdx = src.indexOf("slug: 'barber-", slugIdx + slugMarker.length);
+  const searchEnd = nextSlugIdx !== -1 ? nextSlugIdx : src.length;
+
+  if (contentStart === -1 || contentStart > searchEnd) {
+    // No existing content block — this shouldn't happen but handle gracefully
+    console.error(`  ✗ No content block found for ${slug}`);
+    return false;
+  }
+
+  const contentEnd = src.indexOf('`,', contentStart) + 2;
+  if (contentEnd <= contentStart) {
+    console.error(`  ✗ Could not find end of content block for ${slug}`);
+    return false;
+  }
+
+  const escapedContent = escapeForTemplateLiteral(newContent);
+  const newContentBlock = `content: \`${escapedContent}\`,`;
+  src = src.slice(0, contentStart) + newContentBlock + src.slice(contentEnd);
+
+  // Now handle quizQuestions — replace existing block or insert after content
+  const quizStart = src.indexOf('quizQuestions: [', slugIdx);
+  const newSlugIdx = src.indexOf("slug: 'barber-", slugIdx + slugMarker.length);
+  const searchEnd2 = newSlugIdx !== -1 ? newSlugIdx : src.length;
+
+  const questionsJson = JSON.stringify(newQuizQuestions, null, 10)
+    .split('\n')
+    .map((line, i) => (i === 0 ? line : '          ' + line))
+    .join('\n');
+
+  if (quizStart !== -1 && quizStart < searchEnd2) {
+    // Find end of existing quizQuestions block
+    let depth = 0;
+    let qEnd = quizStart + 'quizQuestions: '.length;
+    for (let i = qEnd; i < src.length; i++) {
+      if (src[i] === '[') depth++;
+      else if (src[i] === ']') {
+        depth--;
+        if (depth === 0) {
+          qEnd = i + 1;
+          break;
+        }
+      }
+    }
+    // Replace quiz block
+    src = src.slice(0, quizStart) + `quizQuestions: ${questionsJson}` + src.slice(qEnd);
+  } else {
+    // Insert quizQuestions before the closing brace of the lesson object
+    // Find the content block end again (after our replacement)
+    const insertAfter = src.indexOf(newContentBlock, slugIdx) + newContentBlock.length;
+    src = src.slice(0, insertAfter) + `\n          quizQuestions: ${questionsJson},` + src.slice(insertAfter);
+  }
+
+  fs.writeFileSync(filePath, src, 'utf-8');
+  return true;
+}
+
+// ── Main ───────────────────────────────────────────────────────────────────
+
+async function main() {
+  const blueprint =
+    (await getBlueprintById(blueprintArg!)) ??
+    (await getBlueprintByProgramSlug(blueprintArg!));
+
+  if (!blueprint) {
+    console.error(`No blueprint found for "${blueprintArg}"`);
+    process.exit(1);
+  }
+
+  console.log(`\nBlueprint: ${blueprint.id} (${blueprint.programSlug})`);
+
+  // Find blueprint file path
+  const blueprintFile = path.join(
+    process.cwd(),
+    'lib/curriculum/blueprints',
+    `${blueprint.programSlug}.ts`,
+  );
+
+  if (!fs.existsSync(blueprintFile)) {
+    console.error(`Blueprint file not found: ${blueprintFile}`);
+    process.exit(1);
+  }
+
+  // Collect all lessons
+  const allLessons: Array<{ lesson: BlueprintLessonRef; moduleTitle: string }> = [];
+  for (const mod of blueprint.modules) {
+    for (const lesson of mod.lessons ?? []) {
+      allLessons.push({ lesson, moduleTitle: mod.title });
+    }
+  }
+
+  // Run LQS to find failures
+  const lqsResults = validateBlueprintLessons(allLessons.map((l) => l.lesson));
+  const failures = lqsResults.filter((r) => !r.passed);
+
+  if (failures.length === 0) {
+    console.log('\n✅ All lessons already pass LQS — nothing to enrich.\n');
+    process.exit(0);
+  }
+
+  // Filter to single slug if requested
+  const toEnrich = slugFilter
+    ? failures.filter((f) => f.slug === slugFilter)
+    : failures;
+
+  console.log(`\nLQS failures to fix: ${toEnrich.length} / ${failures.length} total\n`);
+
+  if (toEnrich.length === 0 && slugFilter) {
+    console.log(`Lesson "${slugFilter}" is not in the failure list — already passing or not found.`);
+    process.exit(0);
+  }
+
+  let enriched = 0;
+  let failed = 0;
+
+  for (let i = 0; i < toEnrich.length; i++) {
+    const failure = toEnrich[i];
+    const entry = allLessons.find((l) => l.lesson.slug === failure.slug);
+    if (!entry) continue;
+
+    console.log(`[${i + 1}/${toEnrich.length}] ${failure.slug} — "${entry.lesson.title}"`);
+    console.log(`  Violations: ${failure.violations.map((v) => v.category).join(', ')}`);
+
+    if (dryRun) {
+      console.log(`  (dry-run — skipping generation)\n`);
+      continue;
+    }
+
+    // Throttle to avoid rate limits
+    if (i > 0) {
+      await new Promise((resolve) => setTimeout(resolve, 400));
+    }
+
+    const generated = await generateLessonContent(
+      entry.lesson,
+      blueprint.credentialTitle,
+      entry.moduleTitle,
+    );
+
+    if (!generated) {
+      failed++;
+      console.log(`  ✗ Generation failed — skipping\n`);
+      continue;
+    }
+
+    const patched = patchBlueprintFile(
+      blueprintFile,
+      failure.slug,
+      generated.content,
+      generated.quizQuestions,
+    );
+
+    if (patched) {
+      enriched++;
+      console.log(`  ✓ Patched (${generated.content.split(' ').length} words, ${generated.quizQuestions.length} questions)\n`);
+    } else {
+      failed++;
+      console.log(`  ✗ Patch failed\n`);
+    }
+  }
+
+  console.log(`\n─────────────────────────────────────────────`);
+  console.log(`Enriched: ${enriched} / ${toEnrich.length}`);
+  if (failed > 0) console.log(`Failed:   ${failed}`);
+
+  if (!dryRun && enriched > 0) {
+    console.log(`\nNext: run the LQS validator to confirm all lessons now pass:`);
+    console.log(`  pnpm tsx scripts/seed-course-from-blueprint.ts --blueprint ${blueprint.id} --program <programId> --dry-run\n`);
+  }
+}
+
+main().catch((err) => {
+  console.error('Enrichment failed:', err.message);
+  process.exit(1);
+});

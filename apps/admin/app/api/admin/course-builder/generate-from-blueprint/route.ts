@@ -293,6 +293,85 @@ export async function POST(req: NextRequest) {
     mod.lessons = enrichedLessons;
   }
 
+  // ── Step 2b: LQS validation + auto re-enrichment pass ─────────────────────
+  // Any lesson that still fails LQS after first-pass generation gets one retry
+  // with an explicit remediation prompt that targets the specific violations.
+  if (generationMode !== 'fast') {
+    const { validateBlueprintLessons } = await import('@/lib/curriculum/lqs-validator');
+    const allEnrichedLessons = enrichedBlueprint.modules.flatMap((m) => m.lessons ?? []);
+    const lqsResults = validateBlueprintLessons(allEnrichedLessons);
+    const lqsFailures = lqsResults.filter((r) => !r.passed);
+
+    if (lqsFailures.length > 0) {
+      logger.info(`[generate-from-blueprint] LQS re-enrichment: ${lqsFailures.length} lessons need remediation`);
+
+      for (const failure of lqsFailures) {
+        const mod = enrichedBlueprint.modules.find((m) =>
+          m.lessons?.some((l) => l.slug === failure.slug),
+        );
+        if (!mod) continue;
+        const lessonIdx = mod.lessons!.findIndex((l) => l.slug === failure.slug);
+        if (lessonIdx === -1) continue;
+
+        const lesson = mod.lessons![lessonIdx];
+        const violationList = failure.violations.map((v) => `- [${v.category}] ${v.rule}: ${v.detail}`).join('\n');
+
+        const remediationPrompt = `You are a professional curriculum author. The following lesson FAILED quality validation. You must fix every listed violation.
+
+Course: ${courseTitle}
+Module: ${mod.title}
+Lesson: ${lesson.title}
+Current word count: ${failure.wordCount}
+Current questions: ${failure.questionCount}
+
+VIOLATIONS TO FIX:
+${violationList}
+
+Current content:
+${lesson.content ?? '(empty)'}
+
+Return ONLY valid JSON:
+{
+  "objective": "By the end of this lesson, learners will be able to... (specific, measurable)",
+  "content": "<full HTML, minimum 400 words, must address ALL violations above>",
+  "quiz_questions": [
+    { "question": "scenario-based question", "options": ["A","B","C","D"], "correct": 0, "explanation": "..." }
+  ]
+}
+
+REQUIREMENTS (all must be met):
+- Minimum 400 words
+- List specific tools/equipment required
+- Include at least one IF/THEN decision block
+- Reference sanitation/disinfection
+- Include a contraindication or DO NOT rule
+- Describe a failure mode with cause and recovery
+- Describe what correct execution looks like visually
+- At least 2 of ${failure.questionCount >= 3 ? 5 : 3} questions must be scenario-based`;
+
+        try {
+          const remediated = await groqJSON<LessonContent>(remediationPrompt);
+          mod.lessons![lessonIdx] = {
+            ...lesson,
+            objective: remediated.objective?.trim() || lesson.objective,
+            content: remediated.content?.trim() || lesson.content,
+            quizQuestions: remediated.quiz_questions?.length
+              ? remediated.quiz_questions.map((q) => ({
+                  question: q.question,
+                  options: q.options,
+                  correct: q.correct,
+                  explanation: q.explanation,
+                }))
+              : lesson.quizQuestions,
+          };
+          await new Promise((r) => setTimeout(r, 300));
+        } catch (err) {
+          logger.warn(`[generate-from-blueprint] LQS remediation failed for ${failure.slug}`, { err });
+        }
+      }
+    }
+  }
+
   const generationFailures = generationLog.filter((l) => !l.ok);
 
   // ── Step 3: Seed course from enriched blueprint ────────────────────────────

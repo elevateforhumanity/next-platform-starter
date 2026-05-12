@@ -269,89 +269,68 @@ export const barberApprenticeshipBlueprint: CredentialBlueprint = {
             'Apply professional standards of conduct, ethics, and client communication in a barbershop setting.',
           durationMinutes: 20,
           videoFile: '/videos/barber-client-experience.mp4',
-          content: `<h2>Professional Conduct & Ethics</h2>
-
-<h3>Objective</h3>
-<p>By the end of this lesson, you will be able to define professional conduct in a barbershop, handle difficult client situations ethically, and understand the consequences of unprofessional behavior.</p>
-
-<h3>Key Concepts</h3>
-<ul>
-  <li>Professionalism is how clients judge your competence before you touch their hair</li>
-  <li>Ethical conduct means doing the right thing even when no one is watching</li>
-  <li>Client confidentiality — what happens in the chair stays in the chair</li>
-  <li>Scope of practice — never perform services you are not trained or licensed to do</li>
-  <li>Discrimination is illegal — you must serve all clients equally</li>
-</ul>
-
-<h3>Explanation</h3>
-<p>Professional conduct covers everything from how you greet a client to how you handle a complaint. It includes your appearance, your language, your punctuality, and your attitude. Clients form an impression of your skill level based on your professionalism before the first cut.</p>
-<p>Ethics in barbering means respecting client privacy, being honest about what a service will cost and what results are realistic, and never performing a service outside your training. If a client asks for a chemical service you have not been trained on, the ethical answer is to refer them to someone qualified — not to attempt it and risk harm.</p>
-<p>Indiana law prohibits discrimination in licensed service businesses. You must provide services to all clients regardless of race, religion, gender, disability, or national origin.</p>
-
-<h3>Real-World Application</h3>
-<p>A regular client tells you personal information about a family problem while in your chair. Later, another client asks about that person. The correct response: say nothing. Client conversations are confidential. Sharing personal information — even casually — is an ethical violation that destroys trust and can cost you your clientele.</p>
-
-<h3>Summary</h3>
-<ul>
-  <li>Professionalism shapes client perception before the service begins</li>
-  <li>Ethics means honesty, confidentiality, and staying within your scope of practice</li>
-  <li>Discrimination in service is illegal in Indiana</li>
-  <li>Refer clients to qualified professionals when a service is outside your training</li>
-</ul>`,
+          content: `<h2>Professional Conduct & Ethics</h2><p>Welcome to Module 1: Infection Control & Safety, Lesson 2: Professional Conduct & Ethics. In this lesson, we will cover the importance of professional standards of conduct, ethics, and client communication in a barbershop setting.</p><h3>Introduction to Professional Conduct</h3><p>As a barber, it is essential to maintain a professional demeanor at all times. This includes being respectful, courteous, and attentive to clients. Professional conduct also involves maintaining a clean and organized workspace, adhering to sanitation and disinfection protocols, and using proper equipment and tools.</p><p>The following tools, equipment, and materials are required for this lesson:</p><ul><li>Barber chair</li><li>Sanitation and disinfection solutions</li><li>Equipment (scissors, clippers, razors)</li><li>Client gowns and capes</li><li>Sanitation and disinfection checklists</li></ul><h3>Client Communication and Ethics</h3><p>Effective client communication is crucial in a barbershop setting. Barbers must be able to listen attentively to clients, understand their needs and preferences, and provide clear and concise instructions. Ethics play a significant role in client communication, as barbers must maintain confidentiality, respect client boundaries, and avoid making false or misleading claims.</p><p>When dealing with clients, it is essential to consider hair type variation, skin condition variation, and client situation variation. For example:</p><p>IF a client has sensitive skin, THEN you should use gentle products and avoid using harsh chemicals. IF a client has a skin condition such as eczema or psoriasis, THEN you should take extra precautions to avoid irritating the condition. IF a client is experiencing stress or anxiety, THEN you should provide a calming and relaxing environment.</p><h3>Sanitation and Disinfection</h3><p>Sanitation and disinfection are critical components of professional conduct and ethics in a barbershop setting. Barbers must adhere to strict sanitation and disinfection protocols to prevent the spread of infections and maintain a clean and safe environment for clients.</p><p>DO NOT touch your face, eyes, or mouth while working with clients, as this can spread infection. DO NOT share equipment or tools with other barbers, as this can also spread infection.</p><h3>Failure Mode and Recovery</h3><p>A failure mode that can occur in a barbershop setting is failing to properly sanitize and disinfect equipment and tools. This can lead to the spread of infections and compromise client safety.</p><p>To recover from this failure mode, barbers should immediately stop working and properly sanitize and disinfect all equipment and tools. They should also inform their supervisor or manager of the incident and take steps to prevent it from happening again in the future.</p><p>Correct execution of sanitation and disinfection protocols involves visually inspecting equipment and tools for any signs of contamination, using the correct sanitation and disinfection solutions, and following the manufacturer's instructions for use. Barbers should also maintain a clean and organized workspace, with all equipment and tools properly stored and labeled.</p><h3>Visual Cues</h3><p>When performing sanitation and disinfection protocols, barbers should look for the following visual cues:</p><ul><li>Equipment and tools should be free of visible debris and contamination</li><li>Sanitation and disinfection solutions should be used according to the manufacturer's instructions</li><li>The workspace should be clean and organized, with all equipment and tools properly stored and labeled</li></ul>`,
           quizQuestions: [
-            {
-              id: 'mod1-l2-q1',
-              question:
-                'A client asks you to perform a chemical relaxer service. You have not been trained on relaxers yet. What is the ethical response?',
-              options: [
-                'Attempt it — you can figure it out',
-                'Watch a video first, then proceed',
-                'Decline and refer the client to a qualified barber',
-                'Do a patch test and proceed if there is no reaction',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Performing services outside your training risks client harm and violates your scope of practice.',
-            },
-            {
-              id: 'mod1-l2-q2',
-              question:
-                'A client shares personal information while in your chair. Another client later asks about that person. You should:',
-              options: [
-                'Share only general information',
-                'Say nothing — client conversations are confidential',
-                'Tell them to ask the person directly',
-                'Share if the information is not sensitive',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Client confidentiality is an ethical obligation. All personal information shared in the chair stays private.',
-            },
-            {
-              id: 'mod1-l2-q3',
-              question: 'Which of the following is an example of professional conduct?',
-              options: [
-                'Arriving 10 minutes late but finishing the cut quickly',
-                'Wearing clean attire, greeting clients by name, and being on time',
-                'Checking your phone between cuts',
-                'Discussing other clients with the current client',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Professional conduct includes appearance, punctuality, and respectful client interaction.',
-            },
-            {
-              id: 'mod1-l2-q4',
-              question: 'Under Indiana law, you must provide services to clients regardless of:',
-              options: [
-                'Their ability to tip',
-                'Their hair type',
-                'Race, religion, gender, disability, or national origin',
-                'Whether they have an appointment',
-              ],
-              correctAnswer: 2,
-              explanation: 'Indiana law prohibits discrimination in licensed service businesses.',
-            },
+                    {
+                              "id": "barber-lesson-2-q1",
+                              "question": "A client presents with a skin condition that requires extra precautions to avoid irritation. What do you do?",
+                              "options": [
+                                        "Use harsh chemicals to treat the condition",
+                                        "Take extra precautions to avoid irritating the condition",
+                                        "Ignore the condition and proceed with the service",
+                                        "Refer the client to a doctor"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "As a barber, it is essential to take extra precautions to avoid irritating a client's skin condition. This includes using gentle products, avoiding harsh chemicals, and providing a clean and safe environment for the client."
+                    },
+                    {
+                              "id": "barber-lesson-2-q2",
+                              "question": "What is the correct way to sanitize and disinfect equipment and tools in a barbershop setting?",
+                              "options": [
+                                        "Use soap and water only",
+                                        "Use a combination of sanitation and disinfection solutions",
+                                        "Use harsh chemicals only",
+                                        "Do not sanitize and disinfect equipment and tools"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The correct way to sanitize and disinfect equipment and tools in a barbershop setting is to use a combination of sanitation and disinfection solutions, following the manufacturer's instructions for use."
+                    },
+                    {
+                              "id": "barber-lesson-2-q3",
+                              "question": "A client is experiencing stress and anxiety during a service. What do you do?",
+                              "options": [
+                                        "Provide a calming and relaxing environment",
+                                        "Ignore the client's feelings and proceed with the service",
+                                        "Refer the client to a doctor",
+                                        "Use harsh chemicals to calm the client"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "As a barber, it is essential to provide a calming and relaxing environment for clients who are experiencing stress and anxiety. This includes using soothing music, dimming the lights, and providing a comfortable and supportive atmosphere."
+                    },
+                    {
+                              "id": "barber-lesson-2-q4",
+                              "question": "What is a contraindication for sharing equipment and tools with other barbers?",
+                              "options": [
+                                        "It is allowed as long as the equipment and tools are cleaned",
+                                        "It is allowed as long as the client consents",
+                                        "It can spread infection and compromise client safety",
+                                        "It is required by law"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Sharing equipment and tools with other barbers can spread infection and compromise client safety. As a barber, it is essential to use your own equipment and tools and to properly sanitize and disinfect them after each use."
+                    },
+                    {
+                              "id": "barber-lesson-2-q5",
+                              "question": "What is the correct way to visually inspect equipment and tools for signs of contamination?",
+                              "options": [
+                                        "Look for visible debris and contamination",
+                                        "Use a microscope to inspect the equipment and tools",
+                                        "Ignore the equipment and tools and proceed with the service",
+                                        "Use harsh chemicals to clean the equipment and tools"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The correct way to visually inspect equipment and tools for signs of contamination is to look for visible debris and contamination. This includes checking for any signs of dirt, dust, or other substances that could compromise client safety."
+                    }
           ],
         },
         {
@@ -867,93 +846,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             },
           ],
           instructorNotes: `Chemical storage check: confirm all products are in original or labeled containers, stored away from heat sources. SDS check: student must locate and read the SDS for at least one product without assistance. Hazard walk-through: conduct in the actual shop, not from memory.`,
-          content: `<h2>Workplace Safety</h2>
-
-<h3>Objective</h3>
-<p>By the end of this lesson, you will be able to identify common barbershop safety hazards, apply OSHA standards to your daily workflow, and respond correctly to workplace injuries and emergencies.</p>
-
-<h3>Key Concepts</h3>
-<ul>
-  <li>OSHA (Occupational Safety and Health Administration) sets federal workplace safety standards</li>
-  <li>Ergonomics — proper posture and body mechanics prevent long-term injury</li>
-  <li>Chemical hazards — SDS (Safety Data Sheets) required for all chemical products</li>
-  <li>Electrical safety — inspect cords and equipment before every use</li>
-  <li>Slip and fall prevention — sweep hair immediately; keep floors dry</li>
-  <li>Emergency procedures — know the location of first aid kit, fire extinguisher, and emergency exits</li>
-</ul>
-
-<h3>Explanation</h3>
-<p><strong>Ergonomics:</strong> Barbers stand for 6–10 hours a day. Poor posture leads to back, neck, and shoulder injuries that end careers. Stand with feet shoulder-width apart, keep your back straight, and position the chair at the correct height so you are not hunching. Anti-fatigue mats reduce strain on your feet and lower back.</p>
-<p><strong>Chemical safety:</strong> Every chemical product in your shop — relaxers, color, disinfectants — must have a Safety Data Sheet (SDS) on file. The SDS tells you what the chemical contains, how to handle it safely, and what to do in case of exposure. Indiana OSHA requires SDS access for all employees.</p>
-<p><strong>Electrical safety:</strong> Never use equipment with frayed cords. Do not use clippers or trimmers near water. Unplug equipment before cleaning. Report damaged equipment to your supervisor immediately — do not use it.</p>
-<p><strong>Slip and fall:</strong> Hair on the floor is a slip hazard. Sweep between every client. Spilled product must be cleaned up immediately. Wet floors require a warning sign.</p>
-
-<h3>Real-World Application</h3>
-<p>You notice your clipper cord has a small crack in the insulation near the plug. You are about to start a client. The correct action: do not use the clipper. Tell your supervisor. Use a backup clipper. A cracked cord is an electrocution risk — no client service is worth that risk. Document the equipment issue so it gets repaired or replaced.</p>
-
-<h3>Summary</h3>
-<ul>
-  <li>OSHA standards apply to every barbershop — know them</li>
-  <li>Ergonomics: stand correctly, use anti-fatigue mats, adjust chair height</li>
-  <li>SDS sheets required for all chemical products — know where they are</li>
-  <li>Never use damaged electrical equipment</li>
-  <li>Sweep hair between every client — it is a slip hazard</li>
-</ul>`,
+          content: `<h2>Workplace Safety</h2><p>As a barber, it is essential to maintain a safe working environment for yourself and your clients. This includes following OSHA workplace safety standards and identifying hazards specific to barbershop environments. In this lesson, we will cover the tools, equipment, and materials required to ensure a safe workplace, as well as the importance of sanitation, disinfection, and infection control.</p><h3>Tools, Equipment, and Materials</h3><p>The following tools, equipment, and materials are required for a safe barbershop environment:</p><ul><li>Sanitizing solutions and disinfectants</li><li>Gloves and other personal protective equipment (PPE)</li><li>First aid kit</li><li>Fire extinguisher</li><li>Slip-resistant flooring</li><li>Proper lighting</li></ul><h3>Safety Procedures</h3><p>To ensure a safe workplace, the following procedures must be followed:</p><ol><li>Sanitize and disinfect all equipment and surfaces after each use</li><li>Wear gloves and other PPE when necessary</li><li>Use caution when handling sharp objects and chemicals</li><li>Keep the floor clear of clutter and tripping hazards</li><li>Ensure proper ventilation</li></ol><h3>IF/THEN Decision Block</h3><p>When dealing with clients, it is essential to consider their individual needs and circumstances. For example:</p><p>IF a client presents with a skin condition, such as eczema or psoriasis, THEN you should take extra precautions to avoid irritating the condition. This may include using gentle products and avoiding certain techniques that may exacerbate the condition.</p><h3>Contraindications and Safety Rules</h3><p>There are certain contraindications and safety rules that must be followed in a barbershop environment. For example:</p><p>DO NOT use sharp objects or chemicals near open flames or sparks</p><p>DO NOT touch clients' faces or bodies without proper sanitation and disinfection procedures</p><h3>Failure Mode and Recovery</h3><p>A failure mode that can occur in a barbershop environment is a slip or fall due to wet or slippery floors. This can happen when a client spills water or a barber drops a wet towel on the floor. To recover from this failure mode, the barber should immediately clean up the spill and dry the floor to prevent further accidents.</p><h3>Correct Execution</h3><p>Correct execution of workplace safety procedures can be observed visually by looking for the following cues:</p><ul><li>Barbers wearing gloves and other PPE when necessary</li><li>Equipment and surfaces being sanitized and disinfected after each use</li><li>A clean and clutter-free floor</li><li>Proper lighting and ventilation</li></ul><h3>Sanitation, Disinfection, and Infection Control</h3><p>Sanitation, disinfection, and infection control are crucial in a barbershop environment. This includes sanitizing and disinfecting all equipment and surfaces, washing hands frequently, and using proper techniques to prevent the spread of infection.</p>`,
           quizQuestions: [
-            {
-              id: 'mod1-l5-q1',
-              question:
-                'You notice your clipper cord has a crack in the insulation. You have a client waiting. What do you do?',
-              options: [
-                'Use it carefully — the crack is small',
-                'Wrap the crack with tape and proceed',
-                'Do not use it — report it and use a backup clipper',
-                'Finish the current client, then report it',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Damaged electrical equipment is an electrocution risk. Never use it regardless of client wait time.',
-            },
-            {
-              id: 'mod1-l5-q2',
-              question:
-                'What document is required on file for every chemical product used in a barbershop?',
-              options: [
-                'Product receipt',
-                'Safety Data Sheet (SDS)',
-                'Manufacturer warranty',
-                'OSHA inspection report',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'OSHA requires a Safety Data Sheet (SDS) for every chemical product, accessible to all employees.',
-            },
-            {
-              id: 'mod1-l5-q3',
-              question: 'Hair clippings on the floor are primarily a hazard because they:',
-              options: [
-                'Clog drains',
-                'Create a slip and fall risk',
-                'Attract insects',
-                'Contaminate disinfectant solutions',
-              ],
-              correctAnswer: 1,
-              explanation: 'Hair on the floor is a slip hazard. Sweep between every client.',
-            },
-            {
-              id: 'mod1-l5-q4',
-              question:
-                'Which of the following best describes correct ergonomic posture for a barber?',
-              options: [
-                'Lean over the client to get closer to the work',
-                'Stand with feet together and bend at the waist',
-                'Stand with feet shoulder-width apart, back straight, chair at correct height',
-                'Sit on a stool whenever possible',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Correct posture prevents long-term back, neck, and shoulder injuries that can end a barbering career.',
-            },
+                    {
+                              "id": "barber-lesson-5-q1",
+                              "question": "What should you do if a client presents with a skin condition, such as eczema or psoriasis?",
+                              "options": [
+                                        "Use a gentle product and avoid certain techniques",
+                                        "Use a harsh product to try to cure the condition",
+                                        "Touch the affected area without proper sanitation and disinfection",
+                                        "Refuse to serve the client"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "When dealing with clients who have skin conditions, it is essential to take extra precautions to avoid irritating the condition. This includes using gentle products and avoiding certain techniques that may exacerbate the condition."
+                    },
+                    {
+                              "id": "barber-lesson-5-q2",
+                              "question": "What is the correct procedure for handling a slip or fall due to a wet or slippery floor?",
+                              "options": [
+                                        "Clean up the spill and dry the floor immediately",
+                                        "Leave the spill and continue working",
+                                        "Call for emergency assistance",
+                                        "Blame the client for the accident"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "A slip or fall due to a wet or slippery floor can be a serious accident. To recover from this failure mode, the barber should immediately clean up the spill and dry the floor to prevent further accidents."
+                    },
+                    {
+                              "id": "barber-lesson-5-q3",
+                              "question": "What is a contraindication in a barbershop environment?",
+                              "options": [
+                                        "Using sharp objects or chemicals near open flames or sparks",
+                                        "Wearing gloves and other PPE when necessary",
+                                        "Sanitizing and disinfecting all equipment and surfaces",
+                                        "Touching clients' faces or bodies without proper sanitation and disinfection"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Using sharp objects or chemicals near open flames or sparks is a contraindication in a barbershop environment, as it can cause serious injury or start a fire."
+                    },
+                    {
+                              "id": "barber-lesson-5-q4",
+                              "question": "A client presents with a highly contagious infection, such as ringworm. What do you do?",
+                              "options": [
+                                        "Refuse to serve the client",
+                                        "Use proper sanitation and disinfection procedures to prevent the spread of infection",
+                                        "Touch the affected area without proper sanitation and disinfection",
+                                        "Use a harsh product to try to cure the infection"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When dealing with clients who have contagious infections, it is essential to use proper sanitation and disinfection procedures to prevent the spread of infection."
+                    },
+                    {
+                              "id": "barber-lesson-5-q5",
+                              "question": "What is an example of correct execution of workplace safety procedures?",
+                              "options": [
+                                        "A cluttered and dirty floor",
+                                        "A barber not wearing gloves or other PPE when necessary",
+                                        "A client being touched without proper sanitation and disinfection",
+                                        "A clean and clutter-free floor, with barbers wearing gloves and other PPE when necessary"
+                              ],
+                              "correctAnswer": 3,
+                              "explanation": "Correct execution of workplace safety procedures can be observed visually by looking for cues such as a clean and clutter-free floor, barbers wearing gloves and other PPE when necessary, and proper lighting and ventilation."
+                    }
           ],
         },
         {
@@ -1274,22 +1228,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Explain how scalp anatomy affects service decisions',
             'Distinguish between the five layers of the scalp',
           ],
-          content: `<h2>Hair and Scalp Anatomy</h2>
-<h3>The Hair Shaft</h3>
-<p>Each hair strand has three layers:</p>
-<ul>
-<li><strong>Cuticle</strong> — the outermost layer; overlapping scales that protect the hair</li>
-<li><strong>Cortex</strong> — the middle layer; contains melanin (color) and determines strength and elasticity</li>
-<li><strong>Medulla</strong> — the innermost core; not always present in fine hair</li>
-</ul>
-<h3>The Hair Follicle</h3>
-<p>The follicle is the pocket in the scalp from which hair grows. It contains the dermal papilla, which supplies blood and nutrients to the hair root.</p>
-<h3>Scalp Layers</h3>
-<ul>
-<li>Epidermis — outer skin layer</li>
-<li>Dermis — contains follicles, sebaceous glands, and blood vessels</li>
-<li>Subcutaneous layer — fat and connective tissue</li>
-</ul>`,
+          content: `<h2>Introduction to Hair and Scalp Structure</h2><p>In this lesson, we will explore the layers of the hair shaft and scalp anatomy, which are essential for barbers to understand in order to provide effective and safe services. As a barber, it is crucial to have a thorough knowledge of the hair and scalp structure to identify potential issues and provide personalized advice to clients.</p><h3>Layers of the Hair Shaft</h3><p>The hair shaft is composed of three main layers: the medulla, cortex, and cuticle. The medulla is the innermost layer, but it is not always present in all hair types. The cortex is the middle layer, making up the majority of the hair shaft, and is responsible for the hair's strength, elasticity, and texture. The cuticle is the outermost layer, providing a protective barrier against external factors.</p><h3>Scalp Anatomy</h3><p>The scalp is composed of five layers: the epidermis, dermis, hypodermis, galea aponeurotica, and periosteum. The epidermis is the outermost layer, providing a barrier against external factors. The dermis is the layer beneath the epidermis, containing blood vessels, nerve endings, and hair follicles. The hypodermis is the subcutaneous layer, attaching the scalp to the skull. The galea aponeurotica is a fibrous layer, providing a protective covering for the scalp. The periosteum is the innermost layer, covering the skull bone.</p><h3>Tools and Equipment</h3><p>The following tools and equipment are required for this lesson:</p><ul><li>Magnifying glass or microscope</li><li>Hair samples (different types and textures)</li><li>Scalp models or diagrams</li><li>Sanitizing solutions and equipment</li></ul><h3>Sanitation and Infection Control</h3><p>It is essential to maintain a clean and sanitized environment when working with clients. This includes sanitizing equipment and tools, washing hands regularly, and using disposable gloves when necessary. Failure to follow proper sanitation and infection control procedures can lead to the spread of infections and diseases.</p><h3>Decision Block: Hair Type Variation</h3><p>IF a client has curly hair, THEN it is essential to use a wide-tooth comb or a detangling brush to minimize breakage and prevent damage. IF a client has straight hair, THEN a regular comb or brush can be used. However, IF a client has damaged or fragile hair, THEN it is recommended to use a gentle, sulfate-free shampoo and a wide-tooth comb or a detangling brush to minimize further damage.</p><h3>Contraindication: Do NOT Use Excessive Heat</h3><p>Do NOT use excessive heat when styling hair, as it can cause damage to the hair shaft and scalp. Excessive heat can lead to dryness, brittleness, and breakage, especially for clients with damaged or fragile hair.</p><h3>Failure Mode: Incorrect Angle</h3><p>What goes wrong: Using an incorrect angle when cutting or styling hair can lead to unevenness, choppy ends, and damage to the hair shaft. Why: This is often due to a lack of understanding of the hair and scalp structure, as well as poor technique. How to recover: To recover from this failure mode, it is essential to re-evaluate the client's hair and scalp, and adjust the angle and technique accordingly. This may involve using a different tool or equipment, or seeking guidance from a more experienced barber.</p><h3>Correct Execution</h3><p>Correct execution looks like this: the barber is standing at a 45-degree angle to the client, with the client's head positioned at a comfortable height. The barber is using a comb or brush to section the hair, and is cutting or styling the hair at a slight angle to prevent choppy ends. The barber is also maintaining a clean and sanitized environment, and is using proper sanitation and infection control procedures.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-8-q1",
+                              "question": "What is the outermost layer of the hair shaft?",
+                              "options": [
+                                        "Medulla",
+                                        "Cortex",
+                                        "Cuticle",
+                                        "Dermis"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "The cuticle is the outermost layer of the hair shaft, providing a protective barrier against external factors."
+                    },
+                    {
+                              "id": "barber-lesson-8-q2",
+                              "question": "A client presents with curly hair and asks for a haircut. What do you do?",
+                              "options": [
+                                        "Use a regular comb and cut the hair straight",
+                                        "Use a wide-tooth comb and cut the hair at an angle",
+                                        "Use a detangling brush and cut the hair in small sections",
+                                        "Use a razor and cut the hair close to the scalp"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When working with curly hair, it is essential to use a wide-tooth comb or a detangling brush to minimize breakage and prevent damage. Cutting the hair at an angle also helps to prevent choppy ends and unevenness."
+                    },
+                    {
+                              "id": "barber-lesson-8-q3",
+                              "question": "What is the layer of the scalp that attaches the scalp to the skull?",
+                              "options": [
+                                        "Epidermis",
+                                        "Dermis",
+                                        "Hypodermis",
+                                        "Galea aponeurotica"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "The hypodermis is the subcutaneous layer that attaches the scalp to the skull, providing a protective covering for the scalp."
+                    },
+                    {
+                              "id": "barber-lesson-8-q4",
+                              "question": "A client has damaged and fragile hair. What do you recommend?",
+                              "options": [
+                                        "Use a sulfate-based shampoo and a regular comb",
+                                        "Use a gentle, sulfate-free shampoo and a wide-tooth comb",
+                                        "Use a heat styling tool to add volume and texture",
+                                        "Use a razor to cut the hair close to the scalp"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When working with damaged and fragile hair, it is essential to use a gentle, sulfate-free shampoo and a wide-tooth comb or a detangling brush to minimize further damage and prevent breakage."
+                    },
+                    {
+                              "id": "barber-lesson-8-q5",
+                              "question": "What is the consequence of using excessive heat when styling hair?",
+                              "options": [
+                                        "It adds volume and texture to the hair",
+                                        "It causes damage to the hair shaft and scalp",
+                                        "It prevents breakage and split ends",
+                                        "It makes the hair more manageable and easy to style"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Using excessive heat when styling hair can cause damage to the hair shaft and scalp, leading to dryness, brittleness, and breakage, especially for clients with damaged or fragile hair."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-9',
@@ -1318,23 +1319,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Assess hair texture, density, and porosity to select appropriate techniques.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-consultation-narrated.mp4',
-          content: `<h2>Hair Properties</h2>
-<h3>Texture</h3>
-<p>Hair texture refers to the diameter of the individual hair strand:</p>
-<ul>
-<li><strong>Fine</strong> — small diameter, fragile, can be limp</li>
-<li><strong>Medium</strong> — most common, holds styles well</li>
-<li><strong>Coarse</strong> — large diameter, strong, may resist chemical services</li>
-</ul>
-<h3>Density</h3>
-<p>Density is the number of hairs per square inch of scalp. Low, medium, or high density affects how you section and cut hair.</p>
-<h3>Porosity</h3>
-<p>Porosity is the hair's ability to absorb moisture:</p>
-<ul>
-<li><strong>Low porosity</strong> — cuticle is tight; resists moisture and chemicals</li>
-<li><strong>Normal porosity</strong> — absorbs and retains moisture well</li>
-<li><strong>High porosity</strong> — damaged cuticle; absorbs quickly but loses moisture fast</li>
-</ul>`,
+          content: `<h2>Lesson Overview</h2><p>This lesson covers the fundamentals of hair texture, density, and porosity, and how to assess these factors to select appropriate techniques for clients. By the end of this lesson, you will be able to identify and analyze hair texture, density, and porosity, and apply this knowledge to provide effective hair care services.</p><h2>Tools and Equipment</h2><p>The following tools and equipment are required for this lesson:</p><ul><li>Hair analysis tools (e.g. hair texture analyzer, density gauge)</li><li>Sanitizing solutions (e.g. Barbicide)</li><li>Disinfectant wipes</li><li>Gloves</li><li>Hair samples (various textures and densities)</li></ul><h2>Assessing Hair Texture, Density, and Porosity</h2><p>Hair texture refers to the natural curl pattern or straightness of the hair. Density refers to the amount of hair on the scalp, while porosity refers to the hair's ability to absorb moisture. To assess these factors, follow these steps:</p><ol><li>Wash and towel-dry the hair to remove any product or impurities.</li><li>Use a hair analysis tool to determine the hair texture and density.</li><li>Perform a porosity test by applying a small amount of water to a strand of hair and observing how quickly it absorbs.</li></ol><h2>Decision Making</h2><p>When assessing hair texture, density, and porosity, consider the following IF/THEN decision block:</p><p>IF the client has fine, fragile hair, THEN use gentle techniques and avoid excessive heat or chemical processing.</p><p>IF the client has coarse, curly hair, THEN use more intense techniques and consider using a moisturizing treatment to enhance manageability.</p><h2>Sanitation and Infection Control</h2><p>It is essential to maintain proper sanitation and infection control when working with clients. Always:</p><ul><li>Wear gloves when handling hair or scalp.</li><li>Use sanitizing solutions to clean and disinfect equipment and tools.</li><li>Disinfect the work area and chair between clients.</li></ul><p>DO NOT touch your face or eyes while working with clients, as this can spread infection.</p><h2>Contraindications and Safety Rules</h2><p>When working with clients, be aware of the following contraindications and safety rules:</p><ul><li>DO NOT use excessive heat or chemical processing on damaged or fragile hair.</li><li>DO NOT perform services on clients with certain skin conditions (e.g. open sores, eczema) without proper precautions and consent.</li></ul><h2>Failure Modes and Recovery</h2><p>Failure to properly assess hair texture, density, and porosity can result in:</p><ul><li>Over- or under-processing of hair, leading to damage or unwanted results.</li><li>Inadequate sanitation and infection control, leading to the spread of infection.</li></ul><p>To recover from these failure modes, re-assess the hair and adjust techniques accordingly, and always prioritize sanitation and infection control.</p><h2>Correct Execution</h2><p>Correct execution of hair texture, density, and porosity assessment involves:</p><ul><li>Using the correct angles and positioning when analyzing hair (e.g. holding the hair at a 45-degree angle to assess texture).</li><li>Observing the hair's appearance cues (e.g. shine, elasticity) to determine its condition and porosity.</li></ul>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-10-q1",
+                              "question": "What is the primary factor that determines hair texture?",
+                              "options": [
+                                        "Genetics",
+                                        "Hair care routine",
+                                        "Scalp condition",
+                                        "Environmental factors"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Hair texture is primarily determined by genetics, although it can be influenced by other factors such as hair care routine and environmental factors."
+                    },
+                    {
+                              "id": "barber-lesson-10-q2",
+                              "question": "A client presents with fine, fragile hair. What do you do?",
+                              "options": [
+                                        "Use intense heat styling tools",
+                                        "Apply a moisturizing treatment",
+                                        "Use a gentle, sulfate-free shampoo",
+                                        "Perform a chemical processing treatment"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "When working with fine, fragile hair, it is essential to use gentle techniques and avoid excessive heat or chemical processing. Using a gentle, sulfate-free shampoo is the best option to minimize damage and preserve the hair's natural moisture."
+                    },
+                    {
+                              "id": "barber-lesson-10-q3",
+                              "question": "What is the purpose of performing a porosity test on a client's hair?",
+                              "options": [
+                                        "To determine hair texture",
+                                        "To assess hair density",
+                                        "To evaluate the hair's ability to absorb moisture",
+                                        "To diagnose scalp conditions"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "A porosity test is used to evaluate the hair's ability to absorb moisture, which can help determine the best course of treatment for the client's hair."
+                    },
+                    {
+                              "id": "barber-lesson-10-q4",
+                              "question": "A client has a skin condition that requires special precautions when performing hair services. What do you do?",
+                              "options": [
+                                        "Perform the service as usual",
+                                        "Use gloves and sanitize equipment",
+                                        "Refer the client to a dermatologist",
+                                        "Decline to perform the service"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When working with clients who have skin conditions, it is essential to take special precautions to prevent the spread of infection. Using gloves and sanitizing equipment is the best option to minimize the risk of infection."
+                    },
+                    {
+                              "id": "barber-lesson-10-q5",
+                              "question": "What is a common failure mode when assessing hair texture, density, and porosity, and how can it be recovered?",
+                              "options": [
+                                        "Over-processing of hair, which can be recovered by re-assessing the hair and adjusting techniques",
+                                        "Under-processing of hair, which can be recovered by using more intense techniques",
+                                        "Inadequate sanitation and infection control, which can be recovered by re-sanitizing equipment and tools",
+                                        "All of the above"
+                              ],
+                              "correctAnswer": 3,
+                              "explanation": "All of the above options are common failure modes when assessing hair texture, density, and porosity. Over-processing of hair can be recovered by re-assessing the hair and adjusting techniques, under-processing of hair can be recovered by using more intense techniques, and inadequate sanitation and infection control can be recovered by re-sanitizing equipment and tools."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-11',
@@ -1552,23 +1599,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Select and use the correct scissors for different cutting techniques.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-scissors-narrated.mp4',
-          content: `<h2>Scissors and Shears</h2>
-<h3>Types of Shears</h3>
-<ul>
-<li><strong>Straight shears</strong> — standard cutting, 5.5–7 inches, most common</li>
-<li><strong>Thinning shears</strong> — one serrated blade; removes bulk without changing length</li>
-<li><strong>Texturizing shears</strong> — both blades serrated; adds texture and movement</li>
-<li><strong>Curved shears</strong> — for curved cuts and blending</li>
-</ul>
-<h3>Proper Grip</h3>
-<p>Thumb in the thumb ring, ring finger in the finger ring. Keep the pinky on the finger rest. Move only the thumb — the bottom blade stays still.</p>
-<h3>Shear Maintenance</h3>
-<ul>
-<li>Oil the pivot screw daily</li>
-<li>Have shears professionally sharpened every 3–6 months</li>
-<li>Never drop shears — misaligns the blades</li>
-<li>Store in a protective case</li>
-</ul>`,
+          content: `<h2>Introduction to Scissors & Shears</h2><p>In this lesson, we will cover the selection and use of the correct scissors for different cutting techniques. As a barber, it is essential to understand the various types of scissors and shears available and how to use them safely and effectively.</p><h3>Tools and Equipment Required</h3><ul><li>Thinning scissors</li><li>Curved scissors</li><li>Texturizing shears</li><li>Sanitizing solution</li><li>Disinfectant spray</li></ul><h3>Selection and Use of Scissors</h3><p>When selecting scissors, consider the hair type and cutting technique. For example, thinning scissors are ideal for cutting fine or damaged hair, while curved scissors are better suited for cutting curly or wavy hair.</p><p>IF the client has dry or damaged hair, THEN use thinning scissors to minimize further damage. IF the client has curly or wavy hair, THEN use curved scissors to enhance the natural texture.</p><h3>Sanitation and Infection Control</h3><p>It is crucial to maintain sanitation and infection control when using scissors and shears. Always sanitize the scissors and shears with a sanitizing solution before and after each use. Disinfect the scissors and shears with a disinfectant spray at the end of each day.</p><p>DO NOT share scissors or shears with other barbers or clients, as this can spread infection and disease.</p><h3>Failure Mode and Recovery</h3><p>A common failure mode when using scissors is cutting the hair too short or unevenly. This can happen when the barber is not paying attention to the length or angle of the cut. To recover from this failure mode, the barber can use texturizing shears to blend the layers and create a more natural look.</p><h3>Correct Execution</h3><p>Correct execution of scissors and shears techniques involves holding the scissors at a 45-degree angle, with the blades facing the direction of the cut. The scissors should be opened and closed smoothly, with a gentle snipping motion. The hair should be cut in small, even sections, with the scissors gliding through the hair with ease.</p><h3>Visual Cues</h3><p>When using scissors and shears, look for the following visual cues: the hair should be cut evenly, with no visible lines or layers. The scissors should be moving smoothly, with no hesitation or snagging. The client's hair should be looking healthy and natural, with no visible damage or split ends.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-16-q1",
+                              "question": "What type of scissors is ideal for cutting fine or damaged hair?",
+                              "options": [
+                                        "Thinning scissors",
+                                        "Curved scissors",
+                                        "Texturizing shears",
+                                        "Regular scissors"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Thinning scissors are designed to minimize further damage to fine or damaged hair."
+                    },
+                    {
+                              "id": "barber-lesson-16-q2",
+                              "question": "A client presents with curly hair and wants a trim. What type of scissors should you use?",
+                              "options": [
+                                        "Thinning scissors",
+                                        "Curved scissors",
+                                        "Texturizing shears",
+                                        "Regular scissors"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Curved scissors are better suited for cutting curly or wavy hair, as they enhance the natural texture."
+                    },
+                    {
+                              "id": "barber-lesson-16-q3",
+                              "question": "What is the correct angle to hold the scissors when cutting hair?",
+                              "options": [
+                                        "30 degrees",
+                                        "45 degrees",
+                                        "60 degrees",
+                                        "90 degrees"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The correct angle to hold the scissors is 45 degrees, with the blades facing the direction of the cut."
+                    },
+                    {
+                              "id": "barber-lesson-16-q4",
+                              "question": "A client has dry and damaged hair, and you accidentally cut it too short. What can you do to recover from this failure mode?",
+                              "options": [
+                                        "Use thinning scissors to cut more hair",
+                                        "Use texturizing shears to blend the layers",
+                                        "Use a hair mask to moisturize the hair",
+                                        "Start over with a new haircut"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Using texturizing shears to blend the layers can help recover from cutting the hair too short, as it creates a more natural look."
+                    },
+                    {
+                              "id": "barber-lesson-16-q5",
+                              "question": "What is a contraindication when using scissors and shears?",
+                              "options": [
+                                        "Sharing scissors with other barbers",
+                                        "Sanitizing scissors before each use",
+                                        "Using scissors with dull blades",
+                                        "Cutting hair with the scissors at a 45-degree angle"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Sharing scissors with other barbers is a contraindication, as it can spread infection and disease."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-17',
@@ -1708,66 +1801,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Demonstrate mastery of barbering tools and equipment.',
           durationMinutes: 20,
           passingScore: 70,
-          content: `<h2>Module 3 Review — Tools, Equipment & Ergonomics</h2><p>Review before taking this checkpoint: clipper types and guard sizes, shear types and proper grip, straight razor vs. shavette safety, clipper maintenance, ergonomic posture, and proper client draping. Score 70% or higher to advance.</p>`,
+          content: `<h2>Introduction to Tools & Equipment Checkpoint</h2><p>In this lesson, we will review the essential tools and equipment required for barbering services. As a barber, it is crucial to demonstrate mastery of these tools to provide safe and effective services to clients.</p><h3>Required Tools and Equipment</h3><ul><li>Clippers</li><li>Scissors</li><li>Razors</li><li>Combs</li><li>Brushes</li><li>Sanitizing solutions</li><li>Disinfectant sprays</li></ul><h3>Sanitation and Disinfection</h3><p>Sanitation and disinfection are critical components of barbering services. All tools and equipment must be sanitized and disinfected after each use to prevent the spread of infections. The following steps must be taken:</p><ol><li>Wash hands with soap and water</li><li>Sanitize tools and equipment with a sanitizing solution</li><li>Disinfect tools and equipment with a disinfectant spray</li></ol><h3>Client Variations and Tool Selection</h3><p>When working with clients, it is essential to consider their hair type, skin condition, and personal preferences. The following decision block can be used to determine the best tools and equipment for each client:</p><p>IF the client has curly hair, THEN use a wide-tooth comb or a detangling brush to minimize breakage and tangles.</p><p>IF the client has sensitive skin, THEN use a razor with a protective guard to prevent nicks and cuts.</p><p>IF the client has a skin condition such as eczema or psoriasis, THEN avoid using harsh chemicals or abrasive tools that may exacerbate the condition.</p><h3>Contraindications and Safety Rules</h3><p>There are several contraindications and safety rules to consider when using barbering tools and equipment. The following are some examples:</p><ul><li>Do NOT use clippers or razors near open wounds or sensitive areas.</li><li>Do NOT use harsh chemicals or abrasive tools on clients with sensitive skin or skin conditions.</li><li>Do NOT share tools or equipment between clients to prevent the spread of infections.</li></ul><h3>Failure Modes and Recovery</h3><p>Failure modes can occur when using barbering tools and equipment. The following is an example of a failure mode and how to recover:</p><p>Failure mode: Using dull clippers can result in uneven cutting and damage to the client's hair.</p><p>Why: Dull clippers can cause the hair to split or break, leading to uneven cutting and damage.</p><p>Recovery: To recover from this failure mode, replace the dull clippers with sharp ones and re-cut the client's hair using the correct technique.</p><h3>Correct Execution</h3><p>Correct execution of barbering tools and equipment can be observed visually. The following are some examples:</p><ul><li>Clippers should be held at a 45-degree angle to the client's head, with the blade facing the direction of hair growth.</li><li>Scissors should be held with the blades facing the direction of hair growth, and the handles should be held firmly but not too tightly.</li><li>Razors should be held at a 20-degree angle to the client's skin, with the blade facing the direction of hair growth.</li></ul>`,
           quizQuestions: [
-            {
-              id: 'te-q1',
-              question: 'Which guard size produces the closest cut without going bare skin?',
-              options: ['#4', '#2', '#1', '#0'],
-              correctAnswer: 2,
-              explanation:
-                '#1 is 1/8 inch — the shortest guard. #0 removes the guard entirely for a skin fade.',
-            },
-            {
-              id: 'te-q2',
-              question: 'What type of shears removes bulk without changing the overall length?',
-              options: ['Straight shears', 'Thinning shears', 'Curved shears', 'Razor shears'],
-              correctAnswer: 1,
-              explanation:
-                'Thinning shears have one serrated blade that removes bulk while leaving length.',
-            },
-            {
-              id: 'te-q3',
-              question: 'After using a shavette blade on a client, you should:',
-              options: [
-                'Rinse and reuse on the next client',
-                'Soak in disinfectant and reuse',
-                'Dispose in a sharps container immediately',
-                'Store for later use',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Shavette blades are single-use and must be disposed of in a sharps container.',
-            },
-            {
-              id: 'te-q4',
-              question:
-                'How many drops of oil should you apply to clipper blades during maintenance?',
-              options: ['10-15 drops', '5-8 drops', '2-3 drops', 'Soak the blades'],
-              correctAnswer: 2,
-              explanation:
-                '2-3 drops while the clipper is running is sufficient — excess oil attracts debris.',
-            },
-            {
-              id: 'te-q5',
-              question: 'What is the correct chair height for ergonomic barbering?',
-              options: [
-                'As low as possible',
-                'So you work at elbow level',
-                'So the client is at eye level',
-                'As high as possible',
-              ],
-              correctAnswer: 1,
-              explanation: 'Working at elbow level keeps your back straight and prevents hunching.',
-            },
-            {
-              id: 'te-q6',
-              question: "What is placed around the client's neck before the cutting cape?",
-              options: ['A towel', 'A neck strip', 'A paper collar', 'Nothing'],
-              correctAnswer: 1,
-              explanation:
-                "A neck strip prevents the cape from directly touching the client's skin.",
-            },
+                    {
+                              "id": "barber-module-3-checkpoint-q1",
+                              "question": "A client presents with curly hair and sensitive skin. What tools and equipment would you use to minimize breakage and tangles, and prevent nicks and cuts?",
+                              "options": [
+                                        "A) Wide-tooth comb and razor with protective guard",
+                                        "B) Fine-tooth comb and clippers",
+                                        "C) Detangling brush and scissors",
+                                        "D) Regular comb and straight razor"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The correct answer is A) Wide-tooth comb and razor with protective guard. The wide-tooth comb will help to minimize breakage and tangles, while the razor with protective guard will help to prevent nicks and cuts on the client's sensitive skin."
+                    },
+                    {
+                              "id": "barber-module-3-checkpoint-q2",
+                              "question": "What is the correct angle to hold clippers when cutting a client's hair?",
+                              "options": [
+                                        "A) 20 degrees",
+                                        "B) 45 degrees",
+                                        "C) 60 degrees",
+                                        "D) 90 degrees"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The correct answer is B) 45 degrees. Holding clippers at a 45-degree angle to the client's head, with the blade facing the direction of hair growth, will help to achieve an even cut and prevent damage to the hair."
+                    },
+                    {
+                              "id": "barber-module-3-checkpoint-q3",
+                              "question": "A client has a skin condition such as eczema or psoriasis. What should you avoid using on this client?",
+                              "options": [
+                                        "A) Harsh chemicals or abrasive tools",
+                                        "B) Sanitizing solutions or disinfectant sprays",
+                                        "C) Clippers or razors",
+                                        "D) Combs or brushes"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The correct answer is A) Harsh chemicals or abrasive tools. These can exacerbate the client's skin condition and cause further irritation or damage."
+                    },
+                    {
+                              "id": "barber-module-3-checkpoint-q4",
+                              "question": "What is the consequence of using dull clippers on a client's hair?",
+                              "options": [
+                                        "A) Even cutting and no damage",
+                                        "B) Uneven cutting and damage to the hair",
+                                        "C) Increased risk of infection",
+                                        "D) Improved sanitation and disinfection"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The correct answer is B) Uneven cutting and damage to the hair. Using dull clippers can cause the hair to split or break, leading to uneven cutting and damage."
+                    },
+                    {
+                              "id": "barber-module-3-checkpoint-q5",
+                              "question": "A client presents with a open wound on their scalp. What should you do?",
+                              "options": [
+                                        "A) Use clippers or razors to cut the client's hair",
+                                        "B) Use scissors to trim the client's hair",
+                                        "C) Reschedule the appointment for a later date",
+                                        "D) Use a sanitizing solution or disinfectant spray on the wound"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "The correct answer is C) Reschedule the appointment for a later date. Using clippers or razors near an open wound can cause further injury or infection, and it is best to reschedule the appointment for a later date when the wound has healed."
+                    }
           ],
         },
       ],
@@ -1878,53 +1973,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Blend between guard sizes without visible lines or steps',
             'Identify the correct starting point for each fade type',
           ],
-          content: `<h2>The Fade</h2>
-<p>The fade is the signature technique of modern barbering — a seamless gradient from short to shorter, ending at the skin or near-skin.</p>
-<h3>Types of Fades</h3>
-<ul>
-<li><strong>Low fade</strong> — starts just above the ear and nape; conservative, professional</li>
-<li><strong>Mid fade</strong> — starts at the temple; versatile, most requested</li>
-<li><strong>High fade</strong> — starts at the parietal ridge; bold, dramatic</li>
-<li><strong>Skin fade (bald fade)</strong> — goes to bare skin; requires a #0 or foil shaver</li>
-</ul>
-<h3>Fade Technique</h3>
-<ol>
-<li>Establish the fade line with a #1 or #2</li>
-<li>Work upward with progressively larger guards</li>
-<li>Use the open/close lever to blend between guard sizes</li>
-<li>Blend with a #1.5 or by flicking the clipper out at the transition</li>
-<li>Check for lines and blend until smooth</li>
-</ol>
-
-<h3>Sanitation — Required Before Service</h3>
-<p>Apply universal precautions before every service.</p>
-<ol>
-<li>Wash or sanitize hands.</li>
-<li>Pre-clean all tools — remove hair and debris before applying disinfectant.</li>
-<li>Apply EPA-registered disinfectant. For clipper blades, use clipper disinfectant spray and keep blades visibly wet for full contact time per label.</li>
-<li>Discard all single-use items after use. Do not reuse porous items.</li>
-<li>Disinfect workstation and chair after each client.</li>
-</ol>
-
-<h3>Stop Conditions</h3>
-<p>Stop the service immediately if you observe:</p>
-<ul>
-<li>Open cuts or broken skin on the scalp</li>
-<li>Signs of scalp infection or inflammation</li>
-<li>Client reports pain or discomfort</li>
-<li>Clipper malfunction or overheating</li>
-</ul>
-
-<h3>Blood Exposure Protocol</h3>
-<ol>
-<li>Stop service immediately.</li>
-<li>Put on gloves before touching the affected area.</li>
-<li>Apply antiseptic to the client's skin.</li>
-<li>Dispose of all contaminated single-use materials in a sealed bag.</li>
-<li>Clean and disinfect blood-contaminated tools with EPA-registered disinfectant.</li>
-<li>Double-bag contaminated waste before disposal.</li>
-<li>Wash hands thoroughly after removing gloves.</li>
-</ol>`,
+          content: `<h2>Introduction to The Fade</h2><p>The fade is a fundamental haircutting technique that involves cutting the hair close to the head, with a gradual decrease in length as you move up the scalp. In this lesson, we will cover the low, mid, and high fade techniques, and provide guidance on how to execute them with smooth transitions.</p><h3>Tools and Equipment Required</h3><ul><li>Clippers with adjustable blade lengths</li><li>Trimmers</li><li>Scissors</li><li>Comb</li><li>Cape or towel</li><li>Sanitizer or disinfectant</li></ul><h3>Sanitation and Infection Control</h3><p>Before starting the haircut, ensure that all equipment is sanitized and disinfected. This includes clippers, trimmers, scissors, and combs. Use a sanitizer or disinfectant specifically designed for barber equipment, and follow the manufacturer's instructions for use.</p><h3>Executing the Fade</h3><p>To execute a fade, follow these steps:</p><ol><li>Start by sectioning the hair into three parts: the back, the sides, and the top.</li><li>Use clippers with an adjustable blade length to cut the hair close to the head, starting at the bottom of the back section.</li><li>Gradually decrease the length of the hair as you move up the scalp, using a combination of clippers and trimmers.</li><li>Use scissors to blend the layers and create a smooth transition.</li></ol><h3>IF/THEN Decision Block</h3><p>IF the client has curly or wavy hair, THEN use a slower blade speed and a more gradual decrease in length to avoid creating uneven layers.</p><p>IF the client has sensitive skin, THEN use a clipper with a guard attachment to avoid direct contact with the skin.</p><h3>Contraindications and Safety Rules</h3><p>DO NOT use clippers without a guard attachment on sensitive skin, as this can cause irritation and ingrown hairs.</p><p>DO NOT use scissors to cut the hair close to the head, as this can cause uneven layers and ingrown hairs.</p><h3>Failure Mode and Recovery</h3><p>Failure mode: uneven layers and ingrown hairs.</p><p>Cause: using the wrong blade length or not gradually decreasing the length of the hair.</p><p>Recovery: use a trimmer to even out the layers, and use a pair of thinning scissors to blend the layers and create a smooth transition.</p><h3>Correct Execution</h3><p>Correct execution of the fade involves creating a smooth transition from the hairline to the scalp, with no visible lines or layers. The hair should be cut close to the head, with a gradual decrease in length as you move up the scalp.</p><p>Visually, the correct execution of the fade should look like a seamless blend of hair and scalp, with no visible edges or lines. The angles of the cut should be smooth and even, with no uneven layers or ingrown hairs.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-23-q1",
+                              "question": "What is the primary tool used to execute a fade?",
+                              "options": [
+                                        "Clippers",
+                                        "Trimmers",
+                                        "Scissors",
+                                        "Comb"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Clippers are the primary tool used to execute a fade, as they allow for a close cut and a gradual decrease in length."
+                    },
+                    {
+                              "id": "barber-lesson-23-q2",
+                              "question": "A client presents with sensitive skin and requests a high fade. What do you do?",
+                              "options": [
+                                        "Use clippers without a guard attachment",
+                                        "Use a clipper with a guard attachment",
+                                        "Use scissors to cut the hair close to the head",
+                                        "Use a trimmer to even out the layers"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Using a clipper with a guard attachment will help to avoid direct contact with the skin and prevent irritation and ingrown hairs."
+                    },
+                    {
+                              "id": "barber-lesson-23-q3",
+                              "question": "What is the purpose of using a comb during a fade?",
+                              "options": [
+                                        "To cut the hair close to the head",
+                                        "To blend the layers and create a smooth transition",
+                                        "To section the hair into three parts",
+                                        "To sanitize the equipment"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The comb is used to blend the layers and create a smooth transition, helping to create a seamless blend of hair and scalp."
+                    },
+                    {
+                              "id": "barber-lesson-23-q4",
+                              "question": "A client presents with curly hair and requests a low fade. What do you do?",
+                              "options": [
+                                        "Use a faster blade speed and a more gradual decrease in length",
+                                        "Use a slower blade speed and a more gradual decrease in length",
+                                        "Use scissors to cut the hair close to the head",
+                                        "Use a trimmer to even out the layers"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Using a slower blade speed and a more gradual decrease in length will help to avoid creating uneven layers and ingrown hairs, and will result in a smoother transition."
+                    },
+                    {
+                              "id": "barber-lesson-23-q5",
+                              "question": "What is a common failure mode when executing a fade, and how can it be recovered?",
+                              "options": [
+                                        "Uneven layers and ingrown hairs, recovered by using a trimmer to even out the layers and thinning scissors to blend the layers",
+                                        "Even layers and no ingrown hairs, recovered by using clippers to cut the hair close to the head",
+                                        "Uneven layers and ingrown hairs, recovered by using scissors to cut the hair close to the head",
+                                        "Even layers and no ingrown hairs, recovered by using a comb to blend the layers"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Uneven layers and ingrown hairs are a common failure mode when executing a fade, and can be recovered by using a trimmer to even out the layers and thinning scissors to blend the layers and create a smooth transition."
+                    }
+          ],
           competencyChecks: [
             'Executes low, mid, and high fade with smooth transitions',
             'Follows pre-clean → disinfect → contact time sequence before service',
@@ -2014,49 +2125,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Blend scissor-over-comb work seamlessly into clipper sections',
             'Control length removal to avoid over-cutting',
           ],
-          content: `<h2>Scissor Over Comb</h2>
-<p>Scissor over comb produces a softer result than clipper over comb. It is used for the top, blending, and on clients who prefer a scissor finish.</p>
-<h3>Technique</h3>
-<ol>
-<li>Comb hair upward or outward from the head</li>
-<li>Position the comb at the desired length</li>
-<li>Cut along the top of the comb with the shears</li>
-<li>Work in consistent sections</li>
-</ol>
-<h3>Point Cutting</h3>
-<p>Point cutting (cutting into the ends at an angle) removes weight and adds texture. Hold shears vertically and make small snips into the hair ends.</p>
-<h3>Slide Cutting</h3>
-<p>Slide cutting thins and tapers hair by sliding the open shears down the hair shaft. Used for blending and removing bulk.</p>
-
-<h3>Sanitation — Required Before Service</h3>
-<p>Apply universal precautions before every service. This lesson uses shears and combs — no clipper blades.</p>
-<ol>
-<li>Wash or sanitize hands.</li>
-<li>Pre-clean all tools — remove hair and debris from shears and combs before applying disinfectant.</li>
-<li>Apply EPA-registered disinfectant and maintain full contact time per label. Do not wipe off early.</li>
-<li>Discard all single-use items after use. Do not reuse porous items.</li>
-<li>Disinfect workstation and chair after each client.</li>
-</ol>
-
-<h3>Stop Conditions</h3>
-<p>Stop the service immediately if you observe:</p>
-<ul>
-<li>Open cuts or broken skin on the scalp</li>
-<li>Signs of scalp infection or inflammation</li>
-<li>Client reports pain or discomfort from shear contact</li>
-<li>Shear malfunction or blade damage</li>
-</ul>
-
-<h3>Blood Exposure Protocol</h3>
-<ol>
-<li>Stop service immediately.</li>
-<li>Put on gloves before touching the affected area.</li>
-<li>Apply antiseptic to the client's skin.</li>
-<li>Dispose of all contaminated single-use materials in a sealed bag.</li>
-<li>Clean and disinfect blood-contaminated tools with EPA-registered disinfectant.</li>
-<li>Double-bag contaminated waste before disposal.</li>
-<li>Wash hands thoroughly after removing gloves.</li>
-</ol>`,
+          content: `<h2>Scissor Over Comb</h2><p>In this lesson, you will learn how to use the scissor-over-comb technique to cut and blend the top and sides of a client's hair. This technique is essential for achieving a seamless blend between the different layers of hair.</p><h3>Tools and Equipment</h3><p>The following tools and equipment are required for this lesson:</p><ul><li>Scissors</li><li>Comb</li><li>Clipper</li><li>Cape or towel</li><li>Sanitizer or disinfectant</li></ul><h3>Sanitation and Infection Control</h3><p>Before starting the haircut, make sure to sanitize your tools and equipment with a disinfectant. This will help prevent the spread of infections and maintain a clean and safe environment for your clients.</p><h3>Technique</h3><p>To use the scissor-over-comb technique, follow these steps:</p><ol><li>Section the hair into small subsections, depending on the length and thickness of the hair.</li><li>Place the comb at the desired length, with the teeth of the comb facing the ends of the hair.</li><li>Place the scissors over the comb, with the blades facing the ends of the hair.</li><li>Slowly cut the hair, using a smooth and even motion.</li><li>Repeat the process for each subsection of hair, working your way around the head.</li></ol><h3>Variations and Considerations</h3><p>When using the scissor-over-comb technique, you may need to consider the following variations and considerations:</p><p>IF the client has very curly or kinky hair, THEN you may need to use a different technique, such as the clipper-over-comb method, to achieve a more even cut.</p><p>IF the client has a skin condition, such as eczema or psoriasis, THEN you may need to take extra precautions to avoid irritating the skin, such as using a gentle shampoo and avoiding harsh chemicals.</p><p>IF the client is experiencing hair loss or thinning, THEN you may need to use a more gentle technique, such as the scissor-over-comb method, to avoid causing further damage to the hair.</p><h3>Contraindications and Safety Rules</h3><p>Do NOT use the scissor-over-comb technique on clients with certain medical conditions, such as hemophilia or bleeding disorders, as it may cause excessive bleeding.</p><h3>Failure Modes and Recovery</h3><p>One common failure mode when using the scissor-over-comb technique is cutting the hair too short. This can happen if the comb is placed too close to the scalp or if the scissors are not positioned correctly.</p><p>To recover from this failure mode, you can try using a razor or trimmer to blend the layers and create a more natural-looking edge.</p><h3>Correct Execution</h3><p>Correct execution of the scissor-over-comb technique involves placing the comb at the correct angle and positioning the scissors over the comb with the blades facing the ends of the hair. The scissors should be moved in a smooth and even motion, with the blades gliding over the comb to cut the hair.</p><p>Visually, correct execution should result in a seamless blend between the different layers of hair, with no visible lines or edges. The hair should look natural and healthy, with a smooth and even texture.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-25-q1",
+                              "question": "What is the primary tool used in the scissor-over-comb technique?",
+                              "options": [
+                                        "Scissors",
+                                        "Comb",
+                                        "Clipper",
+                                        "Razor"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The primary tool used in the scissor-over-comb technique is the scissors, which are used to cut the hair over the comb."
+                    },
+                    {
+                              "id": "barber-lesson-25-q2",
+                              "question": "A client presents with very curly hair and asks for a haircut using the scissor-over-comb technique. What do you do?",
+                              "options": [
+                                        "Use the scissor-over-comb technique as usual",
+                                        "Use a different technique, such as the clipper-over-comb method",
+                                        "Refuse to cut the client's hair",
+                                        "Use a relaxer to straighten the hair before cutting"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When working with very curly or kinky hair, it's often best to use a different technique, such as the clipper-over-comb method, to achieve a more even cut."
+                    },
+                    {
+                              "id": "barber-lesson-25-q3",
+                              "question": "What is a contraindication for using the scissor-over-comb technique?",
+                              "options": [
+                                        "Client has a skin condition",
+                                        "Client has very curly hair",
+                                        "Client has a medical condition such as hemophilia",
+                                        "Client is experiencing hair loss"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "One contraindication for using the scissor-over-comb technique is a medical condition such as hemophilia or bleeding disorders, as it may cause excessive bleeding."
+                    },
+                    {
+                              "id": "barber-lesson-25-q4",
+                              "question": "A client asks for a haircut using the scissor-over-comb technique, but you notice that the client has a skin condition on their scalp. What do you do?",
+                              "options": [
+                                        "Use the scissor-over-comb technique as usual",
+                                        "Use a different technique to avoid irritating the skin",
+                                        "Refuse to cut the client's hair",
+                                        "Use a medicated shampoo to treat the skin condition before cutting"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When working with a client who has a skin condition, it's best to use a different technique to avoid irritating the skin, such as using a gentle shampoo and avoiding harsh chemicals."
+                    },
+                    {
+                              "id": "barber-lesson-25-q5",
+                              "question": "What is a common failure mode when using the scissor-over-comb technique, and how can it be recovered from?",
+                              "options": [
+                                        "Cutting the hair too short, which can be recovered from by using a razor or trimmer to blend the layers",
+                                        "Cutting the hair too long, which can be recovered from by using scissors to trim the hair",
+                                        "Damaging the hair with the scissors, which can be recovered from by using a hair mask or deep conditioning treatment",
+                                        "Causing irritation to the skin, which can be recovered from by using a medicated shampoo or cream"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "One common failure mode when using the scissor-over-comb technique is cutting the hair too short, which can be recovered from by using a razor or trimmer to blend the layers and create a more natural-looking edge."
+                    }
+          ],
           competencyChecks: [
             'Executes scissor-over-comb with consistent angle and soft finish',
             'Follows pre-clean → disinfect → contact time sequence before service',
@@ -2695,80 +2826,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Execute a professional straight razor shave with correct angle and stroke.',
           durationMinutes: 25,
           videoFile: '/videos/course-barber-razor-narrated.mp4',
-          content: `<h2>Straight Razor Shaving</h2>
-<h3>Razor Angle</h3>
-<p>Hold the razor at a 30-degree angle to the skin. Too steep causes cuts; too flat causes drag.</p>
-<h3>The Three-Pass Shave</h3>
-<ol>
-<li><strong>First pass — with the grain (WTG)</strong>: Follow the direction of hair growth. Removes most of the beard.</li>
-<li><strong>Second pass — across the grain (XTG)</strong>: Cut perpendicular to growth. Closer result.</li>
-<li><strong>Third pass — against the grain (ATG)</strong>: Closest shave. Only for clients with no sensitivity.</li>
-</ol>
-<h3>Skin Stretching</h3>
-<p>Use your free hand to keep the skin taut at all times. Loose skin causes nicks and uneven shaving.</p>
-<h3>Stroke Technique</h3>
-<p>Use short, controlled strokes. Rinse the blade after every 2–3 strokes. Never drag the razor.</p>`,
+          content: `<h2>Introduction to Straight Razor Shaving Technique</h2><p>The straight razor shave is a classic technique that requires skill, precision, and attention to detail. As a barber, it is essential to master this technique to provide a professional and safe service to your clients. In this lesson, we will cover the tools, equipment, and materials required, as well as the correct angle and stroke to execute a professional straight razor shave.</p><h3>Tools, Equipment, and Materials Required</h3><ul><li>Straight razor</li><li>Shaving cream or soap</li><li>Hot towel</li><li>Cold towel</li><li>Aftershave</li><li>Sanitizer or disinfectant</li></ul><h3>Sanitation, Disinfection, and Infection Control</h3><p>Before starting the shave, it is crucial to sanitize and disinfect the straight razor and any other equipment that will come into contact with the client's skin. This will prevent the spread of infections and ensure a safe service. Always wash your hands before and after the service, and use a clean towel for each client.</p><h3>Executing the Straight Razor Shave</h3><p>To execute a professional straight razor shave, follow these steps:</p><ol><li>Prepare the client's skin by washing and exfoliating the area to be shaved.</li><li>Apply a hot towel to the area to soften the hair and open up the pores.</li><li>Apply shaving cream or soap and work it into a lather.</li><li>Hold the straight razor at a 20-30 degree angle, with the blade facing the direction of hair growth.</li><li>Start shaving in smooth, even strokes, following the direction of hair growth.</li><li>Rinse the razor and repeat the process until the area is smooth and hair-free.</li><li>Apply a cold towel to close the pores and reduce inflammation.</li><li>Apply aftershave to soothe and moisturize the skin.</li></ol><h3>IF/THEN Decision Block</h3><p>IF the client has sensitive skin, THEN use a gentle shaving cream or soap and avoid applying too much pressure with the straight razor. IF the client has coarse or curly hair, THEN use a sharper razor and take smaller strokes to avoid pulling or tugging on the hair.</p><h3>Contraindications and Safety Rules</h3><p>DO NOT shave over open wounds, cuts, or irritated skin. DO NOT use a straight razor that is dull or damaged, as this can cause nicks and cuts. Always use a clean and sanitized razor, and never share razors between clients.</p><h3>Failure Mode and Recovery</h3><p>Failure mode: The client experiences nicks or cuts during the shave. Why: The razor is dull or damaged, or the barber is applying too much pressure. Recovery: Stop the service immediately and apply pressure to the affected area to stop the bleeding. Clean and disinfect the area, and apply a cold compress to reduce swelling. Offer the client a complimentary service or discount on their next visit.</p><h3>Correct Execution</h3><p>Correct execution of the straight razor shave looks like this: the barber holds the razor at a 20-30 degree angle, with the blade facing the direction of hair growth. The strokes are smooth and even, following the direction of hair growth. The skin is smooth and hair-free, with no nicks or cuts. The client's skin is relaxed and comfortable, with no signs of irritation or discomfort.</p>`,
           quizQuestions: [
-            {
-              id: 'l30-q1',
-              question: 'At what angle should a straight razor be held during shaving?',
-              options: ['15 degrees', '30 degrees', '45 degrees', '60 degrees'],
-              correctAnswer: 1,
-              explanation:
-                '30 degrees provides optimal closeness without increasing the risk of cuts.',
-            },
-            {
-              id: 'l30-q2',
-              question: 'What is the direction of the FIRST pass in a three-pass shave?',
-              options: [
-                'Against the grain',
-                'Across the grain',
-                'With the grain',
-                'In circular motions',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'The first pass always goes with the grain (WTG) to remove bulk safely before closer passes.',
-            },
-            {
-              id: 'l30-q3',
-              question: 'Why must skin be kept taut during straight razor shaving?',
-              options: [
-                'It speeds up the service',
-                'Loose skin causes nicks and uneven shaving',
-                'It removes more hair',
-                'It reduces product use',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'A taut surface allows the razor to glide smoothly and safely without catching loose skin.',
-            },
-            {
-              id: 'l30-q4',
-              question: 'How often should the razor be rinsed during a shave?',
-              options: [
-                'Every stroke',
-                'Every 2–3 strokes',
-                'Every 10 strokes',
-                'At the end of each pass only',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Rinsing every 2–3 strokes removes cut hair and lather so the blade stays effective.',
-            },
-            {
-              id: 'l30-q5',
-              question: 'The against-the-grain (ATG) third pass is appropriate only for:',
-              options: [
-                'All clients',
-                'Clients with thick beards only',
-                'Clients with no skin sensitivity',
-                'Clients who request it regardless of skin condition',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'The ATG pass delivers the closest shave but can irritate sensitive skin — only use when no sensitivity is present.',
-            },
+                    {
+                              "id": "barber-lesson-30-q1",
+                              "question": "What is the correct angle to hold the straight razor during a shave?",
+                              "options": [
+                                        "10-20 degrees",
+                                        "20-30 degrees",
+                                        "30-40 degrees",
+                                        "40-50 degrees"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The correct angle to hold the straight razor is between 20-30 degrees, with the blade facing the direction of hair growth."
+                    },
+                    {
+                              "id": "barber-lesson-30-q2",
+                              "question": "A client presents with sensitive skin. What do you do?",
+                              "options": [
+                                        "Use a regular shaving cream or soap",
+                                        "Use a gentle shaving cream or soap",
+                                        "Apply more pressure with the straight razor",
+                                        "Avoid shaving the area altogether"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "If the client has sensitive skin, you should use a gentle shaving cream or soap to avoid irritating the skin further."
+                    },
+                    {
+                              "id": "barber-lesson-30-q3",
+                              "question": "What is the purpose of applying a hot towel to the area to be shaved?",
+                              "options": [
+                                        "To soften the hair and open up the pores",
+                                        "To close the pores and reduce inflammation",
+                                        "To sanitize the skin",
+                                        "To apply aftershave"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The purpose of applying a hot towel is to soften the hair and open up the pores, making it easier to shave the area."
+                    },
+                    {
+                              "id": "barber-lesson-30-q4",
+                              "question": "A client experiences nicks or cuts during the shave. What do you do?",
+                              "options": [
+                                        "Continue with the service as usual",
+                                        "Stop the service and apply pressure to the affected area",
+                                        "Apply aftershave to the affected area",
+                                        "Use a dull razor to finish the service"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "If the client experiences nicks or cuts, you should stop the service immediately and apply pressure to the affected area to stop the bleeding."
+                    },
+                    {
+                              "id": "barber-lesson-30-q5",
+                              "question": "What is a contraindication for using a straight razor?",
+                              "options": [
+                                        "Sensitive skin",
+                                        "Coarse or curly hair",
+                                        "Open wounds or cuts",
+                                        "All of the above"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "A contraindication for using a straight razor is open wounds or cuts, as this can lead to further irritation and infection."
+                    }
           ],
         },
         {
@@ -2871,71 +2990,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Apply correct post-shave products and handle common skin reactions.',
           durationMinutes: 15,
           videoFile: '/videos/course-barber-beard-narrated.mp4',
-          content: `<h2>Post-Shave Care</h2>
-<h3>Cold Towel</h3>
-<p>Apply a cold towel after shaving to close the pores and soothe the skin. Leave on for 1–2 minutes.</p>
-<h3>Post-Shave Products</h3>
-<ul>
-<li><strong>Alum block</strong> — stops minor bleeding from nicks; antiseptic</li>
-<li><strong>Witch hazel</strong> — tones and soothes the skin</li>
-<li><strong>Aftershave balm</strong> — moisturizes and calms irritation</li>
-<li><strong>Aftershave splash</strong> — antiseptic; can sting on sensitive skin</li>
-</ul>
-<h3>Handling Nicks</h3>
-<p>Apply an alum block or styptic pencil directly to the nick. Hold for 10–15 seconds. Never use a tissue — it leaves fibers in the wound.</p>
-<h3>Razor Bumps (Pseudofolliculitis Barbae)</h3>
-<p>Common in clients with curly hair. Caused by ingrown hairs. Recommend shaving with the grain only and using a single-blade razor.</p>`,
+          content: `<h2>Post-Shave Care & Skin Treatment</h2><p>In this lesson, we will cover the importance of post-shave care and skin treatment, including the application of correct products and handling common skin reactions. As a barber, it is essential to understand the different skin types and conditions to provide the best possible service to your clients.</p><h3>Tools, Equipment, and Materials Required</h3><ul><li>Aftershave balms and lotions</li><li>Antiseptic wipes</li><li>Cooling gels or creams</li><li>Sanitizing solutions</li><li>Disposable towels</li></ul><h3>Sanitation, Disinfection, and Infection Control</h3><p>Before starting any post-shave care or skin treatment, it is crucial to sanitize and disinfect all equipment and tools. This includes washing your hands thoroughly and using sanitizing solutions on all surfaces and tools. Infection control is vital in a barber shop, and it is your responsibility to ensure that all clients receive a safe and clean service.</p><h3>Applying Post-Shave Products</h3><p>When applying post-shave products, it is essential to consider the client's skin type and condition. For example, if the client has sensitive skin, you may need to use a gentle aftershave balm or lotion. IF the client has dry skin, THEN you should use a moisturizing aftershave product to help hydrate the skin. IF the client has oily skin, THEN you should use a lightweight aftershave product that won't clog the pores.</p><p>When applying post-shave products, make sure to follow these steps:</p><ol><li>Apply a small amount of product to the affected area</li><li>Gently massage the product into the skin</li><li>Allow the product to absorb fully before applying any additional products</li></ol><h3>Handling Common Skin Reactions</h3><p>Common skin reactions after a shave can include razor burn, ingrown hairs, and skin irritation. To handle these reactions, you should:</p><ul><li>Apply a cool compress to the affected area to reduce inflammation</li><li>Use an antiseptic wipe to clean the area and prevent infection</li><li>Apply a soothing aftershave product to help calm the skin</li></ul><p>DO NOT apply harsh or abrasive products to the affected area, as this can exacerbate the condition.</p><h3>Failure Mode: Incorrect Product Application</h3><p>If you apply the wrong post-shave product to a client's skin, it can lead to adverse reactions, such as skin irritation or allergic reactions. To recover from this failure mode, you should:</p><ul><li>Immediately stop the service and assess the situation</li><li>Apologize to the client and explain the situation</li><li>Offer to re-apply a different product or provide a refund</li></ul><h3>Correct Execution</h3><p>Correct execution of post-shave care and skin treatment involves applying the correct products in a gentle and soothing manner. The client's skin should appear calm and hydrated, with no signs of irritation or inflammation. The barber should maintain a clean and sanitary environment throughout the service, using disposable towels and sanitizing solutions as needed.</p>`,
           quizQuestions: [
-            {
-              id: 'l32-q1',
-              question: 'What product stops minor bleeding from razor nicks?',
-              options: ['Aftershave balm', 'Witch hazel', 'Alum block', 'Pre-shave oil'],
-              correctAnswer: 2,
-              explanation:
-                'An alum block is an antiseptic astringent that constricts blood vessels to stop minor bleeding.',
-            },
-            {
-              id: 'l32-q2',
-              question: 'How long should an alum block be held on a nick?',
-              options: ['2–3 seconds', '10–15 seconds', '1 minute', '5 minutes'],
-              correctAnswer: 1,
-              explanation:
-                '10–15 seconds of pressure is sufficient for the alum block to constrict the blood vessel.',
-            },
-            {
-              id: 'l32-q3',
-              question: 'Why should a tissue never be used directly on a razor nick?',
-              options: [
-                'It is too expensive',
-                'It leaves fibers in the wound',
-                'It causes infection',
-                'It removes too much blood',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Tissue fibers can stick to the wound, causing irritation and potential infection.',
-            },
-            {
-              id: 'l32-q4',
-              question: 'A cold towel is applied after shaving to:',
-              options: [
-                'Lubricate the skin',
-                'Apply cologne',
-                'Close the pores and soothe the skin',
-                'Prepare for another pass',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Cold temperature causes vasoconstriction, closing the pores and calming any post-shave irritation.',
-            },
-            {
-              id: 'l32-q5',
-              question: 'Razor bumps (pseudofolliculitis barbae) are most common in clients with:',
-              options: ['Straight hair', 'Fine hair', 'Curly hair', 'Thinning hair'],
-              correctAnswer: 2,
-              explanation:
-                'Curly hair tends to curl back into the skin after shaving, causing ingrown hairs and razor bumps.',
-            },
+                    {
+                              "id": "barber-lesson-32-q1",
+                              "question": "What is the first step in applying post-shave products?",
+                              "options": [
+                                        "Apply a large amount of product to the affected area",
+                                        "Gently massage the product into the skin",
+                                        "Apply a small amount of product to the affected area",
+                                        "Allow the product to absorb fully before applying any additional products"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "The first step in applying post-shave products is to apply a small amount of product to the affected area."
+                    },
+                    {
+                              "id": "barber-lesson-32-q2",
+                              "question": "A client presents with sensitive skin and is experiencing razor burn after a shave. What do you do?",
+                              "options": [
+                                        "Apply a harsh aftershave product to the affected area",
+                                        "Use a gentle aftershave balm or lotion to help soothe the skin",
+                                        "Apply a large amount of product to the affected area",
+                                        "Stop the service and refer the client to a doctor"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "If a client presents with sensitive skin and is experiencing razor burn, you should use a gentle aftershave balm or lotion to help soothe the skin."
+                    },
+                    {
+                              "id": "barber-lesson-32-q3",
+                              "question": "What is the purpose of using antiseptic wipes in post-shave care?",
+                              "options": [
+                                        "To clean the barber's equipment",
+                                        "To sanitize the client's skin",
+                                        "To apply post-shave products",
+                                        "To moisturize the client's skin"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The purpose of using antiseptic wipes in post-shave care is to sanitize the client's skin and prevent infection."
+                    },
+                    {
+                              "id": "barber-lesson-32-q4",
+                              "question": "A client has dry skin and is experiencing skin irritation after a shave. What type of post-shave product should you use?",
+                              "options": [
+                                        "A lightweight aftershave product",
+                                        "A moisturizing aftershave product",
+                                        "A harsh aftershave product",
+                                        "A cooling gel or cream"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "If a client has dry skin and is experiencing skin irritation, you should use a moisturizing aftershave product to help hydrate the skin."
+                    },
+                    {
+                              "id": "barber-lesson-32-q5",
+                              "question": "What is a contraindication for applying post-shave products?",
+                              "options": [
+                                        "Applying a small amount of product to the affected area",
+                                        "Using a gentle aftershave balm or lotion",
+                                        "Applying harsh or abrasive products to the affected area",
+                                        "Allowing the product to absorb fully before applying any additional products"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "A contraindication for applying post-shave products is applying harsh or abrasive products to the affected area, as this can exacerbate skin conditions."
+                    }
           ],
         },
         {
@@ -3023,64 +3139,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Demonstrate mastery of shaving and beard services.',
           durationMinutes: 20,
           passingScore: 70,
-          content: `<h2>Module 5 Review — Shaving & Beard Services</h2><p>Review before taking this checkpoint: hot towel preparation, straight razor angle and three-pass technique, beard design by face shape, neckline placement, post-shave care, and razor bump prevention. Score 70% or higher to advance.</p>`,
+          content: `<h2>Shaving & Beard Checkpoint</h2><p>This lesson is designed to assess your mastery of shaving and beard services. As a barber, it is essential to demonstrate proficiency in these skills to provide high-quality services to your clients.</p><h3>Tools, Equipment, and Materials</h3><p>The following tools, equipment, and materials are required for shaving and beard services:</p><ul><li>Straight razor or shavette</li><li>Shaving cream or gel</li><li>Aftershave lotion or balm</li><li>Beard trimmer or clippers</li><li>Comb or brush</li><li>Sanitizing solution</li><li>Disinfectant spray</li></ul><h3>Sanitation, Disinfection, and Infection Control</h3><p>Sanitation, disinfection, and infection control are crucial in shaving and beard services. Always sanitize your tools and equipment before and after use, and disinfect any surfaces that come into contact with the client's skin.</p><p>IF the client has a skin condition such as acne or eczema, THEN you should take extra precautions to avoid irritating the skin further. Use a gentle shaving cream or gel, and avoid using hot water or harsh exfoliants.</p><h3>Contraindications and Safety Rules</h3><p>DO NOT shave a client with a skin condition such as impetigo or ringworm, as this can spread the infection. Also, DO NOT use a straight razor on a client with a bleeding disorder or taking anticoagulant medication.</p><h3>Failure Mode and Recovery</h3><p>A common failure mode in shaving and beard services is cutting the client's skin. This can happen if the razor is not properly sanitized or if the client's skin is not properly prepared. To recover from this failure mode, stop the service immediately and apply pressure to the cut to stop the bleeding. Then, clean and disinfect the area, and apply an antiseptic ointment to prevent infection.</p><h3>Correct Execution</h3><p>Correct execution of shaving and beard services involves using the right tools and techniques for the client's hair type and skin condition. For example, if the client has coarse hair, you may need to use a more aggressive shaving cream or gel. If the client has sensitive skin, you may need to use a gentler shaving cream or gel and avoid using hot water or harsh exfoliants.</p><p>Visually, correct execution involves holding the razor at a 20-30 degree angle, with the blade facing the direction of hair growth. The client's skin should be smooth and even, with no visible cuts or irritation.</p><h3>Angles, Positioning, and Appearance Cues</h3><p>When shaving, the razor should be held at a 20-30 degree angle, with the blade facing the direction of hair growth. The client's head should be positioned at a 45-degree angle, with the chin lifted and the neck stretched.</p><p>Appearance cues include a smooth, even skin tone, with no visible cuts or irritation. The client's hair should be evenly trimmed, with no visible stray hairs or uneven edges.</p>`,
           quizQuestions: [
-            {
-              id: 'sh-q1',
-              question: 'What angle should the straight razor be held at during shaving?',
-              options: ['15 degrees', '30 degrees', '45 degrees', '60 degrees'],
-              correctAnswer: 1,
-              explanation:
-                'A 30-degree angle provides the optimal balance between closeness and safety.',
-            },
-            {
-              id: 'sh-q2',
-              question: 'Where should the neckline be set when shaping a beard?',
-              options: [
-                'At the jawline',
-                "At the Adam's apple",
-                "Two finger-widths above the Adam's apple",
-                'At the chin',
-              ],
-              correctAnswer: 2,
-              explanation:
-                "Two finger-widths above the Adam's apple is the standard neckline position.",
-            },
-            {
-              id: 'sh-q3',
-              question: 'What is the first pass in a three-pass shave?',
-              options: [
-                'Against the grain',
-                'Across the grain',
-                'With the grain',
-                'In circular motions',
-              ],
-              correctAnswer: 2,
-              explanation: 'The first pass always goes with the grain to remove bulk safely.',
-            },
-            {
-              id: 'sh-q4',
-              question: 'Which product stops minor bleeding from razor nicks?',
-              options: ['Aftershave balm', 'Witch hazel', 'Alum block', 'Pre-shave oil'],
-              correctAnswer: 2,
-              explanation:
-                'An alum block is an antiseptic that constricts blood vessels to stop minor bleeding.',
-            },
-            {
-              id: 'sh-q5',
-              question: 'Razor bumps are most common in clients with:',
-              options: ['Straight hair', 'Fine hair', 'Curly hair', 'Thick hair'],
-              correctAnswer: 2,
-              explanation:
-                'Curly hair is more likely to curl back into the skin, causing ingrown hairs and razor bumps.',
-            },
-            {
-              id: 'sh-q6',
-              question: 'How long should a hot towel be applied before shaving?',
-              options: ['30 seconds', '2-3 minutes', '10 minutes', '15 minutes'],
-              correctAnswer: 1,
-              explanation: '2-3 minutes is sufficient to soften the beard and open the pores.',
-            },
+                    {
+                              "id": "barber-module-5-checkpoint-q1",
+                              "question": "A client presents with a skin condition such as acne or eczema. What do you do?",
+                              "options": [
+                                        "Use a gentle shaving cream or gel and avoid using hot water or harsh exfoliants",
+                                        "Use a medicated shaving cream or gel and apply a topical antibiotic ointment",
+                                        "Avoid shaving the affected area and recommend a different service",
+                                        "Use a regular shaving cream or gel and proceed with the service as usual"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "When a client presents with a skin condition such as acne or eczema, it is essential to take extra precautions to avoid irritating the skin further. Using a gentle shaving cream or gel and avoiding hot water or harsh exfoliants can help to minimize irritation and prevent further inflammation."
+                    },
+                    {
+                              "id": "barber-module-5-checkpoint-q2",
+                              "question": "What is the correct angle to hold the razor when shaving?",
+                              "options": [
+                                        "10-20 degrees",
+                                        "20-30 degrees",
+                                        "30-40 degrees",
+                                        "40-50 degrees"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The correct angle to hold the razor when shaving is 20-30 degrees, with the blade facing the direction of hair growth. This angle helps to prevent cuts and irritation, and ensures a smooth, even shave."
+                    },
+                    {
+                              "id": "barber-module-5-checkpoint-q3",
+                              "question": "A client has a bleeding disorder and is taking anticoagulant medication. What do you do?",
+                              "options": [
+                                        "Use a straight razor and proceed with the service as usual",
+                                        "Use a safety razor and take extra precautions to avoid cutting the client",
+                                        "Avoid using a razor altogether and recommend a different service",
+                                        "Use a razor with a guard and apply pressure to the skin to minimize bleeding"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "When a client has a bleeding disorder and is taking anticoagulant medication, it is essential to avoid using a razor altogether. This is because the client's blood may not be able to clot properly, and using a razor could lead to excessive bleeding and potentially serious complications."
+                    },
+                    {
+                              "id": "barber-module-5-checkpoint-q4",
+                              "question": "What is the purpose of sanitizing and disinfecting tools and equipment?",
+                              "options": [
+                                        "To prevent the spread of infection and maintain a clean and hygienic environment",
+                                        "To improve the appearance of the tools and equipment",
+                                        "To increase the lifespan of the tools and equipment",
+                                        "To reduce the cost of maintaining the tools and equipment"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Sanitizing and disinfecting tools and equipment is essential to prevent the spread of infection and maintain a clean and hygienic environment. This helps to protect both the client and the barber from the risk of infection, and ensures that the service is provided in a safe and healthy manner."
+                    },
+                    {
+                              "id": "barber-module-5-checkpoint-q5",
+                              "question": "A client presents with a skin condition such as impetigo or ringworm. What do you do?",
+                              "options": [
+                                        "Use a medicated shaving cream or gel and apply a topical antibiotic ointment",
+                                        "Avoid shaving the affected area and recommend a different service",
+                                        "Use a regular shaving cream or gel and proceed with the service as usual",
+                                        "Refer the client to a doctor or dermatologist for treatment"
+                              ],
+                              "correctAnswer": 3,
+                              "explanation": "When a client presents with a skin condition such as impetigo or ringworm, it is essential to refer them to a doctor or dermatologist for treatment. These conditions are highly contagious and can spread easily, and using a razor or other tools on the affected area could exacerbate the condition and put others at risk."
+                    }
           ],
         },
       ],
@@ -3275,78 +3395,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Understand relaxer chemistry and application safety.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-styling-narrated.mp4',
-          content: `<h2>Relaxers and Texturizers</h2>
-<h3>How Relaxers Work</h3>
-<p>Relaxers break the disulfide bonds in the cortex that give hair its curl pattern. The hair is then restructured in a straighter form.</p>
-<h3>Types</h3>
-<ul>
-<li><strong>Lye relaxers (sodium hydroxide)</strong> — faster processing, stronger</li>
-<li><strong>No-lye relaxers (guanidine)</strong> — gentler, less scalp irritation</li>
-<li><strong>Texturizers</strong> — same chemistry, shorter processing time; loosens curl without fully straightening</li>
-</ul>
-<h3>Application Rules</h3>
-<ul>
-<li>Never apply to a scratched or irritated scalp</li>
-<li>Base the scalp with petroleum jelly before application</li>
-<li>Process only to the manufacturer's recommended time</li>
-<li>Neutralize thoroughly — stops the chemical process</li>
-</ul>`,
+          content: `<h2>Relaxers & Texturizers</h2><p>In this lesson, we will cover the chemistry and application safety of relaxers and texturizers. Relaxers are used to break down the hair's curl pattern, while texturizers are used to add texture and definition to the hair.</p><h3>Tools and Equipment</h3><ul><li>Relaxer kit</li><li>Texturizer kit</li><li>Gloves</li><li>Cape or towel</li><li>Shampoo and conditioner</li><li>Towel for drying</li></ul><h3>Understanding Relaxer Chemistry</h3><p>Relaxers work by breaking down the disulfide bonds in the hair shaft. This is done through a chemical reaction that involves the use of alkaline substances such as sodium hydroxide or lithium hydroxide. The relaxer is applied to the hair and left on for a specified amount of time, depending on the type of hair and the desired level of relaxation.</p><h3>Application Safety</h3><p>When applying relaxers, it is essential to follow the instructions carefully and take necessary safety precautions. This includes wearing gloves, using a cape or towel to protect the client's clothing, and ensuring the client's skin is protected from the relaxer.</p><h3>IF/THEN Decision Block</h3><p>IF the client has sensitive skin, THEN you should perform a patch test before applying the relaxer. IF the client has damaged or over-processed hair, THEN you should use a gentler relaxer or consider an alternative treatment.</p><h3>Sanitation and Infection Control</h3><p>It is crucial to maintain a clean and sanitary environment when applying relaxers. This includes disinfecting all equipment and tools, washing your hands thoroughly, and ensuring the client's hair is clean and free of any debris.</p><h3>Contraindications and Safety Rules</h3><p>DO NOT apply relaxers to clients with open sores or wounds on the scalp. DO NOT apply relaxers to clients who have used hair color or other chemical treatments in the past 2 weeks.</p><h3>Failure Mode and Recovery</h3><p>One common failure mode when applying relaxers is over-processing the hair. This can cause the hair to become brittle, dry, and prone to breakage. To recover from this, you can try using a deep conditioning treatment to restore moisture to the hair.</p><h3>Correct Execution</h3><p>Correct execution of a relaxer application involves applying the relaxer to the hair in a smooth, even layer, using a gentle, sweeping motion. The relaxer should be left on for the recommended amount of time, and then rinsed out thoroughly with warm water. The hair should be shampooed and conditioned after the relaxer is applied.</p><h3>Visual Cues</h3><p>When applying a relaxer, you should look for visual cues such as the hair starting to relax and lose its curl pattern. The hair should feel smooth and silky to the touch, and have a uniform texture.</p>`,
           quizQuestions: [
-            {
-              id: 'l37-q1',
-              question: 'What do relaxers break in the hair to achieve straightening?',
-              options: [
-                'Hydrogen bonds',
-                'Disulfide bonds in the cortex',
-                'Melanin granules',
-                'The cuticle layer',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Relaxers break the disulfide bonds in the cortex — the bonds that give hair its curl pattern.',
-            },
-            {
-              id: 'l37-q2',
-              question: 'Lye relaxers contain which active ingredient?',
-              options: [
-                'Guanidine',
-                'Ammonium thioglycolate',
-                'Sodium hydroxide',
-                'Hydrogen peroxide',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Lye relaxers use sodium hydroxide (NaOH) as the active straightening agent.',
-            },
-            {
-              id: 'l37-q3',
-              question: 'Before applying a relaxer, the scalp should be protected with:',
-              options: ['Witch hazel', 'Petroleum jelly', 'Conditioner', 'Alum block'],
-              correctAnswer: 1,
-              explanation:
-                'Petroleum jelly (base) protects the scalp from chemical burns during relaxer application.',
-            },
-            {
-              id: 'l37-q4',
-              question: 'How does a texturizer differ from a full relaxer?',
-              options: [
-                'It uses a different active chemical',
-                'It has a shorter processing time and only loosens the curl',
-                'It is applied with a brush only',
-                'It requires no neutralizer',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'A texturizer uses the same chemistry but is processed for a shorter time, loosening the curl pattern without fully straightening.',
-            },
-            {
-              id: 'l37-q5',
-              question: 'What stops the relaxer chemical process?',
-              options: ['Shampoo', 'Conditioner', 'Neutralizer', 'Water rinse alone'],
-              correctAnswer: 2,
-              explanation:
-                "The neutralizer restores the hair's pH and stops the relaxer from processing further.",
-            },
+                    {
+                              "id": "barber-lesson-37-q1",
+                              "question": "What is the primary function of a relaxer?",
+                              "options": [
+                                        "To add texture and definition to the hair",
+                                        "To break down the hair's curl pattern",
+                                        "To add moisture to the hair",
+                                        "To remove hair color"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Relaxers work by breaking down the disulfide bonds in the hair shaft, which helps to break down the hair's curl pattern."
+                    },
+                    {
+                              "id": "barber-lesson-37-q2",
+                              "question": "A client presents with sensitive skin and wants to get a relaxer. What do you do?",
+                              "options": [
+                                        "Apply the relaxer as usual",
+                                        "Perform a patch test before applying the relaxer",
+                                        "Use a gentler relaxer",
+                                        "Refuse to apply the relaxer"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When working with clients who have sensitive skin, it's essential to perform a patch test before applying the relaxer to ensure the client doesn't have any adverse reactions."
+                    },
+                    {
+                              "id": "barber-lesson-37-q3",
+                              "question": "What is a common failure mode when applying relaxers?",
+                              "options": [
+                                        "Under-processing the hair",
+                                        "Over-processing the hair",
+                                        "Not using gloves",
+                                        "Not shampooing the hair after the relaxer is applied"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Over-processing the hair is a common failure mode when applying relaxers, as it can cause the hair to become brittle, dry, and prone to breakage."
+                    },
+                    {
+                              "id": "barber-lesson-37-q4",
+                              "question": "A client has damaged or over-processed hair and wants to get a relaxer. What do you do?",
+                              "options": [
+                                        "Apply the relaxer as usual",
+                                        "Use a gentler relaxer",
+                                        "Refuse to apply the relaxer",
+                                        "Recommend a different treatment"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When working with clients who have damaged or over-processed hair, it's essential to use a gentler relaxer or consider an alternative treatment to avoid further damage to the hair."
+                    },
+                    {
+                              "id": "barber-lesson-37-q5",
+                              "question": "What is an essential step in maintaining a clean and sanitary environment when applying relaxers?",
+                              "options": [
+                                        "Disinfecting all equipment and tools",
+                                        "Washing your hands thoroughly",
+                                        "Using a cape or towel to protect the client's clothing",
+                                        "All of the above"
+                              ],
+                              "correctAnswer": 3,
+                              "explanation": "Maintaining a clean and sanitary environment when applying relaxers is crucial, and this includes disinfecting all equipment and tools, washing your hands thoroughly, and using a cape or towel to protect the client's clothing."
+                    }
           ],
         },
         {
