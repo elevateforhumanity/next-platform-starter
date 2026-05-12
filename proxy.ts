@@ -86,6 +86,15 @@ const AUTH_REQUIRED_ROUTES = [
   '/profile',
   '/hub/',
   '/enrollment/',
+  '/proctor/',
+  '/proctor',
+  '/learner/',
+  '/account/',
+  '/my-dashboard',
+  '/notifications',
+  '/messages',
+  '/certificates',
+  '/achievements',
 ];
 
 // Routes requiring onboarding completion before access.

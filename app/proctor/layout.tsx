@@ -2,6 +2,11 @@ import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Shield, ClipboardList, Plus, ArrowLeft } from 'lucide-react';
+import { requireUser } from '@/lib/auth/require-user';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { redirect } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Proctor Portal | Elevate for Humanity',
@@ -9,7 +14,22 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function ProctorLayout({ children }: { children: React.ReactNode }) {
+const ALLOWED_ROLES = ['admin', 'super_admin', 'staff', 'instructor'];
+
+export default async function ProctorLayout({ children }: { children: React.ReactNode }) {
+  await requireUser();
+  const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+    if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+      redirect('/unauthorized');
+    }
+  }
   return (
     <div className="min-h-screen bg-white">
       {/* Top bar */}
