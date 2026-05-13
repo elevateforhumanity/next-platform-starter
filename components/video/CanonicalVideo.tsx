@@ -76,12 +76,16 @@ export default function CanonicalVideo({
   // True once the video has played through once — fades poster back in, stays there
   const [ended, setEnded] = useState(false);
 
+  // Tracks whether the video has ever started playing — used to prevent
+  // the poster from re-appearing when the src swaps desktop→mobile after hydration.
+  const isPlayingRef = useRef(false);
+
   // Memoize event handlers to prevent re-registrations on each render
-  const handlePlaying = useCallback(() => setPlaying(true), []);
+  const handlePlaying = useCallback(() => { isPlayingRef.current = true; setPlaying(true); }, []);
   // timeupdate fires on every frame tick — use as a reliable fallback for
   // browsers/situations where onPlaying fires before React attaches the handler
   // (e.g. autoPlayOnMount on a fast connection where canplay fires synchronously).
-  const handleTimeUpdate = useCallback(() => setPlaying(true), []);
+  const handleTimeUpdate = useCallback(() => { isPlayingRef.current = true; setPlaying(true); }, []);
   const handleEnded = useCallback(() => setEnded(true), []);
   const handleError = useCallback(() => setFailed(true), []);
   // Recover from stall/waiting — browser buffered enough to resume, call play()
@@ -131,8 +135,13 @@ export default function CanonicalVideo({
     // occurs when HeroVideo re-renders after setMounted(true) with the same src.
     if (prevSrcRef.current !== src) {
       prevSrcRef.current = src;
-      setPlaying(false);
-      setEnded(false);
+      // Only hide the poster on the very first load. When the src changes
+      // from desktop→mobile after hydration the video was already playing —
+      // resetting playing to false causes a visible poster flash for 700ms.
+      if (!isPlayingRef.current) {
+        setPlaying(false);
+        setEnded(false);
+      }
     }
     // Wait for enough data before calling play() to avoid AbortError races.
     // Resolve playing state from the play() promise — onPlaying can fire before

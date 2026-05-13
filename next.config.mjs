@@ -1081,7 +1081,8 @@ const nextConfig = {
 
       // ── EMPLOYER DUPLICATES ────────────────────────────────────────────────
       // Canonical: /employer  (employer-portal/* already redirected above)
-      { source: '/employers', destination: '/employer/dashboard', permanent: true },
+      // /employers has its own marketing page — NOT redirected to dashboard
+      // /employers/post-job etc still redirect to the portal equivalents
       { source: '/employers/post-job', destination: '/employer/post-job', permanent: true },
       { source: '/employers/apprenticeships', destination: '/employer/apprenticeships', permanent: true },
       { source: '/employers/benefits', destination: '/employer/dashboard', permanent: true },
