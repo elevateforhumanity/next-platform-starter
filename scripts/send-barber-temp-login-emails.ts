@@ -2,6 +2,7 @@
 
 import { config } from 'dotenv';
 import path from 'path';
+import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 
 config({ path: path.resolve(process.cwd(), '.env.local') });
@@ -101,12 +102,48 @@ async function main() {
   let sent = 0;
   let failed = 0;
 
+  const generateTempPassword = () => {
+    const rand = crypto.randomBytes(4).toString('hex').toUpperCase();
+    return `El${rand}#26`;
+  };
+
   for (const recipient of recipients) {
     try {
+      // Resolve user ID by profile email (with auth list fallback)
+      const { data: profile, error: profileErr } = await supabase
+        .from('profiles')
+        .select('id, email')
+        .ilike('email', recipient.email)
+        .maybeSingle();
+
+      let userId: string | null = profile?.id ?? null;
+      if (profileErr || !userId) {
+        const { data: listData } = await supabase.auth.admin.listUsers({ perPage: 1000 });
+        const found = listData?.users.find(
+          (user) => user.email?.toLowerCase() === recipient.email.toLowerCase(),
+        );
+        userId = found?.id ?? null;
+      }
+
+      if (!userId) {
+        throw new Error('Auth user not found for email');
+      }
+
+      const tempPassword = generateTempPassword();
+
+      if (!dryRun) {
+        const { error: passwordError } = await supabase.auth.admin.updateUserById(userId, {
+          password: tempPassword,
+        });
+        if (passwordError) {
+          throw new Error(`Failed to set temp password: ${passwordError.message}`);
+        }
+      }
+
       const { data, error } = await supabase.auth.admin.generateLink({
         type: 'recovery',
         email: recipient.email,
-        options: { redirectTo: `${SITE_URL}/login` },
+        options: { redirectTo: `${SITE_URL}/auth/reset-password` },
       });
 
       if (error || !data?.properties?.action_link) {
@@ -115,6 +152,8 @@ async function main() {
 
       const resetLink = data.properties.action_link;
       const subject = 'Temporary Login Access - Elevate Barber Program';
+      const loginUrl = `${SITE_URL}/login`;
+      const updatePasswordUrl = `${SITE_URL}/update-password`;
       const html = `
 <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1f2937;line-height:1.5">
   <h2 style="margin-bottom:8px">Hi ${recipient.name.split(' ')[0]},</h2>
@@ -122,24 +161,30 @@ async function main() {
 
   <div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin:16px 0;background:#f8fafc">
     <p style="margin:0 0 8px"><strong>Username:</strong> ${recipient.email}</p>
-    <p style="margin:0 0 8px"><strong>Temporary Password Setup:</strong> Use the secure one-time link below to set your password.</p>
-    <p style="margin:0"><a href="${resetLink}">${resetLink}</a></p>
+    <p style="margin:0 0 8px"><strong>Temporary Password:</strong> ${tempPassword}</p>
+    <p style="margin:0"><strong>Login:</strong> <a href="${loginUrl}">${loginUrl}</a></p>
   </div>
 
-  <p>After setting your password, sign in at <a href="${SITE_URL}/login">${SITE_URL}/login</a>.</p>
+  <div style="border:1px solid #dbeafe;border-radius:8px;padding:16px;margin:16px 0;background:#eff6ff">
+    <p style="margin:0 0 8px"><strong>Recommended:</strong> Use this one-time secure link to set your own password now:</p>
+    <p style="margin:0 0 8px"><a href="${resetLink}">${resetLink}</a></p>
+    <p style="margin:0;font-size:13px;color:#334155">If the one-time link expires, sign in with your temporary password first, then update it at <a href="${updatePasswordUrl}">${updatePasswordUrl}</a>.</p>
+  </div>
+
+  <p>This ensures you have two working paths and won&apos;t get locked out.</p>
   <p>If you need help, call <a href="tel:3173143757">(317) 314-3757</a>.</p>
   <p>Elevate for Humanity</p>
 </div>`;
 
       if (dryRun) {
-        console.log(`[dry-run] would send login email to ${recipient.email}`);
+        console.log(`[dry-run] would set temp password + send login email to ${recipient.email}`);
         sent += 1;
         continue;
       }
 
       await sendEmail(recipient.email, subject, html);
       sent += 1;
-      console.log(`sent login email to ${recipient.email}`);
+      console.log(`sent login email to ${recipient.email} (temp password set)`);
     } catch (err) {
       failed += 1;
       console.error(`failed for ${recipient.email}:`, err instanceof Error ? err.message : String(err));

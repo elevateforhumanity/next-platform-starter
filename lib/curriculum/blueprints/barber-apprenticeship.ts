@@ -1247,25 +1247,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             },
           ],
           instructorNotes: `Blade tension check: student must demonstrate both too-loose and correct tension settings. Oil application must be on the correct points — not flooded. Blade must be removed and cleaned, not just sprayed.`,
-          content: `<h2>Clippers and Trimmers</h2>
-<h3>Types of Clippers</h3>
-<ul>
-<li><strong>Corded clippers</strong> — consistent power, best for heavy-duty cutting</li>
-<li><strong>Cordless clippers</strong> — freedom of movement, requires charging</li>
-<li><strong>Detachable blade clippers</strong> — blades swap out for different lengths</li>
-</ul>
-<h3>Guard Sizes</h3>
-<p>Guards (also called attachments) control cutting length:</p>
-<ul>
-<li>#0 (no guard) — closest cut, skin fade</li>
-<li>#1 — 1/8 inch</li>
-<li>#2 — 1/4 inch</li>
-<li>#3 — 3/8 inch</li>
-<li>#4 — 1/2 inch</li>
-<li>#7 and #8 — longer lengths for bulk removal</li>
-</ul>
-<h3>Trimmers</h3>
-<p>Trimmers (T-liners) are used for edging, lining, and detail work. They have a narrower blade than clippers.</p>`,
+          content: `<h2>Overview</h2><p>Clippers and trimmers are fundamental tools for barbers, used to cut, blend, and detail hair efficiently. Understanding the differences between clipper types, guard sizes, and their specific applications ensures professional results and client satisfaction. Magnetic motor clippers provide power for bulk cutting, while rotary clippers offer quieter operation. Pivot motor trimmers excel at detailing and edging. Guards, measured in eighths of an inch, control cutting length from skin-close fades to longer textured cuts. Mastery of these tools allows barbers to execute diverse styles, from classic tapers to modern fades, while maintaining precision and consistency throughout every service.</p><h2>Tools Required</h2><ul><li>Magnetic motor clippers with detachable blade system</li><li>Rotary motor clippers for precision fading</li><li>Pivot motor trimmers for edging and detail work</li><li>Guard attachment set ranging from #0.5 to #8</li><li>Clipper blade oil and cleaning brush</li><li>Disinfectant spray specifically labeled for tools</li><li>Neck duster for removing loose hair</li><li>Blade coolant or cooling spray</li></ul><h2>Client Assessment</h2><p>IF the client has thick, coarse hair, THEN use magnetic motor clippers with guards #3 or higher for initial bulk removal, as these provide sufficient power without bogging down. IF the client has fine or thinning hair, THEN select rotary clippers with guards #1 to #2 and work with lighter pressure to avoid creating unintended bald spots or lines of demarcation that become visible as the hair lies flat against the scalp.</p><h2>Procedure</h2><ol><li>Inspect clippers and trimmers for blade alignment, ensuring cutting edges are even and free of rust, gaps, or visible damage before service.</li><li>Select appropriate guard size based on desired length, starting with larger guards for conservative length and working down as needed for precision.</li><li>Attach guard firmly to clipper, ensuring it clicks securely into place and sits flush against the blade to prevent uneven cutting.</li><li>Begin cutting with clippers held at proper angle, typically perpendicular to scalp for uniform length or angled for tapering and blending techniques.</li><li>Move clippers against hair growth direction using smooth, overlapping strokes to ensure complete coverage and eliminate missed patches or track marks.</li><li>Switch to smaller guards progressively when creating fades, blending each section seamlessly by using scooping or flicking motions at transition points.</li><li>Use trimmers without guards for detail work around ears, neckline, and sideburns, holding them at shallow angles for clean, precise lines.</li><li>Apply blade coolant if clippers become warm during extended use, then complete final inspection for symmetry and blending before concluding service.</li></ol><h2>Safety</h2><p>After each client, remove guards and spray all clipper and trimmer surfaces with EPA-registered hospital-grade disinfectant such as Barbicide spray or Clippercide, allowing appropriate contact time per manufacturer instructions. Brush away loose hair from between blade teeth, apply two drops of clipper oil, and run briefly to distribute lubricant.<strong>Do NOT use clippers with misaligned or damaged blades, as this causes skin irritation, painful pulling, and potential cuts or abrasions that create infection risk and liability.</strong>If clippers pull hair instead of cutting cleanly, this indicates dull blades requiring immediate replacement or sharpening, compromising service quality and client comfort significantly.</p><h2>Failure Recovery</h2><p>If you accidentally remove too much hair by using an incorrect guard size, causing a visible bald patch or line, immediately stop cutting. Assess the damage extent by combing surrounding hair over the area. Gradually blend the surrounding sections using the next smaller guard size, working in small increments. Use clipper-over-comb technique to feather edges. Apply texturizing or point-cutting scissors to soften harsh lines. Communicate honestly with the client about correction options, which may include adjusting the overall style shorter or creating a different look that incorporates the mistake into an intentional design element.</p><h2>Visual Cues</h2><p>Hold clippers perpendicular to the head for uniform all-over cuts, with the guard base flat against the scalp throughout the stroke. For fades and tapers, angle clippers progressively as you move upward, rotating from flat against the head to approximately forty-five degrees at transition zones. Observe the hair falling away from the clipper; it should release cleanly without bunching or pulling. Watch for track marks appearing as visible lines in the cut, indicating overlapping strokes are needed. Monitor blade temperature by periodically touching the housing; excessive heat signals need for coolant application or motor rest to prevent discomfort during service.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-15-q1",
+                              "question": "What is the primary advantage of magnetic motor clippers over other clipper types?",
+                              "options": [
+                                        "A. They provide the most power for cutting thick, coarse hair and bulk removal",
+                                        "B. They operate most quietly among all clipper motor types",
+                                        "C. They are best suited exclusively for fine detail work around the ears",
+                                        "D. They require no maintenance or blade oil between clients"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Magnetic motor clippers deliver the most cutting power, making them ideal for bulk removal and cutting through thick, coarse hair efficiently without bogging down during the service."
+                    },
+                    {
+                              "id": "barber-lesson-15-q2",
+                              "question": "Guard sizes on clipper attachments are typically measured in what increment?",
+                              "options": [
+                                        "A. Millimeters only, following metric standards",
+                                        "B. Eighths of an inch for standard sizing",
+                                        "C. Quarters of an inch for all manufacturers",
+                                        "D. Centimeters according to international guidelines"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Clipper guards are measured in eighths of an inch, with each guard number representing that many eighths. For example, a #4 guard leaves 4/8 or 1/2 inch of hair length."
+                    },
+                    {
+                              "id": "barber-lesson-15-q3",
+                              "question": "Which tool is most appropriate for creating clean edge lines around the ears and neckline?",
+                              "options": [
+                                        "A. Pivot motor trimmers without guards for precision detailing",
+                                        "B. Magnetic motor clippers with a #8 guard attached",
+                                        "C. Rotary clippers with the longest guard available",
+                                        "D. Thinning shears held at a forty-five degree angle"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Pivot motor trimmers used without guards provide the precision and maneuverability needed for clean, detailed edge work around ears, necklines, and sideburns where accuracy is essential."
+                    },
+                    {
+                              "id": "barber-lesson-15-q4",
+                              "question": "SCENARIO: A client with very fine, thinning hair requests a fade. What is the most appropriate approach?",
+                              "options": [
+                                        "A. Use magnetic motor clippers with heavy pressure to ensure complete coverage",
+                                        "B. Apply the shortest guards first and work upward to longer lengths",
+                                        "C. Select rotary clippers with guards #1 to #2 and use lighter pressure to avoid visible demarcation lines",
+                                        "D. Recommend using only scissors throughout the entire service"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine, thinning hair requires rotary clippers with appropriate guards and lighter pressure to prevent creating harsh lines or bald spots that become highly visible when fine hair lies flat against the scalp."
+                    },
+                    {
+                              "id": "barber-lesson-15-q5",
+                              "question": "SCENARIO: During a clipper cut, you notice the hair is pulling rather than cutting cleanly. What is the correct response?",
+                              "options": [
+                                        "A. Increase pressure and speed to force the clippers through the hair",
+                                        "B. Stop immediately, as this indicates dull blades that require replacement or sharpening before continuing",
+                                        "C. Switch to a smaller guard size to reduce the amount of hair being cut",
+                                        "D. Apply more blade oil while continuing to cut through the section"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Hair pulling indicates dull or damaged blades that compromise both service quality and client comfort. The barber must stop immediately and replace or sharpen the blades before continuing to prevent discomfort and poor results."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-16',
@@ -1373,25 +1417,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             },
           ],
           instructorNotes: `Blade change: used blade must go directly into sharps container — not the trash, not the counter. Straight razor grip: check thumb placement and blade angle before any live client work. Student must not proceed to live shaving until both checks are signed off.`,
-          content: `<h2>Razors in Barbering</h2>
-<h3>Straight Razor (Cut-Throat Razor)</h3>
-<p>The traditional barber's razor. Requires skill and practice. Used for shaving, edging, and razor cutting techniques.</p>
-<ul>
-<li>Must be stropped before each use to align the blade edge</li>
-<li>Honed periodically to restore sharpness</li>
-<li>Never used on a client with skin infections or open wounds</li>
-</ul>
-<h3>Shavette (Disposable Blade Straight Razor)</h3>
-<p>Uses replaceable blades — the professional standard for sanitation. Each blade is used once and disposed of in a sharps container.</p>
-<h3>Safety Razor</h3>
-<p>Double-edge safety razor with a guard bar. Less aggressive than a straight razor. Good for beginners learning shaving technique.</p>
-<h3>Razor Safety Rules</h3>
-<ul>
-<li>Always cut with the grain on the first pass</li>
-<li>Keep the skin taut with your free hand</li>
-<li>Never leave a razor open and unattended</li>
-<li>Dispose of blades immediately after use</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Straight razors and safety razors are essential precision tools in professional barbering, requiring mastery of technique, maintenance, and safety protocols. This lesson covers proper handling, stropping, sanitizing, and execution of razor services. Understanding blade angles, skin tension, and client assessment ensures safe, comfortable shaves while preventing injury and infection. Mastery of these tools distinguishes professional barbers and enables traditional wet shaving services that clients value.</p><h2>Tools Required</h2><ul><li>Straight razor with changeable blade system or traditional fixed blade</li><li>Safety razor with guard and fresh double-edge blades</li><li>Leather strop and canvas strop for honing and maintenance</li><li>Pre-shave oil and quality shaving cream or soap</li><li>Hot towels and towel warmer for skin preparation</li><li>Styptic powder or alum block for minor nicks</li><li>EPA-registered hospital-grade disinfectant such as Barbicide or Marvicide</li></ul><h2>Client Assessment</h2><p>IF the client has coarse, curly hair prone to ingrown hairs, THEN shave with the grain only and use pre-shave oil to soften hair and reduce irritation. IF the client has sensitive skin or visible irritation, THEN reduce passes to a single with-grain pass and apply cool compresses between towel applications to minimize inflammation and discomfort.</p><h2>Procedure</h2><ol><li>Sanitize hands and inspect razor for damage or dullness. Ensure blade is properly seated and secure in the handle mechanism.</li><li>Apply hot towel to client's face for two to three minutes to soften hair and open pores, ensuring optimal cutting conditions.</li><li>Apply pre-shave oil and work quality lather into beard using circular motions, ensuring complete coverage and hydration of hair shafts.</li><li>Establish proper skin tension with non-dominant hand, stretching skin taut in direction opposite to razor stroke for optimal cutting surface.</li><li>Execute first pass with grain using 30-degree blade angle, employing short controlled strokes with consistent light pressure throughout coverage area.</li><li>Reapply lather and perform across-grain pass if needed, maintaining proper angle and tension while checking for missed areas or irregularities.</li><li>Apply cold towel to close pores, then aftershave or moisturizer. Clean and disinfect razor per manufacturer protocols immediately after service.</li></ol><h2>Safety</h2><p>Immerse razors completely in EPA-registered disinfectant solution such as Barbicide for ten minutes minimum contact time between clients, ensuring all blood-borne pathogen exposure risks are eliminated. Follow state board requirements for storage of disinfected tools in clean, covered containers.</p><p><strong>Do NOT perform razor services on clients with active skin infections, open wounds, or contagious skin conditions such as impetigo or herpes simplex, as this will spread infection, contaminate tools, and violate health codes, potentially resulting in license suspension and legal liability.</strong></p><p>If a nick or cut occurs during service, immediately apply firm pressure with clean gauze or cotton, followed by styptic powder application. Stop the service temporarily. Once bleeding stops completely, assess whether to continue based on severity. Document the incident. Clean contaminated surfaces with hospital-grade disinfectant. Replace blade immediately and place used blade in sharps container. Comfort the client and explain the recovery steps taken to ensure their safety and well-being.</p><h2>Visual Cues</h2><p>Maintain a 30-degree angle between blade edge and skin surface, visible as a shallow approach rather than perpendicular positioning. Properly stretched skin appears smooth, taut, and free of wrinkles in the stroke path. Observe the shaving cream removing cleanly in single strokes without multiple passes over the same area. The blade should glide smoothly without dragging, skipping, or pulling sensations. Watch for skin redness or irritation developing during service, indicating excessive pressure or improper angle. Completed areas should appear smooth, even-toned, and free from visible stubble or razor burn patterns.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-17-q1",
+                              "question": "What is the correct blade angle for straight razor shaving?",
+                              "options": [
+                                        "A. 30 degrees between blade and skin surface",
+                                        "B. 45 degrees between blade and skin surface",
+                                        "C. 90 degrees perpendicular to skin surface",
+                                        "D. 15 degrees nearly flat against skin"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "A 30-degree angle provides optimal cutting efficiency while minimizing irritation and risk of cuts. This angle allows the blade edge to slice through hair effectively without scraping or dragging on the skin surface."
+                    },
+                    {
+                              "id": "barber-lesson-17-q2",
+                              "question": "What is the minimum contact time required for disinfecting razors in EPA-registered solution?",
+                              "options": [
+                                        "A. Five minutes in solution",
+                                        "B. Ten minutes in solution",
+                                        "C. Fifteen minutes in solution",
+                                        "D. Three minutes in solution"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Ten minutes minimum contact time in EPA-registered disinfectant like Barbicide ensures complete elimination of blood-borne pathogens and meets state board sanitation requirements for razor services."
+                    },
+                    {
+                              "id": "barber-lesson-17-q3",
+                              "question": "What is the primary purpose of applying hot towels before razor shaving?",
+                              "options": [
+                                        "A. Soften hair and open pores for optimal cutting conditions",
+                                        "B. Remove all oils from the skin surface",
+                                        "C. Disinfect the skin before service",
+                                        "D. Test client tolerance for heat"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Hot towels soften hair shafts and open pores, making hair easier to cut and reducing drag on the blade. This preparation step is essential for comfortable, effective razor shaving and reduces irritation."
+                    },
+                    {
+                              "id": "barber-lesson-17-q4",
+                              "question": "SCENARIO: A client with coarse, curly hair prone to ingrown hairs requests a close shave. What do you do?",
+                              "options": [
+                                        "A. Perform multiple against-grain passes for maximum closeness",
+                                        "B. Use a dull blade to avoid cutting too close",
+                                        "C. Shave with the grain only and apply pre-shave oil to reduce irritation",
+                                        "D. Refuse the service entirely"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "For clients prone to ingrown hairs, shaving with the grain only prevents hair from being cut too short below the skin surface. Pre-shave oil softens hair and reduces friction, minimizing the risk of ingrown hairs and irritation."
+                    },
+                    {
+                              "id": "barber-lesson-17-q5",
+                              "question": "SCENARIO: During the service you notice the blade is dragging and pulling rather than gliding smoothly. Correct response?",
+                              "options": [
+                                        "A. Apply more pressure to force the blade through",
+                                        "B. Stop, assess blade sharpness, replace or strop as needed, and reapply lather",
+                                        "C. Continue the service using faster strokes",
+                                        "D. Switch to shaving against the grain"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Dragging indicates a dull blade or insufficient lubrication. Stopping to replace or strop the blade and reapply lather ensures client comfort and safety. Continuing with a dull blade causes irritation, cuts, and poor results."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-18',
@@ -1402,20 +1490,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Perform routine clipper maintenance to extend tool life and ensure performance.',
           durationMinutes: 15,
           videoFile: '/videos/course-barber-clipper-techniques.mp4',
-          content: `<h2>Clipper Maintenance</h2>
-<h3>Daily Maintenance</h3>
-<ol>
-<li>Brush hair from blades after every client</li>
-<li>Apply 2–3 drops of clipper oil to the blade while running</li>
-<li>Wipe excess oil with a clean cloth</li>
-<li>Spray blades with disinfectant spray between clients</li>
-</ol>
-<h3>Blade Alignment</h3>
-<p>If clippers are pulling or cutting unevenly, the blades may need alignment. The top blade should sit slightly behind the bottom blade — never extend past it.</p>
-<h3>Blade Sharpening</h3>
-<p>Dull blades pull hair instead of cutting cleanly. Have blades professionally sharpened or replaced every 3–6 months depending on use.</p>
-<h3>Motor Care</h3>
-<p>Never submerge clippers in liquid. Keep vents clear of hair buildup. Store in a dry location.</p>`,
+          content: `<h2>Overview</h2><p>Proper clipper maintenance is essential for delivering consistent, professional haircuts and extending the life of your most important tools. Regular cleaning, oiling, and blade care prevent performance degradation, reduce client discomfort, and maintain hygiene standards. This lesson covers the fundamental maintenance procedures every barber apprentice must master, including daily cleaning protocols, blade alignment checks, and troubleshooting common issues. Understanding these techniques will save you money on premature replacement costs and ensure your clippers perform at peak efficiency throughout each service day.</p><h2>Tools Required</h2><ul><li>Clipper blade brush with stiff bristles</li><li>Clipper blade oil (manufacturer-recommended or professional-grade)</li><li>Barbicide or EPA-registered disinfectant solution</li><li>Clean, lint-free microfiber cloths</li><li>Small flathead screwdriver for blade adjustment</li><li>Blade coolant spray or cooling lubricant</li><li>Replacement blade set compatible with your clipper model</li><li>Compressed air canister or electric air blower</li></ul><h2>Client Variations</h2><p>IF the client has thick, coarse hair, THEN expect faster blade dulling and increased friction; apply blade coolant more frequently during the cut and inspect blades for wear after each service. IF the client has fine, thin hair, THEN less frequent oiling is needed during the service, but ensure blades remain sharp as dull blades snag delicate hair shafts more readily.</p><h2>Sanitation Protocol</h2><p>After each client service, remove loose hair with a brush, then spray blades thoroughly with Barbicide spray disinfectant or immerse detachable blades in Barbicide solution for ten minutes. Allow blades to air dry completely before reassembling to prevent rust formation. This hospital-grade disinfection kills bacteria, viruses, and fungi that accumulate during client contact, meeting Indiana State Board sanitation requirements.</p><h2>Safety</h2><p><strong>Do NOT operate clippers with misaligned blades</strong>, as this causes uneven cutting, painful skin pinching, and potential lacerations to the client's scalp. Misalignment also creates excessive heat buildup and motor strain, leading to premature clipper failure and costly repairs. Always verify proper blade alignment before beginning any service and stop immediately if you notice dragging or uneven cutting performance during use.</p><h2>Failure Mode</h2><p>If clippers suddenly stop cutting effectively mid-service despite running normally, the cause is typically hair and product buildup between blade teeth creating a barrier. To recover: First, turn off and unplug clippers immediately. Second, remove blade assembly using the screwdriver. Third, brush all visible debris from both blades. Fourth, use compressed air to remove packed material. Fifth, apply three drops of clipper oil across the blade. Sixth, reassemble, test on back of hand, then resume service with properly functioning tool.</p><h2>Visual Cues</h2><p>Properly maintained blades appear silver or steel-colored without brown oxidation spots or black carbon buildup between teeth. The cutting blade should move smoothly side-to-side with a quiet humming sound, not grinding or clicking noises. Blade teeth should align perfectly with no visible gaps when viewed straight-on at eye level. Oil should create a thin, even sheen across the blade surface without pooling or dripping. During operation, blades should remain cool enough to touch comfortably within thirty seconds of shutting off the clipper motor.</p><h2>Procedure</h2><ol><li>Turn off and unplug clippers completely. Remove loose hair using the blade brush, sweeping from base toward teeth in firm strokes.</li><li>Use compressed air to blow out packed debris from between blade teeth and inside the blade housing, holding nozzle at forty-five degrees.</li><li>Apply two to three drops of clipper oil evenly across the top blade while holding clipper horizontal with blades facing upward.</li><li>Turn on clippers briefly for five seconds to distribute oil across all contact surfaces, then wipe excess with clean cloth.</li><li>Inspect blade alignment by viewing straight-on; adjust screws if cutting blade extends beyond guide blade or gaps appear between teeth.</li><li>Spray blades with Barbicide disinfectant until fully saturated, ensuring solution contacts all blade surfaces. Allow ten-minute contact time before air drying.</li><li>Test clippers on back of your hand for smooth operation and proper cutting action before using on next client.</li><li>Store clippers in clean, dry location with blades protected from impact damage. Repeat full maintenance after every three to four clients.</li></ol>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-18-q1",
+                              "question": "What is the primary reason for applying clipper oil during routine maintenance?",
+                              "options": [
+                                        "A. To reduce friction between blade surfaces and prevent overheating during operation",
+                                        "B. To make the clippers appear more professional and shiny",
+                                        "C. To disinfect the blades and kill bacteria between clients",
+                                        "D. To sharpen the blade teeth and restore cutting performance"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Clipper oil reduces friction between moving blade surfaces, prevents overheating, and ensures smooth operation. It is not a disinfectant or sharpening agent, though it does protect against rust."
+                    },
+                    {
+                              "id": "barber-lesson-18-q2",
+                              "question": "How long should clipper blades remain in contact with Barbicide disinfectant solution?",
+                              "options": [
+                                        "A. Thirty seconds for quick sanitation",
+                                        "B. Ten minutes for proper hospital-grade disinfection",
+                                        "C. One hour to ensure complete sterilization",
+                                        "D. Five minutes as a standard protocol"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Barbicide requires a ten-minute contact time to effectively kill bacteria, viruses, and fungi according to EPA registration and Indiana State Board requirements for proper disinfection."
+                    },
+                    {
+                              "id": "barber-lesson-18-q3",
+                              "question": "What visual indicator suggests clipper blades need immediate cleaning?",
+                              "options": [
+                                        "A. Black carbon buildup or brown oxidation visible between blade teeth",
+                                        "B. A shiny, reflective surface across the entire blade",
+                                        "C. Slight warmth felt on the blade housing",
+                                        "D. Quiet humming sound during operation"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Black carbon buildup or brown oxidation between teeth indicates accumulated debris and potential rust, requiring immediate cleaning. A shiny surface and quiet operation indicate proper maintenance."
+                    },
+                    {
+                              "id": "barber-lesson-18-q4",
+                              "question": "SCENARIO: A client with extremely thick, coarse hair is scheduled for a full clipper cut. What maintenance adjustment should you make?",
+                              "options": [
+                                        "A. Use less oil than normal to prevent hair from sticking to blades",
+                                        "B. Skip the pre-service blade inspection to save time",
+                                        "C. Apply blade coolant more frequently and inspect for wear after the service",
+                                        "D. Increase blade gap spacing to accommodate the hair thickness"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Thick, coarse hair creates more friction and heat, dulling blades faster. Applying coolant frequently prevents overheating, and post-service inspection catches accelerated wear before it affects future clients."
+                    },
+                    {
+                              "id": "barber-lesson-18-q5",
+                              "question": "SCENARIO: During a haircut, your clippers suddenly stop cutting effectively although the motor still runs. What is your correct first response?",
+                              "options": [
+                                        "A. Apply more pressure and continue cutting to push through the problem",
+                                        "B. Turn off and unplug the clippers immediately, then disassemble for cleaning",
+                                        "C. Spray the blades with oil while running to lubricate them",
+                                        "D. Switch to a different clipper and continue without interruption"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When clippers stop cutting despite running, hair buildup is blocking the blades. Immediately turning off and unplugging ensures safety, and disassembly allows proper cleaning to restore function before resuming service."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-19',
@@ -3084,79 +3221,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Perform a patch test and identify chemical service contraindications.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-sanitation-narrated.mp4',
-          content: `<h2>Chemical Safety</h2>
-<h3>Patch Test</h3>
-<p>A patch test must be performed 24-48 hours before any chemical service. Apply a small amount of product behind the ear or inside the elbow. If redness, swelling, or itching occurs — do not proceed.</p>
-<h3>PPE for Chemical Services</h3>
-<ul>
-<li>Nitrile gloves — always</li>
-<li>Protective apron</li>
-<li>Eye protection when mixing</li>
-<li>Ensure adequate ventilation</li>
-</ul>
-<h3>Contraindications</h3>
-<p>Do not perform chemical services on clients with: scalp abrasions, recent chemical services, known allergies to ingredients, or compromised scalp health.</p>`,
+          content: `<h2>Overview</h2><p>Chemical safety and patch testing are critical foundations for every barber performing chemical services. A patch test identifies allergic reactions or sensitivities before full application, protecting both client health and professional liability. This lesson covers proper patch test execution, contraindication identification, and emergency response protocols. Understanding chemical interactions with skin and hair prevents adverse reactions, burns, and legal complications. Mastery of these skills ensures safe service delivery and builds client trust in your professional judgment.</p><h2>Tools Required</h2><ul><li>Disposable gloves (nitrile or vinyl)</li><li>Chemical product to be tested (hair color, relaxer, or perm solution)</li><li>Cotton swabs or applicator sticks</li><li>Client consultation card with allergy history documentation</li><li>Timer or stopwatch for monitoring development time</li><li>Antiseptic wipes or alcohol pads</li><li>Small mixing bowl and measuring tools</li><li>Adhesive bandage or non-stick gauze pad</li></ul><h2>Client Variation Decision Protocol</h2><p>IF the client has a history of skin allergies, eczema, psoriasis, or previous reactions to hair products, THEN perform the patch test 48 hours before service and document results thoroughly. IF the client has open wounds, active dermatitis, sunburn, or inflamed scalp conditions, THEN postpone chemical services until the condition fully heals. IF the client is using prescription retinoids, has undergone recent laser treatments, or takes photosensitizing medications, THEN extend the patch test observation period to 72 hours and consult with their physician before proceeding.</p><h2>Sanitation Protocol</h2><p>All mixing tools and application instruments must be sanitized with hospital-grade EPA-registered disinfectant such as Barbicide or Marvicide for the manufacturer-specified contact time, typically ten minutes. Discard all single-use items including gloves, cotton swabs, and applicators immediately after patch test completion. Clean work surfaces with disinfectant before and after each client interaction to prevent cross-contamination and maintain professional hygiene standards.</p><h2>Safety</h2><p><strong>Do NOT perform chemical services on clients with active scalp abrasions, open sores, or bleeding lesions. Applying chemicals to compromised skin can cause severe chemical burns, systemic absorption of toxic substances, infection, permanent scarring, and potential litigation for negligence.</strong> Always conduct a thorough scalp and skin analysis before beginning any chemical service. Document all observations and client responses in writing. If a client shows signs of allergic reaction during the patch test including redness, swelling, itching, or blistering, immediately remove the product with cool water and apply a cold compress. Advise the client to seek medical attention if symptoms persist or worsen after initial treatment.</p><h2>Failure Mode and Recovery</h2><p>If a client develops localized irritation or mild redness during the patch test observation period, this indicates sensitivity to the chemical formula. Immediately discontinue plans for the full chemical service. Apply cool water to the test area for five minutes. Pat dry gently with a clean towel. Apply a thin layer of hydrocortisone cream if available and not contraindicated. Document the reaction with photographs if possible. Recommend the client consult a dermatologist before attempting alternative chemical formulations. Suggest alternative non-chemical services that achieve similar aesthetic goals without triggering sensitivity reactions.</p><h2>Visual Cues</h2><p>Apply the patch test mixture to a small area approximately the size of a quarter behind the ear or on the inner elbow. The test area should be clean, dry, and free from lotions or oils. Position your application at a 45-degree angle to ensure even product distribution without excessive saturation. The applied product should appear as a thin, uniform layer without pooling or dripping. Healthy skin remains its natural color while negative reactions show progressive redness, raised welts, or blister formation. Observe skin texture changes including roughness, flaking, or unusual warmth indicating inflammatory response.</p><h2>Procedure</h2><ol><li>Review client consultation card thoroughly, asking specifically about previous chemical service reactions, current medications, and known allergies to cosmetic ingredients or fragrances.</li><li>Put on disposable gloves and clean the test area behind the ear or inner elbow with an antiseptic wipe, allowing the area to air dry completely.</li><li>Mix a small amount of the chemical product according to manufacturer instructions, using the exact formula and proportions planned for the full service application.</li><li>Apply a quarter-sized amount of product to the test area using a cotton swab, spreading it evenly in a thin layer without rubbing vigorously.</li><li>Allow the product to remain on the skin for the manufacturer-recommended development time, typically 20 to 30 minutes, monitoring for immediate adverse reactions throughout.</li><li>Remove the product gently with cool water and pat the area dry, then cover with a small adhesive bandage or gauze if recommended by product instructions.</li><li>Instruct the client to leave the test area undisturbed for 48 hours, avoiding water exposure, and to monitor for redness, itching, swelling, or blistering reactions.</li><li>Document the patch test date, time, product used, and initial skin response in the client record, scheduling the follow-up service only after negative test confirmation.</li></ol>`,
           quizQuestions: [
-            {
-              id: 'l36-q1',
-              question: 'When must a patch test be performed before a chemical service?',
-              options: ['1 hour before', '6 hours before', '24–48 hours before', '1 week before'],
-              correctAnswer: 2,
-              explanation:
-                'A patch test needs 24–48 hours to reveal any allergic reaction before the full service.',
-            },
-            {
-              id: 'l36-q2',
-              question: 'What PPE is ALWAYS required when performing chemical services?',
-              options: [
-                'Safety glasses only',
-                'Nitrile gloves',
-                'Latex gloves and face shield',
-                'Steel-toed boots',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Nitrile gloves are always required to protect the barber from chemical burns and allergic reactions.',
-            },
-            {
-              id: 'l36-q3',
-              question: 'A client with scalp abrasions should:',
-              options: [
-                'Receive the service with gloves',
-                'Receive a patch test first',
-                'Not receive chemical services',
-                'Have the abrasion treated and return',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Scalp abrasions are a contraindication — chemicals applied to broken skin can cause severe burns.',
-            },
-            {
-              id: 'l36-q4',
-              question: 'Where is a patch test typically applied?',
-              options: [
-                'On the scalp',
-                'Behind the ear or inside the elbow',
-                'On the forearm only',
-                'On the neck',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Behind the ear or inside the elbow are standard patch test locations — sensitive but discreet.',
-            },
-            {
-              id: 'l36-q5',
-              question: 'Signs of a positive (adverse) reaction to a patch test include:',
-              options: [
-                'No change',
-                'Slight dryness',
-                'Redness, swelling, or itching',
-                'Increased moisture',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Redness, swelling, or itching at the patch test site indicate an allergic reaction — do not proceed.',
-            },
+                    {
+                              "id": "barber-lesson-36-q1",
+                              "question": "What is the primary purpose of performing a patch test before chemical services?",
+                              "options": [
+                                        "A. To identify allergic reactions or sensitivities before full application",
+                                        "B. To determine the correct processing time for the chemical",
+                                        "C. To test the strength of the chemical formula",
+                                        "D. To practice application techniques on a small area"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The primary purpose of a patch test is to identify allergic reactions or sensitivities before applying chemicals to the entire scalp or hair, protecting client health and preventing adverse reactions."
+                    },
+                    {
+                              "id": "barber-lesson-36-q2",
+                              "question": "How long should properly mixed chemical products remain on the patch test area during initial application?",
+                              "options": [
+                                        "A. 5 to 10 minutes",
+                                        "B. 20 to 30 minutes according to manufacturer instructions",
+                                        "C. 1 hour minimum",
+                                        "D. Until the client reports discomfort"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Chemical products should remain on the patch test area for the manufacturer-recommended development time, typically 20 to 30 minutes, to accurately simulate the conditions of a full service application."
+                    },
+                    {
+                              "id": "barber-lesson-36-q3",
+                              "question": "Where should a patch test be applied on the client?",
+                              "options": [
+                                        "A. Behind the ear or on the inner elbow in a quarter-sized area",
+                                        "B. On the scalp near the hairline",
+                                        "C. On the back of the hand",
+                                        "D. On the neck below the hairline"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The patch test should be applied behind the ear or on the inner elbow in a quarter-sized area, as these locations provide accessible skin that closely resembles scalp sensitivity without being highly visible."
+                    },
+                    {
+                              "id": "barber-lesson-36-q4",
+                              "question": "SCENARIO: A client arrives for a color service and mentions they have active eczema patches on their scalp and neck. What do you do?",
+                              "options": [
+                                        "A. Apply a protective barrier cream and proceed with the service",
+                                        "B. Perform a quick patch test and proceed if no immediate reaction occurs",
+                                        "C. Postpone the chemical service until the eczema condition fully heals",
+                                        "D. Use a gentler chemical formula designed for sensitive skin"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Active eczema represents compromised skin integrity and is a contraindication for chemical services. The service must be postponed until the condition fully heals to prevent severe reactions, chemical burns, and complications."
+                    },
+                    {
+                              "id": "barber-lesson-36-q5",
+                              "question": "SCENARIO: During the 48-hour observation period, your client calls reporting mild redness and slight itching at the patch test site. Correct response?",
+                              "options": [
+                                        "A. Tell them it is normal and proceed with the scheduled service",
+                                        "B. Advise them to remove any covering, apply cool water, discontinue the planned service, and recommend dermatologist consultation",
+                                        "C. Instruct them to apply moisturizer and monitor for another 24 hours",
+                                        "D. Schedule them immediately to complete the service before reaction worsens"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Redness and itching indicate sensitivity or allergic reaction. The correct response is to discontinue service plans immediately, advise cool water application, and recommend professional medical consultation to prevent severe reactions during full application."
+                    }
           ],
         },
         {
@@ -3311,51 +3437,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Demonstrate mastery of chemical service knowledge.',
           durationMinutes: 20,
           passingScore: 70,
-          content: `<h2>Module 6 Review — Chemical Services</h2><p>Review before taking this checkpoint: color wheel and hair color levels, types of hair color, patch testing, chemical safety PPE, relaxer chemistry and application rules, and scalp treatments. Score 70% or higher to advance.</p>`,
+          content: `<h2>Overview</h2><p>This checkpoint validates comprehensive understanding of chemical services in barbering, including permanent waves, chemical relaxers, and texture modifications. Mastery requires knowledge of product chemistry, scalp analysis, timing protocols, neutralization procedures, and corrective techniques. You must demonstrate ability to assess client suitability, execute services safely, recognize processing stages, and troubleshoot complications. Chemical services demand precision, attention to detail, and strict adherence to manufacturer instructions and safety protocols to protect client health and achieve desired results.</p><h2>Tools Required</h2><ul><li>Chemical relaxer or perm solution with appropriate strength for hair type and desired result</li><li>Neutralizer or neutralizing shampoo specifically formulated to halt chemical processing and restore pH balance</li><li>Protective gloves, cape, and towels to prevent chemical contact with skin and clothing</li><li>Applicator bottles or brushes designed for precise product application and sectioning control</li><li>Timer with audible alarm to ensure accurate processing duration and prevent over-processing damage</li><li>Clarifying shampoo and deep conditioning treatment for pre-service preparation and post-service restoration</li><li>Plastic sectioning clips, tail comb, and wide-tooth comb for controlled application patterns</li></ul><h2>Client Assessment Decision Points</h2><p>IF the client has fine, color-treated hair, THEN select a mild-strength chemical formula, reduce processing time by 20-30 percent, and perform a test strand to assess porosity and potential breakage before full application. IF the client has coarse, resistant virgin hair, THEN use regular or super-strength formula with full recommended processing time and ensure complete saturation through all hair layers for uniform results. IF scalp shows irritation, abrasions, or recent chemical services within six weeks, THEN postpone service and reschedule after healing or waiting period.</p><h2>Procedure</h2><ol><li>Perform thorough consultation and scalp analysis, documenting previous chemical services, examining hair texture, porosity, and elasticity to determine appropriate product strength.</li><li>Drape client with chemical-safe cape and towels, apply protective barrier cream around hairline and ears to prevent skin irritation from chemical contact.</li><li>Section hair systematically into four quadrants, then subdivide into workable sections no larger than one-half inch for complete product saturation and control.</li><li>Apply chemical product beginning at most resistant areas first, maintaining consistent one-quarter inch distance from scalp, working quickly for even processing throughout.</li><li>Monitor processing continuously, checking texture and curl pattern development every three to five minutes, performing strand tests to assess chemical action progress.</li><li>Rinse thoroughly with lukewarm water for minimum five minutes until water runs clear, gently squeezing sections without tangling or manipulating hair structure.</li><li>Apply neutralizer according to manufacturer directions, timing precisely to re-bond disulfide bonds and lock in new hair configuration permanently.</li><li>Rinse neutralizer completely, apply pH-balancing conditioner, towel-dry gently, and provide aftercare instructions including twenty-four hour water avoidance and specialized product recommendations.</li></ol><h2>Safety</h2><p>All chemical services require EPA-registered hospital-grade disinfectant such as Barbicide solution for implements, with ten-minute immersion time before reuse. <strong>Do NOT apply chemical relaxers or perms over hair previously treated with metallic dyes or incompatible chemicals, as this causes severe breakage, heat generation, smoking, and potential scalp burns requiring emergency medical intervention.</strong> Always wear nitrile gloves during application and perform patch tests twenty-four to forty-eight hours before service on clients with sensitivity history. If chemical enters eyes, flush immediately with water for fifteen minutes and seek medical attention.</p><h2>Visual Cues</h2><p>Observe cream consistency during application, maintaining smooth, even coating without gaps or heavy buildup that indicates improper saturation patterns. Hair should appear uniformly dampened and darkened by product throughout all sections with visible sheen under lighting. During processing, properly softened hair exhibits smooth texture when strand is gently pressed, while under-processed hair feels rough or resistant. Over-processing shows excessive limpness, stretching without return, or webbing appearance when fingers spread through strands. Neutralizer foam should be bright white and evenly distributed, turning slightly cream-colored as oxidation occurs, indicating proper chemical bonding throughout molecular structure.</p><h2>Failure Mode and Recovery</h2><p>If hair becomes over-processed showing extreme elasticity, breakage, or gummy texture, immediately rinse all chemical product with cool water for ten minutes to halt processing. First, apply concentrated protein treatment to temporarily strengthen compromised bonds and reduce further damage. Second, follow with deep moisturizing conditioner to restore flexibility and prevent britttle fracture. Third, trim visibly compromised ends to remove weakest sections. Fourth, instruct client to avoid all heat styling for two weeks. Fifth, schedule follow-up conditioning treatments weekly for one month to rebuild internal structure progressively.</p>`,
           quizQuestions: [
-            {
-              id: 'cs-q1',
-              question: 'How long before a chemical service should a patch test be performed?',
-              options: ['1 hour', '6 hours', '24-48 hours', '1 week'],
-              correctAnswer: 2,
-              explanation: 'A patch test needs 24-48 hours to reveal any allergic reaction.',
-            },
-            {
-              id: 'cs-q2',
-              question: 'Which type of hair color requires a developer to open the cuticle?',
-              options: ['Temporary', 'Semi-permanent', 'Permanent', 'Rinse'],
-              correctAnswer: 2,
-              explanation:
-                'Permanent color uses developer (hydrogen peroxide) to open the cuticle and deposit color.',
-            },
-            {
-              id: 'cs-q3',
-              question: 'What stops the chemical process during a relaxer service?',
-              options: ['Shampoo', 'Conditioner', 'Neutralizer', 'Water rinse'],
-              correctAnswer: 2,
-              explanation:
-                "The neutralizer restores the hair's pH and stops the relaxer from processing.",
-            },
-            {
-              id: 'cs-q4',
-              question: 'Hair color level 1 represents:',
-              options: ['Lightest blonde', 'Medium brown', 'Dark brown', 'Black'],
-              correctAnswer: 3,
-              explanation: 'Level 1 is the darkest — black. Level 10 is the lightest blonde.',
-            },
-            {
-              id: 'cs-q5',
-              question: 'Before applying a relaxer, the scalp should be:',
-              options: [
-                'Scratched to open pores',
-                'Wet with water',
-                'Based with petroleum jelly',
-                'Treated with alcohol',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Petroleum jelly protects the scalp from chemical burns during relaxer application.',
-            },
+                    {
+                              "id": "barber-module-6-checkpoint-q1",
+                              "question": "What is the primary purpose of neutralizer in chemical texture services?",
+                              "options": [
+                                        "A. To re-bond disulfide bonds and permanently lock in the new hair configuration",
+                                        "B. To remove excess chemical product from the hair shaft",
+                                        "C. To add moisture and shine to chemically processed hair",
+                                        "D. To lower the pH level before shampooing"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Neutralizer re-bonds the disulfide bonds that were broken during chemical processing, permanently fixing the new curl or straightening pattern. This oxidation process is essential to stabilize the hair structure."
+                    },
+                    {
+                              "id": "barber-module-6-checkpoint-q2",
+                              "question": "When applying chemical relaxer, where should application begin?",
+                              "options": [
+                                        "A. At the scalp working outward to the ends",
+                                        "B. At the most resistant areas first, maintaining quarter-inch distance from scalp",
+                                        "C. At the hairline moving toward the crown",
+                                        "D. At previously relaxed areas to ensure even processing"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Application begins at the most resistant areas first while maintaining a quarter-inch distance from the scalp to prevent burns. This ensures even processing throughout and protects sensitive scalp tissue."
+                    },
+                    {
+                              "id": "barber-module-6-checkpoint-q3",
+                              "question": "How long should implements be immersed in Barbicide solution for proper disinfection?",
+                              "options": [
+                                        "A. Ten minutes minimum for hospital-grade disinfection",
+                                        "B. Three minutes for quick turnaround between clients",
+                                        "C. Thirty minutes for complete sterilization",
+                                        "D. Five minutes for adequate cleaning"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "EPA-registered hospital-grade disinfectants like Barbicide require a minimum ten-minute immersion time to effectively kill pathogens and meet professional sanitation standards."
+                    },
+                    {
+                              "id": "barber-module-6-checkpoint-q4",
+                              "question": "SCENARIO: A client arrives requesting a relaxer service. During consultation, you notice her scalp has several small scratches and irritated areas. What do you do?",
+                              "options": [
+                                        "A. Apply extra barrier cream to the irritated areas and proceed carefully",
+                                        "B. Use a milder formula and reduce processing time",
+                                        "C. Postpone the service and reschedule after the scalp has healed completely",
+                                        "D. Perform a strand test first to check for adverse reactions"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Chemical services must never be performed on broken, irritated, or abraded skin as chemicals will cause severe burning, pain, and potential scarring. The service must be postponed until complete healing occurs."
+                    },
+                    {
+                              "id": "barber-module-6-checkpoint-q5",
+                              "question": "SCENARIO: During processing, you perform a strand test and notice the hair stretches excessively without returning and feels gummy. Correct response?",
+                              "options": [
+                                        "A. Continue processing but check again in two minutes",
+                                        "B. Immediately rinse with cool water, then apply protein treatment followed by deep conditioner",
+                                        "C. Apply neutralizer immediately to stop the chemical action",
+                                        "D. Add more product to ensure complete processing"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Excessive stretching and gummy texture indicate over-processing. Immediate cool water rinsing halts chemical action, followed by protein treatment to strengthen bonds and deep conditioning to restore moisture and prevent breakage."
+                    }
           ],
         },
       ],
