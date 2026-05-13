@@ -31,6 +31,7 @@ function getArg(flag: string): string | undefined {
 const blueprintArg = getArg('--blueprint');
 const slugFilter = getArg('--slug'); // enrich a single lesson by slug
 const dryRun = process.argv.includes('--dry-run');
+const deterministicOnly = process.argv.includes('--deterministic-only');
 
 if (!blueprintArg) {
   console.error('Usage: pnpm tsx scripts/enrich-blueprint-lessons.ts --blueprint <id> [--slug <slug>] [--dry-run]');
@@ -73,16 +74,14 @@ async function generateLessonContent(
   moduleTitle: string,
 ): Promise<{ content: string; quizQuestions: any[] } | null> {
   const prompt = buildPrompt(lesson, programTitle, moduleTitle);
-  const AI_TIMEOUT_MS = 45000;
-
-  const timeoutPromise = new Promise<never>((_, reject) => {
-    setTimeout(() => reject(new Error(`AI generation timed out after ${AI_TIMEOUT_MS}ms`)), AI_TIMEOUT_MS);
-  });
+  const aiTimeoutMs = 45000;
 
   try {
     const result = await Promise.race([
       groqJSON<{ content: string; quizQuestions: any[] }>(prompt),
-      timeoutPromise,
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error(`AI generation timed out after ${aiTimeoutMs}ms`)), aiTimeoutMs);
+      }),
     ]);
 
     if (!result.content || !Array.isArray(result.quizQuestions)) {
@@ -289,6 +288,9 @@ async function main() {
   }
 
   console.log(`\nBlueprint: ${blueprint.id} (${blueprint.programSlug})`);
+  if (deterministicOnly) {
+    console.log('Mode: deterministic-only (AI generation disabled)');
+  }
 
   // Find blueprint file path
   const blueprintFile = path.join(
@@ -357,7 +359,7 @@ async function main() {
     let generated: { content: string; quizQuestions: any[] } | null = null;
     let lqsCheck: { passed: boolean; violations: string[] } = { passed: false, violations: [] };
 
-    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    for (let attempt = 1; attempt <= maxAttempts && !deterministicOnly; attempt++) {
       generated = await generateLessonContent(
         entry.lesson,
         blueprint.credentialTitle,

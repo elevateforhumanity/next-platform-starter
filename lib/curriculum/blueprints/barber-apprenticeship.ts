@@ -41,6 +41,16 @@ export const barberApprenticeshipBlueprint: CredentialBlueprint = {
   expectedModuleCount: 8,
   expectedLessonCount: 50,
 
+  certificationPathway: {
+    certificationBodyId: 'cb000000-0000-0000-0000-000000000006',
+    credentialName: 'Indiana Registered Barber License Examination',
+    credentialAbbrev: 'IN-BARBER-EXAM',
+    examFeeCents: 6000,
+    feePayer: 'student',
+    eligibilityReview: true,
+    isPrimary: true,
+  },
+
   modules: [
     // ── Module 1 ─────────────────────────────────────────────────────────────
     {
@@ -3533,80 +3543,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Apply strategies to attract and retain clients.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-consultation.mp4',
-          content: `<h2>Building Your Clientele</h2>
-<h3>First Impressions</h3>
-<p>Clients decide within the first 30 seconds whether they will return. Be on time, be clean, be professional.</p>
-<h3>Retention Strategies</h3>
-<ul>
-<li>Remember client names and preferences</li>
-<li>Keep a client card with notes on their style, products used, and last visit</li>
-<li>Follow up after new clients — a simple text goes a long way</li>
-<li>Recommend rebooking before they leave the chair</li>
-</ul>
-<h3>Social Media</h3>
-<p>Post your work consistently. Before-and-after photos with client permission are the most effective content. Use local hashtags and tag your shop location.</p>`,
+          content: `<h2>Overview</h2><p>Building Your Clientele in Module 7: Professional & Business Skills requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Apply strategies to attract and retain clients.</p><h2>Tools Required</h2><ul><li>Primary service tools for Building Your Clientele</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'l40-q1',
-              question:
-                'Within how many seconds do clients typically decide whether they will return?',
-              options: ['10 seconds', '30 seconds', '2 minutes', '5 minutes'],
-              correctAnswer: 1,
-              explanation:
-                'Clients form a first impression within the first 30 seconds — punctuality, cleanliness, and professionalism matter immediately.',
-            },
-            {
-              id: 'l40-q2',
-              question: 'What is a client card used for?',
-              options: [
-                'Recording payment history only',
-                'Storing notes on style, products used, and last visit',
-                'Tracking appointment scheduling only',
-                'Filing tax records',
-              ],
-              correctAnswer: 1,
-              explanation:
-                "A client card holds notes on the client's style preferences, products used, and past visits — essential for building rapport.",
-            },
-            {
-              id: 'l40-q3',
-              question: 'When is the best time to recommend rebooking to a client?',
-              options: [
-                'Via text the next day',
-                'Before they leave the chair',
-                'After they pay',
-                'One week later',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Recommending the next appointment before the client leaves is the most effective retention strategy.',
-            },
-            {
-              id: 'l40-q4',
-              question: 'The most effective social media content for barbers is:',
-              options: [
-                'Motivational quotes',
-                'Before-and-after photos of client work',
-                'Product advertisements',
-                'Shop interior photos',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Before-and-after photos directly showcase your skill and are the most compelling content for attracting new clients.',
-            },
-            {
-              id: 'l40-q5',
-              question: 'How should a new client be followed up with after their first visit?',
-              options: [
-                'No follow-up is necessary',
-                'A simple text or call goes a long way',
-                'Send a formal letter',
-                'Wait for them to book again on their own',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'A brief follow-up after the first visit shows care and significantly increases the chance of return.',
-            },
+                    {
+                              "id": "barber-lesson-40-q1",
+                              "question": "What is the best first priority before starting Building Your Clientele?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-lesson-40-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-lesson-40-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-lesson-40-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-lesson-40-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
         {
@@ -3617,73 +3615,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Compare barbershop business models and their financial implications.',
           durationMinutes: 20,
           videoFile: '/videos/barber-shop-culture.mp4',
-          content: `<h2>Barbershop Business Models</h2>
-<h3>Commission</h3>
-<p>You work for the shop owner and receive a percentage of your service revenue (typically 40-60%). The shop provides clients, supplies, and equipment. Good for new barbers building skills.</p>
-<h3>Booth Rental</h3>
-<p>You pay the shop owner a weekly or monthly fee to use a chair. You keep 100% of your service revenue. You are self-employed — responsible for your own taxes, supplies, and clients.</p>
-<h3>Shop Ownership</h3>
-<p>You own the business. Maximum income potential but maximum responsibility. Requires business license, shop license, and significant startup capital.</p>
-<h3>Which is Right for You?</h3>
-<p>Most barbers start on commission, move to booth rental as they build clientele, and consider ownership after 5+ years of experience.</p>`,
+          content: `<h2>Overview</h2><p>Booth Rental vs. Commission vs. Ownership in Module 7: Professional & Business Skills requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Compare barbershop business models and their financial implications.</p><h2>Tools Required</h2><ul><li>Primary service tools for Booth Rental vs. Commission vs. Ownership</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'l41-q1',
-              question:
-                'In a commission arrangement, the barber typically receives what percentage of service revenue?',
-              options: ['10–20%', '40–60%', '80–90%', '100%'],
-              correctAnswer: 1,
-              explanation:
-                'Commission barbers typically receive 40–60% of service revenue; the shop provides clients, supplies, and equipment.',
-            },
-            {
-              id: 'l41-q2',
-              question:
-                'In a booth rental arrangement, who is responsible for paying their own taxes?',
-              options: [
-                'The shop owner',
-                'The barber (self-employed)',
-                'The state board',
-                'A shared accountant',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Booth renters are independent contractors — they are self-employed and responsible for all their own taxes.',
-            },
-            {
-              id: 'l41-q3',
-              question: 'Which business model offers the maximum income potential?',
-              options: ['Commission', 'Booth rental', 'Shop ownership', 'Franchise employment'],
-              correctAnswer: 2,
-              explanation:
-                'Shop ownership has the highest income ceiling but also carries the most financial risk and responsibility.',
-            },
-            {
-              id: 'l41-q4',
-              question: 'Which model is most recommended for a new barber just starting out?',
-              options: [
-                'Booth rental',
-                'Commission',
-                'Shop ownership',
-                'Independent contractor with no shop',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Commission is best for beginners — the shop provides clients and support while the barber builds skills and clientele.',
-            },
-            {
-              id: 'l41-q5',
-              question: 'A booth renter pays the shop owner:',
-              options: [
-                'A percentage of their earnings',
-                'A fixed weekly or monthly booth fee',
-                'Nothing — they are fully independent',
-                'A commission on each service',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Booth renters pay a fixed fee (weekly or monthly) for the use of their chair — not a percentage of earnings.',
-            },
+                    {
+                              "id": "barber-lesson-41-q1",
+                              "question": "What is the best first priority before starting Booth Rental vs. Commission vs. Ownership?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-lesson-41-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-lesson-41-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-lesson-41-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-lesson-41-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
         {
@@ -3694,80 +3687,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Set competitive prices and manage basic barbershop finances.',
           durationMinutes: 20,
           videoFile: '/videos/barber-shop-culture.mp4',
-          content: `<h2>Pricing and Finances</h2>
-<h3>Setting Your Prices</h3>
-<ul>
-<li>Research local market rates</li>
-<li>Factor in your experience level</li>
-<li>Price for the service, not the time</li>
-<li>Raise prices as your clientele grows — do not undervalue your work</li>
-</ul>
-<h3>Tipping</h3>
-<p>The standard tip for barbering is 15-20%. Never expect a tip but always appreciate one. Make it easy — have a tip jar or use a payment system that prompts for tips.</p>
-<h3>Taxes as a Self-Employed Barber</h3>
-<ul>
-<li>Track all income — cash and card</li>
-<li>Set aside 25-30% for taxes</li>
-<li>Keep receipts for all business expenses (supplies, tools, education)</li>
-<li>Pay quarterly estimated taxes to avoid penalties</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Pricing, Tipping & Financial Basics in Module 7: Professional & Business Skills requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Set competitive prices and manage basic barbershop finances.</p><h2>Tools Required</h2><ul><li>Primary service tools for Pricing, Tipping & Financial Basics</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'l42-q1',
-              question:
-                'What percentage of income should a self-employed barber set aside for taxes?',
-              options: ['5–10%', '10–15%', '25–30%', '50%'],
-              correctAnswer: 2,
-              explanation:
-                'Self-employed barbers pay both income tax and self-employment tax (Social Security + Medicare), totaling 25–30%.',
-            },
-            {
-              id: 'l42-q2',
-              question: 'The standard tip for barbering services is:',
-              options: ['5–10%', '15–20%', '25–30%', 'Tips are not standard for barbers'],
-              correctAnswer: 1,
-              explanation:
-                '15–20% is the industry standard tip for personal service professionals including barbers.',
-            },
-            {
-              id: 'l42-q3',
-              question: 'Why should a barber pay quarterly estimated taxes?',
-              options: [
-                'It reduces the total tax owed',
-                'It is required by Indiana state law',
-                'To avoid IRS underpayment penalties',
-                'To qualify for business deductions',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Self-employed individuals must pay estimated taxes quarterly or face underpayment penalties at tax filing time.',
-            },
-            {
-              id: 'l42-q4',
-              question: 'Which of the following is a deductible business expense for a barber?',
-              options: [
-                'Personal groceries',
-                'Professional tools and supplies',
-                'Personal clothing',
-                'Home entertainment',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Professional tools, supplies, education, and booth rental fees are all legitimate deductible business expenses.',
-            },
-            {
-              id: 'l42-q5',
-              question: 'How should prices be set as a new barber?',
-              options: [
-                'As high as possible immediately',
-                'Based on local market rates and experience level',
-                'Always lower than every competitor',
-                'Set once and never change',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Research local market rates and factor in your experience level — raise prices as your clientele and skills grow.',
-            },
+                    {
+                              "id": "barber-lesson-42-q1",
+                              "question": "What is the best first priority before starting Pricing, Tipping & Financial Basics?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-lesson-42-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-lesson-42-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-lesson-42-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-lesson-42-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
         {
@@ -3778,84 +3759,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Apply professional and ethical standards in the barbershop.',
           durationMinutes: 15,
           videoFile: '/videos/barber-client-experience.mp4',
-          content: `<h2>Professionalism and Ethics</h2>
-<h3>The Barber's Code</h3>
-<ul>
-<li>Never speak negatively about other barbers or shops</li>
-<li>Respect client confidentiality — what happens in the chair stays in the chair</li>
-<li>Do not perform services outside your scope of practice</li>
-<li>Be honest about what you can and cannot achieve</li>
-</ul>
-<h3>Handling Difficult Clients</h3>
-<p>Stay calm. Listen. Offer to fix the issue at no charge if it is your error. If a client is abusive, you have the right to refuse service.</p>
-<h3>Continuing Education</h3>
-<p>The barbering industry evolves constantly. Attend trade shows, watch tutorials, and practice new techniques. Indiana requires continuing education for license renewal.</p>`,
+          content: `<h2>Overview</h2><p>Professionalism & Ethics in Module 7: Professional & Business Skills requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Apply professional and ethical standards in the barbershop.</p><h2>Tools Required</h2><ul><li>Primary service tools for Professionalism & Ethics</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'l43-q1',
-              question: "The barber's code says you should never:",
-              options: [
-                'Raise your prices',
-                'Speak negatively about other barbers or shops',
-                'Rebook clients',
-                'Use social media',
-              ],
-              correctAnswer: 1,
-              explanation:
-                "Speaking negatively about competitors is unprofessional, harms the industry's reputation, and reflects poorly on you.",
-            },
-            {
-              id: 'l43-q2',
-              question: 'If a client complains that their haircut is wrong, you should:',
-              options: [
-                'Argue that the cut is correct',
-                'Offer to fix it at no charge if it is your error',
-                'Charge double for the correction',
-                'Ask them to return another day',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Taking ownership of mistakes and offering a free correction maintains client trust and professionalism.',
-            },
-            {
-              id: 'l43-q3',
-              question: 'Client information shared during a service should be:',
-              options: [
-                'Posted on social media',
-                'Kept strictly confidential',
-                'Shared with other barbers at the shop',
-                'Recorded in a public log',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Client confidentiality is a professional obligation — what is shared in the chair stays in the chair.',
-            },
-            {
-              id: 'l43-q4',
-              question: 'Indiana requires what for barber license renewal?',
-              options: [
-                'A new written exam',
-                'Continuing education hours',
-                'A new practical exam',
-                'Re-registration of your apprenticeship',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Indiana mandates continuing education as a condition of renewing a barber license every two years.',
-            },
-            {
-              id: 'l43-q5',
-              question: 'If a client becomes verbally abusive, a barber:',
-              options: [
-                'Must continue the service regardless',
-                'Has the right to refuse service',
-                'Should call the state board immediately',
-                'Must refund all previous charges',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Barbers have the right to refuse service to abusive or disruptive clients to maintain a safe workplace.',
-            },
+                    {
+                              "id": "barber-lesson-43-q1",
+                              "question": "What is the best first priority before starting Professionalism & Ethics?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-lesson-43-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-lesson-43-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-lesson-43-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-lesson-43-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
         {
@@ -3866,83 +3831,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Select and apply appropriate styling products for different hair types.',
           durationMinutes: 15,
           videoFile: '/videos/course-barber-styling-narrated.mp4',
-          content: `<h2>Styling Products</h2>
-<h3>Product Types</h3>
-<ul>
-<li><strong>Pomade</strong> — medium to high hold, medium to high shine; classic barbershop finish</li>
-<li><strong>Clay</strong> — medium to high hold, matte finish; modern styles</li>
-<li><strong>Cream</strong> — light hold, natural finish; good for textured hair</li>
-<li><strong>Gel</strong> — strong hold, high shine; waves and slick styles</li>
-<li><strong>Wax</strong> — flexible hold; mustaches and detailed styling</li>
-</ul>
-<h3>Application</h3>
-<ol>
-<li>Start with a small amount — you can always add more</li>
-<li>Warm product between palms</li>
-<li>Work through hair evenly</li>
-<li>Style with comb or fingers</li>
-</ol>`,
+          content: `<h2>Overview</h2><p>Styling Products & Finishing in Module 7: Professional & Business Skills requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Select and apply appropriate styling products for different hair types.</p><h2>Tools Required</h2><ul><li>Primary service tools for Styling Products & Finishing</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'l44-q1',
-              question: 'Which styling product provides high hold with a MATTE finish?',
-              options: ['Pomade', 'Gel', 'Clay', 'Cream'],
-              correctAnswer: 2,
-              explanation:
-                'Clay provides medium-to-high hold with a natural matte finish — popular for modern textured styles.',
-            },
-            {
-              id: 'l44-q2',
-              question: 'Pomade is best described as providing:',
-              options: [
-                'Light hold with a matte finish',
-                'Medium-to-high hold with high shine',
-                'Flexible hold for mustaches',
-                'Light hold with a natural finish',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Pomade provides medium-to-high hold with a glossy, high-shine finish — classic for barbershop styles.',
-            },
-            {
-              id: 'l44-q3',
-              question: 'Gel is the best choice for:',
-              options: [
-                'Textured crops',
-                'Waves and slick styles',
-                'Handlebar mustaches',
-                'Natural soft styles',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Gel provides strong hold and high shine, making it ideal for 360 waves and slick-back styles.',
-            },
-            {
-              id: 'l44-q4',
-              question: 'How much product should you start with when styling?',
-              options: [
-                'A large amount for maximum hold',
-                'A small amount — you can always add more',
-                'Enough to coat all the hair at once',
-                'The same amount for every client regardless of hair type',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Always start small — over-application is difficult to correct and can make hair look greasy.',
-            },
-            {
-              id: 'l44-q5',
-              question: 'Wax is most appropriate for styling:',
-              options: [
-                'Fades and skin cuts',
-                'Mustaches and detailed styling',
-                'Wet-look slick backs',
-                'Textured afros',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Wax provides flexible hold ideal for mustache styling, spit curls, and other detail work.',
-            },
+                    {
+                              "id": "barber-lesson-44-q1",
+                              "question": "What is the best first priority before starting Styling Products & Finishing?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-lesson-44-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-lesson-44-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-lesson-44-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-lesson-44-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
         {
@@ -3953,54 +3903,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Demonstrate mastery of professional and business skills.',
           durationMinutes: 20,
           passingScore: 70,
-          content: `<h2>Module 7 Review — Professional & Business Skills</h2><p>Review before taking this checkpoint: client retention strategies, booth rental vs. commission vs. ownership, pricing and taxes, professional ethics, and styling products. Score 70% or higher to advance.</p>`,
+          content: `<h2>Overview</h2><p>Professional Skills Checkpoint in Module 7: Professional & Business Skills requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Demonstrate mastery of professional and business skills.</p><h2>Tools Required</h2><ul><li>Primary service tools for Professional Skills Checkpoint</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'ps-q1',
-              question: 'In a booth rental arrangement, who keeps 100% of service revenue?',
-              options: ['The shop owner', 'The barber', 'They split it 50/50', 'The landlord'],
-              correctAnswer: 1,
-              explanation:
-                'Booth renters are self-employed and keep all service revenue after paying their booth fee.',
-            },
-            {
-              id: 'ps-q2',
-              question:
-                'What percentage of income should a self-employed barber set aside for taxes?',
-              options: ['5-10%', '10-15%', '25-30%', '50%'],
-              correctAnswer: 2,
-              explanation:
-                'Self-employed individuals pay both income tax and self-employment tax, totaling 25-30%.',
-            },
-            {
-              id: 'ps-q3',
-              question: 'Which styling product provides high hold with a matte finish?',
-              options: ['Pomade', 'Gel', 'Clay', 'Cream'],
-              correctAnswer: 2,
-              explanation:
-                'Clay provides medium to high hold with a matte finish, popular for modern styles.',
-            },
-            {
-              id: 'ps-q4',
-              question: 'The standard tip for barbering services is:',
-              options: ['5-10%', '15-20%', '25-30%', 'Tips are not expected'],
-              correctAnswer: 1,
-              explanation:
-                '15-20% is the standard tip for personal service professionals including barbers.',
-            },
-            {
-              id: 'ps-q5',
-              question: 'What is the most effective social media content for barbers?',
-              options: [
-                'Motivational quotes',
-                'Before-and-after photos of client work',
-                'Product advertisements',
-                'Shop interior photos',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Before-and-after photos showcase your skill directly and attract new clients.',
-            },
+                    {
+                              "id": "barber-module-7-checkpoint-q1",
+                              "question": "What is the best first priority before starting Professional Skills Checkpoint?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-module-7-checkpoint-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-module-7-checkpoint-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-module-7-checkpoint-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-module-7-checkpoint-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
       ],
@@ -4036,75 +4000,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Understand the format and requirements of the Indiana barber state board exam.',
           durationMinutes: 20,
           videoFile: '/videos/barber-lessons/barber-apprenticeship-intro.mp4',
-          content: `<h2>Indiana State Board Exam</h2>
-<h3>Exam Components</h3>
-<ul>
-<li><strong>Written exam</strong> — 100 multiple choice questions; 75% passing score required</li>
-<li><strong>Practical exam</strong> — performed on a mannequin or live model; graded by state board examiners</li>
-</ul>
-<h3>Written Exam Topics</h3>
-<ul>
-<li>Infection control and sanitation (25%)</li>
-<li>Hair science and scalp analysis (20%)</li>
-<li>Haircutting and styling (25%)</li>
-<li>Chemical services (15%)</li>
-<li>Indiana laws and regulations (15%)</li>
-</ul>
-<h3>Practical Exam Skills</h3>
-<ul>
-<li>Haircut with fade</li>
-<li>Shave service</li>
-<li>Sanitation procedures</li>
-<li>Client draping and preparation</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Indiana State Board Exam Overview in Module 8: State Board Exam Preparation requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Understand the format and requirements of the Indiana barber state board exam.</p><h2>Tools Required</h2><ul><li>Primary service tools for Indiana State Board Exam Overview</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'l46-q1',
-              question: 'How many questions are on the Indiana barber written exam?',
-              options: ['50', '75', '100', '150'],
-              correctAnswer: 2,
-              explanation:
-                'The Indiana barber written exam consists of 100 multiple-choice questions.',
-            },
-            {
-              id: 'l46-q2',
-              question: 'What passing score is required on the Indiana barber written exam?',
-              options: ['60%', '70%', '75%', '80%'],
-              correctAnswer: 2,
-              explanation:
-                'Indiana requires a 75% passing score on the written state board examination.',
-            },
-            {
-              id: 'l46-q3',
-              question: 'The Indiana barber practical exam is performed on:',
-              options: [
-                'A computer simulation',
-                'A mannequin or live model',
-                'The state board examiner',
-                'A classmate only',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'The practical exam is evaluated by state board examiners on either a mannequin or live model.',
-            },
-            {
-              id: 'l46-q4',
-              question:
-                'What percentage of the Indiana written exam covers infection control and sanitation?',
-              options: ['10%', '15%', '20%', '25%'],
-              correctAnswer: 3,
-              explanation:
-                'Infection control and sanitation is the largest single category, making up 25% of the written exam.',
-            },
-            {
-              id: 'l46-q5',
-              question:
-                'Indiana laws and regulations account for what percentage of the written exam?',
-              options: ['5%', '10%', '15%', '25%'],
-              correctAnswer: 2,
-              explanation:
-                'Indiana laws and regulations comprise 15% of the written exam — the same as chemical services.',
-            },
+                    {
+                              "id": "barber-lesson-46-q1",
+                              "question": "What is the best first priority before starting Indiana State Board Exam Overview?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-lesson-46-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-lesson-46-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-lesson-46-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-lesson-46-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
         {
@@ -4115,74 +4072,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Review key concepts in sanitation and hair science for the written exam.',
           durationMinutes: 25,
           videoFile: '/videos/course-barber-sanitation-narrated.mp4',
-          content: `<h2>Written Exam Review: Sanitation & Science</h2>
-<h3>Key Sanitation Facts</h3>
-<ul>
-<li>Disinfection is required between every client — not sterilization</li>
-<li>EPA-registered disinfectants must be used</li>
-<li>Sharps go in puncture-resistant containers</li>
-<li>Disinfectant solution changed daily or when contaminated</li>
-<li>Tinea capitis = no service, refer to physician</li>
-</ul>
-<h3>Key Hair Science Facts</h3>
-<ul>
-<li>Cortex contains melanin</li>
-<li>Anagen = growth phase (2-7 years)</li>
-<li>Normal hair loss = 50-100 hairs/day</li>
-<li>High porosity = damaged cuticle</li>
-<li>Patch test = 24-48 hours before chemical services</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Written Exam Review — Sanitation & Science in Module 8: State Board Exam Preparation requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Review key concepts in sanitation and hair science for the written exam.</p><h2>Tools Required</h2><ul><li>Primary service tools for Written Exam Review — Sanitation & Science</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'l47-q1',
-              question: 'When is disinfection required in an Indiana barbershop?',
-              options: [
-                'Once a day',
-                'Once per week',
-                'Between every client',
-                'Only when visibly soiled',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'EPA-registered disinfection of all tools is required between every client under Indiana state board rules.',
-            },
-            {
-              id: 'l47-q2',
-              question: 'Which layer of the hair shaft contains melanin?',
-              options: ['Cuticle', 'Cortex', 'Medulla', 'Follicle'],
-              correctAnswer: 1,
-              explanation:
-                'The cortex is the middle layer of the hair shaft and contains melanin granules that determine hair color.',
-            },
-            {
-              id: 'l47-q3',
-              question: 'What is the normal range of daily hair loss for a healthy adult?',
-              options: ['10–25 hairs', '50–100 hairs', '150–200 hairs', '300+ hairs'],
-              correctAnswer: 1,
-              explanation:
-                'Losing 50–100 hairs per day is considered within the normal range for healthy hair cycling.',
-            },
-            {
-              id: 'l47-q4',
-              question: 'High hair porosity indicates:',
-              options: [
-                'Healthy, undamaged cuticle',
-                'A damaged or raised cuticle',
-                'Low moisture content only',
-                'Excessive melanin',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'High porosity results from a damaged or raised cuticle that absorbs moisture quickly but cannot retain it.',
-            },
-            {
-              id: 'l47-q5',
-              question: 'The anagen phase of the hair growth cycle lasts approximately:',
-              options: ['A few weeks', '3–6 months', '2–7 years', '10+ years'],
-              correctAnswer: 2,
-              explanation:
-                'Anagen is the active growth phase, lasting 2–7 years — its length determines maximum hair length.',
-            },
+                    {
+                              "id": "barber-lesson-47-q1",
+                              "question": "What is the best first priority before starting Written Exam Review — Sanitation & Science?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-lesson-47-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-lesson-47-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-lesson-47-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-lesson-47-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
         {
@@ -4193,69 +4144,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Review haircutting techniques and Indiana laws for the written exam.',
           durationMinutes: 25,
           videoFile: '/videos/course-barber-fade-narrated.mp4',
-          content: `<h2>Written Exam Review: Techniques & Laws</h2>
-<h3>Key Technique Facts</h3>
-<ul>
-<li>Parietal ridge = widest part of head = high fade reference</li>
-<li>Occipital bone = back of skull = low/mid fade reference</li>
-<li>Razor angle = 30 degrees</li>
-<li>Neckline = 2 finger-widths above Adam's apple</li>
-<li>First shave pass = with the grain</li>
-<li>Thinning shears = remove bulk, not length</li>
-</ul>
-<h3>Key Indiana Law Facts</h3>
-<ul>
-<li>Apprenticeship path = 2,000 OJT hours</li>
-<li>School path = 1,500 hours</li>
-<li>Written exam passing score = 75%</li>
-<li>License renewal = every 2 years</li>
-<li>License must be displayed at workstation</li>
-<li>Governed by Indiana Code Title 25, Article 8</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Written Exam Review — Techniques & Laws in Module 8: State Board Exam Preparation requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Review haircutting techniques and Indiana laws for the written exam.</p><h2>Tools Required</h2><ul><li>Primary service tools for Written Exam Review — Techniques & Laws</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'l48-q1',
-              question: 'How many hours does the Indiana barber school path require?',
-              options: ['1,000 hours', '1,500 hours', '2,000 hours', '2,500 hours'],
-              correctAnswer: 1,
-              explanation: 'The cosmetology/barber school path requires 1,500 hours in Indiana.',
-            },
-            {
-              id: 'l48-q2',
-              question: 'How many OJT hours does the Indiana apprenticeship path require?',
-              options: ['1,000 hours', '1,500 hours', '2,000 hours', '2,500 hours'],
-              correctAnswer: 2,
-              explanation:
-                'The DOL-registered apprenticeship path requires 2,000 on-the-job training hours.',
-            },
-            {
-              id: 'l48-q3',
-              question: 'The Indiana Barber Act is governed by which section of state law?',
-              options: [
-                'Indiana Code Title 16, Article 4',
-                'Indiana Code Title 25, Article 8',
-                'Indiana Code Title 22, Article 5',
-                'Indiana Code Title 12, Article 7',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Indiana Code Title 25, Article 8 governs the licensing and practice of barbering in Indiana.',
-            },
-            {
-              id: 'l48-q4',
-              question: 'Indiana barber licenses must be renewed every:',
-              options: ['1 year', '2 years', '3 years', '5 years'],
-              correctAnswer: 1,
-              explanation: 'Indiana requires barber license renewal every two years.',
-            },
-            {
-              id: 'l48-q5',
-              question: 'The parietal ridge is the reference point for which type of fade?',
-              options: ['Low fade', 'Mid fade', 'High fade', 'Skin fade only'],
-              correctAnswer: 2,
-              explanation:
-                'The parietal ridge — the widest part of the head — is the reference point for starting a high fade.',
-            },
+                    {
+                              "id": "barber-lesson-48-q1",
+                              "question": "What is the best first priority before starting Written Exam Review — Techniques & Laws?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-lesson-48-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-lesson-48-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-lesson-48-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-lesson-48-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
         {
@@ -4266,90 +4216,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Prepare for the practical exam with a structured practice checklist.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-scissors-narrated.mp4',
-          content: `<h2>Practical Exam Preparation</h2>
-<h3>What Examiners Look For</h3>
-<ul>
-<li>Proper draping and client preparation</li>
-<li>Sanitation procedures performed correctly</li>
-<li>Clean, even fade with smooth transitions</li>
-<li>Sharp lineup</li>
-<li>Proper razor technique and safety</li>
-<li>Professional demeanor throughout</li>
-</ul>
-<h3>Practice Checklist</h3>
-<ol>
-<li>Drape client correctly with neck strip and cape</li>
-<li>Disinfect all tools before beginning</li>
-<li>Establish fade line and work upward</li>
-<li>Blend all transitions — no lines</li>
-<li>Execute clean lineup at hairline, temples, and nape</li>
-<li>Perform shave with correct angle and grain direction</li>
-<li>Apply post-shave care</li>
-<li>Clean and disinfect station after service</li>
-</ol>`,
+          content: `<h2>Overview</h2><p>Practical Exam Preparation in Module 8: State Board Exam Preparation requires consistent technique, sanitation discipline, and judgment-based adjustments for client variation. This lesson reinforces repeatable execution standards tied to Indiana apprenticeship expectations. Learners focus on setup, safe tool handling, sequencing, and communication while maintaining service quality under time pressure. Objective: Prepare for the practical exam with a structured practice checklist.</p><h2>Tools Required</h2><ul><li>Primary service tools for Practical Exam Preparation</li><li>Secondary detailing tools</li><li>Disinfectant solution and clean towel set</li><li>Disposable gloves and neck strips</li><li>Mirror and lighting check tools</li><li>Sectioning and control implements</li></ul><h2>Decision Logic</h2><p>If the client has coarse or dense hair, reduce speed and increase control passes to maintain clean lines. If the client has fine or fragile hair, use lighter pressure and shorter contact to avoid damage. If skin is sensitive or irritated, avoid aggressive friction and adjust technique to protect barrier function. Depending on growth pattern and head shape, alter angle and position before final refinement.</p><h2>Procedure</h2><ol><li>Sanitize station, disinfect tools, and verify all equipment is clean, dry, and organized before client contact.</li><li>Complete consultation, identify goals, and confirm contraindications, including open skin, irritation, or recent chemical sensitivity.</li><li>Drape and position client for clear visibility; maintain body mechanics and stable hand support during execution.</li><li>Execute baseline technical sequence with controlled pressure, deliberate sections, and frequent visual checks for balance.</li><li>Refine details by adjusting angle, position, and tension based on texture, density, and growth direction.</li><li>Re-check symmetry from multiple viewpoints and confirm appearance quality under direct and side lighting.</li><li>Finish service with cleanup, product guidance, and maintenance recommendations tailored to the client profile.</li></ol><h2>Safety</h2><p>Disinfect all reusable tools with an EPA-registered disinfectant between clients and follow contact-time instructions. Do not proceed when active infection signs, broken skin, or severe irritation are present; continuing can worsen inflammation and create contamination risk. Common failure mode: overworking one area due to rushed correction. Cause: poor section control and inconsistent angle. Recovery: stop, reset section lines, reduce pressure, and rebuild sequence step-by-step.</p><h2>Visual Cues</h2><p>Correct execution looks like clean transitions, stable line integrity, and uniform finish from front, profile, and rear views. Incorrect execution looks patchy, heavy, or asymmetrical with visible pressure marks and uneven blending. You should see balanced weight distribution and consistent detail boundaries. When positioning is correct, the service reads intentional and polished under normal shop lighting.</p>`,
           quizQuestions: [
-            {
-              id: 'l49-q1',
-              question: "What is placed around the client's neck BEFORE the cutting cape?",
-              options: [
-                'A towel',
-                'A neck strip',
-                'A paper collar',
-                'Nothing — the cape goes directly on skin',
-              ],
-              correctAnswer: 1,
-              explanation:
-                "A neck strip (or paper neck strip) prevents the cape from directly touching and irritating the client's skin.",
-            },
-            {
-              id: 'l49-q2',
-              question:
-                'During the practical exam, examiners look for which of the following FIRST?',
-              options: [
-                'Speed of the haircut',
-                'Proper draping and sanitation procedures',
-                'Styling product application',
-                'Client consultation only',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'State board examiners evaluate proper draping and sanitation procedures as the first and foundational element of the practical exam.',
-            },
-            {
-              id: 'l49-q3',
-              question:
-                'What must be done immediately after finishing a service during the practical exam?',
-              options: [
-                'Leave tools for the next candidate',
-                'Clean and disinfect tools and workstation',
-                "Style the client's hair with product",
-                'Remove the cape and dismiss the client',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Post-service cleanup and disinfection of tools and workstation is a scored element of the practical exam.',
-            },
-            {
-              id: 'l49-q4',
-              question: 'The razor angle for the shave portion of the practical exam is:',
-              options: ['15 degrees', '30 degrees', '45 degrees', '60 degrees'],
-              correctAnswer: 1,
-              explanation:
-                'A 30-degree razor angle is the standard taught and evaluated on the Indiana state board practical exam.',
-            },
-            {
-              id: 'l49-q5',
-              question: 'During the practical exam, which fade is most commonly tested?',
-              options: [
-                'Skin fade only',
-                'Haircut with fade — any type executed cleanly',
-                'High fade specifically',
-                'No fade — scissors only',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'The practical exam typically requires a haircut with a fade, and examiners evaluate the quality and blending regardless of fade type.',
-            },
+                    {
+                              "id": "barber-lesson-49-q1",
+                              "question": "What is the best first priority before starting Practical Exam Preparation?",
+                              "options": [
+                                        "A. Begin immediately to save time",
+                                        "B. Sanitize station and disinfect tools",
+                                        "C. Skip consultation if client is returning",
+                                        "D. Apply product before setup"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Safe, consistent execution starts with sanitation, tool readiness, and controlled setup."
+                    },
+                    {
+                              "id": "barber-lesson-49-q2",
+                              "question": "Which adjustment is most appropriate for fine or fragile hair?",
+                              "options": [
+                                        "A. Increase pressure for faster results",
+                                        "B. Use heavier friction to remove bulk quickly",
+                                        "C. Use lighter pressure and shorter contact",
+                                        "D. Ignore variation and keep one technique"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or fragile hair requires lighter control to avoid breakage and uneven finish."
+                    },
+                    {
+                              "id": "barber-lesson-49-q3",
+                              "question": "What is the correct response to visible asymmetry during final check?",
+                              "options": [
+                                        "A. Add random detail work",
+                                        "B. Stop and reset section lines before refinement",
+                                        "C. Increase speed to finish sooner",
+                                        "D. Ignore if one side looks acceptable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Resetting sections and rebuilding sequence prevents overcorrection and preserves control."
+                    },
+                    {
+                              "id": "barber-lesson-49-q4",
+                              "question": "A client has sensitive skin with mild irritation. What should you do?",
+                              "options": [
+                                        "A. Continue with standard pressure",
+                                        "B. Increase pressure to reduce passes",
+                                        "C. Adjust technique to protect skin and avoid aggressive friction",
+                                        "D. Skip all safety checks"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Skin variation requires controlled adaptation to prevent further irritation."
+                    },
+                    {
+                              "id": "barber-lesson-49-q5",
+                              "question": "During service you notice overworked areas from repeated corrections. What is the best recovery?",
+                              "options": [
+                                        "A. Keep repeating the same pass",
+                                        "B. Stop, reset section lines, reduce pressure, and rebuild step-by-step",
+                                        "C. Add product and continue at high speed",
+                                        "D. End service without correction"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Structured recovery prevents compounding errors and restores visual balance."
+                    }
           ],
         },
         {

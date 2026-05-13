@@ -16,7 +16,7 @@
  *
  * Flags:
  *   --blueprint  Blueprint ID or program slug (required)
- *   --program    programs.id to link the course to (required)
+ *   --program    programs.id (UUID) or programs.slug to link the course to (required)
  *   --mode       'missing-only' (default, safe to re-run) | 'replace' (wipes and rebuilds)
  *   --dry-run    Print what would be written without touching the DB
  */
@@ -53,7 +53,7 @@ const listBlueprints = args.includes('--list');
 
 if (!listBlueprints && (!blueprintArg || !programId)) {
   console.error(
-    '\nUsage: pnpm tsx scripts/seed-course-from-blueprint.ts --blueprint <id> --program <programId> [--mode replace|missing-only] [--dry-run]',
+    '\nUsage: pnpm tsx scripts/seed-course-from-blueprint.ts --blueprint <id> --program <programIdOrSlug> [--mode replace|missing-only] [--dry-run]',
   );
   console.error('       pnpm tsx scripts/seed-course-from-blueprint.ts --list\n');
   process.exit(1);
@@ -196,21 +196,66 @@ async function main() {
   // trigger can fire when a learner completes all checkpoints.
   if (blueprint.certificationPathway) {
     const cp = blueprint.certificationPathway;
-    const { error: pathwayError } = await supabase.from('program_certification_pathways').upsert(
-      {
-        program_id: programId,
-        certification_body_id: cp.certificationBodyId,
-        credential_name: cp.credentialName,
-        credential_abbreviation: cp.credentialAbbrev,
-        exam_fee_cents: cp.examFeeCents ?? 0,
-        fee_payer: cp.feePayer ?? 'student',
-        eligibility_review_required: cp.eligibilityReview ?? false,
-        is_primary: cp.isPrimary ?? true,
-        is_active: true,
-        sort_order: 1,
-      },
-      { onConflict: 'program_id,certification_body_id', ignoreDuplicates: false },
-    );
+    const uuidPattern =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    let pathwayProgramId = programId!;
+
+    if (!uuidPattern.test(pathwayProgramId)) {
+      const { data: programRow, error: programLookupError } = await supabase
+        .from('programs')
+        .select('id')
+        .eq('slug', pathwayProgramId)
+        .limit(1)
+        .maybeSingle();
+
+      if (programLookupError || !programRow?.id) {
+        console.warn(
+          `⚠️  Certification pathway skipped: could not resolve program slug "${pathwayProgramId}" to programs.id`,
+        );
+        console.warn('   The course was seeded successfully but exam authorization will not auto-fire.\n');
+        return;
+      }
+
+      pathwayProgramId = programRow.id;
+    }
+
+    const pathwayPayload = {
+      program_id: pathwayProgramId,
+      certification_body_id: cp.certificationBodyId,
+      credential_name: cp.credentialName,
+      credential_abbreviation: cp.credentialAbbrev,
+      exam_fee_cents: cp.examFeeCents ?? 0,
+      fee_payer: cp.feePayer ?? 'student',
+      eligibility_review_required: cp.eligibilityReview ?? false,
+      is_primary: cp.isPrimary ?? true,
+      is_active: true,
+      sort_order: 1,
+    };
+
+    const { data: existingPathway, error: findPathwayError } = await supabase
+      .from('program_certification_pathways')
+      .select('id')
+      .eq('program_id', pathwayProgramId)
+      .eq('certification_body_id', cp.certificationBodyId)
+      .limit(1)
+      .maybeSingle();
+
+    let pathwayError: { message: string } | null = findPathwayError;
+
+    if (!pathwayError) {
+      if (existingPathway?.id) {
+        const { error: updatePathwayError } = await supabase
+          .from('program_certification_pathways')
+          .update(pathwayPayload)
+          .eq('id', existingPathway.id);
+        pathwayError = updatePathwayError;
+      } else {
+        const { error: insertPathwayError } = await supabase
+          .from('program_certification_pathways')
+          .insert(pathwayPayload);
+        pathwayError = insertPathwayError;
+      }
+    }
 
     if (pathwayError) {
       console.warn(`⚠️  Certification pathway upsert failed: ${pathwayError.message}`);

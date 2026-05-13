@@ -213,3 +213,86 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ ok: true, entry: updated });
 }
+
+// PATCH — hardened approval endpoint using approval_status column
+const APPROVER_ROLES = new Set(['admin', 'super_admin', 'employer', 'supervisor', 'staff']);
+
+export async function PATCH(request: Request) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    return jsonError('Authentication required', 401);
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (profileError) {
+    logger.error('[time approve] PATCH profile lookup failed', profileError);
+    return jsonError('Unable to verify permissions', 500);
+  }
+
+  if (!profile?.role || !APPROVER_ROLES.has(profile.role)) {
+    return jsonError('Permission denied', 403);
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonError('Invalid request body', 400);
+  }
+
+  const entryId = String(body.entry_id || '');
+  const action = String(body.action || '').toLowerCase();
+  const notes = body.approval_notes ? String(body.approval_notes).slice(0, 1000) : null;
+
+  if (!entryId) return jsonError('Missing time entry id', 400);
+  if (!['approved', 'rejected'].includes(action)) return jsonError('Invalid approval action', 400);
+  if (action === 'rejected' && !notes) return jsonError('Rejection notes are required', 400);
+
+  const { data: existingEntry, error: entryError } = await supabase
+    .from('hour_entries')
+    .select('id, user_id, approval_status')
+    .eq('id', entryId)
+    .maybeSingle();
+
+  if (entryError) {
+    logger.error('[time approve] PATCH entry lookup failed', entryError);
+    return jsonError('Unable to load time entry', 500);
+  }
+  if (!existingEntry) return jsonError('Time entry not found', 404);
+  if (existingEntry.user_id === user.id) return jsonError('You cannot approve your own hours', 403);
+
+  const { data: updatedEntry, error: updateError } = await supabase
+    .from('hour_entries')
+    .update({
+      approval_status: action,
+      status: action, // keep status in sync for backward compatibility
+      approved_by: user.id,
+      approved_at: new Date().toISOString(),
+      approval_notes: notes,
+      rejection_reason: action === 'rejected' ? notes : null,
+    })
+    .eq('id', entryId)
+    .select('id, approval_status, approved_by, approved_at, approval_notes')
+    .single();
+
+  if (updateError) {
+    logger.error('[time approve] PATCH update failed', updateError);
+    return jsonError('Unable to update time entry', 500);
+  }
+
+  return NextResponse.json({ ok: true, entry: updatedEntry });
+}
