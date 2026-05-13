@@ -51,6 +51,11 @@ export const headerNavigation: NavGroup[] = [
         description: 'DOL-registered earn while you learn',
       },
       {
+        label: 'Cosmetology Apprenticeship',
+        href: '/programs/cosmetology-apprenticeship',
+        description: 'Indiana cosmetology license track',
+      },
+      {
         label: 'CDL Training',
         href: '/programs/cdl-training',
         description: 'Commercial Driver License',
@@ -224,6 +229,11 @@ export const headerNavigation: NavGroup[] = [
         label: 'Barber Shop Partners',
         href: '/partners/barber-shop',
         description: 'Barber apprenticeship shops',
+      },
+      {
+        label: 'Cosmetology Salon Partners',
+        href: '/partners/cosmetology-apprenticeship',
+        description: 'Host cosmetology apprentices',
       },
       {
         label: 'CareerSafe',
