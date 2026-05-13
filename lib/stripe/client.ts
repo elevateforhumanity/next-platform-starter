@@ -15,9 +15,20 @@ let _StripeClass: typeof import('stripe').default | null = null;
  * Stripe SDK is require()'d lazily on first call so it is not traced into
  * routes that never invoke this function.
  */
+// Treat misconfiguration sentinels as missing rather than letting Stripe SDK
+// throw `Invalid API Key provided: skip` at runtime. Real Stripe keys begin
+// with sk_ or rk_; anything else (build-time placeholders, "skip", "") is
+// treated as not configured and the caller gets a clean null.
+function isUsableStripeKey(value: string | undefined | null): value is string {
+  if (!value) return false;
+  const trimmed = value.trim();
+  if (trimmed.length < 10) return false;
+  return trimmed.startsWith('sk_') || trimmed.startsWith('rk_');
+}
+
 export function getStripe(): StripeInstance | null {
   const key = process.env.STRIPE_SECRET_KEY || process.env.STRIPE_RESTRICTED_KEY;
-  if (!key) return null;
+  if (!isUsableStripeKey(key)) return null;
   if (!_StripeClass) {
     _StripeClass = require('stripe').default ?? require('stripe');
   }

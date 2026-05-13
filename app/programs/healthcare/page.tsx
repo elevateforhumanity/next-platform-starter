@@ -132,7 +132,7 @@ export default function Page() {
         description: config.subtitle,
         duration_weeks: 16,
         price: 0,
-        image_url: `${SITE_URL}/images/pages/comp-pathway-healthcare.jpg`,
+        image_url: 'https://www.elevateforhumanity.org/images/pages/comp-pathway-healthcare.jpg',
         category: 'Healthcare',
         outcomes: config.credentials || [],
       }} />

@@ -63,27 +63,32 @@ export async function POST(req: NextRequest) {
   let applicationId: string | null = null;
   if (db) {
     try {
+      // Upsert by email so repeat funnel submissions don't 23505 on leads_email_key.
+      // We refresh the latest contact info and program interest each time.
       const { data, error } = await db
         .from('leads')
-        .insert({
-          first_name: firstName,
-          last_name: lastName,
-          email: normalizedEmail,
-          phone: normalizedPhone,
-          program_interest: program || 'Not specified',
-          source: source || 'funnel',
-          status: 'new',
-          qualification_path: qualificationPath || null,
-          qualifier_unemployed: qualifierAnswers?.unemployedOrUnder ?? null,
-          qualifier_indiana: qualifierAnswers?.indianaResident ?? null,
-          qualifier_wants_cert: qualifierAnswers?.wantsCert ?? null,
-        })
+        .upsert(
+          {
+            first_name: firstName,
+            last_name: lastName,
+            email: normalizedEmail,
+            phone: normalizedPhone,
+            program_interest: program || 'Not specified',
+            source: source || 'funnel',
+            status: 'new',
+            qualification_path: qualificationPath || null,
+            qualifier_unemployed: qualifierAnswers?.unemployedOrUnder ?? null,
+            qualifier_indiana: qualifierAnswers?.indianaResident ?? null,
+            qualifier_wants_cert: qualifierAnswers?.wantsCert ?? null,
+          },
+          { onConflict: 'email' },
+        )
         .select('id')
         .maybeSingle();
 
       if (error) {
         logger.error(
-          '[funnel/lead] DB insert failed',
+          '[funnel/lead] DB upsert failed',
           new Error(`${error.code}: ${error.message}`),
         );
       } else {
