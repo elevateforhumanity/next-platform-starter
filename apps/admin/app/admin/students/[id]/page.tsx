@@ -19,6 +19,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import EnrollmentVoucherPanel from '@/components/admin/EnrollmentVoucherPanel';
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -109,16 +110,6 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
   // Load enrollments, applications, lesson progress, barber subscription in parallel
   const [enrollmentsRes, applicationsRes, progressRes, barberSubRes] = await Promise.all([
     db
-      .from('barber_subscriptions')
-      .select(
-        'id, status, payment_status, weekly_payment_cents, weeks_remaining, remaining_balance, full_tuition_amount, amount_paid_at_checkout, stripe_customer_id, stripe_subscription_id, customer_email, failed_payment_at, suspension_deadline, suspended_at, welcome_email_sent_at, dashboard_invite_sent_at, created_at',
-      )
-      .eq('user_id', id)
-      .maybeSingle(),
-    db
-      .from('program_enrollments')
-      .select(
-    db
       .from('program_enrollments')
       .select(
         'id, status, enrolled_at, payment_status, amount_paid_cents, program_id, updated_at, program_slug, partner_id, student_start_date, voucher_issued_date, voucher_paid_date, payout_due_date, payout_status, payout_paid_date, payout_sent_date, payout_amount, payout_notes',
@@ -139,12 +130,24 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
       .select('id, completed', { count: 'exact' })
       .eq('user_id', id)
       .eq('completed', true),
+
+    db
+      .from('barber_subscriptions')
+      .select(
+        'id, status, payment_status, weekly_payment_cents, weeks_remaining, remaining_balance, full_tuition_amount, amount_paid_at_checkout, stripe_customer_id, stripe_subscription_id, customer_email, failed_payment_at, suspension_deadline, suspended_at, welcome_email_sent_at, dashboard_invite_sent_at, created_at',
+      )
+      .eq('user_id', id)
+      .maybeSingle(),
   ]);
 
-  if (enrollmentsRes.error)
-    throw new Error(`enrollments query failed: ${enrollmentsRes.error.message}`);
-  if (applicationsRes.error)
-    throw new Error(`applications query failed: ${applicationsRes.error.message}`);
+  if (enrollmentsRes.error) {
+    logger.error('enrollments query failed', enrollmentsRes.error);
+    throw new Error('Failed to load student enrollments');
+  }
+  if (applicationsRes.error) {
+    logger.error('applications query failed', applicationsRes.error);
+    throw new Error('Failed to load student applications');
+  }
 
   const barberSub = barberSubRes.data ?? null;
   const enrollments = enrollmentsRes.data ?? [];
