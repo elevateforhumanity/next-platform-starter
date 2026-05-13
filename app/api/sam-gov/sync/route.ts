@@ -73,13 +73,7 @@ export async function POST(request: Request) {
 
     if (error) {
       logger.error('SAM.gov sync error:', error);
-      return NextResponse.json(
-        {
-          success: false,
-          error: error instanceof Error ? error.message : String(error),
-        },
-        { status: 500 },
-      );
+      return NextResponse.json({ success: false, error: 'SAM.gov sync failed' }, { status: 500 });
     }
 
     logger.info(`SAM.gov sync: ${records.length} opportunities synced`);
@@ -96,13 +90,7 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     logger.error('SAM.gov sync failed:', error);
-    return NextResponse.json(
-      {
-        success: false,
-        error: error instanceof Error ? error.message : String(error),
-      },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: 'SAM.gov sync failed' }, { status: 500 });
   }
 }
 

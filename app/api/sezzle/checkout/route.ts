@@ -289,7 +289,6 @@ async function _POST(request: NextRequest) {
       {
         error:
           'Sezzle checkout could not be created. Please select Card, Payment Plan, or another option above.',
-        debug: technicalMessage,
       },
       { status: 500 },
     );

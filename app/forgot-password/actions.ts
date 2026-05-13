@@ -5,10 +5,6 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 
 // Always use the canonical www domain for password reset links.
-// Always use the canonical www domain for password reset links.
-
-
-
 
 const RAW_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 // Normalize: ensure www prefix so Supabase's allowed-redirect check passes.

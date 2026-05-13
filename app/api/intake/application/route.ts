@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: archived endpoint — active POST returns 410 Gone, no data access
 /**
  * ARCHIVED: /api/intake/application → /api/applications
  *
