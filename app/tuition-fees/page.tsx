@@ -40,15 +40,6 @@ export default async function TuitionFeesPage() {
       fundingType: 'WIOA Eligible — most students pay $0',
     },
     {
-      name: 'Beauty & Career Educator Training',
-      duration: '84 days',
-      tuition: 4730,
-      examFees: 75,
-      examFeesNote: 'Indiana PSI exam',
-      materials: 0,
-      fundingType: 'WIOA Eligible — most students pay $0',
-    },
-    {
       name: 'Bookkeeping / Accounting Clerk',
       duration: '8 weeks',
       tuition: 4925,

@@ -7,7 +7,6 @@
  */
 
 import type { ProgramSchema } from '@/lib/programs/program-schema';
-import { BEAUTY_CAREER_EDUCATOR } from './beauty-career-educator';
 import { BOOKKEEPING } from './bookkeeping';
 import { BUSINESS_ADMIN } from './business-administration';
 import { CAD_DRAFTING } from './cad-drafting';
@@ -69,7 +68,6 @@ const STATIC_PROGRAMS: ProgramSchema[] = [
   PHLEBOTOMY,
   HOSPITALITY,
   TECHNOLOGY,
-  BEAUTY_CAREER_EDUCATOR,
   BOOKKEEPING,
   BUSINESS_ADMIN,
   CAD_DRAFTING,

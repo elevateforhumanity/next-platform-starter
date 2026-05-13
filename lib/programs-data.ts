@@ -60,16 +60,6 @@ export const PROGRAMS: ProgramData[] = [
     etplApproved: true,
   },
   {
-    slug: 'beauty-career-educator',
-    name: 'Beauty & Career Educator Training',
-    blurb:
-      'Become a licensed beauty instructor! This program prepares experienced cosmetologists and barbers to teach the next generation. Learn curriculum development, classroom management, and state licensing requirements. Perfect for those with 3+ years industry experience.',
-    funding: 'WIOA • WRG',
-    duration: '12-16 Weeks',
-    image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80',
-    etplApproved: true,
-  },
-  {
     slug: 'peer-support-professional',
     name: 'Certified Peer Support Professional',
     blurb:

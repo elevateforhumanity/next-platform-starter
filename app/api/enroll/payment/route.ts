@@ -36,7 +36,6 @@ const PROGRAM_DETAILS: Record<string, { name: string; totalPrice: number }> = {
   'emergency-health': { name: 'Emergency Health & Safety Technician', totalPrice: 4950 },
   'home-health-aide': { name: 'Home Health Aide', totalPrice: 4700 },
   'reentry-specialist': { name: 'Public Safety Reentry Specialist', totalPrice: 4750 },
-  'beauty-educator': { name: 'Beauty & Career Educator Training', totalPrice: 4730 },
   'cpr-aed': { name: 'CPR / AED / First Aid', totalPrice: 575 },
 };
 

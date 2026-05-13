@@ -20,7 +20,6 @@ import { DIESEL_MECHANIC } from './diesel-mechanic';
 import { FORKLIFT } from './forklift';
 import { COSMETOLOGY } from './cosmetology-apprenticeship';
 import { NAIL_TECH } from './nail-technician-apprenticeship';
-import { BEAUTY_CAREER_EDUCATOR } from './beauty-career-educator';
 import { EMERGENCY_HEALTH_SAFETY } from './emergency-health-safety';
 import { HOME_HEALTH_AIDE } from './home-health-aide';
 import { ESTHETICIAN } from './esthetician';
@@ -66,7 +65,6 @@ export const ALL_PROGRAMS: ProgramSchema[] = [
   COSMETOLOGY,
   NAIL_TECH,
   CULINARY,
-  BEAUTY_CAREER_EDUCATOR,
   ESTHETICIAN,
   // Technology
   IT_HELP_DESK,

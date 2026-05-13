@@ -47,7 +47,6 @@ export const PROGRAM_OG_IMAGES: Record<string, string> = {
   'esthetician':                    '/images/programs/efh-esthetician-client-services-card.jpg',
   'esthetician-apprenticeship':     '/images/programs/efh-esthetician-client-services-card.jpg',
   'nail-technician-apprenticeship': '/images/pages/nail-tech-hero.jpg',
-  'beauty-career-educator':         '/images/pages/cosmetology-hero.jpg',
   'culinary-apprenticeship':        '/images/pages/programs-hvac-hero.jpg',
 
   // ── Technology ────────────────────────────────────────────────────────────

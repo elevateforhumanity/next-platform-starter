@@ -5,7 +5,8 @@
 
 ALTER TABLE public.hour_entries
   ADD COLUMN IF NOT EXISTS approval_status text NOT NULL DEFAULT 'pending',
-  ADD COLUMN IF NOT EXISTS approval_notes text;
+  ADD COLUMN IF NOT EXISTS approval_notes text,
+  ADD COLUMN IF NOT EXISTS funding_phase text;
 
 -- Sync approval_status from existing status for already-decided rows
 UPDATE public.hour_entries

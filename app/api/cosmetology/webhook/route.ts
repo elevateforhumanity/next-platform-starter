@@ -1,0 +1,239 @@
+import { logger } from '@/lib/logger';
+import { getStripe } from '@/lib/stripe/client';
+import { NextRequest, NextResponse } from 'next/server';
+import { getAdminClient } from '@/lib/supabase/admin';
+import type Stripe from 'stripe';
+import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { runCosmetologyPostPayment } from '@/lib/enrollment/cosmetology-post-payment';
+import { COSMETOLOGY_PROGRAM_ID, COSMETOLOGY_COURSE_ID, TUITION_CENTS } from '@/lib/cosmetology/pricing';
+import { createOrUpdateEnrollment, linkOrphanedEnrollments } from '@/lib/enrollment-service';
+import { withRuntime } from '@/lib/api/withRuntime';
+
+const LMS_URL =
+  (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org') + '/lms/courses';
+
+function getWebhookSecrets(): string[] {
+  return [
+    process.env.STRIPE_WEBHOOK_SECRET_COSMETOLOGY,
+    process.env.STRIPE_WEBHOOK_SECRET,
+  ].filter((s): s is string => Boolean(s && s.trim()));
+}
+
+function constructStripeEventWithAnySecret(
+  stripe: Stripe,
+  body: string,
+  signature: string,
+  secrets: string[],
+): Stripe.Event {
+  let lastError: unknown = null;
+  for (const secret of secrets) {
+    try {
+      return stripe.webhooks.constructEvent(body, signature, secret);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError ?? new Error('No webhook secret available');
+}
+
+/**
+ * POST /api/cosmetology/webhook
+ *
+ * Handles Stripe webhook events for Cosmetology Apprenticeship payments.
+ * Mirrors /api/barber/webhook — same flow, cosmetology program.
+ *
+ * On checkout.session.completed:
+ * 1. Create program_enrollment record
+ * 2. Run post-payment pipeline (emails, CRM, admin notification)
+ */
+async function _POST(request: NextRequest) {
+  const body = await request.text();
+  const signature = request.headers.get('stripe-signature');
+
+  if (!signature) {
+    return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
+  }
+
+  const stripe = getStripe();
+  if (!stripe) {
+    logger.error('[cosmetology/webhook] Stripe client unavailable — STRIPE_SECRET_KEY missing or invalid');
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
+  }
+
+  const webhookSecrets = getWebhookSecrets();
+  let event: Stripe.Event;
+
+  try {
+    event = constructStripeEventWithAnySecret(stripe, body, signature, webhookSecrets);
+  } catch (err) {
+    logger.error('[cosmetology/webhook] Signature verification failed:', err);
+    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
+  }
+
+  const supabase = await getAdminClient();
+
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object as Stripe.Checkout.Session;
+
+        // Only process cosmetology enrollments
+        if (session.metadata?.program !== 'cosmetology-apprenticeship') {
+          break;
+        }
+
+        const checkoutType = session.metadata?.checkout_type;
+        const customerId = session.customer as string;
+        const customerEmail = session.customer_details?.email || session.customer_email || '';
+        const customerName = session.customer_details?.name || session.metadata?.customerName || '';
+        const customerPhone = session.metadata?.customerPhone || '';
+        const applicationId = session.metadata?.application_id || '';
+        const amountPaidCents = session.amount_total || 0;
+        const weeksRemaining = parseInt(session.metadata?.weeks_remaining || '29', 10);
+        const weeklyPaymentCents = parseInt(session.metadata?.weekly_payment_cents || '0', 10);
+        const adjustedPriceCents = parseInt(session.metadata?.adjusted_price_cents || String(TUITION_CENTS), 10);
+        const fullyPaid = amountPaidCents >= adjustedPriceCents;
+        const remainingBalanceCents = Math.max(0, adjustedPriceCents - amountPaidCents);
+
+        if (checkoutType === 'cosmetology_enrollment') {
+          // Write program_enrollments row
+          const normalizedEmail = customerEmail.toLowerCase().trim();
+          const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+          let resolvedProgramId = session.metadata?.program_id || '';
+          if (!UUID_RE.test(resolvedProgramId)) {
+            const { data: prog } = await supabase
+              .from('programs')
+              .select('id')
+              .eq('slug', 'cosmetology-apprenticeship')
+              .maybeSingle();
+            resolvedProgramId = prog?.id || COSMETOLOGY_PROGRAM_ID;
+          }
+
+          const enrollResult = await createOrUpdateEnrollment(supabase, {
+            userId: null as unknown as string,
+            programId: resolvedProgramId,
+            programSlug: 'cosmetology-apprenticeship',
+            courseId: COSMETOLOGY_COURSE_ID,
+            fundingSource: 'self_pay',
+            amountPaidCents,
+            stripeCheckoutSessionId: session.id,
+            isDeposit: !fullyPaid,
+            email: normalizedEmail,
+            fullName: customerName,
+            status: 'pending_review',
+            paymentStatus: fullyPaid ? 'paid_in_full' : 'setup_fee_paid',
+          });
+
+          if (enrollResult.error) {
+            logger.error('[cosmetology/webhook] program_enrollments write failed:', enrollResult.error);
+          } else {
+            logger.info(`[cosmetology/webhook] program_enrollments ${enrollResult.action}: ${enrollResult.id}`);
+          }
+
+          // Link to account if one exists
+          await linkOrphanedEnrollments(supabase, normalizedEmail).catch(() => {});
+
+          // Send confirmation email
+          try {
+            const { sendEmail } = await import('@/lib/email/sendgrid');
+            const paymentSummary = fullyPaid
+              ? `Paid in full: $${(amountPaidCents / 100).toLocaleString()}`
+              : `Setup fee paid: $${(amountPaidCents / 100).toFixed(2)} — $${(weeklyPaymentCents / 100).toFixed(2)}/week for ~${weeksRemaining} weeks`;
+
+            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            await sendEmail({
+              to: customerEmail,
+              subject: 'Payment Received — Complete Your Cosmetology Apprenticeship Application',
+              html: `
+<div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1a1a1a">
+<p>Hi ${customerName || 'there'},</p>
+<p>Your payment for the <strong>Cosmetology Apprenticeship</strong> program has been received. Your spot is reserved.</p>
+<p><strong>Payment:</strong> ${paymentSummary}</p>
+<p style="font-size:16px;font-weight:bold;margin:24px 0 8px">Your next steps — complete in order:</p>
+<ol style="line-height:2;margin:0 0 20px;padding-left:20px">
+  <li><strong>Create your account</strong> — use the same email address you used at checkout.<br>
+  <a href="${siteUrl}/signup?role=apprentice&redirect=/programs/cosmetology-apprenticeship/apply" style="color:#1d4ed8">Create Account →</a></li>
+  <li><strong>Complete your application</strong> — submit your apprentice application so we can verify eligibility and match you with a host shop.</li>
+  <li><strong>Complete orientation</strong> — a short online module covering program expectations, hour logging, and your host shop assignment.</li>
+  <li><strong>Access your dashboard</strong> — log hours, track progress, and access your coursework in the Elevate LMS once orientation is complete.</li>
+</ol>
+<p>Questions? Call <a href="tel:3173143757">(317) 314-3757</a> or reply to this email.</p>
+<p>— Elevate for Humanity</p>
+</div>`,
+            });
+
+            await sendEmail({
+              to: 'elevate4humanityedu@gmail.com',
+              subject: `New Cosmetology Apprentice — ${customerName || customerEmail}`,
+              html: `<p>New enrollment via public checkout:</p>
+<p>Name: ${customerName}<br>Email: ${customerEmail}<br>Phone: ${customerPhone}<br>
+Payment: ${fullyPaid ? 'Paid in full' : 'Setup fee'}<br>
+Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>
+<p><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/admin/enrollments">View in Admin →</a></p>`,
+            });
+          } catch (emailErr) {
+            logger.error('[cosmetology/webhook] Enrollment email error:', emailErr);
+          }
+
+          // Run post-payment pipeline if application_id present
+          if (applicationId) {
+            await runCosmetologyPostPayment({
+              db: supabase,
+              applicationId,
+              stripeSessionId: session.id,
+              stripePaymentIntentId: session.payment_intent as string ?? null,
+              amountPaidCents,
+            }).catch((err: unknown) =>
+              logger.error('[cosmetology/webhook] runCosmetologyPostPayment failed (non-fatal)', err),
+            );
+          } else {
+            // No application — send LMS access email
+            try {
+              const { sendEmail } = await import('@/lib/email/sendgrid');
+              await sendEmail({
+                to: customerEmail,
+                subject: 'Your Coursework Access — Cosmetology Apprenticeship',
+                html: `
+<div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1a1a1a">
+<p>Hi ${customerName || 'there'},</p>
+<p>Your related instruction is available in the <strong>Elevate LMS</strong>. Log in to your student portal to access your courses.</p>
+<p style="text-align:center;margin:24px 0;">
+  <a href="${LMS_URL}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:white;text-decoration:none;border-radius:8px;font-weight:bold;">Go to My Courses →</a>
+</p>
+<p>Questions? Call <a href="tel:3173143757">(317) 314-3757</a>.</p>
+<p>— Elevate for Humanity</p>
+</div>`,
+              });
+            } catch { /* non-fatal */ }
+          }
+
+          logger.info(`[cosmetology/webhook] Enrollment complete: ${customerId}, fullyPaid: ${fullyPaid}`);
+          break;
+        }
+
+        logger.warn('[cosmetology/webhook] Unknown checkout_type — skipping', { checkoutType });
+        break;
+      }
+
+      case 'payment_intent.payment_failed': {
+        const pi = event.data.object as Stripe.PaymentIntent;
+        if (pi.metadata?.program !== 'cosmetology-apprenticeship') break;
+        logger.warn('[cosmetology/webhook] Payment failed', {
+          paymentIntentId: pi.id,
+          customerEmail: pi.receipt_email,
+        });
+        break;
+      }
+
+      default:
+        logger.info(`[cosmetology/webhook] Unhandled event type: ${event.type}`);
+    }
+  } catch (err) {
+    logger.error('[cosmetology/webhook] Handler error:', err);
+    return NextResponse.json({ error: 'Webhook handler error' }, { status: 500 });
+  }
+
+  return NextResponse.json({ received: true });
+}
+
+export const POST = withRuntime(withApiAudit(_POST, 'cosmetology_webhook'));

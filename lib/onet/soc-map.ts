@@ -41,7 +41,6 @@ export const PROGRAM_SOC_MAP: Record<string, string> = {
   'esthetician': '39-5094.00',           // Skincare Specialists
   'esthetician-apprenticeship': '39-5094.00',
   'nail-technician-apprenticeship': '39-5092.00', // Manicurists and Pedicurists
-  'beauty-career-educator': '25-1194.00', // Vocational Education Teachers, Postsecondary
   'culinary-apprenticeship': '35-1011.00', // Chefs and Head Cooks
 
   // ── Technology ────────────────────────────────────────────────────────────

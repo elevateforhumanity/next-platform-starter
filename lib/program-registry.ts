@@ -102,13 +102,6 @@ export const PROGRAMS: ProgramEntry[] = [
     formType: 'apply',
     active: true,
   },
-  {
-    slug: 'beauty-career-educator',
-    name: 'Beauty & Career Educator',
-    category: 'Barber & Beauty',
-    formType: 'apply',
-    active: true,
-  },
 
   // Business & Financial
   {
@@ -250,13 +243,6 @@ export const PROGRAMS: ProgramEntry[] = [
   },
 
   // Programs added from data/programs/ — ensure all slugs resolve
-  {
-    slug: 'beauty-career-educator',
-    name: 'Beauty & Career Educator Training',
-    category: 'Barber & Beauty',
-    formType: 'apply',
-    active: true,
-  },
   {
     slug: 'business-administration',
     name: 'Business Administration',
@@ -617,7 +603,6 @@ const SLUG_ALIASES: Record<string, string> = {
   'home-health': 'home-health-aide',
   cpr: 'cpr-first-aid',
   'first-aid': 'cpr-first-aid',
-  'beauty-educator': 'beauty-career-educator',
   'business-administration': 'business',
   'business-management': 'business',
   'health-safety': 'emergency-health-safety',

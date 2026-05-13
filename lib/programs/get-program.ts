@@ -23,7 +23,6 @@ const PROGRAM_REGISTRY: Record<string, () => Promise<{ default: ProgramSchema }>
   cna: () => import('@/data/programs/cna'),
   'hvac-technician': () => import('@/data/programs/hvac-technician'),
   'barber-apprenticeship': () => import('@/data/programs/barber-apprenticeship'),
-  'beauty-career-educator': () => import('@/data/programs/beauty-career-educator'),
   bookkeeping: () => import('@/data/programs/bookkeeping'),
   'business-administration': () => import('@/data/programs/business-administration'),
   'cad-drafting': () => import('@/data/programs/cad-drafting'),
