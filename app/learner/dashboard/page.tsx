@@ -152,9 +152,12 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
       const onboardingProgramSlug =
         enrollment?.program_slug ||
         pendingOnboarding?.program_slug ||
-        applications?.[0]?.program_slug ||
-        'barber-apprenticeship';
-      redirect(`/programs/${onboardingProgramSlug}/orientation`);
+        applications?.[0]?.program_slug;
+      if (onboardingProgramSlug) {
+        redirect(`/programs/${onboardingProgramSlug}/orientation`);
+      }
+      // No program slug resolved — let the learner through to the dashboard
+      // rather than sending them to a wrong program's orientation.
     }
   }
 
@@ -467,7 +470,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                               <Link
                                 href={
                                   enrollment._isApprenticeship
-                                    ? `/programs/${enrollment.program_slug || 'barber-apprenticeship'}`
+                                    ? (enrollment.program_slug ? `/programs/${enrollment.program_slug}` : '/learner/dashboard')
                                     : `/lms/courses/${enrollment.course_id}`
                                 }
                                 className="px-4 py-2 bg-brand-orange-600 text-white text-sm font-medium rounded-lg hover:bg-brand-orange-700 transition flex items-center gap-2"

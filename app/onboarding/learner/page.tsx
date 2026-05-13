@@ -210,7 +210,7 @@ export default async function LearnerOnboardingPage({
   const application = applicationResult.data;
   const docCount = docCountResult.count || 0;
 
-  // Barber students who have paid: send directly to orientation, skip generic checklist.
+  // Students who have paid: send directly to orientation, skip generic checklist.
   // Only redirect if payment is confirmed — payment_status must not be 'pending'.
   // Students with payment_status='pending' must go through the payment flow first.
   if (
@@ -219,7 +219,7 @@ export default async function LearnerOnboardingPage({
     enrollment?.payment_status !== 'pending'
   ) {
     if (!profile?.orientation_completed) {
-      redirect('/programs/barber-apprenticeship/orientation');
+      redirect(`/programs/${enrollment.program_slug}/orientation`);
     } else {
       redirect('/apprentice');
     }
@@ -230,7 +230,7 @@ export default async function LearnerOnboardingPage({
     enrollment?.program_slug === 'barber-apprenticeship' &&
     enrollment?.payment_status === 'pending'
   ) {
-    redirect('/programs/barber-apprenticeship/apply?type=apprentice&returning=1');
+    redirect(`/programs/${enrollment.program_slug}/apply?type=apprentice&returning=1`);
   }
 
   // Gate: onboarding is only available after the application is approved.
