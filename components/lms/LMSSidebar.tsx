@@ -181,7 +181,7 @@ export function LMSSidebar({
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto py-3 px-2">
+      <nav aria-label="LMS sidebar navigation" className="flex-1 overflow-y-auto py-3 px-2">
         {[
           { label: 'My Learning', items: learningItems },
           { label: 'Practice', items: practiceItems },

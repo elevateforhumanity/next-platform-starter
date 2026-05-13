@@ -417,6 +417,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [] }: AdminNavPr
 
           <nav
             ref={navRef}
+            aria-label="Admin navigation"
             className="hidden lg:flex items-center gap-0 flex-1 overflow-x-auto"
             style={{ scrollbarWidth: 'none' }}
           >

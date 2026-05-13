@@ -9,7 +9,7 @@ export function SiteHeader() {
           {siteConfig.name}
         </Link>
 
-        <nav className="hidden gap-6 md:flex">
+        <nav aria-label="Site navigation" className="hidden gap-6 md:flex">
           {siteConfig.nav.map((item) => (
             <Link
               key={item.href}
