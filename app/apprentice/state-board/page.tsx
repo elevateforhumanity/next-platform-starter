@@ -343,7 +343,7 @@ export default async function StateBoardExamPage() {
               Complete all requirements above to unlock.
             </p>
             <Link
-              href="/pwa/cosmetology"
+              href="/apprentice/hours/log"
               className="inline-flex items-center gap-2 bg-purple-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-purple-700 transition-colors"
             >
               Log hours <ArrowRight className="w-4 h-4" />

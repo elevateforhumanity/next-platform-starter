@@ -341,7 +341,7 @@ export default function OnboardingPage() {
             <span className="text-xs">Home</span>
           </Link>
           <Link
-            href="/pwa/barber/log-hours"
+            href="/pwa/barber"
             className="flex flex-col items-center gap-1 text-slate-400"
           >
             <Clock className="w-6 h-6" />
@@ -355,7 +355,7 @@ export default function OnboardingPage() {
             <span className="text-xs">Learn</span>
           </Link>
           <Link
-            href="/pwa/barber/progress"
+            href="/pwa/barber"
             className="flex flex-col items-center gap-1 text-slate-400"
           >
             <TrendingUp className="w-6 h-6" />

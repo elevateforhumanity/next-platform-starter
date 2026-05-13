@@ -111,7 +111,7 @@ const TAB_LINKS: Record<string, { label: string; href: string }[]> = {
   ],
   trades: [
     { label: 'Barber App', href: '/pwa/barber/onboarding' },
-    { label: 'Cosmetology App', href: '/pwa/cosmetology' },
+    { label: 'Cosmetology App', href: '/apprentice' },
     { label: 'Esthetician App', href: '/pwa/esthetician' },
     { label: 'Nail Tech App', href: '/pwa/nail-tech' },
     { label: 'Partner Shop Portal', href: '/partner/dashboard' },
@@ -716,7 +716,7 @@ export default function MyDashboard({
                 },
                 {
                   label: 'Cosmetology App',
-                  href: '/pwa/cosmetology',
+                  href: '/apprentice',
                   roles: ['student', 'partner', 'admin', 'super_admin'],
                 },
               ]

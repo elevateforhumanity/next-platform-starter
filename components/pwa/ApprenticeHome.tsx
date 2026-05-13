@@ -32,9 +32,9 @@ const DISCIPLINE_CONFIG = {
     lightColor: 'bg-purple-500',
     targetHours: 2000, // Indiana DOL Registered Apprenticeship
     applyHref: '/programs/cosmetology-apprenticeship/apply',
-    logHref: '/pwa/cosmetology/log-hours',
-    historyHref: '/pwa/cosmetology/history',
-    progressHref: '/pwa/cosmetology/progress',
+    logHref: '/apprentice/hours/log',
+    historyHref: '/apprentice/hours/history',
+    progressHref: '/apprentice',
     lmsHref: '/lms/dashboard',
     subtitle: 'Track your hours, access training, and progress toward your cosmetology license.',
   },

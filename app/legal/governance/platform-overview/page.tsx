@@ -493,14 +493,14 @@ export default async function PlatformOverviewPage() {
               <p className="text-sm text-slate-500">EFH-CMP-001</p>
             </Link>
             <Link
-              href="/legal/governance/lms"
+              href="/legal/governance/lms-standards"
               className="block p-4 border rounded-lg hover:bg-slate-50"
             >
               <p className="font-medium">LMS Governance and Course Standards</p>
               <p className="text-sm text-slate-500">EFH-LMS-001</p>
             </Link>
             <Link
-              href="/legal/governance/store"
+              href="/legal/governance/store-payments"
               className="block p-4 border rounded-lg hover:bg-slate-50"
             >
               <p className="font-medium">Store, Payments, and Licensing Framework</p>
