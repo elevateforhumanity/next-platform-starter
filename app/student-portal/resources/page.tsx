@@ -120,8 +120,8 @@ const FALLBACK_RESOURCES = [
   },
   {
     id: '8',
-    title: 'Student Messages',
-    description: 'Connect with classmates and instructors',
+    title: 'Messages',
+    description: 'Chat with classmates and instructors',
     category: 'general',
     icon: 'MessageCircle',
     href: '/lms/messages',

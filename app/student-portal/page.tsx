@@ -129,7 +129,7 @@ export default async function StudentPortalPage() {
     {
       icon: MessageSquare,
       title: 'Messages',
-      description: 'Connect with classmates and instructors',
+      description: 'Chat with classmates and instructors',
       href: '/lms/messages',
     },
     {

@@ -18,6 +18,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { resolveApprenticeProgram } from '@/lib/compliance/apprenticeship';
 
 export const metadata: Metadata = {
   title: 'Competency Progress | Apprentice Portal | Elevate for Humanity',
@@ -96,26 +97,8 @@ export default async function ApprenticeCompetenciesPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/apprentice/competencies');
 
-  // Resolve the learner's active program_id
-  const { data: apprentice } = await db
-    .from('apprentices')
-    .select('program_id')
-    .eq('user_id', user.id)
-    .eq('status', 'active')
-    .order('created_at', { ascending: false })
-    .maybeSingle();
-
-  let programId = apprentice?.program_id ?? null;
-  if (!programId) {
-    const { data: enrollment } = await db
-      .from('program_enrollments')
-      .select('program_id')
-      .eq('user_id', user.id)
-      .in('status', ['active', 'enrolled', 'in_progress'])
-      .order('created_at', { ascending: false })
-      .maybeSingle();
-    programId = enrollment?.program_id ?? null;
-  }
+  // Resolve the learner's active program
+  const { programId } = await resolveApprenticeProgram(db, user.id);
 
   // Load skill categories for barber program
   const { data: rawCategories } = await db

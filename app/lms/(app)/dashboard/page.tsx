@@ -23,7 +23,6 @@ import {
   GraduationCap,
   Target,
   Users,
-  MessageSquare,
   HelpCircle,
   BarChart2,
 } from 'lucide-react';

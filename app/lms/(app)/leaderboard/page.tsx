@@ -316,15 +316,7 @@ export default async function LeaderboardPage() {
           </div>
         </div>
 
-        {/* Back Link */}
-        <div className="mt-8 text-center">
-          <Link
-            href="/lms/dashboard"
-            className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
-          >
-            ← Back to Dashboard
-          </Link>
-        </div>
+
       </div>
     </div>
   );

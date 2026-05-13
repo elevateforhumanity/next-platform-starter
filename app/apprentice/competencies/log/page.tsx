@@ -24,6 +24,26 @@ type Skill = {
   is_rti: boolean;
 };
 
+async function resolveClientProgramId(
+  supabase: ReturnType<typeof createClient>,
+  userId: string,
+): Promise<string | null> {
+  const { data: apprentice } = await supabase
+    .from('apprentices')
+    .select('program_id')
+    .eq('user_id', userId)
+    .maybeSingle();
+  if (apprentice?.program_id) return apprentice.program_id;
+  const { data: enrollment } = await supabase
+    .from('program_enrollments')
+    .select('program_id')
+    .eq('user_id', userId)
+    .in('status', ['active', 'enrolled', 'in_progress'])
+    .order('created_at', { ascending: false })
+    .maybeSingle();
+  return enrollment?.program_id ?? null;
+}
+
 function LogCompetencyForm() {
   const router = useRouter();
   const searchParams = useSafeSearchParams();
@@ -59,23 +79,7 @@ function LogCompetencyForm() {
           return;
         }
 
-        const { data: apprentice } = await supabase
-          .from('apprentices')
-          .select('program_id')
-          .eq('user_id', user.id)
-          .maybeSingle();
-
-        let programId = apprentice?.program_id ?? null;
-        if (!programId) {
-          const { data: enrollment } = await supabase
-            .from('program_enrollments')
-            .select('program_id')
-            .eq('user_id', user.id)
-            .in('status', ['active', 'enrolled', 'in_progress'])
-            .order('created_at', { ascending: false })
-            .maybeSingle();
-          programId = enrollment?.program_id ?? null;
-        }
+        const programId = await resolveClientProgramId(supabase, user.id);
 
         if (!programId) {
           setSkills([]);
@@ -159,23 +163,7 @@ function LogCompetencyForm() {
         return;
       }
 
-      const { data: apprentice } = await supabase
-        .from('apprentices')
-        .select('program_id')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      let programId = apprentice?.program_id ?? null;
-      if (!programId) {
-        const { data: enrollment } = await supabase
-          .from('program_enrollments')
-          .select('program_id')
-          .eq('user_id', user.id)
-          .in('status', ['active', 'enrolled', 'in_progress'])
-          .order('created_at', { ascending: false })
-          .maybeSingle();
-        programId = enrollment?.program_id ?? null;
-      }
+      const programId = await resolveClientProgramId(supabase, user.id);
 
       if (!programId) {
         setError('No active apprenticeship program found for this account.');

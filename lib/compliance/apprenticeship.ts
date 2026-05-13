@@ -26,3 +26,40 @@ export function getApprenticeshipRequiredHours(programSlug: string | null | unde
   if (!programSlug) return null;
   return APPRENTICESHIP_REQUIRED_HOURS[programSlug] ?? null;
 }
+
+/**
+ * Resolve the active program_id (and optional slug) for an apprenticeship learner.
+ * First checks `apprentices` (most direct), then falls back to `program_enrollments`.
+ * Works in server components — pass the Supabase server client and the authenticated user id.
+ */
+export async function resolveApprenticeProgram(
+  db: { from: (table: string) => any },
+  userId: string,
+): Promise<{ programId: string | null; programSlug: string | null }> {
+  const { data: apprentice } = await db
+    .from('apprentices')
+    .select('program_id')
+    .eq('user_id', userId)
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (apprentice?.program_id) {
+    return { programId: apprentice.program_id, programSlug: null };
+  }
+
+  const { data: enrollment } = await db
+    .from('program_enrollments')
+    .select('program_id, program_slug')
+    .eq('user_id', userId)
+    .in('status', ['active', 'enrolled', 'in_progress'])
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  return {
+    programId: enrollment?.program_id ?? null,
+    programSlug: enrollment?.program_slug ?? null,
+  };
+}

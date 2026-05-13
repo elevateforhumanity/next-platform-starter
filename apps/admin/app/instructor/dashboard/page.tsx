@@ -467,28 +467,7 @@ export default async function InstructorDashboard() {
                 </div>
               </div>
 
-              {/* Communication */}
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold text-black mb-4">Communication</h3>
-                <div className="space-y-2">
-                  <Link
-                    href="/lms/messages"
-                    className="block w-full text-left px-4 py-3 bg-brand-blue-50 hover:bg-brand-blue-100 rounded-lg transition border border-brand-blue-200"
-                  >
-                    <p className="font-medium text-brand-blue-900">Learner Messages</p>
-                    <p className="text-xs text-brand-blue-700">
-                      Connect with students directly
-                    </p>
-                  </Link>
-                  <Link
-                    href="/instructor/students"
-                    className="block w-full text-left px-4 py-3 bg-brand-blue-50 hover:bg-brand-blue-100 rounded-lg transition border border-brand-blue-200"
-                  >
-                    <p className="font-medium text-brand-blue-900">Student Directory</p>
-                    <p className="text-xs text-brand-blue-700">Manage and contact assigned students</p>
-                  </Link>
-                </div>
-              </div>
+
             </div>
 
             {/* Course Performance */}
