@@ -20,7 +20,6 @@ PAGES=(
   "/lms"
   "/student-portal"
   "/employer-portal"
-  "/supersonic-fast-cash"
   "/employers"
   "/training-providers"
 )

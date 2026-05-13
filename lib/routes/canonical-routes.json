@@ -436,31 +436,6 @@
       "permanent": true
     },
     {
-      "source": "/supersonic-fast-cash/apply",
-      "destination": "/supersonic-fast-cash",
-      "permanent": true
-    },
-    {
-      "source": "/supersonic-fast-cash/book-appointment",
-      "destination": "/supersonic-fast-cash",
-      "permanent": true
-    },
-    {
-      "source": "/supersonic-fast-cash/legal/privacy",
-      "destination": "/privacy-policy",
-      "permanent": true
-    },
-    {
-      "source": "/supersonic-fast-cash/legal/terms",
-      "destination": "/terms-of-service",
-      "permanent": true
-    },
-    {
-      "source": "/supersonic-fast-cash/portal",
-      "destination": "/supersonic-fast-cash",
-      "permanent": true
-    },
-    {
       "source": "/programs/forklift-certification",
       "destination": "/programs/forklift",
       "permanent": true

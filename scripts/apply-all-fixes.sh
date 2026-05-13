@@ -26,7 +26,4 @@ sed -i 's/placeholder="john.doe@example.com"/placeholder="user@organization.org"
 sed -i 's/placeholder="admin@example.com"/placeholder="admin@elevateforhumanity.org"/g' "app/admin-login/page.tsx"
 sed -i 's/placeholder="you@example.com"/placeholder="your.email@address.com"/g' "app/apply/track/page.tsx"
 
-# Fix 3: Critical placeholder content
-sed -i 's/Coming Soon/Expanding Service/g' "app/supersonic-fast-cash/page.tsx"
-
 echo "✅ All fixes applied"

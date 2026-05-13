@@ -178,7 +178,7 @@ async function createStripeProducts() {
   console.log('📋 SUMMARY - Copy these Price IDs to your code:');
   console.log('='.repeat(80) + '\n');
 
-  console.log('Update app/supersonic-fast-cash/careers/training/page.tsx:\n');
+  console.log('Update the relevant pricing page in your app:\n');
 
   results.forEach((result) => {
     console.log(`  ${result.courseId}:`);

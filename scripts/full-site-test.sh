@@ -96,7 +96,6 @@ echo "=== SERVICE PAGES ==="
 test_page "/career-services" "Career Services" "Career"
 test_page "/advising" "Advising" "Advising"
 test_page "/mentorship" "Mentorship" "Mentor"
-test_page "/supersonic-fast-cash" "Tax Services" "Tax"
 test_page "/vita" "VITA" "VITA"
 
 echo ""

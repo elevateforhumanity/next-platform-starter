@@ -13,7 +13,6 @@ if ! command -v convert &> /dev/null; then
 fi
 
 # Create directories
-mkdir -p public/images/supersonic-fast-cash
 mkdir -p public/images/career-services
 mkdir -p public/images/programs
 
@@ -40,24 +39,6 @@ create_placeholder() {
 # Create placeholders
 echo "Creating placeholders..."
 echo ""
-
-create_placeholder \
-    "public/images/supersonic-fast-cash/hero-banner.jpg" \
-    "Supersonic Fast Cash\nHero Banner\n1200x800" \
-    1200 800 \
-    "#FF6B35"
-
-create_placeholder \
-    "public/images/supersonic-fast-cash/cta-instant-cash.jpg" \
-    "Instant Cash\nUp to \$6,000\n1920x1080" \
-    1920 1080 \
-    "#FF6B35"
-
-create_placeholder \
-    "public/images/supersonic-fast-cash/subpage-hero.jpg" \
-    "Supersonic Fast Cash\nSubpage Hero\n1920x1080" \
-    1920 1080 \
-    "#1E40AF"
 
 create_placeholder \
     "public/images/career-services/hero-banner.jpg" \

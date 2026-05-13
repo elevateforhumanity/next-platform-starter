@@ -36,7 +36,6 @@ Three domains route through `proxy.ts`:
 | --------------------------------- | ------------------------- | ---------------------------- |
 | `www.elevateforhumanity.org`      | `/` (default)             | Main site, store, admin      |
 | `elevateforhumanityeducation.com` | `/student-portal/*`       | LMS learner experience       |
-| `supersonicfastermoney.com`       | `/supersonic-fast-cash/*` | Tax prep / fast cash product |
 | `platform.elevateforhumanity.org` | `/platform/licensing/*`   | B2B licensing portal         |
 
 ---
@@ -937,7 +936,6 @@ Prioritized by risk. Each item includes the specific files to change and the nat
 
 ```
 app/api/test-get-students/route.ts
-app/api/test-supersonic-fast-cash/route.ts
 app/api/test-webhook/route.ts
 app/api/test-dashboards/route.ts
 app/api/test-license-enforcement/route.ts

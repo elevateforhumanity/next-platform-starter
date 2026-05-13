@@ -66,12 +66,6 @@ export default async function NonprofitPage() {
       icon: Heart,
     },
     {
-      title: 'Supersonic Fast Cash',
-      description: 'Quick financial assistance and emergency support services.',
-      href: '/supersonic-fast-cash',
-      icon: Gift,
-    },
-    {
       title: 'Free Job Training',
       description: 'Funded career training through WIOA for eligible participants. Healthcare, trades, technology.',
       href: '/programs',
