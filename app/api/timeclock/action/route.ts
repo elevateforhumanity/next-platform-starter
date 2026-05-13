@@ -184,14 +184,6 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
     if (byUserId) {
       resolvedApprentice = byUserId;
-    } else if (user.email) {
-      const { data: byEmail } = await supabase
-        .from('apprentices')
-        .select('id, employer_id, shop_id')
-        .eq('email', user.email)
-        .eq('status', 'active')
-        .maybeSingle();
-      resolvedApprentice = byEmail ?? null;
     }
 
     if (!resolvedApprentice) {

@@ -77,21 +77,15 @@ async function _GET(request: NextRequest) {
           shop_id,
           rapids_id,
           start_date,
-          status,
-          email
+          status
         `,
         )
-        .eq('email', user.email)
+        .eq('user_id', user.id)
         .eq('status', 'active')
         .maybeSingle();
 
       if (apprenticeByEmail) {
         apprentice = apprenticeByEmail;
-        // Update the apprentice record with user_id for future lookups
-        await supabase
-          .from('apprentices')
-          .update({ user_id: user.id })
-          .eq('id', apprenticeByEmail.id);
       }
     }
 
