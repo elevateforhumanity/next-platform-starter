@@ -146,10 +146,10 @@ export default async function PressPage() {
               Logos, brand guidelines, leadership bios, and program fact sheets.
             </p>
             <a
-              href="/docs/elevate-media-kit.pdf"
+              href="mailto:press@elevateforhumanity.org?subject=Media%20Kit%20Request"
               className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
             >
-              <Download className="w-4 h-4" /> Download Media Kit
+              <Download className="w-4 h-4" /> Request Media Kit
             </a>
           </div>
 
