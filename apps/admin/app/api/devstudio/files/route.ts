@@ -33,6 +33,8 @@ const MAX_FILE_BYTES = 512 * 1024; // 512 KB
 const BLOCKED_PATTERNS = [/^\.env/, /node_modules/, /\.git\//, /\.next\//];
 
 function isBlocked(filePath: string): boolean {
+  // Reject path traversal sequences before pattern matching
+  if (filePath.includes('..')) return true;
   return BLOCKED_PATTERNS.some((p) => p.test(filePath));
 }
 
