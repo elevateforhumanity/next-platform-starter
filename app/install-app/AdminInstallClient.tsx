@@ -13,6 +13,9 @@ export default function AdminInstallClient() {
   const [installed, setInstalled] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [platform, setPlatform] = useState<'ios' | 'android' | 'desktop' | 'unknown'>('unknown');
+  const [desktopBrowser, setDesktopBrowser] = useState<
+    'chrome' | 'edge' | 'safari' | 'firefox' | 'other'
+  >('other');
 
   useEffect(() => {
     // Already installed
@@ -25,7 +28,15 @@ export default function AdminInstallClient() {
     const ua = navigator.userAgent;
     if (/iPad|iPhone|iPod/.test(ua)) setPlatform('ios');
     else if (/Android/.test(ua)) setPlatform('android');
-    else setPlatform('desktop');
+    else {
+      setPlatform('desktop');
+
+      if (/Edg\//.test(ua)) setDesktopBrowser('edge');
+      else if (/Chrome\//.test(ua) && !/Edg\//.test(ua)) setDesktopBrowser('chrome');
+      else if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) setDesktopBrowser('safari');
+      else if (/Firefox\//.test(ua)) setDesktopBrowser('firefox');
+      else setDesktopBrowser('other');
+    }
 
     // Capture install prompt (Chrome/Edge/Android)
     function onBeforeInstallPrompt(e: Event) {
@@ -112,27 +123,68 @@ export default function AdminInstallClient() {
           </div>
         )}
 
-        {/* Desktop — no prompt yet, show Chrome instructions */}
+        {/* Desktop fallback when install prompt is unavailable */}
         {platform === 'desktop' && !deferredPrompt && (
           <div className="bg-slate-800 rounded-2xl p-5 mb-4">
             <div className="flex items-center gap-2 mb-3">
               <Chrome className="w-5 h-5 text-white" />
-              <p className="text-white font-semibold text-sm">Install on Desktop</p>
+              <p className="text-white font-semibold text-sm">Install on Desktop ({desktopBrowser === 'edge' ? 'Edge' : desktopBrowser === 'chrome' ? 'Chrome' : desktopBrowser === 'safari' ? 'Safari' : desktopBrowser === 'firefox' ? 'Firefox' : 'Browser'})</p>
             </div>
             <ol className="space-y-2 text-slate-300 text-sm">
-              <li className="flex items-start gap-2">
-                <span className="text-slate-500 font-mono text-xs mt-0.5">1.</span>
-                Look for the <strong className="text-white">install icon</strong> (⊕) in the browser address bar
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-slate-500 font-mono text-xs mt-0.5">2.</span>
-                Click it and select <strong className="text-white">Install</strong>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-slate-500 font-mono text-xs mt-0.5">3.</span>
-                The app opens in its own window — pin it to your taskbar
-              </li>
+              {desktopBrowser === 'chrome' || desktopBrowser === 'edge' ? (
+                <>
+                  <li className="flex items-start gap-2">
+                    <span className="text-slate-500 font-mono text-xs mt-0.5">1.</span>
+                    Look for the <strong className="text-white">Install app</strong> icon in the address bar.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-slate-500 font-mono text-xs mt-0.5">2.</span>
+                    Click it and select <strong className="text-white">Install</strong>.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-slate-500 font-mono text-xs mt-0.5">3.</span>
+                    If you do not see the icon, open browser menu <strong className="text-white">...</strong> → <strong className="text-white">Install Elevate Admin</strong>.
+                  </li>
+                </>
+              ) : desktopBrowser === 'safari' ? (
+                <>
+                  <li className="flex items-start gap-2">
+                    <span className="text-slate-500 font-mono text-xs mt-0.5">1.</span>
+                    Safari on desktop does not support installable web apps the same way as Chrome/Edge.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-slate-500 font-mono text-xs mt-0.5">2.</span>
+                    For app-style install, open this page in <strong className="text-white">Chrome</strong> or <strong className="text-white">Edge</strong>.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-slate-500 font-mono text-xs mt-0.5">3.</span>
+                    Continue in browser now using the button below.
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="flex items-start gap-2">
+                    <span className="text-slate-500 font-mono text-xs mt-0.5">1.</span>
+                    Open this page in <strong className="text-white">Chrome</strong> or <strong className="text-white">Edge</strong>.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-slate-500 font-mono text-xs mt-0.5">2.</span>
+                    Use the <strong className="text-white">Install app</strong> icon in the address bar, or browser menu.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-slate-500 font-mono text-xs mt-0.5">3.</span>
+                    If install is blocked by policy, use browser mode from the button below.
+                  </li>
+                </>
+              )}
             </ol>
+            <button
+              type="button"
+              onClick={() => window.location.reload()}
+              className="mt-4 w-full rounded-xl border border-slate-700 px-4 py-2 text-sm text-slate-200 hover:border-slate-500 hover:text-white transition-colors"
+            >
+              Refresh install check
+            </button>
           </div>
         )}
 
