@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch {
     return {
       title: 'HVAC Technician Training | EPA 608 Proctor Site | Indianapolis',
-      description: '12-week HVAC program in Indianapolis, Indiana. EPA 608 Universal proctored on-site. WIOA and WRG funding available for eligible Indiana residents.',
+      description: '6-week HVAC program in Indianapolis, Indiana. EPA 608 Universal proctored on-site. WIOA and WRG funding available for eligible Indiana residents.',
       alternates: { canonical: '/programs/hvac-technician' },
     };
   }
