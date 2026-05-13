@@ -11,7 +11,7 @@ const VALID_TYPES: ApplicantType[] = ['apprentice', 'partner_shop'];
 const APPLICANT_TYPES = [
   {
     value: 'apprentice',
-    label: 'I'm an Apprentice',
+    label: "I'm an Apprentice",
     desc: 'I want to enroll in the cosmetology apprenticeship program.',
   },
   {
