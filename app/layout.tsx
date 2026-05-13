@@ -233,7 +233,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `(function(){var p=location.pathname;var APP=['/admin','/lms','/learner','/instructor','/employer','/partner','/staff-portal','/mentor','/program-holder'];if(APP.some(function(a){return p===a||p.startsWith(a+'/')})){document.body.setAttribute('data-app-route','true');}if(p==='/admin'||p.startsWith('/admin/')){document.body.setAttribute('data-admin-route','true');}})();`,
+            __html: `(function(){var p=location.pathname;var APP=['/admin','/lms','/learner','/instructor','/employer','/employer-portal','/partner','/staff-portal','/mentor','/program-holder','/provider','/proctor'];if(APP.some(function(a){return p===a||p.startsWith(a+'/')})){document.body.setAttribute('data-app-route','true');}if(p==='/admin'||p.startsWith('/admin/')){document.body.setAttribute('data-admin-route','true');}})();`,
           }}
         />
         <SkipToContent />
