@@ -13,3 +13,16 @@ export const APPRENTICESHIP = {
 } as const;
 
 export type ApprenticeshipState = keyof typeof APPRENTICESHIP;
+
+export const APPRENTICESHIP_REQUIRED_HOURS: Record<string, number> = {
+  'barber-apprenticeship': 2000,
+  'cosmetology-apprenticeship': 2000,
+  'esthetician-apprenticeship': 700,
+  'nail-tech-apprenticeship': 450,
+  'nail-technician-apprenticeship': 450,
+};
+
+export function getApprenticeshipRequiredHours(programSlug: string | null | undefined) {
+  if (!programSlug) return null;
+  return APPRENTICESHIP_REQUIRED_HOURS[programSlug] ?? null;
+}

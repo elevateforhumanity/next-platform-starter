@@ -57,7 +57,7 @@ const DEMO_SECTIONS: DemoSection[] = [
       { name: 'My Courses', path: '/lms/courses', description: 'Enrolled courses list' },
       { name: 'Achievements', path: '/lms/achievements', description: 'Badges and certificates' },
       { name: 'Resources', path: '/lms/resources', description: 'Learning materials' },
-      { name: 'Community', path: '/lms/community', description: 'Discussion forums' },
+      { name: 'Messages', path: '/lms/messages', description: 'Learner communication hub' },
     ],
   },
   {

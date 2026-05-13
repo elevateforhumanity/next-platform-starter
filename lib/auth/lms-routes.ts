@@ -58,11 +58,6 @@ export const LMS_PROTECTED_ROUTES: RouteConfig[] = [
     allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
   },
   {
-    path: '/lms/community',
-    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
-  },
-  { path: '/lms/forums', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  {
     path: '/lms/portfolio',
     allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
   },

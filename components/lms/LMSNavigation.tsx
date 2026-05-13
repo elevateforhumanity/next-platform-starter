@@ -102,7 +102,6 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
     },
     { href: '/lms/certificates', label: 'Certificates', desc: 'Your credentials', icon: Award },
     { href: '/lms/library', label: 'Library', desc: 'Resources & reading', icon: BookMarked },
-    { href: '/lms/social', label: 'Community', desc: 'Groups & connections', icon: ChevronDown },
     { href: '/lms/payments', label: 'Payments', desc: 'Billing & invoices', icon: Award },
     { href: '/lms/settings', label: 'Settings', desc: 'Account settings', icon: Settings },
   ];

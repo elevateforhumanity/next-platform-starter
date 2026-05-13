@@ -128,9 +128,9 @@ export default async function StudentPortalPage() {
     },
     {
       icon: MessageSquare,
-      title: 'Discussion Forums',
-      description: 'Connect with classmates and study groups',
-      href: '/lms/forums',
+      title: 'Messages',
+      description: 'Connect with classmates and instructors',
+      href: '/lms/messages',
     },
     {
       icon: Award,

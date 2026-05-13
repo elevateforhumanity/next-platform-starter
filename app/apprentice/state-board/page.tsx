@@ -15,20 +15,16 @@ import {
 } from 'lucide-react';
 import { IPLA_EXAM_INFO, IPLA_EXAM_FEES } from '@/lib/payment-config';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import {
+  APPRENTICESHIP_REQUIRED_HOURS,
+  getApprenticeshipRequiredHours,
+} from '@/lib/compliance/apprenticeship';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'State Board Exam | Indiana IPLA',
   description: 'Schedule your Indiana Professional Licensing Agency state board exam.',
-};
-
-const REQUIRED_HOURS: Record<string, number> = {
-  'cosmetology-apprenticeship': 2000,
-  'barber-apprenticeship': 2000,
-  'esthetician-apprenticeship': 700,
-  'nail-tech-apprenticeship': 450,
-  'nail-technician-apprenticeship': 450, // legacy alias
 };
 
 export default async function StateBoardExamPage() {
@@ -43,7 +39,7 @@ export default async function StateBoardExamPage() {
     .from('program_enrollments')
     .select('program_slug, enrolled_at, status')
     .eq('user_id', user.id)
-    .in('program_slug', Object.keys(REQUIRED_HOURS))
+    .in('program_slug', Object.keys(APPRENTICESHIP_REQUIRED_HOURS))
     .eq('status', 'active')
     .order('enrolled_at', { ascending: false })
     .limit(1)
@@ -60,11 +56,13 @@ export default async function StateBoardExamPage() {
 
   const programSlug = programEnrollment?.program_slug ?? legacyEnrollment?.program_slug ?? null;
 
-  if (!programSlug || !(programSlug in REQUIRED_HOURS)) {
+  const configuredRequiredHours = getApprenticeshipRequiredHours(programSlug);
+
+  if (!programSlug || configuredRequiredHours === null) {
     redirect('/programs');
   }
 
-  const requiredHours = legacyEnrollment?.required_hours ?? REQUIRED_HOURS[programSlug] ?? 0;
+  const requiredHours = legacyEnrollment?.required_hours ?? configuredRequiredHours;
 
   // Hours from apprentice_hours (canonical PWA source) — approved only
   const { data: approvedRows } = await supabase

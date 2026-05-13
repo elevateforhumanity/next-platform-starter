@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { GraduationCap, Clock, FileText, Award, BookOpen, ArrowRight, Scissors } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getNextRequiredAction } from '@/lib/enrollment/gate';
+import { getApprenticeshipRequiredHours } from '@/lib/compliance/apprenticeship';
 
 export const metadata: Metadata = {
   title: 'Apprentice Portal | Elevate For Humanity',
@@ -139,17 +140,8 @@ export default async function ApprenticePortalPage() {
     if (entryHours > 0) totalHours = entryHours;
   }
 
-  const PROGRAM_REQUIRED_HOURS: Record<string, number> = {
-    'barber-apprenticeship':            2000,
-    'cosmetology-apprenticeship':       2000,
-    'esthetician-apprenticeship':        700,
-    'nail-tech-apprenticeship':          450,
-    'nail-technician-apprenticeship':    450, // legacy alias
-  };
   const programSlugForHours = enrollment?.programs?.slug ?? null;
-  const requiredHours = programSlugForHours
-    ? PROGRAM_REQUIRED_HOURS[programSlugForHours] ?? null
-    : null;
+  const requiredHours = getApprenticeshipRequiredHours(programSlugForHours);
   const hoursProgressPercent = requiredHours
     ? Math.min((totalHours / requiredHours) * 100, 100)
     : 0;

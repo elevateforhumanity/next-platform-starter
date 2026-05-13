@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import { Clock, Plus, Calendar, TrendingUp, Target } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
+import { getApprenticeshipRequiredHours } from '@/lib/compliance/apprenticeship';
 
 export const metadata: Metadata = {
   title: 'Apprentice Hours | Elevate For Humanity',
@@ -60,16 +61,7 @@ export default async function ApprenticeHoursPage() {
     .limit(1)
     .maybeSingle();
 
-  const PROGRAM_REQUIRED_HOURS: Record<string, number> = {
-    'barber-apprenticeship': 2000,
-    'cosmetology-apprenticeship': 2000,
-    'esthetician-apprenticeship': 700,
-    'nail-tech-apprenticeship': 450,
-    'nail-technician-apprenticeship': 450, // legacy alias
-  };
-  const requiredHours = activeEnrollment?.program_slug
-    ? PROGRAM_REQUIRED_HOURS[activeEnrollment.program_slug] ?? null
-    : null;
+  const requiredHours = getApprenticeshipRequiredHours(activeEnrollment?.program_slug ?? null);
   const progressPercent = requiredHours
     ? Math.min(Math.round((approvedHours / requiredHours) * 100), 100)
     : 0;

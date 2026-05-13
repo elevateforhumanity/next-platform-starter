@@ -23,6 +23,7 @@ import {
   GraduationCap,
   Target,
   Users,
+  MessageSquare,
   HelpCircle,
   BarChart2,
 } from 'lucide-react';
@@ -571,11 +572,11 @@ export default async function StudentDashboard() {
                     bg: 'bg-emerald-50',
                   },
                   {
-                    href: '/lms/social',
-                    label: 'Community',
-                    icon: Users,
-                    color: 'text-pink-600',
-                    bg: 'bg-pink-50',
+                    href: '/lms/messages',
+                    label: 'Messages',
+                    icon: MessageSquare,
+                    color: 'text-brand-blue-600',
+                    bg: 'bg-brand-blue-50',
                   },
                   {
                     href: '/lms/support',

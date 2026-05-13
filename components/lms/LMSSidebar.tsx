@@ -60,9 +60,8 @@ const practiceItems = [
   { href: '/lms/peer-review', label: 'Peer Review', icon: Users },
 ];
 
-// COMMUNITY — social and communication
+// COMMUNICATION — learner communication tools
 const communityItems = [
-  { href: '/lms/forums', label: 'Forums', icon: MessageSquare },
   { href: '/lms/messages', label: 'Messages', icon: MessageSquare },
 ];
 
