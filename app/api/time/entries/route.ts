@@ -35,53 +35,64 @@ async function _POST(req: Request) {
 
   const body = await req.json();
 
-  // Get enrollment_id from body or look it up from user
-  const enrollment_id = body.enrollment_id;
+  // Get enrollment_id from body or auto-lookup from user's active enrollment
+  let enrollment_id = body.enrollment_id;
   if (!enrollment_id) {
-    return NextResponse.json({ error: 'enrollment_id required' }, { status: 400 });
+    const { data: autoEnrollment } = await supabase
+      .from('student_enrollments')
+      .select('id, student_id, program_id')
+      .eq('student_id', user.id)
+      .in('status', ['active', 'enrolled', 'in_progress'])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (autoEnrollment) {
+      enrollment_id = autoEnrollment.id;
+    }
   }
 
-  // Verify user owns this enrollment
-  const { data: enrollment, error: enrollErr } = await supabase
-    .from('student_enrollments')
-    .select('id, student_id, program_id')
-    .eq('id', enrollment_id)
-    .maybeSingle();
+  // Verify user owns this enrollment (skip if no enrollment found — allow self-report without enrollment)
+  if (enrollment_id) {
+    const { data: enrollment, error: enrollErr } = await supabase
+      .from('student_enrollments')
+      .select('id, student_id, program_id')
+      .eq('id', enrollment_id)
+      .maybeSingle();
 
-  if (enrollErr || !enrollment) {
-    return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
+    if (!enrollErr && enrollment && enrollment.student_id !== user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
   }
 
-  if (enrollment.student_id !== user.id) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
-
-  const start_at = new Date(body.start_at);
-  const end_at = new Date(body.end_at);
-  const entry_date = (body.entry_date as string) ?? start_at.toISOString().slice(0, 10);
-  const hour_type = body.hour_type as HourType;
-  const funding_phase = body.funding_phase as FundingPhase;
+  // Support both simple mode (hours_claimed + entry_date) and full mode (start_at + end_at)
+  const entry_date = (body.entry_date as string) ?? new Date().toISOString().slice(0, 10);
+  const hours_claimed_direct = body.hours_claimed ? Number(body.hours_claimed) : null;
+  const start_at = body.start_at ? new Date(body.start_at) : null;
+  const end_at = body.end_at ? new Date(body.end_at) : null;
+  const hour_type = (body.hour_type as HourType) ?? 'OJT';
+  const funding_phase = (body.funding_phase as FundingPhase) ?? 'PRE_WIOA';
   const lms_module_ref =
     (body.milady_module_ref as string) ?? (body.lms_module_ref as string) ?? null;
-  const activity_note = (body.activity_note as string) ?? null;
+  const activity_note = (body.activity_note as string) ?? (body.notes as string) ?? null;
   const location_note = (body.location_note as string) ?? null;
   const program_holder_id = body.program_holder_id ?? null;
-  const apprentice_attest = Boolean(body.apprentice_attest);
+  // Self-report entries (source_type=learner_self_report) don't require explicit attestation
+  const apprentice_attest = Boolean(body.apprentice_attest) || body.source_type === 'learner_self_report';
 
   // Validation
   if (!apprentice_attest) {
     return NextResponse.json({ error: 'Attestation required' }, { status: 400 });
   }
-  if (
-    !(start_at instanceof Date) ||
-    !(end_at instanceof Date) ||
-    isNaN(start_at.getTime()) ||
-    isNaN(end_at.getTime())
-  ) {
-    return NextResponse.json({ error: 'Invalid start/end times' }, { status: 400 });
-  }
-  if (end_at <= start_at) {
-    return NextResponse.json({ error: 'End must be after start' }, { status: 400 });
+  // Full-mode: both start and end required
+  if (start_at !== null || end_at !== null) {
+    if (!start_at || !end_at || isNaN(start_at.getTime()) || isNaN(end_at.getTime())) {
+      return NextResponse.json({ error: 'Invalid start/end times' }, { status: 400 });
+    }
+    if (end_at <= start_at) {
+      return NextResponse.json({ error: 'End must be after start' }, { status: 400 });
+    }
+  } else if (!hours_claimed_direct || hours_claimed_direct <= 0) {
+    return NextResponse.json({ error: 'hours_claimed or start_at/end_at required' }, { status: 400 });
   }
   if (!['RTI', 'OJT'].includes(hour_type)) {
     return NextResponse.json({ error: 'Invalid hour_type' }, { status: 400 });
@@ -90,14 +101,16 @@ async function _POST(req: Request) {
     return NextResponse.json({ error: 'Invalid funding_phase' }, { status: 400 });
   }
 
-  // Fetch apprentice funding profile (WIOA start + post-cert date)
-  const { data: profile, error: profErr } = await supabase
-    .from('apprentice_funding_profile')
-    .select('wioa_start_date, post_cert_date')
-    .eq('enrollment_id', enrollment_id)
-    .maybeSingle();
-
-  if (profErr) return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
+  // Fetch apprentice funding profile (WIOA start + post-cert date) — non-fatal if missing
+  let profile: { wioa_start_date: string | null; post_cert_date: string | null } | null = null;
+  if (enrollment_id) {
+    const { data: profData } = await supabase
+      .from('apprentice_funding_profile')
+      .select('wioa_start_date, post_cert_date')
+      .eq('enrollment_id', enrollment_id)
+      .maybeSingle();
+    profile = profData ?? null;
+  }
 
   const wioa_start_date = profile?.wioa_start_date ?? null; // YYYY-MM-DD
   const post_cert_date = profile?.post_cert_date ?? null;
@@ -158,7 +171,10 @@ async function _POST(req: Request) {
     .filter((r) => r.category === 'wioa' && r.source_type === 'rti')
     .reduce((s, r) => s + (Number(r.hours_claimed) || 0) * 60, 0);
 
-  const newMinutes = Math.max(1, Math.floor((end_at.getTime() - start_at.getTime()) / 60000));
+  const newMinutes =
+    start_at && end_at
+      ? Math.max(1, Math.floor((end_at.getTime() - start_at.getTime()) / 60000))
+      : Math.round((hours_claimed_direct ?? 0) * 60);
 
   const MAX_WEEKLY_TOTAL_MIN = 40 * 60;
   const MAX_WEEKLY_WIOA_RTI_MIN = 8 * 60; // adjust to your policy
@@ -182,8 +198,8 @@ async function _POST(req: Request) {
     .insert({
       user_id: user.id,
       apprentice_application_id: null,
-      source_type: hour_type === 'RTI' ? 'rti' : 'ojl',
-      category: funding_phase?.toLowerCase() || null,
+      source_type: body.source_type ?? (hour_type === 'RTI' ? 'rti' : 'ojl'),
+      category: body.category ?? funding_phase?.toLowerCase() ?? null,
       work_date: entry_date,
       hours_claimed: newHours,
       entered_by_email: user.email || '',

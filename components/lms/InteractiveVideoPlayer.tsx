@@ -375,6 +375,8 @@ export default function InteractiveVideoPlayer({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const showPlayerChrome = !loadError;
+
   return (
     <div className="bg-black rounded-lg overflow-hidden shadow-2xl">
       <div className="relative">
@@ -382,9 +384,12 @@ export default function InteractiveVideoPlayer({
         {loadError ? (
           <div className="w-full aspect-video flex items-center justify-center bg-slate-900 text-white">
             <div className="text-center p-8">
-              <p className="text-lg font-medium mb-2">Unable to load media</p>
-              <p className="text-sm text-slate-700 mb-4">
-                The video may be temporarily unavailable.
+              <p className="text-lg font-medium mb-2">Media file not found</p>
+              <p className="text-sm text-slate-300 mb-2">
+                This lesson video is not available yet in the current environment.
+              </p>
+              <p className="text-xs text-slate-400 mb-4">
+                You can continue with Reading and Quiz activities while media is being published.
               </p>
               <button
                 onClick={() => {
@@ -512,7 +517,7 @@ export default function InteractiveVideoPlayer({
         )}
 
         {/* Video Controls */}
-        <div className="absolute bottom-0 left-0 right-0    p-4">
+        {showPlayerChrome && <div className="absolute bottom-0 left-0 right-0    p-4">
           {/* Progress Bar */}
           <div className="mb-4">
             <input
@@ -604,11 +609,11 @@ export default function InteractiveVideoPlayer({
               </button>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
 
       {/* Tabs Section */}
-      <div className="bg-slate-900 text-white">
+      {showPlayerChrome && <div className="bg-slate-900 text-white">
         <div className="flex border-b border-slate-700">
           <button
             onClick={() => setActiveTab('transcript')}
@@ -709,7 +714,7 @@ export default function InteractiveVideoPlayer({
             </div>
           )}
         </div>
-      </div>
+      </div>}
     </div>
   );
 }

@@ -1,12 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Save, AlertCircle, CheckCircle2, Scissors, Clock, History } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
+import {
+  AlertCircle,
+  ArrowLeft,
+  CheckCircle2,
+  Clock,
+  History,
+  Save,
+  Scissors,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { createClient } from '@/lib/supabase/client';
+import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 
 type Skill = {
   id: string;
@@ -20,12 +28,13 @@ function LogCompetencyForm() {
   const router = useRouter();
   const searchParams = useSafeSearchParams();
   const preselectedSkillId = searchParams.get('skill') ?? '';
-
   const supabase = createClient();
 
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loadingSkills, setLoadingSkills] = useState(true);
-
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     skillId: preselectedSkillId,
     workDate: new Date().toISOString().split('T')[0],
@@ -35,58 +44,81 @@ function LogCompetencyForm() {
     notes: '',
   });
 
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-
   useEffect(() => {
     async function loadSkills() {
       if (!supabase) return;
 
-      const { data: program } = await supabase
-        .from('programs')
-        .select('id')
-        .eq('slug', 'barber-apprenticeship')
-        .maybeSingle();
+      setLoadingSkills(true);
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
 
-      if (!program) {
+        if (!user) {
+          setSkills([]);
+          return;
+        }
+
+        const { data: apprentice } = await supabase
+          .from('apprentices')
+          .select('program_id')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        let programId = apprentice?.program_id ?? null;
+        if (!programId) {
+          const { data: enrollment } = await supabase
+            .from('program_enrollments')
+            .select('program_id')
+            .eq('user_id', user.id)
+            .in('status', ['active', 'enrolled', 'in_progress'])
+            .order('created_at', { ascending: false })
+            .maybeSingle();
+          programId = enrollment?.program_id ?? null;
+        }
+
+        if (!programId) {
+          setSkills([]);
+          return;
+        }
+
+        const { data: cats } = await supabase
+          .from('skill_categories')
+          .select('id, name, order')
+          .eq('program_id', programId)
+          .order('order', { ascending: true });
+
+        const { data: rawSkills } = await supabase
+          .from('apprentice_skills')
+          .select('id, category_id, name, description, order')
+          .eq('program_id', programId)
+          .order('order', { ascending: true });
+
+        const catMap: Record<string, { name: string; order: number }> = {};
+        for (const c of cats ?? []) {
+          const row = c as any;
+          catMap[row.id] = { name: row.name, order: row.order };
+        }
+
+        const enriched: Skill[] = (rawSkills ?? []).map((skill: any) => ({
+          id: skill.id,
+          name: skill.name,
+          description: skill.description,
+          category_name: catMap[skill.category_id]?.name ?? 'Other',
+          is_rti: catMap[skill.category_id]?.order === 7,
+        }));
+
+        setSkills(enriched);
+      } finally {
         setLoadingSkills(false);
-        return;
       }
-
-      const { data: cats } = await supabase
-        .from('skill_categories')
-        .select('id, name, order')
-        .eq('program_id', program.id)
-        .order('order', { ascending: true });
-
-      const { data: rawSkills } = await supabase
-        .from('apprentice_skills')
-        .select('id, category_id, name, description, order')
-        .eq('program_id', program.id)
-        .order('order', { ascending: true });
-
-      const catMap: Record<string, { name: string; order: number }> = {};
-      for (const c of cats ?? [])
-        catMap[(c as any).id] = { name: (c as any).name, order: (c as any).order };
-
-      const enriched: Skill[] = (rawSkills ?? []).map((s: any) => ({
-        id: s.id,
-        name: s.name,
-        description: s.description,
-        category_name: catMap[s.category_id]?.name ?? 'Other',
-        is_rti: catMap[s.category_id]?.order === 7,
-      }));
-
-      setSkills(enriched);
-      setLoadingSkills(false);
     }
+
     loadSkills();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Auto-set hours to 0 for RTI skills (theory modules, not OJL hours)
-  const selectedSkill = skills.find((s) => s.id === formData.skillId);
+  const selectedSkill = skills.find((skill) => skill.id === formData.skillId);
   const isRTI = selectedSkill?.is_rti ?? false;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -102,41 +134,59 @@ function LogCompetencyForm() {
       return;
     }
 
-    const count = parseInt(formData.serviceCount);
+    const count = parseInt(formData.serviceCount, 10);
     const hours = parseFloat(formData.hoursCredited);
 
-    if (isNaN(count) || count < 1) {
+    if (Number.isNaN(count) || count < 1) {
       setError('Service count must be at least 1.');
       return;
     }
-    if (!isRTI && (isNaN(hours) || hours < 0)) {
+    if (!isRTI && (Number.isNaN(hours) || hours < 0)) {
       setError('Please enter valid hours.');
       return;
     }
 
     setSubmitting(true);
-
     try {
       if (!supabase) throw new Error('Not connected');
 
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
       if (!user) {
         router.push('/login?redirect=/apprentice/competencies/log');
         return;
       }
 
-      const { data: program } = await supabase
-        .from('programs')
-        .select('id')
-        .eq('slug', 'barber-apprenticeship')
+      const { data: apprentice } = await supabase
+        .from('apprentices')
+        .select('program_id')
+        .eq('user_id', user.id)
         .maybeSingle();
+
+      let programId = apprentice?.program_id ?? null;
+      if (!programId) {
+        const { data: enrollment } = await supabase
+          .from('program_enrollments')
+          .select('program_id')
+          .eq('user_id', user.id)
+          .in('status', ['active', 'enrolled', 'in_progress'])
+          .order('created_at', { ascending: false })
+          .maybeSingle();
+        programId = enrollment?.program_id ?? null;
+      }
+
+      if (!programId) {
+        setError('No active apprenticeship program found for this account.');
+        setSubmitting(false);
+        return;
+      }
 
       const { error: insertError } = await supabase.from('competency_log').insert({
         apprentice_id: user.id,
         skill_id: formData.skillId,
-        program_id: program?.id ?? null,
+        program_id: programId,
         work_date: formData.workDate,
         service_count: count,
         hours_credited: isRTI ? 0 : hours,
@@ -171,11 +221,10 @@ function LogCompetencyForm() {
     );
   }
 
-  // Group skills by category for the select
   const grouped: Record<string, Skill[]> = {};
-  for (const s of skills) {
-    if (!grouped[s.category_name]) grouped[s.category_name] = [];
-    grouped[s.category_name].push(s);
+  for (const skill of skills) {
+    if (!grouped[skill.category_name]) grouped[skill.category_name] = [];
+    grouped[skill.category_name].push(skill);
   }
 
   return (
@@ -237,7 +286,6 @@ function LogCompetencyForm() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Competency selector */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">
                 Competency / Service <span className="text-red-500">*</span>
@@ -250,15 +298,15 @@ function LogCompetencyForm() {
                 <select
                   required
                   value={formData.skillId}
-                  onChange={(e) => setFormData((p) => ({ ...p, skillId: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, skillId: e.target.value }))}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-sm"
                 >
                   <option value="">— Select a competency —</option>
                   {Object.entries(grouped).map(([catName, catSkills]) => (
                     <optgroup key={catName} label={catName}>
-                      {catSkills.map((s) => (
-                        <option key={s.id} value={s.id}>
-                          {s.name}
+                      {catSkills.map((skill) => (
+                        <option key={skill.id} value={skill.id}>
+                          {skill.name}
                         </option>
                       ))}
                     </optgroup>
@@ -278,7 +326,6 @@ function LogCompetencyForm() {
               )}
             </div>
 
-            {/* Date */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">
                 Date Performed <span className="text-red-500">*</span>
@@ -288,12 +335,11 @@ function LogCompetencyForm() {
                 required
                 max={new Date().toISOString().split('T')[0]}
                 value={formData.workDate}
-                onChange={(e) => setFormData((p) => ({ ...p, workDate: e.target.value }))}
+                onChange={(e) => setFormData((prev) => ({ ...prev, workDate: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
               />
             </div>
 
-            {/* Service count + hours — side by side */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">
@@ -305,7 +351,9 @@ function LogCompetencyForm() {
                   min="1"
                   max="50"
                   value={formData.serviceCount}
-                  onChange={(e) => setFormData((p) => ({ ...p, serviceCount: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, serviceCount: e.target.value }))
+                  }
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
                   placeholder="1"
                 />
@@ -324,7 +372,9 @@ function LogCompetencyForm() {
                     max="12"
                     step="0.5"
                     value={formData.hoursCredited}
-                    onChange={(e) => setFormData((p) => ({ ...p, hoursCredited: e.target.value }))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, hoursCredited: e.target.value }))
+                    }
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
                     placeholder="0.5"
                   />
@@ -333,7 +383,6 @@ function LogCompetencyForm() {
               )}
             </div>
 
-            {/* Supervisor */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">
                 Supervising Barber Name
@@ -341,7 +390,9 @@ function LogCompetencyForm() {
               <input
                 type="text"
                 value={formData.supervisorName}
-                onChange={(e) => setFormData((p) => ({ ...p, supervisorName: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, supervisorName: e.target.value }))
+                }
                 placeholder="Name of licensed supervising barber"
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
               />
@@ -350,27 +401,22 @@ function LogCompetencyForm() {
               </p>
             </div>
 
-            {/* Notes */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                Notes / Description
-              </label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Notes / Description</label>
               <textarea
                 rows={3}
                 value={formData.notes}
-                onChange={(e) => setFormData((p) => ({ ...p, notes: e.target.value }))}
+                onChange={(e) => setFormData((prev) => ({ ...prev, notes: e.target.value }))}
                 placeholder="Describe what you practiced, any techniques used, client feedback…"
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm resize-none"
               />
             </div>
 
-            {/* Compliance notice */}
             <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
               <p className="text-xs text-brand-blue-800 leading-relaxed">
                 <strong>DOL Compliance:</strong> All entries are submitted as <em>pending</em> until
                 your supervising barber verifies them. Only verified entries count toward your
-                official 2,000-hour OJL record in the federal RAPIDS system. Falsifying entries is a
-                violation of your apprenticeship agreement.
+                official 2,000-hour OJL record in the federal RAPIDS system.
               </p>
             </div>
 
@@ -403,5 +449,5 @@ function LogCompetencyForm() {
 }
 
 export default function LogCompetencyPage() {
-  return (<LogCompetencyForm />);
+  return <LogCompetencyForm />;
 }

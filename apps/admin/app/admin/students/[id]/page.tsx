@@ -106,8 +106,18 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
 
   if (!student) notFound();
 
-  // Load enrollments, applications, lesson progress in parallel
-  const [enrollmentsRes, applicationsRes, progressRes] = await Promise.all([
+  // Load enrollments, applications, lesson progress, barber subscription in parallel
+  const [enrollmentsRes, applicationsRes, progressRes, barberSubRes] = await Promise.all([
+    db
+      .from('barber_subscriptions')
+      .select(
+        'id, status, payment_status, weekly_payment_cents, weeks_remaining, remaining_balance, full_tuition_amount, amount_paid_at_checkout, stripe_customer_id, stripe_subscription_id, customer_email, failed_payment_at, suspension_deadline, suspended_at, welcome_email_sent_at, dashboard_invite_sent_at, created_at',
+      )
+      .eq('user_id', id)
+      .maybeSingle(),
+    db
+      .from('program_enrollments')
+      .select(
     db
       .from('program_enrollments')
       .select(
@@ -136,6 +146,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
   if (applicationsRes.error)
     throw new Error(`applications query failed: ${applicationsRes.error.message}`);
 
+  const barberSub = barberSubRes.data ?? null;
   const enrollments = enrollmentsRes.data ?? [];
   const applications = applicationsRes.data ?? [];
   const completedLessons = progressRes.count ?? 0;
@@ -360,6 +371,32 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
                   />
                 );
               }),
+          )}
+
+          {/* Barber Billing Panel */}
+          {barberSub && (
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+              <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <CreditCard className="w-4 h-4 text-slate-400" /> Barber Apprenticeship Billing
+                </h2>
+                <Badge status={barberSub.payment_status ?? barberSub.status ?? 'unknown'} />
+              </div>
+              <div className="px-5 py-4 space-y-1">
+                <InfoRow label="Weekly Payment" value={barberSub.weekly_payment_cents ? `$${(barberSub.weekly_payment_cents / 100).toFixed(2)} / week` : '—'} />
+                <InfoRow label="Weeks Remaining" value={barberSub.weeks_remaining != null ? `${barberSub.weeks_remaining} weeks` : '—'} />
+                <InfoRow label="Remaining Balance" value={barberSub.remaining_balance != null ? fmtUsd(barberSub.remaining_balance * 100) : barberSub.full_tuition_amount && barberSub.amount_paid_at_checkout ? fmtUsd((barberSub.full_tuition_amount - barberSub.amount_paid_at_checkout / 100) * 100) : '—'} />
+                <InfoRow label="Paid at Checkout" value={barberSub.amount_paid_at_checkout ? fmtUsd(barberSub.amount_paid_at_checkout) : '—'} />
+                <InfoRow label="Stripe Customer" value={barberSub.stripe_customer_id ? <a href={`https://dashboard.stripe.com/customers/${barberSub.stripe_customer_id}`} target="_blank" rel="noreferrer" className="text-brand-blue-600 hover:underline font-mono text-xs">{barberSub.stripe_customer_id}</a> : '—'} />
+                <InfoRow label="Stripe Subscription" value={barberSub.stripe_subscription_id ? <a href={`https://dashboard.stripe.com/subscriptions/${barberSub.stripe_subscription_id}`} target="_blank" rel="noreferrer" className="text-brand-blue-600 hover:underline font-mono text-xs">{barberSub.stripe_subscription_id}</a> : <span className="text-amber-600 font-semibold">Not created</span>} />
+                {barberSub.failed_payment_at && <InfoRow label="Last Failed Payment" value={fmtDate(barberSub.failed_payment_at)} />}
+                {barberSub.suspension_deadline && <InfoRow label="Suspension Deadline" value={<span className="text-red-600 font-semibold">{fmtDate(barberSub.suspension_deadline)}</span>} />}
+                {barberSub.suspended_at && <InfoRow label="Suspended At" value={fmtDate(barberSub.suspended_at)} />}
+                <InfoRow label="Welcome Email" value={barberSub.welcome_email_sent_at ? <span className="text-emerald-600">Sent {fmtDate(barberSub.welcome_email_sent_at)}</span> : <span className="text-amber-600">Not sent</span>} />
+                <InfoRow label="Dashboard Invite" value={barberSub.dashboard_invite_sent_at ? <span className="text-emerald-600">Sent {fmtDate(barberSub.dashboard_invite_sent_at)}</span> : <span className="text-amber-600">Not sent</span>} />
+                <InfoRow label="Enrolled" value={fmtDate(barberSub.created_at)} />
+              </div>
+            </div>
           )}
 
           {/* Applications */}

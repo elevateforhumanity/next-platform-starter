@@ -68,6 +68,7 @@ function formatBytes(bytes: number | null) {
 }
 
 export default function DocumentsClient() {
+  const [programSlug, setProgramSlug] = useState<string | null>(null);
   const [docTypes, setDocTypes] = useState<DocType[]>([]);
   const [uploaded, setUploaded] = useState<UploadedDoc[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +87,18 @@ export default function DocumentsClient() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/apprentice/documents?program=barber-apprenticeship');
+      // Look up the user's active program slug first
+      let slug = programSlug;
+      if (!slug) {
+        const profileRes = await fetch('/api/apprentice/program-slug');
+        if (profileRes.ok) {
+          const pd = await profileRes.json();
+          slug = pd.programSlug ?? null;
+        }
+        setProgramSlug(slug);
+      }
+      if (!slug) throw new Error('No active apprenticeship program is configured for this account');
+      const res = await fetch(`/api/apprentice/documents?program=${encodeURIComponent(slug)}`);
       if (!res.ok) throw new Error('Failed to load documents');
       const data = await res.json();
       setDocTypes(data.documentTypes ?? []);
@@ -136,7 +148,11 @@ export default function DocumentsClient() {
       const form = new FormData();
       form.append('file', file);
       form.append('documentTypeId', typeId);
-      form.append('programSlug', 'barber-apprenticeship');
+      if (!programSlug) {
+        setUploadError((p) => ({ ...p, [typeId]: 'No active apprenticeship program found' }));
+        return;
+      }
+      form.append('programSlug', programSlug);
 
       const res = await fetch('/api/apprentice/documents', { method: 'POST', body: form });
       const data = await res.json();

@@ -146,8 +146,13 @@ export default async function ApprenticePortalPage() {
     'nail-tech-apprenticeship':          450,
     'nail-technician-apprenticeship':    450, // legacy alias
   };
-  const programSlugForHours = enrollment?.programs?.slug ?? 'barber-apprenticeship';
-  const requiredHours = PROGRAM_REQUIRED_HOURS[programSlugForHours] ?? 2000;
+  const programSlugForHours = enrollment?.programs?.slug ?? null;
+  const requiredHours = programSlugForHours
+    ? PROGRAM_REQUIRED_HOURS[programSlugForHours] ?? null
+    : null;
+  const hoursProgressPercent = requiredHours
+    ? Math.min((totalHours / requiredHours) * 100, 100)
+    : 0;
 
   const quickLinks = [
     { name: 'Timeclock', href: '/apprentice/timeclock', icon: Clock, description: 'Clock in / out at your work site' },
@@ -206,14 +211,16 @@ export default async function ApprenticePortalPage() {
           <div className="flex items-center gap-4">
             <div className="flex-1">
               <div className="h-4 bg-slate-200 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-white rounded-full transition-all"
-                  style={{ width: `${Math.min((totalHours / requiredHours) * 100, 100)}%` }}
+                  style={{ width: `${hoursProgressPercent}%` }}
                 />
               </div>
             </div>
             <span className="text-lg font-medium text-slate-900">
-              {totalHours.toLocaleString()} / {requiredHours.toLocaleString()} hours
+              {requiredHours
+                ? `${totalHours.toLocaleString()} / ${requiredHours.toLocaleString()} hours`
+                : `${totalHours.toLocaleString()} hours logged`}
             </span>
           </div>
         </div>

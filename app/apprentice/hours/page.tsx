@@ -67,8 +67,12 @@ export default async function ApprenticeHoursPage() {
     'nail-tech-apprenticeship': 450,
     'nail-technician-apprenticeship': 450, // legacy alias
   };
-  const requiredHours = PROGRAM_REQUIRED_HOURS[activeEnrollment?.program_slug ?? ''] ?? 2000;
-  const progressPercent = Math.min(Math.round((approvedHours / requiredHours) * 100), 100);
+  const requiredHours = activeEnrollment?.program_slug
+    ? PROGRAM_REQUIRED_HOURS[activeEnrollment.program_slug] ?? null
+    : null;
+  const progressPercent = requiredHours
+    ? Math.min(Math.round((approvedHours / requiredHours) * 100), 100)
+    : 0;
 
   return (
     <div className="min-h-screen bg-white">
@@ -120,7 +124,9 @@ export default async function ApprenticeHoursPage() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-slate-900">Apprenticeship Progress</h2>
             <span className="text-sm text-slate-700">
-              {approvedHours} / {requiredHours} hours
+              {requiredHours
+                ? `${approvedHours} / ${requiredHours} hours`
+                : `${approvedHours} approved hours`}
             </span>
           </div>
           <div className="w-full bg-slate-200 rounded-full h-4 mb-2">
@@ -129,7 +135,9 @@ export default async function ApprenticeHoursPage() {
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <p className="text-sm text-slate-700">{progressPercent}% complete</p>
+          <p className="text-sm text-slate-700">
+            {requiredHours ? `${progressPercent}% complete` : 'Program hour target not configured yet'}
+          </p>
         </div>
 
         {/* Stats */}
@@ -173,7 +181,9 @@ export default async function ApprenticeHoursPage() {
                 <Target className="w-5 h-5 text-brand-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-slate-900">{requiredHours - approvedHours}</p>
+                <p className="text-2xl font-bold text-slate-900">
+                  {requiredHours ? Math.max(requiredHours - approvedHours, 0) : 'N/A'}
+                </p>
                 <p className="text-sm text-slate-700">Remaining</p>
               </div>
             </div>

@@ -40,7 +40,7 @@ find app/api/ -name "route.ts" | sort | while read -r f; do
   if grep -qE "AUTH: Intentionally public|AUTH: Enforced inside handler|// PUBLIC ROUTE" "$f" 2>/dev/null; then
     continue
   fi
-  if ! grep -qE "requireAuth|apiRequireAdmin|apiAuthGuard|requireAdmin|getUser|getCurrentUser|getAuthUser|createClient|createAdminClient|requireApiAuth|requireApiRole|CRON_SECRET|apiGuard|withAuth|checkAuth|verifyAuth|authMiddleware|requireOrgAdmin|AUDIT_SECRET|apiRequireInstructor|builderGuard|requireInstructor|requireOrgAdmin|apiRequireRole" "$f" 2>/dev/null; then
+  if ! grep -qE "requireAuth|apiRequireAdmin|apiAuthGuard|requireAdmin|getUser|getCurrentUser|getAuthUser|createClient|createAdminClient|requireApiAuth|requireApiRole|CRON_SECRET|apiGuard|withAuth|checkAuth|verifyAuth|authMiddleware|requireOrgAdmin|AUDIT_SECRET|apiRequireInstructor|builderGuard|requireInstructor|requireOrgAdmin|apiRequireRole|requireApiRole|requireOrgAdmin" "$f" 2>/dev/null; then
     echo "  NO_AUTH: $f"
   fi
 done

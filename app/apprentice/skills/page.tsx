@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import { Circle, Target, TrendingUp } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -29,14 +28,14 @@ export default async function ApprenticeSkillsPage() {
     .eq('user_id', user.id)
     .maybeSingle();
 
-  // Get skill categories (flat — apprentice_skills join omitted until migration runs)
+  // Get skill categories
   const { data: rawCategories } = await supabase
     .from('skill_categories')
     .select('*')
     .eq('program_id', apprentice?.program_id)
     .order('order', { ascending: true });
 
-  // Get skills separately (table may not exist yet; errors are non-fatal)
+  // Get skills with progress (non-fatal if table missing)
   const { data: rawSkills } = await supabase
     .from('apprentice_skills')
     .select('*, progress:apprentice_skill_progress(*)')
@@ -48,7 +47,7 @@ export default async function ApprenticeSkillsPage() {
     skills: (rawSkills || []).filter((s: any) => s.category_id === cat.id),
   }));
 
-  // Get overall progress
+  // Overall progress from apprentice_skill_progress
   const { data: progressSummary } = await supabase
     .from('apprentice_skill_progress')
     .select('*')
@@ -57,36 +56,6 @@ export default async function ApprenticeSkillsPage() {
   const totalSkills = progressSummary?.length || 0;
   const completedSkills = progressSummary?.filter((p: any) => p.status === 'completed').length || 0;
   const progressPercent = totalSkills > 0 ? (completedSkills / totalSkills) * 100 : 0;
-
-  const defaultCategories = [
-    {
-      name: 'Safety & Compliance',
-      skills: [
-        { name: 'OSHA Safety Standards', status: 'completed' },
-        { name: 'Personal Protective Equipment', status: 'completed' },
-        { name: 'Emergency Procedures', status: 'in-progress' },
-      ],
-    },
-    {
-      name: 'Technical Skills',
-      skills: [
-        { name: 'Basic Tool Operation', status: 'completed' },
-        { name: 'Equipment Maintenance', status: 'in-progress' },
-        { name: 'Quality Control', status: 'not-started' },
-      ],
-    },
-    {
-      name: 'Professional Development',
-      skills: [
-        { name: 'Communication Skills', status: 'in-progress' },
-        { name: 'Time Management', status: 'not-started' },
-        { name: 'Customer Service', status: 'not-started' },
-      ],
-    },
-  ];
-
-  const displayCategories =
-    skillCategories && skillCategories.length > 0 ? skillCategories : defaultCategories;
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -128,7 +97,7 @@ export default async function ApprenticeSkillsPage() {
             <span className="text-2xl font-bold text-brand-blue-600">
               {completedSkills} /{' '}
               {totalSkills ||
-                displayCategories.reduce(
+                skillCategories.reduce(
                   (sum: number, cat: any) => sum + (cat.skills?.length || 0),
                   0,
                 )}{' '}
@@ -137,49 +106,60 @@ export default async function ApprenticeSkillsPage() {
           </div>
           <div className="bg-slate-200 rounded-full h-4 mb-2">
             <div
-              className="bg-white h-4 rounded-full transition-all"
+              className="bg-brand-blue-600 h-4 rounded-full transition-all"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <p className="text-sm text-slate-700">
-            {progressPercent.toFixed(0)}% of skills completed
-          </p>
+          <p className="text-sm text-slate-700">{progressPercent.toFixed(0)}% of skills completed</p>
         </div>
 
         {/* Skill Categories */}
-        <div className="space-y-6">
-          {displayCategories.map((category: any, index: number) => (
-            <div key={index} className="bg-white rounded-xl shadow-sm border">
-              <div className="p-6 border-b">
-                <h2 className="text-lg font-semibold flex items-center gap-2">
-                  <Target className="w-5 h-5 text-brand-blue-600" />
-                  {category.name}
-                </h2>
-              </div>
-              <div className="divide-y">
-                {category.skills?.map((skill: any, skillIndex: number) => (
-                  <div
-                    key={skillIndex}
-                    className="p-4 flex items-center justify-between hover:bg-white"
-                  >
-                    <div className="flex items-center gap-4">
-                      {getStatusIcon(skill.status || skill.progress?.[0]?.status)}
-                      <span className="font-medium">{skill.name}</span>
-                    </div>
-                    <span
-                      className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(skill.status || skill.progress?.[0]?.status || 'not-started')}`}
+        {skillCategories.length === 0 ? (
+          <div className="bg-white rounded-xl shadow-sm border p-10 text-center">
+            <Target className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">Skills not yet assigned</h3>
+            <p className="text-slate-500 text-sm max-w-sm mx-auto">
+              Your skill checklist will appear here once your instructor sets up your competency
+              plan. Check back after your first session or contact your advisor.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {skillCategories.map((category: any, index: number) => (
+              <div key={index} className="bg-white rounded-xl shadow-sm border">
+                <div className="p-6 border-b">
+                  <h2 className="text-lg font-semibold flex items-center gap-2">
+                    <Target className="w-5 h-5 text-brand-blue-600" />
+                    {category.name}
+                  </h2>
+                </div>
+                <div className="divide-y">
+                  {(category.skills ?? []).map((skill: any, skillIndex: number) => (
+                    <div
+                      key={skillIndex}
+                      className="p-4 flex items-center justify-between hover:bg-slate-50"
                     >
-                      {(skill.status || skill.progress?.[0]?.status || 'not-started').replace(
-                        '-',
-                        ' ',
-                      )}
-                    </span>
-                  </div>
-                ))}
+                      <div className="flex items-center gap-4">
+                        {getStatusIcon(skill.status || skill.progress?.[0]?.status)}
+                        <span className="font-medium">{skill.name}</span>
+                      </div>
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                          skill.status || skill.progress?.[0]?.status || 'not-started',
+                        )}`}
+                      >
+                        {(skill.status || skill.progress?.[0]?.status || 'not-started').replace(
+                          '-',
+                          ' ',
+                        )}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Legend */}
         <div className="mt-8 bg-white rounded-xl shadow-sm border p-6">

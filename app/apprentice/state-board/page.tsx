@@ -58,12 +58,13 @@ export default async function StateBoardExamPage() {
     .eq('student_id', user.id)
     .maybeSingle();
 
-  const programSlug =
-    programEnrollment?.program_slug ??
-    legacyEnrollment?.program_slug ??
-    'cosmetology-apprenticeship';
+  const programSlug = programEnrollment?.program_slug ?? legacyEnrollment?.program_slug ?? null;
 
-  const requiredHours = legacyEnrollment?.required_hours ?? REQUIRED_HOURS[programSlug] ?? 1500;
+  if (!programSlug || !(programSlug in REQUIRED_HOURS)) {
+    redirect('/programs');
+  }
+
+  const requiredHours = legacyEnrollment?.required_hours ?? REQUIRED_HOURS[programSlug] ?? 0;
 
   // Hours from apprentice_hours (canonical PWA source) — approved only
   const { data: approvedRows } = await supabase
@@ -81,10 +82,15 @@ export default async function StateBoardExamPage() {
   const skillsVerified = legacyEnrollment?.practical_skills_verified ?? false;
   const isReady = hoursComplete && lmsComplete;
 
-  let examInfo = IPLA_EXAM_INFO.cosmetology;
+  let examInfo = null as (typeof IPLA_EXAM_INFO)[keyof typeof IPLA_EXAM_INFO] | null;
   if (programSlug.includes('barber')) examInfo = IPLA_EXAM_INFO.barber;
   else if (programSlug.includes('esthet')) examInfo = IPLA_EXAM_INFO.esthetician;
   else if (programSlug.includes('nail')) examInfo = IPLA_EXAM_INFO.nail;
+  else if (programSlug.includes('cosmetology')) examInfo = IPLA_EXAM_INFO.cosmetology;
+
+  if (!examInfo) {
+    redirect('/programs');
+  }
 
   const examFee = IPLA_EXAM_FEES[programSlug] ?? 50;
   const remaining = Math.max(0, requiredHours - totalHours);

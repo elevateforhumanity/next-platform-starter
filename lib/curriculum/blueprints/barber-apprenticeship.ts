@@ -1425,24 +1425,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Apply ergonomic principles to prevent injury during barbering services.',
           durationMinutes: 15,
           videoFile: '/videos/barber-client-experience.mp4',
-          content: `<h2>Ergonomics for Barbers</h2>
-<p>Barbering is physically demanding. Poor posture and repetitive motion cause chronic injuries that end careers.</p>
-<h3>Posture</h3>
-<ul>
-<li>Stand with feet shoulder-width apart</li>
-<li>Keep your back straight — do not hunch over the client</li>
-<li>Adjust the chair height so you work at elbow level</li>
-<li>Shift weight between feet — do not lock your knees</li>
-</ul>
-<h3>Wrist and Hand Health</h3>
-<ul>
-<li>Keep wrists in a neutral position when cutting</li>
-<li>Do not grip tools too tightly</li>
-<li>Stretch hands and wrists between clients</li>
-<li>Carpal tunnel syndrome is common in barbers — address early symptoms immediately</li>
-</ul>
-<h3>Breaks</h3>
-<p>Take a 5-minute break every 2 hours. Sit down, stretch, and rest your hands.</p>`,
+          content: `<h2>Overview</h2><p>Ergonomics and proper body mechanics are essential for preventing chronic pain, fatigue, and career-ending injuries in barbering. This lesson teaches you to position your body, adjust equipment, and move efficiently during services. Applying these principles reduces strain on your back, neck, shoulders, and wrists while improving service quality and stamina. Understanding neutral postures, weight distribution, and workspace organization will extend your professional longevity. Client considerations such as height, mobility limitations, and service duration require adaptive ergonomic strategies to protect both barber and client throughout each appointment.</p><h2>Tools Required</h2><ul><li>Hydraulic barber chair with adjustable height and recline functions</li><li>Anti-fatigue mat with cushioned support for standing work</li><li>Adjustable work station or tool tray at elbow height</li><li>Ergonomic shears and clippers with balanced weight distribution</li><li>Footstool or step platform for reaching different angles</li><li>Full-length mirror for self-monitoring posture and positioning</li><li>Lumbar support cushion for seated client services</li></ul><h2>Client Variations</h2><p>IF the client is significantly taller or shorter than average, THEN adjust chair height so the working area is between your waist and chest level to avoid excessive bending or reaching. IF the client has limited mobility or cannot hold their head steady, THEN position yourself to support their head with your non-dominant hand while working, and take frequent breaks to reset your own posture and avoid compensatory strain.</p><h2>Procedure</h2><ol><li>Adjust the hydraulic chair height so the client's head aligns between your waist and mid-chest when standing in neutral posture with relaxed shoulders.</li><li>Position anti-fatigue mat beneath your work area and stand with feet shoulder-width apart, distributing weight evenly between both legs throughout service.</li><li>Arrange tools on adjustable tray at elbow height to minimize reaching and twisting; keep frequently used implements within forearm's length.</li><li>Maintain neutral spine alignment by engaging core muscles, keeping shoulders back and down, and avoiding forward head posture during detailed work.</li><li>Pivot your entire body by stepping around the chair rather than twisting at the waist; reposition your feet to face your work.</li><li>Hold tools with relaxed grip pressure, keeping wrists in neutral alignment and elbows close to your body at approximately ninety-degree angles.</li><li>Take micro-breaks every fifteen minutes to roll shoulders, stretch wrists, and reset posture; perform full stretching routine between clients.</li><li>Lower or recline chair for top-of-head work to avoid sustained overhead arm positions that cause shoulder fatigue and impingement.</li></ol><h2>Safety</h2><p>All equipment contact surfaces including chair upholstery, hydraulic controls, and anti-fatigue mats must be cleaned with EPA-registered disinfectant such as Barbicide or hospital-grade quaternary ammonium solution after each client to prevent cross-contamination. <strong>Do NOT lock your knees while standing during services, as this restricts circulation, increases lower back strain, and can cause fainting or venous pooling, leading to varicose veins and chronic leg pain over time.</strong> If you experience acute lower back spasm from improper lifting or sudden twisting, immediately stop work and apply this recovery protocol: first, sit or lie down to remove load from the spine; second, apply ice for fifteen minutes to reduce inflammation; third, perform gentle pelvic tilts and knee-to-chest stretches; fourth, avoid returning to work until pain subsides and normal range of motion returns; fifth, evaluate and correct the movement pattern that caused the injury.</p><h2>Visual Cues</h2><p>Observe your reflection to verify ear-shoulder-hip vertical alignment with natural spinal curves maintained, not flattened or exaggerated. Your elbows should bend at approximately ninety degrees with upper arms hanging naturally at your sides. Wrists remain straight in line with forearms, not flexed upward or downward during cutting motions. Knees stay soft with slight bend, never locked straight. The client's head should appear directly in your line of sight without requiring you to tilt your head forward or crane your neck. Your shoulders remain level and relaxed, not elevated toward your ears or rotated forward in a rounded position.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-19-q1",
+                              "question": "What is the optimal height range for the client's head when adjusting the barber chair for ergonomic cutting?",
+                              "options": [
+                                        "A. Between the barber's waist and mid-chest level",
+                                        "B. At the barber's shoulder height",
+                                        "C. At the barber's eye level",
+                                        "D. Below the barber's waist for easier access"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The client's head should be positioned between the barber's waist and mid-chest level to maintain neutral spine alignment, prevent excessive bending or reaching, and reduce strain on the back and shoulders during services."
+                    },
+                    {
+                              "id": "barber-lesson-19-q2",
+                              "question": "How frequently should barbers take micro-breaks to reset posture and prevent repetitive strain injuries?",
+                              "options": [
+                                        "A. Every thirty minutes",
+                                        "B. Every fifteen minutes",
+                                        "C. Every five minutes",
+                                        "D. Only between clients"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Micro-breaks every fifteen minutes allow barbers to roll shoulders, stretch wrists, and reset posture, preventing the accumulation of muscular tension and reducing the risk of chronic repetitive strain injuries throughout the workday."
+                    },
+                    {
+                              "id": "barber-lesson-19-q3",
+                              "question": "What is the correct elbow angle when holding tools with proper ergonomic positioning?",
+                              "options": [
+                                        "A. Approximately ninety degrees with upper arms at sides",
+                                        "B. Fully extended arms away from body",
+                                        "C. Forty-five degrees with elbows behind the torso",
+                                        "D. One hundred thirty-five degrees with raised shoulders"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Maintaining elbows at approximately ninety degrees with upper arms hanging naturally at the sides keeps the work within the optimal ergonomic zone, minimizing shoulder and arm fatigue while maximizing control and precision."
+                    },
+                    {
+                              "id": "barber-lesson-19-q4",
+                              "question": "SCENARIO: A client who is six feet four inches tall sits in your chair for a haircut. What do you do?",
+                              "options": [
+                                        "A. Leave the chair at standard height and bend forward to reach",
+                                        "B. Ask the client to slouch down in the chair",
+                                        "C. Raise the hydraulic chair so the client's head is between your waist and chest",
+                                        "D. Stand on a footstool throughout the entire service"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Adjusting the chair height for taller clients ensures the working area remains in the ergonomic zone between waist and chest, maintaining neutral posture and preventing back strain from excessive bending or compensatory positions."
+                    },
+                    {
+                              "id": "barber-lesson-19-q5",
+                              "question": "SCENARIO: During a service you notice your shoulders are elevated toward your ears and your neck feels tense. Correct response?",
+                              "options": [
+                                        "A. Continue working and address it after the client leaves",
+                                        "B. Stop briefly, roll your shoulders back and down, reset your posture, and adjust chair height if needed",
+                                        "C. Shift your weight to one leg to compensate",
+                                        "D. Grip your tools more tightly for better control"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Elevated shoulders and neck tension indicate poor ergonomics that will worsen without correction. Taking a micro-break to reset posture, adjust equipment, and restore neutral alignment prevents injury progression and maintains service quality."
+                    }
+          ],
         },
         {
           slug: 'barber-lesson-20',
@@ -1452,22 +1497,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Properly drape a client for haircut and shaving services.',
           durationMinutes: 10,
           videoFile: '/videos/course-barber-consultation.mp4',
-          content: `<h2>Draping the Client</h2>
-<h3>Haircut Draping</h3>
-<ol>
-<li>Place a clean neck strip around the client's neck</li>
-<li>Drape the cutting cape over the client</li>
-<li>Secure the cape — snug but not tight</li>
-<li>Tuck the neck strip over the cape collar to prevent hair from falling inside</li>
-</ol>
-<h3>Shave Draping</h3>
-<ol>
-<li>Recline the chair to a comfortable shaving position</li>
-<li>Place a clean towel across the client's chest</li>
-<li>Tuck a neck strip or towel around the collar</li>
-</ol>
-<h3>Why Draping Matters</h3>
-<p>Proper draping protects the client's clothing, prevents hair from irritating the skin, and presents a professional image.</p>`,
+          content: `<h2>Overview</h2><p>Proper draping and client preparation are essential foundational skills for every barber. Draping protects the client's clothing from hair clippings, water, and chemical products while maintaining professional sanitation standards. Effective draping techniques ensure client comfort, prevent cross-contamination, and establish trust. This lesson covers the proper selection and application of draping materials for both haircutting and shaving services. Mastering these techniques demonstrates professionalism and prepares you for all subsequent barbering procedures. Understanding client variations and adapting your approach ensures consistent quality across diverse clientele.</p><h2>Tools Required</h2><ul><li>Neck strip (disposable paper or tissue)</li><li>Cape or cloth (chemical-resistant for color services, standard waterproof for cutting)</li><li>Towels (clean, freshly laundered, at least two per client)</li><li>Spray bottle with clean water</li><li>Disinfected chair with adjustable headrest</li><li>Booster seat or cushion for children</li><li>Clips or clamps for securing cape</li></ul><h2>Decision Factors</h2><p>IF the client has extremely long hair extending below shoulders, THEN secure hair outside the cape initially and drape with extra coverage at the back, using two towels if necessary to prevent hair from falling inside clothing. IF the client is a child or has sensitive skin around the neck, THEN use two overlapping neck strips to create a softer barrier and prevent irritation from cape contact. IF performing a shaving service, THEN position towels for steam application and use a separate face draping technique with the cape lowered to shoulder level.</p><h2>Sanitation Protocol</h2><p>All capes must be laundered with hospital-grade detergent and dried at high temperature between each client. Neck strips are single-use disposable items and must never be reused. Towels require washing in hot water with EPA-registered laundry sanitizer such as quaternary ammonium compounds or bleach solution at proper dilution. The barber chair should be wiped down with EPA-registered disinfectant spray or wipes before seating each client, allowing proper contact time per manufacturer instructions.</p><h2>Safety</h2><p><strong>Do NOT secure the cape so tightly around the neck that it restricts breathing or causes discomfort.</strong> Excessive tightness can cause client anxiety, restrict blood flow, trigger claustrophobia, and create liability issues. Always maintain a two-finger clearance between the neck strip and the client's skin. Clients with respiratory conditions or anxiety disorders are particularly vulnerable to complications from overly tight draping.</p><h2>Failure Mode and Recovery</h2><p>If hair clippings fall inside the client's collar despite proper draping, this typically results from inadequate neck strip coverage or cape gaps at the shoulders. To recover: first, stop the service immediately. Second, carefully remove the cape without shaking it. Third, use a neck duster to remove visible hair from the client's neck and collar area. Fourth, offer the client a moment to shake out their shirt in a private area. Fifth, redrape properly with overlapping neck strip coverage. Sixth, apologize professionally and resume service with heightened attention to cape positioning throughout the remainder of the appointment.</p><h2>Visual Cues</h2><p>The neck strip should sit smoothly against the skin with no wrinkles or gaps, positioned approximately one inch above the collar line. The cape should drape evenly across both shoulders at matching heights, with the front closure centered on the client's chest. Observe that the cape falls straight down without twisting, covering all clothing completely to the client's lap. The client's head should remain vertical and comfortable, not tilted forward by cape tension. Check that shoulder seams of the client's clothing remain visible as reference points beneath the cape outline. For shaving services, towels should wrap snugly but comfortably around the neck with corners tucked securely.</p><h2>Procedure</h2><ol><li>Seat the client comfortably in the adjusted barber chair and secure any personal items away from the work area safely.</li><li>Wash and dry your hands thoroughly, then explain the draping process briefly to establish client comfort and trust.</li><li>Place the neck strip around the client's neck, overlapping ends in front, ensuring smooth contact without gaps or wrinkles.</li><li>Unfold the cape completely and drape it over the client from behind, bringing it forward evenly across both shoulders.</li><li>Secure the cape at the front using the closure mechanism, adjusting tension to allow two-finger clearance at the neckline.</li><li>Smooth the cape across the shoulders and lap, tucking edges inward to prevent hair from falling onto client's clothing.</li><li>Perform a final comfort check by asking the client if the draping feels secure but not restrictive or uncomfortable.</li><li>Position towels as needed for the specific service, either folded on the shoulder or prepared for shaving application.</li></ol>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-20-q1",
+                              "question": "What is the primary purpose of using a disposable neck strip during draping?",
+                              "options": [
+                                        "A. To create a sanitary barrier between the client's skin and reusable cape",
+                                        "B. To absorb excess water during shampooing procedures",
+                                        "C. To provide additional warmth for client comfort",
+                                        "D. To protect the barber chair from hair clippings"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The neck strip creates a sanitary single-use barrier between the client's skin and the cape, which is reused between clients. This prevents cross-contamination and maintains proper infection control standards."
+                    },
+                    {
+                              "id": "barber-lesson-20-q2",
+                              "question": "How much clearance should exist between the secured cape and the client's neck?",
+                              "options": [
+                                        "A. The cape should fit as tightly as possible to prevent hair entry",
+                                        "B. Approximately two fingers should fit between the neck strip and skin",
+                                        "C. At least four inches of space for unrestricted movement",
+                                        "D. The cape should not contact the neck at all"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Two-finger clearance ensures the cape is secure enough to prevent hair from entering while avoiding excessive tightness that could restrict breathing, cause discomfort, or trigger anxiety in clients."
+                    },
+                    {
+                              "id": "barber-lesson-20-q3",
+                              "question": "What is the correct sanitation method for capes between clients?",
+                              "options": [
+                                        "A. Laundering with hospital-grade detergent at high temperature",
+                                        "B. Wiping down with a dry towel to remove visible hair",
+                                        "C. Spraying with air freshener and hanging to air out",
+                                        "D. Shaking vigorously outdoors to remove clippings"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Capes must be laundered with hospital-grade detergent and dried at high temperature between each client to ensure proper disinfection and meet professional sanitation standards required by barber regulations."
+                    },
+                    {
+                              "id": "barber-lesson-20-q4",
+                              "question": "SCENARIO: A client with hair extending to the mid-back arrives for a haircut. What is your draping approach?",
+                              "options": [
+                                        "A. Use standard draping and tuck all hair inside the cape immediately",
+                                        "B. Refuse service until the client pins up their hair themselves",
+                                        "C. Secure hair outside the cape initially and use extra back coverage with additional towels",
+                                        "D. Cut the cape shorter to accommodate the long hair length"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Long hair requires modified draping technique with hair initially secured outside the cape and extra coverage at the back using additional towels. This prevents hair from falling inside clothing while maintaining proper protection."
+                    },
+                    {
+                              "id": "barber-lesson-20-q5",
+                              "question": "SCENARIO: Midway through a haircut you notice hair clippings have fallen inside the client's collar. What is the correct response?",
+                              "options": [
+                                        "A. Continue the service and address the issue after completing the haircut",
+                                        "B. Stop immediately, remove the cape carefully, use neck duster, allow client to shake out shirt, then redrape properly",
+                                        "C. Brush the hair deeper into the shirt so it falls out when they undress later",
+                                        "D. Apologize but explain that some hair entry is normal and unavoidable"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When hair enters the client's clothing, immediately stop service, carefully remove the cape without shaking, use a neck duster, offer the client privacy to shake out their shirt, then redrape properly with corrected technique. This demonstrates professionalism and prevents further contamination."
+                    }
+          ],
         },
         {
           slug: 'barber-module-3-checkpoint',
@@ -1582,51 +1674,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Demonstrate correct parting technique for each head section',
             'Explain how head shape affects sectioning decisions',
           ],
-          content: `<h2>Head Shape and Sectioning</h2>
-<h3>Sections of the Head</h3>
-<ul>
-<li><strong>Top</strong> — crown to front hairline</li>
-<li><strong>Sides</strong> — temples to behind the ears</li>
-<li><strong>Back</strong> — occipital bone to nape</li>
-<li><strong>Nape</strong> — hairline at the back of the neck</li>
-</ul>
-<h3>Reference Points</h3>
-<ul>
-<li><strong>Occipital bone</strong> — the bony protrusion at the back of the skull; key reference for fade lines</li>
-<li><strong>Parietal ridge</strong> — widest part of the head; determines where the fade transitions</li>
-<li><strong>Temporal recession</strong> — natural recession at the temples</li>
-</ul>
-<h3>Why Sectioning Matters</h3>
-<p>Consistent sectioning ensures even weight distribution and a balanced haircut. Always establish your guide line before cutting.</p>
-
-<h3>Sanitation — Required Before Service</h3>
-<p>Apply universal precautions before every service. These are non-negotiable under NIC and state board standards.</p>
-<ol>
-<li>Wash or sanitize hands.</li>
-<li>Pre-clean all tools — remove hair and debris before applying disinfectant. This lesson uses combs and sectioning clips; apply EPA-registered disinfectant and maintain full contact time per label.</li>
-<li>Apply EPA-registered disinfectant and maintain full contact time per label (typically 10 minutes). Do not wipe off early.</li>
-<li>Discard all single-use items after use. Do not reuse porous items — they cannot be disinfected.</li>
-</ol>
-
-<h3>Stop Conditions</h3>
-<p>Stop the service immediately if you observe:</p>
-<ul>
-<li>Open cuts, abrasions, or broken skin on the scalp</li>
-<li>Signs of scalp infection, rash, or inflammation</li>
-<li>Client reports pain or discomfort</li>
-<li>Tool malfunction</li>
-</ul>
-
-<h3>Blood Exposure Protocol</h3>
-<ol>
-<li>Stop service immediately.</li>
-<li>Put on gloves before touching the affected area.</li>
-<li>Apply antiseptic to the client's skin.</li>
-<li>Dispose of all contaminated single-use materials in a sealed bag.</li>
-<li>Clean and disinfect any blood-contaminated tools with EPA-registered disinfectant.</li>
-<li>Double-bag contaminated waste before disposal.</li>
-<li>Wash hands thoroughly after removing gloves.</li>
-</ol>`,
+          content: `<h2>Overview</h2><p>Understanding head shape and sectioning is fundamental to executing precise, balanced haircuts. The human head contains reference points and sections that guide clipper and shear work, ensuring consistency and symmetry. Mastering these anatomical landmarks allows barbers to adapt techniques to individual head shapes, create reliable partings, and maintain control throughout the service. This lesson covers the four primary head sections, key reference points including apex, occipital bone, parietal ridge, and four corners, plus practical application methods for mapping the head before cutting.</p><h2>Tools Required</h2><ul><li>Tail comb for precise parting and sectioning</li><li>Sectioning clips to secure hair divisions</li><li>Spray bottle with clean water for dampening</li><li>Barber shears for cutting sectioned hair</li><li>Neck strip and cape for client draping</li><li>Mirror for visual verification of sections</li><li>Marking pencil or highlighter for training purposes</li></ul><h2>Client Variation Guidance</h2><p>IF the client has a flat occipital bone, THEN adjust your horizontal sections lower to avoid removing excess weight at the nape, which can create an unbalanced silhouette. IF the client has a prominent parietal ridge or uneven head shape, THEN modify section placement by following the natural contours rather than forcing geometric divisions, ensuring the finished cut appears balanced when viewed from all angles despite anatomical variations.</p><h2>Procedure</h2><ol><li>Drape the client properly with neck strip and cape, then comb hair to remove tangles and identify natural growth patterns.</li><li>Locate the apex by intersecting lines from recession areas to crown; identify occipital bone by feeling the protruding bump at nape.</li><li>Find the parietal ridge by placing comb flat against head and tilting until it naturally falls away from the curve.</li><li>Section the top area from front hairline to crown, connecting ear-to-ear across the parietal ridge with tail comb.</li><li>Divide sides by parting from top of ear to previously established top section, creating distinct temporal sections on each side.</li><li>Create back section below the occipital bone, completing the four-quadrant division required for systematic cutting.</li><li>Secure each section with clips, maintaining tension to keep divisions clean and prevent hair from crossing into adjacent sections.</li><li>Verify symmetry by comparing section widths on both sides using mirror and checking that partings align with anatomical landmarks.</li></ol><h2>Safety</h2><p>All combs and sectioning clips must be cleaned with EPA-registered hospital-grade disinfectant such as Barbicide after each client, following manufacturer contact time of ten minutes minimum. <strong>Do NOT section over open wounds, active scalp infections, or inflamed areas, as this can spread pathogens to unaffected areas and cause cross-contamination throughout the service.</strong> If sections fall during cutting and hair mixes between quadrants, stop immediately; re-wet the hair, recomb to identify original growth direction, re-establish sections using original reference points, verify placement bilaterally, then resume cutting from the last completed guideline.</p><h2>Visual Cues</h2><p>Proper sections create visible clean lines along the scalp where hair divides; partings should appear straight and precise when viewed perpendicular to the section. The parietal ridge section curves naturally around the head roughly one finger-width above the ear tops, while the apex sits at the highest point where head begins to round downward. Four corners form distinct right angles at the intersection of top and side sections. When clips are placed, they should sit flat without pulling hair, indicating sections follow the head's natural curvature rather than forcing unnatural geometric angles.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-22-q1",
+                              "question": "What is the primary purpose of identifying the parietal ridge during head sectioning?",
+                              "options": [
+                                        "A. It marks the natural division between the top and side sections of the head",
+                                        "B. It indicates where the hairline naturally recedes",
+                                        "C. It shows the location of the crown whorl",
+                                        "D. It determines the client's natural part location"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The parietal ridge is the curved bone structure that naturally separates the top of the head from the sides, making it the ideal anatomical landmark for dividing these two sections during systematic haircutting."
+                    },
+                    {
+                              "id": "barber-lesson-22-q2",
+                              "question": "How many primary sections are created in the standard four-quadrant head sectioning method?",
+                              "options": [
+                                        "A. Three sections: top, left side, and right side",
+                                        "B. Four sections: top, two sides, and back",
+                                        "C. Five sections including the nape area",
+                                        "D. Six sections to include fringe area"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The standard four-quadrant method divides the head into top, left side, right side, and back sections, providing systematic organization for controlled, balanced haircutting."
+                    },
+                    {
+                              "id": "barber-lesson-22-q3",
+                              "question": "Where is the apex located on the head?",
+                              "options": [
+                                        "A. At the highest point where lines from the recession areas and crown intersect",
+                                        "B. At the center of the occipital bone",
+                                        "C. Directly at the parietal ridge midpoint",
+                                        "D. At the front hairline center"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The apex is found by intersecting imaginary lines from the recession areas to the crown, marking the highest central point of the head and serving as a key reference for top sectioning."
+                    },
+                    {
+                              "id": "barber-lesson-22-q4",
+                              "question": "SCENARIO: A client has a noticeably flat occipital bone. What adjustment should you make?",
+                              "options": [
+                                        "A. Create wider sections throughout all quadrants",
+                                        "B. Use vertical rather than horizontal sections exclusively",
+                                        "C. Position horizontal sections lower at the nape to preserve weight and balance",
+                                        "D. Avoid sectioning the back area entirely"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "With a flat occipital bone, lowering the horizontal sections at the nape helps retain weight in an area that lacks natural projection, preventing an overly flat or unbalanced appearance in the finished cut."
+                    },
+                    {
+                              "id": "barber-lesson-22-q5",
+                              "question": "SCENARIO: During cutting you notice hair from the side section has fallen into the back section. What is the correct response?",
+                              "options": [
+                                        "A. Continue cutting and blend the areas together at the end",
+                                        "B. Stop cutting, re-wet and recomb hair, re-establish sections at original reference points, then resume from last guideline",
+                                        "C. Remove all clips and start the entire sectioning process over",
+                                        "D. Cut the mixed hair shorter to match the surrounding area"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When sections mix, stopping immediately prevents compounding errors. Re-wetting, recombing to original growth patterns, and re-establishing sections using anatomical landmarks restores control, allowing you to resume from your last accurate guideline."
+                    }
+          ],
           competencyChecks: [
             'Identifies all head sections and reference points correctly',
             'Follows pre-clean → disinfect → contact time sequence before service',
@@ -1649,67 +1759,67 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Blend between guard sizes without visible lines or steps',
             'Identify the correct starting point for each fade type',
           ],
-          content: `<h2>Introduction to The Fade</h2><p>The fade is a fundamental haircutting technique that involves cutting the hair close to the head, with a gradual decrease in length as you move up the scalp. In this lesson, we will cover the low, mid, and high fade techniques, and provide guidance on how to execute them with smooth transitions.</p><h3>Tools and Equipment Required</h3><ul><li>Clippers with adjustable blade lengths</li><li>Trimmers</li><li>Scissors</li><li>Comb</li><li>Cape or towel</li><li>Sanitizer or disinfectant</li></ul><h3>Sanitation and Infection Control</h3><p>Before starting the haircut, ensure that all equipment is sanitized and disinfected. This includes clippers, trimmers, scissors, and combs. Use a sanitizer or disinfectant specifically designed for barber equipment, and follow the manufacturer's instructions for use.</p><h3>Executing the Fade</h3><p>To execute a fade, follow these steps:</p><ol><li>Start by sectioning the hair into three parts: the back, the sides, and the top.</li><li>Use clippers with an adjustable blade length to cut the hair close to the head, starting at the bottom of the back section.</li><li>Gradually decrease the length of the hair as you move up the scalp, using a combination of clippers and trimmers.</li><li>Use scissors to blend the layers and create a smooth transition.</li></ol><h3>IF/THEN Decision Block</h3><p>IF the client has curly or wavy hair, THEN use a slower blade speed and a more gradual decrease in length to avoid creating uneven layers.</p><p>IF the client has sensitive skin, THEN use a clipper with a guard attachment to avoid direct contact with the skin.</p><h3>Contraindications and Safety Rules</h3><p>DO NOT use clippers without a guard attachment on sensitive skin, as this can cause irritation and ingrown hairs.</p><p>DO NOT use scissors to cut the hair close to the head, as this can cause uneven layers and ingrown hairs.</p><h3>Failure Mode and Recovery</h3><p>Failure mode: uneven layers and ingrown hairs.</p><p>Cause: using the wrong blade length or not gradually decreasing the length of the hair.</p><p>Recovery: use a trimmer to even out the layers, and use a pair of thinning scissors to blend the layers and create a smooth transition.</p><h3>Correct Execution</h3><p>Correct execution of the fade involves creating a smooth transition from the hairline to the scalp, with no visible lines or layers. The hair should be cut close to the head, with a gradual decrease in length as you move up the scalp.</p><p>Visually, the correct execution of the fade should look like a seamless blend of hair and scalp, with no visible edges or lines. The angles of the cut should be smooth and even, with no uneven layers or ingrown hairs.</p>`,
+          content: `<h2>Overview</h2><p>The fade is a foundational barbering technique that creates a seamless gradient from longer hair on top to progressively shorter hair toward the neckline and sides. Low fades begin the blend just above the ears, mid fades start around the temple area, and high fades commence near the top of the head. Mastering these variations requires understanding clipper guard selection, lever positioning, and controlled hand movements. Each fade type serves different aesthetic goals and client preferences. This lesson covers the technical execution required to deliver clean, professional fades that meet industry standards and client expectations in a DOL-registered apprenticeship setting.</p><h2>Tools Required</h2><ul><li>Professional-grade clipper with taper lever (adjustable blade)</li><li>Detachable blade clipper or trimmer for detailing</li><li>Clipper guards: #0.5, #1, #1.5, #2, #3 (minimum set)</li><li>Barber comb (carbon fiber or hard rubber)</li><li>Neck duster brush</li><li>Handheld mirror for client consultation</li><li>Spray bottle with clean water</li><li>Disinfected cape and neck strips</li></ul><h2>Client Variations</h2><p>IF the client has coarse, curly hair, THEN use a slightly open lever on initial passes and work more gradually through guard sizes to prevent harsh lines, as curly texture can reveal abrupt transitions more noticeably. IF the client has fine, straight hair, THEN execute tighter passes with closed lever positions because fine hair shows imperfections and requires more precision blending to achieve smooth gradients without visible demarcation lines or patches.</p><h2>Procedure</h2><ol><li>Consult with client to determine fade height preference (low, mid, or high) and establish the guideline using a mirror for visual agreement.</li><li>Begin with a longer guard (#3 or #2) at the top fade line, using upward clipper motion with lever closed to establish initial length.</li><li>Switch to the next shorter guard, overlapping the previous pass by half, using a scooping outward motion to begin the blend transition.</li><li>Continue with progressively shorter guards, opening and closing the taper lever between passes to create intermediate lengths and eliminate visible lines.</li><li>Use the lever-only technique in the transition zone, making short upward flicking motions to refine the gradient without changing guards.</li><li>Blend the lowest section with a #1 or #0.5 guard closed, ensuring smooth connection to the bare fade line or natural hairline.</li><li>Detail edges with a trimmer, creating clean perimeter lines at the sideburns, around the ears, and along the neckline contour.</li><li>Cross-check the fade by viewing from multiple angles under proper lighting, making corrections with clipper-over-comb or lever adjustments as needed.</li></ol><h2>Safety</h2><p>Always clean clipper blades with Clipper-Cide or hospital-grade disinfectant spray between clients, allowing proper contact time per manufacturer instructions. Remove hair buildup and apply blade oil to maintain cutting efficiency and prevent bacterial transmission. <strong>Do NOT execute fades on clients with active scalp infections, open lesions, or inflamed skin conditions, as clipper contact will spread pathogens, cause client discomfort, and violate sanitation protocols, potentially resulting in cross-contamination and infection.</strong> Inspect the scalp thoroughly during consultation before beginning any cutting service.</p><h2>Visual Cues</h2><p>Position your body at a 45-degree angle to the client's head with clippers held at a consistent angle perpendicular to the scalp surface. Watch for the hair to lift and fall naturally as you scoop outward—this indicates proper lever tension and guard glide. The fade should appear as a smooth color gradient with no shelves or demarcation lines visible when viewed from three feet away. Proper blending creates a shadow effect where you cannot identify exactly where one length ends and another begins. The taper lever halfway open creates an intermediate length between guard sizes, essential for seamless transitions in the blend zone.</p><h2>Failure Recovery</h2><p>IF you create a visible line or shelf in the fade: This occurs when guard changes are too abrupt or lever technique is inconsistent. To recover, identify the demarcation line's exact position. Use the guard size that created the line with lever fully open, making gentle upward passes that extend slightly above the problem area. Next, use clipper-over-comb technique to manually blend the transition, holding the comb at a low angle and skimming with clipper teeth lightly across the comb. Finally, use the next shorter guard with lever halfway open to soften the lower boundary, working in small sections until the gradient appears continuous.</p>`,
           quizQuestions: [
                     {
                               "id": "barber-lesson-23-q1",
-                              "question": "What is the primary tool used to execute a fade?",
+                              "question": "What is the primary difference between low, mid, and high fade placement?",
                               "options": [
-                                        "Clippers",
-                                        "Trimmers",
-                                        "Scissors",
-                                        "Comb"
+                                        "A. The starting point where the fade transition begins on the head",
+                                        "B. The clipper guard sizes used for each fade type",
+                                        "C. The angle at which the clippers are held during execution",
+                                        "D. The amount of time required to complete each fade variation"
                               ],
                               "correctAnswer": 0,
-                              "explanation": "Clippers are the primary tool used to execute a fade, as they allow for a close cut and a gradual decrease in length."
+                              "explanation": "Low, mid, and high fades are distinguished by where the fade transition begins: low fades start just above the ears, mid fades begin around the temple, and high fades commence near the top of the head."
                     },
                     {
                               "id": "barber-lesson-23-q2",
-                              "question": "A client presents with sensitive skin and requests a high fade. What do you do?",
+                              "question": "What technique is most effective for eliminating visible lines between guard lengths?",
                               "options": [
-                                        "Use clippers without a guard attachment",
-                                        "Use a clipper with a guard attachment",
-                                        "Use scissors to cut the hair close to the head",
-                                        "Use a trimmer to even out the layers"
+                                        "A. Using only closed lever positions throughout the entire fade",
+                                        "B. Opening and closing the taper lever to create intermediate lengths between guard changes",
+                                        "C. Applying more pressure with the clippers during upward strokes",
+                                        "D. Switching to a different clipper brand for the transition area"
                               ],
                               "correctAnswer": 1,
-                              "explanation": "Using a clipper with a guard attachment will help to avoid direct contact with the skin and prevent irritation and ingrown hairs."
+                              "explanation": "The taper lever creates intermediate lengths between guard sizes, which is essential for smooth blending and eliminating visible demarcation lines in fade transitions."
                     },
                     {
                               "id": "barber-lesson-23-q3",
-                              "question": "What is the purpose of using a comb during a fade?",
+                              "question": "When should Clipper-Cide or hospital-grade disinfectant be applied to clipper blades?",
                               "options": [
-                                        "To cut the hair close to the head",
-                                        "To blend the layers and create a smooth transition",
-                                        "To section the hair into three parts",
-                                        "To sanitize the equipment"
+                                        "A. Between every client after cleaning and before the next service",
+                                        "B. Only at the end of the business day",
+                                        "C. Once per week during deep cleaning procedures",
+                                        "D. Only when visible hair buildup appears on the blades"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "The comb is used to blend the layers and create a smooth transition, helping to create a seamless blend of hair and scalp."
+                              "correctAnswer": 0,
+                              "explanation": "Proper sanitation protocol requires disinfecting clipper blades between each client to prevent cross-contamination and bacterial transmission, regardless of visible debris."
                     },
                     {
                               "id": "barber-lesson-23-q4",
-                              "question": "A client presents with curly hair and requests a low fade. What do you do?",
+                              "question": "SCENARIO: A client with very coarse, tightly curled hair requests a mid fade. During your first pass with a #2 guard, you notice the line is more pronounced than expected. What do you do?",
                               "options": [
-                                        "Use a faster blade speed and a more gradual decrease in length",
-                                        "Use a slower blade speed and a more gradual decrease in length",
-                                        "Use scissors to cut the hair close to the head",
-                                        "Use a trimmer to even out the layers"
+                                        "A. Continue with the #1 guard as planned to stay on schedule",
+                                        "B. Apply more pressure with the clippers to cut through the coarse texture",
+                                        "C. Switch to a more gradual approach using lever adjustments and intermediate guard sizes",
+                                        "D. Recommend the client get a different haircut style instead"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "Using a slower blade speed and a more gradual decrease in length will help to avoid creating uneven layers and ingrown hairs, and will result in a smoother transition."
+                              "correctAnswer": 2,
+                              "explanation": "Coarse, curly hair reveals transitions more noticeably and requires more gradual blending with intermediate lengths using lever adjustments and closer guard progressions to prevent harsh lines."
                     },
                     {
                               "id": "barber-lesson-23-q5",
-                              "question": "What is a common failure mode when executing a fade, and how can it be recovered?",
+                              "question": "SCENARIO: During the fade you notice redness and several small raised bumps with whiteheads near the client's neckline. Correct response?",
                               "options": [
-                                        "Uneven layers and ingrown hairs, recovered by using a trimmer to even out the layers and thinning scissors to blend the layers",
-                                        "Even layers and no ingrown hairs, recovered by using clippers to cut the hair close to the head",
-                                        "Uneven layers and ingrown hairs, recovered by using scissors to cut the hair close to the head",
-                                        "Even layers and no ingrown hairs, recovered by using a comb to blend the layers"
+                                        "A. Apply alcohol to disinfect the area and continue carefully",
+                                        "B. Stop the service immediately, explain you cannot continue due to the skin condition, and recommend medical consultation",
+                                        "C. Avoid that specific area but complete the fade on the rest of the head",
+                                        "D. Use a trimmer instead of clippers to finish the neckline area"
                               ],
-                              "correctAnswer": 0,
-                              "explanation": "Uneven layers and ingrown hairs are a common failure mode when executing a fade, and can be recovered by using a trimmer to even out the layers and thinning scissors to blend the layers and create a smooth transition."
+                              "correctAnswer": 1,
+                              "explanation": "Active skin infections or inflammatory conditions are contraindications for barbering services. Continuing would spread infection, violate sanitation protocols, and potentially harm the client. The service must be stopped and medical evaluation recommended."
                     }
           ],
           competencyChecks: [
@@ -1734,51 +1844,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Blend clipper-over-comb work into scissor-cut top sections',
             'Identify when clipper-over-comb is preferred over guard cutting',
           ],
-          content: `<h2>Clipper Over Comb</h2>
-<p>Clipper over comb is used to cut hair that is too long for guards but needs clipper precision. It is essential for blending and tapering.</p>
-<h3>Technique</h3>
-<ol>
-<li>Hold the comb flat against the head at the desired angle</li>
-<li>Lift the comb slightly to expose the hair to be cut</li>
-<li>Run the clipper along the top of the comb in a smooth, continuous motion</li>
-<li>Work in sections, overlapping each pass slightly</li>
-</ol>
-<h3>Common Mistakes</h3>
-<ul>
-<li>Holding the comb too far from the head — creates uneven results</li>
-<li>Moving too slowly — causes clipper lines</li>
-<li>Not following the head's curve — creates flat spots</li>
-</ul>
-
-<h3>Sanitation — Required Before Service</h3>
-<p>Apply universal precautions before every service.</p>
-<ol>
-<li>Wash or sanitize hands.</li>
-<li>Pre-clean all tools — remove hair and debris before applying disinfectant.</li>
-<li>Apply EPA-registered disinfectant. Use clipper disinfectant spray on blades and maintain full contact time per label.</li>
-<li>Discard all single-use items after use. Do not reuse porous items — they cannot be disinfected.</li>
-<li>Disinfect workstation and chair after each client.</li>
-</ol>
-
-<h3>Stop Conditions</h3>
-<p>Stop the service immediately if you observe:</p>
-<ul>
-<li>Open cuts or broken skin on the scalp</li>
-<li>Signs of scalp infection or inflammation</li>
-<li>Client reports pain or discomfort</li>
-<li>Clipper overheating or malfunction</li>
-</ul>
-
-<h3>Blood Exposure Protocol</h3>
-<ol>
-<li>Stop service immediately.</li>
-<li>Put on gloves before touching the affected area.</li>
-<li>Apply antiseptic to the client's skin.</li>
-<li>Dispose of all contaminated single-use materials in a sealed bag.</li>
-<li>Clean and disinfect blood-contaminated tools with EPA-registered disinfectant.</li>
-<li>Double-bag contaminated waste before disposal.</li>
-<li>Wash hands thoroughly after removing gloves.</li>
-</ol>`,
+          content: `<h2>Overview</h2><p>The clipper-over-comb technique is a fundamental barbering skill that allows precise control when cutting, tapering, and blending hair. This method combines the use of clippers with a comb to remove length gradually and create seamless transitions between different hair lengths. Mastering this technique is essential for creating professional tapers, fades, and blended haircuts. The barber uses the comb as a guide to lift hair away from the scalp while the clipper cuts over the comb teeth, providing exceptional control over graduation and texture.</p><h2>Tools Required</h2><ul><li>Professional adjustable blade clipper with lever</li><li>Barber comb (7-inch or 8-inch styling comb with fine and wide teeth)</li><li>Clipper oil and cleaning brush</li><li>Neck strip and cape for client protection</li><li>Spray bottle with clean water for dampening</li><li>Mirror for client consultation and verification</li><li>Disinfected shears for detailing</li></ul><h2>Client Considerations</h2><p>IF the client has thick, coarse hair, THEN use wider comb teeth and make multiple passes with the clipper to avoid pulling or snagging. IF the client has fine or thinning hair, THEN use finer comb teeth and exercise lighter pressure to prevent removing too much length too quickly. IF working near sensitive areas or scar tissue, THEN reduce clipper speed and use gentler strokes to minimize discomfort.</p><h2>Procedure</h2><ol><li>Drape the client properly with neck strip and cape, then consult on desired length, style, and ensure hair is clean and slightly damp.</li><li>Section the hair appropriately, beginning at the lower occipital area where the taper or blend will start for the style.</li><li>Insert the comb at the desired angle, typically 45 to 90 degrees from the scalp, with teeth pointing outward to guide the cut.</li><li>Position clippers so the blade runs parallel to the comb, moving upward in smooth, continuous strokes without hesitation or stopping midway.</li><li>Gradually adjust the angle of the comb outward as you move up the head to create seamless tapering and natural graduation.</li><li>Blend any visible lines by adjusting the clipper lever position and repeating strokes with varying comb angles until transitions are smooth.</li><li>Cross-check your work by combing hair in multiple directions, checking for balance, symmetry, and even graduation throughout all sections.</li><li>Finish by detailing edges, removing loose hair with a neck duster, and showing client the final result using a mirror.</li></ol><h2>Safety</h2><p>All tools must be cleaned and disinfected according to Indiana State Board regulations using EPA-registered hospital-grade disinfectant such as Barbicide or approved quaternary ammonium compounds. Clippers should be sanitized between clients with clipper spray disinfectant and blades should be removed weekly for thorough cleaning. <strong>Do NOT use clipper-over-comb on irritated, abraded, or infected skin as this can spread infection, cause additional trauma, and violate sanitation protocols.</strong> Always inspect the scalp before beginning any service.</p><h2>Failure Mode and Recovery</h2><p>If you create a visible line or step in the hair, this typically occurs from holding the comb at an inconsistent angle or stopping the clipper motion prematurely. To recover: first, identify the exact location of the line by combing the hair smooth. Second, position your comb just below the line at a slightly more outward angle. Third, make several light passes with the clipper over the comb, gradually working upward through the problem area. Fourth, blend above and below the corrected area to ensure seamless integration. Fifth, cross-check from multiple angles to verify the line has been eliminated.</p><h2>Visual Cues</h2><p>Watch for the hair standing perpendicular to the comb teeth, indicating proper tension and positioning for clean cutting. The clipper blade should remain parallel to the comb spine throughout each stroke, never tilting or angling away. Observe the hair falling evenly from the clipper, which indicates consistent speed and pressure. Check that your wrist remains flexible, allowing smooth arcing motions that follow the head shape. The finished blend should show no visible demarcation lines when hair is combed in any direction. Proper head positioning places the area being cut at your chest level with adequate lighting to see every detail clearly.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-24-q1",
+                              "question": "What is the primary purpose of the comb in the clipper-over-comb technique?",
+                              "options": [
+                                        "A. To guide the clippers and control the amount of hair being removed",
+                                        "B. To hold the hair flat against the scalp during cutting",
+                                        "C. To detangle the hair before using clippers",
+                                        "D. To measure exact length in inches"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The comb acts as a guide that lifts hair away from the scalp, allowing the barber to control precisely how much hair is removed as the clipper cuts over the comb teeth."
+                    },
+                    {
+                              "id": "barber-lesson-24-q2",
+                              "question": "At what angle should the clipper blade be held in relation to the comb during execution?",
+                              "options": [
+                                        "A. Perpendicular to the comb at 90 degrees",
+                                        "B. Parallel to the comb spine",
+                                        "C. At a 45-degree angle pointing downward",
+                                        "D. At varying angles depending on hair texture"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The clipper blade must remain parallel to the comb spine throughout the stroke to ensure even cutting and proper technique execution."
+                    },
+                    {
+                              "id": "barber-lesson-24-q3",
+                              "question": "Which disinfection method is specifically mentioned as appropriate for clipper sanitation between clients?",
+                              "options": [
+                                        "A. Clipper spray disinfectant and EPA-registered hospital-grade disinfectant",
+                                        "B. Soap and warm water only",
+                                        "C. Alcohol wipes exclusively",
+                                        "D. UV light sanitizer"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The lesson specifies using clipper spray disinfectant between clients and EPA-registered hospital-grade disinfectants like Barbicide or quaternary ammonium compounds according to Indiana regulations."
+                    },
+                    {
+                              "id": "barber-lesson-24-q4",
+                              "question": "SCENARIO: A client with very thick, coarse hair sits in your chair requesting a tapered fade. What adjustment should you make?",
+                              "options": [
+                                        "A. Use only the finest teeth on the comb for maximum precision",
+                                        "B. Increase clipper speed and use single fast strokes",
+                                        "C. Use wider comb teeth and make multiple passes to avoid pulling",
+                                        "D. Skip the comb and use clipper guards only"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "According to the client considerations section, thick coarse hair requires wider comb teeth and multiple passes to prevent pulling or snagging the hair during the cutting process."
+                    },
+                    {
+                              "id": "barber-lesson-24-q5",
+                              "question": "SCENARIO: Halfway through the service you notice a visible line in the blend at the occipital area. What is the correct recovery method?",
+                              "options": [
+                                        "A. Continue cutting and hope it blends naturally when styled",
+                                        "B. Position the comb below the line at a more outward angle and make light passes to blend",
+                                        "C. Start over completely from the beginning of the haircut",
+                                        "D. Use shears to cut the entire section shorter"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The failure mode section specifies positioning the comb just below the line at a slightly more outward angle, then making several light passes with the clipper to gradually eliminate the line and blend the area."
+                    }
+          ],
           competencyChecks: [
             'Executes clipper-over-comb with consistent angle and smooth motion',
             'Follows pre-clean → disinfect → contact time sequence before service',
@@ -1801,67 +1929,67 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Blend scissor-over-comb work seamlessly into clipper sections',
             'Control length removal to avoid over-cutting',
           ],
-          content: `<h2>Scissor Over Comb</h2><p>In this lesson, you will learn how to use the scissor-over-comb technique to cut and blend the top and sides of a client's hair. This technique is essential for achieving a seamless blend between the different layers of hair.</p><h3>Tools and Equipment</h3><p>The following tools and equipment are required for this lesson:</p><ul><li>Scissors</li><li>Comb</li><li>Clipper</li><li>Cape or towel</li><li>Sanitizer or disinfectant</li></ul><h3>Sanitation and Infection Control</h3><p>Before starting the haircut, make sure to sanitize your tools and equipment with a disinfectant. This will help prevent the spread of infections and maintain a clean and safe environment for your clients.</p><h3>Technique</h3><p>To use the scissor-over-comb technique, follow these steps:</p><ol><li>Section the hair into small subsections, depending on the length and thickness of the hair.</li><li>Place the comb at the desired length, with the teeth of the comb facing the ends of the hair.</li><li>Place the scissors over the comb, with the blades facing the ends of the hair.</li><li>Slowly cut the hair, using a smooth and even motion.</li><li>Repeat the process for each subsection of hair, working your way around the head.</li></ol><h3>Variations and Considerations</h3><p>When using the scissor-over-comb technique, you may need to consider the following variations and considerations:</p><p>IF the client has very curly or kinky hair, THEN you may need to use a different technique, such as the clipper-over-comb method, to achieve a more even cut.</p><p>IF the client has a skin condition, such as eczema or psoriasis, THEN you may need to take extra precautions to avoid irritating the skin, such as using a gentle shampoo and avoiding harsh chemicals.</p><p>IF the client is experiencing hair loss or thinning, THEN you may need to use a more gentle technique, such as the scissor-over-comb method, to avoid causing further damage to the hair.</p><h3>Contraindications and Safety Rules</h3><p>Do NOT use the scissor-over-comb technique on clients with certain medical conditions, such as hemophilia or bleeding disorders, as it may cause excessive bleeding.</p><h3>Failure Modes and Recovery</h3><p>One common failure mode when using the scissor-over-comb technique is cutting the hair too short. This can happen if the comb is placed too close to the scalp or if the scissors are not positioned correctly.</p><p>To recover from this failure mode, you can try using a razor or trimmer to blend the layers and create a more natural-looking edge.</p><h3>Correct Execution</h3><p>Correct execution of the scissor-over-comb technique involves placing the comb at the correct angle and positioning the scissors over the comb with the blades facing the ends of the hair. The scissors should be moved in a smooth and even motion, with the blades gliding over the comb to cut the hair.</p><p>Visually, correct execution should result in a seamless blend between the different layers of hair, with no visible lines or edges. The hair should look natural and healthy, with a smooth and even texture.</p>`,
+          content: `<h2>Overview</h2><p>Scissor-over-comb is a fundamental barbering technique used to create smooth, blended cuts on short to medium-length hair. This method involves using the comb to lift and control hair while scissors cut the hair that extends beyond the comb. The technique requires coordination between both hands and provides precision control for tapering, blending, and creating graduated lengths. Mastering scissor-over-comb allows barbers to achieve seamless transitions between different hair lengths, particularly effective on the sides, back, and top of the head. This technique is essential for classic men's cuts and provides an alternative to clipper work for clients who prefer scissor-only services.</p><h2>Tools Required</h2><ul><li>Professional barber shears (6.5 to 7 inches recommended)</li><li>Barber comb (fine-tooth cutting comb, 7 to 8 inches)</li><li>Neck strip and cape for client protection</li><li>Spray bottle with clean water for dampening</li><li>Cleaning brush for removing cut hair from tools</li><li>EPA-registered disinfectant for tool sanitation</li><li>Sectioning clips for hair management</li></ul><h2>Client Considerations</h2><p>IF the client has thick, coarse hair, THEN use wider comb teeth and work in smaller sections to maintain control and prevent the comb from catching or pulling. IF the client has fine, thin hair, THEN use closer comb teeth, apply lighter pressure, and keep hair slightly damp to prevent flyaways and ensure precision cutting. IF the client has sensitive skin or previous irritation, THEN maintain the comb flat against the scalp without applying excessive pressure and avoid repeated passes over the same area.</p><h2>Sanitation Protocol</h2><p>Before beginning any service, ensure all tools are properly sanitized using an EPA-registered hospital-grade disinfectant such as Barbicide or a quaternary ammonium compound solution. Immerse combs and shears in disinfectant solution for the manufacturer's recommended contact time, typically ten minutes. Between clients, remove all visible hair debris with a cleaning brush and re-sanitize all implements. This protocol prevents cross-contamination and ensures compliance with state board regulations and professional standards.</p><h2>Safety</h2><p><strong>Do NOT use scissor-over-comb technique on wet, slippery hair when working near the ears or hairline, as this significantly increases the risk of accidentally cutting the skin.</strong> Excessive moisture reduces tactile feedback and can cause the comb to slip unexpectedly, leading to painful cuts or nicks that require immediate first aid and potentially disrupt the client relationship. Always maintain appropriate dampness—hair should be barely moist, not saturated.</p><h2>Failure Recovery</h2><p>If you create an uneven line or remove too much length in one area, immediately assess the depth and location of the error. First, stop cutting and evaluate the surrounding hair to determine how much additional length must be removed to correct the mistake. Second, blend the area by using the scissor-over-comb technique at a slightly lower angle to gradually taper into the mistake. Third, work outward from the problem area in small increments, constantly cross-checking symmetry on both sides. Fourth, dampen the hair and comb through repeatedly to identify any remaining unevenness before making final corrections.</p><h2>Visual Cues</h2><p>Position yourself at eye level with the section you are cutting, maintaining a working angle between 45 and 90 degrees depending on the desired graduation. The comb should glide smoothly through the hair with consistent tension, neither too tight nor too loose. Watch for the hair extending beyond the comb teeth—this extension should be uniform before each cut. Your shear blades should remain parallel to the comb, moving in a fluid scooping motion. The cut hair should fall cleanly without pulling or bending. Check for even graduation by observing the hair's natural fall pattern and ensuring smooth transitions without visible lines or steps between sections.</p><h2>Procedure</h2><ol><li>Section the hair appropriately and dampen with water spray to achieve workable moisture without saturation, ensuring even texture throughout all areas.</li><li>Begin at the lower hairline, inserting the comb at the desired starting point with teeth angled slightly upward toward the head.</li><li>Draw the comb upward smoothly through the hair, maintaining consistent tension and allowing hair to extend beyond the comb teeth uniformly.</li><li>Position scissors parallel to the comb, blades slightly open, and cut the hair protruding beyond the comb using smooth, controlled strokes.</li><li>Move the comb incrementally upward, overlapping the previous section by one-quarter inch to ensure seamless blending and prevent demarcation lines.</li><li>Repeat the combing and cutting motion, gradually adjusting the comb angle to create the desired taper and graduation through the section.</li><li>Cross-check your work by combing hair in the opposite direction, looking for uneven lengths, and making corrective cuts as necessary.</li><li>Blend transition areas between sections using diagonal comb angles, ensuring smooth integration without visible lines separating different lengths throughout the cut.</li></ol>`,
           quizQuestions: [
                     {
                               "id": "barber-lesson-25-q1",
-                              "question": "What is the primary tool used in the scissor-over-comb technique?",
+                              "question": "What is the primary purpose of the comb in scissor-over-comb technique?",
                               "options": [
-                                        "Scissors",
-                                        "Comb",
-                                        "Clipper",
-                                        "Razor"
+                                        "A. To lift and control hair while providing a cutting guide for the scissors",
+                                        "B. To detangle hair and remove knots before cutting begins",
+                                        "C. To measure exact lengths in inches for precision cutting",
+                                        "D. To apply tension to the scalp for easier cutting"
                               ],
                               "correctAnswer": 0,
-                              "explanation": "The primary tool used in the scissor-over-comb technique is the scissors, which are used to cut the hair over the comb."
+                              "explanation": "The comb serves as both a lifting mechanism and a cutting guide, allowing the barber to control the hair while the scissors cut only the hair extending beyond the comb teeth."
                     },
                     {
                               "id": "barber-lesson-25-q2",
-                              "question": "A client presents with very curly hair and asks for a haircut using the scissor-over-comb technique. What do you do?",
+                              "question": "What angle range should shear blades maintain relative to the comb during scissor-over-comb cutting?",
                               "options": [
-                                        "Use the scissor-over-comb technique as usual",
-                                        "Use a different technique, such as the clipper-over-comb method",
-                                        "Refuse to cut the client's hair",
-                                        "Use a relaxer to straighten the hair before cutting"
+                                        "A. Perpendicular at 90 degrees to create texture",
+                                        "B. Parallel to the comb for smooth, even cutting",
+                                        "C. At 45 degrees downward to increase speed",
+                                        "D. At varying random angles for natural appearance"
                               ],
                               "correctAnswer": 1,
-                              "explanation": "When working with very curly or kinky hair, it's often best to use a different technique, such as the clipper-over-comb method, to achieve a more even cut."
+                              "explanation": "The shear blades must remain parallel to the comb to ensure even, controlled cutting and to prevent accidentally cutting into the comb or creating uneven results."
                     },
                     {
                               "id": "barber-lesson-25-q3",
-                              "question": "What is a contraindication for using the scissor-over-comb technique?",
+                              "question": "How much should each successive comb pass overlap the previous section?",
                               "options": [
-                                        "Client has a skin condition",
-                                        "Client has very curly hair",
-                                        "Client has a medical condition such as hemophilia",
-                                        "Client is experiencing hair loss"
+                                        "A. One-quarter inch to ensure seamless blending",
+                                        "B. One full inch for faster work completion",
+                                        "C. No overlap is necessary with this technique",
+                                        "D. One-half inch only on thick hair types"
                               ],
-                              "correctAnswer": 2,
-                              "explanation": "One contraindication for using the scissor-over-comb technique is a medical condition such as hemophilia or bleeding disorders, as it may cause excessive bleeding."
+                              "correctAnswer": 0,
+                              "explanation": "Overlapping by one-quarter inch ensures proper blending between sections and prevents visible demarcation lines or steps in the finished haircut."
                     },
                     {
                               "id": "barber-lesson-25-q4",
-                              "question": "A client asks for a haircut using the scissor-over-comb technique, but you notice that the client has a skin condition on their scalp. What do you do?",
+                              "question": "SCENARIO: A client with very thick, coarse hair keeps experiencing the comb catching and pulling during scissor-over-comb work. What is the correct adjustment?",
                               "options": [
-                                        "Use the scissor-over-comb technique as usual",
-                                        "Use a different technique to avoid irritating the skin",
-                                        "Refuse to cut the client's hair",
-                                        "Use a medicated shampoo to treat the skin condition before cutting"
+                                        "A. Add more water to make the hair completely saturated",
+                                        "B. Switch to a finer-tooth comb for better control",
+                                        "C. Use wider comb teeth and work in smaller sections",
+                                        "D. Increase cutting speed to minimize discomfort"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "When working with a client who has a skin condition, it's best to use a different technique to avoid irritating the skin, such as using a gentle shampoo and avoiding harsh chemicals."
+                              "correctAnswer": 2,
+                              "explanation": "Thick, coarse hair requires wider comb teeth to prevent catching, and smaller sections provide better control and reduce pulling, making the service more comfortable and precise."
                     },
                     {
                               "id": "barber-lesson-25-q5",
-                              "question": "What is a common failure mode when using the scissor-over-comb technique, and how can it be recovered from?",
+                              "question": "SCENARIO: During the service you notice you have created a visible horizontal line across the side of the head. What is the correct response?",
                               "options": [
-                                        "Cutting the hair too short, which can be recovered from by using a razor or trimmer to blend the layers",
-                                        "Cutting the hair too long, which can be recovered from by using scissors to trim the hair",
-                                        "Damaging the hair with the scissors, which can be recovered from by using a hair mask or deep conditioning treatment",
-                                        "Causing irritation to the skin, which can be recovered from by using a medicated shampoo or cream"
+                                        "A. Continue cutting and address it at the end with clippers",
+                                        "B. Stop immediately, blend the area by adjusting comb angle and working outward in small increments",
+                                        "C. Wet the hair heavily to hide the line temporarily",
+                                        "D. Cut all surrounding hair to match the shortest length"
                               ],
-                              "correctAnswer": 0,
-                              "explanation": "One common failure mode when using the scissor-over-comb technique is cutting the hair too short, which can be recovered from by using a razor or trimmer to blend the layers and create a more natural-looking edge."
+                              "correctAnswer": 1,
+                              "explanation": "Immediately stopping and using adjusted comb angles to blend outward from the problem area allows for correction without removing excessive length, following the proper failure recovery protocol."
                     }
           ],
           competencyChecks: [
@@ -2250,53 +2378,69 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Blend the flat top sides into the taper without visible lines',
             'Identify the correct guard progression for a classic taper',
           ],
-          content: `<h2>Classic Barbering Cuts</h2>
-<h3>The Flat Top</h3>
-<p>The flat top requires a perfectly level surface on top of the head. It is one of the most technically demanding cuts in barbering.</p>
-<ol>
-<li>Establish the height on top with a pick and clipper</li>
-<li>Use a level comb or flat top comb to guide the cut</li>
-<li>Work from front to back, maintaining a flat plane</li>
-<li>Fade or taper the sides</li>
-</ol>
-<h3>The Classic Taper</h3>
-<p>The taper is the foundation of barbering. Hair gradually decreases in length from top to nape.</p>
-<ul>
-<li>Start with the longest guard on top</li>
-<li>Work down with progressively shorter guards</li>
-<li>Blend each transition smoothly</li>
-<li>Finish with a clean lineup</li>
-</ul>
-
-<h3>Sanitation — Required Before Service</h3>
-<p>Apply universal precautions before every service.</p>
-<ol>
-<li>Wash or sanitize hands.</li>
-<li>Pre-clean all tools — remove hair and debris before applying disinfectant.</li>
-<li>Apply EPA-registered disinfectant. Use clipper disinfectant spray on blades and maintain full contact time per label.</li>
-<li>Discard all single-use items after use. Do not reuse porous items — they cannot be disinfected.</li>
-<li>Disinfect workstation and chair after each client.</li>
-</ol>
-
-<h3>Stop Conditions</h3>
-<p>Stop the service immediately if you observe:</p>
-<ul>
-<li>Open cuts or broken skin on the scalp</li>
-<li>Signs of scalp infection or inflammation</li>
-<li>Client reports pain or discomfort</li>
-<li>Tool malfunction or overheating</li>
-</ul>
-
-<h3>Blood Exposure Protocol</h3>
-<ol>
-<li>Stop service immediately.</li>
-<li>Put on gloves before touching the affected area.</li>
-<li>Apply antiseptic to the client's skin.</li>
-<li>Dispose of all contaminated single-use materials in a sealed bag.</li>
-<li>Clean and disinfect blood-contaminated tools with EPA-registered disinfectant.</li>
-<li>Double-bag contaminated waste before disposal.</li>
-<li>Wash hands thoroughly after removing gloves.</li>
-</ol>`,
+          content: `<h2>Overview</h2><p>The flat top and classic taper haircut represent foundational skills in traditional barbering. The flat top features a horizontal plane on top with squared corners and tight sides, while the classic taper blends smoothly from longer crown hair to shorter sides and neckline. Both styles require precise clipper control, proper body positioning, and an understanding of head shape. Mastering these cuts builds essential technical skills including elevation, guideline establishment, and blending techniques. These timeless styles remain popular across diverse clientele and form the basis for many contemporary variations in men's grooming.</p><h2>Tools Required</h2><ul><li>Professional barber clippers with guards (#000 to #8)</li><li>Flat top comb with level indicator</li><li>Wide-tooth clipper-over-comb</li><li>Taper/blending shears</li><li>Neck duster and cape</li><li>Spray bottle with clean water</li><li>Styling products (pomade or gel)</li><li>Hand mirror for client consultation</li></ul><h2>Client Variations</h2><p>IF the client has coarse, dense hair, THEN use a higher guard number initially and work down gradually to avoid removing too much length too quickly. IF the client has fine or thinning hair, THEN avoid creating a flat top as it may expose scalp visibility on the plane; recommend a textured crew cut or classic taper instead. IF the client has an elongated head shape, THEN keep the flat top height moderate to maintain proportion. IF the client has scalp sensitivity or recent abrasions, THEN use guards rather than clipper-over-comb techniques near affected areas.</p><h2>Procedure</h2><ol><li>Drape client properly and consult on desired flat top height and taper length, confirming head shape suitability for the style requested.</li><li>Establish guideline by cutting top section to desired length using clippers with appropriate guard, working front to back with consistent pressure.</li><li>Create the flat plane by using clipper-over-comb technique, holding comb parallel to floor and removing hair protruding above comb teeth.</li><li>Square the corners by angling clipper at forty-five degrees where top plane meets side sections, creating crisp architectural definition.</li><li>Taper the sides using progressively shorter guards, starting at temple and working down, blending each section with overlapping clipper strokes.</li><li>Detail the outline at ears, sideburns, and neckline using trimmer or inverted clipper blade for clean, defined perimeter lines.</li><li>Blend any visible lines using shear-over-comb or light clipper work, ensuring smooth transitions between all sections and lengths.</li><li>Apply light styling product, check symmetry using mirror and client feedback, and perform final detailing for polished, professional finish.</li></ol><h2>Safety</h2><p>Sanitize all clippers, guards, combs, and shears using EPA-registered hospital-grade disinfectant such as Barbicide or Marvicide for minimum ten minutes between clients. <strong>Do NOT attempt a flat top on clients with active scalp infections, open wounds, or severe psoriasis, as clipper-over-comb techniques require close scalp contact and can spread infection or cause painful irritation to compromised skin.</strong> Always inspect scalp before beginning service.</p><h2>Failure Recovery</h2><p>If an uneven plane appears on the flat top with one corner lower than others, the cause is typically inconsistent comb angle or body position shifts during clipper-over-comb work. To recover: First, re-establish your stance directly behind the client for centered perspective. Second, dampen the top section lightly to control hair. Third, place flat top comb across the entire plane to identify high spots. Fourth, carefully remove only the elevated areas using controlled clipper-over-comb passes. Fifth, recheck plane from multiple angles including side views. Sixth, blend any new cutting lines into surrounding sections.</p><h2>Visual Cues</h2><p>The flat top plane should appear perfectly horizontal when viewed from the side, with no doming or concave depressions across the surface. Corners should form crisp ninety-degree angles when viewed from front or back, creating a distinct architectural silhouette. The taper should show gradual progression from approximately one-eighth inch at the bottom to the guideline length, with no visible lines or steps between sections. Proper elevation during cutting keeps clippers perpendicular to the head curve on sides and parallel to floor on top. Client head position should remain upright and straight; tilting creates asymmetry. Observe the natural fall of hair between passes to identify any missed sections or uneven areas requiring correction.</p>`,
+          quizQuestions: [
+                    {
+                              "id": "barber-lesson-27-q1",
+                              "question": "What is the primary purpose of using a flat top comb with level indicator during this haircut?",
+                              "options": [
+                                        "A. To ensure the horizontal plane remains level and parallel to the floor throughout the cutting process",
+                                        "B. To detangle the hair before beginning the clipper work on top",
+                                        "C. To measure the exact length of hair being removed from sides",
+                                        "D. To create texture and remove bulk from dense hair sections"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The flat top comb with level indicator is specifically designed to help the barber maintain a perfectly horizontal plane on top of the head, which is the defining characteristic of a flat top haircut."
+                    },
+                    {
+                              "id": "barber-lesson-27-q2",
+                              "question": "When tapering the sides of a classic haircut, what technique ensures smooth blending between guard lengths?",
+                              "options": [
+                                        "A. Using only one guard length throughout the entire side section",
+                                        "B. Overlapping clipper strokes while progressing through shorter guards from top to bottom",
+                                        "C. Cutting all hair to the same length before blending",
+                                        "D. Working from the neckline upward with increasing guard sizes"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Overlapping clipper strokes while using progressively shorter guards creates seamless transitions without visible lines, which is essential for a professional taper. This gradual progression ensures smooth blending."
+                    },
+                    {
+                              "id": "barber-lesson-27-q3",
+                              "question": "Why must all clippers and tools be disinfected with hospital-grade disinfectant for a minimum of ten minutes between clients?",
+                              "options": [
+                                        "A. To comply with DOL apprenticeship regulations and prevent transmission of scalp infections and bloodborne pathogens",
+                                        "B. To keep the tools lubricated and functioning properly",
+                                        "C. To remove hair clippings that might dull the blades",
+                                        "D. To make the tools appear clean and professional to clients"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Hospital-grade disinfection for the proper contact time is required to kill pathogens including bacteria, viruses, and fungi that can be transmitted between clients, protecting both client and barber health and meeting regulatory requirements."
+                    },
+                    {
+                              "id": "barber-lesson-27-q4",
+                              "question": "SCENARIO: A client with very fine, thinning hair requests a flat top haircut. What is the appropriate professional response?",
+                              "options": [
+                                        "A. Proceed with the flat top as requested since the client knows what they want",
+                                        "B. Create a shorter flat top to minimize the appearance of thinning",
+                                        "C. Recommend an alternative style such as a textured crew cut or classic taper that better suits their hair density",
+                                        "D. Use a higher guard number to leave more length on top"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine or thinning hair is not suitable for a flat top because the horizontal plane will expose scalp visibility. A professional barber should recommend alternatives that work with the client's hair characteristics while achieving a similar aesthetic."
+                    },
+                    {
+                              "id": "barber-lesson-27-q5",
+                              "question": "SCENARIO: While executing clipper-over-comb on the flat top plane, you notice one corner is significantly lower than the others. What is the correct response?",
+                              "options": [
+                                        "A. Continue cutting and lower all other sections to match the lowest corner",
+                                        "B. Re-establish centered body position, identify high spots with the comb, and carefully remove only elevated areas",
+                                        "C. Switch to a longer guard and start over from the beginning",
+                                        "D. Blend the low corner into the sides to hide the mistake"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The recovery procedure involves repositioning for proper perspective, identifying what remains high rather than cutting more from the low area, and making targeted corrections. Starting over or reducing all sections would result in an excessively short flat top."
+                    }
+          ],
           competencyChecks: [
             'Executes flat top with level, even surface across the top',
             'Executes classic taper with smooth transitions from top to nape',
@@ -2314,75 +2458,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Demonstrate mastery of haircutting techniques.',
           durationMinutes: 20,
           passingScore: 70,
-          content: `<h2>Module 4 Review — Haircutting Techniques</h2><p>Review before taking this checkpoint: head sections and reference points, low/mid/high fade technique, clipper over comb, scissor over comb, lineup and edging, and classic cuts. Score 70% or higher to advance.</p>`,
+          content: `<h2>Overview</h2><p>This checkpoint lesson assesses your mastery of fundamental haircutting techniques covered throughout Module 4. You will demonstrate proper tool selection, sectioning, elevation, cutting angles, and finishing techniques while maintaining sanitation standards and client safety. This comprehensive evaluation ensures you can execute various haircuts with precision and professionalism. Your performance will reflect your readiness to progress in the apprenticeship program and serve clients independently under supervision.</p><h2>Tools Required</h2><ul><li>Professional haircutting shears with adjustable tension</li><li>Texturizing or thinning shears for blending and weight removal</li><li>Multiple cutting combs including all-purpose and tail combs</li><li>Sectioning clips in various sizes for hair management</li><li>Spray bottle filled with clean water for dampening</li><li>Barber cape and neck strip for client protection</li><li>Clippers with multiple guard attachments and accessories</li><li>Disinfectant solution approved for salon tools and surfaces</li></ul><h2>Procedure</h2><ol><li>Conduct thorough client consultation identifying desired style, hair characteristics, growth patterns, and any contraindications before beginning the service.</li><li>Drape client properly with sanitized cape and neck strip, ensuring complete coverage and comfort throughout the haircutting procedure.</li><li>Shampoo and towel-dry hair to appropriate dampness level, detangling gently with wide-tooth comb from ends to roots progressively.</li><li>Section hair systematically using appropriate parting patterns for chosen technique, securing each section with clips to maintain organization and control.</li><li>Establish guideline using proper elevation, finger position, and cutting angle consistent with desired style and hair texture requirements.</li><li>Progress through sections methodically using traveling guide or stationary guide technique, maintaining consistent tension and visualizing projected length.</li><li>Cross-check entire haircut using opposite sectioning pattern to identify and correct any unevenness or weight line inconsistencies immediately.</li><li>Refine perimeter, blend weight lines, and personalize cut using point cutting, slide cutting, or texturizing techniques as appropriate.</li><li>Style hair using appropriate products and tools to showcase the finished cut, ensuring client satisfaction before concluding service.</li><li>Clean and disinfect all tools immediately, sweep station thoroughly, and document service details for client record maintenance.</li></ol><h2>Safety</h2><p>All cutting tools must be cleaned with soap and water then fully immersed in EPA-registered hospital-grade disinfectant for manufacturer-recommended contact time between clients. <strong>Do NOT attempt haircuts on clients with open scalp wounds, active infections, or contagious conditions as this creates cross-contamination risk and may worsen the client's condition requiring medical attention.</strong> IF the client has coarse, dense hair, THEN use wider tooth combs and adjust tension to prevent hand fatigue and ensure cutting accuracy. IF the client has fine, thin hair, THEN reduce tension and use smaller subsections to prevent over-removal and maintain desired density throughout the cut.</p><h2>Visual Cues</h2><p>Monitor finger position maintaining consistent elevation angle between zero and ninety degrees depending on technique requirements. Observe hair projection perpendicular to curve of head for graduation or parallel to floor for uniform layers. Watch for clean, decisive shear closure producing sharp cutting lines without bending or folding hair strands. Check weight distribution by observing how hair falls naturally, identifying heavy areas appearing bulky or disconnected sections showing gaps. Verify perimeter hangs evenly when client's head is in neutral position with symmetrical balance on both sides. If sections appear uneven during cross-checking, you have inconsistent guideline adherence requiring immediate correction by re-cutting affected areas using proper elevation and original guideline as reference point for accuracy.</p>`,
           quizQuestions: [
-            {
-              id: 'hc-q1',
-              question: 'A mid fade starts at which reference point?',
-              options: ['The nape', 'The occipital bone', 'The temple', 'The parietal ridge'],
-              correctAnswer: 2,
-              explanation: 'A mid fade starts at the temple area, between the low and high fade.',
-            },
-            {
-              id: 'hc-q2',
-              question: 'Which technique produces a softer result than clipper over comb?',
-              options: ['Skin fade', 'Scissor over comb', 'Razor cutting', 'Clipper flicking'],
-              correctAnswer: 1,
-              explanation:
-                'Scissor over comb produces a softer, more natural finish than clipper over comb.',
-            },
-            {
-              id: 'hc-q3',
-              question: 'What is the parietal ridge?',
-              options: [
-                'The hairline at the nape',
-                'The bony protrusion at the back of the skull',
-                'The widest part of the head',
-                'The front hairline',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'The parietal ridge is the widest part of the head and a key reference for high fades.',
-            },
-            {
-              id: 'hc-q4',
-              question: 'Point cutting is used to:',
-              options: [
-                'Create a blunt, heavy line',
-                'Remove weight and add texture',
-                'Create a skin fade',
-                'Establish the guide line',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Point cutting removes weight from the ends and adds texture and movement.',
-            },
-            {
-              id: 'hc-q5',
-              question: 'When performing a lineup, you should never:',
-              options: [
-                'Use a razor',
-                'Cut above the natural temple hairline',
-                'Square the nape',
-                'Use a trimmer',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Cutting above the natural temple hairline creates an unnatural appearance.',
-            },
-            {
-              id: 'hc-q6',
-              question: 'The flat top is considered technically demanding because it requires:',
-              options: [
-                'The most guards',
-                'A perfectly level surface on top',
-                'The longest cutting time',
-                'Special clippers',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Maintaining a perfectly flat, level plane on top of the head requires precision and skill.',
-            },
+                    {
+                              "id": "barber-module-4-checkpoint-q1",
+                              "question": "What is the primary purpose of cross-checking a haircut?",
+                              "options": [
+                                        "A. To identify and correct any unevenness or inconsistencies in the cut",
+                                        "B. To add texture and remove bulk from thick hair",
+                                        "C. To establish the initial guideline for the haircut",
+                                        "D. To determine the client's desired style and length"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Cross-checking involves cutting through opposite sectioning patterns to identify any unevenness, weight line inconsistencies, or errors that occurred during the initial cutting process, allowing for immediate correction."
+                    },
+                    {
+                              "id": "barber-module-4-checkpoint-q2",
+                              "question": "Which technique maintains consistent length throughout by keeping hair projection perpendicular to the head curve?",
+                              "options": [
+                                        "A. Uniform layering with zero elevation",
+                                        "B. Graduation technique creating stacked weight",
+                                        "C. Blunt cutting with hair at natural fall",
+                                        "D. Texturizing to remove internal weight"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Graduation technique involves projecting hair perpendicular to the curve of the head and cutting at an angle, which creates a stacked or built-up weight area while maintaining controlled length progression."
+                    },
+                    {
+                              "id": "barber-module-4-checkpoint-q3",
+                              "question": "What is the correct contact time requirement for tool disinfection between clients?",
+                              "options": [
+                                        "A. The manufacturer-recommended contact time for the EPA-registered disinfectant being used",
+                                        "B. Exactly five minutes regardless of the disinfectant product",
+                                        "C. A quick spray and immediate wipe-down",
+                                        "D. Overnight soaking in any antibacterial solution"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "EPA-registered hospital-grade disinfectants have specific manufacturer-recommended contact times that must be followed to ensure proper disinfection. This time varies by product and must be strictly observed for effective sanitation."
+                    },
+                    {
+                              "id": "barber-module-4-checkpoint-q4",
+                              "question": "SCENARIO: A client with fine, thin hair requests a layered cut. What adjustment should you make?",
+                              "options": [
+                                        "A. Use maximum tension and large sections to speed up the service",
+                                        "B. Apply heavy thinning shears throughout to create texture",
+                                        "C. Reduce tension and use smaller subsections to prevent over-removal",
+                                        "D. Increase elevation angles to remove more weight"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Fine, thin hair requires reduced tension and smaller subsections to maintain control and prevent removing too much hair, which would make the hair appear even thinner and compromise the desired density and style."
+                    },
+                    {
+                              "id": "barber-module-4-checkpoint-q5",
+                              "question": "SCENARIO: During cross-checking you notice sections appear uneven with visible gaps. What is the correct response?",
+                              "options": [
+                                        "A. Continue with styling as the product will hide the unevenness",
+                                        "B. Re-cut affected areas using proper elevation and the original guideline as reference",
+                                        "C. Apply texturizing shears randomly to blend the inconsistencies",
+                                        "D. Inform the client that hair settles differently after a few days"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Unevenness discovered during cross-checking must be corrected immediately by re-cutting the affected areas using proper technique and referencing the original guideline to ensure consistency and precision throughout the haircut."
+                    }
           ],
         },
       ],
@@ -2419,79 +2556,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Prepare the skin for a professional shave using hot towel and pre-shave products.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-razor-narrated.mp4',
-          content: `<h2>Shave Preparation</h2>
-<h3>Why Preparation Matters</h3>
-<p>Proper preparation softens the beard, opens the pores, and reduces razor drag — preventing irritation and ingrown hairs.</p>
-<h3>Hot Towel Application</h3>
-<ol>
-<li>Soak a clean towel in hot water (test temperature on your wrist)</li>
-<li>Wring out excess water</li>
-<li>Apply to the face for 2–3 minutes</li>
-<li>Remove and apply pre-shave oil or cream</li>
-</ol>
-<h3>Pre-Shave Products</h3>
-<ul>
-<li><strong>Pre-shave oil</strong> — lubricates and protects the skin</li>
-<li><strong>Shaving cream</strong> — creates a protective lather</li>
-<li><strong>Shaving soap</strong> — traditional, requires a brush to lather</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Proper shave preparation is essential for achieving a close, comfortable shave while minimizing irritation and ingrown hairs. Hot towel service softens beard hair, opens pores, and relaxes facial muscles, creating optimal conditions for razor glide. This foundational skill combines thermal therapy with product application to prepare skin and hair for blade contact. Mastering shave preparation demonstrates professionalism and ensures client comfort throughout the service. Understanding skin response to heat and moisture allows you to customize treatment for individual client needs while maintaining sanitation standards.</p><h2>Tools Required</h2><ul><li>Hot towel cabinet or steamer maintaining 130-140°F temperature range</li><li>Clean terry cloth towels, minimum 12x12 inches, lint-free white or light colored</li><li>Pre-shave oil containing natural lubricants like jojoba or grape seed</li><li>Lather product: shaving cream, soap, or gel appropriate for skin type</li><li>Lather brush with badger, boar, or synthetic bristles for product distribution</li><li>Disinfected shaving bowl or mug for lather preparation and application</li><li>EPA-registered hospital-grade disinfectant spray for surface preparation</li></ul><h2>Procedure</h2><ol><li>Sanitize hands and drape client with clean towel tucked snugly around neck, ensuring full chest and shoulder protection from moisture.</li><li>Analyze facial skin condition and hair growth patterns, identifying any contraindications like lesions, severe acne, or active skin infections.</li><li>Steam towel to 130-140°F, wring thoroughly to remove excess water, test temperature on your inner wrist before client application.</li><li>Apply first hot towel to face covering beard area completely, leaving nose exposed for breathing, maintain contact two to three minutes.</li><li>Remove towel and immediately apply pre-shave oil using circular motions, massaging into beard area to coat hair shafts and soften cuticles.</li><li>Prepare lather to creamy consistency using brush in circular motions, building volume with appropriate water-to-product ratio for rich texture.</li><li>Apply second hot towel over pre-shave oil for one to two minutes, allowing additional softening and pore opening before lathering.</li><li>Remove towel and apply generous lather using brush in circular motions, ensuring complete beard coverage with consistent product thickness throughout.</li></ol><h2>Safety</h2><p>All towels must be laundered in hot water with detergent and dried completely between clients to prevent bacterial growth and cross-contamination. <strong>Do NOT apply hot towels to clients with diabetes, impaired circulation, or reduced thermal sensitivity as they may experience burns without feeling excessive heat, resulting in second-degree burns and potential liability.</strong> IF the client has sensitive skin or rosacea, THEN reduce towel temperature to 120°F and decrease contact time to 90 seconds maximum. IF the client has coarse, dense beard hair, THEN extend hot towel application to three full minutes and consider a third towel cycle for optimal softening. Use EPA-registered hospital-grade disinfectant on all surface areas before service begins. Failure mode: If towel is too hot causing client discomfort, immediately remove towel, apply cool damp cloth to affected area for 30 seconds, assess for redness or irritation, allow skin to return to normal temperature for two minutes, then proceed with properly tested warm towel at reduced temperature before continuing service.</p><h2>Visual Cues</h2><p>Position client reclined at 30-45 degree angle with head supported in headrest, ensuring neck is relaxed and accessible. Towel should conform smoothly to facial contours without gaps, covering from sideburns down to jawline and chin. Properly steamed towel releases visible vapor when unfolded and appears uniformly damp throughout. Pre-shave oil application should create subtle sheen across beard area without pooling or dripping. Lather consistency should form stiff peaks when lifted with brush, appearing bright white and creamy. Properly prepared skin shows slight redness from increased circulation, with beard hair appearing darker and lying flat against skin rather than standing erect.</p>`,
           quizQuestions: [
-            {
-              id: 'l29-q1',
-              question: 'How long should a hot towel be applied to the face before shaving?',
-              options: ['30 seconds', '2–3 minutes', '10 minutes', '15 minutes'],
-              correctAnswer: 1,
-              explanation:
-                '2–3 minutes softens the beard and opens the pores without overheating the skin.',
-            },
-            {
-              id: 'l29-q2',
-              question:
-                'Why should you test the hot towel temperature on your wrist before applying it to a client?',
-              options: [
-                'To check if it is dry enough',
-                'To prevent burning the client',
-                'To measure softening time',
-                'To confirm it is disinfected',
-              ],
-              correctAnswer: 1,
-              explanation:
-                "Testing on your own wrist prevents accidental burns — the client's facial skin is sensitive.",
-            },
-            {
-              id: 'l29-q3',
-              question: 'What is the primary purpose of pre-shave oil?',
-              options: [
-                'Removes beard hair',
-                'Lubricates and protects the skin',
-                'Disinfects the face',
-                'Thickens the lather',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Pre-shave oil creates a protective layer between the razor and skin, reducing drag and irritation.',
-            },
-            {
-              id: 'l29-q4',
-              question: 'Which pre-shave product requires a brush to build lather?',
-              options: ['Shaving cream', 'Pre-shave oil', 'Shaving soap', 'Aftershave balm'],
-              correctAnswer: 2,
-              explanation:
-                'Traditional shaving soap must be worked with a brush — it does not lather from direct hand application.',
-            },
-            {
-              id: 'l29-q5',
-              question: 'Proper shave preparation primarily reduces which of the following?',
-              options: [
-                'Product cost',
-                'Razor drag and ingrown hairs',
-                'Draping time',
-                'Chemical exposure',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Softening the beard and opening the pores reduces razor drag and the risk of ingrown hairs.',
-            },
+                    {
+                              "id": "barber-lesson-29-q1",
+                              "question": "What is the optimal temperature range for hot towels used in shave preparation?",
+                              "options": [
+                                        "A. 130-140°F",
+                                        "B. 150-160°F",
+                                        "C. 110-120°F",
+                                        "D. 160-170°F"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Hot towels should be maintained at 130-140°F to effectively soften beard hair and open pores without risking burns or client discomfort. This temperature range provides therapeutic benefit while remaining safe."
+                    },
+                    {
+                              "id": "barber-lesson-29-q2",
+                              "question": "When should pre-shave oil be applied during the hot towel service?",
+                              "options": [
+                                        "A. Before the first hot towel application",
+                                        "B. After the first hot towel and before the second towel",
+                                        "C. After both hot towels are complete",
+                                        "D. Mixed into the lather product"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Pre-shave oil is applied after the first hot towel softens the hair and opens pores, then a second hot towel is applied over the oil to drive it deeper into the hair shaft and skin for maximum effectiveness."
+                    },
+                    {
+                              "id": "barber-lesson-29-q3",
+                              "question": "What indicates properly prepared lather consistency?",
+                              "options": [
+                                        "A. Forms stiff peaks when lifted with brush and appears creamy white",
+                                        "B. Runs freely off the brush in liquid form",
+                                        "C. Appears transparent and watery",
+                                        "D. Contains visible bubbles and foam only"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Proper lather should be thick enough to form stiff peaks, indicating the right water-to-product ratio. This creamy, dense consistency provides optimal cushion and lubrication for the razor during shaving."
+                    },
+                    {
+                              "id": "barber-lesson-29-q4",
+                              "question": "SCENARIO: A client mentions he has Type 2 diabetes and asks for the hot towel shave service. What do you do?",
+                              "options": [
+                                        "A. Proceed normally since diabetes does not affect shaving",
+                                        "B. Apply towels at higher temperature to ensure effectiveness",
+                                        "C. Decline the hot towel service due to impaired thermal sensitivity and circulation concerns",
+                                        "D. Use only one towel instead of two"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Clients with diabetes often have impaired circulation and reduced thermal sensitivity, meaning they may not feel excessive heat and could suffer burns. This is a contraindication for hot towel service and the service should be declined or modified significantly."
+                    },
+                    {
+                              "id": "barber-lesson-29-q5",
+                              "question": "SCENARIO: During the first hot towel application you notice the client suddenly flinches and says the towel feels too hot. Correct response?",
+                              "options": [
+                                        "A. Tell the client to tolerate it because hot towels are supposed to be hot",
+                                        "B. Immediately remove towel, apply cool damp cloth for 30 seconds, assess skin, then retry with properly tested cooler towel",
+                                        "C. Leave the towel in place but reduce the time to 30 seconds",
+                                        "D. Remove the towel and proceed directly to lathering without further preparation"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Client safety is paramount. Immediately remove the hot towel, apply a cool compress to prevent burns, assess for damage, allow skin to recover, and then retry with a properly temperature-tested towel at a lower heat to continue the service safely."
+                    }
           ],
         },
         {
@@ -2574,88 +2700,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: "Design and shape a beard to complement the client's face shape.",
           durationMinutes: 20,
           videoFile: '/videos/course-barber-beard-narrated.mp4',
-          content: `<h2>Beard Design</h2>
-<h3>Face Shapes</h3>
-<ul>
-<li><strong>Oval</strong> — most beard styles work; maintain natural proportions</li>
-<li><strong>Round</strong> — add length on the chin; keep sides tight</li>
-<li><strong>Square</strong> — round the corners; fuller on the chin</li>
-<li><strong>Oblong</strong> — keep sides full; minimize chin length</li>
-</ul>
-<h3>Beard Lines</h3>
-<ul>
-<li><strong>Cheek line</strong> — natural or defined; never too low</li>
-<li><strong>Neckline</strong> — two finger-widths above the Adam's apple; the most common mistake is setting it too high</li>
-<li><strong>Mustache line</strong> — follow the natural lip line</li>
-</ul>
-<h3>Trimming Technique</h3>
-<ol>
-<li>Comb beard downward to its natural fall</li>
-<li>Trim to desired length with guards</li>
-<li>Define lines with trimmer and razor</li>
-<li>Apply beard oil to finish</li>
-</ol>`,
+          content: `<h2>Overview</h2><p>Beard design and shaping is a specialized barber service that combines artistic vision with technical precision to enhance a client's facial features. This lesson teaches you how to analyze face shapes and create complementary beard designs using professional tools and techniques. Proper beard shaping requires understanding facial structure, hair growth patterns, and style principles. Mastering this skill allows you to provide personalized grooming services that boost client confidence and satisfaction.</p><h2>Tools Required</h2><ul><li>Professional adjustable clippers with guard attachments (sizes 1-8)</li><li>Detailing trimmer or T-blade outliner for precision work</li><li>Barber shears for scissor-over-comb technique</li><li>Fine-tooth comb and wide-tooth comb for sectioning</li><li>Beard brush with natural or synthetic bristles</li><li>Straight razor or safety razor for clean edge definition</li><li>Hand mirror for client consultation and approval</li><li>Neck strip and cape for proper draping</li></ul><h2>Client Considerations</h2><p>IF the client has a round face shape, THEN design a longer, more angular beard with defined cheek lines and shorter sides to create vertical length and elongate the face. IF the client has an oblong or rectangular face, THEN keep the beard fuller on the sides with shorter length on the chin to add width and balance proportions. IF the client has coarse, curly beard hair, THEN use longer guard settings initially as curly hair appears shorter when dry and will shrink after trimming.</p><h2>Procedure</h2><ol><li>Consult with client to determine desired beard style, assess face shape, and identify natural growth patterns and density variations throughout the beard area.</li><li>Drape the client properly with neck strip and cape, then cleanse and brush the beard thoroughly to remove debris and detangle hair.</li><li>Establish cheek line and neckline boundaries using detailing trimmer, creating clean, symmetrical lines that complement the client's facial structure and jawline.</li><li>Select appropriate clipper guard length and trim beard to desired length, moving against growth direction for even cutting across all facial zones.</li><li>Blend the beard gradually from neckline to chin using progressively longer guards, creating smooth transitions without visible lines or unevenness throughout.</li><li>Use scissor-over-comb technique to refine length, remove bulk, and shape the mustache area, checking symmetry from multiple angles throughout the process.</li><li>Detail edges with trimmer or razor, removing stray hairs outside design lines, then apply aftershave or beard oil as finishing product.</li><li>Show client the finished result using hand mirror for front and side views, making minor adjustments as needed for complete satisfaction.</li></ol><h2>Safety</h2><p>All tools must be sanitized before and after each client service. Clipper blades should be cleaned with Clippercide or similar EPA-registered disinfectant spray, while combs and guards must be washed with soap and water then immersed in Barbicide solution for ten minutes. Razors require blade disposal in sharps container and handle disinfection between uses.<strong>Do NOT perform beard shaping services on clients with active skin infections, open wounds, or severe acne in the beard area, as cutting and trimming can spread bacteria, worsen the condition, and potentially expose you to bloodborne pathogens requiring medical intervention.</strong></p><h2>Visual Cues</h2><p>Position yourself at eye level with the client's beard, moving systematically from one side to the other to maintain symmetry. Observe the natural angle where the jawline meets the neck, typically one finger-width above the Adam's apple for proper neckline placement. Check that cheek lines follow a straight or slightly curved path from the sideburn to the mustache corner, typically level with the nose bottom. The beard should appear denser at the chin and gradually lighter toward the cheeks. Step back periodically to assess overall balance and proportion from three feet away, ensuring both sides match in length, shape, and definition.</p><h2>Failure Recovery</h2><p>If you accidentally create an uneven patch or cut the beard too short in one area, do not attempt to match the mistake by cutting everything shorter immediately. First, assess the damage by combing the area and determining the exact length difference. Then, use scissor-over-comb technique with minimal tension to gradually blend the shorter section into surrounding areas, creating a subtle transition. Work in small increments, checking symmetry after each pass. If the error is significant, consult with the client about adjusting the overall beard length or modifying the style to incorporate the shorter section as an intentional design element.</p>`,
           quizQuestions: [
-            {
-              id: 'l31-q1',
-              question: 'For a client with a round face, where should beard length be added?',
-              options: ['The sides', 'The chin', 'The cheeks', 'All around evenly'],
-              correctAnswer: 1,
-              explanation:
-                'Adding length at the chin elongates a round face and creates better proportion.',
-            },
-            {
-              id: 'l31-q2',
-              question: 'Where is the standard neckline set when shaping a beard?',
-              options: [
-                'At the jawline',
-                "At the Adam's apple",
-                "Two finger-widths above the Adam's apple",
-                'Below the chin',
-              ],
-              correctAnswer: 2,
-              explanation:
-                "Two finger-widths above the Adam's apple is the industry standard neckline position.",
-            },
-            {
-              id: 'l31-q3',
-              question: 'The most common mistake when setting a beard neckline is:',
-              options: [
-                'Setting it too low',
-                'Setting it too high',
-                'Not using a razor',
-                'Skipping beard oil',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Setting the neckline too high shortens the neck visually and looks unnatural.',
-            },
-            {
-              id: 'l31-q4',
-              question: 'What is the first step in the beard trimming technique?',
-              options: [
-                'Define the neckline',
-                'Apply beard oil',
-                'Comb beard downward to its natural fall',
-                'Trim with scissors',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Combing the beard down first reveals its natural fall and helps ensure an even trim.',
-            },
-            {
-              id: 'l31-q5',
-              question: 'An oblong face shape benefits from a beard style that:',
-              options: [
-                'Adds chin length and keeps sides tight',
-                'Keeps sides full and minimizes chin length',
-                'Rounds all corners',
-                'Uses the highest neckline',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'An oblong face is already long — full sides add width while a shorter chin avoids elongating further.',
-            },
+                    {
+                              "id": "barber-lesson-31-q1",
+                              "question": "What is the primary purpose of using the scissor-over-comb technique during beard shaping?",
+                              "options": [
+                                        "A. To refine length, remove bulk, and create smooth transitions in the beard",
+                                        "B. To establish the initial cheek line and neckline boundaries",
+                                        "C. To apply finishing products evenly throughout the beard",
+                                        "D. To detangle and prepare the beard before using clippers"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "The scissor-over-comb technique is specifically used to refine length, remove excess bulk, and shape areas like the mustache while creating smooth, natural-looking results that clippers alone cannot achieve."
+                    },
+                    {
+                              "id": "barber-lesson-31-q2",
+                              "question": "Where should the neckline typically be positioned when shaping a beard?",
+                              "options": [
+                                        "A. Directly at the jawbone where it meets the neck",
+                                        "B. Approximately one finger-width above the Adam's apple",
+                                        "C. Two inches below the chin for all face shapes",
+                                        "D. At the point where the neck meets the shoulder"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The proper neckline placement is typically one finger-width above the Adam's apple, following the natural angle where the jawline meets the neck for a clean, professional appearance."
+                    },
+                    {
+                              "id": "barber-lesson-31-q3",
+                              "question": "Why must clipper blades be disinfected between clients?",
+                              "options": [
+                                        "A. To prevent cross-contamination and transmission of bacteria, fungi, or bloodborne pathogens between clients",
+                                        "B. To keep the blades sharp and functioning properly",
+                                        "C. To remove hair clippings that might dull the cutting edges",
+                                        "D. To comply with manufacturer warranty requirements"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Disinfecting clipper blades between clients is essential to prevent cross-contamination and the spread of infections, bacteria, fungi, or bloodborne pathogens, protecting both clients and the barber."
+                    },
+                    {
+                              "id": "barber-lesson-31-q4",
+                              "question": "SCENARIO: A client with a round face requests a full, bushy beard that adds width to his face. What do you do?",
+                              "options": [
+                                        "A. Proceed with the requested style exactly as the client described it",
+                                        "B. Refuse the service and tell the client his idea will not work",
+                                        "C. Professionally explain how a longer, angular beard would better complement his face shape and suggest modifications",
+                                        "D. Create the bushy beard but charge extra for the consultation"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "As a professional barber, you should educate clients about styles that complement their features. Diplomatically suggest a longer, more angular design that creates vertical length for round faces while respecting the client's input."
+                    },
+                    {
+                              "id": "barber-lesson-31-q5",
+                              "question": "SCENARIO: During the service you notice you have accidentally created an uneven patch on one side of the beard. Correct response?",
+                              "options": [
+                                        "A. Immediately cut the entire beard to match the shortest area",
+                                        "B. Use scissor-over-comb technique to gradually blend the shorter section, working in small increments",
+                                        "C. Tell the client it will grow back and continue with the original plan",
+                                        "D. Apply more product to the area to hide the unevenness"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The correct recovery method is to use scissor-over-comb technique to gradually blend the shorter section into surrounding areas, working carefully in small increments rather than hastily cutting everything shorter."
+                    }
           ],
         },
         {
@@ -2666,67 +2772,67 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Apply correct post-shave products and handle common skin reactions.',
           durationMinutes: 15,
           videoFile: '/videos/course-barber-beard-narrated.mp4',
-          content: `<h2>Post-Shave Care & Skin Treatment</h2><p>In this lesson, we will cover the importance of post-shave care and skin treatment, including the application of correct products and handling common skin reactions. As a barber, it is essential to understand the different skin types and conditions to provide the best possible service to your clients.</p><h3>Tools, Equipment, and Materials Required</h3><ul><li>Aftershave balms and lotions</li><li>Antiseptic wipes</li><li>Cooling gels or creams</li><li>Sanitizing solutions</li><li>Disposable towels</li></ul><h3>Sanitation, Disinfection, and Infection Control</h3><p>Before starting any post-shave care or skin treatment, it is crucial to sanitize and disinfect all equipment and tools. This includes washing your hands thoroughly and using sanitizing solutions on all surfaces and tools. Infection control is vital in a barber shop, and it is your responsibility to ensure that all clients receive a safe and clean service.</p><h3>Applying Post-Shave Products</h3><p>When applying post-shave products, it is essential to consider the client's skin type and condition. For example, if the client has sensitive skin, you may need to use a gentle aftershave balm or lotion. IF the client has dry skin, THEN you should use a moisturizing aftershave product to help hydrate the skin. IF the client has oily skin, THEN you should use a lightweight aftershave product that won't clog the pores.</p><p>When applying post-shave products, make sure to follow these steps:</p><ol><li>Apply a small amount of product to the affected area</li><li>Gently massage the product into the skin</li><li>Allow the product to absorb fully before applying any additional products</li></ol><h3>Handling Common Skin Reactions</h3><p>Common skin reactions after a shave can include razor burn, ingrown hairs, and skin irritation. To handle these reactions, you should:</p><ul><li>Apply a cool compress to the affected area to reduce inflammation</li><li>Use an antiseptic wipe to clean the area and prevent infection</li><li>Apply a soothing aftershave product to help calm the skin</li></ul><p>DO NOT apply harsh or abrasive products to the affected area, as this can exacerbate the condition.</p><h3>Failure Mode: Incorrect Product Application</h3><p>If you apply the wrong post-shave product to a client's skin, it can lead to adverse reactions, such as skin irritation or allergic reactions. To recover from this failure mode, you should:</p><ul><li>Immediately stop the service and assess the situation</li><li>Apologize to the client and explain the situation</li><li>Offer to re-apply a different product or provide a refund</li></ul><h3>Correct Execution</h3><p>Correct execution of post-shave care and skin treatment involves applying the correct products in a gentle and soothing manner. The client's skin should appear calm and hydrated, with no signs of irritation or inflammation. The barber should maintain a clean and sanitary environment throughout the service, using disposable towels and sanitizing solutions as needed.</p>`,
+          content: `<h2>Overview</h2><p>Post-shave care is essential to prevent irritation, ingrown hairs, and infection while promoting healthy skin recovery. After removing hair, the skin barrier is temporarily compromised and requires immediate attention with appropriate products and techniques. Proper post-shave treatment soothes razor burn, closes pores, restores pH balance, and provides antimicrobial protection. This lesson covers product selection, application techniques, client skin assessment, and management of common reactions. Mastering these skills ensures client comfort, prevents complications, and demonstrates professional expertise that builds trust and repeat business in your barbering practice.</p><h2>Tools Required</h2><ul><li>Cold water or cold towel compress</li><li>Aftershave lotion, balm, or astringent (alcohol-based or alcohol-free options)</li><li>Moisturizer or post-shave serum with soothing ingredients</li><li>Alum block or styptic powder for minor nicks</li><li>Clean towels (separate from shaving towels)</li><li>Antiseptic spray or EPA-registered disinfectant for workspace</li><li>Cotton pads or applicators for product application</li></ul><h2>Decision Factors</h2><p>IF the client has sensitive skin or visible redness, THEN use alcohol-free aftershave balm with aloe vera or chamomile and avoid astringents that cause stinging or further irritation. IF the client has oily or acne-prone skin, THEN apply a lightweight, non-comedogenic aftershave with salicylic acid or witch hazel to prevent clogged pores and breakouts. IF the client has dry or mature skin, THEN select a rich moisturizing balm with hyaluronic acid or vitamin E to restore hydration and elasticity.</p><h2>Procedure</h2><ol><li>Rinse the shaved area thoroughly with cool water to remove all remaining shaving cream, stubble, and debris from the skin surface.</li><li>Pat the skin completely dry using a clean towel with gentle pressing motions, avoiding any rubbing that could cause additional irritation.</li><li>Apply alum block or styptic powder to any nicks or cuts using light pressure until bleeding stops, typically within seconds.</li><li>Dispense a small amount of chosen aftershave product into your palm or onto a cotton pad for controlled, sanitary application.</li><li>Apply the aftershave using gentle upward and outward motions, covering all shaved areas evenly without excessive rubbing or pressure on skin.</li><li>Follow with moisturizer if needed, using light patting motions to seal in hydration and create a protective barrier on skin.</li><li>Advise the client on home care, including avoiding sun exposure, touching the area, or applying fragranced products for twenty-four hours.</li></ol><h2>Safety</h2><p>All post-shave products must be dispensed from containers using clean applicators or hands washed immediately before application to prevent cross-contamination between clients. Workstations should be disinfected with EPA-registered hospital-grade disinfectant between each client, including all product containers and dispensers. <strong>Do NOT apply aftershave products containing alcohol or fragrance to clients with open cuts, active infections, or inflamed skin conditions, as this causes severe burning, delayed healing, and potential bacterial introduction into compromised tissue.</strong> Always check expiration dates on products and discard any items showing contamination signs.</p><h2>Visual Cues</h2><p>Properly treated skin should appear calm with reduced redness within two to three minutes of aftershave application, showing even moisture distribution without pooling or dry patches. Watch for immediate adverse reactions including increased redness, hives, or swelling that indicate allergic response requiring product removal. The skin should feel cool and taut but not tight or uncomfortable, with a subtle matte or slight sheen depending on product type used. Observe the neck area at a forty-five-degree angle under proper lighting to detect any missed spots, uneven application, or developing razor bumps that need attention.</p><h2>Failure Mode</h2><p>If a client develops sudden widespread redness and burning sensation after aftershave application, this indicates allergic reaction or inappropriate product selection for skin type. Immediately remove the product by rinsing the entire area with cool water for at least sixty seconds. Pat dry gently and apply a plain, fragrance-free aloe vera gel or hypoallergenic moisturizer to calm inflammation. Place a cold compress on the affected area for five-minute intervals. Document the product used and reaction observed, and recommend the client avoid that ingredient family in future. If swelling or hives develop, advise seeking medical attention and do not proceed with additional products.</p>`,
           quizQuestions: [
                     {
                               "id": "barber-lesson-32-q1",
-                              "question": "What is the first step in applying post-shave products?",
+                              "question": "What is the primary purpose of applying aftershave products immediately following a shave service?",
                               "options": [
-                                        "Apply a large amount of product to the affected area",
-                                        "Gently massage the product into the skin",
-                                        "Apply a small amount of product to the affected area",
-                                        "Allow the product to absorb fully before applying any additional products"
+                                        "A. To soothe skin, close pores, restore pH balance, and provide antimicrobial protection",
+                                        "B. To add fragrance and make the client smell pleasant for the rest of the day",
+                                        "C. To remove any remaining shaving cream residue from the skin surface",
+                                        "D. To prepare the skin for immediate sun exposure and outdoor activities"
                               ],
-                              "correctAnswer": 2,
-                              "explanation": "The first step in applying post-shave products is to apply a small amount of product to the affected area."
+                              "correctAnswer": 0,
+                              "explanation": "Aftershave products serve multiple therapeutic purposes including soothing irritation, closing pores, restoring skin pH, and providing antimicrobial protection to prevent infection in the temporarily compromised skin barrier."
                     },
                     {
                               "id": "barber-lesson-32-q2",
-                              "question": "A client presents with sensitive skin and is experiencing razor burn after a shave. What do you do?",
+                              "question": "Which type of aftershave product is most appropriate for a client with oily, acne-prone skin?",
                               "options": [
-                                        "Apply a harsh aftershave product to the affected area",
-                                        "Use a gentle aftershave balm or lotion to help soothe the skin",
-                                        "Apply a large amount of product to the affected area",
-                                        "Stop the service and refer the client to a doctor"
+                                        "A. Rich moisturizing balm with hyaluronic acid and heavy emollients",
+                                        "B. Lightweight, non-comedogenic aftershave with salicylic acid or witch hazel",
+                                        "C. Alcohol-based astringent with added synthetic fragrances and dyes",
+                                        "D. Thick cream containing petroleum jelly and mineral oil base"
                               ],
                               "correctAnswer": 1,
-                              "explanation": "If a client presents with sensitive skin and is experiencing razor burn, you should use a gentle aftershave balm or lotion to help soothe the skin."
+                              "explanation": "Oily and acne-prone skin requires lightweight, non-comedogenic products that won't clog pores. Ingredients like salicylic acid and witch hazel help control oil and prevent breakouts without adding heaviness."
                     },
                     {
                               "id": "barber-lesson-32-q3",
-                              "question": "What is the purpose of using antiseptic wipes in post-shave care?",
+                              "question": "What is the correct method for drying the skin immediately after rinsing following a shave?",
                               "options": [
-                                        "To clean the barber's equipment",
-                                        "To sanitize the client's skin",
-                                        "To apply post-shave products",
-                                        "To moisturize the client's skin"
+                                        "A. Pat the skin completely dry using gentle pressing motions with a clean towel, avoiding rubbing",
+                                        "B. Vigorously rub the skin with a coarse towel to stimulate blood circulation",
+                                        "C. Allow the skin to air dry naturally without using any towel contact",
+                                        "D. Use a high-speed blow dryer on cool setting to evaporate water quickly"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "The purpose of using antiseptic wipes in post-shave care is to sanitize the client's skin and prevent infection."
+                              "correctAnswer": 0,
+                              "explanation": "Patting with gentle pressing motions removes water without causing additional irritation to freshly shaved skin. Rubbing can cause friction and inflammation on the compromised skin barrier."
                     },
                     {
                               "id": "barber-lesson-32-q4",
-                              "question": "A client has dry skin and is experiencing skin irritation after a shave. What type of post-shave product should you use?",
+                              "question": "SCENARIO: A client with visible razor burn and multiple areas of redness requests aftershave application. What do you do?",
                               "options": [
-                                        "A lightweight aftershave product",
-                                        "A moisturizing aftershave product",
-                                        "A harsh aftershave product",
-                                        "A cooling gel or cream"
+                                        "A. Apply a strong alcohol-based astringent to disinfect and tighten the irritated areas",
+                                        "B. Skip all aftershave products and send the client home without post-shave treatment",
+                                        "C. Select an alcohol-free aftershave balm with aloe vera or chamomile and apply gently",
+                                        "D. Use a medicated acne treatment containing benzoyl peroxide on the affected areas"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "If a client has dry skin and is experiencing skin irritation, you should use a moisturizing aftershave product to help hydrate the skin."
+                              "correctAnswer": 2,
+                              "explanation": "Sensitive, irritated skin requires gentle, alcohol-free products with soothing ingredients like aloe vera or chamomile. Alcohol-based products would cause burning and worsen the irritation on already compromised skin."
                     },
                     {
                               "id": "barber-lesson-32-q5",
-                              "question": "What is a contraindication for applying post-shave products?",
+                              "question": "SCENARIO: During post-shave product application you notice the client's skin becoming increasingly red with visible hives forming. Correct response?",
                               "options": [
-                                        "Applying a small amount of product to the affected area",
-                                        "Using a gentle aftershave balm or lotion",
-                                        "Applying harsh or abrasive products to the affected area",
-                                        "Allowing the product to absorb fully before applying any additional products"
+                                        "A. Continue with the service and apply additional moisturizer to cover the reaction",
+                                        "B. Immediately rinse the area with cool water, apply plain aloe vera gel, and use a cold compress",
+                                        "C. Apply more of the same product to help the skin adjust to the ingredients",
+                                        "D. Ignore the reaction as it will resolve naturally within a few hours"
                               ],
-                              "correctAnswer": 2,
-                              "explanation": "A contraindication for applying post-shave products is applying harsh or abrasive products to the affected area, as this can exacerbate skin conditions."
+                              "correctAnswer": 1,
+                              "explanation": "This indicates an allergic reaction requiring immediate product removal. Rinsing with cool water, applying plain aloe vera, and using cold compresses are the correct steps to manage the reaction and prevent worsening symptoms."
                     }
           ],
         },
@@ -2738,73 +2844,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: "Trim and style a mustache to complement the client's features.",
           durationMinutes: 15,
           videoFile: '/videos/course-barber-beard.mp4',
-          content: `<h2>Mustache Services</h2>
-<h3>Mustache Styles</h3>
-<ul>
-<li><strong>Natural</strong> — trimmed to follow the lip line</li>
-<li><strong>Chevron</strong> — full, thick, trimmed straight across</li>
-<li><strong>Handlebar</strong> — long ends styled upward with wax</li>
-<li><strong>Pencil</strong> — thin line above the lip</li>
-</ul>
-<h3>Trimming Procedure</h3>
-<ol>
-<li>Comb mustache downward</li>
-<li>Trim bulk with scissors or guards</li>
-<li>Define the lip line with a trimmer</li>
-<li>Clean up the philtrum (area between nose and lip)</li>
-<li>Apply mustache wax if styling</li>
-</ol>`,
+          content: `<h2>Overview</h2><p>Mustache trimming and styling is a precision service that requires careful attention to facial structure, hair growth patterns, and client preferences. A well-groomed mustache enhances facial features and complements overall appearance. This skill combines technical execution with artistic vision, requiring the barber to assess symmetry, proportion, and balance. Mastering mustache trimming demonstrates professionalism and builds client loyalty. Understanding various mustache styles, from classic handlebar to modern pencil designs, allows you to recommend options that best suit each client's face shape and personal style.</p><h2>Tools Required</h2><ul><li>Barber shears (preferably 5.5 to 6 inches with fine tips for detail work)</li><li>Mustache comb (fine-toothed, typically 4 to 5 inches in length)</li><li>Trimming clippers with guards (sizes 1 through 4 for length control)</li><li>Detailing trimmer or outliner for precise edge work</li><li>Straight razor or safety razor for clean lines and definition</li><li>Mustache wax or styling product for shaping and hold</li><li>Disinfected towels and neck strips for client protection</li><li>Handheld mirror for client consultation and approval</li></ul><h2>Client Assessment</h2><p>IF the client has coarse, thick mustache hair, THEN use thinning shears after initial trimming to reduce bulk and create a softer appearance without losing length. IF the client has fine or sparse mustache hair, THEN avoid over-trimming and use minimal tension when combing to prevent removing too much hair, which can create patchy areas. IF the client has sensitive skin or recent irritation, THEN postpone razor detailing and use only scissors and clippers for this service.</p><h2>Procedure</h2><ol><li>Consult with client to determine desired mustache style, length, and shape while assessing facial features and natural growth patterns for best results.</li><li>Drape client properly with neck strip and cape, then sanitize hands and ensure all tools are clean and disinfected before beginning service.</li><li>Comb mustache hair downward in natural growth direction to remove tangles and assess current length, identifying any uneven areas requiring attention.</li><li>Begin trimming at center of upper lip using shears, working outward toward corners while maintaining consistent length and checking symmetry between both sides.</li><li>Use clippers with appropriate guard to establish overall length, moving horizontally across mustache while following natural contour of upper lip for even results.</li><li>Detail edges using trimmer or razor to define clean upper and lower borders, creating sharp lines that frame the mustache precisely.</li><li>Thin bulk if necessary using thinning shears at mid-length, avoiding roots and tips to maintain natural appearance while reducing excess weight.</li><li>Apply small amount of mustache wax or styling product, working through hair with fingertips, then comb into desired shape and style.</li><li>Show client results using handheld mirror, make any final adjustments based on feedback, and provide styling recommendations for home maintenance.</li></ol><h2>Safety</h2><p>All combs, shears, and clipper blades must be cleaned with Barbicide or EPA-registered hospital-grade disinfectant between clients, with minimum ten-minute contact time per manufacturer specifications. Tools should be stored in sanitized containers after proper disinfection. <strong>Do NOT trim a mustache if active cold sores, open lesions, or skin infections are present in the mustache area, as this can spread infection to other facial areas and contaminate tools, requiring immediate service termination and medical referral.</strong></p><h2>Failure Mode Recovery</h2><p>If you accidentally trim the mustache too short on one side, creating visible asymmetry, immediately stop cutting. First, inform the client honestly about the mistake. Second, carefully assess whether you can shorten the opposite side to match without compromising the overall style. Third, if matching is possible, use scissors to carefully remove hair incrementally while constantly checking symmetry. Fourth, if the mustache is now too short for the desired style, discuss alternative shorter styles that work with the current length. Fifth, document the incident and offer a complimentary follow-up appointment when growth allows proper reshaping.</p><h2>Visual Cues</h2><p>Position yourself directly in front of the client at eye level to assess symmetry accurately throughout the service. The mustache should follow the natural curve of the upper lip, with corners typically ending at the outer edges of the mouth or slightly beyond. Shears should be held at a 45-degree angle when point-cutting for texture. Hair should appear even when combed downward, with no gaps or patches visible. The upper border should create a clean line approximately one-eighth inch below the nose base. Lower border follows the natural lip line, maintaining consistent distance. Observe that both sides mirror each other in length, density, and shape when viewed from the front.</p>`,
           quizQuestions: [
-            {
-              id: 'l33-q1',
-              question: 'Which mustache style features long ends that are styled upward?',
-              options: ['Chevron', 'Natural', 'Handlebar', 'Pencil'],
-              correctAnswer: 2,
-              explanation:
-                'The handlebar mustache has long ends that are styled upward and outward, often with wax.',
-            },
-            {
-              id: 'l33-q2',
-              question: 'The philtrum is the area:',
-              options: [
-                'Below the lower lip',
-                'Between the nose and upper lip',
-                'Along the cheek line',
-                'At the chin',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'The philtrum is the vertical groove between the nose and the upper lip — it is cleaned up after trimming.',
-            },
-            {
-              id: 'l33-q3',
-              question: 'What is the first step in trimming a mustache?',
-              options: [
-                'Define the lip line with a trimmer',
-                'Apply wax',
-                'Comb the mustache downward',
-                'Clean the philtrum',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Combing the mustache down reveals its natural fall and ensures an even trim of the bulk.',
-            },
-            {
-              id: 'l33-q4',
-              question: 'Which mustache style is a thin line just above the upper lip?',
-              options: ['Handlebar', 'Chevron', 'Natural', 'Pencil'],
-              correctAnswer: 3,
-              explanation:
-                'The pencil mustache is a very thin, precise line directly above the lip.',
-            },
-            {
-              id: 'l33-q5',
-              question: 'What product is applied when finishing a handlebar mustache?',
-              options: ['Beard oil', 'Pomade', 'Mustache wax', 'Aftershave balm'],
-              correctAnswer: 2,
-              explanation:
-                "Mustache wax provides hold and allows shaping of the handlebar's upward curled ends.",
-            },
+                    {
+                              "id": "barber-lesson-33-q1",
+                              "question": "What is the primary purpose of using thinning shears during mustache trimming?",
+                              "options": [
+                                        "A. To reduce bulk and create a softer appearance without significantly affecting length",
+                                        "B. To establish the initial length and overall shape of the mustache",
+                                        "C. To create sharp, defined edges along the borders of the mustache",
+                                        "D. To remove all hair that extends beyond the desired mustache area"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Thinning shears are used to reduce bulk and create a softer appearance without losing significant length, particularly useful for clients with coarse, thick mustache hair."
+                    },
+                    {
+                              "id": "barber-lesson-33-q2",
+                              "question": "When trimming a mustache with scissors, what is the recommended starting point?",
+                              "options": [
+                                        "A. Begin at the outer corners and work inward toward the center",
+                                        "B. Start at the center of the upper lip and work outward toward the corners",
+                                        "C. Begin at the lower border and work upward to the upper border",
+                                        "D. Start randomly at any point to ensure a natural, uneven appearance"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "The correct technique is to begin trimming at the center of the upper lip using shears and work outward toward the corners while maintaining consistent length and checking symmetry."
+                    },
+                    {
+                              "id": "barber-lesson-33-q3",
+                              "question": "What is the minimum contact time required for Barbicide or EPA-registered disinfectant on barbering tools?",
+                              "options": [
+                                        "A. Ten minutes per manufacturer specifications",
+                                        "B. Three minutes for basic sanitation",
+                                        "C. Thirty seconds of spray application",
+                                        "D. Five minutes for adequate disinfection"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "All tools must be cleaned with Barbicide or EPA-registered hospital-grade disinfectant with a minimum ten-minute contact time per manufacturer specifications to ensure proper disinfection."
+                    },
+                    {
+                              "id": "barber-lesson-33-q4",
+                              "question": "SCENARIO: A client with very fine, sparse mustache hair requests a trim to clean up stray hairs. What is your best approach?",
+                              "options": [
+                                        "A. Use heavy tension when combing and trim aggressively to create a defined shape",
+                                        "B. Apply thinning shears throughout to reduce any appearance of bulk",
+                                        "C. Use minimal tension when combing and avoid over-trimming to prevent creating patchy areas",
+                                        "D. Recommend shaving the mustache completely and starting over for better results"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "For clients with fine or sparse mustache hair, you should use minimal tension when combing and avoid over-trimming to prevent removing too much hair, which can create patchy, uneven areas."
+                    },
+                    {
+                              "id": "barber-lesson-33-q5",
+                              "question": "SCENARIO: During the service you notice you accidentally trimmed one side of the mustache significantly shorter than the other. What is the correct response?",
+                              "options": [
+                                        "A. Continue trimming and hope the client doesn't notice the difference",
+                                        "B. Immediately stop, inform the client honestly, assess if matching is possible, and offer solutions or a follow-up appointment",
+                                        "C. Apply extra mustache wax to the shorter side to make it appear longer",
+                                        "D. Quickly trim the entire mustache very short to hide the mistake"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "When a mistake occurs, professional protocol requires immediately stopping, honestly informing the client, carefully assessing whether the opposite side can be matched, and offering appropriate solutions including complimentary follow-up appointments if needed."
+                    }
           ],
         },
         {
@@ -2911,73 +3012,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Explain the color wheel and how it applies to hair color services.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-styling-narrated.mp4',
-          content: `<h2>Hair Color Theory</h2>
-<h3>The Color Wheel</h3>
-<p>Primary colors: red, yellow, blue. Secondary colors are made by mixing two primaries. Complementary colors cancel each other out — used to neutralize unwanted tones.</p>
-<h3>Hair Color Levels</h3>
-<p>Hair color is measured on a scale of 1 (black) to 10 (lightest blonde). Lifting hair requires removing existing pigment with developer.</p>
-<h3>Types of Hair Color</h3>
-<ul>
-<li><strong>Temporary</strong> — coats the cuticle; washes out in 1-2 shampoos</li>
-<li><strong>Semi-permanent</strong> — no developer; lasts 4-6 weeks</li>
-<li><strong>Demi-permanent</strong> — low-volume developer; lasts 6-8 weeks</li>
-<li><strong>Permanent</strong> — opens cuticle with developer; permanent change</li>
-</ul>`,
+          content: `<h2>Overview</h2><p>Hair color theory is the foundation of successful chemical color services in the barbershop. Understanding the color wheel enables barbers to predict color outcomes, correct unwanted tones, and achieve desired results consistently. The color wheel consists of primary colors (red, yellow, blue), secondary colors (orange, green, violet), and tertiary colors created by mixing adjacent hues. Complementary colors sit opposite each other on the wheel and neutralize one another when combined. This principle is essential for color correction, toning, and formulation. Mastering color theory allows barbers to communicate professionally with clients and deliver predictable, quality results in highlighting, grey blending, and full color applications.</p><h2>Client Assessment</h2><p>IF the client has warm undertones in their skin, THEN select ash or cool tones to create balance and avoid brassy results. IF the client has cool undertones with pink or blue base, THEN choose warm or golden tones to complement their complexion and create harmonious results. IF the client has previously colored hair with visible banding or multiple levels, THEN perform a strand test to determine processing time and formulation adjustments needed for even color distribution.</p><h2>Tools Required</h2><ul><li>Color wheel chart displaying primary, secondary, and tertiary color relationships</li><li>Color swatches or manufacturer's shade guide showing level and tone variations</li><li>Mixing bowl (glass or plastic, non-metallic) for color formulation</li><li>Tint brush with firm bristles for precise application techniques</li><li>Protective gloves (nitrile or vinyl) for barrier protection during application</li><li>Measuring tools including applicator bottle or scale for accurate formulation</li><li>Sectioning clips (metal-free plastic) to organize hair during application</li><li>Protective cape and towels to shield client's skin and clothing</li></ul><h2>Procedure</h2><ol><li>Conduct thorough consultation identifying current hair level, desired outcome, and any previous chemical treatments to establish realistic expectations and proper formulation.</li><li>Perform strand test on inconspicuous section to verify processing time, color result, and hair integrity before proceeding with full application.</li><li>Section hair into four quadrants from center front hairline to nape and ear to ear, securing each with clips.</li><li>Mix color formula according to manufacturer's directions, measuring developer and colorant precisely to maintain proper ratios and achieve predictable results.</li><li>Apply color beginning at areas requiring most deposit or lift, typically starting one-half inch from scalp on virgin hair applications.</li><li>Process according to strand test results and manufacturer's timing, checking color development every five to ten minutes to monitor progress.</li><li>Rinse thoroughly with lukewarm water until water runs clear, then apply color-safe shampoo and conditioner to stabilize pH balance.</li><li>Style hair and evaluate final result against desired outcome, documenting formula and timing for client record maintenance and future services.</li></ol><h2>Safety</h2><p>All color mixing tools and applicators must be sanitized between clients using EPA-registered hospital-grade disinfectant with appropriate contact time, typically ten minutes for non-porous implements. Combs and brushes should be cleaned of all hair and debris, then fully immersed in disinfectant solution. <strong>Do NOT apply permanent color or lightener to hair that shows signs of severe breakage, excessive damage, or scalp abrasions, as this will cause further structural damage, chemical burns, or hair loss requiring extensive corrective treatment.</strong> Always perform a patch test twenty-four to forty-eight hours before service for clients with sensitivity concerns or previous allergic reactions.</p><h2>Color Correction</h2><p>If unwanted orange or brassy tones appear after lightening, the cause is typically insufficient lifting or improper toner selection. To recover: first, evaluate the current level achieved versus desired level. Second, identify the unwanted tone using the color wheel to determine its complement. Third, formulate a toner using the opposite color (blue-violet for orange, blue for orange-yellow). Fourth, apply toner to damp, towel-dried hair for even saturation. Fifth, process for recommended time while monitoring every three to five minutes. Sixth, rinse thoroughly and assess, repeating if necessary with reduced processing time.</p><h2>Visual Cues</h2><p>Observe the hair's underlying pigment by holding sections at a forty-five degree angle against natural light to identify warm or cool tones present. Proper saturation appears glossy and uniform throughout each section, with no dry spots or uneven application visible. During processing, color development should progress evenly from application point outward without demarcation lines or spotting. The hair should maintain its structural integrity with minimal swelling or softening. Completed color results should show consistent tone from roots to ends when viewed in both natural and artificial lighting conditions, with no banding or patchiness visible.</p>`,
           quizQuestions: [
-            {
-              id: 'l35-q1',
-              question: 'What are the three primary colors?',
-              options: [
-                'Red, green, blue',
-                'Red, yellow, blue',
-                'Orange, purple, green',
-                'Black, white, gray',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Red, yellow, and blue are the three primary colors. All other colors are made by mixing them.',
-            },
-            {
-              id: 'l35-q2',
-              question: 'On the hair color level scale, level 1 represents:',
-              options: ['Lightest blonde', 'Medium brown', 'Dark brown', 'Black'],
-              correctAnswer: 3,
-              explanation: 'Level 1 is the darkest (black). Level 10 is the lightest blonde.',
-            },
-            {
-              id: 'l35-q3',
-              question: 'Which type of hair color deposits tone WITHOUT lifting the natural color?',
-              options: ['Permanent', 'Semi-permanent', 'Bleach', 'High-lift tint'],
-              correctAnswer: 1,
-              explanation:
-                'Semi-permanent color deposits tone without using developer, so it cannot lift the natural color.',
-            },
-            {
-              id: 'l35-q4',
-              question: 'Complementary colors are used in hair color to:',
-              options: [
-                'Brighten the color',
-                'Neutralize and cancel out unwanted tones',
-                'Increase lift',
-                'Create highlights',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Complementary colors sit opposite each other on the color wheel and cancel each other — e.g., violet neutralizes yellow.',
-            },
-            {
-              id: 'l35-q5',
-              question: 'Permanent hair color requires a developer because it needs to:',
-              options: [
-                'Seal the cuticle',
-                'Open the cuticle to deposit color',
-                'Remove melanin only',
-                'Neutralize the scalp',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Developer (hydrogen peroxide) swells and opens the cuticle so permanent color can enter the cortex.',
-            },
+                    {
+                              "id": "barber-lesson-35-q1",
+                              "question": "Which colors are considered primary colors on the color wheel used in hair color theory?",
+                              "options": [
+                                        "A. Red, yellow, and blue",
+                                        "B. Orange, green, and violet",
+                                        "C. Red, orange, and yellow",
+                                        "D. Blue, green, and violet"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Red, yellow, and blue are the three primary colors that cannot be created by mixing other colors. All other colors on the wheel are created by combining these primary colors in various proportions."
+                    },
+                    {
+                              "id": "barber-lesson-35-q2",
+                              "question": "What is the relationship between complementary colors on the color wheel?",
+                              "options": [
+                                        "A. They are adjacent to each other and blend harmoniously",
+                                        "B. They sit opposite each other and neutralize one another",
+                                        "C. They are variations of the same hue at different levels",
+                                        "D. They are always warm tones that create vibrant results"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Complementary colors are positioned directly opposite each other on the color wheel and neutralize each other when mixed. This principle is fundamental for color correction and toning services to eliminate unwanted tones."
+                    },
+                    {
+                              "id": "barber-lesson-35-q3",
+                              "question": "Why must color mixing bowls and tools be non-metallic during hair color application?",
+                              "options": [
+                                        "A. Metal can react with color chemicals causing unpredictable results or oxidation",
+                                        "B. Metal tools are too heavy for precise application techniques",
+                                        "C. Non-metallic tools are easier to clean and sanitize between clients",
+                                        "D. Metal bowls retain heat that accelerates processing time excessively"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "Metal can cause oxidation reactions with hair color chemicals, leading to unpredictable color results, altered formulations, or compromised chemical stability. Non-metallic tools ensure color integrity and predictable outcomes."
+                    },
+                    {
+                              "id": "barber-lesson-35-q4",
+                              "question": "SCENARIO: A client with warm, golden skin undertones requests a hair color service and wants to avoid looking brassy. What do you do?",
+                              "options": [
+                                        "A. Apply warm golden tones to match their skin and enhance the warmth",
+                                        "B. Use red-based colors to create vibrant contrast with their complexion",
+                                        "C. Select ash or cool-toned colors to balance their warm undertones and prevent brassiness",
+                                        "D. Refuse the service because warm skin always results in brassy hair color"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Clients with warm skin undertones benefit from ash or cool-toned hair colors that create balance and prevent brassy results. Cool tones neutralize excess warmth and create a complementary, harmonious appearance."
+                    },
+                    {
+                              "id": "barber-lesson-35-q5",
+                              "question": "SCENARIO: During color processing you notice unwanted orange tones developing on previously lightened hair. Correct response?",
+                              "options": [
+                                        "A. Immediately rinse the color out and start over with a darker shade",
+                                        "B. Formulate a blue-violet toner to neutralize the orange and apply after rinsing",
+                                        "C. Continue processing longer to push through the orange stage to pale yellow",
+                                        "D. Apply additional lightener over the wet color to lift out the orange pigment"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Orange tones should be neutralized using their complementary color from the wheel: blue-violet. After rinsing the initial color, formulate and apply a blue-violet toner to correct the unwanted warm tones and achieve the desired result."
+                    }
           ],
         },
         {
@@ -3071,67 +3167,67 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Understand relaxer chemistry and application safety.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-styling-narrated.mp4',
-          content: `<h2>Relaxers & Texturizers</h2><p>In this lesson, we will cover the chemistry and application safety of relaxers and texturizers. Relaxers are used to break down the hair's curl pattern, while texturizers are used to add texture and definition to the hair.</p><h3>Tools and Equipment</h3><ul><li>Relaxer kit</li><li>Texturizer kit</li><li>Gloves</li><li>Cape or towel</li><li>Shampoo and conditioner</li><li>Towel for drying</li></ul><h3>Understanding Relaxer Chemistry</h3><p>Relaxers work by breaking down the disulfide bonds in the hair shaft. This is done through a chemical reaction that involves the use of alkaline substances such as sodium hydroxide or lithium hydroxide. The relaxer is applied to the hair and left on for a specified amount of time, depending on the type of hair and the desired level of relaxation.</p><h3>Application Safety</h3><p>When applying relaxers, it is essential to follow the instructions carefully and take necessary safety precautions. This includes wearing gloves, using a cape or towel to protect the client's clothing, and ensuring the client's skin is protected from the relaxer.</p><h3>IF/THEN Decision Block</h3><p>IF the client has sensitive skin, THEN you should perform a patch test before applying the relaxer. IF the client has damaged or over-processed hair, THEN you should use a gentler relaxer or consider an alternative treatment.</p><h3>Sanitation and Infection Control</h3><p>It is crucial to maintain a clean and sanitary environment when applying relaxers. This includes disinfecting all equipment and tools, washing your hands thoroughly, and ensuring the client's hair is clean and free of any debris.</p><h3>Contraindications and Safety Rules</h3><p>DO NOT apply relaxers to clients with open sores or wounds on the scalp. DO NOT apply relaxers to clients who have used hair color or other chemical treatments in the past 2 weeks.</p><h3>Failure Mode and Recovery</h3><p>One common failure mode when applying relaxers is over-processing the hair. This can cause the hair to become brittle, dry, and prone to breakage. To recover from this, you can try using a deep conditioning treatment to restore moisture to the hair.</p><h3>Correct Execution</h3><p>Correct execution of a relaxer application involves applying the relaxer to the hair in a smooth, even layer, using a gentle, sweeping motion. The relaxer should be left on for the recommended amount of time, and then rinsed out thoroughly with warm water. The hair should be shampooed and conditioned after the relaxer is applied.</p><h3>Visual Cues</h3><p>When applying a relaxer, you should look for visual cues such as the hair starting to relax and lose its curl pattern. The hair should feel smooth and silky to the touch, and have a uniform texture.</p>`,
+          content: `<h2>Overview</h2><p>Relaxers and texturizers permanently alter hair structure by breaking disulfide bonds within the cortex. Sodium hydroxide, guanidine hydroxide, and ammonium thioglycolate are common active ingredients that rearrange protein chains to achieve straightening or softening effects. Understanding pH levels, processing times, and client hair history is critical for safe application. This service demands precision, timing, and thorough consultation to prevent irreversible damage. Proper technique protects scalp integrity while delivering desired texture modification results for diverse clientele.</p><h2>Tools Required</h2><ul><li>Relaxer or texturizer chemical system with neutralizing shampoo</li><li>Protective base cream or petroleum jelly</li><li>Applicator brushes and tail comb for sectioning</li><li>Timer for accurate processing monitoring</li><li>Plastic or rubber gloves for chemical protection</li><li>Neutralizing conditioner and pH-balanced post-service treatment</li><li>Spray bottle with cool water for emergency dilution</li><li>Cape, towels, and neck strips for client protection</li></ul><h2>Client Assessment</h2><p><strong>IF</strong> the client has virgin hair with no previous chemical treatments, <strong>THEN</strong> apply relaxer from mid-shaft to ends first, then roots last to avoid over-processing at the scalp where heat accelerates the reaction. <strong>IF</strong> the client has previously relaxed hair requiring a touch-up, <strong>THEN</strong> apply only to new growth, maintaining at least one-eighth inch distance from previously processed hair to prevent overlapping, breakage, and excessive thinning.</p><h2>Safety</h2><p>Disinfect all non-porous tools including combs, brushes, and bowls using an EPA-registered hospital-grade disinfectant such as 10% sodium hypochlorite solution or quaternary ammonium compound, ensuring ten-minute contact time between clients. <strong>Do NOT</strong> apply relaxer to hair with existing scalp abrasions, cuts, irritation, or if metallic dyes are present, as this will cause severe chemical burns, uncontrollable exothermic reactions, hair disintegration, and potential permanent scarring requiring medical intervention.</p><h2>Failure Recovery</h2><p>If hair becomes excessively limp or shows signs of over-processing such as a mushy texture or stretching without returning to form, immediately rinse chemical thoroughly with cool water for at least five minutes. Apply neutralizing shampoo, lather gently without manipulation, and rinse completely. Apply protein-based reconstructor to damaged areas, process according to manufacturer instructions. Follow with intensive moisturizing conditioner, then assess breakage extent. Schedule follow-up treatment and advise client on gentle handling and no further chemical services for minimum eight weeks.</p><h2>Visual Cues</h2><p>Maintain consistent one-eighth to one-quarter inch sections for uniform saturation and processing. Apply relaxer with applicator brush at forty-five-degree angle to hair shaft, ensuring cream flows from base through mid-lengths smoothly. Hair should exhibit gradual softening with natural sheen rather than chalky, dull appearance indicating over-processing. Test curl pattern by gently smoothing section; hair should straighten to desired degree without excessive stretching. Scalp should remain free of redness; any irritation signals immediate removal necessity.</p><h2>Procedure</h2><ol><li>Conduct thorough consultation examining hair porosity, elasticity, prior chemical history, and perform strand test to determine appropriate processing time and formula strength.</li><li>Drape client with waterproof cape and towels, then apply protective base cream generously to hairline, ears, nape, and entire scalp perimeter.</li><li>Section hair into four quadrants from crown to nape and ear to ear, securing each with clips for systematic application control.</li><li>Beginning in the most resistant area, apply relaxer to one-quarter inch sections from scalp to ends on virgin hair or new growth only on retouch.</li><li>Smooth product through hair shaft using applicator or back of comb, monitoring processing every three to five minutes by testing strand relaxation degree.</li><li>When desired straightness is achieved without over-processing, rinse thoroughly with lukewarm water for minimum five minutes until water runs completely clear of product.</li><li>Apply neutralizing shampoo, lather gently, and rinse completely; repeat neutralizing process two additional times to halt chemical action and restore pH balance.</li><li>Apply deep conditioning treatment, process according to directions, then rinse, towel blot, and style as desired using appropriate heat protectants and minimal tension.</li></ol>`,
           quizQuestions: [
                     {
                               "id": "barber-lesson-37-q1",
-                              "question": "What is the primary function of a relaxer?",
+                              "question": "What is the primary chemical action that occurs during relaxer application to permanently straighten hair?",
                               "options": [
-                                        "To add texture and definition to the hair",
-                                        "To break down the hair's curl pattern",
-                                        "To add moisture to the hair",
-                                        "To remove hair color"
+                                        "A. Breaking disulfide bonds within the hair cortex",
+                                        "B. Coating the cuticle layer with silicone polymers",
+                                        "C. Heating the hair shaft to denature melanin",
+                                        "D. Evaporating moisture from the medulla"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "Relaxers work by breaking down the disulfide bonds in the hair shaft, which helps to break down the hair's curl pattern."
+                              "correctAnswer": 0,
+                              "explanation": "Relaxers work by breaking disulfide bonds in the cortex, which allows permanent rearrangement of the hair's protein structure for straightening effects."
                     },
                     {
                               "id": "barber-lesson-37-q2",
-                              "question": "A client presents with sensitive skin and wants to get a relaxer. What do you do?",
+                              "question": "When performing a relaxer retouch service, where should the chemical be applied?",
                               "options": [
-                                        "Apply the relaxer as usual",
-                                        "Perform a patch test before applying the relaxer",
-                                        "Use a gentler relaxer",
-                                        "Refuse to apply the relaxer"
+                                        "A. From scalp through all previously relaxed hair",
+                                        "B. Only to new growth, avoiding previously processed areas",
+                                        "C. Only to the ends where damage is most visible",
+                                        "D. Uniformly throughout all hair for consistent results"
                               ],
                               "correctAnswer": 1,
-                              "explanation": "When working with clients who have sensitive skin, it's essential to perform a patch test before applying the relaxer to ensure the client doesn't have any adverse reactions."
+                              "explanation": "Relaxer should only be applied to new growth during retouch services to prevent overlapping on previously processed hair, which causes breakage and excessive damage."
                     },
                     {
                               "id": "barber-lesson-37-q3",
-                              "question": "What is a common failure mode when applying relaxers?",
+                              "question": "What is the minimum rinse time required to remove relaxer chemical before neutralizing?",
                               "options": [
-                                        "Under-processing the hair",
-                                        "Over-processing the hair",
-                                        "Not using gloves",
-                                        "Not shampooing the hair after the relaxer is applied"
+                                        "A. Five minutes with lukewarm water",
+                                        "B. Thirty seconds with cold water",
+                                        "C. Two minutes with hot water",
+                                        "D. Ten minutes alternating temperatures"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "Over-processing the hair is a common failure mode when applying relaxers, as it can cause the hair to become brittle, dry, and prone to breakage."
+                              "correctAnswer": 0,
+                              "explanation": "A minimum of five minutes of thorough rinsing with lukewarm water is essential to completely remove relaxer chemical before beginning the neutralization process."
                     },
                     {
                               "id": "barber-lesson-37-q4",
-                              "question": "A client has damaged or over-processed hair and wants to get a relaxer. What do you do?",
+                              "question": "SCENARIO: A client arrives with visible scalp abrasions from recent braiding and requests a relaxer service. What do you do?",
                               "options": [
-                                        "Apply the relaxer as usual",
-                                        "Use a gentler relaxer",
-                                        "Refuse to apply the relaxer",
-                                        "Recommend a different treatment"
+                                        "A. Apply extra protective base and proceed carefully",
+                                        "B. Use a mild formula texturizer instead of regular relaxer",
+                                        "C. Refuse service and reschedule after scalp heals completely",
+                                        "D. Apply relaxer quickly to minimize scalp contact time"
                               ],
-                              "correctAnswer": 1,
-                              "explanation": "When working with clients who have damaged or over-processed hair, it's essential to use a gentler relaxer or consider an alternative treatment to avoid further damage to the hair."
+                              "correctAnswer": 2,
+                              "explanation": "Relaxer must never be applied to abraded or irritated scalp as it will cause severe chemical burns and potential scarring. The service must be postponed until complete healing occurs."
                     },
                     {
                               "id": "barber-lesson-37-q5",
-                              "question": "What is an essential step in maintaining a clean and sanitary environment when applying relaxers?",
+                              "question": "SCENARIO: During processing you notice hair becoming mushy and stretching excessively without returning to form. Correct response?",
                               "options": [
-                                        "Disinfecting all equipment and tools",
-                                        "Washing your hands thoroughly",
-                                        "Using a cape or towel to protect the client's clothing",
-                                        "All of the above"
+                                        "A. Apply more relaxer to balance the chemical reaction",
+                                        "B. Immediately rinse with cool water, neutralize, and apply protein treatment",
+                                        "C. Continue processing to achieve maximum straightness",
+                                        "D. Blow dry the hair to firm up the structure"
                               ],
-                              "correctAnswer": 3,
-                              "explanation": "Maintaining a clean and sanitary environment when applying relaxers is crucial, and this includes disinfecting all equipment and tools, washing your hands thoroughly, and using a cape or towel to protect the client's clothing."
+                              "correctAnswer": 1,
+                              "explanation": "Mushy, overstretched hair indicates severe over-processing. Immediate rinsing, neutralizing, and protein treatment are critical to halt damage and attempt structural recovery."
                     }
           ],
         },
@@ -3143,88 +3239,68 @@ Indiana State Board inspectors check disinfection logs — remind students to do
           objective: 'Select and apply appropriate scalp treatments for common conditions.',
           durationMinutes: 15,
           videoFile: '/videos/course-barber-shampoo-narrated.mp4',
-          content: `<h2>Scalp Treatments</h2>
-<h3>Types of Treatments</h3>
-<ul>
-<li><strong>Moisturizing treatment</strong> — for dry, flaky scalp</li>
-<li><strong>Clarifying treatment</strong> — removes product buildup</li>
-<li><strong>Anti-dandruff treatment</strong> — contains zinc pyrithione or selenium sulfide</li>
-<li><strong>Stimulating treatment</strong> — increases circulation; contains menthol or peppermint</li>
-</ul>
-<h3>Application</h3>
-<ol>
-<li>Shampoo hair first</li>
-<li>Apply treatment directly to scalp in sections</li>
-<li>Massage in with fingertips</li>
-<li>Process per manufacturer instructions</li>
-<li>Rinse thoroughly</li>
-</ol>`,
+          content: `<h2>Overview</h2><p>Scalp treatments address a range of conditions including dryness, oiliness, dandruff, and minor irritations. As a barber apprentice, you must accurately assess scalp health, select appropriate products, and apply treatments using proper techniques. Understanding the scalp's physiology and recognizing common conditions enables you to provide therapeutic services that improve client comfort and hair health. This lesson covers assessment protocols, product selection criteria, application methods, and contraindications. Effective scalp treatments require knowledge of ingredients, manual manipulation techniques, and timing. Proper execution promotes circulation, balances sebum production, and creates optimal conditions for healthy hair growth while enhancing the overall barbering experience.</p><h2>Tools Required</h2><ul><li>Shampoo bowl and adjustable chair</li><li>Scalp analysis magnifying lamp or dermatoscope</li><li>Treatment applicator bottles with precision nozzles</li><li>Scalp massage brushes with rubber or silicone bristles</li><li>Towels, capes, and neck strips</li><li>Disinfected combs and sectioning clips</li><li>Treatment products: oils, serums, medicated lotions, exfoliating scrubs</li><li>Timer for product processing</li></ul><h2>Client Assessment Decision Matrix</h2><p>IF the client presents with visible flaking and itching, THEN select anti-dandruff treatment containing zinc pyrithione or ketoconazole, apply directly to affected areas, and allow five to seven minutes processing time before rinsing. IF the client has oily scalp with clogged follicles, THEN use clarifying treatment with tea tree oil or salicylic acid, focus on problem zones, perform gentle exfoliation, and follow with balancing toner to regulate sebum production.</p><h2>Procedure</h2><ol><li>Drape client properly with cape and towel, position comfortably at shampoo bowl, and perform visual scalp analysis under adequate lighting to identify conditions.</li><li>Section hair into four quadrants using clips, part cleanly to expose scalp surface, and examine closely for inflammation, lesions, or contraindications requiring referral.</li><li>Apply selected treatment product using applicator bottle, distribute evenly across affected areas, and use fingertips to spread thin layer without oversaturating or missing spots.</li><li>Perform rotary massage using fingertip pads in circular motions, apply gentle pressure moving from hairline to crown, stimulate circulation for three to five minutes.</li><li>Allow product to process according to manufacturer instructions, typically five to fifteen minutes, monitor client comfort, and check for adverse reactions during processing time.</li><li>Rinse thoroughly with lukewarm water, ensure complete product removal from scalp and hair, and apply appropriate conditioner to hair lengths avoiding scalp if necessary.</li><li>Towel dry gently by patting rather than rubbing, examine scalp post-treatment for immediate results, and document condition plus products used in client record.</li><li>Provide homecare recommendations including product suggestions, treatment frequency, and advise client to schedule follow-up appointment to monitor progress and adjust protocol.</li></ol><h2>Safety</h2><p>All tools contacting the scalp must be disinfected using EPA-registered hospital-grade disinfectant such as Barbicide solution mixed at proper concentration, with minimum ten-minute immersion time. <strong>Do NOT apply scalp treatments if client presents with open wounds, active infections, severe inflammation, or undiagnosed lesions, as application can spread pathogens, worsen condition, cause intense pain, and create liability for practicing outside scope by treating medical conditions requiring physician care.</strong> Always perform patch test twenty-four hours prior when using new products on sensitive clients.</p><h2>Failure Mode and Recovery</h2><p>If client experiences burning sensation during treatment, the cause is typically product sensitivity or overly concentrated formula on compromised scalp barrier. Immediately rinse product completely using cool water, apply soothing aloe vera gel or chamomile compress, document incident in client record, and apply cold compress if redness persists. Offer complimentary gentle shampoo service the following week. Never reapply the same product. Always conduct patch testing for future visits and select hypoallergenic alternatives formulated for sensitive scalp conditions.</p><h2>Visual Cues</h2><p>Position client reclined at forty-five degree angle at shampoo bowl with neck comfortably supported on basin edge, ensuring proper alignment without strain. Part hair in clean, straight lines creating quarter-inch subsections that expose scalp clearly. Apply treatment in thin, visible layer resembling light glaze rather than thick paste. During massage, fingertips should maintain contact moving in consistent circles approximately one-inch diameter. Scalp should appear slightly pink from stimulation but never red or irritated. Product distribution should be even with no pooling or dry patches visible through magnification.</p>`,
           quizQuestions: [
-            {
-              id: 'l38-q1',
-              question: 'Which scalp treatment is used to remove product buildup?',
-              options: [
-                'Moisturizing treatment',
-                'Clarifying treatment',
-                'Anti-dandruff treatment',
-                'Stimulating treatment',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'A clarifying treatment uses chelating agents to remove mineral and product buildup from the scalp and hair.',
-            },
-            {
-              id: 'l38-q2',
-              question: 'Anti-dandruff shampoos and treatments contain which active ingredient?',
-              options: [
-                'Menthol',
-                'Petroleum jelly',
-                'Zinc pyrithione or selenium sulfide',
-                'Sodium hydroxide',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Zinc pyrithione and selenium sulfide are antifungal agents that control the Malassezia yeast causing dandruff.',
-            },
-            {
-              id: 'l38-q3',
-              question: 'What is the FIRST step before applying a scalp treatment?',
-              options: [
-                'Apply the treatment directly',
-                'Shampoo the hair first',
-                'Apply a hot towel',
-                'Perform a patch test',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Shampooing first removes oils and buildup so the treatment can penetrate the scalp effectively.',
-            },
-            {
-              id: 'l38-q4',
-              question: 'The tingling sensation in stimulating scalp treatments comes from:',
-              options: [
-                'Zinc pyrithione',
-                'Petroleum jelly',
-                'Menthol or peppermint',
-                'Selenium sulfide',
-              ],
-              correctAnswer: 2,
-              explanation:
-                'Menthol and peppermint oil create a cooling/tingling sensation that also promotes circulation.',
-            },
-            {
-              id: 'l38-q5',
-              question: 'Where should a scalp treatment be applied?',
-              options: [
-                'Only to the ends',
-                'In sections, directly to the scalp',
-                'Mixed with shampoo and applied all over',
-                'Only to the hairline',
-              ],
-              correctAnswer: 1,
-              explanation:
-                'Section-by-section application to the scalp ensures even coverage and direct contact with the target area.',
-            },
+                    {
+                              "id": "barber-lesson-38-q1",
+                              "question": "What is the primary purpose of performing scalp treatments in a barbershop setting?",
+                              "options": [
+                                        "A. To diagnose and cure medical scalp diseases",
+                                        "B. To address common conditions like dryness, oiliness, and dandruff while promoting scalp health",
+                                        "C. To replace the need for dermatological consultation",
+                                        "D. To eliminate the need for regular shampooing"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Scalp treatments in barbering address common non-medical conditions to improve comfort and hair health. Barbers do not diagnose or treat medical conditions, which require physician care."
+                    },
+                    {
+                              "id": "barber-lesson-38-q2",
+                              "question": "Which massage motion is recommended during scalp treatment application?",
+                              "options": [
+                                        "A. Linear strokes from front to back only",
+                                        "B. Rotary circular motions using fingertip pads with gentle pressure",
+                                        "C. Vigorous rubbing with palm of hand",
+                                        "D. Tapping motions with fingernails"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Rotary circular motions with fingertip pads provide effective stimulation, promote circulation, and distribute product evenly without causing irritation or discomfort to the client."
+                    },
+                    {
+                              "id": "barber-lesson-38-q3",
+                              "question": "What is the minimum immersion time for disinfecting scalp treatment tools in Barbicide solution?",
+                              "options": [
+                                        "A. Ten minutes",
+                                        "B. Five minutes",
+                                        "C. Twenty minutes",
+                                        "D. Three minutes"
+                              ],
+                              "correctAnswer": 0,
+                              "explanation": "EPA-registered disinfectants like Barbicide require a minimum ten-minute immersion time at proper dilution to effectively eliminate pathogens and ensure client safety."
+                    },
+                    {
+                              "id": "barber-lesson-38-q4",
+                              "question": "SCENARIO: A client arrives complaining of itchy scalp with visible white flakes throughout the hair. What is the appropriate treatment approach?",
+                              "options": [
+                                        "A. Apply heavy conditioning oil and wrap in hot towel",
+                                        "B. Refuse service and refer to dermatologist immediately",
+                                        "C. Select anti-dandruff treatment with zinc pyrithione, apply to affected areas, and process for five to seven minutes",
+                                        "D. Use clarifying shampoo only without additional treatment"
+                              ],
+                              "correctAnswer": 2,
+                              "explanation": "Visible flaking with itching indicates dandruff, a common non-medical condition. Anti-dandruff treatments containing zinc pyrithione are appropriate for barbershop application with proper processing time."
+                    },
+                    {
+                              "id": "barber-lesson-38-q5",
+                              "question": "SCENARIO: During application, your client suddenly complains of burning sensation on the scalp. What is the correct immediate response?",
+                              "options": [
+                                        "A. Tell client it is normal and continue with treatment",
+                                        "B. Immediately rinse product completely with cool water and apply soothing gel",
+                                        "C. Reduce processing time by half and then rinse",
+                                        "D. Apply more product to dilute the concentration"
+                              ],
+                              "correctAnswer": 1,
+                              "explanation": "Burning indicates sensitivity or adverse reaction requiring immediate cessation. Complete rinsing with cool water removes the irritant, and soothing gel provides relief. Document the incident and avoid the product in future services."
+                    }
           ],
         },
         {

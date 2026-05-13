@@ -45,6 +45,7 @@ DECLARE
   ];
 
   del_count int;
+  orphan_tbl text;
 BEGIN
   RAISE NOTICE 'Starting Elevate LMS account cleanup...';
 
@@ -59,8 +60,9 @@ BEGIN
   GET DIAGNOSTICS del_count = ROW_COUNT;
   RAISE NOTICE 'Removed % training_enrollments', del_count;
 
+  -- student_enrollments uses student_id, not user_id
   DELETE FROM public.student_enrollments
-  WHERE user_id != ALL(student_ids);
+  WHERE student_id != ALL(student_ids);
   GET DIAGNOSTICS del_count = ROW_COUNT;
   RAISE NOTICE 'Removed % student_enrollments', del_count;
 
@@ -76,7 +78,8 @@ BEGIN
   DELETE FROM public.step_submissions        WHERE user_id != ALL(keep_ids);
   DELETE FROM public.quiz_attempts           WHERE user_id != ALL(keep_ids);
   DELETE FROM public.program_completion_certificates WHERE user_id != ALL(keep_ids);
-  DELETE FROM public.exam_funding_authorizations    WHERE user_id != ALL(keep_ids);
+  -- exam_funding_authorizations uses learner_id, not user_id
+  DELETE FROM public.exam_funding_authorizations    WHERE learner_id != ALL(keep_ids);
   DELETE FROM public.barber_lesson_progress  WHERE user_id != ALL(keep_ids);
   DELETE FROM public.barber_subscriptions    WHERE user_id != ALL(keep_ids);
   RAISE NOTICE 'Cleared learning progress for removed users';
@@ -84,9 +87,40 @@ BEGIN
   -- ── Step 3: Delete other per-user records ─────────────────────────────────
   DELETE FROM public.notifications           WHERE user_id != ALL(keep_ids);
   DELETE FROM public.documents               WHERE user_id != ALL(keep_ids);
-  DELETE FROM public.case_manager_assignments WHERE user_id != ALL(keep_ids);
-  DELETE FROM public.mous                    WHERE user_id != ALL(keep_ids);
-  RAISE NOTICE 'Cleared notifications/documents for removed users';
+  -- case_manager_assignments uses learner_id / case_manager_id, not user_id
+  DELETE FROM public.case_manager_assignments
+    WHERE learner_id != ALL(keep_ids) OR case_manager_id != ALL(keep_ids);
+  -- mous has no user_id column (institution-level record — not per-user)
+
+  -- ── Step 3b: Orphan cleanup — baseline tables missing FK cascade ─────────
+  -- These tables have user_id UUID but no REFERENCES auth.users ON DELETE CASCADE.
+  -- Once migration 20260513000002_add_auth_fk_cascades.sql is applied in prod,
+  -- these will be handled automatically on auth.users DELETE and can be removed here.
+  FOREACH orphan_tbl IN ARRAY ARRAY[
+    'enrollment_module_progress', 'scorm_progress', 'scorm_registrations',
+    'scorm_sessions', 'user_lesson_attempts', 'user_progress',
+    'learner_module_gate_state', 'student_credentials', 'user_achievements',
+    'user_badges', 'point_transactions', 'student_payments', 'payment_plans',
+    'payment_records', 'invoices', 'orders', 'purchases', 'subscriptions',
+    'student_applications', 'funding_applications', 'wioa_applications',
+    'learner_onboarding', 'onboarding_submissions', 'user_activity_logs',
+    'login_events', 'support_tickets', 'support_messages', 'direct_messages',
+    'chat_conversations', 'feedback', 'two_factor_auth', 'two_factor_attempts',
+    'password_history', 'account_deletion_requests', 'gdpr_requests',
+    'user_preferences', 'user_consents', 'user_sessions', 'user_licenses',
+    'user_files', 'studio_sessions', 'studio_settings', 'ai_generations'
+  ]::text[] LOOP
+    IF EXISTS (
+      SELECT FROM information_schema.tables
+      WHERE table_schema = 'public' AND table_name = orphan_tbl
+    ) THEN
+      EXECUTE format('DELETE FROM public.%I WHERE user_id != ALL($1)', orphan_tbl)
+        USING keep_ids;
+      GET DIAGNOSTICS del_count = ROW_COUNT;
+      IF del_count > 0 THEN RAISE NOTICE 'Cleared % rows from %', del_count, orphan_tbl; END IF;
+    END IF;
+  END LOOP;
+  RAISE NOTICE 'Cleared notifications/documents/orphan rows for removed users';
 
   -- ── Step 4: Clear audit_logs that reference removed users ─────────────────
   -- (audit_logs.actor_id has a FK to auth.users — must be removed first)

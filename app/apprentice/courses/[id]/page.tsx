@@ -51,12 +51,14 @@ export default async function ApprenticeCourseDetailPage({
 
   // Gate: Must complete orientation and documents first
   if (!enrollment.orientation_completed_at) {
-    const programSlug = enrollment.programs?.slug || 'barber-apprenticeship';
+    const programSlug = enrollment.programs?.slug;
+    if (!programSlug) redirect('/programs');
     redirect(`/programs/${programSlug}/orientation`);
   }
 
   if (!enrollment.documents_submitted_at) {
-    const programSlug = enrollment.programs?.slug || 'barber-apprenticeship';
+    const programSlug = enrollment.programs?.slug;
+    if (!programSlug) redirect('/programs');
     redirect(`/programs/${programSlug}/documents`);
   }
 

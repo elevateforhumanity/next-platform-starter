@@ -96,14 +96,26 @@ export default async function ApprenticeCompetenciesPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/apprentice/competencies');
 
-  // Resolve barber program_id
-  const { data: program } = await db
-    .from('programs')
-    .select('id, title')
-    .eq('slug', 'barber-apprenticeship')
+  // Resolve the learner's active program_id
+  const { data: apprentice } = await db
+    .from('apprentices')
+    .select('program_id')
+    .eq('user_id', user.id)
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
     .maybeSingle();
 
-  const programId = program?.id ?? null;
+  let programId = apprentice?.program_id ?? null;
+  if (!programId) {
+    const { data: enrollment } = await db
+      .from('program_enrollments')
+      .select('program_id')
+      .eq('user_id', user.id)
+      .in('status', ['active', 'enrolled', 'in_progress'])
+      .order('created_at', { ascending: false })
+      .maybeSingle();
+    programId = enrollment?.program_id ?? null;
+  }
 
   // Load skill categories for barber program
   const { data: rawCategories } = await db
