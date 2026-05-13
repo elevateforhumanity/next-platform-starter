@@ -16,8 +16,12 @@ function Form() {
     setLoading(true);
     setError('');
     try {
-      await sendRecoveryEmail(email);
-      setSuccess(true);
+      const result = await sendRecoveryEmail(email);
+      if (result?.success === false && result.error) {
+        setError(result.error);
+      } else {
+        setSuccess(true);
+      }
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {

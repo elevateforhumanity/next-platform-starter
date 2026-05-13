@@ -9,7 +9,6 @@ const CONNECTS_DOMAIN  = 'elevateconnects.org';
 const LEARN_SUBDOMAIN  = 'learn.elevateforhumanity.org';
 const PLATFORM_SUBDOMAIN = 'platform.elevateforhumanity.org';
 const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
-const LEGACY_ADMIN_HOSTS = new Set(['app.elevateforhumanity.org']);
 const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/applicants': '/admin/applications',
   '/admin/leads': '/admin/crm/leads',
@@ -241,10 +240,6 @@ export async function middleware(request: NextRequest) {
     canonicalAdminHost = new URL(adminBase).host;
   } catch (error) {
     console.error('[proxy] Invalid NEXT_PUBLIC_ADMIN_URL. Falling back to default admin host.', error);
-  }
-
-  if (LEGACY_ADMIN_HOSTS.has(hostWithoutPort)) {
-    return NextResponse.redirect(`${adminBase}${pathname}${search}`, { status: 301 });
   }
 
   const isLocalHost =

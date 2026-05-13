@@ -88,7 +88,7 @@ export async function createClient(): Promise<SupabaseClient<any>> {
           try {
             cookiesToSet.forEach(({ name, value, options }) => {
               // Scope auth cookies to the root domain so the session is shared
-              // between www.elevateforhumanity.org and app.elevateforhumanity.org.
+              // across all elevateforhumanity.org subdomains.
               // Only apply to Supabase auth tokens — leave other cookies alone.
               const isAuthCookie = name.startsWith('sb-') && name.includes('-auth-token');
               const cookieOptions = isAuthCookie

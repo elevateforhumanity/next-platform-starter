@@ -1,7 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
-// Legacy hostnames that permanently redirect to the canonical admin domain
-const LEGACY_ADMIN_HOSTS = new Set(['app.elevateforhumanity.org']);
 const CANONICAL_ADMIN_HOST = 'admin.elevateforhumanity.org';
 
 // Paths that never require auth
@@ -14,14 +12,6 @@ const SESSION_COOKIE = 'sb-cuxzzpsyufcewtmicszk-auth-token';
 export function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
   const host = req.headers.get('host')?.toLowerCase().split(':')[0] ?? '';
-
-  // Permanently redirect legacy app.elevateforhumanity.org to canonical admin domain
-  if (LEGACY_ADMIN_HOSTS.has(host)) {
-    return NextResponse.redirect(
-      `https://${CANONICAL_ADMIN_HOST}${pathname}${search}`,
-      { status: 301 },
-    );
-  }
 
   // Always allow public paths, Next.js internals, and static files
   if (

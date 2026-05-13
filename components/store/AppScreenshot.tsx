@@ -72,7 +72,7 @@ function SamGovScreenshot({ variant }: { variant: string }) {
         <div className="flex-1 mx-4">
           <div className="bg-white rounded px-3 py-1 text-xs text-slate-700 flex items-center gap-2 max-w-md">
             <Shield className="w-3 h-3 text-brand-green-500" />
-            app.elevateforhumanity.org/sam-gov
+            www.elevateforhumanity.org/sam-gov
           </div>
         </div>
       </div>
@@ -213,7 +213,7 @@ function GrantsScreenshot({ variant }: { variant: string }) {
         <div className="flex-1 mx-4">
           <div className="bg-white rounded px-3 py-1 text-xs text-slate-700 flex items-center gap-2 max-w-md">
             <Shield className="w-3 h-3 text-brand-green-500" />
-            app.elevateforhumanity.org/grants
+            www.elevateforhumanity.org/grants
           </div>
         </div>
       </div>
@@ -362,7 +362,7 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
         <div className="flex-1 mx-4">
           <div className="bg-white rounded px-3 py-1 text-xs text-slate-700 flex items-center gap-2 max-w-md">
             <Shield className="w-3 h-3 text-brand-green-500" />
-            app.elevateforhumanity.org/website-builder
+            www.elevateforhumanity.org/website-builder
           </div>
         </div>
       </div>
