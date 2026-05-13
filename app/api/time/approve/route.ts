@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
-import { toErrorMessage } from '@/lib/safe';
+import { logger } from '@/lib/logger';
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
@@ -24,6 +24,19 @@ export async function GET(req: Request) {
     error: authErr,
   } = await supabase.auth.getUser();
   if (authErr || !user) return jsonError('Unauthorized', 401);
+
+  // Fetch user profile to check role
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  const role = profile?.role as string | undefined;
+  const allowedRoles = ['admin', 'super_admin', 'employer', 'supervisor', 'staff'];
+  if (!role || !allowedRoles.includes(role)) {
+    return jsonError('Forbidden', 403);
+  }
 
   const { searchParams } = new URL(req.url);
   const status = searchParams.get('status') ?? 'SUBMITTED';
@@ -79,7 +92,10 @@ export async function GET(req: Request) {
   if (to) q = q.lte('work_date', to);
 
   const { data, error } = await q;
-  if (error) return jsonError(toErrorMessage(error), 500);
+  if (error) {
+    logger.error('[time approve] GET failed', error);
+    return jsonError('Unable to load time entries', 500);
+  }
 
   return NextResponse.json({ entries: data ?? [] });
 }
@@ -96,6 +112,19 @@ export async function POST(req: Request) {
   } = await supabase.auth.getUser();
   if (authErr || !user) return jsonError('Unauthorized', 401);
 
+  // Fetch user profile to check role
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  const role = profile?.role as string | undefined;
+  const allowedRoles = ['admin', 'super_admin', 'employer', 'supervisor', 'staff'];
+  if (!role || !allowedRoles.includes(role)) {
+    return jsonError('Forbidden', 403);
+  }
+
   const body = await req.json();
   const action = body.action as Action;
   const entry_id = body.entry_id as string;
@@ -104,15 +133,24 @@ export async function POST(req: Request) {
   if (!entry_id) return jsonError('entry_id required');
   if (!['APPROVE', 'REJECT', 'LOCK'].includes(action)) return jsonError('Invalid action');
 
-  // Fetch entry + status first
+  // Fetch entry + status + user_id first
   const { data: entry, error: readErr } = await supabase
     .from('hour_entries')
-    .select('id,status')
+    .select('id,status,user_id')
     .eq('id', entry_id)
     .maybeSingle();
 
-  if (readErr) return jsonError('Failed to read time entry', 500);
+  if (readErr) {
+    logger.error('[time approve] read failed', readErr);
+    return jsonError('Unable to approve time entry', 500);
+  }
   if (!entry) return jsonError('Entry not found', 404);
+
+  // Prevent learner from approving their own hours
+  if (entry.user_id === user.id) {
+    return jsonError('Cannot approve your own time entries', 403);
+  }
+
   if (entry.status === 'locked') return jsonError('Entry is locked and cannot be modified', 409);
 
   // Business rules:
@@ -146,7 +184,10 @@ export async function POST(req: Request) {
     .select('*')
     .single();
 
-  if (updErr) return jsonError('Update failed', 500);
+  if (updErr) {
+    logger.error('[time approve] update failed', updErr);
+    return jsonError('Unable to approve time entry', 500);
+  }
 
   // Audit log: hours action
   const auditAction =
@@ -158,7 +199,7 @@ export async function POST(req: Request) {
 
   await auditLog({
     actorId: user.id,
-    actorRole: 'program_holder',
+    actorRole: role,
     action: auditAction,
     entity: AuditEntity.HOURS,
     entityId: entry_id,

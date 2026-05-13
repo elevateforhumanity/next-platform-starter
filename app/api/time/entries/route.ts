@@ -83,6 +83,61 @@ async function _POST(req: Request) {
   if (!apprentice_attest) {
     return NextResponse.json({ error: 'Attestation required' }, { status: 400 });
   }
+
+  // ── Additional hours validation for simple mode (learner_self_report) ───
+  if (body.hours_claimed !== undefined && body.hours_claimed !== null) {
+    const parsedHours = Number(body.hours_claimed);
+
+    if (!Number.isFinite(parsedHours)) {
+      return NextResponse.json({ error: 'Enter a valid number of hours' }, { status: 400 });
+    }
+
+    if (parsedHours < 0.5) {
+      return NextResponse.json({ error: 'Minimum entry is 0.5 hours' }, { status: 400 });
+    }
+
+    if (parsedHours > 12) {
+      return NextResponse.json({ error: 'Daily hour limit is 12 hours' }, { status: 400 });
+    }
+
+    if ((parsedHours * 2) % 1 !== 0) {
+      return NextResponse.json({ error: 'Hours must be entered in 0.5 hour increments' }, { status: 400 });
+    }
+  }
+
+  // ── Date validation ───
+  const entryDate = String(body.entry_date || '');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(entryDate)) {
+    return NextResponse.json({ error: 'Enter a valid date' }, { status: 400 });
+  }
+
+  // ── Category with fallback ───
+  const category = String(body.category || 'Other').trim() || 'Other';
+
+  // ── Duplicate check: same date + same category for the same user ───
+  if (!start_at && !end_at && body.hours_claimed !== undefined) {
+    const { data: existingEntry, error: duplicateCheckError } = await supabase
+      .from('hour_entries')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('work_date', entryDate)
+      .eq('category', category)
+      .limit(1)
+      .maybeSingle();
+
+    if (duplicateCheckError) {
+      logger.error('[time entries] duplicate check failed', duplicateCheckError);
+      return NextResponse.json({ error: 'Unable to validate time entry' }, { status: 500 });
+    }
+
+    if (existingEntry) {
+      return NextResponse.json(
+        { error: 'Hours already submitted for this date and category' },
+        { status: 409 },
+      );
+    }
+  }
+
   // Full-mode: both start and end required
   if (start_at !== null || end_at !== null) {
     if (!start_at || !end_at || isNaN(start_at.getTime()) || isNaN(end_at.getTime())) {
@@ -193,26 +248,36 @@ async function _POST(req: Request) {
 
   const newHours = newMinutes / 60;
 
+  // ── Use validated parsedHours if in simple mode, otherwise use computed newHours ───
+  const finalHours = body.hours_claimed !== undefined && body.hours_claimed !== null 
+    ? Number(body.hours_claimed)
+    : newHours;
+
   const { data: created, error: insErr } = await supabase
     .from('hour_entries')
     .insert({
       user_id: user.id,
       apprentice_application_id: null,
-      source_type: body.source_type ?? (hour_type === 'RTI' ? 'rti' : 'ojl'),
-      category: body.category ?? funding_phase?.toLowerCase() ?? null,
-      work_date: entry_date,
-      hours_claimed: newHours,
+      source_type: body.source_type || 'learner_self_report',
+      category: category,
+      work_date: entryDate,
+      hours_claimed: finalHours,
       entered_by_email: user.email || '',
       notes:
         [activity_note, location_note, lms_module_ref ? `LMS: ${lms_module_ref}` : null]
           .filter(Boolean)
           .join(' | ') || null,
+      funding_phase: body.funding_phase || 'WIOA',
       status: 'pending',
+      approval_status: 'pending',
     })
     .select('*')
     .maybeSingle();
 
-  if (insErr) return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
+  if (insErr) {
+    logger.error('[time entries] insert failed', insErr);
+    return NextResponse.json({ error: 'Unable to submit time entry' }, { status: 500 });
+  }
   return NextResponse.json({ ok: true, entry: created });
 }
 
@@ -248,7 +313,10 @@ async function _GET(req: Request) {
 
   const { data, error } = await query;
 
-  if (error) return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+  if (error) {
+    logger.error('[time entries] GET failed', error);
+    return NextResponse.json({ error: 'Unable to load time entries' }, { status: 500 });
+  }
   return NextResponse.json({ entries: data });
 }
 export const GET = withApiAudit('/api/time/entries', _GET);

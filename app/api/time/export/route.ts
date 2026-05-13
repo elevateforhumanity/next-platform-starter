@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { toErrorMessage } from '@/lib/safe';
+import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -58,6 +58,7 @@ async function _GET(req: Request) {
       source_type,
       category,
       status,
+      approval_status,
       notes,
       entered_by_email,
       entered_at,
@@ -77,7 +78,10 @@ async function _GET(req: Request) {
   if (to) q = q.lte('work_date', to);
 
   const { data, error } = await q;
-  if (error) return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+  if (error) {
+    logger.error('[time export] query failed', error);
+    return NextResponse.json({ error: 'Unable to export time entries' }, { status: 500 });
+  }
 
   const rows = data ?? [];
 
@@ -102,8 +106,10 @@ async function _GET(req: Request) {
     'source_type',
     'category',
     'status',
+    'approval_status',
     'notes',
     'approved_by',
+    'approved_at',
   ];
 
   const lines = [
@@ -117,8 +123,10 @@ async function _GET(req: Request) {
         r.source_type,
         r.category ?? '',
         r.status,
+        r.approval_status ?? '',
         r.notes ?? '',
         r.approved_by ?? '',
+        r.approved_at ?? '',
       ]
         .map(csvEscape)
         .join(','),

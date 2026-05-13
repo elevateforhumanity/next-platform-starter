@@ -31,10 +31,29 @@ export default function OjtHoursLogger() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!hours || parseFloat(hours) <= 0) {
+
+    const parsedHours = Number.parseFloat(hours);
+
+    if (!Number.isFinite(parsedHours)) {
       setError('Enter a valid number of hours');
       return;
     }
+
+    if (parsedHours < 0.5) {
+      setError('Minimum entry is 0.5 hours');
+      return;
+    }
+
+    if (parsedHours > 12) {
+      setError('Daily hour limit is 12 hours');
+      return;
+    }
+
+    if ((parsedHours * 2) % 1 !== 0) {
+      setError('Hours must be entered in 0.5 hour increments');
+      return;
+    }
+
     setSaving(true);
     setError(null);
     setSuccess(false);
@@ -44,7 +63,7 @@ export default function OjtHoursLogger() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         entry_date: date,
-        hours_claimed: parseFloat(hours),
+        hours_claimed: parsedHours,
         category,
         funding_phase: fundingPhase,
         notes,

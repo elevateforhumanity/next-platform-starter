@@ -302,7 +302,7 @@ export async function loadLearnerDashboard() {
   // ── 14. APPLICATIONS (for gate checks and diagnostic) ─────────────
   const { data: applications } = await supabase
     .from('applications')
-    .select('id, status, payment_status, program_id, funding_type')
+    .select('id, status, payment_status, program_id, program_slug, funding_type')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .limit(10);
@@ -320,7 +320,7 @@ export async function loadLearnerDashboard() {
   // ── 16. PENDING ONBOARDING (optional) ─────────────────────────────
   const { data: pendingOnboarding } = await supabase
     .from('program_enrollments')
-    .select('id, enrollment_state, next_required_action, full_name, program_id')
+    .select('id, enrollment_state, next_required_action, full_name, program_id, program_slug')
     .eq('user_id', user.id)
     .in('enrollment_state', [
       'applied',
