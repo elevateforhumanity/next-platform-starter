@@ -21,7 +21,7 @@ export default async function VerifyCertificatePage({
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Please try again later.</p>
@@ -67,7 +67,7 @@ export default async function VerifyCertificatePage({
 
   if (!certificate) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-slate-50">
         {/* Hero Section */}
         <section className="relative h-[500px] md:h-[600px] lg:h-[700px] flex items-center justify-center text-white overflow-hidden">
           <Image
@@ -96,7 +96,7 @@ export default async function VerifyCertificatePage({
               </Link>
               <Link
                 href="/programs"
-                className="bg-white hover:bg-gray-100 text-brand-blue-600 px-8 py-4 rounded-lg text-lg font-semibold transition-all shadow-2xl"
+                className="bg-white hover:bg-slate-100 text-brand-blue-600 px-8 py-4 rounded-lg text-lg font-semibold transition-all shadow-2xl"
               >
                 View Programs
               </Link>
@@ -246,7 +246,7 @@ export default async function VerifyCertificatePage({
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     href="/contact"
-                    className="bg-white text-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
+                    className="bg-white text-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg shadow-2xl transition-all"
                   >
                     Apply Now - It's Free
                   </Link>
@@ -278,7 +278,7 @@ export default async function VerifyCertificatePage({
   const totalHours = programCert?.programs?.duration_hours || certificate.total_hours || 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Verification Status */}
         <div
@@ -397,7 +397,7 @@ export default async function VerifyCertificatePage({
                   navigator.clipboard.writeText(window.location.href);
                   alert('Verification link copied to clipboard!');
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-slate-600 text-white font-semibold rounded-lg hover:bg-slate-700"
               >
                 <Share2 className="w-5 h-5" />
                 Share Verification Link

@@ -157,7 +157,7 @@ export default function ManualIDUploadForm({
           <label className="block text-sm font-medium text-black mb-2">
             ID Front <span className="text-brand-red-600">*</span>
           </label>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-brand-blue-400 transition">
+          <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-brand-blue-400 transition">
             <input
               type="file"
               accept="image/*"
@@ -189,7 +189,7 @@ export default function ManualIDUploadForm({
           <label className="block text-sm font-medium text-black mb-2">
             ID Back <span className="text-black">(Optional)</span>
           </label>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-brand-blue-400 transition">
+          <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-brand-blue-400 transition">
             <input
               type="file"
               accept="image/*"
@@ -220,7 +220,7 @@ export default function ManualIDUploadForm({
           <label className="block text-sm font-medium text-black mb-2">
             Selfie Holding ID <span className="text-brand-red-600">*</span>
           </label>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-brand-blue-400 transition">
+          <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-brand-blue-400 transition">
             <input
               type="file"
               accept="image/*"
@@ -265,7 +265,7 @@ export default function ManualIDUploadForm({
           <button
             type="submit"
             disabled={loading || !idFrontFile || !selfieFile}
-            className="w-full bg-brand-blue-600 text-white px-6 py-3 rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
+            className="w-full bg-brand-blue-600 text-white px-6 py-3 rounded-lg hover:bg-brand-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
           >
             {loading && <Loader2 className="animate-spin" size={20} />}
             {loading ? 'Uploading...' : 'Submit for Review (FREE)'}

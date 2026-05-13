@@ -84,7 +84,7 @@ export default async function LicensesPage() {
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <Link
                 href="#pricing"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-zinc-900 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-zinc-900 bg-white rounded-lg hover:bg-slate-100 transition-colors shadow-lg"
               >
                 View Pricing
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -141,7 +141,7 @@ export default async function LicensesPage() {
       </section>
 
       {/* Pricing Cards */}
-      <section id="pricing" className="px-4 sm:px-6 lg:px-8 py-20 bg-gray-50">
+      <section id="pricing" className="px-4 sm:px-6 lg:px-8 py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-black text-zinc-900 mb-4">
@@ -160,7 +160,7 @@ export default async function LicensesPage() {
                 className={`relative bg-white rounded-2xl border-2 p-8 ${
                   product.licenseType === 'school'
                     ? 'border-green-600 shadow-2xl scale-105 z-10'
-                    : 'border-gray-200 hover:border-gray-300 hover:shadow-lg'
+                    : 'border-slate-200 hover:border-slate-300 hover:shadow-lg'
                 } transition-all duration-300`}
               >
                 {product.licenseType === 'school' && (
@@ -224,7 +224,7 @@ export default async function LicensesPage() {
                   )}
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-gray-100">
+                <div className="mt-6 pt-6 border-t border-slate-100">
                   <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
                     Ideal for:
                   </p>
@@ -264,7 +264,7 @@ export default async function LicensesPage() {
               {CLONE_LICENSES.map((license) => (
                 <div
                   key={license.id}
-                  className="bg-gray-50 rounded-2xl p-8 border border-gray-200 hover:border-purple-300 hover:shadow-lg transition-all"
+                  className="bg-slate-50 rounded-2xl p-8 border border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all"
                 >
                   <h3 className="text-xl font-bold text-slate-900 mb-2">
                     {license.name}
@@ -389,7 +389,7 @@ export default async function LicensesPage() {
       </section>
 
       {/* Testimonial */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20 bg-gray-50">
+      <section className="px-4 sm:px-6 lg:px-8 py-20 bg-slate-50">
         <div className="max-w-4xl mx-auto text-center">
           <Award className="w-12 h-12 text-green-600 mx-auto mb-6" />
           <blockquote className="text-2xl md:text-3xl font-medium text-slate-900 leading-relaxed mb-8">
@@ -399,7 +399,7 @@ export default async function LicensesPage() {
             ourselves.&rdquo;
           </blockquote>
           <div className="flex items-center justify-center gap-4">
-            <div className="w-12 h-12 bg-gray-300 rounded-full" />
+            <div className="w-12 h-12 bg-slate-300 rounded-full" />
             <div className="text-left">
               <div className="font-bold text-slate-900">Sarah Johnson</div>
               <div className="text-slate-600 text-sm">
@@ -432,7 +432,7 @@ export default async function LicensesPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/store/licenses/checkout/school-license"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-zinc-900 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-zinc-900 bg-white rounded-lg hover:bg-slate-100 transition-colors shadow-lg"
             >
               Get Started Now
               <ArrowRight className="ml-2 w-5 h-5" />

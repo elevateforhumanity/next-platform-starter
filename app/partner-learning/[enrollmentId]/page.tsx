@@ -88,7 +88,7 @@ export default async function PartnerLearningPage({ params }: Props) {
   return (
     <main className="min-h-screen bg-white">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-6 py-6">
           <Link
             href="/learner/dashboard"
@@ -123,7 +123,7 @@ export default async function PartnerLearningPage({ params }: Props) {
       {/* Content */}
       <div className="max-w-4xl mx-auto px-6 py-8">
         {/* Instructions Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-brand-blue-50 rounded-lg">
               <Mail className="w-6 h-6 text-brand-blue-600" />
@@ -149,7 +149,7 @@ export default async function PartnerLearningPage({ params }: Props) {
 
         {/* Portal Access */}
         {provider?.portal_url && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Partner Portal</h2>
             <a
               href={provider.portal_url}
@@ -168,7 +168,7 @@ export default async function PartnerLearningPage({ params }: Props) {
 
         {/* Course Details */}
         {course?.description && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
             <h2 className="text-lg font-semibold text-slate-900 mb-3">About This Course</h2>
             <p className="text-slate-700">{course.description}</p>
           </div>
@@ -176,7 +176,7 @@ export default async function PartnerLearningPage({ params }: Props) {
 
         {/* Support Contact */}
         {(provider?.support_email || provider?.support_phone) && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Need Help?</h2>
             <div className="space-y-3">
               {provider.support_email && (

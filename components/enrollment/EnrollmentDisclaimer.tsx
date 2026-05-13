@@ -24,7 +24,7 @@ export function EnrollmentDisclaimer({
 
   if (variant === 'modal') {
     return (
-      <div className={`bg-gray-50 rounded-lg p-4 border border-gray-200 ${className}`}>
+      <div className={`bg-slate-50 rounded-lg p-4 border border-slate-200 ${className}`}>
         {content}
       </div>
     );
@@ -35,5 +35,5 @@ export function EnrollmentDisclaimer({
   }
 
   // Footer variant
-  return <div className={`border-t border-gray-200 pt-6 mt-8 ${className}`}>{content}</div>;
+  return <div className={`border-t border-slate-200 pt-6 mt-8 ${className}`}>{content}</div>;
 }

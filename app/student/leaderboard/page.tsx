@@ -69,7 +69,7 @@ export default async function LeaderboardPage() {
         {/* Leaderboard */}
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           {topLearners && topLearners.length > 0 ? (
-            <ul className="divide-y divide-gray-100">
+            <ul className="divide-y divide-slate-100">
               {topLearners.map((learner, index) => (
                 <li
                   key={learner.id}
@@ -78,7 +78,7 @@ export default async function LeaderboardPage() {
                   }`}
                 >
                   <div className="w-8 flex justify-center">{getRankIcon(index + 1)}</div>
-                  <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center">
                     {learner.avatar_url ? (
                       <img
                         src={learner.avatar_url}
@@ -115,7 +115,7 @@ export default async function LeaderboardPage() {
           )}
         </div>
 
-        <div className="mt-6 p-4 bg-gray-50 rounded-xl">
+        <div className="mt-6 p-4 bg-slate-50 rounded-xl">
           <p className="text-sm text-slate-600">
             <strong>How to earn points:</strong> Complete lessons (+10), finish courses (+100),
             maintain streaks (+5/day), earn badges (+25).

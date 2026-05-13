@@ -64,7 +64,7 @@ export function StateAwareDashboard({
             </div>
             <Link
               href={dominantAction.href}
-              className="flex-shrink-0 ml-6 px-8 py-4 bg-white text-brand-blue-600 rounded-lg font-bold text-lg hover:bg-gray-50 transition shadow-xl flex items-center gap-2"
+              className="flex-shrink-0 ml-6 px-8 py-4 bg-white text-brand-blue-600 rounded-lg font-bold text-lg hover:bg-slate-50 transition shadow-xl flex items-center gap-2"
             >
               <span>{dominantAction.label}</span>
               <ArrowRight className="h-5 w-5" />

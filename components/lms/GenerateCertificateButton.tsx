@@ -75,7 +75,7 @@ export function GenerateCertificateButton({
           'inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold',
           'transition focus:outline-none focus:ring-2 focus:ring-offset-2',
           effectiveDisabled || loading
-            ? 'bg-gray-300 text-slate-700 cursor-not-allowed'
+            ? 'bg-slate-300 text-slate-700 cursor-not-allowed'
             : '    text-white shadow-lg hover:brightness-110 hover:shadow-xl',
         ].join(' ')}
       >

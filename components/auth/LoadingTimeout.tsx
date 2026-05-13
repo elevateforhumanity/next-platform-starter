@@ -54,7 +54,7 @@ export function LoadingTimeout({
 
           <Link
             href="/login"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 text-black rounded-lg hover:bg-gray-200 transition font-semibold"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-100 text-black rounded-lg hover:bg-slate-200 transition font-semibold"
           >
             Sign In Again
           </Link>
@@ -64,7 +64,7 @@ export function LoadingTimeout({
           </Link>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200">
+        <div className="mt-6 pt-6 border-t border-slate-200">
           <p className="text-sm text-slate-700">
             Still having issues?{' '}
             <a href="/contact" className="text-brand-blue-600 hover:underline">

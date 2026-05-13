@@ -44,7 +44,7 @@ export default function LMSError({
 
           <Link
             href="/learner/dashboard"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-lg hover:bg-gray-200 transition font-semibold"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-lg hover:bg-slate-200 transition font-semibold"
           >
             <BookOpen className="h-5 w-5" />
             Back to Courses
@@ -52,14 +52,14 @@ export default function LMSError({
 
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 text-black rounded-lg hover:bg-white transition font-semibold"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-slate-300 text-black rounded-lg hover:bg-white transition font-semibold"
           >
             <Home className="h-5 w-5" />
             Go Home
           </Link>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200">
+        <div className="mt-6 pt-6 border-t border-slate-200">
           <p className="text-sm text-black">
             Technical issues?{' '}
             <a href="/contact" className="text-brand-blue-600 hover:underline">

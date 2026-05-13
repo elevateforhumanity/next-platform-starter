@@ -27,7 +27,7 @@ function TrialSuccessContent() {
   trialEndDate.setDate(trialEndDate.getDate() + 14);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16">
+    <div className="min-h-screen bg-slate-50 py-16">
       <div className="max-w-2xl mx-auto px-4">
         {/* Success Header */}
         <div className="text-center mb-10">
@@ -64,7 +64,7 @@ function TrialSuccessContent() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">Next Steps</h2>
           
           <div className="space-y-4">
-            <div className="flex gap-4 p-4 bg-gray-50 rounded-xl">
+            <div className="flex gap-4 p-4 bg-slate-50 rounded-xl">
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
                 <Download className="w-5 h-5 text-blue-600" />
               </div>
@@ -82,7 +82,7 @@ function TrialSuccessContent() {
               </div>
             </div>
 
-            <div className="flex gap-4 p-4 bg-gray-50 rounded-xl">
+            <div className="flex gap-4 p-4 bg-slate-50 rounded-xl">
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
                 <BookOpen className="w-5 h-5 text-blue-600" />
               </div>
@@ -100,7 +100,7 @@ function TrialSuccessContent() {
               </div>
             </div>
 
-            <div className="flex gap-4 p-4 bg-gray-50 rounded-xl">
+            <div className="flex gap-4 p-4 bg-slate-50 rounded-xl">
               <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
                 <MessageCircle className="w-5 h-5 text-green-600" />
               </div>
@@ -137,7 +137,7 @@ function TrialSuccessContent() {
 
 function LoadingFallback() {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center">
       <Loader2 className="w-10 h-10 text-blue-500 animate-spin" />
     </div>
   );

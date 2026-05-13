@@ -29,7 +29,7 @@ export default function Hero({
             {cta && (
               <Link
                 href={cta}
-                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 transition-all"
+                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 transition-all"
               >
                 {cta_label}
               </Link>

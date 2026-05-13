@@ -77,7 +77,7 @@ export function AdaptiveLearning({
       case 'advanced':
         return 'bg-brand-red-100 text-brand-red-800';
       default:
-        return 'bg-gray-100 text-black';
+        return 'bg-slate-100 text-black';
     }
   };
 
@@ -128,7 +128,7 @@ export function AdaptiveLearning({
             {recommendations.map((path) => (
               <div
                 key={path.id}
-                className="border-2 border-gray-200 rounded-lg p-4 hover:border-brand-red-600 transition"
+                className="border-2 border-slate-200 rounded-lg p-4 hover:border-brand-red-600 transition"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div>
@@ -149,7 +149,7 @@ export function AdaptiveLearning({
                   <div className="text-sm text-black mb-2">Topics covered:</div>
                   <div className="flex flex-wrap gap-2">
                     {path.topics.map((topic, index) => (
-                      <span key={index} className="px-2 py-2 bg-gray-100 rounded text-xs">
+                      <span key={index} className="px-2 py-2 bg-slate-100 rounded text-xs">
                         {topic}
                       </span>
                     ))}
@@ -180,7 +180,7 @@ export function AdaptiveLearning({
                 <span className="text-sm font-semibold">Quiz Performance</span>
                 <span className="text-sm text-brand-green-600">↑ 15%</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                 <div className="h-full bg-white" style={{ width: '85%' }} />
               </div>
             </div>
@@ -190,7 +190,7 @@ export function AdaptiveLearning({
                 <span className="text-sm font-semibold">Assignment Completion</span>
                 <span className="text-sm text-brand-green-600">↑ 8%</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                 <div className="h-full bg-white" style={{ width: '92%' }} />
               </div>
             </div>
@@ -200,7 +200,7 @@ export function AdaptiveLearning({
                 <span className="text-sm font-semibold">Study Consistency</span>
                 <span className="text-sm text-brand-orange-600">↓ 3%</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                 <div className="h-full bg-white" style={{ width: '78%' }} />
               </div>
             </div>

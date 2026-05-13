@@ -260,7 +260,7 @@ export default function InstrumentedVideoPlayer({
   // Error state
   if (hasError) {
     return (
-      <div className={`relative bg-gray-900 rounded-lg overflow-hidden ${className}`}>
+      <div className={`relative bg-slate-900 rounded-lg overflow-hidden ${className}`}>
         <div className="aspect-video flex flex-col items-center justify-center text-white p-8">
           <AlertCircle className="w-16 h-16 text-brand-red-500 mb-4" />
           <h3 className="text-xl font-semibold mb-2">Video Unavailable</h3>
@@ -286,7 +286,7 @@ export default function InstrumentedVideoPlayer({
     <div className={`relative bg-black rounded-lg overflow-hidden group ${className}`}>
       {/* Loading skeleton */}
       {isLoading && (
-        <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-10">
+        <div className="absolute inset-0 bg-slate-900 flex items-center justify-center z-10">
           <div className="animate-pulse flex flex-col items-center">
             <div className="w-16 h-16 border-4 border-brand-blue-500 border-t-transparent rounded-full animate-spin" />
             <p className="text-white mt-4">Loading video...</p>
@@ -334,7 +334,7 @@ export default function InstrumentedVideoPlayer({
               max={duration || 100}
               value={currentTime}
               onChange={handleSeek}
-              className="w-full h-1 bg-gray-600 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-brand-blue-500 [&::-webkit-slider-thumb]:rounded-full"
+              className="w-full h-1 bg-slate-600 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-brand-blue-500 [&::-webkit-slider-thumb]:rounded-full"
             />
           </div>
 

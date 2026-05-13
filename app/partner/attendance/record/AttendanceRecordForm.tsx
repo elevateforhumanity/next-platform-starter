@@ -82,7 +82,7 @@ export default function AttendanceRecordForm({
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg"
           />
         </div>
         <div>
@@ -90,7 +90,7 @@ export default function AttendanceRecordForm({
           <select
             value={courseId}
             onChange={(e) => setCourseId(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg"
           >
             <option value="">Select course (optional)</option>
             {courses.map((course) => (

@@ -128,7 +128,7 @@ export function HeroSection({
                 {ctaSecondary && (
                   <Link
                     href={ctaSecondary.href}
-                    className={`inline-flex items-center px-6 py-3 border-2 border-current font-semibold rounded-lg hover:bg-gray-100 transition ${colors.text}`}
+                    className={`inline-flex items-center px-6 py-3 border-2 border-current font-semibold rounded-lg hover:bg-slate-100 transition ${colors.text}`}
                   >
                     {ctaSecondary.label}
                   </Link>
@@ -184,7 +184,7 @@ export function HeroSection({
                 {ctaSecondary && (
                   <Link
                     href={ctaSecondary.href}
-                    className={`inline-flex items-center px-6 py-3 border-2 border-current font-semibold rounded-lg hover:bg-gray-100 transition ${colors.text}`}
+                    className={`inline-flex items-center px-6 py-3 border-2 border-current font-semibold rounded-lg hover:bg-slate-100 transition ${colors.text}`}
                   >
                     {ctaSecondary.label}
                   </Link>

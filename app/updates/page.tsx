@@ -137,7 +137,7 @@ export default async function UpdatesPage() {
             <Link
               key={index}
               href={update.href}
-              className="block bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg hover:border-brand-orange-200 transition-all group"
+              className="block bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg hover:border-brand-orange-200 transition-all group"
             >
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-brand-orange-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-brand-orange-100 transition-colors">

@@ -99,7 +99,7 @@ export default function CampaignsClient({
                 className={`w-full text-left p-3 rounded border ${
                   selectedTemplate?.id === template.id
                     ? 'border-brand-blue-500 bg-brand-blue-50'
-                    : 'border-gray-200 hover:border-brand-blue-300'
+                    : 'border-slate-200 hover:border-brand-blue-300'
                 }`}
               >
                 <div className="font-medium">{template.subject}</div>

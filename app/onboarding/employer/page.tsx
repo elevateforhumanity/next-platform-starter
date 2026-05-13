@@ -225,7 +225,7 @@ export default async function EmployerOnboardingPage() {
             </span>
             <span className="font-medium text-slate-900">{progressPercent}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-slate-200 rounded-full h-2">
             <div
               className="bg-brand-blue-500 h-2 rounded-full transition-all"
               style={{ width: `${progressPercent}%` }}
@@ -345,7 +345,7 @@ export default async function EmployerOnboardingPage() {
                 {doc.done ? (
                   <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
                 ) : (
-                  <div className="w-4 h-4 rounded-full border-2 border-gray-300 flex-shrink-0" />
+                  <div className="w-4 h-4 rounded-full border-2 border-slate-300 flex-shrink-0" />
                 )}
                 <span className={doc.done ? 'text-green-800' : 'text-slate-900'}>{doc.label}</span>
               </div>

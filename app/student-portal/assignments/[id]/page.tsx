@@ -84,7 +84,7 @@ export default async function StudentAssignmentDetailPage({ params }: Props) {
   const StatusIcon = statusConfig.icon;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 space-y-6">
         <Breadcrumbs
           items={[
@@ -95,7 +95,7 @@ export default async function StudentAssignmentDetailPage({ params }: Props) {
         />
 
         {/* Header */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-4">
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -114,7 +114,7 @@ export default async function StudentAssignmentDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <div className="flex flex-wrap gap-4 text-sm text-slate-700 border-t border-gray-100 pt-4">
+          <div className="flex flex-wrap gap-4 text-sm text-slate-700 border-t border-slate-100 pt-4">
             {assignment.due_date && (
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4 text-slate-700" />
@@ -145,7 +145,7 @@ export default async function StudentAssignmentDetailPage({ params }: Props) {
 
         {/* Description / Instructions */}
         {(assignment.description || assignment.instructions) && (
-          <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-3">
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-3">
             {assignment.description && (
               <div>
                 <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wide mb-2">
@@ -157,7 +157,7 @@ export default async function StudentAssignmentDetailPage({ params }: Props) {
               </div>
             )}
             {assignment.instructions && (
-              <div className={assignment.description ? 'border-t border-gray-100 pt-3' : ''}>
+              <div className={assignment.description ? 'border-t border-slate-100 pt-3' : ''}>
                 <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wide mb-2">
                   Instructions
                 </h2>
@@ -229,7 +229,7 @@ export default async function StudentAssignmentDetailPage({ params }: Props) {
             )}
 
             {submission.instructor_note && (
-              <div className="border-t border-gray-200 pt-3">
+              <div className="border-t border-slate-200 pt-3">
                 <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1">
                   Instructor Feedback
                 </p>
@@ -267,7 +267,7 @@ export default async function StudentAssignmentDetailPage({ params }: Props) {
 
         {/* Submission form */}
         {!submission && (
-          <div className="bg-white rounded-2xl border border-gray-200 p-6">
+          <div className="bg-white rounded-2xl border border-slate-200 p-6">
             <h2 className="text-lg font-semibold text-slate-900 mb-1">Submit Your Work</h2>
             <p className="text-sm text-slate-700 mb-5">
               {assignment.submission_type === 'file'

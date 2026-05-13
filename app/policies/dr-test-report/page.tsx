@@ -23,7 +23,7 @@ export default async function DRTestReportPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
           items={[{ label: 'Policies', href: '/policies' }, { label: 'Dr Test Report' }]}
@@ -119,8 +119,8 @@ export default async function DRTestReportPage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Results</h2>
 
             <div className="overflow-x-auto mb-8">
-              <table className="min-w-full border border-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full border border-slate-200">
+                <thead className="bg-slate-50">
                   <tr>
                     <th className="px-4 py-3 text-left font-bold text-black border-b">Metric</th>
                     <th className="px-4 py-3 text-left font-bold text-black border-b">Target</th>
@@ -207,7 +207,7 @@ export default async function DRTestReportPage() {
           </div>
 
           {/* Footer */}
-          <div className="mt-8 pt-8 border-t border-gray-200">
+          <div className="mt-8 pt-8 border-t border-slate-200">
             <p className="text-sm text-slate-600">
               <strong>Report ID:</strong> DR-2026-001
               <br />

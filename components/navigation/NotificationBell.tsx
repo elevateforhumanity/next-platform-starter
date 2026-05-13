@@ -136,7 +136,7 @@ export function NotificationBell() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        className="relative p-2 hover:bg-slate-100 rounded-lg transition-colors"
       >
         <Bell className="h-10 w-10 text-black" />
         {unreadCount > 0 && (
@@ -146,9 +146,9 @@ export function NotificationBell() {
         )}
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+        <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-slate-200 z-50">
           {/* Header */}
-          <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+          <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
             <h3 className="font-semibold text-black">Notifications</h3>
             {unreadCount > 0 && (
               <button
@@ -172,7 +172,7 @@ export function NotificationBell() {
                 return (
                   <div
                     key={notif.id}
-                    className={`px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
+                    className={`px-4 py-3 border-b border-slate-100 hover:bg-slate-50 cursor-pointer ${
                       notif.unread ? 'bg-brand-blue-50' : ''
                     }`}
                   >
@@ -193,7 +193,7 @@ export function NotificationBell() {
             )}
           </div>
           {/* Footer */}
-          <div className="px-4 py-3 border-t border-gray-100 text-center">
+          <div className="px-4 py-3 border-t border-slate-100 text-center">
             <button className="text-sm text-brand-orange-600 hover:text-brand-blue-700 font-medium">
               View All Notifications
             </button>

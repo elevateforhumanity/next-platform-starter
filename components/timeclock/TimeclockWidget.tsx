@@ -44,11 +44,11 @@ export function TimeclockWidget({
   const buttonBase =
     'px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
   const primaryButton = `${buttonBase} bg-brand-green-600 text-white hover:bg-brand-green-700`;
-  const secondaryButton = `${buttonBase} bg-gray-200 text-slate-800 hover:bg-gray-300`;
+  const secondaryButton = `${buttonBase} bg-slate-200 text-slate-800 hover:bg-slate-300`;
   const dangerButton = `${buttonBase} bg-brand-red-600 text-white hover:bg-brand-red-700`;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-baseline gap-2">
@@ -80,7 +80,7 @@ export function TimeclockWidget({
             </>
           ) : (
             <>
-              <span className="w-3 h-3 rounded-full bg-gray-400" />
+              <span className="w-3 h-3 rounded-full bg-slate-400" />
               <span className="text-slate-500">Not clocked in</span>
             </>
           )}
@@ -156,7 +156,7 @@ export function TimeclockWidget({
       )}
 
       {/* Actions */}
-      <div className="pt-4 border-t border-gray-100 space-y-2">
+      <div className="pt-4 border-t border-slate-100 space-y-2">
         {timeclock.canClockIn && (
           <button
             onClick={async () => {

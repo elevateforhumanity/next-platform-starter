@@ -138,7 +138,7 @@ export default function LiveChatPage() {
             >
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  message.role === 'user' ? 'bg-brand-blue-600' : 'bg-gray-200'
+                  message.role === 'user' ? 'bg-brand-blue-600' : 'bg-slate-200'
                 }`}
               >
                 {message.role === 'user' ? (
@@ -151,7 +151,7 @@ export default function LiveChatPage() {
                 className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                   message.role === 'user'
                     ? 'bg-brand-blue-600 text-white rounded-tr-sm'
-                    : 'bg-white border border-gray-200 rounded-tl-sm'
+                    : 'bg-white border border-slate-200 rounded-tl-sm'
                 }`}
               >
                 <p className="text-sm whitespace-pre-wrap">{message.content}</p>
@@ -168,21 +168,21 @@ export default function LiveChatPage() {
 
           {isTyping && (
             <div className="flex gap-3">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
                 <Bot className="w-4 h-4 text-slate-600" />
               </div>
-              <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-4 py-3">
+              <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-sm px-4 py-3">
                 <div className="flex gap-1">
                   <span
-                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
                     style={{ animationDelay: '0ms' }}
                   ></span>
                   <span
-                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
                     style={{ animationDelay: '150ms' }}
                   ></span>
                   <span
-                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
                     style={{ animationDelay: '300ms' }}
                   ></span>
                 </div>
@@ -204,7 +204,7 @@ export default function LiveChatPage() {
                 <button
                   key={reply}
                   onClick={() => handleSend(reply)}
-                  className="text-sm bg-white border border-gray-200 rounded-full px-3 py-1.5 hover:bg-white transition"
+                  className="text-sm bg-white border border-slate-200 rounded-full px-3 py-1.5 hover:bg-white transition"
                 >
                   {reply}
                 </button>
@@ -223,7 +223,7 @@ export default function LiveChatPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
-            className="flex-1 px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="flex-1 px-4 py-3 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           />
           <button
             onClick={() => handleSend()}

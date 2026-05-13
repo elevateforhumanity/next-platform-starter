@@ -4,6 +4,7 @@
  *   - /api/enrollment/submit (comprehensive wizard)
  *   - /api/enrollments/create-enforced (admin/partner)
  */
+// PUBLIC ROUTE: enrollment checkout initiation — guest users enroll before account creation
 /**
  * CANONICAL ENROLLMENT CHECKOUT ENDPOINT
  *

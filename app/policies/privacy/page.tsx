@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
           <div className="mb-8">
@@ -211,7 +211,7 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Cookies and Tracking</h2>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Types of Cookies</h3>
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <ul className="space-y-3 text-black">
                 <li>
                   <strong>Essential Cookies:</strong> Required for platform functionality

@@ -122,7 +122,7 @@ export default function EmployerWorkforceAnalytics() {
                     </span>
                   </div>
                   <div className="flex gap-2">
-                    <div className="flex-1 bg-gray-200 rounded-full h-2">
+                    <div className="flex-1 bg-slate-200 rounded-full h-2">
                       <div
                         className="   h-2 rounded-full"
                         style={{ width: `${(trend.hires / maxHires) * 100}%` }}
@@ -147,7 +147,7 @@ export default function EmployerWorkforceAnalytics() {
                   </div>
                   <div className="flex gap-2">
                     <div className="flex-1">
-                      <div className="bg-gray-200 rounded-full h-2">
+                      <div className="bg-slate-200 rounded-full h-2">
                         <div
                           className="bg-brand-orange-600 h-2 rounded-full"
                           style={{ width: `${skill.demand}%` }}
@@ -155,7 +155,7 @@ export default function EmployerWorkforceAnalytics() {
                       </div>
                     </div>
                     <div className="flex-1">
-                      <div className="bg-gray-200 rounded-full h-2">
+                      <div className="bg-slate-200 rounded-full h-2">
                         <div
                           className="bg-white h-2 rounded-full"
                           style={{ width: `${skill.supply}%` }}
@@ -187,7 +187,7 @@ export default function EmployerWorkforceAnalytics() {
               </thead>
               <tbody>
                 {departmentMetrics.map((dept) => (
-                  <tr key={dept.name} className="border-b hover:bg-gray-50">
+                  <tr key={dept.name} className="border-b hover:bg-slate-50">
                     <td className="py-3 px-4 font-medium">{dept.name}</td>
                     <td className="py-3 px-4">{dept.headcount}</td>
                     <td className="py-3 px-4">

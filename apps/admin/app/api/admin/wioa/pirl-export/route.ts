@@ -12,7 +12,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { safeError, safeDbError } from '@/lib/api/safe-error';
+import { safeError, safeDbError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { exportQuarterlyPirl } from '@/lib/wioa/pirl_exporter';
 import { createSupabaseAdapter } from '@/lib/wioa/supabase_adapter';
@@ -207,6 +207,6 @@ export async function POST(request: NextRequest) {
       })
       .eq('id', job.id);
 
-    return safeError(`Export failed: ${err instanceof Error ? err.message : String(err)}`, 500);
+    return safeInternalError(err, 'PIRL export failed');
   }
 }

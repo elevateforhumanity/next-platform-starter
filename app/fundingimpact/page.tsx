@@ -90,7 +90,7 @@ export default function FundingImpactPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src="/images/pages/admin-business-hero.jpg"
@@ -110,7 +110,7 @@ export default function FundingImpactPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src="/images/pages/funding-impact-1.webp"
@@ -130,7 +130,7 @@ export default function FundingImpactPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src="/images/pages/funding-impact-2.jpg"
@@ -150,7 +150,7 @@ export default function FundingImpactPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src="/images/pages/job-placement.webp"
@@ -307,7 +307,7 @@ export default function FundingImpactPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
                   src="/images/pages/funding-impact-4.jpg"
@@ -339,7 +339,7 @@ export default function FundingImpactPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
                   src="/images/pages/funding-impact-5.jpg"
@@ -371,7 +371,7 @@ export default function FundingImpactPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
                   src="/images/pages/admin-advanced-tools-hero.jpg"

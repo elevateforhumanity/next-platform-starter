@@ -16,7 +16,7 @@ export default async function StudentCoursesPage() {
   const supabase = await createClient();
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Database connection failed.</p>
@@ -95,8 +95,8 @@ export default async function StudentCoursesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-slate-50">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-500 mb-4">
             <Link href="/student-portal" className="hover:text-slate-700">Student Portal</Link>
@@ -110,7 +110,7 @@ export default async function StudentCoursesPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {courses.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
             <BookOpen className="w-12 h-12 text-slate-300 mx-auto mb-4" />
             <h2 className="text-lg font-semibold text-slate-900 mb-2">No courses yet</h2>
             <p className="text-slate-500 mb-6">You are not enrolled in any courses.</p>
@@ -125,7 +125,7 @@ export default async function StudentCoursesPage() {
                 <h2 className="text-lg font-semibold text-slate-900 mb-4">Active Courses</h2>
                 <div className="space-y-4">
                   {activeCourses.map((course) => (
-                    <div key={course.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div key={course.id} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                       <div className="p-6">
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-start gap-4">
@@ -137,7 +137,7 @@ export default async function StudentCoursesPage() {
                           <span className="text-2xl font-bold text-blue-600">{course.progress}%</span>
                         </div>
                         <div className="mb-4">
-                          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                             <div className="h-full bg-blue-600 rounded-full" style={{ width: `${course.progress}%` }} />
                           </div>
                         </div>
@@ -156,7 +156,7 @@ export default async function StudentCoursesPage() {
                         </div>
                       </div>
                       {course.next_lesson && (
-                        <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                        <div className="px-6 py-3 bg-slate-50 border-t border-slate-200">
                           <p className="text-sm text-slate-600"><span className="font-medium">Next up:</span> {course.next_lesson}</p>
                         </div>
                       )}
@@ -171,7 +171,7 @@ export default async function StudentCoursesPage() {
                 <h2 className="text-lg font-semibold text-slate-900 mb-4">Completed Courses</h2>
                 <div className="space-y-4">
                   {completedCourses.map((course) => (
-                    <div key={course.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div key={course.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">

@@ -63,7 +63,7 @@ export default async function SocialPage() {
             <div className="bg-white rounded-xl shadow-sm border overflow-hidden mb-6">
               <div className="h-20 bg-brand-blue-500"></div>
               <div className="px-4 pb-4">
-                <div className="w-16 h-16 bg-gray-200 rounded-full border-4 border-white -mt-8 flex items-center justify-center">
+                <div className="w-16 h-16 bg-slate-200 rounded-full border-4 border-white -mt-8 flex items-center justify-center">
                   {profile?.avatar_url ? (
                     <Image sizes="100vw"
                       src={profile.avatar_url}
@@ -127,7 +127,7 @@ export default async function SocialPage() {
             {/* Create Post */}
             <div className="bg-white rounded-xl p-4 shadow-sm border mb-6">
               <div className="flex gap-4">
-                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center flex-shrink-0">
                   {profile?.avatar_url ? (
                     <Image sizes="100vw"
                       src={profile.avatar_url}
@@ -140,7 +140,7 @@ export default async function SocialPage() {
                     <Users className="w-5 h-5 text-slate-700" />
                   )}
                 </div>
-                <button className="flex-1 text-left px-4 py-3 bg-white rounded-full text-slate-700 hover:bg-gray-200 transition-colors">
+                <button className="flex-1 text-left px-4 py-3 bg-white rounded-full text-slate-700 hover:bg-slate-200 transition-colors">
                   Share an update or achievement...
                 </button>
               </div>
@@ -192,7 +192,7 @@ export default async function SocialPage() {
               <h3 className="font-semibold text-slate-900 mb-4">People You May Know</h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                  <div className="w-10 h-10 bg-slate-200 rounded-full"></div>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-slate-900 truncate">Fellow Learner</div>
                     <div className="text-sm text-slate-700 truncate">Healthcare Program</div>
@@ -202,7 +202,7 @@ export default async function SocialPage() {
                   </button>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                  <div className="w-10 h-10 bg-slate-200 rounded-full"></div>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-slate-900 truncate">Study Partner</div>
                     <div className="text-sm text-slate-700 truncate">IT Certification</div>

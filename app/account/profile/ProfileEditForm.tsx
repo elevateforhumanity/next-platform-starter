@@ -76,7 +76,7 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
         <h2 className="text-lg font-semibold text-slate-900 mb-4">Profile Photo</h2>
         <div className="flex items-center gap-6">
           <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+            <div className="w-24 h-24 rounded-full bg-slate-200 flex items-center justify-center overflow-hidden">
               {profile?.avatar_url ? (
                 <Image sizes="100vw"
                   src={profile.avatar_url}

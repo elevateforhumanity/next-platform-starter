@@ -433,13 +433,13 @@ export default function TimeclockPage() {
           <div className="flex items-center gap-2 text-xs">
             <Link
               href="/apprentice/timeclock/history"
-              className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition"
+              className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-lg transition"
             >
               Shift Log
             </Link>
             <Link
               href="/apprentice/hours"
-              className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition"
+              className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-lg transition"
             >
               Hours
             </Link>
@@ -489,7 +489,7 @@ export default function TimeclockPage() {
                 <select
                   value={selectedSiteId || ''}
                   onChange={(e) => setSelectedSiteId(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                 >
                   <option value="">Select a site...</option>
                   {context.allowedSites.map((site) => (
@@ -607,7 +607,7 @@ export default function TimeclockPage() {
               <button
                 onClick={() => handleAction('clock_in')}
                 disabled={actionLoading !== null || location.loading || !selectedSiteId}
-                className="w-full flex items-center justify-center px-6 py-4 bg-brand-green-600 hover:bg-brand-green-700 disabled:bg-gray-400 text-white font-bold rounded-lg transition-colors"
+                className="w-full flex items-center justify-center px-6 py-4 bg-brand-green-600 hover:bg-brand-green-700 disabled:bg-slate-400 text-white font-bold rounded-lg transition-colors"
               >
                 {actionLoading === 'clock_in' ? (
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
@@ -622,7 +622,7 @@ export default function TimeclockPage() {
                   <button
                     onClick={() => handleAction('lunch_start')}
                     disabled={actionLoading !== null}
-                    className="w-full flex items-center justify-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors"
+                    className="w-full flex items-center justify-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 disabled:bg-slate-400 text-white font-semibold rounded-lg transition-colors"
                   >
                     {actionLoading === 'lunch_start' ? (
                       <Loader2 className="w-5 h-5 mr-2 animate-spin" />
@@ -637,7 +637,7 @@ export default function TimeclockPage() {
                   <button
                     onClick={() => handleAction('lunch_end')}
                     disabled={actionLoading !== null}
-                    className="w-full flex items-center justify-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors"
+                    className="w-full flex items-center justify-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 disabled:bg-slate-400 text-white font-semibold rounded-lg transition-colors"
                   >
                     {actionLoading === 'lunch_end' ? (
                       <Loader2 className="w-5 h-5 mr-2 animate-spin" />
@@ -651,7 +651,7 @@ export default function TimeclockPage() {
                 <button
                   onClick={() => handleAction('clock_out')}
                   disabled={actionLoading !== null || isOnLunch}
-                  className="w-full flex items-center justify-center px-6 py-4 bg-brand-red-600 hover:bg-brand-red-700 disabled:bg-gray-400 text-white font-bold rounded-lg transition-colors"
+                  className="w-full flex items-center justify-center px-6 py-4 bg-brand-red-600 hover:bg-brand-red-700 disabled:bg-slate-400 text-white font-bold rounded-lg transition-colors"
                 >
                   {actionLoading === 'clock_out' ? (
                     <Loader2 className="w-5 h-5 mr-2 animate-spin" />
@@ -694,7 +694,7 @@ export default function TimeclockPage() {
                   return (
                     <div
                       key={s.id}
-                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg text-sm"
+                      className="flex items-center justify-between p-3 bg-slate-50 rounded-lg text-sm"
                     >
                       <div className="flex items-center gap-2">
                         {s.auto_clocked_out ? (

@@ -18,7 +18,7 @@ export default async function DataRetentionPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
           items={[{ label: 'Policies', href: '/policies' }, { label: 'Data Retention' }]}
@@ -104,7 +104,7 @@ export default async function DataRetentionPage() {
             <h3 className="text-xl font-bold text-black mt-6 mb-3">
               Admissions and Application Data
             </h3>
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <ul className="space-y-3 text-black">
                 <li>
                   <strong>Enrolled Students:</strong> Retained as part of student record (7 years
@@ -211,7 +211,7 @@ export default async function DataRetentionPage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Technology and System Data</h2>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">System Logs and Analytics</h3>
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <ul className="space-y-3 text-black">
                 <li>
                   <strong>Access Logs:</strong> 90 days
@@ -235,7 +235,7 @@ export default async function DataRetentionPage() {
             </div>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">User Account Data</h3>
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <ul className="space-y-3 text-black">
                 <li>
                   <strong>Active Accounts:</strong> Retained while account is active
@@ -254,7 +254,7 @@ export default async function DataRetentionPage() {
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Communication Records</h2>
 
-            <div className="bg-gray-50 rounded-xl p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-slate-50 rounded-xl p-6 border-2 border-slate-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">Email and Messages</h3>
               <ul className="space-y-3 text-black">
                 <li>

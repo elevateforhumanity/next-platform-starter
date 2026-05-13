@@ -150,7 +150,7 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
             ) => setQuery(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
             placeholder="Search courses, programs, skills..."
-            className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+            className="w-full pl-12 pr-4 py-3 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
           />
         </div>
         <Button onClick={() => setShowFilters(!showFilters)} variant="outline" className="border-2">
@@ -302,7 +302,7 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {results.map((result) => (
               <Card key={result.id} className="hover:shadow-lg transition">
-                <div className="relative h-48 bg-gray-200">
+                <div className="relative h-48 bg-slate-200">
                   <Image
                     src={result.image}
                     alt={result.title}

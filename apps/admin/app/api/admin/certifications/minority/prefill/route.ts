@@ -134,7 +134,7 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false })
       .limit(30);
 
-    if (error) return safeError(error.message, 500);
+    if (error) return safeInternalError(error, 'Failed to load minority certification timeline');
     return NextResponse.json({ events: data ?? [] });
   } catch (error) {
     return safeInternalError(error, 'Failed to load minority certification timeline');
@@ -167,13 +167,13 @@ export async function POST(request: NextRequest) {
       contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       upsert: true,
     });
-    if (docxUp.error) return safeError(docxUp.error.message, 500);
+    if (docxUp.error) return safeInternalError(docxUp.error, 'Failed to upload DOCX');
 
     const pdfUp = await storage.upload(pdfPath, pdf, {
       contentType: 'application/pdf',
       upsert: true,
     });
-    if (pdfUp.error) return safeError(pdfUp.error.message, 500);
+    if (pdfUp.error) return safeInternalError(pdfUp.error, 'Failed to upload PDF');
 
     const [docxSigned, pdfSigned] = await Promise.all([
       storage.createSignedUrl(docxPath, 60 * 60 * 24 * 7),

@@ -55,7 +55,7 @@ export function RecommendedCourses() {
           <Link
             key={rec.courseId}
             href={`/lms/courses/${rec.courseId}`}
-            className="block p-3 rounded-lg hover:bg-gray-50 transition border border-gray-100"
+            className="block p-3 rounded-lg hover:bg-slate-50 transition border border-slate-100"
           >
             <div className="flex items-center justify-between">
               <div>

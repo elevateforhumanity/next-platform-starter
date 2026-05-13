@@ -67,7 +67,7 @@ export function EligibilityNotice({ variant = 'inline', className = '' }: Eligib
 export function EnrollmentDisclaimer({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm text-slate-700 ${className}`}
+      className={`bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-700 ${className}`}
     >
       <p>
         <strong>Important:</strong> Submitting this application does not guarantee eligibility or

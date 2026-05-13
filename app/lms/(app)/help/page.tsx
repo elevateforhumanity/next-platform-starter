@@ -138,7 +138,7 @@ export default async function HelpPage() {
             <input
               type="text"
               placeholder="Search for help articles..."
-              className="w-full pl-12 pr-4 py-4 rounded-xl text-slate-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-300"
+              className="w-full pl-12 pr-4 py-4 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-300"
             />
           </div>
         </div>

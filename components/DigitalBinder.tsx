@@ -104,7 +104,7 @@ export default function DigitalBinder({ studentId, studentName, programName }: D
       case 'missing':
         return 'bg-brand-red-100 text-brand-red-800';
       default:
-        return 'bg-gray-100 text-black';
+        return 'bg-slate-100 text-black';
     }
   };
 
@@ -117,7 +117,7 @@ export default function DigitalBinder({ studentId, studentName, programName }: D
       case 'progress':
         return 'bg-brand-blue-100 text-brand-blue-800';
       default:
-        return 'bg-gray-100 text-black';
+        return 'bg-slate-100 text-black';
     }
   };
 
@@ -145,7 +145,7 @@ export default function DigitalBinder({ studentId, studentName, programName }: D
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-gray-200">
+      <div className="flex gap-2 border-b border-slate-200">
         <button
           onClick={() => setActiveTab('documents')}
           className={`px-6 py-3 font-medium transition-colors ${
@@ -217,11 +217,11 @@ export default function DigitalBinder({ studentId, studentName, programName }: D
                   </div>
                   <div className="flex gap-2">
                     {doc.status === 'complete' && (
-                      <button className="px-3 py-2 text-sm text-brand-blue-600 hover:bg-gray-50 rounded">
+                      <button className="px-3 py-2 text-sm text-brand-blue-600 hover:bg-slate-50 rounded">
                         View
                       </button>
                     )}
-                    <button className="px-3 py-2 text-sm text-black hover:bg-gray-50 rounded">
+                    <button className="px-3 py-2 text-sm text-black hover:bg-slate-50 rounded">
                       Download
                     </button>
                   </div>
@@ -246,11 +246,11 @@ export default function DigitalBinder({ studentId, studentName, programName }: D
                   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
                 ) => setNewNote(e.target.value)}
                 placeholder="Add a new note about this student..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 rows={3}
               />
               <div className="flex items-center justify-between mt-3">
-                <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                <select className="px-3 py-2 border border-slate-300 rounded-lg text-sm">
                   <option>General</option>
                   <option>Progress</option>
                   <option>Concern</option>
@@ -303,7 +303,7 @@ export default function DigitalBinder({ studentId, studentName, programName }: D
               <div className="text-3xl font-bold text-black mb-3">
                 {trackingData.hoursCompleted} / {trackingData.hoursRequired}
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-slate-200 rounded-full h-2">
                 <div
                   className="bg-white h-2 rounded-full"
                   style={{
@@ -318,7 +318,7 @@ export default function DigitalBinder({ studentId, studentName, programName }: D
               <div className="text-3xl font-bold text-black mb-3">
                 {trackingData.attendanceRate}%
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-slate-200 rounded-full h-2">
                 <div
                   className="bg-white h-2 rounded-full"
                   style={{ width: `${trackingData.attendanceRate}%` }}
@@ -329,7 +329,7 @@ export default function DigitalBinder({ studentId, studentName, programName }: D
             <Card className="p-6">
               <div className="text-sm text-black mb-2">Current Grade</div>
               <div className="text-3xl font-bold text-black mb-3">{trackingData.currentGrade}%</div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-slate-200 rounded-full h-2">
                 <div
                   className="bg-white h-2 rounded-full"
                   style={{ width: `${trackingData.currentGrade}%` }}
@@ -351,7 +351,7 @@ export default function DigitalBinder({ studentId, studentName, programName }: D
                 %
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
+            <div className="w-full bg-slate-200 rounded-full h-3">
               <div
                 className="bg-white h-3 rounded-full"
                 style={{

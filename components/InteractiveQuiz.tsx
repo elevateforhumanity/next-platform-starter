@@ -83,7 +83,7 @@ export function InteractiveQuiz({ questions, onComplete }: InteractiveQuizProps)
                         ? 'border-brand-green-500 bg-brand-green-50'
                         : 'border-brand-red-500 bg-brand-red-50'
                       : 'border-brand-red-600 bg-brand-red-50'
-                    : 'border-gray-200 hover:border-brand-red-300'
+                    : 'border-slate-200 hover:border-brand-red-300'
                 } ${showFeedback && index === question.correctAnswer ? 'border-brand-green-500 bg-brand-green-50' : ''}`}
               >
                 <div className="flex items-center justify-between">

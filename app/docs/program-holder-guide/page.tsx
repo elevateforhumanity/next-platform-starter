@@ -52,7 +52,7 @@ export default async function ProgramHolderGuidePage() {
   const { data: dbRows } = await supabase.from('documentation').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-slate-50 py-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
           items={[{ label: 'Docs', href: '/docs' }, { label: 'Program Holder Guide' }]}
@@ -118,10 +118,10 @@ export default async function ProgramHolderGuidePage() {
             Our support team is available to assist you with any questions.
           </p>
           <div className="flex gap-4">
-            <Link href="/contact" className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+            <Link href="/contact" className="px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200">
               Contact Support
             </Link>
-            <Link href="/docs" className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+            <Link href="/docs" className="px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200">
               Browse All Docs
             </Link>
           </div>

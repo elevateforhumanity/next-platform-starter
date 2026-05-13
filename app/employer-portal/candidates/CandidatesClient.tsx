@@ -60,7 +60,7 @@ export function CandidatesClient({ candidates }: { candidates: Candidate[] }) {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by name, skill, or location..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green-500"
+                className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green-500"
               />
             </div>
           </div>
@@ -72,7 +72,7 @@ export function CandidatesClient({ candidates }: { candidates: Candidate[] }) {
                 className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                   activeFilter === filter
                     ? 'bg-brand-green-600 text-white'
-                    : 'bg-white text-slate-900 border border-gray-200 hover:bg-gray-100'
+                    : 'bg-white text-slate-900 border border-slate-200 hover:bg-slate-100'
                 }`}
               >
                 {filter}
@@ -94,7 +94,7 @@ export function CandidatesClient({ candidates }: { candidates: Candidate[] }) {
               {filtered.map((candidate) => (
                 <div
                   key={candidate.id}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   <div className="p-6">
                     <div className="flex items-start gap-4">
@@ -143,7 +143,7 @@ export function CandidatesClient({ candidates }: { candidates: Candidate[] }) {
                       </Link>
                       <Link
                         href={`/employer-portal/messages?to=${candidate.id}`}
-                        className="px-4 py-2 border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 transition-colors"
+                        className="px-4 py-2 border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 transition-colors"
                         title="Message candidate"
                       >
                         <MessageSquare className="w-5 h-5" />

@@ -168,7 +168,7 @@ export default function WhiteLabelPage() {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {FEATURES.map((feature) => (
-              <div key={feature.title} className="p-6 rounded-xl border border-gray-200 hover:border-blue-300 transition-colors">
+              <div key={feature.title} className="p-6 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors">
                 <feature.icon className="w-10 h-10 text-blue-600 mb-4" />
                 <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
                 <p className="text-slate-600">{feature.description}</p>
@@ -195,7 +195,7 @@ export default function WhiteLabelPage() {
                 className={`rounded-2xl p-8 ${
                   plan.highlighted
                     ? 'bg-slate-900 text-white ring-4 ring-blue-500'
-                    : 'bg-white border border-gray-200'
+                    : 'bg-white border border-slate-200'
                 }`}
               >
                 <h3 className="text-xl font-bold mb-2">{plan.name}</h3>

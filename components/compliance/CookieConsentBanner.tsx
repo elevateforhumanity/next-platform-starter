@@ -169,7 +169,7 @@ export default function CookieConsentBanner() {
               <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                 <button
                   onClick={acceptNecessary}
-                  className="px-6 py-3 border-2 border-gray-300 text-black rounded-lg hover:bg-gray-50 transition font-medium"
+                  className="px-6 py-3 border-2 border-slate-300 text-black rounded-lg hover:bg-slate-50 transition font-medium"
                 >
                   Necessary Only
                 </button>
@@ -191,7 +191,7 @@ export default function CookieConsentBanner() {
                 </div>
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition"
+                  className="p-2 hover:bg-slate-100 rounded-lg transition"
                 >
                   <X className="w-5 h-5 text-slate-700" />
                 </button>
@@ -199,7 +199,7 @@ export default function CookieConsentBanner() {
 
               <div className="space-y-4 mb-6">
                 {/* Necessary Cookies */}
-                <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
@@ -222,7 +222,7 @@ export default function CookieConsentBanner() {
                 </div>
 
                 {/* Functional Cookies */}
-                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                <div className="p-4 bg-white rounded-lg border border-slate-200">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h4 className="font-bold text-black mb-2">Functional Cookies</h4>
@@ -238,13 +238,13 @@ export default function CookieConsentBanner() {
                         onChange={() => togglePreference('functional')}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white" />
+                      <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white" />
                     </label>
                   </div>
                 </div>
 
                 {/* Analytics Cookies */}
-                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                <div className="p-4 bg-white rounded-lg border border-slate-200">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h4 className="font-bold text-black mb-2">Analytics Cookies</h4>
@@ -260,13 +260,13 @@ export default function CookieConsentBanner() {
                         onChange={() => togglePreference('analytics')}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white" />
+                      <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white" />
                     </label>
                   </div>
                 </div>
 
                 {/* Marketing Cookies */}
-                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                <div className="p-4 bg-white rounded-lg border border-slate-200">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h4 className="font-bold text-black mb-2">Marketing Cookies</h4>
@@ -282,7 +282,7 @@ export default function CookieConsentBanner() {
                         onChange={() => togglePreference('marketing')}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white" />
+                      <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white" />
                     </label>
                   </div>
                 </div>
@@ -291,7 +291,7 @@ export default function CookieConsentBanner() {
               <div className="flex flex-col sm:flex-row gap-3 justify-end">
                 <button
                   onClick={acceptNecessary}
-                  className="px-6 py-3 border-2 border-gray-300 text-black rounded-lg hover:bg-gray-50 transition font-medium"
+                  className="px-6 py-3 border-2 border-slate-300 text-black rounded-lg hover:bg-slate-50 transition font-medium"
                 >
                   Reject All
                 </button>

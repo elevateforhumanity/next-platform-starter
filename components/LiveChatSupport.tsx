@@ -124,7 +124,7 @@ export function LiveChatSupport() {
           >
             <div
               className={`max-w-[80%] rounded-lg p-3 ${
-                msg.sender === 'user' ? 'bg-brand-orange-600 text-white' : 'bg-gray-100 text-black'
+                msg.sender === 'user' ? 'bg-brand-orange-600 text-white' : 'bg-slate-100 text-black'
               }`}
             >
               <p className="text-sm">{msg.text}</p>

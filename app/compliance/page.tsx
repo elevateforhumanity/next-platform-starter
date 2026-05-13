@@ -71,7 +71,7 @@ export default async function CompliancePage() {
                   <th className="px-4 py-3 text-left font-semibold text-slate-900">How Earned</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 {programCredentials.map((row, i) => (
                   <tr key={i} className="hover:bg-white">
                     <td className="px-4 py-3 font-medium text-slate-900">{row.program}</td>

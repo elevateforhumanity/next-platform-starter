@@ -51,7 +51,7 @@ export default function VideoPlayer({
 
   if (!url) {
     return (
-      <div className="aspect-video bg-gray-900 rounded-lg flex items-center justify-center">
+      <div className="aspect-video bg-slate-900 rounded-lg flex items-center justify-center">
         <div className="text-center text-white">
           <Play className="h-16 w-16 mx-auto mb-4 opacity-50" />
           <p className="text-sm opacity-75">No video URL provided</p>
@@ -118,7 +118,7 @@ export default function VideoPlayer({
 
   // Fallback for unrecognized URLs
   return (
-    <div className="aspect-video bg-gray-900 rounded-lg flex items-center justify-center">
+    <div className="aspect-video bg-slate-900 rounded-lg flex items-center justify-center">
       <div className="text-center text-white p-6">
         <Play className="h-16 w-16 mx-auto mb-4 opacity-50" />
         <p className="text-sm opacity-75 mb-2">Unsupported video format</p>

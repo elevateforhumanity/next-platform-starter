@@ -81,7 +81,7 @@ export default async function ProgramHolderStudentsPage() {
               <input
                 type="text"
                 placeholder="Search students..."
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg"
+                className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg"
               />
             </div>
           </div>
@@ -112,7 +112,7 @@ export default async function ProgramHolderStudentsPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 {students.map((student) => (
                   <tr key={student.id} className="hover:bg-white">
                     <td className="px-6 py-4">
@@ -124,7 +124,7 @@ export default async function ProgramHolderStudentsPage() {
                     <td className="px-6 py-4 text-slate-700">{student.program}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center gap-2">
-                        <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full ${student.progress === 100 ? 'bg-brand-green-500' : 'bg-brand-blue-500'}`}
                             style={{ width: `${student.progress}%` }}

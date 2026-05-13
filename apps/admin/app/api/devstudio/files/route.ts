@@ -174,8 +174,8 @@ export async function PUT(request: NextRequest) {
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      return safeError((err as { message?: string }).message ?? 'GitHub API error', res.status);
+      await res.json().catch(() => ({})); // consume body; detail logged server-side only
+      return safeError('GitHub API error', res.status);
     }
 
     const result = await res.json();
@@ -218,7 +218,7 @@ export async function POST(request: NextRequest) {
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       if (res.status === 422) return safeError('File already exists', 409);
-      return safeError((err as { message?: string }).message ?? 'GitHub API error', res.status);
+      return safeError('GitHub API error', res.status);
     }
 
     const result = await res.json();
@@ -260,7 +260,7 @@ export async function DELETE(request: NextRequest) {
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       if (res.status === 404) return safeError('File not found', 404);
-      return safeError((err as { message?: string }).message ?? 'GitHub API error', res.status);
+      return safeError('GitHub API error', res.status);
     }
 
     return NextResponse.json({ ok: true, path: body.path });

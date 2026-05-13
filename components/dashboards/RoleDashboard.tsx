@@ -126,7 +126,7 @@ export default function RoleDashboard({ role, userName }: RoleDashboardProps) {
                 </Link>
                 <Link
                   href={config.secondaryAction.href}
-                  className="px-8 py-3 bg-gray-100 text-black font-semibold rounded-lg hover:bg-gray-200 transition border-2 border-gray-300"
+                  className="px-8 py-3 bg-slate-100 text-black font-semibold rounded-lg hover:bg-slate-200 transition border-2 border-slate-300"
                 >
                   {config.secondaryAction.label}
                 </Link>

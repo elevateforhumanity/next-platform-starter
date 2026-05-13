@@ -119,7 +119,7 @@ export default function GrievancePage() {
             ].map((item) => (
               <div
                 key={item}
-                className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex items-start gap-3"
+                className="bg-white border border-slate-200 rounded-lg px-4 py-3 flex items-start gap-3"
               >
                 <AlertTriangle className="w-4 h-4 text-amber-500 mt-1 flex-shrink-0" />
                 <span className="text-slate-700 text-sm">{item}</span>
@@ -134,7 +134,7 @@ export default function GrievancePage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-slate-900 mb-6">How to Submit a Grievance</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
+            <div className="bg-white border border-slate-200 rounded-xl p-6">
               <Mail className="w-6 h-6 text-brand-blue-600 mb-3" />
               <h3 className="font-bold text-slate-900 mb-2">By Email</h3>
               <p className="text-slate-600 text-sm mb-2">Send your written grievance to:</p>
@@ -145,7 +145,7 @@ export default function GrievancePage() {
                 grievance@elevateforhumanity.org
               </a>
             </div>
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
+            <div className="bg-white border border-slate-200 rounded-xl p-6">
               <Phone className="w-6 h-6 text-brand-blue-600 mb-3" />
               <h3 className="font-bold text-slate-900 mb-2">By Phone</h3>
               <p className="text-slate-600 text-sm mb-2">
@@ -186,7 +186,7 @@ export default function GrievancePage() {
       {/* EEO Notice */}
       <section className="py-8">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 text-sm text-slate-600">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 text-sm text-slate-600">
             <p className="font-semibold text-slate-900 mb-2">Equal Opportunity Notice</p>
             <p>
               Elevate for Humanity is an equal opportunity employer/program. Auxiliary aids and

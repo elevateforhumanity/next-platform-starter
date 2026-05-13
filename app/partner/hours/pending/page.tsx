@@ -235,7 +235,7 @@ export default function PartnerHoursPendingPage() {
             <p className="text-slate-700 mb-6">No pending hours to review.</p>
             <Link
               href="/partner/hours"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white text-slate-900 rounded-lg hover:bg-gray-200"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white text-slate-900 rounded-lg hover:bg-slate-200"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Hours

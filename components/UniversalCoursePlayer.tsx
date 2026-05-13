@@ -69,7 +69,7 @@ export function UniversalCoursePlayer({
   const displayUrl = scormLaunchUrl || courseUrl;
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col h-screen bg-slate-50">
       {/* Header */}
       <div className="bg-white border-b px-6 py-4 shadow-sm">
         <div className="flex items-center justify-between">
@@ -81,7 +81,7 @@ export function UniversalCoursePlayer({
               <ArrowLeft className="w-5 h-5" />
               <span className="font-medium">Back to Courses</span>
             </button>
-            <div className="h-6 w-px bg-gray-300" />
+            <div className="h-6 w-px bg-slate-300" />
             <div>
               <h1 className="text-lg font-semibold text-black">{courseName}</h1>
               <p className="text-sm text-black">{partnerName}</p>
@@ -92,7 +92,7 @@ export function UniversalCoursePlayer({
             {!isScorm && (
               <button
                 onClick={() => setUseIframe(!useIframe)}
-                className="px-4 py-2 text-sm font-medium text-black bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-black bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors"
               >
                 {useIframe ? 'Open in New Tab' : 'Embed Course'}
               </button>

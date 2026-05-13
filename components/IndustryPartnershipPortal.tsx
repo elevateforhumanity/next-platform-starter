@@ -144,7 +144,7 @@ export default function IndustryPartnershipPortal() {
                     className={`px-3 py-2 rounded text-sm ${
                       partner.status === 'active'
                         ? 'bg-brand-green-100 text-brand-green-700'
-                        : 'bg-gray-100 text-black'
+                        : 'bg-slate-100 text-black'
                     }`}
                   >
                     {partner.status}

@@ -63,7 +63,7 @@ function SamGovScreenshot({ variant }: { variant: string }) {
   return (
     <div className="bg-white rounded-xl shadow-2xl overflow-hidden border">
       {/* Browser Chrome */}
-      <div className="bg-gray-100 px-4 py-2.5 flex items-center gap-2 border-b">
+      <div className="bg-slate-100 px-4 py-2.5 flex items-center gap-2 border-b">
         <div className="flex gap-1.5">
           <div className="w-3 h-3 rounded-full bg-brand-red-400" />
           <div className="w-3 h-3 rounded-full bg-yellow-400" />
@@ -108,7 +108,7 @@ function SamGovScreenshot({ variant }: { variant: string }) {
             <button
               key={tab}
               className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
-                i === 0 ? 'bg-gray-50 text-brand-blue-900' : 'text-white hover:bg-brand-blue-800'
+                i === 0 ? 'bg-slate-50 text-brand-blue-900' : 'text-white hover:bg-brand-blue-800'
               }`}
             >
               {tab}
@@ -118,7 +118,7 @@ function SamGovScreenshot({ variant }: { variant: string }) {
       </div>
 
       {/* Dashboard Content */}
-      <div className="p-6 bg-gray-50">
+      <div className="p-6 bg-slate-50">
         {/* Stats Row */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[
@@ -155,7 +155,7 @@ function SamGovScreenshot({ variant }: { variant: string }) {
                 <div key={i} className="flex items-center gap-3">
                   <div
                     className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                      item.status === 'complete' ? 'bg-brand-green-100' : 'bg-gray-100'
+                      item.status === 'complete' ? 'bg-brand-green-100' : 'bg-slate-100'
                     }`}
                   >
                     {item.status === 'complete' ? (
@@ -204,7 +204,7 @@ function GrantsScreenshot({ variant }: { variant: string }) {
   return (
     <div className="bg-white rounded-xl shadow-2xl overflow-hidden border">
       {/* Browser Chrome */}
-      <div className="bg-gray-100 px-4 py-2.5 flex items-center gap-2 border-b">
+      <div className="bg-slate-100 px-4 py-2.5 flex items-center gap-2 border-b">
         <div className="flex gap-1.5">
           <div className="w-3 h-3 rounded-full bg-brand-red-400" />
           <div className="w-3 h-3 rounded-full bg-yellow-400" />
@@ -249,7 +249,7 @@ function GrantsScreenshot({ variant }: { variant: string }) {
             <button
               key={tab}
               className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
-                i === 0 ? 'bg-gray-50 text-brand-green-900' : 'text-white hover:bg-brand-green-700'
+                i === 0 ? 'bg-slate-50 text-brand-green-900' : 'text-white hover:bg-brand-green-700'
               }`}
             >
               {tab}
@@ -259,7 +259,7 @@ function GrantsScreenshot({ variant }: { variant: string }) {
       </div>
 
       {/* Content */}
-      <div className="p-6 bg-gray-50">
+      <div className="p-6 bg-slate-50">
         {/* Search Bar */}
         <div className="flex gap-4 mb-6">
           <div className="flex-1 relative">
@@ -353,7 +353,7 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
   return (
     <div className="bg-white rounded-xl shadow-2xl overflow-hidden border">
       {/* Browser Chrome */}
-      <div className="bg-gray-100 px-4 py-2.5 flex items-center gap-2 border-b">
+      <div className="bg-slate-100 px-4 py-2.5 flex items-center gap-2 border-b">
         <div className="flex gap-1.5">
           <div className="w-3 h-3 rounded-full bg-brand-red-400" />
           <div className="w-3 h-3 rounded-full bg-yellow-400" />
@@ -391,7 +391,7 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
       {/* Editor Layout */}
       <div className="flex h-80">
         {/* Left Sidebar - Blocks */}
-        <div className="w-48 bg-gray-50 border-r p-3">
+        <div className="w-48 bg-slate-50 border-r p-3">
           <p className="text-xs font-medium text-slate-700 mb-2">ADD BLOCKS</p>
           <div className="space-y-2">
             {[
@@ -403,7 +403,7 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
             ].map((block, i) => (
               <button
                 key={i}
-                className="w-full flex items-center gap-2 p-2 border rounded bg-white text-xs hover:bg-gray-50"
+                className="w-full flex items-center gap-2 p-2 border rounded bg-white text-xs hover:bg-slate-50"
               >
                 <block.icon className="w-4 h-4 text-slate-700" />
                 {block.name}
@@ -413,7 +413,7 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
         </div>
 
         {/* Canvas */}
-        <div className="flex-1 bg-gray-100 p-4 overflow-auto">
+        <div className="flex-1 bg-slate-100 p-4 overflow-auto">
           <div className="bg-white rounded-lg shadow-sm border max-w-2xl mx-auto">
             {/* Hero Block */}
             <div className="bg-gradient-to-r from-brand-blue-600 to-brand-blue-800 text-white p-8 rounded-t-lg">
@@ -513,10 +513,10 @@ export function AppScreenshotMobile({ app }: { app: 'sam-gov' | 'grants' | 'webs
   return (
     <div className="w-64 mx-auto">
       {/* Phone Frame */}
-      <div className="bg-gray-900 rounded-[2.5rem] p-3 shadow-2xl">
+      <div className="bg-slate-900 rounded-[2.5rem] p-3 shadow-2xl">
         <div className="bg-white rounded-[2rem] overflow-hidden">
           {/* Status Bar */}
-          <div className="bg-gray-900 text-white px-6 py-2 flex justify-between text-xs">
+          <div className="bg-slate-900 text-white px-6 py-2 flex justify-between text-xs">
             <span>9:41</span>
             <div className="flex gap-1">
               <span>📶</span>
@@ -542,7 +542,7 @@ export function AppScreenshotMobile({ app }: { app: 'sam-gov' | 'grants' | 'webs
           </div>
 
           {/* Content */}
-          <div className="p-4 h-96 bg-gray-50">
+          <div className="p-4 h-96 bg-slate-50">
             <div className="bg-white rounded-xl p-4 border mb-3">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-slate-700">Status</span>
@@ -556,9 +556,9 @@ export function AppScreenshotMobile({ app }: { app: 'sam-gov' | 'grants' | 'webs
             <div className="grid grid-cols-2 gap-3">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="bg-white rounded-xl p-3 border">
-                  <div className="w-8 h-8 bg-gray-100 rounded-lg mb-2" />
-                  <div className="h-2 bg-gray-200 rounded w-3/4 mb-1" />
-                  <div className="h-2 bg-gray-100 rounded w-1/2" />
+                  <div className="w-8 h-8 bg-slate-100 rounded-lg mb-2" />
+                  <div className="h-2 bg-slate-200 rounded w-3/4 mb-1" />
+                  <div className="h-2 bg-slate-100 rounded w-1/2" />
                 </div>
               ))}
             </div>
@@ -569,7 +569,7 @@ export function AppScreenshotMobile({ app }: { app: 'sam-gov' | 'grants' | 'webs
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className={`w-6 h-6 rounded ${i === 1 ? `bg-${color.accent}-600` : 'bg-gray-200'}`}
+                className={`w-6 h-6 rounded ${i === 1 ? `bg-${color.accent}-600` : 'bg-slate-200'}`}
               />
             ))}
           </div>

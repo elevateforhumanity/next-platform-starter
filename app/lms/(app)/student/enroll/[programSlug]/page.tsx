@@ -119,7 +119,7 @@ export default async function EnrollProgramPage({ params }: Props) {
               </Link>
               <Link
                 href={`/programs/${course.slug}`}
-                className="flex-1 border border-gray-300 text-slate-900 text-center py-3 px-6 rounded-lg font-semibold hover:bg-slate-50 transition"
+                className="flex-1 border border-slate-300 text-slate-900 text-center py-3 px-6 rounded-lg font-semibold hover:bg-slate-50 transition"
               >
                 View Program Details
               </Link>

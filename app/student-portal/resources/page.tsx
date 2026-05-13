@@ -183,7 +183,7 @@ export default async function StudentPortalResourcesPage() {
         </div>
       </section>
 
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <Breadcrumbs
             items={[{ label: 'Student Portal', href: '/student-portal' }, { label: 'Resources' }]}
@@ -222,7 +222,7 @@ export default async function StudentPortalResourcesPage() {
                     href={resource.href}
                     target={resource.external ? '_blank' : undefined}
                     rel={resource.external ? 'noopener noreferrer' : undefined}
-                    className="group bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md hover:border-brand-blue-200 transition-all flex flex-col"
+                    className="group bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-md hover:border-brand-blue-200 transition-all flex flex-col"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="w-10 h-10 bg-brand-blue-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-brand-blue-100 transition-colors">

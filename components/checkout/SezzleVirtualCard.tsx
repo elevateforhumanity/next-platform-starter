@@ -230,7 +230,7 @@ export default function SezzleVirtualCard({
       )}
 
       {/* Security Notice */}
-      <div className="flex items-start gap-3 mt-6 p-4 bg-gray-50 rounded-lg">
+      <div className="flex items-start gap-3 mt-6 p-4 bg-slate-50 rounded-lg">
         <Shield className="w-5 h-5 text-slate-700 flex-shrink-0 mt-0.5" />
         <div className="text-sm text-slate-700">
           <p className="font-medium text-slate-900">Secure Virtual Card</p>
@@ -242,11 +242,11 @@ export default function SezzleVirtualCard({
       </div>
 
       {/* Payment Schedule */}
-      <div className="mt-6 p-4 border border-gray-200 rounded-lg">
+      <div className="mt-6 p-4 border border-slate-200 rounded-lg">
         <h3 className="font-medium text-slate-900 mb-3">Your Payment Schedule</h3>
         <div className="grid grid-cols-4 gap-2 text-center text-sm">
           {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="p-2 bg-gray-50 rounded">
+            <div key={i} className="p-2 bg-slate-50 rounded">
               <p className="text-slate-700 text-xs">{i === 0 ? 'Today' : `+${i * 2} weeks`}</p>
               <p className="font-semibold text-slate-900">${(amount / 4).toFixed(2)}</p>
             </div>

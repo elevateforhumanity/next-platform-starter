@@ -7,7 +7,7 @@ interface SkeletonProps {
 }
 
 export function Skeleton({ className }: SkeletonProps) {
-  return <div className={cn('animate-pulse rounded-md bg-gray-200', className)} />;
+  return <div className={cn('animate-pulse rounded-md bg-slate-200', className)} />;
 }
 
 export function CardSkeleton() {
@@ -63,7 +63,7 @@ export function PageSkeleton() {
 
       {/* Table */}
       <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
-        <div className="bg-gray-50 border-b px-6 py-4">
+        <div className="bg-slate-50 border-b px-6 py-4">
           <Skeleton className="h-4 w-full max-w-md" />
         </div>
         <table className="w-full">

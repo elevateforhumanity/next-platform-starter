@@ -61,7 +61,7 @@ export default function IPLAExamSignup() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Hero */}
       <section className="relative h-[40vh] min-h-[280px] max-h-[400px]">
         <Image
@@ -223,7 +223,7 @@ export default function IPLAExamSignup() {
                       className={`w-full px-4 py-3 rounded-lg border-2 text-left font-semibold transition ${
                         selectedDate === date
                           ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-900'
-                          : 'border-gray-300 hover:border-brand-blue-400'
+                          : 'border-slate-300 hover:border-brand-blue-400'
                       }`}
                     >
                       {new Date(date).toLocaleDateString('en-US', {
@@ -247,7 +247,7 @@ export default function IPLAExamSignup() {
                       className={`w-full px-4 py-3 rounded-lg border-2 text-left font-semibold transition ${
                         selectedTime === time
                           ? 'border-brand-green-600 bg-brand-green-50 text-brand-green-900'
-                          : 'border-gray-300 hover:border-brand-green-400 disabled:opacity-50 disabled:cursor-not-allowed'
+                          : 'border-slate-300 hover:border-brand-green-400 disabled:opacity-50 disabled:cursor-not-allowed'
                       }`}
                     >
                       {time}
@@ -264,7 +264,7 @@ export default function IPLAExamSignup() {
               <CreditCard className="w-6 h-6" />
               Payment
             </h2>
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
+            <div className="bg-slate-50 rounded-lg p-6 mb-6">
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between items-center">
                   <span className="text-base">IPLA Application Fee</span>
@@ -304,7 +304,7 @@ export default function IPLAExamSignup() {
                 !selectedTime ||
                 loading
               }
-              className="w-full bg-brand-green-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-brand-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+              className="w-full bg-brand-green-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-brand-green-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition"
             >
               {loading ? 'Processing...' : 'Pay $105 & Schedule Exam'}
             </button>

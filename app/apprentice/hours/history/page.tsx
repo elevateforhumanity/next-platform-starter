@@ -117,7 +117,7 @@ export default async function HoursHistoryPage() {
               {approvedHours} / {targetHours}
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-4">
+          <div className="w-full bg-slate-200 rounded-full h-4">
             <div
               className="bg-white h-4 rounded-full transition-all"
               style={{ width: `${Math.min(100, progressPercent)}%` }}

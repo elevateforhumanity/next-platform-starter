@@ -44,7 +44,7 @@ export default function SezzlePaymentCard({
         ${
           selected
             ? 'border-purple-600 bg-purple-50 shadow-md'
-            : 'border-gray-200 bg-white hover:border-purple-300 hover:shadow-sm'
+            : 'border-slate-200 bg-white hover:border-purple-300 hover:shadow-sm'
         }
         ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
       `}
@@ -68,7 +68,7 @@ export default function SezzlePaymentCard({
       </div>
 
       {/* Payment breakdown */}
-      <div className="bg-white rounded-lg border border-gray-100 p-4 mb-4">
+      <div className="bg-white rounded-lg border border-slate-100 p-4 mb-4">
         <div className="grid grid-cols-4 gap-2 text-center">
           {[0, 1, 2, 3].map((i) => (
             <div key={i} className="flex flex-col">
@@ -101,7 +101,7 @@ export default function SezzlePaymentCard({
       </div>
 
       {/* Total */}
-      <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
+      <div className="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
         <span className="text-slate-700">Total</span>
         <span className="text-lg font-bold text-slate-900">${price.toFixed(2)}</span>
       </div>
@@ -148,7 +148,7 @@ export function SezzleInfoTooltip() {
       </button>
 
       {isOpen && (
-        <div className="absolute bottom-full left-0 mb-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50">
+        <div className="absolute bottom-full left-0 mb-2 w-64 bg-white border border-slate-200 rounded-lg shadow-lg p-4 z-50">
           <h4 className="font-semibold text-slate-900 mb-2">Buy Now, Pay Later</h4>
           <ul className="text-sm text-slate-700 space-y-1">
             <li>• Split into 4 payments over 6 weeks</li>
@@ -156,7 +156,7 @@ export function SezzleInfoTooltip() {
             <li>• No impact on your credit score</li>
             <li>• Instant approval decision</li>
           </ul>
-          <div className="mt-3 pt-3 border-t border-gray-100">
+          <div className="mt-3 pt-3 border-t border-slate-100">
             <a
               href="https://sezzle.com/how-it-works"
               target="_blank"

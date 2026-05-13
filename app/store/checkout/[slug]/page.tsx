@@ -63,7 +63,7 @@ function CheckoutForm({ product }: { product: any }) {
       <button
         type="submit"
         disabled={!stripe || processing}
-        className="w-full bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold py-4 rounded-lg transition disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold py-4 rounded-lg transition disabled:bg-slate-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {processing ? (
           <>

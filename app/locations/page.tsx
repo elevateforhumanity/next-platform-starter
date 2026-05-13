@@ -98,7 +98,7 @@ export default async function LocationsPage() {
         {mainOffice && (
           <section className="mb-16">
             <h2 className="text-2xl font-bold text-slate-900 mb-8">Main Campus</h2>
-            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8">
+            <div className="bg-white border-2 border-slate-200 rounded-2xl p-8">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-2xl font-bold text-slate-900 mb-4">{mainOffice.name}</h3>

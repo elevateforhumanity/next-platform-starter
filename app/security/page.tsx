@@ -145,7 +145,7 @@ export default function SecurityPage() {
                 {certifications.map((cert: any) => (
                   <div
                     key={cert.id}
-                    className="bg-white rounded-lg shadow-sm p-6 border-2 border-gray-100"
+                    className="bg-white rounded-lg shadow-sm p-6 border-2 border-slate-100"
                   >
                     <div className="flex items-center justify-between mb-3">
                       <Shield className="w-8 h-8 text-brand-blue-600" />

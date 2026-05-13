@@ -67,7 +67,7 @@ export default async function EmployerPostingDetailPage({ params }: Props) {
           </div>
           <Link
             href={`/employer/postings/${id}/edit`}
-            className="px-4 py-2 rounded-lg border text-sm font-semibold text-slate-900 hover:bg-gray-50 whitespace-nowrap"
+            className="px-4 py-2 rounded-lg border text-sm font-semibold text-slate-900 hover:bg-slate-50 whitespace-nowrap"
           >
             Edit Job
           </Link>
@@ -105,7 +105,7 @@ export default async function EmployerPostingDetailPage({ params }: Props) {
                     </p>
                   </div>
                   <span
-                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusColors[app.status] ?? 'bg-gray-100 text-slate-700'}`}
+                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusColors[app.status] ?? 'bg-slate-100 text-slate-700'}`}
                   >
                     {app.status ?? 'pending'}
                   </span>
@@ -117,7 +117,7 @@ export default async function EmployerPostingDetailPage({ params }: Props) {
 
         <Link
           href="/employer/jobs"
-          className="inline-block px-5 py-2.5 rounded-lg border text-sm font-semibold text-slate-900 hover:bg-gray-50"
+          className="inline-block px-5 py-2.5 rounded-lg border text-sm font-semibold text-slate-900 hover:bg-slate-50"
         >
           ← Back to Jobs
         </Link>

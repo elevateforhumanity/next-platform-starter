@@ -65,7 +65,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             id="first_name"
             name="first_name"
             defaultValue={profile?.first_name || ''}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             placeholder="Enter your first name"
           />
         </div>
@@ -79,7 +79,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             id="last_name"
             name="last_name"
             defaultValue={profile?.last_name || ''}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             placeholder="Enter your last name"
           />
         </div>
@@ -94,7 +94,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           id="phone"
           name="phone"
           defaultValue={profile?.phone || ''}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+          className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           placeholder="(317) 314-3757"
         />
       </div>
@@ -108,7 +108,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           name="bio"
           rows={4}
           defaultValue={profile?.bio || ''}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+          className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           placeholder="Tell us about yourself..."
         />
       </div>

@@ -151,14 +151,14 @@ export default function VideoTestimonials() {
           {/* Navigation Buttons */}
           <button
             onClick={handlePrevious}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center hover:bg-gray-50 transition-colors"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center hover:bg-slate-50 transition-colors"
           >
             <ChevronLeft className="w-6 h-6 text-black" />
           </button>
 
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center hover:bg-gray-50 transition-colors"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center hover:bg-slate-50 transition-colors"
           >
             <ChevronRight className="w-6 h-6 text-black" />
           </button>
@@ -252,7 +252,7 @@ export default function VideoTestimonials() {
                       </div>
 
                       {/* Salary */}
-                      <div className="pt-4 border-t border-gray-200">
+                      <div className="pt-4 border-t border-slate-200">
                         <div className="flex items-center justify-between">
                           <span className="text-sm text-black">New Salary:</span>
                           <span className="text-lg font-bold text-brand-green-600">
@@ -283,7 +283,7 @@ export default function VideoTestimonials() {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentIndex ? 'bg-brand-blue-600 w-8' : 'bg-gray-300 hover:bg-gray-400'
+                  index === currentIndex ? 'bg-brand-blue-600 w-8' : 'bg-slate-300 hover:bg-slate-400'
                 }`}
               />
             ))}
@@ -394,7 +394,7 @@ export default function VideoTestimonials() {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4 mb-4">
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-slate-50 rounded-lg p-4">
                     <div className="text-xs font-semibold text-slate-700 mb-1">BEFORE</div>
                     <div className="text-black">{selectedVideo.beforeJob}</div>
                   </div>
@@ -418,7 +418,7 @@ export default function VideoTestimonials() {
                   </a>
                   <a
                     href="/programs"
-                    className="flex-1 px-6 py-3 bg-gray-100 text-black rounded-lg font-semibold hover:bg-gray-200 transition-all text-center"
+                    className="flex-1 px-6 py-3 bg-slate-100 text-black rounded-lg font-semibold hover:bg-slate-200 transition-all text-center"
                   >
                     View Programs
                   </a>

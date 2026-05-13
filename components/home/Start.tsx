@@ -15,7 +15,7 @@ export default function Start() {
           </Link>
           <Link
             href="/wioa-eligibility"
-            className="px-8 py-4 bg-white text-brand-red-600 text-lg font-semibold rounded border-2 border-brand-red-600 hover:bg-gray-50 transition"
+            className="px-8 py-4 bg-white text-brand-red-600 text-lg font-semibold rounded border-2 border-brand-red-600 hover:bg-slate-50 transition"
           >
             Check Eligibility
           </Link>

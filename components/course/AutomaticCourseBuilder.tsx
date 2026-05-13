@@ -134,7 +134,7 @@ export default function AutomaticCourseBuilder() {
         <p className="text-sm text-slate-700 mt-1">
           Generates a complete 24-lesson course (5 modules, 3 checkpoints, 1 exam) using GPT-4o and
           publishes it immediately. Requires{' '}
-          <code className="bg-gray-100 px-1 rounded text-xs">OPENAI_API_KEY</code> to be set in
+          <code className="bg-slate-100 px-1 rounded text-xs">OPENAI_API_KEY</code> to be set in
           environment variables.
         </p>
       </div>
@@ -149,7 +149,7 @@ export default function AutomaticCourseBuilder() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. CNA Certification Prep — Indiana NATCEP"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           />
         </div>
 
@@ -162,7 +162,7 @@ export default function AutomaticCourseBuilder() {
             value={audience}
             onChange={(e) => setAudience(e.target.value)}
             placeholder="e.g. Adults seeking entry-level healthcare employment"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           />
         </div>
 
@@ -175,7 +175,7 @@ export default function AutomaticCourseBuilder() {
               onChange={(e) => setHours(e.target.value)}
               placeholder="e.g. 75"
               min={1}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
             />
           </div>
           <div>
@@ -183,7 +183,7 @@ export default function AutomaticCourseBuilder() {
             <select
               value={state}
               onChange={(e) => setState(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
             >
               <option value="">— Any —</option>
               {US_STATES.map((s) => (
@@ -204,7 +204,7 @@ export default function AutomaticCourseBuilder() {
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             placeholder="e.g. EPA 608, NCLEX-PN, CompTIA A+"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
 
@@ -215,7 +215,7 @@ export default function AutomaticCourseBuilder() {
             value={deliveryFormat}
             onChange={(e) => setDeliveryFormat(e.target.value)}
             placeholder="e.g. Hybrid — online theory + in-person lab"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
 
@@ -228,7 +228,7 @@ export default function AutomaticCourseBuilder() {
             onChange={(e) => setPrompt(e.target.value)}
             rows={3}
             placeholder="Specific topics, compliance requirements, or content notes..."
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 resize-none"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 resize-none"
           />
         </div>
 
@@ -244,7 +244,7 @@ export default function AutomaticCourseBuilder() {
             value={programId}
             onChange={(e) => setProgramId(e.target.value)}
             placeholder="UUID from programs table"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
 

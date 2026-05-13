@@ -18,7 +18,7 @@ export default async function ProgressPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Policies', href: '/policies' }, { label: 'Progress' }]} />
       </div>
@@ -89,7 +89,7 @@ export default async function ProgressPage() {
             </ul>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">What Counts in Evaluation</h3>
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <p className="text-black mb-4">
                 <strong>Included in SAP calculation:</strong>
               </p>
@@ -187,7 +187,7 @@ export default async function ProgressPage() {
             </ul>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">How to Appeal</h3>
-            <div className="bg-gray-50 rounded-xl p-8 border-2 border-gray-200 mb-6">
+            <div className="bg-slate-50 rounded-xl p-8 border-2 border-slate-200 mb-6">
               <ol className="list-decimal pl-6 text-black space-y-3">
                 <li>
                   <strong>Submit written appeal within 10 business days</strong>

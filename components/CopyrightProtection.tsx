@@ -109,7 +109,7 @@ export function ContentIdentifier({ pageId }: { pageId: string }) {
 export function CopyrightFooter() {
   const year = new Date().getFullYear();
   return (
-    <div className="bg-gray-900 text-white py-3 px-4 text-center text-sm">
+    <div className="bg-slate-900 text-white py-3 px-4 text-center text-sm">
       <p className="mb-1">© {year} Elevate for Humanity. All Rights Reserved.</p>
       <div className="flex justify-center gap-4 text-xs text-slate-400">
         <a href="/legal" className="hover:text-white transition-colors">Terms</a>

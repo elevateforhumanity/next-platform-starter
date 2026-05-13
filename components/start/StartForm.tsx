@@ -37,7 +37,7 @@ const FUNDING_OPTIONS = [
 ];
 
 const inputClass =
-  'w-full rounded-xl border border-gray-300 px-4 py-3 text-slate-900 focus:border-brand-blue-500 focus:ring-2 focus:ring-brand-blue-200 focus:outline-none transition';
+  'w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-brand-blue-500 focus:ring-2 focus:ring-brand-blue-200 focus:outline-none transition';
 const selectClass = `${inputClass} bg-white`;
 
 export default function StartForm() {
@@ -93,7 +93,7 @@ export default function StartForm() {
 
   if (submitState.type === 'success') {
     return (
-      <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-green-100">
           <svg
             className="h-6 w-6 text-brand-green-600"
@@ -111,7 +111,7 @@ export default function StartForm() {
           guide you through them.
         </p>
 
-        <div className="mt-6 rounded-2xl bg-gray-50 p-4">
+        <div className="mt-6 rounded-2xl bg-slate-50 p-4">
           <div className="font-medium text-slate-900">Track your status</div>
           <a
             href={`/status/application?token=${submitState.statusToken}`}
@@ -131,7 +131,7 @@ export default function StartForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm"
+      className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
     >
       <h2 className="mb-6 text-xl font-bold text-slate-900">Start your application</h2>
 

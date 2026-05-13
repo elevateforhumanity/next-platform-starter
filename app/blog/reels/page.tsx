@@ -37,7 +37,7 @@ export default function ReelsPage() {
   const reels: any[] = [];
 
   return (
-    <div className="bg-gray-950 min-h-screen">
+    <div className="bg-slate-950 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Reels' }]} />
       </div>

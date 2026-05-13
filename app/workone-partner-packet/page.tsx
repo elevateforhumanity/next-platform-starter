@@ -168,7 +168,7 @@ export default function WorkOnePartnerPacketPage() {
                   sizes="100vw"
                 />
               </div>
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
                 <h3 className="text-xl font-bold text-slate-900 mb-6">What Makes Us Different</h3>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
@@ -233,7 +233,7 @@ export default function WorkOnePartnerPacketPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-32 overflow-hidden">
                 <Image
                   src="/images/pages/partner-page-1.jpg"
@@ -256,7 +256,7 @@ export default function WorkOnePartnerPacketPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-32 overflow-hidden">
                 <Image
                   src="/images/pages/partner-page-14.webp"
@@ -279,7 +279,7 @@ export default function WorkOnePartnerPacketPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-32 overflow-hidden">
                 <Image
                   src="/images/pages/workone-packet-1.webp"
@@ -302,7 +302,7 @@ export default function WorkOnePartnerPacketPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-32 overflow-hidden">
                 <Image
                   src="/images/pages/workone-packet-2.jpg"
@@ -394,7 +394,7 @@ export default function WorkOnePartnerPacketPage() {
             ].map((program, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200"
+                className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200"
               >
                 <div className="relative h-40 overflow-hidden">
                   <Image

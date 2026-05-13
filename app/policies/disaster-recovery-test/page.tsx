@@ -23,7 +23,7 @@ export default async function DisasterRecoveryTestPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <Breadcrumbs
           items={[{ label: 'Policies', href: '/policies' }, { label: 'Disaster Recovery Test' }]}
@@ -54,7 +54,7 @@ export default async function DisasterRecoveryTestPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Test Overview</h2>
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
+            <div className="bg-slate-50 rounded-lg p-6 mb-6">
               <dl className="grid md:grid-cols-2 gap-4 m-0">
                 <div>
                   <dt className="font-semibold text-slate-600">Test Type</dt>
@@ -133,15 +133,15 @@ export default async function DisasterRecoveryTestPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Detailed Timeline</h2>
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-6">
+            <div className="bg-white rounded-lg border border-slate-200 overflow-hidden mb-6">
               <table className="w-full text-left">
-                <thead className="bg-gray-50">
+                <thead className="bg-slate-50">
                   <tr>
                     <th className="px-4 py-3 font-semibold text-black">Timestamp (UTC)</th>
                     <th className="px-4 py-3 font-semibold text-black">Event</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-slate-200">
                   <tr>
                     <td className="px-4 py-3 text-black">12:00:00</td>
                     <td className="px-4 py-3 text-black">DR test initiated</td>
@@ -213,7 +213,7 @@ export default async function DisasterRecoveryTestPage() {
               <strong> April 2026</strong>.
             </p>
 
-            <div className="bg-gray-50 border-l-4 border-gray-400 p-6 mt-8">
+            <div className="bg-slate-50 border-l-4 border-slate-400 p-6 mt-8">
               <p className="text-black mb-2">
                 <strong>Related Documentation:</strong>
               </p>

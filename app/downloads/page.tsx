@@ -164,7 +164,7 @@ export default async function DownloadsPage() {
   const displayGuides = guides.length > 0 ? guides : defaultResources.guides;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Downloads & Resources' }]} />
       </div>
@@ -201,7 +201,7 @@ export default async function DownloadsPage() {
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="#handbooks"
-              className="flex items-center gap-2 px-6 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-2 px-6 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-slate-100 transition-colors"
             >
               <BookOpen className="w-5 h-5" />
               <span className="font-semibold">Handbooks</span>
@@ -437,7 +437,7 @@ export default async function DownloadsPage() {
                 </Link>
                 <Link
                   href="/legal/student-handbook"
-                  className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors font-semibold border-2 border-blue-600"
+                  className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-slate-50 transition-colors font-semibold border-2 border-blue-600"
                 >
                   View Student Handbook
                 </Link>
@@ -448,7 +448,7 @@ export default async function DownloadsPage() {
       </section>
 
       {/* Accessibility Notice */}
-      <section className="py-8 bg-gray-100">
+      <section className="py-8 bg-slate-100">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center text-sm text-slate-600">
             <p>

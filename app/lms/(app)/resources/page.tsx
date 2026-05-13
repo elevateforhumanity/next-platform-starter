@@ -225,7 +225,7 @@ export default async function ResourcesPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex flex-col items-center p-4 bg-white rounded-xl border border-gray-200 hover:border-brand-blue-500 hover:shadow-md transition-all"
+                className="flex flex-col items-center p-4 bg-white rounded-xl border border-slate-200 hover:border-brand-blue-500 hover:shadow-md transition-all"
               >
                 <link.icon className="w-6 h-6 text-brand-blue-600 mb-2" />
                 <span className="text-sm font-medium text-slate-900 text-center">{link.title}</span>
@@ -286,7 +286,7 @@ export default async function ResourcesPage() {
         {/* Downloadable Resources */}
         <section className="mb-12">
           <h2 className="text-lg font-semibold text-slate-900 mb-4">Downloadable Guides</h2>
-          <div className="bg-white rounded-xl border border-gray-200 divide-y">
+          <div className="bg-white rounded-xl border border-slate-200 divide-y">
             {downloadableResources.map((resource) => (
               <div
                 key={resource.title}
@@ -303,7 +303,7 @@ export default async function ResourcesPage() {
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="text-xs text-slate-700">{resource.fileType}</span>
-                  <button className="flex items-center gap-2 px-4 py-2 bg-white text-slate-900 rounded-lg hover:bg-gray-200 transition-colors">
+                  <button className="flex items-center gap-2 px-4 py-2 bg-white text-slate-900 rounded-lg hover:bg-slate-200 transition-colors">
                     <Download className="w-4 h-4" />
                     <span className="text-sm font-medium">Download</span>
                   </button>

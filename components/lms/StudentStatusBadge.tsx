@@ -56,8 +56,8 @@ export function StudentStatusBadge({
           ),
           text: 'Getting Started',
           color: 'text-black',
-          bgColor: 'bg-gray-600',
-          lightBg: 'bg-gray-100',
+          bgColor: 'bg-slate-600',
+          lightBg: 'bg-slate-100',
         };
     }
   };
@@ -75,7 +75,7 @@ export function StudentStatusBadge({
 
       {showProgress && (
         <div className="flex items-center gap-2">
-          <div className="w-24 bg-gray-200 rounded-full h-2">
+          <div className="w-24 bg-slate-200 rounded-full h-2">
             <div
               className={`h-2 rounded-full ${badge.bgColor}`}
               style={{ width: `${progress}%` }}

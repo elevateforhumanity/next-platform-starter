@@ -74,7 +74,7 @@ export default function AcceptInviteClient({ token, invite, isLoggedIn, userEmai
   return (
     <div>
       {/* Invite summary */}
-      <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 mb-6 space-y-2 text-sm">
+      <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 mb-6 space-y-2 text-sm">
         <div className="flex justify-between">
           <span className="text-slate-700">Organization</span>
           <span className="font-medium text-slate-900">{invite.organization_name}</span>
@@ -105,7 +105,7 @@ export default function AcceptInviteClient({ token, invite, isLoggedIn, userEmai
           </a>
           <a
             href={`/signup?redirect=${encodeURIComponent(`/accept-invite?token=${token}`)}`}
-            className="block w-full rounded-md border border-gray-300 px-4 py-2 text-center text-sm font-medium text-slate-900 hover:bg-gray-50"
+            className="block w-full rounded-md border border-slate-300 px-4 py-2 text-center text-sm font-medium text-slate-900 hover:bg-slate-50"
           >
             Create account
           </a>

@@ -267,7 +267,7 @@ export default function AILiveChat({ userId, userName, userEmail }: AILiveChatPr
       {!isMinimized && (
         <>
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -284,7 +284,7 @@ export default function AILiveChat({ userId, userName, userEmail }: AILiveChatPr
                         ? 'bg-brand-blue-600'
                         : message.sender === 'agent'
                           ? 'bg-brand-green-600'
-                          : 'bg-gray-600'
+                          : 'bg-slate-600'
                     }`}
                   >
                     {message.sender === 'user' ? (
@@ -304,15 +304,15 @@ export default function AILiveChat({ userId, userName, userEmail }: AILiveChatPr
                       {message.isTyping ? (
                         <div className="flex gap-1">
                           <span
-                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                            className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
                             style={{ animationDelay: '0ms' }}
                           />
                           <span
-                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                            className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
                             style={{ animationDelay: '150ms' }}
                           />
                           <span
-                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                            className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
                             style={{ animationDelay: '300ms' }}
                           />
                         </div>
@@ -335,7 +335,7 @@ export default function AILiveChat({ userId, userName, userEmail }: AILiveChatPr
 
           {/* Quick Actions */}
           {!agentConnected && messages.length > 2 && (
-            <div className="px-4 py-2 bg-white border-t border-gray-200">
+            <div className="px-4 py-2 bg-white border-t border-slate-200">
               <button
                 onClick={requestHumanAgent}
                 disabled={isLoading}
@@ -347,7 +347,7 @@ export default function AILiveChat({ userId, userName, userEmail }: AILiveChatPr
           )}
 
           {/* Input */}
-          <div className="p-4 bg-white border-t border-gray-200 rounded-b-2xl">
+          <div className="p-4 bg-white border-t border-slate-200 rounded-b-2xl">
             <div className="flex items-end gap-2">
               <textarea
                 value={inputValue}
@@ -355,13 +355,13 @@ export default function AILiveChat({ userId, userName, userEmail }: AILiveChatPr
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
                 rows={1}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                className="flex-1 px-4 py-2 border border-slate-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 disabled={isLoading}
               />
               <button
                 onClick={sendMessage}
                 disabled={isLoading || !inputValue.trim()}
-                className="bg-brand-blue-600 text-white p-3 rounded-xl hover:bg-brand-blue-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="bg-brand-blue-600 text-white p-3 rounded-xl hover:bg-brand-blue-700 transition disabled:bg-slate-300 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

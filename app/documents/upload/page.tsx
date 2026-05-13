@@ -164,7 +164,7 @@ export default function DocumentUploadPage() {
                         ? 'bg-brand-green-50 border-brand-green-200'
                         : doc.required
                           ? 'bg-yellow-50 border-yellow-200'
-                          : 'bg-white border-gray-200'
+                          : 'bg-white border-slate-200'
                     }`}
                   >
                     <FileText
@@ -234,7 +234,7 @@ export default function DocumentUploadPage() {
                     setSsnDisplay(formatSsn(digits));
                   }}
                   disabled={ssnSaved}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500 font-mono tracking-wider disabled:bg-white"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500 font-mono tracking-wider disabled:bg-white"
                 />
               </div>
               <Button
@@ -300,7 +300,7 @@ export default function DocumentUploadPage() {
                   required
                   value={documentType}
                   onChange={(e) => setDocumentType(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500"
                 >
                   <option value="">Select document type...</option>
                   {REQUIRED_DOCUMENTS.map((doc) => (
@@ -320,7 +320,7 @@ export default function DocumentUploadPage() {
                   type="text"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500"
                   placeholder="Optional — e.g. Indiana driver's license"
                 />
               </div>
@@ -334,7 +334,7 @@ export default function DocumentUploadPage() {
                   type="file"
                   required
                   onChange={(e) => setFile(e.target.files?.[0] || null)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500"
                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
                 />
                 <p className="text-sm text-slate-700 mt-1">

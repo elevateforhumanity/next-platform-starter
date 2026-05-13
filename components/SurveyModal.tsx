@@ -102,7 +102,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => handleAnswer(currentQuestion.id, e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="Your answer..."
           />
         );
@@ -115,7 +115,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
               e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => handleAnswer(currentQuestion.id, e.target.value)}
             rows={4}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="Your answer..."
           />
         );
@@ -126,7 +126,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
             {currentQuestion.options?.map((option) => (
               <label
                 key={option}
-                className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
               >
                 <input
                   type="radio"
@@ -138,7 +138,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
                       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                     >,
                   ) => handleAnswer(currentQuestion.id, e.target.value)}
-                  className="w-5 h-5 text-brand-blue-600 border-gray-300 focus:ring-brand-blue-500"
+                  className="w-5 h-5 text-brand-blue-600 border-slate-300 focus:ring-brand-blue-500"
                 />
                 <span className="text-black">{option}</span>
               </label>
@@ -152,7 +152,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
             {currentQuestion.options?.map((option) => (
               <label
                 key={option}
-                className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
               >
                 <input
                   type="checkbox"
@@ -169,7 +169,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
                       : currentAnswers.filter((a: string) => a !== option);
                     handleAnswer(currentQuestion.id, newAnswers);
                   }}
-                  className="w-5 h-5 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+                  className="w-5 h-5 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
                 />
                 <span className="text-black">{option}</span>
               </label>
@@ -188,7 +188,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
                 className={`w-12 h-12 rounded-full font-bold transition-all ${
                   answer === rating
                     ? 'bg-brand-blue-600 text-white scale-110'
-                    : 'bg-gray-200 text-black hover:bg-gray-300'
+                    : 'bg-slate-200 text-black hover:bg-slate-300'
                 }`}
               >
                 {rating}
@@ -208,7 +208,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
               onChange={(
                 e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => handleAnswer(currentQuestion.id, parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer"
             />
             <div className="flex justify-between text-sm text-black">
               <span>0</span>
@@ -244,7 +244,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
 
           {/* Progress Bar */}
           <div className="relative">
-            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
               <div
                 className="h-full bg-brand-blue-600 transition-all duration-300"
                 style={{ width: `${progress}%` }}
@@ -275,11 +275,11 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t bg-gray-50">
+        <div className="flex items-center justify-between p-6 border-t bg-slate-50">
           <button
             onClick={handlePrevious}
             disabled={isFirstQuestion || isSubmitting}
-            className="flex items-center gap-2 px-6 py-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-2 text-black bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-4 h-4" />
             Previous
@@ -294,7 +294,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
                     ? 'bg-brand-blue-600 w-6'
                     : answers[survey.questions[index].id]
                       ? 'bg-brand-blue-400'
-                      : 'bg-gray-300'
+                      : 'bg-slate-300'
                 }`}
               />
             ))}

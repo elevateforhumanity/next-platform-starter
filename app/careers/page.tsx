@@ -137,7 +137,7 @@ export default async function CareersPage() {
               {benefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className="bg-white text-center p-8 rounded-lg border-2 border-gray-200 hover:border-brand-blue-500 hover:shadow-lg transition"
+                  className="bg-white text-center p-8 rounded-lg border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-lg transition"
                 >
                   <div className="relative w-full h-40 mb-4 overflow-hidden rounded-lg">
                     <Image
@@ -166,7 +166,7 @@ export default async function CareersPage() {
               {openPositions.map((position) => (
                 <div
                   key={position.id}
-                  className="bg-white rounded-lg border border-gray-200 p-6 hover:border-brand-blue-500 hover:shadow-lg transition"
+                  className="bg-white rounded-lg border border-slate-200 p-6 hover:border-brand-blue-500 hover:shadow-lg transition"
                 >
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div className="flex-1">

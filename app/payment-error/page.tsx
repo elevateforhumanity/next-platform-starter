@@ -46,7 +46,7 @@ function PaymentErrorContent() {
           </Link>
           <Link
             href="/contact"
-            className="border border-gray-300 text-slate-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition"
+            className="border border-slate-300 text-slate-900 px-6 py-3 rounded-lg font-semibold hover:bg-slate-50 transition"
           >
             Contact Support
           </Link>

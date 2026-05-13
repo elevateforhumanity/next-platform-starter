@@ -124,7 +124,7 @@ export default function ProgramOwnerCampaignsPage() {
                     className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-colors ${
                       selectedTemplate?.id === template.id
                         ? 'border-brand-blue-600 bg-brand-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <p className="font-semibold text-black text-sm">{template.name}</p>
@@ -159,7 +159,7 @@ export default function ProgramOwnerCampaignsPage() {
                 {myStudents.map((student: any) => (
                   <label
                     key={student.id}
-                    className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-white cursor-pointer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-white cursor-pointer"
                   >
                     <input
                       type="checkbox"
@@ -176,7 +176,7 @@ export default function ProgramOwnerCampaignsPage() {
                   </label>
                 ))}
               </div>
-              <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="mt-4 pt-4 border-t border-slate-200">
                 <p className="text-sm text-black">
                   Selected: <span className="font-bold text-black">{selectedStudents.length}</span>
                 </p>
@@ -199,7 +199,7 @@ export default function ProgramOwnerCampaignsPage() {
                     required
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
                     placeholder="e.g., Program Update"
                   />
                 </div>
@@ -213,7 +213,7 @@ export default function ProgramOwnerCampaignsPage() {
                     value={formData.html_content}
                     onChange={(e) => setFormData({ ...formData, html_content: e.target.value })}
                     rows={16}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent font-mono text-sm"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent font-mono text-sm"
                     placeholder="Select a template or write your own..."
                   />
                   <p className="text-xs text-black mt-2">
@@ -229,11 +229,11 @@ export default function ProgramOwnerCampaignsPage() {
                     {feedback.message}
                   </div>
                 )}
-                <div className="flex items-center gap-4 pt-4 border-t border-gray-200">
+                <div className="flex items-center gap-4 pt-4 border-t border-slate-200">
                   <button
                     onClick={handleSend}
                     disabled={loading || selectedStudents.length === 0}
-                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <>

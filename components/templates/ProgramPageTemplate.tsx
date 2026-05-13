@@ -229,7 +229,7 @@ export function ProgramPageTemplate({
 
             {/* Not Included */}
             {notIncluded && notIncluded.length > 0 && (
-              <div className="bg-gray-50 border-2 border-gray-200 rounded-2xl p-8">
+              <div className="bg-slate-50 border-2 border-slate-200 rounded-2xl p-8">
                 <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                   <XCircle className="w-6 h-6" />
                   Not Included

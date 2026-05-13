@@ -19,7 +19,7 @@ export function MOUStatusBadge({ status, showIcon = true, size = 'md' }: MOUStat
     not_sent: {
       label: 'Not Sent',
       color: 'text-black',
-      bgColor: 'bg-gray-100',
+      bgColor: 'bg-slate-100',
       icon: XCircle,
     },
     pending: {
@@ -51,7 +51,7 @@ export function MOUStatusBadge({ status, showIcon = true, size = 'md' }: MOUStat
   const config = configs[status] || {
     label: 'Unknown',
     color: 'text-black',
-    bgColor: 'bg-gray-100',
+    bgColor: 'bg-slate-100',
     icon: AlertCircle,
   };
 

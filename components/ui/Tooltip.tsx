@@ -43,12 +43,12 @@ export function Tooltip({ content, type = 'help', children }: TooltipProps) {
 
       {isVisible && (
         <div
-          className="absolute z-50 w-64 p-3 text-sm text-black bg-white border border-gray-200 rounded-lg shadow-lg bottom-full left-1/2 transform -translate-x-1/2 mb-2"
+          className="absolute z-50 w-64 p-3 text-sm text-black bg-white border border-slate-200 rounded-lg shadow-lg bottom-full left-1/2 transform -translate-x-1/2 mb-2"
           role="tooltip"
         >
           <div className="relative">
             {content}
-            <div className="absolute w-3 h-3 bg-white border-b border-r border-gray-200 transform rotate-45 -bottom-4 left-1/2 -translate-x-1/2" />
+            <div className="absolute w-3 h-3 bg-white border-b border-r border-slate-200 transform rotate-45 -bottom-4 left-1/2 -translate-x-1/2" />
           </div>
         </div>
       )}
@@ -166,7 +166,7 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, description, action, tooltipContent }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center p-8 text-center border-2 border-dashed border-gray-300 rounded-lg">
+    <div className="flex flex-col items-center justify-center p-8 text-center border-2 border-dashed border-slate-300 rounded-lg">
       <div className="flex items-center gap-2 mb-2">
         <h3 className="text-lg font-medium text-black">{title}</h3>
         {tooltipContent && <Tooltip content={tooltipContent} />}
@@ -222,7 +222,7 @@ export function FormField({
         required={required}
         placeholder={placeholder}
         className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-blue-500 ${
-          error ? 'border-brand-red-500' : 'border-gray-300'
+          error ? 'border-brand-red-500' : 'border-slate-300'
         }`}
         aria-describedby={error ? `${name}-error` : undefined}
       />

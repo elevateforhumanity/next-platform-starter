@@ -124,7 +124,7 @@ export default async function OrientationCompletePage() {
         )}
 
         {/* Next steps card */}
-        <div className="rounded-xl border border-gray-200 bg-gray-50 p-5 mb-6">
+        <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 mb-6">
           <h2 className="text-sm font-semibold text-slate-900 mb-3">What happens next</h2>
           <ul className="space-y-2">
             {[

@@ -77,7 +77,7 @@ export default function AddPlacementForm({ learnerId, caseManagerId }: Props) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border border-gray-200 rounded-lg p-4 space-y-3 bg-gray-50"
+      className="border border-slate-200 rounded-lg p-4 space-y-3 bg-slate-50"
     >
       <h4 className="text-sm font-semibold text-slate-900">New Placement</h4>
 
@@ -169,7 +169,7 @@ export default function AddPlacementForm({ learnerId, caseManagerId }: Props) {
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-gray-50"
+          className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
         >
           Cancel
         </button>

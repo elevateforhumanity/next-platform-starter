@@ -100,7 +100,7 @@ export default function CertificateGenerator({
               <div>{certificateId}</div>
             </div>
           </div>
-          <div className="border-t-2 border-gray-300 pt-8">
+          <div className="border-t-2 border-slate-300 pt-8">
             <div className="text-sm text-black">
               Elevate for Humanity Career &amp; Technical Institute
             </div>

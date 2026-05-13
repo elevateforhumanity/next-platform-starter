@@ -56,9 +56,9 @@ export default async function OrgLearnersPage() {
           </Link>
         </div>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="mt-6 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+          <table className="min-w-full divide-y divide-slate-200">
+            <thead className="bg-slate-50">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
                   Name
@@ -77,9 +77,9 @@ export default async function OrgLearnersPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {learners.map((learner) => (
-                <tr key={`${learner.userId}-${learner.cohortId}`} className="hover:bg-gray-50">
+                <tr key={`${learner.userId}-${learner.cohortId}`} className="hover:bg-slate-50">
                   <td className="px-4 py-3 text-sm font-medium text-slate-900">
                     {learner.fullName ?? '—'}
                   </td>
@@ -94,7 +94,7 @@ export default async function OrgLearnersPage() {
                   </td>
                   <td className="px-4 py-3">
                     <span
-                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[learner.enrollmentStatus] ?? 'bg-gray-100 text-slate-900'}`}
+                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[learner.enrollmentStatus] ?? 'bg-slate-100 text-slate-900'}`}
                     >
                       {learner.enrollmentStatus}
                     </span>

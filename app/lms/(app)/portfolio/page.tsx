@@ -257,7 +257,7 @@ export default async function PortfolioPage() {
               <p className="text-slate-700 text-sm mb-4">
                 Showcase your work by adding projects, case studies, or work samples.
               </p>
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-slate-700 hover:border-brand-blue-400 hover:text-brand-blue-600 transition-colors">
+              <button className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-slate-300 rounded-lg text-slate-700 hover:border-brand-blue-400 hover:text-brand-blue-600 transition-colors">
                 <Plus className="w-5 h-5" />
                 Add Project
               </button>
@@ -318,13 +318,13 @@ export default async function PortfolioPage() {
                   <p className="text-xs text-slate-700">First Steps</p>
                 </div>
                 <div className="text-center p-3 bg-white rounded-lg opacity-40">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-2">
                     <Flame className="w-5 h-5 text-slate-700" />
                   </div>
                   <p className="text-xs text-slate-700">Locked</p>
                 </div>
                 <div className="text-center p-3 bg-white rounded-lg opacity-40">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-2">
                     <Trophy className="w-5 h-5 text-slate-700" />
                   </div>
                   <p className="text-xs text-slate-700">Locked</p>

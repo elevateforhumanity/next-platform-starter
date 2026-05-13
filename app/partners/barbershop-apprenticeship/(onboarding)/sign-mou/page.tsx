@@ -374,7 +374,7 @@ export default function SignMOUPage() {
             </Link>
             <Link
               href="/partners/barbershop-apprenticeship"
-              className="block w-full px-6 py-3 text-slate-900 border border-gray-300 rounded-lg font-semibold hover:bg-white"
+              className="block w-full px-6 py-3 text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white"
             >
               Back to Partner Page
             </Link>
@@ -432,7 +432,7 @@ export default function SignMOUPage() {
                     type="checkbox"
                     checked={handbookRead}
                     onChange={(e) => setHandbookRead(e.target.checked)}
-                    className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500"
+                    className="w-5 h-5 rounded border-slate-300 text-green-600 focus:ring-green-500"
                   />
                   <span className="text-sm font-semibold text-slate-900">I have read and understood the Partner Handbook</span>
                 </label>
@@ -573,9 +573,9 @@ export default function SignMOUPage() {
           <h2 className="text-lg font-bold text-slate-900 mb-4">Signatures</h2>
           <div className="grid grid-cols-2 gap-6 mb-6">
             {/* Elevate — pre-signed */}
-            <div className="border border-gray-200 rounded-lg p-4">
+            <div className="border border-slate-200 rounded-lg p-4">
               <p className="text-xs font-bold text-black uppercase tracking-wide mb-3">Sponsor — Already Signed</p>
-              <div className="border-b border-gray-400 pb-2 mb-3">
+              <div className="border-b border-slate-400 pb-2 mb-3">
                 <span style={{fontFamily:'Georgia,serif',fontSize:'24px',color:'#1a1a2e',fontStyle:'italic'}}>Elizabeth Greene</span>
               </div>
               <p className="text-xs text-black"><strong>Name:</strong> Elizabeth Greene</p>
@@ -614,7 +614,7 @@ export default function SignMOUPage() {
           <p className="text-sm text-black mb-3">
             Draw your signature in the box below using your mouse or finger (on touch devices).
           </p>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg overflow-hidden bg-white">
+          <div className="border-2 border-dashed border-slate-300 rounded-lg overflow-hidden bg-white">
             <canvas
               ref={canvasRef}
               className="w-full cursor-crosshair touch-none"
@@ -642,7 +642,7 @@ export default function SignMOUPage() {
               type="checkbox"
               checked={agreedToTerms}
               onChange={(e) => setAgreedToTerms(e.target.checked)}
-              className="mt-1 w-5 h-5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+              className="mt-1 w-5 h-5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
             />
             <span className="text-sm text-slate-900">
               I have read and agree to the terms of this Memorandum of Understanding. I confirm that
@@ -684,7 +684,7 @@ export default function SignMOUPage() {
           </button>
           <Link
             href="/partners/barbershop-apprenticeship"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 text-slate-900 border border-gray-300 rounded-lg font-semibold hover:bg-white"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white"
           >
             Cancel
           </Link>
@@ -705,7 +705,7 @@ export default function SignMOUPage() {
           <div className="flex gap-3">
             <Link
               href="/partners/barbershop-apprenticeship/forms"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-slate-900 border border-gray-300 rounded-lg font-semibold hover:bg-white text-sm whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white text-sm whitespace-nowrap"
             >
               Required Forms
             </Link>

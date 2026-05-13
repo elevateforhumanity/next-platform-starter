@@ -32,7 +32,7 @@ export default async function StudentPortalPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-700">Please try again later.</p>
@@ -79,7 +79,7 @@ export default async function StudentPortalPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="bg-blue-900 text-white py-8">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between">
@@ -134,8 +134,8 @@ export default async function StudentPortalPage() {
               {enrollments.length > 0 ? (
                 <div className="space-y-4">
                   {enrollments.map((enrollment: any) => (
-                    <div key={enrollment.enrollment_id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
-                      <div className="w-16 h-12 bg-gray-200 rounded overflow-hidden flex-shrink-0 relative">
+                    <div key={enrollment.enrollment_id} className="flex items-center gap-4 p-3 bg-slate-50 rounded-lg">
+                      <div className="w-16 h-12 bg-slate-200 rounded overflow-hidden flex-shrink-0 relative">
                         <div className="w-full h-full flex items-center justify-center">
                           <BookOpen className="w-6 h-6 text-slate-400" />
                         </div>
@@ -146,13 +146,13 @@ export default async function StudentPortalPage() {
                           <span className={`text-xs px-2 py-0.5 rounded-full ${
                             enrollment.status === 'active' ? 'bg-green-100 text-green-700' :
                             enrollment.status === 'completed' ? 'bg-blue-100 text-blue-700' :
-                            'bg-gray-100 text-slate-700'
+                            'bg-slate-100 text-slate-700'
                           }`}>
                             {enrollment.status}
                           </span>
                           {enrollment.progress > 0 && (
                             <>
-                              <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
                                 <div
                                   className="h-full bg-blue-600 rounded-full"
                                   style={{ width: `${enrollment.progress}%` }}

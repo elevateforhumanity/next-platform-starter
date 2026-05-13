@@ -56,14 +56,14 @@ export default function HostShopSelect({ program, value, onChange }: Props) {
       <label className="block text-sm font-medium text-black mb-1">Select Your Training Shop</label>
 
       {loading ? (
-        <div className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-slate-400 text-sm">
+        <div className="w-full px-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-400 text-sm">
           Loading approved shops…
         </div>
       ) : (
         <select
           value={selectValue}
           onChange={handleChange}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 bg-white text-black"
+          className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 bg-white text-black"
         >
           <option value="">— Select a shop —</option>
           {shops.map((shop) => (
@@ -80,7 +80,7 @@ export default function HostShopSelect({ program, value, onChange }: Props) {
           type="text"
           value={otherValue}
           onChange={handleOtherChange}
-          className="w-full mt-2 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-black"
+          className="w-full mt-2 px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-black"
           placeholder="Enter shop name"
           autoFocus
         />

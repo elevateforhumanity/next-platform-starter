@@ -31,7 +31,7 @@ export default async function ComplianceFrameworkPage() {
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Legal', href: '/legal' }, { label: 'Compliance' }]} />
       </div>
-      <div className="bg-gray-900 text-white py-12">
+      <div className="bg-slate-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
@@ -77,7 +77,7 @@ export default async function ComplianceFrameworkPage() {
           </a>
         </div>
 
-        <nav className="bg-gray-50 rounded-lg p-6 mb-10">
+        <nav className="bg-slate-50 rounded-lg p-6 mb-10">
           <h2 className="font-semibold mb-4">Contents</h2>
           <ol className="space-y-2 text-sm">
             <li>
@@ -159,7 +159,7 @@ export default async function ComplianceFrameworkPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">2.1 Legal Entities</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Entity</th>
                 <th className="border p-3 text-left">Type</th>
                 <th className="border p-3 text-left">Jurisdiction</th>
@@ -173,7 +173,7 @@ export default async function ComplianceFrameworkPage() {
                 <td className="border p-3">Indiana</td>
                 <td className="border p-3">Platform operations, LMS, Store</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Selfish Inc.</td>
                 <td className="border p-3">501(c)(3)</td>
                 <td className="border p-3">Indiana</td>
@@ -214,7 +214,7 @@ export default async function ComplianceFrameworkPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">3.1 Educational Services</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Regulation</th>
                 <th className="border p-3 text-left">Requirement</th>
                 <th className="border p-3 text-left">Our Compliance</th>
@@ -226,7 +226,7 @@ export default async function ComplianceFrameworkPage() {
                 <td className="border p-3">Student record privacy</td>
                 <td className="border p-3">Role-based access, consent management, audit logging</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">ADA/Section 508</td>
                 <td className="border p-3">Accessibility</td>
                 <td className="border p-3">WCAG 2.1 AA compliance, accessible content</td>
@@ -242,7 +242,7 @@ export default async function ComplianceFrameworkPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">3.2 Tax Preparation Services</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Regulation</th>
                 <th className="border p-3 text-left">Requirement</th>
                 <th className="border p-3 text-left">Our Compliance</th>
@@ -254,7 +254,7 @@ export default async function ComplianceFrameworkPage() {
                 <td className="border p-3">Tax preparer standards</td>
                 <td className="border p-3">Licensed preparers, continuing education</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">IRC Section 7216</td>
                 <td className="border p-3">Taxpayer consent for disclosure</td>
                 <td className="border p-3">Written consent before data sharing</td>
@@ -272,7 +272,7 @@ export default async function ComplianceFrameworkPage() {
           </h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Regulation</th>
                 <th className="border p-3 text-left">Requirement</th>
                 <th className="border p-3 text-left">Our Compliance</th>
@@ -284,7 +284,7 @@ export default async function ComplianceFrameworkPage() {
                 <td className="border p-3">Truth in Lending disclosures</td>
                 <td className="border p-3">APR, fees, terms clearly disclosed</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">ECOA</td>
                 <td className="border p-3">Equal credit opportunity</td>
                 <td className="border p-3">Non-discriminatory lending criteria</td>
@@ -300,7 +300,7 @@ export default async function ComplianceFrameworkPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">3.4 E-Commerce</h3>
           <table className="w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Regulation</th>
                 <th className="border p-3 text-left">Requirement</th>
                 <th className="border p-3 text-left">Our Compliance</th>
@@ -312,7 +312,7 @@ export default async function ComplianceFrameworkPage() {
                 <td className="border p-3">Payment card security</td>
                 <td className="border p-3">Stripe handles card data (Level 1 certified)</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Sales Tax</td>
                 <td className="border p-3">State sales tax collection</td>
                 <td className="border p-3">Automated calculation and remittance</td>
@@ -391,7 +391,7 @@ export default async function ComplianceFrameworkPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">5.1 Refund Policies</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Product/Service</th>
                 <th className="border p-3 text-left">Refund Policy</th>
               </tr>
@@ -403,7 +403,7 @@ export default async function ComplianceFrameworkPage() {
                   14-day money-back guarantee if less than 20% completed
                 </td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Digital Products (Store)</td>
                 <td className="border p-3">No refunds after download (disclosed at purchase)</td>
               </tr>
@@ -413,7 +413,7 @@ export default async function ComplianceFrameworkPage() {
                   Full refund if return not filed; partial if filed with errors
                 </td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Subscriptions</td>
                 <td className="border p-3">Cancel anytime, no refund for partial periods</td>
               </tr>
@@ -465,7 +465,7 @@ export default async function ComplianceFrameworkPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">7. Compliance Responsibilities</h2>
           <table className="w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Role</th>
                 <th className="border p-3 text-left">Responsibilities</th>
               </tr>
@@ -477,7 +477,7 @@ export default async function ComplianceFrameworkPage() {
                   Overall compliance program, regulatory relationships, policy approval
                 </td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Data Protection Officer</td>
                 <td className="border p-3">
                   Privacy compliance, data subject requests, breach response
@@ -487,7 +487,7 @@ export default async function ComplianceFrameworkPage() {
                 <td className="border p-3">Tax Operations Manager</td>
                 <td className="border p-3">IRS compliance, preparer oversight, EFIN management</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Content Managers</td>
                 <td className="border p-3">Accessibility compliance, content accuracy</td>
               </tr>
@@ -525,7 +525,7 @@ export default async function ComplianceFrameworkPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">9. Versioning & Review</h2>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Version</th>
                 <th className="border p-3 text-left">Date</th>
                 <th className="border p-3 text-left">Changes</th>

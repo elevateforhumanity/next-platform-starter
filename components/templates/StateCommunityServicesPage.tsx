@@ -176,21 +176,21 @@ export default function StateCommunityServicesPage({ state }: StateCommunityServ
       </section>
 
       {/* Cross-links */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white p-6 rounded-xl border">
               <h3 className="font-bold text-slate-900 mb-4">Also in {state.name}</h3>
               <Link
                 href={`/career-training-${state.slug}`}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition mb-2"
+                className="flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition mb-2"
               >
                 <span className="text-slate-900">Career Training Programs</span>
                 <ArrowRight className="w-4 h-4 text-brand-green-600" />
               </Link>
               <Link
                 href="/programs"
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                className="flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition"
               >
                 <span className="text-slate-900">All Programs</span>
                 <ArrowRight className="w-4 h-4 text-brand-green-600" />
@@ -203,7 +203,7 @@ export default function StateCommunityServicesPage({ state }: StateCommunityServ
                   <Link
                     key={s.slug}
                     href={`/community-services-${s.slug}`}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                    className="flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition"
                   >
                     <span className="text-slate-900">{s.name}</span>
                     <ArrowRight className="w-4 h-4 text-brand-green-600" />

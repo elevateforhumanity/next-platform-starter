@@ -18,7 +18,7 @@ export default async function AIUsagePage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Policies', href: '/policies' }, { label: 'Ai Usage' }]} />
       </div>
@@ -135,9 +135,9 @@ export default async function AIUsagePage() {
             </ul>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">How to Disclose</h3>
-            <div className="bg-gray-50 rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-slate-50 rounded-lg p-6 border-2 border-slate-200 mb-6">
               <p className="text-black mb-4">Include a statement with your submission:</p>
-              <div className="bg-white p-4 rounded border-2 border-gray-300 mb-4">
+              <div className="bg-white p-4 rounded border-2 border-slate-300 mb-4">
                 <p className="text-black italic">
                   "I used [AI tool name] to [specific use]. I reviewed and verified all AI-generated
                   content and take full responsibility for the accuracy and originality of my work."

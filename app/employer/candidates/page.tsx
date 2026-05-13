@@ -177,7 +177,7 @@ export default async function CandidatesPage() {
                         {candidate.phone && (
                           <a
                             href={`tel:${candidate.phone}`}
-                            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-white transition"
+                            className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-white transition"
                           >
                             <Phone className="w-4 h-4" />
                             Call

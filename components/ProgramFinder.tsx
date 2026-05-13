@@ -338,7 +338,7 @@ export default function ProgramFinder() {
                       </a>
                       <a
                         href="/apply"
-                        className="flex-1 px-6 py-3 bg-gray-100 text-black rounded-lg font-semibold hover:bg-gray-200 transition-all text-center flex items-center justify-center gap-2"
+                        className="flex-1 px-6 py-3 bg-slate-100 text-black rounded-lg font-semibold hover:bg-slate-200 transition-all text-center flex items-center justify-center gap-2"
                       >
                         Apply Now
                         <ArrowRight className="w-5 h-5" />
@@ -353,7 +353,7 @@ export default function ProgramFinder() {
           <div className="text-center space-y-4">
             <button
               onClick={handleRestart}
-              className="px-8 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-50 transition-all shadow-md"
+              className="px-8 py-3 bg-white text-black rounded-lg font-semibold hover:bg-slate-50 transition-all shadow-md"
             >
               Start Over
             </button>
@@ -398,7 +398,7 @@ export default function ProgramFinder() {
             </span>
             <span className="text-sm text-black">{Math.round(progress)}% Complete</span>
           </div>
-          <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
             <motion.div
               className="h-full   "
               initial={{ width: 0 }}
@@ -431,7 +431,7 @@ export default function ProgramFinder() {
                     className={`p-6 rounded-xl border-2 transition-all text-left flex items-center gap-4 group ${
                       isSelected
                         ? 'border-brand-blue-600 bg-brand-blue-50'
-                        : 'border-gray-200 hover:border-brand-blue-400 hover:bg-gray-50'
+                        : 'border-slate-200 hover:border-brand-blue-400 hover:bg-slate-50'
                     }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -440,7 +440,7 @@ export default function ProgramFinder() {
                       className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
                         isSelected
                           ? 'bg-brand-blue-600 text-white'
-                          : 'bg-gray-100 text-black group-hover:bg-brand-blue-600 group-hover:text-white'
+                          : 'bg-slate-100 text-black group-hover:bg-brand-blue-600 group-hover:text-white'
                       }`}
                     >
                       <Icon className="w-6 h-6" />
@@ -461,8 +461,8 @@ export default function ProgramFinder() {
             disabled={currentQuestion === 0}
             className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${
               currentQuestion === 0
-                ? 'bg-gray-100 text-slate-700 cursor-not-allowed'
-                : 'bg-white text-black hover:bg-gray-50 shadow-md'
+                ? 'bg-slate-100 text-slate-700 cursor-not-allowed'
+                : 'bg-white text-black hover:bg-slate-50 shadow-md'
             }`}
           >
             <ChevronLeft className="w-5 h-5" />

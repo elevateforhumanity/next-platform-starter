@@ -80,7 +80,7 @@ export default function AttendancePolicyPage() {
               in-person components to remain in good standing and be eligible for program
               completion.
             </p>
-            <div className="bg-white border border-gray-200 rounded p-4">
+            <div className="bg-white border border-slate-200 rounded p-4">
               <p className="text-slate-900">
                 <strong>Example:</strong> For a program with 100 scheduled in-person hours, students
                 must attend at least 80 hours. For online coursework, students must complete at

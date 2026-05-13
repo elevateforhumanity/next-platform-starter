@@ -86,7 +86,7 @@ export default function MonthlyOJTEvaluationPage() {
       </div>
 
       {/* Print header */}
-      <div className="hidden print:block px-6 pt-6 pb-3 border-b-2 border-gray-900">
+      <div className="hidden print:block px-6 pt-6 pb-3 border-b-2 border-slate-900">
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-lg font-bold">Monthly OJT Evaluation — Barber Apprenticeship</h1>
@@ -112,7 +112,7 @@ export default function MonthlyOJTEvaluationPage() {
 
       <div className="max-w-4xl mx-auto px-4 pb-8 print:px-6 print:pb-4">
         {/* Apprentice & Shop Info */}
-        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-gray-400">
+        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-slate-400">
           <h2 className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Apprentice & Shop Information</h2>
           <div className="grid grid-cols-2 gap-4 text-sm print:text-[10px] print:gap-2">
             <div>Apprentice Name: ________________________________</div>
@@ -127,7 +127,7 @@ export default function MonthlyOJTEvaluationPage() {
         </div>
 
         {/* Scoring legend */}
-        <div className="border rounded-lg p-3 mb-6 print:p-2 print:mb-4 print:border-gray-400">
+        <div className="border rounded-lg p-3 mb-6 print:p-2 print:mb-4 print:border-slate-400">
           <p className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">Rating Scale</p>
           <div className="grid grid-cols-4 gap-1 text-xs print:text-[9px] text-center">
             <div className="border rounded py-1 bg-white print:bg-white"><strong>1</strong> — Needs Improvement</div>
@@ -165,7 +165,7 @@ export default function MonthlyOJTEvaluationPage() {
         ))}
 
         {/* Competency hours log */}
-        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-gray-400 print:break-inside-avoid">
+        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-slate-400 print:break-inside-avoid">
           <h2 className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">OJT Hours by Competency Category</h2>
           <table className="w-full border-collapse text-sm print:text-[10px]">
             <thead>
@@ -193,7 +193,7 @@ export default function MonthlyOJTEvaluationPage() {
         </div>
 
         {/* Overall assessment */}
-        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-gray-400 print:break-inside-avoid">
+        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-slate-400 print:break-inside-avoid">
           <h2 className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Overall Monthly Assessment</h2>
           <div className="grid grid-cols-3 gap-3 text-sm print:text-[10px] mb-4">
             <div className="border rounded p-3 text-center print:p-2">
@@ -226,7 +226,7 @@ export default function MonthlyOJTEvaluationPage() {
         </div>
 
         {/* Signatures */}
-        <div className="border-t-2 border-gray-900 pt-6 print:pt-4 print:break-inside-avoid">
+        <div className="border-t-2 border-slate-900 pt-6 print:pt-4 print:break-inside-avoid">
           <h2 className="font-bold text-sm mb-4 print:text-[11px] print:mb-3">Signatures</h2>
           <div className="space-y-4 print:space-y-3">
             {[
@@ -234,7 +234,7 @@ export default function MonthlyOJTEvaluationPage() {
               { role: 'Apprentice', fields: ['Name', 'Signature', 'Date'] },
               { role: 'Program Holder (reviewed)', fields: ['Name', 'Signature', 'Date'] },
             ].map((signer, i) => (
-              <div key={i} className="border rounded-lg p-3 print:p-2 print:border-gray-400">
+              <div key={i} className="border rounded-lg p-3 print:p-2 print:border-slate-400">
                 <p className="font-semibold text-sm mb-2 print:text-[10px] print:mb-1">{signer.role}</p>
                 <div className="grid grid-cols-2 gap-3 text-xs print:text-[9px] print:gap-2">
                   {signer.fields.map((field, fi) => (
@@ -253,10 +253,10 @@ export default function MonthlyOJTEvaluationPage() {
           <Link href="/compliance/competency-verification/barber" className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition">
             Barber Rubric Overview
           </Link>
-          <Link href="/compliance/competency-verification/barber/scoring-sheet" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/scoring-sheet" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Scoring Sheet
           </Link>
-          <Link href="/compliance/competency-verification/barber/final-signoff" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/final-signoff" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Final Sign-Off Form
           </Link>
         </div>

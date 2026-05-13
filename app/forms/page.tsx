@@ -94,7 +94,7 @@ export default function FormsPage() {
                   {cat.forms.map((form) => (
                     <div
                       key={form.name}
-                      className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-sm transition-all"
+                      className="bg-white border border-slate-200 rounded-lg p-5 hover:shadow-sm transition-all"
                     >
                       <h3 className="font-semibold text-slate-900 mb-1 text-sm">{form.name}</h3>
                       <p className="text-slate-500 text-xs mb-3">{form.desc}</p>

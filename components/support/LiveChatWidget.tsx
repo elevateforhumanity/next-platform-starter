@@ -142,7 +142,7 @@ function FallbackChatWidget() {
       {!isMinimized && (
         <>
           {/* Messages */}
-          <div className="h-[240px] sm:h-[290px] md:h-[340px] overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50">
+          <div className="h-[240px] sm:h-[290px] md:h-[340px] overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-slate-50">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -179,7 +179,7 @@ function FallbackChatWidget() {
                 <button
                   key={reply}
                   onClick={() => handleSend(reply)}
-                  className="px-3 py-2 text-xs bg-gray-100 text-slate-900 rounded-full hover:bg-brand-blue-100 hover:text-brand-blue-700 transition"
+                  className="px-3 py-2 text-xs bg-slate-100 text-slate-900 rounded-full hover:bg-brand-blue-100 hover:text-brand-blue-700 transition"
                 >
                   {reply}
                 </button>
@@ -201,7 +201,7 @@ function FallbackChatWidget() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type a message..."
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-blue-500 text-black text-sm"
+                className="flex-1 px-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-blue-500 text-black text-sm"
                 disabled={isLoading}
               />
               <button

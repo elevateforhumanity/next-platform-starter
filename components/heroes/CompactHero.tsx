@@ -34,7 +34,7 @@ export function CompactHero({
 }: CompactHeroProps) {
   const backgrounds = {
     default: 'bg-white',
-    muted: 'bg-gray-50',
+    muted: 'bg-slate-50',
     gradient: 'bg-gradient-to-b from-brand-blue-50 to-white',
   };
 
@@ -76,7 +76,7 @@ export function CompactHero({
             {secondaryCTA && (
               <Link
                 href={secondaryCTA.href}
-                className="inline-flex items-center justify-center rounded-lg border-2 border-gray-300 px-6 py-3 text-base font-semibold text-black hover:bg-gray-50 transition-colors"
+                className="inline-flex items-center justify-center rounded-lg border-2 border-slate-300 px-6 py-3 text-base font-semibold text-black hover:bg-slate-50 transition-colors"
               >
                 {secondaryCTA.text}
               </Link>

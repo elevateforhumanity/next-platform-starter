@@ -78,7 +78,7 @@ export default async function NotificationSettingsPage() {
         {/* Notification Preferences */}
         <form action="/api/account/notifications" method="POST" className="space-y-6">
           {/* Email Notifications */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                 <Mail className="w-5 h-5 text-brand-blue-600" />
@@ -123,7 +123,7 @@ export default async function NotificationSettingsPage() {
               ].map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0"
+                  className="flex items-start justify-between py-3 border-b border-slate-100 last:border-0"
                 >
                   <div>
                     <p className="font-medium text-slate-900">{item.label}</p>
@@ -136,7 +136,7 @@ export default async function NotificationSettingsPage() {
                       defaultChecked={item.defaultChecked}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
                   </label>
                 </div>
               ))}
@@ -144,7 +144,7 @@ export default async function NotificationSettingsPage() {
           </div>
 
           {/* Push Notifications */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                 <Bell className="w-5 h-5 text-brand-blue-600" />
@@ -177,7 +177,7 @@ export default async function NotificationSettingsPage() {
               ].map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0"
+                  className="flex items-start justify-between py-3 border-b border-slate-100 last:border-0"
                 >
                   <div>
                     <p className="font-medium text-slate-900">{item.label}</p>
@@ -190,7 +190,7 @@ export default async function NotificationSettingsPage() {
                       defaultChecked={item.defaultChecked}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
                   </label>
                 </div>
               ))}
@@ -198,7 +198,7 @@ export default async function NotificationSettingsPage() {
           </div>
 
           {/* SMS Notifications */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-brand-green-100 rounded-lg flex items-center justify-center">
                 <Smartphone className="w-5 h-5 text-brand-green-600" />
@@ -220,7 +220,7 @@ export default async function NotificationSettingsPage() {
                   name="sms_phone"
                   defaultValue={prefs.sms_phone || ''}
                   placeholder="(317) 314-3757"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               {[
@@ -239,7 +239,7 @@ export default async function NotificationSettingsPage() {
               ].map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0"
+                  className="flex items-start justify-between py-3 border-b border-slate-100 last:border-0"
                 >
                   <div>
                     <p className="font-medium text-slate-900">{item.label}</p>
@@ -252,7 +252,7 @@ export default async function NotificationSettingsPage() {
                       defaultChecked={item.defaultChecked}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
                   </label>
                 </div>
               ))}
@@ -260,7 +260,7 @@ export default async function NotificationSettingsPage() {
           </div>
 
           {/* In-App Notifications */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-brand-orange-100 rounded-lg flex items-center justify-center">
                 <MessageSquare className="w-5 h-5 text-brand-orange-600" />
@@ -287,7 +287,7 @@ export default async function NotificationSettingsPage() {
               ].map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0"
+                  className="flex items-start justify-between py-3 border-b border-slate-100 last:border-0"
                 >
                   <div>
                     <p className="font-medium text-slate-900">{item.label}</p>
@@ -300,7 +300,7 @@ export default async function NotificationSettingsPage() {
                       defaultChecked={item.defaultChecked}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
                   </label>
                 </div>
               ))}

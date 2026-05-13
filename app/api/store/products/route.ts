@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: public product catalog listing — no authentication required
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';

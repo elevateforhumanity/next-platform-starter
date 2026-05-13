@@ -96,7 +96,7 @@ export default async function AnalyticsPage() {
   const totalJobs = jobPostings?.length || 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <Breadcrumbs
         items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Analytics' }]}
       />
@@ -113,7 +113,7 @@ export default async function AnalyticsPage() {
               <p className="text-slate-600">Track your hiring performance and metrics</p>
             </div>
             <div className="flex gap-3">
-              <button className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+              <button className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50">
                 <Download className="w-4 h-4" />
                 Export
               </button>
@@ -127,7 +127,7 @@ export default async function AnalyticsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {metrics.map((metric, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              <div key={index} className="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
                     <metric.icon className="w-6 h-6 text-indigo-600" />
@@ -145,7 +145,7 @@ export default async function AnalyticsPage() {
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
               <h3 className="text-lg font-semibold text-slate-900 mb-6">Hiring Summary</h3>
               <div className="space-y-5">
                 {[
@@ -167,7 +167,7 @@ export default async function AnalyticsPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
               <h3 className="text-lg font-semibold text-slate-900 mb-6">Job Status Breakdown</h3>
               {statusEntries.length > 0 ? (
                 <div className="space-y-4">
@@ -181,7 +181,7 @@ export default async function AnalyticsPage() {
                             {count} ({pct}%)
                           </span>
                         </div>
-                        <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
                           <div
                             className="h-full bg-indigo-500 rounded-full"
                             style={{ width: `${pct}%` }}
@@ -204,13 +204,13 @@ export default async function AnalyticsPage() {
       {/* Top Jobs */}
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="p-6 border-b border-gray-100">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+            <div className="p-6 border-b border-slate-100">
               <h3 className="text-lg font-semibold text-slate-900">Top Jobs by Positions Filled</h3>
             </div>
             {topJobs.length > 0 ? (
               <table className="w-full">
-                <thead className="bg-gray-50">
+                <thead className="bg-slate-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
                       Job Title
@@ -226,9 +226,9 @@ export default async function AnalyticsPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-slate-100">
                   {topJobs.map((job, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
+                    <tr key={index} className="hover:bg-slate-50">
                       <td className="px-6 py-4">
                         <span className="font-medium text-slate-900">{job.title}</span>
                       </td>
@@ -242,7 +242,7 @@ export default async function AnalyticsPage() {
                             job.status === 'active'
                               ? 'bg-brand-green-100 text-brand-green-700'
                               : job.status === 'closed'
-                                ? 'bg-gray-100 text-slate-700'
+                                ? 'bg-slate-100 text-slate-700'
                                 : 'bg-yellow-100 text-yellow-700'
                           }`}
                         >

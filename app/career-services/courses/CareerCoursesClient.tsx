@@ -191,7 +191,7 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
               {courses.map((course) => (
                 <div
                   key={course.id}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col"
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-100 flex flex-col"
                 >
                   <div className="relative h-48 overflow-hidden">
                     <Image
@@ -247,7 +247,7 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
                       <div className="flex gap-2">
                         <Link
                           href={`/career-services/courses/${course.slug}`}
-                          className="flex-1 text-center border border-gray-300 text-slate-900 px-4 py-2 rounded-lg font-medium hover:bg-white"
+                          className="flex-1 text-center border border-slate-300 text-slate-900 px-4 py-2 rounded-lg font-medium hover:bg-white"
                         >
                           Details
                         </Link>

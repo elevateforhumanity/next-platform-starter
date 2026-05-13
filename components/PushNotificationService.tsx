@@ -50,7 +50,7 @@ export function PushNotificationService() {
             <button
               onClick={() => setIsEnabled(!isEnabled)}
               className={`relative w-14 h-8 rounded-full transition-colors ${
-                isEnabled ? 'bg-brand-green-500' : 'bg-gray-300'
+                isEnabled ? 'bg-brand-green-500' : 'bg-slate-300'
               }`}
             >
               <div
@@ -66,7 +66,7 @@ export function PushNotificationService() {
           <h3 className="text-xl font-bold mb-4">Recent Notifications</h3>
           <div className="space-y-3">
             {notifications.map((notif) => (
-              <div key={notif.id} className="p-4 bg-gray-50 rounded-lg">
+              <div key={notif.id} className="p-4 bg-slate-50 rounded-lg">
                 <div className="flex justify-between items-start mb-1">
                   <h4 className="font-bold">{notif.title}</h4>
                   <span className="text-xs text-slate-700">{notif.time}</span>
@@ -87,7 +87,7 @@ export function PushNotificationService() {
               { label: 'Course Announcements', enabled: true },
               { label: 'Marketing Messages', enabled: true },
             ].map((pref, idx) => (
-              <div key={idx} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+              <div key={idx} className="flex justify-between items-center p-3 bg-slate-50 rounded">
                 <span className="font-medium">{pref.label}</span>
                 <input type="checkbox" defaultChecked={pref.enabled} className="w-5 h-5" />
               </div>

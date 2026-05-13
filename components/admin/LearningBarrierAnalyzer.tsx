@@ -380,7 +380,7 @@ export function LearningBarrierAnalyzer() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-slate-200">
               {strugglingStudents.map((student) => (
                 <tr key={student.studentId}>
                   <td className="px-6 py-4">

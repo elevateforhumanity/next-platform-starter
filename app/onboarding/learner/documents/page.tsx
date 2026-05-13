@@ -267,7 +267,7 @@ export default function DocumentsPage() {
                   setSsnDisplay(formatSsn(digits));
                 }}
                 disabled={ssnSaved}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500 font-mono tracking-wider disabled:bg-white"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500 font-mono tracking-wider disabled:bg-white"
               />
             </div>
             <button
@@ -362,7 +362,7 @@ export default function DocumentsPage() {
             return (
               <div
                 key={doc.type}
-                className={`bg-white border rounded-xl p-5 ${isUploaded ? 'border-brand-blue-200' : 'border-gray-200'}`}
+                className={`bg-white border rounded-xl p-5 ${isUploaded ? 'border-brand-blue-200' : 'border-slate-200'}`}
               >
                 <div className="flex items-start gap-4">
                   <div

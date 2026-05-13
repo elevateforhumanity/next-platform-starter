@@ -243,7 +243,7 @@ export function AssignmentSubmission({
             className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition ${
               isDragging
                 ? 'border-brand-red-600 bg-brand-red-50'
-                : 'border-gray-300 hover:border-brand-red-600 hover:bg-gray-50'
+                : 'border-slate-300 hover:border-brand-red-600 hover:bg-slate-50'
             }`}
           >
             <Upload className="w-12 h-12 text-slate-700 mx-auto mb-4" />
@@ -270,7 +270,7 @@ export function AssignmentSubmission({
               {files.map((file) => (
                 <div
                   key={file.id}
-                  className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 transition"
+                  className="flex items-center gap-3 p-3 border rounded-lg hover:bg-slate-50 transition"
                 >
                   {getFileIcon(file.type)}
                   <div className="flex-1 min-w-0">

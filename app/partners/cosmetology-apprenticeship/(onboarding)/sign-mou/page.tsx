@@ -345,7 +345,7 @@ export default function CosmetologySignMOUPage() {
             </Link>
             <Link
               href="/partners/cosmetology-apprenticeship"
-              className="block w-full px-6 py-3 text-slate-900 border border-gray-300 rounded-lg font-semibold hover:bg-slate-50"
+              className="block w-full px-6 py-3 text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-slate-50"
             >
               Back to Partner Page
             </Link>

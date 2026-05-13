@@ -146,7 +146,7 @@ export default async function InterviewsPage() {
               {upcomingInterviews.map((interview) => (
                 <div
                   key={interview.id}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
+                  className="bg-white rounded-xl shadow-sm border border-slate-100 p-6"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-4">
@@ -204,10 +204,10 @@ export default async function InterviewsPage() {
                         Join Call
                       </button>
                     )}
-                    <button className="px-4 py-2 border border-gray-300 text-slate-900 font-medium rounded-lg hover:bg-white transition-colors">
+                    <button className="px-4 py-2 border border-slate-300 text-slate-900 font-medium rounded-lg hover:bg-white transition-colors">
                       Reschedule
                     </button>
-                    <button className="px-4 py-2 border border-gray-300 text-slate-900 font-medium rounded-lg hover:bg-white transition-colors">
+                    <button className="px-4 py-2 border border-slate-300 text-slate-900 font-medium rounded-lg hover:bg-white transition-colors">
                       Cancel
                     </button>
                   </div>
@@ -219,11 +219,11 @@ export default async function InterviewsPage() {
           {/* Past Interviews */}
           <div>
             <h3 className="text-lg font-semibold text-slate-900 mb-4">Past Interviews</h3>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
               {pastInterviews.map((interview, index) => (
                 <div
                   key={interview.id}
-                  className={`p-4 ${index !== pastInterviews.length - 1 ? 'border-b border-gray-100' : ''}`}
+                  className={`p-4 ${index !== pastInterviews.length - 1 ? 'border-b border-slate-100' : ''}`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">

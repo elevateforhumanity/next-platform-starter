@@ -78,8 +78,8 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
       // Only allow onboarding pages while pending — block everything else
       // Children will be the pending approval page rendered below
       return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm max-w-md w-full p-8 text-center">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+          <div className="bg-white rounded-lg border border-slate-200 shadow-sm max-w-md w-full p-8 text-center">
             <div className="w-14 h-14 bg-yellow-50 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
                 className="w-7 h-7 text-yellow-500"
@@ -150,7 +150,7 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
       <nav
         role="navigation"
         aria-label="Main navigation"
-        className="bg-white border-b border-gray-200"
+        className="bg-white border-b border-slate-200"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -170,7 +170,7 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-black hover:text-black hover:border-gray-300"
+                      className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-black hover:text-black hover:border-slate-300"
                     >
                       <Icon className="h-4 w-4 mr-2" />
                       {item.label}
@@ -198,7 +198,7 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-black hover:text-black hover:bg-white hover:border-gray-300"
+                  className="flex items-center pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-black hover:text-black hover:bg-white hover:border-slate-300"
                 >
                   <Icon className="h-5 w-5 mr-3" />
                   {item.label}

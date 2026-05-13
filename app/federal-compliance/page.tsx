@@ -276,21 +276,21 @@ export default function FederalCompliancePage() {
           <div className="mt-12 grid md:grid-cols-3 gap-6">
             <Link
               href="/legal/privacy"
-              className="block p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-brand-blue-600 transition"
+              className="block p-6 bg-white border-2 border-slate-200 rounded-xl hover:border-brand-blue-600 transition"
             >
               <h4 className="font-bold text-black mb-2">Privacy Policy</h4>
               <p className="text-sm text-black">How we protect your personal information</p>
             </Link>
             <Link
               href="/accessibility"
-              className="block p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-brand-blue-600 transition"
+              className="block p-6 bg-white border-2 border-slate-200 rounded-xl hover:border-brand-blue-600 transition"
             >
               <h4 className="font-bold text-black mb-2">Accessibility</h4>
               <p className="text-sm text-black">Our commitment to digital accessibility</p>
             </Link>
             <Link
               href="/security"
-              className="block p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-brand-blue-600 transition"
+              className="block p-6 bg-white border-2 border-slate-200 rounded-xl hover:border-brand-blue-600 transition"
             >
               <h4 className="font-bold text-black mb-2">Security</h4>
               <p className="text-sm text-black">How we keep your data secure</p>

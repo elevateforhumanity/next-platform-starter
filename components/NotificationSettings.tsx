@@ -54,12 +54,12 @@ export default function NotificationSettings() {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <div className="bg-white rounded-lg border border-slate-200 p-6">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div
             className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-              enabled ? 'bg-brand-blue-100' : 'bg-gray-100'
+              enabled ? 'bg-brand-blue-100' : 'bg-slate-100'
             }`}
           >
             {enabled ? (
@@ -77,7 +77,7 @@ export default function NotificationSettings() {
           onClick={handleToggle}
           disabled={loading}
           className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-            enabled ? 'bg-brand-orange-600' : 'bg-gray-300'
+            enabled ? 'bg-brand-orange-600' : 'bg-slate-300'
           } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           <span
@@ -109,14 +109,14 @@ export default function NotificationSettings() {
         </ul>
       </div>
       {enabled && (
-        <div className="mt-4 pt-4 border-t border-gray-200">
+        <div className="mt-4 pt-4 border-t border-slate-200">
           <button
             onClick={handleTestNotification}
             disabled={testSent}
             className={`w-full px-4 py-2 rounded-lg font-medium text-sm transition-all ${
               testSent
                 ? 'bg-brand-green-100 text-brand-green-700'
-                : 'bg-gray-100 text-black hover:bg-gray-200 active:scale-98'
+                : 'bg-slate-100 text-black hover:bg-slate-200 active:scale-98'
             }`}
           >
             {testSent ? (

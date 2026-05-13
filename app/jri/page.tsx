@@ -228,7 +228,7 @@ export default function JRIPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
               <h3 className="text-2xl font-bold text-slate-900 mb-6">Check Your Eligibility</h3>
               <p className="text-slate-600 mb-6">
                 Not sure if you qualify? Our team can help determine your eligibility.
@@ -242,7 +242,7 @@ export default function JRIPage() {
                 </Link>
                 <a
                   href="/support"
-                  className="block w-full border-2 border-gray-300 text-slate-700 text-center px-6 py-4 rounded-lg font-semibold hover:bg-white transition"
+                  className="block w-full border-2 border-slate-300 text-slate-700 text-center px-6 py-4 rounded-lg font-semibold hover:bg-white transition"
                 >
                   Contact Us: (317) 314-3757
                 </a>
@@ -268,7 +268,7 @@ export default function JRIPage() {
             {availablePrograms.map((program, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition"
+                className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <BookOpen className="w-5 h-5 text-brand-green-600" />

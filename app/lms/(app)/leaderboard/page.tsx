@@ -113,7 +113,7 @@ export default async function LeaderboardPage() {
 
   const getRankBg = (rank: number) => {
     if (rank === 1) return 'bg-yellow-50 border-yellow-200';
-    if (rank === 2) return 'bg-white border-gray-200';
+    if (rank === 2) return 'bg-white border-slate-200';
     if (rank === 3) return 'bg-brand-orange-50 border-amber-200';
     return 'bg-white border-slate-200';
   };

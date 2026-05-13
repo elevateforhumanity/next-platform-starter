@@ -229,7 +229,7 @@ export default function HeroAvatarGuide({
           <div className="flex-1 w-full">
             {!showChat ? (
               /* Initial Message View */
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-brand-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
                     <MessageCircle className="w-6 h-6 text-brand-blue-600" />
@@ -256,7 +256,7 @@ export default function HeroAvatarGuide({
               </div>
             ) : (
               /* Chat View */
-              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+              <div className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
                 {/* Chat Header */}
                 <div className="bg-brand-blue-600 text-white px-4 py-3 flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -277,7 +277,7 @@ export default function HeroAvatarGuide({
                 </div>
 
                 {/* Messages */}
-                <div className="h-64 overflow-y-auto p-4 space-y-3 bg-gray-50">
+                <div className="h-64 overflow-y-auto p-4 space-y-3 bg-slate-50">
                   {messages.map((msg, i) => (
                     <div
                       key={i}
@@ -287,7 +287,7 @@ export default function HeroAvatarGuide({
                         className={`max-w-[85%] px-4 py-2 rounded-2xl ${
                           msg.role === 'user'
                             ? 'bg-brand-blue-600 text-white rounded-br-md'
-                            : 'bg-white text-slate-900 border border-gray-200 rounded-bl-md shadow-sm'
+                            : 'bg-white text-slate-900 border border-slate-200 rounded-bl-md shadow-sm'
                         }`}
                       >
                         {msg.content}
@@ -296,15 +296,15 @@ export default function HeroAvatarGuide({
                   ))}
                   {isLoading && (
                     <div className="flex justify-start">
-                      <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-md border border-gray-200 shadow-sm">
+                      <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-md border border-slate-200 shadow-sm">
                         <div className="flex gap-1">
-                          <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+                          <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
                           <span
-                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                            className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
                             style={{ animationDelay: '150ms' }}
                           />
                           <span
-                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                            className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
                             style={{ animationDelay: '300ms' }}
                           />
                         </div>
@@ -315,7 +315,7 @@ export default function HeroAvatarGuide({
                 </div>
 
                 {/* Input */}
-                <div className="p-4 border-t border-gray-200 bg-white">
+                <div className="p-4 border-t border-slate-200 bg-white">
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
@@ -328,7 +328,7 @@ export default function HeroAvatarGuide({
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Type your question..."
-                      className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                      className="flex-1 px-4 py-3 border border-slate-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                       disabled={isLoading}
                     />
                     <button

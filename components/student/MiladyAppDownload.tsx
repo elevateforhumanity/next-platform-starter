@@ -29,7 +29,7 @@ export default function MiladyAppDownload() {
           href="https://apps.apple.com/us/app/thinkific/id1471012001"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full px-4 py-3 bg-white text-brand-blue-600 rounded-lg hover:bg-gray-50 font-semibold transition-all text-center shadow-md group"
+          className="block w-full px-4 py-3 bg-white text-brand-blue-600 rounded-lg hover:bg-slate-50 font-semibold transition-all text-center shadow-md group"
         >
           <Download className="w-4 h-4 inline mr-2 group-hover:animate-bounce" />
           Download for iPhone/iPad
@@ -38,7 +38,7 @@ export default function MiladyAppDownload() {
           href="https://play.google.com/store/apps/details?id=com.thinkific.mobile"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full px-4 py-3 bg-white text-brand-blue-600 rounded-lg hover:bg-gray-50 font-semibold transition-all text-center shadow-md group"
+          className="block w-full px-4 py-3 bg-white text-brand-blue-600 rounded-lg hover:bg-slate-50 font-semibold transition-all text-center shadow-md group"
         >
           <Download className="w-4 h-4 inline mr-2 group-hover:animate-bounce" />
           Download for Android

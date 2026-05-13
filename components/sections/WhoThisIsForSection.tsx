@@ -10,7 +10,7 @@ export function WhoThisIsForSection({
   if (!items || items.length === 0) return null;
 
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-slate-50 py-16">
       <div className="mx-auto max-w-4xl px-6">
         <h2 className="text-3xl font-bold text-black mb-6">{title}</h2>
         <div className="bg-white rounded-xl p-8 shadow-sm">

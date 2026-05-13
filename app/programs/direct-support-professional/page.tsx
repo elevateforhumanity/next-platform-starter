@@ -34,7 +34,7 @@ export default async function Page() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Please try again later.</p>
@@ -69,7 +69,7 @@ export default async function Page() {
       />
 
       {/* Funding Badge */}
-      <section className="bg-gray-50 border-b">
+      <section className="bg-slate-50 border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <FundingBadge type="funded" />
         </div>
@@ -130,7 +130,7 @@ export default async function Page() {
       </section>
 
       {/* What You'll Learn */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-slate-50 py-16">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-black mb-8 text-center">What You'll Learn</h2>
           <div className="grid md:grid-cols-3 gap-6">
@@ -203,7 +203,7 @@ export default async function Page() {
       </section>
 
       {/* Credentials & Outcomes */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-4xl mx-auto px-6">
           <CredentialsOutcomes
             programName="Direct Support Professional"
@@ -223,7 +223,7 @@ export default async function Page() {
       </section>
 
       {/* Pathway Disclosure */}
-      <section className="bg-gray-50 py-8">
+      <section className="bg-slate-50 py-8">
         <div className="max-w-4xl mx-auto px-4">
           <PathwayDisclosure variant="full" />
         </div>
@@ -237,7 +237,7 @@ export default async function Page() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/apply?program=direct-support-professional"
-              className="px-8 py-4 bg-white text-blue-600 hover:bg-gray-100 font-bold rounded-lg transition-all text-center"
+              className="px-8 py-4 bg-white text-blue-600 hover:bg-slate-100 font-bold rounded-lg transition-all text-center"
             >
               Start Eligibility & Choose This Program
             </Link>

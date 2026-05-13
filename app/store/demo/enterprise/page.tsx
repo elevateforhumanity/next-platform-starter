@@ -91,7 +91,7 @@ export default function EnterpriseDemoPage() {
       </section>
 
       {/* Demo Video Placeholder */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="aspect-video bg-slate-900 rounded-2xl flex items-center justify-center relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-slate-700/20 to-slate-900/80" />
@@ -119,7 +119,7 @@ export default function EnterpriseDemoPage() {
             {demoSteps.map((step) => {
               const Icon = step.icon;
               return (
-                <div key={step.step} className="flex gap-4 p-6 bg-gray-50 rounded-xl">
+                <div key={step.step} className="flex gap-4 p-6 bg-slate-50 rounded-xl">
                   <div className="flex-shrink-0">
                     <div className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center">
                       <Icon className="w-6 h-6 text-white" />
@@ -160,7 +160,7 @@ export default function EnterpriseDemoPage() {
           </p>
           <Link
             href="/contact?subject=Enterprise%20License"
-            className="inline-flex items-center justify-center gap-2 bg-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition-colors"
+            className="inline-flex items-center justify-center gap-2 bg-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-slate-100 transition-colors"
           >
             Request Enterprise Access
             <ArrowRight className="w-5 h-5" />

@@ -139,7 +139,7 @@ export default async function WorkforceBoardDashboard() {
         </div>
       </div>
 
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
@@ -151,7 +151,7 @@ export default async function WorkforceBoardDashboard() {
             <div className="flex gap-3">
               <Link
                 href="/workforce-board/dashboard"
-                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-slate-700 bg-white hover:bg-white"
+                className="inline-flex items-center px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 bg-white hover:bg-white"
               >
                 <FileText className="w-4 h-4 mr-2" />
                 Reports
@@ -170,28 +170,28 @@ export default async function WorkforceBoardDashboard() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <Users className="w-8 h-8 text-brand-blue-600" />
             </div>
             <p className="text-2xl md:text-3xl font-bold text-slate-900">{totalEnrollments}</p>
             <p className="text-sm text-black">Total Enrollments</p>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <GraduationCap className="w-8 h-8 text-brand-green-600" />
             </div>
             <p className="text-2xl md:text-3xl font-bold text-slate-900">{completedEnrollments}</p>
             <p className="text-sm text-black">Completions</p>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <Target className="w-8 h-8 text-brand-blue-600" />
             </div>
             <p className="text-2xl md:text-3xl font-bold text-slate-900">{completionRate}%</p>
             <p className="text-sm text-black">Completion Rate</p>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <Award className="w-8 h-8 text-brand-orange-600" />
             </div>
@@ -200,7 +200,7 @@ export default async function WorkforceBoardDashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-slate-900 flex items-center">
               <BarChart3 className="w-5 h-5 mr-2 text-brand-blue-600" />
@@ -220,7 +220,7 @@ export default async function WorkforceBoardDashboard() {
                   {completionRate}%
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-slate-200 rounded-full h-2">
                 <div
                   className={`h-2 rounded-full ${completionRate >= 75 ? 'bg-brand-green-600' : completionRate >= 50 ? 'bg-slate-400' : 'bg-brand-red-500'}`}
                   style={{ width: `${Math.min(completionRate, 100)}%` }}
@@ -237,7 +237,7 @@ export default async function WorkforceBoardDashboard() {
                   {credentialAttainment}%
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-slate-200 rounded-full h-2">
                 <div
                   className={`h-2 rounded-full ${credentialAttainment >= 70 ? 'bg-brand-green-600' : credentialAttainment >= 50 ? 'bg-slate-400' : 'bg-brand-red-500'}`}
                   style={{ width: `${Math.min(credentialAttainment, 100)}%` }}
@@ -254,7 +254,7 @@ export default async function WorkforceBoardDashboard() {
                   {measurableSkillGains}%
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-slate-200 rounded-full h-2">
                 <div
                   className={`h-2 rounded-full ${measurableSkillGains >= 75 ? 'bg-brand-green-600' : measurableSkillGains >= 50 ? 'bg-slate-400' : 'bg-brand-red-500'}`}
                   style={{ width: `${Math.min(measurableSkillGains, 100)}%` }}
@@ -270,7 +270,7 @@ export default async function WorkforceBoardDashboard() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900 flex items-center">
                 <AlertTriangle className="w-5 h-5 mr-2 text-brand-orange-500" />
@@ -316,7 +316,7 @@ export default async function WorkforceBoardDashboard() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
               <Clock className="w-5 h-5 mr-2 text-brand-blue-600" />
               Recent Activity
@@ -363,7 +363,7 @@ export default async function WorkforceBoardDashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-slate-900 flex items-center">
               <Building2 className="w-5 h-5 mr-2 text-brand-blue-600" />
@@ -399,7 +399,7 @@ export default async function WorkforceBoardDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link
             href="/workforce-board/dashboard"
-            className="flex flex-col items-center p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-brand-blue-300 hover:shadow-md transition"
+            className="flex flex-col items-center p-6 bg-white rounded-xl shadow-sm border border-slate-200 hover:border-brand-blue-300 hover:shadow-md transition"
           >
             <FileText className="w-8 h-8 text-brand-blue-600 mb-2" />
             <span className="font-medium text-slate-900">Generate Reports</span>
@@ -407,7 +407,7 @@ export default async function WorkforceBoardDashboard() {
           </Link>
           <Link
             href="/workforce-board/eligibility"
-            className="flex flex-col items-center p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-brand-blue-300 hover:shadow-md transition"
+            className="flex flex-col items-center p-6 bg-white rounded-xl shadow-sm border border-slate-200 hover:border-brand-blue-300 hover:shadow-md transition"
           >
             <Shield className="w-8 h-8 text-brand-green-600 mb-2" />
             <span className="font-medium text-slate-900">Eligibility Review</span>
@@ -415,7 +415,7 @@ export default async function WorkforceBoardDashboard() {
           </Link>
           <Link
             href="/workforce-board/employment"
-            className="flex flex-col items-center p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-brand-blue-300 hover:shadow-md transition"
+            className="flex flex-col items-center p-6 bg-white rounded-xl shadow-sm border border-slate-200 hover:border-brand-blue-300 hover:shadow-md transition"
           >
             <Briefcase className="w-8 h-8 text-brand-blue-600 mb-2" />
             <span className="font-medium text-slate-900">Employment Outcomes</span>
@@ -423,7 +423,7 @@ export default async function WorkforceBoardDashboard() {
           </Link>
           <Link
             href="/workforce-board/supportive-services"
-            className="flex flex-col items-center p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-brand-blue-300 hover:shadow-md transition"
+            className="flex flex-col items-center p-6 bg-white rounded-xl shadow-sm border border-slate-200 hover:border-brand-blue-300 hover:shadow-md transition"
           >
             <DollarSign className="w-8 h-8 text-brand-orange-600 mb-2" />
             <span className="font-medium text-slate-900">Supportive Services</span>
@@ -431,7 +431,7 @@ export default async function WorkforceBoardDashboard() {
           </Link>
         </div>
 
-        <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
+        <div className="mt-8 bg-white rounded-xl border border-slate-200 p-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-semibold text-slate-900">Compliance Reports</h3>
@@ -441,7 +441,7 @@ export default async function WorkforceBoardDashboard() {
             </div>
             <Link
               href="/workforce-board/reports?type=compliance"
-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-gray-50"
+              className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
               View Compliance Details
             </Link>

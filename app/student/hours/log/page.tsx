@@ -113,7 +113,7 @@ export default function LogHoursPage() {
   // Auth loading
   if (!authReady) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <Clock className="w-8 h-8 text-blue-600 animate-spin" />
       </div>
     );
@@ -128,7 +128,7 @@ export default function LogHoursPage() {
       year: 'numeric',
     });
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
           <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Hours Submitted</h1>
@@ -136,7 +136,7 @@ export default function LogHoursPage() {
             Your entry is pending instructor approval.
           </p>
 
-          <div className="bg-gray-50 rounded-lg p-4 text-left mb-6 space-y-3">
+          <div className="bg-slate-50 rounded-lg p-4 text-left mb-6 space-y-3">
             <div className="flex justify-between text-sm">
               <span className="text-slate-500">Date</span>
               <span className="font-medium text-slate-900">{displayDate}</span>
@@ -178,7 +178,7 @@ export default function LogHoursPage() {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen">
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <nav className="flex items-center text-sm text-slate-600">
@@ -232,7 +232,7 @@ export default function LogHoursPage() {
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                   max={new Date().toISOString().split('T')[0]}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
@@ -248,7 +248,7 @@ export default function LogHoursPage() {
                   onChange={(e) => setFormData({ ...formData, hours: e.target.value })}
                   placeholder="e.g. 4"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
                 <p className="mt-1 text-xs text-slate-500">0.5 – 24 hours</p>
               </div>
@@ -262,7 +262,7 @@ export default function LogHoursPage() {
                 value={formData.activity}
                 onChange={(e) => setFormData({ ...formData, activity: e.target.value })}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Select activity type</option>
                 {activities.map((a) => (
@@ -280,7 +280,7 @@ export default function LogHoursPage() {
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 rows={4}
                 placeholder="Describe what you worked on..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
               />
             </div>
 

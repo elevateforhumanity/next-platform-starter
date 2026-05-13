@@ -233,7 +233,7 @@ export default function AssetGenerator() {
             <button
               onClick={generateAsset}
               disabled={loading || !content}
-              className="w-full bg-brand-info hover:bg-brand-info-hover text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="w-full bg-brand-info hover:bg-brand-info-hover text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:bg-slate-400 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center">
@@ -285,7 +285,7 @@ export default function AssetGenerator() {
               <button
                 onClick={saveAsset}
                 disabled={saving}
-                className="w-full bg-brand-success hover:bg-brand-success-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400"
+                className="w-full bg-brand-success hover:bg-brand-success-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-slate-400"
               >
                 {saving ? 'Saving...' : 'Save Asset'}
               </button>
@@ -329,7 +329,7 @@ export default function AssetGenerator() {
                 <div className="mt-4 flex gap-3">
                   <button
                     onClick={() => downloadAsHTML(generatedAsset.html, assetName)}
-                    className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    className="flex-1 bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition-colors"
                   >
                     Download HTML
                   </button>

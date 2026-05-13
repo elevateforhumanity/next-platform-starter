@@ -229,7 +229,7 @@ export default function PartnerHandbookPage() {
             <section key={section.id} id={section.id} className="scroll-mt-24">
               {/* Section photo */}
               {photo && (
-                <div className="relative w-full h-48 rounded-xl overflow-hidden mb-6 ring-1 ring-gray-200">
+                <div className="relative w-full h-48 rounded-xl overflow-hidden mb-6 ring-1 ring-slate-200">
                   <Image src={photo.src} alt={photo.alt} fill className="object-cover brightness-[1.05]" sizes="(max-width: 768px) 100vw, 800px" />
                   <div className="absolute bottom-4 left-4">
                     <span className="text-slate-900 text-sm font-semibold bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
@@ -292,14 +292,14 @@ export default function PartnerHandbookPage() {
             </Link>
             <Link
               href="/partners/barbershop-apprenticeship/sign-mou"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 border border-gray-300 rounded-lg font-semibold hover:bg-white"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white"
             >
               <FileText className="w-5 h-5" />
               Sign the MOU
             </Link>
             <Link
               href="/partners/barbershop-apprenticeship/forms"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 border border-gray-300 rounded-lg font-semibold hover:bg-white"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white"
             >
               Required Forms
               <ArrowRight className="w-4 h-4" />

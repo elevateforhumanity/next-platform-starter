@@ -269,7 +269,7 @@ export default function IdentityVerificationFlow({
               </ul>
               <button
                 onClick={() => setVerificationMethod('manual')}
-                className="w-full px-4 py-3 bg-gray-600 text-white rounded-lg font-medium hover:bg-gray-700"
+                className="w-full px-4 py-3 bg-slate-600 text-white rounded-lg font-medium hover:bg-slate-700"
               >
                 Upload Documents
               </button>
@@ -325,7 +325,7 @@ export default function IdentityVerificationFlow({
 
           <button
             onClick={() => setVerificationMethod(null)}
-            className="w-full px-4 py-3 bg-gray-200 text-black rounded-lg font-medium hover:bg-gray-300"
+            className="w-full px-4 py-3 bg-slate-200 text-black rounded-lg font-medium hover:bg-slate-300"
           >
             Back
           </button>
@@ -360,7 +360,7 @@ export default function IdentityVerificationFlow({
               <label className="block text-sm font-semibold text-black mb-2">
                 Photo ID (Driver's License, Passport, State ID) *
               </label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+              <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
                 <FileText className="w-12 h-12 mx-auto mb-3 text-black" />
                 <input
                   type="file"
@@ -394,7 +394,7 @@ export default function IdentityVerificationFlow({
               <label className="block text-sm font-semibold text-black mb-2">
                 Social Security Card *
               </label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+              <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
                 <FileText className="w-12 h-12 mx-auto mb-3 text-black" />
                 <input
                   type="file"
@@ -441,7 +441,7 @@ export default function IdentityVerificationFlow({
 
           <button
             onClick={() => setVerificationMethod(null)}
-            className="w-full px-4 py-3 bg-gray-200 text-black rounded-lg font-medium hover:bg-gray-300"
+            className="w-full px-4 py-3 bg-slate-200 text-black rounded-lg font-medium hover:bg-slate-300"
           >
             Back
           </button>

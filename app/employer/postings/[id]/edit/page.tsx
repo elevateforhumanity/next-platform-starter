@@ -105,7 +105,7 @@ export default async function EmployerPostingEditPage({ params }: Props) {
           <div className="flex gap-4">
             <Link
               href={`/employer/postings/${id}`}
-              className="flex-1 text-center px-5 py-3 rounded-lg border text-sm font-semibold text-slate-900 hover:bg-gray-50"
+              className="flex-1 text-center px-5 py-3 rounded-lg border text-sm font-semibold text-slate-900 hover:bg-slate-50"
             >
               Cancel
             </Link>

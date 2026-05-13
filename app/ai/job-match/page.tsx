@@ -53,14 +53,14 @@ export default function AIJobMatchPage() {
             value={skills}
             onChange={(e) => setSkills(e.target.value)}
             placeholder="e.g., CNA certification, customer service, Microsoft Office, bilingual Spanish..."
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-orange-600 focus:border-transparent mb-4"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-orange-600 focus:border-transparent mb-4"
             rows={4}
           />
 
           <button
             onClick={handleMatch}
             disabled={loading || !skills.trim()}
-            className="w-full bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold py-4 rounded-lg transition disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold py-4 rounded-lg transition disabled:bg-slate-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

@@ -16,7 +16,7 @@ export default async function DisclosuresPage() {
   const { data: dbRows } = await supabase.from('legal_documents').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-slate-50 py-12">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Legal', href: '/legal' }, { label: 'Disclosures' }]} />
       </div>
@@ -177,7 +177,7 @@ export default async function DisclosuresPage() {
               of Elevate For Humanity. You are a customer licensing software. Nothing more.
             </p>
 
-            <div className="mt-12 pt-8 border-t border-gray-200 bg-gray-50 -mx-8 md:-mx-12 px-8 md:px-12 pb-8 -mb-8 md:-mb-12 rounded-b-xl">
+            <div className="mt-12 pt-8 border-t border-slate-200 bg-slate-50 -mx-8 md:-mx-12 px-8 md:px-12 pb-8 -mb-8 md:-mb-12 rounded-b-xl">
               <h2 className="text-xl font-bold text-slate-900 mb-4">Acknowledgment</h2>
               <p className="text-slate-700 mb-4">
                 By using the Elevate For Humanity platform, you acknowledge that:

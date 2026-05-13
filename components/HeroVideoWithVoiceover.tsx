@@ -45,7 +45,7 @@ export default function HeroVideoWithVoiceover({
   };
 
   return (
-    <section className="relative bg-gray-900">
+    <section className="relative bg-slate-900">
       {/* Video Background */}
       <video
         ref={videoRef}

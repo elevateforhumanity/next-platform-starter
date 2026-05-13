@@ -72,7 +72,7 @@ export default async function CaseManagerParticipantsPage() {
     if (status === 'approved') return 'bg-green-100 text-green-800';
     if (status === 'pending') return 'bg-yellow-100 text-yellow-800';
     if (status === 'rejected') return 'bg-red-100 text-red-800';
-    return 'bg-gray-100 text-slate-900';
+    return 'bg-slate-100 text-slate-900';
   };
 
   return (
@@ -97,14 +97,14 @@ export default async function CaseManagerParticipantsPage() {
         </div>
 
         {applications.length === 0 ? (
-          <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
+          <div className="rounded-xl border border-slate-200 bg-white p-12 text-center">
             <Users className="w-10 h-10 text-slate-700 mx-auto mb-3" />
             <p className="text-sm text-slate-700">No participants assigned yet.</p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-            <table className="min-w-full divide-y divide-gray-100">
-              <thead className="bg-gray-50">
+          <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+            <table className="min-w-full divide-y divide-slate-100">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
                     Name
@@ -127,12 +127,12 @@ export default async function CaseManagerParticipantsPage() {
                   <th className="px-4 py-3" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-slate-100">
                 {applications.map((app) => {
                   const profile = profilesByEmail[app.email];
                   const enrollCount = profile ? (enrollmentCountByEmail[profile.id] ?? 0) : 0;
                   return (
-                    <tr key={app.id} className="hover:bg-gray-50">
+                    <tr key={app.id} className="hover:bg-slate-50">
                       <td className="px-4 py-3 text-sm font-medium text-slate-900">
                         {app.first_name} {app.last_name}
                       </td>

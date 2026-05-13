@@ -18,7 +18,7 @@ export default async function RevocationPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Policies', href: '/policies' }, { label: 'Revocation' }]} />
       </div>
@@ -91,7 +91,7 @@ export default async function RevocationPage() {
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Revocation Process</h2>
 
-            <div className="bg-gray-50 rounded-xl p-8 border-2 border-gray-200 mb-6">
+            <div className="bg-slate-50 rounded-xl p-8 border-2 border-slate-200 mb-6">
               <div className="space-y-6">
                 <div className="flex gap-6">
                   <div className="flex-shrink-0 w-12 h-12 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
@@ -172,7 +172,7 @@ export default async function RevocationPage() {
                 </div>
 
                 <div className="flex gap-6">
-                  <div className="flex-shrink-0 w-12 h-12 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
+                  <div className="flex-shrink-0 w-12 h-12 bg-slate-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
                     6
                   </div>
                   <div>

@@ -101,7 +101,7 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
             </div>
             <Link
               href="/wioa-eligibility"
-              className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-slate-800 transition-colors"
             >
               Check Eligibility & Apply
             </Link>
@@ -295,7 +295,7 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
           <div className="mt-12 text-center">
             <Link
               href="/apply"
-              className="inline-flex items-center justify-center px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-colors shadow-lg"
+              className="inline-flex items-center justify-center px-8 py-4 bg-slate-900 text-white font-semibold rounded-full hover:bg-slate-800 transition-colors shadow-lg"
             >
               Start Your Application
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -424,7 +424,7 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
 
           {/* Pathway Disclosure above CTA */}
           <div className="mb-8">
-            <PathwayDisclosure variant="compact" className="bg-gray-800 border-gray-700" />
+            <PathwayDisclosure variant="compact" className="bg-slate-800 border-slate-700" />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

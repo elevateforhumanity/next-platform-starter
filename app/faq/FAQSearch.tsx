@@ -35,7 +35,7 @@ export default function FAQSearch({ faqs }: FAQSearchProps) {
           placeholder="Search questions..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 rounded-lg text-slate-900 placeholder-gray-500 border border-gray-300 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+          className="w-full pl-12 pr-4 py-3 rounded-lg text-slate-900 placeholder-slate-500 border border-slate-300 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           aria-label="Search frequently asked questions"
         />
       </div>

@@ -87,7 +87,7 @@ export default function StateCareerTrainingPage({ state }: StateCareerTrainingPa
       </section>
 
       {/* Cities Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-slate-900 mb-8">
             Serving {state.name} Communities
@@ -111,7 +111,7 @@ export default function StateCareerTrainingPage({ state }: StateCareerTrainingPa
               <Link
                 key={s.slug}
                 href={`/career-training-${s.slug}`}
-                className="p-4 bg-gray-50 rounded-lg hover:bg-brand-green-50 transition-colors text-center"
+                className="p-4 bg-slate-50 rounded-lg hover:bg-brand-green-50 transition-colors text-center"
               >
                 <span className="font-medium text-slate-900">{s.name}</span>
               </Link>
@@ -131,7 +131,7 @@ export default function StateCareerTrainingPage({ state }: StateCareerTrainingPa
           </p>
           <Link
             href="/wioa-eligibility"
-            className="inline-flex items-center px-8 py-4 bg-white text-brand-green-600 rounded-lg text-lg font-bold hover:bg-gray-100 transition-colors"
+            className="inline-flex items-center px-8 py-4 bg-white text-brand-green-600 rounded-lg text-lg font-bold hover:bg-slate-100 transition-colors"
           >
             Check Eligibility <ArrowRight className="ml-2 w-5 h-5" />
           </Link>

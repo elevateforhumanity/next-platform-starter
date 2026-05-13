@@ -178,7 +178,7 @@ export function DesktopNav({ items }: DesktopNavProps) {
                 <div
                   ref={(el) => (dropdownRefs.current[item.name] = el)}
                   id={`dropdown-${item.name}`}
-                  className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                  className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-slate-200 py-2 z-50"
                   role="menu"
                   aria-label={`${item.name} submenu`}
                 >
@@ -186,7 +186,7 @@ export function DesktopNav({ items }: DesktopNavProps) {
                     <Link
                       key={child.name}
                       href={child.href}
-                      className="block px-4 py-2 text-sm text-black hover:bg-gray-100 transition focus:outline-none focus:bg-brand-blue-50 focus:text-brand-blue-600"
+                      className="block px-4 py-2 text-sm text-black hover:bg-slate-100 transition focus:outline-none focus:bg-brand-blue-50 focus:text-brand-blue-600"
                       role="menuitem"
                       onClick={() => {
                         setOpenDropdown(null);

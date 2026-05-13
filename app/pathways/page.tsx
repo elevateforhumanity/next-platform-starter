@@ -269,7 +269,7 @@ export default function PathwaysPage() {
             {STAGES.map((s) => (
               <div
                 key={s.num}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden"
               >
                 <div className="flex flex-col lg:flex-row">
                   <div className="relative h-64 lg:h-auto lg:w-96 flex-shrink-0 overflow-hidden">
@@ -332,7 +332,7 @@ export default function PathwaysPage() {
             {PROGRAMS.map((p) => (
               <div
                 key={p.name}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition"
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition"
               >
                 <div className="flex flex-col lg:flex-row">
                   <div className="relative h-56 lg:h-auto lg:w-80 flex-shrink-0 overflow-hidden">
@@ -398,7 +398,7 @@ export default function PathwaysPage() {
         </div>
       </section>
       {/* ── How Programs Are Delivered ── */}
-      <section className="py-10 border-t border-gray-200">
+      <section className="py-10 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">How Programs Are Delivered</h2>
           <div className="text-sm text-slate-700 space-y-3">
@@ -460,7 +460,7 @@ export default function PathwaysPage() {
                 desc: 'You need trained, credentialed workers. We run custom training cohorts for your hiring needs and handle all the funding paperwork.',
               },
             ].map((item) => (
-              <div key={item.title} className="bg-white rounded-lg border border-gray-200 p-6">
+              <div key={item.title} className="bg-white rounded-lg border border-slate-200 p-6">
                 <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
                 <p className="text-sm text-black">{item.desc}</p>
               </div>
@@ -565,7 +565,7 @@ export default function PathwaysPage() {
           <div className="grid sm:grid-cols-3 gap-4">
             <Link
               href="/pathways/outcomes"
-              className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition"
+              className="bg-white rounded-lg border border-slate-200 p-5 hover:shadow-md transition"
             >
               <h3 className="font-bold text-slate-900 mb-1">Outcomes &amp; Metrics</h3>
               <p className="text-sm text-black">
@@ -574,7 +574,7 @@ export default function PathwaysPage() {
             </Link>
             <Link
               href="/pathways/partners"
-              className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition"
+              className="bg-white rounded-lg border border-slate-200 p-5 hover:shadow-md transition"
             >
               <h3 className="font-bold text-slate-900 mb-1">Partners &amp; Cohorts</h3>
               <p className="text-sm text-black">
@@ -583,7 +583,7 @@ export default function PathwaysPage() {
             </Link>
             <Link
               href="/pathways/training-model"
-              className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition"
+              className="bg-white rounded-lg border border-slate-200 p-5 hover:shadow-md transition"
             >
               <h3 className="font-bold text-slate-900 mb-1">Training Delivery</h3>
               <p className="text-sm text-black">

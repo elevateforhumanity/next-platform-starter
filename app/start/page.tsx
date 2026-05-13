@@ -87,19 +87,19 @@ export default function StartPage() {
             <ProgressSteps current={1} />
 
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-2xl border border-gray-200 bg-white p-5">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5">
                 <div className="text-lg font-semibold text-slate-900">1. Apply once</div>
                 <p className="mt-2 text-sm text-slate-600">
                   One clean intake. No bouncing between pages.
                 </p>
               </div>
-              <div className="rounded-2xl border border-gray-200 bg-white p-5">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5">
                 <div className="text-lg font-semibold text-slate-900">2. Get guided</div>
                 <p className="mt-2 text-sm text-slate-600">
                   We identify what you need for funding and enrollment.
                 </p>
               </div>
-              <div className="rounded-2xl border border-gray-200 bg-white p-5">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5">
                 <div className="text-lg font-semibold text-slate-900">3. Start training</div>
                 <p className="mt-2 text-sm text-slate-600">
                   Move from interest to approval without confusion.
@@ -123,7 +123,7 @@ export default function StartPage() {
             </div>
 
             {/* Contact fallback */}
-            <div className="mt-10 rounded-2xl border border-gray-200 bg-white p-5">
+            <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-5">
               <p className="font-medium text-slate-900">Prefer to talk to someone?</p>
               <p className="mt-1 text-sm text-slate-600">
                 Call{' '}
@@ -148,7 +148,7 @@ export default function StartPage() {
           <div>
             <Suspense
               fallback={
-                <div className="h-[600px] animate-pulse rounded-3xl border border-gray-200 bg-white p-8 shadow-sm" />
+                <div className="h-[600px] animate-pulse rounded-3xl border border-slate-200 bg-white p-8 shadow-sm" />
               }
             >
               <StartForm />
@@ -168,7 +168,7 @@ export default function StartPage() {
               <Link
                 key={pathway.title}
                 href={pathway.href}
-                className="flex items-start gap-4 rounded-xl border border-gray-200 bg-white p-5 transition hover:border-brand-blue-300 hover:shadow-sm"
+                className="flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-5 transition hover:border-brand-blue-300 hover:shadow-sm"
               >
                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-brand-blue-50 text-brand-blue-600">
                   <pathway.icon className="h-5 w-5" />

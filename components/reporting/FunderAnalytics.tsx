@@ -51,7 +51,7 @@ const funderColors: Record<string, string> = {
   JRI: 'bg-purple-100 text-purple-800 border-purple-300',
   SEAL: 'bg-brand-orange-100 text-brand-orange-800 border-brand-orange-300',
   Apprenticeship: 'bg-indigo-100 text-indigo-800 border-indigo-300',
-  Other: 'bg-gray-100 text-black border-gray-300',
+  Other: 'bg-slate-100 text-black border-slate-300',
 };
 
 export default function FunderAnalytics() {
@@ -152,7 +152,7 @@ export default function FunderAnalytics() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900" />
       </div>
     );
   }

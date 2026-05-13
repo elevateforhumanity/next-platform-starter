@@ -390,7 +390,7 @@ Sarah Johnson IT Support         2025-01-22    sarah@email.com"
           </button>
           <button
             onClick={() => setRawInput('')}
-            className="bg-brand-border text-brand-text px-4 py-3 rounded-lg hover:bg-gray-300"
+            className="bg-brand-border text-brand-text px-4 py-3 rounded-lg hover:bg-slate-300"
           >
             Clear
           </button>

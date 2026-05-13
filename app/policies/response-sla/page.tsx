@@ -17,7 +17,7 @@ export default async function ResponseSLAPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
           items={[{ label: 'Policies', href: '/policies' }, { label: 'Response Sla' }]}
@@ -70,7 +70,7 @@ export default async function ResponseSLAPage() {
               Response Times by Department
             </h2>
 
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">Admissions</h3>
               <ul className="space-y-2 text-black">
                 <li>
@@ -88,7 +88,7 @@ export default async function ResponseSLAPage() {
               </ul>
             </div>
 
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">Student Services</h3>
               <ul className="space-y-2 text-black">
                 <li>
@@ -106,7 +106,7 @@ export default async function ResponseSLAPage() {
               </ul>
             </div>
 
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">Registrar</h3>
               <ul className="space-y-2 text-black">
                 <li>
@@ -124,7 +124,7 @@ export default async function ResponseSLAPage() {
               </ul>
             </div>
 
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">IT Support</h3>
               <ul className="space-y-2 text-black">
                 <li>

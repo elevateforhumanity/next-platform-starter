@@ -45,7 +45,7 @@ export function BarberHero() {
             <Link href="/programs/barber-apprenticeship/apply" className="inline-flex items-center justify-center rounded-lg bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-700 transition-colors">
               Apply Now
             </Link>
-            <Link href="/funding?program=barber-apprenticeship" className="inline-flex items-center justify-center rounded-lg border-2 border-gray-300 px-6 py-3 text-base font-semibold text-slate-900 hover:bg-gray-50 transition-colors">
+            <Link href="/funding?program=barber-apprenticeship" className="inline-flex items-center justify-center rounded-lg border-2 border-slate-300 px-6 py-3 text-base font-semibold text-slate-900 hover:bg-slate-50 transition-colors">
               Check Funding Eligibility
             </Link>
           </div>

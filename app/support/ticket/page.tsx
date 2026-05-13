@@ -91,7 +91,7 @@ function SubmitTicketContent() {
               </Link>
               <Link
                 href="/"
-                className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition"
+                className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-slate-200 transition"
               >
                 Go to Homepage
               </Link>
@@ -137,7 +137,7 @@ function SubmitTicketContent() {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
                   placeholder="Full name"
                 />
               </div>
@@ -150,7 +150,7 @@ function SubmitTicketContent() {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
                   placeholder="you@example.com"
                 />
               </div>
@@ -165,7 +165,7 @@ function SubmitTicketContent() {
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
                   placeholder="(317) 314-3757"
                 />
               </div>
@@ -177,7 +177,7 @@ function SubmitTicketContent() {
                   required
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
                 >
                   {categories.map((cat) => (
                     <option key={cat.value} value={cat.value}>
@@ -196,7 +196,7 @@ function SubmitTicketContent() {
                 required
                 value={formData.priority}
                 onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
               >
                 {priorities.map((pri) => (
                   <option key={pri.value} value={pri.value}>
@@ -216,7 +216,7 @@ function SubmitTicketContent() {
                 minLength={5}
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
                 placeholder="Brief summary of your issue"
               />
             </div>
@@ -231,7 +231,7 @@ function SubmitTicketContent() {
                 rows={6}
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black resize-none"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black resize-none"
                 placeholder="Please describe your issue in detail. Include any relevant information such as error messages, steps you've already tried, or specific questions you have."
               />
               <p className="text-sm text-slate-700 mt-1">Minimum 20 characters</p>
@@ -258,7 +258,7 @@ function SubmitTicketContent() {
             </div>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-gray-200">
+          <div className="mt-8 pt-8 border-t border-slate-200">
             <p className="text-sm text-slate-700 text-center">
               Need immediate help? Contact us at{' '}
               <a href="/support" className="text-brand-blue-600 font-semibold hover:underline">

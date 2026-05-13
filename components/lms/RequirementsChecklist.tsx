@@ -130,8 +130,8 @@ export function RequirementsChecklist({
         const isCompleted = req.status === 'completed' || req.status === 'verified';
         const isPending = req.status === 'pending' || req.status === 'in_progress';
 
-        let borderColor = 'border-gray-300';
-        let bgColor = 'bg-gray-50';
+        let borderColor = 'border-slate-300';
+        let bgColor = 'bg-slate-50';
         let iconColor = 'text-black';
 
         if (isCompleted) {

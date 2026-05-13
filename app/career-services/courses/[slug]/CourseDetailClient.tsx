@@ -127,7 +127,7 @@ export function CourseDetailClient({ course }: { course: Course }) {
                   <button
                     onClick={validatePromo}
                     disabled={validating || !promoCode.trim()}
-                    className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-300"
+                    className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:bg-slate-300"
                   >
                     {validating ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Apply'}
                   </button>
@@ -146,7 +146,7 @@ export function CourseDetailClient({ course }: { course: Course }) {
               <button
                 onClick={handlePurchase}
                 disabled={purchasing}
-                className="flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-blue-700 disabled:bg-gray-400"
+                className="flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-blue-700 disabled:bg-slate-400"
               >
                 {purchasing ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -214,7 +214,7 @@ export function CourseDetailClient({ course }: { course: Course }) {
             <button
               onClick={handlePurchase}
               disabled={purchasing}
-              className="flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-blue-700 disabled:bg-gray-400"
+              className="flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-blue-700 disabled:bg-slate-400"
             >
               {purchasing ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

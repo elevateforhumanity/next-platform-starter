@@ -133,7 +133,7 @@ export function TutorialSystem({ tutorial, userId, onComplete, onClose }: Tutori
               {Math.round(((currentStepIndex + 1) / tutorial.steps.length) * 100)}% Complete
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-slate-200 rounded-full h-2">
             <div
               className="bg-white h-2 rounded-full transition-all duration-300"
               style={{
@@ -166,7 +166,7 @@ export function TutorialSystem({ tutorial, userId, onComplete, onClose }: Tutori
 
           {/* Media content */}
           {currentStep.media && currentStep.type === 'video' && (
-            <div className="mt-6 rounded-lg overflow-hidden bg-gray-100">
+            <div className="mt-6 rounded-lg overflow-hidden bg-slate-100">
               <video
                 src={currentStep.media}
                 controls
@@ -214,7 +214,7 @@ export function TutorialSystem({ tutorial, userId, onComplete, onClose }: Tutori
           {/* Quiz */}
           {currentStep.type === 'quiz' && (
             <div className="mt-6 space-y-3">
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
                 <p className="text-sm text-black mb-3">
                   Test your understanding before moving forward
                 </p>
@@ -227,11 +227,11 @@ export function TutorialSystem({ tutorial, userId, onComplete, onClose }: Tutori
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t bg-gray-50">
+        <div className="flex items-center justify-between p-6 border-t bg-slate-50">
           <button
             onClick={handlePrevious}
             disabled={isFirstStep}
-            className="flex items-center gap-2 px-4 py-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-4 py-2 text-black bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-4 h-4" />
             Previous
@@ -246,7 +246,7 @@ export function TutorialSystem({ tutorial, userId, onComplete, onClose }: Tutori
                     ? 'bg-brand-blue-600 w-6'
                     : completedSteps.includes(tutorial.steps[index].id)
                       ? 'bg-brand-blue-400'
-                      : 'bg-gray-300'
+                      : 'bg-slate-300'
                 }`}
               />
             ))}
@@ -319,7 +319,7 @@ export function TutorialLibrary({ userId, userRole }: { userId: string; userRole
                 <button
                   key={tutorial.id}
                   onClick={() => setSelectedTutorial(tutorial)}
-                  className="text-left p-6 bg-white border border-gray-200 rounded-lg hover:border-brand-blue-300 hover:shadow-md transition-all"
+                  className="text-left p-6 bg-white border border-slate-200 rounded-lg hover:border-brand-blue-300 hover:shadow-md transition-all"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">

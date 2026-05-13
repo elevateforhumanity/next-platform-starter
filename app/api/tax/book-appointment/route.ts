@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: public tax appointment booking — unauthenticated, rate-limited
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@supabase/supabase-js';

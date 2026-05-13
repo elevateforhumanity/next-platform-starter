@@ -72,7 +72,7 @@ export default function PartnerUploadForm({
                 ? 'border-green-300 bg-green-50'
                 : state === 'error'
                   ? 'border-red-300 bg-red-50'
-                  : 'border-gray-200 bg-white'
+                  : 'border-slate-200 bg-white'
             }`}
           >
             <div className="flex items-start justify-between gap-4">

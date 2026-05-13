@@ -230,7 +230,7 @@ function CheckoutContent() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="Full name"
               />
             </div>
@@ -242,7 +242,7 @@ function CheckoutContent() {
                 onChange={(e) => setCardNumber(e.target.value)}
                 required
                 maxLength={19}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="1234 5678 9012 3456"
               />
             </div>
@@ -255,7 +255,7 @@ function CheckoutContent() {
                   onChange={(e) => setExpiry(e.target.value)}
                   required
                   maxLength={5}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   placeholder="MM/YY"
                 />
               </div>
@@ -267,7 +267,7 @@ function CheckoutContent() {
                   onChange={(e) => setCvc(e.target.value)}
                   required
                   maxLength={4}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   placeholder="123"
                 />
               </div>

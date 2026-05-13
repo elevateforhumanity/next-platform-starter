@@ -426,7 +426,7 @@ function PrintableChecksheet({ sheet }: { sheet: Checksheet }) {
   return (
     <div className="print:break-before-page">
       {/* Header */}
-      <div className="border-2 border-gray-900 p-4 mb-0">
+      <div className="border-2 border-slate-900 p-4 mb-0">
         <div className="flex justify-between items-start">
           <div>
             <p className="text-xs font-medium uppercase tracking-wide text-black">
@@ -450,27 +450,27 @@ function PrintableChecksheet({ sheet }: { sheet: Checksheet }) {
       </div>
 
       {/* Student Info */}
-      <div className="border-x-2 border-gray-900 p-4 grid grid-cols-2 gap-4 text-sm">
+      <div className="border-x-2 border-slate-900 p-4 grid grid-cols-2 gap-4 text-sm">
         <div>
           <label className="text-xs text-black block">Student Name</label>
-          <div className="border-b border-gray-400 h-6 mt-1" />
+          <div className="border-b border-slate-400 h-6 mt-1" />
         </div>
         <div>
           <label className="text-xs text-black block">Date</label>
-          <div className="border-b border-gray-400 h-6 mt-1" />
+          <div className="border-b border-slate-400 h-6 mt-1" />
         </div>
         <div>
           <label className="text-xs text-black block">OJT Supervisor Name</label>
-          <div className="border-b border-gray-400 h-6 mt-1" />
+          <div className="border-b border-slate-400 h-6 mt-1" />
         </div>
         <div>
           <label className="text-xs text-black block">Employer Partner</label>
-          <div className="border-b border-gray-400 h-6 mt-1" />
+          <div className="border-b border-slate-400 h-6 mt-1" />
         </div>
       </div>
 
       {/* Tools Required */}
-      <div className="border-x-2 border-gray-900 p-4 border-t">
+      <div className="border-x-2 border-slate-900 p-4 border-t">
         <h3 className="text-xs font-semibold uppercase text-black mb-2">
           Required Tools &amp; Materials
         </h3>
@@ -482,7 +482,7 @@ function PrintableChecksheet({ sheet }: { sheet: Checksheet }) {
       </div>
 
       {/* Safety */}
-      <div className="border-x-2 border-gray-900 p-4 border-t bg-brand-red-50 print:bg-white">
+      <div className="border-x-2 border-slate-900 p-4 border-t bg-brand-red-50 print:bg-white">
         <h3 className="text-xs font-semibold uppercase text-brand-red-700 mb-2">
           Safety Requirements
         </h3>
@@ -494,31 +494,31 @@ function PrintableChecksheet({ sheet }: { sheet: Checksheet }) {
       </div>
 
       {/* Performance Items */}
-      <table className="w-full border-2 border-gray-900 text-sm">
+      <table className="w-full border-2 border-slate-900 text-sm">
         <thead>
           <tr className="bg-white print:bg-white">
-            <th className="border border-gray-400 px-2 py-2 text-left w-8">#</th>
-            <th className="border border-gray-400 px-2 py-2 text-left">Task</th>
-            <th className="border border-gray-400 px-2 py-2 text-left">Acceptance Criteria</th>
-            <th className="border border-gray-400 px-2 py-2 text-center w-16">Pass</th>
-            <th className="border border-gray-400 px-2 py-2 text-center w-24">Remediate</th>
+            <th className="border border-slate-400 px-2 py-2 text-left w-8">#</th>
+            <th className="border border-slate-400 px-2 py-2 text-left">Task</th>
+            <th className="border border-slate-400 px-2 py-2 text-left">Acceptance Criteria</th>
+            <th className="border border-slate-400 px-2 py-2 text-center w-16">Pass</th>
+            <th className="border border-slate-400 px-2 py-2 text-center w-24">Remediate</th>
           </tr>
         </thead>
         <tbody>
           {sheet.items.map((item) => (
             <tr key={item.id}>
-              <td className="border border-gray-400 px-2 py-2 text-xs font-mono text-black">
+              <td className="border border-slate-400 px-2 py-2 text-xs font-mono text-black">
                 {item.id}
               </td>
-              <td className="border border-gray-400 px-2 py-2 text-slate-900">{item.task}</td>
-              <td className="border border-gray-400 px-2 py-2 text-xs text-black">
+              <td className="border border-slate-400 px-2 py-2 text-slate-900">{item.task}</td>
+              <td className="border border-slate-400 px-2 py-2 text-xs text-black">
                 {item.criteria}
               </td>
-              <td className="border border-gray-400 px-2 py-2 text-center">
-                <div className="w-5 h-5 border border-gray-400 mx-auto" />
+              <td className="border border-slate-400 px-2 py-2 text-center">
+                <div className="w-5 h-5 border border-slate-400 mx-auto" />
               </td>
-              <td className="border border-gray-400 px-2 py-2 text-center">
-                <div className="w-5 h-5 border border-gray-400 mx-auto" />
+              <td className="border border-slate-400 px-2 py-2 text-center">
+                <div className="w-5 h-5 border border-slate-400 mx-auto" />
               </td>
             </tr>
           ))}
@@ -526,7 +526,7 @@ function PrintableChecksheet({ sheet }: { sheet: Checksheet }) {
       </table>
 
       {/* Result & Signatures */}
-      <div className="border-x-2 border-b-2 border-gray-900 p-4">
+      <div className="border-x-2 border-b-2 border-slate-900 p-4">
         <div className="grid grid-cols-3 gap-6 text-sm mb-6">
           <div>
             <label className="text-xs text-black block mb-1">Overall Result</label>
@@ -545,17 +545,17 @@ function PrintableChecksheet({ sheet }: { sheet: Checksheet }) {
           </div>
           <div>
             <label className="text-xs text-black block mb-1">Time Taken</label>
-            <div className="border-b border-gray-400 h-5" />
+            <div className="border-b border-slate-400 h-5" />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-6 text-sm">
           <div>
             <label className="text-xs text-black block">Supervisor Signature</label>
-            <div className="border-b border-gray-400 h-8 mt-1" />
+            <div className="border-b border-slate-400 h-8 mt-1" />
           </div>
           <div>
             <label className="text-xs text-black block">Student Signature</label>
-            <div className="border-b border-gray-400 h-8 mt-1" />
+            <div className="border-b border-slate-400 h-8 mt-1" />
           </div>
         </div>
         <p className="text-xs text-black mt-4">
@@ -605,7 +605,7 @@ export default function ChecksheetsContent({ lessonMap }: { lessonMap?: Map<numb
                 className={`text-left p-4 rounded-lg border transition-colors ${
                   selected === sheet.id
                     ? 'border-brand-blue-500 bg-brand-blue-50'
-                    : 'border-gray-200 bg-white hover:border-gray-300'
+                    : 'border-slate-200 bg-white hover:border-slate-300'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -629,7 +629,7 @@ export default function ChecksheetsContent({ lessonMap }: { lessonMap?: Map<numb
               <div className="flex justify-end mb-4">
                 <button
                   onClick={handlePrint}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm hover:bg-gray-800"
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm hover:bg-slate-800"
                 >
                   <Printer className="w-4 h-4" />
                   Print Checksheet

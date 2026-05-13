@@ -110,7 +110,7 @@ export function RealTimeCollaboration({ roomId, currentUser }: RealTimeCollabora
       case 'away':
         return 'bg-brand-orange-500';
       default:
-        return 'bg-gray-400';
+        return 'bg-slate-400';
     }
   };
 
@@ -135,7 +135,7 @@ export function RealTimeCollaboration({ roomId, currentUser }: RealTimeCollabora
             {activeUsers.map((user) => (
               <div
                 key={user.id}
-                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition"
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition"
               >
                 <div className="relative">
                   <Image
@@ -173,7 +173,7 @@ export function RealTimeCollaboration({ roomId, currentUser }: RealTimeCollabora
         <CardContent>
           <div className="space-y-4">
             {/* Messages */}
-            <div className="h-64 overflow-y-auto space-y-3 p-4 bg-gray-50 rounded-lg">
+            <div className="h-64 overflow-y-auto space-y-3 p-4 bg-slate-50 rounded-lg">
               {messages.length === 0 ? (
                 <div className="text-center text-slate-700 text-sm">
                   No messages yet. Start the conversation!

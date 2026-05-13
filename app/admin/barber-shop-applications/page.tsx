@@ -159,7 +159,7 @@ export default async function BarberShopApplicationsPage() {
             { label: 'Approved', count: approved.length, color: 'green' },
             { label: 'Denied', count: denied.length, color: 'red' },
           ].map(({ label, count, color }) => (
-            <div key={label} className="bg-white rounded-lg border border-gray-200 p-4 text-center">
+            <div key={label} className="bg-white rounded-lg border border-slate-200 p-4 text-center">
               <div className={`text-3xl font-bold text-${color}-600`}>{count}</div>
               <div className="text-sm text-slate-700 mt-1">{label}</div>
             </div>
@@ -173,7 +173,7 @@ export default async function BarberShopApplicationsPage() {
         )}
 
         {rows.length === 0 && !error && (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center text-slate-700">
+          <div className="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-700">
             No applications yet.
           </div>
         )}
@@ -181,7 +181,7 @@ export default async function BarberShopApplicationsPage() {
         {/* Application cards */}
         <div className="space-y-4">
           {rows.map((app) => (
-            <div key={app.id} className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+            <div key={app.id} className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h2 className="text-lg font-bold text-slate-900">
@@ -264,7 +264,7 @@ export default async function BarberShopApplicationsPage() {
               </div>
 
               {/* Compliance flags */}
-              <div className="flex flex-wrap gap-3 pt-3 border-t border-gray-100">
+              <div className="flex flex-wrap gap-3 pt-3 border-t border-slate-100">
                 <ComplianceFlag ok={app.apprentices_on_payroll} label="On payroll" />
                 <ComplianceFlag ok={app.has_general_liability} label="General liability" />
                 <ComplianceFlag ok={app.workers_comp_status === 'verified'} label="Workers comp" />
@@ -299,13 +299,13 @@ export default async function BarberShopApplicationsPage() {
               )}
 
               {app.notes && (
-                <p className="mt-3 text-sm text-slate-700 bg-gray-50 rounded p-3">
+                <p className="mt-3 text-sm text-slate-700 bg-slate-50 rounded p-3">
                   <span className="font-medium">Notes:</span> {app.notes}
                 </p>
               )}
 
               {/* Actions */}
-              <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100">
+              <div className="flex items-center gap-3 mt-4 pt-4 border-t border-slate-100">
                 <ApproveButton applicationId={app.id} status={app.status} />
                 <a
                   href={`mailto:${app.contact_email}?subject=Your Barbershop Partner Application — Elevate for Humanity`}
@@ -315,7 +315,7 @@ export default async function BarberShopApplicationsPage() {
                 </a>
                 <a
                   href={`tel:${app.contact_phone}`}
-                  className="text-sm px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-slate-900"
+                  className="text-sm px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition text-slate-900"
                 >
                   Call
                 </a>

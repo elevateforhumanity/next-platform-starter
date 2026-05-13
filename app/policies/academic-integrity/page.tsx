@@ -18,7 +18,7 @@ export default async function AcademicIntegrityPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
           items={[{ label: 'Policies', href: '/policies' }, { label: 'Academic Integrity' }]}

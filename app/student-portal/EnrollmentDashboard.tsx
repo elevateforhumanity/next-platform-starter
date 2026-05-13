@@ -56,9 +56,9 @@ export default function EnrollmentDashboard() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
         <div className="animate-pulse space-y-4">
-          <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-6 bg-slate-200 rounded w-1/3"></div>
           <div className="h-24 bg-white rounded"></div>
           <div className="h-24 bg-white rounded"></div>
         </div>
@@ -118,7 +118,7 @@ export default function EnrollmentDashboard() {
   };
 
   return (
-    <section className="rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+    <section className="rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
       <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
         <GraduationCap className="w-6 h-6 text-brand-blue-600" />
         My Enrollments
@@ -132,7 +132,7 @@ export default function EnrollmentDashboard() {
           return (
             <div
               key={enrollment.enrollment_id}
-              className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue-300 transition-colors"
+              className="border border-slate-200 rounded-lg p-4 hover:border-brand-blue-300 transition-colors"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
@@ -171,7 +171,7 @@ export default function EnrollmentDashboard() {
                         <span>Progress</span>
                         <span>{enrollment.progress}%</span>
                       </div>
-                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                         <div
                           className="h-full bg-brand-blue-500 rounded-full transition-all"
                           style={{ width: `${enrollment.progress}%` }}

@@ -183,7 +183,7 @@ export default function DocumentUpload({
             ? 'border-brand-blue-500 bg-brand-blue-50'
             : error
               ? 'border-brand-red-300 bg-brand-red-50'
-              : 'border-gray-300 bg-gray-50 hover:border-brand-blue-400 hover:bg-gray-50'
+              : 'border-slate-300 bg-slate-50 hover:border-brand-blue-400 hover:bg-slate-50'
         }`}
       >
         <input
@@ -199,7 +199,7 @@ export default function DocumentUpload({
           <motion.div animate={isDragging ? { scale: 1.1 } : { scale: 1 }} className="inline-block">
             <div
               className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
-                isDragging ? 'bg-brand-blue-600' : 'bg-gray-200'
+                isDragging ? 'bg-brand-blue-600' : 'bg-slate-200'
               }`}
             >
               <Upload className={`w-8 h-8 ${isDragging ? 'text-white' : 'text-black'}`} />
@@ -275,7 +275,7 @@ export default function DocumentUpload({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -100 }}
-                  className="bg-white rounded-xl p-4 shadow-md border border-gray-200"
+                  className="bg-white rounded-xl p-4 shadow-md border border-slate-200"
                 >
                   <div className="flex items-center gap-4">
                     {/* File Icon */}
@@ -309,7 +309,7 @@ export default function DocumentUpload({
                       {/* Progress Bar */}
                       {file.status === 'uploading' && (
                         <div className="mb-2">
-                          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                             <motion.div
                               className="h-full bg-brand-blue-600"
                               initial={{ width: 0 }}
@@ -347,7 +347,7 @@ export default function DocumentUpload({
                         <>
                           <button
                             onClick={() => window.open(file.url, '_blank')}
-                            className="p-2 text-black hover:text-brand-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
+                            className="p-2 text-black hover:text-brand-blue-600 hover:bg-slate-50 rounded-lg transition-colors"
                             title="Preview"
                           >
                             <Eye className="w-5 h-5" />

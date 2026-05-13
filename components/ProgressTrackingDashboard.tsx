@@ -104,7 +104,7 @@ export function ProgressTrackingDashboard() {
             <p className="text-3xl font-bold text-brand-orange-600">
               {overallProgress.completionRate}%
             </p>
-            <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
+            <div className="w-full bg-slate-200 rounded-full h-2 mt-3">
               <div
                 className="   h-2 rounded-full"
                 style={{ width: `${overallProgress.completionRate}%` }}
@@ -159,7 +159,7 @@ export function ProgressTrackingDashboard() {
                       {day.hours}h • {day.completed} lessons
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-slate-200 rounded-full h-2">
                     <div
                       className="   h-2 rounded-full"
                       style={{ width: `${(day.hours / maxHours) * 100}%` }}
@@ -179,7 +179,7 @@ export function ProgressTrackingDashboard() {
                     className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
                       milestone.completed
                         ? 'bg-brand-green-500 text-white'
-                        : 'bg-gray-300 text-black'
+                        : 'bg-slate-300 text-black'
                     }`}
                   >
                     {milestone.completed ? '•' : index + 1}
@@ -202,7 +202,7 @@ export function ProgressTrackingDashboard() {
           <h3 className="text-xl font-bold mb-4">Course Progress</h3>
           <div className="space-y-4">
             {courses.map((course) => (
-              <div key={course.id} className="p-4 bg-gray-50 rounded-lg">
+              <div key={course.id} className="p-4 bg-slate-50 rounded-lg">
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex-1">
                     <h4 className="text-lg font-bold mb-1">{course.course_name}</h4>
@@ -230,7 +230,7 @@ export function ProgressTrackingDashboard() {
                 </div>
 
                 <div className="mb-3">
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className="w-full bg-slate-200 rounded-full h-3">
                     <div
                       className="   h-3 rounded-full transition-all"
                       style={{ width: `${course.progress}%` }}

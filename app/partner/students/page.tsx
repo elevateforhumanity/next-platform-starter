@@ -80,7 +80,7 @@ export default async function PartnerStudentsPage() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
@@ -139,7 +139,7 @@ export default async function PartnerStudentsPage() {
             </div>
           </div>
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-slate-50">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-600">Student</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-600">Program</th>
@@ -152,7 +152,7 @@ export default async function PartnerStudentsPage() {
             <tbody className="divide-y">
               {enrollments && enrollments.length > 0 ? (
                 enrollments.map((enrollment: any) => (
-                  <tr key={enrollment.id} className="hover:bg-gray-50">
+                  <tr key={enrollment.id} className="hover:bg-slate-50">
                     <td className="px-4 py-4">
                       <Link
                         href={`/partner/students/${enrollment.student?.id}`}
@@ -170,7 +170,7 @@ export default async function PartnerStudentsPage() {
                     </td>
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-24 bg-gray-200 rounded-full h-2">
+                        <div className="w-24 bg-slate-200 rounded-full h-2">
                           <div
                             className="bg-orange-500 h-2 rounded-full"
                             style={{ width: `${enrollment.progress || 0}%` }}
@@ -188,7 +188,7 @@ export default async function PartnerStudentsPage() {
                               ? 'bg-blue-100 text-blue-700'
                               : enrollment.status === 'pending'
                                 ? 'bg-yellow-100 text-yellow-700'
-                                : 'bg-gray-100 text-slate-700'
+                                : 'bg-slate-100 text-slate-700'
                         }`}
                       >
                         {enrollment.status}

@@ -72,7 +72,7 @@ export default function StripePayNow({
     <button
       onClick={handlePay}
       disabled={loading}
-      className={`inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors ${className}`}
+      className={`inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors ${className}`}
     >
       {loading ? (
         <>

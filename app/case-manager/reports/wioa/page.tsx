@@ -118,7 +118,7 @@ export default async function WIOAReportPage() {
     if (status === 'eligible')    return 'bg-green-100 text-green-800';
     if (status === 'pending')     return 'bg-yellow-100 text-yellow-800';
     if (status === 'ineligible')  return 'bg-red-100 text-red-800';
-    return 'bg-gray-100 text-slate-900';
+    return 'bg-slate-100 text-slate-900';
   };
 
   return (
@@ -149,7 +149,7 @@ export default async function WIOAReportPage() {
             { label: 'Credentials',       value: credentialed },
             { label: 'Skill Gains',       value: skillGain },
           ].map(({ label, value }) => (
-            <div key={label} className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+            <div key={label} className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
               <p className="text-xs font-medium text-slate-700 uppercase tracking-wide">{label}</p>
               <p className="mt-1 text-2xl font-bold text-slate-900">{value}</p>
             </div>
@@ -157,13 +157,13 @@ export default async function WIOAReportPage() {
         </div>
 
         {wioaRows.length === 0 ? (
-          <div className="rounded-xl border border-gray-200 p-12 text-center">
+          <div className="rounded-xl border border-slate-200 p-12 text-center">
             <p className="text-sm text-slate-700">No WIOA participants found for your assigned caseload.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
-            <table className="min-w-full divide-y divide-gray-100 text-sm">
-              <thead className="bg-gray-50">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+            <table className="min-w-full divide-y divide-slate-100 text-sm">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase whitespace-nowrap">Participant</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase whitespace-nowrap">Program</th>
@@ -180,7 +180,7 @@ export default async function WIOAReportPage() {
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase whitespace-nowrap">Placement</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-slate-100">
                 {wioaRows.map((w) => {
                   const outcome   = outcomesByParticipant[w.id];
                   const placement = placementsByUser[w.user_id];
@@ -194,7 +194,7 @@ export default async function WIOAReportPage() {
                   ].filter(Boolean).join(', ') || '—';
 
                   return (
-                    <tr key={w.id} className="hover:bg-gray-50">
+                    <tr key={w.id} className="hover:bg-slate-50">
                       <td className="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">
                         <Link
                           href={`/case-manager/participants`}

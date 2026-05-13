@@ -354,7 +354,7 @@ export default function CreateCoursePage() {
                 name="is_active"
                 checked={formData.is_active}
                 onChange={handleChange}
-                className="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                className="w-5 h-5 rounded border-slate-300 text-purple-600 focus:ring-purple-500"
               />
               <div>
                 <div className="font-medium text-slate-900">Publish immediately</div>
@@ -378,7 +378,7 @@ export default function CreateCoursePage() {
                 type="button"
                 onClick={(e) => handleSubmit(e, true)}
                 disabled={isSubmitting}
-                className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-white text-slate-900 disabled:opacity-50"
+                className="px-6 py-3 border border-slate-300 rounded-lg hover:bg-white text-slate-900 disabled:opacity-50"
               >
                 Save as Draft
               </button>

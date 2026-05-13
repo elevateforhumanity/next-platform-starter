@@ -109,7 +109,7 @@ export function LimitReachedModal({
             {onClose && (
               <button
                 onClick={onClose}
-                className="block w-full text-slate-700 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors"
+                className="block w-full text-slate-700 py-3 rounded-lg font-medium hover:bg-slate-100 transition-colors"
               >
                 Go Back
               </button>
@@ -177,7 +177,7 @@ export function UsageIndicator({
 }: UsageIndicatorProps) {
   if (limit === 'unlimited') {
     return (
-      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+      <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
         <span className="text-slate-900">{label}</span>
         <span className="text-slate-900 font-medium">{current} (unlimited)</span>
       </div>
@@ -190,7 +190,7 @@ export function UsageIndicator({
   const isAtLimit = current >= limit;
 
   return (
-    <div className="p-3 bg-gray-50 rounded-lg">
+    <div className="p-3 bg-slate-50 rounded-lg">
       <div className="flex items-center justify-between mb-2">
         <span className="text-slate-900">{label}</span>
         <span
@@ -199,7 +199,7 @@ export function UsageIndicator({
           {current} / {limit}
         </span>
       </div>
-      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
         <div
           className={`h-full transition-all ${
             isAtLimit

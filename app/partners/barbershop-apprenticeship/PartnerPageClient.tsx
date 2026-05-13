@@ -116,7 +116,7 @@ export default function PartnerPageClient() {
               { title: 'Video Site Visit', desc: 'Before final approval, we conduct a short Zoom site visit (~15 minutes) to see your shop and confirm it meets requirements.' },
               { title: 'DOL Listing', desc: 'Approved shops are listed on the U.S. Department of Labor RAPIDS system as registered apprenticeship worksites.' },
             ].map((item) => (
-              <div key={item.title} className="bg-white p-6 rounded-xl border border-gray-200">
+              <div key={item.title} className="bg-white p-6 rounded-xl border border-slate-200">
                 <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
                 <p className="text-sm font-medium text-black">{item.desc}</p>
               </div>
@@ -171,7 +171,7 @@ export default function PartnerPageClient() {
               { q: 'Will my shop be listed publicly?', a: 'Yes. Approved partner shops are listed on the U.S. Department of Labor RAPIDS system as registered apprenticeship worksites.' },
               { q: 'What do I need to provide for my application?', a: 'Your shop license number, supervising barber\'s license info, your shop logo, and photos of the inside and outside of your shop.' },
             ].map((item, i) => (
-              <details key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden group">
+              <details key={i} className="bg-white rounded-xl border border-slate-200 overflow-hidden group">
                 <summary className="px-6 py-4 cursor-pointer font-bold text-black hover:bg-white transition-colors">
                   {item.q}
                 </summary>

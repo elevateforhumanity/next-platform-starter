@@ -42,7 +42,7 @@ export default function ModernFeatures({
             return (
               <div
                 key={index}
-                className="bg-white p-8 rounded-2xl border-2 border-gray-100 hover:border-brand-blue-200 hover:shadow-xl transition-all duration-300"
+                className="bg-white p-8 rounded-2xl border-2 border-slate-100 hover:border-brand-blue-200 hover:shadow-xl transition-all duration-300"
               >
                 <div
                   className={`w-16 h-16 bg-${colorClass}-100 rounded-xl flex items-center justify-center mb-6`}

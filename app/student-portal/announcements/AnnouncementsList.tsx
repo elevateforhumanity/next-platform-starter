@@ -47,7 +47,7 @@ export default function AnnouncementsList() {
       <div className="space-y-4">
         {[1, 2, 3].map((i) => (
           <div key={i} className="bg-white rounded-xl p-6 animate-pulse">
-            <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+            <div className="h-6 bg-slate-200 rounded w-1/3 mb-4"></div>
             <div className="h-4 bg-white rounded w-full mb-2"></div>
             <div className="h-4 bg-white rounded w-2/3"></div>
           </div>
@@ -69,7 +69,7 @@ export default function AnnouncementsList() {
 
   if (announcements.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
         <Bell className="w-12 h-12 text-slate-700 mx-auto mb-4" />
         <h2 className="text-xl font-semibold text-slate-900 mb-2">No Announcements</h2>
         <p className="text-slate-700">

@@ -81,13 +81,13 @@ export function AchievementBadges() {
               className={`relative p-4 rounded-lg border-2 text-center transition-all ${
                 badge.earned
                   ? 'border-transparent  ' + badge.color + ' text-white shadow-lg hover:scale-105'
-                  : 'border-gray-200 bg-gray-50 opacity-50'
+                  : 'border-slate-200 bg-slate-50 opacity-50'
               }`}
             >
               <div className="flex justify-center mb-2">
                 <div
                   className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                    badge.earned ? 'bg-white/20' : 'bg-gray-200'
+                    badge.earned ? 'bg-white/20' : 'bg-slate-200'
                   }`}
                 >
                   <Icon className={`h-10 w-10 ${badge.earned ? 'text-white' : 'text-slate-700'}`} />
@@ -121,7 +121,7 @@ export function AchievementBadges() {
           );
         })}
       </div>
-      <div className="mt-6 pt-6 border-t border-gray-200">
+      <div className="mt-6 pt-6 border-t border-slate-200">
         <div className="flex items-center justify-between">
           <span className="text-sm text-black">Next Achievement</span>
           <span className="elevate-pill elevate-pill--orange">2 lessons away</span>

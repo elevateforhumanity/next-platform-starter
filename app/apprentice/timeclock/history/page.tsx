@@ -304,7 +304,7 @@ export default async function TimeclockHistoryPage() {
                     {monthShifts.map((s) => (
                       <div
                         key={s.id}
-                        className={`bg-white border rounded-xl p-4 shadow-sm ${s.hasBadData ? 'border-red-200 bg-red-50' : 'border-gray-100'}`}
+                        className={`bg-white border rounded-xl p-4 shadow-sm ${s.hasBadData ? 'border-red-200 bg-red-50' : 'border-slate-100'}`}
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex items-start gap-3">
@@ -366,7 +366,7 @@ export default async function TimeclockHistoryPage() {
                                   ? 'bg-green-100 text-green-700'
                                   : s.status === 'rejected'
                                     ? 'bg-red-100 text-red-700'
-                                    : 'bg-gray-100 text-slate-700'
+                                    : 'bg-slate-100 text-slate-700'
                               }`}
                             >
                               {s.status ?? 'pending'}
@@ -374,7 +374,7 @@ export default async function TimeclockHistoryPage() {
                           </div>
                         </div>
                         {s.lunch_start_at && (
-                          <div className="mt-2 pt-2 border-t border-gray-50 text-xs text-slate-700">
+                          <div className="mt-2 pt-2 border-t border-slate-50 text-xs text-slate-700">
                             Lunch: {formatTime(s.lunch_start_at)} → {formatTime(s.lunch_end_at)}
                             {!s.lunch_end_at && (
                               <span className="text-amber-600 ml-1">(no end recorded)</span>

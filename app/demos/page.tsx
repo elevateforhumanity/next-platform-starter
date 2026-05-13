@@ -171,7 +171,7 @@ export default function DemosPage() {
             {demos.map((demo) => (
               <div
                 key={demo.id}
-                className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-brand-blue-300 hover:shadow-xl transition-all"
+                className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden hover:border-brand-blue-300 hover:shadow-xl transition-all"
               >
                 {/* Thumbnail */}
                 <div className="relative h-56 overflow-hidden">

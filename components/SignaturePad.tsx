@@ -67,7 +67,7 @@ export default function SignaturePad({ onSave, width = 500, height = 200 }: Sign
 
   return (
     <div className="space-y-4">
-      <div className="border-2 border-gray-300 rounded-lg overflow-hidden bg-white">
+      <div className="border-2 border-slate-300 rounded-lg overflow-hidden bg-white">
         <canvas
           ref={canvasRef}
           style={{ width: '100%', height: `${height}px`, touchAction: 'none' }}

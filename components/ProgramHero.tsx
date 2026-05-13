@@ -64,7 +64,7 @@ export default function ProgramHero({
       </section>
 
       {/* Quick Facts */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             {/* Quick Facts */}

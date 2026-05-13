@@ -505,7 +505,7 @@ export default function NewJobPage() {
               type="button"
               onClick={(e) => handleSubmit(e, true)}
               disabled={isSubmitting}
-              className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-white transition flex items-center gap-2 disabled:opacity-50"
+              className="px-6 py-3 border border-slate-300 rounded-lg hover:bg-white transition flex items-center gap-2 disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
               Save as Draft

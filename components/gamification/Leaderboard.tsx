@@ -17,7 +17,7 @@ const leaderboardData = [
     points: 2640,
     courses: 2,
     avatar: 'MJ',
-    color: 'bg-gray-400',
+    color: 'bg-slate-400',
   },
   {
     rank: 3,
@@ -63,7 +63,7 @@ export function Leaderboard() {
             className={`flex items-center gap-4 p-3 rounded-lg transition-all ${
               user.isCurrentUser
                 ? 'bg-brand-blue-50 border-2 border-brand-orange-500'
-                : 'bg-gray-50 border border-gray-200 hover:border-gray-300'
+                : 'bg-slate-50 border border-slate-200 hover:border-slate-300'
             }`}
           >
             {/* Rank */}
@@ -104,7 +104,7 @@ export function Leaderboard() {
           </div>
         ))}
       </div>
-      <div className="mt-6 pt-6 border-t border-gray-200">
+      <div className="mt-6 pt-6 border-t border-slate-200">
         <div className="flex items-center justify-between text-sm">
           <span className="text-black">Your Progress</span>
           <div className="flex items-center gap-2 text-brand-green-600 font-semibold">

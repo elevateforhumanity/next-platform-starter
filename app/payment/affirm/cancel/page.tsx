@@ -18,7 +18,7 @@ export default async function AffirmCancelPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Please try again later.</p>
@@ -30,7 +30,7 @@ export default async function AffirmCancelPage() {
   // Log affirm cancellation
   try { await supabase.from('page_views').insert({ page: 'affirm_cancel' }).select(); } catch { /* non-critical */ }
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
         <XCircle className="w-16 h-16 text-brand-orange-600 mx-auto mb-4" />
 
@@ -57,7 +57,7 @@ export default async function AffirmCancelPage() {
 
           <Link
             href="/contact"
-            className="inline-block px-6 py-3 bg-gray-100 text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors"
+            className="inline-block px-6 py-3 bg-slate-100 text-black font-semibold rounded-lg hover:bg-slate-200 transition-colors"
           >
             Contact Us
           </Link>
@@ -67,7 +67,7 @@ export default async function AffirmCancelPage() {
           </Link>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-gray-200">
+        <div className="mt-8 pt-6 border-t border-slate-200">
           <p className="text-sm text-black">
             Remember: Most of our programs are 100% FREE through WIOA, WRG, or JRI funding.
           </p>

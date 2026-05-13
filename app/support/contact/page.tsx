@@ -108,7 +108,7 @@ export default function SupportContactPage() {
                 <a
                   key={m.title}
                   href={m.href}
-                  className="bg-white border border-gray-200 rounded-xl p-6 text-center hover:shadow-md hover:border-brand-blue-300 transition-all group"
+                  className="bg-white border border-slate-200 rounded-xl p-6 text-center hover:shadow-md hover:border-brand-blue-300 transition-all group"
                 >
                   <Icon className="w-8 h-8 text-brand-blue-600 mx-auto mb-4" />
                   <h3 className="text-lg font-bold text-slate-900 mb-1">{m.title}</h3>
@@ -135,7 +135,7 @@ export default function SupportContactPage() {
               <Link
                 key={t.title}
                 href={t.href}
-                className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-sm hover:border-brand-blue-300 transition-all"
+                className="bg-white border border-slate-200 rounded-lg p-5 hover:shadow-sm hover:border-brand-blue-300 transition-all"
               >
                 <h3 className="font-bold text-slate-900 mb-1">{t.title}</h3>
                 <p className="text-slate-600 text-sm">{t.desc}</p>
@@ -150,7 +150,7 @@ export default function SupportContactPage() {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <Clock className="w-8 h-8 text-brand-blue-600 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-slate-900 mb-4">Support Hours</h2>
-          <div className="bg-white border border-gray-200 rounded-xl p-6 inline-block">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 inline-block">
             <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
               <span className="text-slate-600 text-right">Monday – Friday</span>
               <span className="font-medium text-slate-900 text-left">9:00 AM – 5:00 PM EST</span>

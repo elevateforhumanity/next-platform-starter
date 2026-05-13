@@ -60,7 +60,7 @@ export default function Programs() {
             <Link
               key={program.href}
               href={program.href}
-              className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-gray-900 transition"
+              className="group block bg-white border border-slate-200 rounded-lg overflow-hidden hover:border-slate-900 transition"
             >
               <div className="relative h-48 w-full">
                 <Image

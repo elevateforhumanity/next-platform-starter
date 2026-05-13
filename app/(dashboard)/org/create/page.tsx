@@ -105,7 +105,7 @@ export default function CreateOrgPage() {
                 required
                 value={formData.name}
                 onChange={(e) => handleNameChange(e.target.value)}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-black rounded-md focus:outline-none focus:ring-brand-blue-500 focus:border-brand-blue-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-slate-300 placeholder-slate-500 text-black rounded-md focus:outline-none focus:ring-brand-blue-500 focus:border-brand-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Acme Training Center"
               />
             </div>
@@ -115,7 +115,7 @@ export default function CreateOrgPage() {
                 URL Slug
               </label>
               <div className="mt-1 flex rounded-md shadow-sm">
-                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-white text-black text-sm">
+                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-300 bg-white text-black text-sm">
                   elevatecareertraining.com/org/
                 </span>
                 <input
@@ -126,7 +126,7 @@ export default function CreateOrgPage() {
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                   pattern="[a-z0-9-]+"
-                  className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-brand-blue-500 focus:border-brand-blue-500 sm:text-sm"
+                  className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-slate-300 focus:ring-brand-blue-500 focus:border-brand-blue-500 sm:text-sm"
                   placeholder="acme-training"
                 />
               </div>
@@ -144,7 +144,7 @@ export default function CreateOrgPage() {
                 name="type"
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-brand-blue-500 focus:border-brand-blue-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-slate-300 focus:outline-none focus:ring-brand-blue-500 focus:border-brand-blue-500 sm:text-sm rounded-md"
               >
                 <option value="training_provider">Training Provider</option>
                 <option value="employer">Employer</option>

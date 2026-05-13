@@ -124,7 +124,7 @@ export default function ThankYouPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/docs/Indiana-Barbershop-Apprenticeship-MOU"
-              className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-white"
+              className="inline-flex items-center justify-center px-6 py-3 border border-slate-300 rounded-lg font-medium hover:bg-white"
             >
               <Download className="w-5 h-5 mr-2" /> View MOU Template
             </Link>

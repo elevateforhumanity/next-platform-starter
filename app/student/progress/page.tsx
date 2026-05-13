@@ -17,7 +17,7 @@ export default async function StudentProgressPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Database connection failed.</p>
@@ -112,8 +112,8 @@ export default async function StudentProgressPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-slate-50">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-500 mb-4">
             <Link href="/learner/dashboard" className="hover:text-slate-700">
@@ -130,21 +130,21 @@ export default async function StudentProgressPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Overall Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
               <Target className="w-6 h-6 text-blue-600" />
             </div>
             <p className="text-2xl font-bold text-slate-900">{overallProgress}%</p>
             <p className="text-sm text-slate-500">Overall Progress</p>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
               <CheckCircle className="w-6 h-6 text-green-600" />
             </div>
             <p className="text-2xl font-bold text-slate-900">{totalModules}</p>
             <p className="text-sm text-slate-500">Lessons Done</p>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
             <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
               <Award className="w-6 h-6 text-yellow-600" />
             </div>
@@ -155,7 +155,7 @@ export default async function StudentProgressPage() {
 
         {/* Course Progress */}
         {courses.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
             <BookOpen className="w-12 h-12 text-slate-300 mx-auto mb-4" />
             <p className="text-slate-600 mb-4">No courses enrolled yet.</p>
             <Link href="/programs" className="text-blue-600 font-medium hover:text-blue-700">
@@ -163,11 +163,11 @@ export default async function StudentProgressPage() {
             </Link>
           </div>
         ) : (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-            <div className="px-6 py-4 border-b border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+            <div className="px-6 py-4 border-b border-slate-200">
               <h2 className="text-lg font-semibold text-slate-900">Course Progress</h2>
             </div>
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-slate-200">
               {courses.map((course) => (
                 <div key={course.id} className="px-6 py-6">
                   <div className="flex items-start justify-between mb-4">
@@ -188,7 +188,7 @@ export default async function StudentProgressPage() {
                   </div>
 
                   <div className="mb-4">
-                    <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-blue-600 rounded-full transition-all duration-500"
                         style={{ width: `${course.progress}%` }}

@@ -17,7 +17,7 @@ export default async function EnrollPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Please try again later.</p>
@@ -37,7 +37,7 @@ export default async function EnrollPage() {
     .limit(20);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
@@ -71,7 +71,7 @@ export default async function EnrollPage() {
                 <Link
                   key={program.id}
                   href={`/apply?program=${program.slug ?? program.id}`}
-                  className="block p-6 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
+                  className="block p-6 border border-slate-200 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
                 >
                   <div className="flex justify-between items-start">
                     <div>

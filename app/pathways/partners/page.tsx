@@ -118,7 +118,7 @@ export default function PartnersPage() {
             ].map((s) => (
               <div
                 key={s.step}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden"
               >
                 <div className="flex flex-col sm:flex-row">
                   <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 overflow-hidden">
@@ -192,7 +192,7 @@ export default function PartnersPage() {
                 when: 'Sent monthly.',
               },
             ].map((r) => (
-              <div key={r.name} className="bg-white rounded-lg border border-gray-200 p-5">
+              <div key={r.name} className="bg-white rounded-lg border border-slate-200 p-5">
                 <h3 className="font-bold text-slate-900 mb-2">{r.name}</h3>
                 <p className="text-sm text-slate-900 mb-2">
                   <span className="font-semibold">What it includes:</span> {r.includes}
@@ -269,7 +269,7 @@ export default function PartnersPage() {
             ].map((p) => (
               <div
                 key={p.type}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden"
               >
                 <div className="flex flex-col sm:flex-row">
                   <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 overflow-hidden">
@@ -310,7 +310,7 @@ export default function PartnersPage() {
             Any of these programs can be configured as a dedicated cohort for your organization.
             Click any program for full details.
           </p>
-          <div className="bg-white rounded-lg border border-gray-200 overflow-x-auto">
+          <div className="bg-white rounded-lg border border-slate-200 overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-white">
                 <tr>
@@ -322,7 +322,7 @@ export default function PartnersPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-slate-100">
                 {[
                   {
                     name: 'CNA Certification',

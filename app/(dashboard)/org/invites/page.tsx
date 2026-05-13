@@ -205,7 +205,7 @@ export default function OrgInvitesPage() {
                   required
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500 sm:text-sm"
                   placeholder="you@example.com"
                 />
               </div>
@@ -218,7 +218,7 @@ export default function OrgInvitesPage() {
                   id="role"
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500 sm:text-sm"
                 >
                   <option value="member">Member</option>
                   <option value="admin">Admin</option>
@@ -235,7 +235,7 @@ export default function OrgInvitesPage() {
                     setInviteRole('member');
                     setError(null);
                   }}
-                  className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-white"
+                  className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-white"
                 >
                   Cancel
                 </button>
@@ -256,7 +256,7 @@ export default function OrgInvitesPage() {
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
             <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
+              <table className="min-w-full divide-y divide-slate-300">
                 <thead className="bg-white">
                   <tr>
                     <th className="px-3 py-3.5 text-left text-sm font-semibold text-black">
@@ -277,7 +277,7 @@ export default function OrgInvitesPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className="divide-y divide-slate-200 bg-white">
                   {invites.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="px-3 py-8 text-center text-sm text-black">

@@ -278,7 +278,7 @@ export function GrantsApp({
                     </div>
                     {app.status === 'draft' && (
                       <div className="mt-2">
-                        <div className="h-2 bg-gray-200 rounded-full">
+                        <div className="h-2 bg-slate-200 rounded-full">
                           <div
                             className="h-2 bg-white rounded-full"
                             style={{ width: `${app.progress || 0}%` }}

@@ -148,7 +148,7 @@ export default async function ExportAttendancePage() {
                         <input
                           type="checkbox"
                           defaultChecked={status === 'All'}
-                          className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                          className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                         />
                         <span className="text-sm text-slate-900">{status}</span>
                       </label>
@@ -205,7 +205,7 @@ export default async function ExportAttendancePage() {
                         <input
                           type="checkbox"
                           defaultChecked
-                          className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                          className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                         />
                         <span className="text-sm text-slate-900">{option}</span>
                       </label>
@@ -224,7 +224,7 @@ export default async function ExportAttendancePage() {
                   </button>
                   <button
                     type="button"
-                    className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-white text-slate-900"
+                    className="px-6 py-3 border border-slate-300 rounded-lg hover:bg-white text-slate-900"
                   >
                     Preview
                   </button>

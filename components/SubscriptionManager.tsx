@@ -296,7 +296,7 @@ export function SubscriptionManager() {
             ].map((invoice, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition"
+                className="flex items-center justify-between p-4 border rounded-lg hover:bg-slate-50 transition"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-brand-green-100 rounded-full flex items-center justify-center">

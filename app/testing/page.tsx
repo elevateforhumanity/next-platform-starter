@@ -72,7 +72,7 @@ export default function TestingPage() {
       </section>
 
       {/* Hero text — below image, never overlaid */}
-      <section className="bg-white border-b border-gray-100 py-8">
+      <section className="bg-white border-b border-slate-100 py-8">
         <div className="max-w-5xl mx-auto px-4">
           {/* Pathway context — testing is step 3, not a standalone service */}
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-4">

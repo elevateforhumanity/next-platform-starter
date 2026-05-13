@@ -27,7 +27,7 @@ export default async function LearnerLayout({ children }: { children: React.Reac
 
   return (
     <div className="min-h-screen bg-white">
-      <nav className="bg-white border-b border-gray-300 sticky top-0 z-40 shadow-sm">
+      <nav className="bg-white border-b border-slate-300 sticky top-0 z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center gap-6">
@@ -56,7 +56,7 @@ export default async function LearnerLayout({ children }: { children: React.Reac
         </div>
 
         {/* Mobile nav — horizontally scrollable */}
-        <div className="md:hidden border-t border-gray-200 overflow-x-auto">
+        <div className="md:hidden border-t border-slate-200 overflow-x-auto">
           <div className="flex items-center gap-1 px-4 py-2 min-w-max">
             {navItems.map((item) => (
               <Link

@@ -47,10 +47,10 @@ export default function MobileLessonCard({
       disabled={locked}
       className={`w-full flex items-center gap-3 p-4 rounded-lg border transition-all ${
         locked
-          ? 'bg-gray-50 border-gray-200 cursor-not-allowed'
+          ? 'bg-slate-50 border-slate-200 cursor-not-allowed'
           : completed
             ? 'bg-brand-green-50 border-brand-green-200 active:scale-98'
-            : 'bg-white border-gray-200 active:scale-98 hover:border-brand-blue-300'
+            : 'bg-white border-slate-200 active:scale-98 hover:border-brand-blue-300'
       }`}
     >
       {/* Icon */}
@@ -77,7 +77,7 @@ export default function MobileLessonCard({
         </div>
       )}
       {locked && (
-        <div className="flex-shrink-0 px-2 py-2 bg-gray-100 text-slate-700 text-xs font-medium rounded-full">
+        <div className="flex-shrink-0 px-2 py-2 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
           Locked
         </div>
       )}

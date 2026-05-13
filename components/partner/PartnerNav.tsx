@@ -51,7 +51,7 @@ export default function PartnerNav({ isAdmin }: { isAdmin: boolean }) {
                 className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition ${
                   active
                     ? 'bg-brand-blue-50 text-brand-blue-700 font-medium'
-                    : 'text-slate-900 hover:bg-gray-50'
+                    : 'text-slate-900 hover:bg-slate-50'
                 }`}
               >
                 <i.icon className="w-4 h-4" />
@@ -77,7 +77,7 @@ export default function PartnerNav({ isAdmin }: { isAdmin: boolean }) {
                   className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition ${
                     active
                       ? 'bg-brand-blue-50 text-brand-blue-700 font-medium'
-                      : 'text-slate-900 hover:bg-gray-50'
+                      : 'text-slate-900 hover:bg-slate-50'
                   }`}
                 >
                   <i.icon className="w-4 h-4" />

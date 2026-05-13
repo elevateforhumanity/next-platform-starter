@@ -200,7 +200,7 @@ export default function PolicyAcknowledgmentPage() {
           <span className="text-sm font-medium text-slate-900">
             {acknowledged.size} of {POLICIES.length} policies acknowledged
           </span>
-          <div className="w-48 bg-gray-200 rounded-full h-2">
+          <div className="w-48 bg-slate-200 rounded-full h-2">
             <div
               className="bg-white h-2 rounded-full transition-all"
               style={{ width: `${(acknowledged.size / POLICIES.length) * 100}%` }}
@@ -329,7 +329,7 @@ export default function PolicyAcknowledgmentPage() {
           <div className="flex gap-3">
             <Link
               href="/partners/barbershop-apprenticeship/sign-mou"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-slate-900 border border-gray-300 rounded-lg font-semibold hover:bg-white text-sm whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white text-sm whitespace-nowrap"
             >
               Sign MOU
             </Link>

@@ -156,7 +156,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
 
       {/* Content */}
       <article className="max-w-4xl mx-auto px-6 py-12">
-        <div className="mb-8 pb-8 border-b border-gray-200">
+        <div className="mb-8 pb-8 border-b border-slate-200">
           <SocialShare url={postUrl} title={post.title} description={post.excerpt} />
         </div>
 
@@ -166,7 +166,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
         />
 
         {post.tags && post.tags.length > 0 && (
-          <div className="mt-12 pt-8 border-t border-gray-200">
+          <div className="mt-12 pt-8 border-t border-slate-200">
             <div className="flex items-center gap-2 flex-wrap">
               <Tag className="w-5 h-5 text-slate-700" />
               {post.tags.map((tag: string) => (
@@ -178,7 +178,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
           </div>
         )}
 
-        <div className="mt-8 pt-8 border-t border-gray-200">
+        <div className="mt-8 pt-8 border-t border-slate-200">
           <p className="text-slate-700 mb-4">Found this helpful? Share it:</p>
           <SocialShare url={postUrl} title={post.title} description={post.excerpt} />
         </div>

@@ -343,7 +343,7 @@ export default function DiscussionForums() {
                   placeholder="Search discussions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -447,7 +447,7 @@ export default function DiscussionForums() {
                 className={`px-4 py-2 rounded-lg flex items-center gap-2 font-medium transition-colors ${
                   sortBy === 'recent'
                     ? 'bg-brand-blue-100 text-brand-blue-700'
-                    : 'text-black hover:bg-gray-100'
+                    : 'text-black hover:bg-slate-100'
                 }`}
               >
                 <Clock className="w-4 h-4" />
@@ -458,7 +458,7 @@ export default function DiscussionForums() {
                 className={`px-4 py-2 rounded-lg flex items-center gap-2 font-medium transition-colors ${
                   sortBy === 'popular'
                     ? 'bg-brand-blue-100 text-brand-blue-700'
-                    : 'text-black hover:bg-gray-100'
+                    : 'text-black hover:bg-slate-100'
                 }`}
               >
                 <TrendingUp className="w-4 h-4" />
@@ -554,7 +554,7 @@ export default function DiscussionForums() {
                       value={newThreadTitle}
                       onChange={(e) => setNewThreadTitle(e.target.value)}
                       placeholder="What's your question or topic?"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     />
                   </div>
                   <div>
@@ -564,13 +564,13 @@ export default function DiscussionForums() {
                       onChange={(e) => setNewThreadContent(e.target.value)}
                       placeholder="Provide details about your question or topic..."
                       rows={6}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     />
                   </div>
                   <div className="flex items-center justify-end gap-3">
                     <button
                       onClick={() => setShowNewThreadModal(false)}
-                      className="px-4 py-2 text-black hover:bg-gray-100 rounded-lg font-medium"
+                      className="px-4 py-2 text-black hover:bg-slate-100 rounded-lg font-medium"
                     >
                       Cancel
                     </button>
@@ -651,7 +651,7 @@ export default function DiscussionForums() {
               onChange={(e) => setNewPostContent(e.target.value)}
               placeholder="Share your thoughts..."
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent mb-4"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent mb-4"
             />
             <div className="flex items-center justify-end">
               <button

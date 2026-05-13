@@ -32,7 +32,7 @@ export default function InstantEnrollButton({
 
   const variantClasses = {
     primary: 'bg-brand-orange-500 hover:bg-brand-orange-600 text-white',
-    secondary: 'bg-white hover:bg-gray-50 text-brand-orange-600 border-2 border-brand-orange-500',
+    secondary: 'bg-white hover:bg-slate-50 text-brand-orange-600 border-2 border-brand-orange-500',
   };
 
   return (

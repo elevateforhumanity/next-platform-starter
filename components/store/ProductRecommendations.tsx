@@ -82,7 +82,7 @@ export default function ProductRecommendations({
         <div className="p-4 space-y-4">
           {/* Avatar Sales Message */}
           {showAvatar && avatarMessage && (
-            <div className="bg-white rounded-xl p-4 border border-gray-200 flex gap-4">
+            <div className="bg-white rounded-xl p-4 border border-slate-200 flex gap-4">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-brand-orange-500">
                   <Image sizes="100vw"
@@ -166,11 +166,11 @@ function RecommendationCard({
 
   return (
     <div
-      className={`bg-white rounded-xl overflow-hidden border-2 ${priority ? 'border-brand-green-500 shadow-lg' : 'border-gray-200'} relative group`}
+      className={`bg-white rounded-xl overflow-hidden border-2 ${priority ? 'border-brand-green-500 shadow-lg' : 'border-slate-200'} relative group`}
     >
       <button
         onClick={onDismiss}
-        className="absolute top-2 right-2 p-1 bg-gray-100 hover:bg-gray-200 rounded-full opacity-0 group-hover:opacity-100 transition z-10"
+        className="absolute top-2 right-2 p-1 bg-slate-100 hover:bg-slate-200 rounded-full opacity-0 group-hover:opacity-100 transition z-10"
         aria-label="Dismiss"
       >
         <X className="w-4 h-4 text-slate-700" />
@@ -235,7 +235,7 @@ function SmallRecommendationCard({
   return (
     <Link
       href={recommendation.product.href}
-      className="flex items-center gap-3 bg-white rounded-lg p-3 border border-gray-200 hover:border-brand-orange-500 hover:shadow transition group"
+      className="flex items-center gap-3 bg-white rounded-lg p-3 border border-slate-200 hover:border-brand-orange-500 hover:shadow transition group"
     >
       <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
         <Image

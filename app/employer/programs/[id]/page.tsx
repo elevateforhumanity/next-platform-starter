@@ -46,7 +46,7 @@ export default async function EmployerProgramDetailPage({ params }: Props) {
           <div>
             <h1 className="text-3xl font-bold text-slate-900">{program.title}</h1>
             {program.status && (
-              <span className="inline-block mt-2 text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full bg-gray-100 text-slate-700">
+              <span className="inline-block mt-2 text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
                 {program.status}
               </span>
             )}
@@ -88,7 +88,7 @@ export default async function EmployerProgramDetailPage({ params }: Props) {
         <div className="flex gap-4">
           <Link
             href="/employer/dashboard"
-            className="px-5 py-2.5 rounded-lg border text-sm font-semibold text-slate-900 hover:bg-gray-50"
+            className="px-5 py-2.5 rounded-lg border text-sm font-semibold text-slate-900 hover:bg-slate-50"
           >
             ← Back to Programs
           </Link>

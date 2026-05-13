@@ -100,7 +100,7 @@ export default function AIInstructor({
         <div className="flex-shrink-0">
           <div
             className={`relative w-20 h-20 rounded-full overflow-hidden border-4 ${
-              isSpeaking ? 'border-brand-blue-500 animate-pulse' : 'border-gray-300'
+              isSpeaking ? 'border-brand-blue-500 animate-pulse' : 'border-slate-300'
             }`}
           >
             <Image

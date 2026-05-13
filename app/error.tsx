@@ -44,7 +44,7 @@ export default function Error({
           </button>
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 text-slate-900 rounded-lg hover:bg-white transition font-semibold"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-slate-300 text-slate-900 rounded-lg hover:bg-white transition font-semibold"
           >
             <Home className="h-5 w-5" />
             Go Home

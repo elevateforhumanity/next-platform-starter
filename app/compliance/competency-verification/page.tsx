@@ -155,7 +155,7 @@ export default function CompetencyVerificationPage() {
       </section>
 
       {/* Print header */}
-      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
+      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
         <h1 className="text-2xl font-bold text-slate-900">Competency Verification Matrix</h1>
         <p className="text-sm text-slate-700">
           Elevate for Humanity — Assessment Rubric Documentation
@@ -165,7 +165,7 @@ export default function CompetencyVerificationPage() {
       {/* Purpose & Verification Authority */}
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="border-l-4 border-brand-blue-600 pl-6 mb-8 print:border-gray-900">
+          <div className="border-l-4 border-brand-blue-600 pl-6 mb-8 print:border-slate-900">
             <h2 className="text-lg font-bold text-slate-900 mb-2">Document Purpose</h2>
             <p className="text-slate-900 text-sm leading-relaxed">
               This document defines the competency assessment rubrics for each program. Every
@@ -262,7 +262,7 @@ export default function CompetencyVerificationPage() {
           </div>
 
           {/* OJT Skill Verification Checklist Categories */}
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 print:bg-white print:border-gray-300">
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 print:bg-white print:border-slate-300">
             <h3 className="font-bold text-slate-900 mb-2 text-sm">
               OJT Skill Verification Checklist Categories
             </h3>
@@ -298,7 +298,7 @@ export default function CompetencyVerificationPage() {
             linked below.
           </p>
 
-          <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-8 print:bg-white print:border-gray-300">
+          <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-8 print:bg-white print:border-slate-300">
             <p className="text-sm text-slate-900 font-semibold mb-1">Dedicated Rubric Pages</p>
             <Link
               href="/compliance/competency-verification/barber"
@@ -325,7 +325,7 @@ export default function CompetencyVerificationPage() {
             All program rubrics follow this standardized format. New programs must use the same
             structure before being added to the institutional catalog.
           </p>
-          <div className="bg-white rounded-lg p-5 border print:bg-white print:border-gray-300">
+          <div className="bg-white rounded-lg p-5 border print:bg-white print:border-slate-300">
             <div className="grid sm:grid-cols-2 gap-3 text-xs text-slate-900">
               {[
                 'Competency Name',
@@ -361,13 +361,13 @@ export default function CompetencyVerificationPage() {
             </Link>
             <Link
               href="/compliance/credential-partners"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Credential Partner Registry
             </Link>
             <Link
               href="/instructional-framework"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructional Framework
             </Link>

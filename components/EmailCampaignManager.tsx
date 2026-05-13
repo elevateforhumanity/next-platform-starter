@@ -113,7 +113,7 @@ export function EmailCampaignManager() {
                           ? 'bg-brand-green-100 text-brand-green-700'
                           : campaign.status === 'scheduled'
                             ? 'bg-brand-blue-100 text-brand-blue-700'
-                            : 'bg-gray-100 text-black'
+                            : 'bg-slate-100 text-black'
                       }`}
                     >
                       {campaign.status.toUpperCase()}

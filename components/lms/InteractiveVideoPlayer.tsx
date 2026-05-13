@@ -380,7 +380,7 @@ export default function InteractiveVideoPlayer({
       <div className="relative">
         {/* Media Element — video or audio with graceful fallback */}
         {loadError ? (
-          <div className="w-full aspect-video flex items-center justify-center bg-gray-900 text-white">
+          <div className="w-full aspect-video flex items-center justify-center bg-slate-900 text-white">
             <div className="text-center p-8">
               <p className="text-lg font-medium mb-2">Unable to load media</p>
               <p className="text-sm text-slate-700 mb-4">
@@ -461,10 +461,10 @@ export default function InteractiveVideoPlayer({
                           ? 'border-brand-green-500 bg-brand-green-50'
                           : index === quizAnswer
                             ? 'border-brand-red-500 bg-brand-red-50'
-                            : 'border-gray-200'
+                            : 'border-slate-200'
                         : quizAnswer === index
                           ? 'border-brand-blue-500 bg-brand-blue-50'
-                          : 'border-gray-200 hover:border-brand-blue-300'
+                          : 'border-slate-200 hover:border-brand-blue-300'
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -472,7 +472,7 @@ export default function InteractiveVideoPlayer({
                         className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                           quizAnswer === index
                             ? 'border-brand-blue-500 bg-brand-blue-500'
-                            : 'border-gray-300'
+                            : 'border-slate-300'
                         }`}
                       >
                         {quizAnswer === index && <div className="w-3 h-3 bg-white rounded-full" />}
@@ -502,7 +502,7 @@ export default function InteractiveVideoPlayer({
                 <button
                   onClick={submitQuizAnswer}
                   disabled={quizAnswer === null}
-                  className="w-full py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  className="w-full py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
                 >
                   Submit Answer
                 </button>
@@ -523,7 +523,7 @@ export default function InteractiveVideoPlayer({
               onChange={(
                 e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => handleSeek(parseFloat(e.target.value))}
-              className="w-full h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-1 bg-slate-600 rounded-lg appearance-none cursor-pointer"
               style={{
                 background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${(currentTime / duration) * 100}%, #4b5563 ${(currentTime / duration) * 100}%, #4b5563 100%)`,
               }}
@@ -582,7 +582,7 @@ export default function InteractiveVideoPlayer({
                 onChange={(
                   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
                 ) => changePlaybackRate(parseFloat(e.target.value))}
-                className="bg-transparent border border-gray-600 rounded px-2 py-2 text-sm"
+                className="bg-transparent border border-slate-600 rounded px-2 py-2 text-sm"
               >
                 <option value="0.5">0.5x</option>
                 <option value="0.75">0.75x</option>
@@ -608,8 +608,8 @@ export default function InteractiveVideoPlayer({
       </div>
 
       {/* Tabs Section */}
-      <div className="bg-gray-900 text-white">
-        <div className="flex border-b border-gray-700">
+      <div className="bg-slate-900 text-white">
+        <div className="flex border-b border-slate-700">
           <button
             onClick={() => setActiveTab('transcript')}
             className={`flex items-center gap-2 px-6 py-3 ${
@@ -641,9 +641,9 @@ export default function InteractiveVideoPlayer({
                 transcript.map((segment, index) => (
                   <div
                     key={index}
-                    className={`p-3 rounded cursor-pointer hover:bg-gray-800 ${
+                    className={`p-3 rounded cursor-pointer hover:bg-slate-800 ${
                       currentTime >= segment.start && currentTime <= segment.end
-                        ? 'bg-gray-800'
+                        ? 'bg-slate-800'
                         : ''
                     }`}
                     onClick={() => handleSeek(segment.start)}
@@ -673,7 +673,7 @@ export default function InteractiveVideoPlayer({
                   ) => setNewNote(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && addNote()}
                   placeholder="Add a note at current timestamp..."
-                  className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white"
+                  className="flex-1 px-4 py-2 bg-slate-800 border border-slate-700 rounded text-white"
                 />
                 <button
                   onClick={addNote}
@@ -685,7 +685,7 @@ export default function InteractiveVideoPlayer({
 
               <div className="space-y-3">
                 {notes.map((note) => (
-                  <div key={note.id} className="p-4 bg-gray-800 rounded">
+                  <div key={note.id} className="p-4 bg-slate-800 rounded">
                     <div className="flex items-center justify-between mb-2">
                       <button
                         onClick={() => handleSeek(note.timestamp)}

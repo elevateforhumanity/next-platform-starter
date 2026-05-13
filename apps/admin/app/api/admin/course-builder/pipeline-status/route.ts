@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
       .maybeSingle();
 
     if (courseErr) {
-      return safeError(`Failed to load course: ${courseErr.message}`, 500);
+      return safeInternalError(courseErr, 'Failed to load course');
     }
 
     if (!course) {
@@ -52,13 +52,13 @@ export async function GET(request: NextRequest) {
     ]);
 
     if (modulesRes.error) {
-      return safeError(`Failed to load module count: ${modulesRes.error.message}`, 500);
+      return safeInternalError(modulesRes.error, 'Failed to load module count');
     }
     if (lessonsRes.error) {
-      return safeError(`Failed to load lessons: ${lessonsRes.error.message}`, 500);
+      return safeInternalError(lessonsRes.error, 'Failed to load lessons');
     }
     if (jobsRes.error) {
-      return safeError(`Failed to load video jobs: ${jobsRes.error.message}`, 500);
+      return safeInternalError(jobsRes.error, 'Failed to load video jobs');
     }
 
     const lessons = lessonsRes.data ?? [];

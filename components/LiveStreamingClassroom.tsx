@@ -206,24 +206,24 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
 
             {/* Controls */}
             <div className="bg-white px-6 py-4 flex justify-center gap-4">
-              <button className="p-3 bg-gray-700 hover:bg-gray-600 rounded-full text-white">
+              <button className="p-3 bg-slate-700 hover:bg-slate-600 rounded-full text-white">
                 🎤 Mute
               </button>
-              <button className="p-3 bg-gray-700 hover:bg-gray-600 rounded-full text-white">
+              <button className="p-3 bg-slate-700 hover:bg-slate-600 rounded-full text-white">
                 📹 Video
               </button>
               <button
                 onClick={() => setHandRaised(!handRaised)}
                 className={`p-3 rounded-full text-white ${
-                  handRaised ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-gray-700 hover:bg-gray-600'
+                  handRaised ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-slate-700 hover:bg-slate-600'
                 }`}
               >
                 ✋ {handRaised ? 'Lower Hand' : 'Raise Hand'}
               </button>
-              <button className="p-3 bg-gray-700 hover:bg-gray-600 rounded-full text-white">
+              <button className="p-3 bg-slate-700 hover:bg-slate-600 rounded-full text-white">
                 🖥️ Share
               </button>
-              <button className="p-3 bg-gray-700 hover:bg-gray-600 rounded-full text-white">
+              <button className="p-3 bg-slate-700 hover:bg-slate-600 rounded-full text-white">
                 💬 Reactions
               </button>
             </div>
@@ -232,7 +232,7 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
           {/* Side Panel */}
           <div className="w-80 bg-white flex flex-col">
             {/* Panel Tabs */}
-            <div className="flex border-b border-gray-700">
+            <div className="flex border-b border-slate-700">
               {(['chat', 'participants', 'polls'] as const).map((panel) => (
                 <button
                   key={panel}
@@ -263,12 +263,12 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
                       </div>
                     ))}
                   </div>
-                  <div className="p-4 border-t border-gray-700">
+                  <div className="p-4 border-t border-slate-700">
                     <div className="flex gap-2">
                       <input
                         type="text"
                         placeholder="Type a message..."
-                        className="flex-1 px-3 py-2 bg-gray-700 text-white rounded border-none focus:ring-2 focus:ring-brand-red-600"
+                        className="flex-1 px-3 py-2 bg-slate-700 text-white rounded border-none focus:ring-2 focus:ring-brand-red-600"
                       />
                       <button className="px-4 py-2 bg-brand-orange-600 hover:bg-brand-orange-700 text-white rounded">
                         Send
@@ -308,7 +308,7 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
               {activePanel === 'polls' && (
                 <div className="p-4">
                   {poll.active && (
-                    <Card className="p-4 bg-gray-700 border-gray-600">
+                    <Card className="p-4 bg-slate-700 border-slate-600">
                       <h3 className="text-white font-bold mb-3">{poll.question}</h3>
                       <div className="space-y-2">
                         {poll.options.map((option, idx) => {
@@ -317,7 +317,7 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
                           return (
                             <button
                               key={idx}
-                              className="w-full text-left p-3 bg-gray-600 hover:bg-gray-500 rounded transition-colors"
+                              className="w-full text-left p-3 bg-slate-600 hover:bg-slate-500 rounded transition-colors"
                             >
                               <div className="flex justify-between items-center mb-1">
                                 <span className="text-white text-sm">{option.text}</span>

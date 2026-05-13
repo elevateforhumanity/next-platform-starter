@@ -207,7 +207,7 @@ function InquiryForm() {
           <button
             type="submit"
             disabled={loading || !turnstileToken}
-            className="w-full min-h-[44px] bg-slate-900 text-white px-6 py-3 rounded-lg hover:bg-slate-800 transition-colors font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="w-full min-h-[44px] bg-slate-900 text-white px-6 py-3 rounded-lg hover:bg-slate-800 transition-colors font-semibold disabled:bg-slate-400 disabled:cursor-not-allowed"
           >
             {loading ? 'Submitting...' : 'Submit Application'}
           </button>

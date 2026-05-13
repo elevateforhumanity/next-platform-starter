@@ -18,7 +18,7 @@ export default async function PartnerUploadPage({ params }: { params: { token: s
         <p className="text-slate-500 text-sm">Partner Document Upload</p>
       </div>
       <div className="max-w-xl mx-auto px-4 py-10">
-        <div className="bg-white rounded-xl border border-gray-200 p-8">
+        <div className="bg-white rounded-xl border border-slate-200 p-8">
           <h1 className="text-xl font-bold text-slate-900 mb-1">Upload Your Documents</h1>
           <p className="text-slate-700 text-sm mb-6">
             {partner.contact_name ?? partner.name} — please upload the three required documents

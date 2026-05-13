@@ -201,7 +201,7 @@ export default async function StudentPortalSchedulePage() {
         </div>
       </section>
 
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <Breadcrumbs
             items={[{ label: 'Student Portal', href: '/student-portal' }, { label: 'Schedule' }]}
@@ -223,7 +223,7 @@ export default async function StudentPortalSchedulePage() {
           </div>
 
           {activeEnrollments.length === 0 ? (
-            <div className="relative rounded-2xl overflow-hidden border border-gray-200">
+            <div className="relative rounded-2xl overflow-hidden border border-slate-200">
               <div className="relative h-56 sm:h-72">
                 <Image
                   src="/images/pages/student-portal-page-3.webp"
@@ -253,7 +253,7 @@ export default async function StudentPortalSchedulePage() {
               {activeEnrollments.map((enrollment) => (
                 <div
                   key={`${enrollment.source}-${enrollment.id}`}
-                  className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow"
                 >
                   <div className="relative h-36 overflow-hidden">
                     <Image
@@ -320,7 +320,7 @@ export default async function StudentPortalSchedulePage() {
           </div>
 
           {cohortSessions.length === 0 ? (
-            <div className="rounded-2xl border border-gray-200 p-8 text-center">
+            <div className="rounded-2xl border border-slate-200 p-8 text-center">
               <Calendar className="w-12 h-12 text-slate-300 mx-auto mb-3" />
               <h3 className="text-lg font-semibold text-slate-700 mb-1">No upcoming sessions</h3>
               <p className="text-sm text-slate-500">
@@ -334,7 +334,7 @@ export default async function StudentPortalSchedulePage() {
               {cohortSessions.map((session) => (
                 <div
                   key={session.id}
-                  className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-sm transition-shadow"
+                  className="bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-sm transition-shadow"
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0 w-14 text-center bg-brand-blue-50 rounded-xl p-2 border border-brand-blue-100">
@@ -414,7 +414,7 @@ export default async function StudentPortalSchedulePage() {
           </div>
 
           {upcomingAppointments.length === 0 ? (
-            <div className="relative rounded-2xl overflow-hidden border border-gray-200">
+            <div className="relative rounded-2xl overflow-hidden border border-slate-200">
               <div className="relative h-56 sm:h-72">
                 <Image
                   src="/images/pages/student-portal-page-5.jpg"
@@ -442,7 +442,7 @@ export default async function StudentPortalSchedulePage() {
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100 overflow-hidden">
+            <div className="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100 overflow-hidden">
               {upcomingAppointments.map((apt) => (
                 <div key={apt.id} className="flex items-center gap-4 p-5">
                   <div className="flex-shrink-0 w-14 text-center bg-brand-orange-50 rounded-xl p-2 border border-brand-orange-100">
@@ -507,7 +507,7 @@ export default async function StudentPortalSchedulePage() {
               <p className="text-sm text-slate-700">Elevate for Humanity main training center</p>
             </div>
           </div>
-          <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
             <div className="grid md:grid-cols-2">
               <div className="relative h-56 md:h-auto min-h-[220px]">
                 <Image
@@ -594,7 +594,7 @@ export default async function StudentPortalSchedulePage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="group relative rounded-xl overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+                className="group relative rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition-shadow"
               >
                 <div className="relative h-28">
                   <Image

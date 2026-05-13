@@ -179,7 +179,7 @@ export function OnboardingTour({
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[9999] w-full max-w-md animate-in zoom-in-95 duration-300">
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden mx-4">
           {/* Progress Bar */}
-          <div className="h-1 bg-gray-100">
+          <div className="h-1 bg-slate-100">
             <div
               className="h-full bg-gradient-to-r from-brand-blue-500 to-indigo-600 transition-all duration-500"
               style={{ width: `${progress}%` }}
@@ -200,7 +200,7 @@ export function OnboardingTour({
               </div>
               <button
                 onClick={skipTour}
-                className="p-2 hover:bg-gray-100 rounded-lg transition"
+                className="p-2 hover:bg-slate-100 rounded-lg transition"
                 aria-label="Close tour"
               >
                 <X className="w-5 h-5 text-slate-700" />
@@ -243,7 +243,7 @@ export function OnboardingTour({
                       ? 'w-8 bg-brand-blue-600'
                       : index < currentStep
                         ? 'bg-brand-blue-400'
-                        : 'bg-gray-200 hover:bg-gray-300'
+                        : 'bg-slate-200 hover:bg-slate-300'
                   }`}
                   aria-label={`Go to step ${index + 1}`}
                 />
@@ -262,7 +262,7 @@ export function OnboardingTour({
                 {currentStep > 0 && (
                   <button
                     onClick={handlePrevious}
-                    className="px-4 py-2.5 border border-gray-300 text-slate-900 rounded-lg font-semibold hover:bg-gray-50 transition flex items-center gap-1"
+                    className="px-4 py-2.5 border border-slate-300 text-slate-900 rounded-lg font-semibold hover:bg-slate-50 transition flex items-center gap-1"
                   >
                     <ChevronLeft className="w-4 h-4" />
                     Back

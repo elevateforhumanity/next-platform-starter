@@ -131,7 +131,7 @@ export function FinancialAidCalculator() {
             <h2 className="text-2xl font-bold mb-6">Estimated Aid Package</h2>
             {results ? (
               <div className="space-y-4">
-                <div className="p-4 bg-gray-50 rounded">
+                <div className="p-4 bg-slate-50 rounded">
                   <p className="text-sm text-black">Total Program Cost</p>
                   <p className="text-2xl font-bold">${results.totalCost.toLocaleString('en-US')}</p>
                 </div>

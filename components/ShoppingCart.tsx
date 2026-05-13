@@ -142,7 +142,7 @@ export function ShoppingCart() {
                   {cartItems.map((item) => (
                     <div
                       key={item.id}
-                      className="flex gap-4 p-4 border rounded-lg hover:bg-gray-50 transition"
+                      className="flex gap-4 p-4 border rounded-lg hover:bg-slate-50 transition"
                     >
                       <div className="relative w-32 h-20 flex-shrink-0">
                         <Image
@@ -165,14 +165,14 @@ export function ShoppingCart() {
                         <div className="flex items-center gap-2 border rounded">
                           <button
                             onClick={() => updateQuantity(item.id, -1)}
-                            className="p-2 hover:bg-gray-100 transition"
+                            className="p-2 hover:bg-slate-100 transition"
                           >
                             <Minus size={16} />
                           </button>
                           <span className="w-8 text-center font-semibold">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, 1)}
-                            className="p-2 hover:bg-gray-100 transition"
+                            className="p-2 hover:bg-slate-100 transition"
                           >
                             <Plus size={16} />
                           </button>

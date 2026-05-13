@@ -94,7 +94,7 @@ export function StudentTimeclockCard({
       </div>
 
       {/* GPS Status */}
-      <div className="mb-4 p-3 rounded-md bg-gray-50">
+      <div className="mb-4 p-3 rounded-md bg-slate-50">
         <div className="flex items-center gap-2">
           <div
             className={`w-3 h-3 rounded-full ${
@@ -102,7 +102,7 @@ export function StudentTimeclockCard({
                 ? timeclock.withinGeofence
                   ? 'bg-brand-green-500'
                   : 'bg-yellow-500'
-                : 'bg-gray-400'
+                : 'bg-slate-400'
             }`}
           />
           <span className="text-sm text-slate-900">
@@ -207,7 +207,7 @@ export function StudentTimeclockCard({
             disabled={timeclock.loading || !timeclock.withinGeofence}
             className={`w-full py-3 px-4 rounded-md font-medium text-white transition-colors ${
               timeclock.loading || !timeclock.withinGeofence
-                ? 'bg-gray-400 cursor-not-allowed'
+                ? 'bg-slate-400 cursor-not-allowed'
                 : 'bg-brand-green-600 hover:bg-brand-green-700'
             }`}
           >
@@ -224,7 +224,7 @@ export function StudentTimeclockCard({
                 disabled={timeclock.loading || !timeclock.withinGeofence}
                 className={`py-3 px-4 rounded-md font-medium text-white transition-colors ${
                   timeclock.loading || !timeclock.withinGeofence
-                    ? 'bg-gray-400 cursor-not-allowed'
+                    ? 'bg-slate-400 cursor-not-allowed'
                     : 'bg-yellow-600 hover:bg-yellow-700'
                 }`}
               >
@@ -237,7 +237,7 @@ export function StudentTimeclockCard({
                 disabled={timeclock.loading || !timeclock.withinGeofence}
                 className={`py-3 px-4 rounded-md font-medium text-white transition-colors ${
                   timeclock.loading || !timeclock.withinGeofence
-                    ? 'bg-gray-400 cursor-not-allowed'
+                    ? 'bg-slate-400 cursor-not-allowed'
                     : 'bg-brand-red-600 hover:bg-brand-red-700'
                 }`}
               >
@@ -254,7 +254,7 @@ export function StudentTimeclockCard({
             disabled={timeclock.loading || !timeclock.withinGeofence}
             className={`w-full py-3 px-4 rounded-md font-medium text-white transition-colors ${
               timeclock.loading || !timeclock.withinGeofence
-                ? 'bg-gray-400 cursor-not-allowed'
+                ? 'bg-slate-400 cursor-not-allowed'
                 : 'bg-yellow-600 hover:bg-yellow-700'
             }`}
           >
@@ -269,7 +269,7 @@ export function StudentTimeclockCard({
               timeclock.reset();
               setAutoClockOutMessage(null);
             }}
-            className="w-full py-3 px-4 rounded-md font-medium text-slate-900 bg-gray-100 hover:bg-gray-200 transition-colors"
+            className="w-full py-3 px-4 rounded-md font-medium text-slate-900 bg-slate-100 hover:bg-slate-200 transition-colors"
           >
             Start New Shift
           </button>

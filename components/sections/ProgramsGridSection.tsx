@@ -28,7 +28,7 @@ export function ProgramsGridSection({ title, programs }: ProgramsGridSectionProp
             <Link
               key={program.slug}
               href={`/programs/${program.slug}`}
-              className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden border border-gray-200"
+              className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden border border-slate-200"
             >
               {/* Image */}
               {program.heroImage && (

@@ -19,7 +19,7 @@ export function SocialLinks() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            className="rounded-full border bg-white px-3 py-2 text-xs font-semibold text-black hover:bg-gray-50"
+            className="rounded-full border bg-white px-3 py-2 text-xs font-semibold text-black hover:bg-slate-50"
           >
             {label} <span className="text-slate-700">↗</span>
           </a>

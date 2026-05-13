@@ -195,11 +195,11 @@ export default async function StudentPortalGradesPage() {
                 return (
                   <div
                     key={e.id}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
+                    className="flex items-center justify-between p-4 bg-slate-50 rounded-xl"
                   >
                     <div className="flex-1 min-w-0 mr-4">
                       <p className="font-medium text-slate-900 truncate">{name}</p>
-                      <div className="mt-2 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="mt-2 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                         <div
                           className="h-full bg-brand-blue-500 rounded-full transition-all"
                           style={{ width: `${pct}%` }}
@@ -233,7 +233,7 @@ export default async function StudentPortalGradesPage() {
               {progEnrollments.map((e: any) => (
                 <div
                   key={e.id}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
+                  className="flex items-center justify-between p-4 bg-slate-50 rounded-xl"
                 >
                   <p className="font-medium text-slate-900">{e.program?.title ?? 'Program'}</p>
                   <div className="text-right">
@@ -381,7 +381,7 @@ export default async function StudentPortalGradesPage() {
               {progress.map((p: any) => (
                 <div
                   key={p.id}
-                  className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0"
+                  className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0"
                 >
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />

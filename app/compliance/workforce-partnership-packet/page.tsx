@@ -142,7 +142,7 @@ export default function WorkforcePartnershipPacketPage() {
       </div>
 
       {/* Print header */}
-      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
+      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
         <h1 className="text-2xl font-bold text-slate-900">Workforce Partnership Packet</h1>
         <p className="text-sm text-slate-600">Elevate for Humanity — Partnership Documentation</p>
         <p className="text-xs text-slate-500 mt-1">
@@ -225,7 +225,7 @@ export default function WorkforcePartnershipPacketPage() {
           </div>
 
           {/* Delivery Model Summary */}
-          <div className="bg-white rounded-lg p-6 border print:bg-white print:border-gray-300">
+          <div className="bg-white rounded-lg p-6 border print:bg-white print:border-slate-300">
             <h3 className="font-bold text-slate-900 mb-3">Delivery Model</h3>
             <p className="text-sm text-slate-700 leading-relaxed mb-4">
               Training is delivered through licensed credential partners and approved program
@@ -393,7 +393,7 @@ export default function WorkforcePartnershipPacketPage() {
               return (
                 <div
                   key={i}
-                  className="bg-white rounded-lg p-4 border print:bg-white print:border-gray-300"
+                  className="bg-white rounded-lg p-4 border print:bg-white print:border-slate-300"
                 >
                   <Icon className="w-5 h-5 text-brand-blue-600 mb-2 print:text-slate-700" />
                   <h3 className="font-semibold text-slate-900 text-sm mb-1">{item.title}</h3>
@@ -403,7 +403,7 @@ export default function WorkforcePartnershipPacketPage() {
             })}
           </div>
 
-          <div className="mt-6 bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 print:bg-white print:border-gray-300">
+          <div className="mt-6 bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 print:bg-white print:border-slate-300">
             <p className="text-sm text-slate-700">
               <span className="font-semibold">Reporting frequency:</span> Weekly, biweekly, or
               monthly — configured per partnership agreement. Real-time dashboard access available
@@ -451,7 +451,7 @@ export default function WorkforcePartnershipPacketPage() {
             ].map((step, i) => (
               <div
                 key={i}
-                className="flex gap-4 items-start bg-white rounded-lg p-4 border print:border-gray-300"
+                className="flex gap-4 items-start bg-white rounded-lg p-4 border print:border-slate-300"
               >
                 <div className="flex-shrink-0 w-20 text-xs font-bold text-brand-blue-600 bg-brand-blue-50 px-2 py-1 rounded text-center print:bg-white print:text-slate-900">
                   {step.day}
@@ -476,7 +476,7 @@ export default function WorkforcePartnershipPacketPage() {
             Competency-based assessment aligned to industry skill standards.
           </p>
 
-          <div className="bg-white rounded-lg p-6 border print:bg-white print:border-gray-300">
+          <div className="bg-white rounded-lg p-6 border print:bg-white print:border-slate-300">
             <div className="space-y-4 text-sm">
               <div>
                 <p className="font-semibold text-slate-900 mb-1">Assessment Authority</p>
@@ -546,7 +546,7 @@ export default function WorkforcePartnershipPacketPage() {
       <section className="py-10 print: print:border-t">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Partnership Inquiries</h2>
-          <div className="bg-white rounded-lg border p-6 print:border-gray-300">
+          <div className="bg-white rounded-lg border p-6 print:border-slate-300">
             <div className="grid sm:grid-cols-2 gap-4 text-sm">
               <div className="flex items-start gap-3">
                 <Mail className="w-5 h-5 text-brand-blue-600 flex-shrink-0 print:text-slate-700" />
@@ -593,19 +593,19 @@ export default function WorkforcePartnershipPacketPage() {
             </Link>
             <Link
               href="/compliance/credential-partners"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Credential Partner Registry
             </Link>
             <Link
               href="/instructional-framework"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructional Framework
             </Link>
             <Link
               href="/workone-partner-packet"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               WorkOne Partner Packet
             </Link>

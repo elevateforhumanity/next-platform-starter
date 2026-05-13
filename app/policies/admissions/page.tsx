@@ -18,7 +18,7 @@ export default async function AdmissionsPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Policies', href: '/policies' }, { label: 'Admissions' }]} />
       </div>
@@ -81,7 +81,7 @@ export default async function AdmissionsPage() {
             <p className="text-black mb-4">Some programs have additional requirements:</p>
 
             <div className="space-y-4 mb-6">
-              <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
+              <div className="bg-white rounded-lg p-4 border-2 border-slate-200">
                 <h4 className="font-bold text-black mb-2">
                   Healthcare Programs (CNA, Phlebotomy, etc.)
                 </h4>
@@ -93,7 +93,7 @@ export default async function AdmissionsPage() {
                 </ul>
               </div>
 
-              <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
+              <div className="bg-white rounded-lg p-4 border-2 border-slate-200">
                 <h4 className="font-bold text-black mb-2">CDL/Transportation Programs</h4>
                 <ul className="list-disc pl-6 text-black space-y-1">
                   <li>Valid driver's license</li>
@@ -103,7 +103,7 @@ export default async function AdmissionsPage() {
                 </ul>
               </div>
 
-              <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
+              <div className="bg-white rounded-lg p-4 border-2 border-slate-200">
                 <h4 className="font-bold text-black mb-2">Skilled Trades Programs</h4>
                 <ul className="list-disc pl-6 text-black space-y-1">
                   <li>Physical ability to perform trade tasks</li>
@@ -115,7 +115,7 @@ export default async function AdmissionsPage() {
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Admission Process</h2>
 
-            <div className="bg-gray-50 rounded-xl p-8 border-2 border-gray-200 mb-6">
+            <div className="bg-slate-50 rounded-xl p-8 border-2 border-slate-200 mb-6">
               <div className="space-y-6">
                 <div className="flex gap-6">
                   <div className="flex-shrink-0 w-12 h-12 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
@@ -207,7 +207,7 @@ export default async function AdmissionsPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Application Timeline</h2>
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <ul className="space-y-3 text-black">
                 <li>
                   <strong>Application Review:</strong> 1-3 business days

@@ -63,7 +63,7 @@ export default async function CartPage({
               </Link>
               <Link
                 href="/store"
-                className="inline-flex items-center gap-2 border border-gray-300 px-6 py-3 rounded-lg font-medium hover:bg-white"
+                className="inline-flex items-center gap-2 border border-slate-300 px-6 py-3 rounded-lg font-medium hover:bg-white"
               >
                 Continue Shopping
               </Link>

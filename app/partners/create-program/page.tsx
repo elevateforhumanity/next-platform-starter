@@ -120,7 +120,7 @@ export default function CreateProgramPage() {
             {BENEFITS.map((b) => {
               const Icon = b.icon;
               return (
-                <div key={b.title} className="bg-white border border-gray-200 rounded-xl p-6">
+                <div key={b.title} className="bg-white border border-slate-200 rounded-xl p-6">
                   <Icon className="w-7 h-7 text-brand-blue-600 mb-3" />
                   <h3 className="font-bold text-slate-900 mb-2">{b.title}</h3>
                   <p className="text-black text-sm">{b.desc}</p>

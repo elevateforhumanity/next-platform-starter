@@ -108,7 +108,7 @@ export default async function ProductDetailPage({
                 </h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   {apps.map((app) => (
-                    <div key={app.id} className="border border-gray-200 rounded-lg p-4">
+                    <div key={app.id} className="border border-slate-200 rounded-lg p-4">
                       <div className="flex items-start">
                         <span className="text-2xl mr-3">{app.icon}</span>
                         <div>
@@ -200,7 +200,7 @@ export default async function ProductDetailPage({
                   </form>
                 )}
 
-                <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="mt-6 pt-6 border-t border-slate-200">
                   <Link
                     href="/store/licenses"
                     className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-semibold"

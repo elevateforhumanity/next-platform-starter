@@ -1,6 +1,7 @@
 /**
  * @deprecated Disabled. Use /api/enrollments/create-enforced.
  */
+// PUBLIC ROUTE: deprecated auto-enroll — kept for backward compat, rate-limited
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';

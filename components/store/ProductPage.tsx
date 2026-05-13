@@ -192,9 +192,9 @@ export function ProductPage({ product }: ProductPageProps) {
           {/* Left: Image Gallery */}
           <div>
             {/* Main Image */}
-            <div className="relative aspect-video bg-gray-100 rounded-2xl overflow-hidden mb-4">
+            <div className="relative aspect-video bg-slate-100 rounded-2xl overflow-hidden mb-4">
               {product.images[selectedImage]?.type === 'video' ? (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
+                <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
                   <button
                     onClick={() => setShowVideo(true)}
                     className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition"
@@ -244,11 +244,11 @@ export function ProductPage({ product }: ProductPageProps) {
                   className={`relative w-24 h-16 rounded-lg overflow-hidden flex-shrink-0 border-2 transition ${
                     selectedImage === i
                       ? 'border-brand-blue-600'
-                      : 'border-transparent hover:border-gray-300'
+                      : 'border-transparent hover:border-slate-300'
                   }`}
                 >
                   {img.type === 'video' ? (
-                    <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-slate-900 flex items-center justify-center">
                       <Play className="w-6 h-6 text-white" />
                     </div>
                   ) : (
@@ -319,13 +319,13 @@ export function ProductPage({ product }: ProductPageProps) {
                     className={`w-full flex items-center justify-between p-4 rounded-lg border-2 transition ${
                       selectedPlan === i
                         ? 'border-brand-blue-600 bg-brand-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <div
                         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                          selectedPlan === i ? 'border-brand-blue-600' : 'border-gray-300'
+                          selectedPlan === i ? 'border-brand-blue-600' : 'border-slate-300'
                         }`}
                       >
                         {selectedPlan === i && (
@@ -360,12 +360,12 @@ export function ProductPage({ product }: ProductPageProps) {
                 className={`w-14 h-14 rounded-xl border-2 flex items-center justify-center transition ${
                   isWishlisted
                     ? 'border-brand-red-500 bg-brand-red-50 text-brand-red-500'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-slate-200 hover:border-slate-300'
                 }`}
               >
                 <Heart className={`w-6 h-6 ${isWishlisted ? 'fill-current' : ''}`} />
               </button>
-              <button className="w-14 h-14 rounded-xl border-2 border-gray-200 flex items-center justify-center hover:border-gray-300 transition">
+              <button className="w-14 h-14 rounded-xl border-2 border-slate-200 flex items-center justify-center hover:border-slate-300 transition">
                 <Share2 className="w-6 h-6" />
               </button>
             </div>
@@ -430,7 +430,7 @@ export function ProductPage({ product }: ProductPageProps) {
                 {product.features.map((feature, i) => {
                   const IconComponent = iconMap[feature.icon] || Zap;
                   return (
-                    <div key={i} className="bg-gray-50 rounded-xl p-6">
+                    <div key={i} className="bg-slate-50 rounded-xl p-6">
                       <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center mb-4">
                         <IconComponent className="w-6 h-6 text-brand-blue-600" />
                       </div>
@@ -461,7 +461,7 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
 
               {/* Rating Summary */}
-              <div className="bg-gray-50 rounded-xl p-6 mb-6">
+              <div className="bg-slate-50 rounded-xl p-6 mb-6">
                 <div className="flex items-center gap-8">
                   <div className="text-center">
                     <p className="text-5xl font-black text-slate-900">{product.rating}</p>
@@ -482,7 +482,7 @@ export function ProductPage({ product }: ProductPageProps) {
                       return (
                         <div key={stars} className="flex items-center gap-3">
                           <span className="text-sm w-8">{stars}★</span>
-                          <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
                             <div
                               className="h-full bg-yellow-400 rounded-full"
                               style={{ width: `${percent}%` }}
@@ -501,7 +501,7 @@ export function ProductPage({ product }: ProductPageProps) {
                 {filteredReviews.map((review) => (
                   <div key={review.id} className="border-b pb-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                      <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center">
                         {review.avatar ? (
                           <Image
                             src={review.avatar}
@@ -557,7 +557,7 @@ export function ProductPage({ product }: ProductPageProps) {
                   <div key={i} className="border rounded-xl overflow-hidden">
                     <button
                       onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
-                      className="w-full flex items-center justify-between p-4 text-left bg-white hover:bg-gray-50"
+                      className="w-full flex items-center justify-between p-4 text-left bg-white hover:bg-slate-50"
                     >
                       <span className="font-bold">{faq.question}</span>
                       <ChevronDown

@@ -206,7 +206,7 @@ export default function SkillsGapAnalysis() {
                     <span className="text-black">Current Level</span>
                     <span className="font-semibold">{gap.currentLevel}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
+                  <div className="w-full bg-slate-200 rounded-full h-3 mb-3">
                     <div
                       className="bg-brand-orange-500 h-3 rounded-full"
                       style={{ width: `${gap.currentLevel}%` }}
@@ -217,7 +217,7 @@ export default function SkillsGapAnalysis() {
                     <span className="text-black">Required Level</span>
                     <span className="font-semibold">{gap.requiredLevel}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className="w-full bg-slate-200 rounded-full h-3">
                     <div
                       className="bg-white h-3 rounded-full"
                       style={{ width: `${gap.requiredLevel}%` }}
@@ -259,7 +259,7 @@ export default function SkillsGapAnalysis() {
               </thead>
               <tbody>
                 {teamMembers.map((member) => (
-                  <tr key={member.id} className="border-b hover:bg-gray-50">
+                  <tr key={member.id} className="border-b hover:bg-slate-50">
                     <td className="py-3 px-4 font-medium">{member.name}</td>
                     <td className="py-3 px-4 text-sm text-black">{member.role}</td>
                     {['JavaScript', 'React', 'TypeScript', 'AWS'].map((skillName) => {
@@ -268,7 +268,7 @@ export default function SkillsGapAnalysis() {
                       return (
                         <td key={skillName} className="py-3 px-4">
                           <div className="flex items-center gap-2">
-                            <div className="w-16 bg-gray-200 rounded-full h-2">
+                            <div className="w-16 bg-slate-200 rounded-full h-2">
                               <div
                                 className={`h-2 rounded-full ${
                                   level >= 70

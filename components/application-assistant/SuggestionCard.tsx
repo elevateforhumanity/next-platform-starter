@@ -21,7 +21,7 @@ export function SuggestionCard({ suggestion, onUse, onSkip }: Props) {
       ? 'text-green-600 bg-green-50 border-green-200'
       : suggestion.confidence >= 0.7
         ? 'text-yellow-600 bg-yellow-50 border-yellow-200'
-        : 'text-slate-700 bg-gray-50 border-gray-200';
+        : 'text-slate-700 bg-slate-50 border-slate-200';
 
   const handleUse = (value: string) => {
     onUse(value);
@@ -48,7 +48,7 @@ export function SuggestionCard({ suggestion, onUse, onSkip }: Props) {
 
       {editing ? (
         <textarea
-          className="w-full border border-gray-300 rounded p-2 text-slate-900 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-blue-400"
+          className="w-full border border-slate-300 rounded p-2 text-slate-900 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-blue-400"
           rows={4}
           value={editValue}
           onChange={(e) => setEditValue(e.target.value)}
@@ -66,7 +66,7 @@ export function SuggestionCard({ suggestion, onUse, onSkip }: Props) {
         </button>
         <button
           onClick={() => setEditing(!editing)}
-          className="flex items-center gap-1 border border-gray-300 hover:bg-white text-slate-900 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
+          className="flex items-center gap-1 border border-slate-300 hover:bg-white text-slate-900 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
         >
           <Edit2 className="w-3 h-3" /> {editing ? 'Cancel' : 'Edit'}
         </button>
@@ -89,7 +89,7 @@ export function SuggestionCard({ suggestion, onUse, onSkip }: Props) {
       </div>
 
       {showAlts && suggestion.alternatives && (
-        <div className="mt-2 space-y-1 border-t border-gray-200 pt-2">
+        <div className="mt-2 space-y-1 border-t border-slate-200 pt-2">
           {suggestion.alternatives.map((alt, i) => (
             <button
               key={i}

@@ -103,7 +103,7 @@ export default function ModerationDashboard() {
       misinformation: 'bg-brand-blue-100 text-brand-blue-800',
       hate_speech: 'bg-brand-red-100 text-brand-red-800',
       violence: 'bg-brand-red-100 text-brand-red-800',
-      other: 'bg-gray-100 text-black',
+      other: 'bg-slate-100 text-black',
     };
 
     return (
@@ -212,7 +212,7 @@ export default function ModerationDashboard() {
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   filter === f
                     ? 'bg-brand-blue-600 text-white'
-                    : 'bg-gray-100 text-black hover:bg-gray-200'
+                    : 'bg-slate-100 text-black hover:bg-slate-200'
                 }`}
               >
                 {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -225,8 +225,8 @@ export default function ModerationDashboard() {
       {/* Reports List */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-slate-200">
+            <thead className="bg-slate-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
                   Content
@@ -245,9 +245,9 @@ export default function ModerationDashboard() {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-slate-200">
               {reports.map((report) => (
-                <tr key={report.id} className="hover:bg-gray-50">
+                <tr key={report.id} className="hover:bg-slate-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-2">
                       <span className="text-2xl">{getContentTypeIcon(report.content_type)}</span>
@@ -348,10 +348,10 @@ export default function ModerationDashboard() {
               </div>
             </div>
 
-            <div className="p-6 border-t bg-gray-50 flex gap-3">
+            <div className="p-6 border-t bg-slate-50 flex gap-3">
               <button
                 onClick={() => setSelectedReport(null)}
-                className="flex-1 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                className="flex-1 px-4 py-2 bg-white border border-slate-300 rounded-lg hover:bg-slate-50"
               >
                 Cancel
               </button>

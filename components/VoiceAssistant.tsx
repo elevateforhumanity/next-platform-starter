@@ -51,7 +51,7 @@ export function VoiceAssistant() {
       </button>
       {/* Assistant Panel */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl z-50 overflow-hidden border border-gray-200">
+        <div className="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl z-50 overflow-hidden border border-slate-200">
           {/* Header */}
           <div className="   text-white p-4">
             <div className="flex items-center justify-between">
@@ -68,7 +68,7 @@ export function VoiceAssistant() {
             </div>
           </div>
           {/* Messages */}
-          <div className="h-64 overflow-y-auto p-4 space-y-3 bg-gray-50">
+          <div className="h-64 overflow-y-auto p-4 space-y-3 bg-slate-50">
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -78,7 +78,7 @@ export function VoiceAssistant() {
                   className={`max-w-[80%] rounded-2xl px-4 py-2 ${
                     message.isUser
                       ? 'bg-brand-orange-600 text-white'
-                      : 'bg-white text-black border border-gray-200'
+                      : 'bg-white text-black border border-slate-200'
                   }`}
                 >
                   <p className="text-sm">{message.text}</p>
@@ -87,7 +87,7 @@ export function VoiceAssistant() {
             ))}
           </div>
           {/* Voice Input */}
-          <div className="p-4 border-t border-gray-200 bg-white">
+          <div className="p-4 border-t border-slate-200 bg-white">
             <div className="flex flex-col items-center gap-3">
               <VoiceInput onCommand={handleCommand} />
               <p className="text-xs text-slate-700 text-center">
@@ -96,7 +96,7 @@ export function VoiceAssistant() {
             </div>
           </div>
           {/* Quick Commands */}
-          <div className="p-4 border-t border-gray-200 bg-gray-50">
+          <div className="p-4 border-t border-slate-200 bg-slate-50">
             <p className="text-xs font-semibold text-black mb-2">Try these commands:</p>
             <div className="space-y-1 max-h-32 overflow-y-auto">
               {voiceCommands.slice(0, 5).map((cmd, index) => (

@@ -164,7 +164,7 @@ export default function AcceptInvitePage({ params }: { params: { token: string }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
       <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
         <div className="text-center">
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
@@ -194,7 +194,7 @@ export default function AcceptInvitePage({ params }: { params: { token: string }
           </p>
           <p className="mt-1 text-xl font-semibold text-black">{invite.organizationName}</p>
 
-          <div className="mt-6 bg-gray-50 rounded-md p-4">
+          <div className="mt-6 bg-slate-50 rounded-md p-4">
             <p className="text-sm text-black">
               <span className="font-medium">Email:</span> {invite.email}
             </p>

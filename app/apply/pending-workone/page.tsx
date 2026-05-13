@@ -248,7 +248,7 @@ export default function PendingWorkOnePage({
           </Link>
           <Link
             href="/login"
-            className="flex-1 border border-gray-300 text-slate-900 px-6 py-3 rounded-lg font-semibold text-center hover:bg-gray-50 transition"
+            className="flex-1 border border-slate-300 text-slate-900 px-6 py-3 rounded-lg font-semibold text-center hover:bg-slate-50 transition"
           >
             Log In to Your Account
           </Link>

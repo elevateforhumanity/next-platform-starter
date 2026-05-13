@@ -224,7 +224,7 @@ export default function AIStudioPage() {
                 className={`relative bg-white rounded-2xl p-8 ${
                   plan.popular
                     ? 'border-2 border-brand-blue-600 shadow-2xl scale-105 z-10'
-                    : 'border border-gray-200 hover:shadow-lg'
+                    : 'border border-slate-200 hover:shadow-lg'
                 } transition-all`}
               >
                 {plan.popular && (
@@ -251,7 +251,7 @@ export default function AIStudioPage() {
                   className={`block w-full text-center py-3 rounded-lg font-bold transition-colors mb-6 ${
                     plan.popular
                       ? 'bg-brand-blue-600 text-white hover:bg-brand-blue-700'
-                      : 'bg-white text-slate-900 hover:bg-gray-200'
+                      : 'bg-white text-slate-900 hover:bg-slate-200'
                   }`}
                 >
                   {plan.cta}

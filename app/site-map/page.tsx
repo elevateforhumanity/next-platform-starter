@@ -36,7 +36,7 @@ export default function SitemapPage() {
           ))}
         </div>
 
-        <div className="mt-12 bg-gray-50 rounded-lg p-6">
+        <div className="mt-12 bg-slate-50 rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4">Additional Resources</h2>
           <ul className="grid md:grid-cols-2 gap-2">
             <li>

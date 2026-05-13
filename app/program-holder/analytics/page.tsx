@@ -337,7 +337,7 @@ export default async function ProgramHolderAnalyticsPage() {
                     <td className="px-4 py-4">{program.enrollments}</td>
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-24 bg-gray-200 rounded-full h-2">
+                        <div className="w-24 bg-slate-200 rounded-full h-2">
                           <div
                             className="bg-brand-orange-500 h-2 rounded-full"
                             style={{ width: `${program.completionRate}%` }}

@@ -63,7 +63,7 @@ export function BadgeShowcase({ userId, badges: initialBadges, limit = 6 }: Badg
 
   if (loading) {
     return (
-      <div className="rounded-lg p-6 bg-gray-100 animate-pulse">
+      <div className="rounded-lg p-6 bg-slate-100 animate-pulse">
         <div className="h-20"></div>
       </div>
     );

@@ -67,7 +67,7 @@ function EnrollConfirmationContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600 mx-auto mb-4" />
           <p className="text-slate-600">Confirming your enrollment...</p>
@@ -78,7 +78,7 @@ function EnrollConfirmationContent() {
 
   if (error && !enrollment) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
           <p className="text-slate-600 mb-6">{error}</p>
           <Link
@@ -105,13 +105,13 @@ function EnrollConfirmationContent() {
         </div>
 
         {/* Payment Receipt */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
           <h2 className="font-semibold text-slate-900 mb-4">Payment Received</h2>
-          <div className="flex justify-between items-center py-2 border-b border-gray-100">
+          <div className="flex justify-between items-center py-2 border-b border-slate-100">
             <span className="text-slate-600">Program</span>
             <span className="font-medium text-slate-900">Barber Apprenticeship</span>
           </div>
-          <div className="flex justify-between items-center py-2 border-b border-gray-100">
+          <div className="flex justify-between items-center py-2 border-b border-slate-100">
             <span className="text-slate-600">Amount Paid</span>
             <span className="font-medium text-slate-900">
               ${enrollment?.amountPaid?.toLocaleString() || '999'}
@@ -135,7 +135,7 @@ function EnrollConfirmationContent() {
         </div>
 
         {/* Unlock Checklist */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
           <h2 className="font-semibold text-slate-900 mb-4">Your Progress</h2>
           <div className="space-y-4">
             {/* Completed steps */}
@@ -182,7 +182,7 @@ function EnrollConfirmationContent() {
 
             {/* Locked steps */}
             <div className="flex items-center gap-4 opacity-60">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
                 <Lock className="w-5 h-5 text-slate-500" />
               </div>
               <div>
@@ -192,7 +192,7 @@ function EnrollConfirmationContent() {
             </div>
 
             <div className="flex items-center gap-4 opacity-60">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
                 <Lock className="w-5 h-5 text-slate-500" />
               </div>
               <div>
@@ -202,7 +202,7 @@ function EnrollConfirmationContent() {
             </div>
 
             <div className="flex items-center gap-4 opacity-60">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
                 <Lock className="w-5 h-5 text-slate-500" />
               </div>
               <div>
@@ -214,19 +214,19 @@ function EnrollConfirmationContent() {
         </div>
 
         {/* What You Can Do Now */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
           <h2 className="font-semibold text-slate-900 mb-4">What You Can Do Now</h2>
           <div className="space-y-3">
             <Link
               href="/messages"
-              className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition"
+              className="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition"
             >
               <MessageCircle className="w-5 h-5 text-brand-blue-600" />
               <span className="text-slate-700">Message your enrollment advisor</span>
             </Link>
             <Link
               href="/documents/upload"
-              className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition"
+              className="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition"
             >
               <FileText className="w-5 h-5 text-brand-blue-600" />
               <span className="text-slate-700">Upload required documents</span>

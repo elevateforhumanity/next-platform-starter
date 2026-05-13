@@ -61,20 +61,20 @@ export default function CommunityServicesTexasPage() {
           <p className="mb-6">Connect with our team to find the resources you need.</p>
           <Link
             href="/contact"
-            className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100"
+            className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-slate-100"
           >
             Contact Us
           </Link>
         </div>
 
         <div className="mt-12 grid md:grid-cols-2 gap-8">
-          <div className="bg-gray-50 p-6 rounded-lg">
+          <div className="bg-slate-50 p-6 rounded-lg">
             <h3 className="font-semibold mb-3">Also in Texas</h3>
             <Link href="/career-training-texas" className="text-blue-600 hover:underline block">
               Career Training Programs →
             </Link>
           </div>
-          <div className="bg-gray-50 p-6 rounded-lg">
+          <div className="bg-slate-50 p-6 rounded-lg">
             <h3 className="font-semibold mb-3">Other States</h3>
             <div className="space-y-1">
               <Link

@@ -21,7 +21,7 @@ export default function RevenueShareCalculator() {
   const annualRevenue = monthlyRevenue * 4; // 4 month tax season
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
@@ -61,7 +61,7 @@ export default function RevenueShareCalculator() {
                     type="number"
                     value={clientPayment}
                     onChange={(e) => setClientPayment(Number(e.target.value))}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   />
                 </div>
                 <p className="text-xs text-black mt-1">Typical range: $150-$500</p>
@@ -77,7 +77,7 @@ export default function RevenueShareCalculator() {
                     type="number"
                     value={addOnFees}
                     onChange={(e) => setAddOnFees(Number(e.target.value))}
-                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   />
                 </div>
                 <p className="text-xs text-black mt-1">
@@ -118,7 +118,7 @@ export default function RevenueShareCalculator() {
                   type="number"
                   value={numberOfReturns}
                   onChange={(e) => setNumberOfReturns(Number(e.target.value))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 />
                 <p className="text-xs text-black mt-1">Average: 50-200 per month</p>
               </div>
@@ -167,7 +167,7 @@ export default function RevenueShareCalculator() {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-3 text-sm">
+                <div className="bg-slate-50 rounded-lg p-3 text-sm">
                   <div className="flex justify-between text-black mb-1">
                     <span>Main Office Gets:</span>
                     <span className="font-medium">${mainOfficeTotal.toFixed(2)}</span>
@@ -214,25 +214,25 @@ export default function RevenueShareCalculator() {
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="font-bold text-black mb-4">Quick Stats</h3>
               <div className="grid grid-cols-2 gap-4 text-center">
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-lg p-4">
                   <div className="text-2xl font-bold text-brand-blue-600">
                     {numberOfReturns * 4}
                   </div>
                   <div className="text-xs text-black">Total Returns/Season</div>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-lg p-4">
                   <div className="text-2xl font-bold text-brand-green-600">
                     ${(annualRevenue / (numberOfReturns * 4)).toFixed(0)}
                   </div>
                   <div className="text-xs text-black">Avg per Return</div>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-lg p-4">
                   <div className="text-2xl font-bold text-brand-blue-600">
                     {((subofficeShare / clientPayment) * 100).toFixed(0)}%
                   </div>
                   <div className="text-xs text-black">Your Margin</div>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-lg p-4">
                   <div className="text-2xl font-bold text-brand-orange-600">
                     ${(annualRevenue * 0.3).toLocaleString()}
                   </div>
@@ -248,7 +248,7 @@ export default function RevenueShareCalculator() {
           <h2 className="text-2xl font-bold text-black mb-6">Example Scenarios</h2>
 
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="border-2 border-gray-200 rounded-lg p-6">
+            <div className="border-2 border-slate-200 rounded-lg p-6">
               <h3 className="font-bold text-lg mb-4">Part-Time Office</h3>
               <ul className="space-y-2 text-sm text-black">
                 <li>• 50 returns/month</li>
@@ -277,7 +277,7 @@ export default function RevenueShareCalculator() {
               </div>
             </div>
 
-            <div className="border-2 border-gray-200 rounded-lg p-6">
+            <div className="border-2 border-slate-200 rounded-lg p-6">
               <h3 className="font-bold text-lg mb-4">High-Volume Office</h3>
               <ul className="space-y-2 text-sm text-black">
                 <li>• 200 returns/month</li>
@@ -335,7 +335,7 @@ export default function RevenueShareCalculator() {
             </Link>
             <Link
               href="/legal/license-agreement"
-              className="bg-white hover:bg-gray-100 text-brand-blue-900 px-8 py-4 rounded-lg text-lg font-bold transition-all flex items-center justify-center"
+              className="bg-white hover:bg-slate-100 text-brand-blue-900 px-8 py-4 rounded-lg text-lg font-bold transition-all flex items-center justify-center"
             >
               <FileText className="w-5 h-5 mr-2" />
               View Full Policy

@@ -80,7 +80,7 @@ export default async function EmployerSettingsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <Breadcrumbs
         items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Settings' }]}
       />
@@ -101,7 +101,7 @@ export default async function EmployerSettingsPage() {
           {settingsSections.map((section) => (
             <div key={section.id} className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
                   <section.icon className="w-5 h-5 text-slate-600" />
                 </div>
                 <div>
@@ -120,7 +120,7 @@ export default async function EmployerSettingsPage() {
                       type={field.type}
                       defaultValue={field.value}
                       name={field.name}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-green-500 focus:border-transparent"
                       placeholder={`Enter ${field.label.toLowerCase()}`}
                     />
                   </div>
@@ -131,7 +131,7 @@ export default async function EmployerSettingsPage() {
 
           <div className="bg-white rounded-xl shadow-sm p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
                 <Bell className="w-5 h-5 text-slate-600" />
               </div>
               <div>
@@ -144,7 +144,7 @@ export default async function EmployerSettingsPage() {
                 (item) => (
                   <label
                     key={item}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer"
+                    className="flex items-center justify-between p-3 bg-slate-50 rounded-lg cursor-pointer"
                   >
                     <span className="text-slate-700">{item}</span>
                     <input

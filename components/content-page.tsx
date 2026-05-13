@@ -30,7 +30,7 @@ export function ContentPage({ title, lead, sections, cta }: ContentPageProps) {
 
       {cta && (
         <div className="mt-10">
-          <a href={cta.href} className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800">
+          <a href={cta.href} className="rounded bg-black px-5 py-3 text-white hover:bg-slate-800">
             {cta.label}
           </a>
         </div>

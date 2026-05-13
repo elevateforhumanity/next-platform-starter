@@ -32,8 +32,8 @@ export default function CartItems({ items }: CartItemProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-      <div className="divide-y divide-gray-200">
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+      <div className="divide-y divide-slate-200">
         {items.map((item) => (
           <div key={item.cart_item_id} className="p-6">
             <div className="flex gap-4">
@@ -58,14 +58,14 @@ export default function CartItems({ items }: CartItemProps) {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => updateQuantity(item.cart_item_id, item.quantity - 1)}
-                      className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-white"
+                      className="w-8 h-8 flex items-center justify-center border border-slate-300 rounded hover:bg-white"
                     >
                       <Minus className="w-4 h-4" />
                     </button>
                     <span className="w-8 text-center font-medium">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.cart_item_id, item.quantity + 1)}
-                      className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-white"
+                      className="w-8 h-8 flex items-center justify-center border border-slate-300 rounded hover:bg-white"
                     >
                       <Plus className="w-4 h-4" />
                     </button>

@@ -274,12 +274,12 @@ export function AdaptiveLearningPath() {
             <div className="space-y-4">
               {selectedPathData.courses.map((course, index) => (
                 <div key={course.id} className="relative">
-                  {index > 0 && <div className="absolute left-6 -top-4 w-0.5 h-4 bg-gray-300" />}
+                  {index > 0 && <div className="absolute left-6 -top-4 w-0.5 h-4 bg-slate-300" />}
                   <div className="flex gap-4">
                     <div className="flex-shrink-0 w-12 h-12    text-white rounded-full flex items-center justify-center font-bold">
                       {index + 1}
                     </div>
-                    <div className="flex-1 p-4 bg-gray-50 rounded-lg">
+                    <div className="flex-1 p-4 bg-slate-50 rounded-lg">
                       <div className="flex justify-between items-start mb-2">
                         <div>
                           <h4 className="text-lg font-bold">{course.course_name}</h4>

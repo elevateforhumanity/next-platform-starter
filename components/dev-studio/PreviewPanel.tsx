@@ -55,21 +55,21 @@ export default function PreviewPanel({ url, filePath }: PreviewPanelProps) {
           <div className="flex gap-1 bg-white border rounded p-1">
             <button
               onClick={() => setDevice('desktop')}
-              className={`p-1 rounded ${device === 'desktop' ? 'bg-brand-blue-100 text-brand-blue-600' : 'text-black hover:bg-gray-100'}`}
+              className={`p-1 rounded ${device === 'desktop' ? 'bg-brand-blue-100 text-brand-blue-600' : 'text-black hover:bg-slate-100'}`}
               title="Desktop view"
             >
               <Monitor className="w-4 h-4" />
             </button>
             <button
               onClick={() => setDevice('tablet')}
-              className={`p-1 rounded ${device === 'tablet' ? 'bg-brand-blue-100 text-brand-blue-600' : 'text-black hover:bg-gray-100'}`}
+              className={`p-1 rounded ${device === 'tablet' ? 'bg-brand-blue-100 text-brand-blue-600' : 'text-black hover:bg-slate-100'}`}
               title="Tablet view"
             >
               <Tablet className="w-4 h-4" />
             </button>
             <button
               onClick={() => setDevice('mobile')}
-              className={`p-1 rounded ${device === 'mobile' ? 'bg-brand-blue-100 text-brand-blue-600' : 'text-black hover:bg-gray-100'}`}
+              className={`p-1 rounded ${device === 'mobile' ? 'bg-brand-blue-100 text-brand-blue-600' : 'text-black hover:bg-slate-100'}`}
               title="Mobile view"
             >
               <Smartphone className="w-4 h-4" />
@@ -79,7 +79,7 @@ export default function PreviewPanel({ url, filePath }: PreviewPanelProps) {
           {/* Refresh Button */}
           <button
             onClick={refresh}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-slate-200 rounded transition-colors"
             title="Refresh preview"
           >
             <RefreshCw className="w-4 h-4 text-black" />
@@ -88,7 +88,7 @@ export default function PreviewPanel({ url, filePath }: PreviewPanelProps) {
           {/* Open in New Tab */}
           <button
             onClick={openInNewTab}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-slate-200 rounded transition-colors"
             title="Open in new tab"
           >
             <ExternalLink className="w-4 h-4 text-black" />
@@ -97,7 +97,7 @@ export default function PreviewPanel({ url, filePath }: PreviewPanelProps) {
       </div>
 
       {/* Preview Content */}
-      <div className="flex-1 overflow-auto bg-gray-100 p-4">
+      <div className="flex-1 overflow-auto bg-slate-100 p-4">
         <div className={`${deviceSizes[device]} h-full bg-white shadow-lg`}>
           {previewUrl ? (
             <iframe

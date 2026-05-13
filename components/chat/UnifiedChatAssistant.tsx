@@ -309,7 +309,7 @@ export default function UnifiedChatAssistant({
           {/* Messages */}
           {!isMinimized && (
             <>
-              <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
                 {messages.map((message) => (
                   <div
                     key={message.id}
@@ -317,7 +317,7 @@ export default function UnifiedChatAssistant({
                   >
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        message.role === 'user' ? 'bg-brand-blue-600' : 'bg-gray-200'
+                        message.role === 'user' ? 'bg-brand-blue-600' : 'bg-slate-200'
                       }`}
                     >
                       {message.role === 'user' ? (
@@ -350,7 +350,7 @@ export default function UnifiedChatAssistant({
 
                 {isLoading && (
                   <div className="flex gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
                       <Bot className="w-4 h-4 text-slate-700" />
                     </div>
                     <div className="bg-white rounded-2xl rounded-bl-md px-4 py-3 shadow-sm">
@@ -371,7 +371,7 @@ export default function UnifiedChatAssistant({
                       <button
                         key={index}
                         onClick={() => handleQuickAction(action)}
-                        className="text-xs bg-gray-100 hover:bg-gray-200 text-slate-900 px-3 py-1.5 rounded-full transition-colors"
+                        className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-900 px-3 py-1.5 rounded-full transition-colors"
                       >
                         {action.label}
                       </button>
@@ -389,13 +389,13 @@ export default function UnifiedChatAssistant({
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Type your message..."
-                    className="flex-1 px-4 py-2.5 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="flex-1 px-4 py-2.5 border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     disabled={isLoading}
                   />
                   <button
                     type="submit"
                     disabled={!input.trim() || isLoading}
-                    className="bg-brand-blue-600 hover:bg-brand-blue-700 disabled:bg-gray-300 text-white rounded-full p-2.5 transition-colors"
+                    className="bg-brand-blue-600 hover:bg-brand-blue-700 disabled:bg-slate-300 text-white rounded-full p-2.5 transition-colors"
                     aria-label="Send message"
                   >
                     <Send className="w-5 h-5" />

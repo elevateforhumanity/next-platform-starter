@@ -68,7 +68,7 @@ export default async function PathwayDetailPage({ params }: { params: Promise<{ 
 
       <section className="">
         <div className="mx-auto max-w-6xl px-6 py-12 grid gap-10 md:grid-cols-2">
-          <div className="relative h-[320px] w-full overflow-hidden rounded-lg border border-gray-200 bg-white">
+          <div className="relative h-[320px] w-full overflow-hidden rounded-lg border border-slate-200 bg-white">
             <Image
               src={heroImage}
               alt={pathway.title}
@@ -103,7 +103,7 @@ export default async function PathwayDetailPage({ params }: { params: Promise<{ 
               </div>
             </div>
 
-            <div className="mt-8 rounded-md border border-gray-200 p-5 bg-white">
+            <div className="mt-8 rounded-md border border-slate-200 p-5 bg-white">
               <div className="font-semibold">What happens next</div>
               <ol className="mt-3 list-decimal pl-5 text-slate-900">
                 <li>Start your application (or partner intake).</li>

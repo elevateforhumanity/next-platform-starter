@@ -122,7 +122,7 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {config.requirements.map((req) => (
-              <div key={req.title} className="bg-white p-6 rounded-xl border border-gray-200">
+              <div key={req.title} className="bg-white p-6 rounded-xl border border-slate-200">
                 <h3 className="font-bold text-slate-900 mb-2">{req.title}</h3>
                 <p className="text-black text-sm">{req.description}</p>
               </div>
@@ -201,7 +201,7 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
             {config.faq.map((item, i) => (
               <details
                 key={i}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden group"
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden group"
               >
                 <summary className="px-6 py-4 cursor-pointer font-semibold text-slate-900 hover:bg-white transition-colors">
                   {item.question}

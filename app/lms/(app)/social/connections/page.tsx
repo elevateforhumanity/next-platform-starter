@@ -99,7 +99,7 @@ export default async function ConnectionsPage() {
               <input
                 type="text"
                 placeholder="Search by name, program, or skills..."
-                className="w-full pl-12 pr-4 py-4 rounded-xl text-slate-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
+                className="w-full pl-12 pr-4 py-4 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-white/50"
               />
               <button className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
                 Search
@@ -120,7 +120,7 @@ export default async function ConnectionsPage() {
               {pending.map((request: any) => (
                 <div key={request.id} className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center">
                       {request.profiles?.avatar_url ? (
                         <Image sizes="100vw"
                           src={request.profiles.avatar_url}
@@ -146,7 +146,7 @@ export default async function ConnectionsPage() {
                     <button className="p-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
                       <CheckCircle className="w-5 h-5" />
                     </button>
-                    <button className="p-2 bg-white text-slate-700 rounded-lg hover:bg-gray-200">
+                    <button className="p-2 bg-white text-slate-700 rounded-lg hover:bg-slate-200">
                       <X className="w-5 h-5" />
                     </button>
                   </div>
@@ -173,7 +173,7 @@ export default async function ConnectionsPage() {
                   className="border rounded-xl p-4 hover:border-brand-blue-300 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center">
                       {conn.profiles?.avatar_url ? (
                         <Image sizes="100vw"
                           src={conn.profiles.avatar_url}
@@ -196,7 +196,7 @@ export default async function ConnectionsPage() {
                     </div>
                   </div>
                   <div className="mt-4 flex gap-2">
-                    <button className="flex-1 px-3 py-2 text-sm bg-white text-slate-900 rounded-lg hover:bg-gray-200">
+                    <button className="flex-1 px-3 py-2 text-sm bg-white text-slate-900 rounded-lg hover:bg-slate-200">
                       <MessageSquare className="w-4 h-4 inline mr-1" />
                       Message
                     </button>
@@ -230,7 +230,7 @@ export default async function ConnectionsPage() {
                   className="border rounded-xl p-4 hover:border-brand-blue-300 transition-colors"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center flex-shrink-0">
                       {person.avatar_url ? (
                         <Image sizes="100vw"
                           src={person.avatar_url}

@@ -163,7 +163,7 @@ export default function EnrollmentBookingPage() {
               <div key={s} className="flex items-center">
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    step >= s ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
+                    step >= s ? 'bg-brand-blue-600 text-white' : 'bg-slate-200 text-slate-700'
                   }`}
                 >
                   {s}
@@ -175,7 +175,7 @@ export default function EnrollmentBookingPage() {
                 </span>
                 {s < 3 && (
                   <div
-                    className={`w-12 sm:w-24 h-1 mx-2 ${step > s ? 'bg-brand-blue-600' : 'bg-gray-200'}`}
+                    className={`w-12 sm:w-24 h-1 mx-2 ${step > s ? 'bg-brand-blue-600' : 'bg-slate-200'}`}
                   />
                 )}
               </div>

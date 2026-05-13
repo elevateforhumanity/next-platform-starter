@@ -158,7 +158,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
               <div className="flex gap-2">
                 <button
                   onClick={handleCopyCode}
-                  className="flex items-center gap-2 px-6 py-3 bg-white text-brand-blue-600 rounded-lg hover:bg-gray-50 transition-colors font-semibold"
+                  className="flex items-center gap-2 px-6 py-3 bg-white text-brand-blue-600 rounded-lg hover:bg-slate-50 transition-colors font-semibold"
                 >
                   {copied ? (
                     <>
@@ -260,8 +260,8 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
 
         {referrals.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-slate-200">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
                     User
@@ -277,7 +277,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-slate-200">
                 {referrals.map((referral) => (
                   <tr key={referral.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -293,7 +293,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
                             ? 'bg-brand-green-100 text-brand-green-800'
                             : referral.status === 'pending'
                               ? 'bg-yellow-100 text-yellow-800'
-                              : 'bg-gray-100 text-black'
+                              : 'bg-slate-100 text-black'
                         }`}
                       >
                         {referral.status}

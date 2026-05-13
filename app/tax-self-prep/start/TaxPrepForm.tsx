@@ -225,7 +225,7 @@ export default function TaxPrepForm({ userId, profile, existingDraft, taxYear }:
                     ? 'bg-brand-green-500 text-white'
                     : activeSection === section.id
                       ? 'bg-brand-orange-500 text-white'
-                      : 'bg-gray-200'
+                      : 'bg-slate-200'
                 }`}
               >
                 {completedSections.includes(section.id) ? (

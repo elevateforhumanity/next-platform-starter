@@ -112,7 +112,7 @@ export default function StudentEngagementAnalytics() {
                       {trend.rate}% • {trend.active} active
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-slate-200 rounded-full h-2">
                     <div className="   h-2 rounded-full" style={{ width: `${trend.rate}%` }} />
                   </div>
                 </div>
@@ -130,7 +130,7 @@ export default function StudentEngagementAnalytics() {
                       <span className="font-medium">{activity.type}</span>
                       <span className="text-black">{activity.count.toLocaleString('en-US')}</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-slate-200 rounded-full h-2">
                       <div
                         className="bg-white h-2 rounded-full"
                         style={{ width: `${activity.percentage}%` }}

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function CareerTrainingOhioPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <section className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center gap-2 text-green-200 mb-4">
@@ -67,7 +67,7 @@ export default function CareerTrainingOhioPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-100">
+      <section className="py-16 bg-slate-100">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-slate-900 mb-8">
             How the Learning Platform Supports Statewide Programs
@@ -115,7 +115,7 @@ export default function CareerTrainingOhioPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-100">
+      <section className="py-16 bg-slate-100">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-slate-900 mb-8">
             Governance and Program Integrity
@@ -126,14 +126,14 @@ export default function CareerTrainingOhioPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <Link
               href="/governance"
-              className="flex items-center gap-3 p-4 bg-white rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-3 p-4 bg-white rounded-lg hover:bg-slate-50"
             >
               <Shield className="w-6 h-6 text-blue-600" />
               <span className="font-semibold text-slate-900">Platform Governance</span>
             </Link>
             <Link
               href="/governance/operational-controls"
-              className="flex items-center gap-3 p-4 bg-white rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-3 p-4 bg-white rounded-lg hover:bg-slate-50"
             >
               <Award className="w-6 h-6 text-green-600" />
               <span className="font-semibold text-slate-900">Operational Controls</span>
@@ -148,21 +148,21 @@ export default function CareerTrainingOhioPage() {
           <div className="grid md:grid-cols-3 gap-6">
             <Link
               href="/lms"
-              className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 border border-gray-200"
+              className="p-4 bg-slate-50 rounded-lg hover:bg-slate-100 border border-slate-200"
             >
               <span className="font-semibold text-slate-900">Learning Platform</span>
               <p className="text-sm text-slate-600 mt-1">Access the learning management system</p>
             </Link>
             <Link
               href="/resources"
-              className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 border border-gray-200"
+              className="p-4 bg-slate-50 rounded-lg hover:bg-slate-100 border border-slate-200"
             >
               <span className="font-semibold text-slate-900">Student Resources</span>
               <p className="text-sm text-slate-600 mt-1">Support materials and guides</p>
             </Link>
             <Link
               href="/programs"
-              className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 border border-gray-200"
+              className="p-4 bg-slate-50 rounded-lg hover:bg-slate-100 border border-slate-200"
             >
               <span className="font-semibold text-slate-900">All Programs</span>
               <p className="text-sm text-slate-600 mt-1">Browse available training programs</p>
@@ -181,7 +181,7 @@ export default function CareerTrainingOhioPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/programs"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white text-orange-600 rounded-lg text-lg font-bold hover:bg-gray-100 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white text-orange-600 rounded-lg text-lg font-bold hover:bg-slate-100 transition-colors"
             >
               Browse Programs
             </Link>

@@ -80,7 +80,7 @@ export function ComponentLabeling({
   const allPlaced = zones.every((z) => placements[z.id]);
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6">
       <div className="mb-4">
         <span className="text-xs font-bold uppercase tracking-wider text-brand-blue-600 bg-brand-blue-50 px-2 py-0.5 rounded">
           Activity
@@ -98,7 +98,7 @@ export function ComponentLabeling({
 
       {/* Diagram with tap zones */}
       <div
-        className="relative rounded-xl overflow-hidden border-2 border-gray-200 bg-gray-50 mb-4"
+        className="relative rounded-xl overflow-hidden border-2 border-slate-200 bg-slate-50 mb-4"
         style={{ aspectRatio: '16/10' }}
       >
         <img src={diagramSrc} alt="System diagram" className="w-full h-full object-contain" />
@@ -134,7 +134,7 @@ export function ComponentLabeling({
                   className={`w-10 h-10 rounded-full border-2 border-dashed flex items-center justify-center text-lg font-bold ${
                     selectedLabel
                       ? 'border-brand-blue-400 bg-brand-blue-50 text-brand-blue-600 animate-pulse'
-                      : 'border-gray-300 bg-white/90 text-slate-700'
+                      : 'border-slate-300 bg-white/90 text-slate-700'
                   }`}
                 >
                   ?
@@ -159,7 +159,7 @@ export function ComponentLabeling({
                 className={`px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
                   selectedLabel === label
                     ? 'bg-brand-blue-600 text-white shadow-lg scale-105'
-                    : 'bg-gray-100 text-slate-900 hover:bg-brand-blue-50 hover:text-brand-blue-700 border border-gray-200'
+                    : 'bg-slate-100 text-slate-900 hover:bg-brand-blue-50 hover:text-brand-blue-700 border border-slate-200'
                 }`}
               >
                 {label}
@@ -200,7 +200,7 @@ export function ComponentLabeling({
             {score < 100 && (
               <button
                 onClick={handleRetry}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-gray-200 text-slate-900 text-sm font-semibold hover:bg-gray-50"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm font-semibold hover:bg-slate-50"
               >
                 <RotateCcw className="w-4 h-4" /> Retry
               </button>

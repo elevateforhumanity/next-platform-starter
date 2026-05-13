@@ -97,20 +97,20 @@ export default function VerifyEmailPage() {
           <button
             onClick={handleResendVerification}
             disabled={resending || resent}
-            className="w-full px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+            className="w-full px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition"
           >
             {resending ? 'Sending...' : resent ? 'Email Sent!' : 'Resend Verification Email'}
           </button>
 
           <button
             onClick={() => window.location.reload()}
-            className="w-full px-6 py-3 border-2 border-gray-300 text-black font-semibold rounded-lg hover:bg-white transition"
+            className="w-full px-6 py-3 border-2 border-slate-300 text-black font-semibold rounded-lg hover:bg-white transition"
           >
             I've Verified - Refresh Page
           </button>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200 text-center">
+        <div className="mt-6 pt-6 border-t border-slate-200 text-center">
           <p className="text-sm text-black mb-2">Didn't receive the email?</p>
           <ul className="text-xs text-black space-y-1">
             <li>• Check your spam/junk folder</li>

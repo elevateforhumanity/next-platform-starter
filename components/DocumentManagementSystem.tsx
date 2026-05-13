@@ -88,7 +88,7 @@ export function DocumentManagementSystem() {
                     className={`p-4 rounded-lg cursor-pointer transition-colors ${
                       selectedDoc?.id === doc.id
                         ? 'bg-brand-red-50 border-2 border-brand-red-600'
-                        : 'bg-gray-50 hover:bg-gray-100'
+                        : 'bg-slate-50 hover:bg-slate-100'
                     }`}
                   >
                     <div className="flex items-start justify-between">
@@ -120,7 +120,7 @@ export function DocumentManagementSystem() {
                 <h3 className="font-bold mb-4">Version History</h3>
                 <div className="space-y-3">
                   {selectedDoc.versions.map((version) => (
-                    <div key={version.version} className="p-3 bg-gray-50 rounded">
+                    <div key={version.version} className="p-3 bg-slate-50 rounded">
                       <div className="flex justify-between items-start mb-1">
                         <span className="font-semibold">{version.version}</span>
                         <Button size="sm" variant="secondary">

@@ -238,7 +238,7 @@ export default function AICareerCounseling() {
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                         profile.skills.includes(skill)
                           ? 'bg-brand-blue-600 text-white'
-                          : 'bg-gray-100 text-slate-900 hover:bg-gray-200'
+                          : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
                       }`}
                     >
                       {skill}
@@ -260,7 +260,7 @@ export default function AICareerCounseling() {
                       className={`px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                         profile.level === level
                           ? 'bg-brand-blue-600 text-white'
-                          : 'bg-gray-100 text-slate-900 hover:bg-gray-200'
+                          : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
                       }`}
                     >
                       {level}
@@ -289,7 +289,7 @@ export default function AICareerCounseling() {
                       className={`px-4 py-3 rounded-lg text-sm font-medium text-left transition-all ${
                         profile.goal === goal
                           ? 'bg-brand-blue-600 text-white'
-                          : 'bg-gray-100 text-slate-900 hover:bg-gray-200'
+                          : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
                       }`}
                     >
                       {goal}
@@ -311,7 +311,7 @@ export default function AICareerCounseling() {
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                         profile.interests.includes(interest)
                           ? 'bg-brand-blue-600 text-white'
-                          : 'bg-gray-100 text-slate-900 hover:bg-gray-200'
+                          : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
                       }`}
                     >
                       {interest}
@@ -324,7 +324,7 @@ export default function AICareerCounseling() {
             <div className="flex gap-4 mt-8">
               <button
                 onClick={() => setStep('intro')}
-                className="px-6 py-3 rounded-lg font-medium text-slate-700 hover:bg-gray-100"
+                className="px-6 py-3 rounded-lg font-medium text-slate-700 hover:bg-slate-100"
               >
                 Back
               </button>
@@ -388,7 +388,7 @@ export default function AICareerCounseling() {
                 <p className="text-sm whitespace-pre-line">{message.content}</p>
               </div>
               {message.role === 'user' && (
-                <div className="bg-gray-200 rounded-full p-2 h-fit">
+                <div className="bg-slate-200 rounded-full p-2 h-fit">
                   <User className="w-5 h-5 text-slate-700" />
                 </div>
               )}

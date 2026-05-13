@@ -272,7 +272,7 @@ export default async function StudentBillingPage() {
                       {paymentPlan.weeks_paid} of {paymentPlan.total_weeks} payments
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className="w-full bg-slate-200 rounded-full h-3">
                     <div
                       className={`h-3 rounded-full transition-all ${
                         paymentPlan.status === 'completed'
@@ -290,7 +290,7 @@ export default async function StudentBillingPage() {
 
               {/* Stats Grid */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-1">
                     <DollarSign className="w-4 h-4 text-slate-500" />
                     <span className="text-xs text-slate-500">
@@ -451,7 +451,7 @@ export default async function StudentBillingPage() {
                   <div className="flex items-center gap-3">
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        index === 0 ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-slate-500'
+                        index === 0 ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-500'
                       }`}
                     >
                       {paymentPlan!.weeks_paid + index + 1}
@@ -473,7 +473,7 @@ export default async function StudentBillingPage() {
               ))}
             </div>
             {upcomingPayments.length > 8 && (
-              <div className="p-4 border-t bg-gray-50 text-center">
+              <div className="p-4 border-t bg-slate-50 text-center">
                 <p className="text-sm text-slate-600">
                   + {upcomingPayments.length - 8} more payments remaining
                 </p>
@@ -570,19 +570,19 @@ export default async function StudentBillingPage() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/help"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border rounded-lg hover:bg-gray-50 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white border rounded-lg hover:bg-slate-50 text-sm font-medium"
             >
               Contact Support
             </Link>
             <Link
               href="tel:317-314-3757"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border rounded-lg hover:bg-gray-50 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white border rounded-lg hover:bg-slate-50 text-sm font-medium"
             >
               Call (317) 314-3757
             </Link>
             <a
               href="mailto:billing@elevateforhumanity.org"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border rounded-lg hover:bg-gray-50 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white border rounded-lg hover:bg-slate-50 text-sm font-medium"
             >
               Email Billing
             </a>
@@ -598,7 +598,7 @@ function StatusBadge({ status, isFunded }: { status: string; isFunded?: boolean 
     active: { bg: 'bg-green-100', text: 'text-green-700', label: 'Active' },
     completed: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Paid in Full' },
     past_due: { bg: 'bg-red-100', text: 'text-red-700', label: 'Past Due' },
-    canceled: { bg: 'bg-gray-100', text: 'text-slate-700', label: 'Canceled' },
+    canceled: { bg: 'bg-slate-100', text: 'text-slate-700', label: 'Canceled' },
     unpaid: { bg: 'bg-red-100', text: 'text-red-700', label: 'Unpaid' },
     funded: { bg: 'bg-emerald-100', text: 'text-emerald-700', label: 'Fully Funded' },
   };
@@ -614,7 +614,7 @@ function StatusBadge({ status, isFunded }: { status: string; isFunded?: boolean 
   }
 
   const { bg, text, label } = config[status] || {
-    bg: 'bg-gray-100',
+    bg: 'bg-slate-100',
     text: 'text-slate-700',
     label: status,
   };

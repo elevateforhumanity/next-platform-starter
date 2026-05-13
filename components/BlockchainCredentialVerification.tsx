@@ -354,7 +354,7 @@ export function BlockchainCredentialVerification() {
                     </div>
                   )}
 
-                  <div className="mb-4 p-2 bg-gray-50 rounded">
+                  <div className="mb-4 p-2 bg-slate-50 rounded">
                     <p className="text-xs font-semibold text-black mb-1">Blockchain Hash:</p>
                     <p className="text-xs text-black font-mono truncate">
                       {credential.blockchainHash}

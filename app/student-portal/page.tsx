@@ -326,7 +326,7 @@ export default async function StudentPortalPage() {
               <Link
                 key={index}
                 href={link.href}
-                className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-brand-blue-600 hover:shadow-lg transition group"
+                className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden hover:border-brand-blue-600 hover:shadow-lg transition group"
               >
                 <div className="relative h-36 overflow-hidden">
                   <Image
@@ -367,7 +367,7 @@ export default async function StudentPortalPage() {
               <Link
                 key={index}
                 href={service.href}
-                className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-brand-green-600 transition text-center group"
+                className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-green-600 transition text-center group"
               >
                 <service.icon className="w-12 h-12 text-brand-green-600 mx-auto mb-4" />
                 <h3 className="text-lg font-bold text-black mb-2 group-hover:text-brand-green-600 transition">
@@ -424,7 +424,7 @@ export default async function StudentPortalPage() {
               <Link
                 key={index}
                 href={option.href}
-                className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-brand-blue-600 transition text-center"
+                className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-600 transition text-center"
               >
                 <option.icon className="w-12 h-12 text-brand-blue-600 mx-auto mb-4" />
                 <h3 className="text-lg font-bold text-black mb-2">{option.title}</h3>
@@ -443,7 +443,7 @@ export default async function StudentPortalPage() {
           </h2>
           <div className="space-y-6">
             {faqs.map((faq: any) => (
-              <div key={faq.id} className="bg-white border-2 border-gray-200 rounded-xl p-6">
+              <div key={faq.id} className="bg-white border-2 border-slate-200 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-black mb-3">{faq.question}</h3>
                 <p className="text-slate-700">{faq.answer}</p>
               </div>

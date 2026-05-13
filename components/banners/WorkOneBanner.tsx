@@ -30,14 +30,14 @@ export function WorkOneBanner() {
               href="https://www.indianacareerconnect.com"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-md border border-brand-blue-300 bg-white px-3 py-2 text-sm font-semibold text-brand-blue-900 hover:bg-gray-100"
+              className="inline-flex items-center justify-center rounded-md border border-brand-blue-300 bg-white px-3 py-2 text-sm font-semibold text-brand-blue-900 hover:bg-slate-100"
             >
               IndianaCareerConnect
             </a>
 
             <Link
               href="/next-steps"
-              className="inline-flex items-center justify-center rounded-md border border-brand-blue-300 bg-white px-3 py-2 text-sm font-semibold text-brand-blue-900 hover:bg-gray-100"
+              className="inline-flex items-center justify-center rounded-md border border-brand-blue-300 bg-white px-3 py-2 text-sm font-semibold text-brand-blue-900 hover:bg-slate-100"
             >
               Open My Checklist
             </Link>

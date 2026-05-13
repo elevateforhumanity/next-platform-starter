@@ -88,20 +88,20 @@ export default async function ApprenticeHoursPage() {
           <div className="flex items-center gap-2 flex-wrap">
             <Link
               href="/apprentice/timeclock"
-              className="inline-flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm"
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 text-sm"
             >
               <Clock className="w-4 h-4" />
               Timeclock
             </Link>
             <Link
               href="/apprentice/timeclock"
-              className="inline-flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm"
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 text-sm"
             >
               Shift Log
             </Link>
             <Link
               href="/apprentice/competencies"
-              className="inline-flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm"
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 text-sm"
             >
               Competency Log
             </Link>
@@ -123,7 +123,7 @@ export default async function ApprenticeHoursPage() {
               {approvedHours} / {requiredHours} hours
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-4 mb-2">
+          <div className="w-full bg-slate-200 rounded-full h-4 mb-2">
             <div
               className="bg-white h-4 rounded-full transition-all"
               style={{ width: `${progressPercent}%` }}

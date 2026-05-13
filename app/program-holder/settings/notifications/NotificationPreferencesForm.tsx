@@ -53,7 +53,7 @@ export default function NotificationPreferencesForm({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-6">
+    <div className="bg-white rounded-lg border border-slate-200 p-6 space-y-6">
       {/* In-App Notifications */}
       <div className="flex items-start gap-4">
         <Bell className="w-6 h-6 text-brand-blue-600 mt-1" />
@@ -69,7 +69,7 @@ export default function NotificationPreferencesForm({
         </div>
       </div>
 
-      <hr className="border-gray-200" />
+      <hr className="border-slate-200" />
 
       {/* Email Notifications */}
       <div className="flex items-start gap-4">
@@ -89,14 +89,14 @@ export default function NotificationPreferencesForm({
                   email_enabled: e.target.checked,
                 })
               }
-              className="w-5 h-5 text-brand-blue-600 rounded border-gray-300 focus:ring-brand-blue-500"
+              className="w-5 h-5 text-brand-blue-600 rounded border-slate-300 focus:ring-brand-blue-500"
             />
             <span className="text-sm font-medium text-black">Enable email notifications</span>
           </label>
         </div>
       </div>
 
-      <hr className="border-gray-200" />
+      <hr className="border-slate-200" />
 
       {/* SMS Notifications */}
       <div className="flex items-start gap-4">
@@ -119,7 +119,7 @@ export default function NotificationPreferencesForm({
                   })
                 }
                 disabled={!preferences.sms_consent}
-                className="w-5 h-5 text-brand-blue-600 rounded border-gray-300 focus:ring-brand-blue-500 disabled:opacity-50"
+                className="w-5 h-5 text-brand-blue-600 rounded border-slate-300 focus:ring-brand-blue-500 disabled:opacity-50"
               />
               <span className="text-sm font-medium text-black">Enable SMS notifications</span>
             </label>
@@ -130,7 +130,7 @@ export default function NotificationPreferencesForm({
                 placeholder="+1 (317) 314-3757"
                 value={preferences.phone_e164 || ''}
                 onChange={(e) => setPreferences({ ...preferences, phone_e164: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
 
               <label className="flex items-start gap-2 cursor-pointer">
@@ -143,7 +143,7 @@ export default function NotificationPreferencesForm({
                       sms_consent: e.target.checked,
                     })
                   }
-                  className="w-4 h-4 text-brand-blue-600 rounded border-gray-300 focus:ring-brand-blue-500 mt-0.5"
+                  className="w-4 h-4 text-brand-blue-600 rounded border-slate-300 focus:ring-brand-blue-500 mt-0.5"
                 />
                 <span className="text-xs text-black">
                   I consent to receive SMS notifications at this number. Message and data rates may
@@ -162,7 +162,7 @@ export default function NotificationPreferencesForm({
         </div>
       </div>
 
-      <hr className="border-gray-200" />
+      <hr className="border-slate-200" />
 
       {/* Save Button */}
       <div className="flex items-center justify-between">

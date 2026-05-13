@@ -138,7 +138,7 @@ export default function WorkforceBoardPage() {
               <Link
                 key={feature.title}
                 href={feature.href}
-                className="group bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden border border-gray-100"
+                className="group bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden border border-slate-100"
               >
                 <div className="relative h-40 overflow-hidden">
                   <Image

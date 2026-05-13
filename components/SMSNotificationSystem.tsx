@@ -169,11 +169,11 @@ export function SMSNotificationSystem() {
             <Card className="p-6">
               <h3 className="text-xl font-bold mb-4">Recent Messages</h3>
               <div className="space-y-3">
-                <div className="p-3 bg-gray-50 rounded">
+                <div className="p-3 bg-slate-50 rounded">
                   <p className="text-sm font-semibold">Assignment Reminder</p>
                   <p className="text-xs text-black">Sent to 245 students • 2 hours ago</p>
                 </div>
-                <div className="p-3 bg-gray-50 rounded">
+                <div className="p-3 bg-slate-50 rounded">
                   <p className="text-sm font-semibold">Class Starting Soon</p>
                   <p className="text-xs text-black">Sent to 89 students • 1 day ago</p>
                 </div>
@@ -189,7 +189,7 @@ export function SMSNotificationSystem() {
                   <button
                     key={template.id}
                     onClick={() => setMessage(template.message)}
-                    className="w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded transition-colors"
+                    className="w-full text-left p-3 bg-slate-50 hover:bg-slate-100 rounded transition-colors"
                   >
                     <p className="font-semibold text-sm">{template.name}</p>
                     <p className="text-xs text-black truncate">{template.message}</p>

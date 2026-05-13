@@ -90,7 +90,7 @@ export function ApplicationsClient({ applications }: { applications: Application
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name, position, or location..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             />
           </div>
         </div>
@@ -104,11 +104,11 @@ export function ApplicationsClient({ applications }: { applications: Application
               No applications match your filter.
             </div>
           ) : (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
               {filtered.map((app, index) => (
                 <div
                   key={app.id}
-                  className={`flex items-center gap-4 p-4 hover:bg-slate-50 ${index !== filtered.length - 1 ? 'border-b border-gray-100' : ''}`}
+                  className={`flex items-center gap-4 p-4 hover:bg-slate-50 ${index !== filtered.length - 1 ? 'border-b border-slate-100' : ''}`}
                 >
                   <div className="w-12 h-12 rounded-full bg-brand-blue-700 flex items-center justify-center text-white font-bold flex-shrink-0">
                     {app.candidate.name.charAt(0)}

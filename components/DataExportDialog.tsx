@@ -115,7 +115,7 @@ export default function DataExportDialog({
                 className={`flex items-center gap-3 p-4 border-2 rounded-lg transition-all ${
                   format === 'csv'
                     ? 'border-brand-blue-600 bg-brand-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-slate-200 hover:border-slate-300'
                 } ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <FileSpreadsheet
@@ -141,7 +141,7 @@ export default function DataExportDialog({
                 className={`flex items-center gap-3 p-4 border-2 rounded-lg transition-all ${
                   format === 'pdf'
                     ? 'border-brand-blue-600 bg-brand-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-slate-200 hover:border-slate-300'
                 } ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <FileText
@@ -192,7 +192,7 @@ export default function DataExportDialog({
 
           {/* Active Filters */}
           {Object.keys(filters).length > 0 && (
-            <div className="bg-gray-50 rounded-lg p-4">
+            <div className="bg-slate-50 rounded-lg p-4">
               <h4 className="text-sm font-medium text-black mb-2">Active Filters</h4>
               <div className="space-y-1">
                 {Object.entries(filters).map(([key, value]) => (
@@ -206,11 +206,11 @@ export default function DataExportDialog({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t bg-gray-50 rounded-b-xl">
+        <div className="flex items-center justify-end gap-3 p-6 border-t bg-slate-50 rounded-b-xl">
           <button
             onClick={onClose}
             disabled={isExporting}
-            className="px-4 py-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-black bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>
@@ -350,14 +350,14 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
               {tables.map((table) => (
                 <label
                   key={table.id}
-                  className="flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                  className="flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
                 >
                   <input
                     type="checkbox"
                     checked={selectedTables.includes(table.id)}
                     onChange={() => toggleTable(table.id)}
                     disabled={isExporting}
-                    className="mt-1 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                    className="mt-1 w-4 h-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500"
                   />
                   <div className="flex-1">
                     <div className="font-medium text-black">{table.label}</div>
@@ -380,7 +380,7 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
                   className={`p-3 border-2 rounded-lg transition-all ${
                     format === fmt
                       ? 'border-purple-600 bg-purple-50 text-purple-900'
-                      : 'border-gray-200 hover:border-gray-300 text-black'
+                      : 'border-slate-200 hover:border-slate-300 text-black'
                   } ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {fmt.toUpperCase()}
@@ -391,7 +391,7 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t bg-gray-50">
+        <div className="flex items-center justify-between p-6 border-t bg-slate-50">
           <div className="text-sm text-black">
             {selectedTables.length} table{selectedTables.length !== 1 ? 's' : ''} selected
           </div>
@@ -399,7 +399,7 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
             <button
               onClick={onClose}
               disabled={isExporting}
-              className="px-4 py-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="px-4 py-2 text-black bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50"
             >
               Cancel
             </button>

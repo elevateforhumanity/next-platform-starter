@@ -57,7 +57,7 @@ export default async function OpportunitiesPage() {
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4">
           {opportunities && opportunities.length > 0 ? (
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
               <table className="w-full">
                 <thead className="bg-white border-b">
                   <tr>
@@ -75,7 +75,7 @@ export default async function OpportunitiesPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-slate-100">
                   {opportunities.map((opp: any) => (
                     <tr key={opp.id} className="hover:bg-white">
                       <td className="px-6 py-4 font-medium text-slate-900">
@@ -104,7 +104,7 @@ export default async function OpportunitiesPage() {
               </table>
             </div>
           ) : (
-            <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+            <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
               <Search className="w-12 h-12 text-slate-700 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-slate-900 mb-2">No Opportunities Posted</h3>
               <p className="text-slate-700 mb-6">

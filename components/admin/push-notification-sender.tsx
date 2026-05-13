@@ -146,7 +146,7 @@ export function PushNotificationSender() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
       <h2 className="text-xl font-bold text-black mb-4">Send Push Notification</h2>
 
       <div className="mb-6">
@@ -156,7 +156,7 @@ export function PushNotificationSender() {
             <button
               key={template.name}
               onClick={() => applyTemplate(template)}
-              className="px-3 py-2 bg-gray-100 text-black rounded text-sm hover:bg-gray-200"
+              className="px-3 py-2 bg-slate-100 text-black rounded text-sm hover:bg-slate-200"
             >
               {template.name}
             </button>
@@ -173,7 +173,7 @@ export function PushNotificationSender() {
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setForm({ ...form, title: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="Notification title"
             required
           />
@@ -186,7 +186,7 @@ export function PushNotificationSender() {
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setForm({ ...form, body: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="Notification message"
             rows={3}
             required
@@ -201,7 +201,7 @@ export function PushNotificationSender() {
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setForm({ ...form, url: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="/student/courses"
           />
         </div>
@@ -214,7 +214,7 @@ export function PushNotificationSender() {
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setForm({ ...form, icon: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="/icon-192x192.png"
           />
         </div>
@@ -225,21 +225,21 @@ export function PushNotificationSender() {
             id="requireInteraction"
             checked={form.requireInteraction}
             onChange={(e) => setForm({ ...form, requireInteraction: e.target.checked })}
-            className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+            className="w-4 h-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
           />
           <label htmlFor="requireInteraction" className="text-sm text-black">
             Require user interaction (notification stays until dismissed)
           </label>
         </div>
 
-        <div className="border-t border-gray-200 pt-4">
+        <div className="border-t border-slate-200 pt-4">
           <div className="flex items-center gap-2 mb-3">
             <input
               type="checkbox"
               id="broadcast"
               checked={form.broadcast}
               onChange={(e) => setForm({ ...form, broadcast: e.target.checked })}
-              className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+              className="w-4 h-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
             />
             <label htmlFor="broadcast" className="text-sm font-medium text-black">
               Broadcast to all users
@@ -255,7 +255,7 @@ export function PushNotificationSender() {
                 onChange={(
                   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
                 ) => setForm({ ...form, userId: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 placeholder="Enter user ID"
                 required={!form.broadcast}
               />

@@ -218,7 +218,7 @@ export default function PrepaidCardPage() {
                   <th className="px-6 py-4 text-right">Amount</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 <tr>
                   <td className="px-6 py-4">Monthly Maintenance Fee</td>
                   <td className="px-6 py-4 text-right font-bold text-brand-green-600">$0</td>

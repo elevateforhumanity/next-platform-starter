@@ -83,7 +83,7 @@ function StepIndicator({ current }: { current: number }) {
                     ? 'bg-green-600 text-white'
                     : active
                     ? 'bg-brand-blue-600 text-white'
-                    : 'bg-gray-200 text-slate-500'
+                    : 'bg-slate-200 text-slate-500'
                 }`}
               >
                 {done ? <CheckCircle className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
@@ -99,7 +99,7 @@ function StepIndicator({ current }: { current: number }) {
             {i < steps.length - 1 && (
               <div
                 className={`w-16 h-0.5 mx-2 mb-4 transition-colors ${
-                  done ? 'bg-green-500' : 'bg-gray-200'
+                  done ? 'bg-green-500' : 'bg-slate-200'
                 }`}
               />
             )}

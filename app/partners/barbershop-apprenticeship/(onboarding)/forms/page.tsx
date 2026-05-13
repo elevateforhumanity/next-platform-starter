@@ -174,7 +174,7 @@ export default function RequiredFormsPage() {
             <h2 className="text-lg font-bold text-slate-900">Completion Progress</h2>
             <span className="text-sm font-medium text-black">{completedCount} of {totalRequired} complete</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+          <div className="w-full bg-slate-200 rounded-full h-3 mb-2">
             <div
               className="bg-white h-3 rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}

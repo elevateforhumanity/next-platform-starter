@@ -52,7 +52,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
         onChange={(e) => onChange(e.target.checked)}
         className="sr-only peer"
       />
-      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-blue-600"></div>
+      <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-blue-600"></div>
     </label>
   );
 }
@@ -180,7 +180,7 @@ export default function NotificationSettingsPage() {
         </div>
       </div>
 
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -212,12 +212,12 @@ export default function NotificationSettingsPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Email Notifications */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-8">
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 mb-8">
+          <div className="px-6 py-4 border-b border-slate-200 flex items-center gap-3">
             <Mail className="w-5 h-5 text-brand-blue-600" />
             <h2 className="text-lg font-semibold text-slate-900">Email Notifications</h2>
           </div>
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-slate-200">
             <div className="px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <GraduationCap className="w-5 h-5 text-slate-700" />
@@ -300,12 +300,12 @@ export default function NotificationSettingsPage() {
         </div>
 
         {/* Push Notifications */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-8">
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 mb-8">
+          <div className="px-6 py-4 border-b border-slate-200 flex items-center gap-3">
             <Bell className="w-5 h-5 text-brand-blue-600" />
             <h2 className="text-lg font-semibold text-slate-900">Push Notifications</h2>
           </div>
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-slate-200">
             <div className="px-6 py-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-900">Course Updates</p>
@@ -340,12 +340,12 @@ export default function NotificationSettingsPage() {
         </div>
 
         {/* SMS Notifications */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+          <div className="px-6 py-4 border-b border-slate-200 flex items-center gap-3">
             <Smartphone className="w-5 h-5 text-brand-green-600" />
             <h2 className="text-lg font-semibold text-slate-900">SMS Notifications</h2>
           </div>
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-slate-200">
             <div className="px-6 py-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-900">Urgent Alerts</p>

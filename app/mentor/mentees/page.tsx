@@ -83,7 +83,7 @@ export default async function MenteesPage() {
             <input
               type="text"
               placeholder="Search mentees..."
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg"
+              className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg"
             />
           </div>
         </div>
@@ -111,7 +111,7 @@ export default async function MenteesPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 {mentees.map((mentee) => (
                   <tr key={mentee.id} className="hover:bg-white">
                     <td className="px-6 py-4 font-medium text-slate-900">{mentee.name}</td>

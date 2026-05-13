@@ -94,7 +94,7 @@ export default function EmploymentPage() {
             {SERVICES.map((s) => {
               const Icon = s.icon;
               return (
-                <div key={s.title} className="bg-white border border-gray-200 rounded-xl p-6">
+                <div key={s.title} className="bg-white border border-slate-200 rounded-xl p-6">
                   <Icon className="w-8 h-8 text-brand-blue-600 mb-4" />
                   <h3 className="text-lg font-bold text-slate-900 mb-2">{s.title}</h3>
                   <p className="text-black text-sm">{s.desc}</p>

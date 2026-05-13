@@ -58,9 +58,9 @@ export default function HoursTracker() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
         <div className="animate-pulse space-y-4">
-          <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-6 bg-slate-200 rounded w-1/3"></div>
           <div className="h-32 bg-white rounded"></div>
           <div className="h-32 bg-white rounded"></div>
         </div>
@@ -82,7 +82,7 @@ export default function HoursTracker() {
   // No enrollments = show helpful message
   if (enrollments.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
         <Clock className="w-12 h-12 text-slate-700 mx-auto mb-4" />
         <h2 className="text-xl font-semibold text-slate-900 mb-2">No Hours Logged</h2>
         <p className="text-slate-700">
@@ -103,10 +103,10 @@ export default function HoursTracker() {
         return (
           <div
             key={enrollment.enrollment_id}
-            className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+            className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-white px-6 py-4 border-b border-gray-200">
+            <div className="bg-white px-6 py-4 border-b border-slate-200">
               <h2 className="text-xl font-bold text-slate-900">{enrollment.program_name}</h2>
               {enrollment.required_hours && (
                 <p className="text-sm text-slate-700 mt-1">
@@ -116,7 +116,7 @@ export default function HoursTracker() {
             </div>
 
             {/* Summary Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 border-b border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 border-b border-slate-100">
               <div className="bg-brand-green-50 rounded-lg p-4">
                 <div className="flex items-center gap-2 text-brand-green-700 mb-1">
                   <span className="text-slate-500 flex-shrink-0">•</span>
@@ -150,7 +150,7 @@ export default function HoursTracker() {
 
             {/* Progress Bar */}
             {enrollment.required_hours && (
-              <div className="px-6 py-4 border-b border-gray-100">
+              <div className="px-6 py-4 border-b border-slate-100">
                 <div className="flex items-center justify-between text-sm text-slate-700 mb-2">
                   <span>Progress toward {enrollment.required_hours} hours</span>
                   <span>
@@ -176,7 +176,7 @@ export default function HoursTracker() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="text-left text-sm text-slate-700 border-b border-gray-100">
+                      <tr className="text-left text-sm text-slate-700 border-b border-slate-100">
                         <th className="pb-3 font-medium">Date</th>
                         <th className="pb-3 font-medium">Hours</th>
                         <th className="pb-3 font-medium">Description</th>
@@ -184,7 +184,7 @@ export default function HoursTracker() {
                         <th className="pb-3 font-medium">Verified</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-50">
+                    <tbody className="divide-y divide-slate-50">
                       {enrollment.entries.map((entry) => (
                         <tr key={entry.id} className="text-sm">
                           <td className="py-3">

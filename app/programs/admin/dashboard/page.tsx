@@ -59,7 +59,7 @@ export default async function ProgramAdminDashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6">
+    <main className="min-h-screen bg-slate-50 p-6">
       <div className="max-w-7xl mx-auto space-y-8">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">Program Admin Dashboard</h1>
@@ -77,7 +77,7 @@ export default async function ProgramAdminDashboardPage() {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-white rounded-xl border border-gray-200 p-5 text-center"
+              className="bg-white rounded-xl border border-slate-200 p-5 text-center"
             >
               <p className="text-3xl font-bold text-blue-600">{stat.value}</p>
               <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
@@ -86,7 +86,7 @@ export default async function ProgramAdminDashboardPage() {
         </div>
 
         {Object.keys(categoryMap).length > 0 && (
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <div className="bg-white rounded-xl border border-slate-200 p-6">
             <h2 className="text-lg font-semibold text-slate-800 mb-4">Programs by Category</h2>
             <div className="flex flex-wrap gap-3">
               {Object.entries(categoryMap).map(([cat, count]) => (
@@ -104,8 +104,8 @@ export default async function ProgramAdminDashboardPage() {
           </div>
         )}
 
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-800">All Programs</h2>
             <a
               href="/admin/programs/new"
@@ -119,7 +119,7 @@ export default async function ProgramAdminDashboardPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-slate-500 uppercase text-xs">
+                <thead className="bg-slate-50 text-slate-500 uppercase text-xs">
                   <tr>
                     <th className="px-6 py-3 text-left">Title</th>
                     <th className="px-6 py-3 text-left">Category</th>
@@ -130,9 +130,9 @@ export default async function ProgramAdminDashboardPage() {
                     <th className="px-6 py-3 text-left">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-slate-100">
                   {programs.map((program) => (
-                    <tr key={program.id} className="hover:bg-gray-50 transition-colors">
+                    <tr key={program.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4 font-medium text-slate-900">{program.title}</td>
                       <td className="px-6 py-4 text-slate-500">{program.category}</td>
                       <td className="px-6 py-4">
@@ -140,7 +140,7 @@ export default async function ProgramAdminDashboardPage() {
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                             program.is_active
                               ? 'bg-green-100 text-green-700'
-                              : 'bg-gray-100 text-slate-500'
+                              : 'bg-slate-100 text-slate-500'
                           }`}
                         >
                           {program.is_active ? 'Active' : 'Inactive'}

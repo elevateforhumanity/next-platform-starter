@@ -92,7 +92,7 @@ export default async function HelpCenterPage({
               className={`px-4 py-2 rounded-full font-medium transition ${
                 !activeCategory
                   ? 'bg-brand-blue-600 text-white'
-                  : 'bg-white text-slate-900 hover:bg-gray-200'
+                  : 'bg-white text-slate-900 hover:bg-slate-200'
               }`}
             >
               All Articles
@@ -104,7 +104,7 @@ export default async function HelpCenterPage({
                 className={`px-4 py-2 rounded-full font-medium transition ${
                   activeCategory === cat.slug
                     ? 'bg-brand-blue-600 text-white'
-                    : 'bg-white text-slate-900 hover:bg-gray-200'
+                    : 'bg-white text-slate-900 hover:bg-slate-200'
                 }`}
               >
                 {cat.name}
@@ -145,7 +145,7 @@ export default async function HelpCenterPage({
                 <Link
                   key={article.id}
                   href={`/support/help/${article.slug}`}
-                  className="block p-6 bg-white rounded-xl border border-gray-200 hover:shadow-lg hover:border-brand-blue-300 transition group"
+                  className="block p-6 bg-white rounded-xl border border-slate-200 hover:shadow-lg hover:border-brand-blue-300 transition group"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
@@ -191,7 +191,7 @@ export default async function HelpCenterPage({
             </Link>
             <a
               href="/support"
-              className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition"
+              className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-slate-200 transition"
             >
               (317) 314-3757
             </a>

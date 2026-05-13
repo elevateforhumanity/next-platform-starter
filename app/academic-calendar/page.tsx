@@ -93,7 +93,7 @@ export default function AcademicCalendarPage() {
             {terms.map((term) => (
               <div
                 key={term.name}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+                className="bg-white rounded-xl shadow-sm border border-slate-200 p-6"
               >
                 <h3 className="text-xl font-bold text-slate-900 mb-4">{term.name}</h3>
                 <div className="space-y-3 text-slate-600">
@@ -127,7 +127,7 @@ export default function AcademicCalendarPage() {
             <GraduationCap className="w-6 h-6 text-brand-blue-600" />
             Holidays & Breaks
           </h2>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             <table className="w-full">
               <thead className="bg-white">
                 <tr>
@@ -137,7 +137,7 @@ export default function AcademicCalendarPage() {
                   <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Date</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 {holidays.map((holiday) => (
                   <tr key={holiday.name}>
                     <td className="px-6 py-4 text-slate-900">{holiday.name}</td>

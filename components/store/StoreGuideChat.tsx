@@ -261,7 +261,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
                     <button
                       key={choice.id}
                       onClick={() => handleChoiceSelect(choice)}
-                      className="w-full flex items-center gap-3 p-3 bg-white hover:bg-brand-orange-50 border-2 border-gray-200 hover:border-brand-orange-500 rounded-xl transition-all text-left"
+                      className="w-full flex items-center gap-3 p-3 bg-white hover:bg-brand-orange-50 border-2 border-slate-200 hover:border-brand-orange-500 rounded-xl transition-all text-left"
                     >
                       {/* Choice Image */}
                       <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
@@ -325,7 +325,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
                     <>
                       <button
                         onClick={() => handleConfirm(false)}
-                        className="flex-1 py-3 px-4 bg-gray-100 text-black rounded-lg font-medium hover:bg-gray-200"
+                        className="flex-1 py-3 px-4 bg-slate-100 text-black rounded-lg font-medium hover:bg-slate-200"
                       >
                         No thanks
                       </button>

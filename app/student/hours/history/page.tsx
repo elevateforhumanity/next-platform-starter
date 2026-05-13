@@ -26,7 +26,7 @@ export default async function HoursHistoryPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Database connection failed.</p>
@@ -99,8 +99,8 @@ export default async function HoursHistoryPage() {
     });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-slate-50">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-500 mb-4">
             <Link href="/learner/dashboard" className="hover:text-slate-700">
@@ -131,12 +131,12 @@ export default async function HoursHistoryPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Progress Overview */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-slate-900">Hours Progress</h2>
             <span className="text-2xl font-bold text-blue-600">{progressPercent}%</span>
           </div>
-          <div className="h-4 bg-gray-200 rounded-full overflow-hidden mb-4">
+          <div className="h-4 bg-slate-200 rounded-full overflow-hidden mb-4">
             <div
               className="h-full bg-blue-600 rounded-full transition-all duration-500"
               style={{ width: `${progressPercent}%` }}
@@ -161,8 +161,8 @@ export default async function HoursHistoryPage() {
         </div>
 
         {/* Hours Log */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+          <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-900">Hours Log</h2>
             <span className="text-sm text-slate-500">{entries.length} entries</span>
           </div>
@@ -179,14 +179,14 @@ export default async function HoursHistoryPage() {
               </Link>
             </div>
           ) : (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-slate-200">
               {entries.map((entry) => {
                 const hours =
                   entry.status === 'approved'
                     ? Number(entry.accepted_hours) || Number(entry.hours_claimed) || 0
                     : Number(entry.hours_claimed) || 0;
                 return (
-                  <div key={entry.id} className="px-6 py-4 hover:bg-gray-50">
+                  <div key={entry.id} className="px-6 py-4 hover:bg-slate-50">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-4">
                         <div className="w-12 text-center">

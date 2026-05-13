@@ -56,7 +56,7 @@ export default function CertificatesPage() {
               <input
                 type="text"
                 placeholder="Enter Certificate ID (e.g., EFH-2024-12345)"
-                className="flex-1 px-6 py-4 border-2 border-gray-300 rounded-xl text-black focus:border-brand-blue-600 focus:outline-none"
+                className="flex-1 px-6 py-4 border-2 border-slate-300 rounded-xl text-black focus:border-brand-blue-600 focus:outline-none"
               />
               <button
                 className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-8 py-4 rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
@@ -66,7 +66,7 @@ export default function CertificatesPage() {
                 Verify
               </button>
             </div>
-            <div className="mt-8 pt-8 border-t border-gray-200">
+            <div className="mt-8 pt-8 border-t border-slate-200">
               <p className="text-sm text-black mb-4">
                 <strong>Official Verification Portals:</strong>
               </p>
@@ -180,7 +180,7 @@ export default function CertificatesPage() {
             ].map((category) => (
               <div
                 key={category.title}
-                className="bg-white border-2 border-gray-200 rounded-2xl p-8"
+                className="bg-white border-2 border-slate-200 rounded-2xl p-8"
               >
                 <h3 className="text-2xl font-black text-black mb-6">{category.title}</h3>
                 <ul className="space-y-3">
@@ -208,7 +208,7 @@ export default function CertificatesPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
               <Building2 className="h-12 w-12 text-brand-blue-600 mb-4" />
               <h3 className="text-lg font-bold text-black mb-2">SSA</h3>
               <p className="text-sm text-black mb-3">Social Security Administration</p>
@@ -222,7 +222,7 @@ export default function CertificatesPage() {
               </a>
             </div>
 
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
               <FileCheck className="h-12 w-12 text-brand-green-600 mb-4" />
               <h3 className="text-lg font-bold text-black mb-2">IRS</h3>
               <p className="text-sm text-black mb-3">
@@ -238,7 +238,7 @@ export default function CertificatesPage() {
               </a>
             </div>
 
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
               <GraduationCap className="h-12 w-12 text-brand-blue-600 mb-4" />
               <h3 className="text-lg font-bold text-black mb-2">DOL</h3>
               <p className="text-sm text-black mb-3">
@@ -254,7 +254,7 @@ export default function CertificatesPage() {
               </a>
             </div>
 
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
               <Shield className="h-12 w-12 text-brand-orange-600 mb-4" />
               <h3 className="text-lg font-bold text-black mb-2">DOT</h3>
               <p className="text-sm text-black mb-3">
@@ -270,7 +270,7 @@ export default function CertificatesPage() {
               </a>
             </div>
 
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
               <Award className="h-12 w-12 text-brand-red-600 mb-4" />
               <h3 className="text-lg font-bold text-black mb-2">HHS</h3>
               <p className="text-sm text-black mb-3">
@@ -286,7 +286,7 @@ export default function CertificatesPage() {
               </a>
             </div>
 
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
               <span className="text-slate-500 flex-shrink-0">•</span>
               <h3 className="text-lg font-bold text-black mb-2">WIOA</h3>
               <p className="text-sm text-black mb-3">Workforce Innovation & Opportunity Act</p>
@@ -300,7 +300,7 @@ export default function CertificatesPage() {
               </a>
             </div>
 
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
               <Building2 className="h-12 w-12 text-indigo-600 mb-4" />
               <h3 className="text-lg font-bold text-black mb-2">NCCA</h3>
               <p className="text-sm text-black mb-3">National Commission for Certifying Agencies</p>
@@ -314,7 +314,7 @@ export default function CertificatesPage() {
               </a>
             </div>
 
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+            <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
               <FileCheck className="h-12 w-12 text-pink-600 mb-4" />
               <h3 className="text-lg font-bold text-black mb-2">State Boards</h3>
               <p className="text-sm text-black mb-3">Professional Licensing & Verification</p>

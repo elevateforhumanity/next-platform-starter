@@ -33,7 +33,7 @@ export default function PartnerRequirementsPage() {
           <p>Partner shops must carry the following active policies:</p>
 
           <div className="not-prose space-y-4 my-6">
-            <div className="border border-gray-200 rounded-lg p-5">
+            <div className="border border-slate-200 rounded-lg p-5">
               <h4 className="font-semibold text-slate-900">General Liability Insurance</h4>
               <p className="text-sm text-black mt-1">
                 Minimum: $1,000,000 per occurrence / $2,000,000 aggregate
@@ -44,7 +44,7 @@ export default function PartnerRequirementsPage() {
               </p>
             </div>
 
-            <div className="border border-gray-200 rounded-lg p-5">
+            <div className="border border-slate-200 rounded-lg p-5">
               <h4 className="font-semibold text-slate-900">
                 Professional / Barber Services Liability
               </h4>
@@ -54,7 +54,7 @@ export default function PartnerRequirementsPage() {
               </p>
             </div>
 
-            <div className="border border-gray-200 rounded-lg p-5">
+            <div className="border border-slate-200 rounded-lg p-5">
               <h4 className="font-semibold text-slate-900">Workers&apos; Compensation Insurance</h4>
               <p className="text-sm text-black mt-1">Required if the shop employs W-2 staff</p>
               <p className="text-sm text-slate-900 mt-2">
@@ -154,7 +154,7 @@ export default function PartnerRequirementsPage() {
           </ul>
         </section>
 
-        <div className="mt-12 pt-8 border-t border-gray-200">
+        <div className="mt-12 pt-8 border-t border-slate-200">
           <p className="text-sm text-black">
             These requirements align with Indiana State Board of Barber Examiners regulations and
             RAPIDS Registered Apprenticeship program standards. Last updated March 2026.

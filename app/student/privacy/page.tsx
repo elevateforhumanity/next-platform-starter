@@ -81,7 +81,7 @@ export default function StudentPrivacyPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-black">Loading privacy settings...</p>
@@ -91,7 +91,7 @@ export default function StudentPrivacyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
@@ -203,7 +203,7 @@ export default function StudentPrivacyPage() {
               </p>
               <a
                 href="mailto:elevate4humanityedu@gmail.com?subject=Data%20Deletion%20Request"
-                className="inline-block bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition"
+                className="inline-block bg-slate-600 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold transition"
               >
                 Request Data Deletion
               </a>

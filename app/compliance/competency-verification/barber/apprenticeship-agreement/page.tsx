@@ -43,7 +43,7 @@ export default function ApprenticeshipAgreementPage() {
       {/* Agreement document */}
       <div className="max-w-3xl mx-auto px-4 pb-12 print:px-8 print:pb-0 print:max-w-none">
         {/* Document header */}
-        <div className="text-center border-b-2 border-gray-900 pb-6 mb-6 print:pb-4 print:mb-4">
+        <div className="text-center border-b-2 border-slate-900 pb-6 mb-6 print:pb-4 print:mb-4">
           <p className="text-xs uppercase tracking-widest text-slate-700 mb-2 print:text-[9px]">Elevate for Humanity Career & Technical Institute</p>
           <h2 className="text-2xl font-bold text-slate-900 print:text-xl">BARBERING APPRENTICESHIP AGREEMENT</h2>
           <p className="text-sm text-slate-700 mt-1 print:text-[10px]">Workplace-Based Apprenticeship Program</p>
@@ -62,27 +62,27 @@ export default function ApprenticeshipAgreementPage() {
             </div>
             <div className="grid grid-cols-[200px_1fr] gap-2 print:grid-cols-[160px_1fr]">
               <span className="font-semibold text-slate-900">Apprentice:</span>
-              <span className="border-b border-gray-400 min-w-[200px]">&nbsp;</span>
+              <span className="border-b border-slate-400 min-w-[200px]">&nbsp;</span>
             </div>
             <div className="grid grid-cols-[200px_1fr] gap-2 print:grid-cols-[160px_1fr]">
               <span className="font-semibold text-slate-900">Employer (Licensed Barbershop):</span>
-              <span className="border-b border-gray-400 min-w-[200px]">&nbsp;</span>
+              <span className="border-b border-slate-400 min-w-[200px]">&nbsp;</span>
             </div>
             <div className="grid grid-cols-[200px_1fr] gap-2 print:grid-cols-[160px_1fr]">
               <span className="font-semibold text-slate-900">Licensed Supervisor Barber:</span>
-              <span className="border-b border-gray-400 min-w-[200px]">&nbsp;</span>
+              <span className="border-b border-slate-400 min-w-[200px]">&nbsp;</span>
             </div>
             <div className="grid grid-cols-[200px_1fr] gap-2 print:grid-cols-[160px_1fr]">
               <span className="font-semibold text-slate-900">Program Holder (RTI Coordinator):</span>
-              <span className="border-b border-gray-400 min-w-[200px]">&nbsp;</span>
+              <span className="border-b border-slate-400 min-w-[200px]">&nbsp;</span>
             </div>
             <div className="grid grid-cols-[200px_1fr] gap-2 print:grid-cols-[160px_1fr]">
               <span className="font-semibold text-slate-900">Credential Partner (RTI Provider):</span>
-              <span className="border-b border-gray-400 min-w-[200px]">&nbsp;</span>
+              <span className="border-b border-slate-400 min-w-[200px]">&nbsp;</span>
             </div>
             <div className="grid grid-cols-[200px_1fr] gap-2 print:grid-cols-[160px_1fr]">
               <span className="font-semibold text-slate-900">Effective Date:</span>
-              <span className="border-b border-gray-400 min-w-[200px]">&nbsp;</span>
+              <span className="border-b border-slate-400 min-w-[200px]">&nbsp;</span>
             </div>
           </div>
         </div>
@@ -117,12 +117,12 @@ export default function ApprenticeshipAgreementPage() {
           {/* Section 3 */}
           <section className="print:break-inside-avoid">
             <h3 className="font-bold text-slate-900 text-base mb-2 print:text-[11px] print:mb-1">3. TRAINING HOURS</h3>
-            <div className="border rounded-lg p-4 print:p-2 print:border-gray-400">
+            <div className="border rounded-lg p-4 print:p-2 print:border-slate-400">
               <div className="grid grid-cols-2 gap-3 print:gap-2">
-                <div>Total RTI Hours: <span className="border-b border-gray-400 inline-block min-w-[80px]">&nbsp;</span></div>
-                <div>Total OJT Hours: <span className="border-b border-gray-400 inline-block min-w-[80px]">&nbsp;</span></div>
-                <div>Total Program Hours: <span className="border-b border-gray-400 inline-block min-w-[80px]">&nbsp;</span></div>
-                <div>Estimated Duration: <span className="border-b border-gray-400 inline-block min-w-[80px]">&nbsp;</span></div>
+                <div>Total RTI Hours: <span className="border-b border-slate-400 inline-block min-w-[80px]">&nbsp;</span></div>
+                <div>Total OJT Hours: <span className="border-b border-slate-400 inline-block min-w-[80px]">&nbsp;</span></div>
+                <div>Total Program Hours: <span className="border-b border-slate-400 inline-block min-w-[80px]">&nbsp;</span></div>
+                <div>Estimated Duration: <span className="border-b border-slate-400 inline-block min-w-[80px]">&nbsp;</span></div>
               </div>
             </div>
             <p className="mt-2">
@@ -181,13 +181,13 @@ export default function ApprenticeshipAgreementPage() {
               <li>Monthly performance evaluations using standardized evaluation forms</li>
               <li>Cooperation with Program Holder and Sponsor for progress reviews</li>
             </ul>
-            <div className="border rounded-lg p-4 print:p-2 print:border-gray-400">
+            <div className="border rounded-lg p-4 print:p-2 print:border-slate-400">
               <p className="font-semibold text-slate-900 mb-2">Licensed Supervisor Information</p>
               <div className="grid grid-cols-2 gap-3 print:gap-2">
-                <div>Supervisor Name: <span className="border-b border-gray-400 inline-block min-w-[120px]">&nbsp;</span></div>
-                <div>Indiana Barber License #: <span className="border-b border-gray-400 inline-block min-w-[100px]">&nbsp;</span></div>
-                <div>Years Licensed: <span className="border-b border-gray-400 inline-block min-w-[60px]">&nbsp;</span></div>
-                <div>Shop License #: <span className="border-b border-gray-400 inline-block min-w-[100px]">&nbsp;</span></div>
+                <div>Supervisor Name: <span className="border-b border-slate-400 inline-block min-w-[120px]">&nbsp;</span></div>
+                <div>Indiana Barber License #: <span className="border-b border-slate-400 inline-block min-w-[100px]">&nbsp;</span></div>
+                <div>Years Licensed: <span className="border-b border-slate-400 inline-block min-w-[60px]">&nbsp;</span></div>
+                <div>Shop License #: <span className="border-b border-slate-400 inline-block min-w-[100px]">&nbsp;</span></div>
               </div>
             </div>
           </section>
@@ -243,7 +243,7 @@ export default function ApprenticeshipAgreementPage() {
                 { role: 'Program Holder (RTI Coordinator)', duties: 'RTI scheduling and coordination, progress monitoring, rubric completion enforcement, LMS documentation oversight, evaluation checkpoint management' },
                 { role: 'Apprentice', duties: 'Active participation in all RTI and OJT activities, consistent attendance, skill development, adherence to professional and safety standards, completion of all assessments and evaluations' },
               ].map((item, i) => (
-                <div key={i} className="border-l-2 border-gray-300 pl-3 print:pl-2">
+                <div key={i} className="border-l-2 border-slate-300 pl-3 print:pl-2">
                   <p className="font-semibold text-slate-900">{item.role}</p>
                   <p className="text-slate-700">{item.duties}</p>
                 </div>
@@ -312,12 +312,12 @@ export default function ApprenticeshipAgreementPage() {
                 { role: 'Program Holder (RTI Coordinator)', fields: ['Print Name', 'Title', 'Signature', 'Date'] },
                 { role: 'Sponsor — 2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)', fields: ['Authorized Representative', 'Title', 'Signature', 'Date'] },
               ].map((signer, i) => (
-                <div key={i} className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400 print:break-inside-avoid">
+                <div key={i} className="border-2 rounded-lg p-4 print:p-3 print:border-slate-400 print:break-inside-avoid">
                   <p className="font-bold text-slate-900 mb-3 print:text-[11px] print:mb-2">{signer.role}</p>
                   <div className="grid grid-cols-2 gap-3 text-sm print:text-[10px] print:gap-2">
                     {signer.fields.map((field, fi) => (
                       <div key={fi} className={field === 'Signature' ? 'col-span-2' : ''}>
-                        {field}: <span className="border-b border-gray-400 inline-block min-w-[180px] print:min-w-[140px]">&nbsp;</span>
+                        {field}: <span className="border-b border-slate-400 inline-block min-w-[180px] print:min-w-[140px]">&nbsp;</span>
                       </div>
                     ))}
                   </div>
@@ -327,7 +327,7 @@ export default function ApprenticeshipAgreementPage() {
           </section>
 
           {/* Document footer */}
-          <div className="border-t-2 border-gray-900 pt-4 mt-8 text-center text-xs text-slate-700 print:text-[9px] print:pt-3 print:mt-4">
+          <div className="border-t-2 border-slate-900 pt-4 mt-8 text-center text-xs text-slate-700 print:text-[9px] print:pt-3 print:mt-4">
             <p>Elevate for Humanity Career & Technical Institute</p>
             <p>RAPIDS Registration: 2025-IN-132301 | Indianapolis, Indiana</p>
             <p className="mt-1">This agreement is maintained in the apprentice compliance file and filed with RAPIDS documentation.</p>
@@ -341,13 +341,13 @@ export default function ApprenticeshipAgreementPage() {
           <Link href="/compliance/competency-verification/barber" className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition">
             Barber Rubric Overview
           </Link>
-          <Link href="/compliance/competency-verification/barber/scoring-sheet" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/scoring-sheet" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Scoring Sheet
           </Link>
-          <Link href="/compliance/competency-verification/barber/monthly-ojt-evaluation" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/monthly-ojt-evaluation" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Monthly OJT Evaluation
           </Link>
-          <Link href="/compliance/competency-verification/barber/final-signoff" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/final-signoff" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Final Sign-Off Form
           </Link>
         </div>

@@ -258,7 +258,7 @@ export function CourseCatalog() {
                     {course.skills.slice(0, 3).map((skill) => (
                       <span
                         key={skill}
-                        className="px-2 py-0.5 bg-gray-100 text-black text-xs rounded"
+                        className="px-2 py-0.5 bg-slate-100 text-black text-xs rounded"
                       >
                         {skill}
                       </span>

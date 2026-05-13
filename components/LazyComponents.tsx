@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 
 // Loading component for heavy components
 const LoadingPlaceholder = ({ height = 'h-64' }: { height?: string }) => (
-  <div className={`animate-pulse bg-gray-200 w-full ${height} rounded-xl`} />
+  <div className={`animate-pulse bg-slate-200 w-full ${height} rounded-xl`} />
 );
 
 // Lazy load heavy components that are below the fold

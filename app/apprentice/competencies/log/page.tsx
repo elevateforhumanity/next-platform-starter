@@ -203,13 +203,13 @@ function LogCompetencyForm() {
           <div className="flex items-center gap-2 text-xs">
             <Link
               href="/apprentice/timeclock"
-              className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition"
+              className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-lg transition"
             >
               <Clock className="w-3.5 h-3.5" /> Timeclock
             </Link>
             <Link
               href="/apprentice/hours"
-              className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition"
+              className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-lg transition"
             >
               <History className="w-3.5 h-3.5" /> Hours
             </Link>

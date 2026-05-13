@@ -208,7 +208,7 @@ export function TrialExpiredModal({ onClose }: { onClose: () => void }) {
             </Link>
             <button
               onClick={onClose}
-              className="block w-full text-slate-700 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors"
+              className="block w-full text-slate-700 py-3 rounded-lg font-medium hover:bg-slate-100 transition-colors"
             >
               Continue to Dashboard
             </button>

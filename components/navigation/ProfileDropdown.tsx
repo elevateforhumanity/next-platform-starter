@@ -210,7 +210,7 @@ export function ProfileDropdown({ className }: Props) {
 
   if (loading) {
     return (
-      <div className={`w-10 h-10 rounded-full bg-gray-200 animate-pulse ${className || ''}`} />
+      <div className={`w-10 h-10 rounded-full bg-slate-200 animate-pulse ${className || ''}`} />
     );
   }
 
@@ -254,7 +254,7 @@ export function ProfileDropdown({ className }: Props) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
+        <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50">
           {/* User Info Header */}
           <div className="px-4 py-4 bg-gradient-to-r from-brand-blue-50 to-indigo-50 border-b">
             <div className="flex items-center gap-3">
@@ -284,7 +284,7 @@ export function ProfileDropdown({ className }: Props) {
           </div>
 
           {/* Quick Stats */}
-          <div className="px-4 py-3 border-b bg-gray-50 flex items-center justify-between text-sm">
+          <div className="px-4 py-3 border-b bg-slate-50 flex items-center justify-between text-sm">
             <Link
               href="/lms/courses"
               className="text-center hover:text-brand-blue-600"
@@ -317,7 +317,7 @@ export function ProfileDropdown({ className }: Props) {
           <div className="py-2">
             <Link
               href="/lms/profile"
-              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-gray-50"
+              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-slate-50"
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-3">
@@ -329,7 +329,7 @@ export function ProfileDropdown({ className }: Props) {
 
             <Link
               href="/lms/courses"
-              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-gray-50"
+              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-slate-50"
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-3">
@@ -341,7 +341,7 @@ export function ProfileDropdown({ className }: Props) {
 
             <Link
               href="/lms/certificates"
-              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-gray-50"
+              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-slate-50"
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-3">
@@ -353,7 +353,7 @@ export function ProfileDropdown({ className }: Props) {
 
             <Link
               href="/notifications"
-              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-gray-50"
+              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-slate-50"
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-3">
@@ -370,7 +370,7 @@ export function ProfileDropdown({ className }: Props) {
 
             <Link
               href="/lms/settings"
-              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-gray-50"
+              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-slate-50"
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-3">
@@ -382,7 +382,7 @@ export function ProfileDropdown({ className }: Props) {
 
             <Link
               href="/store"
-              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-gray-50"
+              className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-slate-50"
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-3">
@@ -395,7 +395,7 @@ export function ProfileDropdown({ className }: Props) {
 
           {/* Role portal link — visible to every role that has a portal */}
           {portalLink && (
-            <div className="border-t border-gray-100 py-2">
+            <div className="border-t border-slate-100 py-2">
               <Link
                 href={portalLink.href}
                 className={`flex items-center justify-between px-4 py-2.5 text-sm hover:bg-purple-50 ${isAdmin ? 'text-purple-700' : 'text-brand-blue-700'}`}
@@ -411,10 +411,10 @@ export function ProfileDropdown({ className }: Props) {
           )}
 
           {/* Help & Sign Out */}
-          <div className="border-t border-gray-100 py-2">
+          <div className="border-t border-slate-100 py-2">
             <Link
               href="/support"
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-900 hover:bg-gray-50"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-900 hover:bg-slate-50"
               onClick={() => setIsOpen(false)}
             >
               <HelpCircle className="h-4 w-4 text-slate-700" />

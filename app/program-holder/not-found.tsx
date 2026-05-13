@@ -18,7 +18,7 @@ export default function ProgramHolderNotFound() {
           </Link>
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-gray-300 text-slate-900 rounded-lg hover:bg-white transition font-semibold text-sm"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-slate-300 text-slate-900 rounded-lg hover:bg-white transition font-semibold text-sm"
           >
             <ArrowLeft className="h-4 w-4" />
             Go Home

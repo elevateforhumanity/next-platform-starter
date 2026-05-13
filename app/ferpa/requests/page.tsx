@@ -151,7 +151,7 @@ export default async function FerpaRequestsPage() {
         />
       </section>
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
             <Link href="/ferpa" className="hover:text-slate-900">
@@ -180,7 +180,7 @@ export default async function FerpaRequestsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
                 <Clock className="w-5 h-5 text-yellow-600" />
@@ -191,7 +191,7 @@ export default async function FerpaRequestsPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                 <AlertCircle className="w-5 h-5 text-brand-blue-600" />
@@ -202,7 +202,7 @@ export default async function FerpaRequestsPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-red-100 rounded-lg flex items-center justify-center">
                 <XCircle className="w-5 h-5 text-brand-red-600" />
@@ -213,7 +213,7 @@ export default async function FerpaRequestsPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-green-100 rounded-lg flex items-center justify-center">
                 <span className="text-slate-500 flex-shrink-0">•</span>
@@ -229,17 +229,17 @@ export default async function FerpaRequestsPage() {
         </div>
 
         {/* Requests List */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+          <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-900">All Requests</h2>
-            <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-slate-700 hover:text-slate-900 border border-gray-300 rounded-lg hover:bg-white">
+            <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-slate-700 hover:text-slate-900 border border-slate-300 rounded-lg hover:bg-white">
               <Filter className="w-4 h-4" />
               Filter
             </button>
           </div>
 
           {requests && requests.length > 0 ? (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-slate-200">
               {(requests as FerpaRequest[]).map((request) => {
                 const statusConfig = STATUS_CONFIG[request.status] || STATUS_CONFIG.pending;
                 const StatusIcon = statusConfig.icon;

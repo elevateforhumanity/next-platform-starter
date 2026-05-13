@@ -125,9 +125,9 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm border border-slate-200">
       {/* Filters */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-slate-200">
         <div className="flex flex-col md:flex-row gap-4">
           {/* Search */}
           <div className="flex-1">
@@ -138,7 +138,7 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
               onChange={(
                 e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             />
           </div>
 
@@ -148,7 +148,7 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setRoleFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           >
             <option value="all">All Roles</option>
             {Array.from(new Set(users.map((u) => u.role).filter(Boolean)))
@@ -166,7 +166,7 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>
@@ -182,7 +182,7 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
                 User
@@ -204,10 +204,10 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-slate-200">
             {paginatedUsers.length > 0 ? (
               paginatedUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50">
+                <tr key={user.id} className="hover:bg-slate-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10 bg-brand-blue-100 rounded-full flex items-center justify-center">
@@ -231,7 +231,7 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
                           HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                         >,
                       ) => handleRoleChange(user.id, e.target.value)}
-                      className="text-sm border border-gray-300 rounded px-3 py-2"
+                      className="text-sm border border-slate-300 rounded px-3 py-2"
                     >
                       {CANONICAL_ROLES.map((role) => (
                         <option key={role} value={role}>
@@ -303,11 +303,11 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+        <div className="px-6 py-4 border-t border-slate-200 flex items-center justify-between">
           <button
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-black hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-black hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Previous
           </button>
@@ -317,7 +317,7 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
           <button
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-black hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-black hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Next
           </button>

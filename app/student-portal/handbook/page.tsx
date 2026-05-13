@@ -136,7 +136,7 @@ export default function StudentHandbookPage() {
       </section>
 
       {/* Contact */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Phone className="w-8 h-8 text-brand-blue-600 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-slate-900 mb-2">Questions About Policies?</h2>

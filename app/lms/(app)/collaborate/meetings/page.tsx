@@ -234,7 +234,7 @@ export default async function MeetingsPage() {
             {/* Settings Link */}
             <Link
               href="/account/settings"
-              className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border hover:border-gray-300"
+              className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border hover:border-slate-300"
             >
               <div className="flex items-center gap-3">
                 <Settings className="w-5 h-5 text-slate-700" />

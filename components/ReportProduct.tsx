@@ -61,7 +61,7 @@ export function ReportProduct({ productId }: { productId: string }) {
   }
 
   return (
-    <div className="border border-gray-300 rounded-lg p-4 mt-4">
+    <div className="border border-slate-300 rounded-lg p-4 mt-4">
       <h3 className="font-semibold mb-3">Report Product</h3>
 
       <div className="space-y-3">
@@ -70,7 +70,7 @@ export function ReportProduct({ productId }: { productId: string }) {
           <select
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
+            className="w-full border border-slate-300 rounded px-3 py-2"
           >
             <option value="">Select a reason</option>
             <option value="inappropriate">Inappropriate content</option>
@@ -86,7 +86,7 @@ export function ReportProduct({ productId }: { productId: string }) {
           <textarea
             value={details}
             onChange={(e) => setDetails(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
+            className="w-full border border-slate-300 rounded px-3 py-2"
             rows={3}
             placeholder="Additional information (optional)"
           />
@@ -98,7 +98,7 @@ export function ReportProduct({ productId }: { productId: string }) {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
+            className="w-full border border-slate-300 rounded px-3 py-2"
             placeholder="For follow-up if needed"
           />
         </div>
@@ -113,7 +113,7 @@ export function ReportProduct({ productId }: { productId: string }) {
           </button>
           <button
             onClick={() => setShowForm(false)}
-            className="border border-gray-300 px-4 py-2 rounded hover:bg-gray-50"
+            className="border border-slate-300 px-4 py-2 rounded hover:bg-slate-50"
           >
             Cancel
           </button>

@@ -73,7 +73,7 @@ export function ComplianceNotice({
   }
 
   return (
-    <div className={`bg-gray-50 border border-gray-200 rounded-lg p-4 ${className}`}>
+    <div className={`bg-slate-50 border border-slate-200 rounded-lg p-4 ${className}`}>
       <div className="flex items-start gap-3">
         <Shield className="w-5 h-5 text-black flex-shrink-0 mt-0.5" />
         <div className="flex-1">

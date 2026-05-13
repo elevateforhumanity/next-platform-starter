@@ -123,7 +123,7 @@ export function RetentionByRoleChart() {
             <span className="font-medium">{item.role}</span>
             <span className="text-slate-700">{item.count} employees</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-4">
+          <div className="w-full bg-slate-200 rounded-full h-4">
             <div
               className={`${getRetentionColor(item.retention)} h-4 rounded-full flex items-center justify-end pr-2`}
               style={{ width: `${item.retention}%` }}

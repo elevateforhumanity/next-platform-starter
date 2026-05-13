@@ -66,7 +66,7 @@ export default function OrientationFormClient() {
           id="orientName"
           name="orientName"
           required
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+          className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
         />
       </div>
       <div>
@@ -78,7 +78,7 @@ export default function OrientationFormClient() {
           id="orientEmail"
           name="orientEmail"
           required
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+          className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
@@ -91,7 +91,7 @@ export default function OrientationFormClient() {
             id="orientDate"
             name="orientDate"
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           />
         </div>
         <div>
@@ -102,7 +102,7 @@ export default function OrientationFormClient() {
             id="orientTime"
             name="orientTime"
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           >
             <option value="">Select...</option>
             <option value="09:00">9:00 AM</option>

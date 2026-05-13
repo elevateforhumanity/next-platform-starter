@@ -158,7 +158,7 @@ export default function LogApprenticeHoursPage() {
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                   max={new Date().toISOString().split('T')[0]}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-green-500"
                 />
               </div>
               <div>
@@ -173,7 +173,7 @@ export default function LogApprenticeHoursPage() {
                   value={formData.hours}
                   onChange={(e) => setFormData({ ...formData, hours: e.target.value })}
                   placeholder="Enter hours"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-green-500"
                 />
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function LogApprenticeHoursPage() {
               </label>
               <div className="grid grid-cols-2 gap-4">
                 <label
-                  className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition ${formData.type === 'ojt' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
+                  className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition ${formData.type === 'ojt' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-300 hover:border-slate-400'}`}
                 >
                   <input
                     type="radio"
@@ -203,7 +203,7 @@ export default function LogApprenticeHoursPage() {
                   </div>
                 </label>
                 <label
-                  className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition ${formData.type === 'rti' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
+                  className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition ${formData.type === 'rti' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-300 hover:border-slate-400'}`}
                 >
                   <input
                     type="radio"
@@ -233,7 +233,7 @@ export default function LogApprenticeHoursPage() {
                 value={formData.employer}
                 onChange={(e) => setFormData({ ...formData, employer: e.target.value })}
                 placeholder="e.g., ABC Barbershop"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-green-500"
               />
             </div>
 
@@ -246,7 +246,7 @@ export default function LogApprenticeHoursPage() {
                 value={formData.supervisor}
                 onChange={(e) => setFormData({ ...formData, supervisor: e.target.value })}
                 placeholder="Name of supervising journeyman or instructor"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-green-500"
               />
             </div>
 
@@ -259,7 +259,7 @@ export default function LogApprenticeHoursPage() {
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 rows={4}
                 placeholder="Describe the work or training activities..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green-500 resize-none"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-green-500 resize-none"
               />
             </div>
 

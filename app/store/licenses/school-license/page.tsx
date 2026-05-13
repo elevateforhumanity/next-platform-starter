@@ -279,7 +279,7 @@ export default function SchoolLicensePage() {
                 img: '/images/pages/about-hero.jpg'
               },
             ].map((item, i) => (
-              <div key={i} className="bg-gray-50 rounded-xl overflow-hidden">
+              <div key={i} className="bg-slate-50 rounded-xl overflow-hidden">
                 <div className="relative h-40">
                   <Image src={item.img} alt={item.title} fill className="object-cover" />
                 </div>
@@ -335,7 +335,7 @@ export default function SchoolLicensePage() {
               { q: '"What happens if something breaks?"', a: '2 years of priority support included. Email, chat, screen sharing. We respond within 24 hours, usually faster.' },
               { q: '"Is $15,000 really worth it?"', a: 'Maria calculated she was spending $4,000/month on her old systems plus 60+ hours of staff time. The platform paid for itself in 4 months.' },
             ].map((faq, i) => (
-              <div key={i} className="border-b border-gray-200 pb-6">
+              <div key={i} className="border-b border-slate-200 pb-6">
                 <h3 className="font-bold text-lg mb-2">{faq.q}</h3>
                 <p className="text-slate-600">{faq.a}</p>
               </div>

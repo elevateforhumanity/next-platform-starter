@@ -95,15 +95,15 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
             className={`flex items-center ${step >= 1 ? 'text-brand-blue-600' : 'text-slate-700'}`}
           >
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-brand-blue-600 text-white' : 'bg-gray-300'}`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-brand-blue-600 text-white' : 'bg-slate-300'}`}
             >
               1
             </div>
             <span className="ml-2 font-medium">Review</span>
           </div>
-          <div className="flex-1 h-1 mx-4 bg-gray-300">
+          <div className="flex-1 h-1 mx-4 bg-slate-300">
             <div
-              className={`h-full ${step >= 2 ? 'bg-brand-blue-600' : 'bg-gray-300'}`}
+              className={`h-full ${step >= 2 ? 'bg-brand-blue-600' : 'bg-slate-300'}`}
               style={{ width: step >= 2 ? '100%' : '0%' }}
             />
           </div>
@@ -111,15 +111,15 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
             className={`flex items-center ${step >= 2 ? 'text-brand-blue-600' : 'text-slate-700'}`}
           >
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-brand-blue-600 text-white' : 'bg-gray-300'}`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-brand-blue-600 text-white' : 'bg-slate-300'}`}
             >
               2
             </div>
             <span className="ml-2 font-medium">Payment</span>
           </div>
-          <div className="flex-1 h-1 mx-4 bg-gray-300">
+          <div className="flex-1 h-1 mx-4 bg-slate-300">
             <div
-              className={`h-full ${step >= 3 ? 'bg-brand-blue-600' : 'bg-gray-300'}`}
+              className={`h-full ${step >= 3 ? 'bg-brand-blue-600' : 'bg-slate-300'}`}
               style={{ width: step >= 3 ? '100%' : '0%' }}
             />
           </div>
@@ -127,7 +127,7 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
             className={`flex items-center ${step >= 3 ? 'text-brand-blue-600' : 'text-slate-700'}`}
           >
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-brand-blue-600 text-white' : 'bg-gray-300'}`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-brand-blue-600 text-white' : 'bg-slate-300'}`}
             >
               3
             </div>
@@ -207,7 +207,7 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label className="block text-sm font-medium text-black mb-2">Card Details</label>
-              <div className="border border-gray-300 rounded-lg p-4">
+              <div className="border border-slate-300 rounded-lg p-4">
                 <CardElement
                   options={{
                     style: {
@@ -233,7 +233,7 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
               </div>
             )}
 
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6">
               <div className="flex items-center text-sm text-black">
                 <svg
                   className="w-5 h-5 text-slate-700 mr-2"
@@ -254,7 +254,7 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="flex-1 bg-gray-200 text-black py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
+                className="flex-1 bg-slate-200 text-black py-3 rounded-lg font-semibold hover:bg-slate-300 transition"
                 disabled={loading}
               >
                 Back
@@ -262,7 +262,7 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
               <button
                 type="submit"
                 disabled={!stripe || loading}
-                className="flex-1 bg-brand-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="flex-1 bg-brand-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed"
               >
                 {loading ? 'Processing...' : `Pay $${price}`}
               </button>
@@ -322,7 +322,7 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
             </button>
             <button
               onClick={() => (window.location.href = '/learner/dashboard')}
-              className="w-full bg-gray-200 text-black py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
+              className="w-full bg-slate-200 text-black py-3 rounded-lg font-semibold hover:bg-slate-300 transition"
             >
               Go to Dashboard
             </button>

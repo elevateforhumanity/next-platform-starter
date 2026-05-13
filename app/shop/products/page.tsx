@@ -79,7 +79,7 @@ export default async function ProductsPage() {
         </div>
       </div>
 
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
@@ -92,10 +92,10 @@ export default async function ProductsPage() {
                 <input
                   type="text"
                   placeholder="Search products..."
-                  className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 w-64"
+                  className="pl-9 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 w-64"
                 />
               </div>
-              <button className="inline-flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-white">
+              <button className="inline-flex items-center gap-2 px-3 py-2 border border-slate-300 rounded-lg hover:bg-white">
                 <Filter className="w-4 h-4" />
                 Filter
               </button>
@@ -121,7 +121,7 @@ export default async function ProductsPage() {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   category === 'All'
                     ? 'bg-brand-blue-600 text-white'
-                    : 'bg-white text-slate-700 border border-gray-300 hover:bg-white'
+                    : 'bg-white text-slate-700 border border-slate-300 hover:bg-white'
                 }`}
               >
                 {category}
@@ -136,7 +136,7 @@ export default async function ProductsPage() {
             {products.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+                className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow"
               >
                 <div className="h-40 bg-white flex items-center justify-center relative">
                   <Package className="w-16 h-16 text-slate-300" />
@@ -187,7 +187,7 @@ export default async function ProductsPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
             <Package className="w-16 h-16 text-slate-300 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-slate-900 mb-2">No products available</h2>
             <p className="text-slate-600 mb-6">

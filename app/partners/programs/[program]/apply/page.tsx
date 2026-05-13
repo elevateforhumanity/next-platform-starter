@@ -121,7 +121,7 @@ export default function UniversalPartnerApplyPage() {
   };
 
   const inputClass =
-    'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition text-slate-900';
+    'w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition text-slate-900';
   const labelClass = 'block text-sm font-medium text-slate-900 mb-1';
 
   const renderProgramField = (field: (typeof config.programFields)[0]) => {
@@ -219,14 +219,14 @@ export default function UniversalPartnerApplyPage() {
             <div key={i} className="flex items-center gap-2">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                  i + 1 <= step ? 'bg-orange-500 text-white' : 'bg-gray-200 text-black'
+                  i + 1 <= step ? 'bg-orange-500 text-white' : 'bg-slate-200 text-black'
                 }`}
               >
                 {i + 1}
               </div>
               {i < totalSteps - 1 && (
                 <div
-                  className={`w-12 h-1 rounded ${i + 1 < step ? 'bg-orange-500' : 'bg-gray-200'}`}
+                  className={`w-12 h-1 rounded ${i + 1 < step ? 'bg-orange-500' : 'bg-slate-200'}`}
                 />
               )}
             </div>
@@ -234,7 +234,7 @@ export default function UniversalPartnerApplyPage() {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
+          <div className="bg-white rounded-xl border border-slate-200 p-8">
             {/* Step 1: Business Info */}
             {step === 1 && (
               <div className="space-y-4">
@@ -568,14 +568,14 @@ export default function UniversalPartnerApplyPage() {
                 <button
                   type="button"
                   onClick={() => setStep((s) => s - 1)}
-                  className="px-6 py-3 border border-gray-300 rounded-lg text-slate-900 hover:bg-white transition font-medium"
+                  className="px-6 py-3 border border-slate-300 rounded-lg text-slate-900 hover:bg-white transition font-medium"
                 >
                   Back
                 </button>
               ) : (
                 <Link
                   href={`/partners/programs/${slug}`}
-                  className="px-6 py-3 border border-gray-300 rounded-lg text-slate-900 hover:bg-white transition font-medium inline-flex items-center"
+                  className="px-6 py-3 border border-slate-300 rounded-lg text-slate-900 hover:bg-white transition font-medium inline-flex items-center"
                 >
                   Cancel
                 </Link>

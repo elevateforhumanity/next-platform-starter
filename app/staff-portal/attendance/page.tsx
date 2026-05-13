@@ -68,7 +68,7 @@ export default async function StaffPortalAttendancePage() {
           </Link>
           <Link
             href="/staff-portal/attendance/export"
-            className="border border-gray-300 px-4 py-2 rounded-lg hover:bg-white"
+            className="border border-slate-300 px-4 py-2 rounded-lg hover:bg-white"
           >
             Export Report
           </Link>

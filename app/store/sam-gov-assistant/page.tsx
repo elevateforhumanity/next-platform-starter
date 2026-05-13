@@ -229,7 +229,7 @@ Come back anytime if you need help!`,
   const progress = Math.round(((currentIndex + 1) / stepIds.length) * 100);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
             <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: "Store", href: "/store" }, { label: "Sam Gov Assistant" }]} />
       </div>
@@ -277,7 +277,7 @@ Come back anytime if you need help!`,
               <ChevronDown className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" />
             </summary>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-              <div className="bg-gray-50 rounded-xl p-4 text-center">
+              <div className="bg-slate-50 rounded-xl p-4 text-center">
                 <div className="w-10 h-10 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <FileText className="w-5 h-5 text-brand-blue-600" />
                 </div>
@@ -286,7 +286,7 @@ Come back anytime if you need help!`,
                   Tax ID from IRS (free at irs.gov)
                 </p>
               </div>
-              <div className="bg-gray-50 rounded-xl p-4 text-center">
+              <div className="bg-slate-50 rounded-xl p-4 text-center">
                 <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <Building2 className="w-5 h-5 text-green-600" />
                 </div>
@@ -295,7 +295,7 @@ Come back anytime if you need help!`,
                   Physical location (no PO Box)
                 </p>
               </div>
-              <div className="bg-gray-50 rounded-xl p-4 text-center">
+              <div className="bg-slate-50 rounded-xl p-4 text-center">
                 <div className="w-10 h-10 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <CreditCard className="w-5 h-5 text-brand-blue-600" />
                 </div>
@@ -304,7 +304,7 @@ Come back anytime if you need help!`,
                   For receiving payments
                 </p>
               </div>
-              <div className="bg-gray-50 rounded-xl p-4 text-center">
+              <div className="bg-slate-50 rounded-xl p-4 text-center">
                 <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <Users className="w-5 h-5 text-orange-600" />
                 </div>
@@ -360,7 +360,7 @@ Come back anytime if you need help!`,
             </div>
 
             {/* Messages */}
-            <div className="h-[400px] sm:h-[500px] overflow-y-auto p-4 sm:p-6 space-y-4 bg-gray-50">
+            <div className="h-[400px] sm:h-[500px] overflow-y-auto p-4 sm:p-6 space-y-4 bg-slate-50">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -411,9 +411,9 @@ Come back anytime if you need help!`,
                 <div className="flex justify-start">
                   <div className="bg-white rounded-2xl px-4 py-3 shadow-sm">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 </div>
@@ -428,7 +428,7 @@ Come back anytime if you need help!`,
               href="https://sam.gov"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium text-slate-700"
+              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-sm font-medium text-slate-700"
             >
               <ExternalLink className="w-4 h-4" />
               <span className="hidden sm:inline">SAM.gov</span>
@@ -438,7 +438,7 @@ Come back anytime if you need help!`,
               href="https://login.gov"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium text-slate-700"
+              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-sm font-medium text-slate-700"
             >
               <ExternalLink className="w-4 h-4" />
               <span className="hidden sm:inline">Login.gov</span>
@@ -448,7 +448,7 @@ Come back anytime if you need help!`,
               href="https://grants.gov"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium text-slate-700"
+              className="flex items-center justify-center gap-2 px-3 py-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-sm font-medium text-slate-700"
             >
               <ExternalLink className="w-4 h-4" />
               <span className="hidden sm:inline">Grants.gov</span>
@@ -459,7 +459,7 @@ Come back anytime if you need help!`,
       </section>
 
       {/* Related Products */}
-      <section className="py-12 bg-gray-100">
+      <section className="py-12 bg-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-xl font-bold text-slate-900 mb-6 text-center">
             Related Resources

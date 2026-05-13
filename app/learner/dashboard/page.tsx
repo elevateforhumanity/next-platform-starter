@@ -211,7 +211,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
@@ -363,7 +363,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                 <BookOpen className="w-6 h-6 text-brand-blue-600" />
@@ -375,7 +375,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-brand-green-100 rounded-lg flex items-center justify-center">
                 <span className="text-slate-500 flex-shrink-0">•</span>
@@ -387,7 +387,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-brand-orange-100 rounded-lg flex items-center justify-center">
                 <Clock className="w-6 h-6 text-brand-orange-600" />
@@ -399,7 +399,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                 <BarChart3 className="w-6 h-6 text-brand-blue-600" />
@@ -416,14 +416,14 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
           {/* Main Content - Programs */}
           <div className="lg:col-span-2 space-y-6">
             {/* Current Programs */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+              <div className="p-6 border-b border-slate-200">
                 <h2 className="text-lg font-semibold text-slate-900">My Programs</h2>
                 <p className="text-xs text-slate-700 mt-0.5">
                   Programs you are currently enrolled in
                 </p>
               </div>
-              <div className="divide-y divide-gray-200">
+              <div className="divide-y divide-slate-200">
                 {activeEnrollments.length > 0 ? (
                   activeEnrollments.map((enrollment: any) => {
                     const course = Array.isArray(enrollment.courses)
@@ -452,7 +452,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                                     {enrollment.progress || 0}%
                                   </span>
                                 </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div className="w-full bg-slate-200 rounded-full h-2">
                                   <div
                                     className="bg-brand-orange-500 h-2 rounded-full transition-all"
                                     style={{ width: `${enrollment.progress || 0}%` }}
@@ -492,7 +492,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
               {/* External (admin-managed) program enrollments */}
               {(externalEnrollments ?? []).length > 0 && (
-                <div className="divide-y divide-gray-200 border-t border-gray-200">
+                <div className="divide-y divide-slate-200 border-t border-slate-200">
                   {(externalEnrollments ?? []).map((ext: any) => (
                     <div key={ext.id} className="p-6">
                       <div className="flex gap-4 items-start">
@@ -523,13 +523,13 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                             </Link>
                             <Link
                               href="/support/contact"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 text-slate-700 text-xs font-semibold rounded-lg hover:bg-gray-50 transition"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 transition"
                             >
                               <MessageSquare className="w-3.5 h-3.5" /> Contact Advisor
                             </Link>
                             <Link
                               href="/lms/attendance"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 text-slate-700 text-xs font-semibold rounded-lg hover:bg-gray-50 transition"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 transition"
                             >
                               <Calendar className="w-3.5 h-3.5" /> Track Hours
                             </Link>
@@ -543,7 +543,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
               <h2 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
                 {[
@@ -581,7 +581,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   <Link
                     key={href}
                     href={href}
-                    className="flex flex-col items-center p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition"
+                    className="flex flex-col items-center p-4 rounded-lg border border-slate-100 hover:bg-slate-50 transition"
                   >
                     {icon}
                     <span className="text-xs font-medium text-slate-900 mt-2 text-center">
@@ -602,8 +602,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             />
 
             {/* Achievements */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+              <div className="p-6 border-b border-slate-200">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-slate-900">Recent Achievements</h2>
                   <Link
@@ -643,8 +643,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             </div>
 
             {/* Notifications */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+              <div className="p-6 border-b border-slate-200">
                 <h2 className="text-lg font-semibold text-slate-900">Notifications</h2>
               </div>
               <div className="p-6">
@@ -688,8 +688,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
             {/* Certification Pipeline */}
             {certRequests && certRequests.length > 0 && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                <div className="p-6 border-b border-gray-200">
+              <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+                <div className="p-6 border-b border-slate-200">
                   <div className="flex items-center justify-between">
                     <h2 className="text-lg font-semibold text-slate-900">Certification Progress</h2>
                     <Link
@@ -750,7 +750,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                     ];
 
                     return (
-                      <div key={req.id} className="border border-gray-100 rounded-lg p-4">
+                      <div key={req.id} className="border border-slate-100 rounded-lg p-4">
                         <div className="flex items-start justify-between mb-3">
                           <div>
                             <p className="font-semibold text-slate-900 text-sm">{credName}</p>
@@ -762,7 +762,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                             )}
                           </div>
                           {credAbbr && (
-                            <span className="text-xs font-mono bg-gray-100 text-slate-700 px-2 py-0.5 rounded">
+                            <span className="text-xs font-mono bg-slate-100 text-slate-700 px-2 py-0.5 rounded">
                               {credAbbr}
                             </span>
                           )}
@@ -775,7 +775,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                               {step.done ? (
                                 <CheckCircle className="w-3.5 h-3.5 text-green-500 shrink-0" />
                               ) : (
-                                <div className="w-3.5 h-3.5 rounded-full border-2 border-gray-300 shrink-0" />
+                                <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-300 shrink-0" />
                               )}
                               <span className={step.done ? 'text-slate-900' : 'text-slate-700'}>
                                 {step.label}
@@ -835,7 +835,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         )}
 
                         {req.status === 'upload_pending' && (
-                          <div className="flex items-center gap-2 text-xs text-slate-700 bg-gray-50 rounded p-2">
+                          <div className="flex items-center gap-2 text-xs text-slate-700 bg-slate-50 rounded p-2">
                             <FileCheck className="w-3.5 h-3.5 shrink-0 text-slate-700" />
                             Certificate uploaded — Elevate is reviewing it. You will be notified
                             when verified.
@@ -875,8 +875,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             )}
 
             {/* Attendance Summary */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+              <div className="p-6 border-b border-slate-200">
                 <h2 className="text-lg font-semibold text-slate-900">Attendance</h2>
               </div>
               <div className="p-6">
@@ -924,7 +924,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   </div>
                 )}
                 {/* OJT hour submission — calls /api/time/entries */}
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="mt-4 pt-4 border-t border-slate-100">
                   <OjtHoursLogger />
                 </div>
               </div>
@@ -933,7 +933,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
         </div>
 
         {/* Browse Programs — clearly separated from My Programs above */}
-        <div className="mt-10 pt-8 border-t border-gray-200">
+        <div className="mt-10 pt-8 border-t border-slate-200">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-lg font-bold text-slate-900">Browse Available Programs</h2>
@@ -957,12 +957,12 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             {FUNDED_PROGRAMS.map((prog) => (
               <div
                 key={prog.id}
-                className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-3"
+                className="bg-white rounded-xl border border-slate-200 p-5 flex flex-col gap-3"
               >
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-semibold text-slate-900 text-sm leading-snug">{prog.name}</h3>
                   {prog.id && (
-                    <span className="flex-shrink-0 text-[10px] font-mono text-slate-700 bg-gray-50 border border-gray-100 rounded px-1.5 py-0.5">
+                    <span className="flex-shrink-0 text-[10px] font-mono text-slate-700 bg-slate-50 border border-slate-100 rounded px-1.5 py-0.5">
                       {prog.id}
                     </span>
                   )}
@@ -994,7 +994,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-100">
+                <div className="flex items-center justify-between mt-auto pt-2 border-t border-slate-100">
                   <span className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
                     <CheckCircle className="w-3.5 h-3.5" /> WIOA / WRG Eligible
                   </span>

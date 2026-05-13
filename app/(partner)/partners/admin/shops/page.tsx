@@ -23,7 +23,7 @@ export default async function AdminShopsPage() {
 
     if (!supabase) {
       return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
             <p className="text-slate-600">Please try again later.</p>
@@ -70,7 +70,7 @@ export default async function AdminShopsPage() {
                   <td className="py-2">{s.name}</td>
                   <td className="py-2">
                     <span
-                      className={`px-2 py-1 rounded text-xs ${s.active ? 'bg-brand-green-100 text-brand-green-800' : 'bg-gray-100 text-slate-600'}`}
+                      className={`px-2 py-1 rounded text-xs ${s.active ? 'bg-brand-green-100 text-brand-green-800' : 'bg-slate-100 text-slate-600'}`}
                     >
                       {s.active ? 'Active' : 'Inactive'}
                     </span>

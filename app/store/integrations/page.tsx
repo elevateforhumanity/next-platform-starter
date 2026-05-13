@@ -19,7 +19,7 @@ export default async function IntegrationsPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Please try again later.</p>
@@ -50,7 +50,7 @@ export default async function IntegrationsPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Featured Integrations</h2>
           <div className="grid md:grid-cols-2 gap-8">
@@ -155,7 +155,7 @@ export default async function IntegrationsPage() {
               
               { icon: Zap, name: 'Twilio', description: 'SMS notifications (optional)', color: 'red' },
             ].map((integration, idx) => (
-              <div key={idx} className="bg-gray-50 rounded-lg p-6 hover:shadow-lg transition">
+              <div key={idx} className="bg-slate-50 rounded-lg p-6 hover:shadow-lg transition">
                 <integration.icon className={`w-12 h-12 text-${integration.color}-600 mb-4`} />
                 <h3 className="font-bold text-lg mb-2">{integration.name}</h3>
                 <p className="text-sm text-slate-600">{integration.description}</p>
@@ -165,7 +165,7 @@ export default async function IntegrationsPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">REST API</h2>
           <div className="max-w-4xl mx-auto">
@@ -181,23 +181,23 @@ export default async function IntegrationsPage() {
                   <ul className="space-y-2 text-sm text-slate-700">
                     <li className="flex items-center gap-2">
                       <Circle className="w-4 h-4 text-green-600" />
-                      <code className="bg-gray-100 px-2 py-2 rounded">POST /api/students</code>
+                      <code className="bg-slate-100 px-2 py-2 rounded">POST /api/students</code>
                     </li>
                     <li className="flex items-center gap-2">
                       <Circle className="w-4 h-4 text-green-600" />
-                      <code className="bg-gray-100 px-2 py-2 rounded">GET /api/courses</code>
+                      <code className="bg-slate-100 px-2 py-2 rounded">GET /api/courses</code>
                     </li>
                     <li className="flex items-center gap-2">
                       <Circle className="w-4 h-4 text-green-600" />
-                      <code className="bg-gray-100 px-2 py-2 rounded">POST /api/enrollments</code>
+                      <code className="bg-slate-100 px-2 py-2 rounded">POST /api/enrollments</code>
                     </li>
                     <li className="flex items-center gap-2">
                       <Circle className="w-4 h-4 text-green-600" />
-                      <code className="bg-gray-100 px-2 py-2 rounded">GET /api/progress</code>
+                      <code className="bg-slate-100 px-2 py-2 rounded">GET /api/progress</code>
                     </li>
                     <li className="flex items-center gap-2">
                       <Circle className="w-4 h-4 text-green-600" />
-                      <code className="bg-gray-100 px-2 py-2 rounded">POST /api/certificates</code>
+                      <code className="bg-slate-100 px-2 py-2 rounded">POST /api/certificates</code>
                     </li>
                   </ul>
                 </div>
@@ -266,7 +266,7 @@ export default async function IntegrationsPage() {
               </Link>
               <Link
                 href="/store/licenses"
-                className="inline-flex items-center justify-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 transition border-2 border-indigo-600"
+                className="inline-flex items-center justify-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 transition border-2 border-indigo-600"
               >
                 View API Documentation
               </Link>

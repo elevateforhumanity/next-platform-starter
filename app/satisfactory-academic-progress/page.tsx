@@ -74,7 +74,7 @@ export default function SAPPolicyPage() {
                 Students must successfully complete at least <strong>67%</strong> of all attempted
                 coursework at each evaluation point. This is calculated as:
               </p>
-              <div className="bg-white border border-gray-200 rounded p-4 mb-4">
+              <div className="bg-white border border-slate-200 rounded p-4 mb-4">
                 <p className="text-slate-900 font-mono text-center">
                   Pace = (Completed Hours or Modules) ÷ (Attempted Hours or Modules) × 100
                 </p>

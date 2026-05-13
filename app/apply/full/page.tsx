@@ -85,7 +85,7 @@ export default function FullApplicationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-slate-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <nav className="flex items-center gap-2 text-sm text-slate-600 mb-6">
           <Link href="/" className="hover:text-orange-600">
@@ -111,7 +111,7 @@ export default function FullApplicationPage() {
                     ? 'bg-green-500 text-white'
                     : currentStep === step.id
                       ? 'bg-orange-500 text-white'
-                      : 'bg-gray-200 text-slate-500'
+                      : 'bg-slate-200 text-slate-500'
                 }`}
               >
                 {currentStep > step.id ? (
@@ -127,7 +127,7 @@ export default function FullApplicationPage() {
               </span>
               {idx < steps.length - 1 && (
                 <div
-                  className={`w-12 h-1 mx-2 ${currentStep > step.id ? 'bg-green-500' : 'bg-gray-200'}`}
+                  className={`w-12 h-1 mx-2 ${currentStep > step.id ? 'bg-green-500' : 'bg-slate-200'}`}
                 />
               )}
             </div>
@@ -287,7 +287,7 @@ export default function FullApplicationPage() {
             <div className="space-y-4">
               <h2 className="text-xl font-semibold mb-4">Review Your Application</h2>
               <div className="space-y-3">
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-lg p-4">
                   <h3 className="font-medium text-slate-900 mb-1">Personal Information</h3>
                   <p className="text-sm text-slate-600">
                     {formData.firstName} {formData.lastName}
@@ -296,7 +296,7 @@ export default function FullApplicationPage() {
                     {formData.email} · {formData.phone}
                   </p>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-lg p-4">
                   <h3 className="font-medium text-slate-900 mb-1">Education</h3>
                   <p className="text-sm text-slate-600">
                     {formData.highSchool} ({formData.graduationYear})
@@ -307,7 +307,7 @@ export default function FullApplicationPage() {
                     </p>
                   )}
                 </div>
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-lg p-4">
                   <h3 className="font-medium text-slate-900 mb-1">Experience</h3>
                   <p className="text-sm text-slate-600">
                     {formData.employer || 'Not provided'} — {formData.jobTitle || 'N/A'}

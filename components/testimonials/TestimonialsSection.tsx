@@ -42,15 +42,15 @@ export default function TestimonialsSection() {
       <section className="py-16 lg:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-8"></div>
+            <div className="h-8 bg-slate-200 rounded w-1/3 mx-auto mb-8"></div>
             <div className="bg-slate-50 rounded-3xl p-8 md:p-12">
-              <div className="h-6 bg-gray-200 rounded w-full mb-4"></div>
-              <div className="h-6 bg-gray-200 rounded w-3/4 mb-8"></div>
+              <div className="h-6 bg-slate-200 rounded w-full mb-4"></div>
+              <div className="h-6 bg-slate-200 rounded w-3/4 mb-8"></div>
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gray-200 rounded-full"></div>
+                <div className="w-14 h-14 bg-slate-200 rounded-full"></div>
                 <div>
-                  <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-32"></div>
+                  <div className="h-4 bg-slate-200 rounded w-24 mb-2"></div>
+                  <div className="h-3 bg-slate-200 rounded w-32"></div>
                 </div>
               </div>
             </div>

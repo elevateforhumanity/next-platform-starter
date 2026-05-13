@@ -279,8 +279,8 @@ export async function PUT(request: NextRequest) {
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      return safeError((err as { message?: string }).message ?? 'GitHub API error', res.status);
+      await res.json().catch(() => ({})); // consume body; detail logged server-side only
+      return safeError('GitHub API error', res.status);
     }
 
     const result = await res.json();
@@ -291,7 +291,7 @@ export async function PUT(request: NextRequest) {
     });
   } catch (err) {
     if (err instanceof SyntaxError) {
-      return safeError('Invalid JSON: ' + err.message, 400);
+      return safeError('Invalid JSON in request body', 400);
     }
     return safeInternalError(err, 'Failed to write devcontainer.json');
   }

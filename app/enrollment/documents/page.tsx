@@ -199,7 +199,7 @@ export default function DocumentsPage() {
         {/* Document List */}
         <div className="space-y-4 mb-8">
           {documents.map((doc) => (
-            <div key={doc.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div key={doc.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-4">
                   <div
@@ -283,7 +283,7 @@ export default function DocumentsPage() {
           className={`w-full py-4 px-6 rounded-lg font-semibold transition-colors ${
             allUploaded && !submitting
               ? 'bg-brand-blue-600 hover:bg-brand-blue-700 text-white'
-              : 'bg-gray-200 text-slate-700 cursor-not-allowed'
+              : 'bg-slate-200 text-slate-700 cursor-not-allowed'
           }`}
         >
           {submitting ? (

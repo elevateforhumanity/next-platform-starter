@@ -144,7 +144,7 @@ export default function NotificationsClient({
             onClick={() => setFilter('all')}
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
               filter === 'all'
-                ? 'bg-gray-900 text-white'
+                ? 'bg-slate-900 text-white'
                 : 'bg-white text-slate-900 border hover:bg-white'
             }`}
           >
@@ -154,7 +154,7 @@ export default function NotificationsClient({
             onClick={() => setFilter('unread')}
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
               filter === 'unread'
-                ? 'bg-gray-900 text-white'
+                ? 'bg-slate-900 text-white'
                 : 'bg-white text-slate-900 border hover:bg-white'
             }`}
           >

@@ -180,7 +180,7 @@ function PartnerLoginPageInner() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="partner@company.com"
                 />
               </div>
@@ -195,7 +195,7 @@ function PartnerLoginPageInner() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="••••••••"
                 />
               </div>
@@ -205,7 +205,7 @@ function PartnerLoginPageInner() {
               <label className="flex items-center">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+                  className="w-4 h-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
                 />
                 <span className="ml-2 text-sm text-slate-700">Remember me</span>
               </label>

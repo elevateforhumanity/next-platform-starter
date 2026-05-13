@@ -88,7 +88,7 @@ export function CoursePlayer({ course, modules }: CoursePlayerProps) {
                 className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 ${
                   completedModules.includes(currentModule?.id)
                     ? 'bg-brand-green-600 text-white'
-                    : 'bg-gray-700 text-white hover:bg-gray-600'
+                    : 'bg-slate-700 text-white hover:bg-slate-600'
                 }`}
               >
                 <span className="text-black flex-shrink-0">•</span>
@@ -110,9 +110,9 @@ export function CoursePlayer({ course, modules }: CoursePlayerProps) {
       </div>
 
       {/* Sidebar - Module List */}
-      <div className="w-80 bg-white border-l border-gray-700 overflow-y-auto">
+      <div className="w-80 bg-white border-l border-slate-700 overflow-y-auto">
         {/* Progress */}
-        <div className="p-4 border-b border-gray-700">
+        <div className="p-4 border-b border-slate-700">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-black">Your Progress</span>
             <span className="text-sm font-medium text-white">{progress}%</span>
@@ -136,7 +136,7 @@ export function CoursePlayer({ course, modules }: CoursePlayerProps) {
                 className={`w-full text-left p-3 rounded-lg transition flex items-start gap-3 ${
                   currentModuleIndex === index
                     ? 'bg-brand-blue-600 text-white'
-                    : 'hover:bg-gray-700 text-slate-700'
+                    : 'hover:bg-slate-700 text-slate-700'
                 }`}
               >
                 <div className="flex-shrink-0 mt-0.5">
@@ -145,7 +145,7 @@ export function CoursePlayer({ course, modules }: CoursePlayerProps) {
                   ) : (
                     <div
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-xs font-medium ${
-                        currentModuleIndex === index ? 'border-white' : 'border-gray-500'
+                        currentModuleIndex === index ? 'border-white' : 'border-slate-500'
                       }`}
                     >
                       {index + 1}
@@ -166,14 +166,14 @@ export function CoursePlayer({ course, modules }: CoursePlayerProps) {
         </div>
 
         {/* Resources */}
-        <div className="p-4 border-t border-gray-700">
+        <div className="p-4 border-t border-slate-700">
           <h3 className="text-sm font-semibold text-black mb-3">Resources</h3>
           <div className="space-y-2">
-            <button className="w-full flex items-center gap-2 text-sm text-slate-700 hover:text-white p-2 rounded hover:bg-gray-700">
+            <button className="w-full flex items-center gap-2 text-sm text-slate-700 hover:text-white p-2 rounded hover:bg-slate-700">
               <Download className="w-4 h-4" />
               Download Worksheets
             </button>
-            <button className="w-full flex items-center gap-2 text-sm text-slate-700 hover:text-white p-2 rounded hover:bg-gray-700">
+            <button className="w-full flex items-center gap-2 text-sm text-slate-700 hover:text-white p-2 rounded hover:bg-slate-700">
               <MessageSquare className="w-4 h-4" />
               Ask a Question
             </button>

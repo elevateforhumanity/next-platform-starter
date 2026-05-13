@@ -230,7 +230,7 @@ export default function CourseLeaderboardPage() {
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     timeframe === 'week'
                       ? 'bg-brand-blue-600 text-white'
-                      : 'bg-white text-black hover:bg-gray-200'
+                      : 'bg-white text-black hover:bg-slate-200'
                   }`}
                 >
                   This Week
@@ -240,7 +240,7 @@ export default function CourseLeaderboardPage() {
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     timeframe === 'month'
                       ? 'bg-brand-blue-600 text-white'
-                      : 'bg-white text-black hover:bg-gray-200'
+                      : 'bg-white text-black hover:bg-slate-200'
                   }`}
                 >
                   This Month
@@ -250,7 +250,7 @@ export default function CourseLeaderboardPage() {
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     timeframe === 'all'
                       ? 'bg-brand-blue-600 text-white'
-                      : 'bg-white text-black hover:bg-gray-200'
+                      : 'bg-white text-black hover:bg-slate-200'
                   }`}
                 >
                   All Time
@@ -265,7 +265,7 @@ export default function CourseLeaderboardPage() {
               {/* 2nd Place */}
               <div className="text-center pt-12">
                 <div className="relative inline-block mb-4">
-                  <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center mx-auto">
+                  <div className="w-20 h-20 bg-slate-300 rounded-full flex items-center justify-center mx-auto">
                     {leaderboard[1]?.profiles?.avatar_url ? (
                       <Image
                         src={leaderboard[1].profiles.avatar_url}
@@ -281,7 +281,7 @@ export default function CourseLeaderboardPage() {
                       </span>
                     )}
                   </div>
-                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-gray-400 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-slate-400 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
                     2
                   </div>
                 </div>

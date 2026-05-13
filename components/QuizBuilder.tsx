@@ -274,7 +274,7 @@ export function QuizBuilder() {
                 <h2 className="text-2xl font-bold mb-4">Questions ({questions.length})</h2>
                 <div className="space-y-4">
                   {questions.map((q, index) => (
-                    <div key={q.id} className="p-4 bg-gray-50 rounded-lg">
+                    <div key={q.id} className="p-4 bg-slate-50 rounded-lg">
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">

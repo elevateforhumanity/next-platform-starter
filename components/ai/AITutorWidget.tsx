@@ -135,7 +135,7 @@ export function AITutorWidget({ courseId, courseName }: { courseId: string; cour
               >
                 <div
                   className={`max-w-[80%] rounded-lg p-3 ${
-                    msg.role === 'user' ? 'bg-brand-blue-600 text-white' : 'bg-gray-100 text-black'
+                    msg.role === 'user' ? 'bg-brand-blue-600 text-white' : 'bg-slate-100 text-black'
                   }`}
                 >
                   {msg.content}
@@ -144,11 +144,11 @@ export function AITutorWidget({ courseId, courseName }: { courseId: string; cour
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 rounded-lg p-3">
+                <div className="bg-slate-100 rounded-lg p-3">
                   <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-100"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-200"></div>
                   </div>
                 </div>
               </div>

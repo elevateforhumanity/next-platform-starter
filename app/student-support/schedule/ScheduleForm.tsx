@@ -145,10 +145,10 @@ export default function ScheduleForm({
                 className={`p-4 rounded-lg border text-left transition ${
                   selectedAdvisor === advisor.id
                     ? 'border-brand-orange-500 bg-brand-orange-50'
-                    : 'hover:border-gray-300'
+                    : 'hover:border-slate-300'
                 }`}
               >
-                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-3">
+                <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mb-3">
                   {advisor.avatar_url ? (
                     <Image sizes="100vw"
                       src={advisor.avatar_url}
@@ -195,7 +195,7 @@ export default function ScheduleForm({
                   className={`px-3 py-2 text-sm rounded-lg border ${
                     selectedTime === time
                       ? 'bg-brand-orange-500 text-white border-brand-orange-500'
-                      : 'hover:border-gray-300'
+                      : 'hover:border-slate-300'
                   }`}
                 >
                   {time}
@@ -221,7 +221,7 @@ export default function ScheduleForm({
               className={`flex-1 flex items-center justify-center gap-2 p-4 rounded-lg border ${
                 meetingType === type.id
                   ? 'border-brand-orange-500 bg-brand-orange-50'
-                  : 'hover:border-gray-300'
+                  : 'hover:border-slate-300'
               }`}
             >
               <type.icon className="w-5 h-5" />

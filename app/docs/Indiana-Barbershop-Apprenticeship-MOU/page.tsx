@@ -101,7 +101,7 @@ export default function MOUPage() {
             Your Memorandum of Understanding has been digitally signed and recorded. You will
             receive a confirmation email.
           </p>
-          <div className="bg-gray-50 rounded-xl p-6 max-w-md mx-auto mb-8 text-left">
+          <div className="bg-slate-50 rounded-xl p-6 max-w-md mx-auto mb-8 text-left">
             <p className="text-sm text-slate-600">
               <strong>Shop:</strong> {shopName}
             </p>
@@ -124,7 +124,7 @@ export default function MOUPage() {
             </Link>
             <Link
               href="/partners/barbershop-apprenticeship"
-              className="px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50"
+              className="px-6 py-3 border border-slate-300 rounded-lg font-medium hover:bg-slate-50"
             >
               Back to Partner Info
             </Link>
@@ -145,7 +145,7 @@ export default function MOUPage() {
         />
       </div>
 
-      <div className="print:hidden bg-gray-100 py-4 border-b">
+      <div className="print:hidden bg-slate-100 py-4 border-b">
         <div className="max-w-4xl mx-auto px-4 flex items-center justify-between">
           <Link
             href="/partners/barbershop-apprenticeship"
@@ -401,7 +401,7 @@ export default function MOUPage() {
                 </div>
               )}
 
-              <div className="bg-gray-50 rounded-xl p-6 space-y-4">
+              <div className="bg-slate-50 rounded-xl p-6 space-y-4">
                 <h3 className="text-lg font-bold text-slate-900">Worksite Partner Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
@@ -413,7 +413,7 @@ export default function MOUPage() {
                       value={shopName}
                       onChange={(e) => setShopName(e.target.value)}
                       placeholder="Your barbershop name"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                     />
                   </div>
                   <div>
@@ -425,13 +425,13 @@ export default function MOUPage() {
                       value={partnerName}
                       onChange={(e) => setPartnerName(e.target.value)}
                       placeholder="Full legal name"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-xl p-6 space-y-4">
+              <div className="bg-slate-50 rounded-xl p-6 space-y-4">
                 <h3 className="text-lg font-bold text-slate-900">Supervising Barber</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
@@ -443,7 +443,7 @@ export default function MOUPage() {
                       value={supervisorName}
                       onChange={(e) => setSupervisorName(e.target.value)}
                       placeholder="Licensed barber name"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                     />
                   </div>
                   <div>
@@ -455,13 +455,13 @@ export default function MOUPage() {
                       value={supervisorLicense}
                       onChange={(e) => setSupervisorLicense(e.target.value)}
                       placeholder="License number"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-xl p-6 space-y-4">
+              <div className="bg-slate-50 rounded-xl p-6 space-y-4">
                 <h3 className="text-lg font-bold text-slate-900">Compensation Model *</h3>
                 <div className="grid md:grid-cols-3 gap-3">
                   {[
@@ -471,7 +471,7 @@ export default function MOUPage() {
                   ].map((model) => (
                     <label
                       key={model.value}
-                      className={`flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer ${compensationModel === model.value ? 'border-brand-blue-500 bg-brand-blue-50' : 'border-gray-200 hover:border-gray-300'}`}
+                      className={`flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer ${compensationModel === model.value ? 'border-brand-blue-500 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'}`}
                     >
                       <input
                         type="radio"
@@ -487,7 +487,7 @@ export default function MOUPage() {
                 </div>
               </div>
 
-              <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+              <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-slate-900 mb-1">Worksite Partner Signature</h3>
                 <p className="text-sm text-slate-600 mb-4">
                   The shop owner or authorized representative must sign below.
@@ -502,7 +502,7 @@ export default function MOUPage() {
                 />
               </div>
 
-              <div className="bg-white border-2 border-gray-200 rounded-xl p-6">
+              <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-slate-900 mb-1">
                   Supervising Barber Signature
                 </h3>

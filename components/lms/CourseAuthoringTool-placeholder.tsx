@@ -50,7 +50,7 @@ export default function CourseAuthoringTool() {
           </a>
           <a
             href="/admin/migrations"
-            className="px-6 py-3 bg-gray-200 text-black rounded-lg hover:bg-gray-300 transition"
+            className="px-6 py-3 bg-slate-200 text-black rounded-lg hover:bg-slate-300 transition"
           >
             Run Migrations
           </a>

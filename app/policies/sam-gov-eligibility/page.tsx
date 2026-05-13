@@ -509,7 +509,7 @@ export default async function SAMGovEligibilityPage() {
           <section className="mb-12">
             <h2>Contact Information</h2>
 
-            <div className="bg-gray-50 p-6 rounded-lg">
+            <div className="bg-slate-50 p-6 rounded-lg">
               <h3 className="mt-0">Grants Office</h3>
               <p className="mb-2">
                 <strong>Email:</strong>{' '}

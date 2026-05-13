@@ -43,7 +43,7 @@ export default async function ErrorPage({
             </Link>
             <Link
               href="/support"
-              className="px-6 py-3 border border-gray-300 text-slate-900 rounded-lg hover:bg-white font-medium"
+              className="px-6 py-3 border border-slate-300 text-slate-900 rounded-lg hover:bg-white font-medium"
             >
               Contact Support
             </Link>

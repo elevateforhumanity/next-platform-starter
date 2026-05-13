@@ -36,8 +36,8 @@ export function BookingConfirmation({
       </div>
 
       {/* What Happens Next */}
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-        <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+      <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-slate-50 px-6 py-4 border-b border-slate-200">
           <h2 className="text-lg font-semibold text-slate-900">What Happens Next</h2>
           <p className="text-sm text-slate-700">Here's what to expect.</p>
         </div>
@@ -94,7 +94,7 @@ export function BookingConfirmation({
           </div>
 
           {/* What This Call Is Not */}
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-slate-50 rounded-lg p-4">
             <div className="flex items-center gap-2 mb-3">
               <Shield className="w-5 h-5 text-slate-700" />
               <h3 className="font-semibold text-slate-900">What This Call Is Not</h3>
@@ -128,7 +128,7 @@ export function BookingConfirmation({
           </div>
 
           {/* Optional Preparation */}
-          <div className="border-t border-gray-200 pt-6">
+          <div className="border-t border-slate-200 pt-6">
             <h3 className="font-semibold text-slate-900 mb-3">Your Preparation (Optional)</h3>
             <ul className="space-y-2 text-sm text-slate-900">
               <li className="flex items-start gap-2">

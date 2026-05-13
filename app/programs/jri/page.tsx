@@ -34,7 +34,7 @@ export default async function JRIProgramsPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Please try again later.</p>
@@ -274,17 +274,17 @@ export default async function JRIProgramsPage() {
               Available Apprenticeship Programs
             </h3>
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-center p-4 bg-slate-50 rounded-lg">
                 <p className="font-bold text-lg mb-2">Barber Apprenticeship</p>
                 <p className="text-sm text-black mb-2">2,000 hours | $10-15/hr starting</p>
                 <p className="text-xs text-black">State Board approved</p>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-center p-4 bg-slate-50 rounded-lg">
                 <p className="font-bold text-lg mb-2">HVAC Technician</p>
                 <p className="text-sm text-black mb-2">2,000 hours | $15-18/hr starting</p>
                 <p className="text-xs text-black">EPA certification included</p>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-center p-4 bg-slate-50 rounded-lg">
                 <p className="font-bold text-lg mb-2">Building Maintenance</p>
                 <p className="text-sm text-black mb-2">1,000 hours | $14-17/hr starting</p>
                 <p className="text-xs text-black">Multi-trade skills</p>
@@ -324,7 +324,7 @@ export default async function JRIProgramsPage() {
       </section>
 
       {/* Programs */}
-      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-gray-50">
+      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-slate-50">
         <div className="mx-auto max-w-7xl">
           <h2 className="text-3xl font-bold text-black text-center mb-12">
             Available JRI Programs
@@ -335,7 +335,7 @@ export default async function JRIProgramsPage() {
               <Link
                 key={program.slug}
                 href={`/programs/${program.slug}`}
-                className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all"
+                className="group block bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all"
               >
                 <div className="relative h-48 w-full overflow-hidden">
                   <Image
@@ -412,7 +412,7 @@ export default async function JRIProgramsPage() {
           </h2>
 
           <div className="space-y-6">
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 What is the Justice Reinvestment Initiative (JRI)?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -434,7 +434,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 Am I eligible for JRI programs?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -465,7 +465,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 Is this training fully funded?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -485,7 +485,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 Will my criminal record prevent me from getting certified?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -506,7 +506,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 How do I schedule an appointment?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -539,7 +539,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 What credentials and approvals does Elevate for Humanity have?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -591,7 +591,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 Will you help me find a job after training?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -612,7 +612,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 How long does training take?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -648,7 +648,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 Can I earn money while I train?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -685,7 +685,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 I'm an employer or program holder - how can I partner with you?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -722,7 +722,7 @@ export default async function JRIProgramsPage() {
               </div>
             </details>
 
-            <details className="group bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
                 What makes Elevate for Humanity different from other training providers?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
@@ -788,7 +788,7 @@ export default async function JRIProgramsPage() {
       </section>
 
       {/* CTA */}
-      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-gray-50">
+      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-slate-50">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-black mb-6">
             Ready to Start Your New Career?

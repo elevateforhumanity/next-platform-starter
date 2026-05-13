@@ -42,8 +42,8 @@ export default async function CaseManagerPlacementsPage() {
     if (status === 'verified') return 'bg-green-100 text-green-800';
     if (status === 'pending') return 'bg-yellow-100 text-yellow-800';
     if (status === 'rejected') return 'bg-red-100 text-red-800';
-    if (status === 'lost') return 'bg-gray-100 text-slate-700';
-    return 'bg-gray-100 text-slate-900';
+    if (status === 'lost') return 'bg-slate-100 text-slate-700';
+    return 'bg-slate-100 text-slate-900';
   };
 
   return (
@@ -102,7 +102,7 @@ export default async function CaseManagerPlacementsPage() {
         )}
 
         {!placements?.length && (
-          <div className="rounded-xl border border-gray-200 p-12 text-center">
+          <div className="rounded-xl border border-slate-200 p-12 text-center">
             <p className="text-sm text-slate-700">No placements recorded yet.</p>
           </div>
         )}
@@ -123,9 +123,9 @@ function PlacementTable({
   caseManagerId?: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-      <table className="min-w-full divide-y divide-gray-100 text-sm">
-        <thead className="bg-gray-50">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <table className="min-w-full divide-y divide-slate-100 text-sm">
+        <thead className="bg-slate-50">
           <tr>
             <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
               Participant
@@ -154,9 +154,9 @@ function PlacementTable({
             {showVerifyAction && <th className="px-4 py-3" />}
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-100">
+        <tbody className="divide-y divide-slate-100">
           {rows.map((p: any) => (
-            <tr key={p.id} className="hover:bg-gray-50">
+            <tr key={p.id} className="hover:bg-slate-50">
               <td className="px-4 py-3 font-medium text-slate-900">
                 {(p.profiles as any)?.full_name ?? (p.profiles as any)?.email ?? '—'}
               </td>

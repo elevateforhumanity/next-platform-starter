@@ -139,7 +139,7 @@ export function AIAssistantBubble() {
     <>
       {showWelcome && !isOpen && (
         <div className="fixed bottom-24 right-6 z-50 animate-fade-in">
-          <div className="bg-white rounded-lg shadow-2xl p-4 max-w-xs border border-gray-200 relative">
+          <div className="bg-white rounded-lg shadow-2xl p-4 max-w-xs border border-slate-200 relative">
             <button
               onClick={() => setShowWelcome(false)}
               className="absolute top-2 right-2 text-slate-700 hover:text-black"
@@ -173,7 +173,7 @@ export function AIAssistantBubble() {
       )}
 
       {isOpen && (
-        <div className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-50 w-full md:w-96 h-full md:h-[600px] bg-white md:rounded-2xl shadow-2xl flex flex-col border border-gray-200">
+        <div className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-50 w-full md:w-96 h-full md:h-[600px] bg-white md:rounded-2xl shadow-2xl flex flex-col border border-slate-200">
           <div className="bg-gradient-to-r from-brand-orange-600 to-brand-orange-500 text-white p-4 md:rounded-t-2xl flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-3">
               <div className="bg-white/20 rounded-full p-2">
@@ -196,7 +196,7 @@ export function AIAssistantBubble() {
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 min-h-0">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 min-h-0">
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -206,7 +206,7 @@ export function AIAssistantBubble() {
                   className={`max-w-[85%] rounded-2xl px-4 py-3 ${
                     message.role === 'user'
                       ? 'bg-brand-orange-600 text-white'
-                      : 'bg-white text-slate-900 shadow-sm border border-gray-200'
+                      : 'bg-white text-slate-900 shadow-sm border border-slate-200'
                   }`}
                 >
                   <div className="text-sm whitespace-pre-line">
@@ -217,7 +217,7 @@ export function AIAssistantBubble() {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-200">
+                <div className="bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-200">
                   <Loader2 className="h-5 w-5 animate-spin text-brand-orange-600" />
                 </div>
               </div>
@@ -226,14 +226,14 @@ export function AIAssistantBubble() {
           </div>
 
           {messages.length <= 1 && (
-            <div className="px-4 py-2 border-t border-gray-100 bg-white flex gap-2 overflow-x-auto flex-shrink-0">
+            <div className="px-4 py-2 border-t border-slate-100 bg-white flex gap-2 overflow-x-auto flex-shrink-0">
               {['View Programs', 'Check Eligibility', 'Apply Now'].map((action) => (
                 <button
                   key={action}
                   onClick={() => {
                     setInput(action);
                   }}
-                  className="text-xs bg-gray-100 text-slate-900 px-3 py-1.5 rounded-full hover:bg-gray-200 whitespace-nowrap"
+                  className="text-xs bg-slate-100 text-slate-900 px-3 py-1.5 rounded-full hover:bg-slate-200 whitespace-nowrap"
                 >
                   {action}
                 </button>
@@ -241,7 +241,7 @@ export function AIAssistantBubble() {
             </div>
           )}
 
-          <div className="p-4 border-t border-gray-200 bg-white md:rounded-b-2xl flex-shrink-0">
+          <div className="p-4 border-t border-slate-200 bg-white md:rounded-b-2xl flex-shrink-0">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -250,7 +250,7 @@ export function AIAssistantBubble() {
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
                 disabled={isLoading}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-orange-500 text-sm"
+                className="flex-1 px-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-orange-500 text-sm"
               />
               <button
                 onClick={handleSend}

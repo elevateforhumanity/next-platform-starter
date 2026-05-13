@@ -57,7 +57,7 @@ export default function PaymentOptions({ price, programName }: Props) {
         </div>
       </div>
 
-      <div className="mt-4 rounded-xl bg-gray-50 p-4 text-sm text-black">
+      <div className="mt-4 rounded-xl bg-slate-50 p-4 text-sm text-black">
         <div className="font-medium">Note:</div>
         <div className="mt-1">
           Pay-over-time options show automatically at checkout if they're enabled in Stripe and

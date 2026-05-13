@@ -29,7 +29,7 @@ export function HeroWithVoiceover({ videoSrc, audioSrc, children }: HeroWithVoic
   };
 
   return (
-    <section className="relative bg-gray-900 py-20 md:py-32">
+    <section className="relative bg-slate-900 py-20 md:py-32">
       {/* Video Background */}
       <video
         ref={videoRef}

@@ -235,7 +235,7 @@ export function WebsiteBuilderApp({
                       className={`p-4 border-2 rounded-lg text-left transition ${
                         selectedTemplate === template.id
                           ? 'border-brand-blue-600 bg-brand-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <div className="w-full aspect-video bg-white rounded mb-3 flex items-center justify-center">

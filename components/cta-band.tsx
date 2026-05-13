@@ -7,13 +7,13 @@ type CtaBandProps = {
 
 export function CtaBand({ heading, subheading, label, href }: CtaBandProps) {
   return (
-    <section className="border-t bg-gray-50">
+    <section className="border-t bg-slate-50">
       <div className="mx-auto max-w-6xl px-4 py-12 text-center">
         <h2 className="text-2xl font-bold">{heading}</h2>
         {subheading && <p className="mt-3 text-slate-600">{subheading}</p>}
         <a
           href={href}
-          className="mt-6 inline-block rounded bg-black px-6 py-3 text-white hover:bg-gray-800"
+          className="mt-6 inline-block rounded bg-black px-6 py-3 text-white hover:bg-slate-800"
         >
           {label}
         </a>

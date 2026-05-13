@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Pathways() {
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-slate-50 py-16">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-4xl font-bold text-black mb-12 text-center">Your Path to Success</h2>
 

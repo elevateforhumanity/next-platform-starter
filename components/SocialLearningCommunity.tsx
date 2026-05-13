@@ -185,13 +185,13 @@ export function SocialLearningCommunity() {
                 />
                 <div className="flex justify-between items-center mt-3">
                   <div className="flex gap-2">
-                    <button className="px-3 py-2 text-sm text-black hover:bg-gray-100 rounded">
+                    <button className="px-3 py-2 text-sm text-black hover:bg-slate-100 rounded">
                       📷 Image
                     </button>
-                    <button className="px-3 py-2 text-sm text-black hover:bg-gray-100 rounded">
+                    <button className="px-3 py-2 text-sm text-black hover:bg-slate-100 rounded">
                       💻 Code
                     </button>
-                    <button className="px-3 py-2 text-sm text-black hover:bg-gray-100 rounded">
+                    <button className="px-3 py-2 text-sm text-black hover:bg-slate-100 rounded">
                       🏷️ Tag
                     </button>
                   </div>

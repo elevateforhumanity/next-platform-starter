@@ -108,7 +108,7 @@ export default function ActivityFeed() {
         <h2 className="font-semibold text-slate-900">Activity Feed</h2>
         <button
           onClick={fetchActivities}
-          className="p-2 text-slate-700 hover:text-slate-700 hover:bg-gray-100 rounded-lg"
+          className="p-2 text-slate-700 hover:text-slate-700 hover:bg-slate-100 rounded-lg"
         >
           <RefreshCw className="w-4 h-4" />
         </button>
@@ -122,7 +122,7 @@ export default function ActivityFeed() {
       ) : (
         <div className="divide-y">
           {activities.map((activity) => (
-            <div key={activity.id} className="p-4 hover:bg-gray-50 transition">
+            <div key={activity.id} className="p-4 hover:bg-slate-50 transition">
               <div className="flex gap-3">
                 <div className="flex-shrink-0 mt-1">{getActivityIcon(activity.type)}</div>
                 <div className="flex-1 min-w-0">

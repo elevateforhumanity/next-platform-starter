@@ -235,7 +235,7 @@ export async function POST(request: NextRequest) {
         contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         upsert: true,
       });
-      if (up.error) return safeError(`Failed to upload DOCX: ${up.error.message}`, 500);
+      if (up.error) return safeInternalError(up.error, 'Failed to upload DOCX');
 
       const signed = await storage.createSignedUrl(docxPath, 60 * 60 * 24 * 7);
       outputs.push({
@@ -266,7 +266,7 @@ export async function POST(request: NextRequest) {
         contentType: 'application/pdf',
         upsert: true,
       });
-      if (up.error) return safeError(`Failed to upload PDF: ${up.error.message}`, 500);
+      if (up.error) return safeInternalError(up.error, 'Failed to upload PDF');
 
       const signed = await storage.createSignedUrl(pdfPath, 60 * 60 * 24 * 7);
       outputs.push({

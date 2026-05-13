@@ -107,7 +107,7 @@ export default async function ParticipantDetailPage({ params }: Props) {
       return 'bg-green-100 text-green-800';
     if (status === 'pending') return 'bg-yellow-100 text-yellow-800';
     if (status === 'rejected' || status === 'lost') return 'bg-red-100 text-red-800';
-    return 'bg-gray-100 text-slate-900';
+    return 'bg-slate-100 text-slate-900';
   };
 
   return (
@@ -143,8 +143,8 @@ export default async function ParticipantDetailPage({ params }: Props) {
               {!enrollments?.length ? (
                 <p className="text-sm text-slate-700">No enrollments found.</p>
               ) : (
-                <table className="min-w-full divide-y divide-gray-100 text-sm">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-slate-100 text-sm">
+                  <thead className="bg-slate-50">
                     <tr>
                       <th className="px-3 py-2 text-left text-xs font-semibold text-slate-700 uppercase">
                         Program
@@ -160,7 +160,7 @@ export default async function ParticipantDetailPage({ params }: Props) {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-slate-100">
                     {enrollments.map((e: any) => (
                       <tr key={e.id}>
                         <td className="px-3 py-2 font-medium text-slate-900">
@@ -187,8 +187,8 @@ export default async function ParticipantDetailPage({ params }: Props) {
               {!placements?.length ? (
                 <p className="text-sm text-slate-700 mb-4">No placements recorded.</p>
               ) : (
-                <table className="min-w-full divide-y divide-gray-100 text-sm mb-4">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-slate-100 text-sm mb-4">
+                  <thead className="bg-slate-50">
                     <tr>
                       <th className="px-3 py-2 text-left text-xs font-semibold text-slate-700 uppercase">
                         Employer
@@ -207,7 +207,7 @@ export default async function ParticipantDetailPage({ params }: Props) {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-slate-100">
                     {placements.map((p: any) => (
                       <tr key={p.id}>
                         <td className="px-3 py-2 font-medium text-slate-900">
@@ -238,8 +238,8 @@ export default async function ParticipantDetailPage({ params }: Props) {
               {!credentials?.length ? (
                 <p className="text-sm text-slate-700">No credentials on record.</p>
               ) : (
-                <table className="min-w-full divide-y divide-gray-100 text-sm">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-slate-100 text-sm">
+                  <thead className="bg-slate-50">
                     <tr>
                       <th className="px-3 py-2 text-left text-xs font-semibold text-slate-700 uppercase">
                         Credential
@@ -258,7 +258,7 @@ export default async function ParticipantDetailPage({ params }: Props) {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-slate-100">
                     {credentials.map((c: any) => (
                       <tr key={c.id}>
                         <td className="px-3 py-2 font-medium text-slate-900">
@@ -289,7 +289,7 @@ export default async function ParticipantDetailPage({ params }: Props) {
           {/* Right column — sidebar */}
           <div className="space-y-4">
             {/* Application info */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4">
+            <div className="rounded-xl border border-slate-200 bg-white p-4">
               <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-3">
                 Application
               </h3>
@@ -303,7 +303,7 @@ export default async function ParticipantDetailPage({ params }: Props) {
 
             {/* WIOA */}
             {wioa && (
-              <div className="rounded-xl border border-gray-200 bg-white p-4">
+              <div className="rounded-xl border border-slate-200 bg-white p-4">
                 <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-3">
                   WIOA
                 </h3>
@@ -333,8 +333,8 @@ export default async function ParticipantDetailPage({ params }: Props) {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-      <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
+    <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-100 bg-slate-50">
         <h2 className="text-sm font-semibold text-slate-900">{title}</h2>
       </div>
       <div className="p-4">{children}</div>

@@ -83,7 +83,7 @@ function FeaturesSection({ section }: { section: MarketingSection }) {
   }
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">{section.heading}</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -158,7 +158,7 @@ function FAQSection({ section }: { section: MarketingSection }) {
         <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">{section.heading}</h2>
         <div className="space-y-6">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="border-b border-gray-200 pb-6">
+            <div key={idx} className="border-b border-slate-200 pb-6">
               <h3 className="text-lg font-semibold text-slate-900 mb-2">{faq.question}</h3>
               <p className="text-slate-700">{faq.answer}</p>
             </div>

@@ -319,7 +319,7 @@ export default function StudentApplicationPage() {
             required
             value={formData.program}
             onChange={(e) => setFormData({ ...formData, program: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
           >
             <option value="">Select a program...</option>
             <optgroup label="Healthcare">
@@ -355,7 +355,7 @@ export default function StudentApplicationPage() {
             required
             value={formData.education}
             onChange={(e) => setFormData({ ...formData, education: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
           >
             <option value="">Select...</option>
             <option value="less-than-hs">Less than High School</option>
@@ -376,7 +376,7 @@ export default function StudentApplicationPage() {
             required
             value={formData.employment_status}
             onChange={(e) => setFormData({ ...formData, employment_status: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
           >
             <option value="">Select...</option>
             <option value="unemployed">Unemployed</option>
@@ -396,7 +396,7 @@ export default function StudentApplicationPage() {
             required
             value={formData.funding_source}
             onChange={(e) => setFormData({ ...formData, funding_source: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
           >
             <option value="">Select...</option>
             <option value="wioa">WIOA / Next Level Jobs (Free if eligible)</option>
@@ -418,7 +418,7 @@ export default function StudentApplicationPage() {
               required={isFundedFlow}
               value={formData.funding_readiness}
               onChange={(e) => setFormData({ ...formData, funding_readiness: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
             >
               <option value="">Select...</option>
               <option value="not-started">I have not started Indiana Career Connect / agency intake</option>
@@ -492,7 +492,7 @@ export default function StudentApplicationPage() {
                   value={formData.workone_center}
                   onChange={(e) => setFormData({ ...formData, workone_center: e.target.value })}
                   placeholder="Example: WorkOne Indy East"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
               <div>
@@ -503,7 +503,7 @@ export default function StudentApplicationPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, workone_appointment_date: e.target.value })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
             </div>
@@ -524,7 +524,7 @@ export default function StudentApplicationPage() {
           <select
             value={formData.start_date}
             onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
           >
             <option value="">Select...</option>
             <option value="asap">As soon as possible</option>
@@ -544,7 +544,7 @@ export default function StudentApplicationPage() {
             onChange={(e) => setFormData({ ...formData, goals: e.target.value })}
             rows={3}
             placeholder="Tell us about your career aspirations..."
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
           />
         </div>
 
@@ -556,7 +556,7 @@ export default function StudentApplicationPage() {
           <select
             value={formData.hear_about}
             onChange={(e) => setFormData({ ...formData, hear_about: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
           >
             <option value="">Select...</option>
             <option value="google">Google Search</option>
@@ -573,7 +573,7 @@ export default function StudentApplicationPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-emerald-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="w-full bg-emerald-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 disabled:bg-slate-400 disabled:cursor-not-allowed"
           >
             {submitting ? 'Submitting...' : 'Submit Application'}
           </button>

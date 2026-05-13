@@ -156,7 +156,7 @@ export default function SSNVerificationForm({ userId, onComplete }: SSNVerificat
             placeholder="XXX-XX-XXXX"
             maxLength={11}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           />
           <p className="text-xs text-black mt-1">
             <Lock className="w-5 h-5 inline-block" /> We only store the last 4 digits for security
@@ -174,7 +174,7 @@ export default function SSNVerificationForm({ userId, onComplete }: SSNVerificat
               onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               placeholder="First name"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             />
           </div>
 
@@ -188,7 +188,7 @@ export default function SSNVerificationForm({ userId, onComplete }: SSNVerificat
               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               placeholder="Doe"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -202,7 +202,7 @@ export default function SSNVerificationForm({ userId, onComplete }: SSNVerificat
             value={formData.dateOfBirth}
             onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           />
         </div>
 
@@ -210,7 +210,7 @@ export default function SSNVerificationForm({ userId, onComplete }: SSNVerificat
           <button
             type="submit"
             disabled={loading || result?.verified}
-            className="w-full bg-brand-blue-600 text-white px-6 py-3 rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
+            className="w-full bg-brand-blue-600 text-white px-6 py-3 rounded-lg hover:bg-brand-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
           >
             {loading && <Loader2 className="animate-spin" size={20} />}
             {loading ? 'Verifying...' : result?.verified ? 'Verified •' : 'Verify SSN (FREE)'}

@@ -77,7 +77,7 @@ export default function FeatureTour() {
                 handleComplete();
               }
             }}
-            className="px-6 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-white transition"
+            className="px-6 py-3 border-2 border-slate-300 rounded-lg font-semibold hover:bg-white transition"
           >
             {currentStep < features.length - 1 ? 'Next' : 'Done'}
           </button>
@@ -88,7 +88,7 @@ export default function FeatureTour() {
             <div
               key={index}
               className={`w-2 h-2 rounded-full transition ${
-                index === currentStep ? 'bg-brand-blue-600 w-6' : 'bg-gray-300'
+                index === currentStep ? 'bg-brand-blue-600 w-6' : 'bg-slate-300'
               }`}
             />
           ))}

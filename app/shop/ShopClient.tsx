@@ -72,7 +72,7 @@ export function ShopClient({ products, categories }: ShopClientProps) {
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full md:w-64"
+              className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg w-full md:w-64"
               aria-label="Search products"
             />
           </form>

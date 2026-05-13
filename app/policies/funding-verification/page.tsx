@@ -91,7 +91,7 @@ export default async function FundingVerificationPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Accepted Funding Sources</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {fundingSources.map((source, i) => (
-                <div key={i} className="bg-gray-50 rounded-xl p-5 border">
+                <div key={i} className="bg-slate-50 rounded-xl p-5 border">
                   <div className="flex items-start gap-3">
                     <span className="text-slate-400 flex-shrink-0">•</span>
                     <div>
@@ -205,7 +205,7 @@ export default async function FundingVerificationPage() {
               </a>
               <a
                 href="/support"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 rounded-lg font-medium hover:bg-slate-50 transition"
               >
                 <Phone className="w-4 h-4" /> Get Help Online
               </a>

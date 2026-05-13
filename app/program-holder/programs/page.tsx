@@ -80,7 +80,7 @@ export default async function ProgramHolderProgramsPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 {programs.map((program) => (
                   <tr key={program.id} className="hover:bg-white">
                     <td className="px-6 py-4">
@@ -101,7 +101,7 @@ export default async function ProgramHolderProgramsPage() {
                     <td className="px-6 py-4 text-center text-slate-700">{program.students}</td>
                     <td className="px-6 py-4 text-center">
                       <div className="flex items-center justify-center gap-2">
-                        <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-16 h-2 bg-slate-200 rounded-full overflow-hidden">
                           <div
                             className="h-full bg-brand-blue-500 rounded-full"
                             style={{ width: `${program.completion}%` }}

@@ -98,7 +98,7 @@ export function FeedbackForm({ courseId, courseName, onSubmit }: FeedbackFormPro
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             rows={4}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             placeholder="What did you like? What could be improved?"
           />
         </div>

@@ -80,7 +80,7 @@ export function RAPIDSDataCollection({
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6">
+    <div className="bg-white border border-slate-200 rounded-xl p-6">
       {/* Header */}
       <div className="flex items-start gap-3 mb-6">
         <div className="p-2 bg-brand-blue-100 rounded-lg">
@@ -125,7 +125,7 @@ export function RAPIDSDataCollection({
                 value={data.dateOfBirth || ''}
                 onChange={(e) => handleChange('dateOfBirth', e.target.value)}
                 required={required}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
             <div>
@@ -136,7 +136,7 @@ export function RAPIDSDataCollection({
                 value={data.gender || ''}
                 onChange={(e) => handleChange('gender', e.target.value)}
                 required={required}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               >
                 {GENDER_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -154,7 +154,7 @@ export function RAPIDSDataCollection({
                 value={data.middleName || ''}
                 onChange={(e) => handleChange('middleName', e.target.value)}
                 placeholder="Middle name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
             <div>
@@ -166,7 +166,7 @@ export function RAPIDSDataCollection({
                 value={data.suffix || ''}
                 onChange={(e) => handleChange('suffix', e.target.value)}
                 placeholder="Jr., Sr., III, etc."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
           </div>
@@ -184,7 +184,7 @@ export function RAPIDSDataCollection({
                 value={data.raceEthnicity || ''}
                 onChange={(e) => handleChange('raceEthnicity', e.target.value)}
                 required={required}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               >
                 {RACE_ETHNICITY_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -201,7 +201,7 @@ export function RAPIDSDataCollection({
                 value={data.educationLevel || ''}
                 onChange={(e) => handleChange('educationLevel', e.target.value)}
                 required={required}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               >
                 {EDUCATION_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -218,7 +218,7 @@ export function RAPIDSDataCollection({
                 type="checkbox"
                 checked={data.veteranStatus || false}
                 onChange={(e) => handleChange('veteranStatus', e.target.checked)}
-                className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+                className="w-4 h-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
               />
               <span className="text-sm text-slate-900">
                 I am a veteran of the U.S. Armed Forces
@@ -229,7 +229,7 @@ export function RAPIDSDataCollection({
                 type="checkbox"
                 checked={data.disabilityStatus || false}
                 onChange={(e) => handleChange('disabilityStatus', e.target.checked)}
-                className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+                className="w-4 h-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
               />
               <span className="text-sm text-slate-900">I have a disability</span>
             </label>
@@ -260,7 +260,7 @@ export function RAPIDSDataCollection({
                   value={data.employerName || ''}
                   onChange={(e) => handleChange('employerName', e.target.value)}
                   placeholder="Company name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -270,7 +270,7 @@ export function RAPIDSDataCollection({
                   value={data.employerCity || ''}
                   onChange={(e) => handleChange('employerCity', e.target.value)}
                   placeholder="City"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -281,7 +281,7 @@ export function RAPIDSDataCollection({
                   onChange={(e) => handleChange('employerState', e.target.value)}
                   placeholder="IN"
                   maxLength={2}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
             </div>
@@ -289,14 +289,14 @@ export function RAPIDSDataCollection({
         </div>
 
         {/* Consent */}
-        <div className="border-t border-gray-200 pt-6">
+        <div className="border-t border-slate-200 pt-6">
           <label className="flex items-start gap-3">
             <input
               type="checkbox"
               checked={data.rapidsConsent || false}
               onChange={(e) => handleChange('rapidsConsent', e.target.checked)}
               required={required}
-              className="w-4 h-4 mt-1 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+              className="w-4 h-4 mt-1 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
             />
             <span className="text-sm text-slate-900">
               I understand that {programName} is a USDOL Registered Apprenticeship program and I

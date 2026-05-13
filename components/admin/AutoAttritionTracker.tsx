@@ -586,7 +586,7 @@ export function AutoAttritionTracker() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-slate-200">
               {metrics.byProgram.map((program, index) => (
                 <tr key={index}>
                   <td className="px-6 py-4 font-medium text-brand-text">{program.program}</td>

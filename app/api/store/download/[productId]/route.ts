@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: download gated by purchase token (download_token + expiry check) — not session-auth
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getDigitalProduct } from '@/lib/store/digital-products';

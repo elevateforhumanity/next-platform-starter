@@ -27,7 +27,7 @@ export default async function VerifyPage({
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="bg-white border-b border-gray-200">
+      <header className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-xl font-bold text-slate-900">

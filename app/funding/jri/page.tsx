@@ -365,7 +365,7 @@ export default function JriPage() {
                 desc: 'Learn to budget, build credit, and manage money so you can stay stable long-term.',
               },
             ].map((service, i) => (
-              <div key={i} className="bg-gray-50 rounded-xl p-6 border">
+              <div key={i} className="bg-slate-50 rounded-xl p-6 border">
                 <service.icon className="w-10 h-10 text-indigo-600 mb-4" />
                 <h3 className="font-bold text-slate-900 text-lg mb-2">{service.title}</h3>
                 <p className="text-slate-600">{service.desc}</p>
@@ -376,7 +376,7 @@ export default function JriPage() {
       </section>
 
       {/* How to Apply */}
-      <section className="py-16 bg-gray-900 text-white">
+      <section className="py-16 bg-slate-900 text-white">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black mb-4">How to Get Started</h2>

@@ -97,7 +97,7 @@ export default function PartnerApplyPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
           <CheckCircle className="w-16 h-16 text-brand-green-600 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Application Submitted</h1>
@@ -127,7 +127,7 @@ export default function PartnerApplyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
         <Image
@@ -187,7 +187,7 @@ export default function PartnerApplyPage() {
                     className={`flex items-start gap-3 p-3 border rounded-lg cursor-pointer transition ${
                       formData.type === t.value
                         ? 'border-brand-blue-500 bg-brand-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <input
@@ -217,7 +217,7 @@ export default function PartnerApplyPage() {
                 required
                 value={formData.orgName}
                 onChange={(e) => update('orgName', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 placeholder="Legal business name"
               />
             </div>
@@ -232,7 +232,7 @@ export default function PartnerApplyPage() {
                   required
                   value={formData.contactName}
                   onChange={(e) => update('contactName', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="Full name"
                 />
               </div>
@@ -243,7 +243,7 @@ export default function PartnerApplyPage() {
                   required
                   value={formData.email}
                   onChange={(e) => update('email', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="email@business.com"
                 />
               </div>
@@ -256,7 +256,7 @@ export default function PartnerApplyPage() {
                 required
                 value={formData.phone}
                 onChange={(e) => update('phone', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 placeholder="(317) 555-1234"
               />
             </div>
@@ -270,7 +270,7 @@ export default function PartnerApplyPage() {
                 required
                 value={formData.addressLine1}
                 onChange={(e) => update('addressLine1', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 placeholder="123 Main St"
               />
             </div>
@@ -282,7 +282,7 @@ export default function PartnerApplyPage() {
                   required
                   value={formData.city}
                   onChange={(e) => update('city', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="Indianapolis"
                 />
               </div>
@@ -292,7 +292,7 @@ export default function PartnerApplyPage() {
                   required
                   value={formData.state}
                   onChange={(e) => update('state', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 >
                   <option value="Indiana">Indiana</option>
                   <option value="Illinois">Illinois</option>
@@ -310,7 +310,7 @@ export default function PartnerApplyPage() {
                   required
                   value={formData.zip}
                   onChange={(e) => update('zip', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="46204"
                   pattern="[0-9]{5}"
                 />
@@ -325,7 +325,7 @@ export default function PartnerApplyPage() {
                 rows={3}
                 value={formData.description}
                 onChange={(e) => update('description', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 resize-none"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 resize-none"
                 placeholder="Number of apprentice stations, hours of operation, relevant licenses..."
               />
             </div>

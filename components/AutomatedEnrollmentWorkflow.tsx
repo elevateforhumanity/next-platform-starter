@@ -402,7 +402,7 @@ export default function AutomatedEnrollmentWorkflow({
       case 'failed':
         return 'bg-brand-red-50 border-brand-red-200';
       default:
-        return 'bg-gray-50 border-gray-200';
+        return 'bg-slate-50 border-slate-200';
     }
   };
 
@@ -420,9 +420,9 @@ export default function AutomatedEnrollmentWorkflow({
     return (
       <div className="space-y-4">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
+          <div className="h-8 bg-slate-200 rounded w-1/3 mb-6"></div>
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-20 bg-gray-100 rounded mb-3"></div>
+            <div key={i} className="h-20 bg-slate-100 rounded mb-3"></div>
           ))}
         </div>
       </div>
@@ -449,7 +449,7 @@ export default function AutomatedEnrollmentWorkflow({
                     ? 'bg-brand-green-100 text-brand-green-800'
                     : enrollment.status === 'pending'
                       ? 'bg-yellow-100 text-yellow-800'
-                      : 'bg-gray-100 text-slate-900'
+                      : 'bg-slate-100 text-slate-900'
                 }`}
               >
                 {enrollment.status.replace('_', ' ').toUpperCase()}

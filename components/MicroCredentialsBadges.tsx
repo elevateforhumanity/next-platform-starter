@@ -196,7 +196,7 @@ export default function MicroCredentialsBadges() {
                     <span className="text-black">Progress</span>
                     <span className="font-semibold text-brand-orange-600">{badge.progress}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-slate-200 rounded-full h-2">
                     <div className="   h-2 rounded-full" style={{ width: `${badge.progress}%` }} />
                   </div>
                 </div>

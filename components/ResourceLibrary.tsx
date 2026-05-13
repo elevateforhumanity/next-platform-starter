@@ -152,7 +152,7 @@ export function ResourceLibrary() {
               <div className="mb-3">
                 <div className="flex flex-wrap gap-1">
                   {resource.tags.map((tag) => (
-                    <span key={tag} className="px-2 py-0.5 bg-gray-100 text-black text-xs rounded">
+                    <span key={tag} className="px-2 py-0.5 bg-slate-100 text-black text-xs rounded">
                       {tag}
                     </span>
                   ))}

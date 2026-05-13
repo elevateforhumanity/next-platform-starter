@@ -82,7 +82,7 @@ export default function EligibilityPage() {
           <p className="text-black mb-8">
             To be eligible for WIOA-funded training, you must meet the following criteria:
           </p>
-          <div className="bg-white border border-gray-200 rounded-xl p-6">
+          <div className="bg-white border border-slate-200 rounded-xl p-6">
             <ul className="space-y-4">
               {ELIGIBLE.map((item) => (
                 <li key={item} className="flex items-start gap-3">
@@ -108,7 +108,7 @@ export default function EligibilityPage() {
             {PRIORITY_POPULATIONS.map((item) => (
               <div
                 key={item}
-                className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex items-center gap-3"
+                className="bg-white border border-slate-200 rounded-lg px-4 py-3 flex items-center gap-3"
               >
                 <div className="w-2 h-2 bg-white rounded-full flex-shrink-0" />
                 <span className="text-slate-700 text-sm">{item}</span>

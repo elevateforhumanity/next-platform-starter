@@ -79,7 +79,7 @@ export default function CertificateVerificationForm() {
             ) => setCertificateNumber(e.target.value.toUpperCase())}
             placeholder="EFH-2024-XXXXXXXX"
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-center text-lg font-mono"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-center text-lg font-mono"
             maxLength={20}
           />
           <p className="mt-2 text-xs text-black text-center">
@@ -90,7 +90,7 @@ export default function CertificateVerificationForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed font-medium text-lg"
+          className="w-full px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed font-medium text-lg"
         >
           {loading ? (
             <span className="flex items-center justify-center">
@@ -122,7 +122,7 @@ export default function CertificateVerificationForm() {
         </button>
       </form>
 
-      <div className="mt-6 pt-6 border-t border-gray-200">
+      <div className="mt-6 pt-6 border-t border-slate-200">
         <div className="flex items-start space-x-3">
           <svg
             className="w-5 h-5 text-brand-blue-600 mt-0.5 flex-shrink-0"

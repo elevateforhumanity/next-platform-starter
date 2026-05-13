@@ -53,7 +53,7 @@ function SuccessContent({ searchParams }: { searchParams: { session_id?: string 
             <div className="bg-white rounded-lg p-4 mb-8">
               <p className="text-sm text-black">
                 <span className="font-semibold">Session ID:</span>{' '}
-                <code className="bg-gray-200 px-2 py-2 rounded text-xs">{sessionId}</code>
+                <code className="bg-slate-200 px-2 py-2 rounded text-xs">{sessionId}</code>
               </p>
               <p className="text-xs text-black mt-2">Save this for your records</p>
             </div>
@@ -69,13 +69,13 @@ function SuccessContent({ searchParams }: { searchParams: { session_id?: string 
 
             <Link
               href="/"
-              className="block w-full bg-gray-200 text-black text-center py-3 rounded-lg hover:bg-gray-300 transition"
+              className="block w-full bg-slate-200 text-black text-center py-3 rounded-lg hover:bg-slate-300 transition"
             >
               Return to Homepage
             </Link>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-gray-200">
+          <div className="mt-8 pt-8 border-t border-slate-200">
             <p className="text-sm text-black">
               Questions? Contact us at{' '}
               <a href="/contact" className="text-brand-blue-600 hover:underline">

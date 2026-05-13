@@ -182,7 +182,7 @@ export default function DeviceCompatibility() {
         </p>
       </div>
       {/* Progress Bar */}
-      <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
+      <div className="bg-slate-200 rounded-full h-3 overflow-hidden">
         <div
           className="   h-full transition-all duration-500"
           style={{ width: `${compatibilityPercent}%` }}
@@ -190,7 +190,7 @@ export default function DeviceCompatibility() {
       </div>
       {/* Device Info */}
       {deviceInfo && (
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-slate-200 p-6">
           <h2 className="font-semibold text-black mb-4">Device Information</h2>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
@@ -243,11 +243,11 @@ export default function DeviceCompatibility() {
         </div>
       )}
       {/* Feature Support */}
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
+      <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-200">
           <h2 className="font-semibold text-black">Feature Support</h2>
         </div>
-        <div className="divide-y divide-gray-200">
+        <div className="divide-y divide-slate-200">
           {checks.map((check, index) => (
             <div key={index} className="px-6 py-4 flex items-start gap-3">
               <div className="flex-shrink-0 mt-0.5">

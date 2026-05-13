@@ -26,7 +26,7 @@ export default function MobileCourseCard({
   return (
     <Link
       href={`/lms/courses/${id}`}
-      className="block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden active:scale-98 transition-transform"
+      className="block bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden active:scale-98 transition-transform"
     >
       {/* Thumbnail */}
       {thumbnail && (
@@ -56,7 +56,7 @@ export default function MobileCourseCard({
               <span>Progress</span>
               <span className="font-semibold">{progress}%</span>
             </div>
-            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
               <div
                 className="h-full    transition-all duration-300"
                 style={{ width: `${progress}%` }}

@@ -31,7 +31,7 @@ export default function BarberScoringSheetPage() {
       </div>
 
       {/* Print-only header */}
-      <div className="hidden print:block px-6 pt-6 pb-3 border-b-2 border-gray-900">
+      <div className="hidden print:block px-6 pt-6 pb-3 border-b-2 border-slate-900">
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-lg font-bold">Barber Apprenticeship — Competency Scoring Sheet</h1>
@@ -62,7 +62,7 @@ export default function BarberScoringSheetPage() {
 
       {/* Scoring scale legend */}
       <div className="max-w-4xl mx-auto px-4 py-4 print:px-6 print:py-2">
-        <div className="border rounded-lg p-3 print:p-2 print:border-gray-400">
+        <div className="border rounded-lg p-3 print:p-2 print:border-slate-400">
           <p className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">Scoring Scale</p>
           <div className="grid grid-cols-6 gap-1 text-xs print:text-[9px] text-center">
             <div className="border rounded py-1 bg-white print:bg-white"><strong>0</strong><br />Not Demonstrated</div>
@@ -124,7 +124,7 @@ export default function BarberScoringSheetPage() {
         ))}
 
         {/* Signature block */}
-        <div className="border-t-2 border-gray-900 pt-6 mt-8 print:pt-4 print:mt-4">
+        <div className="border-t-2 border-slate-900 pt-6 mt-8 print:pt-4 print:mt-4">
           <h2 className="font-bold text-lg mb-4 print:text-sm print:mb-3">Evaluator Sign-Off</h2>
           <div className="grid grid-cols-1 gap-6 print:gap-3">
             {[
@@ -133,7 +133,7 @@ export default function BarberScoringSheetPage() {
               { role: 'Program Holder (RTI Coordinator)', scope: 'Rubric completion verification & LMS documentation' },
               { role: 'Elevate for Humanity (Sponsor)', scope: 'Final completion validation & apprenticeship documentation' },
             ].map((signer, i) => (
-              <div key={i} className="border rounded-lg p-4 print:p-2 print:border-gray-400">
+              <div key={i} className="border rounded-lg p-4 print:p-2 print:border-slate-400">
                 <p className="font-semibold text-sm print:text-[10px]">{signer.role}</p>
                 <p className="text-xs text-slate-700 mb-3 print:text-[9px] print:mb-2">{signer.scope}</p>
                 <div className="grid grid-cols-3 gap-4 text-xs print:text-[9px]">
@@ -152,7 +152,7 @@ export default function BarberScoringSheetPage() {
         </div>
 
         {/* Overall result */}
-        <div className="border-2 border-gray-900 rounded-lg p-4 mt-6 print:p-3 print:mt-4">
+        <div className="border-2 border-slate-900 rounded-lg p-4 mt-6 print:p-3 print:mt-4">
           <h3 className="font-bold text-sm mb-2 print:text-[11px]">Overall Competency Determination</h3>
           <div className="grid grid-cols-3 gap-4 text-sm print:text-[10px]">
             <div className="border rounded p-3 text-center print:p-2">
@@ -180,10 +180,10 @@ export default function BarberScoringSheetPage() {
           <Link href="/compliance/competency-verification/barber" className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition">
             Barber Rubric Overview
           </Link>
-          <Link href="/compliance/competency-verification/barber/monthly-ojt-evaluation" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/monthly-ojt-evaluation" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Monthly OJT Evaluation
           </Link>
-          <Link href="/compliance/competency-verification/barber/final-signoff" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/final-signoff" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Final Sign-Off Form
           </Link>
         </div>

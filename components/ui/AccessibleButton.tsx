@@ -27,10 +27,10 @@ export const AccessibleButton = forwardRef<HTMLButtonElement, AccessibleButtonPr
 
     const variants = {
       primary: 'bg-brand-blue-600 text-white hover:bg-brand-blue-700 focus:ring-brand-blue-300',
-      secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-300',
+      secondary: 'bg-slate-600 text-white hover:bg-slate-700 focus:ring-slate-300',
       outline:
-        'border-2 border-brand-blue-600 text-brand-blue-600 hover:bg-gray-50 focus:ring-brand-blue-300',
-      ghost: 'text-black hover:bg-gray-100 focus:ring-gray-300',
+        'border-2 border-brand-blue-600 text-brand-blue-600 hover:bg-slate-50 focus:ring-brand-blue-300',
+      ghost: 'text-black hover:bg-slate-100 focus:ring-slate-300',
     };
 
     const sizes = {

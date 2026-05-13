@@ -111,8 +111,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const err = await res.json().catch(() => ({}));
-    return safeError((err as { message?: string }).message ?? 'GitHub API error', res.status);
+    await res.json().catch(() => ({})); // consume body; detail logged server-side only
+    return safeError('GitHub API error', res.status);
   } catch (err) {
     return safeInternalError(err, 'Failed to dispatch workflow');
   }

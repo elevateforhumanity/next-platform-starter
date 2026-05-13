@@ -16,7 +16,7 @@ export default async function LicenseAgreementPage() {
   const { data: dbRows } = await supabase.from('legal_documents').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-slate-50 py-12">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Legal', href: '/legal' }, { label: 'License Agreement' }]} />
       </div>
@@ -227,7 +227,7 @@ export default async function LicenseAgreementPage() {
               disputes shall be resolved in the courts of Marion County, Indiana.
             </p>
 
-            <div className="mt-12 pt-8 border-t border-gray-200">
+            <div className="mt-12 pt-8 border-t border-slate-200">
               <p className="text-slate-600 text-sm">
                 By purchasing a license or using the Elevate For Humanity platform as a licensee,
                 you acknowledge that you have read, understood, and agree to be bound by this

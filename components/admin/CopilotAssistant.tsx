@@ -235,7 +235,7 @@ Sarah Johnson, IT Support, 2025-01-22, sarah@email.com"
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 {parsedRecords.slice(0, 5).map((record, index) => (
                   <tr key={index}>
                     <td className="px-4 py-2 text-sm text-brand-text">{record.name}</td>

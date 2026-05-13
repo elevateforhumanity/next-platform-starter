@@ -372,7 +372,7 @@ export function StudentPortfolio() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
+      <div className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-8">
             {(['projects', 'skills', 'certificates', 'about'] as const).map((tab) => (
@@ -382,7 +382,7 @@ export function StudentPortfolio() {
                 className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === tab
                     ? 'border-brand-red-600 text-brand-orange-600'
-                    : 'border-transparent text-slate-700 hover:text-black hover:border-gray-300'
+                    : 'border-transparent text-slate-700 hover:text-black hover:border-slate-300'
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -410,7 +410,7 @@ export function StudentPortfolio() {
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       selectedCategory === category
                         ? 'bg-brand-orange-600 text-white'
-                        : 'bg-white text-black hover:bg-gray-100 border border-gray-300'
+                        : 'bg-white text-black hover:bg-slate-100 border border-slate-300'
                     }`}
                   >
                     {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -449,7 +449,7 @@ export function StudentPortfolio() {
                         {project.technologies.map((tech) => (
                           <span
                             key={tech}
-                            className="px-2 py-2 bg-gray-100 text-black text-xs rounded"
+                            className="px-2 py-2 bg-slate-100 text-black text-xs rounded"
                           >
                             {tech}
                           </span>
@@ -469,13 +469,13 @@ export function StudentPortfolio() {
                       </ul>
                     </div>
 
-                    <div className="flex gap-2 pt-4 border-t border-gray-200">
+                    <div className="flex gap-2 pt-4 border-t border-slate-200">
                       {project.githubUrl && (
                         <a
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex-1 text-center px-3 py-2 bg-gray-900 text-white text-sm rounded hover:bg-gray-800 transition-colors"
+                          className="flex-1 text-center px-3 py-2 bg-slate-900 text-white text-sm rounded hover:bg-slate-800 transition-colors"
                         >
                           View Code
                         </a>
@@ -530,7 +530,7 @@ export function StudentPortfolio() {
                               {skill.level}%
                             </span>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div className="w-full bg-slate-200 rounded-full h-2.5">
                             <div
                               className="   h-2.5 rounded-full transition-all duration-500"
                               style={{ width: `${skill.level}%` }}
@@ -621,7 +621,7 @@ export function StudentPortfolio() {
                   </p>
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="mt-6 pt-6 border-t border-slate-200">
                   <h4 className="text-lg font-bold text-black mb-3">Career Goals</h4>
                   <ul className="space-y-2">
                     <li className="flex items-start text-black">

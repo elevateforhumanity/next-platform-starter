@@ -391,7 +391,7 @@ export function AdminReportingDashboard() {
                         ${program.revenue.toLocaleString('en-US')}
                       </span>
                     </div>
-                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                       <div
                         className={`h-full ${colors[index]} transition-all`}
                         style={{ width: `${percentage}%` }}
@@ -430,7 +430,7 @@ export function AdminReportingDashboard() {
               </thead>
               <tbody>
                 {programPerformance.map((program) => (
-                  <tr key={program.id} className="border-b hover:bg-gray-50 transition">
+                  <tr key={program.id} className="border-b hover:bg-slate-50 transition">
                     <td className="py-3 px-4 font-medium">{program.name}</td>
                     <td className="py-3 px-4 text-right">{program.students}</td>
                     <td className="py-3 px-4 text-right">
@@ -464,7 +464,7 @@ export function AdminReportingDashboard() {
             {recentActivity.map((activity) => (
               <div
                 key={activity.id}
-                className="flex items-center gap-4 p-3 border rounded-lg hover:bg-gray-50 transition"
+                className="flex items-center gap-4 p-3 border rounded-lg hover:bg-slate-50 transition"
               >
                 <div
                   className={`w-2 h-2 rounded-full ${

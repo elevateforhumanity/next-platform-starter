@@ -74,7 +74,7 @@ export default async function BadgesPage() {
               <div
                 key={badge.id}
                 className={`p-4 rounded-xl text-center ${
-                  earned ? 'bg-white shadow-md' : 'bg-gray-100 opacity-60'
+                  earned ? 'bg-white shadow-md' : 'bg-slate-100 opacity-60'
                 }`}
               >
                 <div className="text-4xl mb-2">{badge.icon}</div>

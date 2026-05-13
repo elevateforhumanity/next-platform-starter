@@ -84,7 +84,7 @@ export default async function GovernanceIndexPage() {
               <Link
                 key={doc.id}
                 href={doc.href}
-                className="block bg-white rounded-lg border hover:border-gray-300 hover:shadow-md transition-all"
+                className="block bg-white rounded-lg border hover:border-slate-300 hover:shadow-md transition-all"
               >
                 <div className="p-6 flex items-start gap-4">
                   <div className={`p-3 rounded-lg ${doc.color}`}>

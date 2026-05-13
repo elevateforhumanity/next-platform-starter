@@ -78,7 +78,7 @@ export default function VerifyClient({ initialId }: { initialId?: string }) {
       </div>
 
       {/* Search Form */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
         <form onSubmit={onSubmit} className="flex gap-4">
           <div className="flex-1">
             <label htmlFor="credentialId" className="sr-only">
@@ -92,7 +92,7 @@ export default function VerifyClient({ initialId }: { initialId?: string }) {
                 value={credentialId}
                 onChange={(e) => setCredentialId(e.target.value)}
                 placeholder="Enter certificate ID or verification code"
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-orange-500 focus:border-brand-orange-500"
+                className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-orange-500 focus:border-brand-orange-500"
                 autoComplete="off"
               />
             </div>
@@ -110,7 +110,7 @@ export default function VerifyClient({ initialId }: { initialId?: string }) {
 
       {/* Results */}
       {searched && !loading && resp && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
           {resp.ok ? (
             <>
               <div className="bg-brand-green-50 border-b border-brand-green-200 p-6">
@@ -162,7 +162,7 @@ export default function VerifyClient({ initialId }: { initialId?: string }) {
                 </div>
 
                 {resp.record.program && resp.record.program !== 'N/A' && (
-                  <div className="pt-4 border-t border-gray-200">
+                  <div className="pt-4 border-t border-slate-200">
                     <p className="text-sm text-slate-700">
                       <span className="font-medium">Program:</span> {resp.record.program}
                     </p>
@@ -170,7 +170,7 @@ export default function VerifyClient({ initialId }: { initialId?: string }) {
                 )}
 
                 {resp.record.expiresAt && (
-                  <div className="pt-4 border-t border-gray-200">
+                  <div className="pt-4 border-t border-slate-200">
                     <p className="text-sm text-slate-700">
                       <span className="font-medium">Expires:</span> {fmtDate(resp.record.expiresAt)}
                     </p>

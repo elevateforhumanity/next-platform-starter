@@ -554,7 +554,7 @@ export default function DIYTaxesPage() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
                   <h4 className="font-medium mb-2">Personal Information</h4>
                   <div className="grid grid-cols-2 gap-2 text-sm">
                     <span className="text-slate-500">Name:</span>
@@ -570,7 +570,7 @@ export default function DIYTaxesPage() {
                   </div>
                 </div>
 
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
                   <h4 className="font-medium mb-2">Income Summary</h4>
                   <div className="space-y-2">
                     {w2s.map((w2, index) => (
@@ -592,7 +592,7 @@ export default function DIYTaxesPage() {
                   </div>
                 </div>
 
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
                   <h4 className="font-medium mb-2">Deduction</h4>
                   <div className="flex justify-between text-sm">
                     <span>Standard Deduction ({filingStatus.replace(/_/g, ' ')})</span>
@@ -717,7 +717,7 @@ export default function DIYTaxesPage() {
                     message="Your tax return has been submitted directly to the IRS. You will receive an acknowledgment within 24-48 hours."
                   />
 
-                  <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg space-y-2">
+                  <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg space-y-2">
                     <div className="flex justify-between">
                       <span className="text-slate-500">Submission ID</span>
                       <span className="font-mono">{submissionResult.submissionId}</span>

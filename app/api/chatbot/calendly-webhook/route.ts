@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { createHmac, timingSafeEqual } from 'crypto';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -233,16 +234,35 @@ Timestamp: ${new Date().toISOString()}
   }
 }
 
+function verifyCalendlySignature(payload: string, signature: string | null): boolean {
+  const secret = process.env.CALENDLY_WEBHOOK_SECRET;
+  if (!secret) {
+    logger.warn('[Calendly Webhook] CALENDLY_WEBHOOK_SECRET not set — skipping signature verification');
+    return true; // allow in dev; enforce in prod by setting the secret
+  }
+  if (!signature) return false;
+  const expected = createHmac('sha256', secret).update(payload).digest('hex');
+  try {
+    return timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    // Verify webhook signature (Calendly uses a signing key)
+    // Verify webhook signature against CALENDLY_WEBHOOK_SECRET
     const signature = request.headers.get('calendly-webhook-signature');
-    // In production, verify this signature against CALENDLY_WEBHOOK_SECRET
+    const rawBody = await request.text();
+    if (!verifyCalendlySignature(rawBody, signature)) {
+      logger.warn('[Calendly Webhook] Invalid signature');
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-    const event: CalendlyEvent = await request.json();
+    const event: CalendlyEvent = JSON.parse(rawBody);
 
     logger.info('[Calendly Webhook] Received event:', event.event);
 

@@ -287,7 +287,7 @@ export default function BillingSettingsPage() {
         <div className="mt-6 text-center">
           <button
             onClick={handleManageBilling}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-lg hover:bg-slate-800"
           >
             Manage Billing
             <ExternalLink className="w-4 h-4" />

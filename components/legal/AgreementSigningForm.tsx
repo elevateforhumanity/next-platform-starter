@@ -163,7 +163,7 @@ export default function AgreementSigningForm({
                   className={`flex items-center justify-between p-4 rounded-lg border-2 transition ${
                     isReviewed
                       ? 'bg-brand-green-50 border-brand-green-200'
-                      : 'bg-gray-50 border-gray-200'
+                      : 'bg-slate-50 border-slate-200'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -199,7 +199,7 @@ export default function AgreementSigningForm({
           <button
             onClick={() => setStep('sign')}
             disabled={!allReviewed}
-            className="w-full py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+            className="w-full py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition"
           >
             Continue to Sign
           </button>
@@ -226,7 +226,7 @@ export default function AgreementSigningForm({
                 value={signerName}
                 onChange={(e) => setSignerName(e.target.value)}
                 placeholder="Enter your full legal name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 required
               />
             </div>
@@ -240,7 +240,7 @@ export default function AgreementSigningForm({
                 value={signerEmail}
                 onChange={(e) => setSignerEmail(e.target.value)}
                 placeholder="Enter your email address"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 required
               />
             </div>
@@ -254,7 +254,7 @@ export default function AgreementSigningForm({
                 value={signerTitle}
                 onChange={(e) => setSignerTitle(e.target.value)}
                 placeholder="e.g., CEO, Director, Owner"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
           </div>
@@ -271,7 +271,7 @@ export default function AgreementSigningForm({
                 className={`flex-1 py-2 px-4 rounded-lg border-2 font-medium transition ${
                   signatureMethod === 'typed'
                     ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-700'
-                    : 'border-gray-200 text-slate-700 hover:border-gray-300'
+                    : 'border-slate-200 text-slate-700 hover:border-slate-300'
                 }`}
               >
                 Type Signature
@@ -282,7 +282,7 @@ export default function AgreementSigningForm({
                 className={`flex-1 py-2 px-4 rounded-lg border-2 font-medium transition ${
                   signatureMethod === 'drawn'
                     ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-700'
-                    : 'border-gray-200 text-slate-700 hover:border-gray-300'
+                    : 'border-slate-200 text-slate-700 hover:border-slate-300'
                 }`}
               >
                 Draw Signature
@@ -301,11 +301,11 @@ export default function AgreementSigningForm({
                 value={typedSignature}
                 onChange={(e) => setTypedSignature(e.target.value)}
                 placeholder="Type your full name as signature"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 font-signature text-2xl"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 font-signature text-2xl"
                 style={{ fontFamily: "'Brush Script MT', cursive" }}
               />
               {typedSignature && (
-                <div className="mt-3 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                <div className="mt-3 p-4 bg-slate-50 border border-slate-200 rounded-lg">
                   <p className="text-sm text-slate-700 mb-1">Signature Preview:</p>
                   <p
                     className="text-3xl text-slate-900"
@@ -328,13 +328,13 @@ export default function AgreementSigningForm({
           )}
 
           {/* Legal Acknowledgment */}
-          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="p-4 bg-slate-50 border border-slate-200 rounded-lg">
             <label className="flex items-start gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={acknowledged}
                 onChange={(e) => setAcknowledged(e.target.checked)}
-                className="mt-1 w-5 h-5 text-brand-blue-600 rounded border-gray-300 focus:ring-brand-blue-500"
+                className="mt-1 w-5 h-5 text-brand-blue-600 rounded border-slate-300 focus:ring-brand-blue-500"
               />
               <span className="text-sm text-slate-900">
                 I confirm that I have read and understand all agreements listed above. I agree to be
@@ -365,14 +365,14 @@ export default function AgreementSigningForm({
             <button
               type="button"
               onClick={() => setStep('review')}
-              className="px-6 py-3 border border-gray-300 text-slate-900 font-medium rounded-lg hover:bg-gray-50 transition"
+              className="px-6 py-3 border border-slate-300 text-slate-900 font-medium rounded-lg hover:bg-slate-50 transition"
             >
               Back
             </button>
             <button
               onClick={handleSubmit}
               disabled={!canSubmit() || submitting}
-              className="flex-1 py-3 bg-brand-green-600 text-white font-semibold rounded-lg hover:bg-brand-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+              className="flex-1 py-3 bg-brand-green-600 text-white font-semibold rounded-lg hover:bg-brand-green-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition"
             >
               {submitting ? 'Processing...' : 'Sign Agreements'}
             </button>

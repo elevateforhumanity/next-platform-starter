@@ -353,8 +353,8 @@ export default async function OrientationPage() {
 
         <div className="space-y-4 mb-8">
           {sections.map((s, i) => (
-            <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-              <div className="px-5 py-3 bg-white border-b border-gray-100 flex items-center gap-2">
+            <div key={i} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              <div className="px-5 py-3 bg-white border-b border-slate-100 flex items-center gap-2">
                 <s.icon className="w-4 h-4 text-brand-blue-600" />
                 <h2 className="text-sm font-semibold text-slate-900">{s.title}</h2>
               </div>
@@ -372,7 +372,7 @@ export default async function OrientationPage() {
 
         <form
           action={completeOrientation}
-          className="bg-white rounded-xl border border-gray-200 p-6"
+          className="bg-white rounded-xl border border-slate-200 p-6"
         >
           <label className="flex items-start gap-3 cursor-pointer">
             <input type="checkbox" required className="mt-1" />

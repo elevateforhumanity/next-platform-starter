@@ -41,7 +41,7 @@ export default function DashboardError({
 
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-lg hover:bg-gray-200 transition font-semibold"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-lg hover:bg-slate-200 transition font-semibold"
           >
             <Home className="h-5 w-5" />
             Go Home
@@ -49,14 +49,14 @@ export default function DashboardError({
 
           <Link
             href="/api/auth/signout"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 text-black rounded-lg hover:bg-white transition font-semibold"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-slate-300 text-black rounded-lg hover:bg-white transition font-semibold"
           >
             <LogOut className="h-5 w-5" />
             Sign Out & Try Again
           </Link>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200">
+        <div className="mt-6 pt-6 border-t border-slate-200">
           <p className="text-sm text-black">
             Need help?{' '}
             <a href="/contact" className="text-brand-blue-600 hover:underline">

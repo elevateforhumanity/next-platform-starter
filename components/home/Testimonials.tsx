@@ -55,7 +55,7 @@ export default async function Testimonials() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-12">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-gray-50 p-6 md:p-8 rounded-lg">
+            <div key={index} className="bg-slate-50 p-6 md:p-8 rounded-lg">
               <div className="flex flex-col items-center text-center mb-6">
                 <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
                   <span className="text-2xl font-bold text-emerald-600">

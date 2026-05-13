@@ -281,7 +281,7 @@ export default async function LicensePage() {
                   className={`block text-center py-3 rounded-lg font-semibold transition ${
                     tier.popular
                       ? 'bg-brand-orange-600 text-white hover:bg-brand-orange-700'
-                      : 'bg-white text-slate-900 hover:bg-gray-200'
+                      : 'bg-white text-slate-900 hover:bg-slate-200'
                   }`}
                 >
                   Get Started

@@ -111,7 +111,7 @@ function StatusContent() {
   if (loading) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-12">
-        <div className="h-8 w-48 animate-pulse rounded bg-gray-200" />
+        <div className="h-8 w-48 animate-pulse rounded bg-slate-200" />
         <div className="mt-6 h-64 animate-pulse rounded-3xl bg-white" />
       </div>
     );
@@ -148,7 +148,7 @@ function StatusContent() {
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-bold text-slate-900">Application Status</h1>
 
-      <div className="mt-6 rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+      <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         {/* Applicant info */}
         <div className="flex items-start justify-between">
           <div>
@@ -208,7 +208,7 @@ function StatusContent() {
       </div>
 
       {/* Help section */}
-      <div className="mt-8 rounded-2xl border border-gray-200 bg-white p-5">
+      <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5">
         <p className="font-medium text-slate-900">Questions about your application?</p>
         <p className="mt-1 text-sm text-slate-700">
           Call{' '}

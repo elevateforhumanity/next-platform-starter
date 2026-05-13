@@ -42,8 +42,8 @@ export default function CandidatesPage() {
   useEffect(() => { fetchCandidates(); }, [fetchCandidates]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200 px-6 py-5">
+    <div className="min-h-screen bg-slate-50">
+      <div className="bg-white border-b border-slate-200 px-6 py-5">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-3">
           <Link href="/employer-portal" className="hover:text-slate-700">Employer Portal</Link>
           <ChevronRight className="w-3 h-3" />

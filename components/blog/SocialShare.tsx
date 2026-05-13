@@ -80,7 +80,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
 
       <a
         href={shareLinks.email}
-        className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-600 text-white hover:bg-gray-700 transition"
+        className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-600 text-white hover:bg-slate-700 transition"
         aria-label="Share via Email"
       >
         <Mail className="w-5 h-5" />
@@ -89,7 +89,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       <button
         onClick={copyToClipboard}
         className={`w-10 h-10 flex items-center justify-center rounded-full transition ${
-          copied ? 'bg-brand-green-500 text-white' : 'bg-gray-200 text-slate-700 hover:bg-gray-300'
+          copied ? 'bg-brand-green-500 text-white' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
         }`}
         aria-label="Copy link"
       >

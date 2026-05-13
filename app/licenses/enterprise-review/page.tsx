@@ -77,7 +77,7 @@ export default function EnterpriseReviewPage() {
           require enterprise approval.
         </p>
 
-        <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-slate-800 rounded-xl p-8 space-y-6">
           <div>
             <label className="block text-sm font-semibold text-white mb-2">
               Organization Name *
@@ -87,7 +87,7 @@ export default function EnterpriseReviewPage() {
               required
               value={formData.organizationName}
               onChange={(e) => setFormData({ ...formData, organizationName: e.target.value })}
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             />
           </div>
 
@@ -99,7 +99,7 @@ export default function EnterpriseReviewPage() {
                 required
                 value={formData.contactName}
                 onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function EnterpriseReviewPage() {
                 required
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
           </div>
@@ -122,7 +122,7 @@ export default function EnterpriseReviewPage() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
             <div>
@@ -132,7 +132,7 @@ export default function EnterpriseReviewPage() {
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
           </div>
@@ -145,7 +145,7 @@ export default function EnterpriseReviewPage() {
               required
               value={formData.organizationType}
               onChange={(e) => setFormData({ ...formData, organizationType: e.target.value })}
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             >
               <option value="">Select...</option>
               <option value="government">Government Agency</option>
@@ -166,7 +166,7 @@ export default function EnterpriseReviewPage() {
               value={formData.useCase}
               onChange={(e) => setFormData({ ...formData, useCase: e.target.value })}
               placeholder="Describe how your organization intends to use the source code..."
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             />
           </div>
 
@@ -178,7 +178,7 @@ export default function EnterpriseReviewPage() {
               required
               value={formData.technicalCapability}
               onChange={(e) => setFormData({ ...formData, technicalCapability: e.target.value })}
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             >
               <option value="">Select...</option>
               <option value="internal_team">Internal development team</option>
@@ -197,7 +197,7 @@ export default function EnterpriseReviewPage() {
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="Any additional context for your request..."
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             />
           </div>
 

@@ -169,7 +169,7 @@ export default async function StoreSuccessPage({
             </Link>
             <Link
               href="/store"
-              className="inline-flex items-center justify-center gap-2 border border-gray-300 px-6 py-3 rounded-lg font-semibold hover:bg-white"
+              className="inline-flex items-center justify-center gap-2 border border-slate-300 px-6 py-3 rounded-lg font-semibold hover:bg-white"
             >
               View All Orders <ArrowRight className="w-4 h-4" />
             </Link>

@@ -65,7 +65,7 @@ export default function InstructorNav() {
     <nav
       role="navigation"
       aria-label="Main navigation"
-      className="w-64 bg-gray-900 text-white min-h-screen p-4 overflow-y-auto"
+      className="w-64 bg-slate-900 text-white min-h-screen p-4 overflow-y-auto"
     >
       {/* Logo/Brand */}
       <div className="mb-8">
@@ -103,7 +103,7 @@ export default function InstructorNav() {
               className={`flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-lg transition ${
                 active
                   ? 'bg-brand-blue-600 text-white'
-                  : 'text-slate-700 hover:bg-gray-800 hover:text-white'
+                  : 'text-slate-700 hover:bg-slate-800 hover:text-white'
               }`}
             >
               <item.icon className="w-4 h-4" />
@@ -114,7 +114,7 @@ export default function InstructorNav() {
       </div>
 
       {/* Help/Support */}
-      <div className="mt-8 pt-8 border-t border-gray-800">
+      <div className="mt-8 pt-8 border-t border-slate-800">
         <Link
           href="/support"
           className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:text-white transition"

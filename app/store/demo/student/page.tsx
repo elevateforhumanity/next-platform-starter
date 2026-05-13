@@ -29,7 +29,7 @@ export default function StudentDemoPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="bg-blue-600 text-white py-6 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -104,7 +104,7 @@ export default function StudentDemoPage() {
                     <span className="text-slate-600">Progress</span>
                     <span className="font-bold text-blue-600">{course.progress}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-slate-200 rounded-full h-2">
                     <div
                       className="bg-blue-600 h-2 rounded-full transition-all"
                       style={{ width: `${course.progress}%` }}
@@ -135,7 +135,7 @@ export default function StudentDemoPage() {
             </div>
             <div className="space-y-4">
               {[1, 2, 3, 4, 5].map((lesson) => (
-                <div key={lesson} className="flex items-center gap-4 p-4 border rounded-lg hover:bg-gray-50 transition">
+                <div key={lesson} className="flex items-center gap-4 p-4 border rounded-lg hover:bg-slate-50 transition">
                   <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                     <CheckCircle className="w-6 h-6 text-green-600" />
                   </div>

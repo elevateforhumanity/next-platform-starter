@@ -86,7 +86,7 @@ export function AIInstructorWidget({
 
       {/* Chat Widget */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 bg-white rounded-2xl shadow-2xl z-50 overflow-hidden border border-gray-200">
+        <div className="fixed bottom-6 right-6 w-96 bg-white rounded-2xl shadow-2xl z-50 overflow-hidden border border-slate-200">
           {/* Header */}
           <div className="   p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -136,7 +136,7 @@ export function AIInstructorWidget({
             <div className="mt-4 space-y-2">
               <button
                 onClick={() => fetchMessage()}
-                className="w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm font-medium text-black transition-colors"
+                className="w-full text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-lg text-sm font-medium text-black transition-colors"
               >
                 💡 Give me a tip
               </button>
@@ -146,7 +146,7 @@ export function AIInstructorWidget({
                     "Remember: Learning takes time. Don't rush through the material. Take breaks when needed, and review concepts until they click. You've got this!",
                   )
                 }
-                className="w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm font-medium text-black transition-colors"
+                className="w-full text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-lg text-sm font-medium text-black transition-colors"
               >
                 🎯 Study tips
               </button>
@@ -156,7 +156,7 @@ export function AIInstructorWidget({
                     "If you're stuck, try: 1) Re-read the material slowly, 2) Take notes in your own words, 3) Ask for help from your instructor, 4) Practice with real examples. Every expert was once a beginner!",
                   )
                 }
-                className="w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm font-medium text-black transition-colors"
+                className="w-full text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-lg text-sm font-medium text-black transition-colors"
               >
                 ❓ I need help
               </button>
@@ -164,7 +164,7 @@ export function AIInstructorWidget({
           </div>
 
           {/* Footer */}
-          <div className="p-4 bg-gray-50 border-t text-center">
+          <div className="p-4 bg-slate-50 border-t text-center">
             <p className="text-xs text-slate-700">Automated learning support • Available 24/7</p>
           </div>
         </div>

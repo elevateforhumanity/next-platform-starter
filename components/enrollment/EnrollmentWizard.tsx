@@ -79,7 +79,7 @@ export default function EnrollmentWizard({
               <div className="flex flex-col items-center">
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    currentStep >= step.id ? 'bg-brand-blue-600 text-white' : 'bg-gray-200'
+                    currentStep >= step.id ? 'bg-brand-blue-600 text-white' : 'bg-slate-200'
                   }`}
                 >
                   {currentStep > step.id ? (
@@ -96,7 +96,7 @@ export default function EnrollmentWizard({
               {idx < STEPS.length - 1 && (
                 <div
                   className={`flex-1 h-1 mx-4 ${
-                    currentStep > step.id ? 'bg-brand-blue-600' : 'bg-gray-200'
+                    currentStep > step.id ? 'bg-brand-blue-600' : 'bg-slate-200'
                   }`}
                 />
               )}

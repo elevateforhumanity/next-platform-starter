@@ -86,7 +86,7 @@ export default function AppsPage() {
             {apps.map((app) => {
               const colors = colorClasses[app.color as keyof typeof colorClasses];
               return (
-                <div key={app.slug} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+                <div key={app.slug} className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow">
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className={`w-14 h-14 ${colors.bg} rounded-xl flex items-center justify-center`}>
@@ -106,7 +106,7 @@ export default function AppsPage() {
                       </div>
                       <span className="text-sm text-slate-700">{app.rating} ({app.reviews} reviews)</span>
                     </div>
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                       <div>
                         <span className="text-2xl font-bold">${app.price}</span>
                         <span className="text-slate-700">/mo</span>
@@ -140,7 +140,7 @@ export default function AppsPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Need a Custom Solution?</h2>
           <p className="text-slate-700 mb-8">Contact us for enterprise pricing and custom integrations.</p>
-          <Link href="/contact" className="bg-white hover:bg-gray-800 text-slate-900 px-8 py-4 rounded-lg font-bold">
+          <Link href="/contact" className="bg-white hover:bg-slate-800 text-slate-900 px-8 py-4 rounded-lg font-bold">
             Contact Sales
           </Link>
         </div>

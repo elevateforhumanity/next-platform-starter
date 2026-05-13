@@ -185,7 +185,7 @@ export default function CreateCoursePage() {
                   <select
                     value={selectedLicense}
                     onChange={(e) => setSelectedLicense(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     required
                   >
                     <option value="">Choose a license...</option>
@@ -239,7 +239,7 @@ export default function CreateCoursePage() {
                     type="text"
                     value={courseName}
                     onChange={(e) => setCourseName(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     placeholder="Introduction to HVAC Systems"
                     required
                   />
@@ -253,7 +253,7 @@ export default function CreateCoursePage() {
                     value={courseDescription}
                     onChange={(e) => setCourseDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     placeholder="Describe what students will learn in this course..."
                     required
                   />
@@ -268,7 +268,7 @@ export default function CreateCoursePage() {
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     min="1"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     placeholder="40"
                     required
                   />
@@ -287,7 +287,7 @@ export default function CreateCoursePage() {
                           onChange={(e) => setScormFile(e.target.files?.[0] || null)}
                           className="hidden"
                         />
-                        <div className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg hover:border-brand-blue-400 transition-colors">
+                        <div className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed border-slate-300 rounded-lg hover:border-brand-blue-400 transition-colors">
                           <Upload className="w-5 h-5 text-slate-700" />
                           <span className="text-slate-700">
                             {scormFile ? scormFile.name : 'Upload SCORM package (.zip)'}
@@ -309,7 +309,7 @@ export default function CreateCoursePage() {
                   <button
                     type="button"
                     onClick={() => window.history.back()}
-                    className="px-6 py-3 border border-gray-300 text-slate-900 font-semibold rounded-lg hover:bg-white transition-colors"
+                    className="px-6 py-3 border border-slate-300 text-slate-900 font-semibold rounded-lg hover:bg-white transition-colors"
                   >
                     Cancel
                   </button>

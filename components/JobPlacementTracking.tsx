@@ -201,7 +201,7 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
       case 'interviewing':
         return 'bg-brand-blue-100 text-brand-blue-700';
       default:
-        return 'bg-gray-100 text-slate-900';
+        return 'bg-slate-100 text-slate-900';
     }
   };
 
@@ -299,7 +299,7 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
                       <span className="font-medium">{item.program}</span>
                       <span className="text-slate-700">{item.count} placements</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-slate-200 rounded-full h-2">
                       <div
                         className="bg-white h-2 rounded-full"
                         style={{ width: `${item.percentage}%` }}
@@ -316,7 +316,7 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
                 {metrics.topEmployers.map((partner) => (
                   <div
                     key={partner.name}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                    className="flex items-center justify-between p-3 bg-slate-50 rounded-lg"
                   >
                     <div className="flex items-center gap-3">
                       <Building2 className="w-5 h-5 text-slate-700" />

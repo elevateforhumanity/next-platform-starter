@@ -99,7 +99,7 @@ export function CoursePrerequisiteManagement() {
                           ? 'bg-brand-green-100 text-brand-green-700'
                           : course.status === 'available'
                             ? 'bg-brand-blue-100 text-brand-blue-700'
-                            : 'bg-gray-100 text-black'
+                            : 'bg-slate-100 text-black'
                       }`}
                     >
                       {course.status.toUpperCase()}

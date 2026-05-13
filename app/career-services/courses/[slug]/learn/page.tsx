@@ -104,7 +104,7 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
             </Link>
             <Link
               href="/career-services/courses"
-              className="block w-full border border-gray-300 text-slate-700 px-6 py-3 rounded-lg font-medium hover:bg-white"
+              className="block w-full border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-medium hover:bg-white"
             >
               Browse All Courses
             </Link>
@@ -117,7 +117,7 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700">
+      <header className="bg-slate-800 border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link

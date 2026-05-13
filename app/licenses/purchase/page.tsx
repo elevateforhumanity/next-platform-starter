@@ -96,7 +96,7 @@ export default function PurchaseLicensePage() {
                     className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
                       selectedLicense === license.id
                         ? 'border-brand-orange-600 bg-brand-orange-50'
-                        : 'border-gray-200 hover:border-brand-orange-300'
+                        : 'border-slate-200 hover:border-brand-orange-300'
                     }`}
                     onClick={() => setSelectedLicense(license.id)}
                   >
@@ -159,7 +159,7 @@ export default function PurchaseLicensePage() {
                         max="100"
                         value={quantity}
                         onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500"
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500"
                       />
                     </div>
 

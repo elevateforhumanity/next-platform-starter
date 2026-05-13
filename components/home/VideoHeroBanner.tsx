@@ -126,7 +126,7 @@ export default function VideoHeroBanner({
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href={primaryCTA.href}
-                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-brand-blue-600 text-base font-bold rounded-xl hover:bg-gray-100 transition-colors shadow-lg"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-brand-blue-600 text-base font-bold rounded-xl hover:bg-slate-100 transition-colors shadow-lg"
                 >
                   {primaryCTA.text}
                 </Link>

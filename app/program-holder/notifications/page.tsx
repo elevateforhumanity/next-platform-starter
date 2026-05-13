@@ -72,7 +72,7 @@ export default async function ProgramHolderNotificationsPage() {
         </div>
 
         {!notifications || notifications.length === 0 ? (
-          <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+          <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
             <Bell className="w-16 h-16 text-slate-700 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-black mb-2">No Notifications Yet</h2>
             <p className="text-black">
@@ -85,13 +85,13 @@ export default async function ProgramHolderNotificationsPage() {
               <div
                 key={notification.id}
                 className={`bg-white rounded-lg border p-4 transition ${
-                  notification.read ? 'border-gray-200' : 'border-brand-blue-200 bg-brand-blue-50'
+                  notification.read ? 'border-slate-200' : 'border-brand-blue-200 bg-brand-blue-50'
                 }`}
               >
                 <div className="flex items-start gap-4">
                   <div
                     className={`w-2 h-2 rounded-full mt-2 ${
-                      notification.read ? 'bg-gray-300' : 'bg-brand-blue-600'
+                      notification.read ? 'bg-slate-300' : 'bg-brand-blue-600'
                     }`}
                   />
                   <div className="flex-1">

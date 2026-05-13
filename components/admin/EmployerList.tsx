@@ -64,7 +64,7 @@ export function EmployerList() {
   return (
     <div className="bg-white rounded-lg shadow-sm border divide-y">
       {employers.map((emp) => (
-        <div key={emp.id} className="p-4 hover:bg-gray-50 transition">
+        <div key={emp.id} className="p-4 hover:bg-slate-50 transition">
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -100,7 +100,7 @@ export function EmployerList() {
                         ? 'bg-brand-green-100 text-brand-green-700'
                         : emp.status === 'pending'
                           ? 'bg-yellow-100 text-yellow-700'
-                          : 'bg-gray-100 text-slate-700'
+                          : 'bg-slate-100 text-slate-700'
                     }`}
                   >
                     {emp.status}

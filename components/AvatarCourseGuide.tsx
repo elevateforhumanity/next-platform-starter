@@ -92,7 +92,7 @@ export default function AvatarCourseGuide({
 
   return (
     <div
-      className={`${positionClasses[position]} z-50 bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200`}
+      className={`${positionClasses[position]} z-50 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200`}
     >
       {/* Video Section */}
       <div className="bg-slate-900 relative">
@@ -123,7 +123,7 @@ export default function AvatarCourseGuide({
       <div className="p-4">
         {/* Progress */}
         <div className="flex items-center gap-2 mb-3">
-          <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+          <div className="flex-1 h-1 bg-slate-200 rounded-full overflow-hidden">
             <div
               className="h-full bg-brand-blue-600 transition-all duration-300"
               style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}

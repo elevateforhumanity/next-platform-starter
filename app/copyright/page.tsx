@@ -164,7 +164,7 @@ export default function CopyrightPage() {
         <div className="grid md:grid-cols-2 gap-6">
           <Link
             href="/store/licenses"
-            className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border-2 border-gray-200 hover:border-brand-blue-500"
+            className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border-2 border-slate-200 hover:border-brand-blue-500"
           >
             <Shield className="w-8 h-8 text-brand-blue-600 mb-3" />
             <h3 className="text-lg font-bold text-black mb-2">Platform Licensing</h3>
@@ -173,7 +173,7 @@ export default function CopyrightPage() {
 
           <Link
             href="/contact"
-            className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border-2 border-gray-200 hover:border-brand-blue-500"
+            className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border-2 border-slate-200 hover:border-brand-blue-500"
           >
             <FileText className="w-8 h-8 text-brand-blue-600 mb-3" />
             <h3 className="text-lg font-bold text-black mb-2">Contact Us</h3>

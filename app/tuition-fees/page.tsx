@@ -248,7 +248,7 @@ export default async function TuitionFeesPage() {
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-gray-900 text-white">
+              <tr className="bg-slate-900 text-white">
                 <th className="text-left p-4 font-bold">Program</th>
                 <th className="text-left p-4 font-bold">Duration</th>
                 <th className="text-right p-4 font-bold">Tuition</th>

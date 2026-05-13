@@ -204,7 +204,7 @@ export default function UniversalSearch({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          className="w-full pl-12 pr-10 py-3 bg-white border border-gray-300 rounded-xl text-slate-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-orange-500 focus:border-transparent"
+          className="w-full pl-12 pr-10 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-orange-500 focus:border-transparent"
           aria-label="Search"
           aria-expanded={showDropdown}
           aria-haspopup="listbox"
@@ -212,7 +212,7 @@ export default function UniversalSearch({
         {query && (
           <button
             onClick={() => setQuery('')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full"
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-100 rounded-full"
             aria-label="Clear search"
           >
             <X className="w-4 h-4 text-slate-700" />
@@ -233,7 +233,7 @@ export default function UniversalSearch({
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   isSelected
                     ? 'bg-brand-orange-600 text-white'
-                    : 'bg-gray-100 text-slate-900 hover:bg-gray-200'
+                    : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -246,7 +246,7 @@ export default function UniversalSearch({
 
       {/* Dropdown Results */}
       {showDropdown && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-50">
           {/* Results Header */}
           {selectedAudience && !query && (
             <div className="px-4 py-3 bg-brand-orange-50 border-b border-brand-orange-100">
@@ -270,12 +270,12 @@ export default function UniversalSearch({
                   onClick={() => handleSelect(item)}
                   onMouseEnter={() => setHighlightedIndex(index)}
                   className={`w-full flex items-start gap-4 p-4 text-left transition-colors ${
-                    highlightedIndex === index ? 'bg-brand-orange-50' : 'hover:bg-gray-50'
+                    highlightedIndex === index ? 'bg-brand-orange-50' : 'hover:bg-slate-50'
                   }`}
                 >
                   {/* Image */}
                   {item.image && (
-                    <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                    <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-slate-100">
                       <Image
                         src={item.image}
                         alt={item.title}
@@ -325,22 +325,22 @@ export default function UniversalSearch({
           )}
 
           {/* Footer */}
-          <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
+          <div className="px-4 py-3 bg-slate-50 border-t border-slate-200">
             <div className="flex items-center justify-between text-sm">
               <span className="text-slate-700">
                 {query ? `${results.length} results` : 'Browse or search'}
               </span>
               <div className="flex items-center gap-4 text-slate-700">
                 <span className="flex items-center gap-1">
-                  <kbd className="px-1.5 py-0.5 bg-gray-200 rounded text-xs">↑↓</kbd>
+                  <kbd className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">↑↓</kbd>
                   navigate
                 </span>
                 <span className="flex items-center gap-1">
-                  <kbd className="px-1.5 py-0.5 bg-gray-200 rounded text-xs">↵</kbd>
+                  <kbd className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">↵</kbd>
                   select
                 </span>
                 <span className="flex items-center gap-1">
-                  <kbd className="px-1.5 py-0.5 bg-gray-200 rounded text-xs">esc</kbd>
+                  <kbd className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">esc</kbd>
                   close
                 </span>
               </div>
@@ -360,7 +360,7 @@ export function CompactSearch({ className = '' }: { className?: string }) {
     return (
       <button
         onClick={() => setIsExpanded(true)}
-        className={`p-2 hover:bg-gray-100 rounded-lg transition ${className}`}
+        className={`p-2 hover:bg-slate-100 rounded-lg transition ${className}`}
         aria-label="Open search"
       >
         <Search className="w-5 h-5 text-slate-700" />

@@ -292,19 +292,19 @@ export default function CredentialPartnersPage() {
             </Link>
             <Link
               href="/instructional-framework"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructional Framework
             </Link>
             <Link
               href="/instructor-credentials"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructor Credentials
             </Link>
             <Link
               href="/compliance/workforce-partnership-packet"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Workforce Partnership Packet
             </Link>

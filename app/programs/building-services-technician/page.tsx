@@ -78,7 +78,7 @@ export default function BuildingServicesTechnicianPage() {
           </Link>
           <Link
             href="/inquiry?program=building-services-technician"
-            className="inline-flex items-center justify-center px-8 py-4 bg-white text-black font-bold rounded-full border-2 border-black hover:bg-gray-100 transition text-lg"
+            className="inline-flex items-center justify-center px-8 py-4 bg-white text-black font-bold rounded-full border-2 border-black hover:bg-slate-100 transition text-lg"
           >
             Request Information
           </Link>

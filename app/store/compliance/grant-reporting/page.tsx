@@ -74,7 +74,7 @@ export default function GrantReportingPage() {
       />
 
       {/* Breadcrumb */}
-      <nav className="bg-white border-b border-gray-200">
+      <nav className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-12 text-sm">
             <Link href="/" className="text-slate-700 hover:text-black flex items-center gap-1">
@@ -115,7 +115,7 @@ export default function GrantReportingPage() {
 
           <div className="grid md:grid-cols-2 gap-8">
             {features.map((feature) => (
-              <div key={feature.title} className="bg-white rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-brand-orange-500 hover:shadow-xl transition-all group">
+              <div key={feature.title} className="bg-white rounded-2xl overflow-hidden border-2 border-slate-200 hover:border-brand-orange-500 hover:shadow-xl transition-all group">
                 <div className="relative h-48 overflow-hidden">
                   <Image src={feature.image} alt={feature.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" />
                   <h3 className="absolute bottom-4 left-4 text-xl font-bold text-slate-900">{feature.title}</h3>
@@ -152,7 +152,7 @@ export default function GrantReportingPage() {
               { name: 'State Grants', desc: 'State workforce funding' },
               { name: 'Foundation', desc: 'Private foundation grants' },
             ].map((grant) => (
-              <div key={grant.name} className="bg-white rounded-xl p-6 border border-gray-200">
+              <div key={grant.name} className="bg-white rounded-xl p-6 border border-slate-200">
                 <h3 className="font-bold text-black mb-1">{grant.name}</h3>
                 <p className="text-sm text-slate-700">{grant.desc}</p>
               </div>
@@ -171,7 +171,7 @@ export default function GrantReportingPage() {
               { name: 'Professional', price: '$999', features: ['Unlimited templates', 'Full outcome tracking', 'All export formats', 'Scheduled reports'], popular: true },
               { name: 'Enterprise', price: '$2,499', features: ['Everything in Pro', 'Custom integrations', 'API access', 'Dedicated support'] },
             ].map((plan) => (
-              <div key={plan.name} className={`bg-white rounded-2xl p-8 border-2 ${plan.popular ? 'border-brand-orange-500 shadow-xl' : 'border-gray-200'}`}>
+              <div key={plan.name} className={`bg-white rounded-2xl p-8 border-2 ${plan.popular ? 'border-brand-orange-500 shadow-xl' : 'border-slate-200'}`}>
                 {plan.popular && <span className="bg-brand-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>}
                 <h3 className="text-xl font-bold text-black mt-4">{plan.name}</h3>
                 <p className="text-4xl font-black text-black my-4">{plan.price}</p>

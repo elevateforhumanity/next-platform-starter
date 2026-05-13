@@ -75,8 +75,8 @@ export function UserMenu({ user, isLoading }: UserMenuProps) {
   if (isLoading) {
     return (
       <div className="hidden lg:flex items-center gap-4">
-        <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse" />
-        <div className="w-20 h-4 bg-gray-200 rounded animate-pulse" />
+        <div className="w-8 h-8 bg-slate-200 rounded-full animate-pulse" />
+        <div className="w-20 h-4 bg-slate-200 rounded animate-pulse" />
       </div>
     );
   }
@@ -127,12 +127,12 @@ export function UserMenu({ user, isLoading }: UserMenuProps) {
         {isOpen && (
           <div
             id="user-menu"
-            className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+            className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-slate-200 py-2 z-50"
             role="menu"
           >
             <Link
               href={getDashboardUrl(user.role)}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-black hover:bg-gray-100 transition"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-black hover:bg-slate-100 transition"
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
@@ -141,7 +141,7 @@ export function UserMenu({ user, isLoading }: UserMenuProps) {
             </Link>
             <Link
               href="/settings"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-black hover:bg-gray-100 transition"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-black hover:bg-slate-100 transition"
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
@@ -150,7 +150,7 @@ export function UserMenu({ user, isLoading }: UserMenuProps) {
             </Link>
             <button
               onClick={handleSignOut}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-brand-red-600 hover:bg-gray-100 transition text-left"
+              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-brand-red-600 hover:bg-slate-100 transition text-left"
               role="menuitem"
             >
               <LogOut className="w-4 h-4" />

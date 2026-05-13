@@ -237,7 +237,7 @@ export default async function SuccessStoriesPage() {
       />
 
       {/* Impact Stats */}
-      <section id="stories" className="py-16 bg-gray-50">
+      <section id="stories" className="py-16 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center bg-white rounded-xl p-6 shadow-sm">
@@ -281,7 +281,7 @@ export default async function SuccessStoriesPage() {
               >
                 {/* Image/Video */}
                 <div className={`${index % 2 === 1 ? 'md:order-2' : ''}`}>
-                  <div className="relative h-[400px] rounded-2xl overflow-hidden border-4 border-gray-200 group">
+                  <div className="relative h-[400px] rounded-2xl overflow-hidden border-4 border-slate-200 group">
                     <Image
                       priority
                       src={story.image}

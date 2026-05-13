@@ -119,7 +119,7 @@ export default async function LicenseeOnboardingPage() {
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`w-16 h-0.5 mx-4 ${step.completed ? 'bg-brand-green-300' : 'bg-gray-200'}`}
+                    className={`w-16 h-0.5 mx-4 ${step.completed ? 'bg-brand-green-300' : 'bg-slate-200'}`}
                   />
                 )}
               </div>

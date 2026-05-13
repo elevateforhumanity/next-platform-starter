@@ -230,7 +230,7 @@ export default function HiringNeedsPage() {
                   className={`p-4 rounded-lg border text-left transition-colors ${
                     formData.positionTypes.includes(type.id)
                       ? 'border-brand-blue-500 bg-brand-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-slate-200 hover:border-slate-300'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -283,7 +283,7 @@ export default function HiringNeedsPage() {
                   className={`p-4 rounded-lg border text-left transition-colors ${
                     formData.timeline === timeline.id
                       ? 'border-brand-blue-500 bg-brand-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-slate-200 hover:border-slate-300'
                   }`}
                 >
                   <div className="flex items-center justify-between">

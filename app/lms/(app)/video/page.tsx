@@ -50,7 +50,7 @@ export default async function VideoPage() {
                 key={video.id}
                 className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md"
               >
-                <div className="aspect-video bg-gray-900 flex items-center justify-center">
+                <div className="aspect-video bg-slate-900 flex items-center justify-center">
                   <svg
                     className="w-12 h-12 text-white opacity-50"
                     fill="none"

@@ -45,7 +45,7 @@ export default function MissionPage() {
       <div className="mt-10">
         <a
           href={siteConfig.handoff.apply}
-          className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800"
+          className="rounded bg-black px-5 py-3 text-white hover:bg-slate-800"
         >
           Start Your Journey
         </a>

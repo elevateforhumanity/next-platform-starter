@@ -77,7 +77,7 @@ function SortableModule(data: any) {
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-white border border-gray-200 rounded-lg p-4 mb-3"
+      className="bg-white border border-slate-200 rounded-lg p-4 mb-3"
     >
       <div className="flex items-center gap-3">
         <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
@@ -89,7 +89,7 @@ function SortableModule(data: any) {
         </div>
         <button
           onClick={() => onEdit(module)}
-          className="p-2 text-brand-blue-600 hover:bg-gray-50 rounded"
+          className="p-2 text-brand-blue-600 hover:bg-slate-50 rounded"
         >
           <Edit className="w-4 h-4" />
         </button>
@@ -119,7 +119,7 @@ function SortableLesson(data: any) {
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-2"
+      className="bg-slate-50 border border-slate-200 rounded-lg p-3 mb-2"
     >
       <div className="flex items-center gap-3">
         <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
@@ -131,7 +131,7 @@ function SortableLesson(data: any) {
         </div>
         <button
           onClick={() => onEdit(lesson)}
-          className="p-1 text-brand-blue-600 hover:bg-gray-50 rounded"
+          className="p-1 text-brand-blue-600 hover:bg-slate-50 rounded"
         >
           <Edit className="w-3 h-3" />
         </button>
@@ -421,7 +421,7 @@ export default function CourseAuthoringTool() {
 
                         <button
                           onClick={() => addLesson(module.id)}
-                          className="ml-8 mt-2 flex items-center gap-2 px-3 py-2 text-sm text-brand-blue-600 hover:bg-gray-50 rounded"
+                          className="ml-8 mt-2 flex items-center gap-2 px-3 py-2 text-sm text-brand-blue-600 hover:bg-slate-50 rounded"
                         >
                           <Plus className="w-3 h-3" />
                           Add Lesson
@@ -454,7 +454,7 @@ export default function CourseAuthoringTool() {
                             title: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                       />
                     </div>
                     <div>
@@ -470,7 +470,7 @@ export default function CourseAuthoringTool() {
                           })
                         }
                         rows={4}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                       />
                     </div>
                     <div className="flex gap-3">
@@ -485,7 +485,7 @@ export default function CourseAuthoringTool() {
                           setShowModuleForm(false);
                           setEditingModule(null);
                         }}
-                        className="px-6 py-2 bg-gray-200 text-black rounded-lg hover:bg-gray-300"
+                        className="px-6 py-2 bg-slate-200 text-black rounded-lg hover:bg-slate-300"
                       >
                         Cancel
                       </button>
@@ -509,7 +509,7 @@ export default function CourseAuthoringTool() {
                             title: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                       />
                     </div>
                     <div>
@@ -525,7 +525,7 @@ export default function CourseAuthoringTool() {
                           })
                         }
                         rows={4}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                       />
                     </div>
 
@@ -534,19 +534,19 @@ export default function CourseAuthoringTool() {
                         Content Blocks
                       </label>
                       <div className="space-y-2">
-                        <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 w-full">
+                        <button className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200 w-full">
                           <FileText className="w-4 h-4" />
                           Add Text Block
                         </button>
-                        <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 w-full">
+                        <button className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200 w-full">
                           <Video className="w-4 h-4" />
                           Add Video
                         </button>
-                        <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 w-full">
+                        <button className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200 w-full">
                           <Image className="w-4 h-4" />
                           Add Image
                         </button>
-                        <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 w-full">
+                        <button className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200 w-full">
                           <CheckSquare className="w-4 h-4" />
                           Add Quiz
                         </button>
@@ -569,7 +569,7 @@ export default function CourseAuthoringTool() {
                           setShowLessonForm(false);
                           setEditingLesson(null);
                         }}
-                        className="px-6 py-2 bg-gray-200 text-black rounded-lg hover:bg-gray-300"
+                        className="px-6 py-2 bg-slate-200 text-black rounded-lg hover:bg-slate-300"
                       >
                         Cancel
                       </button>

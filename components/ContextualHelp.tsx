@@ -74,7 +74,7 @@ export function ContextualHelp({
           ref={tooltipRef}
           className={`absolute z-50 ${sizeClasses[size]} ${positionClasses[position]}`}
         >
-          <div className="bg-white rounded-lg shadow-xl border border-gray-200 p-4">
+          <div className="bg-white rounded-lg shadow-xl border border-slate-200 p-4">
             <div className="flex items-start justify-between mb-2">
               <h4 className="font-semibold text-black text-sm">{title}</h4>
               <button
@@ -103,7 +103,7 @@ export function ContextualHelp({
 
           {/* Arrow */}
           <div
-            className={`absolute w-3 h-3 bg-white border-gray-200 transform rotate-45 ${
+            className={`absolute w-3 h-3 bg-white border-slate-200 transform rotate-45 ${
               position === 'top'
                 ? 'bottom-[-6px] left-1/2 -translate-x-1/2 border-b border-r'
                 : position === 'bottom'
@@ -197,7 +197,7 @@ export function KeyboardShortcuts({
         className="text-sm text-black hover:text-black flex items-center gap-1"
         type="button"
       >
-        <span className="font-mono text-xs bg-gray-100 px-2 py-2 rounded">?</span>
+        <span className="font-mono text-xs bg-slate-100 px-2 py-2 rounded">?</span>
         Keyboard Shortcuts
       </button>
 
@@ -220,13 +220,13 @@ export function KeyboardShortcuts({
                 {shortcuts.map((shortcut, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0"
+                    className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0"
                   >
                     <span className="text-black">{shortcut.description}</span>
                     <div className="flex items-center gap-1">
                       {shortcut.keys.map((key, keyIndex) => (
                         <span key={keyIndex}>
-                          <kbd className="px-3 py-2 bg-gray-100 border border-gray-300 rounded text-sm font-mono">
+                          <kbd className="px-3 py-2 bg-slate-100 border border-slate-300 rounded text-sm font-mono">
                             {key}
                           </kbd>
                           {keyIndex < shortcut.keys.length - 1 && (

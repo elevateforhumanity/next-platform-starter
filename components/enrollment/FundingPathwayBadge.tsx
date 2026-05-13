@@ -175,7 +175,7 @@ export function EnrollmentStatusBadge({ status, pathway }: EnrollmentStatusBadge
     active: { bg: 'bg-brand-green-100', text: 'text-brand-green-700' },
     paused: { bg: 'bg-brand-orange-100', text: 'text-brand-orange-700' },
     completed: { bg: 'bg-brand-blue-100', text: 'text-brand-blue-700' },
-    cancelled: { bg: 'bg-gray-100', text: 'text-slate-700' },
+    cancelled: { bg: 'bg-slate-100', text: 'text-slate-700' },
     withdrawn: { bg: 'bg-brand-red-100', text: 'text-brand-red-700' },
   };
 

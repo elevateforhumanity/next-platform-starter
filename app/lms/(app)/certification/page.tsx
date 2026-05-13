@@ -301,7 +301,7 @@ export default async function CertificationPage() {
                       <p className="text-xs text-slate-700 truncate">{item.course?.title}</p>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
                         <div
                           className="h-full bg-brand-blue-600 rounded-full"
                           style={{ width: `${item.progress}%` }}

@@ -49,7 +49,7 @@ export default async function OrgCohortDetailPage({ params }: Props) {
     if (status === 'active') return 'bg-green-100 text-green-800';
     if (status === 'completed') return 'bg-blue-100 text-blue-800';
     if (status === 'withdrawn') return 'bg-red-100 text-red-800';
-    return 'bg-gray-100 text-slate-900';
+    return 'bg-slate-100 text-slate-900';
   };
 
   return (
@@ -100,7 +100,7 @@ export default async function OrgCohortDetailPage({ params }: Props) {
           { label: 'Avg Progress', value: `${summary.avgProgressPercent}%` },
           { label: 'Certificates', value: summary.certificatesIssued },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+          <div key={label} className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
             <p className="text-xs font-medium text-slate-700 uppercase tracking-wide">{label}</p>
             <p className="mt-1 text-2xl font-bold text-slate-900">{value}</p>
           </div>
@@ -113,9 +113,9 @@ export default async function OrgCohortDetailPage({ params }: Props) {
         {learners.length === 0 ? (
           <p className="mt-4 text-sm text-slate-700">No learners enrolled in this cohort.</p>
         ) : (
-          <div className="mt-4 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          <div className="mt-4 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+            <table className="min-w-full divide-y divide-slate-200">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
                     Name
@@ -131,9 +131,9 @@ export default async function OrgCohortDetailPage({ params }: Props) {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-slate-100">
                 {learners.map((learner) => (
-                  <tr key={learner.userId} className="hover:bg-gray-50">
+                  <tr key={learner.userId} className="hover:bg-slate-50">
                     <td className="px-4 py-3 text-sm font-medium text-slate-900">
                       {learner.fullName ?? '—'}
                     </td>

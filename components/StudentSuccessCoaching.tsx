@@ -147,7 +147,7 @@ export function StudentSuccessCoaching() {
                         ? 'bg-brand-blue-100 text-brand-blue-700'
                         : session.status === 'completed'
                           ? 'bg-brand-green-100 text-brand-green-700'
-                          : 'bg-gray-100 text-black'
+                          : 'bg-slate-100 text-black'
                     }`}
                   >
                     {session.status}
@@ -189,7 +189,7 @@ export function StudentSuccessCoaching() {
                     <span>Progress</span>
                     <span className="font-semibold">{goal.progress}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-slate-200 rounded-full h-2">
                     <div className="   h-2 rounded-full" style={{ width: `${goal.progress}%` }} />
                   </div>
                 </div>

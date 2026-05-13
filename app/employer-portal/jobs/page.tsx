@@ -77,7 +77,7 @@ export default async function JobPostingsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <Breadcrumbs
         items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Jobs' }]}
       />
@@ -112,17 +112,17 @@ export default async function JobPostingsPage() {
               <input
                 type="text"
                 placeholder="Search jobs..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               />
             </div>
             <div className="flex gap-3">
-              <select className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500">
+              <select className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500">
                 <option>All Status</option>
                 <option>Active</option>
                 <option>Paused</option>
                 <option>Closed</option>
               </select>
-              <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+              <button className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 flex items-center gap-2">
                 <Filter className="w-4 h-4" />
                 More Filters
               </button>
@@ -139,7 +139,7 @@ export default async function JobPostingsPage() {
               {jobs.map((job) => (
                 <div
                   key={job.id}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+                  className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-shadow"
                 >
                   <div className="p-6">
                     <div className="flex items-start justify-between">
@@ -152,7 +152,7 @@ export default async function JobPostingsPage() {
                                 ? 'bg-brand-green-100 text-brand-green-700'
                                 : job.status === 'paused'
                                   ? 'bg-yellow-100 text-yellow-700'
-                                  : 'bg-gray-100 text-slate-700'
+                                  : 'bg-slate-100 text-slate-700'
                             }`}
                           >
                             {job.status}
@@ -177,7 +177,7 @@ export default async function JobPostingsPage() {
                           </span>
                         </div>
                       </div>
-                      <button className="p-2 hover:bg-gray-100 rounded-lg">
+                      <button className="p-2 hover:bg-slate-100 rounded-lg">
                         <MoreVertical className="w-5 h-5 text-slate-400" />
                       </button>
                     </div>
@@ -203,7 +203,7 @@ export default async function JobPostingsPage() {
                       </Link>
                       <Link
                         href={`/employer-portal/jobs/${job.id}/edit`}
-                        className="px-4 py-2 border border-gray-300 text-slate-700 font-medium rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
+                        className="px-4 py-2 border border-slate-300 text-slate-700 font-medium rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-2"
                       >
                         <Edit className="w-4 h-4" />
                         Edit

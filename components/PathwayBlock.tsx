@@ -9,7 +9,7 @@ export function PathwayBlock({ variant = 'light', className = '' }: PathwayBlock
   const isDark = variant === 'dark';
 
   return (
-    <div className={`py-12 ${isDark ? 'bg-slate-900' : 'bg-gray-50'} ${className}`}>
+    <div className={`py-12 ${isDark ? 'bg-slate-900' : 'bg-slate-50'} ${className}`}>
       <div className="max-w-6xl mx-auto px-4">
         <h2
           className={`text-2xl font-bold text-center mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}

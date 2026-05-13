@@ -229,13 +229,13 @@ export default function LearningAnalyticsDashboard() {
                     </span>
                   </div>
                   <div className="flex gap-2">
-                    <div className="flex-1 bg-gray-200 rounded-full h-2">
+                    <div className="flex-1 bg-slate-200 rounded-full h-2">
                       <div
                         className="   h-2 rounded-full"
                         style={{ width: `${(day.hours / maxHours) * 100}%` }}
                       />
                     </div>
-                    <div className="w-20 bg-gray-200 rounded-full h-2">
+                    <div className="w-20 bg-slate-200 rounded-full h-2">
                       <div
                         className="bg-white h-2 rounded-full"
                         style={{ width: `${day.score}%` }}

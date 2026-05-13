@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 function CompetencyCard({ item, sectionNum }: { item: RubricItem; sectionNum: number }) {
   return (
-    <div className="bg-white rounded-lg border overflow-hidden print:break-inside-avoid print:border-gray-300">
+    <div className="bg-white rounded-lg border overflow-hidden print:break-inside-avoid print:border-slate-300">
       <div className="bg-white px-4 py-2.5 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 print:bg-white">
         <span className="font-semibold text-slate-900 text-sm">
           <span className="text-brand-blue-600 print:text-slate-900">{item.id}</span> {item.competency}
@@ -68,7 +68,7 @@ function CompetencyCard({ item, sectionNum }: { item: RubricItem; sectionNum: nu
         </div>
 
         {item.failurePolicy && (
-          <div className="bg-brand-red-50 border border-brand-red-200 rounded px-3 py-2 flex items-start gap-2 print:bg-white print:border-gray-400">
+          <div className="bg-brand-red-50 border border-brand-red-200 rounded px-3 py-2 flex items-start gap-2 print:bg-white print:border-slate-400">
             <AlertTriangle className="w-3.5 h-3.5 text-brand-red-600 flex-shrink-0 mt-0.5" />
             <p className="text-xs text-brand-red-800">{item.failurePolicy}</p>
           </div>
@@ -114,10 +114,10 @@ function SectionBlock({ section }: { section: RubricSection }) {
           </div>
         </div>
       </div>
-      <div className="bg-white border-x px-6 py-3 border-b print:bg-white print:border-gray-300">
+      <div className="bg-white border-x px-6 py-3 border-b print:bg-white print:border-slate-300">
         <p className="text-sm text-slate-700">{section.description}</p>
       </div>
-      <div className="border-x border-b rounded-b-xl p-4 space-y-3 print:border-gray-300 print:rounded-none">
+      <div className="border-x border-b rounded-b-xl p-4 space-y-3 print:border-slate-300 print:rounded-none">
         {section.items.map((item) => (
           <CompetencyCard key={item.id} item={item} sectionNum={section.section} />
         ))}
@@ -164,7 +164,7 @@ export default function BarberCompetencyRubricPage() {
       </section>
 
       {/* Print header */}
-      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
+      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
         <h1 className="text-2xl font-bold text-slate-900">Barber Apprenticeship — Competency Rubric</h1>
         <p className="text-sm text-slate-700">Elevate for Humanity | RAPIDS ID: 2025-IN-132301</p>
         <p className="text-xs text-slate-700 mt-1">Occupation: Barber (330.371-010) | Total: 2,000 hours (144 RTI + 1,500 OJT)</p>
@@ -221,7 +221,7 @@ export default function BarberCompetencyRubricPage() {
           </div>
 
           {/* Sign-Off Structure */}
-          <div className="border-l-4 border-brand-blue-600 pl-6 mb-8 print:border-gray-900">
+          <div className="border-l-4 border-brand-blue-600 pl-6 mb-8 print:border-slate-900">
             <h2 className="text-lg font-bold text-slate-900 mb-3">Competency Sign-Off Structure</h2>
             <div className="space-y-2">
               {[
@@ -245,20 +245,20 @@ export default function BarberCompetencyRubricPage() {
           </div>
 
           {/* Evaluation Checkpoints */}
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 print:bg-white print:border-gray-300">
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 print:bg-white print:border-slate-300">
             <h3 className="font-bold text-slate-900 text-sm mb-3">OJT Evaluation Checkpoints</h3>
             <div className="grid sm:grid-cols-3 gap-3 text-xs">
-              <div className="bg-white rounded p-3 border print:border-gray-300">
+              <div className="bg-white rounded p-3 border print:border-slate-300">
                 <p className="font-semibold text-slate-900">30-Day Review</p>
                 <p className="text-slate-700 mt-1">Sanitation compliance, basic tool handling, shop orientation, attendance record.</p>
                 <p className="text-slate-700 mt-1">Evaluator: Shop Supervisor</p>
               </div>
-              <div className="bg-white rounded p-3 border print:border-gray-300">
+              <div className="bg-white rounded p-3 border print:border-slate-300">
                 <p className="font-semibold text-slate-900">Midpoint Review</p>
                 <p className="text-slate-700 mt-1">Cutting technique progress, client service quality, speed improvement, professional conduct.</p>
                 <p className="text-slate-700 mt-1">Evaluator: Shop Supervisor + Instructor</p>
               </div>
-              <div className="bg-white rounded p-3 border print:border-gray-300">
+              <div className="bg-white rounded p-3 border print:border-slate-300">
                 <p className="font-semibold text-slate-900">Final OJT Sign-Off</p>
                 <p className="text-slate-700 mt-1">All competencies verified, state board readiness confirmed, completion documentation filed.</p>
                 <p className="text-slate-700 mt-1">Evaluator: All parties</p>
@@ -356,7 +356,7 @@ export default function BarberCompetencyRubricPage() {
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-xl font-bold text-slate-900 mb-4">LMS Integration</h2>
-          <div className="bg-white rounded-lg p-5 border print:bg-white print:border-gray-300">
+          <div className="bg-white rounded-lg p-5 border print:bg-white print:border-slate-300">
             <p className="text-sm text-slate-900 mb-3">
               Each competency in this rubric is linked to the institutional LMS for tracking and documentation:
             </p>
@@ -386,13 +386,13 @@ export default function BarberCompetencyRubricPage() {
             <Link href="/compliance/competency-verification" className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition">
               All Program Rubrics
             </Link>
-            <Link href="/compliance/apprenticeship-structure" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+            <Link href="/compliance/apprenticeship-structure" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
               Apprenticeship Structure
             </Link>
-            <Link href="/compliance/credential-partners" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+            <Link href="/compliance/credential-partners" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
               Credential Partners
             </Link>
-            <Link href="/programs/barber-apprenticeship" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+            <Link href="/programs/barber-apprenticeship" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
               Barber Program Page
             </Link>
             <PrintButton />

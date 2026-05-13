@@ -65,13 +65,13 @@ export default async function PaymentCancelPage() {
             </Link>
             <Link
               href="/programs"
-              className="bg-gray-200 text-black px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
+              className="bg-slate-200 text-black px-8 py-3 rounded-lg font-semibold hover:bg-slate-300 transition"
             >
               View Programs
             </Link>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-gray-200">
+          <div className="mt-8 pt-8 border-t border-slate-200">
             <p className="text-sm text-black">
               Questions? Contact us at{' '}
               <a href="/support" className="text-brand-orange-600 hover:underline">

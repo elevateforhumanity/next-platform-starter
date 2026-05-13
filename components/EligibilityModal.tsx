@@ -60,7 +60,7 @@ export function EligibilityModal({ isOpen, onClose, onContinue }: EligibilityMod
             ))}
           </ul>
 
-          <p className="text-sm text-slate-700 mb-6 bg-gray-50 p-3 rounded-lg">
+          <p className="text-sm text-slate-700 mb-6 bg-slate-50 p-3 rounded-lg">
             Final eligibility is determined by WorkOne / Indiana Career Connect.
           </p>
 
@@ -74,7 +74,7 @@ export function EligibilityModal({ isOpen, onClose, onContinue }: EligibilityMod
             </button>
             <Link
               href="/check-eligibility"
-              className="w-full text-center border border-gray-300 text-slate-900 py-3 px-4 rounded-lg font-medium hover:bg-gray-50 transition"
+              className="w-full text-center border border-slate-300 text-slate-900 py-3 px-4 rounded-lg font-medium hover:bg-slate-50 transition"
               onClick={onClose}
             >
               Check Full Eligibility Info

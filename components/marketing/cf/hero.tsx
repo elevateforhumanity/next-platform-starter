@@ -28,14 +28,14 @@ export function Hero({
           {isExternal(primaryHref) ? (
             <a
               href={primaryHref}
-              className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800"
+              className="rounded bg-black px-5 py-3 text-white hover:bg-slate-800"
             >
               {primaryLabel}
             </a>
           ) : (
             <Link
               href={primaryHref}
-              className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800"
+              className="rounded bg-black px-5 py-3 text-white hover:bg-slate-800"
             >
               {primaryLabel}
             </Link>
@@ -43,11 +43,11 @@ export function Hero({
           {secondaryLabel &&
             secondaryHref &&
             (isExternal(secondaryHref) ? (
-              <a href={secondaryHref} className="rounded border px-5 py-3 hover:bg-gray-50">
+              <a href={secondaryHref} className="rounded border px-5 py-3 hover:bg-slate-50">
                 {secondaryLabel}
               </a>
             ) : (
-              <Link href={secondaryHref} className="rounded border px-5 py-3 hover:bg-gray-50">
+              <Link href={secondaryHref} className="rounded border px-5 py-3 hover:bg-slate-50">
                 {secondaryLabel}
               </Link>
             ))}

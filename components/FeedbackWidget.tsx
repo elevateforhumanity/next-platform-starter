@@ -141,7 +141,7 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
                         className={`p-4 border-2 rounded-lg text-left transition-all ${
                           type === ft.value
                             ? 'border-brand-blue-600 bg-brand-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
+                            : 'border-slate-200 hover:border-slate-300'
                         }`}
                       >
                         <div className="font-medium text-sm">{ft.label}</div>
@@ -160,7 +160,7 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
                         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                       >,
                     ) => setCategory(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   >
                     <option value="">Select a category</option>
                     {categories.map((cat) => (
@@ -182,7 +182,7 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
                         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                       >,
                     ) => setTitle(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     placeholder="Brief summary of your feedback"
                     required
                   />
@@ -199,7 +199,7 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
                       >,
                     ) => setDescription(e.target.value)}
                     rows={5}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     placeholder="Provide as much detail as possible..."
                     required
                   />
@@ -217,12 +217,12 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
 
             {/* Footer */}
             {!submitted && (
-              <div className="flex items-center justify-end gap-3 p-6 border-t bg-gray-50">
+              <div className="flex items-center justify-end gap-3 p-6 border-t bg-slate-50">
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
                   disabled={isSubmitting}
-                  className="px-6 py-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                  className="px-6 py-2 text-black bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>

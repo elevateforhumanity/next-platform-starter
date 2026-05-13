@@ -8,11 +8,11 @@ export default function AdminDemoPage() {
   const [activeTab, setActiveTab] = useState('overview');
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-gray-900 text-white py-6 sticky top-0 z-50 shadow-lg">
+    <div className="min-h-screen bg-slate-50">
+      <div className="bg-slate-900 text-white py-6 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/store/demo" className="hover:bg-gray-800 p-2 rounded-lg transition">
+            <Link href="/store/demo" className="hover:bg-slate-800 p-2 rounded-lg transition">
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div>
@@ -82,7 +82,7 @@ export default function AdminDemoPage() {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-6">
+                <div className="bg-slate-50 rounded-lg p-6">
                   <h3 className="font-bold mb-4">Recent Activity</h3>
                   <div className="space-y-3">
                     {[
@@ -115,7 +115,7 @@ export default function AdminDemoPage() {
                 </div>
                 <div className="bg-white border rounded-lg overflow-hidden">
                   <table className="w-full">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-slate-50">
                       <tr>
                         <th className="px-6 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Name</th>
                         <th className="px-6 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Program</th>
@@ -129,12 +129,12 @@ export default function AdminDemoPage() {
                         { name: 'Maria Garcia', program: 'HVAC Technician', progress: 45, status: 'Active' },
                         { name: 'David Lee', program: 'CNA Certification', progress: 90, status: 'Active' },
                       ].map((student, idx) => (
-                        <tr key={idx} className="hover:bg-gray-50">
+                        <tr key={idx} className="hover:bg-slate-50">
                           <td className="px-6 py-4 font-semibold">{student.name}</td>
                           <td className="px-6 py-4 text-slate-600">{student.program}</td>
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-2">
-                              <div className="w-24 bg-gray-200 rounded-full h-2">
+                              <div className="w-24 bg-slate-200 rounded-full h-2">
                                 <div
                                   className="bg-blue-600 h-2 rounded-full"
                                   style={{ width: `${student.progress}%` }}
@@ -181,7 +181,7 @@ export default function AdminDemoPage() {
                         <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-bold hover:bg-blue-700 transition">
                           Edit
                         </button>
-                        <button className="px-4 bg-gray-100 text-slate-700 py-2 rounded-lg font-bold hover:bg-gray-200 transition">
+                        <button className="px-4 bg-slate-100 text-slate-700 py-2 rounded-lg font-bold hover:bg-slate-200 transition">
                           View
                         </button>
                       </div>
@@ -238,7 +238,7 @@ export default function AdminDemoPage() {
                       'Completion and Placement Rates',
                       'Financial Aid Disbursement',
                     ].map((report, idx) => (
-                      <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                         <span className="font-semibold">{report}</span>
                         <button className="flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
                           <Download className="w-4 h-4" />

@@ -302,7 +302,7 @@ export default function ProgramCTA({ programName = 'this program' }: ProgramCTAP
 
           <Link
             href="/contact"
-            className="inline-block px-8 py-4 bg-white text-brand-blue-700 font-bold rounded-full hover:bg-gray-50 transition-all shadow-xl text-lg"
+            className="inline-block px-8 py-4 bg-white text-brand-blue-700 font-bold rounded-full hover:bg-slate-50 transition-all shadow-xl text-lg"
           >
             Contact Us Today
           </Link>

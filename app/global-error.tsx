@@ -102,14 +102,14 @@ export default function GlobalError({
 
               <a
                 href="/"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-gray-300 text-black rounded-lg hover:bg-white transition-all font-semibold"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-slate-300 text-black rounded-lg hover:bg-white transition-all font-semibold"
               >
                 <Home className="h-5 w-5" />
                 Go to Homepage
               </a>
             </div>
 
-            <div className="pt-6 border-t border-gray-200">
+            <div className="pt-6 border-t border-slate-200">
               <p className="text-sm text-black mb-2">Need immediate assistance?</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm">
                 <a
@@ -129,7 +129,7 @@ export default function GlobalError({
             </div>
 
             {error.digest && (
-              <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="mt-6 pt-6 border-t border-slate-200">
                 <p className="text-xs text-slate-700">
                   Reference this error ID when contacting support:{' '}
                   <span className="font-mono font-semibold">{error.digest}</span>

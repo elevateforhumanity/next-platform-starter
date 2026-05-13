@@ -86,7 +86,7 @@ export function ProgramDetailTemplate({ data }: ProgramDetailTemplateProps) {
 
       {/* Program Highlights */}
       {data.highlights && data.highlights.length > 0 && (
-        <section className="bg-gray-50 py-16">
+        <section className="bg-slate-50 py-16">
           <div className="mx-auto max-w-4xl px-6">
             <h2 className="text-3xl font-bold text-black mb-6">Program Highlights</h2>
             <div className="bg-white rounded-xl p-8 shadow-sm">
@@ -111,7 +111,7 @@ export function ProgramDetailTemplate({ data }: ProgramDetailTemplateProps) {
               <Award className="w-8 h-8 text-brand-blue-600" />
               <h2 className="text-3xl font-bold text-black">What You'll Learn</h2>
             </div>
-            <div className="bg-gray-50 rounded-xl p-8">
+            <div className="bg-slate-50 rounded-xl p-8">
               <ul className="space-y-4">
                 {data.whatYouLearn.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
@@ -127,7 +127,7 @@ export function ProgramDetailTemplate({ data }: ProgramDetailTemplateProps) {
 
       {/* Career Outcomes */}
       {data.outcomes && data.outcomes.length > 0 && (
-        <section className="bg-gray-50 py-16">
+        <section className="bg-slate-50 py-16">
           <div className="mx-auto max-w-4xl px-6">
             <div className="flex items-center gap-3 mb-6">
               <Briefcase className="w-8 h-8 text-brand-green-600" />

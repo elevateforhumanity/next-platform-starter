@@ -83,7 +83,7 @@ export default function NotificationPrompt() {
 
   return (
     <div className="fixed bottom-20 left-4 right-4 z-40 lg:bottom-4 lg:left-auto lg:right-4 lg:max-w-sm">
-      <div className="bg-white rounded-lg shadow-xl border border-gray-200 p-4">
+      <div className="bg-white rounded-lg shadow-xl border border-slate-200 p-4">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0 w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
             <Bell size={20} className="text-brand-orange-600" />
@@ -102,13 +102,13 @@ export default function NotificationPrompt() {
               </button>
               <button
                 onClick={handleDismiss}
-                className="px-4 py-2 bg-gray-100 text-black font-medium text-sm rounded-lg hover:bg-gray-200 active:scale-95 transition-transform"
+                className="px-4 py-2 bg-slate-100 text-black font-medium text-sm rounded-lg hover:bg-slate-200 active:scale-95 transition-transform"
               >
                 Not now
               </button>
             </div>
           </div>
-          <button onClick={handleDismiss} className="flex-shrink-0 p-1 hover:bg-gray-100 rounded">
+          <button onClick={handleDismiss} className="flex-shrink-0 p-1 hover:bg-slate-100 rounded">
             <X size={20} className="text-slate-700" />
           </button>
         </div>

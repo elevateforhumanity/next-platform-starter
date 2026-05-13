@@ -135,7 +135,7 @@ export default async function ApprenticeSkillsPage() {
               skills
             </span>
           </div>
-          <div className="bg-gray-200 rounded-full h-4 mb-2">
+          <div className="bg-slate-200 rounded-full h-4 mb-2">
             <div
               className="bg-white h-4 rounded-full transition-all"
               style={{ width: `${progressPercent}%` }}

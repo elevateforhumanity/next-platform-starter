@@ -20,7 +20,7 @@ export default async function DisasterRecoveryPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <Breadcrumbs
           items={[{ label: 'Policies', href: '/policies' }, { label: 'Disaster Recovery' }]}
@@ -76,7 +76,7 @@ export default async function DisasterRecoveryPage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Backup Strategy</h2>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Database Backups</h3>
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
+            <div className="bg-slate-50 rounded-lg p-6 mb-6">
               <ul className="space-y-3 text-black m-0 list-none p-0">
                 <li className="flex items-start gap-3">
                   <span className="text-slate-400 flex-shrink-0">•</span>
@@ -106,7 +106,7 @@ export default async function DisasterRecoveryPage() {
             </div>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Application Code</h3>
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
+            <div className="bg-slate-50 rounded-lg p-6 mb-6">
               <ul className="space-y-3 text-black m-0 list-none p-0">
                 <li className="flex items-start gap-3">
                   <span className="text-slate-400 flex-shrink-0">•</span>
@@ -130,7 +130,7 @@ export default async function DisasterRecoveryPage() {
             </div>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">File Storage</h3>
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
+            <div className="bg-slate-50 rounded-lg p-6 mb-6">
               <ul className="space-y-3 text-black m-0 list-none p-0">
                 <li className="flex items-start gap-3">
                   <span className="text-slate-400 flex-shrink-0">•</span>
@@ -150,7 +150,7 @@ export default async function DisasterRecoveryPage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Disaster Scenarios</h2>
 
             <div className="space-y-4 mb-6">
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <div className="bg-white rounded-lg p-6 border border-slate-200">
                 <h3 className="text-lg font-bold text-black mb-2">Database Failure</h3>
                 <p className="text-black mb-2">
                   <strong>Response:</strong> Restore from most recent backup to new database
@@ -161,7 +161,7 @@ export default async function DisasterRecoveryPage() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <div className="bg-white rounded-lg p-6 border border-slate-200">
                 <h3 className="text-lg font-bold text-black mb-2">
                   Application Deployment Failure
                 </h3>
@@ -173,7 +173,7 @@ export default async function DisasterRecoveryPage() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <div className="bg-white rounded-lg p-6 border border-slate-200">
                 <h3 className="text-lg font-bold text-black mb-2">
                   Infrastructure Provider Outage
                 </h3>
@@ -186,7 +186,7 @@ export default async function DisasterRecoveryPage() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <div className="bg-white rounded-lg p-6 border border-slate-200">
                 <h3 className="text-lg font-bold text-black mb-2">Data Corruption</h3>
                 <p className="text-black mb-2">
                   <strong>Response:</strong> Point-in-time recovery to state before corruption
@@ -246,7 +246,7 @@ export default async function DisasterRecoveryPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Responsibilities</h2>
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
+            <div className="bg-slate-50 rounded-lg p-6 mb-6">
               <ul className="space-y-2 text-black m-0">
                 <li>
                   <strong>Platform Team:</strong> Maintain backup systems, execute recovery

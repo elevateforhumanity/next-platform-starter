@@ -18,7 +18,7 @@ export default async function VerificationPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
           items={[{ label: 'Policies', href: '/policies' }, { label: 'Verification' }]}
@@ -268,7 +268,7 @@ export default async function VerificationPage() {
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Fees</h2>
 
-            <div className="bg-white rounded-lg p-6 border-2 border-gray-200 mb-6">
+            <div className="bg-white rounded-lg p-6 border-2 border-slate-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">Verification Fees</h3>
               <ul className="space-y-3 text-black">
                 <li>

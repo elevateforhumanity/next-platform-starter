@@ -17,7 +17,7 @@ export default async function StudentCodePage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
           items={[{ label: 'Policies', href: '/policies' }, { label: 'Student Code' }]}
@@ -228,7 +228,7 @@ export default async function StudentCodePage() {
             </ul>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Investigation Process</h3>
-            <div className="bg-gray-50 rounded-xl p-8 border-2 border-gray-200 mb-6">
+            <div className="bg-slate-50 rounded-xl p-8 border-2 border-slate-200 mb-6">
               <div className="space-y-6">
                 <div className="flex gap-6">
                   <div className="flex-shrink-0 w-12 h-12 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl">

@@ -82,7 +82,7 @@ export default async function HelpPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/faq"
-              className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-8 py-4 rounded-xl text-lg font-bold hover:bg-gray-100 transition shadow-lg"
+              className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-8 py-4 rounded-xl text-lg font-bold hover:bg-slate-100 transition shadow-lg"
             >
               <FileText className="w-5 h-5" />
               Browse FAQs
@@ -106,7 +106,7 @@ export default async function HelpPage() {
       </section>
 
       {/* Help Categories Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-black text-black mb-4">
@@ -121,7 +121,7 @@ export default async function HelpPage() {
             {/* Getting Started */}
             <Link
               href="/help/getting-started"
-              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-gray-200 hover:border-blue-600 group"
+              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-slate-200 hover:border-blue-600 group"
             >
               <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition">
                 <Rocket className="w-8 h-8 text-blue-600 group-hover:text-white transition" />
@@ -139,7 +139,7 @@ export default async function HelpPage() {
             {/* Technical Support */}
             <Link
               href="/help/technical"
-              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-gray-200 hover:border-green-600 group"
+              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-slate-200 hover:border-green-600 group"
             >
               <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-green-600 transition">
                 <Headphones className="w-8 h-8 text-green-600 group-hover:text-white transition" />
@@ -157,7 +157,7 @@ export default async function HelpPage() {
             {/* Course Help */}
             <Link
               href="/help/courses"
-              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-gray-200 hover:border-purple-600 group"
+              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-slate-200 hover:border-purple-600 group"
             >
               <div className="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-600 transition">
                 <BookOpen className="w-8 h-8 text-purple-600 group-hover:text-white transition" />
@@ -175,7 +175,7 @@ export default async function HelpPage() {
             {/* Account & Billing */}
             <Link
               href="/help/account"
-              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-gray-200 hover:border-orange-600 group"
+              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-slate-200 hover:border-orange-600 group"
             >
               <div className="w-16 h-16 bg-orange-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-orange-600 transition">
                 <Shield className="w-8 h-8 text-orange-600 group-hover:text-white transition" />
@@ -231,7 +231,7 @@ export default async function HelpPage() {
               <div className="space-y-4">
                 <Link
                   href="/help/tutorials/how-to-apply"
-                  className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-gray-200 transition group"
+                  className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-slate-200 transition group"
                 >
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition">
                     <Video className="w-6 h-6 text-blue-600 group-hover:text-white transition" />
@@ -245,7 +245,7 @@ export default async function HelpPage() {
 
                 <Link
                   href="/help/tutorials/accessing-courses"
-                  className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-gray-200 transition group"
+                  className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-slate-200 transition group"
                 >
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-600 transition">
                     <BookOpen className="w-6 h-6 text-green-600 group-hover:text-white transition" />
@@ -259,7 +259,7 @@ export default async function HelpPage() {
 
                 <Link
                   href="/help/tutorials/submitting-assignments"
-                  className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-gray-200 transition group"
+                  className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-slate-200 transition group"
                 >
                   <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-purple-600 transition">
                     <FileText className="w-6 h-6 text-purple-600 group-hover:text-white transition" />
@@ -273,7 +273,7 @@ export default async function HelpPage() {
 
                 <Link
                   href="/help/tutorials/troubleshooting"
-                  className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-gray-200 transition group"
+                  className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-slate-200 transition group"
                 >
                   <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-orange-600 transition">
                     <Zap className="w-6 h-6 text-orange-600 group-hover:text-white transition" />
@@ -406,7 +406,7 @@ export default async function HelpPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/contact"
-                className="bg-white text-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 text-lg"
+                className="bg-white text-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 text-lg"
               >
                 Apply Now
               </Link>

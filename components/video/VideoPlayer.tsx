@@ -208,7 +208,7 @@ export default function VideoPlayer({
           max={duration || 0}
           value={currentTime}
           onChange={handleSeek}
-          className="w-full h-1 mb-4 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+          className="w-full h-1 mb-4 bg-slate-600 rounded-lg appearance-none cursor-pointer"
           style={{
             background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${(currentTime / duration) * 100}%, #4b5563 ${(currentTime / duration) * 100}%, #4b5563 100%)`,
           }}
@@ -270,7 +270,7 @@ export default function VideoPlayer({
             <select
               value={playbackRate}
               onChange={(e) => handlePlaybackRateChange(parseFloat(e.target.value))}
-              className="bg-gray-700 text-white text-sm rounded px-2 py-2 cursor-pointer hover:bg-gray-600"
+              className="bg-slate-700 text-white text-sm rounded px-2 py-2 cursor-pointer hover:bg-slate-600"
             >
               <option value="0.5">0.5x</option>
               <option value="0.75">0.75x</option>
@@ -299,7 +299,7 @@ export default function VideoPlayer({
                 step="0.1"
                 value={volume}
                 onChange={handleVolumeChange}
-                className="w-20 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                className="w-20 h-1 bg-slate-600 rounded-lg appearance-none cursor-pointer"
               />
             </div>
 

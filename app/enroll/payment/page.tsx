@@ -105,7 +105,7 @@ function EnrollPaymentContent() {
 
   if (verifying) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600 mx-auto mb-4" />
           <p className="text-slate-600">Verifying your application...</p>
@@ -116,8 +116,8 @@ function EnrollPaymentContent() {
 
   if (!applicationId || !applicationValid) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-sm border border-gray-200 p-8 text-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-3">Enroll</h1>
           <p className="text-slate-600 mb-6">
             To enroll in the Barber Apprenticeship Program, start by submitting an application.
@@ -138,7 +138,7 @@ function EnrollPaymentContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -173,7 +173,7 @@ function EnrollPaymentContent() {
             className={`w-full p-6 rounded-xl border-2 text-left transition ${
               selectedOption === 'full'
                 ? 'border-brand-blue-600 bg-brand-blue-50'
-                : 'border-gray-200 bg-white hover:border-gray-300'
+                : 'border-slate-200 bg-white hover:border-slate-300'
             }`}
           >
             <div className="flex items-start justify-between">
@@ -182,7 +182,7 @@ function EnrollPaymentContent() {
                   className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                     selectedOption === 'full'
                       ? 'border-brand-blue-600 bg-brand-blue-600'
-                      : 'border-gray-300'
+                      : 'border-slate-300'
                   }`}
                 >
                   {selectedOption === 'full' && (
@@ -212,7 +212,7 @@ function EnrollPaymentContent() {
             className={`w-full p-6 rounded-xl border-2 text-left transition ${
               selectedOption === 'deposit'
                 ? 'border-brand-blue-600 bg-brand-blue-50'
-                : 'border-gray-200 bg-white hover:border-gray-300'
+                : 'border-slate-200 bg-white hover:border-slate-300'
             }`}
           >
             <div className="flex items-start justify-between">
@@ -221,7 +221,7 @@ function EnrollPaymentContent() {
                   className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                     selectedOption === 'deposit'
                       ? 'border-brand-blue-600 bg-brand-blue-600'
-                      : 'border-gray-300'
+                      : 'border-slate-300'
                   }`}
                 >
                   {selectedOption === 'deposit' && (
@@ -251,7 +251,7 @@ function EnrollPaymentContent() {
             className={`w-full p-6 rounded-xl border-2 text-left transition ${
               selectedOption === 'installment'
                 ? 'border-brand-blue-600 bg-brand-blue-50'
-                : 'border-gray-200 bg-white hover:border-gray-300'
+                : 'border-slate-200 bg-white hover:border-slate-300'
             }`}
           >
             <div className="flex items-start justify-between">
@@ -260,7 +260,7 @@ function EnrollPaymentContent() {
                   className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                     selectedOption === 'installment'
                       ? 'border-brand-blue-600 bg-brand-blue-600'
-                      : 'border-gray-300'
+                      : 'border-slate-300'
                   }`}
                 >
                   {selectedOption === 'installment' && (
@@ -317,7 +317,7 @@ function EnrollPaymentContent() {
         </p>
 
         {/* What happens next */}
-        <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
+        <div className="mt-8 bg-white rounded-xl border border-slate-200 p-6">
           <h3 className="font-semibold text-slate-900 mb-4">What happens after payment?</h3>
           <div className="space-y-3">
             <div className="flex items-center gap-3">

@@ -250,7 +250,7 @@ export default function AIPageBuilder() {
             <button
               onClick={generatePage}
               disabled={loading || !description}
-              className="w-full bg-brand-info hover:bg-brand-info-hover text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="w-full bg-brand-info hover:bg-brand-info-hover text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:bg-slate-400 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center">
@@ -318,7 +318,7 @@ export default function AIPageBuilder() {
                 <button
                   onClick={savePage}
                   disabled={saving}
-                  className="flex-1 bg-brand-success hover:bg-brand-success-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400"
+                  className="flex-1 bg-brand-success hover:bg-brand-success-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-slate-400"
                 >
                   {saving ? 'Saving...' : 'Save as Draft'}
                 </button>

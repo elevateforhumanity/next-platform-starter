@@ -297,7 +297,7 @@ export default function TransferRequestForm({
               <div
                 key={docType.type}
                 className={`border rounded-lg p-4 ${
-                  uploaded ? 'border-brand-green-200 bg-brand-green-50' : 'border-gray-200'
+                  uploaded ? 'border-brand-green-200 bg-brand-green-50' : 'border-slate-200'
                 }`}
               >
                 <div className="flex items-start gap-4">
@@ -341,7 +341,7 @@ export default function TransferRequestForm({
                         />
                         <label
                           htmlFor={`file-${docType.type}`}
-                          className={`inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium cursor-pointer transition-colors ${
+                          className={`inline-flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium cursor-pointer transition-colors ${
                             isUploading
                               ? 'bg-white text-slate-700 cursor-not-allowed'
                               : 'bg-white text-slate-900 hover:bg-white'
@@ -382,7 +382,7 @@ export default function TransferRequestForm({
       <div className="flex justify-end gap-4">
         <a
           href="/apprentice/transfer-hours"
-          className="px-6 py-3 border border-gray-300 text-slate-900 font-medium rounded-lg hover:bg-white transition"
+          className="px-6 py-3 border border-slate-300 text-slate-900 font-medium rounded-lg hover:bg-white transition"
         >
           Cancel
         </a>

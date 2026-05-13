@@ -28,7 +28,7 @@ export default function TestimonialsSection({
   programSlug,
   title = 'What Our Customers Say',
   subtitle,
-  bgColor = 'bg-gray-50',
+  bgColor = 'bg-slate-50',
   limit = 3,
 }: TestimonialsSectionProps) {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -68,9 +68,9 @@ export default function TestimonialsSection({
           <div className="grid md:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
               <div key={i} className="bg-white rounded-2xl p-8 shadow-sm animate-pulse">
-                <div className="h-4 bg-gray-200 rounded w-24 mb-4"></div>
-                <div className="h-20 bg-gray-200 rounded mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded w-32"></div>
+                <div className="h-4 bg-slate-200 rounded w-24 mb-4"></div>
+                <div className="h-20 bg-slate-200 rounded mb-4"></div>
+                <div className="h-4 bg-slate-200 rounded w-32"></div>
               </div>
             ))}
           </div>

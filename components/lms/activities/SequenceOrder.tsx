@@ -65,7 +65,7 @@ export function SequenceOrder({ title, description, steps, onComplete }: Sequenc
   const score = Math.round((correctCount / steps.length) * 100);
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6">
       <div className="mb-4">
         <span className="text-xs font-bold uppercase tracking-wider text-purple-600 bg-purple-50 px-2 py-0.5 rounded">
           Activity
@@ -93,7 +93,7 @@ export function SequenceOrder({ title, description, steps, onComplete }: Sequenc
                   ? 'bg-green-50 border-green-400'
                   : isWrong
                     ? 'bg-red-50 border-red-300'
-                    : 'bg-white border-gray-200'
+                    : 'bg-white border-slate-200'
               }`}
             >
               {/* Position badge */}
@@ -103,7 +103,7 @@ export function SequenceOrder({ title, description, steps, onComplete }: Sequenc
                     ? 'bg-green-500 text-white'
                     : isWrong
                       ? 'bg-red-400 text-white'
-                      : 'bg-gray-100 text-slate-700'
+                      : 'bg-slate-100 text-slate-700'
                 }`}
               >
                 {isCorrect ? (
@@ -139,14 +139,14 @@ export function SequenceOrder({ title, description, steps, onComplete }: Sequenc
                   <button
                     onClick={() => moveUp(pos)}
                     disabled={pos === 0}
-                    className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-brand-blue-50 flex items-center justify-center disabled:opacity-20 transition-colors"
+                    className="w-9 h-9 rounded-lg bg-slate-100 hover:bg-brand-blue-50 flex items-center justify-center disabled:opacity-20 transition-colors"
                   >
                     <ArrowUp className="w-4 h-4 text-slate-700" />
                   </button>
                   <button
                     onClick={() => moveDown(pos)}
                     disabled={pos === order.length - 1}
-                    className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-brand-blue-50 flex items-center justify-center disabled:opacity-20 transition-colors"
+                    className="w-9 h-9 rounded-lg bg-slate-100 hover:bg-brand-blue-50 flex items-center justify-center disabled:opacity-20 transition-colors"
                   >
                     <ArrowDown className="w-4 h-4 text-slate-700" />
                   </button>
@@ -182,7 +182,7 @@ export function SequenceOrder({ title, description, steps, onComplete }: Sequenc
             {score < 100 && (
               <button
                 onClick={handleRetry}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-gray-200 text-slate-900 text-sm font-semibold hover:bg-gray-50"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm font-semibold hover:bg-slate-50"
               >
                 <RotateCcw className="w-4 h-4" /> Try Again
               </button>

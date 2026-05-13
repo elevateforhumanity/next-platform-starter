@@ -217,7 +217,7 @@ export default function CompanySetupPage() {
             <span className="text-sm font-medium text-slate-900">Profile Completion</span>
             <span className="text-sm font-bold text-brand-blue-600">{completion}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-slate-200 rounded-full h-2">
             <div
               className="bg-white h-2 rounded-full transition-all"
               style={{ width: `${completion}%` }}
@@ -421,7 +421,7 @@ export default function CompanySetupPage() {
           <div className="flex items-center justify-between">
             <Link
               href="/employer-portal/company"
-              className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-white transition"
+              className="px-6 py-3 border border-slate-300 rounded-lg hover:bg-white transition"
             >
               Cancel
             </Link>

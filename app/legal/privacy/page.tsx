@@ -75,7 +75,7 @@ export default function PrivacyPolicyPage() {
               </a>
             </p>
 
-            <div className="mt-12 pt-8 border-t border-gray-200">
+            <div className="mt-12 pt-8 border-t border-slate-200">
               <p className="text-slate-600 text-sm">
                 By using the Elevate For Humanity platform, you acknowledge that you have read and
                 understood this Privacy Policy.

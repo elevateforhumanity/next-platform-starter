@@ -40,7 +40,7 @@ function ProfileStep({ onNext }: { onNext: (data: Record<string, string>) => voi
       <label className="block text-sm font-semibold text-slate-900 mb-1">{label}{required && <span className="text-red-500 ml-1">*</span>}</label>
       <input type={type} value={form[key]} onChange={e => set(key, e.target.value)}
         placeholder={placeholder}
-        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
     </div>
   );
 
@@ -78,7 +78,7 @@ function ProfileStep({ onNext }: { onNext: (data: Record<string, string>) => voi
         {field('License Expiry Date', 'license_expiry', 'date', true)}
       </div>
 
-      <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center">
+      <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center">
         <Upload className="w-8 h-8 text-black mx-auto mb-2" />
         <p className="text-sm font-semibold text-slate-900">Upload License Photos</p>
         <p className="text-xs text-black mt-1">Upload full, clear photos of your Indiana Barber Shop License and all mentor/journeyperson barber licenses. Both front and back required.</p>
@@ -139,7 +139,7 @@ function MOUStep({ profileData, onNext }: { profileData: Record<string, string>;
   return (
     <form onSubmit={submit} className="space-y-6">
       {/* MOU Document */}
-      <div className="bg-white border border-gray-200 rounded-xl p-6 max-h-96 overflow-y-auto text-sm text-slate-900 space-y-4">
+      <div className="bg-white border border-slate-200 rounded-xl p-6 max-h-96 overflow-y-auto text-sm text-slate-900 space-y-4">
         <div className="text-center border-b pb-4">
           <p className="text-xs text-black uppercase tracking-wide font-semibold">Version 2.0 — 2025</p>
           <h3 className="text-lg font-bold text-slate-900 mt-1">Employer Training Site MOU</h3>
@@ -179,11 +179,11 @@ function MOUStep({ profileData, onNext }: { profileData: Record<string, string>;
         </label>
         <input type="text" value={sig} onChange={e => setSig(e.target.value)}
           placeholder={profileData.owner_name || 'Your full legal name'}
-          className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-lg font-signature focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          className="w-full border-2 border-slate-300 rounded-lg px-4 py-3 text-lg font-signature focus:outline-none focus:ring-2 focus:ring-blue-500" />
         <p className="text-xs text-black mt-1">By typing your name you are applying a legally binding digital signature</p>
       </div>
 
-      <div className="flex items-start gap-3 p-4 bg-gray-50 border border-gray-200 rounded-xl">
+      <div className="flex items-start gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
         <input type="checkbox" id="agreed" checked={agreed} onChange={e => setAgreed(e.target.checked)}
           className="mt-1 h-4 w-4 text-blue-600 rounded" />
         <label htmlFor="agreed" className="text-sm text-slate-900">
@@ -255,7 +255,7 @@ function EmployerAgreementStep({ profileData, onNext }: { profileData: Record<st
       <label className="block text-sm font-semibold text-slate-900 mb-1">{label} <span className="text-red-500">*</span></label>
       <input type={type} value={form[key as keyof typeof form] as string}
         onChange={e => set(key, e.target.value)} placeholder={placeholder}
-        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
     </div>
   );
 
@@ -294,7 +294,7 @@ function EmployerAgreementStep({ profileData, onNext }: { profileData: Record<st
       </div>
 
       <h3 className="font-bold text-slate-900">Employer Certifications</h3>
-      <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm text-slate-900 space-y-2">
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-900 space-y-2">
         <p>By signing below, the Employer certifies that:</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>All information provided is accurate and complete</li>
@@ -313,7 +313,7 @@ function EmployerAgreementStep({ profileData, onNext }: { profileData: Record<st
         {field('Title / Position', 'title', 'text', 'Owner')}
       </div>
 
-      <div className="flex items-start gap-3 p-4 bg-gray-50 border border-gray-200 rounded-xl">
+      <div className="flex items-start gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
         <input type="checkbox" id="emp_agreed" checked={form.agreed}
           onChange={e => set('agreed', e.target.checked)} className="mt-1 h-4 w-4 text-blue-600 rounded" />
         <label htmlFor="emp_agreed" className="text-sm text-slate-900">
@@ -371,12 +371,12 @@ export default function BarbershopOnboardingPage() {
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
                   i < stepIndex ? 'bg-green-500 text-white' :
                   i === stepIndex ? 'bg-blue-600 text-white' :
-                  'bg-gray-200 text-black'
+                  'bg-slate-200 text-black'
                 }`}>
                   {i < stepIndex ? <CheckCircle className="w-4 h-4" /> : i + 1}
                 </div>
                 <span className={`text-xs font-semibold hidden sm:block ${i === stepIndex ? 'text-blue-600' : 'text-black'}`}>{s.label}</span>
-                {i < STEPS.length - 1 && <div className={`flex-1 h-0.5 ${i < stepIndex ? 'bg-green-400' : 'bg-gray-200'}`} />}
+                {i < STEPS.length - 1 && <div className={`flex-1 h-0.5 ${i < stepIndex ? 'bg-green-400' : 'bg-slate-200'}`} />}
               </div>
             ))}
           </div>

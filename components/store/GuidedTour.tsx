@@ -253,14 +253,14 @@ export default function GuidedTour({
                   ? 'bg-brand-orange-500 w-4'
                   : index < currentStep
                     ? 'bg-brand-green-500'
-                    : 'bg-gray-300'
+                    : 'bg-slate-300'
               }`}
             />
           ))}
         </div>
 
         {/* Navigation */}
-        <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200">
+        <div className="bg-slate-50 px-4 py-3 flex items-center justify-between border-t border-slate-200">
           <div className="flex items-center gap-2">
             {currentStep > 0 && (
               <button

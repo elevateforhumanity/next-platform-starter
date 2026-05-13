@@ -157,7 +157,7 @@ export default async function SelectSchedulePage() {
           {SCHEDULE_OPTIONS.map((opt, i) => (
             <label
               key={opt.id}
-              className="block bg-white rounded-xl border-2 border-gray-200 cursor-pointer hover:border-brand-blue-300 transition-colors overflow-hidden"
+              className="block bg-white rounded-xl border-2 border-slate-200 cursor-pointer hover:border-brand-blue-300 transition-colors overflow-hidden"
             >
               <div className="flex flex-col sm:flex-row">
                 {/* Photo */}

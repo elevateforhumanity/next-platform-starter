@@ -132,7 +132,7 @@ export default function OrchestratorAdmin() {
             <button
               onClick={runDiagnose}
               disabled={loading}
-              className="bg-brand-info hover:bg-brand-info-hover text-white px-4 py-2 rounded-lg transition-colors disabled:bg-gray-400"
+              className="bg-brand-info hover:bg-brand-info-hover text-white px-4 py-2 rounded-lg transition-colors disabled:bg-slate-400"
             >
               {loading ? 'Checking...' : 'Refresh'}
             </button>
@@ -204,7 +204,7 @@ export default function OrchestratorAdmin() {
               <button
                 onClick={ensureInfra}
                 disabled={loading}
-                className="w-full bg-brand-success hover:bg-brand-success-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400"
+                className="w-full bg-brand-success hover:bg-brand-success-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-slate-400"
               >
                 {loading ? 'Fixing...' : '🔧 Fix Infrastructure'}
               </button>
@@ -238,7 +238,7 @@ export default function OrchestratorAdmin() {
           <button
             onClick={runTask}
             disabled={loading}
-            className="w-full bg-brand-info hover:bg-brand-info-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400 mb-4"
+            className="w-full bg-brand-info hover:bg-brand-info-hover text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-slate-400 mb-4"
           >
             {loading ? 'Running...' : 'Run Task'}
           </button>
@@ -257,7 +257,7 @@ export default function OrchestratorAdmin() {
           </h2>
           <button
             onClick={loadAutopilots}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition-colors"
           >
             Refresh
           </button>

@@ -88,7 +88,7 @@ export default function ComplianceReportPage() {
                 required
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-red-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500"
               >
                 <option value="">Select type</option>
                 <option value="safety">Safety Concern</option>
@@ -106,7 +106,7 @@ export default function ComplianceReportPage() {
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 placeholder="Please provide details about your concern..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 resize-none"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 resize-none"
               />
             </div>
             <label className="flex items-center">
@@ -114,7 +114,7 @@ export default function ComplianceReportPage() {
                 type="checkbox"
                 checked={formData.anonymous}
                 onChange={(e) => setFormData({ ...formData, anonymous: e.target.checked })}
-                className="w-4 h-4 text-brand-red-600 border-gray-300 rounded"
+                className="w-4 h-4 text-brand-red-600 border-slate-300 rounded"
               />
               <span className="ml-2 text-slate-900">Submit anonymously</span>
             </label>

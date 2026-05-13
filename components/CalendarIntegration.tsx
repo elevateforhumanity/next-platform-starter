@@ -102,8 +102,8 @@ export function CalendarIntegration() {
                         day > 0 && day <= 29
                           ? hasEvent
                             ? 'bg-brand-red-100 text-brand-red-700 font-bold'
-                            : 'bg-white hover:bg-gray-50'
-                          : 'bg-gray-50 text-slate-700'
+                            : 'bg-white hover:bg-slate-50'
+                          : 'bg-slate-50 text-slate-700'
                       }`}
                     >
                       {day > 0 && day <= 29 ? day : ''}
@@ -117,7 +117,7 @@ export function CalendarIntegration() {
               <h3 className="text-xl font-bold mb-4">Upcoming Events</h3>
               <div className="space-y-3">
                 {events.map((event) => (
-                  <div key={event.id} className="p-4 bg-gray-50 rounded-lg">
+                  <div key={event.id} className="p-4 bg-slate-50 rounded-lg">
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <h4 className="font-bold">{event.title}</h4>

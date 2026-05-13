@@ -16,7 +16,7 @@ export default async function AcceptableUsePage() {
   const { data: dbRows } = await supabase.from('legal_documents').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-slate-50 py-12">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Legal', href: '/legal' }, { label: 'Acceptable Use' }]} />
       </div>
@@ -142,7 +142,7 @@ export default async function AcceptableUsePage() {
               </a>
             </p>
 
-            <div className="mt-12 pt-8 border-t border-gray-200">
+            <div className="mt-12 pt-8 border-t border-slate-200">
               <p className="text-slate-600 text-sm">
                 By using the Elevate For Humanity platform, you acknowledge that you have read,
                 understood, and agree to comply with this Acceptable Use Policy.

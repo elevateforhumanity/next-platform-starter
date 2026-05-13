@@ -168,8 +168,8 @@ export function CoursePlayer() {
                 currentLesson.id === lesson.id
                   ? 'border-brand-red-500 bg-brand-red-50'
                   : lesson.locked
-                    ? 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-60'
-                    : 'border-gray-200 hover:border-brand-red-300 hover:bg-gray-50'
+                    ? 'border-slate-200 bg-slate-50 cursor-not-allowed opacity-60'
+                    : 'border-slate-200 hover:border-brand-red-300 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-start gap-3">
@@ -179,7 +179,7 @@ export function CoursePlayer() {
                   ) : lesson.locked ? (
                     <Lock className="h-5 w-5 text-slate-400" />
                   ) : (
-                    <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
+                    <div className="w-5 h-5 rounded-full border-2 border-slate-300" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -191,12 +191,12 @@ export function CoursePlayer() {
           ))}
         </div>
         {/* Progress */}
-        <div className="mt-6 pt-6 border-t border-gray-200">
+        <div className="mt-6 pt-6 border-t border-slate-200">
           <div className="flex justify-between text-sm mb-2">
             <span className="text-black">Course Progress</span>
             <span className="font-bold text-black">40%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-slate-200 rounded-full h-2">
             <div className="bg-brand-orange-600 h-2 rounded-full" style={{ width: '40%' }} />
           </div>
           <p className="text-xs text-slate-500 mt-2">2 of 5 lessons completed</p>

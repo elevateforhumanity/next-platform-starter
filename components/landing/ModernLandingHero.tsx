@@ -70,7 +70,7 @@ export default function ModernLandingHero({
         {secondaryCTA && (
           <Link
             href={secondaryCTA.href}
-            className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-black px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-gray-200"
+            className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-black px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-200"
           >
             {secondaryCTA.text}
           </Link>
@@ -99,7 +99,7 @@ export default function ModernLandingHero({
   );
 
   return (
-    <section className="bg-gradient-to-br from-gray-50 to-white pt-24 pb-16 md:pt-32 md:pb-24">
+    <section className="bg-gradient-to-br from-slate-50 to-white pt-24 pb-16 md:pt-32 md:pb-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {imageOnRight ? (

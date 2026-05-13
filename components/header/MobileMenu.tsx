@@ -104,7 +104,7 @@ export function MobileMenu({ isOpen, onClose, items, user }: MobileMenuProps) {
               <span className="font-semibold text-slate-900">Menu</span>
               <button
                 onClick={onClose}
-                className="p-2 text-slate-700 hover:text-slate-900 transition-colors rounded-full hover:bg-gray-100"
+                className="p-2 text-slate-700 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100"
                 aria-label="Close menu"
               >
                 <X className="w-5 h-5" />
@@ -131,12 +131,12 @@ export function MobileMenu({ isOpen, onClose, items, user }: MobileMenuProps) {
                 })}
               </div>
 
-              <div className="mt-8 pt-6 border-t border-gray-100">
+              <div className="mt-8 pt-6 border-t border-slate-100">
                 {user ? (
                   <Link
                     href="/lms/dashboard"
                     onClick={onClose}
-                    className="block w-full text-center px-6 py-3 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors"
+                    className="block w-full text-center px-6 py-3 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-slate-800 transition-colors"
                   >
                     Dashboard
                   </Link>
@@ -144,7 +144,7 @@ export function MobileMenu({ isOpen, onClose, items, user }: MobileMenuProps) {
                   <Link
                     href="/apply"
                     onClick={onClose}
-                    className="block w-full text-center px-6 py-3 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors"
+                    className="block w-full text-center px-6 py-3 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-slate-800 transition-colors"
                   >
                     Get Started
                   </Link>

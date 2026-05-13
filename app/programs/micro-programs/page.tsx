@@ -24,7 +24,7 @@ export default async function MicroProgramsPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h2>
           <p className="text-slate-600">Please try again later.</p>
@@ -67,7 +67,7 @@ export default async function MicroProgramsPage() {
       </section>
 
       {/* Story Section */}
-      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-gray-50">
+      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-slate-50">
         <div className="mx-auto max-w-4xl">
           <h2 className="text-3xl sm:text-4xl font-bold text-black text-center leading-tight mb-12">
             Why Micro Programs Matter
@@ -143,7 +143,7 @@ export default async function MicroProgramsPage() {
       </section>
 
       {/* Programs */}
-      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-gray-50">
+      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-slate-50">
         <div className="mx-auto max-w-7xl">
           <h2 className="text-3xl font-bold text-black text-center mb-12">
             Available Micro Programs
@@ -154,7 +154,7 @@ export default async function MicroProgramsPage() {
               <Link
                 key={program.slug}
                 href={`/programs/${program.slug}`}
-                className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all"
+                className="group block bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all"
               >
                 <div className="relative h-48 w-full overflow-hidden bg-white">
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -244,7 +244,7 @@ export default async function MicroProgramsPage() {
       </section>
 
       {/* CTA */}
-      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-gray-50">
+      <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-slate-50">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-black mb-6">
             Get Credentialed This Month

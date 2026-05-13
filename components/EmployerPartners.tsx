@@ -38,7 +38,7 @@ const industryColors: Record<string, string> = {
   Transportation: 'bg-brand-green-100 text-brand-green-700',
   Technology: 'bg-purple-100 text-purple-700',
   Retail: 'bg-yellow-100 text-yellow-700',
-  Manufacturing: 'bg-gray-100 text-slate-900',
+  Manufacturing: 'bg-slate-100 text-slate-900',
   Pharmaceutical: 'bg-teal-100 text-teal-700',
   Hospitality: 'bg-indigo-100 text-indigo-700',
   'Food Service': 'bg-brand-red-100 text-brand-red-700',
@@ -195,7 +195,7 @@ export default function EmployerPartners({
             {displayPartners.slice(0, 8).map((partner) => (
               <div
                 key={partner.id}
-                className="px-4 py-2 bg-gray-50 rounded-lg text-sm font-medium text-slate-900"
+                className="px-4 py-2 bg-slate-50 rounded-lg text-sm font-medium text-slate-900"
               >
                 {partner.name}
               </div>
@@ -236,7 +236,7 @@ export default function EmployerPartners({
                   <div>
                     <h3 className="font-semibold text-slate-900 text-sm">{partner.name}</h3>
                     <span
-                      className={`text-xs px-2 py-0.5 rounded-full ${industryColors[partner.industry] || 'bg-gray-100 text-slate-900'}`}
+                      className={`text-xs px-2 py-0.5 rounded-full ${industryColors[partner.industry] || 'bg-slate-100 text-slate-900'}`}
                     >
                       {partner.industry}
                     </span>
@@ -321,7 +321,7 @@ export default function EmployerPartners({
                     )}
                   </div>
                   <span
-                    className={`text-xs px-2 py-1 rounded-full ${industryColors[partner.industry] || 'bg-gray-100 text-slate-900'}`}
+                    className={`text-xs px-2 py-1 rounded-full ${industryColors[partner.industry] || 'bg-slate-100 text-slate-900'}`}
                   >
                     {partner.industry}
                   </span>
@@ -361,7 +361,7 @@ export default function EmployerPartners({
                     )}
                   </div>
                   <span
-                    className={`text-xs px-2 py-1 rounded-full ${industryColors[partner.industry] || 'bg-gray-100 text-slate-900'}`}
+                    className={`text-xs px-2 py-1 rounded-full ${industryColors[partner.industry] || 'bg-slate-100 text-slate-900'}`}
                   >
                     {partner.industry}
                   </span>
@@ -406,7 +406,7 @@ export default function EmployerPartners({
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/employer/dashboard"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-brand-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-all shadow-lg text-lg"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-brand-blue-600 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg text-lg"
               >
                 Become a Partner
                 <ArrowRight className="w-5 h-5" />

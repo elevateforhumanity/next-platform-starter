@@ -158,7 +158,7 @@ export default function PartnerDocumentsPage() {
             <span className="font-semibold text-slate-900">Upload Progress</span>
             <span className="text-sm text-black">{doneCount} of {DOC_SLOTS.length} uploaded</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div className="w-full bg-slate-200 rounded-full h-2.5">
             <div
               className="bg-brand-blue-600 h-2.5 rounded-full transition-all duration-500"
               style={{ width: `${(doneCount / DOC_SLOTS.length) * 100}%` }}
@@ -187,7 +187,7 @@ export default function PartnerDocumentsPage() {
                     ? 'border-green-400 bg-green-50'
                     : isError
                     ? 'border-red-300 bg-red-50'
-                    : 'border-gray-200 bg-white'
+                    : 'border-slate-200 bg-white'
                 }`}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => !isDone && !isUploading && handleDrop(slot, e)}

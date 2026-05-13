@@ -133,7 +133,7 @@ export default function ReportContentButton({
                     {reasons.map((r) => (
                       <label
                         key={r.value}
-                        className="flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                        className="flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
                       >
                         <input
                           type="radio"
@@ -145,7 +145,7 @@ export default function ReportContentButton({
                               HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                             >,
                           ) => setReason(e.target.value)}
-                          className="w-4 h-4 text-brand-orange-600 border-gray-300 focus:ring-brand-red-500"
+                          className="w-4 h-4 text-brand-orange-600 border-slate-300 focus:ring-brand-red-500"
                         />
                         <span className="text-sm text-black">{r.label}</span>
                       </label>
@@ -166,7 +166,7 @@ export default function ReportContentButton({
                       >,
                     ) => setDescription(e.target.value)}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
                     placeholder="Provide any additional context..."
                   />
                 </div>
@@ -185,7 +185,7 @@ export default function ReportContentButton({
                     type="button"
                     onClick={() => setIsOpen(false)}
                     disabled={isSubmitting}
-                    className="flex-1 px-4 py-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                    className="flex-1 px-4 py-2 text-black bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50"
                   >
                     Cancel
                   </button>

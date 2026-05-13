@@ -112,7 +112,7 @@ export function SearchButton() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search programs, courses, FAQs..."
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:border-brand-blue-600 focus:outline-none text-black"
+                    className="w-full pl-12 pr-4 py-3 border-2 border-slate-300 rounded-lg focus:border-brand-blue-600 focus:outline-none text-black"
                     autoFocus
                   />
                 </div>

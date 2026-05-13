@@ -67,7 +67,7 @@ export function AutomatedCertificateWorkflow() {
                 {pending.map((cert) => (
                   <div
                     key={cert.id}
-                    className="p-4 bg-gray-50 rounded flex justify-between items-center"
+                    className="p-4 bg-slate-50 rounded flex justify-between items-center"
                   >
                     <div>
                       <p className="font-bold">{cert.studentName}</p>
@@ -113,7 +113,7 @@ export function AutomatedCertificateWorkflow() {
                     className={`p-3 rounded cursor-pointer ${
                       selectedTemplate === template.id
                         ? 'bg-brand-red-100 border-2 border-brand-red-600'
-                        : 'bg-gray-50'
+                        : 'bg-slate-50'
                     }`}
                     onClick={() => setSelectedTemplate(template.id)}
                   >

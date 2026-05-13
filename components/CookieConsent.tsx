@@ -129,7 +129,7 @@ export default function CookieConsent() {
         isVisible ? 'translate-y-0' : 'translate-y-full'
       }`}
     >
-      <div className="bg-white border-t-2 border-gray-200 shadow-2xl">
+      <div className="bg-white border-t-2 border-slate-200 shadow-2xl">
         <div className="container mx-auto px-4 py-6 max-w-7xl">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             {/* Content */}
@@ -163,14 +163,14 @@ export default function CookieConsent() {
               <button
                 ref={firstFocusRef}
                 onClick={handleReject}
-                className="px-4 py-2 text-sm font-medium text-slate-900 bg-gray-100 hover:bg-gray-200 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:ring-offset-2"
+                className="px-4 py-2 text-sm font-medium text-slate-900 bg-slate-100 hover:bg-slate-200 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:ring-offset-2"
                 aria-label="Reject all cookies"
               >
                 Reject
               </button>
               <button
                 onClick={handleAccept}
-                className="px-5 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:ring-offset-2"
+                className="px-5 py-2 text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:ring-offset-2"
                 aria-label="Accept all cookies"
               >
                 Accept

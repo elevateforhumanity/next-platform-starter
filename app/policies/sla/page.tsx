@@ -19,7 +19,7 @@ export default async function SLAPage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <Breadcrumbs items={[{ label: 'Policies', href: '/policies' }, { label: 'SLA' }]} />
         <article className="bg-white rounded-xl shadow-sm p-8 md:p-12 mt-6">
@@ -108,7 +108,7 @@ export default async function SLAPage() {
             </div>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Service Credit Terms</h3>
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
+            <div className="bg-slate-50 rounded-lg p-6 mb-6">
               <ul className="space-y-3 text-black m-0 list-none p-0">
                 <li className="flex items-start gap-3">
                   <span className="text-slate-400 flex-shrink-0">•</span>
@@ -148,16 +148,16 @@ export default async function SLAPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Support Response Times</h2>
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-6">
+            <div className="bg-white rounded-lg border border-slate-200 overflow-hidden mb-6">
               <table className="w-full text-left">
-                <thead className="bg-gray-50">
+                <thead className="bg-slate-50">
                   <tr>
                     <th className="px-4 py-3 font-semibold text-black">Priority</th>
                     <th className="px-4 py-3 font-semibold text-black">Description</th>
                     <th className="px-4 py-3 font-semibold text-black">Response Time</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-slate-200">
                   <tr>
                     <td className="px-4 py-3 text-black font-semibold text-brand-red-600">
                       Critical

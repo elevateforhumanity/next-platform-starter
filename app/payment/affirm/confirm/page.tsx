@@ -62,7 +62,7 @@ function AffirmConfirmContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
         {status === 'processing' && (
           <div className="text-center">
@@ -114,7 +114,7 @@ function AffirmConfirmContent() {
               </Link>
               <Link
                 href="/contact"
-                className="inline-block px-6 py-3 bg-gray-100 text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors"
+                className="inline-block px-6 py-3 bg-slate-100 text-black font-semibold rounded-lg hover:bg-slate-200 transition-colors"
               >
                 Contact Support
               </Link>

@@ -254,7 +254,7 @@ export default function InteractiveVideoPlayer({
                           className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
                             quizAnswer === index
                               ? 'border-primary bg-primary/10'
-                              : 'border-gray-300 hover:border-primary/50'
+                              : 'border-slate-300 hover:border-primary/50'
                           }`}
                         >
                           {option}
@@ -311,7 +311,7 @@ export default function InteractiveVideoPlayer({
                 <button
                   key={index}
                   onClick={() => seekTo(note.timestamp)}
-                  className="w-full text-left p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  className="w-full text-left p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-mono text-muted-foreground">

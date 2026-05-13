@@ -68,7 +68,7 @@ export default async function VideosPage() {
                       href={`/videos/${video.id}`}
                       className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition"
                     >
-                      <div className="relative aspect-video bg-gray-200">
+                      <div className="relative aspect-video bg-slate-200">
                         <Image
                           src={video.thumbnail_url}
                           alt={video.title}
@@ -113,7 +113,7 @@ export default async function VideosPage() {
             </Link>
             <Link
               href="/programs"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-white text-black font-bold rounded-lg border-2 border-gray-300 transition"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-white text-black font-bold rounded-lg border-2 border-slate-300 transition"
             >
               View Programs
             </Link>

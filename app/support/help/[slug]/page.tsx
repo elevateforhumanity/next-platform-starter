@@ -111,7 +111,7 @@ export default async function HelpArticlePage({ params }: { params: Params }) {
 
             {/* Tags */}
             {article.tags && article.tags.length > 0 && (
-              <div className="mt-8 pt-8 border-t border-gray-200">
+              <div className="mt-8 pt-8 border-t border-slate-200">
                 <p className="text-sm text-slate-700 mb-2">Related topics:</p>
                 <div className="flex flex-wrap gap-2">
                   {article.tags.map((tag: string) => (
@@ -127,14 +127,14 @@ export default async function HelpArticlePage({ params }: { params: Params }) {
             )}
 
             {/* Feedback */}
-            <div className="mt-8 pt-8 border-t border-gray-200">
+            <div className="mt-8 pt-8 border-t border-slate-200">
               <p className="text-center text-slate-900 mb-4">Was this article helpful?</p>
               <div className="flex justify-center gap-4">
                 <button className="flex items-center gap-2 px-6 py-3 bg-brand-green-100 text-brand-green-700 rounded-lg hover:bg-brand-green-200 transition font-medium">
                   <ThumbsUp className="w-5 h-5" />
                   Yes, helpful
                 </button>
-                <button className="flex items-center gap-2 px-6 py-3 bg-white text-slate-900 rounded-lg hover:bg-gray-200 transition font-medium">
+                <button className="flex items-center gap-2 px-6 py-3 bg-white text-slate-900 rounded-lg hover:bg-slate-200 transition font-medium">
                   <ThumbsDown className="w-5 h-5" />
                   Not helpful
                 </button>
@@ -151,7 +151,7 @@ export default async function HelpArticlePage({ params }: { params: Params }) {
                   <Link
                     key={related.slug}
                     href={`/support/help/${related.slug}`}
-                    className="p-4 bg-white rounded-lg border border-gray-200 hover:shadow-md hover:border-brand-blue-300 transition group"
+                    className="p-4 bg-white rounded-lg border border-slate-200 hover:shadow-md hover:border-brand-blue-300 transition group"
                   >
                     <h3 className="font-semibold text-black group-hover:text-brand-blue-600 transition line-clamp-2">
                       {related.title}
@@ -175,7 +175,7 @@ export default async function HelpArticlePage({ params }: { params: Params }) {
               </Link>
               <a
                 href="/support"
-                className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white transition border border-gray-200"
+                className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white transition border border-slate-200"
               >
                 (317) 314-3757
               </a>

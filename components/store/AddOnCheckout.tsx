@@ -139,7 +139,7 @@ function CheckoutForm({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@organization.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 outline-none"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 outline-none"
               />
               <p className="text-xs text-slate-700 mt-2">
                 Your license and receipt will be sent to this email.
@@ -155,7 +155,7 @@ function CheckoutForm({
                   className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition ${
                     paymentMethod === 'stripe'
                       ? 'border-brand-blue-500 bg-brand-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-slate-200 hover:border-slate-300'
                   }`}
                 >
                   <input
@@ -173,7 +173,7 @@ function CheckoutForm({
                   </div>
                   <div
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      paymentMethod === 'stripe' ? 'border-brand-blue-500' : 'border-gray-300'
+                      paymentMethod === 'stripe' ? 'border-brand-blue-500' : 'border-slate-300'
                     }`}
                   >
                     {paymentMethod === 'stripe' && (
@@ -188,7 +188,7 @@ function CheckoutForm({
                     className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition ${
                       paymentMethod === 'affirm'
                         ? 'border-brand-blue-500 bg-brand-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <input
@@ -210,7 +210,7 @@ function CheckoutForm({
                     </div>
                     <div
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        paymentMethod === 'affirm' ? 'border-brand-blue-500' : 'border-gray-300'
+                        paymentMethod === 'affirm' ? 'border-brand-blue-500' : 'border-slate-300'
                       }`}
                     >
                       {paymentMethod === 'affirm' && (
@@ -226,7 +226,7 @@ function CheckoutForm({
                     className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition ${
                       paymentMethod === 'sezzle'
                         ? 'border-purple-500 bg-purple-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <input
@@ -248,7 +248,7 @@ function CheckoutForm({
                     </div>
                     <div
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        paymentMethod === 'sezzle' ? 'border-purple-500' : 'border-gray-300'
+                        paymentMethod === 'sezzle' ? 'border-purple-500' : 'border-slate-300'
                       }`}
                     >
                       {paymentMethod === 'sezzle' && (

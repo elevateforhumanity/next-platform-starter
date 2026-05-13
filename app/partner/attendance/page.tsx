@@ -200,7 +200,7 @@ export default async function PartnerAttendancePage() {
                 <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Notes</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-slate-200">
               {sessions.map((s: any) => (
                 <tr key={s.id} className="hover:bg-white">
                   <td className="px-6 py-4 font-medium text-slate-900 capitalize">

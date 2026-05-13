@@ -23,7 +23,7 @@ export default function NotFound() {
           </Link>
           <Link
             href="/programs"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 text-slate-900 rounded-lg hover:bg-white transition font-semibold"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-slate-300 text-slate-900 rounded-lg hover:bg-white transition font-semibold"
           >
             <Search className="h-5 w-5" />
             Browse Programs

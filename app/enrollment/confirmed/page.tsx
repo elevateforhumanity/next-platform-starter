@@ -149,7 +149,7 @@ function EnrollmentConfirmedContent() {
         </div>
 
         {/* Enrollment Details Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
           <div className="space-y-4">
             <div className="flex items-start gap-3">
               <Award className="w-5 h-5 text-brand-blue-600 mt-0.5" />

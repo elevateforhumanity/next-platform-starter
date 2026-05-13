@@ -89,7 +89,7 @@ export default function NextStepsPage() {
             <div className="text-sm font-semibold">{formatPct(progress.percent)}</div>
           </div>
 
-          <div className="mt-3 h-2 w-full rounded-full bg-gray-100">
+          <div className="mt-3 h-2 w-full rounded-full bg-slate-100">
             <div
               className="h-2 rounded-full bg-white"
               style={{ width: `${progress.percent || 0}%` }}
@@ -187,7 +187,7 @@ export default function NextStepsPage() {
             </div>
 
             <div className="mt-4 space-y-4">
-              <div className="rounded-xl border bg-gray-50 p-4">
+              <div className="rounded-xl border bg-slate-50 p-4">
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
@@ -246,7 +246,7 @@ export default function NextStepsPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl border bg-gray-50 p-4">
+              <div className="rounded-xl border bg-slate-50 p-4">
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
@@ -305,7 +305,7 @@ export default function NextStepsPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl border bg-gray-50 p-4">
+              <div className="rounded-xl border bg-slate-50 p-4">
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
@@ -364,7 +364,7 @@ export default function NextStepsPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl border bg-gray-50 p-4">
+              <div className="rounded-xl border bg-slate-50 p-4">
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
@@ -524,7 +524,7 @@ export default function NextStepsPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border bg-gray-50 p-5">
+          <div className="rounded-2xl border bg-slate-50 p-5">
             <p className="text-sm font-semibold">What happens next</p>
             <p className="mt-1 text-sm text-black leading-relaxed">
               Once your checklist is complete, our team can move faster and ensure nothing falls
@@ -542,7 +542,7 @@ export default function NextStepsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/start"
-                className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition"
+                className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-slate-100 transition"
               >
                 Apply Now
               </Link>

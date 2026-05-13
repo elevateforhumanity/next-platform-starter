@@ -160,7 +160,7 @@ export default function ProgramEnrollment({
               className={`border-2 rounded-lg p-4 cursor-pointer transition ${
                 selectedPaymentPlan === 'full'
                   ? 'border-brand-blue-500 bg-brand-blue-50'
-                  : 'border-slate-300 hover:border-gray-400'
+                  : 'border-slate-300 hover:border-slate-400'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -189,7 +189,7 @@ export default function ProgramEnrollment({
               className={`border-2 rounded-lg p-4 cursor-pointer transition ${
                 selectedPaymentPlan === 'installments'
                   ? 'border-brand-blue-500 bg-brand-blue-50'
-                  : 'border-slate-300 hover:border-gray-400'
+                  : 'border-slate-300 hover:border-slate-400'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -317,7 +317,7 @@ export default function ProgramEnrollment({
         disabled={
           loading || (program.requirements && program.requirements.length > 0 && !meetsRequirements)
         }
-        className="w-full bg-brand-blue-600 text-white py-4 rounded-lg font-semibold text-lg hover:bg-brand-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+        className="w-full bg-brand-blue-600 text-white py-4 rounded-lg font-semibold text-lg hover:bg-brand-blue-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
       >
         {loading ? (
           <>

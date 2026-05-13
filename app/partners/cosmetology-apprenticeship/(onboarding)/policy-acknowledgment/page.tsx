@@ -204,7 +204,7 @@ export default function CosmetologyPolicyAcknowledgmentPage() {
           <span className="text-sm font-medium text-slate-900">
             {acknowledged.size} of {POLICIES.length} policies acknowledged
           </span>
-          <div className="w-48 bg-gray-200 rounded-full h-2">
+          <div className="w-48 bg-slate-200 rounded-full h-2">
             <div
               className="bg-purple-600 h-2 rounded-full transition-all"
               style={{ width: `${(acknowledged.size / POLICIES.length) * 100}%` }}

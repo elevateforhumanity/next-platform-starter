@@ -207,7 +207,7 @@ export default function PageManager() {
             <div className="   px-4 py-3">
               <h2 className="text-lg font-semibold text-white">All Pages ({pages.length})</h2>
             </div>
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-slate-200">
               {pages.length === 0 ? (
                 <div className="p-6 text-center text-brand-text-light">
                   No pages yet. Create one with the AI Page Builder!
@@ -287,7 +287,7 @@ export default function PageManager() {
                   </button>
                   <button
                     onClick={() => updatePageStatus(selectedPage.id, 'archived')}
-                    className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    className="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition-colors"
                   >
                     Archive
                   </button>
@@ -330,7 +330,7 @@ export default function PageManager() {
                         setEditMode(false);
                         setEditedHtml(selectedPage.html);
                       }}
-                      className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
+                      className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg transition-colors"
                     >
                       Cancel
                     </button>

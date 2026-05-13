@@ -50,7 +50,7 @@ export function FAQClient({ categories }: FAQClientProps) {
       </section>
 
       {/* Category Filters */}
-      <section className="py-8 bg-gray-50 sticky top-0 z-10 border-b-2 border-gray-200">
+      <section className="py-8 bg-slate-50 sticky top-0 z-10 border-b-2 border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap gap-4 justify-center">
             <button
@@ -58,7 +58,7 @@ export function FAQClient({ categories }: FAQClientProps) {
               className={`px-6 py-3 rounded-xl font-bold transition ${
                 activeCategory === 'all'
                   ? 'bg-brand-blue-600 text-white'
-                  : 'bg-white text-black hover:bg-gray-100'
+                  : 'bg-white text-black hover:bg-slate-100'
               }`}
               aria-pressed={activeCategory === 'all'}
             >
@@ -71,7 +71,7 @@ export function FAQClient({ categories }: FAQClientProps) {
                 className={`px-6 py-3 rounded-xl font-bold transition ${
                   activeCategory === category.id
                     ? 'bg-brand-blue-600 text-white'
-                    : 'bg-white text-black hover:bg-gray-100'
+                    : 'bg-white text-black hover:bg-slate-100'
                 }`}
                 aria-pressed={activeCategory === category.id}
               >

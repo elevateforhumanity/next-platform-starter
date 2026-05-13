@@ -67,7 +67,7 @@ export default async function VerificationPendingPage() {
             </Link>
             <Link
               href="/program-holder/onboarding"
-              className="block w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-lg font-medium hover:bg-white transition text-center"
+              className="block w-full px-4 py-3 border border-slate-200 text-slate-900 rounded-lg font-medium hover:bg-white transition text-center"
             >
               Back to Onboarding
             </Link>

@@ -112,7 +112,7 @@ export function OjtDigitalLogger() {
             value={date}
             onChange={(e) => setDate(e.target.value)}
             required
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
 
@@ -121,7 +121,7 @@ export function OjtDigitalLogger() {
           <select
             value={activityType}
             onChange={(e) => setActivityType(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           >
             {ACTIVITY_TYPES.map((t) => (
               <option key={t.value} value={t.value}>{t.label}</option>
@@ -139,7 +139,7 @@ export function OjtDigitalLogger() {
             onChange={(e) => setHours(e.target.value)}
             placeholder="0"
             required
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
 
@@ -148,7 +148,7 @@ export function OjtDigitalLogger() {
           <select
             value={minutes}
             onChange={(e) => setMinutes(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           >
             {[0, 15, 30, 45].map((m) => (
               <option key={m} value={m}>{m}</option>
@@ -165,7 +165,7 @@ export function OjtDigitalLogger() {
             onChange={(e) => setDescription(e.target.value)}
             rows={2}
             placeholder="Describe the skills practiced or tasks performed during this session"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 resize-none"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 resize-none"
           />
         </div>
 
@@ -181,7 +181,7 @@ export function OjtDigitalLogger() {
           <button
             type="button"
             onClick={() => { if (logs === null) fetchLogs(); else setLogs(null); }}
-            className="px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+            className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
           >
             {logs !== null ? 'Hide History' : 'View My Hours'}
           </button>
@@ -226,7 +226,7 @@ export function OjtDigitalLogger() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm border-collapse">
                 <thead>
-                  <tr className="bg-gray-100 text-left">
+                  <tr className="bg-slate-100 text-left">
                     <th className="p-2 border font-medium">Date</th>
                     <th className="p-2 border font-medium">Hours</th>
                     <th className="p-2 border font-medium">Activity</th>
@@ -236,7 +236,7 @@ export function OjtDigitalLogger() {
                 </thead>
                 <tbody>
                   {logs.map((log) => (
-                    <tr key={log.id} className="hover:bg-gray-50">
+                    <tr key={log.id} className="hover:bg-slate-50">
                       <td className="p-2 border">{log.log_date}</td>
                       <td className="p-2 border whitespace-nowrap">
                         {log.hours}h {log.minutes}m

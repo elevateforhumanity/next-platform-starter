@@ -97,7 +97,7 @@ export function MobileMenu() {
                     <div>
                       <button
                         onClick={() => toggleExpanded(item.label)}
-                        className="flex items-center justify-between w-full p-3 text-left text-slate-900 hover:bg-gray-50 rounded-lg"
+                        className="flex items-center justify-between w-full p-3 text-left text-slate-900 hover:bg-slate-50 rounded-lg"
                       >
                         <span className="font-medium">{item.label}</span>
                         {expandedItems.includes(item.label) ? (
@@ -115,7 +115,7 @@ export function MobileMenu() {
                                 className={`block p-3 rounded-lg transition ${
                                   pathname === child.href
                                     ? 'bg-brand-orange-50 text-brand-orange-600'
-                                    : 'text-slate-700 hover:bg-gray-50'
+                                    : 'text-slate-700 hover:bg-slate-50'
                                 }`}
                               >
                                 {child.label}
@@ -131,7 +131,7 @@ export function MobileMenu() {
                       className={`block p-3 rounded-lg font-medium transition ${
                         pathname === item.href
                           ? 'bg-brand-orange-50 text-brand-orange-600'
-                          : 'text-slate-900 hover:bg-gray-50'
+                          : 'text-slate-900 hover:bg-slate-50'
                       }`}
                     >
                       {item.label}
@@ -145,7 +145,7 @@ export function MobileMenu() {
             <div className="mt-6 pt-6 border-t space-y-3">
               <Link
                 href="/login"
-                className="block w-full p-3 text-center text-slate-900 border rounded-lg hover:bg-gray-50 transition"
+                className="block w-full p-3 text-center text-slate-900 border rounded-lg hover:bg-slate-50 transition"
               >
                 Log In
               </Link>

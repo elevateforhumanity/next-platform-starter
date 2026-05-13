@@ -97,7 +97,7 @@ export default function CompetencyTracking() {
   };
 
   const statusColors: Record<string, string> = {
-    'not-started': 'bg-gray-100 text-black',
+    'not-started': 'bg-slate-100 text-black',
     'in-progress': 'bg-yellow-100 text-yellow-700',
     mastered: 'bg-brand-green-100 text-brand-green-700',
   };
@@ -150,7 +150,7 @@ export default function CompetencyTracking() {
               className={`px-4 py-2 rounded-lg text-sm font-medium ${
                 activeCategory === category
                   ? 'bg-brand-orange-600 text-white'
-                  : 'bg-white text-black border hover:bg-gray-50'
+                  : 'bg-white text-black border hover:bg-slate-50'
               }`}
             >
               {category}
@@ -190,7 +190,7 @@ export default function CompetencyTracking() {
               </div>
 
               <div className="mb-4">
-                <div className="w-full bg-gray-200 rounded-full h-3">
+                <div className="w-full bg-slate-200 rounded-full h-3">
                   <div
                     className="   h-3 rounded-full transition-all"
                     style={{ width: `${competency.progress}%` }}

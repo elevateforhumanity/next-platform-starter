@@ -129,7 +129,7 @@ export default async function ForumsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Hero */}
       <section className="relative min-h-[450px] flex items-center overflow-hidden">
         <Image sizes="100vw"
@@ -154,7 +154,7 @@ export default async function ForumsPage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/login?redirect=/forums"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-slate-100 transition"
               >
                 <Plus className="w-5 h-5" />
                 Start a Discussion
@@ -164,7 +164,7 @@ export default async function ForumsPage() {
                 <input
                   type="search"
                   placeholder="Search discussions..."
-                  className="w-full pl-12 pr-4 py-3 rounded-lg text-slate-900 placeholder-gray-500"
+                  className="w-full pl-12 pr-4 py-3 rounded-lg text-slate-900 placeholder-slate-500"
                 />
               </div>
             </div>
@@ -204,9 +204,9 @@ export default async function ForumsPage() {
             {categories.map((category) => {
               const icon = categoryIcons[category.name] || '💬';
               const colors = categoryColors[category.name] || {
-                bg: 'bg-gray-50',
-                border: 'border-gray-200',
-                hover: 'hover:border-gray-400',
+                bg: 'bg-slate-50',
+                border: 'border-slate-200',
+                hover: 'hover:border-slate-400',
               };
 
               return (
@@ -275,7 +275,7 @@ export default async function ForumsPage() {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/login?redirect=/forums"
-              className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition"
+              className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-slate-100 transition"
             >
               Sign In
             </Link>

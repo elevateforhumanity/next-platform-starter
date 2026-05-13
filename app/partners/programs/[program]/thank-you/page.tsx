@@ -83,7 +83,7 @@ export default async function ThankYouPage({ params }: { params: Promise<{ progr
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-xl border border-gray-200 mb-8">
+        <div className="bg-white p-6 rounded-xl border border-slate-200 mb-8">
           <h3 className="font-semibold text-slate-900 mb-3">What Happens Next</h3>
           <ol className="space-y-2 text-sm text-black">
             <li className="flex gap-2">

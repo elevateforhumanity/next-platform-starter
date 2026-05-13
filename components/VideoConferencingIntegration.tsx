@@ -78,7 +78,7 @@ export function VideoConferencingIntegration() {
                       ? 'bg-brand-red-100 text-brand-red-700'
                       : meeting.status === 'upcoming'
                         ? 'bg-brand-blue-100 text-brand-blue-700'
-                        : 'bg-gray-100 text-black'
+                        : 'bg-slate-100 text-black'
                   }`}
                 >
                   {meeting.status === 'live' && '🔴 '}

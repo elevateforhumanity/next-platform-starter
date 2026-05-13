@@ -42,7 +42,7 @@ export default async function AccountLicensesPage() {
         <h1 className="text-3xl font-bold text-slate-900 mb-8">My Licenses</h1>
 
         {!licenses || licenses.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
             <Key className="w-12 h-12 text-slate-700 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-slate-900 mb-2">No Licenses Yet</h2>
             <p className="text-slate-700 mb-6">
@@ -60,7 +60,7 @@ export default async function AccountLicensesPage() {
             {licenses.map((license: any) => (
               <div
                 key={license.id}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+                className="bg-white rounded-xl shadow-sm border border-slate-200 p-6"
               >
                 <div className="flex items-start justify-between">
                   <div>

@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Assurance() {
   return (
-    <section className="bg-gray-50 py-12 md:py-24 relative overflow-hidden">
+    <section className="bg-slate-50 py-12 md:py-24 relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
         <Image
           src="/clear-path-main-image.jpg"
@@ -15,7 +15,7 @@ export default function Assurance() {
       </div>
       <div className="max-w-7xl mx-auto px-6 relative z-10 aspect-[4/3]">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="relative w-full aspect-video md:aspect-[4/3] rounded-lg overflow-hidden shadow-xl bg-gray-100">
+          <div className="relative w-full aspect-video md:aspect-[4/3] rounded-lg overflow-hidden shadow-xl bg-slate-100">
             <Image
               src="/clear-path-main-image.jpg"
               alt="Clear Career Pathways"

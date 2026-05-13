@@ -29,7 +29,7 @@ export default async function StudentCoursesPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <nav className="flex items-center text-sm text-slate-600">
@@ -64,7 +64,7 @@ export default async function StudentCoursesPage() {
                     <span className="text-slate-600">Progress</span>
                     <span className="font-medium">{course.progress}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-slate-200 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${course.progress === 100 ? 'bg-green-600' : 'bg-blue-600'}`}
                       style={{ width: `${course.progress}%` }}

@@ -104,7 +104,7 @@ export default async function EmployerLayout({ children }: { children: React.Rea
 
   const shell = (content: React.ReactNode) => (
     <div className="min-h-screen bg-white">
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-40">
+      <nav className="bg-white border-b border-slate-200 sticky top-0 z-40">
         <div className="max-w-screen-xl mx-auto px-4 flex items-center gap-6 h-14 overflow-x-auto">
           <a
             href="/employer/dashboard"

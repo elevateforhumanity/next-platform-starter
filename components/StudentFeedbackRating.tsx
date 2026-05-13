@@ -150,7 +150,7 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
               <h2 className="text-2xl font-bold mb-4">Student Reviews ({reviews.length})</h2>
               <div className="space-y-4">
                 {reviews.map((review) => (
-                  <div key={review.id} className="p-4 bg-gray-50 rounded-lg">
+                  <div key={review.id} className="p-4 bg-slate-50 rounded-lg">
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <p className="font-bold">{review.studentName}</p>
@@ -206,7 +206,7 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
                   return (
                     <div key={stars} className="flex items-center gap-2">
                       <span className="text-sm w-8">{stars}★</span>
-                      <div className="flex-1 bg-gray-200 rounded-full h-2">
+                      <div className="flex-1 bg-slate-200 rounded-full h-2">
                         <div
                           className="bg-yellow-500 h-2 rounded-full"
                           style={{ width: `${percentage}%` }}

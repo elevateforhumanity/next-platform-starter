@@ -125,7 +125,7 @@ export default async function FerpaCalendarPage() {
           priority
         />
       </section>
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
             <Link href="/ferpa" className="hover:text-slate-900">
@@ -179,12 +179,12 @@ export default async function FerpaCalendarPage() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Upcoming Events */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="px-6 py-4 border-b border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+              <div className="px-6 py-4 border-b border-slate-200">
                 <h2 className="text-lg font-semibold text-slate-900">Upcoming Events</h2>
               </div>
               {events && events.length > 0 ? (
-                <div className="divide-y divide-gray-200">
+                <div className="divide-y divide-slate-200">
                   {(events as CalendarEvent[]).map((event) => {
                     const typeConfig =
                       EVENT_TYPE_CONFIG[event.event_type] || EVENT_TYPE_CONFIG.other;
@@ -241,11 +241,11 @@ export default async function FerpaCalendarPage() {
 
           {/* Standard Deadlines */}
           <div>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="px-6 py-4 border-b border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+              <div className="px-6 py-4 border-b border-slate-200">
                 <h2 className="text-lg font-semibold text-slate-900">Standard Deadlines</h2>
               </div>
-              <div className="divide-y divide-gray-200">
+              <div className="divide-y divide-slate-200">
                 {standardDeadlines.map((deadline, index) => (
                   <div key={index} className="px-6 py-4">
                     <h3 className="font-medium text-slate-900">{deadline.title}</h3>

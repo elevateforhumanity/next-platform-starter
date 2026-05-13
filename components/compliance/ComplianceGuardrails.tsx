@@ -67,7 +67,7 @@ export function FundingDisclaimer({ className = '' }: DisclaimerProps) {
  */
 export function NotAdviceDisclaimer({ className = '' }: DisclaimerProps) {
   return (
-    <div className={`bg-gray-50 border border-gray-200 rounded-lg p-4 ${className}`}>
+    <div className={`bg-slate-50 border border-slate-200 rounded-lg p-4 ${className}`}>
       <div className="flex items-start gap-3">
         <Shield className="w-5 h-5 text-slate-700 flex-shrink-0 mt-0.5" />
         <div className="text-sm text-slate-900">
@@ -185,7 +185,7 @@ export function ApplicationConsent({
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+        className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
         required
       />
       <span className="text-sm text-slate-900">

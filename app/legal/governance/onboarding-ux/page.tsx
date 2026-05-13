@@ -31,7 +31,7 @@ export default async function OnboardingUXPage() {
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Legal', href: '/legal' }, { label: 'Onboarding Ux' }]} />
       </div>
-      <div className="bg-gray-900 text-white py-12">
+      <div className="bg-slate-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
@@ -77,7 +77,7 @@ export default async function OnboardingUXPage() {
           </a>
         </div>
 
-        <nav className="bg-gray-50 rounded-lg p-6 mb-10">
+        <nav className="bg-slate-50 rounded-lg p-6 mb-10">
           <h2 className="font-semibold mb-4">Contents</h2>
           <ol className="space-y-2 text-sm">
             <li>
@@ -152,7 +152,7 @@ export default async function OnboardingUXPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">1.3 User Types</h3>
           <table className="w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">User Type</th>
                 <th className="border p-3 text-left">Primary Journey</th>
               </tr>
@@ -162,7 +162,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">Student</td>
                 <td className="border p-3">Course enrollment, learning, certification</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Instructor</td>
                 <td className="border p-3">Course creation, student management</td>
               </tr>
@@ -170,7 +170,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">Tax Client</td>
                 <td className="border p-3">Tax prep, refund advance, document upload</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Store Customer</td>
                 <td className="border p-3">Browse, purchase, download</td>
               </tr>
@@ -211,7 +211,7 @@ export default async function OnboardingUXPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">2.2 Role-Specific Onboarding</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Role</th>
                 <th className="border p-3 text-left">Onboarding Steps</th>
                 <th className="border p-3 text-left">Time to Value</th>
@@ -225,7 +225,7 @@ export default async function OnboardingUXPage() {
                 </td>
                 <td className="border p-3">&lt;5 minutes</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Instructor</td>
                 <td className="border p-3">
                   Credential verification → Platform training → First course draft
@@ -239,7 +239,7 @@ export default async function OnboardingUXPage() {
                 </td>
                 <td className="border p-3">&lt;10 minutes</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Store Customer</td>
                 <td className="border p-3">Browse → Purchase → Download (no account required)</td>
                 <td className="border p-3">&lt;3 minutes</td>
@@ -283,7 +283,7 @@ export default async function OnboardingUXPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">3.2 Implementation Requirements</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Category</th>
                 <th className="border p-3 text-left">Requirements</th>
               </tr>
@@ -295,7 +295,7 @@ export default async function OnboardingUXPage() {
                   4.5:1 contrast ratio, resizable text, no color-only indicators
                 </td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Auditory</td>
                 <td className="border p-3">
                   Captions for video, transcripts for audio, visual alerts
@@ -307,7 +307,7 @@ export default async function OnboardingUXPage() {
                   Keyboard navigation, large click targets (44x44px), no time limits
                 </td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Cognitive</td>
                 <td className="border p-3">
                   Clear language, consistent navigation, error prevention
@@ -360,7 +360,7 @@ export default async function OnboardingUXPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">4.2 Component Standards</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Component</th>
                 <th className="border p-3 text-left">Standards</th>
               </tr>
@@ -372,7 +372,7 @@ export default async function OnboardingUXPage() {
                   Clear hierarchy (primary, secondary, ghost), loading states
                 </td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Forms</td>
                 <td className="border p-3">
                   Labels above inputs, inline validation, clear error messages
@@ -382,7 +382,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">Navigation</td>
                 <td className="border p-3">Consistent placement, breadcrumbs for deep pages</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Cards</td>
                 <td className="border p-3">Consistent padding, clear visual hierarchy</td>
               </tr>
@@ -411,7 +411,7 @@ export default async function OnboardingUXPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">5.1 Available Channels</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Channel</th>
                 <th className="border p-3 text-left">Availability</th>
                 <th className="border p-3 text-left">Response Time</th>
@@ -423,7 +423,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">24/7</td>
                 <td className="border p-3">Immediate</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Email Support</td>
                 <td className="border p-3">24/7 submission</td>
                 <td className="border p-3">&lt;24 hours</td>
@@ -433,7 +433,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">9am-6pm EST, Mon-Fri</td>
                 <td className="border p-3">&lt;5 minutes</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Phone Support</td>
                 <td className="border p-3">9am-5pm EST, Mon-Fri</td>
                 <td className="border p-3">&lt;2 minutes wait</td>
@@ -462,7 +462,7 @@ export default async function OnboardingUXPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">5.3 Service Level Agreements</h3>
           <table className="w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Priority</th>
                 <th className="border p-3 text-left">Description</th>
                 <th className="border p-3 text-left">Resolution Target</th>
@@ -474,7 +474,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">Platform down, security breach</td>
                 <td className="border p-3">4 hours</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">High</td>
                 <td className="border p-3">Feature broken, payment issues</td>
                 <td className="border p-3">24 hours</td>
@@ -484,7 +484,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">Non-blocking issues, questions</td>
                 <td className="border p-3">48 hours</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Low</td>
                 <td className="border p-3">Feature requests, minor issues</td>
                 <td className="border p-3">5 business days</td>
@@ -502,7 +502,7 @@ export default async function OnboardingUXPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">6.1 Email Communication</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Type</th>
                 <th className="border p-3 text-left">Purpose</th>
                 <th className="border p-3 text-left">Opt-Out</th>
@@ -516,7 +516,7 @@ export default async function OnboardingUXPage() {
                 </td>
                 <td className="border p-3">Cannot opt out</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Service</td>
                 <td className="border p-3">Course updates, deadline reminders, account changes</td>
                 <td className="border p-3">Limited opt-out</td>
@@ -581,7 +581,7 @@ export default async function OnboardingUXPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">7.3 Success Metrics</h3>
           <table className="w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Metric</th>
                 <th className="border p-3 text-left">Target</th>
                 <th className="border p-3 text-left">Measurement</th>
@@ -593,7 +593,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">&gt;50</td>
                 <td className="border p-3">Quarterly survey</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">CSAT (Support)</td>
                 <td className="border p-3">&gt;90%</td>
                 <td className="border p-3">Post-interaction survey</td>
@@ -603,7 +603,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">&gt;80%</td>
                 <td className="border p-3">Analytics tracking</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Time to First Value</td>
                 <td className="border p-3">&lt;5 minutes</td>
                 <td className="border p-3">Analytics tracking</td>
@@ -621,7 +621,7 @@ export default async function OnboardingUXPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">8. Roles & Responsibilities</h2>
           <table className="w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Role</th>
                 <th className="border p-3 text-left">Responsibilities</th>
               </tr>
@@ -631,7 +631,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">Director of Product</td>
                 <td className="border p-3">Overall UX strategy, standards ownership, roadmap</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">UX Designer</td>
                 <td className="border p-3">
                   Design system, user research, accessibility compliance
@@ -641,7 +641,7 @@ export default async function OnboardingUXPage() {
                 <td className="border p-3">Frontend Engineers</td>
                 <td className="border p-3">Implementation, accessibility testing, performance</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Support Manager</td>
                 <td className="border p-3">Support operations, SLA compliance, team training</td>
               </tr>
@@ -657,7 +657,7 @@ export default async function OnboardingUXPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">9. Versioning & Review</h2>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Version</th>
                 <th className="border p-3 text-left">Date</th>
                 <th className="border p-3 text-left">Changes</th>

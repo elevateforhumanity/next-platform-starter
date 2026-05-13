@@ -39,7 +39,7 @@ export default async function SignupPage() {
           and employers all use this page — select your role below when signing up.
         </p>
 
-        <div className="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="mt-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-black">Your account gives you access to</h2>
           <ul className="mt-3 list-disc pl-5 text-black space-y-2">
             <li>
@@ -60,7 +60,7 @@ export default async function SignupPage() {
           </ul>
         </div>
 
-        <div className="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="mt-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <SignupForm />
         </div>
 

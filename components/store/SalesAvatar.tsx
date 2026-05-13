@@ -234,7 +234,7 @@ export default function SalesAvatar({
     <div
       className={`fixed ${position === 'bottom-left' ? 'left-4' : 'right-4'} bottom-4 z-50 w-80 max-w-[calc(100vw-2rem)]`}
     >
-      <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         {/* Header */}
         <div className="bg-slate-900 text-white p-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -306,7 +306,7 @@ export default function SalesAvatar({
         </div>
 
         {/* Footer with navigation */}
-        <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200">
+        <div className="bg-slate-50 px-4 py-3 flex items-center justify-between border-t border-slate-200">
           <div className="flex gap-1">
             {messages.map((_, index) => (
               <div
@@ -316,7 +316,7 @@ export default function SalesAvatar({
                     ? 'bg-brand-orange-500 w-4'
                     : index < currentMessageIndex
                       ? 'bg-brand-green-500'
-                      : 'bg-gray-300'
+                      : 'bg-slate-300'
                 }`}
               />
             ))}

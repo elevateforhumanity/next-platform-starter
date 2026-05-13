@@ -96,7 +96,7 @@ export function NotificationBell() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-slate-600 hover:text-slate-900 hover:bg-gray-100 rounded-full transition-colors"
+        className="relative p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
         aria-label={t('notifications.title')}
         aria-expanded={isOpen}
         aria-haspopup="true"
@@ -110,9 +110,9 @@ export function NotificationBell() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-slate-200 z-50 overflow-hidden">
           {/* Header */}
-          <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+          <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
             <h3 className="font-semibold text-slate-900">{t('notifications.title')}</h3>
             {unreadCount > 0 && (
               <button
@@ -135,7 +135,7 @@ export function NotificationBell() {
               notifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className={`px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors ${
+                  className={`px-4 py-3 border-b border-slate-50 hover:bg-slate-50 transition-colors ${
                     !notification.read ? 'bg-brand-blue-50/50' : ''
                   }`}
                 >

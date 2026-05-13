@@ -250,12 +250,12 @@ export function ARTrainingModules() {
                         'Quality check and testing',
                         'Final assessment',
                       ].map((step, idx) => (
-                        <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded">
+                        <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 rounded">
                           <div
                             className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
                               idx === 0
                                 ? 'bg-brand-orange-600 text-white'
-                                : 'bg-gray-300 text-black'
+                                : 'bg-slate-300 text-black'
                             }`}
                           >
                             {idx + 1}
@@ -297,7 +297,7 @@ export function ARTrainingModules() {
                         <span>Completion</span>
                         <span className="font-semibold">{selectedModuleData.completionRate}%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-slate-200 rounded-full h-2">
                         <div
                           className="   h-2 rounded-full"
                           style={{ width: `${selectedModuleData.completionRate}%` }}

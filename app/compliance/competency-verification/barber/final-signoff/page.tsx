@@ -31,7 +31,7 @@ export default function FinalSignoffPage() {
       </div>
 
       {/* Print header */}
-      <div className="hidden print:block px-6 pt-6 pb-3 border-b-2 border-gray-900">
+      <div className="hidden print:block px-6 pt-6 pb-3 border-b-2 border-slate-900">
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-lg font-bold">Final Competency Sign-Off — Barber Apprenticeship</h1>
@@ -57,7 +57,7 @@ export default function FinalSignoffPage() {
 
       <div className="max-w-4xl mx-auto px-4 pb-8 print:px-6 print:pb-4">
         {/* Apprentice Information */}
-        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-gray-400">
+        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-slate-400">
           <h2 className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Apprentice Information</h2>
           <div className="grid grid-cols-2 gap-4 text-sm print:text-[10px] print:gap-2">
             <div>Apprentice Name: ________________________________</div>
@@ -70,7 +70,7 @@ export default function FinalSignoffPage() {
         </div>
 
         {/* Training Site Information */}
-        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-gray-400">
+        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-slate-400">
           <h2 className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Training Site Information</h2>
           <div className="grid grid-cols-2 gap-4 text-sm print:text-[10px] print:gap-2">
             <div>Barbershop Name: ________________________________</div>
@@ -83,7 +83,7 @@ export default function FinalSignoffPage() {
         </div>
 
         {/* Hour Completion Verification */}
-        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-gray-400 print:break-inside-avoid">
+        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-slate-400 print:break-inside-avoid">
           <h2 className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Hour Completion Verification</h2>
           <table className="w-full border-collapse text-sm print:text-[10px]">
             <thead>
@@ -124,7 +124,7 @@ export default function FinalSignoffPage() {
         </div>
 
         {/* Section Competency Summary */}
-        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-gray-400 print:break-inside-avoid">
+        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-slate-400 print:break-inside-avoid">
           <h2 className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Competency Section Verification</h2>
           <table className="w-full border-collapse text-sm print:text-[10px]">
             <thead>
@@ -157,7 +157,7 @@ export default function FinalSignoffPage() {
         </div>
 
         {/* State Board Readiness */}
-        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-gray-400 print:break-inside-avoid">
+        <div className="border-2 rounded-lg p-4 mb-6 print:p-3 print:mb-4 print:border-slate-400 print:break-inside-avoid">
           <h2 className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Indiana State Board Exam Readiness</h2>
           <div className="space-y-2 text-sm print:text-[10px]">
             <div className="flex gap-4">
@@ -192,7 +192,7 @@ export default function FinalSignoffPage() {
         </div>
 
         {/* Completion Determination */}
-        <div className="border-2 border-gray-900 rounded-lg p-4 mb-6 print:p-3 print:mb-4">
+        <div className="border-2 border-slate-900 rounded-lg p-4 mb-6 print:p-3 print:mb-4">
           <h2 className="font-bold text-lg mb-3 print:text-sm print:mb-2">Completion Determination</h2>
           <div className="grid grid-cols-3 gap-3 text-sm print:text-[10px] mb-4">
             <div className="border-2 rounded p-3 text-center print:p-2">
@@ -215,7 +215,7 @@ export default function FinalSignoffPage() {
         </div>
 
         {/* Tri-Party + Sponsor Signatures */}
-        <div className="border-t-2 border-gray-900 pt-6 print:pt-4">
+        <div className="border-t-2 border-slate-900 pt-6 print:pt-4">
           <h2 className="font-bold text-lg mb-2 print:text-sm print:mb-1">Tri-Party Verification & Sponsor Sign-Off</h2>
           <p className="text-xs text-slate-700 mb-4 print:mb-3">
             All four parties must sign to complete the apprenticeship record. This form is filed with RAPIDS documentation.
@@ -223,7 +223,7 @@ export default function FinalSignoffPage() {
 
           <div className="space-y-5 print:space-y-3">
             {/* Party 1: RTI Instructor */}
-            <div className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400">
+            <div className="border-2 rounded-lg p-4 print:p-3 print:border-slate-400">
               <h3 className="font-bold text-sm mb-1 print:text-[11px]">1. Credential Partner — RTI Instructor (Licensed Barber)</h3>
               <p className="text-xs text-slate-700 mb-3 print:text-[9px] print:mb-2">
                 I verify that the apprentice has completed all Related Technical Instruction requirements, demonstrated competency in all RTI-assessed areas (Sections 1–3, 5), and is prepared for the Indiana state board examination.
@@ -240,7 +240,7 @@ export default function FinalSignoffPage() {
             </div>
 
             {/* Party 2: Employer */}
-            <div className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400">
+            <div className="border-2 rounded-lg p-4 print:p-3 print:border-slate-400">
               <h3 className="font-bold text-sm mb-1 print:text-[11px]">2. Employer — Barbershop Supervisor (Licensed Barber)</h3>
               <p className="text-xs text-slate-700 mb-3 print:text-[9px] print:mb-2">
                 I verify that the apprentice has completed all required On-the-Job Training hours under my direct supervision at a licensed barbershop, demonstrated competency in all OJT-assessed areas (Sections 4–6), and is ready for independent practice.
@@ -259,7 +259,7 @@ export default function FinalSignoffPage() {
             </div>
 
             {/* Party 3: Program Holder */}
-            <div className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400">
+            <div className="border-2 rounded-lg p-4 print:p-3 print:border-slate-400">
               <h3 className="font-bold text-sm mb-1 print:text-[11px]">3. Program Holder — RTI Coordinator</h3>
               <p className="text-xs text-slate-700 mb-3 print:text-[9px] print:mb-2">
                 I verify that all competency rubric sections have been completed and scored, all evaluation checkpoints (30-day, midpoint, final) have been conducted, and all documentation is recorded in the institutional LMS.
@@ -276,7 +276,7 @@ export default function FinalSignoffPage() {
             </div>
 
             {/* Party 4: Sponsor */}
-            <div className="border-2 border-gray-900 rounded-lg p-4 print:p-3">
+            <div className="border-2 border-slate-900 rounded-lg p-4 print:p-3">
               <h3 className="font-bold text-sm mb-1 print:text-[11px]">4. Elevate for Humanity — Apprenticeship Sponsor</h3>
               <p className="text-xs text-slate-700 mb-3 print:text-[9px] print:mb-2">
                 As the registered apprenticeship sponsor (RAPIDS ID: 2025-IN-132301), I verify that all program requirements have been met, all tri-party verifications are complete, and the apprentice is approved for completion documentation and credential pursuit.
@@ -295,7 +295,7 @@ export default function FinalSignoffPage() {
         </div>
 
         {/* Credential Issuance */}
-        <div className="border-2 rounded-lg p-4 mt-6 print:p-3 print:mt-4 print:border-gray-400 print:break-inside-avoid">
+        <div className="border-2 rounded-lg p-4 mt-6 print:p-3 print:mt-4 print:border-slate-400 print:break-inside-avoid">
           <h2 className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Credential Issuance Record</h2>
           <div className="space-y-2 text-sm print:text-[10px]">
             <div className="grid grid-cols-2 gap-3">
@@ -320,10 +320,10 @@ export default function FinalSignoffPage() {
           <Link href="/compliance/competency-verification/barber" className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition">
             Barber Rubric Overview
           </Link>
-          <Link href="/compliance/competency-verification/barber/scoring-sheet" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/scoring-sheet" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Scoring Sheet
           </Link>
-          <Link href="/compliance/competency-verification/barber/monthly-ojt-evaluation" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/monthly-ojt-evaluation" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Monthly OJT Evaluation
           </Link>
         </div>

@@ -197,7 +197,7 @@ function SubscriptionsContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: "Store", href: "/store" }, { label: "Subscriptions" }]} />
       </div>
@@ -322,7 +322,7 @@ function SubscriptionsContent() {
                   {isCurrentPlan ? (
                     <button
                       disabled
-                      className="w-full py-3 px-4 bg-gray-100 text-slate-500 rounded-lg font-semibold cursor-not-allowed"
+                      className="w-full py-3 px-4 bg-slate-100 text-slate-500 rounded-lg font-semibold cursor-not-allowed"
                     >
                       Current Plan
                     </button>

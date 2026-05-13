@@ -130,7 +130,7 @@ export default async function InstructorOnboardingPage() {
   const progressPct = Math.round((completedCount / steps.length) * 100);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="bg-white border-b px-6 py-5">
         <Breadcrumbs
           items={[

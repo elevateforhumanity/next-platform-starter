@@ -428,19 +428,19 @@ export default function InstructorCredentialsPage() {
             </Link>
             <Link
               href="/accreditation"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Accreditation & Approvals
             </Link>
             <Link
               href="/workone-partner-packet"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               WorkOne Partner Packet
             </Link>
             <Link
               href="/pathways/training-model"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               How Training Works
             </Link>

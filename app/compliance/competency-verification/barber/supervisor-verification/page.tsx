@@ -44,7 +44,7 @@ export default function SupervisorVerificationPage() {
       </div>
 
       {/* Print header */}
-      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
+      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
         <p className="text-[9px] uppercase tracking-widest text-slate-700 mb-1">Elevate for Humanity Career & Technical Institute</p>
         <h1 className="text-lg font-bold">LICENSED BARBER SUPERVISOR VERIFICATION FORM</h1>
         <p className="text-[10px] text-slate-700">Barbering Apprenticeship Program | RAPIDS ID: 2025-IN-132301</p>
@@ -52,60 +52,60 @@ export default function SupervisorVerificationPage() {
 
       <div className="max-w-3xl mx-auto px-4 py-8 print:px-8 print:py-6 print:max-w-none">
         {/* Shop Information */}
-        <div className="border-2 rounded-lg p-5 mb-6 print:p-4 print:mb-5 print:border-gray-400">
+        <div className="border-2 rounded-lg p-5 mb-6 print:p-4 print:mb-5 print:border-slate-400">
           <h2 className="font-bold text-base mb-4 print:text-[12px] print:mb-3">Barbershop Information</h2>
           <div className="space-y-4 text-sm print:text-[10px] print:space-y-3">
-            <div>Barbershop Name: <span className="border-b border-gray-400 inline-block min-w-[300px]">&nbsp;</span></div>
-            <div>Shop Address: <span className="border-b border-gray-400 inline-block min-w-[300px]">&nbsp;</span></div>
+            <div>Barbershop Name: <span className="border-b border-slate-400 inline-block min-w-[300px]">&nbsp;</span></div>
+            <div>Shop Address: <span className="border-b border-slate-400 inline-block min-w-[300px]">&nbsp;</span></div>
             <div className="grid grid-cols-2 gap-4 print:gap-3">
-              <div>City: <span className="border-b border-gray-400 inline-block min-w-[120px]">&nbsp;</span></div>
-              <div>State: Indiana &nbsp;&nbsp; ZIP: <span className="border-b border-gray-400 inline-block min-w-[60px]">&nbsp;</span></div>
+              <div>City: <span className="border-b border-slate-400 inline-block min-w-[120px]">&nbsp;</span></div>
+              <div>State: Indiana &nbsp;&nbsp; ZIP: <span className="border-b border-slate-400 inline-block min-w-[60px]">&nbsp;</span></div>
             </div>
             <div className="grid grid-cols-2 gap-4 print:gap-3">
-              <div>Indiana Shop License #: <span className="border-b border-gray-400 inline-block min-w-[120px]">&nbsp;</span></div>
-              <div>License Expiration: <span className="border-b border-gray-400 inline-block min-w-[100px]">&nbsp;</span></div>
+              <div>Indiana Shop License #: <span className="border-b border-slate-400 inline-block min-w-[120px]">&nbsp;</span></div>
+              <div>License Expiration: <span className="border-b border-slate-400 inline-block min-w-[100px]">&nbsp;</span></div>
             </div>
             <div className="grid grid-cols-2 gap-4 print:gap-3">
-              <div>Shop Phone: <span className="border-b border-gray-400 inline-block min-w-[120px]">&nbsp;</span></div>
-              <div>Shop Owner Name: <span className="border-b border-gray-400 inline-block min-w-[120px]">&nbsp;</span></div>
+              <div>Shop Phone: <span className="border-b border-slate-400 inline-block min-w-[120px]">&nbsp;</span></div>
+              <div>Shop Owner Name: <span className="border-b border-slate-400 inline-block min-w-[120px]">&nbsp;</span></div>
             </div>
           </div>
         </div>
 
         {/* Supervisor Information */}
-        <div className="border-2 rounded-lg p-5 mb-6 print:p-4 print:mb-5 print:border-gray-400">
+        <div className="border-2 rounded-lg p-5 mb-6 print:p-4 print:mb-5 print:border-slate-400">
           <h2 className="font-bold text-base mb-4 print:text-[12px] print:mb-3">Supervising Barber Information</h2>
           <div className="space-y-4 text-sm print:text-[10px] print:space-y-3">
-            <div>Supervisor Full Name: <span className="border-b border-gray-400 inline-block min-w-[300px]">&nbsp;</span></div>
+            <div>Supervisor Full Name: <span className="border-b border-slate-400 inline-block min-w-[300px]">&nbsp;</span></div>
             <div className="grid grid-cols-2 gap-4 print:gap-3">
-              <div>Indiana Barber License #: <span className="border-b border-gray-400 inline-block min-w-[120px]">&nbsp;</span></div>
-              <div>License Expiration: <span className="border-b border-gray-400 inline-block min-w-[100px]">&nbsp;</span></div>
+              <div>Indiana Barber License #: <span className="border-b border-slate-400 inline-block min-w-[120px]">&nbsp;</span></div>
+              <div>License Expiration: <span className="border-b border-slate-400 inline-block min-w-[100px]">&nbsp;</span></div>
             </div>
             <div className="grid grid-cols-2 gap-4 print:gap-3">
-              <div>State of Licensure: <span className="border-b border-gray-400 inline-block min-w-[80px]">Indiana</span></div>
-              <div>Years Licensed: <span className="border-b border-gray-400 inline-block min-w-[60px]">&nbsp;</span></div>
+              <div>State of Licensure: <span className="border-b border-slate-400 inline-block min-w-[80px]">Indiana</span></div>
+              <div>Years Licensed: <span className="border-b border-slate-400 inline-block min-w-[60px]">&nbsp;</span></div>
             </div>
             <div className="grid grid-cols-2 gap-4 print:gap-3">
-              <div>Phone: <span className="border-b border-gray-400 inline-block min-w-[120px]">&nbsp;</span></div>
-              <div>Email: <span className="border-b border-gray-400 inline-block min-w-[160px]">&nbsp;</span></div>
+              <div>Phone: <span className="border-b border-slate-400 inline-block min-w-[120px]">&nbsp;</span></div>
+              <div>Email: <span className="border-b border-slate-400 inline-block min-w-[160px]">&nbsp;</span></div>
             </div>
           </div>
         </div>
 
         {/* Apprentice Assignment */}
-        <div className="border-2 rounded-lg p-5 mb-6 print:p-4 print:mb-5 print:border-gray-400">
+        <div className="border-2 rounded-lg p-5 mb-6 print:p-4 print:mb-5 print:border-slate-400">
           <h2 className="font-bold text-base mb-4 print:text-[12px] print:mb-3">Apprentice Assignment</h2>
           <div className="space-y-4 text-sm print:text-[10px] print:space-y-3">
-            <div>Apprentice Name: <span className="border-b border-gray-400 inline-block min-w-[300px]">&nbsp;</span></div>
+            <div>Apprentice Name: <span className="border-b border-slate-400 inline-block min-w-[300px]">&nbsp;</span></div>
             <div className="grid grid-cols-2 gap-4 print:gap-3">
-              <div>Assignment Start Date: <span className="border-b border-gray-400 inline-block min-w-[100px]">&nbsp;</span></div>
-              <div>Expected OJT Hours: <span className="border-b border-gray-400 inline-block min-w-[80px]">&nbsp;</span></div>
+              <div>Assignment Start Date: <span className="border-b border-slate-400 inline-block min-w-[100px]">&nbsp;</span></div>
+              <div>Expected OJT Hours: <span className="border-b border-slate-400 inline-block min-w-[80px]">&nbsp;</span></div>
             </div>
           </div>
         </div>
 
         {/* Shop Compliance Checklist */}
-        <div className="border-2 rounded-lg p-5 mb-6 print:p-4 print:mb-5 print:border-gray-400">
+        <div className="border-2 rounded-lg p-5 mb-6 print:p-4 print:mb-5 print:border-slate-400">
           <h2 className="font-bold text-base mb-4 print:text-[12px] print:mb-3">Training Site Compliance Checklist</h2>
           <p className="text-sm text-slate-700 mb-3 print:text-[10px] print:mb-2">
             The following must be verified before apprentice placement at this training site:
@@ -132,7 +132,7 @@ export default function SupervisorVerificationPage() {
         </div>
 
         {/* Confirmation Statement */}
-        <div className="border-2 border-gray-900 rounded-lg p-5 mb-6 print:p-4 print:mb-5">
+        <div className="border-2 border-slate-900 rounded-lg p-5 mb-6 print:p-4 print:mb-5">
           <h2 className="font-bold text-base mb-3 print:text-[12px] print:mb-2">Supervisor Confirmation</h2>
           <p className="text-sm text-slate-900 leading-relaxed print:text-[10px]">
             I confirm that I am a licensed barber in the State of Indiana and will directly supervise
@@ -150,10 +150,10 @@ export default function SupervisorVerificationPage() {
         </div>
 
         {/* Signatures */}
-        <div className="border-t-2 border-gray-900 pt-6 print:pt-4">
+        <div className="border-t-2 border-slate-900 pt-6 print:pt-4">
           <h2 className="font-bold text-base mb-4 print:text-[12px] print:mb-3">Signatures</h2>
           <div className="space-y-6 print:space-y-4">
-            <div className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400">
+            <div className="border-2 rounded-lg p-4 print:p-3 print:border-slate-400">
               <p className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Supervising Barber</p>
               <div className="grid grid-cols-2 gap-3 text-sm print:text-[10px] print:gap-2">
                 <div>Print Name: ________________________________</div>
@@ -163,7 +163,7 @@ export default function SupervisorVerificationPage() {
               </div>
             </div>
 
-            <div className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400">
+            <div className="border-2 rounded-lg p-4 print:p-3 print:border-slate-400">
               <p className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Shop Owner (if different from supervisor)</p>
               <div className="grid grid-cols-2 gap-3 text-sm print:text-[10px] print:gap-2">
                 <div>Print Name: ________________________________</div>
@@ -173,7 +173,7 @@ export default function SupervisorVerificationPage() {
               </div>
             </div>
 
-            <div className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400">
+            <div className="border-2 rounded-lg p-4 print:p-3 print:border-slate-400">
               <p className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Elevate for Humanity (Sponsor Verification)</p>
               <div className="grid grid-cols-2 gap-3 text-sm print:text-[10px] print:gap-2">
                 <div>Verified By: ________________________________</div>
@@ -200,10 +200,10 @@ export default function SupervisorVerificationPage() {
           <Link href="/compliance/competency-verification/barber" className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition">
             Barber Rubric Overview
           </Link>
-          <Link href="/compliance/competency-verification/barber/apprenticeship-agreement" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/apprenticeship-agreement" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             Apprenticeship Agreement
           </Link>
-          <Link href="/compliance/competency-verification/barber/ojt-hours-log" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link href="/compliance/competency-verification/barber/ojt-hours-log" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
             OJT Hours Log
           </Link>
         </div>

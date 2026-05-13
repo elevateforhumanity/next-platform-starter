@@ -65,9 +65,9 @@ export default function StudentProgressWidget() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-6 bg-slate-200 rounded w-1/3"></div>
           <div className="grid grid-cols-3 gap-4">
             <div className="h-20 bg-white rounded"></div>
             <div className="h-20 bg-white rounded"></div>
@@ -103,7 +103,7 @@ export default function StudentProgressWidget() {
   }
 
   return (
-    <section className="rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+    <section className="rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
       <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
         <TrendingUp className="w-6 h-6 text-brand-green-600" />
         My Progress
@@ -158,7 +158,7 @@ export default function StudentProgressWidget() {
             : 0;
 
           return (
-            <div key={enrollment.id} className="border-t border-gray-100 pt-4 mt-4">
+            <div key={enrollment.id} className="border-t border-slate-100 pt-4 mt-4">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-semibold text-slate-900">{program.name}</h3>
                 {program.required_hours && (
@@ -169,7 +169,7 @@ export default function StudentProgressWidget() {
               </div>
 
               {program.required_hours && (
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-2">
+                <div className="h-2 bg-slate-200 rounded-full overflow-hidden mb-2">
                   <div
                     className="h-full bg-brand-green-500 rounded-full transition-all"
                     style={{ width: `${progress}%` }}
@@ -187,7 +187,7 @@ export default function StudentProgressWidget() {
           );
         })}
 
-      <div className="mt-6 pt-4 border-t border-gray-100">
+      <div className="mt-6 pt-4 border-t border-slate-100">
         <Link
           href="/student-portal/hours"
           className="inline-flex items-center gap-2 text-brand-blue-600 font-medium hover:text-brand-blue-700"

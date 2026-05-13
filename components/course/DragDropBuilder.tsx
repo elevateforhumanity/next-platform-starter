@@ -173,7 +173,7 @@ function SortableItem({
         <div className="flex items-center gap-2">
           <button
             onClick={() => onEdit(module.id)}
-            className="p-2 text-black hover:text-brand-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
+            className="p-2 text-black hover:text-brand-blue-600 hover:bg-slate-50 rounded-lg transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path

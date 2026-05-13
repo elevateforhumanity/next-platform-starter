@@ -123,7 +123,7 @@ export default function WIOACompliancePage() {
       />
 
       {/* Breadcrumb Navigation */}
-      <nav className="bg-white border-b border-gray-200">
+      <nav className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-12 text-sm">
             <Link href="/" className="text-slate-700 hover:text-black flex items-center gap-1">
@@ -190,7 +190,7 @@ export default function WIOACompliancePage() {
 
           <div className="grid md:grid-cols-2 gap-8">
             {features.map((feature) => (
-              <div key={feature.title} className="bg-white rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-brand-green-500 hover:shadow-xl transition-all group">
+              <div key={feature.title} className="bg-white rounded-2xl overflow-hidden border-2 border-slate-200 hover:border-brand-green-500 hover:shadow-xl transition-all group">
                 <div className="relative h-48 overflow-hidden">
                   <Image
                     src={feature.image}
@@ -251,7 +251,7 @@ export default function WIOACompliancePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {pricing.map((plan) => (
-              <div key={plan.name} className={`bg-white rounded-2xl overflow-hidden border-2 ${plan.popular ? 'border-brand-green-500 shadow-xl' : 'border-gray-200'} relative`}>
+              <div key={plan.name} className={`bg-white rounded-2xl overflow-hidden border-2 ${plan.popular ? 'border-brand-green-500 shadow-xl' : 'border-slate-200'} relative`}>
                 {plan.popular && (
                   <div className="absolute top-0 left-0 right-0 bg-brand-green-600 text-white text-center py-2 text-sm font-bold">
                     Most Popular
@@ -277,7 +277,7 @@ export default function WIOACompliancePage() {
                     className={`block text-center py-3 rounded-lg font-bold transition ${
                       plan.popular
                         ? 'bg-brand-green-600 text-white hover:bg-brand-green-700'
-                        : 'bg-white text-black hover:bg-gray-200'
+                        : 'bg-white text-black hover:bg-slate-200'
                     }`}
                   >
                     {plan.cta}
@@ -304,7 +304,7 @@ export default function WIOACompliancePage() {
                     <Download className="w-5 h-5" />
                     Download Checklist
                   </button>
-                  <button className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition">
+                  <button className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-lg font-bold hover:bg-slate-200 transition">
                     <FileText className="w-5 h-5" />
                     Eligibility Guide
                   </button>

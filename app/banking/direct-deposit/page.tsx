@@ -202,7 +202,7 @@ export default function DirectDepositPage() {
                   <th className="px-6 py-4 text-left">Expected Time</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 <tr className="bg-brand-green-50">
                   <td className="px-6 py-4 font-medium">E-File</td>
                   <td className="px-6 py-4">Direct Deposit</td>

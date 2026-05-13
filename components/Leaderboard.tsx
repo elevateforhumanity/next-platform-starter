@@ -29,9 +29,9 @@ export function Leaderboard({ entries, timeframe = 'week' }: LeaderboardProps) {
 
   const getRankBadge = (rank: number) => {
     if (rank === 1) return 'bg-yellow-100 text-yellow-800 border-yellow-300';
-    if (rank === 2) return 'bg-gray-100 text-black border-gray-300';
+    if (rank === 2) return 'bg-slate-100 text-black border-slate-300';
     if (rank === 3) return 'bg-brand-orange-100 text-brand-orange-800 border-brand-orange-300';
-    return 'bg-gray-50 text-black border-gray-200';
+    return 'bg-slate-50 text-black border-slate-200';
   };
 
   return (
@@ -52,7 +52,7 @@ export function Leaderboard({ entries, timeframe = 'week' }: LeaderboardProps) {
               className={`flex items-center gap-4 p-4 rounded-lg border-2 ${
                 entry.isCurrentUser
                   ? 'border-brand-red-600 bg-brand-red-50'
-                  : 'border-gray-200 hover:bg-gray-50'
+                  : 'border-slate-200 hover:bg-slate-50'
               } transition`}
             >
               <div

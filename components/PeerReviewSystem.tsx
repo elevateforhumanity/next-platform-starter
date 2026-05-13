@@ -51,7 +51,7 @@ export default function PeerReviewSystem() {
   return (
     <div className="space-y-6">
       {/* Tabs */}
-      <div className="flex gap-4 border-b border-gray-200">
+      <div className="flex gap-4 border-b border-slate-200">
         <button
           onClick={() => setActiveTab('pending')}
           className={`px-4 py-2 font-medium transition-colors ${
@@ -113,7 +113,7 @@ export default function PeerReviewSystem() {
                     Start Review
                   </button>
                 ) : (
-                  <button className="px-4 py-2 bg-gray-100 text-black rounded-lg hover:bg-gray-200 transition-colors">
+                  <button className="px-4 py-2 bg-slate-100 text-black rounded-lg hover:bg-slate-200 transition-colors">
                     View Review
                   </button>
                 )}

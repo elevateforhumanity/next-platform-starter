@@ -14,7 +14,7 @@ export const metadata = {
 const STATUS_STYLES: Record<string, string> = {
   active: 'bg-green-100 text-green-800',
   upcoming: 'bg-blue-100 text-blue-800',
-  completed: 'bg-gray-100 text-slate-900',
+  completed: 'bg-slate-100 text-slate-900',
   archived: 'bg-yellow-100 text-yellow-800',
 };
 
@@ -48,9 +48,9 @@ export default async function OrgCohortsPage() {
           <p className="text-sm text-slate-700">No cohorts found for this organization.</p>
         </div>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="mt-6 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+          <table className="min-w-full divide-y divide-slate-200">
+            <thead className="bg-slate-50">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">
                   Name
@@ -70,13 +70,13 @@ export default async function OrgCohortsPage() {
                 <th className="px-4 py-3" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {cohorts.map((cohort) => (
-                <tr key={cohort.cohortId} className="hover:bg-gray-50">
+                <tr key={cohort.cohortId} className="hover:bg-slate-50">
                   <td className="px-4 py-3 text-sm font-medium text-slate-900">{cohort.name}</td>
                   <td className="px-4 py-3">
                     <span
-                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[cohort.status] ?? 'bg-gray-100 text-slate-900'}`}
+                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[cohort.status] ?? 'bg-slate-100 text-slate-900'}`}
                     >
                       {cohort.status}
                     </span>

@@ -173,7 +173,7 @@ export default function ScheduleMeetingPage() {
             </Link>
             <Link
               href="/programs"
-              className="w-full border border-gray-300 text-slate-900 px-6 py-3 rounded-lg font-semibold hover:bg-white transition"
+              className="w-full border border-slate-300 text-slate-900 px-6 py-3 rounded-lg font-semibold hover:bg-white transition"
             >
               Browse Programs
             </Link>
@@ -208,23 +208,23 @@ export default function ScheduleMeetingPage() {
           <div className="flex items-center">
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                step >= 1 ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
+                step >= 1 ? 'bg-brand-blue-600 text-white' : 'bg-slate-200 text-slate-700'
               }`}
             >
               1
             </div>
-            <div className={`w-20 h-1 ${step >= 2 ? 'bg-brand-blue-600' : 'bg-gray-200'}`} />
+            <div className={`w-20 h-1 ${step >= 2 ? 'bg-brand-blue-600' : 'bg-slate-200'}`} />
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                step >= 2 ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
+                step >= 2 ? 'bg-brand-blue-600 text-white' : 'bg-slate-200 text-slate-700'
               }`}
             >
               2
             </div>
-            <div className={`w-20 h-1 ${step >= 3 ? 'bg-brand-blue-600' : 'bg-gray-200'}`} />
+            <div className={`w-20 h-1 ${step >= 3 ? 'bg-brand-blue-600' : 'bg-slate-200'}`} />
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                step >= 3 ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
+                step >= 3 ? 'bg-brand-blue-600 text-white' : 'bg-slate-200 text-slate-700'
               }`}
             >
               3
@@ -247,7 +247,7 @@ export default function ScheduleMeetingPage() {
                   setStep(2);
                 }}
                 className={`p-8 bg-white rounded-2xl border-2 hover:border-brand-blue-500 hover:shadow-lg transition text-left ${
-                  meetingType === 'virtual' ? 'border-brand-blue-500 shadow-lg' : 'border-gray-200'
+                  meetingType === 'virtual' ? 'border-brand-blue-500 shadow-lg' : 'border-slate-200'
                 }`}
               >
                 <div className="w-14 h-14 bg-brand-blue-100 rounded-xl flex items-center justify-center mb-4">
@@ -268,7 +268,7 @@ export default function ScheduleMeetingPage() {
                   setStep(2);
                 }}
                 className={`p-8 bg-white rounded-2xl border-2 hover:border-brand-green-500 hover:shadow-lg transition text-left ${
-                  meetingType === 'phone' ? 'border-brand-green-500 shadow-lg' : 'border-gray-200'
+                  meetingType === 'phone' ? 'border-brand-green-500 shadow-lg' : 'border-slate-200'
                 }`}
               >
                 <div className="w-14 h-14 bg-brand-green-100 rounded-xl flex items-center justify-center mb-4">
@@ -362,7 +362,7 @@ export default function ScheduleMeetingPage() {
               <button
                 onClick={() => setStep(3)}
                 disabled={!selectedDate || !selectedTime}
-                className="px-8 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center"
+                className="px-8 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition disabled:bg-slate-300 disabled:cursor-not-allowed flex items-center"
               >
                 Continue
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -395,7 +395,7 @@ export default function ScheduleMeetingPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   />
                   <p className="mt-1 text-xs text-slate-700">Enter your full legal name.</p>
                 </div>
@@ -411,7 +411,7 @@ export default function ScheduleMeetingPage() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   />
                   <p className="mt-1 text-xs text-slate-700">Use your preferred contact email.</p>
                 </div>
@@ -427,7 +427,7 @@ export default function ScheduleMeetingPage() {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   />
                   <p className="mt-1 text-xs text-slate-700">Include your best callback number.</p>
                 </div>
@@ -442,7 +442,7 @@ export default function ScheduleMeetingPage() {
                     rows={3}
                     value={formData.notes}
                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   />
                   <p className="mt-1 text-xs text-slate-700">
                     Share goals, questions, or topics to cover during your meeting.
@@ -489,7 +489,7 @@ export default function ScheduleMeetingPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition disabled:bg-gray-400 flex items-center"
+                  className="px-8 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition disabled:bg-slate-400 flex items-center"
                 >
                   {isSubmitting ? (
                     <>

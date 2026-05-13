@@ -146,7 +146,7 @@ export default function ApprenticeshipStructurePage() {
       </div>
 
       {/* Print header — visible only on print */}
-      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
+      <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
         <h1 className="text-2xl font-bold text-slate-900">Apprenticeship & RTI Structure</h1>
         <p className="text-sm text-slate-600">Elevate for Humanity — Master Compliance Document</p>
         <p className="text-xs text-slate-500 mt-1">
@@ -157,7 +157,7 @@ export default function ApprenticeshipStructurePage() {
       {/* Document Purpose */}
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="border-l-4 border-brand-blue-600 pl-6 mb-8 print:border-gray-900">
+          <div className="border-l-4 border-brand-blue-600 pl-6 mb-8 print:border-slate-900">
             <h2 className="text-lg font-bold text-slate-900 mb-2">Document Purpose</h2>
             <p className="text-slate-700 text-sm leading-relaxed">
               This document defines the institutional structure for apprenticeship and workforce
@@ -256,7 +256,7 @@ export default function ApprenticeshipStructurePage() {
               return (
                 <div
                   key={item.level}
-                  className="flex gap-4 items-start bg-white rounded-lg p-4 border print:border-gray-300"
+                  className="flex gap-4 items-start bg-white rounded-lg p-4 border print:border-slate-300"
                 >
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-brand-blue-600 text-white flex items-center justify-center text-sm font-bold print:bg-white">
                     {item.level}
@@ -365,7 +365,7 @@ export default function ApprenticeshipStructurePage() {
           </p>
 
           <div className="space-y-4">
-            <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-5 print:bg-white print:border-gray-300">
+            <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-5 print:bg-white print:border-slate-300">
               <div className="flex items-center gap-2 mb-2">
                 <GraduationCap className="w-5 h-5 text-brand-blue-600 print:text-slate-700" />
                 <h3 className="font-bold text-slate-900">Industry Credentials</h3>
@@ -384,7 +384,7 @@ export default function ApprenticeshipStructurePage() {
               </p>
             </div>
 
-            <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-5 print:bg-white print:border-gray-300">
+            <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-5 print:bg-white print:border-slate-300">
               <div className="flex items-center gap-2 mb-2">
                 <FileCheck className="w-5 h-5 text-brand-green-600 print:text-slate-700" />
                 <h3 className="font-bold text-slate-900">Completion Certificates</h3>
@@ -402,7 +402,7 @@ export default function ApprenticeshipStructurePage() {
               </p>
             </div>
 
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 print:bg-white print:border-gray-300">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 print:bg-white print:border-slate-300">
               <div className="flex items-center gap-2 mb-2">
                 <Shield className="w-5 h-5 text-amber-600 print:text-slate-700" />
                 <h3 className="font-bold text-slate-900">Apprenticeship Credentials</h3>
@@ -683,19 +683,19 @@ export default function ApprenticeshipStructurePage() {
             </Link>
             <Link
               href="/instructional-framework"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructional Framework
             </Link>
             <Link
               href="/instructor-credentials"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructor Credentials
             </Link>
             <Link
               href="/compliance/workforce-partnership-packet"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Workforce Partnership Packet
             </Link>

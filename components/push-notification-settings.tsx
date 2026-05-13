@@ -79,7 +79,7 @@ export function PushNotificationSettings() {
 
   if (!isSupported) {
     return (
-      <div className="rounded-lg border border-gray-200 p-6">
+      <div className="rounded-lg border border-slate-200 p-6">
         <div className="flex items-start gap-3">
           <svg
             className="w-6 h-6 text-slate-400 flex-shrink-0 mt-0.5"
@@ -107,7 +107,7 @@ export function PushNotificationSettings() {
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 p-6">
+    <div className="rounded-lg border border-slate-200 p-6">
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-3">
           <svg
@@ -140,7 +140,7 @@ export function PushNotificationSettings() {
                     ? 'bg-brand-green-100 text-brand-green-800'
                     : permission === 'denied'
                       ? 'bg-brand-red-100 text-brand-red-800'
-                      : 'bg-gray-100 text-black'
+                      : 'bg-slate-100 text-black'
                 }`}
               >
                 {permission === 'granted'
@@ -187,7 +187,7 @@ export function PushNotificationSettings() {
             <button
               onClick={handleTestNotification}
               disabled={testLoading}
-              className="px-4 py-2 bg-gray-600 text-white rounded-lg font-medium text-sm hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-slate-600 text-white rounded-lg font-medium text-sm hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {testLoading ? 'Sending...' : 'Send Test'}
             </button>

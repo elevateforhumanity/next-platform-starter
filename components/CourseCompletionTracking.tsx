@@ -79,7 +79,7 @@ export function CourseCompletionTracking() {
             <h2 className="text-2xl font-bold">Overall Progress</h2>
             <span className="text-3xl font-bold text-brand-orange-600">{overallProgress}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-4">
+          <div className="w-full bg-slate-200 rounded-full h-4">
             <div
               className="   h-4 rounded-full transition-all"
               style={{ width: `${overallProgress}%` }}
@@ -101,7 +101,7 @@ export function CourseCompletionTracking() {
                       ? 'bg-brand-green-500 text-white'
                       : milestone.progress > 0
                         ? 'bg-brand-blue-500 text-white'
-                        : 'bg-gray-300 text-black'
+                        : 'bg-slate-300 text-black'
                   }`}
                 >
                   {milestone.completed ? '•' : index + 1}
@@ -119,7 +119,7 @@ export function CourseCompletionTracking() {
                     </span>
                   </div>
 
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
+                  <div className="w-full bg-slate-200 rounded-full h-2 mb-3">
                     <div
                       className="   h-2 rounded-full"
                       style={{ width: `${milestone.progress}%` }}

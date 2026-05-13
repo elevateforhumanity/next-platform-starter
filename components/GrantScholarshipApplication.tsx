@@ -77,7 +77,7 @@ export default function GrantScholarshipApplication() {
                     className={`inline-block mt-2 px-2 py-2 rounded text-xs ${
                       grant.status === 'open'
                         ? 'bg-brand-green-100 text-brand-green-700'
-                        : 'bg-gray-100 text-black'
+                        : 'bg-slate-100 text-black'
                     }`}
                   >
                     {grant.status}

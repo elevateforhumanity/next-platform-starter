@@ -81,7 +81,7 @@ export default function AiTutorPage() {
             {FEATURES.map((f) => {
               const Icon = f.icon;
               return (
-                <div key={f.title} className="bg-white border border-gray-200 rounded-xl p-6">
+                <div key={f.title} className="bg-white border border-slate-200 rounded-xl p-6">
                   <Icon className="w-8 h-8 text-brand-blue-600 mb-4" />
                   <h3 className="text-lg font-bold text-slate-900 mb-2">{f.title}</h3>
                   <p className="text-slate-600 text-sm">{f.desc}</p>

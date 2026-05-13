@@ -84,7 +84,7 @@ export function MobileNavWrapper({ open, onClose, children }: MobileNavProps) {
         <div className="flex items-center justify-between p-4 border-b">
           <div className="font-semibold">Menu</div>
           <button
-            className="rounded-lg px-3 py-2 border hover:bg-gray-50 transition-colors"
+            className="rounded-lg px-3 py-2 border hover:bg-slate-50 transition-colors"
             onClick={onClose}
             aria-label="Close menu"
           >

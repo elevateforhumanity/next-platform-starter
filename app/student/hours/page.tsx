@@ -74,7 +74,7 @@ export default async function StudentHoursPage() {
     });
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen">
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <nav className="flex items-center text-sm text-slate-600">
@@ -116,7 +116,7 @@ export default async function StudentHoursPage() {
                 {totalHours} / {requiredHours} hours
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-4">
+            <div className="w-full bg-slate-200 rounded-full h-4">
               <div
                 className="bg-blue-600 h-4 rounded-full transition-all duration-500"
                 style={{ width: `${Math.min((totalHours / requiredHours) * 100, 100)}%` }}
@@ -160,7 +160,7 @@ export default async function StudentHoursPage() {
           </div>
 
           {entries.length > 0 ? (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-slate-200">
               {entries.map((entry) => {
                 const hours =
                   entry.status === 'approved'
@@ -169,7 +169,7 @@ export default async function StudentHoursPage() {
                 return (
                   <div
                     key={entry.id}
-                    className="p-4 flex items-center justify-between hover:bg-gray-50"
+                    className="p-4 flex items-center justify-between hover:bg-slate-50"
                   >
                     <div className="flex items-center">
                       <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">

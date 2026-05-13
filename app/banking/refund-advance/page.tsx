@@ -97,13 +97,13 @@ export default function RefundAdvancePage() {
           </h2>
 
           <div className="grid md:grid-cols-4 gap-6">
-            <div className="bg-white rounded-xl p-6 text-center border-2 border-gray-200 hover:border-brand-blue-400 transition">
+            <div className="bg-white rounded-xl p-6 text-center border-2 border-slate-200 hover:border-brand-blue-400 transition">
               <p className="text-4xl font-bold text-brand-blue-600 mb-2">$500</p>
               <p className="text-slate-700 mb-4">Minimum refund: $1,000</p>
               <p className="text-sm text-slate-700">Quick cash for immediate needs</p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 text-center border-2 border-gray-200 hover:border-brand-blue-400 transition">
+            <div className="bg-white rounded-xl p-6 text-center border-2 border-slate-200 hover:border-brand-blue-400 transition">
               <p className="text-4xl font-bold text-brand-blue-600 mb-2">$1,500</p>
               <p className="text-slate-700 mb-4">Minimum refund: $3,000</p>
               <p className="text-sm text-slate-700">Cover bills and expenses</p>
@@ -118,7 +118,7 @@ export default function RefundAdvancePage() {
               <p className="text-sm text-white">Best value for most filers</p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 text-center border-2 border-gray-200 hover:border-brand-blue-400 transition">
+            <div className="bg-white rounded-xl p-6 text-center border-2 border-slate-200 hover:border-brand-blue-400 transition">
               <p className="text-4xl font-bold text-brand-blue-600 mb-2">$6,000</p>
               <p className="text-slate-700 mb-4">Minimum refund: $10,000</p>
               <p className="text-sm text-slate-700">Maximum advance available</p>

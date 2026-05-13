@@ -168,7 +168,7 @@ export default async function CompliancePage() {
               </div>
 
               {/* Progress Bar */}
-              <div className="w-full bg-gray-200 rounded-full h-4">
+              <div className="w-full bg-slate-200 rounded-full h-4">
                 <div
                   className={`h-4 rounded-full transition-all ${
                     overallScore >= 90

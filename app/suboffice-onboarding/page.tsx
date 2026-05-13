@@ -257,7 +257,7 @@ export default function SubofficeOnboardingPage() {
           </h2>
 
           <div className="space-y-6">
-            <div className="bg-white border-2 border-gray-300 rounded-lg p-6">
+            <div className="bg-white border-2 border-slate-300 rounded-lg p-6">
               <label className="flex items-start cursor-pointer">
                 <input type="checkbox" className="mt-1 mr-4 w-5 h-5" required />
                 <span className="text-black">
@@ -267,7 +267,7 @@ export default function SubofficeOnboardingPage() {
               </label>
             </div>
 
-            <div className="bg-white border-2 border-gray-300 rounded-lg p-6">
+            <div className="bg-white border-2 border-slate-300 rounded-lg p-6">
               <label className="flex items-start cursor-pointer">
                 <input type="checkbox" className="mt-1 mr-4 w-5 h-5" required />
                 <span className="text-black">
@@ -277,7 +277,7 @@ export default function SubofficeOnboardingPage() {
               </label>
             </div>
 
-            <div className="bg-white border-2 border-gray-300 rounded-lg p-6">
+            <div className="bg-white border-2 border-slate-300 rounded-lg p-6">
               <label className="flex items-start cursor-pointer">
                 <input type="checkbox" className="mt-1 mr-4 w-5 h-5" required />
                 <span className="text-black">
@@ -287,7 +287,7 @@ export default function SubofficeOnboardingPage() {
               </label>
             </div>
 
-            <div className="bg-white border-2 border-gray-300 rounded-lg p-6">
+            <div className="bg-white border-2 border-slate-300 rounded-lg p-6">
               <label className="flex items-start cursor-pointer">
                 <input type="checkbox" className="mt-1 mr-4 w-5 h-5" required />
                 <span className="text-black">
@@ -297,7 +297,7 @@ export default function SubofficeOnboardingPage() {
               </label>
             </div>
 
-            <div className="bg-white border-2 border-gray-300 rounded-lg p-6">
+            <div className="bg-white border-2 border-slate-300 rounded-lg p-6">
               <label className="flex items-start cursor-pointer">
                 <input type="checkbox" className="mt-1 mr-4 w-5 h-5" required />
                 <span className="text-black">

@@ -67,7 +67,7 @@ export default function ProgramHowItWorks({ programName, isApprenticeship }: Pro
       </ol>
 
       {isApprenticeship ? (
-        <div className="mt-6 rounded-xl bg-gray-50 p-5">
+        <div className="mt-6 rounded-xl bg-slate-50 p-5">
           <h3 className="text-lg font-semibold">Earn While You Learn (Apprenticeship Track)</h3>
           <p className="mt-2 text-sm text-black">
             This is job-based training. You learn by working under supervision, logging hours, and

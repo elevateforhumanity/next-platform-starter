@@ -45,7 +45,7 @@ export default async function CareerServicesContactPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             {/* Phone */}
-            <div className="bg-gray-50 rounded-xl p-8 text-center">
+            <div className="bg-slate-50 rounded-xl p-8 text-center">
               <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Phone className="w-8 h-8 text-brand-blue-600" />
               </div>
@@ -61,7 +61,7 @@ export default async function CareerServicesContactPage() {
             </div>
 
             {/* Email */}
-            <div className="bg-gray-50 rounded-xl p-8 text-center">
+            <div className="bg-slate-50 rounded-xl p-8 text-center">
               <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail className="w-8 h-8 text-brand-green-600" />
               </div>
@@ -77,7 +77,7 @@ export default async function CareerServicesContactPage() {
             </div>
 
             {/* Schedule */}
-            <div className="bg-gray-50 rounded-xl p-8 text-center">
+            <div className="bg-slate-50 rounded-xl p-8 text-center">
               <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Calendar className="w-8 h-8 text-brand-blue-600" />
               </div>
@@ -96,7 +96,7 @@ export default async function CareerServicesContactPage() {
       </section>
 
       {/* Office Location */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Visit Our Office</h2>
 
@@ -141,7 +141,7 @@ export default async function CareerServicesContactPage() {
                 </div>
               </div>
 
-              <div className="md:w-1/2 bg-gray-200 min-h-[300px] flex items-center justify-center">
+              <div className="md:w-1/2 bg-slate-200 min-h-[300px] flex items-center justify-center">
                 <div className="text-center p-8">
                   <MapPin className="w-12 h-12 text-slate-400 mx-auto mb-4" />
                   <p className="text-slate-600">
@@ -171,7 +171,7 @@ export default async function CareerServicesContactPage() {
           <div className="grid md:grid-cols-2 gap-4">
             <Link
               href="/career-services/resume-building"
-              className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition flex items-center"
+              className="bg-slate-50 rounded-lg p-6 hover:bg-slate-100 transition flex items-center"
             >
               <div className="w-12 h-12 bg-brand-green-100 rounded-full flex items-center justify-center mr-4">
                 <span className="text-2xl">📄</span>
@@ -185,7 +185,7 @@ export default async function CareerServicesContactPage() {
 
             <Link
               href="/career-services/interview-prep"
-              className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition flex items-center"
+              className="bg-slate-50 rounded-lg p-6 hover:bg-slate-100 transition flex items-center"
             >
               <div className="w-12 h-12 bg-brand-blue-100 rounded-full flex items-center justify-center mr-4">
                 <span className="text-2xl">🎯</span>
@@ -199,7 +199,7 @@ export default async function CareerServicesContactPage() {
 
             <Link
               href="/career-services/career-counseling"
-              className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition flex items-center"
+              className="bg-slate-50 rounded-lg p-6 hover:bg-slate-100 transition flex items-center"
             >
               <div className="w-12 h-12 bg-brand-blue-100 rounded-full flex items-center justify-center mr-4">
                 <span className="text-2xl">🧭</span>
@@ -213,7 +213,7 @@ export default async function CareerServicesContactPage() {
 
             <Link
               href="/career-services/job-placement"
-              className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition flex items-center"
+              className="bg-slate-50 rounded-lg p-6 hover:bg-slate-100 transition flex items-center"
             >
               <div className="w-12 h-12 bg-brand-orange-100 rounded-full flex items-center justify-center mr-4">
                 <span className="text-2xl">💼</span>
@@ -229,7 +229,7 @@ export default async function CareerServicesContactPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
             Frequently Asked Questions
@@ -281,7 +281,7 @@ export default async function CareerServicesContactPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/booking"
-              className="bg-white hover:bg-gray-100 text-brand-blue-900 px-8 py-4 rounded-lg text-lg font-bold transition-all inline-flex items-center justify-center"
+              className="bg-white hover:bg-slate-100 text-brand-blue-900 px-8 py-4 rounded-lg text-lg font-bold transition-all inline-flex items-center justify-center"
             >
               <Calendar className="mr-2 w-5 h-5" />
               Schedule Appointment

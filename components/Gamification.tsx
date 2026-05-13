@@ -39,7 +39,7 @@ export function Gamification({ points, level, achievements, streak }: Gamificati
               <div className="text-sm text-black">{nextLevelPoints - points} to next level</div>
             </div>
           </div>
-          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
             <div
               className="h-full    transition-all"
               style={{ width: `${progressToNextLevel}%` }}
@@ -78,12 +78,12 @@ export function Gamification({ points, level, achievements, streak }: Gamificati
                   className={`p-4 border-2 rounded-lg text-center ${
                     achievement.earned
                       ? 'border-brand-red-600 bg-brand-red-50'
-                      : 'border-gray-200 bg-gray-50 opacity-50'
+                      : 'border-slate-200 bg-slate-50 opacity-50'
                   }`}
                 >
                   <div className="flex justify-center mb-2">
                     <div
-                      className={`p-3 rounded-full ${achievement.earned ? 'bg-brand-orange-600' : 'bg-gray-400'}`}
+                      className={`p-3 rounded-full ${achievement.earned ? 'bg-brand-orange-600' : 'bg-slate-400'}`}
                     >
                       <Icon className="text-white" size={24} />
                     </div>

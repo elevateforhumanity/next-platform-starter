@@ -324,7 +324,7 @@ export default async function CompanyProfilePage() {
                 </Link>
                 <Link
                   href="/employer/compliance"
-                  className="block w-full px-4 py-3 border border-gray-300 text-slate-900 text-center rounded-lg hover:bg-white transition"
+                  className="block w-full px-4 py-3 border border-slate-300 text-slate-900 text-center rounded-lg hover:bg-white transition"
                 >
                   View WOTC Status
                 </Link>

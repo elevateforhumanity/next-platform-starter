@@ -212,7 +212,7 @@ export default function EnrollPage() {
   if (loading) {
     return (
       <div
-        className="min-h-screen bg-gray-50 flex items-center justify-center"
+        className="min-h-screen bg-slate-50 flex items-center justify-center"
         role="status"
         aria-live="polite"
       >
@@ -230,7 +230,7 @@ export default function EnrollPage() {
 
   if (!program) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Program Not Found</h2>
@@ -241,7 +241,7 @@ export default function EnrollPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
@@ -336,7 +336,7 @@ export default function EnrollPage() {
                         if (e.target.value) checkEligibility();
                       }}
                       placeholder="Enter your license key"
-                      className="block w-full pl-9 sm:pl-10 pr-3 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="block w-full pl-9 sm:pl-10 pr-3 py-2 sm:py-3 text-sm sm:text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
                   <p className="mt-2 text-xs sm:text-sm text-slate-500">
@@ -345,7 +345,7 @@ export default function EnrollPage() {
                 </div>
               )}
 
-              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
+              <div className="bg-slate-50 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
                 <h3 className="font-semibold text-slate-900 mb-3 sm:mb-4 text-base sm:text-lg">
                   What You'll Get:
                 </h3>
@@ -399,7 +399,7 @@ export default function EnrollPage() {
                 </button>
                 <button
                   onClick={() => router.back()}
-                  className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 text-slate-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base border border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-colors"
                 >
                   Cancel
                 </button>

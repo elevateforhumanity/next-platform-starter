@@ -163,7 +163,7 @@ export default async function CreatorProductsPage() {
                     <div className="flex gap-2">
                       <Link
                         href={`/creator/products/${product.id}/edit`}
-                        className="flex-1 text-center border border-gray-300 text-black py-2 rounded hover:bg-white transition text-sm"
+                        className="flex-1 text-center border border-slate-300 text-black py-2 rounded hover:bg-white transition text-sm"
                       >
                         Edit
                       </Link>

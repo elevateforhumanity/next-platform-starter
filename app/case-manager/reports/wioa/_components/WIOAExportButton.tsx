@@ -37,7 +37,7 @@ export default function WIOAExportButton({ caseManagerId }: { caseManagerId: str
     <button
       onClick={handleExport}
       disabled={loading}
-      className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-gray-50 disabled:opacity-50"
+      className="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 disabled:opacity-50"
     >
       <Download className="w-4 h-4" />
       {loading ? 'Exporting…' : 'Export CSV'}

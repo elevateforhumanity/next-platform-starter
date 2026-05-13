@@ -33,7 +33,7 @@ export default function LicensesPage() {
             Operate your organization on enterprise platforms built and managed by Elevate for
             Humanity.
           </p>
-          <p className="text-sm text-slate-600 border-l-4 border-gray-300 pl-4 text-left max-w-2xl mx-auto">
+          <p className="text-sm text-slate-600 border-l-4 border-slate-300 pl-4 text-left max-w-2xl mx-auto">
             All products are licensed access to platforms operated by Elevate for Humanity.
             Ownership of software, infrastructure, and intellectual property is not transferred.
           </p>
@@ -41,7 +41,7 @@ export default function LicensesPage() {
       </section>
 
       {/* Primary License - Managed Enterprise LMS */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-16 px-4 bg-slate-50">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
             <div className="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-4">
@@ -87,7 +87,7 @@ export default function LicensesPage() {
             </ul>
 
             <h3 className="text-lg font-bold text-slate-900 mb-4">Pricing</h3>
-            <div className="bg-gray-50 rounded-lg p-6 mb-8">
+            <div className="bg-slate-50 rounded-lg p-6 mb-8">
               <div className="space-y-2 text-slate-700">
                 <p>
                   <span className="font-semibold">One-time setup:</span> $7,500–$15,000
@@ -119,8 +119,8 @@ export default function LicensesPage() {
       {/* Secondary License - Restricted Source-Use */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 rounded-2xl shadow-lg p-8 md:p-12 text-white">
-            <div className="inline-block bg-gray-700 text-slate-300 text-xs font-bold px-3 py-1 rounded-full mb-4">
+          <div className="bg-slate-900 rounded-2xl shadow-lg p-8 md:p-12 text-white">
+            <div className="inline-block bg-slate-700 text-slate-300 text-xs font-bold px-3 py-1 rounded-full mb-4">
               ENTERPRISE ONLY
             </div>
 
@@ -150,7 +150,7 @@ export default function LicensesPage() {
 
             <Link
               href="/licenses/enterprise-review"
-              className="inline-block bg-white text-slate-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
+              className="inline-block bg-white text-slate-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-slate-100 transition-colors"
             >
               Request Enterprise Review
             </Link>
@@ -159,7 +159,7 @@ export default function LicensesPage() {
       </section>
 
       {/* Clarifier */}
-      <section className="py-12 px-4 bg-gray-100">
+      <section className="py-12 px-4 bg-slate-100">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-lg font-bold text-slate-900">
             Managed licenses provide operational access.
@@ -170,7 +170,7 @@ export default function LicensesPage() {
       </section>
 
       {/* Footer */}
-      <section className="py-8 px-4 bg-gray-900 text-center">
+      <section className="py-8 px-4 bg-slate-900 text-center">
         <p className="text-slate-400 text-sm">Powered by Elevate for Humanity</p>
       </section>
     </div>

@@ -114,7 +114,7 @@ function PaymentForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Order Summary */}
-      <div className="bg-gray-50 rounded-lg p-6">
+      <div className="bg-slate-50 rounded-lg p-6">
         <h3 className="font-semibold text-black mb-4">Order Summary</h3>
         <div className="space-y-2">
           <div className="flex justify-between">

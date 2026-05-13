@@ -49,7 +49,7 @@ export default async function StaffPortalUsersPage() {
     }
 
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-slate-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-black">User Management</h1>
@@ -57,13 +57,13 @@ export default async function StaffPortalUsersPage() {
           </div>
 
           <div className="bg-white shadow-md rounded-lg overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200">
+            <div className="px-6 py-4 border-b border-slate-200">
               <h2 className="text-lg font-semibold text-black">All Users ({users?.length || 0})</h2>
             </div>
 
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-slate-200">
+                <thead className="bg-slate-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                       Email
@@ -79,10 +79,10 @@ export default async function StaffPortalUsersPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-slate-200">
                   {users && users.length > 0 ? (
                     users.map((user) => (
-                      <tr key={user.id} className="hover:bg-gray-50">
+                      <tr key={user.id} className="hover:bg-slate-50">
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-black">
                           {user.email || 'N/A'}
                         </td>
@@ -95,7 +95,7 @@ export default async function StaffPortalUsersPage() {
                                   ? 'bg-blue-100 text-blue-800'
                                   : user.role === 'instructor'
                                     ? 'bg-green-100 text-green-800'
-                                    : 'bg-gray-100 text-black'
+                                    : 'bg-slate-100 text-black'
                             }`}
                           >
                             {user.role || 'user'}

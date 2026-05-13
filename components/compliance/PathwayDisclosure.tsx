@@ -46,7 +46,7 @@ export default function PathwayDisclosure({
 
   // Full variant
   return (
-    <div className={`bg-gray-50 border border-gray-200 rounded-xl p-6 ${className}`}>
+    <div className={`bg-slate-50 border border-slate-200 rounded-xl p-6 ${className}`}>
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
           <Shield className="w-5 h-5 text-brand-blue-600" />

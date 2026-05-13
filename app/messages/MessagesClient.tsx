@@ -158,7 +158,7 @@ export default function MessagesClient({
                         selectedConversation === conv.id ? 'bg-brand-blue-50' : ''
                       }`}
                     >
-                      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0">
                         {other.avatar_url ? (
                           <Image sizes="100vw"
                             src={other.avatar_url}
@@ -206,7 +206,7 @@ export default function MessagesClient({
                     const other = conv ? getOtherParticipant(conv) : { full_name: 'Unknown' };
                     return (
                       <>
-                        <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center">
                           {other.avatar_url ? (
                             <Image sizes="100vw"
                               src={other.avatar_url}

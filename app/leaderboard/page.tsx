@@ -34,7 +34,7 @@ export default async function LeaderboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs items={[{ label: 'Leaderboard' }]} />
@@ -59,7 +59,7 @@ export default async function LeaderboardPage() {
             >
               <div
                 className={`w-20 h-20 rounded-full mx-auto mb-2 flex items-center justify-center ${
-                  i === 1 ? 'bg-yellow-100' : i === 0 ? 'bg-gray-100' : 'bg-brand-orange-100'
+                  i === 1 ? 'bg-yellow-100' : i === 0 ? 'bg-slate-100' : 'bg-brand-orange-100'
                 }`}
               >
                 <Medal
@@ -70,7 +70,7 @@ export default async function LeaderboardPage() {
               <p className="text-2xl font-bold text-slate-900">{(learner?.points ?? 0).toLocaleString()}</p>
               <p className="text-slate-500 text-sm">points</p>
               <div
-                className={`mt-2 ${i === 1 ? 'h-32 bg-yellow-500' : i === 0 ? 'h-24 bg-gray-400' : 'h-20 bg-brand-orange-400'} rounded-t-lg w-24`}
+                className={`mt-2 ${i === 1 ? 'h-32 bg-yellow-500' : i === 0 ? 'h-24 bg-slate-400' : 'h-20 bg-brand-orange-400'} rounded-t-lg w-24`}
               ></div>
             </div>
           ))}
@@ -83,16 +83,16 @@ export default async function LeaderboardPage() {
           </div>
           <div className="divide-y">
             {topLearners.map((learner, idx) => (
-              <div key={learner?.rank ?? idx} className="p-4 flex items-center gap-4 hover:bg-gray-50">
+              <div key={learner?.rank ?? idx} className="p-4 flex items-center gap-4 hover:bg-slate-50">
                 <span
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
                     learner?.rank === 1
                       ? 'bg-yellow-100 text-yellow-700'
                       : learner?.rank === 2
-                        ? 'bg-gray-100 text-slate-700'
+                        ? 'bg-slate-100 text-slate-700'
                         : learner?.rank === 3
                           ? 'bg-brand-orange-100 text-brand-orange-700'
-                          : 'bg-gray-50 text-slate-600'
+                          : 'bg-slate-50 text-slate-600'
                   }`}
                 >
                   {learner?.rank ?? idx + 1}

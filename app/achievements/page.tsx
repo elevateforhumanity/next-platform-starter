@@ -164,7 +164,7 @@ export default async function AchievementsPage() {
       </div>
 
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      <header className="bg-white border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-xl font-bold text-slate-900">
@@ -191,7 +191,7 @@ export default async function AchievementsPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                 <Trophy className="w-6 h-6 text-yellow-600" />
@@ -205,7 +205,7 @@ export default async function AchievementsPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                 <Star className="w-6 h-6 text-brand-blue-600" />
@@ -217,7 +217,7 @@ export default async function AchievementsPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-brand-green-100 rounded-lg flex items-center justify-center">
                 <Target className="w-6 h-6 text-brand-green-600" />
@@ -247,7 +247,7 @@ export default async function AchievementsPage() {
                 return (
                   <div
                     key={item.id}
-                    className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition"
+                    className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition"
                   >
                     <div className="flex items-start gap-4">
                       <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center flex-shrink-0">
@@ -289,13 +289,13 @@ export default async function AchievementsPage() {
                   <div
                     key={achievement.id}
                     className={`rounded-xl p-6 shadow-sm border transition ${
-                      isEarned ? 'bg-white border-gray-200' : 'bg-white border-gray-200 opacity-60'
+                      isEarned ? 'bg-white border-slate-200' : 'bg-white border-slate-200 opacity-60'
                     }`}
                   >
                     <div className="flex items-start gap-4">
                       <div
                         className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                          isEarned ? 'bg-yellow-500' : 'bg-gray-300'
+                          isEarned ? 'bg-yellow-500' : 'bg-slate-300'
                         }`}
                       >
                         {isEarned ? (
@@ -334,7 +334,7 @@ export default async function AchievementsPage() {
               })}
             </div>
           ) : (
-            <div className="bg-white rounded-xl p-12 text-center border border-gray-200">
+            <div className="bg-white rounded-xl p-12 text-center border border-slate-200">
               <Trophy className="w-16 h-16 text-slate-700 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-slate-900 mb-2">No Achievements Available</h3>
               <p className="text-slate-700 mb-4">

@@ -137,7 +137,7 @@ export default function SubmitAssignmentForm({
           onChange={(e) => setText(e.target.value)}
           rows={6}
           placeholder="Describe your work, approach, or findings..."
-          className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 resize-y"
+          className="w-full border border-slate-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 resize-y"
         />
       </div>
 
@@ -149,7 +149,7 @@ export default function SubmitAssignmentForm({
             (optional, max {maxFileSizeMb} MB each)
           </span>
         </label>
-        <label className="flex items-center gap-2 cursor-pointer w-fit px-4 py-2 border border-dashed border-gray-300 rounded-lg text-sm text-slate-700 hover:border-brand-blue-400 hover:text-brand-blue-600 transition-colors">
+        <label className="flex items-center gap-2 cursor-pointer w-fit px-4 py-2 border border-dashed border-slate-300 rounded-lg text-sm text-slate-700 hover:border-brand-blue-400 hover:text-brand-blue-600 transition-colors">
           <Upload className="w-4 h-4" />
           Choose files
           <input
@@ -166,7 +166,7 @@ export default function SubmitAssignmentForm({
             {files.map((f, i) => (
               <li
                 key={i}
-                className="flex items-center gap-2 text-sm text-slate-900 bg-gray-50 rounded-lg px-3 py-2"
+                className="flex items-center gap-2 text-sm text-slate-900 bg-slate-50 rounded-lg px-3 py-2"
               >
                 <FileText className="w-4 h-4 text-slate-700 flex-shrink-0" />
                 <span className="flex-1 truncate">{f.name}</span>

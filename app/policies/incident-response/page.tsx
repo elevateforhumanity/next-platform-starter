@@ -19,7 +19,7 @@ export default async function IncidentResponsePage() {
   const { data: dbRows } = await supabase.from('policies').select('*').limit(50);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
           items={[{ label: 'Policies', href: '/policies' }, { label: 'Incident Response' }]}
@@ -75,8 +75,8 @@ export default async function IncidentResponsePage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Response Targets</h2>
 
             <div className="overflow-x-auto mb-8">
-              <table className="min-w-full border border-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full border border-slate-200">
+                <thead className="bg-slate-50">
                   <tr>
                     <th className="px-4 py-3 text-left font-bold text-black border-b">Severity</th>
                     <th className="px-4 py-3 text-left font-bold text-black border-b">
@@ -110,7 +110,7 @@ export default async function IncidentResponsePage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Response Process</h2>
 
             <div className="space-y-4 mb-8">
-              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg">
                 <div className="w-8 h-8 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
                   1
                 </div>
@@ -122,7 +122,7 @@ export default async function IncidentResponsePage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg">
                 <div className="w-8 h-8 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
                   2
                 </div>
@@ -134,7 +134,7 @@ export default async function IncidentResponsePage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg">
                 <div className="w-8 h-8 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
                   3
                 </div>
@@ -150,7 +150,7 @@ export default async function IncidentResponsePage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg">
                 <div className="w-8 h-8 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
                   4
                 </div>
@@ -162,7 +162,7 @@ export default async function IncidentResponsePage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg">
                 <div className="w-8 h-8 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
                   5
                 </div>

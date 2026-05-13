@@ -143,7 +143,7 @@ export function CoiValidator({
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
       <div className="mb-4 flex items-center gap-2">
         <Shield className="h-5 w-5 text-brand-blue-600" />
         <h3 className="text-lg font-semibold text-slate-900">COI Validation</h3>
@@ -156,7 +156,7 @@ export function CoiValidator({
               Certificate of Insurance (PDF)
             </label>
             <div className="flex items-center gap-3">
-              <label className="flex cursor-pointer items-center gap-2 rounded-md border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-gray-100">
+              <label className="flex cursor-pointer items-center gap-2 rounded-md border border-slate-300 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100">
                 <Upload className="h-4 w-4" />
                 {file ? 'Change file' : 'Choose PDF'}
                 <input
@@ -188,7 +188,7 @@ export function CoiValidator({
                 value={businessName}
                 onChange={(e) => setBusinessName(e.target.value)}
                 placeholder="e.g. Elite Cuts Barbershop LLC"
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
               />
             </div>
             <div>
@@ -201,7 +201,7 @@ export function CoiValidator({
                 value={shopAddress}
                 onChange={(e) => setShopAddress(e.target.value)}
                 placeholder="e.g. 123 Main St, Indianapolis, IN"
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
               />
             </div>
             <div className="sm:col-span-2">
@@ -214,7 +214,7 @@ export function CoiValidator({
                 value={certHolder}
                 onChange={(e) => setCertHolder(e.target.value)}
                 placeholder="Elevate for Humanity"
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
               />
             </div>
           </div>
@@ -363,7 +363,7 @@ function ResultDisplay({ result, onReset }: { result: DecisionResult; onReset: (
       )}
 
       {/* Field-by-field breakdown */}
-      <div className="rounded-md border border-gray-200 p-4">
+      <div className="rounded-md border border-slate-200 p-4">
         <p className="mb-3 text-sm font-semibold text-slate-900">Validation Details</p>
         <div className="space-y-2">
           {/* Document identity */}
@@ -518,7 +518,7 @@ function ResultDisplay({ result, onReset }: { result: DecisionResult; onReset: (
 
       <button
         onClick={onReset}
-        className="flex items-center gap-2 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-gray-50"
+        className="flex items-center gap-2 rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50"
       >
         <RotateCcw className="h-4 w-4" />
         Validate Another COI

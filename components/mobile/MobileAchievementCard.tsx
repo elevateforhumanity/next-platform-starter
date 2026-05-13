@@ -28,14 +28,14 @@ export default function MobileAchievementCard({
   return (
     <div
       className={`relative p-4 rounded-lg border transition-all ${
-        unlocked ? '   border-yellow-200' : 'bg-gray-50 border-gray-200'
+        unlocked ? '   border-yellow-200' : 'bg-slate-50 border-slate-200'
       }`}
     >
       {/* Icon */}
       <div className="flex items-start gap-3 mb-3">
         <div
           className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${
-            unlocked ? 'bg-gradient-to-br from-yellow-400 to-brand-orange-500' : 'bg-gray-300'
+            unlocked ? 'bg-gradient-to-br from-yellow-400 to-brand-orange-500' : 'bg-slate-300'
           }`}
         >
           {unlocked ? (
@@ -78,7 +78,7 @@ export default function MobileAchievementCard({
               {progress}/{total}
             </span>
           </div>
-          <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
             <div
               className="h-full    transition-all duration-300"
               style={{ width: `${progressPercent}%` }}

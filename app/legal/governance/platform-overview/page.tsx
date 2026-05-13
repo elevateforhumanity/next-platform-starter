@@ -22,7 +22,7 @@ export default async function PlatformOverviewPage() {
         <Breadcrumbs items={[{ label: 'Legal', href: '/legal' }, { label: 'Platform Overview' }]} />
       </div>
       {/* Document Header */}
-      <div className="bg-gray-900 text-white py-12">
+      <div className="bg-slate-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
@@ -70,7 +70,7 @@ export default async function PlatformOverviewPage() {
         </div>
 
         {/* Table of Contents */}
-        <div className="bg-gray-50 rounded-lg p-6 mb-10">
+        <div className="bg-slate-50 rounded-lg p-6 mb-10">
           <h2 className="font-semibold mb-4">Table of Contents</h2>
           <ol className="space-y-2 text-sm">
             <li>
@@ -262,7 +262,7 @@ export default async function PlatformOverviewPage() {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse border">
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="bg-slate-100">
                   <th className="border p-3 text-left">Role</th>
                   <th className="border p-3 text-left">Description</th>
                   <th className="border p-3 text-left">Access Level</th>
@@ -274,7 +274,7 @@ export default async function PlatformOverviewPage() {
                   <td className="border p-3">Enrolled learner in one or more programs</td>
                   <td className="border p-3">Own courses, progress, certificates, profile</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-slate-50">
                   <td className="border p-3 font-medium">Instructor</td>
                   <td className="border p-3">Course creator and facilitator</td>
                   <td className="border p-3">Assigned courses, enrolled students, grading</td>
@@ -284,7 +284,7 @@ export default async function PlatformOverviewPage() {
                   <td className="border p-3">Operational team member</td>
                   <td className="border p-3">Student management, attendance, reports</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-slate-50">
                   <td className="border p-3 font-medium">Delegate</td>
                   <td className="border p-3">Partner organization representative</td>
                   <td className="border p-3">Referred students, partnership reports</td>
@@ -294,7 +294,7 @@ export default async function PlatformOverviewPage() {
                   <td className="border p-3">Licensed program operator</td>
                   <td className="border p-3">Program analytics, student outcomes, revenue</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-slate-50">
                   <td className="border p-3 font-medium">Admin</td>
                   <td className="border p-3">Platform administrator</td>
                   <td className="border p-3">All operational functions, user management</td>
@@ -336,7 +336,7 @@ export default async function PlatformOverviewPage() {
           <div className="overflow-x-auto mb-6">
             <table className="w-full border-collapse border">
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="bg-slate-100">
                   <th className="border p-3 text-left">Decision Type</th>
                   <th className="border p-3 text-left">Authority</th>
                   <th className="border p-3 text-left">Review Required</th>
@@ -348,7 +348,7 @@ export default async function PlatformOverviewPage() {
                   <td className="border p-3">Executive Leadership</td>
                   <td className="border p-3">Board notification</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-slate-50">
                   <td className="border p-3">Pricing changes</td>
                   <td className="border p-3">Executive Leadership</td>
                   <td className="border p-3">Finance review</td>
@@ -358,7 +358,7 @@ export default async function PlatformOverviewPage() {
                   <td className="border p-3">Compliance Owner</td>
                   <td className="border p-3">Legal review</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-slate-50">
                   <td className="border p-3">Course content changes</td>
                   <td className="border p-3">Program Director</td>
                   <td className="border p-3">Quality review</td>
@@ -368,7 +368,7 @@ export default async function PlatformOverviewPage() {
                   <td className="border p-3">Admin</td>
                   <td className="border p-3">Audit log</td>
                 </tr>
-                <tr className="bg-gray-50">
+                <tr className="bg-slate-50">
                   <td className="border p-3">Data deletion requests</td>
                   <td className="border p-3">Data Protection Officer</td>
                   <td className="border p-3">Compliance verification</td>
@@ -441,7 +441,7 @@ export default async function PlatformOverviewPage() {
           <div className="overflow-x-auto mb-6">
             <table className="w-full border-collapse border">
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="bg-slate-100">
                   <th className="border p-3 text-left">Version</th>
                   <th className="border p-3 text-left">Date</th>
                   <th className="border p-3 text-left">Author</th>
@@ -480,28 +480,28 @@ export default async function PlatformOverviewPage() {
           <div className="grid md:grid-cols-2 gap-4">
             <Link
               href="/legal/governance/security"
-              className="block p-4 border rounded-lg hover:bg-gray-50"
+              className="block p-4 border rounded-lg hover:bg-slate-50"
             >
               <p className="font-medium">Security and Data Protection Statement</p>
               <p className="text-sm text-slate-500">EFH-SEC-001</p>
             </Link>
             <Link
               href="/legal/governance/compliance"
-              className="block p-4 border rounded-lg hover:bg-gray-50"
+              className="block p-4 border rounded-lg hover:bg-slate-50"
             >
               <p className="font-medium">Compliance and Disclosure Framework</p>
               <p className="text-sm text-slate-500">EFH-CMP-001</p>
             </Link>
             <Link
               href="/legal/governance/lms"
-              className="block p-4 border rounded-lg hover:bg-gray-50"
+              className="block p-4 border rounded-lg hover:bg-slate-50"
             >
               <p className="font-medium">LMS Governance and Course Standards</p>
               <p className="text-sm text-slate-500">EFH-LMS-001</p>
             </Link>
             <Link
               href="/legal/governance/store"
-              className="block p-4 border rounded-lg hover:bg-gray-50"
+              className="block p-4 border rounded-lg hover:bg-slate-50"
             >
               <p className="font-medium">Store, Payments, and Licensing Framework</p>
               <p className="text-sm text-slate-500">EFH-PAY-001</p>

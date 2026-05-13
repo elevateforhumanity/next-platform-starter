@@ -24,13 +24,13 @@ export function SiteHeader() {
         <div className="flex gap-3">
           <a
             href={siteConfig.handoff.login}
-            className="rounded border px-4 py-2 text-sm hover:bg-gray-50"
+            className="rounded border px-4 py-2 text-sm hover:bg-slate-50"
           >
             Student Login
           </a>
           <a
             href={siteConfig.handoff.apply}
-            className="rounded bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
+            className="rounded bg-black px-4 py-2 text-sm text-white hover:bg-slate-800"
           >
             Apply Now
           </a>

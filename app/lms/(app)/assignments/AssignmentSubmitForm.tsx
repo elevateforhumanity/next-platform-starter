@@ -59,7 +59,7 @@ export function AssignmentSubmitForm({ assignmentId, assignmentTitle }: Assignme
             id="content"
             name="content"
             rows={6}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             placeholder="Enter your response here..."
           />
         </div>
@@ -69,7 +69,7 @@ export function AssignmentSubmitForm({ assignmentId, assignmentTitle }: Assignme
             Attach File (optional)
           </label>
           <div className="flex items-center gap-4">
-            <label className="flex items-center gap-2 px-4 py-2 bg-white text-slate-900 rounded-lg cursor-pointer hover:bg-gray-200">
+            <label className="flex items-center gap-2 px-4 py-2 bg-white text-slate-900 rounded-lg cursor-pointer hover:bg-slate-200">
               <Upload className="w-4 h-4" />
               Choose File
               <input

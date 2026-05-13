@@ -64,7 +64,7 @@ const AUTHORITIES = [
  */
 export function AuthorityBanner() {
   return (
-    <section className="py-12 md:py-16 border-t border-b border-gray-100">
+    <section className="py-12 md:py-16 border-t border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="text-center mb-8">
           <p className="text-xs font-semibold text-brand-red-600 uppercase tracking-widest mb-2">
@@ -81,7 +81,7 @@ export function AuthorityBanner() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {AUTHORITIES.map((a) => (
             <div key={a.abbr} className={`${a.bg} border ${a.border} rounded-xl p-4 text-center`}>
-              <div className="w-14 h-14 rounded-lg bg-white border border-gray-100 flex items-center justify-center mx-auto mb-3 overflow-hidden">
+              <div className="w-14 h-14 rounded-lg bg-white border border-slate-100 flex items-center justify-center mx-auto mb-3 overflow-hidden">
                 <Image
                   src={a.image}
                   alt={a.abbr}
@@ -158,7 +158,7 @@ export function CredentialPipeline() {
   ];
 
   return (
-    <section className="py-10 bg-gray-50 border-t border-gray-100">
+    <section className="py-10 bg-slate-50 border-t border-slate-100">
       <div className="max-w-5xl mx-auto px-4">
         <p className="text-xs font-semibold text-brand-red-600 uppercase tracking-widest mb-2 text-center">
           Credential Pipeline

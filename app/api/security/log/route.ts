@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: client-side security event logger — intentionally unauthenticated, per-IP rate-limited
 import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';

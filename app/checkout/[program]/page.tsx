@@ -203,7 +203,7 @@ function CheckoutPageInner() {
 
   if (!programData) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
           <h1 className="text-2xl font-bold text-black mb-4">Program Not Found</h1>
           <p className="text-black mb-6">The program you're trying to purchase doesn't exist.</p>
@@ -219,7 +219,7 @@ function CheckoutPageInner() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -335,7 +335,7 @@ function CheckoutPageInner() {
                   <button
                     onClick={handleStripeCheckout}
                     disabled={loading}
-                    className="w-full px-8 py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold rounded-lg transition-all text-lg"
+                    className="w-full px-8 py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-bold rounded-lg transition-all text-lg"
                   >
                     {loading
                       ? 'Processing...'
@@ -380,7 +380,7 @@ function CheckoutPageInner() {
                   <button
                     onClick={handleAffirmCheckout}
                     disabled={loading}
-                    className="w-full px-8 py-4 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white font-bold rounded-lg transition-all text-lg"
+                    className="w-full px-8 py-4 bg-blue-500 hover:bg-blue-600 disabled:bg-slate-400 text-white font-bold rounded-lg transition-all text-lg"
                   >
                     {loading ? 'Processing...' : 'Continue with Affirm'}
                   </button>

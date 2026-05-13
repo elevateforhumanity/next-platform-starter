@@ -306,14 +306,14 @@ export default function HandbookPage() {
         {!alreadyAcknowledged && (
           <>
             {/* Progress */}
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6">
               <div className="flex justify-between text-sm mb-2">
                 <span className="font-medium text-slate-900">Sections Acknowledged</span>
                 <span className="text-slate-700">
                   {acknowledged.size} of {HANDBOOK_SECTIONS.length}
                 </span>
               </div>
-              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-brand-blue-600 rounded-full transition-all duration-500"
                   style={{ width: `${(acknowledged.size / HANDBOOK_SECTIONS.length) * 100}%` }}
@@ -330,15 +330,15 @@ export default function HandbookPage() {
                 return (
                   <div
                     key={section.id}
-                    className={`border rounded-xl overflow-hidden ${isAcked ? 'border-brand-blue-300 bg-brand-blue-50' : 'border-gray-200 bg-white'}`}
+                    className={`border rounded-xl overflow-hidden ${isAcked ? 'border-brand-blue-300 bg-brand-blue-50' : 'border-slate-200 bg-white'}`}
                   >
                     <button
                       type="button"
                       onClick={() => toggleExpand(section.id)}
-                      className="w-full p-4 flex items-center gap-3 text-left hover:bg-gray-50 transition-colors"
+                      className="w-full p-4 flex items-center gap-3 text-left hover:bg-slate-50 transition-colors"
                     >
                       <div
-                        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isAcked ? 'bg-brand-blue-600' : 'bg-gray-100'}`}
+                        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isAcked ? 'bg-brand-blue-600' : 'bg-slate-100'}`}
                       >
                         {isAcked ? (
                           <CheckCircle2 className="w-4 h-4 text-white" />
@@ -359,16 +359,16 @@ export default function HandbookPage() {
                     </button>
 
                     {isExpanded && (
-                      <div className="border-t border-gray-100 px-4 pb-4">
-                        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-3 mb-4 text-sm text-slate-900 whitespace-pre-line leading-relaxed">
+                      <div className="border-t border-slate-100 px-4 pb-4">
+                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mt-3 mb-4 text-sm text-slate-900 whitespace-pre-line leading-relaxed">
                           {section.content}
                         </div>
-                        <label className="flex items-start gap-3 cursor-pointer p-3 rounded-lg hover:bg-brand-blue-50 border border-gray-200 bg-white transition-colors">
+                        <label className="flex items-start gap-3 cursor-pointer p-3 rounded-lg hover:bg-brand-blue-50 border border-slate-200 bg-white transition-colors">
                           <input
                             type="checkbox"
                             checked={isAcked}
                             onChange={() => toggleAcknowledge(section.id)}
-                            className="mt-0.5 w-5 h-5 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+                            className="mt-0.5 w-5 h-5 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
                           />
                           <span className="text-sm text-slate-900">
                             I have read and understand the <strong>{section.title}</strong>
@@ -395,7 +395,7 @@ export default function HandbookPage() {
                 className={`px-8 py-3 rounded-lg font-semibold transition-colors ${
                   allAcknowledged && !submitting
                     ? 'bg-brand-blue-600 text-white hover:bg-brand-blue-700'
-                    : 'bg-gray-300 text-slate-700 cursor-not-allowed'
+                    : 'bg-slate-300 text-slate-700 cursor-not-allowed'
                 }`}
               >
                 {submitting

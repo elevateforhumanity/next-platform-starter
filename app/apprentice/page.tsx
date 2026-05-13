@@ -205,7 +205,7 @@ export default async function ApprenticePortalPage() {
           <h2 className="text-xl font-semibold text-slate-900 mb-4">Hours Progress</h2>
           <div className="flex items-center gap-4">
             <div className="flex-1">
-              <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-4 bg-slate-200 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-white rounded-full transition-all"
                   style={{ width: `${Math.min((totalHours / requiredHours) * 100, 100)}%` }}

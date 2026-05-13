@@ -38,7 +38,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { p
   // Check if Stripe is configured
   if (!process.env.STRIPE_SECRET_KEY) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Payment Temporarily Unavailable</h1>
           <p className="text-slate-600 mb-4">
@@ -68,7 +68,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { p
 
     if (!supabase) {
       return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
             <p className="text-slate-600">Please try again later.</p>
@@ -129,7 +129,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { p
     /* Error handled silently */
 
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
           <h1 className="text-2xl font-bold text-red-600 mb-4">Checkout Error</h1>
           <p className="text-black mb-4">
@@ -145,7 +145,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { p
             </a>
             <a
               href="/contact?topic=licensing-enterprise"
-              className="block w-full bg-gray-200 text-black text-center py-3 rounded-lg hover:bg-gray-300"
+              className="block w-full bg-slate-200 text-black text-center py-3 rounded-lg hover:bg-slate-300"
             >
               Contact Support
             </a>

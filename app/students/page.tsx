@@ -32,7 +32,7 @@ export default async function StudentsPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Please try again later.</p>
@@ -86,14 +86,14 @@ export default async function StudentsPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-black text-center mb-12">
             How Our Programs Work
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100">
+            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-slate-100">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
                 <DollarSign className="w-8 h-8 text-green-600" />
               </div>
@@ -118,7 +118,7 @@ export default async function StudentsPage() {
               </ul>
             </div>
 
-            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100">
+            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-slate-100">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
                 <Clock className="w-8 h-8 text-blue-600" />
               </div>
@@ -143,7 +143,7 @@ export default async function StudentsPage() {
               </ul>
             </div>
 
-            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100">
+            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-slate-100">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
                 <Briefcase className="w-8 h-8 text-blue-600" />
               </div>
@@ -213,7 +213,7 @@ export default async function StudentsPage() {
       </section>
 
       {/* Programs Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-black text-center mb-4">Popular Programs</h2>
           <p className="text-xl text-black text-center mb-12">
@@ -223,7 +223,7 @@ export default async function StudentsPage() {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <Link
               href={canonicalRoutes.programs.certifiedNursingAssistant}
-              className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group"
+              className="bg-white rounded-xl p-6 shadow-sm border-2 border-slate-100 hover:border-blue-500 transition group"
             >
               <Award className="w-12 h-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">CNA Training</h3>
@@ -235,7 +235,7 @@ export default async function StudentsPage() {
 
             <Link
               href="/programs/barber-apprenticeship"
-              className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group"
+              className="bg-white rounded-xl p-6 shadow-sm border-2 border-slate-100 hover:border-blue-500 transition group"
             >
               <Award className="w-12 h-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">
@@ -249,7 +249,7 @@ export default async function StudentsPage() {
 
             <Link
               href="/programs/cdl-transportation"
-              className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group"
+              className="bg-white rounded-xl p-6 shadow-sm border-2 border-slate-100 hover:border-blue-500 transition group"
             >
               <Award className="w-12 h-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">CDL Training</h3>

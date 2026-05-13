@@ -30,7 +30,7 @@ export default async function TaxOperationsPage() {
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Legal', href: '/legal' }, { label: 'Tax Operations' }]} />
       </div>
-      <div className="bg-gray-900 text-white py-12">
+      <div className="bg-slate-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
             <Link href="/" className="hover:text-white">
@@ -76,7 +76,7 @@ export default async function TaxOperationsPage() {
           </a>
         </div>
 
-        <nav className="bg-gray-50 rounded-lg p-6 mb-10">
+        <nav className="bg-slate-50 rounded-lg p-6 mb-10">
           <h2 className="font-semibold mb-4">Contents</h2>
           <ol className="space-y-2 text-sm">
             <li>
@@ -166,7 +166,7 @@ export default async function TaxOperationsPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">2.1 Tax Preparation Services</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Service</th>
                 <th className="border p-3 text-left">Description</th>
                 <th className="border p-3 text-left">Delivery</th>
@@ -178,7 +178,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">W-2 income, standard deduction</td>
                 <td className="border p-3">Same day</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Standard Return</td>
                 <td className="border p-3">W-2, 1099, itemized deductions</td>
                 <td className="border p-3">1-2 days</td>
@@ -188,7 +188,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">Self-employment, rental, investments</td>
                 <td className="border p-3">2-5 days</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">State Returns</td>
                 <td className="border p-3">All 50 states supported</td>
                 <td className="border p-3">With federal</td>
@@ -227,7 +227,7 @@ export default async function TaxOperationsPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">3.1 Preparer Requirements</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Requirement</th>
                 <th className="border p-3 text-left">Description</th>
                 <th className="border p-3 text-left">Verification</th>
@@ -239,7 +239,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">Preparer Tax Identification Number</td>
                 <td className="border p-3">Annual renewal verified</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">AFSP or Credential</td>
                 <td className="border p-3">Annual Filing Season Program or EA/CPA</td>
                 <td className="border p-3">Certificate on file</td>
@@ -249,7 +249,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">Criminal and credit check</td>
                 <td className="border p-3">Prior to onboarding</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Continuing Education</td>
                 <td className="border p-3">18 hours annually (AFSP)</td>
                 <td className="border p-3">Completion certificates</td>
@@ -289,7 +289,7 @@ export default async function TaxOperationsPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">4.2 Loan Terms</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Feature</th>
                 <th className="border p-3 text-left">Details</th>
               </tr>
@@ -299,7 +299,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">Loan Amounts</td>
                 <td className="border p-3">$250, $500, $1,000, $2,500, $5,000</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Interest Rate</td>
                 <td className="border p-3">0% APR (no interest charged)</td>
               </tr>
@@ -307,7 +307,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">Fees</td>
                 <td className="border p-3">$0 loan fee (tax prep fees separate)</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Repayment</td>
                 <td className="border p-3">Automatic from IRS refund</td>
               </tr>
@@ -352,7 +352,7 @@ export default async function TaxOperationsPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">5.1 Tax Preparation Fees</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Service</th>
                 <th className="border p-3 text-left">Fee Range</th>
                 <th className="border p-3 text-left">Notes</th>
@@ -364,7 +364,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">$50 - $100</td>
                 <td className="border p-3">W-2 only, standard deduction</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Standard Federal Return</td>
                 <td className="border p-3">$100 - $200</td>
                 <td className="border p-3">Multiple income sources</td>
@@ -374,7 +374,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">$200 - $400</td>
                 <td className="border p-3">Self-employment, Schedule C</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">State Return</td>
                 <td className="border p-3">$40 - $75</td>
                 <td className="border p-3">Per state</td>
@@ -390,7 +390,7 @@ export default async function TaxOperationsPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">5.2 Bank Product Fees</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Product</th>
                 <th className="border p-3 text-left">Fee</th>
                 <th className="border p-3 text-left">Description</th>
@@ -402,7 +402,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">$0</td>
                 <td className="border p-3">No-fee loan</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Refund Transfer</td>
                 <td className="border p-3">$35 - $50</td>
                 <td className="border p-3">Pay fees from refund</td>
@@ -494,7 +494,7 @@ export default async function TaxOperationsPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">7.2 Error Resolution</h3>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Error Type</th>
                 <th className="border p-3 text-left">Resolution</th>
                 <th className="border p-3 text-left">Client Communication</th>
@@ -506,7 +506,7 @@ export default async function TaxOperationsPage() {
                 <td className="border p-3">Correct and refile if needed</td>
                 <td className="border p-3">Notify client</td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Moderate (small financial impact)</td>
                 <td className="border p-3">Amended return, fee waived</td>
                 <td className="border p-3">Explain and apologize</td>
@@ -534,7 +534,7 @@ export default async function TaxOperationsPage() {
           </h2>
           <table className="w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Role</th>
                 <th className="border p-3 text-left">Responsibilities</th>
               </tr>
@@ -546,7 +546,7 @@ export default async function TaxOperationsPage() {
                   Overall tax operations, IRS relationships, EFIN management
                 </td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Quality Review Manager</td>
                 <td className="border p-3">
                   Return review process, error tracking, preparer coaching
@@ -558,7 +558,7 @@ export default async function TaxOperationsPage() {
                   Return preparation, client communication, continuing education
                 </td>
               </tr>
-              <tr className="bg-gray-50">
+              <tr className="bg-slate-50">
                 <td className="border p-3">Client Services</td>
                 <td className="border p-3">Scheduling, document collection, status updates</td>
               </tr>
@@ -576,7 +576,7 @@ export default async function TaxOperationsPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">9. Versioning & Review</h2>
           <table className="w-full border-collapse border mb-4">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-slate-100">
                 <th className="border p-3 text-left">Version</th>
                 <th className="border p-3 text-left">Date</th>
                 <th className="border p-3 text-left">Changes</th>

@@ -88,7 +88,7 @@ export default function StoreCoursesPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                     <div>
                       <span className="text-2xl font-black text-slate-900">
                         ${course.price}

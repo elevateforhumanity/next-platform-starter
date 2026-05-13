@@ -65,7 +65,7 @@ export function Pretest({ title, questions, onComplete }: PretestProps) {
   }
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6">
       <div className="flex items-center justify-between mb-4">
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded">
@@ -99,7 +99,7 @@ export function Pretest({ title, questions, onComplete }: PretestProps) {
                     ? 'bg-red-50 border-red-300'
                     : isSel && !revealed
                       ? 'bg-brand-blue-50 border-brand-blue-400'
-                      : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                      : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
               <span
@@ -108,7 +108,7 @@ export function Pretest({ title, questions, onComplete }: PretestProps) {
                     ? 'bg-green-500 text-white'
                     : isWrong
                       ? 'bg-red-400 text-white'
-                      : 'bg-gray-100 text-slate-700'
+                      : 'bg-slate-100 text-slate-700'
                 }`}
               >
                 {letter}

@@ -81,7 +81,7 @@ export function PeerTutoringMarketplace() {
               className={`px-4 py-2 rounded-lg text-sm font-medium ${
                 selectedSubject === subject
                   ? 'bg-brand-orange-600 text-white'
-                  : 'bg-white text-black border hover:bg-gray-50'
+                  : 'bg-white text-black border hover:bg-slate-50'
               }`}
             >
               {subject}

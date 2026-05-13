@@ -232,7 +232,7 @@ export default async function VerifyCertificatePage({
               )}
 
               {/* Certificate Information */}
-              <div className="border-t border-b border-gray-200 py-6 space-y-4">
+              <div className="border-t border-b border-slate-200 py-6 space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-slate-700">Certificate Number</p>
@@ -270,7 +270,7 @@ export default async function VerifyCertificatePage({
               {/* QR Code Section */}
               <div className="mt-6 text-center">
                 <p className="text-sm text-slate-700 mb-4">Scan to verify on mobile</p>
-                <div className="inline-block p-4 bg-white border-2 border-gray-200 rounded-lg">
+                <div className="inline-block p-4 bg-white border-2 border-slate-200 rounded-lg">
                   <Image
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
                       `${process.env.NEXT_PUBLIC_SITE_URL || 'https://elevateforhumanity.com'}/verify/${normalizedCertificateId}`,

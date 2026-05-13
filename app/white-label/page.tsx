@@ -18,7 +18,7 @@ export default async function WhiteLabelPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
           <p className="text-slate-600">Please try again later.</p>
@@ -357,7 +357,7 @@ export default async function WhiteLabelPage() {
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact?topic=white-label"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-brand-green-600 bg-white rounded-lg hover:bg-gray-50 transition-colors shadow-lg"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-brand-green-600 bg-white rounded-lg hover:bg-slate-50 transition-colors shadow-lg"
             >
               Request Pricing & Demo
             </Link>

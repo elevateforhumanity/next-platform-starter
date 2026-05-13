@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function FrameworkDiagram() {
   return (
-    <section className="bg-gradient-to-b from-gray-50 to-white py-20">
+    <section className="bg-gradient-to-b from-slate-50 to-white py-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-black mb-4">How It Works</h2>

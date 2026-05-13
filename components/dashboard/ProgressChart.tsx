@@ -19,7 +19,7 @@ export function ProgressChart() {
               <span className="text-sm font-medium text-black">{course.name}</span>
               <span className="text-sm font-bold text-black">{course.progress}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
+            <div className="w-full bg-slate-200 rounded-full h-3">
               <div
                 className={`${course.color} h-3 rounded-full transition-all duration-500`}
                 style={{ width: `${course.progress}%` }}
@@ -28,7 +28,7 @@ export function ProgressChart() {
           </div>
         ))}
       </div>
-      <div className="mt-6 pt-6 border-t border-gray-200">
+      <div className="mt-6 pt-6 border-t border-slate-200">
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
             <div className="text-2xl font-bold text-black">3</div>

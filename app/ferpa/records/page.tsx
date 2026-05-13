@@ -109,7 +109,7 @@ export default async function FerpaRecordsPage() {
         />
       </section>
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
@@ -141,7 +141,7 @@ export default async function FerpaRecordsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                 <User className="w-5 h-5 text-brand-blue-600" />
@@ -152,7 +152,7 @@ export default async function FerpaRecordsPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-green-100 rounded-lg flex items-center justify-center">
                 <FileText className="w-5 h-5 text-brand-green-600" />
@@ -163,7 +163,7 @@ export default async function FerpaRecordsPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-brand-blue-600" />
@@ -177,15 +177,15 @@ export default async function FerpaRecordsPage() {
         </div>
 
         {/* Records Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+          <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-900">Recent Student Records</h2>
             <div className="flex items-center gap-2">
-              <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-slate-700 hover:text-slate-900 border border-gray-300 rounded-lg hover:bg-white">
+              <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-slate-700 hover:text-slate-900 border border-slate-300 rounded-lg hover:bg-white">
                 <Filter className="w-4 h-4" />
                 Filter
               </button>
-              <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-slate-700 hover:text-slate-900 border border-gray-300 rounded-lg hover:bg-white">
+              <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-slate-700 hover:text-slate-900 border border-slate-300 rounded-lg hover:bg-white">
                 <Download className="w-4 h-4" />
                 Export
               </button>
@@ -214,12 +214,12 @@ export default async function FerpaRecordsPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-slate-200">
                   {(students as StudentRecord[]).map((student) => (
                     <tr key={student.id} className="hover:bg-white">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                          <div className="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center">
                             <User className="w-4 h-4 text-slate-700" />
                           </div>
                           <div>

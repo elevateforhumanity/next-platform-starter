@@ -362,21 +362,21 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
                   <a
                     href="/docs/compliance/ferpa/FERPA_Policy_Manual.md"
                     target="_blank"
-                    className="block px-4 py-2 bg-white border border-brand-blue-300 rounded hover:bg-gray-50 transition"
+                    className="block px-4 py-2 bg-white border border-brand-blue-300 rounded hover:bg-slate-50 transition"
                   >
                     📄 FERPA Policy & Procedures Manual
                   </a>
                   <a
                     href="/docs/compliance/ferpa/FERPA_Training_Course.md"
                     target="_blank"
-                    className="block px-4 py-2 bg-white border border-brand-blue-300 rounded hover:bg-gray-50 transition"
+                    className="block px-4 py-2 bg-white border border-brand-blue-300 rounded hover:bg-slate-50 transition"
                   >
                     📖 Complete Training Course
                   </a>
                   <a
                     href="/docs/compliance/lms/LMS_Policies_Manual.md"
                     target="_blank"
-                    className="block px-4 py-2 bg-white border border-brand-blue-300 rounded hover:bg-gray-50 transition"
+                    className="block px-4 py-2 bg-white border border-brand-blue-300 rounded hover:bg-slate-50 transition"
                   >
                     💻 LMS Policies & Procedures
                   </a>

@@ -47,7 +47,7 @@ export default async function TestimonialsPage() {
           <p className="text-slate-500 text-lg mb-2">No published testimonials yet.</p>
           <p className="text-slate-400 text-sm">Be the first to share your experience with Elevate for Humanity.</p>
           <div className="mt-8 flex gap-4 justify-center">
-            <Link href={siteConfig.handoff.apply} className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800 transition">
+            <Link href={siteConfig.handoff.apply} className="rounded bg-black px-5 py-3 text-white hover:bg-slate-800 transition">
               Apply Now
             </Link>
             <a href="mailto:info@elevateforhumanity.org" className="rounded border px-5 py-3 hover:bg-slate-50 transition">
@@ -72,7 +72,7 @@ export default async function TestimonialsPage() {
             </div>
           )}
           <div className="mt-12 flex gap-4">
-            <Link href={siteConfig.handoff.apply} className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800 transition">
+            <Link href={siteConfig.handoff.apply} className="rounded bg-black px-5 py-3 text-white hover:bg-slate-800 transition">
               Apply Now
             </Link>
             <a href="mailto:info@elevateforhumanity.org" className="rounded border px-5 py-3 hover:bg-slate-50 transition">

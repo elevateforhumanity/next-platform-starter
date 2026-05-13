@@ -62,7 +62,7 @@ export function EmployerTalentPipeline() {
     return <div className="p-8 text-center text-slate-700">No candidates in pipeline yet.</div>;
 
   const stageColors: Record<string, string> = {
-    sourced: 'bg-gray-100 text-black',
+    sourced: 'bg-slate-100 text-black',
     screening: 'bg-brand-blue-100 text-brand-blue-700',
     interview: 'bg-purple-100 text-purple-700',
     offer: 'bg-brand-orange-100 text-brand-orange-700',
@@ -100,7 +100,7 @@ export function EmployerTalentPipeline() {
               className={`px-4 py-2 rounded-lg text-sm font-medium capitalize ${
                 selectedStage === stage
                   ? 'bg-brand-orange-600 text-white'
-                  : 'bg-white text-black border hover:bg-gray-50'
+                  : 'bg-white text-black border hover:bg-slate-50'
               }`}
             >
               {stage}

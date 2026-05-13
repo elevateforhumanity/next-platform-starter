@@ -75,7 +75,7 @@ export default function TrainingModelPage() {
 
           <div className="space-y-6">
             {/* Hybrid */}
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
               <div className="flex flex-col sm:flex-row">
                 <div className="relative h-48 sm:h-auto sm:w-64 flex-shrink-0 overflow-hidden">
                   <Image
@@ -112,7 +112,7 @@ export default function TrainingModelPage() {
             </div>
 
             {/* In-person intensive */}
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
               <div className="flex flex-col sm:flex-row">
                 <div className="relative h-48 sm:h-auto sm:w-64 flex-shrink-0 overflow-hidden">
                   <Image
@@ -149,7 +149,7 @@ export default function TrainingModelPage() {
             </div>
 
             {/* Online */}
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
               <div className="flex flex-col sm:flex-row">
                 <div className="relative h-48 sm:h-auto sm:w-64 flex-shrink-0 overflow-hidden">
                   <Image
@@ -222,7 +222,7 @@ export default function TrainingModelPage() {
                 pm: 'Career services: Resume workshop, interview practice, or employer meet-and-greet (scheduled periodically)',
               },
             ].map((d) => (
-              <div key={d.day} className="bg-white rounded-lg border border-gray-200 p-4">
+              <div key={d.day} className="bg-white rounded-lg border border-slate-200 p-4">
                 <h3 className="font-bold text-slate-900 text-sm mb-2">{d.day}</h3>
                 <div className="grid sm:grid-cols-2 gap-2 text-sm text-slate-900">
                   <div>
@@ -248,7 +248,7 @@ export default function TrainingModelPage() {
           </p>
 
           <div className="space-y-4">
-            <div className="bg-white rounded-lg border border-gray-200 p-5">
+            <div className="bg-white rounded-lg border border-slate-200 p-5">
               <h3 className="font-bold text-slate-900 mb-2">
                 What you see (your student dashboard)
               </h3>
@@ -280,7 +280,7 @@ export default function TrainingModelPage() {
               </ul>
             </div>
 
-            <div className="bg-white rounded-lg border border-gray-200 p-5">
+            <div className="bg-white rounded-lg border border-slate-200 p-5">
               <h3 className="font-bold text-slate-900 mb-2">What your instructor sees</h3>
               <ul className="space-y-1.5 text-sm text-slate-900">
                 <li className="flex items-start gap-2">
@@ -302,7 +302,7 @@ export default function TrainingModelPage() {
               </ul>
             </div>
 
-            <div className="bg-white rounded-lg border border-gray-200 p-5">
+            <div className="bg-white rounded-lg border border-slate-200 p-5">
               <h3 className="font-bold text-slate-900 mb-2">
                 What your case manager or funding agency sees (if applicable)
               </h3>
@@ -358,7 +358,7 @@ export default function TrainingModelPage() {
                 desc: 'If you need to take a break for a serious reason, we work with you and your funding source to pause and resume in the next cohort. You do not lose your progress.',
               },
             ].map((item) => (
-              <div key={item.title} className="bg-white rounded-lg border border-gray-200 p-4">
+              <div key={item.title} className="bg-white rounded-lg border border-slate-200 p-4">
                 <h3 className="font-bold text-slate-900 text-sm mb-1">{item.title}</h3>
                 <p className="text-sm text-slate-900">{item.desc}</p>
               </div>
@@ -422,7 +422,7 @@ export default function TrainingModelPage() {
                   'You are working in your field. We track your employment and wage to make sure the pathway delivered.',
               },
             ].map((r) => (
-              <div key={r.week} className="bg-white rounded-lg border border-gray-200 p-4">
+              <div key={r.week} className="bg-white rounded-lg border border-slate-200 p-4">
                 <h3 className="font-bold text-slate-900 text-sm mb-1">{r.week}</h3>
                 <p className="text-sm text-slate-900 mb-1">
                   <span className="font-semibold">What you do:</span> {r.activity}

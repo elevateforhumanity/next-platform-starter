@@ -118,14 +118,14 @@ export default function ProgramHolderSetup() {
                 <div key={s} className="flex items-center">
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                      step >= s ? 'bg-brand-green-600 text-white' : 'bg-gray-300 text-black'
+                      step >= s ? 'bg-brand-green-600 text-white' : 'bg-slate-300 text-black'
                     }`}
                   >
                     {step > s ? '✓' : s}
                   </div>
                   {s < STEPS.length && (
                     <div
-                      className={`h-1 w-16 ${step > s ? 'bg-brand-green-600' : 'bg-gray-300'}`}
+                      className={`h-1 w-16 ${step > s ? 'bg-brand-green-600' : 'bg-slate-300'}`}
                     />
                   )}
                 </div>
@@ -241,7 +241,7 @@ export default function ProgramHolderSetup() {
               <div className="flex gap-4">
                 <button
                   onClick={() => setStep(1)}
-                  className="flex-1 bg-gray-300 text-black py-4 rounded-lg font-bold hover:bg-gray-400"
+                  className="flex-1 bg-slate-300 text-black py-4 rounded-lg font-bold hover:bg-slate-400"
                 >
                   Back
                 </button>
@@ -261,7 +261,7 @@ export default function ProgramHolderSetup() {
           <div className="bg-white rounded-xl shadow-lg p-8">
             <h2 className="text-3xl font-bold mb-6">Upload Your Syllabus</h2>
             <div className="space-y-6">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+              <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center">
                 <Upload className="w-16 h-16 mx-auto mb-4 text-slate-400" />
                 <p className="text-lg font-semibold mb-2">Upload Course Syllabus</p>
                 <p className="text-slate-500 mb-4">PDF, DOC, or DOCX (Max 10MB)</p>
@@ -317,7 +317,7 @@ export default function ProgramHolderSetup() {
               <div className="flex gap-4">
                 <button
                   onClick={() => setStep(2)}
-                  className="flex-1 bg-gray-300 text-black py-4 rounded-lg font-bold hover:bg-gray-400"
+                  className="flex-1 bg-slate-300 text-black py-4 rounded-lg font-bold hover:bg-slate-400"
                 >
                   Back
                 </button>
@@ -378,7 +378,7 @@ export default function ProgramHolderSetup() {
                 <button
                   onClick={() => setStep(3)}
                   disabled={submitting}
-                  className="flex-1 bg-gray-300 text-black py-4 rounded-lg font-bold hover:bg-gray-400 disabled:opacity-50"
+                  className="flex-1 bg-slate-300 text-black py-4 rounded-lg font-bold hover:bg-slate-400 disabled:opacity-50"
                 >
                   Back
                 </button>

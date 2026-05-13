@@ -241,7 +241,7 @@ export default async function MentorDashboardPage() {
                     </div>
                     <div className="text-right">
                       <div className="flex items-center gap-2">
-                        <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-16 h-2 bg-slate-200 rounded-full overflow-hidden">
                           <div
                             className="h-full bg-white rounded-full"
                             style={{ width: `${mentee.progress}%` }}
@@ -263,7 +263,7 @@ export default async function MentorDashboardPage() {
         </div>
         {/* Session history */}
         {recentSessions.length > 0 && (
-          <div className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="mt-8 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                 <Clock className="w-5 h-5 text-slate-600" />
@@ -273,7 +273,7 @@ export default async function MentorDashboardPage() {
                 View all
               </Link>
             </div>
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-slate-100">
               {recentSessions.map((s) => (
                 <div key={s.id} className="flex items-center justify-between py-3 text-sm">
                   <div>

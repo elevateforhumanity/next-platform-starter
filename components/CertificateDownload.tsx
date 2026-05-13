@@ -354,7 +354,7 @@ export default function CertificateDownload({
             </button>
             <button
               onClick={printCertificate}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-slate-900 rounded-lg hover:bg-gray-200 text-sm font-medium"
+              className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-900 rounded-lg hover:bg-slate-200 text-sm font-medium"
             >
               <Printer className="w-4 h-4" />
               Print
@@ -413,14 +413,14 @@ export default function CertificateDownload({
               })}
             </p>
 
-            <div className="flex justify-between items-end mt-12 pt-8 border-t border-gray-200">
+            <div className="flex justify-between items-end mt-12 pt-8 border-t border-slate-200">
               <div className="text-center">
-                <div className="w-32 border-t border-gray-400 mb-2"></div>
+                <div className="w-32 border-t border-slate-400 mb-2"></div>
                 <p className="text-sm font-medium text-slate-900">{certificate.issuer_name}</p>
                 <p className="text-xs text-slate-700">{certificate.issuer_title}</p>
               </div>
               <div className="text-center">
-                <div className="w-32 border-t border-gray-400 mb-2"></div>
+                <div className="w-32 border-t border-slate-400 mb-2"></div>
                 <p className="text-sm font-medium text-slate-900">Registrar</p>
                 <p className="text-xs text-slate-700">Office of the Registrar</p>
               </div>
@@ -430,13 +430,13 @@ export default function CertificateDownload({
       </div>
 
       {/* Verification Footer */}
-      <div className="px-6 py-4 bg-gray-50 border-t">
+      <div className="px-6 py-4 bg-slate-50 border-t">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-slate-700">
             <span className="text-slate-500 flex-shrink-0">•</span>
             <span>
               Verification Code:{' '}
-              <code className="bg-gray-200 px-2 py-0.5 rounded">
+              <code className="bg-slate-200 px-2 py-0.5 rounded">
                 {certificate.verification_code}
               </code>
             </span>

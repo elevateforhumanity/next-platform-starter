@@ -37,7 +37,7 @@ export function DownloadOfflineButton({ courseId, lessonUrls = [] }: DownloadOff
     return (
       <button
         disabled
-        className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-slate-700 rounded-lg text-sm"
+        className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm"
       >
         <Loader2 className="w-4 h-4 animate-spin" />
         <span>

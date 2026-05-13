@@ -676,7 +676,7 @@ export default function LessonPage() {
   if (enrollmentBlocked) {
     if (enrollmentBlockReason === 'module_not_released') {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8">
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 p-8">
           <div className="max-w-md text-center space-y-4">
             <div className="text-4xl">🔒</div>
             <h2 className="text-xl font-semibold text-slate-900">Module Not Yet Available</h2>

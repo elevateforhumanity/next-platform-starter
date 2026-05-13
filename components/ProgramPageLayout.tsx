@@ -175,7 +175,7 @@ export default function ProgramPageLayout({
       </section>
 
       {/* Visual Highlights - Replace Bullets */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-5xl font-black mb-16 text-center text-3xl md:text-4xl lg:text-5xl">
@@ -265,7 +265,7 @@ export default function ProgramPageLayout({
             <div className="flex flex-wrap gap-6 justify-center">
               <Link
                 href="/apply"
-                className="bg-white text-brand-orange-600 px-12 py-6 rounded-full font-bold hover:bg-gray-100 text-xl shadow-2xl transition-all hover:scale-105"
+                className="bg-white text-brand-orange-600 px-12 py-6 rounded-full font-bold hover:bg-slate-100 text-xl shadow-2xl transition-all hover:scale-105"
               >
                 Start Your Application
               </Link>

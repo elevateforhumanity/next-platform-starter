@@ -214,7 +214,7 @@ export default function PartnerSettingsForm({ initialData }: { initialData: Sett
                   onChange={(e) => setSettings({ ...settings, [item.key]: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-blue-600" />
+                <div className="w-11 h-6 bg-slate-200 peer-focus:ring-2 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-blue-600" />
               </label>
             </div>
           ))}

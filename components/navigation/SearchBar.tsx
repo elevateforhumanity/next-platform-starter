@@ -35,7 +35,7 @@ const TYPE_COLORS = {
   course: 'text-brand-green-600 bg-brand-green-100',
   article: 'text-purple-600 bg-purple-100',
   user: 'text-brand-orange-600 bg-brand-orange-100',
-  page: 'text-slate-700 bg-gray-100',
+  page: 'text-slate-700 bg-slate-100',
 };
 
 export function SearchBar({
@@ -254,7 +254,7 @@ export function SearchBar({
           onFocus={() => setIsOpen(true)}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
           onKeyDown={handleKeyDown}
-          className="pl-10 pr-10 py-2 w-full md:w-72 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm"
+          className="pl-10 pr-10 py-2 w-full md:w-72 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm"
           aria-label="Search"
           aria-expanded={isOpen}
           aria-controls="search-results"
@@ -281,13 +281,13 @@ export function SearchBar({
         <div
           ref={resultsRef}
           id="search-results"
-          className="absolute top-full mt-2 w-full md:w-96 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50"
+          className="absolute top-full mt-2 w-full md:w-96 bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50"
           role="listbox"
         >
           {/* Results */}
           {results.length > 0 && (
             <div className="max-h-80 overflow-y-auto">
-              <div className="px-3 py-2 text-xs font-semibold text-slate-700 uppercase tracking-wider bg-gray-50">
+              <div className="px-3 py-2 text-xs font-semibold text-slate-700 uppercase tracking-wider bg-slate-50">
                 Results for "{query}"
               </div>
               {results.map((result, index) => {
@@ -300,7 +300,7 @@ export function SearchBar({
                     key={`${result.type}-${result.id}`}
                     href={result.href}
                     onClick={() => handleResultClick(result)}
-                    className={`flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition ${
+                    className={`flex items-start gap-3 px-4 py-3 hover:bg-slate-50 transition ${
                       isSelected ? 'bg-brand-blue-50' : ''
                     }`}
                     role="option"
@@ -315,7 +315,7 @@ export function SearchBar({
                         <div className="text-sm text-slate-700 truncate">{result.description}</div>
                       )}
                       {result.category && (
-                        <span className="inline-block mt-1 text-xs bg-gray-100 text-slate-700 px-2 py-0.5 rounded">
+                        <span className="inline-block mt-1 text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded">
                           {result.category}
                         </span>
                       )}
@@ -343,7 +343,7 @@ export function SearchBar({
           {/* Recent searches */}
           {!query && recentSearches.length > 0 && (
             <div>
-              <div className="px-3 py-2 text-xs font-semibold text-slate-700 uppercase tracking-wider bg-gray-50 flex items-center justify-between">
+              <div className="px-3 py-2 text-xs font-semibold text-slate-700 uppercase tracking-wider bg-slate-50 flex items-center justify-between">
                 <span className="flex items-center gap-1">
                   <Clock className="w-3 h-3" /> Recent Searches
                 </span>
@@ -360,7 +360,7 @@ export function SearchBar({
                   <button
                     key={search}
                     onClick={() => setQuery(search)}
-                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 ${
+                    className={`w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center gap-2 ${
                       isSelected ? 'bg-brand-blue-50' : ''
                     }`}
                     role="option"
@@ -383,7 +383,7 @@ export function SearchBar({
                   <button
                     key={term}
                     onClick={() => setQuery(term)}
-                    className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-full text-slate-900"
+                    className="px-3 py-1 text-sm bg-slate-100 hover:bg-slate-200 rounded-full text-slate-900"
                   >
                     {term}
                   </button>
@@ -394,7 +394,7 @@ export function SearchBar({
 
           {/* Search all link */}
           {query && (
-            <div className="border-t border-gray-100 p-2 bg-gray-50">
+            <div className="border-t border-slate-100 p-2 bg-slate-50">
               <Link
                 href={`/search?q=${encodeURIComponent(query)}`}
                 className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-brand-blue-600 hover:bg-white rounded-lg transition"

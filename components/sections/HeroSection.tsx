@@ -65,7 +65,7 @@ export function HeroSection({
           </Link>
           <Link
             href={secondaryCTA.href}
-            className="px-8 py-4 bg-white hover:bg-gray-100 text-brand-blue-900 font-bold rounded-lg transition-all text-center"
+            className="px-8 py-4 bg-white hover:bg-slate-100 text-brand-blue-900 font-bold rounded-lg transition-all text-center"
           >
             {secondaryCTA.text}
           </Link>

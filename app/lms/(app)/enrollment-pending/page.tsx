@@ -55,7 +55,7 @@ export default async function EnrollmentPendingPage({
 
   return (
     <main className="min-h-screen bg-white flex items-center justify-center px-4">
-      <div className="max-w-lg w-full bg-white rounded-xl border border-gray-200 shadow-sm p-8 text-center">
+      <div className="max-w-lg w-full bg-white rounded-xl border border-slate-200 shadow-sm p-8 text-center">
         {/* Status icon */}
         <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg
@@ -110,7 +110,7 @@ export default async function EnrollmentPendingPage({
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             href="/lms/programs"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-gray-300 text-slate-900 text-sm font-medium hover:bg-gray-50"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-slate-300 text-slate-900 text-sm font-medium hover:bg-slate-50"
           >
             Browse Programs
           </Link>

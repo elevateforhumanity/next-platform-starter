@@ -127,7 +127,7 @@ export default function PartnersPage() {
 
       <section className="">
         <div className="mx-auto max-w-6xl px-6 py-14 grid gap-10 md:grid-cols-2">
-          <div className="relative h-[340px] w-full overflow-hidden rounded-lg border border-gray-200 bg-white">
+          <div className="relative h-[340px] w-full overflow-hidden rounded-lg border border-slate-200 bg-white">
             <Image
               src="/images/pages/platform-page-4.jpg"
               alt="Employer and workforce partners"
@@ -145,7 +145,7 @@ export default function PartnersPage() {
             </p>
 
             <div className="mt-8 grid gap-4">
-              <div className="rounded-md border border-gray-200 p-5">
+              <div className="rounded-md border border-slate-200 p-5">
                 <div className="text-xl font-semibold">Employer Partners</div>
                 <ul className="mt-3 list-disc pl-5 text-slate-700">
                   <li>Pre-aligned training pathways matched to your roles</li>
@@ -163,7 +163,7 @@ export default function PartnersPage() {
                 </div>
               </div>
 
-              <div className="rounded-md border border-gray-200 p-5">
+              <div className="rounded-md border border-slate-200 p-5">
                 <div className="text-xl font-semibold">Workforce & Government Partners</div>
                 <ul className="mt-3 list-disc pl-5 text-slate-700">
                   <li>Compliant, auditable pathway operations</li>
@@ -174,7 +174,7 @@ export default function PartnersPage() {
                 <div className="mt-5">
                   <Link
                     href="/contact?type=agency"
-                    className="rounded-md border border-gray-300 px-5 py-2.5 font-semibold hover:bg-white"
+                    className="rounded-md border border-slate-300 px-5 py-2.5 font-semibold hover:bg-white"
                   >
                     Agency Intake
                   </Link>
@@ -229,7 +229,7 @@ export default function PartnersPage() {
             {governmentPartners.map((partner) => (
               <div
                 key={partner.name}
-                className="rounded-lg border-2 border-gray-200 bg-white p-6 hover:border-brand-blue-500 transition-colors"
+                className="rounded-lg border-2 border-slate-200 bg-white p-6 hover:border-brand-blue-500 transition-colors"
               >
                 <span className="inline-block px-3 py-1 bg-brand-blue-100 text-brand-blue-700 text-xs font-semibold rounded-full mb-3">
                   {partner.type}
@@ -256,7 +256,7 @@ export default function PartnersPage() {
             {credentialPartners.map((partner) => (
               <div
                 key={partner.name}
-                className="rounded-lg border-2 border-gray-200 bg-white p-6 hover:border-brand-green-500 transition-colors"
+                className="rounded-lg border-2 border-slate-200 bg-white p-6 hover:border-brand-green-500 transition-colors"
               >
                 <span className="inline-block px-3 py-1 bg-brand-green-100 text-brand-green-700 text-xs font-semibold rounded-full mb-3">
                   {partner.type}
@@ -283,7 +283,7 @@ export default function PartnersPage() {
             {industryPartners.map((partner) => (
               <div
                 key={partner.name}
-                className="rounded-lg border-2 border-gray-200 bg-white p-6 hover:border-brand-orange-500 transition-colors"
+                className="rounded-lg border-2 border-slate-200 bg-white p-6 hover:border-brand-orange-500 transition-colors"
               >
                 <span className="inline-block px-3 py-1 bg-brand-orange-100 text-brand-orange-700 text-xs font-semibold rounded-full mb-3">
                   {partner.type}
@@ -383,7 +383,7 @@ export default function PartnersPage() {
           </p>
 
           <div className="space-y-4">
-            <details className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group">
+            <details className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group">
               <summary className="p-6 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                 Is there a cost to become a partner?
                 <svg
@@ -406,7 +406,7 @@ export default function PartnersPage() {
               </div>
             </details>
 
-            <details className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group">
+            <details className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group">
               <summary className="p-6 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                 What types of organizations can partner?
                 <svg
@@ -429,7 +429,7 @@ export default function PartnersPage() {
               </div>
             </details>
 
-            <details className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group">
+            <details className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group">
               <summary className="p-6 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                 What is expected of employer partners?
                 <svg
@@ -453,7 +453,7 @@ export default function PartnersPage() {
               </div>
             </details>
 
-            <details className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group">
+            <details className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group">
               <summary className="p-6 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                 How quickly can we start receiving candidates?
                 <svg
@@ -477,7 +477,7 @@ export default function PartnersPage() {
               </div>
             </details>
 
-            <details className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group">
+            <details className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group">
               <summary className="p-6 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                 What industries do you serve?
                 <svg
@@ -501,7 +501,7 @@ export default function PartnersPage() {
               </div>
             </details>
 
-            <details className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group">
+            <details className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group">
               <summary className="p-6 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                 Do you work with justice-involved individuals?
                 <svg
@@ -564,7 +564,7 @@ export default function PartnersPage() {
 
 function Benefit({ title, text }: { title: string; text: string }) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6">
+    <div className="rounded-lg border border-slate-200 bg-white p-6">
       <div className="text-xl font-semibold">{title}</div>
       <p className="mt-3 text-slate-700">{text}</p>
     </div>

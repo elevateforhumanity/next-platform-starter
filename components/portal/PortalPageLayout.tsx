@@ -88,7 +88,7 @@ export function PortalPageLayout({
 
       {/* Quick Actions */}
       {actions && actions.length > 0 && (
-        <section className="py-12 px-6 bg-gray-50">
+        <section className="py-12 px-6 bg-slate-50">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Quick Actions</h2>
             <div className={`grid md:grid-cols-${Math.min(actions.length, 4)} gap-4`}>
@@ -96,7 +96,7 @@ export function PortalPageLayout({
                 <Link
                   key={action.title}
                   href={action.href}
-                  className="group bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden border border-gray-100"
+                  className="group bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden border border-slate-100"
                 >
                   <div className="relative h-32 overflow-hidden">
                     <Image
@@ -142,7 +142,7 @@ export function PortalDataTable({
 }) {
   if (!data || data.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-md border border-gray-100 p-12 text-center">
+      <div className="bg-white rounded-xl shadow-md border border-slate-100 p-12 text-center">
         {emptyImage && (
           <Image
             src={emptyImage}
@@ -166,10 +166,10 @@ export function PortalDataTable({
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+    <div className="bg-white rounded-xl shadow-md border border-slate-100 overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-slate-50 border-b">
             <tr>
               {columns.map((col) => (
                 <th
@@ -181,9 +181,9 @@ export function PortalDataTable({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-slate-100">
             {data.map((item, index) => (
-              <tr key={item.id || index} className="hover:bg-gray-50">
+              <tr key={item.id || index} className="hover:bg-slate-50">
                 {columns.map((col) => (
                   <td key={col.key} className="px-6 py-4">
                     {col.render ? col.render(item) : item[col.key]}

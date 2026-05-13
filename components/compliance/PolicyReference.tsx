@@ -41,7 +41,7 @@ export function PolicyReference({
 
   if (variant === 'notice') {
     return (
-      <div className={`bg-gray-50 border border-gray-200 rounded p-3 ${className}`}>
+      <div className={`bg-slate-50 border border-slate-200 rounded p-3 ${className}`}>
         <p className="text-xs text-black">
           {description || `Subject to our ${policyName}.`}{' '}
           <Link

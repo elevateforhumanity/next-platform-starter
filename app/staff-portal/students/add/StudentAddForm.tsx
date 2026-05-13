@@ -167,7 +167,7 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
                   ? 'bg-brand-green-500 text-white'
                   : currentStep === step.id
                     ? 'bg-brand-orange-500 text-white'
-                    : 'bg-gray-200 text-slate-700'
+                    : 'bg-slate-200 text-slate-700'
               }`}
             >
               {currentStep > step.id ? (
@@ -183,7 +183,7 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
             </span>
             {idx < steps.length - 1 && (
               <div
-                className={`w-12 h-1 mx-2 ${currentStep > step.id ? 'bg-brand-green-500' : 'bg-gray-200'}`}
+                className={`w-12 h-1 mx-2 ${currentStep > step.id ? 'bg-brand-green-500' : 'bg-slate-200'}`}
               />
             )}
           </div>
@@ -377,7 +377,7 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
               onRemove={handleDocumentRemove}
             />
             {!isApprenticeshipProgram && (
-              <div className="p-4 bg-white border border-gray-200 rounded-lg">
+              <div className="p-4 bg-white border border-slate-200 rounded-lg">
                 <p className="text-slate-700 text-sm">
                   No documents required for this program. You can proceed to the next step.
                 </p>

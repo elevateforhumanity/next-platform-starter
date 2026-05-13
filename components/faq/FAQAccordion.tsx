@@ -90,11 +90,11 @@ export function FAQAccordion({
               return (
                 <div
                   key={index}
-                  className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-brand-blue-600 transition"
+                  className="bg-white border-2 border-slate-200 rounded-xl overflow-hidden hover:border-brand-blue-600 transition"
                 >
                   <button
                     onClick={() => toggleQuestion(category.id, index)}
-                    className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition"
+                    className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition"
                     aria-expanded={isOpen}
                     aria-controls={`faq-${category.id}-${index}`}
                   >
@@ -109,7 +109,7 @@ export function FAQAccordion({
                   {isOpen && (
                     <div
                       id={`faq-${category.id}-${index}`}
-                      className="px-6 py-4 bg-gray-50 border-t-2 border-gray-200"
+                      className="px-6 py-4 bg-slate-50 border-t-2 border-slate-200"
                     >
                       <p className="text-slate-900 leading-relaxed">{faq.a}</p>
                     </div>

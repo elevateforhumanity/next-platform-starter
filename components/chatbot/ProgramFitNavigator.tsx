@@ -50,7 +50,7 @@ export function ProgramFitNavigator({
   // Inline variant - horizontal banner
   if (variant === 'inline') {
     return (
-      <div className={`bg-gray-50 border border-gray-200 rounded-xl p-6 ${className}`}>
+      <div className={`bg-slate-50 border border-slate-200 rounded-xl p-6 ${className}`}>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <p className="text-slate-900 font-medium">
@@ -75,7 +75,7 @@ export function ProgramFitNavigator({
   // Card variant - full featured panel
   return (
     <div
-      className={`bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden ${className}`}
+      className={`bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden ${className}`}
     >
       {/* Header */}
       <div className="bg-gradient-to-r from-brand-blue-600 to-brand-blue-700 px-6 py-4">

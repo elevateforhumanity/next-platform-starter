@@ -109,7 +109,7 @@ export default function TransparencyPage() {
                     <span className="font-semibold">{item.category}</span>
                     <span className="text-brand-blue-600 font-bold">{item.percentage}%</span>
                   </div>
-                  <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden mb-2">
+                  <div className="w-full h-4 bg-slate-200 rounded-full overflow-hidden mb-2">
                     <div
                       className="h-full bg-white rounded-full"
                       style={{ width: `${item.percentage}%` }}

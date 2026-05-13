@@ -83,7 +83,7 @@ export default function EducationLandingPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* NAV */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             <Link href="/education" className="flex items-center gap-2.5">
@@ -154,7 +154,7 @@ export default function EducationLandingPage() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {PROGRAMS.map((p) => (
-              <div key={p.title} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-100">
+              <div key={p.title} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-slate-100">
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
                   <Image src={p.image} alt={`${p.title} training`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
                 </div>
@@ -183,7 +183,7 @@ export default function EducationLandingPage() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {LOCATIONS.map((loc) => (
-              <div key={loc.state} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
+              <div key={loc.state} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-slate-100">
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
                   <Image src={loc.image} alt={`Training in ${loc.state}`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
                 </div>
@@ -250,7 +250,7 @@ export default function EducationLandingPage() {
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm">
+          <div className="border-t border-slate-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm">
             <div>&copy; {new Date().getFullYear()} Elevate for Humanity. All rights reserved.</div>
             <Link href="https://www.elevateforhumanity.org" className="hover:text-slate-900">www.elevateforhumanity.org</Link>
           </div>

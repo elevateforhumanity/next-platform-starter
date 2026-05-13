@@ -33,7 +33,7 @@ export function ProgressTracker({ modules, overallProgress }: ProgressTrackerPro
               <span className="font-semibold">Overall Progress</span>
               <span className="text-2xl font-bold text-brand-orange-600">{overallProgress}%</span>
             </div>
-            <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
               <div className="h-full    transition-all" style={{ width: `${overallProgress}%` }} />
             </div>
           </div>
@@ -49,7 +49,7 @@ export function ProgressTracker({ modules, overallProgress }: ProgressTrackerPro
             {modules.map((module, index) => (
               <div key={module.id} className="relative">
                 {index < modules.length - 1 && (
-                  <div className="absolute left-3 top-12 bottom-0 w-0.5 bg-gray-200" />
+                  <div className="absolute left-3 top-12 bottom-0 w-0.5 bg-slate-200" />
                 )}
                 <div className="flex gap-4">
                   <div className="relative z-10 bg-white">{getStatusIcon(module.status)}</div>
@@ -58,7 +58,7 @@ export function ProgressTracker({ modules, overallProgress }: ProgressTrackerPro
                     <div className="text-sm text-black mb-2">
                       {module.completedLessons} of {module.lessons} lessons completed
                     </div>
-                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-brand-orange-600 transition-all"
                         style={{ width: `${module.progress}%` }}

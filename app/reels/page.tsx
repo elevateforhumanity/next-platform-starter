@@ -42,7 +42,7 @@ export default async function ReelsPage() {
   }));
 
   return (
-    <div className="bg-gray-950 min-h-screen">
+    <div className="bg-slate-950 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Blog', href: '/news' }, { label: 'Reels' }]} />
       </div>
@@ -51,7 +51,7 @@ export default async function ReelsPage() {
 
       {/* Cross-link to blog posts */}
       {posts && posts.length > 0 && (
-        <section className="bg-gray-900 py-12 px-4">
+        <section className="bg-slate-900 py-12 px-4">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -69,7 +69,7 @@ export default async function ReelsPage() {
                 <Link
                   key={post.id}
                   href={`/news/${post.slug}`}
-                  className="block rounded-xl bg-gray-800 border border-gray-700 p-4 hover:bg-gray-750 hover:border-gray-600 transition"
+                  className="block rounded-xl bg-slate-800 border border-slate-700 p-4 hover:bg-slate-750 hover:border-slate-600 transition"
                 >
                   <h3 className="font-semibold text-white text-sm leading-snug line-clamp-2">
                     {post.title}

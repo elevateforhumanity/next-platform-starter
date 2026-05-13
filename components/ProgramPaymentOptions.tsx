@@ -88,7 +88,7 @@ export default function ProgramPaymentOptions({
           className={`w-full text-left p-6 rounded-lg border-2 transition ${
             paymentMethod === 'full'
               ? 'border-brand-green-600 bg-brand-green-50'
-              : 'border-gray-300 hover:border-brand-green-400'
+              : 'border-slate-300 hover:border-brand-green-400'
           }`}
         >
           <div className="flex items-start justify-between">
@@ -112,7 +112,7 @@ export default function ProgramPaymentOptions({
           className={`w-full text-left p-6 rounded-lg border-2 transition ${
             paymentMethod === 'stripe'
               ? 'border-brand-blue-600 bg-brand-blue-50'
-              : 'border-gray-300 hover:border-brand-blue-400'
+              : 'border-slate-300 hover:border-brand-blue-400'
           }`}
         >
           <div className="flex items-start justify-between">
@@ -137,7 +137,7 @@ export default function ProgramPaymentOptions({
           className={`w-full text-left p-6 rounded-lg border-2 transition ${
             paymentMethod === 'bnpl'
               ? 'border-purple-600 bg-purple-50'
-              : 'border-gray-300 hover:border-purple-400'
+              : 'border-slate-300 hover:border-purple-400'
           }`}
         >
           <div className="flex items-start justify-between">

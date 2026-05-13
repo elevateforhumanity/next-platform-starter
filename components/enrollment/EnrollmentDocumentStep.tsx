@@ -126,14 +126,14 @@ export default function EnrollmentDocumentStep({
       )}
 
       {/* Progress indicator */}
-      <div className="bg-gray-50 rounded-lg p-4">
+      <div className="bg-slate-50 rounded-lg p-4">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-medium text-slate-900">Upload Progress</span>
           <span className="text-sm text-slate-700">
             {uploadedRequiredCount} of {requiredCount} required
           </span>
         </div>
-        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
           <div
             className={`h-full transition-all duration-300 ${
               allRequiredUploaded ? 'bg-brand-green-500' : 'bg-brand-orange-500'
@@ -160,7 +160,7 @@ export default function EnrollmentDocumentStep({
                   ? 'border-brand-green-200 bg-brand-green-50'
                   : isDragOver
                     ? 'border-brand-blue-500 bg-brand-blue-50'
-                    : 'border-gray-200 bg-white'
+                    : 'border-slate-200 bg-white'
               }`}
               onDrop={(e) => handleDrop(req.type, e)}
               onDragOver={(e) => handleDragOver(req.type, e)}
@@ -169,7 +169,7 @@ export default function EnrollmentDocumentStep({
               <div className="flex items-start gap-4">
                 <div
                   className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                    uploaded ? 'bg-brand-green-100' : 'bg-gray-100'
+                    uploaded ? 'bg-brand-green-100' : 'bg-slate-100'
                   }`}
                 >
                   {uploaded ? (
@@ -236,10 +236,10 @@ export default function EnrollmentDocumentStep({
                       />
                       <label
                         htmlFor={`file-${req.type}`}
-                        className={`inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium cursor-pointer transition-colors ${
+                        className={`inline-flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium cursor-pointer transition-colors ${
                           isUploading
-                            ? 'bg-gray-100 text-slate-700 cursor-not-allowed'
-                            : 'bg-white text-slate-900 hover:bg-gray-50 hover:border-gray-400'
+                            ? 'bg-slate-100 text-slate-700 cursor-not-allowed'
+                            : 'bg-white text-slate-900 hover:bg-slate-50 hover:border-slate-400'
                         }`}
                       >
                         {isUploading ? (

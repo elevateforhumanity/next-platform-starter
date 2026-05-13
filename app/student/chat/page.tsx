@@ -220,7 +220,7 @@ export default function StudentChatPage() {
         </div>
       </div>
 
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <h1 className="text-xl font-bold text-slate-900">Messages</h1>
         </div>
@@ -228,19 +228,19 @@ export default function StudentChatPage() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div
-          className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+          className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"
           style={{ height: 'calc(100vh - 200px)' }}
         >
           <div className="flex h-full">
             {/* Conversations List */}
-            <div className="w-80 border-r border-gray-200 flex flex-col">
-              <div className="p-4 border-b border-gray-200">
+            <div className="w-80 border-r border-slate-200 flex flex-col">
+              <div className="p-4 border-b border-slate-200">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700" />
                   <input
                     type="text"
                     placeholder="Search conversations..."
-                    className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
+                    className="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
                   />
                 </div>
               </div>
@@ -254,7 +254,7 @@ export default function StudentChatPage() {
                     }`}
                   >
                     <div className="relative">
-                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center">
                         <User className="w-5 h-5 text-slate-700" />
                       </div>
                       {convo.online && (
@@ -283,10 +283,10 @@ export default function StudentChatPage() {
             {selectedConvo ? (
               <div className="flex-1 flex flex-col">
                 {/* Chat Header */}
-                <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="relative">
-                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center">
                         <User className="w-5 h-5 text-slate-700" />
                       </div>
                       {selectedConvo.online && (
@@ -341,7 +341,7 @@ export default function StudentChatPage() {
                 </div>
 
                 {/* Message Input */}
-                <div className="px-6 py-4 border-t border-gray-200">
+                <div className="px-6 py-4 border-t border-slate-200">
                   <div className="flex items-center gap-3">
                     <button className="p-2 text-slate-700 hover:text-slate-900">
                       <Paperclip className="w-5 h-5" />
@@ -352,7 +352,7 @@ export default function StudentChatPage() {
                       onChange={(e) => setNewMessage(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                       placeholder="Type a message..."
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-brand-blue-500"
+                      className="flex-1 px-4 py-2 border border-slate-300 rounded-full focus:ring-2 focus:ring-brand-blue-500"
                     />
                     <button className="p-2 text-slate-700 hover:text-slate-900">
                       <Smile className="w-5 h-5" />

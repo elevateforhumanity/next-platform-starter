@@ -128,7 +128,7 @@ export async function POST(
       results.push({ id: lesson.id, title: lesson.title, video_url: videoUrl });
     } catch (err: any) {
       logger.error('Video gen failed for ' + lesson.title + ':', err);
-      results.push({ id: lesson.id, title: lesson.title, error: err.message });
+      results.push({ id: lesson.id, title: lesson.title, error: 'Video generation failed' });
     }
   }
 

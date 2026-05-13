@@ -129,7 +129,7 @@ export default async function GovernmentPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
                   src="/images/pages/workforce-board.jpg"
@@ -168,7 +168,7 @@ export default async function GovernmentPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
                   src="/images/pages/government-2.jpg"
@@ -205,7 +205,7 @@ export default async function GovernmentPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
                   src="/images/pages/federal-funded.jpg"
@@ -370,7 +370,7 @@ export default async function GovernmentPage() {
                       <span className="font-medium text-slate-900">Program Completion Rate</span>
                       <span className="font-bold text-brand-blue-600">87%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="w-full bg-slate-200 rounded-full h-3">
                       <div className="bg-white h-3 rounded-full" style={{ width: '87%' }} />
                     </div>
                   </div>
@@ -379,7 +379,7 @@ export default async function GovernmentPage() {
                       <span className="font-medium text-slate-900">Credential Attainment</span>
                       <span className="font-bold text-brand-green-600">92%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="w-full bg-slate-200 rounded-full h-3">
                       <div className="bg-white h-3 rounded-full" style={{ width: '92%' }} />
                     </div>
                   </div>
@@ -388,7 +388,7 @@ export default async function GovernmentPage() {
                       <span className="font-medium text-slate-900">Employment Rate (Q2)</span>
                       <span className="font-bold text-brand-blue-600">78%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="w-full bg-slate-200 rounded-full h-3">
                       <div className="bg-white h-3 rounded-full" style={{ width: '78%' }} />
                     </div>
                   </div>
@@ -397,7 +397,7 @@ export default async function GovernmentPage() {
                       <span className="font-medium text-slate-900">Median Wage Increase</span>
                       <span className="font-bold text-brand-orange-600">34%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="w-full bg-slate-200 rounded-full h-3">
                       <div className="bg-white h-3 rounded-full" style={{ width: '34%' }} />
                     </div>
                   </div>
@@ -426,7 +426,7 @@ export default async function GovernmentPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src="/images/pages/government-page-1.jpg"
@@ -448,7 +448,7 @@ export default async function GovernmentPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src="/images/pages/government-3.jpg"
@@ -470,7 +470,7 @@ export default async function GovernmentPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src="/images/pages/government-4.jpg"
@@ -492,7 +492,7 @@ export default async function GovernmentPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src="/images/pages/government-5.webp"
@@ -585,7 +585,7 @@ export default async function GovernmentPage() {
               return (
                 <div
                   key={item.name}
-                  className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 flex flex-col"
+                  className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 flex flex-col"
                 >
                   <div className="relative h-40 overflow-hidden flex-shrink-0">
                     <Image

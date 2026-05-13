@@ -145,7 +145,7 @@ export default async function MentorSessionsPage() {
                     </Link>
                     <Link
                       href={`/mentor/sessions/${session.id}/reschedule`}
-                      className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-slate-50 text-slate-700"
+                      className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 text-slate-700"
                     >
                       Reschedule
                     </Link>
@@ -181,7 +181,7 @@ export default async function MentorSessionsPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-slate-200">
                   {pastSessions.map((session) => (
                     <tr key={session.id} className="hover:bg-white">
                       <td className="px-6 py-4 font-medium text-slate-900">{session.mentee}</td>

@@ -262,7 +262,7 @@ export function GuidedDemoChat() {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+    <div className="fixed bottom-6 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
       {/* Header */}
       <div className="bg-gradient-to-r from-brand-blue-600 to-brand-blue-600 text-white p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -299,7 +299,7 @@ export function GuidedDemoChat() {
 
       {/* Progress bar */}
       {!showStartPrompt && (
-        <div className="h-1 bg-gray-200">
+        <div className="h-1 bg-slate-200">
           <div
             className="h-full bg-gradient-to-r from-brand-blue-500 to-purple-500 transition-all duration-500"
             style={{ width: `${((currentStep + 1) / DEMO_SCRIPT.length) * 100}%` }}
@@ -343,7 +343,7 @@ export function GuidedDemoChat() {
                   className={`max-w-[80%] p-3 rounded-2xl ${
                     msg.role === 'user'
                       ? 'bg-brand-blue-600 text-white rounded-br-md'
-                      : 'bg-gray-100 text-slate-900 rounded-bl-md'
+                      : 'bg-slate-100 text-slate-900 rounded-bl-md'
                   }`}
                 >
                   <p className="text-sm">{msg.text}</p>
@@ -357,14 +357,14 @@ export function GuidedDemoChat() {
 
       {/* Input */}
       {!showStartPrompt && (
-        <form onSubmit={handleUserInput} className="p-4 border-t border-gray-200">
+        <form onSubmit={handleUserInput} className="p-4 border-t border-slate-200">
           <div className="flex gap-2">
             <input
               type="text"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               placeholder="Ask a question..."
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+              className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
             />
             <button
               type="submit"
