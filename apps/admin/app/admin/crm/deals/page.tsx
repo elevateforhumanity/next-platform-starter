@@ -100,7 +100,7 @@ export default async function DealsPage() {
                 {stageStats.map((stage) => (
                   <div
                     key={stage.name}
-                    className="bg-gray-50 rounded-xl p-4 border border-gray-100"
+                    className="bg-slate-50 rounded-xl p-4 border border-slate-100"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <div className={`w-2.5 h-2.5 rounded-full ${stage.dot}`} />
@@ -123,7 +123,7 @@ export default async function DealsPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               {(deals ?? []).length === 0 ? (
                 // Empty state — honest, not fake
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
+                <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-12 text-center">
                   <DollarSign className="w-12 h-12 text-slate-700 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-slate-900 mb-2">No deals yet</h3>
                   <p className="text-slate-700 mb-6">
@@ -141,7 +141,7 @@ export default async function DealsPage() {
                   {(deals ?? []).map((deal: any) => (
                     <div
                       key={deal.id}
-                      className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow"
+                      className="bg-white rounded-xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
@@ -151,7 +151,7 @@ export default async function DealsPage() {
                             </h3>
                             {deal.stage && (
                               <span
-                                className={`px-2.5 py-0.5 rounded-full text-xs font-medium border flex-shrink-0 ${STAGE_BADGE[deal.stage] ?? 'bg-gray-100 text-slate-900 border-gray-200'}`}
+                                className={`px-2.5 py-0.5 rounded-full text-xs font-medium border flex-shrink-0 ${STAGE_BADGE[deal.stage] ?? 'bg-slate-100 text-slate-900 border-slate-200'}`}
                               >
                                 {deal.stage}
                               </span>
@@ -172,7 +172,7 @@ export default async function DealsPage() {
                           </p>
                           {deal.probability != null && (
                             <div className="flex items-center gap-2 mt-1 justify-end">
-                              <div className="w-20 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                              <div className="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                                 <div
                                   className={`h-full rounded-full ${deal.probability === 100 ? 'bg-green-500' : 'bg-blue-500'}`}
                                   style={{ width: `${deal.probability}%` }}
@@ -183,7 +183,7 @@ export default async function DealsPage() {
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100">
+                      <div className="flex items-center gap-3 mt-4 pt-4 border-t border-slate-100">
                         <Link
                           href={`/admin/crm/deals/${deal.id}`}
                           className="px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors text-sm"
@@ -191,7 +191,7 @@ export default async function DealsPage() {
                           View Deal
                         </Link>
                         {deal.stage !== 'Closed Won' && (
-                          <button className="px-4 py-2 border border-gray-300 text-slate-900 font-medium rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2 text-sm">
+                          <button className="px-4 py-2 border border-slate-300 text-slate-900 font-medium rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-2 text-sm">
                             <ArrowRight className="w-4 h-4" />
                             Move Stage
                           </button>

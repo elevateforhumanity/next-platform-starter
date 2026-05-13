@@ -96,7 +96,7 @@ export default async function BulkCertificationsPage() {
               <button className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-brand-blue-700">
                 Export CSV
               </button>
-              <button className="border px-4 py-2 rounded-lg text-sm hover:bg-gray-50">
+              <button className="border px-4 py-2 rounded-lg text-sm hover:bg-slate-50">
                 Import CSV
               </button>
             </div>
@@ -141,7 +141,7 @@ export default async function BulkCertificationsPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                     <input type="checkbox" className="w-4 h-4 rounded" />
@@ -166,7 +166,7 @@ export default async function BulkCertificationsPage() {
               <tbody className="divide-y">
                 {pendingCertifications && pendingCertifications.length > 0 ? (
                   pendingCertifications.map((cert: any) => (
-                    <tr key={cert.id} className="hover:bg-gray-50">
+                    <tr key={cert.id} className="hover:bg-slate-50">
                       <td className="px-4 py-3">
                         <input type="checkbox" className="w-4 h-4 rounded" />
                       </td>

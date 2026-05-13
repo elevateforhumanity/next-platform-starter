@@ -188,7 +188,7 @@ export function DocumentCenterClient({
         onDrop={onDrop}
         onClick={() => inputRef.current?.click()}
         className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors mb-6 ${
-          dragging ? 'border-red-400 bg-red-50' : 'border-gray-200 hover:border-gray-300 bg-gray-50 hover:bg-gray-100'
+          dragging ? 'border-red-400 bg-red-50' : 'border-slate-200 hover:border-slate-300 bg-slate-50 hover:bg-slate-100'
         }`}
       >
         <Upload className={`w-8 h-8 mx-auto mb-2 ${dragging ? 'text-red-500' : 'text-slate-400'}`} />
@@ -232,14 +232,14 @@ export function DocumentCenterClient({
           {queue.map((item) => (
             <div key={item.id} className={`flex items-center gap-3 p-3 rounded-lg border text-sm ${
               item.status === 'done' ? 'border-green-200 bg-green-50' :
-              item.status === 'error' ? 'border-red-200 bg-red-50' : 'border-gray-200 bg-white'
+              item.status === 'error' ? 'border-red-200 bg-red-50' : 'border-slate-200 bg-white'
             }`}>
               {fileIcon(item.file.type)}
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-slate-900 truncate">{item.file.name}</p>
                 <p className="text-xs text-slate-400">{formatSize(item.file.size)}</p>
                 {item.status === 'uploading' && (
-                  <div className="mt-1.5 h-1 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="mt-1.5 h-1 bg-slate-200 rounded-full overflow-hidden">
                     <div className="h-full bg-red-500 rounded-full transition-all" style={{ width: `${item.progress}%` }} />
                   </div>
                 )}
@@ -273,7 +273,7 @@ export function DocumentCenterClient({
           placeholder="Search documents..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
         />
       </div>
 
@@ -292,9 +292,9 @@ export function DocumentCenterClient({
           <p className="text-sm mt-1">Upload a file above to get started</p>
         </div>
       ) : (
-        <div className="border border-gray-200 rounded-xl overflow-hidden">
+        <div className="border border-slate-200 rounded-xl overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
                 <th className="text-left px-4 py-3 font-semibold text-slate-600">Name</th>
                 <th className="text-left px-4 py-3 font-semibold text-slate-600 hidden md:table-cell">Type</th>
@@ -303,9 +303,9 @@ export function DocumentCenterClient({
                 <th className="px-4 py-3" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {filtered.map((doc) => (
-                <tr key={doc.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={doc.id} className="hover:bg-slate-50 transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       {fileIcon(doc.mime_type)}
@@ -352,7 +352,7 @@ export function DocumentCenterClient({
         </div>
       )}
 
-      <div className="mt-6 pt-4 border-t border-gray-100 flex gap-4 text-sm text-slate-500">
+      <div className="mt-6 pt-4 border-t border-slate-100 flex gap-4 text-sm text-slate-500">
         <Link href="/admin/documents/upload" className="hover:text-slate-700">→ Advanced upload</Link>
         <Link href="/admin/media-studio" className="hover:text-slate-700">→ Media Studio</Link>
         <Link href="/admin/signatures" className="hover:text-slate-700">→ Signatures</Link>

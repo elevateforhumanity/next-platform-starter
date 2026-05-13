@@ -378,7 +378,7 @@ export function CourseBuilderPageClient() {
                   <a
                     href="/admin/media-studio"
                     target="_blank"
-                    className="flex-1 text-center border py-2 rounded-lg text-xs font-semibold hover:bg-gray-50"
+                    className="flex-1 text-center border py-2 rounded-lg text-xs font-semibold hover:bg-slate-50"
                   >
                     Media Studio ↗
                   </a>
@@ -419,7 +419,7 @@ export function CourseBuilderPageClient() {
                 setSelMod(i);
                 setSelLes(0);
               }}
-              className={`w-full text-left border rounded p-2 text-xs ${i === selMod ? 'bg-gray-100 font-medium' : ''}`}
+              className={`w-full text-left border rounded p-2 text-xs ${i === selMod ? 'bg-slate-100 font-medium' : ''}`}
             >
               <div>{m.title || '(untitled)'}</div>
               <div className="text-slate-500">
@@ -578,7 +578,7 @@ export function CourseBuilderPageClient() {
                 <button
                   key={i}
                   onClick={() => setSelLes(i)}
-                  className={`w-full text-left border rounded p-2 text-xs ${i === selLes ? 'bg-gray-100 font-medium' : ''}`}
+                  className={`w-full text-left border rounded p-2 text-xs ${i === selLes ? 'bg-slate-100 font-medium' : ''}`}
                 >
                   <div>{l.title || '(untitled)'}</div>
                   <div className="text-slate-500">
@@ -766,7 +766,7 @@ export function CourseBuilderPageClient() {
           )}
           {auditResult && (
             <pre
-              className="mt-4 border rounded p-3 text-xs overflow-auto bg-gray-50"
+              className="mt-4 border rounded p-3 text-xs overflow-auto bg-slate-50"
               style={{ maxHeight: '300px' }}
             >
               {JSON.stringify(auditResult, null, 2)}

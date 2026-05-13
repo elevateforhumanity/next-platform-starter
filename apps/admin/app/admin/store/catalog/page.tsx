@@ -86,9 +86,9 @@ export default async function CatalogSanityPage() {
 
         <h1 className="text-2xl font-bold text-slate-900 mb-2">Catalog Sanity Check</h1>
         <p className="text-slate-700 mb-6">
-          Compares the <code className="bg-gray-100 px-1 rounded text-sm">products</code> table
+          Compares the <code className="bg-slate-100 px-1 rounded text-sm">products</code> table
           against the hardcoded catalog in{' '}
-          <code className="bg-gray-100 px-1 rounded text-sm">store-products.ts</code>.
+          <code className="bg-slate-100 px-1 rounded text-sm">store-products.ts</code>.
         </p>
 
         {/* Summary */}
@@ -143,8 +143,8 @@ export default async function CatalogSanityPage() {
 
         {/* Comparison table */}
         <div className="bg-white rounded-lg border overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-slate-200">
+            <thead className="bg-slate-50">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                   Slug
@@ -172,7 +172,7 @@ export default async function CatalogSanityPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-slate-200">
               {rows.map((r) => (
                 <tr
                   key={r.slug}

@@ -184,7 +184,7 @@ export function DocumentUploadClient() {
         className={`border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-colors ${
           dragging
             ? 'border-red-400 bg-red-50'
-            : 'border-gray-300 hover:border-gray-400 bg-gray-50 hover:bg-gray-100'
+            : 'border-slate-300 hover:border-slate-400 bg-slate-50 hover:bg-slate-100'
         }`}
       >
         <Upload
@@ -231,7 +231,7 @@ export function DocumentUploadClient() {
                   ? 'border-green-200 bg-green-50'
                   : item.status === 'error'
                     ? 'border-red-200 bg-red-50'
-                    : 'border-gray-200 bg-white'
+                    : 'border-slate-200 bg-white'
               }`}
             >
               {/* Icon */}
@@ -244,7 +244,7 @@ export function DocumentUploadClient() {
 
                 {/* Progress bar */}
                 {item.status === 'uploading' && (
-                  <div className="mt-2 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="mt-2 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-red-500 rounded-full transition-all duration-300"
                       style={{ width: `${item.progress}%` }}
@@ -308,7 +308,7 @@ export function DocumentUploadClient() {
       )}
 
       {/* Link to document center */}
-      <div className="mt-8 pt-6 border-t border-gray-100">
+      <div className="mt-8 pt-6 border-t border-slate-100">
         <Link
           href="/admin/document-center"
           className="flex items-center gap-2 text-sm text-slate-700 hover:text-slate-900"

@@ -68,7 +68,7 @@ export default async function AdminStorePage() {
     succeeded: 'bg-green-100 text-green-700',
     pending: 'bg-yellow-100 text-yellow-700',
     failed: 'bg-red-100 text-red-700',
-    refunded: 'bg-gray-100 text-slate-700',
+    refunded: 'bg-slate-100 text-slate-700',
   };
 
   const productTypeBadge: Record<string, string> = {
@@ -92,7 +92,7 @@ export default async function AdminStorePage() {
               <Link
                 href="/store"
                 target="_blank"
-                className="flex items-center gap-2 border border-gray-300 text-slate-900 px-4 py-2 rounded-lg hover:bg-gray-50 text-sm"
+                className="flex items-center gap-2 border border-slate-300 text-slate-900 px-4 py-2 rounded-lg hover:bg-slate-50 text-sm"
               >
                 <ExternalLink size={14} /> View Store
               </Link>
@@ -157,7 +157,7 @@ export default async function AdminStorePage() {
                 storeProducts.map((prod: any) => (
                   <div key={prod.id} className="px-5 py-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
                         <Tag className="w-4 h-4 text-slate-700" />
                       </div>
                       <div>
@@ -169,12 +169,12 @@ export default async function AdminStorePage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <span
-                        className={`text-xs px-2 py-0.5 rounded-full capitalize ${productTypeBadge[prod.product_type] || 'bg-gray-100 text-slate-700'}`}
+                        className={`text-xs px-2 py-0.5 rounded-full capitalize ${productTypeBadge[prod.product_type] || 'bg-slate-100 text-slate-700'}`}
                       >
                         {prod.product_type || 'product'}
                       </span>
                       <span
-                        className={`text-xs px-2 py-0.5 rounded-full ${prod.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-slate-700'}`}
+                        className={`text-xs px-2 py-0.5 rounded-full ${prod.is_active ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700'}`}
                       >
                         {prod.is_active ? 'Active' : 'Inactive'}
                       </span>
@@ -216,7 +216,7 @@ export default async function AdminStorePage() {
                         ${Number(p.amount || 0).toLocaleString()}
                       </p>
                       <span
-                        className={`text-xs px-2 py-0.5 rounded-full capitalize ${purchaseStatusBadge[p.status] || 'bg-gray-100 text-slate-700'}`}
+                        className={`text-xs px-2 py-0.5 rounded-full capitalize ${purchaseStatusBadge[p.status] || 'bg-slate-100 text-slate-700'}`}
                       >
                         {p.status || 'pending'}
                       </span>
@@ -244,7 +244,7 @@ export default async function AdminStorePage() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b">
+                <thead className="bg-slate-50 border-b">
                   <tr>
                     <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
                       Customer
@@ -262,7 +262,7 @@ export default async function AdminStorePage() {
                 </thead>
                 <tbody className="divide-y">
                   {recentLicenses.map((l: any) => (
-                    <tr key={l.id} className="hover:bg-gray-50">
+                    <tr key={l.id} className="hover:bg-slate-50">
                       <td className="px-4 py-3">
                         <p className="font-medium text-slate-900">
                           {(l.profiles as any)?.full_name || 'Customer'}
@@ -276,7 +276,7 @@ export default async function AdminStorePage() {
                       </td>
                       <td className="px-4 py-3">
                         <span
-                          className={`text-xs px-2 py-1 rounded-full capitalize ${purchaseStatusBadge[l.status] || 'bg-gray-100 text-slate-700'}`}
+                          className={`text-xs px-2 py-1 rounded-full capitalize ${purchaseStatusBadge[l.status] || 'bg-slate-100 text-slate-700'}`}
                         >
                           {l.status || 'pending'}
                         </span>

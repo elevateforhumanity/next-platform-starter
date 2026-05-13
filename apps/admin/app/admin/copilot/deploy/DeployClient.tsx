@@ -281,7 +281,7 @@ export default function DeployClient() {
                             ? 'bg-brand-green-100 text-brand-green-700'
                             : deployment.status === 'deploying'
                               ? 'bg-yellow-100 text-yellow-700'
-                              : 'bg-gray-100 text-slate-700'
+                              : 'bg-slate-100 text-slate-700'
                         }`}
                       >
                         {deployment.status === 'active'
@@ -329,7 +329,7 @@ export default function DeployClient() {
                     disabled={isDeploying}
                     className={`px-4 py-2 rounded-lg font-medium ${
                       isDeploying
-                        ? 'bg-gray-100 text-slate-700 cursor-not-allowed'
+                        ? 'bg-slate-100 text-slate-700 cursor-not-allowed'
                         : 'bg-brand-blue-600 text-white hover:bg-brand-blue-700'
                     }`}
                   >
@@ -418,7 +418,7 @@ export default function DeployClient() {
                           d.status === 'active'
                             ? 'bg-brand-green-100 text-brand-green-700'
                             : d.status === 'stopped'
-                              ? 'bg-gray-100 text-slate-700'
+                              ? 'bg-slate-100 text-slate-700'
                               : d.status === 'deploying'
                                 ? 'bg-yellow-100 text-yellow-700'
                                 : 'bg-brand-red-100 text-brand-red-700'

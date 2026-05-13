@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const STATUS_BADGE: Record<string, string> = {
   active: 'bg-green-100 text-green-800',
-  inactive: 'bg-gray-100 text-slate-700',
+  inactive: 'bg-slate-100 text-slate-700',
   paused: 'bg-yellow-100 text-yellow-800',
   error: 'bg-red-100 text-red-800',
 };
@@ -84,7 +84,7 @@ export default async function WorkflowsPage() {
                     <td className="px-4 py-3 text-slate-600 capitalize">{r.category}</td>
                     <td className="px-4 py-3">
                       <span
-                        className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-gray-100 text-slate-700'}`}
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-slate-100 text-slate-700'}`}
                       >
                         {r.status}
                       </span>

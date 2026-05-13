@@ -228,7 +228,7 @@ export default function MediaStudioPage() {
               {/* Actions */}
               <button
                 onClick={() => loadFiles(selectedBucket)}
-                className="p-2 border rounded-lg hover:bg-gray-50"
+                className="p-2 border rounded-lg hover:bg-slate-50"
               >
                 <RefreshCw className="w-4 h-4" />
               </button>
@@ -272,7 +272,7 @@ export default function MediaStudioPage() {
                 key={file.name}
                 className="bg-white rounded-lg border overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className="aspect-square relative bg-gray-100">
+                <div className="aspect-square relative bg-slate-100">
                   {file.url.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
                     <Image
                       src={file.url}
@@ -294,7 +294,7 @@ export default function MediaStudioPage() {
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => window.open(file.url, '_blank')}
-                      className="flex-1 text-xs py-2 px-2 bg-brand-blue-50 text-brand-blue-600 rounded hover:bg-gray-100"
+                      className="flex-1 text-xs py-2 px-2 bg-brand-blue-50 text-brand-blue-600 rounded hover:bg-slate-100"
                     >
                       View
                     </button>
@@ -312,7 +312,7 @@ export default function MediaStudioPage() {
         ) : (
           <div className="bg-white rounded-lg border">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b">
+              <thead className="bg-slate-50 border-b">
                 <tr>
                   <th className="px-4 py-3 text-left text-sm font-medium text-black">Name</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-black">Size</th>
@@ -322,7 +322,7 @@ export default function MediaStudioPage() {
               </thead>
               <tbody>
                 {filteredFiles.map((file) => (
-                  <tr key={file.name} className="border-b hover:bg-gray-50">
+                  <tr key={file.name} className="border-b hover:bg-slate-50">
                     <td className="px-4 py-3 text-sm text-black">{file.name}</td>
                     <td className="px-4 py-3 text-sm text-black">
                       {(file.size / 1024).toFixed(1)} KB
@@ -356,7 +356,7 @@ export default function MediaStudioPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/media-studio"
-                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
+                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg shadow-2xl transition-all"
                 >
                   View Media
                 </Link>

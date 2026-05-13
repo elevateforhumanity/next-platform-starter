@@ -353,7 +353,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     active: 'bg-brand-green-100 text-brand-green-800 border-brand-green-200',
     pending: 'bg-amber-100 text-amber-800 border-amber-200',
     rejected: 'bg-brand-red-100 text-brand-red-800 border-brand-red-200',
-    suspended: 'bg-gray-100 text-slate-700 border-gray-200',
+    suspended: 'bg-slate-100 text-slate-700 border-slate-200',
   };
 
   return (
@@ -396,7 +396,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
                 {holder.organization_name || holder.name || 'Unnamed Organization'}
               </h1>
               <span
-                className={`inline-block mt-2 text-xs font-medium px-3 py-1 rounded border ${statusColor[holder.status] || 'bg-gray-100 text-slate-700'}`}
+                className={`inline-block mt-2 text-xs font-medium px-3 py-1 rounded border ${statusColor[holder.status] || 'bg-slate-100 text-slate-700'}`}
               >
                 {holder.status?.toUpperCase()}
               </span>
@@ -407,7 +407,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
                 <form action={suspendHolder}>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition"
+                    className="px-4 py-2 bg-slate-600 text-white text-sm font-medium rounded-lg hover:bg-slate-700 transition"
                   >
                     Suspend
                   </button>
@@ -515,7 +515,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
                     id="approve_program_id"
                     required
                     defaultValue=""
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-green-500 focus:border-brand-green-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-green-500 focus:border-brand-green-500"
                   >
                     <option value="" disabled>
                       Select a program...
@@ -560,7 +560,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
                 return (
                   <div
                     key={a.id}
-                    className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg"
+                    className="flex items-center justify-between py-2 px-3 bg-slate-50 rounded-lg"
                   >
                     <div>
                       <p className="font-medium text-slate-900">
@@ -617,7 +617,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
                   id="provision_program_id"
                   required
                   defaultValue=""
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 >
                   <option value="" disabled>
                     Select a program to provision...
@@ -653,7 +653,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
               {(auditEvents || []).map((evt: any, i: number) => (
                 <div
                   key={i}
-                  className="flex items-start gap-3 text-sm py-2 border-b border-gray-100 last:border-0"
+                  className="flex items-start gap-3 text-sm py-2 border-b border-slate-100 last:border-0"
                 >
                   <span className="text-slate-700 whitespace-nowrap text-xs mt-0.5">
                     {new Date(evt.created_at).toLocaleString()}

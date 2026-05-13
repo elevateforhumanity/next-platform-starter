@@ -107,13 +107,13 @@ export default function NewWorkflowPage() {
       </section>
 
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => router.push('/admin/email-marketing/automation')}
-                className="p-2 hover:bg-gray-100 rounded-lg"
+                className="p-2 hover:bg-slate-100 rounded-lg"
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
@@ -126,7 +126,7 @@ export default function NewWorkflowPage() {
             <div className="flex items-center space-x-3">
               <button
                 onClick={() => saveWorkflow('draft')}
-                className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                className="flex items-center space-x-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50"
               >
                 <Save className="w-4 h-4" />
                 <span>Save Draft</span>
@@ -163,7 +163,7 @@ export default function NewWorkflowPage() {
                       >,
                     ) => setWorkflow({ ...workflow, name: e.target.value })}
                     placeholder="e.g., Welcome Series"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   />
                 </div>
 
@@ -185,7 +185,7 @@ export default function NewWorkflowPage() {
                           | 'abandoned',
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   >
                     <option value="enrollment">New Student Enrollment</option>
                     <option value="application">New Application Submitted</option>
@@ -210,7 +210,7 @@ export default function NewWorkflowPage() {
                         targetAudience: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   >
                     <option value="all-students">All Students</option>
                     <option value="barber">Barber Program</option>
@@ -237,7 +237,7 @@ export default function NewWorkflowPage() {
 
               <div className="space-y-6">
                 {steps.map((step, index) => (
-                  <div key={step.id} className="border-2 border-gray-200 rounded-lg p-6">
+                  <div key={step.id} className="border-2 border-slate-200 rounded-lg p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-semibold">
@@ -275,7 +275,7 @@ export default function NewWorkflowPage() {
                             })
                           }
                           min="1"
-                          className="w-20 px-3 py-2 border border-gray-300 rounded-lg"
+                          className="w-20 px-3 py-2 border border-slate-300 rounded-lg"
                         />
                         <select
                           value={step.delayUnit}
@@ -288,7 +288,7 @@ export default function NewWorkflowPage() {
                               delayUnit: e.target.value as 'minutes' | 'hours' | 'days',
                             })
                           }
-                          className="px-3 py-2 border border-gray-300 rounded-lg"
+                          className="px-3 py-2 border border-slate-300 rounded-lg"
                         >
                           <option value="minutes">Minutes</option>
                           <option value="hours">Hours</option>
@@ -313,7 +313,7 @@ export default function NewWorkflowPage() {
                                 className={`p-3 border-2 rounded-lg text-left text-sm transition-colors ${
                                   step.template === key
                                     ? 'border-brand-blue-600 bg-brand-blue-50'
-                                    : 'border-gray-200 hover:border-gray-300'
+                                    : 'border-slate-200 hover:border-slate-300'
                                 }`}
                               >
                                 <div className="font-medium text-black">{template.name}</div>
@@ -335,13 +335,13 @@ export default function NewWorkflowPage() {
                             >,
                           ) => updateStep(step.id, { subject: e.target.value })}
                           placeholder="Email subject"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                         />
                       </div>
 
                       <div>
                         <label className="block text-sm font-medium text-black mb-2">Preview</label>
-                        <div className="border border-gray-300 rounded-lg p-4 bg-gray-50 max-h-40 overflow-auto">
+                        <div className="border border-slate-300 rounded-lg p-4 bg-slate-50 max-h-40 overflow-auto">
                           {step.customHtml ? (
                             <div
                               className="text-xs"
@@ -404,7 +404,7 @@ export default function NewWorkflowPage() {
                   <div className="text-sm font-medium text-black">{steps.length}</div>
                 </div>
 
-                <div className="pt-4 border-t border-gray-200">
+                <div className="pt-4 border-t border-slate-200">
                   <div className="text-xs text-black mb-2">Timeline</div>
                   <div className="space-y-2">
                     {steps.map((step, index) => (
@@ -423,7 +423,7 @@ export default function NewWorkflowPage() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-gray-200">
+                <div className="pt-4 border-t border-slate-200">
                   <div className="text-xs text-black mb-2">Total Duration</div>
                   <div className="text-sm font-medium text-black">
                     {calculateTotalDuration(steps)}

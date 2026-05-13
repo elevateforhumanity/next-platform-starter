@@ -200,7 +200,7 @@ export default function CourseBuilderPage() {
               setSelMod(i);
               setSelLes(0);
             }}
-            className={`w-full text-left border rounded p-2 text-xs ${i === selMod ? 'bg-gray-100 font-medium' : ''}`}
+            className={`w-full text-left border rounded p-2 text-xs ${i === selMod ? 'bg-slate-100 font-medium' : ''}`}
           >
             <div>{m.title || '(untitled)'}</div>
             <div className="text-slate-700">
@@ -360,7 +360,7 @@ export default function CourseBuilderPage() {
               <button
                 key={i}
                 onClick={() => setSelLes(i)}
-                className={`w-full text-left border rounded p-2 text-xs ${i === selLes ? 'bg-gray-100 font-medium' : ''}`}
+                className={`w-full text-left border rounded p-2 text-xs ${i === selLes ? 'bg-slate-100 font-medium' : ''}`}
               >
                 <div>{l.title || '(untitled)'}</div>
                 <div className="text-slate-700">
@@ -573,7 +573,7 @@ export default function CourseBuilderPage() {
 
         {auditResult && (
           <pre
-            className="mt-4 border rounded p-3 text-xs overflow-auto bg-gray-50"
+            className="mt-4 border rounded p-3 text-xs overflow-auto bg-slate-50"
             style={{ maxHeight: '400px' }}
           >
             {JSON.stringify(auditResult, null, 2)}

@@ -127,7 +127,7 @@ function SummaryCard({
     green: 'bg-green-50 text-green-700 border-green-200',
     orange: 'bg-orange-50 text-orange-700 border-orange-200',
     purple: 'bg-purple-50 text-purple-700 border-purple-200',
-    gray: 'bg-gray-50 text-slate-700 border-gray-200',
+    gray: 'bg-slate-50 text-slate-700 border-slate-200',
   };
   return (
     <div className={`rounded-lg border p-3 ${colorMap[color]}`}>

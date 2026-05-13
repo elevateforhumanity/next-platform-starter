@@ -228,7 +228,7 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
         <div className="flex gap-3 flex-wrap">
           <Link
             href="/admin/course-builder"
-            className="px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm"
+            className="px-4 py-2 border rounded-lg hover:bg-slate-50 text-sm"
           >
             ← Courses
           </Link>
@@ -395,7 +395,7 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
               const hasVideo = !!(lesson.video_url && lesson.video_url.includes('supabase.co'));
               const isGenerating = generatingLessonId === lesson.id;
               return (
-                <div key={lesson.id} className="p-4 flex items-center gap-4 hover:bg-gray-50 group">
+                <div key={lesson.id} className="p-4 flex items-center gap-4 hover:bg-slate-50 group">
                   {/* Reorder */}
                   <div className="flex flex-col gap-0.5 shrink-0">
                     <button
@@ -439,7 +439,7 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
                   </div>
 
                   {/* Index badge */}
-                  <span className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center text-xs font-medium shrink-0">
+                  <span className="w-7 h-7 bg-slate-100 rounded-full flex items-center justify-center text-xs font-medium shrink-0">
                     {index + 1}
                   </span>
 
@@ -527,7 +527,7 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
                     )}
                     <button
                       onClick={() => openEditModal(lesson)}
-                      className="px-3 py-1.5 text-sm border rounded-lg hover:bg-gray-50"
+                      className="px-3 py-1.5 text-sm border rounded-lg hover:bg-slate-50"
                     >
                       Edit
                     </button>
@@ -635,7 +635,7 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
                     setShowModal(false);
                     resetForm();
                   }}
-                  className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
+                  className="flex-1 px-4 py-2 border rounded-lg hover:bg-slate-50"
                 >
                   Cancel
                 </button>

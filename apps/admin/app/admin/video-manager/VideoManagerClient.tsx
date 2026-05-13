@@ -102,14 +102,14 @@ export default function VideoManagerPage() {
           </div>
           <button
             onClick={fetchVideos}
-            className="p-2 text-slate-700 hover:text-slate-700 rounded-lg hover:bg-gray-100"
+            className="p-2 text-slate-700 hover:text-slate-700 rounded-lg hover:bg-slate-100"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
 
         {/* Upload Section */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
           <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-slate-700" /> Upload Video
           </h2>
@@ -125,14 +125,14 @@ export default function VideoManagerPage() {
               placeholder="Search videos..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             />
           </div>
         </div>
 
         {/* Video List */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100">
+        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-100">
             <h2 className="font-semibold text-slate-900">{filtered.length} Videos</h2>
           </div>
           {loading ? (
@@ -148,11 +148,11 @@ export default function VideoManagerPage() {
               </p>
             </div>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-slate-100">
               {filtered.map((v) => (
                 <div
                   key={v.id}
-                  className="px-6 py-3 flex items-center justify-between hover:bg-gray-50"
+                  className="px-6 py-3 flex items-center justify-between hover:bg-slate-50"
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">

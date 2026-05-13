@@ -131,7 +131,7 @@ export function EditCourseForm({ course, programs }: Props) {
           id="is_published"
           checked={isPublished}
           onChange={(e) => setIsPublished(e.target.checked)}
-          className="h-4 w-4 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+          className="h-4 w-4 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
         />
         <label htmlFor="is_published" className="text-sm text-slate-900">
           Published
@@ -149,13 +149,13 @@ export function EditCourseForm({ course, programs }: Props) {
         </button>
         <Link
           href={`/admin/courses/${course.id}/content`}
-          className="px-4 py-2.5 border rounded-lg hover:bg-gray-50 text-slate-900"
+          className="px-4 py-2.5 border rounded-lg hover:bg-slate-50 text-slate-900"
         >
           Manage Lessons
         </Link>
         <Link
           href="/admin/courses"
-          className="px-4 py-2.5 border rounded-lg hover:bg-gray-50 text-slate-900"
+          className="px-4 py-2.5 border rounded-lg hover:bg-slate-50 text-slate-900"
         >
           Back
         </Link>

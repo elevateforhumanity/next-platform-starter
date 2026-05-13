@@ -31,7 +31,7 @@ export default async function CashAdvanceSettingsPage() {
 
         {/* Settings Form */}
         <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-lg font-semibold text-black">Program Settings</h2>
           </div>
 
@@ -46,7 +46,7 @@ export default async function CashAdvanceSettingsPage() {
                 <input
                   type="number"
                   defaultValue="6000"
-                  className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                  className="flex-1 rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                 />
               </div>
               <p className="mt-1 text-sm text-black">Maximum amount a student can request</p>
@@ -62,7 +62,7 @@ export default async function CashAdvanceSettingsPage() {
                 <input
                   type="number"
                   defaultValue="100"
-                  className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                  className="flex-1 rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                 />
               </div>
             </div>
@@ -76,7 +76,7 @@ export default async function CashAdvanceSettingsPage() {
                 type="number"
                 step="0.1"
                 defaultValue="2.5"
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
               />
             </div>
 
@@ -88,14 +88,14 @@ export default async function CashAdvanceSettingsPage() {
                 <input
                   type="number"
                   defaultValue="500"
-                  className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                  className="flex-1 rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                 />
               </div>
               <p className="mt-1 text-sm text-black">Requests below this amount are au</p>
             </div>
 
             {/* Enable/Disable Program */}
-            <div className="flex items-center justify-between py-4 border-t border-gray-200">
+            <div className="flex items-center justify-between py-4 border-t border-slate-200">
               <div>
                 <h3 className="text-sm font-medium text-black">Enable Cash Advance Program</h3>
                 <p className="text-sm text-black">Allow students to request cash advances</p>
@@ -109,9 +109,9 @@ export default async function CashAdvanceSettingsPage() {
             </div>
 
             {/* Save Button */}
-            <div className="flex justify-end gap-4 pt-4 border-t border-gray-200">
+            <div className="flex justify-end gap-4 pt-4 border-t border-slate-200">
               <button
-                className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50"
+                className="px-4 py-2 border border-slate-300 rounded-md text-black hover:bg-slate-50"
                 aria-label="Action button"
               >
                 Cancel
@@ -128,7 +128,7 @@ export default async function CashAdvanceSettingsPage() {
 
         {/* Notification Settings */}
         <div className="mt-6 bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-lg font-semibold text-black">Notification Settings</h2>
           </div>
 

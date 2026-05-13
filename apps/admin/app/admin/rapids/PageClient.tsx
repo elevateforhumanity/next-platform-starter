@@ -81,7 +81,7 @@ export default function RapidsAdminPage() {
                 href="https://entbpmp.dol.gov/suite/sites/oa/page/home"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
                 RAPIDS Portal
@@ -120,7 +120,7 @@ export default function RapidsAdminPage() {
         </div>
 
         {/* CSV Export Section */}
-        <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-xl p-6 mb-6 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900 mb-4">
             Export for RAPIDS Bulk Upload
           </h2>
@@ -131,7 +131,7 @@ export default function RapidsAdminPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <a
               href="/api/admin/rapids/export?type=registrations&format=csv"
-              className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
             >
               <Download className="w-5 h-5 text-brand-green-600" />
               <div>
@@ -141,7 +141,7 @@ export default function RapidsAdminPage() {
             </a>
             <a
               href="/api/admin/rapids/export?type=progress&format=csv"
-              className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
             >
               <Download className="w-5 h-5 text-brand-blue-600" />
               <div>
@@ -151,7 +151,7 @@ export default function RapidsAdminPage() {
             </a>
             <a
               href="/api/admin/rapids/export?type=completions&format=csv"
-              className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
             >
               <Download className="w-5 h-5 text-brand-blue-600" />
               <div>
@@ -161,7 +161,7 @@ export default function RapidsAdminPage() {
             </a>
             <a
               href="/api/admin/rapids/export?type=cancellations&format=csv"
-              className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
             >
               <Download className="w-5 h-5 text-brand-red-600" />
               <div>
@@ -173,7 +173,7 @@ export default function RapidsAdminPage() {
         </div>
 
         {/* Sponsor Information */}
-        <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-xl p-6 mb-6 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900 mb-4">Sponsor Information</h2>
 
           {/* Important clarification banner */}
@@ -219,13 +219,13 @@ export default function RapidsAdminPage() {
         </div>
 
         {/* Program Registration Table */}
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm mb-6">
-          <div className="px-6 py-4 border-b border-gray-200">
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-lg font-semibold text-slate-900">Registered Programs</h2>
           </div>
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-slate-200">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
                     Program
@@ -247,7 +247,7 @@ export default function RapidsAdminPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-slate-200">
                 {programs.map((program) => (
                   <tr key={program.key}>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -285,7 +285,7 @@ export default function RapidsAdminPage() {
         </div>
 
         {/* Compliance Flags */}
-        <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-xl p-6 mb-6 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900 mb-4">Compliance Flags</h2>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="flex items-center gap-2">

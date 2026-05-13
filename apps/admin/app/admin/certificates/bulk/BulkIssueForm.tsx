@@ -192,7 +192,7 @@ export default function BulkIssueForm({
               eligibleParticipants.map((e) => (
                 <div
                   key={e.id}
-                  className="p-4 flex items-center gap-4 hover:bg-gray-50 cursor-pointer"
+                  className="p-4 flex items-center gap-4 hover:bg-slate-50 cursor-pointer"
                   onClick={() => toggle(e.id)}
                 >
                   <input

@@ -159,7 +159,7 @@ export default async function ProgramCatalogPage() {
                   </Link>
                   <Link
                     href="/admin/programs/catalog"
-                    className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm font-medium"
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 text-sm font-medium"
                   >
                     <Eye className="w-4 h-4" />
                     Preview
@@ -189,7 +189,7 @@ export default async function ProgramCatalogPage() {
                     <Download className="w-4 h-4" />
                     Download PDF
                   </Link>
-                  <button className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm font-medium">
+                  <button className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 text-sm font-medium">
                     <Printer className="w-4 h-4" />
                     Print
                   </button>
@@ -214,7 +214,7 @@ export default async function ProgramCatalogPage() {
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.healthcare.slice(0, 6).map((program) => (
-                  <div key={program.slug} className="bg-gray-50 rounded-lg p-4">
+                  <div key={program.slug} className="bg-slate-50 rounded-lg p-4">
                     <h4 className="font-medium text-slate-900 text-sm">
                       {program.title || program.name}
                     </h4>
@@ -241,7 +241,7 @@ export default async function ProgramCatalogPage() {
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.trades.slice(0, 6).map((program) => (
-                  <div key={program.slug} className="bg-gray-50 rounded-lg p-4">
+                  <div key={program.slug} className="bg-slate-50 rounded-lg p-4">
                     <h4 className="font-medium text-slate-900 text-sm">
                       {program.title || program.name}
                     </h4>
@@ -268,7 +268,7 @@ export default async function ProgramCatalogPage() {
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.technology.slice(0, 6).map((program) => (
-                  <div key={program.slug} className="bg-gray-50 rounded-lg p-4">
+                  <div key={program.slug} className="bg-slate-50 rounded-lg p-4">
                     <h4 className="font-medium text-slate-900 text-sm">
                       {program.title || program.name}
                     </h4>
@@ -295,7 +295,7 @@ export default async function ProgramCatalogPage() {
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.business.slice(0, 6).map((program) => (
-                  <div key={program.slug} className="bg-gray-50 rounded-lg p-4">
+                  <div key={program.slug} className="bg-slate-50 rounded-lg p-4">
                     <h4 className="font-medium text-slate-900 text-sm">
                       {program.title || program.name}
                     </h4>
@@ -322,21 +322,21 @@ export default async function ProgramCatalogPage() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/api/admin/catalog/export?format=csv"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 text-sm font-medium"
             >
               <Download className="w-4 h-4" />
               Export as CSV
             </Link>
             <Link
               href="/api/admin/catalog/export?format=xlsx"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 text-sm font-medium"
             >
               <Download className="w-4 h-4" />
               Export as Excel
             </Link>
             <Link
               href="/api/admin/catalog/export?format=json"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 text-sm font-medium"
             >
               <Download className="w-4 h-4" />
               Export as JSON

@@ -125,7 +125,7 @@ export default function HoursExportPage() {
             </button>
             <button
               onClick={setLastWeek}
-              className="px-4 py-2 bg-gray-100 text-black rounded-md hover:bg-gray-200 font-medium"
+              className="px-4 py-2 bg-slate-100 text-black rounded-md hover:bg-slate-200 font-medium"
             >
               Last Week
             </button>
@@ -142,7 +142,7 @@ export default function HoursExportPage() {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
             <div>
@@ -154,13 +154,13 @@ export default function HoursExportPage() {
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
           </div>
 
           {/* Export Info */}
-          <div className="bg-gray-50 rounded-md p-4 mb-6">
+          <div className="bg-slate-50 rounded-md p-4 mb-6">
             <h3 className="text-sm font-semibold text-black mb-2">Export will include:</h3>
             <ul className="text-sm text-black space-y-1">
               <li>• Student name and email</li>

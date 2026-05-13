@@ -94,7 +94,7 @@ export default function AdminNextStepsPage() {
         </div>
         <button
           onClick={downloadCsv}
-          className="rounded-xl border bg-white px-4 py-2 text-sm font-semibold hover:bg-gray-50"
+          className="rounded-xl border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50"
         >
           Export CSV
         </button>
@@ -171,7 +171,7 @@ export default function AdminNextStepsPage() {
         ) : (
           <div className="w-full overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-gray-50 text-xs font-semibold text-black">
+              <thead className="bg-slate-50 text-xs font-semibold text-black">
                 <tr>
                   <th className="px-4 py-3">Student</th>
                   <th className="px-4 py-3">Program</th>
@@ -183,7 +183,7 @@ export default function AdminNextStepsPage() {
               </thead>
               <tbody className="divide-y">
                 {rows.map((r) => (
-                  <tr key={r.id} className="hover:bg-gray-50">
+                  <tr key={r.id} className="hover:bg-slate-50">
                     <td className="px-4 py-3">
                       <div className="font-semibold">{r.student_name}</div>
                       <div className="text-xs text-black">{r.student_email}</div>
@@ -225,14 +225,14 @@ export default function AdminNextStepsPage() {
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-2">
                         <button
-                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-gray-50"
+                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-slate-50"
                           onClick={() => setSelected(r)}
                         >
                           Quick Edit
                         </button>
 
                         <button
-                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-gray-50"
+                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-slate-50"
                           disabled={saving}
                           onClick={() =>
                             savePatch(r.id, {
@@ -245,7 +245,7 @@ export default function AdminNextStepsPage() {
                         </button>
 
                         <button
-                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-gray-50"
+                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-slate-50"
                           disabled={saving}
                           onClick={() =>
                             savePatch(r.id, {
@@ -258,7 +258,7 @@ export default function AdminNextStepsPage() {
                         </button>
 
                         <button
-                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-gray-50"
+                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-slate-50"
                           disabled={saving}
                           onClick={() =>
                             savePatch(r.id, {
@@ -270,7 +270,7 @@ export default function AdminNextStepsPage() {
                         </button>
 
                         <button
-                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-gray-50"
+                          className="rounded-lg border px-2 py-2 text-xs font-semibold hover:bg-slate-50"
                           disabled={saving}
                           onClick={() =>
                             savePatch(r.id, {
@@ -430,7 +430,7 @@ function QuickEdit({
                 inquiry_submitted_at: new Date().toISOString(),
               })
             }
-            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-gray-50 disabled:opacity-60"
+            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-slate-50 disabled:opacity-60"
           >
             Mark Inquiry Submitted
           </button>
@@ -443,7 +443,7 @@ function QuickEdit({
                 icc_account_created_at: new Date().toISOString(),
               })
             }
-            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-gray-50 disabled:opacity-60"
+            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-slate-50 disabled:opacity-60"
           >
             Mark ICC Created
           </button>
@@ -456,7 +456,7 @@ function QuickEdit({
                 told_advisor_efh_at: new Date().toISOString(),
               })
             }
-            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-gray-50 disabled:opacity-60"
+            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-slate-50 disabled:opacity-60"
           >
             Told Advisor &quot;EFH&quot;
           </button>
@@ -469,7 +469,7 @@ function QuickEdit({
                 advisor_docs_uploaded_at: new Date().toISOString(),
               })
             }
-            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-gray-50 disabled:opacity-60"
+            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-slate-50 disabled:opacity-60"
           >
             Docs Uploaded
           </button>
@@ -482,7 +482,7 @@ function QuickEdit({
                 program_start_confirmed_at: new Date().toISOString(),
               })
             }
-            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-gray-50 disabled:opacity-60"
+            className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-slate-50 disabled:opacity-60"
           >
             Start Confirmed
           </button>

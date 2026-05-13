@@ -71,7 +71,7 @@ export default async function ProgramCompletionPage({
             </p>
             <p className="text-sm text-slate-700">
               To configure custom rules, update the{' '}
-              <code className="bg-gray-100 px-1 rounded">completion_criteria</code> field in the
+              <code className="bg-slate-100 px-1 rounded">completion_criteria</code> field in the
               programs table via the Supabase Dashboard.
             </p>
           </div>
@@ -79,7 +79,7 @@ export default async function ProgramCompletionPage({
           <div className="space-y-4">
             <h3 className="font-medium text-slate-900">Active Rules</h3>
             {rules.map((rule: any, i: number) => (
-              <div key={i} className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+              <div key={i} className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="font-medium text-slate-900">{ruleLabels[rule.type] || rule.type}</p>

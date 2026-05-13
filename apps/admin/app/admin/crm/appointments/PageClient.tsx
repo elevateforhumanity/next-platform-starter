@@ -67,7 +67,7 @@ export default function AppointmentsPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={fetchAppointments}
-              className="p-2 text-slate-700 hover:text-slate-700 rounded-lg hover:bg-gray-100"
+              className="p-2 text-slate-700 hover:text-slate-700 rounded-lg hover:bg-slate-100"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             </button>
@@ -88,12 +88,12 @@ export default function AppointmentsPage() {
               placeholder="Search appointments..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             />
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           {loading ? (
             <div className="px-6 py-12 text-center">
               <RefreshCw className="w-6 h-6 text-slate-700 mx-auto mb-2 animate-spin" />
@@ -114,7 +114,7 @@ export default function AppointmentsPage() {
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                     Title
@@ -130,9 +130,9 @@ export default function AppointmentsPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-slate-100">
                 {filtered.map((a) => (
-                  <tr key={a.id} className="hover:bg-gray-50">
+                  <tr key={a.id} className="hover:bg-slate-50">
                     <td className="px-6 py-3 text-sm font-medium text-slate-900">
                       {a.title || 'Untitled'}
                     </td>

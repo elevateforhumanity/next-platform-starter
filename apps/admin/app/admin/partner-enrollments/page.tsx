@@ -43,7 +43,7 @@ export default async function PartnerEnrollmentsPage() {
           <p className="text-black mb-4">Total: {count || 0}</p>
           <div className="overflow-x-auto">
             <table className="min-w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Student
@@ -59,7 +59,7 @@ export default async function PartnerEnrollmentsPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 {enrollments?.map((e: any) => (
                   <tr key={e.id}>
                     <td className="px-6 py-4">{e.student?.full_name}</td>

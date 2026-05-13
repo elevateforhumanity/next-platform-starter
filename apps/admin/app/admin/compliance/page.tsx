@@ -150,7 +150,7 @@ export default async function CompliancePage() {
               {items && items.length > 0 ? (
                 <div className="space-y-4">
                   {items.map((item: any) => (
-                    <div key={item.id} className="p-4 border rounded-lg hover:bg-gray-50">
+                    <div key={item.id} className="p-4 border rounded-lg hover:bg-slate-50">
                       <p className="font-semibold">{item.title || item.name || item.id}</p>
                       <p className="text-sm text-black">
                         {new Date(item.created_at).toLocaleDateString()}
@@ -177,7 +177,7 @@ export default async function CompliancePage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/admin/compliance"
-                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 text-lg"
+                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 text-lg"
               >
                 Run Audit
               </Link>
@@ -223,7 +223,7 @@ export default async function CompliancePage() {
               <h3 className="font-semibold">Active Policies</h3>
             </div>
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-sm font-semibold">Policy</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold">Type</th>
@@ -235,7 +235,7 @@ export default async function CompliancePage() {
               </thead>
               <tbody className="divide-y">
                 {getAllGuardrails().map((g: GuardrailPolicy) => (
-                  <tr key={g.id} className="hover:bg-gray-50">
+                  <tr key={g.id} className="hover:bg-slate-50">
                     <td className="px-6 py-3">
                       <p className="font-medium text-sm">{g.name}</p>
                       <p className="text-xs text-slate-700 mt-0.5">{g.description}</p>

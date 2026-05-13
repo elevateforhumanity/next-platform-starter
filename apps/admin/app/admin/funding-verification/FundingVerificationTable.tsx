@@ -28,7 +28,7 @@ const SLA_BADGE: Record<string, string> = {
   overdue: 'bg-red-100 text-red-800',
   due_soon: 'bg-amber-100 text-amber-800',
   on_track: 'bg-green-100 text-green-800',
-  no_deadline: 'bg-gray-100 text-slate-700',
+  no_deadline: 'bg-slate-100 text-slate-700',
 };
 
 const FILTER_LABELS: Record<FilterKey, string> = {
@@ -119,7 +119,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
               filter === f
                 ? 'bg-indigo-600 text-white'
-                : 'bg-gray-100 text-slate-700 hover:bg-gray-200'
+                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >
             {FILTER_LABELS[f]}
@@ -141,9 +141,9 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
       {filtered.length === 0 ? (
         <p className="text-center py-12 text-slate-700 text-sm">No students in this category.</p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
-            <thead className="bg-gray-50">
+        <div className="overflow-x-auto rounded-lg border border-slate-200">
+          <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <thead className="bg-slate-50">
               <tr>
                 {['Student', 'Program', 'Enrolled', 'SLA', 'Deadline', ''].map((h) => (
                   <th
@@ -155,10 +155,10 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-slate-200">
               {filtered.map((row) => (
                 <React.Fragment key={row.enrollment_id}>
-                  <tr className={row.has_open_escalation ? 'bg-red-50' : 'hover:bg-gray-50'}>
+                  <tr className={row.has_open_escalation ? 'bg-red-50' : 'hover:bg-slate-50'}>
                     <td className="px-4 py-3">
                       <div className="font-medium text-slate-900">
                         {row.full_name || '—'}
@@ -183,7 +183,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
                     <td className="px-4 py-3">
                       <span
                         className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                          SLA_BADGE[row.sla_status] ?? 'bg-gray-100 text-slate-900'
+                          SLA_BADGE[row.sla_status] ?? 'bg-slate-100 text-slate-900'
                         }`}
                       >
                         {row.sla_status.replace('_', ' ')}
@@ -196,7 +196,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
                           onClick={() =>
                             setNoteOpen(noteOpen === row.enrollment_id ? null : row.enrollment_id)
                           }
-                          className="px-2 py-1 rounded border border-gray-300 text-slate-700 hover:bg-gray-50 text-xs"
+                          className="px-2 py-1 rounded border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs"
                         >
                           {noteOpen === row.enrollment_id ? 'Close' : 'Note'}
                         </button>
@@ -219,7 +219,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
                     </td>
                   </tr>
                   {noteOpen === row.enrollment_id && (
-                    <tr className="bg-gray-50">
+                    <tr className="bg-slate-50">
                       <td colSpan={6} className="px-4 py-2">
                         <label className="block text-xs text-slate-700 mb-1">
                           Note / reason <span className="text-red-500">(required for Reject)</span>
@@ -231,7 +231,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
                           }
                           placeholder="Document funding source, reference number, or rejection reason…"
                           rows={2}
-                          className="w-full text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                          className="w-full text-sm border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                         />
                       </td>
                     </tr>

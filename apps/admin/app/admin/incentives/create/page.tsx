@@ -40,7 +40,7 @@ export default async function CreateIncentivePage() {
 
         <form
           action={createIncentive}
-          className="bg-white rounded-xl border border-gray-200 p-6 space-y-5"
+          className="bg-white rounded-xl border border-slate-200 p-6 space-y-5"
         >
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">
@@ -51,7 +51,7 @@ export default async function CreateIncentivePage() {
             <input
               name="name"
               required
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="e.g., WOTC Tax Credit"
             />
           </div>
@@ -61,7 +61,7 @@ export default async function CreateIncentivePage() {
               <label className="block text-sm font-medium text-slate-900 mb-1">Type</label>
               <select
                 name="type"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               >
                 <option value="tax_credit">Tax Credit</option>
                 <option value="grant">Grant</option>
@@ -81,7 +81,7 @@ export default async function CreateIncentivePage() {
                 type="number"
                 step="0.01"
                 min="0"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="2400.00"
               />
             </div>
@@ -95,7 +95,7 @@ export default async function CreateIncentivePage() {
             </label>
             <input
               name="employer"
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Employer name (if applicable)"
             />
           </div>
@@ -110,7 +110,7 @@ export default async function CreateIncentivePage() {
               <input
                 name="start_date"
                 type="date"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               />
             </div>
             <div>
@@ -122,7 +122,7 @@ export default async function CreateIncentivePage() {
               <input
                 name="end_date"
                 type="date"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               />
             </div>
           </div>
@@ -132,12 +132,12 @@ export default async function CreateIncentivePage() {
             <textarea
               name="description"
               rows={3}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Details about this incentive program..."
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
             <Link
               href="/admin/incentives"
               className="px-4 py-2 text-sm text-slate-700 hover:text-slate-900"

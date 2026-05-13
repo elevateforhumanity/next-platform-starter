@@ -97,7 +97,7 @@ export default async function CaseloadReportsPage() {
           {staffWithCounts.length > 0 ? (
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-slate-700 border-b bg-gray-50">
+                <tr className="text-left text-slate-700 border-b bg-slate-50">
                   <th className="px-4 py-3 font-medium">Staff Member</th>
                   <th className="px-4 py-3 font-medium">Role</th>
                   <th className="px-4 py-3 font-medium">Email</th>
@@ -106,7 +106,7 @@ export default async function CaseloadReportsPage() {
               </thead>
               <tbody className="divide-y">
                 {staffWithCounts.map((s: any) => (
-                  <tr key={s.id} className="hover:bg-gray-50">
+                  <tr key={s.id} className="hover:bg-slate-50">
                     <td className="px-4 py-3 font-medium text-slate-900">{s.full_name || '—'}</td>
                     <td className="px-4 py-3 text-slate-700 capitalize">{s.role}</td>
                     <td className="px-4 py-3 text-slate-700">{s.email}</td>

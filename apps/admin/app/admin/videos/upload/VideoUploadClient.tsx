@@ -89,7 +89,7 @@ export default function VideoUploadClient() {
       <div className="bg-white rounded-lg shadow-sm border p-6">
         <div
           className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
-            dragOver ? 'border-brand-blue-500 bg-brand-blue-50' : 'border-gray-300'
+            dragOver ? 'border-brand-blue-500 bg-brand-blue-50' : 'border-slate-300'
           }`}
           onDragOver={(e) => {
             e.preventDefault();

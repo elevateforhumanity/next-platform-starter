@@ -204,7 +204,7 @@ export function ProgramForm({ program }: ProgramFormProps) {
               type="checkbox"
               name="is_active"
               defaultChecked={program?.is_active ?? true}
-              className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+              className="w-4 h-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
             />
             <span className="text-sm font-medium text-black">Active</span>
           </label>
@@ -214,7 +214,7 @@ export function ProgramForm({ program }: ProgramFormProps) {
               type="checkbox"
               name="featured"
               defaultChecked={program?.featured ?? false}
-              className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+              className="w-4 h-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
             />
             <span className="text-sm font-medium text-black">Featured</span>
           </label>
@@ -226,7 +226,7 @@ export function ProgramForm({ program }: ProgramFormProps) {
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-6 py-2 border border-gray-300 rounded-lg text-black hover:bg-gray-50 font-medium"
+          className="px-6 py-2 border border-slate-300 rounded-lg text-black hover:bg-slate-50 font-medium"
         >
           Cancel
         </button>

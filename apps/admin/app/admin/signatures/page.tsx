@@ -145,7 +145,7 @@ export default async function SignaturesPage() {
               {rows.length > 0 ? (
                 <div className="space-y-4">
                   {rows.map((signature: any) => (
-                    <div key={signature.id} className="p-4 border rounded-lg hover:bg-gray-50">
+                    <div key={signature.id} className="p-4 border rounded-lg hover:bg-slate-50">
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-semibold">
@@ -201,7 +201,7 @@ export default async function SignaturesPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/admin/signatures"
-                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 text-lg"
+                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 text-lg"
               >
                 View Signatures
               </Link>

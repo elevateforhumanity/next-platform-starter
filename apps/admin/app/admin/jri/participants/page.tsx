@@ -57,7 +57,7 @@ export default async function JRIParticipantsPage() {
 
         <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-slate-50 border-b">
               <tr>
                 <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
                   Participant
@@ -79,7 +79,7 @@ export default async function JRIParticipantsPage() {
             <tbody className="divide-y">
               {participants && participants.length > 0 ? (
                 participants.map((p: any) => (
-                  <tr key={p.id} className="hover:bg-gray-50">
+                  <tr key={p.id} className="hover:bg-slate-50">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 bg-brand-blue-100 rounded-full flex items-center justify-center">
@@ -96,14 +96,14 @@ export default async function JRIParticipantsPage() {
                     <td className="px-4 py-3 text-slate-700">{p.program || '—'}</td>
                     <td className="px-4 py-3">
                       <span
-                        className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.status] || 'bg-gray-100 text-slate-700'}`}
+                        className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.status] || 'bg-slate-100 text-slate-700'}`}
                       >
                         {p.status || 'pending'}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <span
-                        className={`text-xs px-2 py-1 rounded-full capitalize ${p.employment_status === 'employed' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-slate-700'}`}
+                        className={`text-xs px-2 py-1 rounded-full capitalize ${p.employment_status === 'employed' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700'}`}
                       >
                         {p.employment_status || '—'}
                       </span>

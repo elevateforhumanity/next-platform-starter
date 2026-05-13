@@ -150,7 +150,7 @@ export default function ExternalModulesPage() {
             <button
               onClick={() => setFilter('all')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'all' ? 'bg-brand-blue-600 text-white' : 'bg-gray-100 text-black'
+                filter === 'all' ? 'bg-brand-blue-600 text-white' : 'bg-slate-100 text-black'
               }`}
             >
               All Modules
@@ -158,7 +158,7 @@ export default function ExternalModulesPage() {
             <button
               onClick={() => setFilter('active')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'active' ? 'bg-brand-green-600 text-white' : 'bg-gray-100 text-black'
+                filter === 'active' ? 'bg-brand-green-600 text-white' : 'bg-slate-100 text-black'
               }`}
             >
               Active
@@ -166,7 +166,7 @@ export default function ExternalModulesPage() {
             <button
               onClick={() => setFilter('pending')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'pending' ? 'bg-brand-orange-600 text-white' : 'bg-gray-100 text-black'
+                filter === 'pending' ? 'bg-brand-orange-600 text-white' : 'bg-slate-100 text-black'
               }`}
             >
               Pending
@@ -224,7 +224,7 @@ export default function ExternalModulesPage() {
           {modules && modules.length > 0 ? (
             <div className="space-y-4">
               {modules.map((module) => (
-                <div key={module.id} className="p-4 border rounded-lg hover:bg-gray-50">
+                <div key={module.id} className="p-4 border rounded-lg hover:bg-slate-50">
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-semibold text-lg flex items-center gap-2">
@@ -282,7 +282,7 @@ export default function ExternalModulesPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/admin/external-modules"
-                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 text-lg"
+                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 text-lg"
               >
                 View Modules
               </Link>

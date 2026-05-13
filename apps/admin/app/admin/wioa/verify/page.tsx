@@ -72,7 +72,7 @@ export default async function WIOAVerifyPage({
                 <Link
                   key={p.id}
                   href={'/admin/wioa/verify?id=' + p.id}
-                  className="flex items-center gap-4 p-4 hover:bg-gray-50 transition"
+                  className="flex items-center gap-4 p-4 hover:bg-slate-50 transition"
                 >
                   <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
                     <Users className="w-5 h-5 text-yellow-600" />
@@ -340,7 +340,7 @@ export default async function WIOAVerifyPage({
                           href={doc.file_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-2 hover:bg-gray-100 rounded-lg"
+                          className="p-2 hover:bg-slate-100 rounded-lg"
                         >
                           <Download className="w-4 h-4 text-slate-700" />
                         </a>
@@ -401,7 +401,7 @@ export default async function WIOAVerifyPage({
                 )}
                 {participant.exit_date && (
                   <div className="flex gap-3">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full mt-1.5" />
+                    <div className="w-2 h-2 bg-slate-400 rounded-full mt-1.5" />
                     <div>
                       <p className="text-slate-900">Exited</p>
                       <p className="text-slate-700">

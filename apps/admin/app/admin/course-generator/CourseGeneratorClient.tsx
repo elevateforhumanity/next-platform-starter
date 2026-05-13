@@ -204,19 +204,19 @@ Include Assignments: ${formData.includeAssignments}
             </Link>
             <Link
               href="/admin/dev-studio?tab=command&command=Generate%20a%20new%20course"
-              className="text-xs px-3 py-1.5 rounded border border-gray-300 text-slate-900 hover:bg-gray-50 transition-colors"
+              className="text-xs px-3 py-1.5 rounded border border-slate-300 text-slate-900 hover:bg-slate-50 transition-colors"
             >
               Open Dev Studio
             </Link>
             <Link
               href="/admin/media-studio"
-              className="text-xs px-3 py-1.5 rounded border border-gray-300 text-slate-900 hover:bg-gray-50 transition-colors"
+              className="text-xs px-3 py-1.5 rounded border border-slate-300 text-slate-900 hover:bg-slate-50 transition-colors"
             >
               Open Media Studio
             </Link>
             <Link
               href="/admin/video-generator"
-              className="text-xs px-3 py-1.5 rounded border border-gray-300 text-slate-900 hover:bg-gray-50 transition-colors"
+              className="text-xs px-3 py-1.5 rounded border border-slate-300 text-slate-900 hover:bg-slate-50 transition-colors"
             >
               Open Video Generator
             </Link>
@@ -266,7 +266,7 @@ Include Assignments: ${formData.includeAssignments}
                   </button>
                   <button
                     onClick={() => setSuccess(null)}
-                    className="px-4 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50"
+                    className="px-4 py-2 bg-white border border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50"
                   >
                     Generate Another
                   </button>
@@ -286,7 +286,7 @@ Include Assignments: ${formData.includeAssignments}
         {!success && (
           <form
             onSubmit={handleSubmit}
-            className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+            className="bg-white rounded-xl shadow-sm border border-slate-200 p-6"
           >
             <div className="space-y-6">
               <div>
@@ -298,7 +298,7 @@ Include Assignments: ${formData.includeAssignments}
                   required
                   value={formData.topic}
                   onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   placeholder="e.g., HVAC Fundamentals, Medical Billing Basics, CDL Test Preparation"
                 />
               </div>
@@ -308,7 +308,7 @@ Include Assignments: ${formData.includeAssignments}
                 <select
                   value={programId}
                   onChange={(e) => setProgramId(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   disabled={programsLoading}
                 >
                   <option value="">{programsLoading ? 'Loading programs...' : 'Select a program'}</option>
@@ -328,7 +328,7 @@ Include Assignments: ${formData.includeAssignments}
                   type="text"
                   value={programId}
                   onChange={(e) => setProgramId(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   placeholder="UUID from /admin/programs"
                 />
               </div>
@@ -341,7 +341,7 @@ Include Assignments: ${formData.includeAssignments}
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   placeholder="Describe what students will learn and achieve..."
                 />
               </div>
@@ -354,7 +354,7 @@ Include Assignments: ${formData.includeAssignments}
                   type="text"
                   value={formData.targetAudience}
                   onChange={(e) => setFormData({ ...formData, targetAudience: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   placeholder="e.g., Career changers, Entry-level workers, Experienced professionals"
                 />
               </div>
@@ -368,7 +368,7 @@ Include Assignments: ${formData.includeAssignments}
                   <select
                     value={formData.difficulty}
                     onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   >
                     <option value="beginner">Beginner</option>
                     <option value="intermediate">Intermediate</option>
@@ -389,7 +389,7 @@ Include Assignments: ${formData.includeAssignments}
                     onChange={(e) =>
                       setFormData({ ...formData, duration: parseInt(e.target.value) || 10 })
                     }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   />
                 </div>
 
@@ -406,7 +406,7 @@ Include Assignments: ${formData.includeAssignments}
                     onChange={(e) =>
                       setFormData({ ...formData, moduleCount: parseInt(e.target.value) || 5 })
                     }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -417,7 +417,7 @@ Include Assignments: ${formData.includeAssignments}
                     type="checkbox"
                     checked={formData.includeQuizzes}
                     onChange={(e) => setFormData({ ...formData, includeQuizzes: e.target.checked })}
-                    className="w-5 h-5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+                    className="w-5 h-5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
                   />
                   <HelpCircle className="w-4 h-4 text-slate-700" />
                   <span className="text-slate-900">Include Quizzes</span>
@@ -430,7 +430,7 @@ Include Assignments: ${formData.includeAssignments}
                     onChange={(e) =>
                       setFormData({ ...formData, includeAssignments: e.target.checked })
                     }
-                    className="w-5 h-5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+                    className="w-5 h-5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
                   />
                   <FileText className="w-4 h-4 text-slate-700" />
                   <span className="text-slate-900">Include Assignments</span>

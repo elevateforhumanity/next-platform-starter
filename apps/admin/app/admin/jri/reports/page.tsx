@@ -111,7 +111,7 @@ export default async function JRIReportsPage() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b">
+              <thead className="bg-slate-50 border-b">
                 <tr>
                   <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Name</th>
                   <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Email</th>
@@ -123,7 +123,7 @@ export default async function JRIReportsPage() {
               </thead>
               <tbody className="divide-y">
                 {participants && participants.length > 0 ? participants.map((p: any) => (
-                  <tr key={p.id} className="hover:bg-gray-50">
+                  <tr key={p.id} className="hover:bg-slate-50">
                     <td className="px-4 py-3 font-medium text-slate-900">{p.profiles?.full_name || '—'}</td>
                     <td className="px-4 py-3 text-slate-700">{p.profiles?.email || '—'}</td>
                     <td className="px-4 py-3 text-slate-700">{p.program || '—'}</td>

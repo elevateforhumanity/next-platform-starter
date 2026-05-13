@@ -149,11 +149,11 @@ export default function AICourseBuilderForm() {
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-5">
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-slate-50 rounded-lg p-4">
                 <p className="text-xs text-slate-700 uppercase tracking-wide mb-1">Course Title</p>
                 <p className="font-semibold text-slate-900">{result.courseTitle}</p>
               </div>
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-slate-50 rounded-lg p-4">
                 <p className="text-xs text-slate-700 uppercase tracking-wide mb-1">
                   Lessons Created
                 </p>
@@ -219,13 +219,13 @@ export default function AICourseBuilderForm() {
               </Link>
               <Link
                 href="/admin/courses"
-                className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 text-slate-700 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm"
+                className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium text-sm"
               >
                 View All Courses
               </Link>
               <button
                 onClick={handleReset}
-                className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 text-slate-700 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm"
+                className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium text-sm"
               >
                 <RotateCcw className="h-4 w-4" />
                 Build Another
@@ -238,7 +238,7 @@ export default function AICourseBuilderForm() {
         {status !== 'success' && (
           <form onSubmit={handleGenerate} className="space-y-6">
             {/* Mode toggle */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex gap-2 mb-5">
                 <button
                   type="button"
@@ -246,7 +246,7 @@ export default function AICourseBuilderForm() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     form.mode === 'prompt'
                       ? 'bg-brand-blue-600 text-white'
-                      : 'bg-gray-100 text-slate-700 hover:bg-gray-200'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
                   Prompt Mode
@@ -257,7 +257,7 @@ export default function AICourseBuilderForm() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     form.mode === 'syllabus'
                       ? 'bg-brand-blue-600 text-white'
-                      : 'bg-gray-100 text-slate-700 hover:bg-gray-200'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
                   Paste Syllabus / Script
@@ -276,7 +276,7 @@ export default function AICourseBuilderForm() {
                     required
                     disabled={isGenerating}
                     placeholder='Example: "Build a 6-module workforce readiness course for young adults entering the trades. Include learning objectives, practical exercises, and short quizzes."'
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 resize-y disabled:opacity-50"
+                    className="w-full border border-slate-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 resize-y disabled:opacity-50"
                   />
                 </div>
               ) : (
@@ -291,14 +291,14 @@ export default function AICourseBuilderForm() {
                     required
                     disabled={isGenerating}
                     placeholder="Paste your syllabus, lesson script, training outline, or raw notes here. The AI will structure it into a complete course."
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-blue-500 resize-y disabled:opacity-50"
+                    className="w-full border border-slate-300 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-blue-500 resize-y disabled:opacity-50"
                   />
                 </div>
               )}
             </div>
 
             {/* Structured options */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-1.5">
@@ -310,7 +310,7 @@ export default function AICourseBuilderForm() {
                     onChange={(e) => set('courseTitle', e.target.value)}
                     disabled={isGenerating}
                     placeholder="AI will generate one if blank"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
+                    className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
                   />
                 </div>
 
@@ -324,7 +324,7 @@ export default function AICourseBuilderForm() {
                     onChange={(e) => set('audience', e.target.value)}
                     disabled={isGenerating}
                     placeholder="e.g. Young adults entering the trades"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
+                    className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
                   />
                 </div>
 
@@ -336,7 +336,7 @@ export default function AICourseBuilderForm() {
                     value={form.difficulty}
                     onChange={(e) => set('difficulty', e.target.value as FormState['difficulty'])}
                     disabled={isGenerating}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
+                    className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
                   >
                     <option value="beginner">Beginner</option>
                     <option value="intermediate">Intermediate</option>
@@ -355,7 +355,7 @@ export default function AICourseBuilderForm() {
                     value={form.lessonCount}
                     onChange={(e) => set('lessonCount', parseInt(e.target.value, 10) || 6)}
                     disabled={isGenerating}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
+                    className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
                   />
                 </div>
               </div>
@@ -368,7 +368,7 @@ export default function AICourseBuilderForm() {
                     checked={form.includeQuiz}
                     onChange={(e) => set('includeQuiz', e.target.checked)}
                     disabled={isGenerating}
-                    className="w-4 h-4 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+                    className="w-4 h-4 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
                   />
                   <span className="text-sm font-medium text-slate-700">
                     Include quiz questions per lesson
@@ -380,7 +380,7 @@ export default function AICourseBuilderForm() {
                     checked={form.includeReflection}
                     onChange={(e) => set('includeReflection', e.target.checked)}
                     disabled={isGenerating}
-                    className="w-4 h-4 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+                    className="w-4 h-4 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
                   />
                   <span className="text-sm font-medium text-slate-700">
                     Include reflection prompts
@@ -403,7 +403,7 @@ export default function AICourseBuilderForm() {
               </button>
 
               {showAdvanced && (
-                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5 pt-4 border-t border-gray-100">
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5 pt-4 border-t border-slate-100">
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1.5">
                       Estimated Duration (hours)
@@ -416,7 +416,7 @@ export default function AICourseBuilderForm() {
                       value={form.durationHours}
                       onChange={(e) => set('durationHours', parseFloat(e.target.value) || 4)}
                       disabled={isGenerating}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
+                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
                     />
                   </div>
                   <div>
@@ -429,7 +429,7 @@ export default function AICourseBuilderForm() {
                       onChange={(e) => set('tone', e.target.value)}
                       disabled={isGenerating}
                       placeholder="e.g. Practical, conversational, formal"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
+                      className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
                     />
                   </div>
                 </div>

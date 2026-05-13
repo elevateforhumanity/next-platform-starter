@@ -251,7 +251,7 @@ export default function UserManagementClient({ initialUsers, stats }: Props) {
       {/* Users Table */}
       <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-slate-50 border-b">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                 User
@@ -276,7 +276,7 @@ export default function UserManagementClient({ initialUsers, stats }: Props) {
           <tbody className="divide-y">
             {filteredUsers.length > 0 ? (
               filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50">
+                <tr key={user.id} className="hover:bg-slate-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-brand-blue-100 flex items-center justify-center text-brand-blue-600 font-semibold">
@@ -309,7 +309,7 @@ export default function UserManagementClient({ initialUsers, stats }: Props) {
                       className={`px-2 py-1 rounded-full text-xs font-medium ${
                         user.is_active !== false
                           ? 'bg-brand-green-100 text-brand-green-700'
-                          : 'bg-gray-100 text-slate-700'
+                          : 'bg-slate-100 text-slate-700'
                       }`}
                     >
                       {user.is_active !== false ? 'Active' : 'Inactive'}
@@ -324,7 +324,7 @@ export default function UserManagementClient({ initialUsers, stats }: Props) {
                     <div className="flex justify-end gap-2">
                       <button
                         onClick={() => openEditModal(user)}
-                        className="px-3 py-1 text-sm border rounded hover:bg-gray-50"
+                        className="px-3 py-1 text-sm border rounded hover:bg-slate-50"
                       >
                         Edit
                       </button>
@@ -395,7 +395,7 @@ export default function UserManagementClient({ initialUsers, stats }: Props) {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   disabled={!!editingUser}
-                  className="w-full px-4 py-2 border rounded-lg disabled:bg-gray-100"
+                  className="w-full px-4 py-2 border rounded-lg disabled:bg-slate-100"
                   placeholder="user@elevateforhumanity.org"
                 />
                 {editingUser && (
@@ -454,7 +454,7 @@ export default function UserManagementClient({ initialUsers, stats }: Props) {
                     setShowModal(false);
                     resetForm();
                   }}
-                  className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
+                  className="flex-1 px-4 py-2 border rounded-lg hover:bg-slate-50"
                 >
                   Cancel
                 </button>

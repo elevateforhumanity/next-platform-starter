@@ -86,7 +86,7 @@ export default async function CRMFollowUpsPage() {
       case 'meeting':
         return 'bg-purple-100';
       default:
-        return 'bg-gray-100';
+        return 'bg-slate-100';
     }
   };
 
@@ -172,7 +172,7 @@ export default async function CRMFollowUpsPage() {
                 return (
                   <div
                     key={item.id}
-                    className={`p-4 flex items-center gap-4 hover:bg-gray-50 ${isOverdue ? 'bg-brand-red-50' : ''}`}
+                    className={`p-4 flex items-center gap-4 hover:bg-slate-50 ${isOverdue ? 'bg-brand-red-50' : ''}`}
                   >
                     <div
                       className={`w-10 h-10 rounded-full flex items-center justify-center ${typeBg(item.follow_up_type)}`}
@@ -188,7 +188,7 @@ export default async function CRMFollowUpsPage() {
                               ? 'bg-brand-red-100 text-brand-red-700'
                               : item.priority === 'medium'
                                 ? 'bg-yellow-100 text-yellow-700'
-                                : 'bg-gray-100 text-slate-900'
+                                : 'bg-slate-100 text-slate-900'
                           }`}
                         >
                           {item.priority}

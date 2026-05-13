@@ -53,7 +53,7 @@ export default async function TaxPreparersPage() {
         </div>
 
         <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <div className="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
             <h2 className="text-lg font-semibold text-black">Tax Preparers</h2>
             <button
               className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700"
@@ -64,9 +64,9 @@ export default async function TaxPreparersPage() {
           </div>
 
           {preparers && preparers.length > 0 ? (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-slate-200">
               {preparers.map((item: any) => (
-                <div key={item.id} className="px-6 py-4 hover:bg-gray-50">
+                <div key={item.id} className="px-6 py-4 hover:bg-slate-50">
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-semibold text-black">{item.full_name}</h3>

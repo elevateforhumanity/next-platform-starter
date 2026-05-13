@@ -142,7 +142,7 @@ export default async function AutomationLogPage() {
             <div className="divide-y max-h-[500px] overflow-y-auto">
               {deliveryLogs && deliveryLogs.length > 0 ? (
                 deliveryLogs.map((log: any) => (
-                  <div key={log.id} className="p-4 hover:bg-gray-50">
+                  <div key={log.id} className="p-4 hover:bg-slate-50">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div
@@ -193,7 +193,7 @@ export default async function AutomationLogPage() {
             <div className="divide-y max-h-[500px] overflow-y-auto">
               {recentEnrollments && recentEnrollments.length > 0 ? (
                 recentEnrollments.map((enrollment: any) => (
-                  <div key={enrollment.id} className="p-4 hover:bg-gray-50">
+                  <div key={enrollment.id} className="p-4 hover:bg-slate-50">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div className="p-2 rounded-lg bg-brand-green-100">
@@ -232,7 +232,7 @@ export default async function AutomationLogPage() {
             Scheduled Jobs
           </h2>
           <div className="grid md:grid-cols-3 gap-4">
-            <div className="p-4 bg-gray-50 rounded-lg">
+            <div className="p-4 bg-slate-50 rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-slate-900">Nudge Emails</span>
                 <span className="text-xs px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded">
@@ -242,7 +242,7 @@ export default async function AutomationLogPage() {
               <p className="text-sm text-slate-700">Sends inactivity reminders</p>
               <p className="text-xs text-slate-700 mt-1">Runs daily at 9:00 AM</p>
             </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
+            <div className="p-4 bg-slate-50 rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-slate-900">Missed Check-ins</span>
                 <span className="text-xs px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded">
@@ -252,7 +252,7 @@ export default async function AutomationLogPage() {
               <p className="text-sm text-slate-700">Alerts for missed OJT check-ins</p>
               <p className="text-xs text-slate-700 mt-1">Runs daily at 6:00 PM</p>
             </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
+            <div className="p-4 bg-slate-50 rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-slate-900">End of Day Summary</span>
                 <span className="text-xs px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded">

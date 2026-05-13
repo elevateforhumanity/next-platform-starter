@@ -317,7 +317,7 @@ export default function StoreBuilderPage() {
 
                   <button
                     onClick={() => window.open('/store/codebase-clone', '_blank')}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-slate-300 rounded-lg hover:bg-slate-50"
                   >
                     <Eye className="w-4 h-4" />
                     Preview Page
@@ -325,7 +325,7 @@ export default function StoreBuilderPage() {
 
                   <button
                     onClick={() => window.open(product.demo.url, '_blank')}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-slate-300 rounded-lg hover:bg-slate-50"
                   >
                     <Sparkles className="w-4 h-4" />
                     View Demo
@@ -455,7 +455,7 @@ export default function StoreBuilderPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/store/clones"
-                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
+                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg shadow-2xl transition-all"
                 >
                   View Clones
                 </Link>

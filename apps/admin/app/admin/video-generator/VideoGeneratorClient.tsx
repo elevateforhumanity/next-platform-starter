@@ -131,7 +131,7 @@ export default function VideoGeneratorPage() {
           {/* Status */}
           {status && (
             <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="bg-gray-50 rounded-lg p-4 text-center">
+              <div className="bg-slate-50 rounded-lg p-4 text-center">
                 <div className="text-3xl font-bold text-slate-900">{status.total}</div>
                 <div className="text-sm text-slate-700">Total Lessons</div>
               </div>
@@ -155,7 +155,7 @@ export default function VideoGeneratorPage() {
           {/* Progress Bar */}
           {status && (
             <div className="mb-6">
-              <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-4 bg-slate-200 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-brand-blue-500 transition-all duration-500"
                   style={{ width: `${status.percentComplete}%` }}
@@ -210,7 +210,7 @@ export default function VideoGeneratorPage() {
             <button
               onClick={fetchStatus}
               disabled={generating}
-              className="flex items-center gap-2 border border-gray-300 px-4 py-3 rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-2 border border-slate-300 px-4 py-3 rounded-lg hover:bg-slate-50"
             >
               <RefreshCw className="w-5 h-5" />
               Refresh
@@ -227,7 +227,7 @@ export default function VideoGeneratorPage() {
           {/* Results */}
           {results.length > 0 && (
             <div className="border rounded-lg overflow-hidden">
-              <div className="bg-gray-50 px-4 py-2 font-medium border-b">Generation Results</div>
+              <div className="bg-slate-50 px-4 py-2 font-medium border-b">Generation Results</div>
               <div className="divide-y max-h-96 overflow-y-auto">
                 {results.map((result, i) => (
                   <div key={i} className="flex items-center gap-3 px-4 py-3">

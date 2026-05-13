@@ -106,7 +106,7 @@ export default async function AdminCreatorsPage() {
                       .reduce((sum, sale) => sum + (sale.creator_earnings_cents || 0), 0) || 0;
 
                   return (
-                    <tr key={creator.id} className="border-b hover:bg-gray-50">
+                    <tr key={creator.id} className="border-b hover:bg-slate-50">
                       <td className="py-3 px-4">
                         <div className="font-semibold">{creator.display_name}</div>
                         <div className="text-sm text-black">{creator.payout_email}</div>

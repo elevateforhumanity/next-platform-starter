@@ -93,7 +93,7 @@ export default function ExportStudentsPage() {
 
         {/* Export Options */}
         <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-lg font-semibold text-black">Export Options</h2>
           </div>
 
@@ -104,7 +104,7 @@ export default function ExportStudentsPage() {
                 Select Export Format
               </label>
               <div className="grid md:grid-cols-3 gap-4">
-                <label className="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-brand-blue-500">
+                <label className="flex items-center p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-brand-blue-500">
                   <input
                     type="radio"
                     name="format"
@@ -118,14 +118,14 @@ export default function ExportStudentsPage() {
                     <div className="text-xs text-black">Excel compatible</div>
                   </div>
                 </label>
-                <label className="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-brand-blue-500 opacity-50">
+                <label className="flex items-center p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-brand-blue-500 opacity-50">
                   <input type="radio" name="format" value="excel" disabled className="mr-3" />
                   <div>
                     <div className="font-semibold text-black">Excel</div>
                     <div className="text-xs text-black">Available now</div>
                   </div>
                 </label>
-                <label className="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-brand-blue-500 opacity-50">
+                <label className="flex items-center p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-brand-blue-500 opacity-50">
                   <input type="radio" name="format" value="pdf" disabled className="mr-3" />
                   <div>
                     <div className="font-semibold text-black">PDF</div>
@@ -201,7 +201,7 @@ export default function ExportStudentsPage() {
                   <select
                     value={program}
                     onChange={(e) => setProgram(e.target.value)}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                    className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                   >
                     <option value="">All Programs</option>
                     <option value="barber-apprenticeship">Barber Apprenticeship</option>
@@ -215,7 +215,7 @@ export default function ExportStudentsPage() {
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                    className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                   >
                     <option value="">All Statuses</option>
                     <option value="active">Active</option>
@@ -230,7 +230,7 @@ export default function ExportStudentsPage() {
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                    className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                   />
                 </div>
                 <div>
@@ -239,19 +239,19 @@ export default function ExportStudentsPage() {
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                    className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                   />
                 </div>
               </div>
             </div>
 
             {/* Export Actions */}
-            <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+            <div className="flex justify-between items-center pt-4 border-t border-slate-200">
               <div className="text-sm text-black">Ready to export student data</div>
               <div className="flex gap-4">
                 <Link
                   href="/admin/students"
-                  className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50"
+                  className="px-4 py-2 border border-slate-300 rounded-md text-black hover:bg-slate-50"
                 >
                   Cancel
                 </Link>
@@ -269,7 +269,7 @@ export default function ExportStudentsPage() {
 
         {/* Recent Exports */}
         <div className="mt-6 bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-lg font-semibold text-black">Recent Exports</h2>
           </div>
           <div className="p-6">

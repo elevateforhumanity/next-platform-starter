@@ -59,7 +59,7 @@ export function TransferHoursTable({ transferHours }: { transferHours: TransferH
       case 'denied':
         return 'bg-brand-red-100 text-brand-red-800';
       default:
-        return 'bg-gray-100 text-black';
+        return 'bg-slate-100 text-black';
     }
   };
 
@@ -135,7 +135,7 @@ export function TransferHoursTable({ transferHours }: { transferHours: TransferH
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-slate-50 border-b">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                   Student
@@ -163,7 +163,7 @@ export function TransferHoursTable({ transferHours }: { transferHours: TransferH
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-slate-200">
               {filteredRequests.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="px-6 py-12 text-center text-black">
@@ -172,7 +172,7 @@ export function TransferHoursTable({ transferHours }: { transferHours: TransferH
                 </tr>
               ) : (
                 filteredRequests.map((request) => (
-                  <tr key={request.id} className="hover:bg-gray-50">
+                  <tr key={request.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4">
                       <div>
                         <div className="font-medium text-black">
@@ -223,7 +223,7 @@ export function TransferHoursTable({ transferHours }: { transferHours: TransferH
         </div>
 
         {/* Pagination info */}
-        <div className="px-6 py-4 border-t bg-gray-50">
+        <div className="px-6 py-4 border-t bg-slate-50">
           <p className="text-sm text-black">
             Showing <span className="font-medium">{filteredRequests.length}</span> of{' '}
             <span className="font-medium">{transferHours.length}</span> requests
@@ -371,14 +371,14 @@ export function TransferHoursTable({ transferHours }: { transferHours: TransferH
             </div>
 
             {/* Actions */}
-            <div className="p-6 border-t bg-gray-50 flex items-center justify-end gap-4">
+            <div className="p-6 border-t bg-slate-50 flex items-center justify-end gap-4">
               <button
                 onClick={() => {
                   setSelectedRequest(null);
                   setApprovalHours('');
                   setApprovalNotes('');
                 }}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-black hover:bg-gray-100 font-medium"
+                className="px-6 py-2 border border-slate-300 rounded-lg text-black hover:bg-slate-100 font-medium"
               >
                 Close
               </button>

@@ -89,7 +89,7 @@ export default async function EnrollmentJobsPage() {
 
         {/* Jobs List */}
         <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-xl font-semibold text-black">Failed & Retrying Jobs</h2>
           </div>
 
@@ -100,9 +100,9 @@ export default async function EnrollmentJobsPage() {
               <p className="text-black">No failed or retrying jobs at this time.</p>
             </div>
           ) : (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-slate-200">
               {jobs.map((job) => (
-                <div key={job.id} className="p-6 hover:bg-gray-50">
+                <div key={job.id} className="p-6 hover:bg-slate-50">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">

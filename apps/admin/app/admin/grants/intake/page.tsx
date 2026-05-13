@@ -33,7 +33,7 @@ export default async function GrantIntakePage() {
 
         {/* Intake Form */}
         <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-lg font-semibold text-black">New Grant Application</h2>
           </div>
 
@@ -44,7 +44,7 @@ export default async function GrantIntakePage() {
               <input
                 type="text"
                 placeholder="e.g., WIOA Youth Program Grant 2024"
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
               />
             </div>
 
@@ -53,7 +53,7 @@ export default async function GrantIntakePage() {
               <input
                 type="text"
                 placeholder="e.g., Indiana Department of Workforce Development"
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
               />
             </div>
 
@@ -65,14 +65,14 @@ export default async function GrantIntakePage() {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                    className="flex-1 rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                   />
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-black mb-2">Grant Type</label>
-                <select className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500">
+                <select className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500">
                   <option value="">Select type</option>
                   <option value="wioa">WIOA</option>
                   <option value="fssa">FSSA</option>
@@ -92,13 +92,13 @@ export default async function GrantIntakePage() {
                 </label>
                 <input
                   type="date"
-                  className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                  className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-black mb-2">Grant Period</label>
-                <select className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500">
+                <select className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500">
                   <option value="">Select period</option>
                   <option value="1year">1 Year</option>
                   <option value="2year">2 Years</option>
@@ -113,7 +113,7 @@ export default async function GrantIntakePage() {
               <textarea
                 rows={4}
                 placeholder="Describe the grant purpose, requirements, and goals..."
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
               />
             </div>
 
@@ -122,7 +122,7 @@ export default async function GrantIntakePage() {
               <textarea
                 rows={3}
                 placeholder="Who will this grant serve? (e.g., Youth ages 16-24, Justice-involved individuals)"
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+                className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
               />
             </div>
 
@@ -154,7 +154,7 @@ export default async function GrantIntakePage() {
             {/* File Upload */}
             <div>
               <label className="block text-sm font-medium text-black mb-2">Upload Documents</label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+              <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
                 <input type="file" multiple className="hidden" id="file-upload" />
                 <label htmlFor="file-upload" className="cursor-pointer">
                   <div className="text-black">
@@ -166,15 +166,15 @@ export default async function GrantIntakePage() {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex justify-end gap-4 pt-4 border-t border-gray-200">
+            <div className="flex justify-end gap-4 pt-4 border-t border-slate-200">
               <Link
                 href="/admin/grants"
-                className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50"
+                className="px-4 py-2 border border-slate-300 rounded-md text-black hover:bg-slate-50"
               >
                 Cancel
               </Link>
               <button
-                className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+                className="px-4 py-2 bg-slate-600 text-white rounded-md hover:bg-slate-700"
                 aria-label="Action button"
               >
                 Save as Draft

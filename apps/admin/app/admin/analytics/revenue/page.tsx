@@ -141,7 +141,7 @@ export default async function RevenueAnalyticsPage() {
               {monthlyTotals.map(({ month, total }) => (
                 <div key={month} className="flex items-center gap-3">
                   <span className="text-sm text-slate-700 w-8">{month}</span>
-                  <div className="flex-1 bg-gray-100 rounded-full h-2">
+                  <div className="flex-1 bg-slate-100 rounded-full h-2">
                     <div
                       className="bg-brand-blue-500 h-2 rounded-full"
                       style={{

@@ -248,7 +248,7 @@ export default async function ReviewDetailPage({ params }: { params: Promise<{ i
                 <div className="flex items-center gap-4 text-sm">
                   <span className="text-slate-700">Confidence:</span>
                   <div className="flex items-center gap-2">
-                    <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="w-32 h-2 bg-slate-200 rounded-full overflow-hidden">
                       <div
                         className={`h-full ${extraction.confidence >= 0.8 ? 'bg-brand-green-500' : extraction.confidence >= 0.6 ? 'bg-yellow-500' : 'bg-brand-red-500'}`}
                         style={{ width: `${(extraction.confidence || 0) * 100}%` }}
@@ -287,7 +287,7 @@ export default async function ReviewDetailPage({ params }: { params: Promise<{ i
                 )}
                 <div>
                   <span className="text-slate-700 text-sm">Extracted Fields:</span>
-                  <pre className="mt-1 p-3 bg-gray-50 rounded text-xs overflow-auto max-h-48">
+                  <pre className="mt-1 p-3 bg-slate-50 rounded text-xs overflow-auto max-h-48">
                     {JSON.stringify(extraction.extracted, null, 2)}
                   </pre>
                 </div>
@@ -331,7 +331,7 @@ export default async function ReviewDetailPage({ params }: { params: Promise<{ i
                 {routingScores.map((score: any, i: number) => (
                   <div
                     key={score.id}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                    className="flex items-center justify-between p-3 bg-slate-50 rounded-lg"
                   >
                     <div>
                       <p className="font-medium">{score.shops?.name || 'Unknown Shop'}</p>
@@ -357,7 +357,7 @@ export default async function ReviewDetailPage({ params }: { params: Promise<{ i
               <h3 className="font-semibold text-slate-900 mb-3">Decision History</h3>
               <div className="space-y-3">
                 {decisions.map((decision: any) => (
-                  <div key={decision.id} className="border-l-2 border-gray-200 pl-4 py-2">
+                  <div key={decision.id} className="border-l-2 border-slate-200 pl-4 py-2">
                     <div className="flex items-center gap-2">
                       <span
                         className={`px-2 py-0.5 rounded text-xs font-medium ${
@@ -397,7 +397,7 @@ export default async function ReviewDetailPage({ params }: { params: Promise<{ i
           />
 
           {/* Meta Info */}
-          <div className="bg-gray-50 border rounded-lg p-4">
+          <div className="bg-slate-50 border rounded-lg p-4">
             <h3 className="font-semibold text-slate-900 mb-3">Queue Info</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">

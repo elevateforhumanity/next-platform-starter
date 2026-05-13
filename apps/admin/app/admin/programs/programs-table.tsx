@@ -67,7 +67,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-slate-50 border-b">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                 Program
@@ -92,7 +92,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-slate-200">
             {filteredPrograms.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-6 py-12 text-center text-black">
@@ -101,7 +101,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
               </tr>
             ) : (
               filteredPrograms.map((program: any) => (
-                <tr key={program.id} className="hover:bg-gray-50">
+                <tr key={program.id} className="hover:bg-slate-50">
                   <td className="px-6 py-4">
                     <div>
                       <div className="font-medium text-black">{program.title || program.name}</div>
@@ -115,7 +115,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                           Active
                         </span>
                       ) : (
-                        <span className="px-2 py-2 text-xs font-semibold rounded-full bg-gray-100 text-black">
+                        <span className="px-2 py-2 text-xs font-semibold rounded-full bg-slate-100 text-black">
                           Inactive
                         </span>
                       )}
@@ -169,7 +169,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
       </div>
 
       {/* Pagination info */}
-      <div className="px-6 py-4 border-t bg-gray-50">
+      <div className="px-6 py-4 border-t bg-slate-50">
         <p className="text-sm text-black">
           Showing <span className="font-medium">{filteredPrograms.length}</span> of{' '}
           <span className="font-medium">{programs.length}</span> programs

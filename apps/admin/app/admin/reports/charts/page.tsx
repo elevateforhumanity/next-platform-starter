@@ -95,7 +95,7 @@ export default async function ChartsPage() {
                           <span className="capitalize text-slate-900">{status.replace(/_/g, ' ')}</span>
                           <span className="text-slate-700">{count} ({pct}%)</span>
                         </div>
-                        <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
                           <div className="h-full bg-brand-blue-500 rounded-full" style={{ width: `${pct}%` }} />
                         </div>
                       </div>
@@ -124,7 +124,7 @@ export default async function ChartsPage() {
                         <span className="text-slate-900 truncate mr-2">{name}</span>
                         <span className="text-slate-700 shrink-0">{count as number}</span>
                       </div>
-                      <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
                         <div className={`h-full ${colors[i % colors.length]} rounded-full`} style={{ width: `${pct}%` }} />
                       </div>
                     </div>
@@ -166,15 +166,15 @@ export default async function ChartsPage() {
               Application Pipeline
             </h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                 <span className="text-sm text-slate-900">Total Applications</span>
                 <span className="font-semibold">{applications.count ?? 0}</span>
               </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                 <span className="text-sm text-slate-900">Active Programs</span>
                 <span className="font-semibold">{programs.count ?? 0}</span>
               </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                 <span className="text-sm text-slate-900">Partner Completions</span>
                 <span className="font-semibold">{completions.count ?? 0}</span>
               </div>

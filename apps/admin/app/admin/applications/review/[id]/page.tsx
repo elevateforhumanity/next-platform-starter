@@ -230,7 +230,7 @@ export default async function ReviewApplicationPage({
             </div>
             <div className="flex items-center gap-3">
               <span
-                className={`inline-flex px-3 py-1.5 text-sm font-bold rounded-full border ${statusColors[effectiveStatus] || 'bg-gray-100 text-slate-900 border-gray-300'}`}
+                className={`inline-flex px-3 py-1.5 text-sm font-bold rounded-full border ${statusColors[effectiveStatus] || 'bg-slate-100 text-slate-900 border-slate-300'}`}
               >
                 {effectiveStatus === 'revoked' ? 'Revoked' : statusLabels[app.status] || app.status}
               </span>

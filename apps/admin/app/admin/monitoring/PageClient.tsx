@@ -123,7 +123,7 @@ export default function MonitoringDashboard() {
       case 'fail':
         return 'text-brand-red-600 bg-brand-red-100';
       default:
-        return 'text-black bg-gray-100';
+        return 'text-black bg-slate-100';
     }
   };
 
@@ -262,7 +262,7 @@ export default function MonitoringDashboard() {
         {status && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {/* Database */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-4">
                 <Database className="h-11 w-11 text-brand-blue-600" />
                 <span
@@ -281,7 +281,7 @@ export default function MonitoringDashboard() {
             </div>
 
             {/* Redis */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-4">
                 <Zap className="h-11 w-11 text-brand-orange-600" />
                 <span
@@ -298,7 +298,7 @@ export default function MonitoringDashboard() {
             </div>
 
             {/* Stripe */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-4">
                 <Server className="h-11 w-11 text-brand-blue-600" />
                 <span
@@ -316,7 +316,7 @@ export default function MonitoringDashboard() {
             </div>
 
             {/* Email */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-4">
                 <Users className="h-11 w-11 text-brand-green-600" />
                 <span
@@ -339,7 +339,7 @@ export default function MonitoringDashboard() {
         {status && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {/* Request Metrics */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center gap-3 mb-4">
                 <TrendingUp className="h-10 w-10 text-brand-blue-600" />
                 <h3 className="text-lg font-bold text-black">Requests</h3>
@@ -373,7 +373,7 @@ export default function MonitoringDashboard() {
             </div>
 
             {/* Rate Limiting */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center gap-3 mb-4">
                 <AlertCircle className="h-10 w-10 text-brand-orange-600" />
                 <h3 className="text-lg font-bold text-black">Rate Limits</h3>
@@ -409,7 +409,7 @@ export default function MonitoringDashboard() {
             </div>
 
             {/* Memory Usage */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center gap-3 mb-4">
                 <Server className="h-10 w-10 text-brand-blue-600" />
                 <h3 className="text-lg font-bold text-black">Memory</h3>
@@ -444,7 +444,7 @@ export default function MonitoringDashboard() {
         )}
 
         {/* Recent Errors */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="bg-white rounded-xl border border-slate-200 p-6">
           <div className="flex items-center gap-3 mb-6">
             <AlertCircle className="h-10 w-10 text-brand-red-600" />
             <h3 className="text-lg font-bold text-black">Recent Errors</h3>
@@ -460,7 +460,7 @@ export default function MonitoringDashboard() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-200">
+                  <tr className="border-b border-slate-200">
                     <th className="text-left py-3 px-4 text-sm font-medium text-black">
                       Timestamp
                     </th>
@@ -472,7 +472,7 @@ export default function MonitoringDashboard() {
                 </thead>
                 <tbody>
                   {errors.map((error) => (
-                    <tr key={error.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <tr key={error.id} className="border-b border-slate-100 hover:bg-slate-50">
                       <td className="py-3 px-4 text-sm text-black">
                         {new Date(error.timestamp).toLocaleTimeString()}
                       </td>
@@ -487,7 +487,7 @@ export default function MonitoringDashboard() {
                               ? 'bg-brand-red-100 text-brand-red-700'
                               : error.statusCode >= 400
                                 ? 'bg-yellow-100 text-yellow-700'
-                                : 'bg-gray-100 text-black'
+                                : 'bg-slate-100 text-black'
                           }`}
                         >
                           {error.statusCode}

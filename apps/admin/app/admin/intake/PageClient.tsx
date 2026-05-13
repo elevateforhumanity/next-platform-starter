@@ -24,7 +24,7 @@ const PATHWAY_LABELS = {
 };
 
 const STATUS_COLORS = {
-  not_started: 'bg-gray-100 text-slate-700',
+  not_started: 'bg-slate-100 text-slate-700',
   identity_pending: 'bg-yellow-100 text-yellow-700',
   workforce_screening: 'bg-brand-blue-100 text-brand-blue-700',
   employer_screening: 'bg-brand-blue-100 text-brand-blue-700',
@@ -113,7 +113,7 @@ export default function AdminIntakePage() {
         {showScript && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-6 border-b border-slate-200">
                 <h2 className="text-xl font-bold text-slate-900">Admissions Funding Script</h2>
                 <p className="text-sm text-slate-700 mt-1">
                   Required reading before processing intakes
@@ -124,7 +124,7 @@ export default function AdminIntakePage() {
                 {/* Opening */}
                 <div>
                   <h3 className="font-semibold text-slate-900 mb-2">Opening Statement</h3>
-                  <div className="bg-gray-50 p-4 rounded-lg text-sm">
+                  <div className="bg-slate-50 p-4 rounded-lg text-sm">
                     <p className="italic">
                       "Thank you for your interest in [Program Name]. Before we discuss enrollment,
                       I need to walk you through our funding pathways to determine the best fit for
@@ -183,21 +183,21 @@ export default function AdminIntakePage() {
                     Objection Handling (Exact Responses)
                   </h3>
                   <div className="space-y-3 text-sm">
-                    <div className="border border-gray-200 rounded-lg p-3">
+                    <div className="border border-slate-200 rounded-lg p-3">
                       <p className="font-medium">"I can only do $100 a month."</p>
                       <p className="text-slate-700 mt-1">
                         → "At that level, a long-term payor is required. We would need to explore
                         workforce funding, employer sponsorship, or external financing."
                       </p>
                     </div>
-                    <div className="border border-gray-200 rounded-lg p-3">
+                    <div className="border border-slate-200 rounded-lg p-3">
                       <p className="font-medium">"Other schools let me pay less."</p>
                       <p className="text-slate-700 mt-1">
                         → "Each institution structures tuition differently. Our model is designed to
                         support completion and stability."
                       </p>
                     </div>
-                    <div className="border border-gray-200 rounded-lg p-3">
+                    <div className="border border-slate-200 rounded-lg p-3">
                       <p className="font-medium">"Can you make an exception?"</p>
                       <p className="text-slate-700 mt-1">
                         → "Our funding pathways are standardized. Exceptions are not handled at the
@@ -208,11 +208,11 @@ export default function AdminIntakePage() {
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-200 bg-gray-50">
+              <div className="p-6 border-t border-slate-200 bg-slate-50">
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
-                    className="mt-1 w-4 h-4 rounded border-gray-300"
+                    className="mt-1 w-4 h-4 rounded border-slate-300"
                     onChange={(e) => {
                       if (e.target.checked) {
                         setScriptAcknowledged(true);
@@ -245,13 +245,13 @@ export default function AdminIntakePage() {
               placeholder="Search by name or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg"
+              className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg"
             />
           </div>
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-200 rounded-lg bg-white"
+            className="px-4 py-2 border border-slate-200 rounded-lg bg-white"
           >
             <option value="all">All Status</option>
             <option value="not_started">Not Started</option>
@@ -266,9 +266,9 @@ export default function AdminIntakePage() {
         </div>
 
         {/* Intake List */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
                 <th className="text-left px-6 py-3 text-sm font-medium text-slate-700">Student</th>
                 <th className="text-left px-6 py-3 text-sm font-medium text-slate-700">Program</th>
@@ -278,7 +278,7 @@ export default function AdminIntakePage() {
                 <th className="text-right px-6 py-3 text-sm font-medium text-slate-700">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-slate-700">
@@ -293,7 +293,7 @@ export default function AdminIntakePage() {
                 </tr>
               ) : (
                 filteredIntakes.map((intake) => (
-                  <tr key={intake.id} className="hover:bg-gray-50">
+                  <tr key={intake.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4">
                       <div>
                         <p className="font-medium text-slate-900">
@@ -307,7 +307,7 @@ export default function AdminIntakePage() {
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[intake.status as keyof typeof STATUS_COLORS] || 'bg-gray-100'}`}
+                        className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[intake.status as keyof typeof STATUS_COLORS] || 'bg-slate-100'}`}
                       >
                         {intake.status?.replace(/_/g, ' ')}
                       </span>
@@ -469,7 +469,7 @@ function IntakeDetailModal({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+        <div className="p-6 border-b border-slate-200 flex items-center justify-between">
           <div>
             <h2 className="text-xl font-bold text-slate-900">Process Intake</h2>
             <p className="text-sm text-slate-700">
@@ -486,7 +486,7 @@ function IntakeDetailModal({
         </div>
 
         {/* Progress Steps */}
-        <div className="p-6 border-b border-gray-100">
+        <div className="p-6 border-b border-slate-100">
           <div className="flex items-center justify-between">
             {steps.map((step, index) => (
               <div key={step.id} className="flex items-center">
@@ -496,7 +496,7 @@ function IntakeDetailModal({
                       ? 'bg-brand-green-100 text-brand-green-600'
                       : activeStep === step.id
                         ? 'bg-brand-blue-100 text-brand-blue-600'
-                        : 'bg-gray-100 text-slate-700'
+                        : 'bg-slate-100 text-slate-700'
                   }`}
                 >
                   {step.completed ? (
@@ -508,7 +508,7 @@ function IntakeDetailModal({
                 {index < steps.length - 1 && (
                   <div
                     className={`w-12 h-0.5 mx-2 ${
-                      step.completed ? 'bg-brand-green-200' : 'bg-gray-200'
+                      step.completed ? 'bg-brand-green-200' : 'bg-slate-200'
                     }`}
                   />
                 )}
@@ -525,7 +525,7 @@ function IntakeDetailModal({
         </div>
 
         {/* Funding Pathway Assignment */}
-        <div className="p-6 border-b border-gray-100">
+        <div className="p-6 border-b border-slate-100">
           <h3 className="font-semibold text-slate-900 mb-4">Assign Funding Pathway</h3>
           <div className="grid grid-cols-3 gap-4">
             <button
@@ -534,7 +534,7 @@ function IntakeDetailModal({
               className={`p-4 rounded-lg border-2 text-left transition ${
                 intake.funding_pathway === 'workforce_funded'
                   ? 'border-brand-green-500 bg-brand-green-50'
-                  : 'border-gray-200 hover:border-brand-green-300'
+                  : 'border-slate-200 hover:border-brand-green-300'
               }`}
             >
               <Building2 className="w-6 h-6 text-brand-green-600 mb-2" />
@@ -548,7 +548,7 @@ function IntakeDetailModal({
               className={`p-4 rounded-lg border-2 text-left transition ${
                 intake.funding_pathway === 'employer_sponsored'
                   ? 'border-brand-blue-500 bg-brand-blue-50'
-                  : 'border-gray-200 hover:border-brand-blue-300'
+                  : 'border-slate-200 hover:border-brand-blue-300'
               }`}
             >
               <Building2 className="w-6 h-6 text-brand-blue-600 mb-2" />
@@ -562,7 +562,7 @@ function IntakeDetailModal({
               className={`p-4 rounded-lg border-2 text-left transition ${
                 intake.funding_pathway === 'structured_tuition'
                   ? 'border-slate-500 bg-slate-50'
-                  : 'border-gray-200 hover:border-slate-300'
+                  : 'border-slate-200 hover:border-slate-300'
               }`}
             >
               <DollarSign className="w-6 h-6 text-slate-600 mb-2" />
@@ -573,7 +573,7 @@ function IntakeDetailModal({
         </div>
 
         {/* Script Deviation Log (Admin Only) */}
-        <div className="p-6 bg-gray-50">
+        <div className="p-6 bg-slate-50">
           <h3 className="font-semibold text-slate-900 mb-2">Script Deviation Log</h3>
           <p className="text-xs text-slate-700 mb-3">
             Document any deviations from the approved script for audit purposes.
@@ -584,7 +584,7 @@ function IntakeDetailModal({
               value={deviationNote}
               onChange={(e) => setDeviationNote(e.target.value)}
               placeholder="Describe any script deviation..."
-              className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+              className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm"
             />
             <button
               onClick={logDeviation}

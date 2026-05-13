@@ -103,7 +103,7 @@ export default async function AdminPayoutsPage() {
               </thead>
               <tbody>
                 {creatorsNeedingPayout.map((creator) => (
-                  <tr key={creator.id} className="border-b hover:bg-gray-50">
+                  <tr key={creator.id} className="border-b hover:bg-slate-50">
                     <td className="py-3 px-4 font-semibold">{creator.display_name}</td>
                     <td className="py-3 px-4 text-sm">{creator.payout_method || 'Not set'}</td>
                     <td className="py-3 px-4 text-sm">{creator.payout_email}</td>
@@ -139,7 +139,7 @@ export default async function AdminPayoutsPage() {
             </thead>
             <tbody>
               {creatorsWithEarnings.map((creator) => (
-                <tr key={creator.id} className="border-b hover:bg-gray-50">
+                <tr key={creator.id} className="border-b hover:bg-slate-50">
                   <td className="py-3 px-4 font-semibold">{creator.display_name}</td>
                   <td className="py-3 px-4">${(creator.totalEarnings / 100).toFixed(2)}</td>
                   <td className="py-3 px-4 text-brand-green-600">

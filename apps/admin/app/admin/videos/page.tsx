@@ -101,7 +101,7 @@ export default async function VideosPage() {
                       className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
                     >
                       {video.thumbnail_url ? (
-                        <div className="relative h-48 bg-gray-200">
+                        <div className="relative h-48 bg-slate-200">
                           <Image
                             src={video.thumbnail_url}
                             alt={video.title}
@@ -114,7 +114,7 @@ export default async function VideosPage() {
                           </div>
                         </div>
                       ) : (
-                        <div className="h-48 bg-gray-200 flex items-center justify-center">
+                        <div className="h-48 bg-slate-200 flex items-center justify-center">
                           <Video className="h-12 w-12 text-black" />
                         </div>
                       )}
@@ -136,7 +136,7 @@ export default async function VideosPage() {
                           </Link>
                           <Link
                             href={`/videos/${video.slug}`}
-                            className="flex-1 text-center bg-gray-100 text-black px-3 py-2 rounded text-sm font-medium hover:bg-gray-200"
+                            className="flex-1 text-center bg-slate-100 text-black px-3 py-2 rounded text-sm font-medium hover:bg-slate-200"
                           >
                             View
                           </Link>
@@ -168,7 +168,7 @@ export default async function VideosPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/admin/videos"
-                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 text-lg"
+                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 text-lg"
               >
                 View Videos
               </Link>

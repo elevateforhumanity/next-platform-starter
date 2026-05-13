@@ -120,15 +120,15 @@ export function ApiKeysClient({ apiKeys: initialKeys, totalKeys, activeKeys }: P
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <h3 className="text-sm font-medium text-slate-700">Total Keys</h3>
           <p className="text-3xl font-bold text-slate-900 mt-2">{totalKeys}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <h3 className="text-sm font-medium text-slate-700">Active Keys</h3>
           <p className="text-3xl font-bold text-slate-900 mt-2">{activeKeys}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <h3 className="text-sm font-medium text-slate-700">Rate Limit</h3>
           <p className="text-3xl font-bold text-slate-900 mt-2">1,000/min</p>
           <p className="text-sm text-slate-700 mt-1">Default limit per key</p>
@@ -136,7 +136,7 @@ export function ApiKeysClient({ apiKeys: initialKeys, totalKeys, activeKeys }: P
       </div>
 
       {/* API Keys Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
         {keys.length === 0 ? (
           <div className="p-8 text-center">
             <Key className="w-12 h-12 text-slate-700 mx-auto mb-4" />
@@ -154,7 +154,7 @@ export function ApiKeysClient({ apiKeys: initialKeys, totalKeys, activeKeys }: P
           </div>
         ) : (
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
                 <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Name</th>
                 <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Key</th>
@@ -164,15 +164,15 @@ export function ApiKeysClient({ apiKeys: initialKeys, totalKeys, activeKeys }: P
                 <th className="text-right px-6 py-4 text-sm font-semibold text-slate-900">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-slate-200">
               {keys.map((apiKey) => {
                 const prefix = apiKey.name.match(/\[(efh_[^\]]+)\]/)?.[1] ?? 'efh_';
                 const displayName = apiKey.name.replace(/\s*\[efh_[^\]]+\]$/, '');
                 return (
-                  <tr key={apiKey.id} className="hover:bg-gray-50">
+                  <tr key={apiKey.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
                           <Key className="w-5 h-5 text-slate-700" />
                         </div>
                         <span className="font-medium text-slate-900">{displayName}</span>
@@ -180,7 +180,7 @@ export function ApiKeysClient({ apiKeys: initialKeys, totalKeys, activeKeys }: P
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <code className="text-sm bg-gray-100 px-2 py-1 rounded font-mono">
+                        <code className="text-sm bg-slate-100 px-2 py-1 rounded font-mono">
                           {prefix}****
                         </code>
                       </div>
@@ -234,13 +234,13 @@ export function ApiKeysClient({ apiKeys: initialKeys, totalKeys, activeKeys }: P
                 <p className="text-sm text-slate-700 mb-4">
                   Copy this key now — it will not be shown again.
                 </p>
-                <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg p-3 mb-4">
+                <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4">
                   <code className="text-sm font-mono text-slate-900 flex-1 break-all">
                     {generatedKey}
                   </code>
                   <button
                     onClick={() => handleCopy(generatedKey)}
-                    className="p-1.5 hover:bg-gray-200 rounded shrink-0"
+                    className="p-1.5 hover:bg-slate-200 rounded shrink-0"
                     title="Copy"
                   >
                     {copied ? (
@@ -267,14 +267,14 @@ export function ApiKeysClient({ apiKeys: initialKeys, totalKeys, activeKeys }: P
                   onChange={(e) => setNewKeyName(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
                   placeholder="e.g. Zapier Integration"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   autoFocus
                 />
                 {error && <p className="text-sm text-brand-red-600 mb-3">{error}</p>}
                 <div className="flex gap-3">
                   <button
                     onClick={closeModal}
-                    className="flex-1 px-4 py-2 border border-gray-300 text-slate-700 rounded-lg hover:bg-gray-50"
+                    className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50"
                   >
                     Cancel
                   </button>

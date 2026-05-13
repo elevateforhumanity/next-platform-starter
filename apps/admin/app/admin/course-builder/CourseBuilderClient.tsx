@@ -226,7 +226,7 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
       </div>
 
       {/* Tab Switcher */}
-      <div className="flex gap-1 mb-8 bg-gray-100 rounded-lg p-1 w-fit">
+      <div className="flex gap-1 mb-8 bg-slate-100 rounded-lg p-1 w-fit">
         <button
           onClick={() => setActiveTab('manual')}
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'manual' ? 'bg-white shadow text-slate-900' : 'text-slate-700 hover:text-slate-900'}`}
@@ -418,7 +418,7 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
                 {filteredCourses.map((course) => (
                   <div
                     key={course.id}
-                    className="px-6 py-4 hover:bg-gray-50 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+                    className="px-6 py-4 hover:bg-slate-50 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-3">
@@ -456,26 +456,26 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
                       </button>
                       <button
                         onClick={() => openEditModal(course)}
-                        className="px-3 py-1.5 text-sm border rounded-lg hover:bg-gray-50"
+                        className="px-3 py-1.5 text-sm border rounded-lg hover:bg-slate-50"
                       >
                         Edit
                       </button>
                       <Link
                         href={`/admin/courses/${course.id}/content`}
-                        className="px-3 py-1.5 text-sm border rounded-lg hover:bg-gray-50"
+                        className="px-3 py-1.5 text-sm border rounded-lg hover:bg-slate-50"
                       >
                         Lessons
                       </Link>
                       <Link
                         href={`/admin/courses/${course.id}/quizzes`}
-                        className="px-3 py-1.5 text-sm border rounded-lg hover:bg-gray-50"
+                        className="px-3 py-1.5 text-sm border rounded-lg hover:bg-slate-50"
                       >
                         Quizzes
                       </Link>
                       <button
                         onClick={() => handleClone(course)}
                         disabled={cloningId === course.id}
-                        className="px-3 py-1.5 text-sm border rounded-lg hover:bg-gray-50 disabled:opacity-40 flex items-center gap-1"
+                        className="px-3 py-1.5 text-sm border rounded-lg hover:bg-slate-50 disabled:opacity-40 flex items-center gap-1"
                         title="Clone this course into a new draft"
                       >
                         <Copy className="w-3.5 h-3.5" />
@@ -603,7 +603,7 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
                         setShowCreateModal(false);
                         resetForm();
                       }}
-                      className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
+                      className="flex-1 px-4 py-2 border rounded-lg hover:bg-slate-50"
                     >
                       Cancel
                     </button>

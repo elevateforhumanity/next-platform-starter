@@ -34,7 +34,7 @@ export default async function NewGrantPage() {
         {/* Form */}
         <form
           action={createGrantOpportunity}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+          className="bg-white rounded-xl shadow-sm border border-slate-200 p-6"
         >
           {/* Basic Information */}
           <div className="mb-8">
@@ -49,7 +49,7 @@ export default async function NewGrantPage() {
                   name="title"
                   required
                   placeholder="e.g., Workforce Innovation Grant"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
 
@@ -62,7 +62,7 @@ export default async function NewGrantPage() {
                   name="funder"
                   required
                   placeholder="e.g., US Department of Labor"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
 
@@ -72,7 +72,7 @@ export default async function NewGrantPage() {
                   name="description"
                   rows={3}
                   placeholder="Brief description of the grant opportunity..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
             </div>
@@ -95,7 +95,7 @@ export default async function NewGrantPage() {
                   min="0"
                   step="1000"
                   placeholder="50000"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -108,7 +108,7 @@ export default async function NewGrantPage() {
                   min="0"
                   step="1000"
                   placeholder="250000"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
             </div>
@@ -128,14 +128,14 @@ export default async function NewGrantPage() {
                 <input
                   type="date"
                   name="deadline"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">Status</label>
                 <select
                   name="status"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 >
                   <option value="open">Open</option>
                   <option value="upcoming">Upcoming</option>
@@ -159,7 +159,7 @@ export default async function NewGrantPage() {
                 type="text"
                 name="focusAreas"
                 placeholder="e.g., workforce, healthcare, technology, education"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
               <p className="text-xs text-slate-700 mt-1">Enter keywords separated by commas</p>
             </div>
@@ -180,7 +180,7 @@ export default async function NewGrantPage() {
                   type="url"
                   name="applicationUrl"
                   placeholder="https://grants.gov/..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -191,14 +191,14 @@ export default async function NewGrantPage() {
                   name="eligibility"
                   rows={4}
                   placeholder="Enter each requirement on a new line:&#10;- Must be a 501(c)(3) organization&#10;- Minimum 2 years of operation&#10;- Located in Indiana"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-200">
             <Link href="/admin/grants" className="px-4 py-2 text-slate-900 hover:text-slate-900">
               Cancel
             </Link>

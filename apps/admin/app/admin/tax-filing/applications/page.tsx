@@ -78,16 +78,16 @@ export default async function TaxFilingApplicationsPage() {
             <input
               type="search"
               placeholder="Search by name or email..."
-              className="rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
+              className="rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
             />
-            <select className="rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500">
+            <select className="rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500">
               <option value="">All Statuses</option>
               <option value="pending">Pending</option>
               <option value="in_progress">In Progress</option>
               <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
             </select>
-            <select className="rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500">
+            <select className="rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500">
               <option value="">All Tax Years</option>
               {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map((y) => (
                 <option key={y} value={y}>{y}</option>
@@ -104,7 +104,7 @@ export default async function TaxFilingApplicationsPage() {
 
         {/* Applications List */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <div className="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
             <h2 className="text-lg font-semibold text-black">Recent Applications</h2>
             <Link
               href="/admin/tax-filing/applications/new"
@@ -116,8 +116,8 @@ export default async function TaxFilingApplicationsPage() {
 
           {applications && applications.length > 0 ? (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-slate-200">
+                <thead className="bg-slate-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                       Client
@@ -136,9 +136,9 @@ export default async function TaxFilingApplicationsPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-slate-200">
                   {applications.map((item: any) => (
-                    <tr key={item.id} className="hover:bg-gray-50">
+                    <tr key={item.id} className="hover:bg-slate-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-black">
                           {item.client_name || 'N/A'}

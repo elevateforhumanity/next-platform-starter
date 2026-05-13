@@ -77,7 +77,7 @@ export default async function ProgramCertificatesPage({
       ) : (
         <div className="bg-white rounded-lg border overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-slate-50 border-b">
               <tr>
                 <th className="text-left px-4 py-3 font-medium text-slate-700">Certificate ID</th>
                 <th className="text-left px-4 py-3 font-medium text-slate-700">Student</th>
@@ -87,7 +87,7 @@ export default async function ProgramCertificatesPage({
             </thead>
             <tbody className="divide-y">
               {certs.map((cert: any) => (
-                <tr key={cert.id} className="hover:bg-gray-50">
+                <tr key={cert.id} className="hover:bg-slate-50">
                   <td className="px-4 py-3 font-mono text-xs text-slate-900">
                     {cert.id?.slice(0, 12)}...
                   </td>

@@ -237,7 +237,7 @@ export default function AdminProgramHolderDocuments() {
                 }`}
               >
                 {tab.label}
-                <span className="ml-2 px-2 py-2 text-xs rounded-full bg-gray-100">{tab.count}</span>
+                <span className="ml-2 px-2 py-2 text-xs rounded-full bg-slate-100">{tab.count}</span>
               </button>
             ))}
           </div>
@@ -294,7 +294,7 @@ export default function AdminProgramHolderDocuments() {
                 </div>
 
                 {doc.approval_notes && (
-                  <div className="mt-3 p-3 bg-gray-50 rounded text-sm">
+                  <div className="mt-3 p-3 bg-slate-50 rounded text-sm">
                     <strong>Admin Notes:</strong> {doc.approval_notes}
                   </div>
                 )}
@@ -313,7 +313,7 @@ export default function AdminProgramHolderDocuments() {
                             setApprovalNotes(e.target.value);
                           }}
                           rows={2}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                          className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                           placeholder="Add notes about your decision..."
                         />
                       </div>
@@ -321,7 +321,7 @@ export default function AdminProgramHolderDocuments() {
                         <button
                           onClick={() => handleApprove(doc.id, true)}
                           disabled={processing}
-                          className="px-4 py-2 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition flex items-center gap-2"
+                          className="px-4 py-2 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition flex items-center gap-2"
                         >
                           <CheckCircle size={16} />
                           Approve
@@ -329,7 +329,7 @@ export default function AdminProgramHolderDocuments() {
                         <button
                           onClick={() => handleApprove(doc.id, false)}
                           disabled={processing}
-                          className="px-4 py-2 bg-brand-red-600 text-white rounded-lg font-medium hover:bg-brand-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition flex items-center gap-2"
+                          className="px-4 py-2 bg-brand-red-600 text-white rounded-lg font-medium hover:bg-brand-red-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition flex items-center gap-2"
                         >
                           <XCircle size={16} />
                           Reject

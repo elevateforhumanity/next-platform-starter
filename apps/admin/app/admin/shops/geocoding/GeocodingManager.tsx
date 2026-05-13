@@ -101,25 +101,25 @@ export default function GeocodingManager({ shops }: Props) {
         <div className="flex gap-2">
           <button
             onClick={() => setFilter('all')}
-            className={`px-3 py-1 rounded text-sm ${filter === 'all' ? 'bg-gray-900 text-white' : 'bg-gray-100'}`}
+            className={`px-3 py-1 rounded text-sm ${filter === 'all' ? 'bg-slate-900 text-white' : 'bg-slate-100'}`}
           >
             All
           </button>
           <button
             onClick={() => setFilter('needs')}
-            className={`px-3 py-1 rounded text-sm ${filter === 'needs' ? 'bg-yellow-600 text-white' : 'bg-gray-100'}`}
+            className={`px-3 py-1 rounded text-sm ${filter === 'needs' ? 'bg-yellow-600 text-white' : 'bg-slate-100'}`}
           >
             Needs Geocoding
           </button>
           <button
             onClick={() => setFilter('geocoded')}
-            className={`px-3 py-1 rounded text-sm ${filter === 'geocoded' ? 'bg-brand-green-600 text-white' : 'bg-gray-100'}`}
+            className={`px-3 py-1 rounded text-sm ${filter === 'geocoded' ? 'bg-brand-green-600 text-white' : 'bg-slate-100'}`}
           >
             Geocoded
           </button>
           <button
             onClick={() => setFilter('failed')}
-            className={`px-3 py-1 rounded text-sm ${filter === 'failed' ? 'bg-brand-red-600 text-white' : 'bg-gray-100'}`}
+            className={`px-3 py-1 rounded text-sm ${filter === 'failed' ? 'bg-brand-red-600 text-white' : 'bg-slate-100'}`}
           >
             Failed
           </button>
@@ -142,8 +142,8 @@ export default function GeocodingManager({ shops }: Props) {
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="min-w-full divide-y divide-slate-200">
+          <thead className="bg-slate-50">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                 Shop
@@ -162,7 +162,7 @@ export default function GeocodingManager({ shops }: Props) {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-slate-200">
             {filteredShops.map((shop) => (
               <tr key={shop.id} className={currentShop === shop.id ? 'bg-brand-blue-50' : ''}>
                 <td className="px-4 py-3">

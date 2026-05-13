@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 const statusColors: Record<string, string> = {
-  draft: 'bg-gray-100 text-slate-900',
+  draft: 'bg-slate-100 text-slate-900',
   scheduled: 'bg-yellow-100 text-yellow-800',
   active: 'bg-brand-green-100 text-brand-green-800',
   paused: 'bg-brand-orange-100 text-brand-orange-800',
@@ -109,7 +109,7 @@ export default async function AdminCampaignsPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <Mail className="w-6 h-6 text-brand-blue-600" />
@@ -120,7 +120,7 @@ export default async function AdminCampaignsPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-green-100 rounded-lg">
                 <Send className="w-6 h-6 text-brand-green-600" />
@@ -131,7 +131,7 @@ export default async function AdminCampaignsPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <Eye className="w-6 h-6 text-brand-blue-600" />
@@ -142,7 +142,7 @@ export default async function AdminCampaignsPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-orange-100 rounded-lg">
                 <MousePointer className="w-6 h-6 text-brand-orange-600" />
@@ -156,14 +156,14 @@ export default async function AdminCampaignsPage() {
         </div>
 
         {/* Campaigns Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
           {error ? (
             <div className="p-8 text-center">
               <div className="text-brand-red-600 mb-4">Database table not found</div>
               <p className="text-slate-700 mb-4">
                 Run the migration in Supabase Dashboard SQL Editor:
               </p>
-              <code className="text-sm bg-gray-100 px-2 py-1 rounded">
+              <code className="text-sm bg-slate-100 px-2 py-1 rounded">
                 supabase/migrations/20260125_admin_tables.sql
               </code>
             </div>
@@ -182,7 +182,7 @@ export default async function AdminCampaignsPage() {
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
                     Campaign
@@ -203,12 +203,12 @@ export default async function AdminCampaignsPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 {campaigns.map((campaign) => {
                   const TypeIcon = typeIcons[campaign.campaign_type] || Mail;
 
                   return (
-                    <tr key={campaign.id} className="hover:bg-gray-50">
+                    <tr key={campaign.id} className="hover:bg-slate-50">
                       <td className="px-6 py-4">
                         <Link
                           href={`/admin/campaigns/${campaign.id}`}
@@ -232,7 +232,7 @@ export default async function AdminCampaignsPage() {
                       </td>
                       <td className="px-6 py-4">
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${statusColors[campaign.status] || 'bg-gray-100 text-slate-900'}`}
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${statusColors[campaign.status] || 'bg-slate-100 text-slate-900'}`}
                         >
                           {campaign.status}
                         </span>

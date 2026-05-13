@@ -15,7 +15,7 @@ const statusColors: Record<string, string> = {
   waiting: 'bg-yellow-100 text-yellow-800',
   contacted: 'bg-brand-blue-100 text-brand-blue-800',
   enrolled: 'bg-brand-green-100 text-brand-green-800',
-  removed: 'bg-gray-100 text-slate-700',
+  removed: 'bg-slate-100 text-slate-700',
 };
 
 export default async function AdminWaitlistPage() {
@@ -83,7 +83,7 @@ export default async function AdminWaitlistPage() {
           ) : entries && entries.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b">
+                <thead className="bg-slate-50 border-b">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                       Name
@@ -102,9 +102,9 @@ export default async function AdminWaitlistPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-slate-200">
                   {entries.map((entry: any) => (
-                    <tr key={entry.id} className="hover:bg-gray-50">
+                    <tr key={entry.id} className="hover:bg-slate-50">
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="font-medium text-slate-900">
                           {entry.first_name} {entry.last_name}
@@ -121,7 +121,7 @@ export default async function AdminWaitlistPage() {
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <span
-                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${statusColors[entry.status] || 'bg-gray-100 text-slate-900'}`}
+                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${statusColors[entry.status] || 'bg-slate-100 text-slate-900'}`}
                         >
                           {entry.status}
                         </span>

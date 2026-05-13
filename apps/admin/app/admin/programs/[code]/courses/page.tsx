@@ -93,7 +93,7 @@ export default async function ProgramCoursesPage({
             <Link
               key={course.id}
               href={`/admin/courses/${course.id}`}
-              className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+              className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors"
             >
               <div className="flex-1">
                 <h3 className="font-medium text-slate-900">{course.title || course.course_name}</h3>

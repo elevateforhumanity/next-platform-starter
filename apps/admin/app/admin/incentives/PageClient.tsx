@@ -154,7 +154,7 @@ export default function IncentivesPage() {
               <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value as any)}
-                className="px-3 py-2 border border-gray-300 rounded-md"
+                className="px-3 py-2 border border-slate-300 rounded-md"
               >
                 <option value="all">All Types</option>
                 <option value="WEX">WEX (Work Experience)</option>
@@ -166,7 +166,7 @@ export default function IncentivesPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md"
+                className="px-3 py-2 border border-slate-300 rounded-md"
               >
                 <option value="all">All Statuses</option>
                 <option value="pending">Pending</option>
@@ -177,7 +177,7 @@ export default function IncentivesPage() {
             </div>
             <div className="ml-auto flex items-end">
               <button
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-black rounded-md hover:bg-gray-200"
+                className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-black rounded-md hover:bg-slate-200"
                 aria-label="Action button"
               >
                 <Download className="w-4 h-4" />
@@ -198,8 +198,8 @@ export default function IncentivesPage() {
               </p>
             </div>
           ) : (
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-slate-200">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Employer
@@ -224,9 +224,9 @@ export default function IncentivesPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-slate-200">
                 {filteredIncentives.map((incentive) => (
-                  <tr key={incentive.id} className="hover:bg-gray-50">
+                  <tr key={incentive.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-black">
                         {incentive.employer_name}
@@ -255,7 +255,7 @@ export default function IncentivesPage() {
                       <div className="text-sm text-black">
                         {incentive.hours_completed} / {incentive.hours_required} hrs
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                      <div className="w-full bg-slate-200 rounded-full h-2 mt-1">
                         <div
                           className="bg-brand-blue-600 h-2 rounded-full"
                           style={{

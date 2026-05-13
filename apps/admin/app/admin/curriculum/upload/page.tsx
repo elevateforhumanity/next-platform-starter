@@ -36,7 +36,7 @@ export default async function UploadCurriculumPage() {
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border p-6">
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
+          <div className="border-2 border-dashed border-slate-300 rounded-lg p-12 text-center">
             <svg
               className="w-12 h-12 text-slate-700 mx-auto mb-4"
               fill="none"

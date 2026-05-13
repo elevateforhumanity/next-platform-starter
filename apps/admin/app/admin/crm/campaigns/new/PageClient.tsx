@@ -89,7 +89,7 @@ export default function NewCampaignPage() {
                     className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-colors ${
                       selectedTemplate?.id === template.id
                         ? 'border-brand-blue-600 bg-brand-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <p className="font-semibold text-black text-sm">{template.name}</p>
@@ -115,7 +115,7 @@ export default function NewCampaignPage() {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
                   placeholder="e.g., Weekly Check-in - March 2025"
                 />
               </div>
@@ -131,7 +131,7 @@ export default function NewCampaignPage() {
                       target_audience: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
                 >
                   <option value="all_students">All Students</option>
                   <option value="active_students">Active Students (logged in last 7 days)</option>
@@ -155,7 +155,7 @@ export default function NewCampaignPage() {
                   required
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
                   placeholder="e.g., Your Weekly Progress Update"
                 />
               </div>
@@ -168,7 +168,7 @@ export default function NewCampaignPage() {
                     type="text"
                     value={formData.from_name}
                     onChange={(e) => setFormData({ ...formData, from_name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -177,7 +177,7 @@ export default function NewCampaignPage() {
                     type="email"
                     value={formData.from_email}
                     onChange={(e) => setFormData({ ...formData, from_email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -192,7 +192,7 @@ export default function NewCampaignPage() {
                   value={formData.html_content}
                   onChange={(e) => setFormData({ ...formData, html_content: e.target.value })}
                   rows={12}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent font-mono text-sm"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent font-mono text-sm"
                   placeholder="Paste HTML content or select a template..."
                 />
                 <p className="text-xs text-black mt-2">
@@ -207,11 +207,11 @@ export default function NewCampaignPage() {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-4 pt-4 border-t border-gray-200">
+              <div className="flex items-center gap-4 pt-4 border-t border-slate-200">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <>
@@ -228,7 +228,7 @@ export default function NewCampaignPage() {
                 <button
                   type="button"
                   onClick={() => router.back()}
-                  className="px-6 py-3 border-2 border-gray-300 text-black font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 py-3 border-2 border-slate-300 text-black font-semibold rounded-lg hover:bg-slate-50 transition-colors"
                 >
                   Cancel
                 </button>

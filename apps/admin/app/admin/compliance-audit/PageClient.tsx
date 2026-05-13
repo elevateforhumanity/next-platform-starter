@@ -115,7 +115,7 @@ export default function ComplianceAuditPage() {
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+              className="px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300"
             >
               {MONTHS.map((month, index) => (
                 <option key={month} value={index + 1}>
@@ -126,7 +126,7 @@ export default function ComplianceAuditPage() {
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+              className="px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300"
             >
               {Array.from({ length: 4 }, (_, i) => new Date().getFullYear() - 1 + i).map((year) => (
                 <option key={year} value={year}>
@@ -137,7 +137,7 @@ export default function ComplianceAuditPage() {
             <button
               onClick={generateAudit}
               disabled={generating}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 disabled:opacity-50 transition-colors"
             >
               {generating ? (
                 <RefreshCw className="w-4 h-4 animate-spin" />
@@ -170,15 +170,15 @@ export default function ComplianceAuditPage() {
                   onClick={() => setSelectedAudit(audit)}
                   className={`w-full text-left p-4 rounded-lg border transition-colors ${
                     selectedAudit?.id === audit.id
-                      ? 'border-gray-900 bg-gray-50'
-                      : 'border-gray-200 bg-white hover:border-gray-300'
+                      ? 'border-slate-900 bg-slate-50'
+                      : 'border-slate-200 bg-white hover:border-slate-300'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium text-slate-900">
                       {MONTHS[audit.audit_month - 1]} {audit.audit_year}
                     </span>
-                    <span className="text-xs px-2 py-0.5 rounded border border-gray-200 text-slate-700">
+                    <span className="text-xs px-2 py-0.5 rounded border border-slate-200 text-slate-700">
                       {audit.status}
                     </span>
                   </div>
@@ -194,9 +194,9 @@ export default function ComplianceAuditPage() {
           {/* Audit detail */}
           <div className="lg:col-span-2">
             {selectedAudit ? (
-              <div className="border border-gray-200 rounded-lg overflow-hidden">
+              <div className="border border-slate-200 rounded-lg overflow-hidden">
                 {/* Detail header */}
-                <div className="px-6 py-5 border-b border-gray-100">
+                <div className="px-6 py-5 border-b border-slate-100">
                   <h2 className="text-lg font-semibold text-slate-900">
                     {MONTHS[selectedAudit.audit_month - 1]} {selectedAudit.audit_year} Audit
                   </h2>
@@ -204,7 +204,7 @@ export default function ComplianceAuditPage() {
 
                 {/* Flagged issues */}
                 {selectedAudit.auto_flagged_issues?.length > 0 && (
-                  <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                  <div className="px-6 py-4 border-b border-slate-100 bg-slate-50">
                     <h3 className="text-sm font-medium text-slate-900 flex items-center gap-2 mb-3">
                       <AlertTriangle className="w-4 h-4 text-slate-700" />
                       Auto-Flagged Issues ({selectedAudit.auto_flagged_issues.length})
@@ -221,7 +221,7 @@ export default function ComplianceAuditPage() {
                 )}
 
                 {/* Metrics */}
-                <div className="px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-gray-100">
+                <div className="px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-slate-100">
                   <MetricCard
                     label="Total Enrollments"
                     value={selectedAudit.total_enrollments}
@@ -245,7 +245,7 @@ export default function ComplianceAuditPage() {
                 </div>
 
                 {/* Funding distribution */}
-                <div className="px-6 py-5 border-b border-gray-100">
+                <div className="px-6 py-5 border-b border-slate-100">
                   <h3 className="text-sm font-medium text-slate-900 mb-4">Funding Distribution</h3>
                   <div className="grid grid-cols-3 gap-4">
                     {[
@@ -259,7 +259,7 @@ export default function ComplianceAuditPage() {
                         value: selectedAudit.structured_tuition_count,
                       },
                     ].map(({ label, value }) => (
-                      <div key={label} className="border border-gray-200 rounded-lg p-4">
+                      <div key={label} className="border border-slate-200 rounded-lg p-4">
                         <p className="text-2xl font-semibold text-slate-900">{value}</p>
                         <p className="text-xs text-slate-700 mt-1">{label}</p>
                       </div>
@@ -268,7 +268,7 @@ export default function ComplianceAuditPage() {
                 </div>
 
                 {/* Payment compliance */}
-                <div className="px-6 py-5 border-b border-gray-100">
+                <div className="px-6 py-5 border-b border-slate-100">
                   <h3 className="text-sm font-medium text-slate-900 mb-4">Payment Compliance</h3>
                   <div className="grid grid-cols-4 gap-4">
                     {[
@@ -286,7 +286,7 @@ export default function ComplianceAuditPage() {
                 </div>
 
                 {/* Sign-offs */}
-                <div className="px-6 py-5 bg-gray-50">
+                <div className="px-6 py-5 bg-slate-50">
                   <h3 className="text-sm font-medium text-slate-900 mb-4">Leadership Sign-Off</h3>
                   <div className="grid grid-cols-3 gap-4">
                     <SignoffCard
@@ -311,7 +311,7 @@ export default function ComplianceAuditPage() {
                 </div>
               </div>
             ) : (
-              <div className="border border-gray-200 rounded-lg p-16 text-center text-sm text-slate-700">
+              <div className="border border-slate-200 rounded-lg p-16 text-center text-sm text-slate-700">
                 Select an audit to view details
               </div>
             )}
@@ -332,7 +332,7 @@ function MetricCard({
   icon: any;
 }) {
   return (
-    <div className="border border-gray-200 rounded-lg p-4">
+    <div className="border border-slate-200 rounded-lg p-4">
       <Icon className="w-4 h-4 text-slate-700 mb-2" />
       <p className="text-2xl font-semibold text-slate-900">{value}</p>
       <p className="text-xs text-slate-700 mt-1">{label}</p>
@@ -353,7 +353,7 @@ function SignoffCard({
 }) {
   return (
     <div
-      className={`p-4 rounded-lg border ${signed ? 'border-gray-300 bg-white' : 'border-gray-200 bg-white'}`}
+      className={`p-4 rounded-lg border ${signed ? 'border-slate-300 bg-white' : 'border-slate-200 bg-white'}`}
     >
       <div className="flex items-center gap-2 mb-2">
         <Signature className="w-4 h-4 text-slate-700" />
@@ -364,7 +364,7 @@ function SignoffCard({
       ) : (
         <button
           onClick={onSign}
-          className="text-xs px-3 py-1 bg-gray-900 text-white rounded font-medium hover:bg-gray-800 transition-colors"
+          className="text-xs px-3 py-1 bg-slate-900 text-white rounded font-medium hover:bg-slate-800 transition-colors"
         >
           Sign Now
         </button>

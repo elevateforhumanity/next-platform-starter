@@ -147,7 +147,7 @@ export default function ApplicationsTableClient({
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
-        <thead className="bg-gray-50 border-b">
+        <thead className="bg-slate-50 border-b">
           <tr>
             <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
               Applicant
@@ -169,7 +169,7 @@ export default function ApplicationsTableClient({
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200">
+        <tbody className="divide-y divide-slate-200">
           {applications.map((app) => {
             const displayName =
               [app.first_name, app.last_name].filter(Boolean).join(' ') ||
@@ -187,7 +187,7 @@ export default function ApplicationsTableClient({
             const canMoveToReview = ['submitted', 'pending'].includes(status);
 
             return (
-              <tr key={app.id} className="hover:bg-gray-50 transition-colors">
+              <tr key={app.id} className="hover:bg-slate-50 transition-colors">
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="font-medium text-sm text-slate-900">{displayName}</div>
                   {app.city && (
@@ -214,7 +214,7 @@ export default function ApplicationsTableClient({
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
                   <span
-                    className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${STATUS_COLORS[status] || 'bg-gray-100 text-slate-900'}`}
+                    className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${STATUS_COLORS[status] || 'bg-slate-100 text-slate-900'}`}
                   >
                     {STATUS_LABELS[status] || status}
                   </span>
@@ -230,7 +230,7 @@ export default function ApplicationsTableClient({
                     {/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(app.id) ? (
                       <Link
                         href={`/admin/applications/review/${app.id}`}
-                        className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded bg-gray-100 text-slate-900 hover:bg-gray-200 transition-colors"
+                        className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded bg-slate-100 text-slate-900 hover:bg-slate-200 transition-colors"
                       >
                         <Eye className="w-2.5 h-2.5" /> View
                       </Link>

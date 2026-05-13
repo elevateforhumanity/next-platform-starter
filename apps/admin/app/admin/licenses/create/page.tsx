@@ -45,7 +45,7 @@ export default async function CreateLicensePage() {
 
         <form
           action={createLicense}
-          className="bg-white rounded-xl border border-gray-200 p-6 space-y-5"
+          className="bg-white rounded-xl border border-slate-200 p-6 space-y-5"
         >
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">
@@ -56,7 +56,7 @@ export default async function CreateLicensePage() {
             {tenants.length > 0 ? (
               <select
                 name="tenant_id"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               >
                 <option value="">Select tenant...</option>
                 {tenants.map((t: any) => (
@@ -68,7 +68,7 @@ export default async function CreateLicensePage() {
             ) : (
               <input
                 name="tenant_id"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="Tenant UUID"
               />
             )}
@@ -83,7 +83,7 @@ export default async function CreateLicensePage() {
               </label>
               <select
                 name="tier"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               >
                 <option value="free">Free</option>
                 <option value="standard">Standard</option>
@@ -100,12 +100,12 @@ export default async function CreateLicensePage() {
               <input
                 name="expires_at"
                 type="date"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
             <Link
               href="/admin/licenses"
               className="px-4 py-2 text-sm text-slate-700 hover:text-slate-900"

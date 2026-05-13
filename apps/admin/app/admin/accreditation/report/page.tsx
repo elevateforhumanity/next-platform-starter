@@ -117,7 +117,7 @@ export default async function AccreditationReportPage() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
           {metrics.map((m) => (
-            <div key={m.label} className="bg-white rounded-xl border border-gray-200 p-4">
+            <div key={m.label} className="bg-white rounded-xl border border-slate-200 p-4">
               <m.icon className="w-5 h-5 text-slate-700 mb-2" />
               <div className="text-2xl font-bold text-slate-900">{m.value}</div>
               <div className="text-xs text-slate-700 mt-1">{m.label}</div>
@@ -125,8 +125,8 @@ export default async function AccreditationReportPage() {
           ))}
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
-          <div className="px-6 py-4 border-b border-gray-100">
+        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden mb-6">
+          <div className="px-6 py-4 border-b border-slate-100">
             <h2 className="font-semibold text-slate-900">Active Programs</h2>
           </div>
           {data.programs.length === 0 ? (
@@ -135,7 +135,7 @@ export default async function AccreditationReportPage() {
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                     Program
@@ -148,9 +148,9 @@ export default async function AccreditationReportPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-slate-100">
                 {data.programs.map((p: any) => (
-                  <tr key={p.id} className="hover:bg-gray-50">
+                  <tr key={p.id} className="hover:bg-slate-50">
                     <td className="px-6 py-3 text-sm font-medium text-slate-900">
                       {p.title || p.name || 'Unnamed'}
                     </td>

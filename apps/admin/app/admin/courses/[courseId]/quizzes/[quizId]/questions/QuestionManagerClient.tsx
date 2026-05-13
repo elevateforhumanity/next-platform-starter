@@ -182,7 +182,7 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
         <div className="flex gap-3">
           <Link
             href={`/admin/courses/${courseId}/quizzes`}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+            className="px-4 py-2 border rounded-lg hover:bg-slate-50"
           >
             Back to Quizzes
           </Link>
@@ -281,7 +281,7 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
                       className={`p-2 rounded border text-sm ${
                         option === question.correct_answer
                           ? 'bg-brand-green-50 border-brand-green-200 text-brand-green-800'
-                          : 'bg-gray-50 border-gray-200'
+                          : 'bg-slate-50 border-slate-200'
                       }`}
                     >
                       {option}
@@ -302,7 +302,7 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
           ))
         ) : (
           <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
                 className="w-8 h-8 text-slate-700"
                 fill="none"
@@ -486,7 +486,7 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
                     setShowModal(false);
                     resetForm();
                   }}
-                  className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
+                  className="flex-1 px-4 py-2 border rounded-lg hover:bg-slate-50"
                 >
                   Cancel
                 </button>

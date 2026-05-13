@@ -104,47 +104,47 @@ export default function SalesforceClient() {
             <Database className="w-6 h-6 text-brand-blue-600" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Salesforce Integration</h1>
-            <p className="text-sm text-gray-500">
+            <h1 className="text-2xl font-bold text-slate-900">Salesforce Integration</h1>
+            <p className="text-sm text-slate-500">
               Sync contacts, leads, and enrollment data with Salesforce CRM
             </p>
           </div>
         </div>
 
         {/* Connection Status */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-          <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Zap className="w-4 h-4 text-gray-400" /> Connection Status
+        <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+          <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+            <Zap className="w-4 h-4 text-slate-400" /> Connection Status
           </h2>
           {loading ? (
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center gap-2 text-sm text-slate-500">
               <RefreshCw className="w-4 h-4 animate-spin" /> Checking connection...
             </div>
           ) : (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Status</span>
+                <span className="text-sm text-slate-600">Status</span>
                 {status.connected ? (
                   <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-brand-green-100 text-brand-green-700 font-medium">
                     <CheckCircle2 className="w-3 h-3" /> Connected
                   </span>
                 ) : (
-                  <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 font-medium">
+                  <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium">
                     <XCircle className="w-3 h-3" /> Not Connected
                   </span>
                 )}
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Synced Contacts</span>
-                <span className="text-sm font-medium text-gray-900">{status.contacts}</span>
+                <span className="text-sm text-slate-600">Synced Contacts</span>
+                <span className="text-sm font-medium text-slate-900">{status.contacts}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Synced Leads</span>
-                <span className="text-sm font-medium text-gray-900">{status.leads}</span>
+                <span className="text-sm text-slate-600">Synced Leads</span>
+                <span className="text-sm font-medium text-slate-900">{status.leads}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Last Sync</span>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-slate-600">Last Sync</span>
+                <span className="text-sm text-slate-500">
                   {status.lastSync ? new Date(status.lastSync).toLocaleString() : 'Never'}
                 </span>
               </div>
@@ -163,20 +163,20 @@ export default function SalesforceClient() {
         </div>
 
         {/* Configuration */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-          <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Settings className="w-4 h-4 text-gray-400" /> Configuration
+        <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+          <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+            <Settings className="w-4 h-4 text-slate-400" /> Configuration
           </h2>
           <div className="space-y-4">
             {configFields.map((field) => (
               <div key={field.label}>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   {field.label}
                 </label>
                 <input
                   type={field.type}
                   placeholder={field.placeholder}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 />
               </div>
             ))}
@@ -194,9 +194,9 @@ export default function SalesforceClient() {
         </div>
 
         {/* Sync Mapping */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Users className="w-4 h-4 text-gray-400" /> Field Mapping
+        <div className="bg-white rounded-xl border border-slate-200 p-6">
+          <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+            <Users className="w-4 h-4 text-slate-400" /> Field Mapping
           </h2>
           <div className="space-y-3">
             {[
@@ -206,9 +206,9 @@ export default function SalesforceClient() {
               { local: 'enrollments.status', remote: 'Opportunity.Stage' },
               { local: 'programs.name', remote: 'Campaign.Name' },
             ].map((m) => (
-              <div key={m.local} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <span className="text-xs font-mono text-gray-600 flex-1">{m.local}</span>
-                <span className="text-xs text-gray-400">→</span>
+              <div key={m.local} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                <span className="text-xs font-mono text-slate-600 flex-1">{m.local}</span>
+                <span className="text-xs text-slate-400">→</span>
                 <span className="text-xs font-mono text-brand-blue-600 flex-1">{m.remote}</span>
               </div>
             ))}

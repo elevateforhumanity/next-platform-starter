@@ -60,7 +60,7 @@ export function ModulesTable({ modules, programs }: { modules: Module[]; program
       case 'external':
         return 'bg-yellow-100 text-yellow-800';
       default:
-        return 'bg-gray-100 text-black';
+        return 'bg-slate-100 text-black';
     }
   };
 
@@ -111,7 +111,7 @@ export function ModulesTable({ modules, programs }: { modules: Module[]; program
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-slate-50 border-b">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                 Module
@@ -136,7 +136,7 @@ export function ModulesTable({ modules, programs }: { modules: Module[]; program
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-slate-200">
             {filteredModules.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-6 py-12 text-center text-black">
@@ -145,7 +145,7 @@ export function ModulesTable({ modules, programs }: { modules: Module[]; program
               </tr>
             ) : (
               filteredModules.map((module) => (
-                <tr key={module.id} className="hover:bg-gray-50">
+                <tr key={module.id} className="hover:bg-slate-50">
                   <td className="px-6 py-4">
                     <div>
                       <div className="font-medium text-black">{module.title}</div>
@@ -207,7 +207,7 @@ export function ModulesTable({ modules, programs }: { modules: Module[]; program
       </div>
 
       {/* Pagination info */}
-      <div className="px-6 py-4 border-t bg-gray-50">
+      <div className="px-6 py-4 border-t bg-slate-50">
         <p className="text-sm text-black">
           Showing <span className="font-medium">{filteredModules.length}</span> of{' '}
           <span className="font-medium">{modules.length}</span> modules

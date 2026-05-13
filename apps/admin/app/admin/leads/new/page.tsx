@@ -34,7 +34,7 @@ export default async function NewLeadPage() {
         <form
           action="/api/admin/leads"
           method="POST"
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+          className="bg-white rounded-xl shadow-sm border border-slate-200 p-6"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
@@ -43,7 +43,7 @@ export default async function NewLeadPage() {
                 type="text"
                 name="first_name"
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               />
             </div>
             <div>
@@ -52,7 +52,7 @@ export default async function NewLeadPage() {
                 type="text"
                 name="last_name"
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               />
             </div>
           </div>
@@ -64,7 +64,7 @@ export default async function NewLeadPage() {
                 type="email"
                 name="email"
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               />
             </div>
             <div>
@@ -73,7 +73,7 @@ export default async function NewLeadPage() {
                 type="tel"
                 name="phone"
                 placeholder="(317) 314-3757"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               />
             </div>
           </div>
@@ -85,7 +85,7 @@ export default async function NewLeadPage() {
               </label>
               <select
                 name="program_interest"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               >
                 <option value="">Select a program...</option>
                 <option value="CNA">CNA</option>
@@ -101,7 +101,7 @@ export default async function NewLeadPage() {
               <label className="block text-sm font-medium text-slate-900 mb-1">Source</label>
               <select
                 name="source"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               >
                 <option value="website">Website</option>
                 <option value="referral">Referral</option>
@@ -120,12 +120,12 @@ export default async function NewLeadPage() {
             <textarea
               name="notes"
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Additional notes about this lead..."
             />
           </div>
 
-          <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-200">
             <Link href="/admin/leads" className="px-4 py-2 text-slate-900 hover:text-slate-900">
               Cancel
             </Link>

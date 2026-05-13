@@ -175,7 +175,7 @@ export default async function CompletionsPage() {
               recentCompletions.map((completion: any) => (
                 <div
                   key={completion.id}
-                  className="p-4 flex items-center justify-between hover:bg-gray-50"
+                  className="p-4 flex items-center justify-between hover:bg-slate-50"
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-brand-green-100 rounded-full flex items-center justify-center">

@@ -94,7 +94,7 @@ const STATUS_STYLES: Record<string, string> = {
   processing: 'bg-yellow-100 text-yellow-800',
   failed: 'bg-red-100 text-red-800',
   errored: 'bg-red-100 text-red-900',
-  skipped: 'bg-gray-100 text-slate-700',
+  skipped: 'bg-slate-100 text-slate-700',
 };
 
 const PROVIDER_COLORS: Record<string, string> = {
@@ -144,7 +144,7 @@ function SummaryCard({
   color: string;
 }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 flex items-center gap-4">
+    <div className="bg-white rounded-xl border border-slate-200 p-5 flex items-center gap-4">
       <div className={`p-3 rounded-lg ${color}`}>
         <Icon className="h-5 w-5" />
       </div>
@@ -162,11 +162,11 @@ function ProviderCard({ p }: { p: ProviderHealth }) {
 
   return (
     <div
-      className={`bg-white rounded-xl border-2 p-5 ${p.healthy ? 'border-gray-200' : 'border-red-300'}`}
+      className={`bg-white rounded-xl border-2 p-5 ${p.healthy ? 'border-slate-200' : 'border-red-300'}`}
     >
       <div className="flex items-center justify-between mb-3">
         <span
-          className={`text-xs font-semibold px-2 py-1 rounded-full uppercase tracking-wide ${PROVIDER_COLORS[p.provider] || 'bg-gray-100 text-slate-900'}`}
+          className={`text-xs font-semibold px-2 py-1 rounded-full uppercase tracking-wide ${PROVIDER_COLORS[p.provider] || 'bg-slate-100 text-slate-900'}`}
         >
           {p.provider}
         </span>
@@ -212,7 +212,7 @@ function ProviderCard({ p }: { p: ProviderHealth }) {
                   : s === 'errored' || s === 'failed'
                     ? 'bg-red-400'
                     : s === 'skipped'
-                      ? 'bg-gray-300'
+                      ? 'bg-slate-300'
                       : 'bg-brand-blue-400'
               }
             />
@@ -226,7 +226,7 @@ function ProviderCard({ p }: { p: ProviderHealth }) {
 function StatusBadge({ status }: { status: string }) {
   return (
     <span
-      className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLES[status] || 'bg-gray-100 text-slate-700'}`}
+      className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLES[status] || 'bg-slate-100 text-slate-700'}`}
     >
       {status}
     </span>
@@ -236,7 +236,7 @@ function StatusBadge({ status }: { status: string }) {
 function ProviderBadge({ provider }: { provider: string }) {
   return (
     <span
-      className={`text-xs font-semibold px-2 py-0.5 rounded-full ${PROVIDER_COLORS[provider] || 'bg-gray-100 text-slate-700'}`}
+      className={`text-xs font-semibold px-2 py-0.5 rounded-full ${PROVIDER_COLORS[provider] || 'bg-slate-100 text-slate-700'}`}
     >
       {provider}
     </span>
@@ -258,14 +258,14 @@ function EventDrawer({ event, onClose }: { event: WebhookEvent; onClose: () => v
         className="fixed right-0 top-0 h-full w-full max-w-lg bg-white shadow-2xl z-50 flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
           <div>
             <h2 className="text-lg font-bold text-slate-900">Event Detail</h2>
             <p className="text-xs text-slate-700 font-mono mt-0.5">{event.id}</p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
             aria-label="Close"
           >
             <X className="h-5 w-5 text-slate-700" />
@@ -302,7 +302,7 @@ function EventDrawer({ event, onClose }: { event: WebhookEvent; onClose: () => v
               <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">
                 Metadata
               </p>
-              <pre className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-xs font-mono overflow-x-auto whitespace-pre-wrap break-all">
+              <pre className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs font-mono overflow-x-auto whitespace-pre-wrap break-all">
                 {JSON.stringify(event.metadata, null, 2)}
               </pre>
             </div>
@@ -474,7 +474,7 @@ export default function WebhookHealthDashboard() {
             {Array.from({ length: 5 }).map((_, i) => (
               <div
                 key={i}
-                className="bg-white rounded-xl border border-gray-200 p-5 h-24 animate-pulse"
+                className="bg-white rounded-xl border border-slate-200 p-5 h-24 animate-pulse"
               />
             ))}
           </div>
@@ -509,7 +509,7 @@ export default function WebhookHealthDashboard() {
                 label="Skipped"
                 value={health.summary.skipped}
                 icon={SkipForward}
-                color="bg-gray-100 text-slate-700"
+                color="bg-slate-100 text-slate-700"
               />
             </div>
           )
@@ -522,7 +522,7 @@ export default function WebhookHealthDashboard() {
             {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="bg-white rounded-xl border border-gray-200 p-5 h-36 animate-pulse"
+                className="bg-white rounded-xl border border-slate-200 p-5 h-36 animate-pulse"
               />
             ))}
           </div>
@@ -535,9 +535,9 @@ export default function WebhookHealthDashboard() {
         )}
 
         {/* Event log */}
-        <div className="bg-white rounded-xl border border-gray-200">
+        <div className="bg-white rounded-xl border border-slate-200">
           {/* Table header + filters */}
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
                 <Filter className="h-4 w-4 text-slate-700" />
@@ -563,7 +563,7 @@ export default function WebhookHealthDashboard() {
               <select
                 value={filters.provider}
                 onChange={(e) => applyFilter('provider', e.target.value)}
-                className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 aria-label="Filter by provider"
               >
                 <option value="">All providers</option>
@@ -577,7 +577,7 @@ export default function WebhookHealthDashboard() {
               <select
                 value={filters.status}
                 onChange={(e) => applyFilter('status', e.target.value)}
-                className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 aria-label="Filter by status"
               >
                 <option value="">All statuses</option>
@@ -593,7 +593,7 @@ export default function WebhookHealthDashboard() {
                 placeholder="Event type (e.g. payment_intent.succeeded)"
                 value={filters.event_type}
                 onChange={(e) => applyFilter('event_type', e.target.value)}
-                className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500 w-72"
+                className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500 w-72"
                 aria-label="Filter by event type"
               />
 
@@ -602,7 +602,7 @@ export default function WebhookHealthDashboard() {
                   type="datetime-local"
                   value={filters.from}
                   onChange={(e) => applyFilter('from', e.target.value)}
-                  className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                  className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   aria-label="From date"
                 />
                 <span className="text-slate-700 text-sm">→</span>
@@ -610,7 +610,7 @@ export default function WebhookHealthDashboard() {
                   type="datetime-local"
                   value={filters.to}
                   onChange={(e) => applyFilter('to', e.target.value)}
-                  className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                  className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   aria-label="To date"
                 />
               </div>
@@ -621,7 +621,7 @@ export default function WebhookHealthDashboard() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-100 bg-gray-50">
+                <tr className="border-b border-slate-100 bg-slate-50">
                   <th className="text-left px-6 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">
                     Received
                   </th>
@@ -642,13 +642,13 @@ export default function WebhookHealthDashboard() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-slate-50">
                 {eventsLoading ? (
                   Array.from({ length: 10 }).map((_, i) => (
                     <tr key={i}>
                       {Array.from({ length: 6 }).map((_, j) => (
                         <td key={j} className="px-4 py-3">
-                          <div className="h-4 bg-gray-100 rounded animate-pulse" />
+                          <div className="h-4 bg-slate-100 rounded animate-pulse" />
                         </td>
                       ))}
                     </tr>
@@ -664,7 +664,7 @@ export default function WebhookHealthDashboard() {
                     <tr
                       key={ev.id}
                       onClick={() => setSelectedEvent(ev)}
-                      className="hover:bg-gray-50 cursor-pointer transition-colors"
+                      className="hover:bg-slate-50 cursor-pointer transition-colors"
                     >
                       <td className="px-6 py-3 text-slate-700 whitespace-nowrap font-mono text-xs">
                         {fmtDate(ev.received_at)}
@@ -693,7 +693,7 @@ export default function WebhookHealthDashboard() {
 
           {/* Pagination */}
           {events && events.pages > 1 && (
-            <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+            <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-between">
               <p className="text-sm text-slate-700">
                 Page {events.page} of {events.pages} ({events.total.toLocaleString()} events)
               </p>
@@ -701,7 +701,7 @@ export default function WebhookHealthDashboard() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={events.page <= 1 || eventsLoading}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors"
+                  className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-40 transition-colors"
                   aria-label="Previous page"
                 >
                   <ChevronLeft className="h-4 w-4" />
@@ -709,7 +709,7 @@ export default function WebhookHealthDashboard() {
                 <button
                   onClick={() => setPage((p) => Math.min(events.pages, p + 1))}
                   disabled={events.page >= events.pages || eventsLoading}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors"
+                  className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-40 transition-colors"
                   aria-label="Next page"
                 >
                   <ChevronRight className="h-4 w-4" />

@@ -227,7 +227,7 @@ export default function ReportsDashboard({
             id="date-range"
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
-            className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-brand-blue-500"
+            className="px-3 py-1.5 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-brand-blue-500"
           >
             <option value="7">Last 7 days</option>
             <option value="30">Last 30 days</option>
@@ -321,7 +321,7 @@ export default function ReportsDashboard({
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-slate-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                   Student
@@ -337,7 +337,7 @@ export default function ReportsDashboard({
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-slate-200">
               {recentEnrollments.length > 0 ? (
                 recentEnrollments.slice(0, 10).map((enrollment) => (
                   <tr key={enrollment.id}>

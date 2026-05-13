@@ -52,7 +52,7 @@ export default async function ProgramEnrollmentsPage({
     completed: 'bg-brand-blue-100 text-brand-blue-800',
     in_progress: 'bg-yellow-100 text-yellow-800',
     withdrawn: 'bg-red-100 text-red-800',
-    pending: 'bg-gray-100 text-slate-700',
+    pending: 'bg-slate-100 text-slate-700',
   };
 
   return (
@@ -88,7 +88,7 @@ export default async function ProgramEnrollmentsPage({
       ) : (
         <div className="bg-white rounded-lg border overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-slate-50 border-b">
               <tr>
                 <th className="text-left px-4 py-3 font-medium text-slate-700">Student</th>
                 <th className="text-left px-4 py-3 font-medium text-slate-700">Status</th>
@@ -103,18 +103,18 @@ export default async function ProgramEnrollmentsPage({
                   ? `${p.first_name || ''} ${p.last_name || ''}`.trim() || p.email
                   : e.user_id?.slice(0, 8);
                 return (
-                  <tr key={e.id} className="hover:bg-gray-50">
+                  <tr key={e.id} className="hover:bg-slate-50">
                     <td className="px-4 py-3 font-medium text-slate-900">{name}</td>
                     <td className="px-4 py-3">
                       <span
-                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[e.status] || 'bg-gray-100 text-slate-700'}`}
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[e.status] || 'bg-slate-100 text-slate-700'}`}
                       >
                         {e.status || 'unknown'}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-24 bg-gray-200 rounded-full h-2">
+                        <div className="w-24 bg-slate-200 rounded-full h-2">
                           <div
                             className="bg-brand-blue-600 h-2 rounded-full"
                             style={{ width: `${e.progress_percent || 0}%` }}

@@ -151,7 +151,7 @@ export default async function EnrollmentReportPage() {
                           {(enrollment.course as { title: string } | null)?.title || 'N/A'}
                         </td>
                         <td className="py-3 px-2">
-                          <span className={`px-2 py-1 text-xs rounded-full ${statusColors[enrollment.status] || 'bg-gray-100'}`}>
+                          <span className={`px-2 py-1 text-xs rounded-full ${statusColors[enrollment.status] || 'bg-slate-100'}`}>
                             {enrollment.status}
                           </span>
                         </td>
@@ -181,7 +181,7 @@ export default async function EnrollmentReportPage() {
                         <span className="text-slate-900 truncate">{course}</span>
                         <span className="font-medium text-slate-900">{count}</span>
                       </div>
-                      <div className="w-full bg-gray-100 rounded-full h-2">
+                      <div className="w-full bg-slate-100 rounded-full h-2">
                         <div 
                           className="bg-brand-blue-600 h-2 rounded-full" 
                           style={{ width: `${(count / (totalEnrollments || 1)) * 100}%` }}

@@ -45,7 +45,7 @@ export default async function UsersReportPage() {
     admin: { bg: 'bg-brand-blue-100', text: 'text-brand-blue-700', icon: Shield },
     instructor: { bg: 'bg-brand-blue-100', text: 'text-brand-blue-700', icon: GraduationCap },
     student: { bg: 'bg-brand-green-100', text: 'text-brand-green-700', icon: Users },
-    user: { bg: 'bg-gray-100', text: 'text-slate-900', icon: Users },
+    user: { bg: 'bg-slate-100', text: 'text-slate-900', icon: Users },
   };
 
   const roleLabels: Record<string, string> = {
@@ -185,7 +185,7 @@ export default async function UsersReportPage() {
                             <span className="text-slate-900">{roleLabels[role] || role}</span>
                             <span className="font-medium text-slate-900">{count}</span>
                           </div>
-                          <div className="w-full bg-gray-100 rounded-full h-2">
+                          <div className="w-full bg-slate-100 rounded-full h-2">
                             <div 
                               className={`h-2 rounded-full ${roleStyle.bg.replace('100', '500')}`}
                               style={{ width: `${(count / (totalUsers || 1)) * 100}%` }}

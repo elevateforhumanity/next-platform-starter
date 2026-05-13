@@ -174,7 +174,7 @@ export default async function ReviewQueuePage({
         <Link
           href="/admin/review-queue"
           className={`px-4 py-2 rounded-lg text-sm font-medium ${
-            !queue_type ? 'bg-gray-900 text-white' : 'bg-gray-100 text-slate-900 hover:bg-gray-200'
+            !queue_type ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
           }`}
         >
           All ({Object.values(countsByType).reduce((a, b) => a + b, 0)})
@@ -185,8 +185,8 @@ export default async function ReviewQueuePage({
             href={`/admin/review-queue?queue_type=${type}`}
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
               queue_type === type
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-slate-900 hover:bg-gray-200'
+                ? 'bg-slate-900 text-white'
+                : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
             }`}
           >
             {config.label} ({countsByType[type] || 0})
@@ -200,7 +200,7 @@ export default async function ReviewQueuePage({
           Error loading queue
         </div>
       ) : !items || items.length === 0 ? (
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
+        <div className="bg-slate-50 border border-slate-200 rounded-lg p-8 text-center">
           <span className="text-slate-400 flex-shrink-0">•</span>
           <h3 className="text-lg font-semibold text-slate-900 mb-2">Queue Empty</h3>
           <p className="text-slate-700">No items require review at this time.</p>
@@ -222,7 +222,7 @@ export default async function ReviewQueuePage({
             return (
               <div
                 key={item.id}
-                className="bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition"
+                className="bg-white border border-slate-200 rounded-lg p-4 hover:border-slate-300 transition"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-4">
@@ -239,7 +239,7 @@ export default async function ReviewQueuePage({
                         >
                           {statusConfig.label}
                         </span>
-                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-slate-900">
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-900">
                           Priority {item.priority}
                         </span>
                       </div>

@@ -136,7 +136,7 @@ export default async function BarriersPage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-6">
             {barrierTypes.map((type) => (
-              <div key={type.name} className="p-4 border rounded-lg hover:bg-gray-50">
+              <div key={type.name} className="p-4 border rounded-lg hover:bg-slate-50">
                 <span className="text-2xl">{type.icon}</span>
                 <h3 className="font-medium mt-2">{type.name}</h3>
                 <p className="text-sm text-slate-700">{type.description}</p>
@@ -156,7 +156,7 @@ export default async function BarriersPage() {
               barriers.map((barrier: any) => (
                 <div
                   key={barrier.id}
-                  className="p-4 flex items-center justify-between hover:bg-gray-50"
+                  className="p-4 flex items-center justify-between hover:bg-slate-50"
                 >
                   <div>
                     <p className="font-medium text-slate-900">{barrier.type || 'Unknown'}</p>
@@ -170,7 +170,7 @@ export default async function BarriersPage() {
                         ? 'bg-brand-green-100 text-brand-green-800'
                         : barrier.status === 'active'
                           ? 'bg-brand-orange-100 text-brand-orange-800'
-                          : 'bg-gray-100 text-slate-900'
+                          : 'bg-slate-100 text-slate-900'
                     }`}
                   >
                     {barrier.status || 'pending'}

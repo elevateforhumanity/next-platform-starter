@@ -209,27 +209,27 @@ export function DataImportPageClient() {
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-3">
                 <Eye className="w-5 h-5 text-brand-blue-600" />
-                <h3 className="font-bold text-gray-900">Preview Import Data</h3>
+                <h3 className="font-bold text-slate-900">Preview Import Data</h3>
               </div>
               <button
                 onClick={() => setShowPreview(false)}
-                className="p-1 hover:bg-gray-100 rounded"
+                className="p-1 hover:bg-slate-100 rounded"
               >
-                <X className="w-5 h-5 text-gray-500" />
+                <X className="w-5 h-5 text-slate-500" />
               </button>
             </div>
             <div className="p-4 overflow-auto max-h-[50vh]">
-              <p className="text-sm text-gray-600 mb-3">
+              <p className="text-sm text-slate-600 mb-3">
                 Showing first {preview.rows.length} of {preview.totalRows} records
               </p>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm border-collapse">
                   <thead>
-                    <tr className="bg-gray-100">
+                    <tr className="bg-slate-100">
                       {preview.headers.map((header, idx) => (
                         <th
                           key={idx}
-                          className="px-3 py-2 text-left font-medium text-gray-700 border"
+                          className="px-3 py-2 text-left font-medium text-slate-700 border"
                         >
                           {header}
                         </th>
@@ -238,10 +238,10 @@ export function DataImportPageClient() {
                   </thead>
                   <tbody>
                     {preview.rows.map((row, rowIdx) => (
-                      <tr key={rowIdx} className="hover:bg-gray-50">
+                      <tr key={rowIdx} className="hover:bg-slate-50">
                         {row.map((cell, cellIdx) => (
-                          <td key={cellIdx} className="px-3 py-2 border text-gray-600">
-                            {cell || <span className="text-gray-400 italic">empty</span>}
+                          <td key={cellIdx} className="px-3 py-2 border text-slate-600">
+                            {cell || <span className="text-slate-400 italic">empty</span>}
                           </td>
                         ))}
                       </tr>
@@ -250,8 +250,8 @@ export function DataImportPageClient() {
                 </table>
               </div>
             </div>
-            <div className="flex items-center justify-between p-4 border-t bg-gray-50">
-              <p className="text-sm text-gray-600">
+            <div className="flex items-center justify-between p-4 border-t bg-slate-50">
+              <p className="text-sm text-slate-600">
                 <strong>{preview.totalRows}</strong> records will be imported
               </p>
               <div className="flex gap-3">
@@ -261,7 +261,7 @@ export function DataImportPageClient() {
                     setFile(null);
                     setPreview(null);
                   }}
-                  className="px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-lg font-medium"
+                  className="px-4 py-2 text-slate-700 hover:bg-slate-200 rounded-lg font-medium"
                 >
                   Cancel
                 </button>
@@ -281,19 +281,19 @@ export function DataImportPageClient() {
         </div>
       )}
 
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-slate-50 py-8">
         <div className="max-w-4xl mx-auto px-4">
           <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Data Import' }]} />
           <div className="mb-8 mt-4">
-            <h1 className="text-3xl font-black text-gray-900">Data Import</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-3xl font-black text-slate-900">Data Import</h1>
+            <p className="text-slate-600 mt-1">
               Import students, courses, enrollments, and employers from CSV files
             </p>
           </div>
 
           {/* Import Type Selection */}
           <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">1. Select Import Type</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-4">1. Select Import Type</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {importTypes.map((type) => {
                 const Icon = type.icon;
@@ -310,20 +310,20 @@ export function DataImportPageClient() {
                     className={`p-4 rounded-lg border-2 text-left transition-all ${
                       isSelected
                         ? 'border-brand-blue-500 bg-brand-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <div className="flex items-start gap-3">
                       <div
-                        className={`p-2 rounded-lg ${isSelected ? 'bg-brand-blue-100' : 'bg-gray-100'}`}
+                        className={`p-2 rounded-lg ${isSelected ? 'bg-brand-blue-100' : 'bg-slate-100'}`}
                       >
                         <Icon
-                          className={`w-5 h-5 ${isSelected ? 'text-brand-blue-600' : 'text-gray-600'}`}
+                          className={`w-5 h-5 ${isSelected ? 'text-brand-blue-600' : 'text-slate-600'}`}
                         />
                       </div>
                       <div>
-                        <h3 className="font-bold text-gray-900">{type.name}</h3>
-                        <p className="text-sm text-gray-600">{type.description}</p>
+                        <h3 className="font-bold text-slate-900">{type.name}</h3>
+                        <p className="text-sm text-slate-600">{type.description}</p>
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
@@ -345,7 +345,7 @@ export function DataImportPageClient() {
           {/* File Upload */}
           {selectedType && (
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">2. Upload CSV File</h2>
+              <h2 className="text-lg font-bold text-slate-900 mb-4">2. Upload CSV File</h2>
               <div
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
@@ -356,15 +356,15 @@ export function DataImportPageClient() {
                     ? 'border-brand-blue-500 bg-brand-blue-50'
                     : file
                       ? 'border-green-500 bg-green-50'
-                      : 'border-gray-300 hover:border-gray-400'
+                      : 'border-slate-300 hover:border-slate-400'
                 }`}
               >
                 {file ? (
                   <div className="flex items-center justify-center gap-3">
                     <FileSpreadsheet className="w-8 h-8 text-green-600" />
                     <div className="text-left">
-                      <p className="font-medium text-gray-900">{file.name}</p>
-                      <p className="text-sm text-gray-500">{(file.size / 1024).toFixed(1)} KB</p>
+                      <p className="font-medium text-slate-900">{file.name}</p>
+                      <p className="text-sm text-slate-500">{(file.size / 1024).toFixed(1)} KB</p>
                     </div>
                     <button
                       onClick={() => {
@@ -378,8 +378,8 @@ export function DataImportPageClient() {
                   </div>
                 ) : (
                   <>
-                    <Upload className="w-10 h-10 text-gray-400 mx-auto mb-3" />
-                    <p className="text-gray-600 mb-2">Drag and drop your CSV file here, or</p>
+                    <Upload className="w-10 h-10 text-slate-400 mx-auto mb-3" />
+                    <p className="text-slate-600 mb-2">Drag and drop your CSV file here, or</p>
                     <label className="inline-block">
                       <span className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg font-medium cursor-pointer hover:bg-brand-blue-700">
                         Browse Files
@@ -431,10 +431,10 @@ export function DataImportPageClient() {
                   <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
                 )}
                 <div>
-                  <h3 className="font-bold text-gray-900">
+                  <h3 className="font-bold text-slate-900">
                     {result.success ? 'Import Complete' : 'Import Failed'}
                   </h3>
-                  <p className="text-gray-600 mt-1">
+                  <p className="text-slate-600 mt-1">
                     {result.imported} records imported
                     {result.failed > 0 && `, ${result.failed} failed`}
                   </p>

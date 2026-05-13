@@ -98,7 +98,7 @@ export default async function PartnerReportsPage() {
                     <span className={`text-xs font-medium px-2 py-1 rounded ${
                       p.status === 'active' ? 'bg-brand-green-100 text-brand-green-800' :
                       p.status === 'pending' ? 'bg-amber-100 text-amber-800' :
-                      'bg-gray-100 text-slate-700'
+                      'bg-slate-100 text-slate-700'
                     }`}>
                       {p.status || 'unknown'}
                     </span>
@@ -129,7 +129,7 @@ export default async function PartnerReportsPage() {
                         inq.status === 'approved' ? 'bg-brand-green-100 text-brand-green-800' :
                         inq.status === 'pending' ? 'bg-amber-100 text-amber-800' :
                         inq.status === 'reviewing' ? 'bg-brand-blue-100 text-brand-blue-800' :
-                        'bg-gray-100 text-slate-700'
+                        'bg-slate-100 text-slate-700'
                       }`}>
                         {inq.status}
                       </span>

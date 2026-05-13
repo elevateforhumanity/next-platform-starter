@@ -40,7 +40,7 @@ export default async function AdminNewJobPage() {
 
         <form
           action={createJob}
-          className="bg-white rounded-xl border border-gray-200 p-6 space-y-5"
+          className="bg-white rounded-xl border border-slate-200 p-6 space-y-5"
         >
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">
@@ -51,7 +51,7 @@ export default async function AdminNewJobPage() {
             <input
               name="title"
               required
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="e.g., HVAC Technician Apprentice"
             />
           </div>
@@ -66,7 +66,7 @@ export default async function AdminNewJobPage() {
               <input
                 name="company"
                 required
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="Employer name"
               />
             </div>
@@ -79,7 +79,7 @@ export default async function AdminNewJobPage() {
               <input
                 name="location"
                 required
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="Indianapolis, IN"
               />
             </div>
@@ -90,7 +90,7 @@ export default async function AdminNewJobPage() {
               <label className="block text-sm font-medium text-slate-900 mb-1">Job Type</label>
               <select
                 name="type"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               >
                 <option value="full_time">Full-Time</option>
                 <option value="part_time">Part-Time</option>
@@ -110,7 +110,7 @@ export default async function AdminNewJobPage() {
                 type="number"
                 step="1000"
                 min="0"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="35000"
               />
             </div>
@@ -125,7 +125,7 @@ export default async function AdminNewJobPage() {
                 type="number"
                 step="1000"
                 min="0"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="55000"
               />
             </div>
@@ -139,7 +139,7 @@ export default async function AdminNewJobPage() {
               name="description"
               required
               rows={4}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Describe the role, responsibilities, and expectations..."
             />
           </div>
@@ -149,12 +149,12 @@ export default async function AdminNewJobPage() {
             <textarea
               name="requirements"
               rows={3}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Required qualifications, certifications, experience..."
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
             <Link
               href="/admin/jobs"
               className="px-4 py-2 text-sm text-slate-700 hover:text-slate-900"

@@ -203,7 +203,7 @@ export default function AdminApprenticeships() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Student
@@ -234,7 +234,7 @@ export default function AdminApprenticeships() {
                     (apprenticeship.total_hours_completed / apprenticeship.total_hours_required) *
                     100;
                   return (
-                    <tr key={apprenticeship.id} className="hover:bg-gray-50">
+                    <tr key={apprenticeship.id} className="hover:bg-slate-50">
                       <td className="px-6 py-4">
                         <div>
                           <p className="font-semibold">{apprenticeship.student?.full_name}</p>
@@ -261,7 +261,7 @@ export default function AdminApprenticeships() {
                         </p>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-slate-200 rounded-full h-2">
                           <div
                             className="bg-brand-blue-600 h-2 rounded-full"
                             style={{ width: `${Math.min(progress, 100)}%` }}
@@ -276,7 +276,7 @@ export default function AdminApprenticeships() {
                               ? 'bg-brand-green-100 text-brand-green-800'
                               : apprenticeship.status === 'completed'
                                 ? 'bg-brand-blue-100 text-brand-blue-800'
-                                : 'bg-gray-100 text-black'
+                                : 'bg-slate-100 text-black'
                           }`}
                         >
                           {apprenticeship.status}
@@ -366,7 +366,7 @@ export default function AdminApprenticeships() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/apprenticeships"
-                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
+                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg shadow-2xl transition-all"
                 >
                   View Apprenticeships
                 </Link>

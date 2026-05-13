@@ -61,7 +61,7 @@ export default async function LeadsReportPage() {
     appointment_set: 'bg-indigo-100 text-indigo-700',
     application_started: 'bg-brand-orange-100 text-brand-orange-700',
     enrolled: 'bg-brand-green-100 text-brand-green-700',
-    not_interested: 'bg-gray-100 text-slate-700',
+    not_interested: 'bg-slate-100 text-slate-700',
     unqualified: 'bg-brand-red-100 text-brand-red-700',
   };
 
@@ -165,7 +165,7 @@ export default async function LeadsReportPage() {
                           {sourceLabels[lead.source] || lead.source}
                         </td>
                         <td className="py-3 px-2">
-                          <span className={`px-2 py-1 text-xs rounded-full ${statusColors[lead.status] || 'bg-gray-100'}`}>
+                          <span className={`px-2 py-1 text-xs rounded-full ${statusColors[lead.status] || 'bg-slate-100'}`}>
                             {lead.status.replace('_', ' ')}
                           </span>
                         </td>
@@ -195,7 +195,7 @@ export default async function LeadsReportPage() {
                           <span className="text-slate-900">{sourceLabels[source] || source}</span>
                           <span className="font-medium text-slate-900">{count}</span>
                         </div>
-                        <div className="w-full bg-gray-100 rounded-full h-2">
+                        <div className="w-full bg-slate-100 rounded-full h-2">
                           <div 
                             className="bg-brand-green-600 h-2 rounded-full" 
                             style={{ width: `${(count / (totalLeads || 1)) * 100}%` }}
@@ -217,7 +217,7 @@ export default async function LeadsReportPage() {
                     .sort((a, b) => b[1] - a[1])
                     .map(([status, count]) => (
                       <div key={status} className="flex items-center justify-between">
-                        <span className={`px-2 py-1 text-xs rounded-full ${statusColors[status] || 'bg-gray-100'}`}>
+                        <span className={`px-2 py-1 text-xs rounded-full ${statusColors[status] || 'bg-slate-100'}`}>
                           {status.replace('_', ' ')}
                         </span>
                         <span className="font-medium text-slate-900">{count}</span>

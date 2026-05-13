@@ -40,7 +40,7 @@ export default async function NewAffiliatePage() {
 
         <form
           action={createAffiliate}
-          className="bg-white rounded-xl border border-gray-200 p-6 space-y-5"
+          className="bg-white rounded-xl border border-slate-200 p-6 space-y-5"
         >
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">
@@ -51,7 +51,7 @@ export default async function NewAffiliatePage() {
             <input
               name="name"
               required
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Partner organization name"
             />
           </div>
@@ -67,7 +67,7 @@ export default async function NewAffiliatePage() {
                 name="email"
                 type="email"
                 required
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="contact@partner.org"
               />
             </div>
@@ -80,7 +80,7 @@ export default async function NewAffiliatePage() {
               <input
                 name="phone"
                 type="tel"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="(317) 314-3757"
               />
             </div>
@@ -96,7 +96,7 @@ export default async function NewAffiliatePage() {
               <input
                 name="website"
                 type="url"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="https://partner.org"
               />
             </div>
@@ -112,7 +112,7 @@ export default async function NewAffiliatePage() {
                 step="0.1"
                 min="0"
                 max="100"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="10"
               />
             </div>
@@ -123,12 +123,12 @@ export default async function NewAffiliatePage() {
             <textarea
               name="notes"
               rows={3}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Additional details about this affiliate..."
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
             <Link
               href="/admin/affiliates"
               className="px-4 py-2 text-sm text-slate-700 hover:text-slate-900"

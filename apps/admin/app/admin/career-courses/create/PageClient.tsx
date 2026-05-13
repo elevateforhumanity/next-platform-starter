@@ -207,7 +207,7 @@ export default function CreateCourseContentPage() {
                         className={`w-full text-left p-3 rounded-lg transition ${
                           selectedCourse?.id === course.id
                             ? 'bg-brand-blue-100 border-brand-blue-300 border'
-                            : 'bg-gray-50 hover:bg-gray-100'
+                            : 'bg-slate-50 hover:bg-slate-100'
                         }`}
                       >
                         <p className="font-medium text-sm">{course.title}</p>
@@ -230,13 +230,13 @@ export default function CreateCourseContentPage() {
                                 className={`w-full text-left p-2 rounded text-sm flex items-center gap-2 ${
                                   selectedModule?.id === module.id
                                     ? 'bg-brand-blue-600 text-white'
-                                    : 'hover:bg-gray-100'
+                                    : 'hover:bg-slate-100'
                                 }`}
                               >
                                 {module.video_url ? (
                                   <span className="text-slate-400 flex-shrink-0">•</span>
                                 ) : (
-                                  <div className="w-4 h-4 rounded-full border-2 border-gray-300 flex-shrink-0" />
+                                  <div className="w-4 h-4 rounded-full border-2 border-slate-300 flex-shrink-0" />
                                 )}
                                 <span className="truncate">{module.title}</span>
                               </button>
@@ -310,7 +310,7 @@ export default function CreateCourseContentPage() {
                     <button
                       onClick={generateScript}
                       disabled={generating}
-                      className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-400"
+                      className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 disabled:bg-slate-400"
                     >
                       {generating ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
@@ -326,7 +326,7 @@ export default function CreateCourseContentPage() {
                     onChange={(e) => setScript(e.target.value)}
                     placeholder="Write or generate your video script here..."
                     rows={12}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent font-mono text-sm"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent font-mono text-sm"
                   />
 
                   <div className="flex justify-between mt-4">
@@ -361,7 +361,7 @@ export default function CreateCourseContentPage() {
                       <select
                         value={avatarStyle}
                         onChange={(e) => setAvatarStyle(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                       >
                         <option value="professional">Professional Instructor</option>
                         <option value="casual">Casual Presenter</option>
@@ -377,7 +377,7 @@ export default function CreateCourseContentPage() {
                       <select
                         value={voiceStyle}
                         onChange={(e) => setVoiceStyle(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
                       >
                         <option value="alloy">Alloy (Neutral)</option>
                         <option value="echo">Echo (Male)</option>
@@ -407,7 +407,7 @@ export default function CreateCourseContentPage() {
                   <button
                     onClick={generateVideo}
                     disabled={generating || !script.trim()}
-                    className="w-full bg-brand-blue-600 text-white py-4 rounded-lg font-semibold hover:bg-brand-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full bg-brand-blue-600 text-white py-4 rounded-lg font-semibold hover:bg-brand-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {generating ? (
                       <>

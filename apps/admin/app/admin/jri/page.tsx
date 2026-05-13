@@ -77,7 +77,7 @@ export default async function JRIPage() {
     pending: 'bg-yellow-100 text-yellow-700',
     withdrawn: 'bg-red-100 text-red-700',
     employed: 'bg-green-100 text-green-700',
-    unemployed: 'bg-gray-100 text-slate-700',
+    unemployed: 'bg-slate-100 text-slate-700',
   };
 
   return (
@@ -95,7 +95,7 @@ export default async function JRIPage() {
             <div className="flex gap-3">
               <Link
                 href="/admin/jri/reports"
-                className="border border-gray-300 text-slate-900 px-4 py-2 rounded-lg hover:bg-gray-50 text-sm"
+                className="border border-slate-300 text-slate-900 px-4 py-2 rounded-lg hover:bg-slate-50 text-sm"
               >
                 Reports
               </Link>
@@ -161,7 +161,7 @@ export default async function JRIPage() {
                             {count} <span className="text-slate-700 font-normal">({pct}%)</span>
                           </span>
                         </div>
-                        <div className="w-full bg-gray-100 rounded-full h-2">
+                        <div className="w-full bg-slate-100 rounded-full h-2">
                           <div
                             className="h-2 rounded-full bg-brand-blue-500"
                             style={{ width: `${pct}%` }}
@@ -188,7 +188,7 @@ export default async function JRIPage() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b">
+                <thead className="bg-slate-50 border-b">
                   <tr>
                     <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
                       Participant
@@ -210,7 +210,7 @@ export default async function JRIPage() {
                 <tbody className="divide-y">
                   {recentParticipants && recentParticipants.length > 0 ? (
                     recentParticipants.map((p: any) => (
-                      <tr key={p.id} className="hover:bg-gray-50">
+                      <tr key={p.id} className="hover:bg-slate-50">
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
                             <div className="w-7 h-7 bg-brand-blue-100 rounded-full flex items-center justify-center">
@@ -229,14 +229,14 @@ export default async function JRIPage() {
                         <td className="px-4 py-3 text-slate-700 text-xs">{p.program || '—'}</td>
                         <td className="px-4 py-3">
                           <span
-                            className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.status] || 'bg-gray-100 text-slate-700'}`}
+                            className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.status] || 'bg-slate-100 text-slate-700'}`}
                           >
                             {p.status || 'pending'}
                           </span>
                         </td>
                         <td className="px-4 py-3">
                           <span
-                            className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.employment_status] || 'bg-gray-100 text-slate-700'}`}
+                            className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.employment_status] || 'bg-slate-100 text-slate-700'}`}
                           >
                             {p.employment_status || '—'}
                           </span>

@@ -54,7 +54,7 @@ export default async function FinancialReportPage() {
     sum + (parseFloat(g.amount_max) || 0), 0) || 0;
 
   const wotcStatusColors: Record<string, string> = {
-    draft: 'bg-gray-100 text-slate-700',
+    draft: 'bg-slate-100 text-slate-700',
     submitted: 'bg-brand-blue-100 text-brand-blue-700',
     pending_review: 'bg-yellow-100 text-yellow-700',
     approved: 'bg-brand-green-100 text-brand-green-700',
@@ -132,7 +132,7 @@ export default async function FinancialReportPage() {
             {wotcApps && wotcApps.length > 0 ? (
               <div className="space-y-3">
                 {wotcApps.slice(0, 8).map((app) => (
-                  <div key={app.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div key={app.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                     <div>
                       <p className="font-medium text-slate-900">
                         {app.employee_first_name} {app.employee_last_name}
@@ -140,7 +140,7 @@ export default async function FinancialReportPage() {
                       <p className="text-sm text-slate-700">{app.employer_name}</p>
                     </div>
                     <div className="text-right">
-                      <span className={`px-2 py-1 text-xs rounded-full ${wotcStatusColors[app.status] || 'bg-gray-100'}`}>
+                      <span className={`px-2 py-1 text-xs rounded-full ${wotcStatusColors[app.status] || 'bg-slate-100'}`}>
                         {app.status.replace('_', ' ')}
                       </span>
                       {app.tax_credit_amount && (
@@ -168,7 +168,7 @@ export default async function FinancialReportPage() {
             {grantApps && grantApps.length > 0 ? (
               <div className="space-y-3">
                 {grantApps.slice(0, 8).map((app) => (
-                  <div key={app.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div key={app.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                     <div>
                       <p className="font-medium text-slate-900">
                         {(app.grant_opportunities as { title: string })?.title || 'Grant Application'}

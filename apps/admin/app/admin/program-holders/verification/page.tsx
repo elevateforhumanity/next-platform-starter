@@ -183,7 +183,7 @@ export default async function ProgramHolderVerificationPage() {
                       {holder.documents.map((doc) => (
                         <div
                           key={doc.id}
-                          className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                          className="flex items-center justify-between p-3 bg-slate-50 rounded-lg"
                         >
                           <div className="flex items-center gap-3">
                             <FileText className="w-5 h-5 text-black" />
@@ -200,14 +200,14 @@ export default async function ProgramHolderVerificationPage() {
                             <a
                               href={`/api/admin/documents/${doc.id}/view`}
                               target="_blank"
-                              className="p-2 text-brand-blue-600 hover:bg-gray-50 rounded"
+                              className="p-2 text-brand-blue-600 hover:bg-slate-50 rounded"
                               rel="noreferrer"
                             >
                               <Eye className="w-4 h-4" />
                             </a>
                             <a
                               href={`/api/admin/documents/${doc.id}/download`}
-                              className="p-2 text-black hover:bg-gray-100 rounded"
+                              className="p-2 text-black hover:bg-slate-100 rounded"
                             >
                               <Download className="w-4 h-4" />
                             </a>
@@ -221,7 +221,7 @@ export default async function ProgramHolderVerificationPage() {
                   {holder.banking && (
                     <div className="mb-4">
                       <h4 className="text-sm font-semibold text-black mb-2">Banking Information</h4>
-                      <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="p-3 bg-slate-50 rounded-lg">
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
                             <p className="text-black">Account Holder</p>
@@ -256,7 +256,7 @@ export default async function ProgramHolderVerificationPage() {
                     </Link>
                     <Link
                       href={`/admin/program-holders/${holder.id}`}
-                      className="px-4 py-2 bg-gray-200 text-black rounded-lg hover:bg-gray-300 font-medium"
+                      className="px-4 py-2 bg-slate-200 text-black rounded-lg hover:bg-slate-300 font-medium"
                     >
                       View Details
                     </Link>

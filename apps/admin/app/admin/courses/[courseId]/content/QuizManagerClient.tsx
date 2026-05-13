@@ -149,7 +149,7 @@ export default function QuizManagerClient({
       {/* Header — always visible */}
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="w-full flex items-center justify-between px-6 py-4 hover:bg-gray-50 text-left"
+        className="w-full flex items-center justify-between px-6 py-4 hover:bg-slate-50 text-left"
       >
         <div className="flex items-center gap-3">
           <HelpCircle className="w-5 h-5 text-brand-blue-600" />
@@ -205,7 +205,7 @@ export default function QuizManagerClient({
 
           <div className="space-y-4">
             {questions.map((q, qi) => (
-              <div key={qi} className="border rounded-lg p-4 space-y-3 bg-gray-50">
+              <div key={qi} className="border rounded-lg p-4 space-y-3 bg-slate-50">
                 {/* Question header */}
                 <div className="flex items-start gap-2">
                   <span className="text-xs font-semibold text-slate-700 mt-2 w-6 shrink-0">
@@ -295,7 +295,7 @@ export default function QuizManagerClient({
                         name={`correct-${qi}`}
                         checked={q.correct_answer === opt}
                         onChange={() => updateQuestion(qi, { correct_answer: opt })}
-                        className="h-3.5 w-3.5 text-brand-blue-600 border-gray-300 focus:ring-brand-blue-500 shrink-0"
+                        className="h-3.5 w-3.5 text-brand-blue-600 border-slate-300 focus:ring-brand-blue-500 shrink-0"
                         title="Mark as correct"
                       />
                       <input
@@ -305,7 +305,7 @@ export default function QuizManagerClient({
                         className={`flex-1 border rounded px-2 py-1 text-sm focus:ring-1 focus:ring-brand-blue-400 ${
                           q.correct_answer === opt
                             ? 'border-green-400 bg-green-50 text-green-800 font-medium'
-                            : 'border-gray-200 bg-white'
+                            : 'border-slate-200 bg-white'
                         }`}
                       />
                       {q.question_type === 'multiple_choice' && q.options.length > 2 && (

@@ -101,7 +101,7 @@ export default async function EmployerAnalyticsPage() {
           {employerStats.length > 0 ? (
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-slate-700 border-b bg-gray-50">
+                <tr className="text-left text-slate-700 border-b bg-slate-50">
                   <th className="px-4 py-3">Employer</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3 text-right">Open Jobs</th>
@@ -110,11 +110,11 @@ export default async function EmployerAnalyticsPage() {
               </thead>
               <tbody className="divide-y">
                 {employerStats.map((e: any) => (
-                  <tr key={e.id} className="hover:bg-gray-50">
+                  <tr key={e.id} className="hover:bg-slate-50">
                     <td className="px-4 py-3 font-medium">{e.name || e.business_name || '—'}</td>
                     <td className="px-4 py-3">
                       <span
-                        className={`px-2 py-0.5 text-xs rounded-full ${e.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-slate-700'}`}
+                        className={`px-2 py-0.5 text-xs rounded-full ${e.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700'}`}
                       >
                         {e.status}
                       </span>

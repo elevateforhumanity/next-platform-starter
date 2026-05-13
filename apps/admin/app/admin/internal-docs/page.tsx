@@ -36,7 +36,7 @@ export default async function InternalDocsPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
         <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Internal Docs' }]} />
 
@@ -79,7 +79,7 @@ export default async function InternalDocsPage() {
           {docs && docs.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b">
+                <thead className="bg-slate-50 border-b">
                   <tr>
                     <th className="px-6 py-3 text-left font-medium text-slate-600">Owner</th>
                     <th className="px-6 py-3 text-left font-medium text-slate-600">File</th>
@@ -95,7 +95,7 @@ export default async function InternalDocsPage() {
                     const isExpired =
                       doc.expiration_date && new Date(doc.expiration_date) < new Date();
                     return (
-                      <tr key={doc.id} className="hover:bg-gray-50">
+                      <tr key={doc.id} className="hover:bg-slate-50">
                         <td className="px-6 py-4">
                           <p className="font-medium text-slate-900">
                             {profile?.full_name ?? 'Unknown'}
@@ -112,14 +112,14 @@ export default async function InternalDocsPage() {
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-medium ${
                               isExpired
-                                ? 'bg-gray-100 text-gray-700'
+                                ? 'bg-slate-100 text-slate-700'
                                 : doc.status === 'approved'
                                   ? 'bg-green-100 text-green-800'
                                   : doc.status === 'pending'
                                     ? 'bg-yellow-100 text-yellow-800'
                                     : doc.status === 'rejected'
                                       ? 'bg-red-100 text-red-800'
-                                      : 'bg-gray-100 text-gray-700'
+                                      : 'bg-slate-100 text-slate-700'
                             }`}
                           >
                             {isExpired ? 'expired' : doc.status}

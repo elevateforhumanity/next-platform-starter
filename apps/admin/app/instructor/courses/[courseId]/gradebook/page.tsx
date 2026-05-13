@@ -123,7 +123,7 @@ export default async function GradebookPage({ params }: { params: { courseId: st
                       <p className="text-sm text-slate-700">{e.profiles?.email}</p>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="w-24 bg-gray-200 rounded-full h-2">
+                      <div className="w-24 bg-slate-200 rounded-full h-2">
                         <div
                           className="bg-white h-2 rounded-full"
                           style={{ width: `${e.progress_percent || 0}%` }}

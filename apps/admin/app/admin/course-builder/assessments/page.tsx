@@ -51,7 +51,7 @@ export default async function AssessmentBankPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <FileQuestion className="w-5 h-5 text-brand-blue-600" />
@@ -62,7 +62,7 @@ export default async function AssessmentBankPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-green-100 rounded-lg">
                 <CheckSquare className="w-5 h-5 text-brand-green-600" />
@@ -73,7 +73,7 @@ export default async function AssessmentBankPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <Clock className="w-5 h-5 text-brand-blue-600" />
@@ -84,7 +84,7 @@ export default async function AssessmentBankPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-orange-100 rounded-lg">
                 <CheckSquare className="w-5 h-5 text-brand-orange-600" />
@@ -98,17 +98,17 @@ export default async function AssessmentBankPage() {
         </div>
 
         {/* Search */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
               <input
                 type="text"
                 placeholder="Search assessments..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
-            <select className="px-4 py-2 border border-gray-300 rounded-lg bg-white">
+            <select className="px-4 py-2 border border-slate-300 rounded-lg bg-white">
               <option value="">All Types</option>
               <option value="quiz">Quiz</option>
               <option value="exam">Exam</option>
@@ -118,8 +118,8 @@ export default async function AssessmentBankPage() {
         </div>
 
         {/* Empty State */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
+          <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <FileQuestion className="w-8 h-8 text-slate-700" />
           </div>
           <h3 className="text-lg font-medium text-slate-900 mb-2">No assessments yet</h3>
@@ -132,21 +132,21 @@ export default async function AssessmentBankPage() {
 
         {/* Quick Actions */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <h3 className="font-semibold text-slate-900 mb-2">Import Questions</h3>
             <p className="text-sm text-slate-700 mb-4">Upload questions from CSV or Excel</p>
             <button className="text-brand-blue-600 text-sm font-medium hover:text-brand-blue-700">
               Import →
             </button>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <h3 className="font-semibold text-slate-900 mb-2">Question Bank</h3>
             <p className="text-sm text-slate-700 mb-4">Browse and reuse existing questions</p>
             <button className="text-brand-blue-600 text-sm font-medium hover:text-brand-blue-700">
               Browse →
             </button>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <h3 className="font-semibold text-slate-900 mb-2">AI Generate</h3>
             <p className="text-sm text-slate-700 mb-4">Generate questions using AI</p>
             <button className="text-brand-blue-600 text-sm font-medium hover:text-brand-blue-700">

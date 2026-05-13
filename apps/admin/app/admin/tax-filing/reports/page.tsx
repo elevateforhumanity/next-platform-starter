@@ -61,7 +61,7 @@ export default async function TaxFilingReportsPage() {
               Report Types
             </h2>
             <div className="space-y-3">
-              <button className="w-full text-left px-4 py-3 border border-gray-200 rounded-lg hover:border-brand-blue-500" aria-label="Action button">
+              <button className="w-full text-left px-4 py-3 border border-slate-200 rounded-lg hover:border-brand-blue-500" aria-label="Action button">
                 <div className="font-semibold text-black">
                   Monthly Summary
                 </div>
@@ -69,7 +69,7 @@ export default async function TaxFilingReportsPage() {
                   Returns filed and refunds processed
                 </div>
               </button>
-              <button className="w-full text-left px-4 py-3 border border-gray-200 rounded-lg hover:border-brand-blue-500" aria-label="Action button">
+              <button className="w-full text-left px-4 py-3 border border-slate-200 rounded-lg hover:border-brand-blue-500" aria-label="Action button">
                 <div className="font-semibold text-black">
                   Preparer Performance
                 </div>
@@ -77,7 +77,7 @@ export default async function TaxFilingReportsPage() {
                   Individual preparer statistics
                 </div>
               </button>
-              <button className="w-full text-left px-4 py-3 border border-gray-200 rounded-lg hover:border-brand-blue-500" aria-label="Action button">
+              <button className="w-full text-left px-4 py-3 border border-slate-200 rounded-lg hover:border-brand-blue-500" aria-label="Action button">
                 <div className="font-semibold text-black">
                   Client Demographics
                 </div>

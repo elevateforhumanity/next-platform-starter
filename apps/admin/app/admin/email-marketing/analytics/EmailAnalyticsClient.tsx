@@ -138,7 +138,7 @@ export default function AnalyticsPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     href="/admin/email-marketing"
-                    className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
+                    className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg shadow-2xl transition-all"
                   >
                     View Campaigns
                   </Link>
@@ -174,7 +174,7 @@ export default function AnalyticsPage() {
         <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Analytics' }]} />
       </div>
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -189,7 +189,7 @@ export default function AnalyticsPage() {
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                   setTimeRange(e.target.value as '7d' | '30d' | '90d' | 'all')
                 }
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
               >
                 <option value="7d">Last 7 Days</option>
                 <option value="30d">Last 30 Days</option>
@@ -301,7 +301,7 @@ export default function AnalyticsPage() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-1">
-                    <div className="flex-1 bg-gray-200 rounded-full h-2">
+                    <div className="flex-1 bg-slate-200 rounded-full h-2">
                       <div
                         className="bg-brand-blue-600 h-2 rounded-full"
                         style={{
@@ -312,7 +312,7 @@ export default function AnalyticsPage() {
                     <span className="text-sm text-black w-16 text-right">{day.sent} sent</span>
                   </div>
                   <div className="flex items-center space-x-2 mb-1">
-                    <div className="flex-1 bg-gray-200 rounded-full h-2">
+                    <div className="flex-1 bg-slate-200 rounded-full h-2">
                       <div
                         className="bg-brand-green-600 h-2 rounded-full"
                         style={{
@@ -323,7 +323,7 @@ export default function AnalyticsPage() {
                     <span className="text-sm text-black w-16 text-right">{day.opens} opens</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="flex-1 bg-gray-200 rounded-full h-2">
+                    <div className="flex-1 bg-slate-200 rounded-full h-2">
                       <div
                         className="bg-brand-blue-600 h-2 rounded-full"
                         style={{
@@ -341,12 +341,12 @@ export default function AnalyticsPage() {
 
         {/* Campaign Performance Table */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h3 className="font-semibold text-black">Campaign Performance</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                     Campaign
@@ -371,9 +371,9 @@ export default function AnalyticsPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-slate-200">
                 {data.campaigns.map((campaign) => (
-                  <tr key={campaign.id} className="hover:bg-gray-50">
+                  <tr key={campaign.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-black">{campaign.name}</div>
                     </td>

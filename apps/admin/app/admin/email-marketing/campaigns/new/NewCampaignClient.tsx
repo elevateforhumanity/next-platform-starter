@@ -114,13 +114,13 @@ export default function NewCampaignPage() {
       </section>
 
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => router.push('/admin/email-marketing')}
-                className="p-2 hover:bg-gray-100 rounded-lg"
+                className="p-2 hover:bg-slate-100 rounded-lg"
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
@@ -133,14 +133,14 @@ export default function NewCampaignPage() {
             <div className="flex items-center space-x-3">
               <button
                 onClick={() => setPreview(!preview)}
-                className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                className="flex items-center space-x-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50"
               >
                 <Eye className="w-4 h-4" />
                 <span>Preview</span>
               </button>
               <button
                 onClick={handleSaveDraft}
-                className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                className="flex items-center space-x-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50"
               >
                 <Save className="w-4 h-4" />
                 <span>Save Draft</span>
@@ -168,7 +168,7 @@ export default function NewCampaignPage() {
       </div>
 
       {/* Progress Steps */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
             {[
@@ -217,7 +217,7 @@ export default function NewCampaignPage() {
                         >,
                       ) => setCampaign({ ...campaign, name: e.target.value })}
                       placeholder="e.g., Welcome Series - January 2025"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     />
                   </div>
 
@@ -234,7 +234,7 @@ export default function NewCampaignPage() {
                         >,
                       ) => setCampaign({ ...campaign, subject: e.target.value })}
                       placeholder="e.g., Welcome to Elevate for Humanity!"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     />
                     <p className="mt-1 text-sm text-black">
                       Use variables like {'{{firstName}}'} for personalization
@@ -252,7 +252,7 @@ export default function NewCampaignPage() {
                             HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                           >,
                         ) => setCampaign({ ...campaign, fromName: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                       />
                     </div>
                     <div>
@@ -272,7 +272,7 @@ export default function NewCampaignPage() {
                             fromEmail: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                       />
                     </div>
                   </div>
@@ -289,7 +289,7 @@ export default function NewCampaignPage() {
                           HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                         >,
                       ) => setCampaign({ ...campaign, replyTo: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     />
                   </div>
 
@@ -318,7 +318,7 @@ export default function NewCampaignPage() {
                           className={`p-4 border-2 rounded-lg text-left transition-colors ${
                             campaign.template === key
                               ? 'border-brand-blue-600 bg-brand-blue-50'
-                              : 'border-gray-200 hover:border-gray-300'
+                              : 'border-slate-200 hover:border-slate-300'
                           }`}
                         >
                           <div className="font-medium text-black">{template.name}</div>
@@ -340,7 +340,7 @@ export default function NewCampaignPage() {
                         >,
                       ) => setCampaign({ ...campaign, customHtml: e.target.value })}
                       rows={12}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                       placeholder="Edit HTML or use template..."
                     />
                   </div>
@@ -348,7 +348,7 @@ export default function NewCampaignPage() {
                   <div className="flex space-x-3">
                     <button
                       onClick={() => setStep('details')}
-                      className="flex-1 border border-gray-300 py-2 rounded-lg hover:bg-gray-50"
+                      className="flex-1 border border-slate-300 py-2 rounded-lg hover:bg-slate-50"
                     >
                       Back
                     </button>
@@ -380,7 +380,7 @@ export default function NewCampaignPage() {
                         className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${
                           campaign.recipientList === list.value
                             ? 'border-brand-blue-600 bg-brand-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
+                            : 'border-slate-200 hover:border-slate-300'
                         }`}
                       >
                         <div className="flex items-center space-x-3">
@@ -418,7 +418,7 @@ export default function NewCampaignPage() {
                   <div className="flex space-x-3">
                     <button
                       onClick={() => setStep('content')}
-                      className="flex-1 border border-gray-300 py-2 rounded-lg hover:bg-gray-50"
+                      className="flex-1 border border-slate-300 py-2 rounded-lg hover:bg-slate-50"
                     >
                       Back
                     </button>
@@ -493,7 +493,7 @@ export default function NewCampaignPage() {
                                     scheduleDate: e.target.value,
                                   })
                                 }
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
                               />
                             </div>
                             <div>
@@ -511,7 +511,7 @@ export default function NewCampaignPage() {
                                     scheduleTime: e.target.value,
                                   })
                                 }
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
                               />
                             </div>
                           </div>
@@ -523,7 +523,7 @@ export default function NewCampaignPage() {
                   <div className="flex space-x-3">
                     <button
                       onClick={() => setStep('recipients')}
-                      className="flex-1 border border-gray-300 py-2 rounded-lg hover:bg-gray-50"
+                      className="flex-1 border border-slate-300 py-2 rounded-lg hover:bg-slate-50"
                     >
                       Back
                     </button>
@@ -589,7 +589,7 @@ export default function NewCampaignPage() {
 
                 <div className="border-t pt-4">
                   <div className="text-xs text-black mb-2">Email Preview</div>
-                  <div className="border rounded-lg p-3 bg-gray-50 max-h-96 overflow-auto">
+                  <div className="border rounded-lg p-3 bg-slate-50 max-h-96 overflow-auto">
                     {campaign.customHtml ? (
                       <div
                         className="text-xs"
@@ -618,7 +618,7 @@ export default function NewCampaignPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/email-marketing"
-                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
+                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg shadow-2xl transition-all"
                 >
                   View Campaigns
                 </Link>

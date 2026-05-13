@@ -48,14 +48,14 @@ export default async function PendingCashAdvancesPage() {
 
         {/* Pending List */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-lg font-semibold text-black">Pending Requests</h2>
           </div>
 
           {pendingAdvances && pendingAdvances.length > 0 ? (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-slate-200">
               {pendingAdvances.map((advance: Record<string, any>) => (
-                <div key={advance.id} className="px-6 py-4 hover:bg-gray-50">
+                <div key={advance.id} className="px-6 py-4 hover:bg-slate-50">
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-semibold text-black">

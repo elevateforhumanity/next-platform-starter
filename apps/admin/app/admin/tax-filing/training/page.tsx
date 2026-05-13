@@ -47,12 +47,12 @@ export default async function TaxPreparerTrainingPage() {
         </div>
 
         <div className="bg-white rounded-lg shadow mb-6">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-lg font-semibold text-black">VITA Certification Training</h2>
           </div>
           <div className="p-6">
             <div className="space-y-4">
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <h3 className="font-semibold text-black mb-2">Basic Certification</h3>
                 <p className="text-sm text-black mb-3">
                   Complete IRS VITA training and pass certification test
@@ -65,7 +65,7 @@ export default async function TaxPreparerTrainingPage() {
                     Start Training
                   </button>
                   <button
-                    className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50 text-sm"
+                    className="px-4 py-2 border border-slate-300 rounded-md text-black hover:bg-slate-50 text-sm"
                     aria-label="Action button"
                   >
                     View Materials
@@ -73,7 +73,7 @@ export default async function TaxPreparerTrainingPage() {
                 </div>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <h3 className="font-semibold text-black mb-2">Advanced Certification</h3>
                 <p className="text-sm text-black mb-3">
                   Advanced tax scenarios and complex returns
@@ -86,7 +86,7 @@ export default async function TaxPreparerTrainingPage() {
                     Start Training
                   </button>
                   <button
-                    className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50 text-sm"
+                    className="px-4 py-2 border border-slate-300 rounded-md text-black hover:bg-slate-50 text-sm"
                     aria-label="Action button"
                   >
                     View Materials
@@ -94,7 +94,7 @@ export default async function TaxPreparerTrainingPage() {
                 </div>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <h3 className="font-semibold text-black mb-2">Quality Review Training</h3>
                 <p className="text-sm text-black mb-3">Learn to review and approve tax returns</p>
                 <div className="flex gap-3">
@@ -105,7 +105,7 @@ export default async function TaxPreparerTrainingPage() {
                     Start Training
                   </button>
                   <button
-                    className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50 text-sm"
+                    className="px-4 py-2 border border-slate-300 rounded-md text-black hover:bg-slate-50 text-sm"
                     aria-label="Action button"
                   >
                     View Materials

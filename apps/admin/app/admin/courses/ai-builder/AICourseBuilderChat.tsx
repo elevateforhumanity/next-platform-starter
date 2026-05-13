@@ -306,7 +306,7 @@ export default function AICourseBuilderChat({ programs }: { programs: Program[] 
                   },
                 ]);
               }}
-              className="flex-1 border py-2.5 rounded-lg hover:bg-gray-50 text-sm font-medium"
+              className="flex-1 border py-2.5 rounded-lg hover:bg-slate-50 text-sm font-medium"
             >
               Build Another
             </button>
@@ -454,7 +454,7 @@ export default function AICourseBuilderChat({ programs }: { programs: Program[] 
           <div className="flex justify-end gap-3 pb-8">
             <button
               onClick={() => setStage('chat')}
-              className="border px-5 py-2.5 rounded-lg hover:bg-gray-50 text-sm"
+              className="border px-5 py-2.5 rounded-lg hover:bg-slate-50 text-sm"
             >
               ← Revise with AI
             </button>

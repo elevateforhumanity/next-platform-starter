@@ -51,7 +51,7 @@ export default async function ContactsPage() {
       case 'Active':
         return 'bg-brand-green-100 text-brand-green-700';
       default:
-        return 'bg-gray-100 text-slate-900';
+        return 'bg-slate-100 text-slate-900';
     }
   };
 
@@ -64,7 +64,7 @@ export default async function ContactsPage() {
       case 'Partner':
         return 'bg-brand-blue-100 text-brand-blue-700';
       default:
-        return 'bg-gray-100 text-slate-900';
+        return 'bg-slate-100 text-slate-900';
     }
   };
 
@@ -102,23 +102,23 @@ export default async function ContactsPage() {
               <input
                 type="text"
                 placeholder="Search contacts..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               />
             </div>
             <div className="flex gap-3">
-              <select className="px-4 py-2 border border-gray-300 rounded-lg">
+              <select className="px-4 py-2 border border-slate-300 rounded-lg">
                 <option>All Types</option>
                 <option>Leads</option>
                 <option>Customers</option>
                 <option>Partners</option>
               </select>
-              <select className="px-4 py-2 border border-gray-300 rounded-lg">
+              <select className="px-4 py-2 border border-slate-300 rounded-lg">
                 <option>All Status</option>
                 <option>Hot</option>
                 <option>Warm</option>
                 <option>Active</option>
               </select>
-              <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+              <button className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 flex items-center gap-2">
                 <Filter className="w-4 h-4" />
                 More
               </button>
@@ -134,7 +134,7 @@ export default async function ContactsPage() {
             {contacts.map((contact) => (
               <div
                 key={contact.id}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow"
+                className="bg-white rounded-xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -151,7 +151,7 @@ export default async function ContactsPage() {
                       </div>
                     </div>
                   </div>
-                  <button className="p-1 hover:bg-gray-100 rounded">
+                  <button className="p-1 hover:bg-slate-100 rounded">
                     <MoreVertical className="w-5 h-5 text-slate-700" />
                   </button>
                 </div>
@@ -180,7 +180,7 @@ export default async function ContactsPage() {
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                   <span className="text-sm text-slate-700">
                     Last contact: {contact.lastContact}
                   </span>

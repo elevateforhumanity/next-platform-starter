@@ -332,7 +332,7 @@ export default function EnrollmentManagementClient({
       {/* Enrollments Table */}
       <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-slate-50 border-b">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                 Student
@@ -359,7 +359,7 @@ export default function EnrollmentManagementClient({
               filteredEnrollments.map((enrollment) => (
                 <tr
                   key={enrollment.id}
-                  className={`hover:bg-gray-50 ${enrollment.at_risk ? 'bg-brand-red-50' : ''}`}
+                  className={`hover:bg-slate-50 ${enrollment.at_risk ? 'bg-brand-red-50' : ''}`}
                 >
                   <td className="px-6 py-4">
                     <div>
@@ -383,7 +383,7 @@ export default function EnrollmentManagementClient({
                               : enrollment.status === 'pending_approval'
                                 ? 'bg-amber-100 text-amber-700'
                                 : enrollment.status === 'withdrawn'
-                                  ? 'bg-gray-100 text-slate-700'
+                                  ? 'bg-slate-100 text-slate-700'
                                   : 'bg-yellow-100 text-yellow-700'
                         }`}
                       >
@@ -398,7 +398,7 @@ export default function EnrollmentManagementClient({
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <div className="w-24 bg-gray-200 rounded-full h-2">
+                      <div className="w-24 bg-slate-200 rounded-full h-2">
                         <div
                           className="bg-brand-blue-600 h-2 rounded-full"
                           style={{ width: `${enrollment.progress || 0}%` }}
@@ -424,7 +424,7 @@ export default function EnrollmentManagementClient({
                       )}
                       <button
                         onClick={() => openEditModal(enrollment)}
-                        className="px-3 py-1 text-sm border rounded hover:bg-gray-50"
+                        className="px-3 py-1 text-sm border rounded hover:bg-slate-50"
                       >
                         Edit
                       </button>
@@ -439,7 +439,7 @@ export default function EnrollmentManagementClient({
                         )}
                       <button
                         onClick={() => handleToggleAtRisk(enrollment)}
-                        className={`px-3 py-1 text-sm border rounded ${enrollment.at_risk ? 'text-slate-700 border-gray-200 hover:bg-gray-50' : 'text-brand-red-600 border-brand-red-200 hover:bg-brand-red-50'}`}
+                        className={`px-3 py-1 text-sm border rounded ${enrollment.at_risk ? 'text-slate-700 border-slate-200 hover:bg-slate-50' : 'text-brand-red-600 border-brand-red-200 hover:bg-brand-red-50'}`}
                       >
                         {enrollment.at_risk ? 'Clear Risk' : 'Flag Risk'}
                       </button>
@@ -497,7 +497,7 @@ export default function EnrollmentManagementClient({
                   value={formData.user_id}
                   onChange={(e) => setFormData({ ...formData, user_id: e.target.value })}
                   disabled={!!editingEnrollment}
-                  className="w-full px-4 py-2 border rounded-lg disabled:bg-gray-100"
+                  className="w-full px-4 py-2 border rounded-lg disabled:bg-slate-100"
                 >
                   <option value="">Select a student</option>
                   {users.map((user) => (
@@ -514,7 +514,7 @@ export default function EnrollmentManagementClient({
                   value={formData.course_id}
                   onChange={(e) => setFormData({ ...formData, course_id: e.target.value })}
                   disabled={!!editingEnrollment}
-                  className="w-full px-4 py-2 border rounded-lg disabled:bg-gray-100"
+                  className="w-full px-4 py-2 border rounded-lg disabled:bg-slate-100"
                 >
                   <option value="">Select a course</option>
                   {courses.map((course) => (
@@ -586,7 +586,7 @@ export default function EnrollmentManagementClient({
                     setShowModal(false);
                     resetForm();
                   }}
-                  className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
+                  className="flex-1 px-4 py-2 border rounded-lg hover:bg-slate-50"
                 >
                   Cancel
                 </button>

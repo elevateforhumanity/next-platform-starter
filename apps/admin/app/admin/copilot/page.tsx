@@ -173,12 +173,12 @@ export default async function CopilotPage() {
             {copilotFeatures.map((feature) => (
               <div
                 key={feature.name}
-                className="p-4 flex items-center justify-between hover:bg-gray-50"
+                className="p-4 flex items-center justify-between hover:bg-slate-50"
               >
                 <div className="flex items-center gap-4">
                   <div
                     className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                      feature.status === 'active' ? 'bg-brand-green-100' : 'bg-gray-100'
+                      feature.status === 'active' ? 'bg-brand-green-100' : 'bg-slate-100'
                     }`}
                   >
                     <svg
@@ -206,7 +206,7 @@ export default async function CopilotPage() {
                       className={`px-2 py-1 rounded-full text-xs font-medium ${
                         feature.status === 'active'
                           ? 'bg-brand-green-100 text-brand-green-800'
-                          : 'bg-gray-100 text-slate-700'
+                          : 'bg-slate-100 text-slate-700'
                       }`}
                     >
                       {feature.status}

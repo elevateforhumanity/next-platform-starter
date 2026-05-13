@@ -210,7 +210,7 @@ export default function InstructorProgramAnnouncementsPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Announcement title..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   required
                 />
               </div>
@@ -221,7 +221,7 @@ export default function InstructorProgramAnnouncementsPage() {
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Write your announcement..."
                   rows={5}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   required
                 />
               </div>
@@ -237,7 +237,7 @@ export default function InstructorProgramAnnouncementsPage() {
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="px-6 py-2 bg-gray-200 text-slate-900 rounded-lg hover:bg-gray-300 transition"
+                  className="px-6 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition"
                 >
                   Cancel
                 </button>

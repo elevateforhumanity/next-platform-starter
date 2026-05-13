@@ -52,7 +52,7 @@ export default async function ModuleApprovalsPage() {
               modules.map((module: any) => (
                 <div
                   key={module.id}
-                  className="p-4 flex items-center justify-between hover:bg-gray-50"
+                  className="p-4 flex items-center justify-between hover:bg-slate-50"
                 >
                   <div>
                     <p className="font-medium">{module.title}</p>

@@ -169,7 +169,7 @@ export default function AdminPayroll() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase">
                     Student
@@ -199,7 +199,7 @@ export default function AdminPayroll() {
               </thead>
               <tbody className="divide-y">
                 {payrolls.map((payroll) => (
-                  <tr key={payroll.id} className="hover:bg-gray-50">
+                  <tr key={payroll.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4 font-medium">{payroll.student?.full_name}</td>
                     <td className="px-6 py-4">{payroll.apprenticeship?.employer_name}</td>
                     <td className="px-6 py-4 text-sm">
@@ -255,7 +255,7 @@ export default function AdminPayroll() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/payroll"
-                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
+                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg shadow-2xl transition-all"
                 >
                   View Payroll
                 </Link>

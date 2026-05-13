@@ -42,7 +42,7 @@ function getStatusBadge(status: string) {
     },
     awarded: { color: 'bg-brand-green-100 text-brand-green-800', text: '🟢 Awarded' },
     rejected: { color: 'bg-brand-red-100 text-brand-red-800', text: '🔴 Rejected' },
-    withdrawn: { color: 'bg-gray-100 text-black', text: '⚪ Withdrawn' },
+    withdrawn: { color: 'bg-slate-100 text-black', text: '⚪ Withdrawn' },
   };
 
   const badge = badges[status] || badges.submitted;

@@ -43,7 +43,7 @@ export default async function NewWOTCPage() {
         {/* Form */}
         <form
           action={createWOTCApplication}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+          className="bg-white rounded-xl shadow-sm border border-slate-200 p-6"
         >
           {/* Employee Information */}
           <div className="mb-8">
@@ -60,7 +60,7 @@ export default async function NewWOTCPage() {
                   type="text"
                   name="firstName"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -69,7 +69,7 @@ export default async function NewWOTCPage() {
                   type="text"
                   name="lastName"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -81,7 +81,7 @@ export default async function NewWOTCPage() {
                   name="ssn"
                   required
                   placeholder="XXX-XX-XXXX"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -92,7 +92,7 @@ export default async function NewWOTCPage() {
                   type="date"
                   name="dob"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
             </div>
@@ -113,7 +113,7 @@ export default async function NewWOTCPage() {
                   type="text"
                   name="employerName"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -125,7 +125,7 @@ export default async function NewWOTCPage() {
                   name="ein"
                   required
                   placeholder="XX-XXXXXXX"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -135,7 +135,7 @@ export default async function NewWOTCPage() {
                 <input
                   type="tel"
                   name="employerPhone"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="(317) 314-3757"
                 />
               </div>
@@ -157,7 +157,7 @@ export default async function NewWOTCPage() {
                   type="date"
                   name="offerDate"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -168,7 +168,7 @@ export default async function NewWOTCPage() {
                   type="date"
                   name="startDate"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -181,7 +181,7 @@ export default async function NewWOTCPage() {
                   required
                   step="0.01"
                   min="0"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div>
@@ -192,7 +192,7 @@ export default async function NewWOTCPage() {
                   type="text"
                   name="position"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
             </div>
@@ -224,7 +224,7 @@ export default async function NewWOTCPage() {
                     type="checkbox"
                     name="targetGroups"
                     value={group.id}
-                    className="mt-1 rounded border-gray-300"
+                    className="mt-1 rounded border-slate-300"
                   />
                   <span className="text-sm text-slate-900">{group.label}</span>
                 </label>
@@ -235,7 +235,7 @@ export default async function NewWOTCPage() {
           {/* Documentation */}
           <div className="mb-8">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Supporting Documentation</h2>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+            <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
               <input type="file" name="documents" multiple className="hidden" id="file-upload" />
               <label htmlFor="file-upload" className="cursor-pointer">
                 <div className="text-slate-700">
@@ -247,13 +247,13 @@ export default async function NewWOTCPage() {
           </div>
 
           {/* Certification */}
-          <div className="mb-8 p-4 bg-gray-50 rounded-lg">
+          <div className="mb-8 p-4 bg-slate-50 rounded-lg">
             <label className="flex items-start gap-3">
               <input
                 type="checkbox"
                 name="certification"
                 required
-                className="mt-1 rounded border-gray-300"
+                className="mt-1 rounded border-slate-300"
               />
               <span className="text-sm text-slate-900">
                 I certify that the information provided is accurate and complete to the best of my
@@ -264,7 +264,7 @@ export default async function NewWOTCPage() {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-200">
             <Link href="/admin/wotc" className="px-4 py-2 text-slate-900 hover:text-slate-900">
               Cancel
             </Link>
@@ -272,7 +272,7 @@ export default async function NewWOTCPage() {
               type="submit"
               name="saveAsDraft"
               value="true"
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50"
             >
               Save as Draft
             </button>

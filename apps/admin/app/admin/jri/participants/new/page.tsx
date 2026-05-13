@@ -48,7 +48,7 @@ export default async function NewJRIParticipantPage() {
             <select
               name="user_id"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             >
               <option value="">Select a student…</option>
               {(students || []).map((s: any) => (
@@ -64,7 +64,7 @@ export default async function NewJRIParticipantPage() {
             <select
               name="program"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             >
               <option value="">Select a program…</option>
               <option value="HVAC Technician">HVAC Technician</option>
@@ -84,7 +84,7 @@ export default async function NewJRIParticipantPage() {
             <label className="block text-sm font-medium text-slate-900 mb-1">Status</label>
             <select
               name="status"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             >
               <option value="pending">Pending</option>
               <option value="active">Active</option>
@@ -98,7 +98,7 @@ export default async function NewJRIParticipantPage() {
             <input
               type="date"
               name="enrolled_at"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             />
           </div>
 
@@ -108,7 +108,7 @@ export default async function NewJRIParticipantPage() {
             </label>
             <select
               name="employment_status"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             >
               <option value="unemployed">Unemployed</option>
               <option value="employed">Employed</option>
@@ -125,7 +125,7 @@ export default async function NewJRIParticipantPage() {
             </button>
             <Link
               href="/admin/jri/participants"
-              className="border border-gray-300 text-slate-900 px-5 py-2 rounded-lg hover:bg-gray-50 text-sm"
+              className="border border-slate-300 text-slate-900 px-5 py-2 rounded-lg hover:bg-slate-50 text-sm"
             >
               Cancel
             </Link>

@@ -216,7 +216,7 @@ export default async function IssueCertificatePage() {
               </button>
               <Link
                 href="/admin/certificates"
-                className="px-4 py-2 border rounded-lg hover:bg-gray-50 text-center"
+                className="px-4 py-2 border rounded-lg hover:bg-slate-50 text-center"
               >
                 Cancel
               </Link>

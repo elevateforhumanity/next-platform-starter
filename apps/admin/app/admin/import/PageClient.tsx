@@ -281,7 +281,7 @@ export default function AdminImportPage() {
             </div>
             <button
               onClick={downloadSampleCSV}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-900 bg-white border border-slate-300 rounded-lg hover:bg-slate-50"
             >
               <Download className="w-4 h-4" />
               Download Template
@@ -308,7 +308,7 @@ export default function AdminImportPage() {
                     className={`flex items-center gap-2 px-6 py-4 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
                       isActive
                         ? 'border-brand-blue-600 text-brand-blue-600'
-                        : 'border-transparent text-slate-700 hover:text-slate-900 hover:border-gray-300'
+                        : 'border-transparent text-slate-700 hover:text-slate-900 hover:border-slate-300'
                     }`}
                   >
                     <Icon className="w-5 h-5" />
@@ -338,7 +338,7 @@ export default function AdminImportPage() {
                 .map((field) => (
                   <span
                     key={field}
-                    className="px-2 py-1 bg-gray-100 text-slate-700 text-xs rounded"
+                    className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded"
                   >
                     {field}
                   </span>
@@ -357,7 +357,7 @@ export default function AdminImportPage() {
                 className={`border-2 border-dashed rounded-xl p-12 text-center transition-colors ${
                   isDragging
                     ? 'border-brand-blue-500 bg-brand-blue-50'
-                    : 'border-gray-300 hover:border-gray-400'
+                    : 'border-slate-300 hover:border-slate-400'
                 }`}
               >
                 <Upload
@@ -380,7 +380,7 @@ export default function AdminImportPage() {
             {file && !importResult && (
               <div className="space-y-6">
                 {/* File Info */}
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
                   <div className="flex items-center gap-3">
                     <FileText className="w-8 h-8 text-brand-green-600" />
                     <div>
@@ -443,8 +443,8 @@ export default function AdminImportPage() {
                     </div>
                     <div className="border rounded-lg overflow-hidden">
                       <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                          <thead className="bg-gray-50">
+                        <table className="min-w-full divide-y divide-slate-200">
+                          <thead className="bg-slate-50">
                             <tr>
                               {preview.headers.map((header) => (
                                 <th
@@ -459,9 +459,9 @@ export default function AdminImportPage() {
                               ))}
                             </tr>
                           </thead>
-                          <tbody className="bg-white divide-y divide-gray-200">
+                          <tbody className="bg-white divide-y divide-slate-200">
                             {preview.rows.slice(0, 10).map((row, rowIdx) => (
-                              <tr key={rowIdx} className="hover:bg-gray-50">
+                              <tr key={rowIdx} className="hover:bg-slate-50">
                                 {preview.headers.map((header) => (
                                   <td
                                     key={header}
@@ -483,14 +483,14 @@ export default function AdminImportPage() {
                 <div className="flex justify-end gap-4">
                   <button
                     onClick={resetImport}
-                    className="px-6 py-3 text-slate-900 font-medium border border-gray-300 rounded-lg hover:bg-gray-50"
+                    className="px-6 py-3 text-slate-900 font-medium border border-slate-300 rounded-lg hover:bg-slate-50"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleImport}
                     disabled={importing || (preview?.errors?.length || 0) > 0}
-                    className="flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white font-medium rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white font-medium rounded-lg hover:bg-brand-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed"
                   >
                     {importing ? (
                       <>

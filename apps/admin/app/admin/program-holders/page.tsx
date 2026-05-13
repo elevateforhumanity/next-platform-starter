@@ -17,7 +17,7 @@ const STATUS_STYLES: Record<string, string> = {
   active: 'bg-brand-green-100 text-brand-green-800',
   pending: 'bg-amber-100 text-amber-800',
   rejected: 'bg-brand-red-100 text-brand-red-800',
-  suspended: 'bg-gray-100 text-slate-700',
+  suspended: 'bg-slate-100 text-slate-700',
 };
 
 export default async function AdminProgramHoldersPage() {
@@ -98,7 +98,7 @@ export default async function AdminProgramHoldersPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-left text-slate-700 border-b bg-gray-50">
+                  <tr className="text-left text-slate-700 border-b bg-slate-50">
                     <th className="px-4 py-3 font-medium">Organization</th>
                     <th className="px-4 py-3 font-medium">Contact</th>
                     <th className="px-4 py-3 font-medium text-center">Programs</th>
@@ -110,7 +110,7 @@ export default async function AdminProgramHoldersPage() {
                 </thead>
                 <tbody className="divide-y">
                   {items.map((h: any) => (
-                    <tr key={h.id} className="hover:bg-gray-50">
+                    <tr key={h.id} className="hover:bg-slate-50">
                       <td className="px-4 py-3">
                         <p className="font-medium text-slate-900">
                           {h.organization_name || h.name || 'Unnamed'}
@@ -136,7 +136,7 @@ export default async function AdminProgramHoldersPage() {
                       </td>
                       <td className="px-4 py-3 text-center">
                         <span
-                          className={`text-xs font-medium px-2 py-1 rounded ${STATUS_STYLES[h.status] || 'bg-gray-100 text-slate-700'}`}
+                          className={`text-xs font-medium px-2 py-1 rounded ${STATUS_STYLES[h.status] || 'bg-slate-100 text-slate-700'}`}
                         >
                           {h.status}
                         </span>

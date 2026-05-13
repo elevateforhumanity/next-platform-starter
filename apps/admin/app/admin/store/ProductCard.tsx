@@ -76,7 +76,7 @@ export default function ProductCard() {
       {products.map((p) => (
         <div
           key={p.id}
-          className="border border-gray-200 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow space-y-3"
+          className="border border-slate-200 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow space-y-3"
         >
           <h3 className="font-bold text-lg text-black">{p.title}</h3>
 

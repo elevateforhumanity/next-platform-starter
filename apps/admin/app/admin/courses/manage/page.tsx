@@ -77,10 +77,10 @@ export default async function ManageCoursesPage() {
               courses.map((course: any) => (
                 <div
                   key={course.id}
-                  className="p-4 flex items-center justify-between hover:bg-gray-50"
+                  className="p-4 flex items-center justify-between hover:bg-slate-50"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-12 bg-gray-200 rounded" />
+                    <div className="w-16 h-12 bg-slate-200 rounded" />
                     <div>
                       <p className="font-medium">{course.title}</p>
                       <p className="text-sm text-slate-700">
@@ -90,7 +90,7 @@ export default async function ManageCoursesPage() {
                   </div>
                   <div className="flex items-center gap-4">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs ${course.status === 'published' ? 'bg-brand-green-100 text-brand-green-800' : 'bg-gray-100 text-slate-700'}`}
+                      className={`px-2 py-1 rounded-full text-xs ${course.status === 'published' ? 'bg-brand-green-100 text-brand-green-800' : 'bg-slate-100 text-slate-700'}`}
                     >
                       {course.status || 'draft'}
                     </span>

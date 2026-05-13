@@ -96,7 +96,7 @@ export default function AuditLogsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-300" />
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-300" />
       </div>
     );
   }
@@ -127,7 +127,7 @@ export default function AuditLogsPage() {
           </div>
           <a
             href={`/api/admin/audit-logs?export=true&${new URLSearchParams({ action: actionFilter, start_date: dateFrom, end_date: dateTo }).toString()}`}
-            className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+            className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors"
           >
             <Download className="w-4 h-4" />
             Export CSV
@@ -147,7 +147,7 @@ export default function AuditLogsPage() {
             { label: 'Unique Users', value: new Set(logs.map((l) => l.user_id)).size },
             { label: 'Resource Types', value: new Set(logs.map((l) => l.resource_type)).size },
           ].map(({ label, value }) => (
-            <div key={label} className="border border-gray-200 rounded-lg p-5">
+            <div key={label} className="border border-slate-200 rounded-lg p-5">
               <p className="text-xs font-medium text-slate-700 uppercase tracking-wide mb-1">
                 {label}
               </p>
@@ -157,7 +157,7 @@ export default function AuditLogsPage() {
         </div>
 
         {/* Filters */}
-        <div className="border border-gray-200 rounded-lg p-4 mb-6">
+        <div className="border border-slate-200 rounded-lg p-4 mb-6">
           <div className="flex flex-wrap gap-4">
             <div className="flex-1 min-w-[200px]">
               <label className="block text-xs font-medium text-slate-700 mb-1">
@@ -169,7 +169,7 @@ export default function AuditLogsPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by user, action, or resource"
-                className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+                className="w-full px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-slate-300"
               />
             </div>
             <div>
@@ -180,7 +180,7 @@ export default function AuditLogsPage() {
               <select
                 value={actionFilter}
                 onChange={(e) => setActionFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+                className="px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-slate-300"
               >
                 <option value="">All Actions</option>
                 <option value="user_created">User Created</option>
@@ -196,7 +196,7 @@ export default function AuditLogsPage() {
               <select
                 value={resourceFilter}
                 onChange={(e) => setResourceFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+                className="px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-slate-300"
               >
                 <option value="">All Types</option>
                 <option value="user">User</option>
@@ -212,7 +212,7 @@ export default function AuditLogsPage() {
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+                className="px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-slate-300"
               />
             </div>
             <div>
@@ -221,14 +221,14 @@ export default function AuditLogsPage() {
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+                className="px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-slate-300"
               />
             </div>
             {(actionFilter || resourceFilter || dateFrom || dateTo || searchTerm) && (
               <div className="flex items-end">
                 <button
                   onClick={() => { setActionFilter(''); setResourceFilter(''); setDateFrom(''); setDateTo(''); setSearchTerm(''); }}
-                  className="px-3 py-2 text-xs text-slate-500 border border-gray-200 rounded-md hover:bg-gray-50"
+                  className="px-3 py-2 text-xs text-slate-500 border border-slate-200 rounded-md hover:bg-slate-50"
                 >
                   Clear
                 </button>
@@ -238,7 +238,7 @@ export default function AuditLogsPage() {
         </div>
 
         {/* Logs Table */}
-        <div className="border border-gray-200 rounded-lg overflow-hidden">
+        <div className="border border-slate-200 rounded-lg overflow-hidden">
           {filteredLogs.length === 0 ? (
             <div className="text-center py-16">
               <Shield className="w-10 h-10 text-slate-700 mx-auto mb-3" />
@@ -246,8 +246,8 @@ export default function AuditLogsPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-100">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-slate-100">
+                <thead className="bg-slate-50">
                   <tr>
                     {['Timestamp', 'User', 'Action', 'Resource', 'Details'].map((h) => (
                       <th
@@ -259,9 +259,9 @@ export default function AuditLogsPage() {
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100 bg-white">
+                <tbody className="divide-y divide-slate-100 bg-white">
                   {filteredLogs.map((log) => (
-                    <tr key={log.id} className="hover:bg-gray-50 transition-colors">
+                    <tr key={log.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
                         {new Date(log.created_at).toLocaleString()}
                       </td>
@@ -272,7 +272,7 @@ export default function AuditLogsPage() {
                         <div className="text-xs text-slate-700">{log.user?.email || ''}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 py-1 text-xs font-medium rounded border border-gray-200 text-slate-700">
+                        <span className="px-2 py-1 text-xs font-medium rounded border border-slate-200 text-slate-700">
                           {log.action}
                         </span>
                       </td>
@@ -290,7 +290,7 @@ export default function AuditLogsPage() {
                             <summary className="text-xs text-slate-700 hover:text-slate-700">
                               View metadata
                             </summary>
-                            <pre className="mt-2 text-xs bg-gray-50 border border-gray-100 p-2 rounded overflow-auto max-w-xs">
+                            <pre className="mt-2 text-xs bg-slate-50 border border-slate-100 p-2 rounded overflow-auto max-w-xs">
                               {JSON.stringify(log.metadata, null, 2)}
                             </pre>
                           </details>

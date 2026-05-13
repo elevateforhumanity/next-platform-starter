@@ -153,7 +153,7 @@ export default function VerificationReviewForm({
                   {documents.map((doc) => (
                     <div
                       key={doc.id}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                      className="flex items-center justify-between p-4 bg-slate-50 rounded-lg"
                     >
                       <div className="flex items-center gap-3">
                         <FileText className="w-6 h-6 text-black" />
@@ -176,14 +176,14 @@ export default function VerificationReviewForm({
                         <a
                           href={`/api/admin/documents/${doc.id}/view`}
                           target="_blank"
-                          className="p-2 text-brand-blue-600 hover:bg-gray-50 rounded"
+                          className="p-2 text-brand-blue-600 hover:bg-slate-50 rounded"
                           rel="noreferrer"
                         >
                           <Eye className="w-5 h-5" />
                         </a>
                         <a
                           href={`/api/admin/documents/${doc.id}/download`}
-                          className="p-2 text-black hover:bg-gray-100 rounded"
+                          className="p-2 text-black hover:bg-slate-100 rounded"
                         >
                           <Download className="w-5 h-5" />
                         </a>
@@ -233,7 +233,7 @@ export default function VerificationReviewForm({
                 <h2 className="text-xl font-bold text-black mb-4">Verification History</h2>
                 <div className="space-y-3">
                   {verificationHistory.map((record: any) => (
-                    <div key={record.id} className="p-4 bg-gray-50 rounded-lg">
+                    <div key={record.id} className="p-4 bg-slate-50 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
                         <span
                           className={`px-3 py-2 text-sm font-medium rounded-full ${
@@ -315,7 +315,7 @@ export default function VerificationReviewForm({
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     placeholder="Add any notes about this verification..."
                   />
                 </div>

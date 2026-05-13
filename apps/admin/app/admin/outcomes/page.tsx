@@ -79,7 +79,7 @@ export default async function OutcomesPage() {
     employed: 'bg-green-100 text-green-700',
     unemployed: 'bg-red-100 text-red-700',
     training: 'bg-brand-blue-100 text-brand-blue-700',
-    unknown: 'bg-gray-100 text-slate-700',
+    unknown: 'bg-slate-100 text-slate-700',
   };
 
   return (
@@ -151,9 +151,9 @@ export default async function OutcomesPage() {
                         {count} <span className="text-slate-700 font-normal">({pct}%)</span>
                       </span>
                     </div>
-                    <div className="w-full bg-gray-100 rounded-full h-2">
+                    <div className="w-full bg-slate-100 rounded-full h-2">
                       <div
-                        className={`h-2 rounded-full ${status === 'employed' ? 'bg-green-500' : status === 'unemployed' ? 'bg-red-400' : status === 'training' ? 'bg-brand-blue-500' : 'bg-gray-400'}`}
+                        className={`h-2 rounded-full ${status === 'employed' ? 'bg-green-500' : status === 'unemployed' ? 'bg-red-400' : status === 'training' ? 'bg-brand-blue-500' : 'bg-slate-400'}`}
                         style={{ width: `${pct}%` }}
                       />
                     </div>
@@ -176,7 +176,7 @@ export default async function OutcomesPage() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b">
+                <thead className="bg-slate-50 border-b">
                   <tr>
                     <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
                       Participant
@@ -198,10 +198,10 @@ export default async function OutcomesPage() {
                 <tbody className="divide-y">
                   {recentOutcomes && recentOutcomes.length > 0 ? (
                     recentOutcomes.map((o: any) => (
-                      <tr key={o.id} className="hover:bg-gray-50">
+                      <tr key={o.id} className="hover:bg-slate-50">
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center">
+                            <div className="w-7 h-7 bg-slate-100 rounded-full flex items-center justify-center">
                               <User className="w-3.5 h-3.5 text-slate-700" />
                             </div>
                             <span className="font-medium text-slate-900">

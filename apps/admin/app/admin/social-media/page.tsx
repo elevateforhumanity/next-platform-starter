@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const STATUS_BADGE: Record<string, string> = {
   active: 'bg-green-100 text-green-800',
   paused: 'bg-yellow-100 text-yellow-800',
-  draft: 'bg-gray-100 text-slate-700',
+  draft: 'bg-slate-100 text-slate-700',
   scheduled: 'bg-blue-100 text-blue-800',
   completed: 'bg-purple-100 text-purple-800',
   failed: 'bg-red-100 text-red-800',
@@ -93,7 +93,7 @@ export default async function SocialMediaPage() {
                     <td className="px-4 py-3 text-slate-600 capitalize">{r.platform}</td>
                     <td className="px-4 py-3">
                       <span
-                        className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-gray-100 text-slate-700'}`}
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-slate-100 text-slate-700'}`}
                       >
                         {r.status}
                       </span>

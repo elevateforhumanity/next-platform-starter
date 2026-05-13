@@ -38,7 +38,7 @@ const ACTION_LABELS: Record<string, { label: string; color: string }> = {
   awaiting_outcome: { label: 'Awaiting Outcome', color: 'bg-yellow-100 text-yellow-800' },
   needs_result_recorded: { label: 'Record Result', color: 'bg-green-100 text-green-800' },
   eligible_for_reauth: { label: 'Re-authorize', color: 'bg-purple-100 text-purple-800' },
-  no_action_needed: { label: 'No Action', color: 'bg-gray-100 text-slate-700' },
+  no_action_needed: { label: 'No Action', color: 'bg-slate-100 text-slate-700' },
 };
 
 const STATUS_COLORS: Record<string, string> = {
@@ -46,7 +46,7 @@ const STATUS_COLORS: Record<string, string> = {
   scheduled: 'bg-yellow-100 text-yellow-700',
   passed: 'bg-green-100 text-green-700',
   failed: 'bg-red-100 text-red-700',
-  expired: 'bg-gray-100 text-slate-700',
+  expired: 'bg-slate-100 text-slate-700',
   no_show: 'bg-orange-100 text-orange-700',
 };
 
@@ -141,9 +141,9 @@ export default function ExamAuthWorkQueue({
   }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
       {/* Filter bar */}
-      <div className="border-b border-gray-200 px-4 py-3 flex flex-wrap gap-2">
+      <div className="border-b border-slate-200 px-4 py-3 flex flex-wrap gap-2">
         {[
           { key: 'all', label: `All (${rows.length})` },
           { key: 'needs_scheduling', label: 'Needs Scheduling' },
@@ -157,8 +157,8 @@ export default function ExamAuthWorkQueue({
             onClick={() => setFilter(f.key)}
             className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
               filter === f.key
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-slate-700 hover:bg-gray-200'
+                ? 'bg-slate-900 text-white'
+                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >
             {f.label}
@@ -169,8 +169,8 @@ export default function ExamAuthWorkQueue({
       {filtered.length === 0 ? (
         <div className="px-6 py-12 text-center text-slate-700 text-sm">No items in this view.</div>
       ) : (
-        <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50">
+        <table className="min-w-full divide-y divide-slate-200 text-sm">
+          <thead className="bg-slate-50">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
                 Learner
@@ -195,7 +195,7 @@ export default function ExamAuthWorkQueue({
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-slate-100">
             {filtered.map((row) => {
               const stuck = isStuck(row);
               const actionInfo = ACTION_LABELS[row.action_needed] ?? ACTION_LABELS.no_action_needed;
@@ -206,7 +206,7 @@ export default function ExamAuthWorkQueue({
                 <>
                   <tr
                     key={row.authorization_id}
-                    className={`${stuck ? 'bg-red-50' : 'hover:bg-gray-50'} transition-colors`}
+                    className={`${stuck ? 'bg-red-50' : 'hover:bg-slate-50'} transition-colors`}
                   >
                     {/* Learner */}
                     <td className="px-4 py-3">
@@ -222,7 +222,7 @@ export default function ExamAuthWorkQueue({
                     {/* Status */}
                     <td className="px-4 py-3">
                       <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${STATUS_COLORS[row.status] ?? 'bg-gray-100 text-slate-700'}`}
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${STATUS_COLORS[row.status] ?? 'bg-slate-100 text-slate-700'}`}
                       >
                         {row.status}
                       </span>
@@ -339,7 +339,7 @@ export default function ExamAuthWorkQueue({
                             {['authorized', 'scheduled'].includes(row.status) && (
                               <button
                                 onClick={() => handleAction(row.authorization_id, 'expire')}
-                                className="px-2 py-1 bg-gray-200 text-slate-700 text-xs rounded hover:bg-gray-300"
+                                className="px-2 py-1 bg-slate-200 text-slate-700 text-xs rounded hover:bg-slate-300"
                               >
                                 Expire
                               </button>
@@ -352,7 +352,7 @@ export default function ExamAuthWorkQueue({
 
                   {/* Expanded inline form */}
                   {expanded && (
-                    <tr key={`${row.authorization_id}-expanded`} className="bg-gray-50">
+                    <tr key={`${row.authorization_id}-expanded`} className="bg-slate-50">
                       <td colSpan={7} className="px-4 py-4">
                         {row.action_needed === 'needs_scheduling' && (
                           <ScheduleForm
@@ -411,7 +411,7 @@ function ScheduleForm({
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm"
             required
           />
         </div>
@@ -421,7 +421,7 @@ function ScheduleForm({
             type="time"
             value={time}
             onChange={(e) => setTime(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm"
           />
         </div>
         <div>
@@ -431,7 +431,7 @@ function ScheduleForm({
             value={center}
             onChange={(e) => setCenter(e.target.value)}
             placeholder="Location or proctor name"
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm"
           />
         </div>
         <div>
@@ -440,7 +440,7 @@ function ScheduleForm({
             type="text"
             value={confirmation}
             onChange={(e) => setConfirmation(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm"
           />
         </div>
       </div>
@@ -461,7 +461,7 @@ function ScheduleForm({
         </button>
         <button
           onClick={onCancel}
-          className="px-3 py-1.5 bg-gray-200 text-slate-700 text-xs rounded hover:bg-gray-300"
+          className="px-3 py-1.5 bg-slate-200 text-slate-700 text-xs rounded hover:bg-slate-300"
         >
           Cancel
         </button>
@@ -493,7 +493,7 @@ function RecordResultForm({
           <select
             value={passed}
             onChange={(e) => setPassed(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm"
           >
             <option value="">Select…</option>
             <option value="true">Passed</option>
@@ -508,7 +508,7 @@ function RecordResultForm({
             max="100"
             value={score}
             onChange={(e) => setScore(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm"
           />
         </div>
         <div>
@@ -517,7 +517,7 @@ function RecordResultForm({
             type="date"
             value={examDate}
             onChange={(e) => setExamDate(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm"
             required
           />
         </div>
@@ -527,7 +527,7 @@ function RecordResultForm({
             type="text"
             value={certNumber}
             onChange={(e) => setCertNumber(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm"
           />
         </div>
       </div>
@@ -543,7 +543,7 @@ function RecordResultForm({
         </button>
         <button
           onClick={onCancel}
-          className="px-3 py-1.5 bg-gray-200 text-slate-700 text-xs rounded hover:bg-gray-300"
+          className="px-3 py-1.5 bg-slate-200 text-slate-700 text-xs rounded hover:bg-slate-300"
         >
           Cancel
         </button>

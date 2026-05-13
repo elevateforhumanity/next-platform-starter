@@ -136,7 +136,7 @@ export default async function AffiliatesPage() {
               className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500 focus:border-brand-orange-500"
             />
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50">
+          <button className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-slate-50">
             <Filter className="w-5 h-5" />
             Filters
           </button>
@@ -146,7 +146,7 @@ export default async function AffiliatesPage() {
       {/* Affiliates Table */}
       <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-slate-50 border-b">
             <tr>
               <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Company</th>
               <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Applied</th>
@@ -156,7 +156,7 @@ export default async function AffiliatesPage() {
           </thead>
           <tbody className="divide-y">
             {affiliates.map((affiliate) => (
-              <tr key={affiliate.id} className="hover:bg-gray-50">
+              <tr key={affiliate.id} className="hover:bg-slate-50">
                 <td className="px-6 py-4">
                   <p className="font-medium text-slate-900">{affiliate.name}</p>
                 </td>
@@ -175,7 +175,7 @@ export default async function AffiliatesPage() {
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <button className="p-2 hover:bg-gray-100 rounded-lg">
+                  <button className="p-2 hover:bg-slate-100 rounded-lg">
                     <MoreVertical className="w-5 h-5 text-slate-700" />
                   </button>
                 </td>

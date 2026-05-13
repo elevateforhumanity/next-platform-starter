@@ -154,7 +154,7 @@ export default async function JobsPage() {
         {/* Jobs Table */}
         <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-slate-50 border-b">
               <tr>
                 <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
                   Job Title
@@ -176,7 +176,7 @@ export default async function JobsPage() {
             </thead>
             <tbody className="divide-y">
               {jobs.map((job) => (
-                <tr key={job.id} className="hover:bg-gray-50">
+                <tr key={job.id} className="hover:bg-slate-50">
                   <td className="px-6 py-4">
                     <div>
                       <p className="font-medium text-slate-900">{job.title}</p>
@@ -205,14 +205,14 @@ export default async function JobsPage() {
                     <div className="flex items-center gap-2">
                       <Link
                         href={`/admin/jobs/${job.id}`}
-                        className="p-2 hover:bg-gray-100 rounded-lg"
+                        className="p-2 hover:bg-slate-100 rounded-lg"
                         title="View"
                       >
                         <Eye className="w-4 h-4 text-slate-700" />
                       </Link>
                       <Link
                         href={`/admin/jobs/${job.id}/edit`}
-                        className="p-2 hover:bg-gray-100 rounded-lg"
+                        className="p-2 hover:bg-slate-100 rounded-lg"
                         title="Edit"
                       >
                         <Edit className="w-4 h-4 text-slate-700" />

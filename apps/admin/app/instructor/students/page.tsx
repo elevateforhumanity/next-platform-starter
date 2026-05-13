@@ -188,7 +188,7 @@ export default async function InstructorStudentsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-24 h-2 bg-slate-200 rounded-full overflow-hidden">
                           <div
                             className="h-full bg-white rounded-full"
                             style={{ width: `${enrollment.progress || 0}%` }}

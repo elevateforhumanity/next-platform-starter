@@ -29,7 +29,7 @@ export default function LiveChatPage() {
       </section>
 
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Live Chat' }]} />
           <div className="flex items-center justify-between">
@@ -195,7 +195,7 @@ export default function LiveChatPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/live-chat"
-                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
+                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg shadow-2xl transition-all"
                 >
                   Open Chat
                 </Link>
@@ -268,7 +268,7 @@ function ActionButton({ title, description, href }: ActionButtonProps) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="p-4 border-2 border-gray-200 rounded-lg hover:border-brand-blue-500 hover:bg-gray-50 transition-colors"
+      className="p-4 border-2 border-slate-200 rounded-lg hover:border-brand-blue-500 hover:bg-slate-50 transition-colors"
     >
       <div className="font-medium text-black mb-1">{title}</div>
       <div className="text-sm text-black mb-2">{description}</div>

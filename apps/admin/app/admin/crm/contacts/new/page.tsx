@@ -36,7 +36,7 @@ export default async function NewContactPage() {
         {/* Form */}
         <form
           action={createContactAction}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+          className="bg-white rounded-xl shadow-sm border border-slate-200 p-6"
         >
           {/* Personal Information */}
           <div className="mb-8">
@@ -53,7 +53,7 @@ export default async function NewContactPage() {
                   type="text"
                   name="first_name"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="John"
                 />
               </div>
@@ -63,7 +63,7 @@ export default async function NewContactPage() {
                   type="text"
                   name="last_name"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="Doe"
                 />
               </div>
@@ -85,7 +85,7 @@ export default async function NewContactPage() {
                   type="email"
                   name="email"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="john@elevateforhumanity.org"
                 />
               </div>
@@ -96,7 +96,7 @@ export default async function NewContactPage() {
                 <input
                   type="tel"
                   name="phone"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="(317) 314-3757"
                 />
               </div>
@@ -117,7 +117,7 @@ export default async function NewContactPage() {
                 <input
                   type="text"
                   name="company"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="Acme Inc."
                 />
               </div>
@@ -126,7 +126,7 @@ export default async function NewContactPage() {
                 <input
                   type="text"
                   name="job_title"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="HR Manager"
                 />
               </div>
@@ -147,7 +147,7 @@ export default async function NewContactPage() {
                 <input
                   type="text"
                   name="street_address"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="123 Main St"
                 />
               </div>
@@ -157,7 +157,7 @@ export default async function NewContactPage() {
                   <input
                     type="text"
                     name="city"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     placeholder="Indianapolis"
                   />
                 </div>
@@ -166,7 +166,7 @@ export default async function NewContactPage() {
                   <input
                     type="text"
                     name="state"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     placeholder="IN"
                   />
                 </div>
@@ -175,7 +175,7 @@ export default async function NewContactPage() {
                   <input
                     type="text"
                     name="zip"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     placeholder="46204"
                   />
                 </div>
@@ -188,7 +188,7 @@ export default async function NewContactPage() {
             <label className="block text-sm font-medium text-slate-900 mb-1">Contact Type</label>
             <select
               name="type"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             >
               <option value="prospect">Prospect</option>
               <option value="student">Student</option>
@@ -205,13 +205,13 @@ export default async function NewContactPage() {
             <textarea
               name="notes"
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               placeholder="Add any additional notes about this contact..."
             />
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-200">
             <Link
               href="/admin/crm/contacts"
               className="px-4 py-2 text-slate-900 hover:text-slate-900"

@@ -36,7 +36,7 @@ export default async function NewLeadPage() {
         {/* Form */}
         <form
           action={createLeadAction}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+          className="bg-white rounded-xl shadow-sm border border-slate-200 p-6"
         >
           {/* Personal Information */}
           <div className="mb-8">
@@ -53,7 +53,7 @@ export default async function NewLeadPage() {
                   type="text"
                   name="first_name"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="Jane"
                 />
               </div>
@@ -63,7 +63,7 @@ export default async function NewLeadPage() {
                   type="text"
                   name="last_name"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="Smith"
                 />
               </div>
@@ -85,7 +85,7 @@ export default async function NewLeadPage() {
                   type="email"
                   name="email"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="jane@elevateforhumanity.org"
                 />
               </div>
@@ -97,7 +97,7 @@ export default async function NewLeadPage() {
                   type="tel"
                   name="phone"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   placeholder="(317) 314-3757"
                 />
               </div>
@@ -118,7 +118,7 @@ export default async function NewLeadPage() {
                 <select
                   name="program"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 >
                   <option value="">Select a program...</option>
                   <optgroup label="Healthcare">
@@ -149,7 +149,7 @@ export default async function NewLeadPage() {
                 </label>
                 <select
                   name="startDate"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 >
                   <option value="">Select preferred start...</option>
                   <option value="asap">As soon as possible</option>
@@ -175,7 +175,7 @@ export default async function NewLeadPage() {
                 <label className="block text-sm font-medium text-slate-900 mb-1">Lead Source</label>
                 <select
                   name="source"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 >
                   <option value="website">Website</option>
                   <option value="referral">Referral</option>
@@ -192,7 +192,7 @@ export default async function NewLeadPage() {
                 <label className="block text-sm font-medium text-slate-900 mb-1">Lead Status</label>
                 <select
                   name="status"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 >
                   <option value="new">New</option>
                   <option value="contacted">Contacted</option>
@@ -211,22 +211,22 @@ export default async function NewLeadPage() {
             </label>
             <div className="space-y-2">
               <label className="flex items-center gap-2">
-                <input type="checkbox" name="unemployed" className="rounded border-gray-300" />
+                <input type="checkbox" name="unemployed" className="rounded border-slate-300" />
                 <span className="text-sm text-slate-900">Currently unemployed</span>
               </label>
               <label className="flex items-center gap-2">
-                <input type="checkbox" name="lowIncome" className="rounded border-gray-300" />
+                <input type="checkbox" name="lowIncome" className="rounded border-slate-300" />
                 <span className="text-sm text-slate-900">Low income household</span>
               </label>
               <label className="flex items-center gap-2">
-                <input type="checkbox" name="veteran" className="rounded border-gray-300" />
+                <input type="checkbox" name="veteran" className="rounded border-slate-300" />
                 <span className="text-sm text-slate-900">Veteran or military spouse</span>
               </label>
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   name="dislocatedWorker"
-                  className="rounded border-gray-300"
+                  className="rounded border-slate-300"
                 />
                 <span className="text-sm text-slate-900">Dislocated worker</span>
               </label>
@@ -239,13 +239,13 @@ export default async function NewLeadPage() {
             <textarea
               name="notes"
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               placeholder="Add any additional notes about this lead..."
             />
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-200">
             <Link href="/admin/crm/leads" className="px-4 py-2 text-slate-900 hover:text-slate-900">
               Cancel
             </Link>

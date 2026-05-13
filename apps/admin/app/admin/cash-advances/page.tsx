@@ -277,7 +277,7 @@ export default async function CashAdvancesAdminPage() {
             href="https://www.epstax.net/getstarted/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-white text-brand-blue-600 rounded-lg hover:bg-gray-50 transition font-semibold"
+            className="px-4 py-2 bg-white text-brand-blue-600 rounded-lg hover:bg-slate-50 transition font-semibold"
           >
             Enroll with EPS
           </a>
@@ -357,7 +357,7 @@ export default async function CashAdvancesAdminPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/admin/cash-advances"
-                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg"
+                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg"
               >
                 View Requests
               </Link>

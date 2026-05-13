@@ -41,7 +41,7 @@ export default async function NewTaxFilingApplicationPage() {
 
         <form
           action={createTaxApplication}
-          className="bg-white rounded-xl border border-gray-200 p-6 space-y-5"
+          className="bg-white rounded-xl border border-slate-200 p-6 space-y-5"
         >
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">
@@ -52,7 +52,7 @@ export default async function NewTaxFilingApplicationPage() {
             <input
               name="client_name"
               required
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Full legal name"
             />
           </div>
@@ -68,7 +68,7 @@ export default async function NewTaxFilingApplicationPage() {
                 name="client_email"
                 type="email"
                 required
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="client@email.com"
               />
             </div>
@@ -81,7 +81,7 @@ export default async function NewTaxFilingApplicationPage() {
               <input
                 name="client_phone"
                 type="tel"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 placeholder="(317) 314-3757"
               />
             </div>
@@ -96,7 +96,7 @@ export default async function NewTaxFilingApplicationPage() {
               </label>
               <select
                 name="filing_type"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               >
                 <option value="individual">Individual (1040)</option>
                 <option value="business">Business</option>
@@ -112,7 +112,7 @@ export default async function NewTaxFilingApplicationPage() {
               </label>
               <select
                 name="tax_year"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               >
                 {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map((y) => (
                   <option key={y} value={y}>{y}</option>
@@ -126,12 +126,12 @@ export default async function NewTaxFilingApplicationPage() {
             <textarea
               name="notes"
               rows={3}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Special circumstances, documents needed, etc."
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
             <Link
               href="/admin/tax-filing/applications"
               className="px-4 py-2 text-sm text-slate-700 hover:text-slate-900"

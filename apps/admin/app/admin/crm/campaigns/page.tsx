@@ -98,17 +98,17 @@ export default async function CampaignsPage() {
 
         {/* Campaigns List */}
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-slate-200">
             <h2 className="text-xl font-bold text-black">All Campaigns</h2>
           </div>
 
           {campaigns && campaigns.length > 0 ? (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-slate-200">
               {campaigns.map((campaign) => (
                 <Link
                   key={campaign.id}
                   href={`/admin/crm/campaigns/${campaign.id}`}
-                  className="block px-6 py-4 hover:bg-gray-50 transition-colors"
+                  className="block px-6 py-4 hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -141,7 +141,7 @@ export default async function CampaignsPage() {
                           campaign.status === 'sent'
                             ? 'bg-brand-green-100 text-brand-green-700'
                             : campaign.status === 'draft'
-                              ? 'bg-gray-100 text-black'
+                              ? 'bg-slate-100 text-black'
                               : 'bg-brand-blue-100 text-brand-blue-700'
                         }`}
                       >

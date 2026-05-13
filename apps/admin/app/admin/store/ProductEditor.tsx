@@ -52,7 +52,7 @@ export default function ProductEditor() {
           onChange={(
             e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
           ) => setTitle(e.target.value)}
-          className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+          className="w-full border border-slate-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           placeholder="Product Title"
         />
       </div>
@@ -64,7 +64,7 @@ export default function ProductEditor() {
           onChange={(
             e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
           ) => setDescription(e.target.value)}
-          className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+          className="w-full border border-slate-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           placeholder="Product Description"
           rows={3}
         />
@@ -78,7 +78,7 @@ export default function ProductEditor() {
           onChange={(
             e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
           ) => setPrice(e.target.value)}
-          className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+          className="w-full border border-slate-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           placeholder="Price in USD"
         />
       </div>
@@ -92,7 +92,7 @@ export default function ProductEditor() {
           onChange={(
             e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
           ) => setRepo(e.target.value)}
-          className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+          className="w-full border border-slate-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           placeholder="owner/repository"
         />
       </div>

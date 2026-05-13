@@ -222,7 +222,7 @@ export default function CourseIngestionWizard({ programs }: Props) {
               setResumeJobId(null);
               setError(null);
             }}
-            className="px-6 py-2.5 border rounded-lg hover:bg-gray-50 text-slate-900 text-sm"
+            className="px-6 py-2.5 border rounded-lg hover:bg-slate-50 text-slate-900 text-sm"
           >
             Start over
           </button>
@@ -286,7 +286,7 @@ export default function CourseIngestionWizard({ programs }: Props) {
               className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 text-center transition-colors ${
                 active
                   ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-700'
-                  : 'border-gray-200 bg-white text-slate-700 hover:border-gray-300'
+                  : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
               }`}
             >
               <Icon className="w-6 h-6" />
@@ -354,7 +354,7 @@ export default function CourseIngestionWizard({ programs }: Props) {
               id="cert_enabled"
               checked={certEnabled}
               onChange={(e) => setCertEnabled(e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+              className="h-4 w-4 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
             />
             <label htmlFor="cert_enabled" className="text-sm text-slate-900">
               Generate certificate of completion

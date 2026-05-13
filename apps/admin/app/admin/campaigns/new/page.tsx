@@ -34,7 +34,7 @@ export default async function NewCampaignPage() {
 
         <form
           action={createCampaignAction}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+          className="bg-white rounded-xl shadow-sm border border-slate-200 p-6"
         >
           <div className="mb-6">
             <label className="block text-sm font-medium text-slate-900 mb-1">Campaign Name *</label>
@@ -42,7 +42,7 @@ export default async function NewCampaignPage() {
               type="text"
               name="name"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               placeholder="Spring 2025 Enrollment Drive"
             />
           </div>
@@ -64,7 +64,7 @@ export default async function NewCampaignPage() {
                     className="peer sr-only"
                     defaultChecked={type.id === 'email'}
                   />
-                  <div className="flex flex-col items-center gap-2 p-4 border border-gray-200 rounded-lg peer-checked:border-brand-blue-500 peer-checked:bg-brand-blue-50">
+                  <div className="flex flex-col items-center gap-2 p-4 border border-slate-200 rounded-lg peer-checked:border-brand-blue-500 peer-checked:bg-brand-blue-50">
                     <type.icon className="w-6 h-6 text-slate-700 peer-checked:text-brand-blue-600" />
                     <span className="text-sm font-medium">{type.label}</span>
                   </div>
@@ -79,7 +79,7 @@ export default async function NewCampaignPage() {
               type="text"
               name="subject"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               placeholder="Start Your New Career Today!"
             />
           </div>
@@ -89,7 +89,7 @@ export default async function NewCampaignPage() {
             <textarea
               name="content"
               rows={6}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               placeholder="Write your campaign message..."
             />
           </div>
@@ -101,12 +101,12 @@ export default async function NewCampaignPage() {
             <input
               type="datetime-local"
               name="scheduled_at"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             />
             <p className="text-sm text-slate-700 mt-1">Leave empty to save as draft</p>
           </div>
 
-          <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-200">
             <Link href="/admin/campaigns" className="px-4 py-2 text-slate-900 hover:text-slate-900">
               Cancel
             </Link>

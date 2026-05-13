@@ -116,7 +116,7 @@ export default function MonitoringSetupPage() {
         {result && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {/* Table Exists */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-bold text-black">Table Exists</h3>
                 {result.checks.tableExists ? (
@@ -133,7 +133,7 @@ export default function MonitoringSetupPage() {
             </div>
 
             {/* Can Query */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-bold text-black">Can Query</h3>
                 {result.checks.canQuery ? (
@@ -148,7 +148,7 @@ export default function MonitoringSetupPage() {
             </div>
 
             {/* Can Insert */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-bold text-black">Can Insert</h3>
                 {result.checks.canInsert ? (
@@ -165,7 +165,7 @@ export default function MonitoringSetupPage() {
             </div>
 
             {/* Required Columns */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-bold text-black">Required Columns</h3>
                 {Object.values(result.checks.requiredColumns).every((v) => v) ? (
@@ -192,7 +192,7 @@ export default function MonitoringSetupPage() {
 
         {/* Recommendations */}
         {result && result.recommendations && result.recommendations.length > 0 && (
-          <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
+          <div className="bg-white rounded-xl border border-slate-200 p-6 mb-8">
             <h3 className="font-bold text-black mb-4">Setup Instructions</h3>
             <div className="space-y-3">
               {result.recommendations.map((rec, index) => (
@@ -209,12 +209,12 @@ export default function MonitoringSetupPage() {
 
         {/* SQL Script */}
         {result && result.status !== 'ready' && (
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <div className="bg-white rounded-xl border border-slate-200 p-6">
             <h3 className="font-bold text-black mb-4">Run This SQL in Supabase</h3>
             <p className="text-sm text-black mb-4">
               Go to Supabase Dashboard → SQL Editor → New Query → Paste and run:
             </p>
-            <pre className="bg-gray-900 text-slate-700 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre className="bg-slate-900 text-slate-700 p-4 rounded-lg overflow-x-auto text-sm">
               {`-- Add missing columns to audit_logs table
 DO $$ 
 BEGIN
@@ -282,7 +282,7 @@ CREATE INDEX IF NOT EXISTS idx_audit_logs_ip_address ON audit_logs(ip_address);`
           <button
             onClick={checkSchema}
             disabled={checking}
-            className="px-6 py-3 bg-gray-200 text-black rounded-lg font-bold hover:bg-gray-300 transition-colors disabled:opacity-50"
+            className="px-6 py-3 bg-slate-200 text-black rounded-lg font-bold hover:bg-slate-300 transition-colors disabled:opacity-50"
           >
             {checking ? 'Checking...' : 'Re-check Setup'}
           </button>

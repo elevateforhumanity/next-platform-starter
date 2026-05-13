@@ -42,7 +42,7 @@ function InlineField({
   multiline?: boolean;
   className?: string;
 }) {
-  const base = `w-full border border-transparent hover:border-gray-300 focus:border-brand-blue-400 focus:ring-1 focus:ring-brand-blue-400 rounded px-2 py-1 text-sm bg-transparent focus:bg-white transition-colors outline-none ${className}`;
+  const base = `w-full border border-transparent hover:border-slate-300 focus:border-brand-blue-400 focus:ring-1 focus:ring-brand-blue-400 rounded px-2 py-1 text-sm bg-transparent focus:bg-white transition-colors outline-none ${className}`;
   return multiline ? (
     <textarea
       value={value}
@@ -257,7 +257,7 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
               step={0.5}
               value={bp.estimated_duration_hours ?? ''}
               onChange={(e) => set({ estimated_duration_hours: parseFloat(e.target.value) || 0 })}
-              className="w-16 text-lg font-bold text-slate-900 border-b border-dashed border-gray-300 focus:outline-none focus:border-brand-blue-400 bg-transparent"
+              className="w-16 text-lg font-bold text-slate-900 border-b border-dashed border-slate-300 focus:outline-none focus:border-brand-blue-400 bg-transparent"
             />
           </StatBox>
           <StatBox
@@ -369,7 +369,7 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
             id="cert_toggle"
             checked={bp.certificate_enabled}
             onChange={(e) => set({ certificate_enabled: e.target.checked })}
-            className="h-4 w-4 mt-0.5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+            className="h-4 w-4 mt-0.5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
           />
           <div className="flex-1">
             <label
@@ -409,7 +409,7 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
         <div className="divide-y">
           {bp.modules?.map((mod, mi) => (
             <div key={mi}>
-              <div className="flex items-center gap-2 px-4 py-3 hover:bg-gray-50">
+              <div className="flex items-center gap-2 px-4 py-3 hover:bg-slate-50">
                 <button
                   onClick={() => toggleModule(mi)}
                   className="flex items-center gap-2 flex-1 min-w-0 text-left"
@@ -441,7 +441,7 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
               </div>
 
               {expandedModules.has(mi) && (
-                <div className="bg-gray-50 border-t divide-y divide-gray-100">
+                <div className="bg-slate-50 border-t divide-y divide-slate-100">
                   {/* Module description */}
                   <div className="px-8 py-2">
                     <InlineField
@@ -471,7 +471,7 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
                                 duration_minutes: parseInt(e.target.value) || 20,
                               })
                             }
-                            className="w-12 text-xs text-slate-700 border-b border-dashed border-gray-300 focus:outline-none focus:border-brand-blue-400 bg-transparent text-right"
+                            className="w-12 text-xs text-slate-700 border-b border-dashed border-slate-300 focus:outline-none focus:border-brand-blue-400 bg-transparent text-right"
                           />
                           <span className="text-xs text-slate-700">min</span>
                         </div>
@@ -511,7 +511,7 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
       <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
         <button
           onClick={() => setShowQuiz((v) => !v)}
-          className="w-full flex items-center justify-between px-6 py-4 hover:bg-gray-50"
+          className="w-full flex items-center justify-between px-6 py-4 hover:bg-slate-50"
         >
           <div className="flex items-center gap-2">
             <HelpCircle className="w-5 h-5 text-brand-blue-600" />
@@ -551,7 +551,7 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
             </div>
 
             {bp.quiz_questions?.map((q, qi) => (
-              <div key={qi} className="border rounded-lg p-4 space-y-2 bg-gray-50">
+              <div key={qi} className="border rounded-lg p-4 space-y-2 bg-slate-50">
                 <div className="flex items-start gap-2">
                   <span className="text-xs font-medium text-slate-700 mt-1.5 shrink-0">
                     Q{qi + 1}
@@ -577,7 +577,7 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
                         name={`correct-${qi}`}
                         checked={q.correct_answer === opt}
                         onChange={() => updateQuestion(qi, { correct_answer: opt })}
-                        className="h-3.5 w-3.5 text-brand-blue-600 border-gray-300 focus:ring-brand-blue-500"
+                        className="h-3.5 w-3.5 text-brand-blue-600 border-slate-300 focus:ring-brand-blue-500"
                         title="Mark as correct answer"
                       />
                       <InlineField
@@ -622,7 +622,7 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
         </button>
         <button
           onClick={onBack}
-          className="px-6 py-3 border rounded-lg hover:bg-gray-50 text-slate-900 text-sm"
+          className="px-6 py-3 border rounded-lg hover:bg-slate-50 text-slate-900 text-sm"
         >
           Start over
         </button>
@@ -643,7 +643,7 @@ function StatBox({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="bg-gray-50 rounded-lg p-3 flex items-center gap-3">
+    <div className="bg-slate-50 rounded-lg p-3 flex items-center gap-3">
       <Icon className="w-5 h-5 text-brand-blue-600 shrink-0" />
       <div>
         <p className="text-xs text-slate-700">{label}</p>

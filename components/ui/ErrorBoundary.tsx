@@ -20,12 +20,12 @@ export function ErrorBoundaryUI({
   backLabel = 'Go Back',
 }: ErrorBoundaryProps) {
   useEffect(() => {
-    console.error('Application error:', error);
+    // Errors are captured by Sentry via instrumentation.ts — no console leak
   }, [error]);
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gray-50 px-4"
+      className="min-h-screen flex items-center justify-center bg-slate-50 px-4"
       role="alert"
       aria-live="assertive"
     >
@@ -57,7 +57,7 @@ export function ErrorBoundaryUI({
           {backHref ? (
             <Link
               href={backHref}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 transition font-semibold focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 transition font-semibold focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
             >
               <ArrowLeft className="h-5 w-5" aria-hidden="true" />
               {backLabel}
@@ -65,7 +65,7 @@ export function ErrorBoundaryUI({
           ) : (
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50 transition font-semibold focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-slate-300 text-slate-900 rounded-lg hover:bg-slate-50 transition font-semibold focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
             >
               <Home className="h-5 w-5" aria-hidden="true" />
               Go Home

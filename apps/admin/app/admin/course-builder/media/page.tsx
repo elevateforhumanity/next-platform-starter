@@ -64,7 +64,7 @@ export default async function MediaLibraryPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <Video className="w-5 h-5 text-brand-blue-600" />
@@ -75,7 +75,7 @@ export default async function MediaLibraryPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-green-100 rounded-lg">
                 <ImageIcon className="w-5 h-5 text-brand-green-600" />
@@ -86,7 +86,7 @@ export default async function MediaLibraryPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <FileText className="w-5 h-5 text-brand-blue-600" />
@@ -97,7 +97,7 @@ export default async function MediaLibraryPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-orange-100 rounded-lg">
                 <Upload className="w-5 h-5 text-brand-orange-600" />
@@ -111,28 +111,28 @@ export default async function MediaLibraryPage() {
         </div>
 
         {/* Search and Filter */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
               <input
                 type="text"
                 placeholder="Search media..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
             <div className="flex gap-2">
-              <select className="px-4 py-2 border border-gray-300 rounded-lg bg-white">
+              <select className="px-4 py-2 border border-slate-300 rounded-lg bg-white">
                 <option value="">All Types</option>
                 <option value="video">Videos</option>
                 <option value="image">Images</option>
                 <option value="document">Documents</option>
               </select>
-              <div className="flex border border-gray-300 rounded-lg overflow-hidden">
-                <button className="p-2 bg-gray-100">
+              <div className="flex border border-slate-300 rounded-lg overflow-hidden">
+                <button className="p-2 bg-slate-100">
                   <Grid className="w-5 h-5 text-slate-700" />
                 </button>
-                <button className="p-2 hover:bg-gray-50">
+                <button className="p-2 hover:bg-slate-50">
                   <List className="w-5 h-5 text-slate-700" />
                 </button>
               </div>
@@ -141,8 +141,8 @@ export default async function MediaLibraryPage() {
         </div>
 
         {/* Empty State */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
+          <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Upload className="w-8 h-8 text-slate-700" />
           </div>
           <h3 className="text-lg font-medium text-slate-900 mb-2">No media files yet</h3>

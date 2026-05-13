@@ -69,7 +69,7 @@ export default async function LicensePage() {
               value="XXXX-XXXX-XXXX-XXXX"
               readOnly
             />
-            <button className="px-4 py-2 border rounded-lg hover:bg-gray-50">Copy</button>
+            <button className="px-4 py-2 border rounded-lg hover:bg-slate-50">Copy</button>
           </div>
         </div>
       </div>

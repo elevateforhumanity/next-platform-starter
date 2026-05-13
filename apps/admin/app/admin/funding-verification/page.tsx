@@ -44,7 +44,7 @@ export default async function FundingVerificationPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 mb-8">
-        <div className="bg-white rounded-lg border border-gray-200 p-5">
+        <div className="bg-white rounded-lg border border-slate-200 p-5">
           <p className="text-sm font-medium text-slate-700">In Queue</p>
           <p className="mt-1 text-3xl font-semibold text-slate-900">{queue?.length ?? 0}</p>
         </div>
@@ -52,11 +52,11 @@ export default async function FundingVerificationPage() {
           <p className="text-sm font-medium text-slate-700">Critical (7d+ overdue)</p>
           <p className="mt-1 text-3xl font-semibold text-red-700">{criticalCount}</p>
         </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-5">
+        <div className="bg-white rounded-lg border border-slate-200 p-5">
           <p className="text-sm font-medium text-slate-700">Open Integrity Flags</p>
           <p className="mt-1 text-3xl font-semibold text-amber-600">{openFlags}</p>
         </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-5">
+        <div className="bg-white rounded-lg border border-slate-200 p-5">
           <p className="text-sm font-medium text-slate-700">Resolved Flags</p>
           <p className="mt-1 text-3xl font-semibold text-green-600">{resolvedFlags}</p>
         </div>

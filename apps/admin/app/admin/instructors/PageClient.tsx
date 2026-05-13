@@ -142,7 +142,7 @@ export default function InstructorsPage() {
             <button
               onClick={() => setFilter('all')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'all' ? 'bg-brand-blue-600 text-white' : 'bg-gray-100 text-black'
+                filter === 'all' ? 'bg-brand-blue-600 text-white' : 'bg-slate-100 text-black'
               }`}
             >
               All Instructors
@@ -150,7 +150,7 @@ export default function InstructorsPage() {
             <button
               onClick={() => setFilter('active')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'active' ? 'bg-brand-green-600 text-white' : 'bg-gray-100 text-black'
+                filter === 'active' ? 'bg-brand-green-600 text-white' : 'bg-slate-100 text-black'
               }`}
             >
               Active
@@ -158,7 +158,7 @@ export default function InstructorsPage() {
             <button
               onClick={() => setFilter('inactive')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'inactive' ? 'bg-gray-600 text-white' : 'bg-gray-100 text-black'
+                filter === 'inactive' ? 'bg-slate-600 text-white' : 'bg-slate-100 text-black'
               }`}
             >
               Inactive
@@ -172,7 +172,7 @@ export default function InstructorsPage() {
           {instructors && instructors.length > 0 ? (
             <div className="space-y-4">
               {instructors.map((instructor) => (
-                <div key={instructor.id} className="p-4 border rounded-lg hover:bg-gray-50">
+                <div key={instructor.id} className="p-4 border rounded-lg hover:bg-slate-50">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg">{instructor.full_name}</h3>
@@ -217,7 +217,7 @@ export default function InstructorsPage() {
                           Active
                         </span>
                       ) : (
-                        <span className="text-black text-sm font-medium bg-gray-100 px-3 py-2 rounded-full">
+                        <span className="text-black text-sm font-medium bg-slate-100 px-3 py-2 rounded-full">
                           Inactive
                         </span>
                       )}
@@ -249,7 +249,7 @@ export default function InstructorsPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/admin/instructors"
-                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 text-lg"
+                className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 text-lg"
               >
                 View Instructors
               </Link>

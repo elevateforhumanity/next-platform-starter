@@ -93,8 +93,8 @@ export default async function SampleReportsPage() {
 
         <div className="space-y-6">
           {reportSections.map((section) => (
-            <div key={section.title} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+            <div key={section.title} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <section.icon className="w-5 h-5 text-slate-700" />
                   <div>
@@ -108,16 +108,16 @@ export default async function SampleReportsPage() {
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-slate-50">
                       <tr>
                         {section.headers.map((h) => (
                           <th key={h} className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">{h}</th>
                         ))}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-slate-100">
                       {section.rows.map((row: any, i: number) => (
-                        <tr key={i} className="hover:bg-gray-50">
+                        <tr key={i} className="hover:bg-slate-50">
                           {row.cols.map((col: string, j: number) => (
                             <td key={j} className="px-6 py-3 text-sm text-slate-900">{col}</td>
                           ))}

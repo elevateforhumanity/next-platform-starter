@@ -138,7 +138,7 @@ export default async function WOTCAdminPage() {
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                     Employer
@@ -162,7 +162,7 @@ export default async function WOTCAdminPage() {
               </thead>
               <tbody className="divide-y">
                 {allApps.map((app) => (
-                  <tr key={app.id} className="hover:bg-gray-50">
+                  <tr key={app.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4 font-medium text-slate-900">{app.employer_name}</td>
                     <td className="px-6 py-4 text-slate-700">
                       {app.employee_first_name} {app.employee_last_name}
@@ -178,7 +178,7 @@ export default async function WOTCAdminPage() {
                           </span>
                         ))}
                         {(app.target_groups || []).length > 2 && (
-                          <span className="px-2 py-1 bg-gray-100 text-slate-700 text-xs rounded-full">
+                          <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-full">
                             +{app.target_groups.length - 2}
                           </span>
                         )}
@@ -200,7 +200,7 @@ export default async function WOTCAdminPage() {
                                 ? 'bg-brand-blue-100 text-brand-blue-700'
                                 : app.status === 'denied'
                                   ? 'bg-brand-red-100 text-brand-red-700'
-                                  : 'bg-gray-100 text-slate-900'
+                                  : 'bg-slate-100 text-slate-900'
                         }`}
                       >
                         {app.status === 'approved' && (

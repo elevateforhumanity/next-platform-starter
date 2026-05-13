@@ -118,7 +118,7 @@ export function CoursePerformanceChart() {
             </span>
             <span className="text-slate-700">{course.students} students</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-4">
+          <div className="w-full bg-slate-200 rounded-full h-4">
             <div
               className="bg-gradient-to-r from-brand-blue-500 to-brand-green-500 h-4 rounded-full flex items-center justify-end pr-2"
               style={{ width: `${course.completion}%` }}

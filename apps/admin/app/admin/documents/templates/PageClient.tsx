@@ -125,7 +125,7 @@ function MOUBuilder() {
             type="text"
             value={mou.partnerOrganization}
             onChange={(e) => update('partnerOrganization', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           />
         </div>
         <div>
@@ -134,7 +134,7 @@ function MOUBuilder() {
             rows={3}
             value={mou.purpose}
             onChange={(e) => update('purpose', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
         <div>
@@ -143,7 +143,7 @@ function MOUBuilder() {
             rows={3}
             value={mou.background}
             onChange={(e) => update('background', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
         <div>
@@ -154,7 +154,7 @@ function MOUBuilder() {
             rows={2}
             value={mou.scopeOfCollaboration}
             onChange={(e) => update('scopeOfCollaboration', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
 
@@ -189,7 +189,7 @@ function MOUBuilder() {
               type="date"
               value={mou.termStart}
               onChange={(e) => update('termStart', e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
           <div>
@@ -198,7 +198,7 @@ function MOUBuilder() {
               type="date"
               value={mou.termEnd}
               onChange={(e) => update('termEnd', e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
         </div>
@@ -209,7 +209,7 @@ function MOUBuilder() {
             rows={2}
             value={mou.financialTerms}
             onChange={(e) => update('financialTerms', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
 
@@ -224,7 +224,7 @@ function MOUBuilder() {
               onChange={(e) =>
                 update('elevateSigner', { ...mou.elevateSigner, name: e.target.value })
               }
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
           <div>
@@ -237,14 +237,14 @@ function MOUBuilder() {
               onChange={(e) =>
                 update('partnerSigner', { ...mou.partnerSigner, name: e.target.value })
               }
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
         </div>
       </div>
 
       {/* Preview */}
-      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
           <div>
             <h3 className="font-bold text-slate-900">Preview</h3>
@@ -257,7 +257,7 @@ function MOUBuilder() {
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold transition ${
                 saveStatus === 'saved'
                   ? 'bg-brand-green-600 text-white'
-                  : 'bg-gray-800 text-white hover:bg-gray-900'
+                  : 'bg-slate-800 text-white hover:bg-slate-900'
               } disabled:opacity-60`}
             >
               {saveStatus === 'saving' ? (
@@ -278,7 +278,7 @@ function MOUBuilder() {
             </button>
           </div>
         </div>
-        <pre className="text-xs text-slate-900 whitespace-pre-wrap font-mono bg-gray-50 rounded-lg p-4 max-h-[600px] overflow-y-auto">
+        <pre className="text-xs text-slate-900 whitespace-pre-wrap font-mono bg-slate-50 rounded-lg p-4 max-h-[600px] overflow-y-auto">
           {markdown}
         </pre>
       </div>
@@ -385,7 +385,7 @@ function ReportBuilder() {
             type="text"
             value={report.programName}
             onChange={(e) => update('programName', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           />
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -395,7 +395,7 @@ function ReportBuilder() {
               type="date"
               value={report.reportingPeriodStart}
               onChange={(e) => update('reportingPeriodStart', e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
           <div>
@@ -404,7 +404,7 @@ function ReportBuilder() {
               type="date"
               value={report.reportingPeriodEnd}
               onChange={(e) => update('reportingPeriodEnd', e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
         </div>
@@ -416,7 +416,7 @@ function ReportBuilder() {
             rows={3}
             value={report.programOverview}
             onChange={(e) => update('programOverview', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
 
@@ -427,7 +427,7 @@ function ReportBuilder() {
               type="number"
               value={report.enrollments}
               onChange={(e) => update('enrollments', parseInt(e.target.value) || 0)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
           <div>
@@ -436,7 +436,7 @@ function ReportBuilder() {
               type="number"
               value={report.completions}
               onChange={(e) => update('completions', parseInt(e.target.value) || 0)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
           <div>
@@ -447,7 +447,7 @@ function ReportBuilder() {
               type="number"
               value={report.certificationsEarned}
               onChange={(e) => update('certificationsEarned', parseInt(e.target.value) || 0)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
           <div>
@@ -456,7 +456,7 @@ function ReportBuilder() {
               type="number"
               value={report.employmentPlacements}
               onChange={(e) => update('employmentPlacements', parseInt(e.target.value) || 0)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
         </div>
@@ -499,12 +499,12 @@ function ReportBuilder() {
             rows={2}
             value={report.summary}
             onChange={(e) => update('summary', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
           <div>
             <h3 className="font-bold text-slate-900">Preview</h3>
@@ -517,7 +517,7 @@ function ReportBuilder() {
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold transition ${
                 saveStatus === 'saved'
                   ? 'bg-brand-green-600 text-white'
-                  : 'bg-gray-800 text-white hover:bg-gray-900'
+                  : 'bg-slate-800 text-white hover:bg-slate-900'
               } disabled:opacity-60`}
             >
               {saveStatus === 'saving' ? (
@@ -538,7 +538,7 @@ function ReportBuilder() {
             </button>
           </div>
         </div>
-        <pre className="text-xs text-slate-900 whitespace-pre-wrap font-mono bg-gray-50 rounded-lg p-4 max-h-[600px] overflow-y-auto">
+        <pre className="text-xs text-slate-900 whitespace-pre-wrap font-mono bg-slate-50 rounded-lg p-4 max-h-[600px] overflow-y-auto">
           {markdown}
         </pre>
       </div>
@@ -578,7 +578,7 @@ function EmailTemplateViewer() {
               className={`w-full text-left p-3 rounded-lg border transition ${
                 selected.id === t.id
                   ? 'border-brand-blue-500 bg-brand-blue-50'
-                  : 'border-gray-200 hover:border-gray-300 bg-white'
+                  : 'border-slate-200 hover:border-slate-300 bg-white'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -595,7 +595,7 @@ function EmailTemplateViewer() {
         })}
       </div>
 
-      <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+      <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
           <div>
             <h3 className="font-bold text-slate-900">{selected.name}</h3>
@@ -628,7 +628,7 @@ function EmailTemplateViewer() {
           </div>
         )}
 
-        <pre className="text-sm text-slate-900 whitespace-pre-wrap font-sans bg-gray-50 rounded-lg p-4 max-h-[500px] overflow-y-auto leading-relaxed">
+        <pre className="text-sm text-slate-900 whitespace-pre-wrap font-sans bg-slate-50 rounded-lg p-4 max-h-[500px] overflow-y-auto leading-relaxed">
           {selected.body}
         </pre>
       </div>
@@ -661,7 +661,7 @@ function EditableList({
               type="text"
               value={item}
               onChange={(e) => onChange(i, e.target.value)}
-              className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm"
+              className="flex-1 border border-slate-300 rounded-lg px-3 py-1.5 text-sm"
             />
             <button
               onClick={() => onRemove(i)}
@@ -735,7 +735,7 @@ export default function DocumentTemplatesPage() {
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-sm transition ${
                   tab === t.id
                     ? 'bg-brand-blue-600 text-white shadow-md'
-                    : 'bg-white text-slate-900 border border-gray-200 hover:border-gray-300'
+                    : 'bg-white text-slate-900 border border-slate-200 hover:border-slate-300'
                 }`}
               >
                 <Icon className="w-4 h-4" />

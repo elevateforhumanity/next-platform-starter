@@ -14,7 +14,7 @@ const STATUS_BADGE: Record<string, string> = {
   active: 'bg-green-100 text-green-800',
   expired: 'bg-red-100 text-red-800',
   pending: 'bg-yellow-100 text-yellow-800',
-  cancelled: 'bg-gray-100 text-slate-700',
+  cancelled: 'bg-slate-100 text-slate-700',
 };
 
 export default async function FinancialAssurancePage() {
@@ -119,7 +119,7 @@ export default async function FinancialAssurancePage() {
                     <td className="px-4 py-3 text-slate-600">{r.expiration_date ?? '—'}</td>
                     <td className="px-4 py-3">
                       <span
-                        className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-gray-100 text-slate-700'}`}
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-slate-100 text-slate-700'}`}
                       >
                         {r.status}
                       </span>

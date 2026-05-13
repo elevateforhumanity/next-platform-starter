@@ -92,7 +92,7 @@ export default async function QuizzesPage() {
         <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b">
+              <thead className="bg-slate-50 border-b">
                 <tr>
                   <th className="text-left px-6 py-3 text-xs font-medium text-slate-700 uppercase tracking-wider">
                     Title
@@ -117,7 +117,7 @@ export default async function QuizzesPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-200">
                 {(quizzes || []).length === 0 ? (
                   <tr>
                     <td colSpan={7} className="px-6 py-12 text-center text-slate-700">
@@ -133,7 +133,7 @@ export default async function QuizzesPage() {
                   </tr>
                 ) : (
                   (quizzes || []).map((quiz) => (
-                    <tr key={quiz.id} className="hover:bg-gray-50">
+                    <tr key={quiz.id} className="hover:bg-slate-50">
                       <td className="px-6 py-4">
                         <div className="font-medium text-slate-900">{quiz.title || 'Untitled'}</div>
                         <div className="text-xs text-slate-700 font-mono">

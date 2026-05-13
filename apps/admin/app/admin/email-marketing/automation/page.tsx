@@ -99,7 +99,7 @@ export default async function EmailAutomationPage() {
                     <td className="px-4 py-3 text-slate-600">{r.audience_type}</td>
                     <td className="px-4 py-3">
                       <span
-                        className={`px-2 py-0.5 rounded text-xs font-medium ${r.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-slate-700'}`}
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${r.is_active ? 'bg-green-100 text-green-800' : 'bg-slate-100 text-slate-700'}`}
                       >
                         {r.is_active ? 'Active' : 'Inactive'}
                       </span>
@@ -111,7 +111,7 @@ export default async function EmailAutomationPage() {
                     <td className="px-4 py-3">
                       {r.last_run_status ? (
                         <span
-                          className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.last_run_status] ?? 'bg-gray-100 text-slate-700'}`}
+                          className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.last_run_status] ?? 'bg-slate-100 text-slate-700'}`}
                         >
                           {r.last_run_status}
                         </span>

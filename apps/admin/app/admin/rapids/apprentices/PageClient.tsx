@@ -38,7 +38,7 @@ const STATUS_COLORS: Record<string, string> = {
   active: 'bg-brand-green-100 text-brand-green-800',
   completed: 'bg-brand-blue-100 text-brand-blue-800',
   cancelled: 'bg-brand-red-100 text-brand-red-800',
-  exited: 'bg-gray-100 text-slate-900',
+  exited: 'bg-slate-100 text-slate-900',
 };
 
 export default function RAPIDSApprenticesPage() {
@@ -151,9 +151,9 @@ export default function RAPIDSApprenticesPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white rounded-xl p-4 border border-slate-200">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-gray-100 rounded-lg">
+              <div className="p-2 bg-slate-100 rounded-lg">
                 <Users className="w-5 h-5 text-slate-700" />
               </div>
               <div>
@@ -162,7 +162,7 @@ export default function RAPIDSApprenticesPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white rounded-xl p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-yellow-100 rounded-lg">
                 <Clock className="w-5 h-5 text-yellow-600" />
@@ -173,7 +173,7 @@ export default function RAPIDSApprenticesPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white rounded-xl p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <FileSpreadsheet className="w-5 h-5 text-brand-blue-600" />
@@ -184,7 +184,7 @@ export default function RAPIDSApprenticesPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white rounded-xl p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-green-100 rounded-lg">
                 <RefreshCw className="w-5 h-5 text-brand-green-600" />
@@ -195,7 +195,7 @@ export default function RAPIDSApprenticesPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white rounded-xl p-4 border border-slate-200">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <Circle className="w-5 h-5 text-brand-blue-600" />
@@ -209,7 +209,7 @@ export default function RAPIDSApprenticesPage() {
         </div>
 
         {/* Export Section */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
           <h2 className="text-lg font-semibold text-slate-900 mb-4">Export for RAPIDS Portal</h2>
           <p className="text-sm text-slate-700 mb-4">
             Download apprentice data formatted for the DOL RAPIDS portal. Upload the CSV file or
@@ -218,7 +218,7 @@ export default function RAPIDSApprenticesPage() {
 
           <div className="grid md:grid-cols-3 gap-4">
             {/* Registration Export */}
-            <div className="border border-gray-200 rounded-lg p-4">
+            <div className="border border-slate-200 rounded-lg p-4">
               <h3 className="font-medium text-slate-900 mb-2">New Registrations</h3>
               <p className="text-sm text-slate-700 mb-3">
                 Export pending apprentices for initial RAPIDS registration
@@ -235,7 +235,7 @@ export default function RAPIDSApprenticesPage() {
                 <button
                   onClick={() => handleExport('registration', 'json')}
                   disabled={exporting}
-                  className="px-3 py-2 border border-gray-300 text-slate-900 text-sm rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                  className="px-3 py-2 border border-slate-300 text-slate-900 text-sm rounded-lg hover:bg-slate-50 disabled:opacity-50"
                 >
                   JSON
                 </button>
@@ -243,7 +243,7 @@ export default function RAPIDSApprenticesPage() {
             </div>
 
             {/* Progress Export */}
-            <div className="border border-gray-200 rounded-lg p-4">
+            <div className="border border-slate-200 rounded-lg p-4">
               <h3 className="font-medium text-slate-900 mb-2">Quarterly Progress</h3>
               <p className="text-sm text-slate-700 mb-3">
                 Export hours and wage updates for quarterly reporting
@@ -260,7 +260,7 @@ export default function RAPIDSApprenticesPage() {
                 <button
                   onClick={() => handleExport('progress', 'json')}
                   disabled={exporting}
-                  className="px-3 py-2 border border-gray-300 text-slate-900 text-sm rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                  className="px-3 py-2 border border-slate-300 text-slate-900 text-sm rounded-lg hover:bg-slate-50 disabled:opacity-50"
                 >
                   JSON
                 </button>
@@ -268,7 +268,7 @@ export default function RAPIDSApprenticesPage() {
             </div>
 
             {/* Completion Export */}
-            <div className="border border-gray-200 rounded-lg p-4">
+            <div className="border border-slate-200 rounded-lg p-4">
               <h3 className="font-medium text-slate-900 mb-2">Completions</h3>
               <p className="text-sm text-slate-700 mb-3">
                 Export completed apprentices for RAPIDS completion reporting
@@ -285,7 +285,7 @@ export default function RAPIDSApprenticesPage() {
                 <button
                   onClick={() => handleExport('completion', 'json')}
                   disabled={exporting}
-                  className="px-3 py-2 border border-gray-300 text-slate-900 text-sm rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                  className="px-3 py-2 border border-slate-300 text-slate-900 text-sm rounded-lg hover:bg-slate-50 disabled:opacity-50"
                 >
                   JSON
                 </button>
@@ -295,8 +295,8 @@ export default function RAPIDSApprenticesPage() {
         </div>
 
         {/* Apprentice List */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="p-4 border-b border-gray-200">
+        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+          <div className="p-4 border-b border-slate-200">
             <div className="flex flex-col md:flex-row md:items-center gap-4">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700" />
@@ -305,7 +305,7 @@ export default function RAPIDSApprenticesPage() {
                   placeholder="Search apprentices..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -313,7 +313,7 @@ export default function RAPIDSApprenticesPage() {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 >
                   <option value="all">All Status</option>
                   <option value="pending">Pending</option>
@@ -325,7 +325,7 @@ export default function RAPIDSApprenticesPage() {
                 <button
                   onClick={fetchApprentices}
                   disabled={loading}
-                  className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                  className="p-2 border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50"
                 >
                   <RefreshCw
                     className={`w-4 h-4 text-slate-700 ${loading ? 'animate-spin' : ''}`}
@@ -361,8 +361,8 @@ export default function RAPIDSApprenticesPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-slate-200">
+                <thead className="bg-slate-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
                       Apprentice
@@ -384,9 +384,9 @@ export default function RAPIDSApprenticesPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-slate-200">
                   {filteredApprentices.map((apprentice: any, index: number) => (
-                    <tr key={index} className="hover:bg-gray-50">
+                    <tr key={index} className="hover:bg-slate-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="font-medium text-slate-900">
                           {apprentice.firstName} {apprentice.lastName}
@@ -401,7 +401,7 @@ export default function RAPIDSApprenticesPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[apprentice.status] || 'bg-gray-100 text-slate-900'}`}
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[apprentice.status] || 'bg-slate-100 text-slate-900'}`}
                         >
                           {apprentice.status}
                         </span>
@@ -423,7 +423,7 @@ export default function RAPIDSApprenticesPage() {
                           {apprentice.rtiHoursCompleted || 0} / {apprentice.rtiHoursRequired || 144}{' '}
                           RTI
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                        <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
                           <div
                             className="bg-brand-blue-600 h-1.5 rounded-full"
                             style={{

@@ -70,7 +70,7 @@ export default async function HRPage() {
 
   const statusBadge: Record<string, string> = {
     active: 'bg-green-100 text-green-700',
-    inactive: 'bg-gray-100 text-slate-700',
+    inactive: 'bg-slate-100 text-slate-700',
     on_leave: 'bg-yellow-100 text-yellow-700',
     terminated: 'bg-red-100 text-red-700',
   };
@@ -216,7 +216,7 @@ export default async function HRPage() {
                       </div>
                     </div>
                     <span
-                      className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[emp.status] || 'bg-gray-100 text-slate-700'}`}
+                      className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[emp.status] || 'bg-slate-100 text-slate-700'}`}
                     >
                       {emp.status || 'active'}
                     </span>
@@ -261,7 +261,7 @@ export default async function HRPage() {
                       </p>
                     </div>
                     <span
-                      className={`text-xs px-2 py-1 rounded-full capitalize ${payrollStatusBadge[run.status] || 'bg-gray-100 text-slate-700'}`}
+                      className={`text-xs px-2 py-1 rounded-full capitalize ${payrollStatusBadge[run.status] || 'bg-slate-100 text-slate-700'}`}
                     >
                       {run.status || 'pending'}
                     </span>
@@ -280,7 +280,7 @@ export default async function HRPage() {
             <h2 className="text-base font-semibold text-slate-900 mb-4">Headcount by Department</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {Object.entries(deptCounts).map(([dept, count]) => (
-                <div key={dept} className="bg-gray-50 rounded-lg p-4 text-center">
+                <div key={dept} className="bg-slate-50 rounded-lg p-4 text-center">
                   <p className="text-2xl font-bold text-slate-900">{count}</p>
                   <p className="text-sm text-slate-700 mt-1">{dept}</p>
                 </div>

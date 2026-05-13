@@ -58,7 +58,7 @@ function ProgressCell({ enrollmentId, initialProgress }: { enrollmentId: string;
 
   return (
     <button onClick={() => setEditing(true)} className="flex items-center gap-2 group" title="Click to override progress">
-      <div className="w-20 bg-gray-200 rounded-full h-1.5">
+      <div className="w-20 bg-slate-200 rounded-full h-1.5">
         <div className="bg-brand-blue-600 h-1.5 rounded-full" style={{ width: `${saved}%` }} />
       </div>
       <span className="text-sm text-slate-700 group-hover:underline">{saved}%</span>
@@ -223,7 +223,7 @@ export function GradebookClient({
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
               tab === 'overview'
                 ? 'bg-brand-blue-600 text-white'
-                : 'bg-white text-slate-900 hover:bg-gray-50'
+                : 'bg-white text-slate-900 hover:bg-slate-50'
             }`}
           >
             Grade Overview
@@ -233,7 +233,7 @@ export function GradebookClient({
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
               tab === 'speedgrader'
                 ? 'bg-brand-blue-600 text-white'
-                : 'bg-white text-slate-900 hover:bg-gray-50'
+                : 'bg-white text-slate-900 hover:bg-slate-50'
             }`}
           >
             SpeedGrader
@@ -241,7 +241,7 @@ export function GradebookClient({
         </div>
         <button
           onClick={handleExportCSV}
-          className="flex items-center gap-2 px-4 py-2 bg-white border rounded-lg text-sm hover:bg-gray-50"
+          className="flex items-center gap-2 px-4 py-2 bg-white border rounded-lg text-sm hover:bg-slate-50"
         >
           <Download className="w-4 h-4" />
           Export CSV
@@ -252,7 +252,7 @@ export function GradebookClient({
       {tab === 'overview' && (
         <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-slate-50">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                   Student
@@ -277,7 +277,7 @@ export function GradebookClient({
             <tbody className="divide-y">
               {studentGrades.length > 0 ? (
                 studentGrades.map((s) => (
-                  <tr key={s.id} className="hover:bg-gray-50">
+                  <tr key={s.id} className="hover:bg-slate-50">
                     <td className="px-4 py-3">
                       <p className="font-medium text-slate-900">{s.profile.full_name}</p>
                       <p className="text-sm text-slate-700">{s.profile.email}</p>
