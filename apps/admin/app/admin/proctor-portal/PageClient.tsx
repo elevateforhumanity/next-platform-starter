@@ -86,7 +86,9 @@ export default function ProctorPortalPage() {
   };
 
   const renderSortIcon = (field: string) => {
-    if (sortField !== field) return null;
+    if (sortField !== field) {
+      return <span className="inline-block ml-1 w-3 h-3" aria-hidden="true" />;
+    }
     return sortDir === 'asc' ? (
       <ChevronUp className="w-3 h-3 inline ml-1" />
     ) : (
@@ -303,8 +305,8 @@ export default function ProctorPortalPage() {
                   <tr>
                     <td colSpan={10} className="px-4 py-12 text-center text-slate-400">
                       <FileText className="w-8 h-8 mx-auto mb-2 text-slate-300" />
-                      No exam sessions recorded yet. Click &quot;Log Exam Session&quot; to create
-                      the first record.
+                      Exam session log is ready. Click &quot;Log Exam Session&quot; to create the
+                      first record.
                     </td>
                   </tr>
                 ) : (
