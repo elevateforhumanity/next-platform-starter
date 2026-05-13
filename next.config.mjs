@@ -856,7 +856,6 @@ const nextConfig = {
       { source: '/account/:path*', destination: '/login', permanent: false },
       // /admin/:path* — gated by proxy.ts middleware
       // Missing public pages with no Railway equivalent
-      { source: '/cert/verify', destination: '/verify', permanent: true },
       // /certiport-exam (350 lines, db=7) and /microclasses (265 lines) — real pages, no redirect
       { source: '/outcomes/indiana', destination: '/about', permanent: false },
       // /orientation — real 200-line page, no redirect
