@@ -18,7 +18,7 @@ export default function BarberEligibilityPage() {
     <div className="min-h-screen bg-white">
       <HeroVideo
         videoSrcDesktop={b?.videoSrcDesktop ?? 'https://videos.pexels.com/video-files/3195441/3195441-hd_1920_1080_25fps.mp4'}
-        posterImage={b?.posterImage ?? '/hero-images/barber-hero.jpg'}
+        posterImage={b?.posterImage ?? '/hero-images/barber-hero.webp'}
         microLabel="Barber Apprenticeship"
         analyticsName="barber-eligibility"
         belowHeroHeadline="Funding & Enrollment"

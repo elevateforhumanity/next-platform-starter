@@ -798,7 +798,7 @@
   "barber-apprenticeship": {
     "pageKey": "barber-apprenticeship",
     "videoSrcDesktop": "https://videos.pexels.com/video-files/3195441/3195441-hd_1920_1080_25fps.mp4",
-    "posterImage": "/hero-images/barber-hero.jpg",
+    "posterImage": "/hero-images/barber-hero.webp",
     "voiceoverSrc": "/audio/heroes/barber.mp3",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Barber License",

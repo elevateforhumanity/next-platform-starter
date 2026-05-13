@@ -12,6 +12,9 @@ import {
 } from 'lucide-react';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { BarberEnrollment } from './sections/BarberEnrollment';
+import { BarberCredentials } from './sections/BarberCredentials';
+import { BarberDeliveryModel } from './sections/BarberDeliveryModel';
+import { BarberPartnership } from './sections/BarberPartnership';
 
 interface Props { program: ProgramSchema; heroBanner: HeroBannerConfig | null; enrollmentCount?: number; }
 
@@ -143,7 +146,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             </p>
           </div>
           <div className="relative h-72 rounded-xl overflow-hidden shadow-lg">
-            <Image src="/images/pages/barber-fade-cut.jpg" alt="Barber performing a precision fade cut" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+            <Image src="/images/pages/barber-fade-cut.webp" alt="Barber performing a precision fade cut" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
           </div>
         </div>
       </section>
@@ -153,7 +156,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="relative h-72 rounded-xl overflow-hidden shadow-lg order-2 md:order-1">
-              <Image src="/images/pages/barber-straight-razor.jpg" alt="Barber performing a straight razor shave" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+              <Image src="/images/pages/barber-straight-razor.webp" alt="Barber performing a straight razor shave" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
             </div>
             <div className="order-1 md:order-2">
               <div className="flex items-center gap-3 mb-4">
@@ -184,9 +187,9 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         </div>
         <div className="grid sm:grid-cols-2 gap-6">
           {[
-            { img: '/images/pages/barber-tools-closeup.jpg', alt: 'Barber tools and clippers', cred: p.credentials[0] },
-            { img: '/images/pages/barber-client-consult.jpg', alt: 'Barber consulting with client', cred: p.credentials[1] },
-            { img: '/images/pages/barber-shop-wide.jpg', alt: 'Professional barbershop interior', cred: p.credentials[2] },
+            { img: '/images/pages/barber-tools-closeup.webp', alt: 'Barber tools and clippers', cred: p.credentials[0] },
+            { img: '/images/pages/barber-client-consult.webp', alt: 'Barber consulting with client', cred: p.credentials[1] },
+            { img: '/images/pages/barber-shop-wide.webp', alt: 'Professional barbershop interior', cred: p.credentials[2] },
           ].filter(item => item.cred).map((item, i) => (
             <div key={i} className="border border-slate-200 rounded-xl overflow-hidden hover:border-brand-blue-300 transition-colors">
               <div className="relative h-44">
@@ -200,6 +203,95 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ═══ TRAINING DELIVERY (RTI / OJT / Progress / Oversight) ═══ */}
+      <BarberDeliveryModel />
+
+      {/* ═══ CREDENTIAL PATHWAY + WHAT YOU’LL LEARN + WORKPLACE TRAINING ═══ */}
+      <BarberCredentials />
+
+      {/* ═══ PARTNERSHIP / CAREER PATHWAYS / TRANSFER HOURS ═══ */}
+      <BarberPartnership />
+
+      {/* ═══ FUNDING & PAYMENT OPTIONS (WIOA · SNAP E&T · Self-Pay · Payment Plan · BNPL) ═══ */}
+      <section id="funding" className="py-12 bg-slate-50 border-y border-slate-200">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+              <DollarSign className="w-5 h-5 text-slate-700" />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900">Funding &amp; Payment Options</h2>
+          </div>
+          <p className="text-slate-600 mb-8 max-w-3xl">
+            Total program tuition is <strong>$4,980</strong>. You don’t pay anything to apply. After review, we work with you on the option that fits.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              {
+                tag: 'Workforce Funding',
+                title: 'WIOA / SNAP E&T (IMPACT)',
+                body: 'Eligible Indiana residents may have tuition fully covered through state and federal workforce programs. We help you check eligibility.',
+                cta: { label: 'Check Eligibility', href: '/check-eligibility?program=barber-apprenticeship' },
+              },
+              {
+                tag: 'Self-Pay',
+                title: 'Pay in Full',
+                body: 'Pay $4,731 upfront and save $249 (5% discount). Single Stripe charge — card, ACH, Cash App, or Amazon Pay.',
+                cta: { label: 'Apply & Pay in Full', href: '/programs/barber-apprenticeship/apply?payment=pay_in_full' },
+              },
+              {
+                tag: 'Payment Plan',
+                title: '$600 down + 29 weekly',
+                body: 'Start with $600 minimum down payment, then split the balance over 29 weekly installments. No interest, no credit check.',
+                cta: { label: 'Apply on Plan', href: '/programs/barber-apprenticeship/apply?payment=payment_plan' },
+              },
+              {
+                tag: 'BNPL',
+                title: 'Klarna · Afterpay',
+                body: 'Split tuition into 4 interest-free payments via Stripe-native BNPL. Approval handled instantly at checkout.',
+                cta: { label: 'Pay with Klarna / Afterpay', href: '/programs/barber-apprenticeship/apply?payment=bnpl' },
+              },
+              {
+                tag: 'BNPL',
+                title: 'Affirm',
+                body: 'Monthly installments through Affirm — terms set by lender. Soft credit check at checkout.',
+                cta: { label: 'Pay with Affirm', href: '/programs/barber-apprenticeship/apply?payment=affirm' },
+              },
+              {
+                tag: 'BNPL',
+                title: 'Sezzle',
+                body: '4 interest-free payments over 6 weeks via Sezzle. Quick approval at checkout.',
+                cta: { label: 'Pay with Sezzle', href: '/programs/barber-apprenticeship/apply?payment=sezzle' },
+              },
+            ].map((opt) => (
+              <div key={opt.title} className="bg-white rounded-xl border border-slate-200 p-5 flex flex-col">
+                <span className="inline-block self-start text-[10px] font-bold uppercase tracking-wide text-brand-blue-700 bg-brand-blue-50 px-2 py-0.5 rounded mb-3">
+                  {opt.tag}
+                </span>
+                <h3 className="font-semibold text-slate-900 text-lg mb-2">{opt.title}</h3>
+                <p className="text-sm text-slate-600 leading-relaxed flex-1">{opt.body}</p>
+                <Link
+                  href={opt.cta.href}
+                  className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-red-600 hover:text-brand-red-700"
+                >
+                  {opt.cta.label} →
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Link
+              href="/programs/barber-apprenticeship/payment/bnpl"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-brand-blue-700 hover:text-brand-blue-800"
+            >
+              Compare all BNPL providers →
+            </Link>
+            <span className="text-xs text-slate-500">
+              Funding eligibility determined after application review. Payment method is selected at that point — not upfront.
+            </span>
+          </div>
         </div>
       </section>
 

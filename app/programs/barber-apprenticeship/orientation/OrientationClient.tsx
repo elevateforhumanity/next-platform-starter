@@ -190,7 +190,7 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
             <video
               ref={videoRef}
               src="/videos/barber-lessons/barber-apprenticeship-intro.mp4"
-              poster="/images/pages/about-career-training.jpg"
+              poster="/images/pages/about-career-training.webp"
               controls
               playsInline
               onTimeUpdate={handleTimeUpdate}

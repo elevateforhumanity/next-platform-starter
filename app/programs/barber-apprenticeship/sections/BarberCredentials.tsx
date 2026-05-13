@@ -2,13 +2,13 @@ import Image from 'next/image';
 import { CREDENTIALS, CURRICULUM } from '../barber-program-data';
 
 const CURRICULUM_IMAGES = [
-  '/images/pages/barber-gallery-1.jpg',
-  '/images/pages/barber-gallery-1.jpg',
-  '/images/pages/barber-gallery-1.jpg',
-  '/images/pages/barber-gallery-1.jpg',
-  '/images/pages/barber-gallery-1.jpg',
-  '/images/pages/barber-gallery-1.jpg',
-  '/images/pages/barber-gallery-2.jpg',
+  '/images/pages/barber-gallery-1.webp',
+  '/images/pages/barber-gallery-1.webp',
+  '/images/pages/barber-gallery-1.webp',
+  '/images/pages/barber-gallery-1.webp',
+  '/images/pages/barber-gallery-1.webp',
+  '/images/pages/barber-gallery-1.webp',
+  '/images/pages/barber-gallery-2.webp',
   '/images/pages/barber-hero-main.jpg',
 ];
 
@@ -70,7 +70,7 @@ export function BarberCredentials() {
           <div className="grid sm:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative" style={{ aspectRatio: "3/2" }}>
-                <Image src="/images/pages/barber-gallery-1.jpg" alt="Supervised barber training" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
+                <Image src="/images/pages/barber-gallery-1.webp" alt="Supervised barber training" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
               </div>
               <div className="p-6">
                 <h3 className="font-bold text-slate-900 mb-2">Supervised Training</h3>
@@ -79,7 +79,7 @@ export function BarberCredentials() {
             </div>
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative" style={{ aspectRatio: "3/2" }}>
-                <Image src="/images/pages/barber-gallery-2.jpg" alt="Barber performance evaluation" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
+                <Image src="/images/pages/barber-gallery-2.webp" alt="Barber performance evaluation" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
               </div>
               <div className="p-6">
                 <h3 className="font-bold text-slate-900 mb-2">Performance Evaluations</h3>
@@ -88,7 +88,7 @@ export function BarberCredentials() {
             </div>
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative" style={{ aspectRatio: "3/2" }}>
-                <Image src="/images/pages/barber-gallery-3.jpg" alt="Barbershop employment" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
+                <Image src="/images/pages/barber-gallery-3.webp" alt="Barbershop employment" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
               </div>
               <div className="p-6">
                 <h3 className="font-bold text-slate-900 mb-2">Employment Structure</h3>
@@ -97,7 +97,7 @@ export function BarberCredentials() {
             </div>
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative" style={{ aspectRatio: "3/2" }}>
-                <Image src="/images/pages/admin-career-courses-create-hero.jpg" alt="OJT hour logging" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
+                <Image src="/images/pages/admin-career-courses-create-hero.webp" alt="OJT hour logging" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
               </div>
               <div className="p-6">
                 <h3 className="font-bold text-slate-900 mb-2">OJT Hour Logging</h3>
