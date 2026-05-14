@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -9,14 +9,14 @@ export const metadata: Metadata = {
  * /apply/intake redirects to /apply — the canonical intake URL.
  * Preserves ?program= query param so pre-filled links still work.
  */
-export default function IntakePage({
+export default async function IntakePage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ program?: string }>;
 }) {
-  const program = searchParams?.program;
+  const { program } = await searchParams;
   if (program) {
-    redirect(`/apply?program=${program}`);
+    permanentRedirect(`/apply?program=${program}`);
   }
-  redirect('/apply');
+  permanentRedirect('/apply');
 }

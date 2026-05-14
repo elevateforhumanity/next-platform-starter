@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-interface Props {
+export default async function ProgramInquiryRedirect({
+  params,
+}: {
   params: Promise<{ program: string }>;
-}
-
-export default async function ProgramInquiryRedirect({ params }: Props) {
+}) {
   const { program: slug } = await params;
-  redirect(`/inquiry?program=${slug}`);
+  permanentRedirect(`/inquiry?program=${slug}`);
 }
