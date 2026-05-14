@@ -48,7 +48,7 @@ export default async function PartnersPage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
           <Image
-            src="/images/pages/about-partners-hero.jpg"
+            src="/images/pages/about-partners-hero.webp"
             alt="Partners background"
             fill
             className="object-cover"

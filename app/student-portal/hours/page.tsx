@@ -16,7 +16,7 @@ export default function HoursPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/student-portal-page-6.jpg"
+          src="/images/pages/student-portal-page-6.webp"
           alt="Student portal"
           fill
           sizes="100vw"

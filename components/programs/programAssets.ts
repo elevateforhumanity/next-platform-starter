@@ -50,11 +50,11 @@ export const PROGRAM_HEROES: Record<string, string> = {
   healthcare: '/hero-images/healthcare-hero.jpg',
 
   // Skilled Trades
-  'hvac-technician': '/images/pages/hvac-technician.jpg',
+  'hvac-technician': '/images/pages/hvac-technician.webp',
   hvac: '/images/pages/hvac-unit.jpg',
   electrical: '/images/pages/electrical.jpg',
   plumbing: '/images/pages/plumbing.jpg',
-  welding: '/images/pages/welding-sparks.jpg',
+  welding: '/images/pages/welding-sparks.webp',
   'diesel-mechanic': '/images/pages/hvac-tools.jpg',
   'skilled-trades': '/hero-images/skilled-trades-hero.jpg',
 

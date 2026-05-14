@@ -86,7 +86,7 @@ function LoginForm() {
     <div className="min-h-screen bg-white">
       <section className="relative h-[200px] w-full overflow-hidden">
         <Image
-          src="/images/pages/login-page-1.jpg"
+          src="/images/pages/login-page-1.webp"
           alt="Elevate for Humanity login"
           fill
           className="object-cover"

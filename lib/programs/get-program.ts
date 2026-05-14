@@ -19,7 +19,9 @@ import { logger } from '@/lib/logger';
 const DB_MIGRATED_SLUGS = new Set(['peer-recovery-specialist']);
 
 // Static registry — add new programs here when created
-const PROGRAM_REGISTRY: Record<string, () => Promise<{ default: ProgramSchema }>> = {
+type ProgramModuleShape = Record<string, unknown>;
+
+const PROGRAM_REGISTRY: Record<string, () => Promise<ProgramModuleShape>> = {
   cna: () => import('@/data/programs/cna'),
   'hvac-technician': () => import('@/data/programs/hvac-technician'),
   'barber-apprenticeship': () => import('@/data/programs/barber-apprenticeship'),

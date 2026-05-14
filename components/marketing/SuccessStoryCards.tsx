@@ -24,7 +24,7 @@ const stories = [
   {
     name: 'James Wilson',
     program: 'HVAC Technician',
-    image: '/images/pages/comp-home-highlight-health.jpg',
+    image: '/images/pages/comp-home-highlight-health.webp',
     beforeJob: 'Fast food worker',
     afterJob: 'HVAC Technician',
     salary: '$52,000/year',

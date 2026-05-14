@@ -32,7 +32,7 @@ export default function JobReadyIndyPage() {
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] overflow-hidden">
         <Image
-          src="/images/pages/jri-hero.jpg"
+          src="/images/pages/jri-hero.webp"
           alt="Job Ready Indy workforce training"
           fill
           className="object-cover"
@@ -77,7 +77,7 @@ export default function JobReadyIndyPage() {
             </div>
             <div className="relative h-[300px] rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src="/images/pages/student-portal-page-5.jpg"
+                src="/images/pages/student-portal-page-5.webp"
                 alt="Job Ready Indy career training"
                 fill
                 className="object-cover"

@@ -31,7 +31,7 @@ export default function PartnersPage() {
       {/* Visual hero */}
       <section className="relative h-[280px] sm:h-[360px] overflow-hidden">
         <Image
-          src="/images/pages/pathways-page-3.jpg"
+          src="/images/pages/pathways-page-3.webp"
           alt="Employer and workforce partnership meeting"
           fill
           sizes="100vw"
@@ -77,14 +77,14 @@ export default function PartnersPage() {
                 step: 1,
                 title: 'You tell us what you need',
                 time: '1 phone call or email',
-                image: '/images/pages/pathways-page-3.jpg',
+                image: '/images/pages/pathways-page-3.webp',
                 desc: 'You contact us and describe your situation: how many participants you want to train, what industry, what timeline, and what funding source you are using (WIOA, employer-sponsored, grant, etc.). We ask about your participants — their backgrounds, barriers, and goals — so we can match them to the right program.',
               },
               {
                 step: 2,
                 title: 'We design the cohort',
                 time: '3–5 business days',
-                image: '/images/pages/pathways-page-4.jpg',
+                image: '/images/pages/pathways-page-4.webp',
                 desc: 'We configure a cohort for your group: start date, program track, credential targets, class schedule, and reporting cadence. If you need evening or weekend classes, we can accommodate that. If your participants need supportive services (transportation, childcare referrals), we coordinate those. You approve the plan before we start.',
               },
               {
@@ -98,7 +98,7 @@ export default function PartnersPage() {
                 step: 4,
                 title: 'Training begins',
                 time: '4–16 weeks depending on program',
-                image: '/images/pages/pathways-page-4.jpg',
+                image: '/images/pages/pathways-page-4.webp',
                 desc: 'Your cohort starts training together. Depending on the program, this includes classroom instruction, hands-on lab work, clinical rotations, behind-the-wheel training, or online coursework with live instructor sessions. You receive progress reports at the frequency you choose — weekly or biweekly.',
               },
               {

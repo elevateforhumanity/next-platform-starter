@@ -68,7 +68,7 @@ export default async function JRIProgramsPage() {
         style={{ minHeight: 'clamp(420px, 52vw, 600px)' }}
       >
         <Image
-          src="/images/pages/jri-hero.jpg"
+          src="/images/pages/jri-hero.webp"
           alt="Second chance career training — JRI programs at Elevate for Humanity"
           fill
           className="object-cover object-center"
@@ -149,7 +149,7 @@ export default async function JRIProgramsPage() {
             </div>
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src="/images/pages/community-page-3.jpg"
+                src="/images/pages/community-page-3.webp"
                 alt="JRI participants in career training"
                 fill
                 className="object-cover"

@@ -31,7 +31,7 @@ export default async function SuccessStoriesPage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <Image
-            src="/images/pages/success-page-1.jpg"
+            src="/images/pages/success-page-1.webp"
             alt="Success Stories"
             fill
             className="object-cover"
@@ -81,7 +81,7 @@ export default async function SuccessStoriesPage() {
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">
               <div className="relative w-full h-64 overflow-hidden">
                 <Image
-                  src="/images/pages/barber-cutting.jpg"
+                  src="/images/pages/barber-cutting.webp"
                   alt="Barber apprentice cutting hair"
                   fill
                   className="object-cover"
@@ -105,7 +105,7 @@ export default async function SuccessStoriesPage() {
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">
               <div className="relative w-full h-64 overflow-hidden">
                 <Image
-                  src="/images/pages/entrepreneurship.jpg"
+                  src="/images/pages/entrepreneurship.webp"
                   alt="Business and technology training"
                   fill
                   className="object-cover"

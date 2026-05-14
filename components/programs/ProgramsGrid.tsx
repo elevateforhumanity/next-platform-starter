@@ -40,7 +40,7 @@ export async function ProgramsGrid() {
                   src={
                     program.hero_image_url ||
                     program.image_url ||
-                    '/images/pages/workforce-training.jpg'
+                    '/images/pages/workforce-training.webp'
                   }
                   alt={program.title || program.name}
                   fill

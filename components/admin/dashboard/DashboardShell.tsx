@@ -325,7 +325,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
     <div className="pb-16">
       <div className="relative w-full h-40 sm:h-56 overflow-hidden">
         <Image
-          src="/images/pages/admin-dashboard-hero.jpg"
+          src="/images/pages/admin-dashboard-hero.webp"
           alt=""
           fill
           className="object-cover"

@@ -38,7 +38,7 @@ export default function StoreDigitalPage() {
 {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <LazyVideo src="/videos/store-marketplace.mp4" poster="/images/pages/programs-hero.jpg"
+          <LazyVideo src="/videos/store-marketplace.mp4" poster="/images/pages/programs-hero.webp"
             className="absolute inset-0 w-full h-full object-cover" />
         </div>
         <div className="bg-slate-900 py-10">
@@ -136,7 +136,7 @@ export default function StoreDigitalPage() {
               >
                 <div className="relative h-48 overflow-hidden">
                   <Image
-                    src={product.image || '/images/pages/comp-universal-hero.jpg'}
+                    src={product.image || '/images/pages/comp-universal-hero.webp'}
                     alt={product.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -222,7 +222,7 @@ export default function StoreDigitalPage() {
               >
                 <div className="relative h-40 overflow-hidden">
                   <Image
-                    src={product.image || '/images/pages/comp-universal-hero.jpg'}
+                    src={product.image || '/images/pages/comp-universal-hero.webp'}
                     alt={product.name}
                     fill
                     quality={85} className="object-cover"

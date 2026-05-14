@@ -91,7 +91,7 @@ export default function HvacCourseLicensePage() {
                 className="w-full h-full object-contain"
                 controls
                 preload="metadata"
-                poster="/images/pages/hvac-technician.jpg"
+                poster="/images/pages/hvac-technician.webp"
               >
                 <source src={VIDEO_URL} type="video/mp4" />
               </video>
@@ -200,13 +200,13 @@ export default function HvacCourseLicensePage() {
                 credential: 'EPA Section 608 Universal',
                 issuer: 'ESCO Institute / Mainstream Engineering (EPA-approved)',
                 desc: 'Required by federal law to purchase and handle refrigerants. Covers all four sections: Core, Type I, Type II, Type III.',
-                img: '/images/pages/hvac-technician.jpg',
+                img: '/images/pages/hvac-technician.webp',
               },
               {
                 credential: 'OSHA 10-Hour',
                 issuer: 'CareerSafe / OSHA-authorized trainer',
                 desc: 'Workplace safety fundamentals recognized by employers nationwide. DOL card issued upon completion.',
-                img: '/images/pages/trades-classroom.jpg',
+                img: '/images/pages/trades-classroom.webp',
               },
               {
                 credential: 'CPR/AED',

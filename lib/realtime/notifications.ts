@@ -143,7 +143,13 @@ export function subscribeToPresence(
     .channel(`presence:${roomId}`)
     .on('presence', { event: 'sync' }, () => {
       const state = channel.presenceState();
-      const users = Object.values(state).flat() as { user_id: string; online_at: string }[];
+      const users = Object.values(state)
+        .flat()
+        .map((presence: any) => ({
+          user_id: String(presence?.user_id ?? presence?.presence_ref ?? ''),
+          online_at: String(presence?.online_at ?? new Date().toISOString()),
+        }))
+        .filter((u) => u.user_id.length > 0);
       onPresenceChange(users);
     })
     .subscribe(async (status) => {

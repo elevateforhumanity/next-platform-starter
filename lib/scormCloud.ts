@@ -23,7 +23,7 @@ async function scormFetch(path: string, options: RequestInit = {}): Promise<any>
 
   if (!res.ok) {
     const body = await res.text().catch(() => '');
-    logger.error(`SCORM Cloud API error: ${res.status} ${path}`, { body });
+    logger.error(`SCORM Cloud API error: ${res.status} ${path}`, undefined, { body });
     throw new Error(`SCORM Cloud API returned ${res.status}`);
   }
 

@@ -23,7 +23,7 @@ export default function FounderPage() {
       {/* Hero */}
       <section className="relative h-[280px] sm:h-[360px] overflow-hidden">
         <Image
-          src="/images/pages/admin-audit-logs-hero.jpg"
+          src="/images/pages/admin-audit-logs-hero.webp"
           alt="Elevate for Humanity founder"
           fill
           sizes="100vw"

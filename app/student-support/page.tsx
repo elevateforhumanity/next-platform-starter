@@ -65,7 +65,7 @@ const services = [
     description:
       'Job placement assistance, resume writing, interview coaching, and employer connections. We stay with you through your first 90 days on the job.',
     link: '/student-support/career',
-    image: '/images/pages/career-services-page-1.jpg',
+    image: '/images/pages/career-services-page-1.webp',
   },
   {
     title: 'Counseling & Wellness',

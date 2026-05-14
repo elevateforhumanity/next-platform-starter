@@ -337,9 +337,9 @@ export default function FinancePathwayPage() {
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-8">Individual Program Details</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { title: 'Tax Preparation', duration: '6 weeks', cost: '$1,800 (self-pay)', credential: 'IRS PTIN + AFSP', href: '/programs/tax-preparation', image: '/images/pages/comp-program-template.jpg' },
-                { title: 'Bookkeeping & QuickBooks', duration: '5 weeks', cost: '$1,500 (self-pay)', credential: 'QuickBooks Certified User', href: '/programs/bookkeeping', image: '/images/pages/comp-program-template.jpg' },
-                { title: 'Business Administration', duration: '5 weeks', cost: '$4,550 (self-pay)', credential: 'IT Specialist — Business Apps', href: '/programs/business', image: '/images/pages/comp-program-template.jpg' },
+                { title: 'Tax Preparation', duration: '6 weeks', cost: '$1,800 (self-pay)', credential: 'IRS PTIN + AFSP', href: '/programs/tax-preparation', image: '/images/pages/comp-program-template.webp' },
+                { title: 'Bookkeeping & QuickBooks', duration: '5 weeks', cost: '$1,500 (self-pay)', credential: 'QuickBooks Certified User', href: '/programs/bookkeeping', image: '/images/pages/comp-program-template.webp' },
+                { title: 'Business Administration', duration: '5 weeks', cost: '$4,550 (self-pay)', credential: 'IT Specialist — Business Apps', href: '/programs/business', image: '/images/pages/comp-program-template.webp' },
               ].map((prog) => (
                 <Link key={prog.title} href={prog.href} className="group rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition-shadow">
                   <Image src={prog.image} alt={prog.title} width={600} height={400} sizes="(max-width: 640px) 100vw, 33vw" className="w-full aspect-[3/2] object-cover group-hover:scale-105 transition-transform duration-300" />

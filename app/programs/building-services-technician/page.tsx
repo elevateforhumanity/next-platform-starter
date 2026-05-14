@@ -153,7 +153,7 @@ export default function BuildingServicesTechnicianPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
             <Image sizes="100vw"
-              src="/images/building-maintenance.jpg"
+              src="/images/building-maintenance.webp"
               alt="Building Maintenance"
               fill
               className="object-cover"
@@ -170,7 +170,7 @@ export default function BuildingServicesTechnicianPage() {
           </div>
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
             <Image sizes="100vw"
-              src="/images/facility-hero.jpg"
+              src="/images/facility-hero.webp"
               alt="Building Services"
               fill
               className="object-cover"

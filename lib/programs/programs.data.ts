@@ -65,7 +65,6 @@ export const PROGRAMS: Program[] = [
     tagline: 'Earn while you learn in a real shop.',
     shortDescription:
       'Indiana registered apprenticeship pathway to licensure with hands-on training and mentorship.',
-    cardImage: '/images/pages/barber-apprenticeship.jpg',
     heroImage: '/images/pages/barber-hero-main.jpg',
     cardImage: '/images/pages/barber-apprenticeship.jpg',
     duration: 'Up to 5 months (timeline varies by hours transferred)',
@@ -355,7 +354,7 @@ export const PROGRAMS: Program[] = [
     tagline: 'CPR/AED, First Aid, EMR, and OSHA 10 pathway.',
     shortDescription:
       'Hybrid theory + hands-on skills training for public safety careers and emergency response.',
-    cardImage: '/images/pages/cpr-training-real.jpg',
+    cardImage: '/images/pages/cpr-training-real.webp',
     heroImage: '/images/pages/cpr-aed.jpg',
     duration: '6-8 weeks',
     cost: 'Funding may cover full cost',
@@ -486,7 +485,7 @@ export const PROGRAMS: Program[] = [
     shortDescription:
       'Pathway aligned to peer recovery and reentry support roles with trauma-informed care training.',
     cardImage: '/images/pages/training-cohort.webp',
-    heroImage: '/images/pages/training-page-1.jpg',
+    heroImage: '/images/pages/training-page-1.webp',
     duration: '10-12 weeks',
     cost: 'Funding may cover full cost',
     format: 'Hybrid',
@@ -542,7 +541,7 @@ export const PROGRAMS: Program[] = [
     shortDescription:
       'In-person hands-on training for CPR/AED/First Aid with American Heart Association certification.',
     cardImage: '/images/pages/cpr-mannequin.jpg',
-    heroImage: '/images/pages/cpr-first-aid.jpg',
+    heroImage: '/images/pages/cpr-first-aid.webp',
     duration: '1 day',
     cost: 'Low cost / Funding available',
     format: 'In-person',
@@ -582,7 +581,7 @@ export const PROGRAMS: Program[] = [
     tagline: 'Hands-on HVAC training for real residential/light commercial work.',
     shortDescription:
       'Hybrid program for heating, cooling, and refrigeration basics with industry-recognized training.',
-    cardImage: '/images/pages/hvac-technician.jpg',
+    cardImage: '/images/pages/hvac-technician.webp',
     heroImage: '/images/pages/hvac-unit.jpg',
     duration: '12-16 weeks',
     cost: 'Funding may cover full cost',

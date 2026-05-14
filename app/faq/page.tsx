@@ -271,7 +271,7 @@ export default function FAQPage() {
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] overflow-hidden">
         <Image
-          src="/images/pages/faq-page-1.jpg"
+          src="/images/pages/faq-page-1.webp"
           alt="Students in a workforce training classroom"
           fill
           sizes="100vw"

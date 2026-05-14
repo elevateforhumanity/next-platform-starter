@@ -376,7 +376,7 @@ export default async function EnrollmentPage() {
               </div>
               <div className="relative h-64 rounded-xl overflow-hidden">
                 <Image
-                  src="/images/pages/about-career-pathways.jpg"
+                  src="/images/pages/about-career-pathways.webp"
                   alt="Career pathways for all students"
                   fill
                   className="object-cover"

@@ -60,7 +60,7 @@ const PROGRAMS = [
 
 function ProgramCard({ prog, priority }: { prog: (typeof PROGRAMS)[number]; priority?: boolean }) {
   return (
-    <div className="group relative rounded-2xl overflow-hidden" style={{ aspectRatio: '9/14' }}>
+    <div className="group relative rounded-2xl overflow-hidden aspect-[4/5]">
       {/* Background image — not a link, avoids nested <a> */}
       <Image
         src={prog.image}

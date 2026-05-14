@@ -186,7 +186,7 @@ export default async function ProgramHolderDashboardPage() {
       {/* Hero */}
       <div className="relative h-64 sm:h-80 w-full overflow-hidden">
         <Image
-          src="/images/pages/program-holder-page-1.jpg"
+          src="/images/pages/program-holder-page-1.webp"
           alt="Program Holder Portal"
           fill
           className="object-cover object-center"
@@ -256,7 +256,7 @@ export default async function ProgramHolderDashboardPage() {
             {
               label: 'Programs',
               value: programs.length.toString(),
-              img: '/images/pages/about-career-training.jpg',
+              img: '/images/pages/about-career-training.webp',
               href: '/program-holder/programs',
             },
             {
@@ -268,7 +268,7 @@ export default async function ProgramHolderDashboardPage() {
             {
               label: 'Certificates Issued',
               value: totalCerts.toLocaleString(),
-              img: '/images/pages/certificates-page-1.jpg',
+              img: '/images/pages/certificates-page-1.webp',
               href: '/program-holder/reports',
             },
           ].map((stat) => (
@@ -434,7 +434,7 @@ export default async function ProgramHolderDashboardPage() {
                 label: 'Program Holder Handbook',
                 sub: 'Policies, rules & requirements',
                 href: '/program-holder/handbook',
-                img: '/images/pages/program-holder-page-2.jpg',
+                img: '/images/pages/program-holder-page-2.webp',
               },
               {
                 label: 'Manage Students',
@@ -452,7 +452,7 @@ export default async function ProgramHolderDashboardPage() {
                 label: 'Documents',
                 sub: 'Licenses & compliance docs',
                 href: '/program-holder/documents',
-                img: '/images/pages/program-holder-docs.jpg',
+                img: '/images/pages/program-holder-docs.webp',
               },
             ].map((action) => (
               <Link
@@ -485,7 +485,7 @@ export default async function ProgramHolderDashboardPage() {
             >
               <div className="relative w-20 h-20 flex-shrink-0">
                 <Image
-                  src="/images/pages/about-career-training.jpg"
+                  src="/images/pages/about-career-training.webp"
                   alt="Add Program"
                   fill
                   className="object-cover opacity-40 group-hover:scale-105 transition-transform duration-300"

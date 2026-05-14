@@ -48,25 +48,25 @@ export default function JRIPage() {
     {
       title: 'Career Counseling',
       description: 'Work one-on-one with a dedicated career coach who understands your situation.',
-      image: '/images/pages/comp-pathway-classroom.jpg',
+      image: '/images/pages/comp-pathway-classroom.webp',
       alt: 'One-on-one career counseling session',
     },
     {
       title: 'Job Placement',
       description: 'We connect you with employers committed to second-chance hiring.',
-      image: '/images/pages/about-employer-partners.jpg',
+      image: '/images/pages/about-employer-partners.webp',
       alt: 'Job placement and employer connections',
     },
     {
       title: 'Support Services',
       description: 'Transportation, childcare support, work clothing, and more.',
-      image: '/images/pages/comp-home-pathways-support.jpg',
+      image: '/images/pages/comp-home-pathways-support.webp',
       alt: 'Supportive services for workforce participants',
     },
     {
       title: 'Flexible Scheduling',
       description: 'Day and evening classes to work around your commitments.',
-      image: '/images/pages/comp-pathway-healthcare.jpg',
+      image: '/images/pages/comp-pathway-healthcare.webp',
       alt: 'Flexible day and evening class scheduling',
     },
     {
@@ -137,7 +137,7 @@ export default function JRIPage() {
       {/* Hero Section */}
       <section className="relative min-h-48 md:h-64 flex items-center overflow-hidden">
         <Image
-          src="/images/pages/jri-hero.jpg"
+          src="/images/pages/jri-hero.webp"
           alt="Job Ready Indy Program participants"
           fill
           className="object-cover"

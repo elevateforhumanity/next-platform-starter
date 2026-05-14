@@ -41,19 +41,19 @@ const steps: QuizStep[] = [
       {
         id: 'healthcare',
         label: 'Healthcare',
-        image: '/images/pages/comp-home-hero.jpg',
+        image: '/images/pages/comp-home-hero.webp',
         description: 'Help people heal and stay healthy',
       },
       {
         id: 'trades',
         label: 'Skilled Trades',
-        image: '/images/pages/hvac-technician.jpg',
+        image: '/images/pages/hvac-technician.webp',
         description: 'Build, fix, and create with your hands',
       },
       {
         id: 'cdl',
         label: 'CDL / Trucking',
-        image: '/images/pages/hvac-technician.jpg',
+        image: '/images/pages/hvac-technician.webp',
         description: 'Hit the road and earn $50K+',
       },
       {

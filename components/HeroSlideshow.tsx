@@ -70,7 +70,7 @@ const slides: Slide[] = [
     },
   },
   {
-    image: '/images/hero/hero-hands-on-training.jpg',
+    image: '/images/hero/hero-hands-on-training.webp',
     title: 'Hands-On Training',
     text: 'Real-world skills training with experienced instructors in state-of-the-art facilities.',
     cta: {

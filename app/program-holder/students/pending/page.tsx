@@ -83,7 +83,7 @@ export default async function PendingStudentsPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/program-holder-page-5.jpg"
+          src="/images/pages/program-holder-page-5.webp"
           alt="Pending Applications"
           fill
           className="object-cover"

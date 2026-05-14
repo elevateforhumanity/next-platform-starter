@@ -28,7 +28,7 @@ export default function Page() {
           <HeroMediaFrame>
             <CanonicalVideo
               src="/videos/getting-started-hero.mp4"
-              poster="/images/pages/getstarted-page-1.jpg"
+              poster="/images/pages/getstarted-page-1.webp"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </HeroMediaFrame>
@@ -180,7 +180,7 @@ export default function Page() {
                 <Image
                   alt="Getting started with Elevate"
                   priority
-                  src="/images/pages/getstarted-page-1.jpg"
+                  src="/images/pages/getstarted-page-1.webp"
                   alt="Training Facility"
                   fill
                   sizes="100vw"

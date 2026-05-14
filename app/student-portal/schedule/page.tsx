@@ -180,7 +180,7 @@ export default async function StudentPortalSchedulePage() {
     <div className="min-h-screen bg-white">
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] min-h-[320px] overflow-hidden">
         <Image
-          src="/images/pages/student-portal-page-10.jpg"
+          src="/images/pages/student-portal-page-10.webp"
           alt="Class schedule"
           fill
           sizes="100vw"
@@ -417,7 +417,7 @@ export default async function StudentPortalSchedulePage() {
             <div className="relative rounded-2xl overflow-hidden border border-slate-200">
               <div className="relative h-56 sm:h-72">
                 <Image
-                  src="/images/pages/student-portal-page-5.jpg"
+                  src="/images/pages/student-portal-page-5.webp"
                   alt="Schedule an appointment"
                   fill
                   sizes="100vw"
@@ -511,7 +511,7 @@ export default async function StudentPortalSchedulePage() {
             <div className="grid md:grid-cols-2">
               <div className="relative h-56 md:h-auto min-h-[220px]">
                 <Image
-                  src="/images/pages/student-portal-page-8.jpg"
+                  src="/images/pages/student-portal-page-8.webp"
                   alt="Training center"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -583,7 +583,7 @@ export default async function StudentPortalSchedulePage() {
               {
                 label: 'Documents',
                 href: '/student-portal/onboarding/documents',
-                img: '/images/pages/student-portal-page-6.jpg',
+                img: '/images/pages/student-portal-page-6.webp',
               },
               {
                 label: 'Contact Support',

@@ -102,7 +102,7 @@ export default async function OngoingSupportPage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
           <Image
-            src="/images/pages/career-services-page-5.jpg"
+            src="/images/pages/career-services-page-5.webp"
             alt="Hero image"
             fill
             className="object-cover"

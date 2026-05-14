@@ -18,7 +18,7 @@ export const ADMIN_SCENES: DemoScene[] = [
     title: 'Admin Dashboard Overview',
     description: 'See enrollment, compliance, and outcomes across all programs at a glance.',
     videoSrc: '/videos/demo/demo-admin-overview.mp4',
-    poster: '/images/pages/admin-dashboard-hero.jpg',
+    poster: '/images/pages/admin-dashboard-hero.webp',
     choices: [
       {
         label: 'Review Applications',
@@ -76,7 +76,7 @@ export const ADMIN_SCENES: DemoScene[] = [
     description:
       'Eligibility verified at enrollment. PIRL reports generated on demand. Audit logs automatic.',
     videoSrc: '/videos/demo/demo-admin-compliance.mp4',
-    poster: '/images/pages/admin-wioa-hero.jpg',
+    poster: '/images/pages/admin-wioa-hero.webp',
     choices: [
       {
         label: 'Funding Dashboard',
@@ -190,7 +190,7 @@ export const EMPLOYER_SCENES: DemoScene[] = [
     title: 'Employer Dashboard',
     description: 'Browse pre-screened candidates, track apprentices, and manage hiring incentives.',
     videoSrc: '/videos/demo/demo-employer-overview.mp4',
-    poster: '/images/pages/employer-hero.jpg',
+    poster: '/images/pages/employer-hero.webp',
     choices: [
       {
         label: 'Browse Candidates',
@@ -219,7 +219,7 @@ export const EMPLOYER_SCENES: DemoScene[] = [
     description:
       'Every candidate has a verified credential. Filter by program, availability, and match score.',
     videoSrc: '/videos/demo/demo-employer-candidates.mp4',
-    poster: '/images/pages/employer-page-1.jpg',
+    poster: '/images/pages/employer-page-1.webp',
     choices: [
       {
         label: 'Apprenticeship Hours',
@@ -242,7 +242,7 @@ export const EMPLOYER_SCENES: DemoScene[] = [
     description:
       'Log and approve OJT hours, track wage progression, and manage DOL compliance — all in one place.',
     videoSrc: '/videos/demo/demo-employer-candidates.mp4',
-    poster: '/images/pages/admin-apprenticeships-hero.jpg',
+    poster: '/images/pages/admin-apprenticeships-hero.webp',
     choices: [
       {
         label: 'Hiring Incentives',
@@ -340,7 +340,7 @@ export const STUDENT_SCENES: DemoScene[] = [
     description:
       'Log your OJT hours from your phone. Your supervisor approves them. Your total updates instantly.',
     videoSrc: '/videos/demo/demo-learner-overview.mp4',
-    poster: '/images/pages/student-portal-page-5.jpg',
+    poster: '/images/pages/student-portal-page-5.webp',
     choices: [
       {
         label: 'My Credentials',
@@ -363,7 +363,7 @@ export const STUDENT_SCENES: DemoScene[] = [
     description:
       'Every credential you earn is stored here. Download the PDF or share a public verification link with employers.',
     videoSrc: '/videos/demo/demo-learner-certificates.mp4',
-    poster: '/images/pages/student-portal-page-7.jpg',
+    poster: '/images/pages/student-portal-page-7.webp',
     choices: [
       {
         label: 'Start Over',

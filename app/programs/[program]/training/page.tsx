@@ -70,21 +70,21 @@ const COVER_MAP: Record<string, string> = {
   network: '/images/pages/cybersecurity-code.jpg',
   electrical: '/images/pages/electrical-panel.jpg',
   wiring: '/images/pages/electrical-conduit.jpg',
-  welding: '/images/pages/comp-highlights-welding.jpg',
-  fabrication: '/images/pages/comp-highlights-welding.jpg',
+  welding: '/images/pages/comp-highlights-welding.webp',
+  fabrication: '/images/pages/comp-highlights-welding.webp',
   tax: '/images/pages/admin-tax-preparers-hero.jpg',
   accounting: '/images/pages/admin-tax-preparers-hero.jpg',
   barber: '/images/barber-hero.jpg',
   cosmetology: '/images/barber-hero.jpg',
-  business: '/images/pages/about-career-training.jpg',
-  management: '/images/pages/about-career-training.jpg',
+  business: '/images/pages/about-career-training.webp',
+  management: '/images/pages/about-career-training.webp',
   construction: '/images/pages/construction-trades.jpg',
   trades: '/images/pages/skilled-trades-sector.jpg',
   plumbing: '/images/pages/construction-trades.jpg',
   carpentry: '/images/pages/construction-trades.jpg',
 };
 
-const DEFAULT_COVER = '/images/pages/about-career-training.jpg';
+const DEFAULT_COVER = '/images/pages/about-career-training.webp';
 
 function getCoverImage(category: string | null, title: string | null): string {
   const text = `${category ?? ''} ${title ?? ''}`.toLowerCase();

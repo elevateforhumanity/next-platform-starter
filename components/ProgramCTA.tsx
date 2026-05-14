@@ -27,7 +27,7 @@ export default function ProgramCTA({ programName = 'this program' }: ProgramCTAP
                 <div className="flex items-start gap-3">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
                     <Image
-                      src="/images/pages/comp-cta-main.jpg"
+                      src="/images/pages/comp-cta-main.webp"
                       alt="Funded training"
                       fill
                       className="object-cover"
@@ -61,7 +61,7 @@ export default function ProgramCTA({ programName = 'this program' }: ProgramCTAP
                 <div className="flex items-start gap-3">
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
                     <Image
-                      src="/images/pages/workforce-training.jpg"
+                      src="/images/pages/workforce-training.webp"
                       alt="Hands-on training"
                       fill
                       className="object-cover"
@@ -93,7 +93,7 @@ export default function ProgramCTA({ programName = 'this program' }: ProgramCTAP
 
             <div className="relative h-[400px] sm:h-[500px] rounded-lg overflow-hidden shadow-2xl">
               <Image
-                src="/images/pages/workforce-training.jpg"
+                src="/images/pages/workforce-training.webp"
                 alt="Students in training"
                 fill
                 className="object-cover"
@@ -238,7 +238,7 @@ export default function ProgramCTA({ programName = 'this program' }: ProgramCTAP
             <div className="bg-slate-50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
               <div className="relative h-48">
                 <Image
-                  src="/images/pages/workforce-training.jpg"
+                  src="/images/pages/workforce-training.webp"
                   alt="Supportive services"
                   fill
                   className="object-cover"

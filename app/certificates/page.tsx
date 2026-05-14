@@ -33,7 +33,7 @@ export default function CertificatesPage() {
       {/* Hero */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/certificates-page-1.jpg"
+          src="/images/pages/certificates-page-1.webp"
           alt="Certificates & Credentials"
           fill
           className="object-cover"

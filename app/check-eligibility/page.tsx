@@ -286,7 +286,7 @@ export default function CheckEligibilityPage() {
         style={{ minHeight: 'clamp(320px, 40vw, 460px)' }}
       >
         <Image
-          src="/images/pages/funding-page-2.jpg"
+          src="/images/pages/funding-page-2.webp"
           alt="Check your eligibility for funded career training"
           fill
           className="object-cover object-center"

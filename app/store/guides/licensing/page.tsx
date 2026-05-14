@@ -21,7 +21,7 @@ const STEPS = [
     num: '1',
     color: 'bg-brand-blue-600',
     title: 'Choose Your License Type',
-    image: '/images/pages/admin-licensing-hero.jpg',
+    image: '/images/pages/admin-licensing-hero.webp',
     imageAlt: 'License tier comparison — managed vs source-use',
     content: null, // rendered inline below
   },
@@ -29,7 +29,7 @@ const STEPS = [
     num: '2',
     color: 'bg-brand-blue-600',
     title: 'Complete Checkout',
-    image: '/images/pages/platform-page-3.jpg',
+    image: '/images/pages/platform-page-3.webp',
     imageAlt: 'Stripe checkout for managed platform license',
     content: (
       <>
@@ -126,7 +126,7 @@ const STEPS = [
     num: '6',
     color: 'bg-brand-blue-600',
     title: 'Domain Options',
-    image: '/images/pages/platform-page-5.jpg',
+    image: '/images/pages/platform-page-5.webp',
     imageAlt: 'Domain configuration options for the platform',
     content: (
       <>
@@ -222,7 +222,7 @@ export default function LicensingGuidePage() {
             </div>
             <div className="relative w-full rounded-xl overflow-hidden mb-5 aspect-square" style={{ aspectRatio: '16/7' }}>
               <Image
-                src="/images/pages/admin-licensing-hero.jpg"
+                src="/images/pages/admin-licensing-hero.webp"
                 alt="License tier comparison — managed vs source-use"
                 fill
                 className="object-cover"

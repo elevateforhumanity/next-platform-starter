@@ -45,7 +45,7 @@ export default async function ForumsPage() {
         {/* Hero */}
         <section className="relative min-h-[400px] flex items-center overflow-hidden">
           <Image sizes="100vw"
-            src="/images/pages/success-stories-hero.jpg"
+            src="/images/pages/success-stories-hero.webp"
             alt="Community Forums"
             fill
             className="object-cover"
@@ -133,7 +133,7 @@ export default async function ForumsPage() {
       {/* Hero */}
       <section className="relative min-h-[450px] flex items-center overflow-hidden">
         <Image sizes="100vw"
-          src="/images/pages/success-stories-hero.jpg"
+          src="/images/pages/success-stories-hero.webp"
           alt="Community Forums"
           fill
           className="object-cover"

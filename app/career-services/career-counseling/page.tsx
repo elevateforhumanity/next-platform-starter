@@ -15,7 +15,7 @@ export default function CareerCounselingPage() {
       config={{
         breadcrumbs: [{ label: 'Career Services', href: '/career-services' }, { label: 'Career Counseling' }],
         hero: {
-          image: '/images/pages/career-services-page-1.jpg',
+          image: '/images/pages/career-services-page-1.webp',
           tag: 'Career Counseling',
           tagColor: 'text-brand-blue-600',
           title: 'Plan Your Career Path',

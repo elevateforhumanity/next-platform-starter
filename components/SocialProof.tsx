@@ -50,7 +50,7 @@ const testimonials: Testimonial[] = [
     name: 'Sarah Johnson',
     role: 'HVAC Technician',
     program: 'Skilled Trades',
-    image: '/images/pages/hvac-technician.jpg',
+    image: '/images/pages/hvac-technician.webp',
     quote:
       'As a single mom, I needed training that was free and flexible. This program delivered both, and now I have a career that supports my family.',
     rating: 5,

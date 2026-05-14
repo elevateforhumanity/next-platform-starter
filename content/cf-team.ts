@@ -11,7 +11,7 @@ export const teamMembers: TeamMember[] = [
     slug: 'elizabeth-greene',
     name: 'Elizabeth Greene',
     title: 'Founder & Chief Executive Officer',
-    headshotSrc: '/images/team/elizabeth-greene-headshot.jpg',
+    headshotSrc: '/images/team/elizabeth-greene-headshot.webp',
     bio: 'Elizabeth Greene is a U.S. Army Veteran (Unit Supply Specialist), federally authorized tax professional, EPA 608 Certified Proctor, Indiana Substitute Teacher, and Licensed Barber. She founded Elevate for Humanity Technical and Career Institute — a DOL Registered Apprenticeship Sponsor, ETPL provider, and workforce partner across Indiana. Elizabeth also leads Elevate tax operations and Selfish Inc., a 501(c)(3) nonprofit providing VITA free tax preparation and community services to underserved Indianapolis residents.',
   },
   {
@@ -32,7 +32,7 @@ export const teamMembers: TeamMember[] = [
     slug: 'leslie-wafford',
     name: 'Leslie Wafford',
     title: 'Director of Community Services',
-    headshotSrc: '/images/leslie-wafford.jpg',
+    headshotSrc: '/images/leslie-wafford.webp',
     bio: 'Leslie Wafford leads all community services and wraparound support for Elevate participants. She coordinates housing referrals, eviction prevention services, emergency assistance connections, and community partner relationships. Leslie manages Elevate\'s referral network with Horizon House, the Salvation Army, Indianapolis Housing Agency, and CHIP. She conducts barrier assessments, develops Individual Employment Plans, and connects participants with the resources they need to complete training and enter employment. Her "reach one, teach one" philosophy drives her commitment to removing every barrier standing between a participant and a living-wage career.',
   },
   {

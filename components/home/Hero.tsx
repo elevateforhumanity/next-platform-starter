@@ -8,7 +8,7 @@ export function Hero() {
       {/* FULL-WIDTH HERO BANNER AT TOP */}
       <div className="relative w-full h-[250px] sm:h-[350px] lg:h-[450px]">
         <Image
-          src="/images/pages/comp-home-hero.jpg"
+          src="/images/pages/comp-home-hero.webp"
           alt="Elevate For Humanity - Career Training and Partnerships"
           fill
           priority

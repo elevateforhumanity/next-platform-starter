@@ -126,7 +126,7 @@ export default function NewFerpaRequestPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/ferpa-page-10.jpg"
+          src="/images/pages/ferpa-page-10.webp"
           alt="FERPA compliance"
           fill
           sizes="100vw"

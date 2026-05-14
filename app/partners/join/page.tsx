@@ -116,7 +116,7 @@ export default async function JoinPartnerPage() {
     <div className="min-h-screen bg-white">
       <div className="relative h-[220px] md:h-[300px] overflow-hidden">
         <Image
-          src="/images/pages/about-partners-hero.jpg"
+          src="/images/pages/about-partners-hero.webp"
           alt="Elevate for Humanity partner network"
           fill
           sizes="100vw"

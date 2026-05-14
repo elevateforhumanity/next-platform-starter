@@ -55,6 +55,7 @@ export const NAV_ITEMS: NavItem[] = [
       // Beauty & Personal Services
       { name: '— Beauty & Personal Services —', href: '/programs/apprenticeships', isHeader: true },
       { name: 'Barber Apprenticeship', href: canonicalRoutes.programs.barberApprenticeship },
+      { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
       { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
 
       // Business & Finance
@@ -78,6 +79,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— DOL Registered —', href: '/programs/apprenticeships', isHeader: true },
       { name: 'All Apprenticeships', href: '/programs/apprenticeships' },
       { name: 'Barber Apprenticeship', href: canonicalRoutes.programs.barberApprenticeship },
+      { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
       { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
       { name: '— Become a Host Shop —', href: '/partners/barbershop-apprenticeship', isHeader: true },
       { name: 'Barbershop Partner', href: '/partners/barbershop-apprenticeship' },

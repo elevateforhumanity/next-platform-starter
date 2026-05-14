@@ -7,7 +7,7 @@ export const TAX_PREPARATION: ProgramSchema = {
   sector: 'business',
   category: 'Tax & Accounting',
   programType: 'workforce',
-  heroImage: '/images/pages/tax-prep-desk.jpg',
+  heroImage: '/images/pages/tax-prep-desk.webp',
   heroImageAlt: 'Tax preparation student learning tax filing procedures',
   videoSrc: '/videos/tax-career-paths.mp4',
   deliveryMode: 'hybrid',

@@ -22,7 +22,7 @@ const sectionPhotos: Record<string, { src: string; alt: string }> = {
   compensation: { src: '/images/pages/barber-tools-closeup.jpg', alt: 'Barber tools and station' },
   hours: { src: '/images/pages/barber-clippers-work.jpg', alt: 'Barber cutting hair' },
   competencies: { src: '/images/pages/barber-fade-cut.jpg', alt: 'Barber performing fade cut' },
-  safety: { src: '/images/pages/barber-shop-wide.jpg', alt: 'Clean barbershop interior' },
+  safety: { src: '/images/pages/barber-shop-wide.webp', alt: 'Clean barbershop interior' },
   communication: { src: '/images/pages/barber-client-consult.jpg', alt: 'Barbershop team' },
   prohibited: { src: '/images/pages/barber-station-mirror.jpg', alt: 'Professional barbershop' },
   termination: { src: '/images/pages/barber-products-shelf.jpg', alt: 'Barbershop workspace' },
@@ -208,16 +208,16 @@ export default function PartnerHandbookPage() {
       {/* Photo Strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
         <div className="relative h-48">
-          <Image src="/images/pages/barber-beard-trim.jpg" alt="Barber trimming beard" fill className="object-cover" sizes="25vw" />
+          <Image src="/images/pages/barber-beard-trim.webp" alt="Barber trimming beard" fill className="object-cover" sizes="25vw" />
         </div>
         <div className="relative h-48">
-          <Image src="/images/pages/barber-straight-razor.jpg" alt="Barber performing straight razor shave" fill className="object-cover" sizes="25vw" />
+          <Image src="/images/pages/barber-straight-razor.webp" alt="Barber performing straight razor shave" fill className="object-cover" sizes="25vw" />
         </div>
         <div className="relative h-48">
-          <Image src="/images/pages/barber-cape-client.jpg" alt="Client in barber chair" fill className="object-cover" sizes="25vw" />
+          <Image src="/images/pages/barber-cape-client.webp" alt="Client in barber chair" fill className="object-cover" sizes="25vw" />
         </div>
         <div className="relative h-48">
-          <Image src="/images/pages/barber-styling-hair.jpg" alt="Barber styling hair" fill className="object-cover" sizes="25vw" />
+          <Image src="/images/pages/barber-styling-hair.webp" alt="Barber styling hair" fill className="object-cover" sizes="25vw" />
         </div>
       </div>
 

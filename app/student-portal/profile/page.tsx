@@ -186,7 +186,7 @@ export default function StudentProfilePage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/student-portal-page-8.jpg"
+          src="/images/pages/student-portal-page-8.webp"
           alt="Student profile"
           fill
           sizes="100vw"

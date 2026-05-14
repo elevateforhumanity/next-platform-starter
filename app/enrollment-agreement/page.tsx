@@ -28,7 +28,7 @@ export default function EnrollmentAgreementPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/enrollment-agreement-page-1.jpg"
+          src="/images/pages/enrollment-agreement-page-1.webp"
           alt="Enrollment agreement"
           fill
           sizes="100vw"

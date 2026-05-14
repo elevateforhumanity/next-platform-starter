@@ -185,7 +185,7 @@ export default async function HVACTechnicianPage() {
                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
               ) : (
                 <Image
-                  src="/images/pages/programs-hvac-course-hero.jpg"
+                  src="/images/pages/programs-hvac-course-hero.webp"
                   alt="HVAC technician training"
                   width={1200}
                   height={800}

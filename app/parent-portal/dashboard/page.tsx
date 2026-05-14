@@ -93,7 +93,7 @@ export default async function ParentDashboardPage() {
       {/* Hero */}
       <section className="relative h-40 sm:h-56 overflow-hidden">
         <Image
-          src="/images/pages/about-career-training.jpg"
+          src="/images/pages/about-career-training.webp"
           alt=""
           fill
           className="object-cover object-center"

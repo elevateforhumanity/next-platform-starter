@@ -43,13 +43,13 @@ export default async function LicensesPage() {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          poster="/images/pexels/store-hero.jpg"
+          poster="/images/pexels/store-hero.webp"
         >
           <source src="/videos/training-providers-video-with-narration.mp4" type="video/mp4" />
         </video>
         {/* Fallback Image */}
         <Image
-          src="/images/pexels/store-hero.jpg"
+          src="/images/pexels/store-hero.webp"
           alt="Workforce training platform"
           fill
           className="object-cover -z-10"
@@ -413,7 +413,7 @@ export default async function LicensesPage() {
       {/* CTA */}
       <section className="relative px-4 sm:px-6 lg:px-8 py-20 overflow-hidden">
         <Image
-          src="/images/pexels/success-team.jpg"
+          src="/images/pexels/success-team.webp"
           alt="Get started"
           fill
           className="object-cover"

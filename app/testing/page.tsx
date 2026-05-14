@@ -29,7 +29,7 @@ const PROVIDER_IMAGES: Record<string, string> = {
   nrf: '/images/pages/certifications-page-1.jpg',
   certiport: '/images/pages/testing-page-1.jpg',
   nha: '/images/pages/medical-assistant.webp',
-  workkeys: '/images/pages/career-services-page-1.jpg',
+  workkeys: '/images/pages/career-services-page-1.webp',
   careersafe: '/images/pages/programs-emergency-health-safety-hero.jpg',
   midland: '/images/pages/competency-test-hero.jpg',
 };
@@ -62,7 +62,7 @@ export default function TestingPage() {
       {/* Hero */}
       <section className="relative h-[45vh] md:h-[55vh] min-h-[280px] max-h-[520px] overflow-hidden">
         <Image
-          src="/images/pages/career-services-page-1.jpg"
+          src="/images/pages/career-services-page-1.webp"
           alt="Workforce credential testing"
           fill
           sizes="100vw"
@@ -144,7 +144,7 @@ export default function TestingPage() {
                   >
                     <Image
                       src={
-                        PROVIDER_IMAGES[provider.key] || '/images/pages/career-services-page-1.jpg'
+                        PROVIDER_IMAGES[provider.key] || '/images/pages/career-services-page-1.webp'
                       }
                       alt={provider.name}
                       fill
@@ -383,7 +383,7 @@ export default function TestingPage() {
               {
                 step: '1',
                 title: 'Book Your Seat',
-                img: '/images/pages/academic-calendar-hero.jpg',
+                img: '/images/pages/academic-calendar-hero.webp',
                 desc: `Select your exam and preferred date. Pay the exam fee at booking to reserve your seat. ${TESTING_CENTER.policy.noWalkIns}`,
               },
               {
@@ -401,7 +401,7 @@ export default function TestingPage() {
               {
                 step: '4',
                 title: 'Receive Your Credential',
-                img: '/images/pages/certificates-page-1.jpg',
+                img: '/images/pages/certificates-page-1.webp',
                 desc: 'Results and credentials are issued directly by the certifying body. Elevate records your outcome for your training record.',
               },
             ].map((s) => (

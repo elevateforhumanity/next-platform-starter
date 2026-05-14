@@ -189,7 +189,7 @@ export default async function CourseDetailPage({
   });
 
   // Hero image based on course type
-  const heroImage = '/images/pages/hvac-technician.jpg';
+  const heroImage = '/images/pages/hvac-technician.webp';
 
   return (
     <div className="min-h-screen bg-slate-50">

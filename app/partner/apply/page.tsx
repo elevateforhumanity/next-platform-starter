@@ -131,7 +131,7 @@ export default function PartnerApplyPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
         <Image
-          src="/images/pages/employer-hero.jpg"
+          src="/images/pages/employer-hero.webp"
           alt="Partner application"
           fill
           sizes="100vw"

@@ -250,7 +250,7 @@ export default function HandbookPage() {
       >
         <CanonicalVideo
           src="/videos/elevate-overview-with-narration.mp4"
-          poster="/images/pages/onboarding-page-1.jpg"
+          poster="/images/pages/onboarding-page-1.webp"
           className="absolute inset-0 w-full h-full object-cover"
         />
       </div>

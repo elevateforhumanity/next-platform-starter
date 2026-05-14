@@ -44,7 +44,7 @@ export default async function CreatePage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/course-create-hero.jpg"
+          src="/images/pages/course-create-hero.webp"
           alt="Create"
           fill
           sizes="100vw"

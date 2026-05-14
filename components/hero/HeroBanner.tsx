@@ -30,7 +30,7 @@ export default function HeroBanner({
   type = 'image',
   videoSrc = '/videos/homepage-hero-montage.mp4',
   posterSrc = '/images/pages/comp-home-hero-programs.jpg',
-  heroImageSrc = '/images/pages/workforce-training.jpg',
+  heroImageSrc = '/images/pages/workforce-training.webp',
   heroImageAlt = 'Elevate for Humanity',
   caption,
 }: HeroBannerProps) {

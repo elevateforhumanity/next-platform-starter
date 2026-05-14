@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     siteName: 'Elevate for Humanity',
     images: [
       {
-        url: '/images/pages/how-it-works-hero.jpg',
+        url: '/images/pages/how-it-works-hero.webp',
         width: 1200,
         height: 630,
         alt: 'How Elevate career training works',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'How It Works | Elevate for Humanity',
     description: 'From assessment to employment and follow-up support.',
-    images: ['/images/pages/how-it-works-hero.jpg'],
+    images: ['/images/pages/how-it-works-hero.webp'],
   },
 };
 
@@ -47,7 +47,7 @@ export default function HowItWorksPage() {
       </div>
 
       <HeroVideo
-        posterImage="/images/pages/how-it-works-hero.jpg"
+        posterImage="/images/pages/how-it-works-hero.webp"
         videoSrcDesktop={heroBanners['how-it-works'].videoSrcDesktop}
         voiceoverSrc={heroBanners['how-it-works'].voiceoverSrc}
         microLabel={heroBanners['how-it-works'].microLabel}
@@ -70,7 +70,7 @@ export default function HowItWorksPage() {
                 step: '1',
                 title: 'Assessment & Intake',
                 desc: 'We start with an individualized assessment to understand your goals, skills, experience, and any barriers to employment. If you qualify for funded training (WIOA, WRG, Job Ready Indy, or VR), we help you navigate the enrollment process including Indiana Career Connect registration and WorkOne referral.',
-                image: '/images/pages/career-counseling-page-1.jpg',
+                image: '/images/pages/career-counseling-page-1.webp',
                 cta: 'Check Eligibility',
                 href: '/check-eligibility',
                 external: false,
@@ -79,7 +79,7 @@ export default function HowItWorksPage() {
                 step: '2',
                 title: 'Training & Certification',
                 desc: 'Enroll in an industry-recognized credential program matched to your career goals. Healthcare, skilled trades, CDL, IT, barbering, and more. Programs run 4-16 weeks with instructor oversight. Some programs offer earn-while-you-learn apprenticeship pathways.',
-                image: '/images/pages/how-it-works-hero.jpg',
+                image: '/images/pages/how-it-works-hero.webp',
                 cta: 'View Programs',
                 href: '/programs',
                 external: false,
@@ -88,7 +88,7 @@ export default function HowItWorksPage() {
                 step: '3',
                 title: 'One-on-One Employment Support',
                 desc: 'Every participant receives individualized career coaching throughout the program. This includes resume development, job readiness skills, application assistance, mock interviews, and personalized career planning. Support is adapted to your strengths and needs.',
-                image: '/images/pages/career-services-page-1.jpg',
+                image: '/images/pages/career-services-page-1.webp',
                 cta: 'Employment Support Services',
                 href: '/employment-support',
                 external: false,
@@ -97,7 +97,7 @@ export default function HowItWorksPage() {
                 step: '4',
                 title: 'Employer Matching & Placement',
                 desc: 'We connect you directly with employers in our hiring network. Staff coordinate introductions, schedule interviews, and support you through the hiring process. We provide employment assistance and employer connection support across healthcare, trades, IT, business, and more.',
-                image: '/images/pages/about-employer-partners.jpg',
+                image: '/images/pages/about-employer-partners.webp',
                 cta: 'Employer Network',
                 href: '/for-employers',
                 external: false,

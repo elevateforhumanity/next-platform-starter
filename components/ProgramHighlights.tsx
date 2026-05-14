@@ -20,12 +20,12 @@ const defaultHighlights: Highlight[] = [
   {
     title: 'Earn While You Learn',
     description: 'Get paid during training through work-study programs and apprenticeships.',
-    image: '/images/pages/hvac-technician.jpg',
+    image: '/images/pages/hvac-technician.webp',
   },
   {
     title: 'Industry Certification',
     description: 'Earn recognized certifications that employers value and actively seek.',
-    image: '/images/pages/comp-home-hero.jpg',
+    image: '/images/pages/comp-home-hero.webp',
   },
   {
     title: 'Job Placement Support',
@@ -115,7 +115,7 @@ export default function ProgramHighlights({
             <div>
               <div className="relative w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden">
                 <Image
-                  src="/images/pages/welding-sparks.jpg"
+                  src="/images/pages/welding-sparks.webp"
                   alt="Modern equipment"
                   fill
                   className="object-cover"

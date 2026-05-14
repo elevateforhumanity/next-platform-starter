@@ -41,7 +41,7 @@ const completionCerts = [
   {
     name: 'Tax Preparation',
     desc: 'Individual tax return preparation, IRS compliance, and tax software proficiency.',
-    img: '/images/pages/tax-preparation.jpg',
+    img: '/images/pages/tax-preparation.webp',
   },
   {
     name: 'Sanitation & Infection Control',
@@ -51,7 +51,7 @@ const completionCerts = [
   {
     name: 'Micro Programs',
     desc: 'Short-term stackable credentials in safety, digital literacy, and professional development.',
-    img: '/images/pages/certifications.jpg',
+    img: '/images/pages/certifications.webp',
   },
 ];
 
@@ -89,7 +89,7 @@ const industryCerts = [
     issuer: 'ESCO Institute / Mainstream Engineering',
     field: 'HVAC',
     desc: 'Required by federal law to handle refrigerants. Proctored on-site at our authorized testing center. Does not expire.',
-    img: '/images/pages/hvac-technician.jpg',
+    img: '/images/pages/hvac-technician.webp',
   },
   {
     name: 'QuickBooks Certified User',

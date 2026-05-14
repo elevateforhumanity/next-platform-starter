@@ -16,7 +16,7 @@ export default function SalesPage() {
       config={{
         breadcrumbs: [{ label: 'Partners', href: '/partners' }, { label: 'LMS Licensing & API' }],
         hero: {
-          image: '/images/pages/lms-page-3.jpg',
+          image: '/images/pages/lms-page-3.webp',
           tag: 'LMS Licensing & API Access',
           tagColor: 'text-brand-blue-600',
           title: 'License the Elevate Platform',
@@ -29,7 +29,7 @@ export default function SalesPage() {
             'The Elevate platform powers enrollment, learning management, career services, and compliance reporting for workforce training providers. It is built specifically for WIOA-funded programs, DOL Registered Apprenticeships, and career certification training — not adapted from a generic LMS.',
             'License the platform for your organization with your branding, programs, and workflows. We handle hosting, security, updates, and technical support. You focus on training.',
           ],
-          image: '/images/pages/platform-page-4.jpg',
+          image: '/images/pages/platform-page-4.webp',
         },
         features: {
           heading: 'Platform Capabilities',

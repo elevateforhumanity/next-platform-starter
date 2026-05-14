@@ -28,7 +28,7 @@ export default async function ProgramHolderApplicationPage() {
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px]">
         <Image
-          src="/images/pages/admin-applicants-live-hero.jpg"
+          src="/images/pages/admin-applicants-live-hero.webp"
           alt="Program holder application"
           fill
           sizes="100vw"

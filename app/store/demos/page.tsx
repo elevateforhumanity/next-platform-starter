@@ -29,7 +29,7 @@ const demos = [
     id: 'employer',
     title: 'Employer Portal',
     icon: Briefcase,
-    image: '/images/pages/employer-handshake.jpg',
+    image: '/images/pages/employer-handshake.webp',
     alt: 'Employer reviewing candidate profiles from training programs',
     href: '/demo/employer',
     description: 'See what your employer partners see — how they track apprentices, view hiring incentives, and manage OJT contracts inside their portal.',

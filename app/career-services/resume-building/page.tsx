@@ -15,7 +15,7 @@ export default function ResumeBuildingPage() {
       config={{
         breadcrumbs: [{ label: 'Career Services', href: '/career-services' }, { label: 'Resume Building' }],
         hero: {
-          image: '/images/pages/career-services-page-4.jpg',
+          image: '/images/pages/career-services-page-4.webp',
           tag: 'Resume Building',
           tagColor: 'text-brand-blue-600',
           title: 'A Resume That Gets Callbacks',

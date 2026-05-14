@@ -58,7 +58,7 @@ const demos = [
     description:
       'Explore the administrative tools for managing programs, students, courses, and compliance.',
     duration: '20 min',
-    thumbnail: '/images/pages/workforce-training.jpg',
+    thumbnail: '/images/pages/workforce-training.webp',
     features: [
       'Student management',
       'Course builder and authoring',
@@ -104,7 +104,7 @@ export default function DemosPage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <Image
-            src="/images/pages/demos-hero.jpg"
+            src="/images/pages/demos-hero.webp"
             alt="Product Demos"
             fill
             className="object-cover"

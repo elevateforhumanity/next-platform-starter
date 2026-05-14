@@ -99,7 +99,7 @@ export default async function ProgramHolderOnboarding() {
       {/* Hero Section */}
       <section className="relative h-[400px] sm:h-[500px] w-full overflow-hidden">
         <Image
-          src="/images/pages/programs-hero-new-2.jpg"
+          src="/images/pages/programs-hero-new-2.webp"
           alt="Program holder training"
           fill
           className="object-cover"

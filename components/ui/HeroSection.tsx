@@ -20,7 +20,7 @@ import CanonicalVideo from '@/components/video/CanonicalVideo';
  * <HeroSection
  *   title="Program Title"
  *   subtitle="Brief description"
- *   image="/images/pages/workforce-training.jpg"
+ *   image="/images/pages/workforce-training.webp"
  *   variant="split"
  *   ctaPrimary={{ label: "Apply Now", href: "/apply" }}
  * />

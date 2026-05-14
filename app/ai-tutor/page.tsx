@@ -56,7 +56,7 @@ export default function AiTutorPage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <Image
-            src="/images/pages/ai-tutor-page-1.jpg"
+            src="/images/pages/ai-tutor-page-1.webp"
             alt="AI Tutor"
             fill
             className="object-cover"

@@ -73,7 +73,7 @@ export const ALL_PRODUCTS: Product[] = [
     price: 50000,
     priceDisplay: '$50,000',
     href: '/store/licenses/enterprise-license',
-    image: '/images/pages/store-recommendations.jpg',
+    image: '/images/pages/store-recommendations.webp',
     category: 'license',
     tier: 'enterprise',
     valueProps: [

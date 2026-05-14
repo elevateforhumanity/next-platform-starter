@@ -35,7 +35,7 @@ export default async function AdminPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/programs-admin-hero.jpg"
+          src="/images/pages/programs-admin-hero.webp"
           alt="Program Holder Admin Portal"
           fill
           sizes="100vw"
@@ -72,7 +72,7 @@ export default async function AdminPage() {
               </div>
               <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/images/pages/programs-admin-detail.jpg"
+                  src="/images/pages/programs-admin-detail.webp"
                   alt="Admin"
                   fill
                   sizes="100vw"

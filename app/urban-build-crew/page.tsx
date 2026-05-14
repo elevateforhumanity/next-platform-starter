@@ -21,7 +21,7 @@ export default function UrbanBuildCrewPage() {
       <Breadcrumbs items={[{ label: 'Urban Build Crew' }]} />
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/urban-build-crew-page-1.jpg"
+          src="/images/pages/urban-build-crew-page-1.webp"
           alt="Urban Build Crew"
           fill
           className="object-cover"

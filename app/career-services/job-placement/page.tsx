@@ -27,7 +27,7 @@ export default function JobPlacementPage() {
             'Job placement is built into every Elevate program. We maintain active relationships with employers across Indiana who hire our graduates — and we make direct introductions when you are ready.',
             'Our placement team tracks every graduate for 90 days post-completion and works with you until you are employed in your field.',
           ],
-          image: '/images/pages/career-services-page-4.jpg',
+          image: '/images/pages/career-services-page-4.webp',
         },
         features: {
           heading: 'Placement Services',

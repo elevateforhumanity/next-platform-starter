@@ -16,7 +16,7 @@ export default function CosmetologyEligibilityPage() {
   return (
     <div className="min-h-screen bg-white">
       <HeroVideo
-        videoSrcDesktop={b?.videoSrcDesktop ?? 'https://videos.pexels.com/video-files/6774588/6774588-hd_1920_1080_25fps.mp4'}
+        videoSrcDesktop={b?.videoSrcDesktop ?? 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4'}
         posterImage={b?.posterImage ?? '/images/pages/programs-cosmetology-hero.webp'}
         microLabel="Cosmetology Apprenticeship"
         analyticsName="cosmetology-eligibility"

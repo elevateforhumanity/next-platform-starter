@@ -57,7 +57,7 @@ const moreAddOns = [
     href: '/store/add-ons/compliance-automation',
     price: '$1,297',
     video: '/videos/store/store-compliance-automation.mp4',
-    poster: '/images/pages/admin-compliance-hero.jpg',
+    poster: '/images/pages/admin-compliance-hero.webp',
   },
 ];
 

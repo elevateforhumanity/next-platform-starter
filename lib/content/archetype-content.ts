@@ -109,7 +109,7 @@ export const applicationEnrollmentContent: LocalizedContent = {
     hero: {
       title: 'Program Application',
       purpose: 'Use this page to apply and submit the information required for review.',
-      image: '/images/pages/apply-employer-hero.jpg',
+      image: '/images/pages/apply-employer-hero.webp',
       imageAlt: 'Application form',
     },
     sections: {
@@ -137,7 +137,7 @@ export const applicationEnrollmentContent: LocalizedContent = {
     hero: {
       title: 'Solicitud del programa',
       purpose: 'Usa esta página para aplicar y enviar la información requerida.',
-      image: '/images/pages/apply-employer-hero.jpg',
+      image: '/images/pages/apply-employer-hero.webp',
       imageAlt: 'Formulario de solicitud',
     },
     sections: {
@@ -163,7 +163,7 @@ export const dashboardPortalContent: LocalizedContent = {
     hero: {
       title: 'My Dashboard',
       purpose: 'This page shows your current status and next required steps.',
-      image: '/images/pages/hvac-technician.jpg',
+      image: '/images/pages/hvac-technician.webp',
       imageAlt: 'Student dashboard',
     },
     sections: {
@@ -230,7 +230,7 @@ export const directoryListingContent: LocalizedContent = {
     hero: {
       title: 'Available Programs',
       purpose: 'Browse and filter programs that are currently open for enrollment.',
-      image: '/images/pages/comp-universal-hero.jpg',
+      image: '/images/pages/comp-universal-hero.webp',
       imageAlt: 'Program directory',
     },
     sections: {
@@ -255,7 +255,7 @@ export const directoryListingContent: LocalizedContent = {
     hero: {
       title: 'Programas disponibles',
       purpose: 'Explora programas abiertos y filtra según tus necesidades.',
-      image: '/images/pages/comp-universal-hero.jpg',
+      image: '/images/pages/comp-universal-hero.webp',
       imageAlt: 'Directorio de programas',
     },
     sections: {
@@ -282,7 +282,7 @@ export const policyComplianceContent: LocalizedContent = {
     hero: {
       title: 'Policy Information',
       purpose: 'This page explains policies that apply to your use of this platform.',
-      image: '/images/pages/for-employers-page-1.jpg',
+      image: '/images/pages/for-employers-page-1.webp',
       imageAlt: 'Policy documentation',
     },
     sections: {
@@ -543,7 +543,7 @@ export const systemUtilityContent: LocalizedContent = {
     hero: {
       title: 'Página no encontrada',
       purpose: 'La página que buscas no existe o ha sido movida.',
-      image: '/images/pages/workforce-training.jpg',
+      image: '/images/pages/workforce-training.webp',
       imageAlt: 'Página no encontrada',
     },
     cta: {

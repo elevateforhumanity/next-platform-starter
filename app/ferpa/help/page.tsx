@@ -89,7 +89,7 @@ export default async function FerpaHelpPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/ferpa-page-4.jpg"
+          src="/images/pages/ferpa-page-4.webp"
           alt="FERPA compliance"
           fill
           sizes="100vw"

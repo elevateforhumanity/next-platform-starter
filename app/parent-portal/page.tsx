@@ -49,19 +49,19 @@ const FEATURES = [
     icon: Bell,
     title: 'Notifications',
     desc: 'Get alerts for grades, attendance events, upcoming exams, and program announcements.',
-    image: '/images/pages/student-portal-page-5.jpg',
+    image: '/images/pages/student-portal-page-5.webp',
   },
   {
     icon: BarChart3,
     title: 'Progress Reports',
     desc: 'Download detailed progress and performance reports at any time.',
-    image: '/images/pages/student-portal-page-6.jpg',
+    image: '/images/pages/student-portal-page-6.webp',
   },
   {
     icon: Shield,
     title: 'Secure & Private',
     desc: "FERPA-compliant access. Your student's data is protected and never shared.",
-    image: '/images/pages/student-portal-page-7.jpg',
+    image: '/images/pages/student-portal-page-7.webp',
   },
 ];
 
@@ -107,7 +107,7 @@ export default async function ParentPortalPage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <Image
-            src="/images/pages/about-career-training.jpg"
+            src="/images/pages/about-career-training.webp"
             alt="Parent and guardian portal"
             fill
             className="object-cover object-center"
@@ -257,7 +257,7 @@ export default async function ParentPortalPage() {
             </div>
             <div className="relative h-72 rounded-2xl overflow-hidden">
               <Image
-                src="/images/pages/about-supportive-services.jpg"
+                src="/images/pages/about-supportive-services.webp"
                 alt="Supportive services for students and families"
                 fill
                 className="object-cover"

@@ -26,7 +26,7 @@ export default function Page() {
             <div className="lg:col-span-2">
               <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/images/leslie-wafford.jpg"
+                  src="/images/leslie-wafford.webp"
                   alt="Sharon Douglass"
                   fill
                   className="object-cover"

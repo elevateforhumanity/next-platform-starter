@@ -96,7 +96,7 @@ export default async function IntegrationsPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/lms-page-3.jpg"
+          src="/images/pages/lms-page-3.webp"
           alt="Integrations"
           fill
           className="object-cover"

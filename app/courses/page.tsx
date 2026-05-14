@@ -81,7 +81,7 @@ export default async function CoursesPage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
           <Image
-            src="/images/heroes/training-provider-3.jpg"
+            src="/images/heroes/training-provider-3.webp"
             alt="Career Training Courses"
             fill
             className="object-cover"
@@ -199,7 +199,7 @@ export default async function CoursesPage() {
                 >
                   <div className="relative h-40">
                     <Image sizes="100vw"
-                      src={course.image_url || '/images/heroes/training-provider-3.jpg'}
+                      src={course.image_url || '/images/heroes/training-provider-3.webp'}
                       alt={course.title}
                       fill
                       className="object-cover"

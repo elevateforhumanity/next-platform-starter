@@ -39,7 +39,9 @@ function serverSanitize(dirty: string, opts?: { allowedTags?: string[]; allowedA
 }
 
 function clientSanitize(dirty: string, opts?: { allowedTags?: string[]; allowedAttr?: string[] }): string {
-  const DOMPurify = require('dompurify') as typeof import('dompurify');
+  const DOMPurify = require('dompurify') as {
+    sanitize: (input: string, config: Record<string, unknown>) => string;
+  };
   return DOMPurify.sanitize(dirty, {
     ALLOWED_TAGS: opts?.allowedTags ?? ALLOWED_TAGS,
     ALLOWED_ATTR: opts?.allowedAttr ?? ALLOWED_ATTR,

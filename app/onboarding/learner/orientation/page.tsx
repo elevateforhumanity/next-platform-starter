@@ -328,7 +328,7 @@ export default async function OrientationPage() {
       >
         <CanonicalVideo
           src="/videos/getting-started-hero.mp4"
-          poster="/images/pages/orientation-page-1.jpg"
+          poster="/images/pages/orientation-page-1.webp"
           className="absolute inset-0 w-full h-full object-cover"
         />
       </div>

@@ -49,7 +49,7 @@ export default function TutoringPage() {
       title: 'Skilled Trades',
       description:
         'Electrical theory, NEC code review, welding technique coaching, HVAC system troubleshooting, plumbing calculations, and blueprint reading.',
-      image: '/images/pages/hvac-technician.jpg',
+      image: '/images/pages/hvac-technician.webp',
     },
     {
       title: 'Technology & IT',
@@ -73,7 +73,7 @@ export default function TutoringPage() {
       title: 'Certification Exam Prep',
       description:
         'Focused review sessions for any certification exam — OSHA, AWS, QuickBooks, CompTIA, AFSP, or state licensing boards. Practice tests and targeted review.',
-      image: '/images/pages/certifications.jpg',
+      image: '/images/pages/certifications.webp',
     },
   ];
 
@@ -127,7 +127,7 @@ export default function TutoringPage() {
       {/* Hero Image */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
         <Image
-          src="/images/pages/tutoring-page-1.jpg"
+          src="/images/pages/tutoring-page-1.webp"
           alt="Students receiving one-on-one tutoring at Elevate training center"
           fill
           sizes="100vw"
@@ -158,7 +158,7 @@ export default function TutoringPage() {
                 step: '1',
                 title: 'Log In to LMS',
                 desc: 'Access the tutoring portal through your student dashboard. Navigate to Help > Tutoring.',
-                image: '/images/pages/lms-page-1.jpg',
+                image: '/images/pages/lms-page-1.webp',
               },
               {
                 step: '2',
@@ -170,7 +170,7 @@ export default function TutoringPage() {
                 step: '3',
                 title: 'Book a Session',
                 desc: 'Pick an available tutor and time slot. Choose 30 or 60 minutes, virtual or in-person.',
-                image: '/images/pages/calendar-page-1.jpg',
+                image: '/images/pages/calendar-page-1.webp',
               },
               {
                 step: '4',

@@ -26,13 +26,13 @@ const features = [
   {
     title: 'Performance Metrics Tracking',
     description: 'Real-time tracking of all WIOA primary indicators of performance.',
-    image: '/images/pages/workforce-training.jpg',
+    image: '/images/pages/workforce-training.webp',
     items: ['Employment rate tracking', 'Median earnings calculation', 'Credential attainment', 'Measurable skill gains'],
   },
   {
     title: 'PIRL Data Export',
     description: 'One-click export to Participant Individual Record Layout format.',
-    image: '/images/pages/store-recommendations.jpg',
+    image: '/images/pages/store-recommendations.webp',
     items: ['Automated field mapping', 'Data validation', 'Error checking', 'Batch export capability'],
   },
   {
@@ -115,7 +115,7 @@ export default function WIOACompliancePage() {
       </div>
 {/* Avatar Guide at Top */}
       <AvatarGuide
-        avatarImage="/images/pages/store-recommendations.jpg"
+        avatarImage="/images/pages/store-recommendations.webp"
         avatarName="James"
         welcomeMessage="Welcome to our WIOA Compliance tools! I'm James, and I'll explain how we make WIOA compliance simple. Let me show you around."
         steps={wioaGuideSteps}
@@ -225,7 +225,7 @@ export default function WIOACompliancePage() {
             {[
               { step: '1', title: 'Setup', desc: 'Configure your program and eligibility criteria', image: '/images/pages/wioa-meeting.webp' },
               { step: '2', title: 'Enroll', desc: 'Participants complete digital intake forms', image: '/images/pages/adult-learner.jpg' },
-              { step: '3', title: 'Track', desc: 'Automatic performance metric tracking', image: '/images/pages/store-recommendations.jpg' },
+              { step: '3', title: 'Track', desc: 'Automatic performance metric tracking', image: '/images/pages/store-recommendations.webp' },
               { step: '4', title: 'Report', desc: 'Generate PIRL exports and quarterly reports', image: '/images/pages/graduation-ceremony.webp' },
             ].map((item) => (
               <div key={item.step} className="text-center">
@@ -312,7 +312,7 @@ export default function WIOACompliancePage() {
               </div>
               <div className="relative h-64 rounded-xl overflow-hidden">
                 <Image
-                  src="/images/pages/store-compliance-wioa-detail.jpg"
+                  src="/images/pages/store-compliance-wioa-detail.webp"
                   alt="WIOA Resources"
                   fill
                   className="object-cover"

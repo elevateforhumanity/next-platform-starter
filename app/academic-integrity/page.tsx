@@ -27,7 +27,7 @@ export default function AcademicIntegrityPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/academic-integrity-hero.jpg"
+          src="/images/pages/academic-integrity-hero.webp"
           alt="Academic Integrity"
           fill
           className="object-cover"

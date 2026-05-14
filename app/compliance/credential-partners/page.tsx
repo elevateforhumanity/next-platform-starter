@@ -122,7 +122,7 @@ export default function CredentialPartnersPage() {
       {/* Hero */}
       <section className="relative h-[240px] sm:h-[300px] overflow-hidden">
         <Image
-          src="/images/pages/credential-partners-hero.jpg"
+          src="/images/pages/credential-partners-hero.webp"
           alt="Credential partners and training providers"
           fill
           sizes="100vw"

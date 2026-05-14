@@ -150,44 +150,52 @@ export async function getPublishedProgramBySlug(slug: string): Promise<ProgramRe
       : { data: [] };
 
   // Attach lessons to their modules
-  const lessonsByModule = new Map<string, any[]>();
-  for (const lesson of lessonsRes.data ?? []) {
-    const arr = lessonsByModule.get(lesson.module_id) ?? [];
-    arr.push(lesson);
-    lessonsByModule.set(lesson.module_id, arr);
+  type LessonRow = ProgramLesson & { module_id: string };
+  const lessonsByModule = new Map<string, ProgramLesson[]>();
+  for (const lesson of (lessonsRes.data ?? []) as LessonRow[]) {
+    const { module_id, ...rest } = lesson;
+    const arr = lessonsByModule.get(module_id) ?? [];
+    arr.push(rest);
+    lessonsByModule.set(module_id, arr);
   }
 
-  data.program_media = mediaRes.data ?? [];
-  data.program_ctas = ctasRes.data ?? [];
-  data.program_tracks = tracksRes.data ?? [];
-  data.program_modules = (modulesRes.data ?? []).map((m: any) => ({
-    ...m,
-    program_lessons: lessonsByModule.get(m.id) ?? [],
-  }));
+  const program: ProgramRecord = {
+    ...data,
+    program_media: (mediaRes.data ?? []) as ProgramMedia[],
+    program_ctas: (ctasRes.data ?? []) as ProgramCTA[],
+    program_tracks: (tracksRes.data ?? []) as ProgramTrack[],
+    program_modules: ((modulesRes.data ?? []) as Omit<ProgramModule, 'program_lessons'>[]).map(
+      (m) => ({
+        ...m,
+        program_lessons: lessonsByModule.get(m.id) ?? [],
+      }),
+    ),
+    isComplete: false,
+  };
 
   // Normalise missing relations to empty arrays — page renders a controlled
   // unavailable state rather than 404ing or showing empty sections.
-  data.program_media = data.program_media ?? [];
-  data.program_ctas = data.program_ctas ?? [];
-  data.program_tracks = data.program_tracks ?? [];
-  data.program_modules = data.program_modules ?? [];
+  program.program_media = program.program_media ?? [];
+  program.program_ctas = program.program_ctas ?? [];
+  program.program_tracks = program.program_tracks ?? [];
+  program.program_modules = program.program_modules ?? [];
 
-  (data as ProgramRecord).isComplete =
-    data.program_media.length > 0 &&
-    data.program_ctas.length > 0 &&
-    data.program_tracks.length > 0 &&
-    data.program_modules.length > 0;
+  program.isComplete =
+    program.program_media.length > 0 &&
+    program.program_ctas.length > 0 &&
+    program.program_tracks.length > 0 &&
+    program.program_modules.length > 0;
 
   // Sort all relations by sort_order
-  data.program_media.sort((a, b) => a.sort_order - b.sort_order);
-  data.program_ctas.sort((a, b) => a.sort_order - b.sort_order);
-  data.program_tracks.sort((a, b) => a.sort_order - b.sort_order);
-  data.program_modules.sort((a, b) => a.sort_order - b.sort_order);
-  for (const mod of data.program_modules) {
+  program.program_media.sort((a, b) => a.sort_order - b.sort_order);
+  program.program_ctas.sort((a, b) => a.sort_order - b.sort_order);
+  program.program_tracks.sort((a, b) => a.sort_order - b.sort_order);
+  program.program_modules.sort((a, b) => a.sort_order - b.sort_order);
+  for (const mod of program.program_modules) {
     mod.program_lessons?.sort((a, b) => a.sort_order - b.sort_order);
   }
 
-  return data as ProgramRecord;
+  return program;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

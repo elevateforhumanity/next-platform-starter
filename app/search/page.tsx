@@ -100,7 +100,7 @@ export default function SearchPage() {
       {/* Hero */}
       <section className="relative h-[320px] sm:h-[400px] overflow-hidden">
         <Image
-          src="/images/pages/programs-hero-vibrant.jpg"
+          src="/images/pages/programs-hero-vibrant.webp"
           alt="Workforce training programs"
           fill
           className="object-cover"
@@ -188,7 +188,7 @@ export default function SearchPage() {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="relative h-[260px] sm:h-[320px] rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src="/images/pages/about-funding-nav.jpg"
+                src="/images/pages/about-funding-nav.webp"
                 alt="Workforce funding and financial aid"
                 fill
                 className="object-cover"
@@ -278,7 +278,7 @@ export default function SearchPage() {
             </div>
             <div className="relative h-[260px] sm:h-[320px] rounded-2xl overflow-hidden shadow-xl order-1 md:order-2">
               <Image
-                src="/images/pages/admin-apprenticeships-hero.jpg"
+                src="/images/pages/admin-apprenticeships-hero.webp"
                 alt="Employer partnerships"
                 fill
                 className="object-cover"

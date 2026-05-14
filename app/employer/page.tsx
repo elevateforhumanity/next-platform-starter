@@ -48,7 +48,7 @@ const INCENTIVES = [
   {
     title: 'Upskill Your Workforce',
     desc: 'WIOA-funded upskilling for current employees at no cost to eligible participants.',
-    img: '/images/pages/training-page-1.jpg',
+    img: '/images/pages/training-page-1.webp',
     alt: 'Workforce upskilling programs',
   },
 ];
@@ -57,7 +57,7 @@ const SECTORS = [
   {
     label: 'HVAC Technicians',
     credential: 'EPA 608 Universal',
-    img: '/images/pages/hvac-technician.jpg',
+    img: '/images/pages/hvac-technician.webp',
   },
   {
     label: 'CNA / Healthcare',
@@ -83,7 +83,7 @@ const STEPS = [
     n: '1',
     title: 'Tell Us What You Need',
     desc: 'Share the roles, volume, and timeline. We match you to current and upcoming graduates.',
-    img: '/images/pages/contact-page-1.jpg',
+    img: '/images/pages/contact-page-1.webp',
   },
   {
     n: '2',
@@ -95,7 +95,7 @@ const STEPS = [
     n: '3',
     title: 'Hire & Access Incentives',
     desc: 'We handle WOTC paperwork, OJT agreements, and apprenticeship compliance.',
-    img: '/images/pages/employer-page-1.jpg',
+    img: '/images/pages/employer-page-1.webp',
   },
   {
     n: '4',
@@ -109,7 +109,7 @@ export default function EmployerPage() {
   return (
     <div className="min-h-screen bg-white">
       <HeroVideo
-        posterImage="/images/pages/employer-hero.jpg"
+        posterImage="/images/pages/employer-hero.webp"
         videoSrcDesktop={heroBanners.employer.videoSrcDesktop}
         voiceoverSrc={heroBanners.employer.voiceoverSrc}
         microLabel={heroBanners.employer.microLabel}
@@ -242,7 +242,7 @@ export default function EmployerPage() {
             </div>
             <div className="relative h-64 rounded-2xl overflow-hidden">
               <Image
-                src="/images/pages/employers-page-1.jpg"
+                src="/images/pages/employers-page-1.webp"
                 alt="Employer partnership meeting"
                 fill
                 sizes="600px"

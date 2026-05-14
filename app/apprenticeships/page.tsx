@@ -81,7 +81,7 @@ export default function ApprenticeshipsPage() {
             <Link href="/for-employers" className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm">Partner With Us →</Link>
           </div>
           <div className="relative w-full lg:w-96 h-64 rounded-2xl overflow-hidden shrink-0">
-            <Image src="/images/pages/about-employer-partners.jpg" alt="Employer apprenticeship partnership" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 384px" />
+            <Image src="/images/pages/about-employer-partners.webp" alt="Employer apprenticeship partnership" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 384px" />
           </div>
         </div>
       </section>

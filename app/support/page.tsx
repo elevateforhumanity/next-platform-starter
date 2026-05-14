@@ -84,7 +84,7 @@ export default async function SupportPage() {
       {/* Hero Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[340px] overflow-hidden">
         <Image
-          src="/images/pages/support-page-2.jpg"
+          src="/images/pages/support-page-2.webp"
           alt="Student support services"
           fill
           sizes="100vw"

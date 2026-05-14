@@ -57,7 +57,7 @@ export default function WorkKeysPage() {
       {/* Hero */}
       <section className="relative h-[300px] sm:h-[420px] overflow-hidden">
         <Image
-          src="/images/pages/about-team-hero.jpg"
+          src="/images/pages/about-team-hero.webp"
           alt="ACT WorkKeys career readiness assessment"
           fill
           sizes="100vw"
@@ -103,7 +103,7 @@ export default function WorkKeysPage() {
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div className="relative h-64 rounded-2xl overflow-hidden">
               <Image
-                src="/images/pages/career-services-page-11.jpg"
+                src="/images/pages/career-services-page-11.webp"
                 alt="WorkKeys assessment testing"
                 fill
                 sizes="600px"
@@ -231,7 +231,7 @@ export default function WorkKeysPage() {
             </div>
             <div className="relative h-64 rounded-2xl overflow-hidden">
               <Image
-                src="/images/pages/career-services-page-12.jpg"
+                src="/images/pages/career-services-page-12.webp"
                 alt="WorkKeys testing at Elevate"
                 fill
                 sizes="600px"

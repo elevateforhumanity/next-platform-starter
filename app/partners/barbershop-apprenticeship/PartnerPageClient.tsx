@@ -17,7 +17,7 @@ export default function PartnerPageClient() {
       {/* Hero */}
       <div className="relative w-full h-[50vh] md:h-[65vh] overflow-hidden">
         <Image
-          src="/images/pages/barber-shop-wide.jpg"
+          src="/images/pages/barber-shop-wide.webp"
           alt="Professional barbershop — Indiana Barbershop Apprenticeship Program"
           fill
           className="object-cover object-center"

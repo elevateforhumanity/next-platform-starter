@@ -25,13 +25,13 @@ const features = [
   {
     title: 'Custom Report Templates',
     description: 'Pre-built templates for DOL, state agencies, and foundation reporting.',
-    image: '/images/pages/workforce-training.jpg',
+    image: '/images/pages/workforce-training.webp',
     items: ['DOL ETA reports', 'State-specific formats', 'Foundation templates', 'Custom builders'],
   },
   {
     title: 'Outcome Tracking',
     description: 'Track employment, wages, credentials, and other grant outcomes.',
-    image: '/images/pages/workforce-training.jpg',
+    image: '/images/pages/workforce-training.webp',
     items: ['Employment tracking', 'Wage verification', 'Credential attainment', 'Follow-up automation'],
   },
   {
@@ -66,7 +66,7 @@ export default function GrantReportingPage() {
     <div className="bg-white">
       {/* Avatar Guide */}
       <AvatarGuide
-        avatarImage="/images/pages/store-recommendations.jpg"
+        avatarImage="/images/pages/store-recommendations.webp"
         avatarName="Guide"
         welcomeMessage="Hey! I'm your guide. I used to spend 40 hours on quarterly reports. Now it takes 10 minutes. Let me show you how our grant reporting tools work."
         steps={guideSteps}

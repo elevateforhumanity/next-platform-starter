@@ -29,7 +29,7 @@ export const LMS_SECTION_CARDS = {
   programsView: '/hero-images/pathways-hero.jpg',
   funding: '/hero-images/federal-funded-hero.jpg',
   courses: '/images/pages/training-classroom.jpg',
-  progress: '/images/pages/hvac-technician.jpg',
+  progress: '/images/pages/hvac-technician.webp',
   certificates: '/hero-images/apprenticeships-hero.jpg',
   certification: '/hero-images/services-hero.jpg',
   placement: '/hero-images/employer-new-hero.jpg',
@@ -50,13 +50,13 @@ export const LMS_TOOLS = {
   achievements: '/images/pages/training-classroom.jpg',
   profile: '/images/pages/training-classroom.jpg',
   support: '/images/pages/training-classroom.jpg',
-  forums: '/images/pages/hvac-technician.jpg',
+  forums: '/images/pages/hvac-technician.webp',
 } as const;
 
 // -- Course category images --
 export const LMS_CATEGORIES = {
   healthcare: '/images/pages/training-classroom.jpg',
-  trades: '/images/pages/hvac-technician.jpg',
+  trades: '/images/pages/hvac-technician.webp',
   technology: '/images/pages/training-classroom.jpg',
   business: '/images/pages/training-classroom.jpg',
   default: '/images/pages/training-classroom.jpg',
@@ -65,7 +65,7 @@ export const LMS_CATEGORIES = {
 // -- Course detail fallback (when no thumbnail_url) --
 export const COURSE_CATEGORY_FALLBACKS: Record<string, string> = {
   healthcare: '/images/pages/training-classroom.jpg',
-  trades: '/images/pages/hvac-technician.jpg',
+  trades: '/images/pages/hvac-technician.webp',
   technology: '/images/pages/training-classroom.jpg',
   business: '/images/pages/training-classroom.jpg',
   default: '/images/pages/training-classroom.jpg',

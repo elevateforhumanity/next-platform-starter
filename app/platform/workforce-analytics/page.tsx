@@ -220,7 +220,7 @@ export default function WorkforceAnalyticsPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[350px] rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src="/images/pages/platform-page-6.jpg"
+                src="/images/pages/platform-page-6.webp"
                 alt="Analytics dashboard"
                 fill
                 sizes="100vw"

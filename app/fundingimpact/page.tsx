@@ -93,7 +93,7 @@ export default function FundingImpactPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/admin-business-hero.jpg"
+                  src="/images/pages/admin-business-hero.webp"
                   alt="Participants in training"
                   fill
                   className="object-cover"
@@ -245,7 +245,7 @@ export default function FundingImpactPage() {
             <div className="space-y-6">
               <div className="relative h-64 rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/pages/funding-impact-3.jpg"
+                  src="/images/pages/funding-impact-3.webp"
                   alt="WIOA funding process"
                   fill
                   className="object-cover"
@@ -310,7 +310,7 @@ export default function FundingImpactPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/pages/funding-impact-4.jpg"
+                  src="/images/pages/funding-impact-4.webp"
                   alt="Graduate J. success story"
                   fill
                   className="object-cover"
@@ -342,7 +342,7 @@ export default function FundingImpactPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/pages/funding-impact-5.jpg"
+                  src="/images/pages/funding-impact-5.webp"
                   alt="Sarah T. success story"
                   fill
                   className="object-cover"
@@ -374,7 +374,7 @@ export default function FundingImpactPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/pages/admin-advanced-tools-hero.jpg"
+                  src="/images/pages/admin-advanced-tools-hero.webp"
                   alt="David W. success story"
                   fill
                   className="object-cover"
@@ -469,7 +469,7 @@ export default function FundingImpactPage() {
             <div className="bg-brand-blue-50 rounded-xl overflow-hidden border border-brand-blue-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/pages/admin-applications-id-hero.jpg"
+                  src="/images/pages/admin-applications-id-hero.webp"
                   alt="Employer benefits"
                   fill
                   className="object-cover"
@@ -505,7 +505,7 @@ export default function FundingImpactPage() {
             <div className="bg-brand-green-50 rounded-xl overflow-hidden border border-brand-green-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/pages/outcomes.jpg"
+                  src="/images/pages/outcomes.webp"
                   alt="Economic growth"
                   fill
                   className="object-cover"

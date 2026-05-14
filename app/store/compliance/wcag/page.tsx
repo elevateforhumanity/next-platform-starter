@@ -70,7 +70,7 @@ export default function WCAGCompliancePage() {
       </div>
 {/* Avatar Guide */}
       <AvatarGuide
-        avatarImage="/images/pages/store-recommendations.jpg"
+        avatarImage="/images/pages/store-recommendations.webp"
         avatarName="Alex"
         welcomeMessage="Hi! I'm Alex. Accessibility isn't just compliance - it's about making learning available to everyone. Let me show you how we make that happen."
         steps={guideSteps}

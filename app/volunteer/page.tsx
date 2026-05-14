@@ -52,7 +52,7 @@ export default async function VolunteerPage() {
       {/* Hero */}
       <div className="relative h-[40vh] min-h-[300px] flex items-center overflow-hidden">
         <Image
-          src="/images/pages/volunteer-page-1.jpg"
+          src="/images/pages/volunteer-page-1.webp"
           alt="Volunteer with Elevate"
           fill
           className="object-cover"

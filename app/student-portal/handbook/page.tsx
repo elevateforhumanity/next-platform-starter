@@ -79,7 +79,7 @@ export default function StudentHandbookPage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
           <Image
-            src="/images/heroes/student-catalog.jpg"
+            src="/images/heroes/student-catalog.webp"
             alt="Student handbook"
             fill
             className="object-cover"

@@ -23,7 +23,7 @@ export default function EmploymentSupportPage() {
       {/* Hero — image only, no text overlay */}
       <section className="relative h-[240px] sm:h-[320px] md:h-[400px] overflow-hidden">
         <Image
-          src="/images/pages/employment-support-page-1.jpg"
+          src="/images/pages/employment-support-page-1.webp"
           alt="Employment support services at Elevate for Humanity"
           fill
           sizes="100vw"
@@ -63,7 +63,7 @@ export default function EmploymentSupportPage() {
               {
                 title: 'One-on-One Career Coaching',
                 desc: 'Work directly with a career advisor to set goals, identify strengths, and build a personalized employment plan.',
-                image: '/images/pages/career-services-page-1.jpg',
+                image: '/images/pages/career-services-page-1.webp',
               },
               {
                 title: 'Resume & Application Assistance',
@@ -78,12 +78,12 @@ export default function EmploymentSupportPage() {
               {
                 title: 'Employer Connections',
                 desc: 'We connect you directly with employer partners who are actively hiring in your field through our partner network.',
-                image: '/images/pages/about-employer-partners.jpg',
+                image: '/images/pages/about-employer-partners.webp',
               },
               {
                 title: 'Barrier-to-Employment Support',
                 desc: 'Transportation coordination, referral support, and assistance addressing challenges that impact your ability to work.',
-                image: '/images/pages/about-supportive-services.jpg',
+                image: '/images/pages/about-supportive-services.webp',
               },
               {
                 title: 'Post-Placement Retention',
@@ -179,7 +179,7 @@ export default function EmploymentSupportPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="relative rounded-2xl overflow-hidden h-[300px] md:h-auto min-h-[300px]">
               <Image
-                src="/images/pages/admin-campaigns-hero.jpg"
+                src="/images/pages/admin-campaigns-hero.webp"
                 alt="Participants in a training session"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -226,7 +226,7 @@ export default function EmploymentSupportPage() {
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <div className="relative h-[200px] rounded-xl overflow-hidden mb-4">
                 <Image
-                  src="/images/pages/hvac-technician.jpg"
+                  src="/images/pages/hvac-technician.webp"
                   alt="Hands-on industry training"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -250,7 +250,7 @@ export default function EmploymentSupportPage() {
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <div className="relative h-[200px] rounded-xl overflow-hidden mb-4">
                 <Image
-                  src="/images/pages/career-services-page-4.jpg"
+                  src="/images/pages/career-services-page-4.webp"
                   alt="One-on-one career coaching session"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"

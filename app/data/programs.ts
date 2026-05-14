@@ -87,7 +87,7 @@ export const programs: Program[] = [
       'Install, maintain, and repair heating and cooling systems. Earn EPA 608 Universal certification — proctored on-site at our approved testing facility. 6–8 weeks classroom plus 2–4 weeks hands-on training.',
     longDescription:
       "The HVAC Technician program prepares students to diagnose, repair, and maintain heating, ventilation, air conditioning, and refrigeration systems. Training covers electrical fundamentals, refrigeration theory, system installation, and EPA 608 certification prep — proctored on-site.\n\nProgram Format:\n- 6–8 weeks classroom instruction at our Indianapolis training center\n- 2–4 weeks hands-on training and employer jobsite placement\n- 6 weeks total, 120 instructional hours\n- Hybrid: Online Related Technical Instruction via LMS + hands-on labs\n\nWhat You'll Learn:\n- HVAC system components and operation\n- Electrical testing and troubleshooting\n- Refrigeration cycle fundamentals\n- Equipment installation and repair\n- Preventative maintenance practices\n- Safety, EPA preparation, and customer communication\n\nCredentials:\n- EPA 608 Universal Certification (proctored on-site)\n- OSHA 30-Hour Construction Safety\n- CPR / First Aid\n\nCareer Outcomes:\n- HVAC Technician (entry-level)\n- Maintenance Technician\n- Building Operations Support",
-    heroImage: '/images/pages/hvac-technician.jpg',
+    heroImage: '/images/pages/hvac-technician.webp',
     heroImageAlt: 'HVAC student working on an air conditioning unit',
     heroVideo: '/videos/hvac-hero-final.mp4',
     duration: '6–8 weeks',
@@ -792,7 +792,7 @@ export const programs: Program[] = [
       'Start your own tax business or work for a firm in just 10 weeks. Get IRS VITA/TCE certified, learn QuickBooks and Microsoft 365, and gain real experience preparing taxes at an IRS-approved site. Earn $40,000-$60,000+ per year during tax season, with flexibility to work year-round or seasonally.',
     longDescription:
       "The Tax Preparation & Financial Services Certificate prepares individuals to understand federal and state taxation concepts and apply them in real-world settings. Participants complete training in tax law, return preparation, bookkeeping, and financial literacy, culminating in the IRS VITA/TCE certification. The program combines classroom instruction, online modules, and supervised practicum hours at an IRS-approved VITA site. Graduates gain the skills required for employment as Tax Preparers, Bookkeeping Assistants, and Financial Service Specialists in both private and community-based environments.\n\nThrough the IRS Link & Learn platform and Elevate for Humanity's financial training curriculum, students master key competencies in individual taxation, ethics, client intake, and electronic filing, while also building transferable skills in business communication, budgeting, and entrepreneurship.\n\nElevate for Humanity is an IRS VITA/TCE Approved Site, Indiana ETPL Approved Training Provider, SAM.gov Active Entity, E-Verify Employer, and Authorized IRS e-file provider. All instructors hold a 2-year degree from a credentialed institution or 2 years of relevant experience in tax preparation or financial services.\n\nCredentialing Partners:\n• Internal Revenue Service (IRS) - VITA/TCE Certification (https://irs.gov/vita)\n• IRS Link & Learn Taxes Platform (https://apps.irs.gov/app/vita/)\n• Intuit - QuickBooks Pro Advisor (https://quickbooks.intuit.com/accountants/)\n• Microsoft - Microsoft 365 Fundamentals (https://microsoft.com/learn)\n• Rise Up - Career Readiness Certification (https://riseup.com)\n\nCIP Code: 52.0302 - Accounting Technology/Technician and Bookkeeping",
-    heroImage: '/images/pages/tax-preparation.jpg',
+    heroImage: '/images/pages/tax-preparation.webp',
     heroImageAlt: 'Tax preparer assisting client with tax return',
     heroVideo: '/videos/tax-career-paths.mp4',
     duration: '10 weeks',
@@ -1293,7 +1293,7 @@ export const programs: Program[] = [
     heroSubtitle: 'Support business operations. Office management and organizational skills.',
     shortDescription: 'Support business operations. Office management and organizational skills.',
     longDescription: `Our Administrative Assistant program prepares you for a professional office career. You'll learn Microsoft Office Suite, business communication, scheduling, and office procedures. The program covers document preparation, meeting coordination, travel arrangements, and professional etiquette. You'll develop organizational skills and attention to detail. Administrative assistants are essential in every industry with stable employment.`,
-    heroImage: '/images/pages/admin-business-hero.jpg',
+    heroImage: '/images/pages/admin-business-hero.webp',
     heroImageAlt: 'Administrative Assistant training at Elevate for Humanity',
     heroVideo: '/videos/partner-business.mp4',
     duration: '12 weeks',
@@ -1907,7 +1907,7 @@ export const programs: Program[] = [
     shortDescription:
       'Start and grow your own business. Business planning, marketing, and management skills.',
     longDescription: `Our Entrepreneurship program teaches you to start and run a successful small business. You'll learn business planning, marketing, financial management, and operations.`,
-    heroImage: '/images/pages/admin-business-hero.jpg',
+    heroImage: '/images/pages/admin-business-hero.webp',
     heroImageAlt: 'Entrepreneurship / Small Business training at Elevate for Humanity',
     heroVideo: '/videos/partner-business.mp4',
     duration: '16 weeks',
@@ -2141,7 +2141,7 @@ export const programs: Program[] = [
     shortDescription:
       'Operate production equipment and ensure quality. Essential manufacturing skills.',
     longDescription: `Our Manufacturing Technician program prepares you for production and quality roles in manufacturing. You'll learn machine operation, quality control, lean manufacturing, and safety procedures.`,
-    heroImage: '/images/pages/welding-sparks.jpg',
+    heroImage: '/images/pages/welding-sparks.webp',
     heroImageAlt: 'Manufacturing Technician training at Elevate for Humanity',
     heroVideo: '/videos/electrician-trades.mp4',
     duration: '12 weeks',
@@ -2189,7 +2189,7 @@ export const programs: Program[] = [
     shortDescription:
       'Professional nail technician training covering manicures, pedicures, nail art, acrylics, and salon sanitation.',
     longDescription: `Our Nail Technician program prepares students for a rewarding career in nail care. Learn manicures, pedicures, acrylic and gel nails, nail art, and proper sanitation techniques. Graduate ready to pass the state board exam and start working in salons or open your own business.`,
-    heroImage: '/images/pages/barber-styling-hair.jpg',
+    heroImage: '/images/pages/barber-styling-hair.webp',
     heroImageAlt: 'Nail Technician training at Elevate for Humanity',
     heroVideo: '/videos/nail-tech.mp4',
     duration: '16 weeks',
@@ -2374,7 +2374,7 @@ export const programs: Program[] = [
     shortDescription:
       'Help people buy and sell properties. Earn commission-based income with unlimited potential.',
     longDescription: `Our Real Estate Agent program prepares you for your state licensing exam and a successful real estate career. You'll learn property law, contracts, financing, and market analysis. The program covers listing properties, working with buyers, negotiation, and closing transactions. You'll understand ethics, fair housing, and professional practices. Real estate offers flexible schedules and unlimited income potential.`,
-    heroImage: '/images/pages/admin-business-hero.jpg',
+    heroImage: '/images/pages/admin-business-hero.webp',
     heroImageAlt: 'Real Estate Agent training at Elevate for Humanity',
     heroVideo: '/videos/partner-business.mp4',
     duration: '12 weeks',
@@ -2579,7 +2579,7 @@ export const programs: Program[] = [
     heroSubtitle: 'Welding certification covering MIG, TIG, and stick.',
     shortDescription: 'Welding certification covering MIG, TIG, and stick.',
     longDescription: `Welding certification covering MIG, TIG, and stick.`,
-    heroImage: '/images/pages/welding-sparks.jpg',
+    heroImage: '/images/pages/welding-sparks.webp',
     heroImageAlt: 'Welding Certification training at Elevate for Humanity',
     heroVideo: '/videos/welding-trades.mp4',
     duration: 'Varies',

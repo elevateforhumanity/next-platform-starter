@@ -50,7 +50,7 @@ export default async function GovernmentPage() {
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <LazyVideo
             src={VIDEO_HEROES.homepage}
-            poster="/images/pages/employer-hero.jpg"
+            poster="/images/pages/employer-hero.webp"
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           />
         </div>
@@ -132,7 +132,7 @@ export default async function GovernmentPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/pages/workforce-board.jpg"
+                  src="/images/pages/workforce-board.webp"
                   alt="Workforce Development Boards"
                   fill
                   className="object-cover"
@@ -171,7 +171,7 @@ export default async function GovernmentPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/pages/government-2.jpg"
+                  src="/images/pages/government-2.webp"
                   alt="State Agencies"
                   fill
                   className="object-cover"
@@ -208,7 +208,7 @@ export default async function GovernmentPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/pages/federal-funded.jpg"
+                  src="/images/pages/federal-funded.webp"
                   alt="Federal Programs"
                   fill
                   className="object-cover"
@@ -269,7 +269,7 @@ export default async function GovernmentPage() {
                 <div className="flex items-start gap-4">
                   <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
                     <Image
-                      src="/images/pages/admin-cafeteria-hero.jpg"
+                      src="/images/pages/admin-cafeteria-hero.webp"
                       alt="ETPL Training"
                       fill
                       className="object-cover"
@@ -291,7 +291,7 @@ export default async function GovernmentPage() {
                 <div className="flex items-start gap-4">
                   <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
                     <Image
-                      src="/images/pages/apprenticeship.jpg"
+                      src="/images/pages/apprenticeship.webp"
                       alt="Apprenticeships"
                       fill
                       className="object-cover"
@@ -429,7 +429,7 @@ export default async function GovernmentPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/government-page-1.jpg"
+                  src="/images/pages/government-page-1.webp"
                   alt="Proven Results"
                   fill
                   className="object-cover"
@@ -451,7 +451,7 @@ export default async function GovernmentPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/government-3.jpg"
+                  src="/images/pages/government-3.webp"
                   alt="Priority Populations"
                   fill
                   className="object-cover"
@@ -473,7 +473,7 @@ export default async function GovernmentPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/government-4.jpg"
+                  src="/images/pages/government-4.webp"
                   alt="Employer Partnerships"
                   fill
                   className="object-cover"
@@ -554,13 +554,13 @@ export default async function GovernmentPage() {
                 name: 'TANF',
                 desc: 'Temporary Assistance for Needy Families — supports training for participants moving toward self-sufficiency.',
                 icon: Shield,
-                image: '/images/pages/government-3.jpg',
+                image: '/images/pages/government-3.webp',
               },
               {
                 name: 'Trade Adjustment Assistance',
                 desc: 'Federal funding for workers displaced by foreign trade. Covers retraining in high-demand fields.',
                 icon: Briefcase,
-                image: '/images/pages/government-4.jpg',
+                image: '/images/pages/government-4.webp',
               },
               {
                 name: 'Veterans Programs',
@@ -578,7 +578,7 @@ export default async function GovernmentPage() {
                 name: 'Registered Apprenticeship',
                 desc: 'DOL-registered earn-and-learn programs with structured OJT and related instruction leading to journey-level credentials.',
                 icon: Building2,
-                image: '/images/pages/apprenticeship-hero.jpg',
+                image: '/images/pages/apprenticeship-hero.webp',
               },
             ].map((item) => {
               const IconComponent = item.icon;

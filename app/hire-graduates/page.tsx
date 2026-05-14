@@ -71,7 +71,7 @@ export default async function HireGraduatesPage() {
             </div>
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src="/images/pages/employers-page-1.jpg"
+                src="/images/pages/employers-page-1.webp"
                 alt="Certified graduates ready for employment"
                 fill
                 className="object-cover"
@@ -96,7 +96,7 @@ export default async function HireGraduatesPage() {
                 desc: 'Graduates earn nationally recognized credentials before day one on the job.',
               },
               {
-                image: '/images/pages/about-employer-partners.jpg',
+                image: '/images/pages/about-employer-partners.webp',
                 alt: 'Graduates placed with employer partners',
                 title: 'Work',
                 desc: 'We connect certified graduates directly with employers hiring in their field.',

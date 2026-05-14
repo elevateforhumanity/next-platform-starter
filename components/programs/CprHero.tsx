@@ -65,7 +65,7 @@ export default function CprHero() {
         aria-label="CPR & First Aid hero"
       >
         <Image
-          src="/images/pages/cpr-training-real.jpg"
+          src="/images/pages/cpr-training-real.webp"
           alt="CPR training session"
           fill
           priority

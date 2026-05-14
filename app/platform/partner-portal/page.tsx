@@ -193,7 +193,7 @@ export default function PartnerPortalPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src="/images/pages/platform-page-3.jpg"
+                src="/images/pages/platform-page-3.webp"
                 alt="Partner collaboration"
                 fill
                 sizes="100vw"

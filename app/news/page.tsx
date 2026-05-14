@@ -29,7 +29,7 @@ export default async function NewsPage() {
       {/* Hero */}
       <div className="relative h-56 sm:h-72 w-full overflow-hidden">
         <Image
-          src="/images/pages/success-stories-hero.jpg"
+          src="/images/pages/success-stories-hero.webp"
           alt="Elevate for Humanity news and updates"
           fill
           className="object-cover"

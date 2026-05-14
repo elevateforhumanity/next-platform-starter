@@ -10,7 +10,7 @@ export function toCsv(rows: any[]): string {
 
   const headers = Object.keys(rows[0]);
 
-  const escapeCsvValue = (data: any): string => {
+  const escapeCsvValue = (value: any): string => {
     if (value === null || value === undefined) {
       return '';
     }

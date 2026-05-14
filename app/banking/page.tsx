@@ -24,7 +24,7 @@ export default function BankingPage() {
       {/* Hero */}
       <section className="relative h-64 md:h-80 overflow-hidden">
         <Image
-          src="/images/pages/banking-page-2.jpg"
+          src="/images/pages/banking-page-2.webp"
           alt="Tax preparation and banking services"
           fill
           className="object-cover"
@@ -73,7 +73,7 @@ export default function BankingPage() {
             <div className="bg-white border-2 border-brand-blue-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
                 <Image
-                  src="/images/pages/tax-prep-desk.jpg"
+                  src="/images/pages/tax-prep-desk.webp"
                   alt="Tax preparer reviewing refund advance options with a client"
                   fill
                   className="object-cover"
@@ -115,7 +115,7 @@ export default function BankingPage() {
             <div className="bg-white border-2 border-brand-green-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
                 <Image
-                  src="/images/pages/tax-preparation.jpg"
+                  src="/images/pages/tax-preparation.webp"
                   alt="Direct deposit tax refund processing"
                   fill
                   className="object-cover"
@@ -250,7 +250,7 @@ export default function BankingPage() {
               style={{ aspectRatio: '4/3' }}
             >
               <Image
-                src="/images/pages/pathways-page-7.jpg"
+                src="/images/pages/pathways-page-7.webp"
                 alt="Professional tax preparation services powered by EPS Financial"
                 fill
                 className="object-cover"

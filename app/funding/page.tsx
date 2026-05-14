@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     siteName: 'Elevate for Humanity',
     images: [
       {
-        url: '/images/pages/funding-page-5.jpg',
+        url: '/images/pages/funding-page-5.webp',
         width: 1200,
         height: 630,
         alt: 'Career training funding options',
@@ -47,7 +47,7 @@ const FUNDING_OPTIONS = [
       'Support services (childcare, transportation)',
     ],
     bulletColor: 'bg-brand-blue-500',
-    image: '/images/pages/funding-page-3.jpg',
+    image: '/images/pages/funding-page-3.webp',
     imageAlt: 'WIOA workforce funding',
     link: '/wioa-eligibility',
     linkText: 'Learn about WIOA eligibility',
@@ -64,7 +64,7 @@ const FUNDING_OPTIONS = [
       'Available to Indiana residents',
     ],
     bulletColor: 'bg-brand-orange-500',
-    image: '/images/pages/funding-page-3.jpg',
+    image: '/images/pages/funding-page-3.webp',
     imageAlt: 'Workforce Ready Grant',
     link: 'https://www.nextleveljobs.org',
     linkText: 'Learn about WRG at Next Level Jobs',
@@ -82,7 +82,7 @@ const FUNDING_OPTIONS = [
       'Case management support',
     ],
     bulletColor: 'bg-brand-red-500',
-    image: '/images/pages/funding-page-5.jpg',
+    image: '/images/pages/funding-page-5.webp',
     imageAlt: 'Job Ready Indy funding',
     link: '/funding/jri',
     linkText: 'Learn about Job Ready Indy',
@@ -99,7 +99,7 @@ const FUNDING_OPTIONS = [
       'Healthcare, trades, tech, CDL',
     ],
     bulletColor: 'bg-brand-blue-500',
-    image: '/images/pages/jri-hero.jpg',
+    image: '/images/pages/jri-hero.webp',
     imageAlt: 'Job Ready Indy Indianapolis workforce initiative',
     link: '/funding/job-ready-indy',
     linkText: 'Learn about Job Ready Indy',
@@ -116,7 +116,7 @@ const FUNDING_OPTIONS = [
       'Coordination with VR counselors',
     ],
     bulletColor: 'bg-purple-500',
-    image: '/images/pages/funding-page-3.jpg',
+    image: '/images/pages/funding-page-3.webp',
     imageAlt: 'Vocational rehabilitation services',
     link: '/employment-support',
     linkText: 'Employment Support Services',
@@ -133,7 +133,7 @@ const FUNDING_OPTIONS = [
       'Available across industries',
     ],
     bulletColor: 'bg-brand-green-600',
-    image: '/images/pages/funding-page-3.jpg',
+    image: '/images/pages/funding-page-3.webp',
     imageAlt: 'On-the-job training with employer',
     link: '/ojt-and-funding',
     linkText: 'Learn about OJT',
@@ -189,7 +189,7 @@ export default function FundingPage() {
       {/* Hero — standard height, no text overlay */}
       <section className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
         <Image
-          src="/images/pages/funding-page-5.jpg"
+          src="/images/pages/funding-page-5.webp"
           alt="Workforce funding options for career training"
           fill
           sizes="100vw"

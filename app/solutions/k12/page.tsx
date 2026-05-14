@@ -123,7 +123,7 @@ export default function K12SolutionsPage() {
       <section className="relative">
         <div className="relative h-[45vh] sm:h-[50vh] md:h-[55vh] min-h-[280px] w-full overflow-hidden">
           <Image sizes="100vw"
-            src="/images/pages/k12-hero.jpg"
+            src="/images/pages/k12-hero.webp"
             alt="K-12 students in a career and technical education classroom"
             fill
             className="object-cover"

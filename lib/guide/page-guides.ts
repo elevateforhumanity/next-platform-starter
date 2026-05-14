@@ -32,7 +32,7 @@ export const STORE_GUIDES: Record<string, PageGuide> = {
     pageId: 'store-landing',
     pageName: 'Store',
     avatarName: 'Maya',
-    avatarImage: '/images/pages/store-recommendations.jpg',
+    avatarImage: '/images/pages/store-recommendations.webp',
     messages: [
       {
         id: 'welcome',
@@ -65,7 +65,7 @@ export const STORE_GUIDES: Record<string, PageGuide> = {
     pageId: 'licenses',
     pageName: 'Platform Licenses',
     avatarName: 'Maya',
-    avatarImage: '/images/pages/store-recommendations.jpg',
+    avatarImage: '/images/pages/store-recommendations.webp',
     messages: [
       {
         id: 'welcome',
@@ -119,7 +119,7 @@ export const STORE_GUIDES: Record<string, PageGuide> = {
     pageId: 'compliance-wioa',
     pageName: 'WIOA Compliance',
     avatarName: 'James',
-    avatarImage: '/images/pages/store-guide-1.jpg',
+    avatarImage: '/images/pages/store-guide-1.webp',
     messages: [
       {
         id: 'welcome',
@@ -244,7 +244,7 @@ export const PROGRAM_GUIDES: Record<string, PageGuide> = {
     pageId: 'cna-training',
     pageName: 'CNA Training',
     avatarName: 'Sarah',
-    avatarImage: '/images/pages/store-recommendations.jpg',
+    avatarImage: '/images/pages/store-recommendations.webp',
     messages: [
       {
         id: 'welcome',
@@ -290,7 +290,7 @@ export const TAX_OFFICE_GUIDES: Record<string, PageGuide> = {
     pageId: 'tax-office-landing',
     pageName: 'Tax Office',
     avatarName: 'David',
-    avatarImage: '/images/pages/store-guide-1.jpg',
+    avatarImage: '/images/pages/store-guide-1.webp',
     messages: [
       {
         id: 'welcome',
@@ -323,7 +323,7 @@ export const TAX_OFFICE_GUIDES: Record<string, PageGuide> = {
     pageId: 'tax-preparation-training',
     pageName: 'Tax Preparer Training',
     avatarName: 'David',
-    avatarImage: '/images/pages/store-guide-1.jpg',
+    avatarImage: '/images/pages/store-guide-1.webp',
     messages: [
       {
         id: 'welcome',
@@ -376,7 +376,7 @@ export const DASHBOARD_GUIDES: Record<string, PageGuide> = {
     pageId: 'student-dashboard',
     pageName: 'Student Dashboard',
     avatarName: 'Maya',
-    avatarImage: '/images/pages/store-recommendations.jpg',
+    avatarImage: '/images/pages/store-recommendations.webp',
     messages: [
       {
         id: 'welcome',
@@ -416,7 +416,7 @@ export const DASHBOARD_GUIDES: Record<string, PageGuide> = {
     pageId: 'instructor-dashboard',
     pageName: 'Instructor Dashboard',
     avatarName: 'James',
-    avatarImage: '/images/pages/store-guide-1.jpg',
+    avatarImage: '/images/pages/store-guide-1.webp',
     messages: [
       {
         id: 'welcome',
@@ -456,7 +456,7 @@ export const DASHBOARD_GUIDES: Record<string, PageGuide> = {
     pageId: 'admin-dashboard',
     pageName: 'Admin Dashboard',
     avatarName: 'Sarah',
-    avatarImage: '/images/pages/store-recommendations.jpg',
+    avatarImage: '/images/pages/store-recommendations.webp',
     messages: [
       {
         id: 'welcome',
@@ -536,7 +536,7 @@ export const DASHBOARD_GUIDES: Record<string, PageGuide> = {
     pageId: 'employer-dashboard',
     pageName: 'Employer Dashboard',
     avatarName: 'David',
-    avatarImage: '/images/pages/store-guide-1.jpg',
+    avatarImage: '/images/pages/store-guide-1.webp',
     messages: [
       {
         id: 'welcome',
@@ -582,7 +582,7 @@ export const LMS_GUIDES: Record<string, PageGuide> = {
     pageId: 'course-viewer',
     pageName: 'Course Viewer',
     avatarName: 'Maya',
-    avatarImage: '/images/pages/store-recommendations.jpg',
+    avatarImage: '/images/pages/store-recommendations.webp',
     messages: [
       {
         id: 'welcome',
@@ -622,7 +622,7 @@ export const LMS_GUIDES: Record<string, PageGuide> = {
     pageId: 'assignment-submission',
     pageName: 'Submit Assignment',
     avatarName: 'Maya',
-    avatarImage: '/images/pages/store-recommendations.jpg',
+    avatarImage: '/images/pages/store-recommendations.webp',
     messages: [
       {
         id: 'welcome',

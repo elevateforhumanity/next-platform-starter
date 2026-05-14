@@ -23,7 +23,7 @@ export default function SchoolLicensePage() {
       {/* Hero - Clean */}
       <section className="relative h-[50vh] overflow-hidden">
         <Image
-          src="/images/pages/about-hero.jpg"
+          src="/images/pages/about-hero.webp"
           alt="School License Platform"
           fill
           className="object-cover"
@@ -251,32 +251,32 @@ export default function SchoolLicensePage() {
               {
                 title: 'Self-Service Enrollment',
                 desc: 'Students apply online, upload documents, and get instant eligibility decisions. No staff time required.',
-                img: '/images/pages/programs-hero.jpg'
+                img: '/images/pages/programs-hero.webp'
               },
               {
                 title: 'Complete LMS',
                 desc: 'Courses, quizzes, certificates, progress tracking. Students learn on any device. Instructors see everything.',
-                img: '/images/pages/about-hero.jpg'
+                img: '/images/pages/about-hero.webp'
               },
               {
                 title: 'Automated Compliance',
                 desc: 'WIOA fields enforced at enrollment. Reports generate automatically. Audit trail for everything.',
-                img: '/images/pages/about-hero.jpg'
+                img: '/images/pages/about-hero.webp'
               },
               {
                 title: 'Case Management',
                 desc: 'Track barriers, interventions, and outcomes. Flag at-risk students. Coordinate services.',
-                img: '/images/pages/programs-hero.jpg'
+                img: '/images/pages/programs-hero.webp'
               },
               {
                 title: 'Employer Portal',
                 desc: 'Employers post jobs, view candidates, verify credentials. Placement tracking built in.',
-                img: '/images/pages/programs-hero.jpg'
+                img: '/images/pages/programs-hero.webp'
               },
               {
                 title: 'Your Brand',
                 desc: 'Your logo, your colors, your domain. Students see your organization, not ours.',
-                img: '/images/pages/about-hero.jpg'
+                img: '/images/pages/about-hero.webp'
               },
             ].map((item, i) => (
               <div key={i} className="bg-slate-50 rounded-xl overflow-hidden">

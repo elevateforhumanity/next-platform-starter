@@ -80,7 +80,7 @@ function CheckoutForm({
 
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/store-licensing-checkout-hero.jpg" alt="Elevate store" fill sizes="100vw" className="object-cover" priority />
+        <Image src="/images/pages/store-licensing-checkout-hero.webp" alt="Elevate store" fill sizes="100vw" className="object-cover" priority />
       </section>
       <PaymentElement />
 

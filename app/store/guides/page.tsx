@@ -27,7 +27,7 @@ const GUIDES = [
     originalPrice: '$497',
     badge: 'Best Seller',
     badgeColor: 'bg-brand-blue-600',
-    image: '/images/pages/admin-compliance-hero.jpg',
+    image: '/images/pages/admin-compliance-hero.webp',
     imageAlt: 'Compliance audit dashboard showing documentation readiness',
     features: [
       '150+ page practical guide',
@@ -89,7 +89,7 @@ export default function GuidesPage() {
       {/* Hero */}
       <section className="relative h-56 md:h-72 overflow-hidden">
         <Image
-          src="/images/pages/store-guides-hero.jpg"
+          src="/images/pages/store-guides-hero.webp"
           alt="Workforce development guides and resources"
           fill
           className="object-cover"

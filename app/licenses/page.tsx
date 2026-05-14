@@ -17,7 +17,7 @@ export default function LicensesPage() {
       {/* Hero - Clean, no overlay */}
       <section className="relative h-[40vh] min-h-[300px]">
         <Image sizes="100vw"
-          src="/images/pages/employer-hero.jpg"
+          src="/images/pages/employer-hero.webp"
           alt="Platform Licensing"
           fill
           className="object-cover"

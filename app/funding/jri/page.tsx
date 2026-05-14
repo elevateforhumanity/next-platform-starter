@@ -41,7 +41,7 @@ export default function JriPage() {
       <section className="relative min-h-[500px] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image sizes="100vw"
-            src="/images/pages/jri-hero.jpg"
+            src="/images/pages/jri-hero.webp"
             alt="Second chance career training"
             fill
             className="object-cover"

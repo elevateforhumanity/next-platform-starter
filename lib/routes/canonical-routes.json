@@ -325,11 +325,6 @@
       "permanent": true
     },
     {
-      "source": "/partners/esthetician-apprenticeship",
-      "destination": "/partners/cosmetology-apprenticeship",
-      "permanent": true
-    },
-    {
       "source": "/partners/attendance",
       "destination": "/program-holder/dashboard",
       "permanent": true
@@ -610,17 +605,7 @@
       "permanent": false
     },
     {
-      "source": "/programs/cosmetology-apprenticeship",
-      "destination": "/programs",
-      "permanent": false
-    },
-    {
       "source": "/programs/cpr-first-aid",
-      "destination": "/programs",
-      "permanent": false
-    },
-    {
-      "source": "/programs/culinary-apprenticeship",
       "destination": "/programs",
       "permanent": false
     },
@@ -676,11 +661,6 @@
     },
     {
       "source": "/programs/nail-technician",
-      "destination": "/programs",
-      "permanent": false
-    },
-    {
-      "source": "/programs/nail-technician-apprenticeship",
       "destination": "/programs",
       "permanent": false
     },

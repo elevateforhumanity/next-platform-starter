@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: 'Elevate for Humanity',
     images: [
       {
-        url: '/images/pages/comp-home-highlight-health.jpg',
+        url: '/images/pages/comp-home-highlight-health.webp',
         width: 1200,
         height: 630,
         alt: 'Apply for career training',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Apply for Career Training | Elevate for Humanity',
     description: 'Apply for workforce training programs. Most students begin within 2–4 weeks.',
-    images: ['/images/pages/comp-home-highlight-health.jpg'],
+    images: ['/images/pages/comp-home-highlight-health.webp'],
   },
 };
 

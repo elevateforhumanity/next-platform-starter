@@ -76,7 +76,7 @@ function SplitBlock() {
         {/* Image side */}
         <div className="relative h-64 sm:h-80 lg:h-auto min-h-[340px] overflow-hidden bg-slate-100">
           <Image
-            src="/images/pages/cpr-training-real.jpg"
+            src="/images/pages/cpr-training-real.webp"
             alt="CPR training in progress"
             fill
             className="object-cover object-center"
@@ -365,7 +365,7 @@ export default function CprPageBlocks() {
   return (
     <>
       <FactsStrip />
-      <FullBleedImage src="/images/pages/cpr-first-aid.jpg" alt="CPR and first aid training" />
+      <FullBleedImage src="/images/pages/cpr-first-aid.webp" alt="CPR and first aid training" />
       <SplitBlock />
       <StatsBand />
       <WhatComesWithIt />

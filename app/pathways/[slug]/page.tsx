@@ -11,7 +11,7 @@ const SLUG_IMAGES: Record<string, string> = {
   cna: '/images/pages/cna-nursing.jpg',
   cdl: '/images/pages/cdl-training.jpg',
   'barber-apprenticeship': '/images/pages/barber-training.jpg',
-  hvac: '/images/pages/hvac-technician.jpg',
+  hvac: '/images/pages/hvac-technician.webp',
   electrical: '/images/pages/electrical.jpg',
   welding: '/images/pages/welding.webp',
   'it-help-desk': '/images/pages/it-help-desk.webp',
@@ -42,7 +42,7 @@ export default async function PathwayDetailPage({ params }: { params: Promise<{ 
   const pathway = dbPathway || PATHWAYS.find((p) => p.slug === slug);
   if (!pathway) return notFound();
 
-  const heroImage = SLUG_IMAGES[slug] ?? '/images/pages/programs-hero.jpg';
+  const heroImage = SLUG_IMAGES[slug] ?? '/images/pages/programs-hero.webp';
 
   return (
     <main className="w-full">

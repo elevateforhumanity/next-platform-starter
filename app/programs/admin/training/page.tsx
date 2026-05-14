@@ -51,7 +51,7 @@ export default async function TrainingPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/programs-admin-training-hero.jpg"
+          src="/images/pages/programs-admin-training-hero.webp"
           alt="Training"
           fill
           sizes="100vw"

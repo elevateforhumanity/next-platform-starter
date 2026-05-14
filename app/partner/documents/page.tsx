@@ -132,7 +132,7 @@ export default function PartnerDocumentsPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden rounded-xl mb-6 -mx-4 sm:-mx-6 lg:-mx-8">
         <Image
-          src="/images/pages/partner-page-5.jpg"
+          src="/images/pages/partner-page-5.webp"
           alt="Partner documents"
           fill
           sizes="100vw"

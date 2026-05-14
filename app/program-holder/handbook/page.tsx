@@ -84,7 +84,7 @@ export default async function ProgramHolderHandbookPage() {
             <video
               controls
               className="w-full h-full"
-              poster="/images/pages/program-holder-page-1.jpg"
+              poster="/images/pages/program-holder-page-1.webp"
               preload="metadata"
             >
               <source src="/videos/programs-overview-video-with-narration.mp4" type="video/mp4" />

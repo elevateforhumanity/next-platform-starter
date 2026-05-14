@@ -21,7 +21,7 @@ export default function KingdomKonnectPage() {
       <Breadcrumbs items={[{ label: 'Kingdom Konnect' }]} />
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/kingdom-konnect-page-1.jpg"
+          src="/images/pages/kingdom-konnect-page-1.webp"
           alt="Kingdom Konnect"
           fill
           className="object-cover"

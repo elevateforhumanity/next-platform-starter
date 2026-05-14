@@ -194,7 +194,7 @@ export default async function TrainingSitesPage() {
         style={{ minHeight: 'clamp(420px, 50vw, 580px)' }}
       >
         <Image
-          src="/images/pages/apprenticeship-hero.jpg"
+          src="/images/pages/apprenticeship-hero.webp"
           alt="Elevate for Humanity training sites and employer partners"
           fill
           className="object-cover object-center"
@@ -395,7 +395,7 @@ export default async function TrainingSitesPage() {
             </div>
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src="/images/pages/employer-handshake.jpg"
+                src="/images/pages/employer-handshake.webp"
                 alt="Employer partnership with Elevate for Humanity"
                 fill
                 className="object-cover"

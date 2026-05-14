@@ -210,7 +210,7 @@ export default function StudentOnboardingPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
         <Image
-          src="/images/pages/comp-home-highlight-success.jpg"
+          src="/images/pages/comp-home-highlight-success.webp"
           alt="Student onboarding"
           fill
           sizes="100vw"

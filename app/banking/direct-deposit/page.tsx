@@ -52,7 +52,7 @@ export default function DirectDepositPage() {
       {/* Hero */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/banking-page-1.jpg"
+          src="/images/pages/banking-page-1.webp"
           alt="Direct Deposit"
           fill
           className="object-cover"

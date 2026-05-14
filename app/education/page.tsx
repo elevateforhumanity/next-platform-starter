@@ -28,7 +28,7 @@ const PROGRAMS = [
   {
     title: 'Skilled Trades',
     href: '/programs/skilled-trades',
-    image: '/images/pages/hvac-technician.jpg',
+    image: '/images/pages/hvac-technician.webp',
     desc: 'HVAC, Electrical, Welding, Plumbing, and Construction. Earn industry certifications and start working.',
     tags: ['HVAC', 'Electrical', 'Welding', 'Plumbing'],
   },
@@ -56,16 +56,16 @@ const PROGRAMS = [
   {
     title: 'Business & Finance',
     href: '/programs/business-administration',
-    image: '/images/pages/tax-preparation.jpg',
+    image: '/images/pages/tax-preparation.webp',
     desc: 'Bookkeeping, Office Administration, Tax Preparation, and Entrepreneurship programs.',
     tags: ['Bookkeeping', 'Tax Prep', 'Entrepreneurship'],
   },
 ];
 
 const LOCATIONS = [
-  { state: 'Indiana', href: '/career-training-indiana', cities: ['Indianapolis', 'Fort Wayne', 'Evansville'], image: '/images/pages/about-career-training.jpg', desc: 'Main campus. WIOA-eligible programs, apprenticeships, and job placement.' },
-  { state: 'Illinois', href: '/career-training-illinois', cities: ['Chicago', 'Aurora', 'Naperville'], image: '/images/pages/workforce-training.jpg', desc: 'Workforce programs across the Chicago metro and statewide.' },
-  { state: 'Ohio', href: '/career-training-ohio', cities: ['Columbus', 'Cleveland', 'Cincinnati'], image: '/images/pages/welding-sparks.jpg', desc: 'Career training aligned with Ohio industry demand.' },
+  { state: 'Indiana', href: '/career-training-indiana', cities: ['Indianapolis', 'Fort Wayne', 'Evansville'], image: '/images/pages/about-career-training.webp', desc: 'Main campus. WIOA-eligible programs, apprenticeships, and job placement.' },
+  { state: 'Illinois', href: '/career-training-illinois', cities: ['Chicago', 'Aurora', 'Naperville'], image: '/images/pages/workforce-training.webp', desc: 'Workforce programs across the Chicago metro and statewide.' },
+  { state: 'Ohio', href: '/career-training-ohio', cities: ['Columbus', 'Cleveland', 'Cincinnati'], image: '/images/pages/welding-sparks.webp', desc: 'Career training aligned with Ohio industry demand.' },
   { state: 'Tennessee', href: '/career-training-tennessee', cities: ['Nashville', 'Memphis', 'Knoxville'], image: '/images/pages/electrical.jpg', desc: 'Expanding workforce development across Tennessee.' },
   { state: 'Texas', href: '/career-training-texas', cities: ['Houston', 'Dallas', 'San Antonio'], image: '/images/pages/business-sector.jpg', desc: 'Trade, healthcare, and technology programs for Texas.' },
 ];

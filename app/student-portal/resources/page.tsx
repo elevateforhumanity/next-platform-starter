@@ -165,7 +165,7 @@ export default async function StudentPortalResourcesPage() {
     <div className="min-h-screen bg-white">
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/student-portal-page-6.jpg"
+          src="/images/pages/student-portal-page-6.webp"
           alt="Student resources"
           fill
           sizes="100vw"

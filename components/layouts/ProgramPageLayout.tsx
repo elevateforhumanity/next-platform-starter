@@ -64,7 +64,7 @@ export function ProgramPageLayout(props: ProgramPageLayoutProps) {
       {/* HERO */}
       <section className="relative h-[700px] overflow-hidden">
         <Image
-          src="/images/pages/comp-layout-hero.jpg"
+          src="/images/pages/comp-layout-hero.webp"
           alt={title}
           fill
           sizes="100vw"
@@ -319,7 +319,7 @@ export function ProgramPageLayout(props: ProgramPageLayoutProps) {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[400px] rounded-xl overflow-hidden shadow-2xl">
               <Image
-                src="/images/pages/comp-layout-hero.jpg"
+                src="/images/pages/comp-layout-hero.webp"
                 alt="Start your training today"
                 fill
                 sizes="100vw"

@@ -48,12 +48,12 @@ export default async function CareersPage() {
       description: 'Comprehensive health, dental, and vision coverage for you and your family',
     },
     {
-      image: '/images/pages/career-services-page-4.jpg',
+      image: '/images/pages/career-services-page-4.webp',
       title: 'Paid Time Off',
       description: 'Generous PTO and holiday schedule with work-life balance',
     },
     {
-      image: '/images/pages/career-services-page-5.jpg',
+      image: '/images/pages/career-services-page-5.webp',
       title: 'Professional Development',
       description: 'Continuous learning and growth opportunities with training stipends',
     },
@@ -85,7 +85,7 @@ export default async function CareersPage() {
         accentText="Workforce Development"
         subheadline="Help Us Provide Free Career Training to Thousands"
         description="At Elevate For Humanity, we believe everyone deserves access to quality career training and the opportunity to build a better future. Join our mission-driven team and make a real impact on people's lives through workforce development."
-        imageSrc="/images/pages/apply-employer-hero.jpg"
+        imageSrc="/images/pages/apply-employer-hero.webp"
         imageAlt="Join Our Team"
         primaryCTA={{ text: 'View Open Positions', href: '#positions' }}
         secondaryCTA={{ text: 'Learn About Our Culture', href: '#culture' }}

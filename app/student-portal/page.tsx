@@ -69,7 +69,7 @@ export default async function StudentPortalPage() {
       description: 'Access course materials, lectures, and assignments',
       href: '/lms/courses',
       color: 'blue',
-      image: '/images/pages/staff-portal-page-1.jpg',
+      image: '/images/pages/staff-portal-page-1.webp',
     },
     {
       icon: Calendar,
@@ -77,7 +77,7 @@ export default async function StudentPortalPage() {
       description: 'View class schedule, deadlines, and upcoming events',
       href: '/student-portal/schedule',
       color: 'green',
-      image: '/images/pages/staff-portal-page-1.jpg',
+      image: '/images/pages/staff-portal-page-1.webp',
     },
     {
       icon: BarChart3,
@@ -85,7 +85,7 @@ export default async function StudentPortalPage() {
       description: 'Track your academic performance and completion status',
       href: '/student-portal/grades',
       color: 'blue',
-      image: '/images/pages/staff-portal-page-1.jpg',
+      image: '/images/pages/staff-portal-page-1.webp',
     },
     {
       icon: Users,
@@ -93,7 +93,7 @@ export default async function StudentPortalPage() {
       description: 'Connect with instructors and get support',
       href: '/lms/support',
       color: 'orange',
-      image: '/images/pages/staff-portal-page-1.jpg',
+      image: '/images/pages/staff-portal-page-1.webp',
     },
     {
       icon: Briefcase,
@@ -101,7 +101,7 @@ export default async function StudentPortalPage() {
       description: 'Resume help, job placement, and interview prep',
       href: '/career-services',
       color: 'teal',
-      image: '/images/pages/staff-portal-page-1.jpg',
+      image: '/images/pages/staff-portal-page-1.webp',
     },
     {
       icon: FileText,
@@ -109,7 +109,7 @@ export default async function StudentPortalPage() {
       description: 'Transcripts, certificates, and important forms',
       href: '/lms/files',
       color: 'indigo',
-      image: '/images/pages/staff-portal-page-1.jpg',
+      image: '/images/pages/staff-portal-page-1.webp',
     },
   ];
 
@@ -275,7 +275,7 @@ export default async function StudentPortalPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/student-portal-page-7.jpg"
+          src="/images/pages/student-portal-page-7.webp"
           alt="Student Portal"
           fill
           className="object-cover"

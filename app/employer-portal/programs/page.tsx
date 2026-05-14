@@ -37,7 +37,7 @@ export default async function EmployerProgramsPage() {
       />
       <div className="relative h-64 bg-white overflow-hidden">
         <Image
-          src="/images/pages/employer-portal-page-3.jpg"
+          src="/images/pages/employer-portal-page-3.webp"
           alt="Employer programs"
           fill
           className="object-cover"

@@ -51,6 +51,26 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
   const db = createAdminClient();
   const issues: AuditIssue[] = [];
   const add = (issue: AuditIssue) => issues.push(issue);
+  type ModuleRow = { id: string; title: string | null; order_index: number | null };
+  type LessonRow = {
+    id: string;
+    slug: string | null;
+    title: string | null;
+    lesson_type: string | null;
+    order_index: number | null;
+    module_id: string;
+    passing_score: number | null;
+    quiz_questions: unknown;
+    content: unknown;
+    content_structured: unknown;
+    video_file: string | null;
+    video_transcript: string | null;
+    video_runtime_seconds: number | null;
+    requires_evidence: boolean | null;
+    requires_signoff: boolean | null;
+    requires_evaluator: boolean | null;
+    is_required: boolean | null;
+  };
 
   // ── Fetch course ────────────────────────────────────────────────────────────
   const { data: course } = await db
@@ -128,7 +148,9 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     .eq('course_id', courseId)
     .order('order_index');
 
-  if (!modules?.length) {
+  const moduleRows = (modules ?? []) as unknown as ModuleRow[];
+
+  if (!moduleRows.length) {
     add({
       severity: 'fatal',
       code: 'COURSE_NO_MODULES',
@@ -140,7 +162,7 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
   }
 
   // Duplicate module order indexes
-  const moduleOrders = modules.map((m) => m.order_index);
+  const moduleOrders = moduleRows.map((m) => m.order_index);
   if (new Set(moduleOrders).size !== moduleOrders.length) {
     add({
       severity: 'blocking',
@@ -163,7 +185,9 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     )
     .eq('course_id', courseId);
 
-  if (!lessons?.length) {
+  const lessonRows = (lessons ?? []) as unknown as LessonRow[];
+
+  if (!lessonRows.length) {
     add({
       severity: 'fatal',
       code: 'COURSE_NO_LESSONS',
@@ -175,7 +199,7 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
   }
 
   // Duplicate lesson slugs
-  const slugs = lessons.map((l) => l.slug);
+  const slugs = lessonRows.map((l) => l.slug);
   if (new Set(slugs).size !== slugs.length) {
     add({
       severity: 'fatal',
@@ -187,7 +211,7 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
   }
 
   // Duplicate lesson order indexes
-  const lessonOrders = lessons.map((l) => l.order_index);
+  const lessonOrders = lessonRows.map((l) => l.order_index);
   if (new Set(lessonOrders).size !== lessonOrders.length) {
     add({
       severity: 'blocking',
@@ -199,8 +223,8 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
   }
 
   // ── Fetch objectives/competencies in bulk ───────────────────────────────────
-  const moduleIds = modules.map((m) => m.id);
-  const lessonIds = lessons.map((l) => l.id);
+  const moduleIds = moduleRows.map((m) => m.id);
+  const lessonIds = lessonRows.map((l) => l.id);
 
   const [
     { data: moduleObjectives },
@@ -219,14 +243,7 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
       .select(
         'lesson_id, required_hours, required_attempts, requires_evaluator_approval, rubric_json, instructions',
       )
-      .in('lesson_id', lessonIds) as Promise<{
-      data: Array<{
-        lesson_id: string;
-        instructions: string | null;
-        requires_evaluator_approval: boolean;
-        rubric_json: unknown[] | null;
-      }> | null;
-    }>,
+      .in('lesson_id', lessonIds),
     db.from('module_completion_rules').select('module_id').eq('course_id', courseId),
   ]);
 
@@ -240,14 +257,13 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     requires_evaluator_approval: boolean;
     rubric_json: unknown[] | null;
   };
-  const practicalMap = new Map<string, PracticalReqRow>(
-    (practicalRequirements ?? []).map((r) => [r.lesson_id, r]),
-  );
+  const practicalRows = (practicalRequirements ?? []) as unknown as PracticalReqRow[];
+  const practicalMap = new Map<string, PracticalReqRow>(practicalRows.map((r) => [r.lesson_id, r]));
   const completionRuleSet = new Set((completionRules ?? []).map((r: any) => r.module_id));
 
   // ── Module-level checks ─────────────────────────────────────────────────────
-  for (const mod of modules) {
-    const modLessons = lessons.filter((l) => l.module_id === mod.id);
+  for (const mod of moduleRows) {
+    const modLessons = lessonRows.filter((l) => l.module_id === mod.id);
 
     if (!mod.title?.trim()) {
       add({
@@ -294,8 +310,8 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
   }
 
   // Module completion rules required when >1 module
-  if (modules.length > 1) {
-    for (const mod of modules.slice(1)) {
+  if (moduleRows.length > 1) {
+    for (const mod of moduleRows.slice(1)) {
       if (!completionRuleSet.has(mod.id)) {
         add({
           severity: 'blocking',
@@ -310,7 +326,7 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
   }
 
   // ── Lesson-level checks ─────────────────────────────────────────────────────
-  for (const lesson of lessons) {
+  for (const lesson of lessonRows) {
     const lt = (lesson.lesson_type ?? 'reading') as LessonType;
     const name = lesson.title || lesson.slug || lesson.id;
 
@@ -501,7 +517,7 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     .maybeSingle();
 
   if (meta?.requires_final_exam) {
-    const hasFinalExam = lessons.some((l) => l.lesson_type === 'final_exam');
+    const hasFinalExam = lessonRows.some((l) => l.lesson_type === 'final_exam');
     if (!hasFinalExam) {
       add({
         severity: 'blocking',
@@ -514,7 +530,7 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
   }
 
   if (meta?.requires_practical) {
-    const hasPractical = lessons.some((l) =>
+    const hasPractical = lessonRows.some((l) =>
       EVIDENCE_LESSON_TYPES.includes(l.lesson_type as LessonType),
     );
     if (!hasPractical) {

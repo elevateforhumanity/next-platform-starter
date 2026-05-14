@@ -24,7 +24,7 @@ const complianceFeatures = [
     cta: 'View Apprenticeships',
   },
   {
-    image: '/images/pages/government-2.jpg',
+    image: '/images/pages/government-2.webp',
     alt: 'ETPL approved training provider listing',
     title: 'ETPL Approved',
     description: "Listed on Indiana's Eligible Training Provider List",
@@ -32,7 +32,7 @@ const complianceFeatures = [
     cta: 'How Funding Works',
   },
   {
-    image: '/images/pages/government-3.jpg',
+    image: '/images/pages/government-3.webp',
     alt: 'WIOA compliance documentation and reporting',
     title: 'WIOA Compliant',
     description: 'Full compliance with Workforce Innovation and Opportunity Act',
@@ -40,7 +40,7 @@ const complianceFeatures = [
     cta: 'WIOA Details',
   },
   {
-    image: '/images/pages/government-4.jpg',
+    image: '/images/pages/government-4.webp',
     alt: 'Real-time outcome tracking and placement reporting',
     title: 'Outcome Tracking',
     description: 'Real-time reporting on placement, retention, and wages',

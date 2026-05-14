@@ -28,7 +28,7 @@ interface AuditContext {
  * Never throws.
  */
 export async function setAuditContext(
-  db: { rpc: (fn: string, params: Record<string, unknown>) => Promise<{ error: unknown }> },
+  db: { rpc: (fn: string, params: Record<string, unknown>) => PromiseLike<{ error: unknown }> },
   ctx: AuditContext,
 ): Promise<void> {
   try {

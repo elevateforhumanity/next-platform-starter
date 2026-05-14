@@ -28,7 +28,7 @@ export default async function StaffApplicationPage() {
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px] overflow-hidden">
         <Image
-          src="/images/pages/apply-page-3.jpg"
+          src="/images/pages/apply-page-3.webp"
           alt="Join our team"
           fill
           sizes="100vw"

@@ -46,7 +46,7 @@ export function getDashboardContent(role: string): PageContent {
       title: 'Administrative Control Panel',
       description:
         'Manage applications, review enrollments, oversee program compliance, and generate reports for state workforce agencies.',
-      imageSrc: '/images/pages/hvac-technician.jpg',
+      imageSrc: '/images/pages/hvac-technician.webp',
       imageAlt: 'Administrator reviewing applications and compliance reports',
       actions: [
         {
@@ -118,7 +118,7 @@ export function getDashboardContent(role: string): PageContent {
       title: 'Program Holder Portal',
       description:
         'Manage apprentice enrollments, submit weekly reports, track compliance requirements, and coordinate with state workforce agencies.',
-      imageSrc: '/images/pages/welding-sparks.jpg',
+      imageSrc: '/images/pages/welding-sparks.webp',
       imageAlt: 'Program holder reviewing apprentice progress reports',
       actions: [
         {
@@ -180,7 +180,7 @@ export function getPolicyContent(policyType: string): PageContent {
       title: 'Privacy Policy',
       description:
         'How we collect, use, and protect your personal information in compliance with federal and state privacy regulations.',
-      imageSrc: '/images/pages/for-employers-page-1.jpg',
+      imageSrc: '/images/pages/for-employers-page-1.webp',
       imageAlt: 'Secure data protection and privacy compliance',
       breadcrumbs: [
         { label: 'Home', href: '/' },

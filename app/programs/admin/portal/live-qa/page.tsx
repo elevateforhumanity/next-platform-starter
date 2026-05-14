@@ -52,7 +52,7 @@ export default async function LiveQaPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/programs-admin-liveqa-hero.jpg"
+          src="/images/pages/programs-admin-liveqa-hero.webp"
           alt="Live Qa"
           fill
           sizes="100vw"

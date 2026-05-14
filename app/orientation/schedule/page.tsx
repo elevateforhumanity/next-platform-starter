@@ -27,7 +27,7 @@ export default function OrientationSchedulePage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <Image
-            src="/images/pages/orientation-page-2.jpg"
+            src="/images/pages/orientation-page-2.webp"
             alt="Orientation session"
             fill
             className="object-cover"

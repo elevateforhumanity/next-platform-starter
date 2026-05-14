@@ -419,17 +419,17 @@ export function AutoPolishedPage({ route, label, section }: AutoPolishedPageProp
       case 'programs':
         return '/images/pages/training-classroom.jpg';
       case 'funding':
-        return '/images/pages/how-it-works-hero.jpg';
+        return '/images/pages/how-it-works-hero.webp';
       case 'students':
         return '/images/pages/healthcare-classroom.jpg';
       case 'lms':
         return '/images/pages/training-cohort.webp';
       case 'employers':
-        return '/images/pages/for-employers-page-1.jpg';
+        return '/images/pages/for-employers-page-1.webp';
       case 'community':
-        return '/images/pages/workforce-training.jpg';
+        return '/images/pages/workforce-training.webp';
       case 'admin-staff':
-        return '/images/pages/about-hero.jpg';
+        return '/images/pages/about-hero.webp';
       default:
         return '/images/pages/features-hero.jpg';
     }

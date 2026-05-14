@@ -25,7 +25,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   healthcare: '/images/pages/cna-patient-care.jpg',
   'skilled-trades': '/images/pages/hvac-unit.jpg',
   technology: '/images/pages/it-helpdesk-desk.jpg',
-  business: '/images/pages/tax-prep-desk.jpg',
+  business: '/images/pages/tax-prep-desk.webp',
   transportation: '/images/pages/cdl-truck-highway.jpg',
   barber: '/images/pages/barber-fade.jpg',
 };

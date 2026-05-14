@@ -16,7 +16,7 @@ export default function ConsumerEducationPage() {
       config={{
         breadcrumbs: [{ label: 'Community Services', href: '/community-services' }, { label: 'Consumer Education' }],
         hero: {
-          image: '/images/pages/community-page-3.jpg',
+          image: '/images/pages/community-page-3.webp',
           tag: 'Consumer Education',
           tagColor: 'text-brand-blue-600',
           title: 'Know Your Rights. Manage Your Money.',

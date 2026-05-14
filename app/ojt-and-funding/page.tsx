@@ -15,12 +15,12 @@ const OJT_BENEFITS = [
   {
     title: 'Wage Reimbursement',
     desc: 'Employers receive up to 50% of trainee wages reimbursed during the OJT period through WIOA funding.',
-    img: '/images/pages/funding-impact-3.jpg',
+    img: '/images/pages/funding-impact-3.webp',
   },
   {
     title: 'Reduced Hiring Risk',
     desc: 'Try before you fully commit. OJT lets you evaluate a candidate on the job before permanent placement.',
-    img: '/images/pages/funding-impact-4.jpg',
+    img: '/images/pages/funding-impact-4.webp',
   },
   {
     title: 'Customized Training',
@@ -30,7 +30,7 @@ const OJT_BENEFITS = [
   {
     title: 'WOTC Tax Credits',
     desc: 'Claim up to $9,600 per qualifying hire through the Work Opportunity Tax Credit program.',
-    img: '/images/pages/funding-impact-5.jpg',
+    img: '/images/pages/funding-impact-5.webp',
   },
 ];
 
@@ -38,7 +38,7 @@ const APPRENTICESHIP = [
   {
     title: 'DOL Registered',
     desc: 'Elevate is a DOL Registered Apprenticeship Sponsor (RAPIDS: 2025-IN-132301). We handle compliance.',
-    img: '/images/pages/apprenticeships-page-1.jpg',
+    img: '/images/pages/apprenticeships-page-1.webp',
   },
   {
     title: 'Employer Sponsors',
@@ -179,7 +179,7 @@ export default function OjtAndFundingPage() {
             </div>
             <div className="relative h-64 rounded-2xl overflow-hidden">
               <Image
-                src="/images/pages/for-employers-page-1.jpg"
+                src="/images/pages/for-employers-page-1.webp"
                 alt="Employer OJT partnership"
                 fill
                 sizes="600px"

@@ -53,9 +53,9 @@ export const HERO_IMAGES = {
 
   // Trades family
   trades: {
-    hvac: '/images/pages/hvac-technician.jpg',
+    hvac: '/images/pages/hvac-technician.webp',
     cdl: '/images/pages/cdl-truck-highway.jpg',
-    welding: '/images/pages/welding-sparks.jpg',
+    welding: '/images/pages/welding-sparks.webp',
     electrical: '/images/pages/electrical.jpg',
     plumbing: '/images/pages/plumbing.jpg',
     diesel: '/images/pages/hvac-tools.jpg',
@@ -64,7 +64,7 @@ export const HERO_IMAGES = {
   // Beauty/Apprenticeship family
   apprenticeship: {
     barber: '/images/pages/barber-hero-main.jpg',
-    cosmetology: '/images/pages/barber-styling-hair.jpg',
+    cosmetology: '/images/pages/barber-styling-hair.webp',
     esthetician: '/images/pages/barber-apprentice-learning.jpg',
     nailTech: '/images/pages/barber-apprenticeship.jpg',
   },
@@ -78,24 +78,24 @@ export const HERO_IMAGES = {
 
   // Business family
   business: {
-    taxPrep: '/images/pages/tax-preparation.jpg',
+    taxPrep: '/images/pages/tax-preparation.webp',
     entrepreneurship: '/images/pages/business-sector.jpg',
-    businessAdmin: '/images/pages/admin-business-hero.jpg',
+    businessAdmin: '/images/pages/admin-business-hero.webp',
   },
 
   // Enterprise/Licensing family
   enterprise: {
-    licensing: '/images/pages/about-hero.jpg',
+    licensing: '/images/pages/about-hero.webp',
     whiteLabel: '/images/pages/features-hero.jpg',
-    partners: '/images/pages/for-employers-page-1.jpg',
-    government: '/images/pages/how-it-works-hero.jpg',
+    partners: '/images/pages/for-employers-page-1.webp',
+    government: '/images/pages/how-it-works-hero.webp',
   },
 
   // Marketing/General
   marketing: {
-    homepage: '/images/pages/workforce-training.jpg',
+    homepage: '/images/pages/workforce-training.webp',
     programs: '/images/pages/training-classroom.jpg',
-    about: '/images/pages/about-hero.jpg',
+    about: '/images/pages/about-hero.webp',
     careers: '/images/pages/career-counseling.jpg',
     contact: '/images/pages/contact-hero.jpg',
   },
@@ -109,9 +109,9 @@ export const HERO_IMAGES = {
 
   // Governance/Policy
   governance: {
-    privacy: '/images/pages/about-hero.jpg',
+    privacy: '/images/pages/about-hero.webp',
     terms: '/images/pages/features-hero.jpg',
-    ferpa: '/images/pages/how-it-works-hero.jpg',
+    ferpa: '/images/pages/how-it-works-hero.webp',
     accessibility: '/images/pages/contact-hero.jpg',
   },
 } as const;
@@ -145,7 +145,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     subtitle:
       'WIOA-funded workforce programs in healthcare, skilled trades, and technology. No cost if you qualify.',
     videoSrc: VIDEO_HEROES.homepage,
-    videoPoster: '/images/pages/workforce-training.jpg',
+    videoPoster: '/images/pages/workforce-training.webp',
     variant: 'video',
     height: 'full',
     ctaPrimary: { label: 'Find a Program', href: '/programs' },
@@ -304,7 +304,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
   '/about': {
     title: 'About Elevate for Humanity',
     subtitle: 'Breaking the cycle of poverty through free workforce training since 2020.',
-    image: '/images/pages/about-hero.jpg',
+    image: '/images/pages/about-hero.webp',
     variant: 'split',
     height: 'medium',
     ctaPrimary: { label: 'Our Mission', href: '/about/mission' },
@@ -335,7 +335,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
   '/policies/ferpa': {
     title: 'FERPA Privacy Policy',
     subtitle: 'How we protect student education records under federal law.',
-    image: '/images/pages/how-it-works-hero.jpg',
+    image: '/images/pages/how-it-works-hero.webp',
     variant: 'illustration',
     height: 'compact',
   },
@@ -344,7 +344,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
   '/legal/privacy': {
     title: 'Privacy Policy',
     subtitle: 'How we collect, use, and protect your information.',
-    image: '/images/pages/about-hero.jpg',
+    image: '/images/pages/about-hero.webp',
     variant: 'illustration',
     height: 'compact',
   },
@@ -359,7 +359,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     subtitle:
       'Start your career in barbering with hands-on training and apprenticeship opportunities.',
     videoSrc: VIDEO_HEROES.barber,
-    videoPoster: '/images/pages/barber-styling-hair.jpg',
+    videoPoster: '/images/pages/barber-styling-hair.webp',
     variant: 'video',
     height: 'medium',
     ctaPrimary: { label: 'Apply Now', href: '/programs/barber-apprenticeship/apply' },
@@ -383,7 +383,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     title: 'Skilled Trades Training',
     subtitle: 'HVAC, Welding, Electrical, and CDL training for high-demand careers.',
     videoSrc: VIDEO_HEROES.skilledTrades,
-    videoPoster: '/images/pages/welding-sparks.jpg',
+    videoPoster: '/images/pages/welding-sparks.webp',
     variant: 'video',
     height: 'medium',
     ctaPrimary: { label: 'Apply Now', href: '/apply?program=trades' },
@@ -418,7 +418,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     title: 'Government Partners',
     subtitle: 'Workforce development solutions for state and local agencies.',
     videoSrc: VIDEO_HEROES.government,
-    videoPoster: '/images/pages/how-it-works-hero.jpg',
+    videoPoster: '/images/pages/how-it-works-hero.webp',
     variant: 'video',
     height: 'medium',
     ctaPrimary: { label: 'Partner With Us', href: '/contact' },
@@ -429,7 +429,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     title: 'Workforce Board Portal',
     subtitle: 'Manage participants, track outcomes, and generate compliance reports.',
     videoSrc: VIDEO_HEROES.workforceBoard,
-    videoPoster: '/images/pages/workforce-training.jpg',
+    videoPoster: '/images/pages/workforce-training.webp',
     variant: 'video',
     height: 'medium',
     ctaPrimary: { label: 'Access Portal', href: '/workforce-board/dashboard' },

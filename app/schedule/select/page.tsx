@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const SCHEDULE_OPTIONS = [
   {
     id: 'day',
-    image: '/images/pages/schedule-consultation-page-1.jpg',
+    image: '/images/pages/schedule-consultation-page-1.webp',
     imageAlt: 'Students in daytime HVAC training class',
     label: 'Day Classes',
     hours: 'Monday – Friday, 8:00 AM – 2:30 PM',
@@ -126,7 +126,7 @@ export default async function SelectSchedulePage() {
       >
         <CanonicalVideo
           src="/videos/getting-started-hero.mp4"
-          poster="/images/pages/calendar-page-1.jpg"
+          poster="/images/pages/calendar-page-1.webp"
           className="absolute inset-0 w-full h-full object-cover"
         />
       </div>

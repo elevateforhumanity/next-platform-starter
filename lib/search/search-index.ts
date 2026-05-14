@@ -179,7 +179,7 @@ export const SEARCH_INDEX: SearchItem[] = [
     category: 'license',
     audiences: ['organizations'],
     keywords: ['enterprise', 'multi-site', 'api', 'integration', 'custom', 'large', 'organization'],
-    image: '/images/pages/store-recommendations.jpg',
+    image: '/images/pages/store-recommendations.webp',
     price: '$50,000',
   },
   {

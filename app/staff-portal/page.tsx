@@ -93,7 +93,7 @@ export default async function StaffPortalLanding() {
       {/* Hero */}
       <section className="relative h-[220px] sm:h-[260px]">
         <Image
-          src="/images/pages/staff-portal-page-1.jpg"
+          src="/images/pages/staff-portal-page-1.webp"
           alt="Staff Portal"
           fill
           sizes="100vw"

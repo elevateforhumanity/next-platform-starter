@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: 'Government & Workforce Boards Portal | Elevate for Humanity',
     description:
       'Access compliance data, contracts, and reporting for workforce boards and government partners.',
-    images: ['/images/pages/comp-home-highlight-health.jpg'],
+    images: ['/images/pages/comp-home-highlight-health.webp'],
     type: 'website',
   },
 };

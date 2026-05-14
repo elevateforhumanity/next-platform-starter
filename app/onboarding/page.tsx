@@ -41,7 +41,7 @@ export default async function OnboardingPage() {
     <div className="min-h-screen bg-white">
       <section className="relative h-[400px] sm:h-[500px] w-full overflow-hidden">
         <Image
-          src="/images/pages/onboarding-page-2.jpg"
+          src="/images/pages/onboarding-page-2.webp"
           alt="Welcome to Elevate for Humanity"
           fill
           className="object-cover"
@@ -72,7 +72,7 @@ export default async function OnboardingPage() {
             >
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/about-career-training.jpg"
+                  src="/images/pages/about-career-training.webp"
                   alt="Student"
                   fill
                   sizes="100vw"
@@ -154,7 +154,7 @@ export default async function OnboardingPage() {
             >
               <div className="relative h-40 overflow-hidden">
                 <Image
-                  src="/images/pages/partner.jpg"
+                  src="/images/pages/partner.webp"
                   alt="Partner/Employer"
                   fill
                   sizes="100vw"

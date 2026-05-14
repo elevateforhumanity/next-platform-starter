@@ -106,7 +106,7 @@ export default async function StudentHandbookPage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
           <Image
-            src="/images/pages/student-handbook-page-1.jpg"
+            src="/images/pages/student-handbook-page-1.webp"
             alt="Hero image"
             fill
             className="object-cover"

@@ -16,7 +16,7 @@ export default function MOUPage() {
       config={{
         breadcrumbs: [{ label: 'Partners', href: '/partners' }, { label: 'MOU' }],
         hero: {
-          image: '/images/pages/about-partners-hero.jpg',
+          image: '/images/pages/about-partners-hero.webp',
           tag: 'Partnership Framework',
           title: 'Memorandum of Understanding',
           subtitle:

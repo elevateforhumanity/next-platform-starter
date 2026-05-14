@@ -5,7 +5,7 @@ const teamMembers = [
   {
     name: 'Elizabeth Greene',
     title: 'Founder & Chief Executive Officer',
-    image: '/images/team/elizabeth-greene-headshot.jpg',
+    image: '/images/team/elizabeth-greene-headshot.webp',
     bio: 'U.S. Army veteran, federally authorized tax professional, and EPA 608 certified proctor. Elizabeth founded Elevate for Humanity to connect people to funded workforce training. She also leads Elevate tax operations and Selfish Inc., a 501(c)(3) nonprofit supporting VITA free tax preparation and community services. Elevate operates as a DOL Registered Apprenticeship Sponsor with state and local workforce partnerships across Indiana.',
   },
   {
@@ -24,7 +24,7 @@ const teamMembers = [
   {
     name: 'Leslie Wafford',
     title: 'Director of Community Services',
-    image: '/images/leslie-wafford.jpg',
+    image: '/images/leslie-wafford.webp',
     bio: "Leslie promotes low-barrier housing access and eviction prevention, helping families navigate housing challenges with her 'reach one, teach one' philosophy.",
   },
   {

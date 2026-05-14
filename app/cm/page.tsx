@@ -112,7 +112,7 @@ export default async function CmPage() {
               </div>
               <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/images/pages/success-stories-hero.jpg"
+                  src="/images/pages/success-stories-hero.webp"
                   alt="Cm"
                   fill
                   className="object-cover"

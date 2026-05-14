@@ -85,7 +85,7 @@ const testimonials: Testimonial[] = [
     afterJob: 'Licensed Cosmetologist, Own Salon',
     salary: '$60,000/year',
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    thumbnail: '/images/pages/barber-styling-hair.jpg',
+    thumbnail: '/images/pages/barber-styling-hair.webp',
     quote: 'I turned my passion into a career. Now I own my own salon and employ 3 other stylists!',
     duration: '3:45',
     graduationYear: '2023',

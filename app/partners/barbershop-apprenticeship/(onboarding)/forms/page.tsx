@@ -198,7 +198,7 @@ export default function RequiredFormsPage() {
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="relative h-32">
-              <Image src="/images/pages/barber-tools.jpg" alt="Sign MOU" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
+              <Image src="/images/pages/barber-tools.webp" alt="Sign MOU" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
             </div>
             <div className="p-4">
               <p className="font-semibold text-slate-900">Sign MOU</p>
@@ -210,7 +210,7 @@ export default function RequiredFormsPage() {
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="relative h-32">
-              <Image src="/images/pages/admin-campaigns-new-hero.jpg" alt="Partner Handbook" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
+              <Image src="/images/pages/admin-campaigns-new-hero.webp" alt="Partner Handbook" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
             </div>
             <div className="p-4">
               <p className="font-semibold text-slate-900">Partner Handbook</p>
@@ -222,7 +222,7 @@ export default function RequiredFormsPage() {
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="relative h-32">
-              <Image src="/images/pages/barber-shop-interior.jpg" alt="Policy Forms" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
+              <Image src="/images/pages/barber-shop-interior.webp" alt="Policy Forms" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
             </div>
             <div className="p-4">
               <p className="font-semibold text-slate-900">Policy Forms</p>

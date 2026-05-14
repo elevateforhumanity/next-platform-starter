@@ -236,7 +236,7 @@ export default function TrainingProvidersPage() {
             </div>
             <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src="/images/pages/platform-page-5.jpg"
+                src="/images/pages/platform-page-5.webp"
                 alt="Training provider partnership"
                 fill
                 sizes="100vw"

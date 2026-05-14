@@ -50,7 +50,7 @@ const PARTNER_TYPES = [
     ],
     cta: { label: 'Learn More', href: '/partnerships' },
     apply: { label: 'Apply as Employer Partner', href: '/apply/employer' },
-    image: '/images/pages/employer-handshake.jpg',
+    image: '/images/pages/employer-handshake.webp',
   },
   {
     icon: Building2,
@@ -68,7 +68,7 @@ const PARTNER_TYPES = [
       label: 'Apply to Host an Apprentice',
       href: '/partners/barbershop-apprenticeship/apply',
     },
-    image: '/images/pages/barber-shop-interior.jpg',
+    image: '/images/pages/barber-shop-interior.webp',
   },
   {
     icon: GraduationCap,
@@ -154,7 +154,7 @@ export default function PartnersIndexPage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] min-h-[300px] overflow-hidden">
           <Image
-            src="/images/pages/workforce-partnership-hero.jpg"
+            src="/images/pages/workforce-partnership-hero.webp"
             alt="Workforce partnership meeting"
             fill
             sizes="100vw"

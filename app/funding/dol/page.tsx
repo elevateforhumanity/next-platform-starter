@@ -41,7 +41,7 @@ export default async function DOLFundingPage() {
       {/* Hero */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
         <Image
-          src="/images/pages/apprenticeship-hero.jpg"
+          src="/images/pages/apprenticeship-hero.webp"
           alt="DOL Registered Apprenticeship"
           fill
           className="object-cover"
@@ -77,7 +77,7 @@ export default async function DOLFundingPage() {
             </div>
             <div className="relative h-[300px] rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src="/images/pages/ojt-and-funding.jpg"
+                src="/images/pages/ojt-and-funding.webp"
                 alt="Hands-on apprenticeship training"
                 fill
                 className="object-cover"

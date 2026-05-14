@@ -412,7 +412,7 @@ export default async function LearnerOnboardingPage({
       >
         <CanonicalVideo
           src="/videos/getting-started-hero.mp4"
-          poster="/images/pages/onboarding-page-2.jpg"
+          poster="/images/pages/onboarding-page-2.webp"
           className="absolute inset-0 w-full h-full object-cover"
         />
       </div>
@@ -519,7 +519,7 @@ export default async function LearnerOnboardingPage({
                 <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 mb-10 flex flex-col sm:flex-row items-center gap-6">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden flex-shrink-0">
                     <Image sizes="100vw"
-                      src="/images/pages/onboarding-page-1.jpg"
+                      src="/images/pages/onboarding-page-1.webp"
                       alt="Enrollment approved"
                       width={80}
                       height={80}
@@ -681,7 +681,7 @@ export default async function LearnerOnboardingPage({
                 <div className="relative overflow-hidden rounded-2xl bg-white aspect-[4/3]">
                   <div className="absolute inset-0">
                     <Image
-                      src="/images/pages/onboarding.jpg"
+                      src="/images/pages/onboarding.webp"
                       alt="Contact Elevate for Humanity support"
                       fill
                       className="object-cover opacity-20"

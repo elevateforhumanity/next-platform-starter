@@ -57,7 +57,7 @@ const AGREEMENT_POINTS = [
     body: 'Professional behavior in class, online, and at employer sites at all times.',
   },
   {
-    image: '/images/pages/about-funding-nav.jpg',
+    image: '/images/pages/about-funding-nav.webp',
     title: 'FERPA Consent',
     body: 'Authorizes sharing your enrollment and progress with your funding source.',
   },
@@ -110,7 +110,7 @@ export default function AgreementsPage() {
       >
         <CanonicalVideo
           src="/videos/elevate-overview-with-narration.mp4"
-          poster="/images/pages/enrollment-agreement-page-1.jpg"
+          poster="/images/pages/enrollment-agreement-page-1.webp"
           className="absolute inset-0 w-full h-full object-cover"
         />
       </div>

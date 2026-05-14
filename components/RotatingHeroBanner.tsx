@@ -8,8 +8,8 @@ const slides = [
   { image: '/images/pages/training-classroom.jpg' },
   { image: '/images/pages/cna-nursing-real.jpg' },
   { image: '/images/pages/cdl-truck-highway.jpg' },
-  { image: '/images/pages/welding-sparks.jpg' },
-  { image: '/images/pages/hvac-technician.jpg' },
+  { image: '/images/pages/welding-sparks.webp' },
+  { image: '/images/pages/hvac-technician.webp' },
   { image: '/images/pages/electrical-wiring.jpg' },
 ];
 

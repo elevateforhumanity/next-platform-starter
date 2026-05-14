@@ -70,7 +70,7 @@ export default function FERPACompliancePage() {
       </div>
 {/* Avatar Guide */}
       <AvatarGuide
-        avatarImage="/images/pages/store-recommendations.jpg"
+        avatarImage="/images/pages/store-recommendations.webp"
         avatarName="Sarah"
         welcomeMessage="Hi! I'm Sarah, and I'll explain how we protect student data under FERPA. Data privacy is serious business - let me show you our safeguards."
         steps={guideSteps}

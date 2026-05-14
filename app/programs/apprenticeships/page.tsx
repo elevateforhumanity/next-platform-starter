@@ -29,7 +29,7 @@ const programs = [
   { title: 'Barber Apprenticeship', duration: '12–18 months', desc: '2,000 hours of OJT in licensed barbershops. Indiana Barber License pathway.', href: '/programs/barber-apprenticeship', image: '/images/pages/barber-gallery-1.jpg' },
   { title: 'Cosmetology Apprenticeship', duration: '18 months', desc: 'Hands-on salon training. Indiana Cosmetology License pathway.', href: '/programs/cosmetology-apprenticeship', image: '/images/pages/barber-gallery-2.jpg' },
   { title: 'Nail Technician', duration: '6–9 months', desc: 'Manicure, pedicure, gel, acrylic. Indiana Manicurist License pathway.', href: '/programs/nail-technician-apprenticeship', image: '/images/pages/barber-gallery-3.jpg' },
-  { title: 'Culinary Apprenticeship', duration: '12 months', desc: 'Professional kitchen training. ServSafe certification.', href: '/programs/culinary-apprenticeship', image: '/images/pages/admin-cafeteria-hero.jpg' },
+  { title: 'Culinary Apprenticeship', duration: '12 months', desc: 'Professional kitchen training. ServSafe certification.', href: '/programs/culinary-apprenticeship', image: '/images/pages/admin-cafeteria-hero.webp' },
 ];
 
 const config: ProgramPageConfig = {
@@ -39,7 +39,7 @@ const config: ProgramPageConfig = {
   duration: '6–18 months', cost: 'Varies by program', format: 'OJT + classroom, Indianapolis', credential: 'State Licensure Pathway',
   overview: 'Our apprenticeship programs combine on-the-job training with structured classroom instruction. You work with real clients and customers from day one under the supervision of licensed professionals. Apprenticeships are the fastest path to licensure in barber, cosmetology, and culinary careers.',
   highlights: ['Paid on-the-job training from day one', 'Work with real clients under supervision', 'DOL-registered apprenticeship structure', 'State licensure exam preparation', 'Payment plans available for self-pay programs', 'JRI funding available for eligible participants'],
-  overviewImage: '/images/pages/comp-program-template.jpg', overviewImageAlt: 'Apprentice working with a client',
+  overviewImage: '/images/pages/comp-program-template.webp', overviewImageAlt: 'Apprentice working with a client',
   salaryNumber: 40000, salaryLabel: 'Average starting salary across apprenticeship programs', salaryPrefix: '$',
   steps: [
     { title: 'Apply Online', desc: 'Complete our application in about 5 minutes.' },

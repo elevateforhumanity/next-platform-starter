@@ -17,12 +17,12 @@ export default function TransparencyPage() {
     {
       label: 'Programs Available',
       value: '10+',
-      image: '/images/pages/comp-home-pathways-support.jpg',
+      image: '/images/pages/comp-home-pathways-support.webp',
     },
-    { label: 'Placement Goal', value: '85%', image: '/images/pages/about-hero.jpg' },
-    { label: 'Training Cost', value: '$0', image: '/images/pages/about-hero.jpg' },
+    { label: 'Placement Goal', value: '85%', image: '/images/pages/about-hero.webp' },
+    { label: 'Training Cost', value: '$0', image: '/images/pages/about-hero.webp' },
     { label: 'Support', value: '24/7', image: '/images/pages/healthcare-grad.jpg' },
-    { label: 'Funding Sources', value: '5+', image: '/images/pages/about-hero.jpg' },
+    { label: 'Funding Sources', value: '5+', image: '/images/pages/about-hero.webp' },
     { label: 'Indiana Locations', value: '3+', image: '/images/pages/healthcare-grad.jpg' },
   ];
 
@@ -59,7 +59,7 @@ export default function TransparencyPage() {
       {/* Hero */}
       <section className="relative h-72 overflow-hidden">
         <Image
-          src="/images/pages/transparency-page-1.jpg"
+          src="/images/pages/transparency-page-1.webp"
           alt="Transparency"
           fill
           className="object-cover"

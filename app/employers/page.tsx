@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: 'Employers | Elevate for Humanity',
     description:
       'Hire pre-credentialed graduates, sponsor apprentices, or co-design training cohorts.',
-    images: [{ url: '/images/pages/for-employers-page-1.jpg' }],
+    images: [{ url: '/images/pages/for-employers-page-1.webp' }],
   },
 };
 
@@ -62,7 +62,7 @@ export default async function EmployersPage() {
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[280px] w-full overflow-hidden">
         <Image
-          src="/images/pages/for-employers-page-1.jpg"
+          src="/images/pages/for-employers-page-1.webp"
           alt="Employer partner meeting with Elevate for Humanity team"
           fill
           className="object-cover"

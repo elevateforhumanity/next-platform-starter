@@ -101,7 +101,7 @@ export default function DonatePage() {
       <section className="relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/hero/hero-community.jpg"
+            src="/images/hero/hero-community.webp"
             alt="Community workforce training"
             fill
             className="object-cover opacity-20"

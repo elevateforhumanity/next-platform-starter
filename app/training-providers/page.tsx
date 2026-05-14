@@ -140,7 +140,7 @@ export default function TrainingProvidersPage() {
       {/* Hero */}
       <section className="relative h-[45vh] min-h-[280px] max-h-[520px] w-full overflow-hidden">
         <Image
-          src="/images/pages/training-providers-hero.jpg"
+          src="/images/pages/training-providers-hero.webp"
           alt="Training providers — Elevate for Humanity workforce network"
           fill
           className="object-cover"
@@ -332,7 +332,7 @@ export default function TrainingProvidersPage() {
         <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-10 items-center">
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
             <Image
-              src="/images/pages/training-providers-page-1.jpg"
+              src="/images/pages/training-providers-page-1.webp"
               alt="Training provider partnership"
               fill
               sizes="(max-width: 640px) 100vw, 50vw"

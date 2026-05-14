@@ -47,7 +47,7 @@ const config: ProgramPageConfig = {
     'Job placement assistance through our employer network',
     'Scrubs, textbooks, and supplies provided with WIOA funding',
   ],
-  overviewImage: '/images/pages/comp-program-template.jpg',
+  overviewImage: '/images/pages/comp-program-template.webp',
   overviewImageAlt: 'Healthcare students in clinical training',
 
   salaryNumber: 42000,
@@ -97,7 +97,7 @@ const healthcarePrograms = [
     duration: '4–6 weeks',
     desc: 'Become a Certified Nursing Assistant. State exam prep and clinical hours included.',
     href: '/programs/cna',
-    image: '/images/pages/comp-pathway-healthcare.jpg',
+    image: '/images/pages/comp-pathway-healthcare.webp',
   },
   {
     title: 'Medical Assistant',
@@ -132,7 +132,7 @@ export default function Page() {
         description: config.subtitle,
         duration_weeks: 16,
         price: 0,
-        image_url: 'https://www.elevateforhumanity.org/images/pages/comp-pathway-healthcare.jpg',
+        image_url: 'https://www.elevateforhumanity.org/images/pages/comp-pathway-healthcare.webp',
         category: 'Healthcare',
         outcomes: config.credentials || [],
       }} />

@@ -101,7 +101,7 @@ function ContactPageInner() {
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px] overflow-hidden">
         <Image
-          src="/images/pages/contact-page-1.jpg"
+          src="/images/pages/contact-page-1.webp"
           alt="Elevate for Humanity contact"
           fill
           sizes="100vw"

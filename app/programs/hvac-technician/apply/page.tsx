@@ -326,7 +326,7 @@ export default function HvacApplyPage() {
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
 
           <Image
-            src="/images/pages/programs-hvac-apply-hero.jpg"
+            src="/images/pages/programs-hvac-apply-hero.webp"
             alt="HVAC technician working on an air conditioning unit"
             fill
             className="object-cover"

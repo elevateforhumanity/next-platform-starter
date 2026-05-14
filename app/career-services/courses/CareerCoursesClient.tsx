@@ -195,7 +195,7 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
                 >
                   <div className="relative h-48 overflow-hidden">
                     <Image
-                      src={course.image_url || '/images/pages/apply-employer-hero.jpg'}
+                      src={course.image_url || '/images/pages/apply-employer-hero.webp'}
                       alt={course.title}
                       fill
                       className="object-cover"

@@ -121,7 +121,7 @@ export default function CreateCoursePage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/partner-page-4.jpg"
+          src="/images/pages/partner-page-4.webp"
           alt="Create course"
           fill
           sizes="100vw"

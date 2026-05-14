@@ -2,7 +2,12 @@
 import { logger } from '@/lib/logger';
 
 export const securityLogger = {
-  logUnauthorizedAccess(data: any) {
+  logUnauthorizedAccess(data: {
+    userId?: string;
+    resource?: string;
+    details?: Record<string, unknown>;
+  }) {
+    const { userId, resource, details = {} } = data;
     logger.warn('Unauthorized access attempt', {
       userId,
       resource,
@@ -19,7 +24,8 @@ export const securityLogger = {
     });
   },
 
-  logSuspiciousActivity(data: any) {
+  logSuspiciousActivity(data: { type?: string; details?: Record<string, unknown> }) {
+    const { type, details = {} } = data;
     logger.warn('Suspicious activity detected', {
       type,
       timestamp: new Date().toISOString(),

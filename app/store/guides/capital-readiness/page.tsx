@@ -64,7 +64,7 @@ const productSchema = {
     availability: 'https://schema.org/InStock',
     url: `${siteUrl}/store/guides/capital-readiness`,
   },
-  image: `${siteUrl}/images/pages/shop-hero.jpg`,
+  image: `${siteUrl}/images/pages/shop-hero.webp`,
 };
 
 // JSON-LD Schema for FAQ

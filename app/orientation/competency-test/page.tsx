@@ -64,7 +64,7 @@ export default function CompetencyTestPage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <Image
-            src="/images/pages/orientation-page-1.jpg"
+            src="/images/pages/orientation-page-1.webp"
             alt="Competency assessment"
             fill
             className="object-cover"
@@ -124,7 +124,7 @@ export default function CompetencyTestPage() {
             </div>
             <div className="relative h-72 rounded-2xl overflow-hidden">
               <Image
-                src="/images/pages/orientation-page-2.jpg"
+                src="/images/pages/orientation-page-2.webp"
                 alt="Student completing assessment"
                 fill
                 className="object-cover"

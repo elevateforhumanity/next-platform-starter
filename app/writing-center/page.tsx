@@ -160,7 +160,7 @@ export default function WritingCenterPage() {
             >
               <div className="relative h-56 overflow-hidden">
                 <Image
-                  src="/images/pages/career-services-page-10.jpg"
+                  src="/images/pages/career-services-page-10.webp"
                   alt="Live tutoring session via Zoom"
                   fill
                   className="object-cover"

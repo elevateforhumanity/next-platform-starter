@@ -57,8 +57,8 @@ const MODULE_PHOTO: string[] = [
   '/images/pages/admin-ferpa-training-hero.jpg', // 1  Orientation — students in class
   '/images/pages/hvac-hero.webp', // 2  Fundamentals — HVAC hero shot
   '/images/pages/electrical.jpg', // 3  Electrical — wiring/panels
-  '/images/pages/hvac-technician.jpg', // 4  Heating — HVAC tech at work
-  '/images/pages/hvac-technician.jpg', // 5  Cooling — technician on unit
+  '/images/pages/hvac-technician.webp', // 4  Heating — HVAC tech at work
+  '/images/pages/hvac-technician.webp', // 5  Cooling — technician on unit
   '/images/pages/hvac-unit.jpg', // 6  EPA Core — HVAC overview
   '/images/hvac/hvac-service-tech.jpg', // 7  EPA Type I — service tech
   '/images/hvac/hvac-commercial.jpg', // 8  EPA Type II — commercial system
@@ -441,7 +441,7 @@ export default function HvacCourseHome({
           >
             <div className="relative aspect-video bg-slate-900">
               <Image sizes="100vw"
-                src="/images/pages/comp-home-highlight-success.jpg"
+                src="/images/pages/comp-home-highlight-success.webp"
                 alt="Student orientation"
                 fill
                 className="object-cover opacity-70 group-hover:opacity-90 transition-opacity"

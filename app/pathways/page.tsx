@@ -34,7 +34,7 @@ const STAGES = [
   {
     num: 1,
     title: 'Eligibility & Barrier Removal',
-    image: '/images/pages/how-it-works-hero.jpg',
+    image: '/images/pages/how-it-works-hero.webp',
     href: '/how-it-works',
     what: 'You register at Indiana Career Connect, schedule a WorkOne appointment, and meet with a case manager. They review your situation — income, employment history, barriers — and determine which funding you qualify for.',
     who: 'Anyone in Indiana looking for career training. Priority for unemployed, underemployed, veterans, justice-impacted individuals, and youth ages 16–24.',
@@ -45,7 +45,7 @@ const STAGES = [
   {
     num: 2,
     title: 'Cohort Training',
-    image: '/images/pages/pathways-page-4.jpg',
+    image: '/images/pages/pathways-page-4.webp',
     href: '/pathways/training-model',
     what: 'You join a training cohort — a group of students who start and finish together. Training combines classroom instruction, hands-on lab work, and online coursework. Trades students work with real tools and equipment. Healthcare students do clinical rotations. CDL students get 160+ hours behind the wheel.',
     who: 'Enrolled participants who have completed eligibility screening and funding confirmation.',
@@ -81,7 +81,7 @@ const STAGES = [
   {
     num: 5,
     title: 'Advancement & Upskilling',
-    image: '/images/pages/career-services-page-1.jpg',
+    image: '/images/pages/career-services-page-1.webp',
     href: '/career-services',
     what: 'After placement, you are not on your own. We track your employment at 6 months and 12 months. You keep access to the learning platform for continued education. Many graduates come back to stack additional credentials — for example, CNA to Medical Assistant to LPN to RN.',
     who: 'All program graduates. Ongoing support is included at no additional cost.',
@@ -132,7 +132,7 @@ const PROGRAMS = [
   },
   {
     name: 'HVAC Technician',
-    image: '/images/pages/hvac-technician.jpg',
+    image: '/images/pages/hvac-technician.webp',
     href: canonicalRoutes.programs.hvacTechnician,
     duration: '12–16 weeks',
     credential: 'EPA 608 + OSHA 30',
@@ -476,7 +476,7 @@ export default function PathwaysPage() {
             <div className="flex gap-4 items-start">
               <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                 <Image
-                  src="/images/pages/funding.jpg"
+                  src="/images/pages/funding.webp"
                   alt="Funding navigation"
                   fill
                   sizes="80px"
@@ -495,7 +495,7 @@ export default function PathwaysPage() {
             <div className="flex gap-4 items-start">
               <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                 <Image
-                  src="/images/pages/certifications.jpg"
+                  src="/images/pages/certifications.webp"
                   alt="Credentials"
                   fill
                   sizes="80px"
@@ -516,7 +516,7 @@ export default function PathwaysPage() {
             <div className="flex gap-4 items-start">
               <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                 <Image
-                  src="/images/pages/employer-handshake.jpg"
+                  src="/images/pages/employer-handshake.webp"
                   alt="Employer connections"
                   fill
                   sizes="80px"

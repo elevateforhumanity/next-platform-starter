@@ -88,7 +88,7 @@ export default async function BarberApprenticeshipPage() {
       {/* Hero */}
       <section className="relative h-[300px] sm:h-[400px] overflow-hidden">
         <Image
-          src="/images/pages/barber-hero.jpg"
+          src="/images/pages/barber-hero.webp"
           alt="Barber apprenticeship training"
           fill
           sizes="100vw"

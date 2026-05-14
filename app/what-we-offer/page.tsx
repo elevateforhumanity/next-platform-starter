@@ -47,7 +47,7 @@ export default async function WhatWeOfferPage() {
       {/* Hero */}
       <section className="relative h-[400px] md:h-[500px] flex items-center justify-center text-white overflow-hidden">
         <Image
-          src="/images/pages/comp-highlights-welding.jpg"
+          src="/images/pages/comp-highlights-welding.webp"
           alt="Elevate for Humanity offerings"
           fill
           className="object-cover"

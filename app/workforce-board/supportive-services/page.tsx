@@ -30,7 +30,7 @@ export default function SupportiveServicesPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/workforce-board-page-6.jpg"
+          src="/images/pages/workforce-board-page-6.webp"
           alt="Supportive Services"
           fill
           priority
@@ -70,7 +70,7 @@ export default function SupportiveServicesPage() {
               </div>
               <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/images/pages/workforce-board-page-10.jpg"
+                  src="/images/pages/workforce-board-page-10.webp"
                   alt="Supportive Services"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"

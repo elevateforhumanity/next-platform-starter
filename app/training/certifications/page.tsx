@@ -30,7 +30,7 @@ const certPrograms = [
     name: 'HVAC Technician + EPA 608',
     duration: '8-12 weeks',
     cost: 'Free with WIOA',
-    image: '/images/pages/hvac-technician.jpg',
+    image: '/images/pages/hvac-technician.webp',
     href: '/programs/skilled-trades',
   },
   {
@@ -58,7 +58,7 @@ const certPrograms = [
     name: 'OSHA 10 / OSHA 30',
     duration: '2-4 days',
     cost: 'Included with trades programs',
-    image: '/images/pages/trades-classroom.jpg',
+    image: '/images/pages/trades-classroom.webp',
     href: '/programs/skilled-trades',
   },
   {
@@ -84,7 +84,7 @@ export default function CertificationsPage() {
       {/* Hero */}
       <section className="relative h-[300px] sm:h-[380px] overflow-hidden">
         <Image
-          src="/images/pages/training-page-1.jpg"
+          src="/images/pages/training-page-1.webp"
           alt="Certification training"
           fill
           className="object-cover"

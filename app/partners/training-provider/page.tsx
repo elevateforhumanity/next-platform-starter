@@ -23,12 +23,12 @@ const BENEFITS = [
   {
     title: 'Funded Student Referrals',
     desc: 'Receive WIOA ITA-funded and state-funded student referrals directly from WorkOne and our enrollment team. No marketing cost to you.',
-    image: '/images/pages/training-providers-page-1.jpg',
+    image: '/images/pages/training-providers-page-1.webp',
   },
   {
     title: 'ETPL Application Support',
     desc: 'We help you navigate the Indiana DWD Eligible Training Provider List application and annual renewal process.',
-    image: '/images/pages/training-page-1.jpg',
+    image: '/images/pages/training-page-1.webp',
   },
   {
     title: 'LMS & Student Tracking',
@@ -56,7 +56,7 @@ export default function TrainingProviderPage() {
       {/* Hero */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
         <Image
-          src="/images/pages/training-providers-page-1.jpg"
+          src="/images/pages/training-providers-page-1.webp"
           alt="Training provider partnership with Elevate for Humanity"
           fill
           className="object-cover"
@@ -126,7 +126,7 @@ export default function TrainingProviderPage() {
             </div>
             <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
               <Image
-                src="/images/pages/platform-partners-hero.jpg"
+                src="/images/pages/platform-partners-hero.webp"
                 alt="Training provider requirements"
                 fill
                 sizes="50vw"

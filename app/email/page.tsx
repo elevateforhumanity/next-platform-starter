@@ -21,7 +21,7 @@ export default async function EmailPage() {
       {/* Hero Section */}
       <section className="relative h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center text-white overflow-hidden">
         <Image
-          src="/images/learners/coaching-session.jpg"
+          src="/images/learners/coaching-session.webp"
           alt="Email"
           fill
           className="object-cover"
@@ -114,7 +114,7 @@ export default async function EmailPage() {
               </div>
               <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/images/learners/barrier-support.jpg"
+                  src="/images/learners/barrier-support.webp"
                   alt="Email"
                   fill
                   className="object-cover"

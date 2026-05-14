@@ -45,7 +45,7 @@ export default async function TrainingPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
         <Image
-          src="/images/pages/workforce-board-page-7.jpg"
+          src="/images/pages/workforce-board-page-7.webp"
           alt="Workforce board"
           fill
           sizes="100vw"

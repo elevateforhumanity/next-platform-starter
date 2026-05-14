@@ -17,7 +17,7 @@ const PROGRAMS = [
   },
   {
     title: 'CDL Class A',
-    image: '/images/pages/hvac-technician.jpg',
+    image: '/images/pages/hvac-technician.webp',
     duration: '8 weeks',
     salary: '$55K–$72K',
     placement: '88%',
@@ -53,7 +53,7 @@ const PROGRAMS = [
   },
   {
     title: 'IT Help Desk',
-    image: '/images/pages/welding-sparks.jpg',
+    image: '/images/pages/welding-sparks.webp',
     duration: '8 weeks',
     salary: '$38K–$60K',
     placement: '80%',

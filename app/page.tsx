@@ -93,14 +93,14 @@ export default function HomePage() {
       </section>
 
       {/* PHOTO STRIP */}
-      <section className="grid grid-cols-3 h-56 sm:h-80 overflow-hidden">
-        <div className="relative">
+      <section className="grid grid-cols-1 sm:grid-cols-3 overflow-hidden">
+        <div className="relative aspect-[16/10] sm:aspect-auto sm:h-80">
           <Image src="/images/pages/comp-home-pathways-train.webp" alt="Learner in workforce training" fill className="object-cover" sizes="33vw" loading="lazy" />
         </div>
-        <div className="relative">
+        <div className="relative aspect-[16/10] sm:aspect-auto sm:h-80">
           <Image src="/images/pages/comp-home-highlight-health.webp" alt="Healthcare training" fill className="object-cover" sizes="33vw" loading="lazy" />
         </div>
-        <div className="relative">
+        <div className="relative aspect-[16/10] sm:aspect-auto sm:h-80">
           <Image src="/images/pages/comp-home-highlight-success.webp" alt="Graduate success" fill className="object-cover" sizes="33vw" loading="lazy" />
         </div>
       </section>
@@ -162,7 +162,7 @@ export default function HomePage() {
               },
             ].map((b) => (
               <div key={b.label} className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col">
-                <div className="relative h-44 w-full">
+                <div className="relative w-full aspect-[16/10]">
                   <Image src={b.img} alt={b.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
@@ -200,7 +200,7 @@ export default function HomePage() {
       </section>
 
       {/* FULL-WIDTH IMAGE BREAK */}
-      <div className="relative h-64 sm:h-80 w-full overflow-hidden">
+      <div className="relative h-72 sm:h-96 w-full overflow-hidden">
         <Image src="/images/pages/career-services-hero.webp" alt="Elevate for Humanity career services" fill className="object-cover object-center" sizes="100vw" loading="lazy" />
         <div className="absolute inset-0 bg-slate-900/50 flex items-center justify-center">
           <p className="text-white text-xl sm:text-3xl font-extrabold text-center px-6 drop-shadow-lg">

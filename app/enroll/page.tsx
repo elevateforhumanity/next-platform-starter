@@ -48,7 +48,7 @@ export default async function EnrollPage() {
       {/* Hero - Image only */}
       <div className="relative h-[40vh] min-h-[300px]">
         <Image sizes="100vw"
-          src="/images/pages/programs-hero.jpg"
+          src="/images/pages/programs-hero.webp"
           alt="Enroll in Training"
           fill
           className="object-cover"

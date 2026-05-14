@@ -151,7 +151,7 @@ At Elevate, the answer to all three is clear. [View our full credential list](/c
     author_name: 'Elizabeth Greene',
     category: 'Career',
     tags: ['Career', 'Indiana', 'Workforce', 'WIOA', 'Job Training'],
-    image: '/images/pages/how-it-works-hero.jpg',
+    image: '/images/pages/how-it-works-hero.webp',
     published: true,
     content: `## The 90-Day Window
 

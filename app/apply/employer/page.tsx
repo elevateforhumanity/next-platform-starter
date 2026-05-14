@@ -28,7 +28,7 @@ export default async function EmployerApplicationPage() {
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px] overflow-hidden">
         <Image
-          src="/images/pages/apply-employer-hero.jpg"
+          src="/images/pages/apply-employer-hero.webp"
           alt="Employer partnership"
           fill
           sizes="100vw"

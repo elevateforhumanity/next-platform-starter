@@ -40,7 +40,7 @@ export default function SideHeroBanner() {
           {/* Right Side - Image */}
           <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
             <Image
-              src="/images/pages/side-hero-banner.jpg"
+              src="/images/pages/side-hero-banner.webp"
               alt="Elevate For Humanity - Career Training Center"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"

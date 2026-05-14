@@ -74,7 +74,7 @@ export default async function TrainingPage() {
                 <video
                   controls
                   className="w-full h-full"
-                  poster="/images/pages/program-holder-page-1.jpg"
+                  poster="/images/pages/program-holder-page-1.webp"
                   preload="metadata"
                 >
                   <source

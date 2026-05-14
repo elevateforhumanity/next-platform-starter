@@ -27,7 +27,7 @@ export default function InterviewPrepPage() {
             'Generic interview advice does not work for skilled trades, healthcare, or technical roles. Our coaching is specific to your field — the questions employers actually ask, the certifications they verify, and the red flags they watch for.',
             'Available to all enrolled students and graduates at no cost.',
           ],
-          image: '/images/pages/career-services-page-1.jpg',
+          image: '/images/pages/career-services-page-1.webp',
         },
         features: {
           heading: 'What We Cover',

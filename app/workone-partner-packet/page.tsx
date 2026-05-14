@@ -160,7 +160,7 @@ export default function WorkOnePartnerPacketPage() {
             <div className="space-y-6">
               <div className="relative h-64 rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/pages/workone-partner-packet-page-1.jpg"
+                  src="/images/pages/workone-partner-packet-page-1.webp"
                   alt="Workforce partnership"
                   fill
                   quality={85}
@@ -305,7 +305,7 @@ export default function WorkOnePartnerPacketPage() {
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-32 overflow-hidden">
                 <Image
-                  src="/images/pages/workone-packet-2.jpg"
+                  src="/images/pages/workone-packet-2.webp"
                   alt="Placement"
                   fill
                   sizes="100vw"
@@ -361,35 +361,35 @@ export default function WorkOnePartnerPacketPage() {
                 duration: '4-12 weeks',
                 credential: 'CNA, Medical Assistant, Home Health Aide',
                 funding: 'WIOA, WRG',
-                image: '/images/pages/comp-pathway-healthcare.jpg',
+                image: '/images/pages/comp-pathway-healthcare.webp',
               },
               {
                 title: 'IT & Cybersecurity',
                 duration: '8-12 weeks',
                 credential: 'Certiport IT Specialist, Cisco CCST',
                 funding: 'WIOA, WRG',
-                image: '/images/pages/workone-partner-packet-page-1.jpg',
+                image: '/images/pages/workone-partner-packet-page-1.webp',
               },
               {
                 title: 'CDL Training',
                 duration: '4-6 weeks',
                 credential: 'Class A CDL',
                 funding: 'WIOA, WRG',
-                image: '/images/pages/workone-partner-packet-page-1.jpg',
+                image: '/images/pages/workone-partner-packet-page-1.webp',
               },
               {
                 title: 'Skilled Trades',
                 duration: '8-24 weeks',
                 credential: 'OSHA, NCCER, Industry Certs',
                 funding: 'WIOA, WRG, Apprenticeship',
-                image: '/images/pages/hvac-technician.jpg',
+                image: '/images/pages/hvac-technician.webp',
               },
               {
                 title: 'Business & Office',
                 duration: '4-8 weeks',
                 credential: 'Microsoft Office, QuickBooks',
                 funding: 'WIOA, WRG',
-                image: '/images/pages/workone-partner-packet-page-1.jpg',
+                image: '/images/pages/workone-partner-packet-page-1.webp',
               },
             ].map((program, index) => (
               <div

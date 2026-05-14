@@ -68,7 +68,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Apprenticeship'],
     duration: '4 Weeks • 80 Hours',
-    image: '/images/pages/comp-pathway-healthcare.jpg',
+    image: '/images/pages/comp-pathway-healthcare.webp',
     etplApproved: true,
   },
   {
@@ -93,7 +93,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Apprenticeship'],
     duration: '50 Weeks • 125 Hours RTI',
-    image: '/images/pages/hvac-technician.jpg',
+    image: '/images/pages/hvac-technician.webp',
     etplApproved: true,
   },
   {
@@ -237,7 +237,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'JRI'],
     duration: '45 Days • 180 Hours',
-    image: '/images/pages/comp-home-pathways-support.jpg',
+    image: '/images/pages/comp-home-pathways-support.webp',
     etplApproved: true,
   },
   {
@@ -261,7 +261,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['Self-Pay', 'Employer Sponsored'],
     duration: '1 Day • 4-8 Hours',
-    image: '/images/pages/comp-pathway-healthcare.jpg',
+    image: '/images/pages/comp-pathway-healthcare.webp',
     etplApproved: false,
   },
   {
@@ -332,7 +332,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG'],
     duration: '10 Hours • 2 Days',
-    image: '/images/pages/hvac-technician.jpg',
+    image: '/images/pages/hvac-technician.webp',
     etplApproved: true,
   },
   {
@@ -357,7 +357,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '4-6 Weeks • 120+ Hours',
-    image: '/images/pages/comp-pathway-healthcare.jpg',
+    image: '/images/pages/comp-pathway-healthcare.webp',
     etplApproved: true,
   },
   {
@@ -462,7 +462,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '6-8 Weeks • 80 Hours',
-    image: '/images/pages/admin-business-hero.jpg',
+    image: '/images/pages/admin-business-hero.webp',
     etplApproved: true,
   },
   {
@@ -487,7 +487,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Employer Sponsored'],
     duration: '1 Day • 4-8 Hours',
-    image: '/images/pages/comp-pathway-healthcare.jpg',
+    image: '/images/pages/comp-pathway-healthcare.webp',
     etplApproved: true,
     partnerName: 'Health & Safety Institute (HSI)',
     partnerUrl: 'https://hsi.com',
@@ -518,7 +518,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Employer Sponsored'],
     duration: '30 Hours • 1-2 Weeks',
-    image: '/images/pages/hvac-technician.jpg',
+    image: '/images/pages/hvac-technician.webp',
     etplApproved: true,
     partnerName: 'CareerSafe',
     partnerUrl: 'https://careersafeonline.com',
@@ -621,7 +621,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-12 Weeks • 200+ Hours',
-    image: '/images/pages/comp-pathway-healthcare.jpg',
+    image: '/images/pages/comp-pathway-healthcare.webp',
     etplApproved: true,
   },
   {
@@ -671,7 +671,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '12-16 Weeks • 200 Hours',
-    image: '/images/pages/comp-pathway-healthcare.jpg',
+    image: '/images/pages/comp-pathway-healthcare.webp',
     etplApproved: true,
   },
   {
@@ -746,7 +746,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '12-16 Weeks • 200 Hours',
-    image: '/images/pages/admin-cafeteria-hero.jpg',
+    image: '/images/pages/admin-cafeteria-hero.webp',
     etplApproved: true,
   },
 ];
