@@ -199,7 +199,7 @@ export async function apiAuthGuard(_req?: Request): Promise<GuardedUser> {
   }
 }
 
-const ADMIN_ROLES: UserRole[] = ['admin', 'super_admin', 'staff', 'org_admin'];
+const ADMIN_ROLES: UserRole[] = ['super_admin'];
 const INSTRUCTOR_ROLES: UserRole[] = ['instructor', 'admin', 'super_admin', 'staff'];
 
 /**

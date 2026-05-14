@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-const ADMIN_ROLES = ['admin', 'super_admin', 'staff', 'org_admin', 'instructor'];
+const ADMIN_ROLES = ['super_admin'];
 
 function getSafeRedirect(raw: string | null): string {
   if (!raw) return '/admin/dashboard';
@@ -77,7 +77,7 @@ export default function AdminLoginForm({ redirectTo }: { redirectTo?: string }) 
             </svg>
           </div>
           <h1 className="text-xl font-bold text-white">Elevate Admin</h1>
-          <p className="text-slate-400 text-sm mt-1">Staff &amp; Administrator Portal</p>
+          <p className="text-slate-400 text-sm mt-1">Super Admin Portal</p>
         </div>
 
         {/* Form */}

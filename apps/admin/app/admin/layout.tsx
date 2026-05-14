@@ -83,7 +83,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Verify admin role
   const { data: roleCheck } = await db
     .from('profiles').select('role').eq('id', user.id).maybeSingle();
-  const adminRoles = ['admin', 'super_admin', 'staff', 'org_admin'];
+  const adminRoles = ['super_admin'];
   if (!roleCheck || !adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
 
   const [context, headerData] = await Promise.all([

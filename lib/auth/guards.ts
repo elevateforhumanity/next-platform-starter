@@ -33,7 +33,7 @@ export async function requireAuth(): Promise<AuthResult> {
 }
 
 export async function requireAdmin(): Promise<AuthResult> {
-  return requireRole(['admin', 'super_admin', 'staff', 'org_admin']);
+  return requireRole(['super_admin']);
 }
 
 export async function requireInstructorOrAdmin(): Promise<AuthResult> {
@@ -65,7 +65,7 @@ export async function apiRequireAuth(req?: Request): Promise<ApiAuthResult | Nex
 }
 
 export async function apiRequireAdmin(req?: Request): Promise<ApiAuthResult | NextResponse> {
-  return requireApiRole(['admin', 'super_admin', 'staff'] as any);
+  return requireApiRole(['super_admin'] as any);
 }
 
 export async function apiRequireInstructorOrAdmin(
