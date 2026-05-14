@@ -94,6 +94,8 @@ const AUTH_REQUIRED_ROUTES = [
   '/messages',
   '/certificates',
   '/achievements',
+  '/employer/',
+  '/partner/',
 ];
 
 // Routes requiring onboarding completion before access.
@@ -134,15 +136,14 @@ const PARTNER_ONBOARDING_ROUTES = [
 ];
 
 // Dashboard landing pages that are PUBLIC (exact match — marketing/preview).
+// NOTE: /employer-portal, /student-portal, /partner-portal removed — those paths now
+// permanentRedirect to canonical dashboards at the config layer; no bypass needed.
 const PUBLIC_DASHBOARD_LANDINGS = [
   '/staff-portal',
   '/instructor',
   '/program-holder',
   '/workforce-board',
-  '/employer-portal',
   '/employer',
-  '/student-portal',
-  '/partner-portal',
   '/mentor',
 ];
 
@@ -451,12 +452,12 @@ export async function middleware(request: NextRequest) {
   // DOMAIN-BASED ROUTING
   // ============================================
 
-  // Dead legacy path — /student-portal/education never existed, redirect to student portal
+  // Dead legacy path — /student-portal/education never existed, redirect to canonical learner dashboard
   if (
     pathname === '/student-portal/education' ||
     pathname.startsWith('/student-portal/education/')
   ) {
-    return NextResponse.redirect(new URL('/student-portal', request.url), 301);
+    return NextResponse.redirect(new URL('/learner/dashboard', request.url), 301);
   }
 
   // All routes are served by the same AWS ECS container — no proxy needed.
