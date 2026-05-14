@@ -10,6 +10,7 @@ import {
 } from '@/lib/notifications/application-emails';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
+import { resolveZip } from '@/lib/intake/normalize-zip';
 
 // Auto-tag funding eligibility based on intake answers.
 // Priority: JRI > self-pay > WIOA categorical > WIOA income > WIOA workforce > pending-review
@@ -57,20 +58,6 @@ async function _POST(req: Request) {
     const s = v.trim();
     if (!s) return undefined;
     return s.slice(0, max);
-  }
-
-  // applications.zip is NOT NULL. Normalize user-provided zip fields and
-  // guarantee a stable fallback value if no zip is provided.
-  function normalizeZip(...values: Array<string | undefined | null>): string {
-    for (const value of values) {
-      if (typeof value !== 'string') continue;
-      const digits = value.replace(/\D/g, '');
-      if (digits.length >= 5) {
-        return digits.slice(0, 5);
-      }
-    }
-    // Use a valid fallback zip so downstream normalizers/triggers do not null it.
-    return '46204';
   }
 
   // Barriers arrive as a string (single value) or string[] (multiple checkboxes)
@@ -135,14 +122,15 @@ async function _POST(req: Request) {
     barriers.length ? `Barriers: ${barriers.join(', ')}` : null,
   ].filter(Boolean).join(' | ');
 
-  const zipCode = normalizeZip(
+  const zipCode = resolveZip([
     body.zip as string | undefined,
     body.zipcode as string | undefined,
     body.zipCode as string | undefined,
     body.zip_code as string | undefined,
     body.postal_code as string | undefined,
     body.postalCode as string | undefined,
-  );
+    body['address.zip'] as string | undefined,
+  ]);
 
   // Use maybeSingle() instead of single() — single() throws PGRST116 when RLS
   // silently blocks the SELECT-after-insert and returns 0 rows.
@@ -165,7 +153,7 @@ async function _POST(req: Request) {
       email: clean(body.email as string) ?? '',
       phone: clean(body.phone as string) ?? '',
       city: clean(body.city as string) ?? '',
-      zip: zipCode || '46204',
+      zip: zipCode,
       program_interest: clean(programInterest) ?? 'not-specified',
       program_slug: clean(programInterest) ?? null,
       status: 'submitted',

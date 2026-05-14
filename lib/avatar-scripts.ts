@@ -81,12 +81,12 @@ export const PAGE_SCRIPTS: Record<
     nextAction: `Select a specific trade to see requirements.`,
   },
 
-  '/programs/hvac': {
+  '/programs/hvac-technician': {
     opening: `HVAC training covers heating, cooling, and refrigeration. Includes EPA 608 certification. Funding available through WIOA/WRG.`,
     nextAction: `Click 'Apply' to start eligibility screening.`,
   },
 
-  '/programs/cdl': {
+  '/programs/cdl-training': {
     opening: `CDL training prepares you for Class A or B licensing. Includes classroom, range, and road training. DOT physical required.`,
     nextAction: `Click 'Apply' to start eligibility screening.`,
   },

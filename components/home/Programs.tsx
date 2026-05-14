@@ -13,7 +13,7 @@ export default function Programs() {
     {
       title: 'Skilled Trades',
       description:
-        'Learn HVAC installation and repair, electrical systems, plumbing, or construction trades. Hands-on training leads to industry certifications and apprenticeship opportunities.',
+      href: '/programs/cdl-training',
       href: '/programs/skilled-trades',
       image: '/hero-images/skilled-trades-category.jpg',
     },
@@ -42,7 +42,7 @@ export default function Programs() {
       title: 'CDL & Transportation',
       description:
         "Earn your Commercial Driver's License (CDL) through approved training. Includes classroom instruction, behind-the-wheel training, and job placement assistance.",
-      href: '/programs/cdl-transportation',
+      href: '/programs/cdl-training',
       image: '/hero-images/cdl-transportation-category.jpg',
     },
   ];

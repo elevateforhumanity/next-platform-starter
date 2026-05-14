@@ -48,7 +48,7 @@ const industries = [
     icon: Truck,
     description: 'Get your CDL and start a career in trucking, delivery, or logistics.',
     programs: ['CDL Class A', 'CDL Class B', 'Forklift Operator'],
-    href: '/programs/cdl-transportation',
+    href: '/programs/cdl-training',
   },
   {
     id: 'cosmetology',

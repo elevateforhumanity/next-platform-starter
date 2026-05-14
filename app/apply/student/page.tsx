@@ -43,7 +43,7 @@ const PROGRAMS = [
     title: 'CNA / Nursing Assistant',
     duration: '4 weeks',
     credential: 'Indiana CNA License',
-    href: '/programs/cna-training',
+    href: '/programs/cna',
     image: '/images/pages/cna-patient-care.jpg',
   },
   {

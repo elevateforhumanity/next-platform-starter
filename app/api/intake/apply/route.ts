@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
+import { resolveZip } from '@/lib/intake/normalize-zip';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -19,6 +20,12 @@ interface IntakePayload {
   // Legacy fields — kept for backwards compat with any existing callers
   has_indiana_career_connect?: boolean;
   has_workone_appointment?: boolean;
+  zip?: string;
+  zipcode?: string;
+  zipCode?: string;
+  zip_code?: string;
+  postal_code?: string;
+  postalCode?: string;
 }
 
 function isValidEmail(email: string): boolean {
@@ -58,6 +65,14 @@ export async function POST(request: NextRequest) {
     const normalizedEmail = body.email.trim().toLowerCase();
     const programInterest = normalizeProgramInterest(body.program_interest);
     const stage = determineStage(body);
+    const zipCode = resolveZip([
+      body.zip,
+      body.zipcode,
+      body.zipCode,
+      body.zip_code,
+      body.postal_code,
+      body.postalCode,
+    ]);
 
     // Dedup: block same email + program within 24 hours.
     // Prevents double-submissions from network retries or impatient re-submits.
@@ -122,7 +137,7 @@ export async function POST(request: NextRequest) {
         normalized_phone: (body.phone || '').replace(/\D/g, '') || null,
         phone: body.phone?.trim() || null,
         city: 'Not provided',
-        zip: '00000',
+        zip: zipCode,
         program_interest: programInterest || null,
         reference_number: intakeRef,
         status: 'submitted',

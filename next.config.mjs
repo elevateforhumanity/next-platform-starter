@@ -369,16 +369,6 @@ const nextConfig = {
       // DELETED PAGE REDIRECTS
       // ============================================
       // /admin-login — real 113-line admin auth form, no redirect
-      {
-        source: '/programs/technology/it-support',
-        destination: '/programs/it-help-desk',
-        permanent: true,
-      },
-      {
-        source: '/programs/technology/cybersecurity',
-        destination: '/programs/cybersecurity-analyst',
-        permanent: true,
-      },
 
       // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
@@ -389,11 +379,6 @@ const nextConfig = {
       { source: '/verifyemail', destination: '/verify-email', permanent: true },
       { source: '/lms/messages/new', destination: '/lms/messages', permanent: true },
       { source: '/lms/messages/support/new', destination: '/lms/messages', permanent: true },
-      // building-maintenance-tech → building-services-technician (correct page)
-      { source: '/programs/building-maintenance-tech', destination: '/programs/building-services-technician', permanent: true },
-      // Short aliases → canonical finance program page
-      { source: '/programs/bookkeeping', destination: '/programs/finance-bookkeeping-accounting', permanent: true },
-      { source: '/programs/business-financial', destination: '/programs/finance-bookkeeping-accounting', permanent: true },
       // /programs/finance-bookkeeping-accounting has a real page — no redirect needed
       // cpr-first-aid HAS its own page — no redirect needed (removed incorrect redirect)
       // cpr-first-aid-hsi redirect lives in next.config.mjs redirects above
@@ -401,45 +386,10 @@ const nextConfig = {
       // drug-collector HAS its own page — no redirect needed
       // esthetician-apprenticeship is the public landing page
       // /programs/esthetician/* is a live enrollment flow (apply, documents, payment-setup, etc.) — do NOT wildcard redirect
-      {
-        source: '/programs/professional-esthetician',
-        destination: '/programs/esthetician-apprenticeship',
-        permanent: true,
-      },
-      { source: '/programs/professional-esthetician/:path*', destination: '/programs/esthetician/:path*', permanent: true },
       // forklift now has its own detail page — redirect removed
-      { source: '/programs/it-support', destination: '/programs/it-help-desk', permanent: true },
-      { source: '/programs/it-support/:path*', destination: '/programs/it-help-desk/:path*', permanent: true },
       // /programs/jri → /partners/jri (JRI is a funding partner page, not a program)
       // /programs/jri has a real 819-line page — no redirect needed
-      // phlebotomy HAS its own page — redirect to it, not generic /healthcare
-      { source: '/programs/phlebotomy-technician', destination: '/programs/phlebotomy', permanent: true },
-      {
-        source: '/programs/business-startup-marketing',
-        destination: '/programs/entrepreneurship',
-        permanent: true,
-      },
-      {
-        source: '/programs/emergency-health-safety-tech',
-        destination: '/programs/emergency-health-safety',
-        permanent: true,
-      },
-      {
-        source: '/programs/public-safety-reentry-specialist',
-        destination: '/programs/peer-recovery-specialist',
-        permanent: true,
-      },
-      { source: '/programs/cdl-class-a', destination: '/programs/cdl-training', permanent: true },
-      {
-        source: '/programs/medical-coding-billing',
-        destination: '/programs/healthcare',
-        permanent: true,
-      },
-      {
-        source: '/programs/cosmetology',
-        destination: '/programs/cosmetology-apprenticeship',
-        permanent: true,
-      },
+      // phlebotomy HAS its own page — no redirect needed
 
       // ============================================
       // APP ALIAS REDIRECTS (Rule B: auth/app path renames)
@@ -670,72 +620,7 @@ const nextConfig = {
       { source: '/program-finder/:path*', destination: '/programs/:path*', permanent: true },
       { source: '/compare-programs/:path*', destination: '/programs/:path*', permanent: true },
 
-      // Program alias → DB canonical slug (one URL per program)
-      // Archived year-specific variants
-      {
-        source: '/programs/barber-2024',
-        destination: '/programs/barber-apprenticeship',
-        permanent: true,
-      },
-      { source: '/programs/hvac-2024', destination: '/programs/hvac-technician', permanent: true },
-      // CDL
-      { source: '/programs/cdl', destination: '/programs/cdl-training', permanent: true },
-      { source: '/programs/cdl/:path*', destination: '/programs/cdl-training/:path*', permanent: true },
-      {
-        source: '/programs/cdl-transportation',
-        destination: '/programs/cdl-training',
-        permanent: true,
-      },
-      // CNA duplicates → canonical /programs/cna
-      { source: '/programs/cna-certification', destination: '/programs/cna', permanent: true },
-      { source: '/programs/certified-nursing-assistant', destination: '/programs/cna', permanent: true },
-      { source: '/programs/cna-training', destination: '/programs/cna', permanent: true },
-      // HVAC duplicates → canonical /programs/hvac-technician
-      { source: '/programs/hvac', destination: '/programs/hvac-technician', permanent: true },
-      { source: '/programs/hvac/:path*', destination: '/programs/hvac-technician/:path*', permanent: true },
-      // Cybersecurity duplicate → canonical /programs/cybersecurity-analyst
-      { source: '/programs/cybersecurity', destination: '/programs/cybersecurity-analyst', permanent: true },
-      { source: '/programs/cybersecurity/:path*', destination: '/programs/cybersecurity-analyst/:path*', permanent: true },
-      // Barber & Beauty
-      {
-        source: '/barber',
-        destination: '/programs/barber-apprenticeship',
-        permanent: true,
-      },
-      {
-        source: '/programs/barber',
-        destination: '/programs/barber-apprenticeship',
-        permanent: true,
-      },
-      {
-        source: '/programs/beauty',
-        destination: '/programs/cosmetology-apprenticeship',
-        permanent: true,
-      },
-      {
-        source: '/programs/business',
-        destination: '/programs/business-administration',
-        permanent: true,
-      },
-      // Business
-      // Tax programs — no tax page in this repo; send to contact
-      // /programs/tax-preparation has a real page — no redirect needed
-      { source: '/programs/tax-prep', destination: '/programs/tax-preparation', permanent: true },
-      {
-        source: '/programs/tax-entrepreneurship',
-        destination: '/programs/entrepreneurship',
-        permanent: true,
-      },
-      {
-        source: '/programs/tax-prep-financial-services',
-        destination: '/programs/tax-preparation',
-        permanent: true,
-      },
-      { source: '/programs/tax-prep-financial-services/:path*', destination: '/programs/tax-preparation/:path*', permanent: true },
-      // Healthcare aliases
-      // Human Services
-      // Skilled Trades aliases
-      // Technology aliases
+      // Program alias redirects removed — canonical program URLs only.
       // Career consolidation — /career-center handled by Netlify (Rule A)
       { source: '/career-fair/:path*', destination: '/career-services/:path*', permanent: true },
 
@@ -930,7 +815,7 @@ const nextConfig = {
       // /downloads (465 lines, db=4) — real page, no redirect
       { source: '/docs/students/certificates', destination: '/credentials', permanent: true },
       { source: '/docs/:path*', destination: '/resources', permanent: false },
-      { source: '/programs/food-handler', destination: '/programs', permanent: true },
+      // /programs/food-handler redirect removed — canonical routes only.
 
       // ============================================
       // ENROLL / APPLY CONSOLIDATION
@@ -1034,7 +919,7 @@ const nextConfig = {
       // ============================================
       { source: '/training/cna', destination: '/programs/cna', permanent: true },
       { source: '/training/hvac-technician', destination: '/programs/hvac-technician', permanent: true },
-      { source: '/programs/hvac-technician-program', destination: '/programs/hvac-technician', permanent: true },
+      // /programs/hvac-technician-program redirect removed — canonical routes only.
       { source: '/workforce-training', destination: '/workforce-training-indianapolis', permanent: true },
       { source: '/workforce-training-indiana', destination: '/workforce-training-indianapolis', permanent: true },
       { source: '/wioa-training', destination: '/wioa-funded-training-indiana', permanent: true },

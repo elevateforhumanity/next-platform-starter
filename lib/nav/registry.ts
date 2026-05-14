@@ -69,7 +69,7 @@ export const NAV: NavItem[] = [
   {
     group: 'Programs',
     label: 'CDL & Transportation',
-    href: '/programs/cdl-transportation',
+    href: '/programs/cdl-training',
     showInHeader: true,
   },
   {

@@ -35,10 +35,10 @@ const faqs = [
 ];
 
 const onboarding = [
-  { n: '1', icon: BookOpen, label: 'Read the Partner Handbook', desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.', href: '/login?redirect=/__partners/esthetician-apprenticeship/handbook' },
-  { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: '/login?redirect=/__partners/esthetician-apprenticeship/policy-acknowledgment' },
-  { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: '/login?redirect=/__partners/esthetician-apprenticeship/forms' },
-  { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: '/login?redirect=/__partners/esthetician-apprenticeship/sign-mou' },
+  { n: '1', icon: BookOpen, label: 'Read the Partner Handbook', desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.', href: '/login?redirect=/partners/esthetician-apprenticeship/handbook' },
+  { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: '/login?redirect=/partners/esthetician-apprenticeship/policy-acknowledgment' },
+  { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: '/login?redirect=/partners/esthetician-apprenticeship/forms' },
+  { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: '/login?redirect=/partners/esthetician-apprenticeship/sign-mou' },
 ];
 
 export default function EstheticianPartnerPageClient({ isApproved = false }: Props) {

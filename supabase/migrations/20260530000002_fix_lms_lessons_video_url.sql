@@ -1,3 +1,4 @@
+
 -- Atomic repair for HVAC lesson content pipeline.
 --
 -- Problem: course_lessons.video_url is NULL for all 95 HVAC lessons.

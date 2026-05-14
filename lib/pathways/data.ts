@@ -142,7 +142,7 @@ export const PATHWAYS: Pathway[] = [
     outcomes: ['HVAC Installer', 'Maintenance Technician', 'Refrigeration Tech'],
     credential: 'EPA 608 Certification + OSHA 10',
     credentialIssuer: 'EPA / OSHA',
-    ctaHref: '/programs/hvac',
+    ctaHref: '/programs/hvac-technician',
     stages: [
       {
         stage: 1,
@@ -190,7 +190,7 @@ export const PATHWAYS: Pathway[] = [
     outcomes: ['OTR Driver ($50K+ first year)', 'Local Delivery Driver', 'Bus Operator'],
     credential: 'CDL Class A or Class B',
     credentialIssuer: 'Indiana BMV',
-    ctaHref: '/programs/cdl',
+    ctaHref: '/programs/cdl-training',
     stages: [
       {
         stage: 1,

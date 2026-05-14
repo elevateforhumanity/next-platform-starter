@@ -24,7 +24,7 @@ const certPrograms = [
     duration: '4-8 weeks',
     cost: 'Free with WRG',
     image: '/images/pages/cdl-training.jpg',
-    href: '/programs/cdl',
+    href: '/programs/cdl-training',
   },
   {
     name: 'HVAC Technician + EPA 608',

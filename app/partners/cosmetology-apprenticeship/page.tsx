@@ -27,8 +27,7 @@ export default async function CosmetologyPartnerPage() {
 
   let isApproved = false;
   if (user?.email) {
-    // Check both application tables — cosmetology uses partner_applications,
-    // may also have entries in barbershop_partner_applications for cross-program applicants
+    // Canonical cosmetology host-salon source of truth: partner_applications.
     const { data: pa } = await supabase
       .from('partner_applications')
       .select('status')

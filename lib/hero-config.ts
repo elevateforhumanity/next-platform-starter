@@ -224,7 +224,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
   },
 
   // CDL Training
-  '/programs/cdl': {
+  '/programs/cdl-training': {
     title: 'CDL Training Program',
     subtitle: "Get your Commercial Driver's License and start a career in transportation.",
     image: '/images/pages/cdl-truck-highway.jpg',

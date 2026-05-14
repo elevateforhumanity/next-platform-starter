@@ -46,7 +46,7 @@ export const mainNavigation: NavItem[] = [
           { label: 'Phlebotomy Technician', href: '/programs/healthcare' },
           { label: 'Home Health Aide', href: '/programs/home-health-aide' },
           { label: 'Direct Support Professional', href: '/programs/direct-support-professional' },
-          { label: 'CDL', href: '/programs/cdl' },
+          { label: 'CDL', href: '/programs/cdl-training' },
           { label: 'CPR & First Aid', href: '/programs/cpr-first-aid' },
         ],
       },
@@ -57,7 +57,7 @@ export const mainNavigation: NavItem[] = [
         subItems: [
           { label: 'CNA', href: '/programs/cna' },
           { label: 'Phlebotomy Technician', href: '/programs/healthcare' },
-          { label: 'CDL', href: '/programs/cdl' },
+          { label: 'CDL', href: '/programs/cdl-training' },
           { label: 'Workforce Readiness', href: '/programs/workforce-readiness' },
         ],
       },

@@ -21,7 +21,7 @@ const PROGRAMS = [
     duration: '8 weeks',
     salary: '$55K–$72K',
     placement: '88%',
-    href: '/programs/cdl',
+    href: '/programs/cdl-training',
     category: 'Transportation',
   },
   {

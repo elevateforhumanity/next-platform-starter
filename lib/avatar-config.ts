@@ -190,7 +190,7 @@ export const PAGE_AVATAR_CONFIGS: Record<string, AvatarContext> = {
     maxMessages: 1,
   },
 
-  '/programs/cdl': {
+  '/programs/cdl-training': {
     enabled: true,
     speakOnLoad: true,
     role: 'guide',
@@ -200,7 +200,7 @@ export const PAGE_AVATAR_CONFIGS: Record<string, AvatarContext> = {
     maxMessages: 1,
   },
 
-  '/programs/hvac': {
+  '/programs/hvac-technician': {
     enabled: true,
     speakOnLoad: true,
     role: 'guide',

@@ -269,7 +269,7 @@ export const cdlVisuals: PageVisualConfig = {
       subtitle:
         'Supportive training around DOT drug & alcohol awareness, safety, and job readiness for CDL-driven careers.',
       ctaLabel: 'Explore CDL Pathway',
-      ctaHref: '/programs/cdl-transportation',
+      ctaHref: '/programs/cdl-training',
     },
     {
       id: 'cdl-hero-earn',
@@ -379,7 +379,7 @@ export const itSupportVisuals: PageVisualConfig = {
       subtitle:
         'IT Specialist content plus real-world helpdesk expectations so you can support users and systems.',
       ctaLabel: 'Explore IT Support Pathway',
-      ctaHref: '/programs/it-support-helpdesk',
+      ctaHref: '/programs/it-help-desk',
     },
     {
       id: 'it-hero-earn',

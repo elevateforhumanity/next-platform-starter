@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import ApprenticeForm from '../../barber-apprenticeship/apply/ApprenticeForm';
+import Link from 'next/link';
 import PartnerShopForm from './PartnerShopForm';
 
 type ApplicantType = '' | 'apprentice' | 'partner_shop';
@@ -49,7 +49,29 @@ export default function CosmetologyApplyPage() {
           </div>
         ) : (
           <>
-            {applicantType === 'apprentice' && <ApprenticeForm />}
+            {applicantType === 'apprentice' && (
+              <div className="bg-white rounded-xl shadow-sm p-8">
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Cosmetology Apprentice Intake</h1>
+                <p className="text-slate-600 mb-6">
+                  Continue to the student intake form. We prefill your program as cosmetology apprenticeship.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    href="/apply?program=cosmetology-apprenticeship"
+                    className="inline-block px-6 py-3 bg-brand-red-600 text-white rounded-lg font-semibold hover:bg-brand-red-700 transition"
+                  >
+                    Continue as Apprentice
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setApplicantType('')}
+                    className="inline-block px-6 py-3 border border-slate-300 text-slate-700 rounded-lg font-semibold hover:bg-slate-50 transition"
+                  >
+                    Back
+                  </button>
+                </div>
+              </div>
+            )}
             {applicantType === 'partner_shop' && <PartnerShopForm />}
           </>
         )}

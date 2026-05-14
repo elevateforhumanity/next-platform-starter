@@ -59,8 +59,8 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
 
       // Business & Finance
-      { name: '— Business & Finance —', href: '/programs/bookkeeping', isHeader: true },
-      { name: 'Finance, Bookkeeping & Accounting', href: '/programs/bookkeeping' },
+      { name: '— Business & Finance —', href: '/programs/finance-bookkeeping-accounting', isHeader: true },
+      { name: 'Finance, Bookkeeping & Accounting', href: '/programs/finance-bookkeeping-accounting' },
 
       // Special Programs
       { name: '— Special Programs —', href: '/programs', isHeader: true },

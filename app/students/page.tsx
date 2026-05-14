@@ -248,7 +248,7 @@ export default async function StudentsPage() {
             </Link>
 
             <Link
-              href="/programs/cdl-transportation"
+              href="/programs/cdl-training"
               className="bg-white rounded-xl p-6 shadow-sm border-2 border-slate-100 hover:border-blue-500 transition group"
             >
               <Award className="w-12 h-12 text-blue-600 mb-4" />

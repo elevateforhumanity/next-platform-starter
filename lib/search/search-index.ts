@@ -84,7 +84,7 @@ export const SEARCH_INDEX: SearchItem[] = [
     id: 'hvac-training',
     title: 'HVAC Technician Training',
     description: '8-week HVAC certification with EPA 608 prep and hands-on equipment training.',
-    href: '/programs/hvac',
+    href: '/programs/hvac-technician',
     category: 'program',
     audiences: ['students', 'everyone'],
     keywords: [
@@ -104,7 +104,7 @@ export const SEARCH_INDEX: SearchItem[] = [
     id: 'cdl-training',
     title: 'CDL Truck Driver Training',
     description: '4-week commercial driver license training with behind-the-wheel instruction.',
-    href: '/programs/cdl',
+    href: '/programs/cdl-training',
     category: 'program',
     audiences: ['students', 'everyone'],
     keywords: [
