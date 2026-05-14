@@ -124,7 +124,7 @@ These restrictions do not prevent the Salon from: operating as a salon, employin
     title: '9. Partner Handbook — Required Reading',
     content: `The Worksite Partner Handbook is incorporated by reference into this MOU and forms part of this agreement. The Handbook details the day-to-day responsibilities, compensation requirements, hour tracking procedures, prohibited practices, and communication expectations that govern the worksite relationship.
 
-By signing this MOU, the Salon confirms that it has read and understood the Partner Handbook in full prior to signing. The Handbook is available at: elevateforhumanity.org/partners/cosmetology-apprenticeship/handbook
+By signing this MOU, the Salon confirms that it has read and understood the Partner Handbook in full prior to signing. The Handbook is available at: elevateforhumanity.org/partners/cosmetology-partner-shop/handbook
 
 Failure to comply with the standards set out in the Handbook constitutes a breach of this MOU and may result in immediate termination of the partnership and notification to USDOL.`,
   },
@@ -338,13 +338,13 @@ export default function CosmetologySignMOUPage() {
           </p>
           <div className="space-y-3">
             <Link
-              href="/partners/cosmetology-apprenticeship/documents"
+              href="/partners/cosmetology-partner-shop/documents"
               className="block w-full px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700"
             >
               Continue to Required Documents
             </Link>
             <Link
-              href="/partners/cosmetology-apprenticeship"
+              href="/partners/cosmetology-partner-shop"
               className="block w-full px-6 py-3 text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-slate-50"
             >
               Back to Partner Page
@@ -364,8 +364,8 @@ export default function CosmetologySignMOUPage() {
       <div className="max-w-4xl mx-auto px-4 pt-6">
         <Breadcrumbs
           items={[
-            { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
-            { label: 'Onboarding', href: '/partners/cosmetology-apprenticeship' },
+            { label: 'Partners', href: '/partners/cosmetology-partner-shop' },
+            { label: 'Onboarding', href: '/partners/cosmetology-partner-shop' },
             { label: 'Sign MOU' },
           ]}
         />
@@ -538,7 +538,7 @@ export default function CosmetologySignMOUPage() {
               <span className="text-sm text-slate-700">
                 I confirm that I have read and understood the{' '}
                 <Link
-                  href="/partners/cosmetology-apprenticeship/handbook"
+                  href="/partners/cosmetology-partner-shop/handbook"
                   target="_blank"
                   className="text-purple-600 hover:underline font-medium"
                 >

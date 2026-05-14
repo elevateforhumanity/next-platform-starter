@@ -37,7 +37,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'legal',
     action: 'sign',
-    href: '/partners/cosmetology-apprenticeship/sign-mou',
+    href: '/partners/cosmetology-partner-shop/sign-mou',
   },
   {
     id: 'handbook-ack',
@@ -47,7 +47,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'compliance',
     action: 'sign',
-    href: '/partners/cosmetology-apprenticeship/policy-acknowledgment',
+    href: '/partners/cosmetology-partner-shop/policy-acknowledgment',
   },
   {
     id: 'w9',
@@ -56,7 +56,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'legal',
     action: 'upload',
-    href: '/partners/cosmetology-apprenticeship/documents',
+    href: '/partners/cosmetology-partner-shop/documents',
     downloadHref: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf',
   },
   {
@@ -66,7 +66,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'compliance',
     action: 'upload',
-    href: '/partners/cosmetology-apprenticeship/documents',
+    href: '/partners/cosmetology-partner-shop/documents',
   },
   {
     id: 'workers-comp',
@@ -75,7 +75,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'insurance',
     action: 'upload',
-    href: '/partners/cosmetology-apprenticeship/documents',
+    href: '/partners/cosmetology-partner-shop/documents',
   },
   {
     id: 'liability-insurance',
@@ -84,7 +84,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'insurance',
     action: 'upload',
-    href: '/partners/cosmetology-apprenticeship/documents',
+    href: '/partners/cosmetology-partner-shop/documents',
   },
   {
     id: 'supervisor-license',
@@ -94,7 +94,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'compliance',
     action: 'upload',
-    href: '/partners/cosmetology-apprenticeship/documents',
+    href: '/partners/cosmetology-partner-shop/documents',
   },
   {
     id: 'safety-checklist',
@@ -104,7 +104,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'training',
     action: 'complete',
-    href: '/partners/cosmetology-apprenticeship/policy-acknowledgment',
+    href: '/partners/cosmetology-partner-shop/policy-acknowledgment',
   },
   {
     id: 'compensation-agreement',
@@ -114,7 +114,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'legal',
     action: 'sign',
-    href: '/partners/cosmetology-apprenticeship/sign-mou',
+    href: '/partners/cosmetology-partner-shop/sign-mou',
   },
   {
     id: 'anti-discrimination',
@@ -124,7 +124,7 @@ const REQUIRED_FORMS: FormItem[] = [
     required: true,
     category: 'compliance',
     action: 'sign',
-    href: '/partners/cosmetology-apprenticeship/policy-acknowledgment',
+    href: '/partners/cosmetology-partner-shop/policy-acknowledgment',
   },
 ];
 
@@ -160,7 +160,7 @@ export default function CosmetologyRequiredFormsPage() {
       <div className="max-w-6xl mx-auto px-4 pt-6">
         <Breadcrumbs
           items={[
-            { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
+            { label: 'Partners', href: '/partners/cosmetology-partner-shop' },
             { label: 'Required Forms' },
           ]}
         />
@@ -208,7 +208,7 @@ export default function CosmetologyRequiredFormsPage() {
         {/* Quick Actions */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <Link
-            href="/partners/cosmetology-apprenticeship/sign-mou"
+            href="/partners/cosmetology-partner-shop/sign-mou"
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="bg-purple-600 h-2" />
@@ -218,7 +218,7 @@ export default function CosmetologyRequiredFormsPage() {
             </div>
           </Link>
           <Link
-            href="/partners/cosmetology-apprenticeship/handbook"
+            href="/partners/cosmetology-partner-shop/handbook"
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="bg-purple-600 h-2" />
@@ -228,7 +228,7 @@ export default function CosmetologyRequiredFormsPage() {
             </div>
           </Link>
           <Link
-            href="/partners/cosmetology-apprenticeship/policy-acknowledgment"
+            href="/partners/cosmetology-partner-shop/policy-acknowledgment"
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="bg-purple-600 h-2" />
@@ -355,7 +355,7 @@ export default function CosmetologyRequiredFormsPage() {
             <p className="text-sm text-black">Sign the MOU to finalize your partnership.</p>
           </div>
           <Link
-            href="/partners/cosmetology-apprenticeship/sign-mou"
+            href="/partners/cosmetology-partner-shop/sign-mou"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 whitespace-nowrap"
           >
             Sign MOU <ArrowRight className="w-4 h-4" />

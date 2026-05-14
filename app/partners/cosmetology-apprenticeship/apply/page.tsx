@@ -106,7 +106,7 @@ export default function CosmetologySalonApplyPage() {
             </ol>
           </div>
           <Link
-            href="/login?redirect=/partners/cosmetology-apprenticeship/sign-mou"
+            href="/login?redirect=/partners/cosmetology-partner-shop/sign-mou"
             className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition"
           >
             Log In &amp; Sign the MOU <ArrowRight className="w-4 h-4" />
@@ -114,7 +114,7 @@ export default function CosmetologySalonApplyPage() {
           <p className="text-sm text-slate-500 mt-4">
             Don&apos;t have an account?{' '}
             <Link
-              href="/signup?redirect=/partners/cosmetology-apprenticeship/sign-mou"
+              href="/signup?redirect=/partners/cosmetology-partner-shop/sign-mou"
               className="text-purple-600 hover:underline font-medium"
             >
               Create one free
@@ -136,7 +136,7 @@ export default function CosmetologySalonApplyPage() {
         <Breadcrumbs
           items={[
             { label: 'Partners', href: '/partners' },
-            { label: 'Cosmetology Apprenticeship', href: '/partners/cosmetology-apprenticeship' },
+            { label: 'Cosmetology Apprenticeship', href: '/partners/cosmetology-partner-shop' },
             { label: 'Apply as Host Salon' },
           ]}
         />
@@ -425,7 +425,7 @@ export default function CosmetologySalonApplyPage() {
               <span className="text-sm text-slate-700">
                 I have read and agree to the{' '}
                 <Link
-                  href="/login?redirect=/partners/cosmetology-apprenticeship/sign-mou"
+                  href="/login?redirect=/partners/cosmetology-partner-shop/sign-mou"
                   className="text-purple-600 hover:underline font-medium"
                 >
                   Memorandum of Understanding

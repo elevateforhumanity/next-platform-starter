@@ -159,7 +159,7 @@ export default function CosmetologyPolicyAcknowledgmentPage() {
             sent to your email.
           </p>
           <Link
-            href="/partners/cosmetology-apprenticeship/forms"
+            href="/partners/cosmetology-partner-shop/forms"
             className="block w-full px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 text-center"
           >
             Back to Required Forms
@@ -174,8 +174,8 @@ export default function CosmetologyPolicyAcknowledgmentPage() {
       <div className="max-w-4xl mx-auto px-4 pt-6">
         <Breadcrumbs
           items={[
-            { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
-            { label: 'Forms', href: '/partners/cosmetology-apprenticeship/forms' },
+            { label: 'Partners', href: '/partners/cosmetology-partner-shop' },
+            { label: 'Forms', href: '/partners/cosmetology-partner-shop/forms' },
             { label: 'Policy Acknowledgment' },
           ]}
         />
@@ -184,7 +184,7 @@ export default function CosmetologyPolicyAcknowledgmentPage() {
       <section className="py-6 border-b">
         <div className="max-w-4xl mx-auto px-4">
           <Link
-            href="/partners/cosmetology-apprenticeship/forms"
+            href="/partners/cosmetology-partner-shop/forms"
             className="inline-flex items-center gap-1 text-black hover:text-purple-700 text-sm mb-4"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Forms
@@ -222,7 +222,7 @@ export default function CosmetologyPolicyAcknowledgmentPage() {
             </p>
           </div>
           <Link
-            href="/partners/cosmetology-apprenticeship/handbook"
+            href="/partners/cosmetology-partner-shop/handbook"
             target="_blank"
             className="text-sm font-medium text-purple-600 hover:text-purple-700 whitespace-nowrap"
           >
@@ -343,7 +343,7 @@ export default function CosmetologyPolicyAcknowledgmentPage() {
             </p>
           </div>
           <Link
-            href="/partners/cosmetology-apprenticeship/sign-mou"
+            href="/partners/cosmetology-partner-shop/sign-mou"
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 text-sm whitespace-nowrap"
           >
             Sign MOU

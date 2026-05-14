@@ -40,7 +40,7 @@ export default function PartnerShopForm() {
           Back
         </Link>
         <Link
-          href="/partners/cosmetology-apprenticeship/apply"
+          href="/partners/cosmetology-partner-shop/apply"
           className="px-6 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition"
         >
           Go to Partner Application

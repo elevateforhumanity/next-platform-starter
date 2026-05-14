@@ -35,11 +35,11 @@ const faqs = [
 ];
 
 const onboarding = [
-  { n: '1', icon: BookOpen, label: 'Read the Partner Handbook', desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.', href: '/login?redirect=/partners/cosmetology-apprenticeship/handbook' },
-  { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: '/login?redirect=/partners/cosmetology-apprenticeship/policy-acknowledgment' },
-  { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: '/login?redirect=/partners/cosmetology-apprenticeship/forms' },
-  { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: '/login?redirect=/partners/cosmetology-apprenticeship/sign-mou' },
-  { n: '5', icon: FileText, label: 'Upload Required Documents', desc: 'Upload your salon license, workers\' comp insurance certificate, and supervising cosmetologist license. Keep these current as required by the DOL.', href: '/login?redirect=/partners/cosmetology-apprenticeship/documents' },
+  { n: '1', icon: BookOpen, label: 'Read the Partner Handbook', desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.', href: '/login?redirect=/partners/cosmetology-partner-shop/handbook' },
+  { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: '/login?redirect=/partners/cosmetology-partner-shop/policy-acknowledgment' },
+  { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: '/login?redirect=/partners/cosmetology-partner-shop/forms' },
+  { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: '/login?redirect=/partners/cosmetology-partner-shop/sign-mou' },
+  { n: '5', icon: FileText, label: 'Upload Required Documents', desc: 'Upload your salon license, workers\' comp insurance certificate, and supervising cosmetologist license. Keep these current as required by the DOL.', href: '/login?redirect=/partners/cosmetology-partner-shop/documents' },
 ];
 
 export default function CosmetologyPartnerPageClient({ isApproved = false }: Props) {
@@ -60,7 +60,7 @@ export default function CosmetologyPartnerPageClient({ isApproved = false }: Pro
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 max-w-3xl">Indiana Cosmetology<br className="hidden sm:block" /> Apprenticeship</h1>
           <p className="text-white/85 text-lg sm:text-xl max-w-xl mb-8">Host an apprentice. Grow your salon. Build the next generation of licensed cosmetologists.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/cosmetology-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Apply as a Host Salon <ArrowRight className="w-5 h-5 ml-2" /></Link>
+            <Link href="/partners/cosmetology-partner-shop/apply" className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Apply as a Host Salon <ArrowRight className="w-5 h-5 ml-2" /></Link>
             <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">Schedule a Call</a>
           </div>
         </div>
@@ -147,7 +147,7 @@ export default function CosmetologyPartnerPageClient({ isApproved = false }: Pro
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ready to Partner With Us?</h2>
           <p className="text-slate-300 text-sm mb-8">Join the Indiana Cosmetology Apprenticeship program and start developing talent for your salon.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/cosmetology-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
+            <Link href="/partners/cosmetology-partner-shop/apply" className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
             <a href="tel:+13173143757" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">(317) 314-3757</a>
           </div>
         </div>

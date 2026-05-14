@@ -114,7 +114,7 @@ export default function CosmetologyThankYouPage() {
           </div>
 
           <Link
-            href="/partners/cosmetology-apprenticeship"
+            href="/partners/cosmetology-partner-shop"
             className="inline-flex items-center justify-center px-6 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700"
           >
             Back to Partner Info <ArrowRight className="w-5 h-5 ml-2" />

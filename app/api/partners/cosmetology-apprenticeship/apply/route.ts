@@ -111,7 +111,7 @@ async function _POST(request: NextRequest) {
 
     if (sgKey) {
       const applicantName = contactName || ownerName || 'Partner';
-      const mouLink = `${siteUrl}/login?redirect=/partners/cosmetology-apprenticeship/sign-mou`;
+      const mouLink = `${siteUrl}/login?redirect=/partners/cosmetology-partner-shop/sign-mou`;
 
       // 1. Confirmation to applicant
       const applicantHtml = `<!DOCTYPE html>

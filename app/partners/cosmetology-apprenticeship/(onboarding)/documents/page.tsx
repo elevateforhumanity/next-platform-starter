@@ -131,8 +131,8 @@ export default function CosmetologyPartnerDocumentsPage() {
       <div className="max-w-4xl mx-auto px-4 pt-6">
         <Breadcrumbs
           items={[
-            { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
-            { label: 'Required Forms', href: '/partners/cosmetology-apprenticeship/forms' },
+            { label: 'Partners', href: '/partners/cosmetology-partner-shop' },
+            { label: 'Required Forms', href: '/partners/cosmetology-partner-shop/forms' },
             { label: 'Upload Documents' },
           ]}
         />
@@ -140,7 +140,7 @@ export default function CosmetologyPartnerDocumentsPage() {
 
       <div className="max-w-4xl mx-auto px-4 pt-4">
         <Link
-          href="/partners/cosmetology-apprenticeship/forms"
+          href="/partners/cosmetology-partner-shop/forms"
           className="inline-flex items-center gap-1 text-black hover:text-purple-700 text-sm mb-4"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Required Forms
@@ -311,7 +311,7 @@ export default function CosmetologyPartnerDocumentsPage() {
             </p>
           </div>
           <Link
-            href="/partners/cosmetology-apprenticeship/forms"
+            href="/partners/cosmetology-partner-shop/forms"
             className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 whitespace-nowrap"
           >
             Back to Checklist
