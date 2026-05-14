@@ -13,7 +13,7 @@ export default function Programs() {
     {
       title: 'Skilled Trades',
       description:
-      href: '/programs/cdl-training',
+        'Learn HVAC installation and repair, electrical systems, plumbing, or construction trades. Hands-on training leads to industry certifications and apprenticeship opportunities.',
       href: '/programs/skilled-trades',
       image: '/hero-images/skilled-trades-category.jpg',
     },

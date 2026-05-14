@@ -142,3 +142,6 @@ export function createPublicClient(): SupabaseClient<any> {
 // All call sites have been migrated to import requireAdminClient() directly from
 // '@/lib/supabase/admin'. This re-export is intentionally removed to prevent
 // new code from bypassing the deprecation boundary.
+
+// Backward-compatible alias for existing imports.
+export const createSupabaseServerClient = createClient;
