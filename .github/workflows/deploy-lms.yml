@@ -1,5 +1,6 @@
 name: Deploy LMS
 # No-op update to trigger workflow when manual dispatch is unavailable.
+# Retry trigger marker: 2026-05-14T19:30Z
 
 on:
   push:
