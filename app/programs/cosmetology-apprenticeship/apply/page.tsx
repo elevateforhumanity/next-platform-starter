@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import ApprenticeForm from '../../../partners/cosmetology-apprenticeship/onboarding/forms/ApprenticeForm';
+import ApprenticeForm from '../../barber-apprenticeship/apply/ApprenticeForm';
 import PartnerShopForm from './PartnerShopForm';
 
 type ApplicantType = '' | 'apprentice' | 'partner_shop';
@@ -49,7 +49,7 @@ export default function CosmetologyApplyPage() {
           </div>
         ) : (
           <>
-            {applicantType === 'apprentice' && <ApprenticeForm programSlug="cosmetology-apprenticeship" />}
+            {applicantType === 'apprentice' && <ApprenticeForm />}
             {applicantType === 'partner_shop' && <PartnerShopForm />}
           </>
         )}
