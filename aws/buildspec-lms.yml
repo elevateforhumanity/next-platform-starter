@@ -52,12 +52,10 @@ phases:
       - echo Installing dependencies...
       - pnpm install --frozen-lockfile
       - echo Building LMS...
-      - export NODE_OPTIONS="--max-old-space-size=8192 --max-semi-space-size=128 --expose-gc"
       - export NEXT_TELEMETRY_DISABLED=1
       - export BUILD_SCOPE=1
       - export SERVICE_ROLE=lms
-      - node scripts/stamp-sw.mjs
-      - pnpm next build
+      - pnpm run build:lms:phased
       - echo Packaging Docker image...
       - docker buildx build --platform linux/amd64 --load -f Dockerfile.package --build-arg COMMIT_REF=$COMMIT_REF --cache-from type=registry,ref=$CACHE_IMAGE_URI --cache-to type=registry,ref=$CACHE_IMAGE_URI,mode=max -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 
