@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 export const metadata = {
   robots: {
     index: false,
@@ -6,5 +6,5 @@ export const metadata = {
   },
 };
 export default function ApplyPage() {
-  redirect('/apply?program=building-services-technician');
+  permanentRedirect('/apply?program=building-services-technician');
 }

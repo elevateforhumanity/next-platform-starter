@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -12,5 +12,5 @@ export const metadata: Metadata = {
 
 // Redirect to help page
 export default function DocumentationPage() {
-  redirect('/help');
+  permanentRedirect('/help');
 }
