@@ -1,9 +1,9 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 // Legacy FSSA path retained as a redirect to SNAP.
 export default function LegacyFssaPartnershipRequestRedirect() {
-  redirect('/snap/snap-et');
+  permanentRedirect('/snap/snap-et');
 }

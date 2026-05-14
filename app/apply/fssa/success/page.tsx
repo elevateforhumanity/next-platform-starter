@@ -1,9 +1,9 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 // Legacy FSSA success path retained as a redirect.
 export default function LegacyFssaApplySuccessRedirect() {
-  redirect('/apply');
+  permanentRedirect('/apply');
 }

@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 export const metadata = {
   robots: {
@@ -8,5 +8,5 @@ export const metadata = {
 };
 
 export default function Page() {
-  redirect('/lms/courses');
+  permanentRedirect('/lms/courses');
 }
