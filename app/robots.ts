@@ -60,6 +60,7 @@ export default function robots(): MetadataRoute.Robots {
 
           // Checkout and payment
           '/checkout/',
+          '/enroll/',
           '/payment/',
 
           // Internal

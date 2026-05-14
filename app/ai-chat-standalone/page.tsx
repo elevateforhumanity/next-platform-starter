@@ -17,10 +17,14 @@ import ChatAssistantWrapper from './ChatAssistantWrapper';
 export const metadata: Metadata = {
   title: 'AI Learning Assistant | Elevate For Humanity',
   alternates: {
-    canonical: 'https://www.elevateforhumanity.org/ai-chat-standalone',
+    canonical: 'https://www.elevateforhumanity.org/ai-chat',
   },
   description:
     'Get instant help with your courses, career questions, and learning journey from our AI-powered assistant.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 const features = [
