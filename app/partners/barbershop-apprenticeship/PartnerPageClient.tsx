@@ -293,6 +293,22 @@ export default function PartnerPageClient() {
                 <p className="text-sm text-black">Sign the Memorandum of Understanding to formalize the partnership and receive your first apprentice.</p>
               </div>
             </Link>
+
+            <Link
+              href="/partners/barbershop-apprenticeship/documents"
+              className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
+            >
+              <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
+                5
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <FileText className="w-4 h-4 text-brand-blue-600" />
+                  <h3 className="font-bold text-slate-900">Upload Required Documents</h3>
+                </div>
+                <p className="text-sm text-black">Upload your shop license, workers' comp insurance certificate, and supervising barber license. Keep these current as required by the DOL.</p>
+              </div>
+            </Link>
           </div>
 
           <p className="mt-6 text-xs text-black text-center">

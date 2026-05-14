@@ -39,6 +39,7 @@ const onboarding = [
   { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: '/login?redirect=/__partners/cosmetology-apprenticeship/policy-acknowledgment' },
   { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: '/login?redirect=/__partners/cosmetology-apprenticeship/forms' },
   { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: '/login?redirect=/__partners/cosmetology-apprenticeship/sign-mou' },
+  { n: '5', icon: FileText, label: 'Upload Required Documents', desc: 'Upload your salon license, workers\' comp insurance certificate, and supervising cosmetologist license. Keep these current as required by the DOL.', href: '/login?redirect=/__partners/cosmetology-apprenticeship/documents' },
 ];
 
 export default function CosmetologyPartnerPageClient({ isApproved = false }: Props) {

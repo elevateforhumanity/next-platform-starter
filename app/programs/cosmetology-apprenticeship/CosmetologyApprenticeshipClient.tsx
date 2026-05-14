@@ -108,6 +108,47 @@ export default function CosmetologyApprenticeshipClient({ program: p, enrollment
           </div>
         </div>
 
+        {/* How it works: Salon-based + RTI */}
+        <div className="bg-slate-50 rounded-xl p-8 mb-12 border border-slate-200">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">How Salon-Based Apprenticeship Works</h2>
+          <p className="text-slate-700 mb-6">
+            You earn your Indiana Cosmetology License through a <strong>2,000-hour apprenticeship</strong> combining hands-on salon work with classroom instruction (RTI).
+          </p>
+          <div className="grid sm:grid-cols-2 gap-6">
+            <div className="bg-white p-6 rounded-lg border border-slate-200">
+              <div className="text-3xl font-bold text-brand-red-600 mb-2">1,600</div>
+              <div className="font-semibold text-slate-900 mb-2">Hours of Hands-On Salon Training</div>
+              <p className="text-sm text-slate-600">
+                Work in a licensed salon under supervision of a licensed cosmetologist. Perform real services on live clients: haircuts, coloring, chemical treatments, and more.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg border border-slate-200">
+              <div className="text-3xl font-bold text-brand-red-600 mb-2">200</div>
+              <div className="font-semibold text-slate-900 mb-2">Hours of Related Technical Instruction (RTI)</div>
+              <p className="text-sm text-slate-600">
+                Classroom learning on theory: anatomy, chemistry, infection control, Indiana Board rules, and business practices. Required by Indiana for licensure.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg border border-slate-200">
+              <div className="text-3xl font-bold text-brand-red-600 mb-2">100</div>
+              <div className="font-semibold text-slate-900 mb-2">Hours of Exam Prep</div>
+              <p className="text-sm text-slate-600">
+                Practice theory and practical exams. Get familiar with the format and content before sitting for your state licensing exams.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg border border-slate-200">
+              <div className="text-3xl font-bold text-brand-red-600 mb-2">100</div>
+              <div className="font-semibold text-slate-900 mb-2">Career Placement Support</div>
+              <p className="text-sm text-slate-600">
+                Job readiness training, resume building, and placement assistance to connect you with salons and employers after licensure.
+              </p>
+            </div>
+          </div>
+          <p className="text-xs text-slate-500 mt-6 border-t border-slate-200 pt-6">
+            <strong>Indiana Requirement:</strong> To qualify for a cosmetology license, you must complete at least 2,000 hours of training (salon work + RTI) and pass both the theory and practical exams.
+          </p>
+        </div>
+
         {/* Training phases accordion */}
         {p.trainingPhases && p.trainingPhases.length > 0 && (
           <div className="bg-white rounded-xl shadow-sm p-8 mb-12">
