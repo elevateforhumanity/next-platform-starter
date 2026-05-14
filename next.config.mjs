@@ -373,7 +373,7 @@ const nextConfig = {
       // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
       // ============================================
-      { source: '/for-students', destination: '/student-portal', permanent: true },
+      // /for-students has a dedicated public page — no redirect
       { source: '/forgotpassword', destination: '/reset-password', permanent: true },
       { source: '/resetpassword', destination: '/reset-password', permanent: true },
       { source: '/verifyemail', destination: '/verify-email', permanent: true },
@@ -493,18 +493,14 @@ const nextConfig = {
       { source: '/student/support', destination: '/contact', permanent: false },
 
       // Governance / compliance aliases
-      {
-        source: '/governance/operational-controls',
-        destination: '/legal/governance/platform-overview',
-        permanent: true,
-      },
+      // /governance/operational-controls has a dedicated public page — no redirect
       {
         source: '/governance/compliance',
         destination: '/legal/governance/platform-overview',
         permanent: true,
       },
       { source: '/financial-aid', destination: '/funding', permanent: true },
-      { source: '/workforce-board/reports', destination: '/workone-partner-packet', permanent: true },
+      // /workforce-board/reports has a dedicated public page — no redirect
       {
         source: '/admin/accreditation/evidence/new',
         destination: '/admin/accreditation',
@@ -566,7 +562,7 @@ const nextConfig = {
       // Exact match first: /portal → portal chooser. Wildcard below catches /portal/anything → /lms/anything.
       { source: '/portal', destination: '/portals', permanent: true },
       { source: '/portal/:path*', destination: '/lms/:path*', permanent: true },
-      { source: '/students/:path*', destination: '/lms/:path*', permanent: true },
+      // /students has dedicated public pages — do not wildcard redirect to LMS
       { source: '/learners/:path*', destination: '/lms/:path*', permanent: true },
       {
         source: '/program-holder-portal/:path*',
@@ -768,7 +764,7 @@ const nextConfig = {
       // /pricing (206 lines) and /billing (179 lines, db=5) — real pages, no redirect
 
       // Auth aliases
-      { source: '/forgot-password', destination: '/reset-password', permanent: true },
+      // /forgot-password has a dedicated public page — no redirect
       { source: '/partners/login', destination: '/partner/login', permanent: true },
 
       // Tax services routes belong in a separate repository.
@@ -854,7 +850,7 @@ const nextConfig = {
 
       // Catch-all for any remaining /enroll/* paths not matched above.
       // Declared after specific overrides so it does not shadow them.
-      { source: '/enroll/:path*', destination: '/apply', permanent: true },
+      // /enroll has dedicated enrollment pages — no wildcard redirect
 
       // Duplicate student forms → canonical /apply/student
       // /apply/quick → /apply
@@ -871,7 +867,7 @@ const nextConfig = {
       // /scholarships → /funding handled by Netlify (public SEO route, Rule A)
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
       // Donate page has its own content now
-      { source: '/resources/:path*', destination: '/blog', permanent: true },
+      // /resources has dedicated public pages — no wildcard redirect
       {
         source: '/career-uplift-services/:path*',
         destination: '/career-services',
@@ -884,9 +880,9 @@ const nextConfig = {
       { source: '/lms/my-courses', destination: '/lms/courses', permanent: true },
 
       // Student portal redirects
-      // /student-portal/dashboard and /student-portal/courses have real pages — no redirects
-      { source: '/student-portal/certificates', destination: '/student-portal', permanent: true },
-      { source: '/student-portal/progress', destination: '/student-portal', permanent: true },
+      // Legacy student-portal is fully consolidated under /learner/dashboard
+      { source: '/student-portal', destination: '/learner/dashboard', permanent: true },
+      { source: '/student-portal/:path*', destination: '/learner/dashboard', permanent: true },
       // my-dashboard → canonical learner dashboard (legacy portal consolidation)
       { source: '/my-dashboard', destination: '/learner/dashboard', permanent: true },
       ...canonicalAliasRedirects,
@@ -948,7 +944,7 @@ const nextConfig = {
       { source: '/pwa/cosmetology', destination: '/programs/cosmetology-apprenticeship', permanent: true },
       { source: '/hvac', destination: '/programs/hvac-technician', permanent: true },
       { source: '/industries/healthcare', destination: '/programs/healthcare', permanent: true },
-      { source: '/governance/security', destination: '/governance', permanent: true },
+      // /governance/security has a dedicated public page — no redirect
       { source: '/admin/live-sessions/new', destination: '/admin/live-sessions', permanent: false },
 
       // ── AUTH DUPLICATES ────────────────────────────────────────────────────
@@ -976,6 +972,7 @@ const nextConfig = {
       // ── PARTNER PORTAL DUPLICATES ──────────────────────────────────────────
       // Canonical: /partner/dashboard
       { source: '/partner-portal', destination: '/partner/dashboard', permanent: true },
+      { source: '/partner-portal/:path*', destination: '/partner/dashboard', permanent: true },
 
       // ── CERTIFICATE / VERIFY DUPLICATES ────────────────────────────────────
       // Canonical verify: /verify/:certificateId
