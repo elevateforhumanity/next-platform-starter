@@ -83,6 +83,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
       { name: '— Become a Host Shop —', href: '/partners/barbershop-apprenticeship', isHeader: true },
       { name: 'Barbershop Partner', href: '/partners/barbershop-apprenticeship' },
+      { name: 'Cosmetology Shop Owner', href: '/partners/cosmetology-apprenticeship' },
       { name: 'Esthetician Partner', href: '/partners/esthetician-apprenticeship' },
     ],
   },
@@ -143,6 +144,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'FSSA / SNAP E&T', href: '/snap-et-partner' },
       { name: 'Apprenticeship Sponsor', href: '/apprenticeship-sponsor' },
       { name: 'Workforce Boards', href: '/platform/workforce-boards' },
+      { name: 'Cosmetology Shop Owner', href: '/partners/cosmetology-apprenticeship' },
       // Training Providers & Program Holders
       { name: '— Training Providers & Program Holders —', href: '/training-providers', isHeader: true },
       { name: 'Become a Provider', href: '/training-providers' },
