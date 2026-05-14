@@ -1,4 +1,5 @@
 name: Deploy LMS
+# No-op update to trigger workflow when manual dispatch is unavailable.
 
 on:
   push:
