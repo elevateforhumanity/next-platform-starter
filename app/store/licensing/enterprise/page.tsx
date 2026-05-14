@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
-// Canonical: /store/licenses/enterprise-license
-export default function Page() {
-  redirect('/store/licenses/enterprise-license');
+export default function StoreLicensingEnterprisePage() {
+  permanentRedirect('/store/licenses/enterprise-license');
 }

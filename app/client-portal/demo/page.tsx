@@ -1,12 +1,5 @@
-import { redirect } from 'next/navigation';
-import { Metadata } from 'next';
+import { permanentRedirect } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: 'Demo',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/start' },
-  robots: { index: false, follow: false },
-};
-
-export default function Page() {
-  redirect('/start');
+export default function ClientPortalDemoPage() {
+  permanentRedirect('/start');
 }

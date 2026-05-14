@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
-// Canonical: /partner/dashboard
-export default function Page() {
-  redirect('/partner/dashboard');
+export default function PartnerPortalPage() {
+  permanentRedirect('/partner/dashboard');
 }

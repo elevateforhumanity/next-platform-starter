@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
-// Canonical: /store/licenses/managed
-export default function Page() {
-  redirect('/store/licenses/managed');
+export default function StoreLicensingManagedPage() {
+  permanentRedirect('/store/licenses/managed');
 }

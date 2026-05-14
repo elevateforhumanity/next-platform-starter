@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
-// Canonical: /store/licenses/success
-export default function Page() {
-  redirect('/store/licenses/success');
+export default function StoreLicensingSuccessPage() {
+  permanentRedirect('/store/licenses/success');
 }
