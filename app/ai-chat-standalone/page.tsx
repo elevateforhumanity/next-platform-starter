@@ -15,10 +15,10 @@ import {
 import ChatAssistantWrapper from './ChatAssistantWrapper';
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/ai-chat',
-  },
   title: 'AI Learning Assistant | Elevate For Humanity',
+  alternates: {
+    canonical: 'https://www.elevateforhumanity.org/ai-chat-standalone',
+  },
   description:
     'Get instant help with your courses, career questions, and learning journey from our AI-powered assistant.',
 };

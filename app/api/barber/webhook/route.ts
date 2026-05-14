@@ -17,6 +17,7 @@ import {
 import { withRuntime } from '@/lib/api/withRuntime';
 import { BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
 import { STRIPE_BNPL_PAYMENT_METHODS } from '@/lib/bnpl-config';
+import { hydrateProcessEnv } from '@/lib/secrets';
 
 const LMS_URL =
   (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org') + '/lms/courses';
@@ -189,6 +190,13 @@ function constructStripeEventWithAnySecret(
  * 5. Send LMS access email (idempotent)
  */
 async function _POST(request: NextRequest) {
+  // Hydrate secrets from app_secrets before reading STRIPE_* env vars.
+  try {
+    await hydrateProcessEnv();
+  } catch (err) {
+    logger.error('[barber/webhook] hydrateProcessEnv failed — continuing with process.env as-is', err as Error);
+  }
+
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
 
@@ -199,6 +207,18 @@ async function _POST(request: NextRequest) {
   let event: Stripe.Event;
   const stripe = getStripe();
   const webhookSecrets = getWebhookSecrets();
+
+  if (!stripe) {
+    logger.error('[barber/webhook] Stripe client not initialized — STRIPE_SECRET_KEY missing after hydration');
+    // Misconfiguration; retries will not help until env is fixed.
+    return NextResponse.json({ received: true, warning: 'stripe_not_configured' }, { status: 200 });
+  }
+
+  if (webhookSecrets.length === 0) {
+    logger.error('[barber/webhook] No Stripe webhook secret configured for barber endpoint');
+    // Misconfiguration; retries will not help until env is fixed.
+    return NextResponse.json({ received: true, warning: 'webhook_secret_not_configured' }, { status: 200 });
+  }
 
   try {
     event = constructStripeEventWithAnySecret(stripe, body, signature, webhookSecrets);

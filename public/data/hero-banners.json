@@ -828,7 +828,7 @@
   },
   "cosmetology-apprenticeship": {
     "pageKey": "cosmetology-apprenticeship",
-    "posterImage": "/images/pages/cosmetology-hero.jpg",
+    "posterImage": "/images/pages/cosmetology-hero.webp",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Cosmetology License",
@@ -857,7 +857,7 @@
   },
   "nail-technician-apprenticeship": {
     "pageKey": "nail-technician-apprenticeship",
-    "posterImage": "/images/pages/nail-tech-hero.jpg",
+    "posterImage": "/images/pages/nail-tech-hero.webp",
     "voiceoverSrc": "/audio/heroes/nail-tech.mp3",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Nail Technician License",

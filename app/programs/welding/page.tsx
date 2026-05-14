@@ -1,5 +1,14 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { getStaticProgram } from '@/data/programs/index';
+
+export const metadata: Metadata = {
+  title: 'Welding Technology Training | AWS Certification Prep | Elevate for Humanity',
+  description:
+    'Learn MIG, TIG, and stick welding in 10 weeks. Prepare for AWS certifications and enter the skilled trades workforce. WIOA funding available for eligible Indiana residents.',
+  alternates: { canonical: '/programs/welding' },
+};
+
 import ProgramDetailPageComponent from '@/components/programs/ProgramDetailPage';
 import { ProgramStructuredData } from '@/components/seo/CourseStructuredData';
 import { OnetLaborData } from '@/components/programs/onet/OnetLaborData';

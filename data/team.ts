@@ -23,7 +23,7 @@ export const TEAM: TeamMember[] = [
     name: 'Elizabeth Greene',
     title: 'Founder & Chief Executive Officer',
     orgRole: 'Executive Leadership',
-    bio: 'U.S. Army veteran (Unit Supply Specialist), federally authorized tax professional, licensed barber, Indiana substitute teacher, and EPA 608 Certified Proctor. Elizabeth founded Elevate for Humanity — a DOL Registered Apprenticeship Sponsor and workforce provider serving Indiana learners. She also leads Elevate tax operations and Selfish Inc., a 501(c)(3) nonprofit providing VITA free tax prep and community services.',
+    bio: 'U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent (EA), EFIN/PTIN holder, ERO, and SBIN-authorized federal tax software submitter. Elizabeth is also a licensed barber, Indiana substitute teacher, OSHA 10-Hour certified, EPA 608 Certified Proctor (ESCO #358010 and Mainstream Engineering), and Certiport Authorized Testing Center (CATC) operator. She founded Elevate for Humanity — a DOL Registered Apprenticeship Sponsor and Indiana ETPL/WIOA/WRG/JRI-approved workforce provider — and also leads Elevate tax operations and Selfish Inc., a 501(c)(3) nonprofit providing VITA free tax prep and community services.',
     headshotSrc: '/images/team/elizabeth-greene-headshot.webp',
     email: '',
   },
