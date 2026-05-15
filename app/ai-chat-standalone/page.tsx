@@ -1,33 +1,19 @@
-import { Metadata } from 'next';
-import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import Link from 'next/link';
-import {
-  MessageSquare,
-  Bot,
-  Sparkles,
-  Clock,
-  BookOpen,
-  HelpCircle,
-  ArrowRight,
-  Zap,
-  Phone,
-} from 'lucide-react';
-import ChatAssistantWrapper from './ChatAssistantWrapper';
+import { permanentRedirect } from 'next/navigation';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'AI Learning Assistant | Elevate For Humanity',
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/ai-chat',
-  },
+  title: 'AI Chat Redirect',
   description:
     'Get instant help with your courses, career questions, and learning journey from our AI-powered assistant.',
   robots: {
     index: false,
-    import { permanentRedirect } from 'next/navigation';
+    follow: false,
+  },
+};
 
-    export default function AIChatStandalonePage() {
-      permanentRedirect('/ai-chat');
-    }
+export default function AIChatStandalonePage() {
+  permanentRedirect('/ai-chat');
+}
     </div>
   );
 }
