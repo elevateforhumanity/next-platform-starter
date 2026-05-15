@@ -138,7 +138,7 @@ export const PHLEBOTOMY: ProgramSchema = {
   ],
 
   paymentTerms:
-    'Self-pay program. $1,500 total tuition. 20% deposit ($300) required at enrollment. Pay the balance weekly, in full, or via BNPL (Affirm, Sezzle, Afterpay, Klarna).',
+    'Self-pay program. $1,500 total tuition. 20% deposit ($300) required at enrollment. Pay the balance weekly, in full, or via BNPL. All options available at checkout.',
 
   // ─── Content model ──────────────────────────────────────────────
   deliveryModel: 'internal',

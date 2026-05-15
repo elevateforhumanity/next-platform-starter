@@ -280,7 +280,7 @@ export const ESTHETICIAN: ProgramSchema = {
     'Career placement support',
   ],
   paymentTerms:
-    'WIOA and Workforce Ready Grant accepted. Self-pay starts with a $600 deposit, then weekly payments or BNPL (Affirm, Sezzle, Afterpay, Klarna).',
+    'WIOA and Workforce Ready Grant accepted. Self-pay starts with a $600 deposit, then weekly payments or BNPL. All options available at checkout.',
 
   faqs: [
     {

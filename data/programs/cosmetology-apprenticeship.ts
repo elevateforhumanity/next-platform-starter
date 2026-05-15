@@ -270,7 +270,7 @@ export const COSMETOLOGY: ProgramSchema = {
     'Career placement support',
   ],
   paymentTerms:
-    'Paid apprenticeship track remains available. For self-pay enrollment, start with a $600 deposit, then weekly payments or BNPL (Affirm, Sezzle, Afterpay, Klarna).',
+    'Paid apprenticeship track remains available. For self-pay enrollment, start with a $600 deposit, then weekly payments or BNPL (Affirm, Sezzle, Afterpay, Klarna). All BNPL options available at checkout.',
   // ─── Content model ──────────────────────────────────────────────
   deliveryModel: 'partner',
   deliveryModelDetail: 'hybrid',

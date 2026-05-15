@@ -47,7 +47,7 @@ export default function PartnerPageClient() {
       {/* CTA Section below hero */}
       <section className="py-16 border-b border-slate-100">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-black mb-4">Barbershop Partner Program</h1>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-black mb-4">Barbershop Partner Program</h2>
           <p className="text-xl font-medium text-black mb-8 max-w-2xl mx-auto">
             Host apprentices in your shop. Develop talent. Grow your team through Indiana&apos;s
             USDOL Registered Barber Apprenticeship.

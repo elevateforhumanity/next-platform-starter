@@ -76,7 +76,7 @@ const FUNDING_COPY: Record<FundingType, { label: string; detail: string }> = {
   self_pay: {
     label: 'Self-Pay Available',
     detail:
-      'Flexible payment plans, BNPL options (Klarna, Afterpay, Zip), and income-share available.',
+      'Flexible payment plans, BNPL options, and income-share available.',
   },
   unknown: {
     label: 'Funding Details Pending',

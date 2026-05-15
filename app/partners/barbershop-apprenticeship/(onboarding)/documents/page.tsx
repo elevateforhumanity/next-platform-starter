@@ -39,7 +39,7 @@ const DOC_SLOTS: DocSlot[] = [
     externalLink: { label: 'Download blank W-9 (IRS)', href: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf' },
   },
   {
-    id: 'barbershop_license'
+    id: 'barbershop_license',
     label: 'Indiana Barbershop License',
     description: 'Current, valid Indiana barbershop license showing license number, expiration date, licensee name, and shop address.',
     required: true,

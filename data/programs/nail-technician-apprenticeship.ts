@@ -232,7 +232,7 @@ export const NAIL_TECH: ProgramSchema = {
     'Licensing exam prep',
   ],
   paymentTerms:
-    'Paid apprenticeship track remains available. For self-pay enrollment, start with a $600 deposit, then weekly payments or BNPL (Affirm, Sezzle, Afterpay, Klarna).',
+    'Paid apprenticeship track remains available. For self-pay enrollment, start with a $600 deposit, then weekly payments or BNPL. All options available at checkout.',
   faqs: [
     {
       question: 'How long does it take?',
