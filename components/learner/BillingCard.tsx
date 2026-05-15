@@ -126,7 +126,7 @@ export default function BillingCard({ billing }: { billing: BillingSummary }) {
         <div className="flex items-center justify-between text-sm">
           <span className="flex items-center gap-1.5 text-slate-600">
             <DollarSign className="w-4 h-4 text-slate-400" />
-            Weekly Payment
+            Weekly Tuition Payment
           </span>
           <span className="font-semibold text-slate-900">
             {billing.fullyPaid ? 'Paid in full' : fmt(billing.weeklyPaymentCents)}
