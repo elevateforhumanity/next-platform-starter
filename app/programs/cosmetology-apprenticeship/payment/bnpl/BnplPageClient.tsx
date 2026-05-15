@@ -13,7 +13,7 @@ export function BnplPageClient() {
       checkoutEndpoint="/api/cosmetology/checkout/embedded"
       applyHref="/programs/cosmetology-apprenticeship/apply"
       successPath="/programs/cosmetology-apprenticeship/apply/success"
-      paymentPlanHref="/programs/cosmetology-apprenticeship/apply?payment=plan"
+      paymentPlanHref="/programs/cosmetology-apprenticeship/payment-setup"
       payInFullHref="/programs/cosmetology-apprenticeship/apply?payment=full"
     />
   );
