@@ -34,6 +34,12 @@ on:
 permissions:
   contents: read
 
+# Serialize all production deploys. If an LMS deploy is in progress this job
+# will queue (not cancel) until it finishes, preventing concurrent CodeBuilds.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 jobs:
   deploy-admin:
     name: Build and deploy admin only
@@ -50,9 +56,33 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Start Admin CodeBuild
+      - name: Start Admin CodeBuild and wait for completion
         run: |
-          aws codebuild start-build \
+          echo "Starting Admin CodeBuild..."
+          BUILD_ID=$(aws codebuild start-build \
             --project-name elevate-admin-build \
             --buildspec-override aws/buildspec-admin.yml \
-            --region us-east-1
+            --region us-east-1 \
+            --query 'build.id' --output text)
+          echo "Build ID: $BUILD_ID"
+
+          echo "Waiting for build to complete (polls every 30s)..."
+          while true; do
+            STATUS=$(aws codebuild batch-get-builds \
+              --ids "$BUILD_ID" \
+              --region us-east-1 \
+              --query 'builds[0].buildStatus' \
+              --output text)
+            echo "  Status: $STATUS"
+            case "$STATUS" in
+              SUCCEEDED)
+                echo "✅ Admin build succeeded."
+                exit 0
+                ;;
+              FAILED|FAULT|TIMED_OUT|STOPPED)
+                echo "❌ Admin build failed with status: $STATUS"
+                exit 1
+                ;;
+            esac
+            sleep 30
+          done
