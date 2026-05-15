@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import PartnerShopForm from './PartnerShopForm';
 import {
   MIN_SETUP_FEE_CENTS,
   PAYMENT_TERM_WEEKS,
@@ -28,7 +28,15 @@ const APPLICANT_TYPES = [
 ];
 
 export default function CosmetologyApplyPage() {
+  const router = useRouter();
   const [applicantType, setApplicantType] = useState<ApplicantType>('');
+
+  // Partner shops have a dedicated onboarding portal — redirect immediately
+  useEffect(() => {
+    if (applicantType === 'partner_shop') {
+      router.push('/partners/cosmetology-partner-shop/apply');
+    }
+  }, [applicantType, router]);
   const minDownPayment = MIN_SETUP_FEE_CENTS / 100;
   const defaultDownPayment = Math.max(minDownPayment, 600);
   const [downPayment, setDownPayment] = useState<number>(defaultDownPayment);
@@ -120,7 +128,7 @@ export default function CosmetologyApplyPage() {
                     Apply — Pay in Full
                   </Link>
                   <Link
-                    href={`/apply?program=cosmetology-apprenticeship&payment=payment_plan&down_payment=${clampedDownPayment}`}
+                    href="/programs/cosmetology-apprenticeship/payment-setup"
                     className="inline-block px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition"
                   >
                     Apply — Payment Plan
@@ -141,7 +149,11 @@ export default function CosmetologyApplyPage() {
                 </div>
               </div>
             )}
-            {applicantType === 'partner_shop' && <PartnerShopForm />}
+            {applicantType === 'partner_shop' && (
+              <div className="flex items-center justify-center py-16">
+                <p className="text-slate-500 text-sm">Redirecting to partner portal…</p>
+              </div>
+            )}
           </>
         )}
       </div>

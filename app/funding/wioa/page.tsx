@@ -233,6 +233,27 @@ export default async function WioaPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold mb-8">How to Apply for WIOA</h2>
 
+          {/* ── Indiana Career Connect callout ───────────────────────── */}
+          <div className="mb-8 bg-amber-50 border-2 border-amber-400 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex-1">
+              <p className="font-bold text-amber-900 text-lg mb-1">Start at Indiana Career Connect</p>
+              <p className="text-amber-800 text-sm leading-relaxed">
+                WIOA services in Indiana are managed through{' '}
+                <strong>Indiana Career Connect</strong>. You must create a free
+                account there first — your WorkOne advisor will use it to process
+                your WIOA training application.
+              </p>
+            </div>
+            <a
+              href="https://www.indianacareerconnect.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 bg-amber-500 hover:bg-amber-400 text-white font-bold px-6 py-3 rounded-lg transition-colors text-sm text-center"
+            >
+              Go to Indiana Career Connect →
+            </a>
+          </div>
+
           <div className="space-y-6">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-brand-red-600 text-white rounded-full flex items-center justify-center text-base font-bold flex-shrink-0">

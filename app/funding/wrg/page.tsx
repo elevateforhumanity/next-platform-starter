@@ -105,6 +105,28 @@ export default function WorkforceReadyGrantPage() {
       <section className="py-14 px-6">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-extrabold text-slate-900 mb-8">How to apply</h2>
+
+          {/* ── Indiana Career Connect callout ───────────────────────── */}
+          <div className="mb-8 bg-amber-50 border-2 border-amber-400 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex-1">
+              <p className="font-bold text-amber-900 text-lg mb-1">Start at Indiana Career Connect</p>
+              <p className="text-amber-800 text-sm leading-relaxed">
+                The Workforce Ready Grant is processed through{' '}
+                <strong>Indiana Career Connect</strong> — Indiana's official workforce
+                portal. Create a free account there to begin your application.
+                Your school enrollment at Elevate is step two.
+              </p>
+            </div>
+            <a
+              href="https://www.indianacareerconnect.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 bg-amber-500 hover:bg-amber-400 text-white font-bold px-6 py-3 rounded-lg transition-colors text-sm text-center"
+            >
+              Go to Indiana Career Connect →
+            </a>
+          </div>
+
           <ol className="space-y-6">
             {[
               {
