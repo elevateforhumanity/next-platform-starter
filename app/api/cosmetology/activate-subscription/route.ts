@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
         billing_cycle_anchor: new Date(stripeSubscription.billing_cycle_anchor * 1000).toISOString(),
         current_period_start: new Date((stripeSubscription as any).current_period_start * 1000).toISOString(),
         current_period_end: new Date((stripeSubscription as any).current_period_end * 1000).toISOString(),
-        payment_status: 'current',
+        payment_status: 'active',
       })
       .eq('id', sub.id);
 

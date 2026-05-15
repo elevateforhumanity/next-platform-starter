@@ -2,6 +2,25 @@
 
 import type { CredentialBlueprint, BlueprintVideoConfig } from './types';
 
+// ─── LARGE PROGRAMS (>1,000 lines): use modular layout ───────────────────────
+// If your blueprint has 5+ modules or will exceed ~1,000 lines total, split it
+// into a subdirectory to avoid build-time memory exhaustion (webpack chokes on
+// single files > ~3,000 lines during Babel optimization):
+//
+//   lib/curriculum/blueprints/
+//   └── your-program/
+//       ├── index.ts         ← master blueprint (imports modules, exports const)
+//       ├── module-1.ts      ← export const yourProgramModule1: BlueprintModule
+//       ├── module-2.ts
+//       └── …
+//
+// Then create a thin stub at lib/curriculum/blueprints/your-program.ts:
+//   export { yourProgramBlueprint } from './your-program/index';
+//
+// Each module file: import type { BlueprintModule } from '../types';
+// See lib/curriculum/blueprints/barber/ for a canonical working example.
+// ─────────────────────────────────────────────────────────────────────────────
+
 // ─── Video format — copy and adjust per program ───────────────────────────────
 // This locks the visual identity for every lesson video in this program.
 // The video generator reads this — do not change after videos are produced.
