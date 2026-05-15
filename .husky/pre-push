@@ -1,0 +1,64 @@
+#!/bin/sh
+# Pre-push gate: enforces compile integrity and orphan JSX detection before any push.
+# Catches errors locally instead of wasting CodeBuild cycles.
+
+echo "🔒 Pre-push checks running..."
+
+# 1. Redirect conflict + public route guards
+echo "  → Checking redirect conflicts and public route guards..."
+pnpm run build:lms:checks || {
+  echo "❌ build:lms:checks failed. Fix conflicts before pushing."
+  exit 1
+}
+
+# 2. TypeScript compile check
+echo "  → TypeScript type check..."
+NODE_OPTIONS=--max-old-space-size=4096 pnpm exec tsc --noEmit 2>&1 | grep "error TS" | head -20
+TS_ERRORS=$(NODE_OPTIONS=--max-old-space-size=4096 pnpm exec tsc --noEmit 2>&1 | grep -c "error TS" || echo 0)
+if [ "$TS_ERRORS" -gt "0" ]; then
+  echo "❌ TypeScript: $TS_ERRORS error(s). Fix before pushing."
+  exit 1
+fi
+echo "  ✅ TypeScript: clean"
+
+# 3. Orphan JSX detector — catch incomplete redirect stub conversions
+echo "  → Checking for orphaned JSX in redirect stubs..."
+DIRTY_FILES=$(python3 - << 'PYEOF'
+import re, os, sys
+
+app_dir = "app"
+dirty = []
+
+for root, dirs, files in os.walk(app_dir):
+    dirs[:] = [d for d in dirs if d not in ["node_modules", ".next"]]
+    for name in files:
+        if name != "page.tsx":
+            continue
+        path = os.path.join(root, name)
+        try:
+            content = open(path).read()
+        except Exception:
+            continue
+        m = re.search(
+            r'export default function \w+\(\)[^{]*\{\s*permanentRedirect\([^)]+\);\s*\}',
+            content
+        )
+        if m:
+            after = content[m.end():]
+            if after.strip():
+                dirty.append(path)
+
+for f in dirty:
+    print(f)
+PYEOF
+)
+
+if [ -n "$DIRTY_FILES" ]; then
+  echo "❌ Orphaned JSX found after redirect stubs in:"
+  echo "$DIRTY_FILES"
+  echo "   Each file should contain ONLY the redirect — no return/JSX after the closing brace."
+  exit 1
+fi
+echo "  ✅ Orphan JSX: clean"
+
+echo "✅ Pre-push checks passed. Pushing..."
