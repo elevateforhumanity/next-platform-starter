@@ -27,6 +27,19 @@ interface DocSlot {
 
 const DOC_SLOTS: DocSlot[] = [
   {
+    id: 'ein_letter',
+    label: 'IRS EIN Assignment Letter (CP 575)',
+    description:
+      'The IRS letter confirming your Employer Identification Number. This is the CP 575 or 147C letter issued by the IRS when your EIN was assigned.',
+    required: true,
+    accept: '.pdf,.jpg,.jpeg,.png',
+    hint: 'If you cannot locate your CP 575, request a 147C letter from the IRS at 1-800-829-4933.',
+    externalLink: {
+      label: 'How to get a 147C (IRS)',
+      href: 'https://www.irs.gov/businesses/small-businesses-self-employed/lost-or-misplaced-your-ein',
+    },
+  },
+  {
     id: 'w9',
     label: 'W-9 Form (Tax Identification)',
     description:

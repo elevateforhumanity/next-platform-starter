@@ -1,6 +1,11 @@
 // Funding eligibility check endpoint.
 // Evaluates a participant's eligibility for WIOA, WRG, JRI, FSSA IMPACT, and employer-sponsored funding.
 // Used by /check-eligibility page and workforce board eligibility view.
+//
+// GOVERNANCE: INTAKE_ONLY
+// This endpoint performs LOCAL computation only — no data is stored, no PII is transmitted.
+// Results are returned to the browser for display. No external agency is contacted.
+// See lib/compliance/data-governance.ts for platform data governance policy.
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';

@@ -14,8 +14,11 @@ export default function PartnerPageClient() {
         <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Barbershop Apprenticeship' }]} />
       </div>
 
-      {/* Hero */}
-      <div className="relative w-full h-[50vh] md:h-[65vh] overflow-hidden">
+      {/* Hero image — no overlay, no text on image per design standard */}
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ height: 'clamp(280px, 45vw, 560px)' }}
+      >
         <Image
           src="/images/pages/barber-shop-wide.webp"
           alt="Professional barbershop — Indiana Barbershop Apprenticeship Program"
@@ -24,19 +27,20 @@ export default function PartnerPageClient() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
-        <div className="absolute inset-0 flex flex-col justify-end px-6 pb-10">
-          <div className="max-w-4xl mx-auto w-full">
-            <span className="inline-block bg-brand-red-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">
-              DOL Registered Apprenticeship
-            </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-3">
-              Indiana Barbershop<br className="hidden sm:block" /> Apprenticeship
-            </h1>
-            <p className="text-white/90 text-lg sm:text-xl max-w-xl">
-              Host an apprentice. Grow your shop. Build the next generation of licensed barbers.
-            </p>
-          </div>
+      </div>
+
+      {/* Hero content — below image, never overlaid */}
+      <div className="bg-white border-b border-slate-200">
+        <div className="max-w-4xl mx-auto px-6 py-8">
+          <span className="inline-block bg-brand-red-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">
+            DOL Registered Apprenticeship
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-3">
+            Indiana Barbershop Apprenticeship
+          </h1>
+          <p className="text-slate-600 text-lg max-w-xl">
+            Host an apprentice. Grow your shop. Build the next generation of licensed barbers.
+          </p>
         </div>
       </div>
 

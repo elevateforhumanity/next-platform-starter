@@ -8,6 +8,8 @@ import LogoImage from '@/components/site/LogoImage';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import HeaderMobileMenu from './HeaderMobileMenu.client';
 import HeaderDesktopNav from './HeaderDesktopNav';
+import SearchModal from './SearchModal.client';
+import LanguageSwitcher from './LanguageSwitcher.client';
 import { NAV_ITEMS } from '@/lib/navigation';
 
 // Marketing site navigation.
@@ -53,11 +55,13 @@ export default function Header() {
         <HeaderDesktopNav items={NAV_ITEMS} />
 
         {/* CTA Buttons */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-2">
+          <SearchModal />
+          <LanguageSwitcher />
           <Link
             href="/login"
             prefetch={false}
-            className="text-slate-600 font-semibold text-sm hover:text-slate-900 transition-colors"
+            className="text-slate-600 font-semibold text-sm hover:text-slate-900 transition-colors px-2 py-1.5"
           >
             Sign In
           </Link>

@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import SearchModal from './SearchModal.client';
+import LanguageSwitcher from './LanguageSwitcher.client';
 
 interface NavItem {
   id?: string;
@@ -52,23 +54,27 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
 
   return (
     <>
-      {/* Mobile Menu Button — hidden on desktop (lg+), visible on mobile and tablet */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden p-3 text-slate-700 hover:text-slate-900 min-w-[44px] min-h-[44px] flex items-center justify-center"
-        aria-label={isOpen ? 'Close menu' : 'Open menu'}
-        aria-expanded={isOpen}
-      >
-        {isOpen ? (
-          <span className="text-2xl leading-none" aria-hidden="true">
-            &times;
-          </span>
-        ) : (
-          <span className="text-2xl leading-none" aria-hidden="true">
-            &#9776;
-          </span>
-        )}
-      </button>
+      {/* Mobile icon row — search + language + hamburger — hidden on desktop */}
+      <div className="lg:hidden flex items-center gap-1">
+        <SearchModal />
+        <LanguageSwitcher />
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="p-3 text-slate-700 hover:text-slate-900 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isOpen}
+        >
+          {isOpen ? (
+            <span className="text-2xl leading-none" aria-hidden="true">
+              &times;
+            </span>
+          ) : (
+            <span className="text-2xl leading-none" aria-hidden="true">
+              &#9776;
+            </span>
+          )}
+        </button>
+      </div>
 
       {/* Mobile Menu Overlay */}
       {isOpen && (

@@ -21,7 +21,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'JRI Programs | Justice Reinvestment Initiative | Elevate for Humanity',
+  title: 'JRI Programs | Job Ready Indy | Elevate for Humanity',
   description:
     'Second chance career training for justice-involved individuals. Free programs in healthcare, trades, and workforce readiness. Fresh start, real career.',
   alternates: {
@@ -62,11 +62,8 @@ export default async function JRIProgramsPage() {
         </div>
       </div>
 
-      {/* Hero */}
-      <section
-        className="relative overflow-hidden"
-        style={{ minHeight: 'clamp(420px, 52vw, 600px)' }}
-      >
+      {/* Hero image — no overlay, no text on image per design standard */}
+      <div className="relative w-full overflow-hidden" style={{ height: 'clamp(280px, 45vw, 560px)' }}>
         <Image
           src="/images/pages/jri-hero.webp"
           alt="Second chance career training — JRI programs at Elevate for Humanity"
@@ -75,18 +72,20 @@ export default async function JRIProgramsPage() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
-        <div className="absolute bottom-0 left-0 right-0 max-w-5xl mx-auto px-4 pb-12 pt-20">
+      </div>
+
+      {/* Hero content — below image, never overlaid */}
+      <div className="bg-white border-b border-slate-200">
+        <div className="max-w-5xl mx-auto px-4 py-8">
           <span className="inline-block bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">
-            Justice Reinvestment Initiative · Second Chance Programs
+            Job Ready Indy · Second Chance Programs
           </span>
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight drop-shadow-md">
-            Everyone Deserves
-            <br />A Second Chance
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 leading-tight">
+            Everyone Deserves a Second Chance
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-3xl leading-relaxed drop-shadow mb-6">
+          <p className="text-lg text-slate-600 max-w-3xl leading-relaxed mb-6">
             JRI provides fully funded career training and wraparound support for eligible individuals with
-            justice involvement. Real credentials, real employers, real careers. Your past doesn't
+            justice involvement. Real credentials, real employers, real careers. Your past doesn&apos;t
             define your future.
           </p>
           <div className="flex flex-wrap gap-4">
@@ -98,13 +97,13 @@ export default async function JRIProgramsPage() {
             </Link>
             <Link
               href="/check-eligibility"
-              className="inline-flex items-center gap-2 border border-white/50 hover:border-white text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 font-semibold px-6 py-3 rounded-lg hover:bg-slate-50 transition-colors"
             >
               Check Eligibility
             </Link>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Pathway Disclosure */}
       <PathwayDisclosure programName="JRI Programs" programSlug="jri" />
@@ -414,7 +413,7 @@ export default async function JRIProgramsPage() {
           <div className="space-y-6">
             <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
-                What is the Justice Reinvestment Initiative (JRI)?
+                What is the Job Ready Indy (JRI)?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
                   ▼
                 </span>
@@ -480,7 +479,7 @@ export default async function JRIProgramsPage() {
                 <p>
                   We also provide transportation assistance, childcare support, and other wraparound
                   services to help you succeed. This is funded by the State of Indiana through the
-                  Justice Reinvestment Initiative.
+                  Job Ready Indy.
                 </p>
               </div>
             </details>
@@ -570,7 +569,7 @@ export default async function JRIProgramsPage() {
                     approved
                   </li>
                   <li>
-                    <strong>Justice Reinvestment Initiative (JRI)</strong> - Official partner
+                    <strong>Job Ready Indy (JRI)</strong> - Official partner
                   </li>
                   <li>
                     <strong>EmployIndy</strong> - Workforce development partner

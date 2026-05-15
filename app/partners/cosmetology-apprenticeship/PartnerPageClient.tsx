@@ -88,19 +88,25 @@ export default function CosmetologyPartnerPageClient({
         <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: breadcrumbLabel }]} />
       </div>
 
-      {/* Video Hero */}
-      <section className="relative w-full bg-slate-900 overflow-hidden" style={{ minHeight: '60vh' }}>
-        <video autoPlay muted loop playsInline poster="/images/pages/cosmetology-hero.jpg"
-          className="absolute inset-0 w-full h-full object-cover opacity-50">
-          <source src="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4" type="video/mp4" />
-        </video>
-        <div className="relative z-10 flex flex-col justify-center items-center text-center px-6 py-24">
-          <span className="inline-block bg-purple-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-5">DOL Registered Apprenticeship</span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 max-w-3xl">Indiana Cosmetology<br className="hidden sm:block" /> Apprenticeship</h1>
-          <p className="text-white/85 text-lg sm:text-xl max-w-xl mb-8">Host an apprentice. Grow your salon. Build the next generation of licensed cosmetologists.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      {/* Hero image — no text overlay, no gradient wash per design standard */}
+      <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/pages/cosmetology-hero.webp"
+          alt="Licensed Indiana cosmetology salon ready to host apprentices"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Hero content — below image */}
+      <section className="bg-white border-b border-slate-200">
+        <div className="max-w-4xl mx-auto px-6 py-8">
+          <span className="inline-block bg-purple-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">DOL Registered Apprenticeship</span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-3">Indiana Cosmetology Apprenticeship</h1>
+          <p className="text-slate-600 text-lg max-w-xl mb-6">Host an apprentice. Grow your salon. Build the next generation of licensed cosmetologists.</p>
+          <div className="flex flex-col sm:flex-row gap-4">
             <Link href={`${basePath}/apply`} className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Apply as a Host Salon <ArrowRight className="w-5 h-5 ml-2" /></Link>
-            <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">Schedule a Call</a>
+            <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border border-slate-300 text-slate-700 rounded-xl font-extrabold text-base hover:bg-slate-50 transition-colors">Schedule a Call</a>
           </div>
         </div>
       </section>

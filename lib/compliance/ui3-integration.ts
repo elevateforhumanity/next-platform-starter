@@ -1,9 +1,17 @@
 import { logger } from '@/lib/logger';
+import { assertNoAutoSubmit } from '@/lib/compliance/data-governance';
 /**
  * UI-3 Wage Matching Integration
  *
  * Integrates with Indiana DWD UI-3 system for automated wage verification.
  * UI-3 provides quarterly wage data for employment verification.
+ *
+ * GOVERNANCE: This module MAY NOT automatically submit data to Indiana DWD.
+ * Any external API call to a state wage system requires:
+ *   - Change control approval
+ *   - ELEVATE_EXTERNAL_SUBMIT_ENABLED=true in environment
+ *   - Valid EXTERNAL_SUBMIT_TOKEN
+ * See lib/compliance/data-governance.ts for the authorization procedure.
  */
 
 import { createClient } from '@supabase/supabase-js';
@@ -45,12 +53,17 @@ export async function submitUI3Request(
     enrollment_id: string;
     completion_date: string;
   }>,
+  opts?: { approvalToken?: string },
 ): Promise<{ request_id: string; status: string }> {
-  // In production, this would:
-  // 1. Encrypt SSNs
-  // 2. Submit to DWD UI-3 API
+  // GOVERNANCE GATE — blocks all calls unless explicitly authorized via change control.
+  // See lib/compliance/data-governance.ts for the authorization procedure.
+  assertNoAutoSubmit('UI3 wage match → Indiana DWD', opts);
+
+  // When authorized, this would:
+  // 1. Encrypt SSNs using approved key management
+  // 2. Submit to DWD UI-3 API under formal agency agreement
   // 3. Receive request ID
-  // 4. Poll for results
+  // 4. Poll for results and write to audit_logs
 
   logger.info('Submitting UI-3 wage match request:', {
     student_count: students.length,

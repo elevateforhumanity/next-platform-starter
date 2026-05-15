@@ -3,6 +3,12 @@ import { logger } from '@/lib/logger';
  * Workforce Referral API
  *
  * Manages workforce agency referrals with automated status reporting.
+ *
+ * GOVERNANCE: ELEVATE_INTAKE_ONLY
+ * Status update emails are sent to Elevate case managers ONLY (case_manager_email).
+ * No referral data is automatically forwarded to any government agency.
+ * All external agency submissions require manual admin action with audit log.
+ * See lib/compliance/data-governance.ts for platform data governance policy.
  */
 
 import { NextRequest, NextResponse } from 'next/server';

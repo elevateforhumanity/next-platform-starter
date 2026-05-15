@@ -19,17 +19,27 @@ export default function CosmetologyApprenticeshipClient({ program: p, enrollment
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Hero */}
-      <div className="relative bg-gradient-to-b from-brand-blue-900 to-brand-blue-800 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <nav className="flex items-center gap-1.5 text-xs text-blue-200 mb-6 justify-center">
-            <Link href="/programs" className="hover:text-white">Programs</Link>
+      {/* Hero image — no text overlay per design standard */}
+      <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/pages/cosmetology-apprenticeship-hero.webp"
+          alt="Cosmetology apprenticeship students working in a licensed Indiana salon"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Hero content — below image, never overlaid */}
+      <div className="bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-4">
+            <Link href="/programs" className="hover:text-slate-700">Programs</Link>
             <span>/</span>
-            <span className="text-white font-medium">{p.title}</span>
+            <span className="text-slate-900 font-medium">{p.title}</span>
           </nav>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{p.title}</h1>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">{p.subtitle}</p>
-          <div className="flex flex-wrap gap-4 justify-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">{p.title}</h1>
+          <p className="text-slate-600 mb-6 max-w-2xl">{p.subtitle}</p>
+          <div className="flex flex-wrap gap-4">
             <Link
               href="/programs/cosmetology-apprenticeship/apply"
               className="inline-block px-8 py-3 bg-brand-red-600 text-white rounded-lg font-semibold hover:bg-brand-red-700 transition"
@@ -38,7 +48,7 @@ export default function CosmetologyApprenticeshipClient({ program: p, enrollment
             </Link>
             <Link
               href="/contact?program=cosmetology-apprenticeship"
-              className="inline-block px-8 py-3 bg-white text-brand-blue-900 rounded-lg font-semibold hover:bg-blue-50 transition"
+              className="inline-block px-8 py-3 border border-slate-300 text-slate-700 rounded-lg font-semibold hover:bg-slate-50 transition"
             >
               Request Information
             </Link>

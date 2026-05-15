@@ -9,6 +9,7 @@ import {
   TUITION_DOLLARS,
   weeklyPaymentCents,
 } from '@/lib/cosmetology/pricing';
+import { getProvidersForAmount } from '@/lib/bnpl-config';
 
 type ApplicantType = '' | 'apprentice' | 'partner_shop';
 
@@ -107,9 +108,9 @@ export default function CosmetologyApplyPage() {
                     <ul className="space-y-2 text-sm text-slate-700">
                       <li>Pay in full (one-time payment)</li>
                       <li>Weekly payment plan (custom down payment)</li>
-                      <li>Stripe BNPL (Klarna / Afterpay / Zip)</li>
-                      <li>Affirm monthly installments</li>
-                      <li>Sezzle pay-over-time</li>
+                      {getProvidersForAmount(TUITION_DOLLARS).map((p) => (
+                        <li key={p.id}>{p.name} — {p.description}</li>
+                      ))}
                     </ul>
                     <Link
                       href="/programs/cosmetology-apprenticeship/payment/bnpl"
