@@ -29,6 +29,7 @@ import {
 import { logger } from '@/lib/logger';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
+import BillingCard, { type BillingSummary } from '@/components/learner/BillingCard';
 import { ResendMagicLinkForm } from '@/components/auth/ResendMagicLinkForm';
 
 export const metadata: Metadata = {
@@ -196,6 +197,60 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
     .eq('etpl_listed', true)
     .eq('is_active', true)
     .order('display_order', { ascending: true });
+
+  // ── Billing summary (barber or cosmetology subscription) ─────────────────
+  let billingSummary: BillingSummary | null = null;
+  if (profile?.role === 'student') {
+    // Try barber first
+    const { data: barberSub } = await supabase
+      .from('barber_subscriptions')
+      .select(
+        'payment_status, weekly_payment_cents, remaining_balance, full_tuition_amount, amount_paid_at_checkout, next_payment_date, fully_paid, setup_fee_paid',
+      )
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (barberSub) {
+      billingSummary = {
+        program: 'barber',
+        paymentStatus: barberSub.payment_status ?? 'pending_payment_method',
+        weeklyPaymentCents: barberSub.weekly_payment_cents,
+        remainingBalance: barberSub.remaining_balance,
+        fullTuitionAmount: barberSub.full_tuition_amount,
+        amountPaidAtCheckout: barberSub.amount_paid_at_checkout,
+        nextPaymentDate: barberSub.next_payment_date,
+        fullyPaid: barberSub.fully_paid ?? false,
+        setupFeePaid: barberSub.setup_fee_paid ?? false,
+      };
+    } else {
+      // Try cosmetology
+      const { data: cosmoSub } = await supabase
+        .from('cosmetology_subscriptions')
+        .select(
+          'payment_status, weekly_payment_cents, remaining_balance, full_tuition_amount, amount_paid_at_checkout, next_payment_date, fully_paid, setup_fee_paid',
+        )
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (cosmoSub) {
+        billingSummary = {
+          program: 'cosmetology',
+          paymentStatus: cosmoSub.payment_status ?? 'pending_payment_method',
+          weeklyPaymentCents: cosmoSub.weekly_payment_cents,
+          remainingBalance: cosmoSub.remaining_balance,
+          fullTuitionAmount: cosmoSub.full_tuition_amount,
+          amountPaidAtCheckout: cosmoSub.amount_paid_at_checkout,
+          nextPaymentDate: cosmoSub.next_payment_date,
+          fullyPaid: cosmoSub.fully_paid ?? false,
+          setupFeePaid: cosmoSub.setup_fee_paid ?? false,
+        };
+      }
+    }
+  }
 
   const FUNDED_PROGRAMS = (etplRows ?? []).map((p: any) => ({
     name: p.title,
@@ -603,6 +658,9 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Billing summary — barber / cosmetology students only */}
+            {billingSummary && <BillingCard billing={billingSummary} />}
+
             {/* WorkOne Checklist — only shown for pending_workone applicants */}
             <WorkOneChecklistSection
               pendingWorkone={isPendingWorkone}
