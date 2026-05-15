@@ -189,7 +189,7 @@ export default function StudentProgressWidget() {
 
       <div className="mt-6 pt-4 border-t border-slate-100">
         <Link
-          href="/student-portal/hours"
+          href="/lms/attendance"
           className="inline-flex items-center gap-2 text-brand-blue-600 font-medium hover:text-brand-blue-700"
         >
           View Full Progress Report

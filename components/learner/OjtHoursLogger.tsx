@@ -23,7 +23,7 @@ export default function OjtHoursLogger() {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [hours, setHours] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
-  const [fundingPhase, setFundingPhase] = useState('WIOA');
+  const [fundingPhase, setFundingPhase] = useState('PRE_WIOA');
   const [notes, setNotes] = useState('');
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);

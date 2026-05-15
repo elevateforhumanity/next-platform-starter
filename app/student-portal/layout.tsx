@@ -13,16 +13,19 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// NOTE: All /student-portal/* pages are permanentRedirect stubs. This layout
+// never renders for users — they are redirected before the layout is shown.
+// Nav points to canonical paths so if any stub is ever removed the fallback is safe.
 const navItems = [
   { href: '/learner/dashboard', label: '← My Dashboard' },
-  { href: '/student-portal', label: 'Portal Home' },
+  { href: '/learner/dashboard', label: 'Portal Home' },
   { href: '/lms/courses', label: 'Courses' },
-  { href: '/student-portal/assignments', label: 'Assignments' },
-  { href: '/student-portal/grades', label: 'Grades' },
-  { href: '/student-portal/schedule', label: 'Schedule' },
-  { href: '/student-portal/announcements', label: 'Announcements' },
-  { href: '/student-portal/resources', label: 'Resources' },
-  { href: '/student-portal/handbook/acknowledge', label: 'Handbook' },
+  { href: '/lms/assignments', label: 'Assignments' },
+  { href: '/lms/grades', label: 'Grades' },
+  { href: '/lms/calendar', label: 'Schedule' },
+  { href: '/learner/dashboard', label: 'Announcements' },
+  { href: '/lms/resources', label: 'Resources' },
+  { href: '/onboarding/learner/handbook', label: 'Handbook' },
   { href: '/onboarding/learner/documents', label: 'Documents' },
   { href: '/onboarding/learner/agreements', label: 'Agreements' },
 ];
@@ -40,7 +43,7 @@ export default async function StudentPortalLayout({ children }: { children: Reac
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-14">
             <div className="flex items-center gap-6">
-              <Link href="/student-portal" className="text-lg font-bold text-brand-blue-700">
+              <Link href="/learner/dashboard" className="text-lg font-bold text-brand-blue-700">
                 Student Portal
               </Link>
               <div className="hidden md:flex items-center gap-4">
