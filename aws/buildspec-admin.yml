@@ -6,6 +6,8 @@ phases:
       nodejs: 20
     commands:
       - npm install -g pnpm@10.28.2 --silent
+      # Install native libs required by the optional canvas package (used by video studio API routes).
+      - dnf install -y gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib-devel pixman-devel 2>/dev/null || yum install -y gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib-devel pixman-devel 2>/dev/null || true
       - docker buildx create --use --name elevate-builder || true
       - docker buildx create --use --name multiarch --driver docker-container
       - docker buildx inspect --bootstrap

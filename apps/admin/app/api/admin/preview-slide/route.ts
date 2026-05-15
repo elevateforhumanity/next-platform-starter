@@ -24,9 +24,18 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { slide, slideIndex, totalSlides, opts } = body;
 
-  const { renderSlideFrameForPreview } = await import('@/server/lesson-video-renderer');
+  let renderSlideFrameForPreview: ((...args: unknown[]) => Promise<Buffer>) | null = null;
+  try {
+    const mod = await import('@/server/lesson-video-renderer');
+    renderSlideFrameForPreview = mod.renderSlideFrameForPreview;
+  } catch {
+    return NextResponse.json(
+      { error: 'Video renderer unavailable — canvas native library not installed on this server.' },
+      { status: 503 },
+    );
+  }
 
-  const buf: Buffer = await renderSlideFrameForPreview(slide, slideIndex, totalSlides, opts);
+  const buf: Buffer = await renderSlideFrameForPreview!(slide, slideIndex, totalSlides, opts);
 
   return new NextResponse(buf, {
     headers: {
