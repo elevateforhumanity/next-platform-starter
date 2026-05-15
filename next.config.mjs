@@ -755,9 +755,9 @@ const nextConfig = {
         destination: '/legal/governance/store-payments',
         permanent: true,
       },
-      // /policies/privacy (344 lines) and /policies/terms (313 lines) — real pages, no redirect
+      // All /policies/* sub-pages redirect to canonical /legal/disclosures
       { source: '/policies/grievance', destination: '/grievance', permanent: true },
-      { source: '/policies/:path*', destination: '/disclosures', permanent: false },
+      { source: '/policies/:path*', destination: '/legal/disclosures', permanent: true },
       // /license-agreement (215 lines) — real page, no redirect
 
       // Pricing / billing consolidation
