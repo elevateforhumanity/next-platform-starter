@@ -43,6 +43,8 @@ const INITIAL_FORM = {
   workersCompStatus: '',
   hasGeneralLiability: '',
   canSuperviseAndVerify: '',
+  documentReadiness: '',
+  documentSupportNeeded: '',
   mouAcknowledged: false,
   consentAcknowledged: false,
   notes: '',
@@ -394,6 +396,47 @@ export default function CosmetologySalonApplyPage() {
                   <option value="no">No</option>
                 </select>
               </div>
+            </div>
+          </div>
+
+          {/* Document readiness (not required) */}
+          <div className={sectionCls}>
+            <h2 className="text-lg font-bold text-slate-900">Required Documents Readiness</h2>
+            <p className="text-slate-500 text-sm">
+              We ask this to help your onboarding timeline. You can still submit this application
+              even if documents are not ready yet.
+            </p>
+            <div className="space-y-4">
+              <div>
+                <label className={labelCls}>Do you currently have the required documents?</label>
+                <select
+                  className={inputCls}
+                  value={formData.documentReadiness}
+                  onChange={(e) => set('documentReadiness', e.target.value)}
+                >
+                  <option value="">Select...</option>
+                  <option value="ready_now">Yes — I can upload now</option>
+                  <option value="ready_soon">Partially — I can upload within 7 days</option>
+                  <option value="need_time">Not yet — I need more time</option>
+                </select>
+              </div>
+              <div>
+                <label className={labelCls}>Do you want help gathering required documents?</label>
+                <select
+                  className={inputCls}
+                  value={formData.documentSupportNeeded}
+                  onChange={(e) => set('documentSupportNeeded', e.target.value)}
+                >
+                  <option value="">Select...</option>
+                  <option value="yes">Yes, I want onboarding support</option>
+                  <option value="no">No, I can complete document upload myself</option>
+                </select>
+              </div>
+              <p className="text-xs text-slate-500">
+                Required files include W-9, salon license, insurance certificates, and supervising
+                cosmetologist license. Upload is part of onboarding, not required to submit this
+                application.
+              </p>
             </div>
           </div>
 

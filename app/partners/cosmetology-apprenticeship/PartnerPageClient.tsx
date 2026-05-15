@@ -7,6 +7,11 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
 
 interface Props { isApproved?: boolean; }
+interface Props {
+  isApproved?: boolean;
+  basePath?: string;
+  breadcrumbLabel?: string;
+}
 
 const requirements = [
   { title: "Workers' Compensation", desc: "Required for all apprentices. If you don't carry it yet, we can help you understand your options." },
@@ -34,19 +39,53 @@ const faqs = [
   { q: 'What happens after the apprentice finishes?', a: 'They sit for the Indiana State Board cosmetology license exam. Many salons hire their apprentices as licensed cosmetologists.' },
 ];
 
-const onboarding = [
-  { n: '1', icon: BookOpen, label: 'Read the Partner Handbook', desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.', href: '/login?redirect=/partners/cosmetology-partner-shop/handbook' },
-  { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: '/login?redirect=/partners/cosmetology-partner-shop/policy-acknowledgment' },
-  { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: '/login?redirect=/partners/cosmetology-partner-shop/forms' },
-  { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: '/login?redirect=/partners/cosmetology-partner-shop/sign-mou' },
-  { n: '5', icon: FileText, label: 'Upload Required Documents', desc: 'Upload your salon license, workers\' comp insurance certificate, and supervising cosmetologist license. Keep these current as required by the DOL.', href: '/login?redirect=/partners/cosmetology-partner-shop/documents' },
-];
+export default function CosmetologyPartnerPageClient({
+  isApproved = false,
+  basePath = '/partners/cosmetology-apprenticeship',
+  breadcrumbLabel = 'Cosmetology Apprenticeship',
+}: Props) {
+  const onboarding = [
+    {
+      n: '1',
+      icon: BookOpen,
+      label: 'Read the Partner Handbook',
+      desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.',
+      href: `/login?redirect=${encodeURIComponent(`${basePath}/handbook`)}`,
+    },
+    {
+      n: '2',
+      icon: ClipboardList,
+      label: 'Acknowledge Policies',
+      desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.',
+      href: `/login?redirect=${encodeURIComponent(`${basePath}/policy-acknowledgment`)}`,
+    },
+    {
+      n: '3',
+      icon: FileText,
+      label: 'Complete Required Forms',
+      desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.",
+      href: `/login?redirect=${encodeURIComponent(`${basePath}/forms`)}`,
+    },
+    {
+      n: '4',
+      icon: PenLine,
+      label: 'Sign the MOU',
+      desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.',
+      href: `/login?redirect=${encodeURIComponent(`${basePath}/sign-mou`)}`,
+    },
+    {
+      n: '5',
+      icon: FileText,
+      label: 'Upload Required Documents',
+      desc: "Upload your salon license, workers' comp insurance certificate, and supervising cosmetologist license. Keep these current as required by the DOL.",
+      href: `/login?redirect=${encodeURIComponent(`${basePath}/documents`)}`,
+    },
+  ];
 
-export default function CosmetologyPartnerPageClient({ isApproved = false }: Props) {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Cosmetology Apprenticeship' }]} />
+        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: breadcrumbLabel }]} />
       </div>
 
       {/* Video Hero */}
@@ -60,7 +99,7 @@ export default function CosmetologyPartnerPageClient({ isApproved = false }: Pro
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 max-w-3xl">Indiana Cosmetology<br className="hidden sm:block" /> Apprenticeship</h1>
           <p className="text-white/85 text-lg sm:text-xl max-w-xl mb-8">Host an apprentice. Grow your salon. Build the next generation of licensed cosmetologists.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/cosmetology-partner-shop/apply" className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Apply as a Host Salon <ArrowRight className="w-5 h-5 ml-2" /></Link>
+            <Link href={`${basePath}/apply`} className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Apply as a Host Salon <ArrowRight className="w-5 h-5 ml-2" /></Link>
             <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">Schedule a Call</a>
           </div>
         </div>
@@ -147,7 +186,7 @@ export default function CosmetologyPartnerPageClient({ isApproved = false }: Pro
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ready to Partner With Us?</h2>
           <p className="text-slate-300 text-sm mb-8">Join the Indiana Cosmetology Apprenticeship program and start developing talent for your salon.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/cosmetology-partner-shop/apply" className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
+            <Link href={`${basePath}/apply`} className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
             <a href="tel:+13173143757" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">(317) 314-3757</a>
           </div>
         </div>
@@ -161,7 +200,7 @@ export default function CosmetologyPartnerPageClient({ isApproved = false }: Pro
               <CheckCircle className="w-6 h-6 text-green-600 shrink-0" />
               <h2 className="text-xl font-bold text-slate-900">After Your Application Is Approved</h2>
             </div>
-            <p className="text-sm text-slate-600 mb-5">Complete these four steps to receive your first apprentice placement.</p>
+            <p className="text-sm text-slate-600 mb-5">Complete these five steps to receive your first apprentice placement.</p>
             <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-6">
               <Lock className="w-4 h-4 text-amber-600 shrink-0" />
               <p className="text-sm text-amber-800 font-medium">These steps require a partner account. You will be prompted to log in.</p>

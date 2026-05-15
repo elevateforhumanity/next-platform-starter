@@ -33,6 +33,8 @@ async function _POST(request: NextRequest) {
       workersCompStatus,
       hasGeneralLiability,
       canSuperviseAndVerify,
+      documentReadiness,
+      documentSupportNeeded,
       mouAcknowledged,
       consentAcknowledged,
       notes,
@@ -53,6 +55,14 @@ async function _POST(request: NextRequest) {
     }
 
     const db = await requireAdminClient();
+
+    const notesWithDocumentStatus = [
+      notes,
+      documentReadiness ? `Document readiness: ${documentReadiness}` : null,
+      documentSupportNeeded ? `Document support needed: ${documentSupportNeeded}` : null,
+    ]
+      .filter(Boolean)
+      .join('\n');
 
     // Insert partner application
     const { data: partner, error: partnerError } = await db
@@ -84,7 +94,7 @@ async function _POST(request: NextRequest) {
         has_general_liability: hasGeneralLiability === 'yes',
         can_supervise_and_verify: canSuperviseAndVerify === 'yes',
         mou_acknowledged: mouAcknowledged,
-        notes,
+        notes: notesWithDocumentStatus || null,
         applied_at: new Date().toISOString(),
       })
       .select('id')
@@ -174,6 +184,8 @@ async function _POST(request: NextRequest) {
   <tr><td style="padding:6px;font-weight:bold">Compensation</td><td>${compensationModel}</td></tr>
   <tr><td style="padding:6px;font-weight:bold">Workers Comp</td><td>${workersCompStatus}</td></tr>
   <tr><td style="padding:6px;font-weight:bold">General Liability</td><td>${hasGeneralLiability}</td></tr>
+  <tr><td style="padding:6px;font-weight:bold">Document Readiness</td><td>${documentReadiness || 'Not specified'}</td></tr>
+  <tr><td style="padding:6px;font-weight:bold">Needs Document Support</td><td>${documentSupportNeeded || 'Not specified'}</td></tr>
   <tr><td style="padding:6px;font-weight:bold">Partner ID</td><td>${partner.id}</td></tr>
 </table>
 <p><a href="${siteUrl}/admin/program-holders">Review in Admin Dashboard →</a></p>`;

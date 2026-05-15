@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import CosmetologyPartnerPage from '../cosmetology-apprenticeship/page';
+import { createClient } from '@/lib/supabase/server';
+import CosmetologyPartnerPageClient from '../cosmetology-apprenticeship/PartnerPageClient';
 
-export { dynamic } from '../cosmetology-apprenticeship/page';
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
 	title: 'Cosmetology Partner Shop Program | Elevate for Humanity',
@@ -17,4 +18,28 @@ export const metadata: Metadata = {
 	},
 };
 
-export default CosmetologyPartnerPage;
+export default async function CosmetologyPartnerShopPage() {
+	const supabase = await createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	let isApproved = false;
+	if (user?.email) {
+		const { data: pa } = await supabase
+			.from('partner_applications')
+			.select('status')
+			.eq('contact_email', user.email)
+			.eq('status', 'approved')
+			.maybeSingle();
+		isApproved = !!pa;
+	}
+
+	return (
+		<CosmetologyPartnerPageClient
+			isApproved={isApproved}
+			basePath="/partners/cosmetology-partner-shop"
+			breadcrumbLabel="Cosmetology Partner Shop"
+		/>
+	);
+}

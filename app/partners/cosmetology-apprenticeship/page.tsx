@@ -37,5 +37,11 @@ export default async function CosmetologyPartnerPage() {
     isApproved = !!pa;
   }
 
-  return <CosmetologyPartnerPageClient isApproved={isApproved} />;
+  return (
+    <CosmetologyPartnerPageClient
+      isApproved={isApproved}
+      basePath="/partners/cosmetology-apprenticeship"
+      breadcrumbLabel="Cosmetology Apprenticeship"
+    />
+  );
 }

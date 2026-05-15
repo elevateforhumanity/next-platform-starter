@@ -35,6 +35,24 @@ if (typeof window !== 'undefined' && !window.IntersectionObserver) {
   });
 }
 
+// jsdom's HTMLMediaElement methods are declared but throw "Not implemented".
+// Stub them to keep test output focused on real regressions.
+if (typeof window !== 'undefined' && window.HTMLMediaElement?.prototype) {
+  const mediaProto = window.HTMLMediaElement.prototype;
+  Object.defineProperty(mediaProto, 'pause', {
+    configurable: true,
+    value: vi.fn(),
+  });
+  Object.defineProperty(mediaProto, 'load', {
+    configurable: true,
+    value: vi.fn(),
+  });
+  Object.defineProperty(mediaProto, 'play', {
+    configurable: true,
+    value: vi.fn().mockResolvedValue(undefined),
+  });
+}
+
 // Mock Next.js router
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -50,7 +68,19 @@ vi.mock('next/navigation', () => ({
 
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
-  default: ({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) => {
+  default: ({
+    src,
+    alt,
+    fill: _fill,
+    priority: _priority,
+    ...props
+  }: {
+    src: string;
+    alt: string;
+    fill?: boolean;
+    priority?: boolean;
+    [key: string]: unknown;
+  }) => {
     return React.createElement('img', { src, alt, ...props });
   },
 }));
