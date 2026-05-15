@@ -245,7 +245,7 @@ export const ONBOARDING_STEPS: GuideStep[] = [
     title: 'Review Your Program',
     script:
       "Take a moment to review your enrolled program. Check the schedule, requirements, and what you'll learn. Exciting stuff ahead!",
-    action: { label: 'View Program', href: '/student/program' },
+    action: { label: 'View Program', href: '/lms/courses' },
   },
   {
     title: 'Set Up Notifications',

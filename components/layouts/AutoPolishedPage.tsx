@@ -106,7 +106,7 @@ function getAutoConfig(section: string, label: string, route: string): AutoConfi
         audience: 'Current & future students',
         shortTagline: "A single place to see where you are, what's next, and who's in your corner.",
         description: `The "${baseLabel}" page supports the student side of the Elevate For Humanity platform. It's built to keep you from feeling lost by putting courses, messages, documents, and support all in one place.`,
-        primaryCta: { href: '/student/portal', label: 'Go to Student Portal' },
+        primaryCta: { href: '/learner/dashboard', label: 'Go to Student Portal' },
         secondaryCta: { href: '/career-services', label: 'Visit Career Services' },
         bullets: [
           'Quick access to courses, grades, and certificate progress',

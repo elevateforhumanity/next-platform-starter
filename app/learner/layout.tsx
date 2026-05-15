@@ -15,9 +15,9 @@ const navItems = [
   { href: '/lms/courses',                label: 'My Courses' },
   { href: '/lms/programs',               label: 'Programs' },
   { href: '/lms/certificates',           label: 'Certificates' },
-  { href: '/student-portal/assignments', label: 'Assignments' },
-  { href: '/student-portal/grades',      label: 'Grades' },
-  { href: '/student-portal/schedule',    label: 'Schedule' },
+  { href: '/lms/assignments',            label: 'Assignments' },
+  { href: '/lms/grades',                 label: 'Grades' },
+  { href: '/lms/calendar',               label: 'Schedule' },
   { href: '/notifications',              label: 'Notifications' },
   { href: '/support',                    label: 'Support' },
 ];

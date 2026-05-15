@@ -88,8 +88,8 @@ export default function WritingCenterPage() {
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs
             items={[
-              { label: 'Student Portal', href: '/student-portal' },
-              { label: 'Resources', href: '/student-portal/resources' },
+              { label: 'Student Portal', href: '/learner/dashboard' },
+              { label: 'Resources', href: '/lms/resources' },
               { label: 'Writing Center' },
             ]}
           />

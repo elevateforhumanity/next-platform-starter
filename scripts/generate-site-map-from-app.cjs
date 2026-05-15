@@ -304,6 +304,11 @@ function main() {
     if (!route) continue;
     // skip api routes just in case
     if (route.startsWith('/api')) continue;
+    // skip pure redirect stubs — pages whose only meaningful line is permanentRedirect()/redirect()
+    const content = fs.readFileSync(file, 'utf8');
+    const nonBlankLines = content.split('\n').filter((l) => l.trim() && !l.trim().startsWith('//') && !l.trim().startsWith('import') && !l.trim().startsWith('export default') && !l.trim().startsWith('}') && !l.trim().startsWith('{'));
+    const isRedirectStub = nonBlankLines.length <= 2 && nonBlankLines.some((l) => l.includes('permanentRedirect(') || l.includes('redirect('));
+    if (isRedirectStub) continue;
     routes.push(route);
   }
 

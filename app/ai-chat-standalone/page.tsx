@@ -14,6 +14,3 @@ export const metadata: Metadata = {
 export default function AIChatStandalonePage() {
   permanentRedirect('/ai-chat');
 }
-    </div>
-  );
-}
