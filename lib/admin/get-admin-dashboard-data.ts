@@ -3,6 +3,11 @@
 // Only queries tables that exist and have live data.
 // No synthetic stats, no fake deltas.
 
+export interface SitePreviewTarget {
+  url: string;
+  label: string;
+}
+
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -658,7 +663,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   // ── Operational signals ───────────────────────────────────────────────────
   const needsReviewTotal = totalPendingCount + pendingWioaDocs;
   const needsReviewParts: string[] = [];
-  if (totalPendingCount > 0) needsReviewParts.push(`${totalPendingCount} enrollment${totalPendingCount !== 1 ? 's' : ''}`);
+  if (totalPendingCount > 0) needsReviewParts.push(`${totalPendingCount} application${totalPendingCount !== 1 ? 's' : ''}`);
   if (pendingWioaDocs > 0) needsReviewParts.push(`${pendingWioaDocs} WIOA doc${pendingWioaDocs !== 1 ? 's' : ''}`);
 
   const newTodayTotal = newLeadsToday + newEnrollmentsToday;

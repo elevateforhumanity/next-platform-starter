@@ -10,6 +10,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { createHmac } from 'crypto';
 
 export const runtime = 'nodejs';
@@ -19,6 +20,10 @@ const TOKEN_SECRET = process.env.STUDIO_TOKEN_SECRET ?? process.env.STUDIO_SHELL
 const TTL_MS = 60_000;
 
 export async function POST(request: NextRequest) {
+  // Strict limit — token minting is the gateway to a real shell
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
+
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 

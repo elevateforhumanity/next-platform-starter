@@ -15,6 +15,7 @@
 
 import { type NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -23,6 +24,10 @@ const SHELL_WS_URL   = process.env.STUDIO_SHELL_WS_URL ?? '';
 const SHELL_SECRET   = process.env.STUDIO_SHELL_SECRET ?? '';
 
 export async function GET(request: NextRequest) {
+  // Rate-limit WebSocket upgrade attempts — each upgrade spawns a PTY process
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
+
   // Auth gate — only admin/super_admin reach the shell
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;

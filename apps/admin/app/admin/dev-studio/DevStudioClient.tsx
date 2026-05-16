@@ -168,8 +168,12 @@ export default function DevStudioClient() {
   const [studioHealth, setStudioHealth] = useState<DevStudioHealth | null>(null);
   const [viewportWidth, setViewportWidth] = useState(1280);
 
-  // Replit-style live preview panel
-  const [previewOpen, setPreviewOpen] = useState(true);
+  // Breakpoints: phone < 640, tablet 640–1023, desktop >= 1024
+  const isPhone   = viewportWidth < 640;
+  const isCompactLayout = viewportWidth < 1024;
+
+  // Preview hidden by default on phone — too little vertical space
+  const [previewOpen, setPreviewOpen] = useState(false);
   const [previewWidth, setPreviewWidth] = useState(420); // px
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
@@ -209,7 +213,13 @@ export default function DevStudioClient() {
   }, []);
 
   useEffect(() => {
-    const onResize = () => setViewportWidth(window.innerWidth);
+    const onResize = () => {
+      const w = window.innerWidth;
+      setViewportWidth(w);
+      // Auto-close preview when resizing down to phone; auto-open on desktop
+      if (w >= 1024) setPreviewOpen(true);
+      if (w < 640)   setPreviewOpen(false);
+    };
     onResize();
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
@@ -236,9 +246,9 @@ export default function DevStudioClient() {
   }, []);
 
   const tabFiles = { ...DEFAULT_TAB_FILES, ...(studioConfig?.tabFiles ?? {}) } as Record<Tab, string>;
-  const previewUrl = studioConfig?.defaultPreviewUrl || 'https://www.elevateforhumanity.org';
+  // Prefer config value; fall back to current origin so the preview always shows something useful
+  const previewUrl = studioConfig?.defaultPreviewUrl || (typeof window !== 'undefined' ? window.location.origin : '');
   const hasAnyAI = !!(studioHealth?.hasGroq || studioHealth?.hasGemini || studioHealth?.hasOpenAI);
-  const isCompactLayout = viewportWidth < 1024;
 
   function openTab(t: Tab) {
     setTab(t);
@@ -267,9 +277,11 @@ export default function DevStudioClient() {
       }}
     >
       {/* ── Title / menu bar ── */}
-      <div className="flex-shrink-0 flex items-center gap-1 px-2 sm:px-3 py-1 border-b text-xs select-none" style={{ background: '#323233', borderColor: '#3c3c3c', color: '#cccccc' }}>
+      <div className="flex-shrink-0 flex items-center gap-1 px-2 sm:px-3 border-b text-xs select-none"
+        style={{ background: '#323233', borderColor: '#3c3c3c', color: '#cccccc', minHeight: isPhone ? 44 : 28 }}>
         <span className="font-bold text-white mr-2 text-[11px]">Dev Studio</span>
-        {['File','Edit','View','Terminal','Help'].map((m) => (
+        {/* Menu items hidden on phone — no room */}
+        {!isPhone && ['File','Edit','View','Terminal','Help'].map((m) => (
           <span key={m} className="hidden sm:inline cursor-pointer px-2 py-0.5 rounded text-[11px] transition-colors" style={{ color: '#cccccc' }}
             onMouseEnter={e => (e.currentTarget.style.background='#3c3c3c')}
             onMouseLeave={e => (e.currentTarget.style.background='transparent')}>{m}</span>
@@ -301,17 +313,22 @@ export default function DevStudioClient() {
             </>
           )}
           <span className="hidden sm:inline">Elevate LMS</span>
-          {/* Preview toggle */}
+          {/* Preview toggle — larger tap target on phone */}
           <button
             title={previewOpen ? 'Hide live preview' : 'Show live preview'}
             onClick={() => setPreviewOpen((v) => !v)}
-            className="flex items-center gap-1 px-2 py-0.5 rounded text-[11px] transition-colors"
-            style={{ color: previewOpen ? '#4ec9b0' : '#858585' }}
+            className="flex items-center gap-1 px-2 rounded text-[11px] transition-colors"
+            style={{
+              color: previewOpen ? '#4ec9b0' : '#858585',
+              minHeight: isPhone ? 44 : undefined,
+              minWidth: isPhone ? 44 : undefined,
+              justifyContent: 'center',
+            }}
             onMouseEnter={e => (e.currentTarget.style.background='#3c3c3c')}
             onMouseLeave={e => (e.currentTarget.style.background='transparent')}
           >
-            {previewOpen ? <PanelRightClose className="w-3.5 h-3.5" /> : <PanelRightOpen className="w-3.5 h-3.5" />}
-            <span className="hidden sm:inline">Preview</span>
+            {previewOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
+            <span className="hidden sm:inline ml-1">Preview</span>
           </button>
         </div>
       </div>
@@ -335,13 +352,18 @@ export default function DevStudioClient() {
                 color:       active ? '#ffffff' : '#858585',
                 borderColor: '#3c3c3c',
                 borderTop:   active ? '1px solid #0078d4' : '1px solid transparent',
+                // Minimum 44px touch target height on phone
+                minHeight: isPhone ? 44 : undefined,
               }}>
               <def.Icon className="w-3.5 h-3.5" style={{ opacity: active ? 1 : 0.5 }} />
-              <span>{tabFiles[t]}</span>
-              <span onClick={(e) => closeTab(t, e)}
-                className="ml-1.5 rounded p-0.5 opacity-0 group-hover:opacity-60 hover:!opacity-100 transition-opacity"
+              {/* Hide filename label on phone — icon is enough */}
+              {!isPhone && <span>{tabFiles[t]}</span>}
+              {/* Close button: larger tap area on phone */}
+              <span
+                onClick={(e) => closeTab(t, e)}
+                className={`rounded transition-opacity ${isPhone ? 'ml-1 p-1 opacity-60' : 'ml-1.5 p-0.5 opacity-0 group-hover:opacity-60 hover:!opacity-100'}`}
                 style={{ color: '#cccccc' }}>
-                <X className="w-3 h-3" />
+                <X className={isPhone ? 'w-4 h-4' : 'w-3 h-3'} />
               </span>
             </button>
           );
@@ -353,14 +375,16 @@ export default function DevStudioClient() {
 
         {/* Activity bar */}
         <div
-          className={`flex-shrink-0 flex ${isCompactLayout ? 'flex-row w-full px-2 py-1 gap-1 overflow-x-auto border-b' : 'flex-col items-center py-2 gap-0.5 w-12 border-r'}`}
+          className={`flex-shrink-0 flex ${isCompactLayout ? 'flex-row w-full px-1 py-1 gap-0.5 overflow-x-auto border-b' : 'flex-col items-center py-2 gap-0.5 w-12 border-r'}`}
           style={{ background: '#333333', borderColor: '#3c3c3c' }}
         >
           {TABS.map(({ id, Icon, label }) => {
             const active = tab === id;
+            // Phone: 44×44 touch target (WCAG 2.5.5); tablet: 36×36; desktop: 40×40
+            const btnSize = isPhone ? 'w-11 h-11 flex-shrink-0' : isCompactLayout ? 'w-9 h-9 flex-shrink-0' : 'w-10 h-10';
             return (
               <button key={id} title={label} onClick={() => openTab(id)}
-                className={`relative flex items-center justify-center rounded transition-colors ${isCompactLayout ? 'w-9 h-9 flex-shrink-0' : 'w-10 h-10'}`}
+                className={`relative flex items-center justify-center rounded transition-colors ${btnSize}`}
                 style={{ color: active ? '#ffffff' : '#858585' }}
                 onMouseEnter={e => { if (!active) e.currentTarget.style.color = '#cccccc'; }}
                 onMouseLeave={e => { if (!active) e.currentTarget.style.color = '#858585'; }}>
@@ -370,7 +394,7 @@ export default function DevStudioClient() {
                     style={{ background: '#0078d4' }}
                   />
                 )}
-                <Icon className="w-5 h-5" />
+                <Icon className={isPhone ? 'w-6 h-6' : 'w-5 h-5'} />
               </button>
             );
           })}
@@ -404,8 +428,11 @@ export default function DevStudioClient() {
             className={`flex-shrink-0 flex flex-col overflow-hidden ${isCompactLayout ? 'border-t' : 'border-l'}`}
             style={{
               width: isCompactLayout ? '100%' : previewWidth,
-              height: isCompactLayout ? '42dvh' : undefined,
-              minHeight: isCompactLayout ? 220 : undefined,
+              // Phone: 35dvh keeps enough room for the editor above
+              // Tablet: 40dvh gives a reasonable split
+              // Desktop: fixed pixel width (side-by-side)
+              height: isPhone ? '35dvh' : isCompactLayout ? '40dvh' : undefined,
+              minHeight: isPhone ? 180 : isCompactLayout ? 220 : undefined,
               background: '#1e1e1e',
               borderColor: '#3c3c3c',
             }}
@@ -495,14 +522,9 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
     setInput(initialCommand);
   }, [initialCommand]);
 
-  const QUICK = quickCommands?.length ? quickCommands : [
-    'Show git status',
-    'List recent files changed',
-    'Run pnpm lint',
-    'Show build errors',
-    'List open ports',
-    'Show loaded secrets (key names only)',
-  ];
+  // quickCommands comes from /api/admin/devstudio/config (platform_settings DB row).
+  // The config API owns the fallback list — no duplicate here.
+  const QUICK = quickCommands ?? [];
 
   const QUICK_ACTIONS = [
     { label: 'Analytics',        cmd: 'Get platform analytics overview' },
@@ -1038,7 +1060,9 @@ function FilesTab() {
 // ── Website Tab ──────────────────────────────────────────────────────────────
 
 function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
-  const defaultUrl = config?.defaultPreviewUrl || 'https://www.elevateforhumanity.org';
+  // Prefer config value (from platform_settings DB row or env-driven fallback in config API).
+  // Use current origin as last resort so the iframe always has something to show.
+  const defaultUrl = config?.defaultPreviewUrl || (typeof window !== 'undefined' ? window.location.origin : '');
   const targets = config?.previewTargets ?? [];
   const [url, setUrl] = useState(defaultUrl);
   const [input, setInput] = useState(defaultUrl);
@@ -1046,9 +1070,9 @@ function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
 
   // Sync default URL when config loads
   useEffect(() => {
-    setUrl(defaultUrl);
-    setInput(defaultUrl);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!config?.defaultPreviewUrl) return;
+    setUrl(config.defaultPreviewUrl);
+    setInput(config.defaultPreviewUrl);
   }, [config?.defaultPreviewUrl]);
 
   function navigate(next: string) {
