@@ -774,18 +774,32 @@ function encodeDone() {
 // buttons work even when no AI provider key is configured.
 
 const KEYWORD_MAP: Array<{ patterns: RegExp; action: string; args?: Record<string, unknown> }> = [
-  { patterns: /run.*test|test.*suite|autopilot.*test/i,       action: 'run_tests',        args: {} },
-  { patterns: /health|system.*health|check.*health/i,         action: 'check_system_health', args: {} },
-  { patterns: /build.*course|course.*build/i,                 action: 'build_courses',    args: {} },
-  { patterns: /deploy.*lms/i,                                 action: 'deploy_autopilot', args: { service: 'lms' } },
-  { patterns: /deploy.*admin/i,                               action: 'deploy_autopilot', args: { service: 'admin' } },
-  { patterns: /deploy/i,                                      action: 'deploy_autopilot', args: { service: 'both' } },
-  { patterns: /list.*student|show.*student/i,                 action: 'list_students',    args: {} },
-  { patterns: /list.*application|show.*application/i,         action: 'list_applications', args: {} },
-  { patterns: /list.*enrollment|show.*enrollment/i,           action: 'list_enrollments', args: {} },
-  { patterns: /list.*program|show.*program/i,                 action: 'list_programs',    args: {} },
-  { patterns: /analytics|overview/i,                          action: 'get_analytics',    args: {} },
-  { patterns: /trial.*status|check.*trial/i,                  action: 'manage_app_trial', args: { action: 'status' } },
+  { patterns: /run.*test|test.*suite|autopilot.*test/i,                    action: 'run_tests',           args: {} },
+  { patterns: /health|system.*health|check.*health/i,                      action: 'check_system_health', args: {} },
+  { patterns: /build.*course|course.*build/i,                              action: 'build_courses',       args: {} },
+  { patterns: /deploy.*lms/i,                                              action: 'deploy_autopilot',    args: { service: 'lms' } },
+  { patterns: /deploy.*admin/i,                                            action: 'deploy_autopilot',    args: { service: 'admin' } },
+  { patterns: /deploy/i,                                                   action: 'deploy_autopilot',    args: { service: 'both' } },
+  // Reports — keyword-matched so they work without an AI key
+  { patterns: /enrollment.*report|report.*enrollment|run.*enrollment/i,    action: 'run_report',          args: { type: 'enrollment' } },
+  { patterns: /financial.*report|report.*financial|run.*financial/i,       action: 'run_report',          args: { type: 'financial' } },
+  { patterns: /wioa.*report|report.*wioa|run.*wioa/i,                      action: 'run_report',          args: { type: 'wioa' } },
+  { patterns: /overall.*report|daily.*report|run.*overall|run.*report/i,   action: 'run_report',          args: { type: 'overall' } },
+  { patterns: /payroll.*report|report.*payroll|run.*payroll/i,             action: 'run_report',          args: { type: 'payroll' } },
+  // Listings
+  { patterns: /list.*student|show.*student/i,                              action: 'list_students',       args: {} },
+  { patterns: /list.*application|show.*application|pending.*application/i, action: 'list_applications',   args: {} },
+  { patterns: /list.*enrollment|show.*enrollment/i,                        action: 'list_enrollments',    args: {} },
+  { patterns: /list.*program|show.*program/i,                              action: 'list_programs',       args: {} },
+  { patterns: /list.*wioa|show.*wioa|wioa.*case/i,                         action: 'list_wioa',           args: {} },
+  { patterns: /list.*cohort|show.*cohort/i,                                action: 'list_cohorts',        args: {} },
+  { patterns: /payout.*queue|list.*payout/i,                               action: 'list_payout_queue',   args: {} },
+  { patterns: /at.?risk|flag.*risk/i,                                      action: 'flag_at_risk',        args: {} },
+  { patterns: /analytics|overview/i,                                       action: 'get_analytics',       args: {} },
+  { patterns: /trial.*status|check.*trial/i,                               action: 'manage_app_trial',    args: { action: 'status' } },
+  { patterns: /export.*student|student.*export/i,                          action: 'run_export',          args: { type: 'students' } },
+  { patterns: /export.*enrollment|enrollment.*export/i,                    action: 'run_export',          args: { type: 'enrollments' } },
+  { patterns: /recent.*commit|git.*log|commit.*history/i,                  action: 'repo_commits',        args: {} },
 ];
 
 function matchKeyword(command: string): { action: string; args: Record<string, unknown> } | null {
