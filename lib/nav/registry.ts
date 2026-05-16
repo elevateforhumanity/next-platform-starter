@@ -101,7 +101,7 @@ export const NAV: NavItem[] = [
     showInHeader: true,
     description: 'Hire qualified talent',
   },
-  { group: 'Employers', label: 'Partner With Us', href: '/partner-with-us', showInHeader: true },
+  { group: 'Employers', label: 'Partner With Us', href: '/for-providers', showInHeader: true },
   {
     group: 'Employers',
     label: 'Workforce Solutions',

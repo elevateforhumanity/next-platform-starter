@@ -283,7 +283,7 @@ export default function ProviderApplicationForm() {
           an email at <strong>{form.contactEmail}</strong> when a decision is made.
         </p>
         <button
-          onClick={() => router.push('/partners/training-provider')}
+          onClick={() => router.push('/for-providers')}
           className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition text-sm"
         >
           Back to Training Provider Info

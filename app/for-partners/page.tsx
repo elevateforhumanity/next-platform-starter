@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const tracks = [
-  { icon: Building2, title: 'Training Providers', desc: 'Deliver Elevate-approved programs under your brand. We handle ETPL listing, WIOA compliance, and participant funding.', href: '/training-providers', cta: 'Learn More', color: 'purple' },
+  { icon: Building2, title: 'Training Providers', desc: 'Deliver Elevate-approved programs under your brand. We handle ETPL listing, WIOA compliance, and participant funding.', href: '/for-providers', cta: 'Learn More', color: 'purple' },
   { icon: Users, title: 'Employers & Sponsors', desc: 'Hire graduates or host registered apprentices. We match you with qualified candidates and handle DOL RAPIDS paperwork.', href: '/for-employers', cta: 'Learn More', color: 'green' },
   { icon: FileText, title: 'Workforce Agencies', desc: 'Refer WIOA, FSSA, and WRG participants to Elevate programs. We handle enrollment, compliance, and outcome reporting.', href: '/for-agencies', cta: 'Learn More', color: 'blue' },
   { icon: BarChart3, title: 'Government & Oversight', desc: 'Access ETPL performance data, WIOA metrics, and apprenticeship compliance documentation.', href: '/federal-compliance', cta: 'View Compliance', color: 'slate' },

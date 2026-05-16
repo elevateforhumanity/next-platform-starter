@@ -83,7 +83,7 @@ export const NAV_REGISTRY: NavCategory[] = [
       { label: 'Employers', href: '/employer/dashboard', description: 'Hire our graduates' },
       {
         label: 'Training Providers',
-        href: '/platform/training-providers',
+        href: '/for-providers',
         description: 'Partner as a provider',
       },
       { label: 'Workforce Boards', href: '/partners', description: 'Workforce board partnerships' },

@@ -398,7 +398,7 @@ export default async function StudentApplicationPage({
               Become a Program Holder
             </Link>
             <Link
-              href="/training-providers"
+              href="/for-providers"
               className="text-brand-blue-600 hover:underline font-semibold text-sm"
             >
               Training Provider

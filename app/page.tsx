@@ -37,7 +37,7 @@ export default function HomePage() {
               { label: 'I need funding options', sub: 'Funding Flow', href: '/funding', color: 'bg-brand-blue-700 hover:bg-brand-blue-800 text-white' },
               { label: "I'm a workforce case manager", sub: 'Agency Flow', href: '/for-agencies', color: 'bg-slate-800 hover:bg-slate-900 text-white' },
               { label: 'I want to hire or host apprentices', sub: 'Employer Flow', href: '/for-employers', color: 'bg-green-700 hover:bg-green-800 text-white' },
-              { label: "I'm a training provider", sub: 'Partner Flow', href: '/training-providers', color: 'bg-purple-700 hover:bg-purple-800 text-white' },
+              { label: "I'm a training provider", sub: 'Partner Flow', href: '/for-providers', color: 'bg-purple-700 hover:bg-purple-800 text-white' },
             ].map((r) => (
               <Link key={r.href} href={r.href} className={`${r.color} rounded-xl px-4 py-4 flex flex-col gap-1 transition-colors text-center`}>
                 <span className="font-bold text-sm leading-snug">{r.label}</span>

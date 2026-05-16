@@ -47,7 +47,7 @@ export default function MOUPage() {
           primaryLabel: 'Contact Us',
           primaryHref: '/contact',
           secondaryLabel: 'Partner Overview',
-          secondaryHref: '/partners/join',
+          secondaryHref: '/partners/apply',
           bgColor: 'bg-slate-900',
         },
       }}

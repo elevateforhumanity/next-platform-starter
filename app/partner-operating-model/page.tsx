@@ -22,7 +22,7 @@ const partnerTypes = [
       'Facility and equipment compliance review',
       'Outcome reporting (completion, placement, wage)',
     ],
-    href: '/training-providers',
+    href: '/for-providers',
     cta: 'Become a Training Provider',
   },
   {

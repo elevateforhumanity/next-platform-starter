@@ -66,7 +66,7 @@ const footerLinks = {
     { name: 'Program Holders', href: '/program-holder' },
     { name: 'LMS Licensing', href: '/partners/sales' },
     { name: 'Technology Partners', href: '/partners/technology' },
-    { name: 'Become a Partner', href: '/partners/join' },
+    { name: 'Become a Partner', href: '/partners/apply' },
   ],
 
   // Column 4 — About

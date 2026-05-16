@@ -146,10 +146,8 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Workforce Boards', href: '/platform/workforce-boards' },
       { name: 'Cosmetology Shop Owner', href: '/partners/cosmetology-apprenticeship' },
       // Training Providers & Program Holders
-      { name: '— Training Providers & Program Holders —', href: '/training-providers', isHeader: true },
-      { name: 'Become a Provider', href: '/training-providers' },
-      { name: 'Program Holders', href: '/platform/program-holders' },
-      { name: 'Platform for Providers', href: '/platform/providers' },
+      { name: '— Training Providers —', href: '/for-providers', isHeader: true },
+      { name: 'Run a Program with Us', href: '/for-providers' },
       { name: 'Sponsors & Funders', href: '/platform/sponsors' },
       { name: 'Apply as a Partner →', href: '/partners/apply', isSectionLink: true },
     ],
@@ -190,12 +188,12 @@ export const NAV_ITEMS: NavItem[] = [
     href: '/apply',
   },
 
-  // ── 8. Dashboard — authenticated learner portal links ────────────────────────
+  // ── 8. My Learning — authenticated learner portal links ─────────────────────
   // Admin links are intentionally excluded from the public nav. Admin users
   // access admin.elevateforhumanity.org directly via their own bookmark/login.
   {
     id: 'dashboard',
-    name: 'Dashboard',
+    name: 'My Learning',
     href: '/lms',
     subItems: [
       { name: 'My Courses', href: '/lms/courses' },

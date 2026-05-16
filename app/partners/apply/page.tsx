@@ -18,7 +18,7 @@ export default function ProviderApplyPage() {
         <Breadcrumbs
           items={[
             { label: 'Partners', href: '/partners' },
-            { label: 'Training Provider', href: '/partners/training-provider' },
+            { label: 'Training Provider', href: '/for-providers' },
             { label: 'Apply' },
           ]}
         />

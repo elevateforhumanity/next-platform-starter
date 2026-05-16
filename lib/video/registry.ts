@@ -158,7 +158,7 @@ export const VIDEO_REGISTRY: Record<string, VideoRecord> = {
     duration: 'PT1M10S',
     upload_date: '2025-01-01',
     category: 'About',
-    page_slugs: ['/training-providers'],
+    page_slugs: ['/for-providers'],
     language: 'en',
     version: 1,
     status: 'live',

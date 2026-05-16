@@ -138,7 +138,7 @@ export default function CreateProgramPage() {
           <p className="text-white mb-8 text-lg">Contact our partnerships team to get started.</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              href="/partners/join"
+              href="/partners/apply"
               className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-white text-lg"
             >
               Partner Application

@@ -73,7 +73,7 @@ const partnerTypes = [
   {
     title: 'Community Organizations',
     description: 'Refer participants and provide wraparound services.',
-    href: '/partners/join',
+    href: '/partners/apply',
   },
   {
     title: 'Workforce Boards',
@@ -233,7 +233,7 @@ export default function PartnerPortalPage() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              href="/partners/join"
+              href="/partners/apply"
               className="px-8 py-4 bg-white text-brand-blue-700 font-bold rounded-lg hover:bg-brand-blue-50 transition inline-flex items-center gap-2"
             >
               Apply Now <ArrowRight className="w-5 h-5" />

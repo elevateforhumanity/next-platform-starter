@@ -192,7 +192,7 @@ export const headerNavigation: NavGroup[] = [
       },
       {
         label: 'Partner Training',
-        href: '/partners/training',
+        href: '/for-providers',
         description: 'Training provider resources',
       },
       {
@@ -508,7 +508,7 @@ export const footerNavigation = {
       { label: 'Ongoing Support', href: '/career-services/ongoing-support' },
       { label: 'Community Services', href: '/community-services' },
       { label: 'Drug Testing Training', href: '/drug-testing-training' },
-      { label: 'Training Providers', href: '/training-providers' },
+      { label: 'Training Providers', href: '/for-providers' },
       { label: 'Training Certifications', href: '/training/certifications' },
     ],
   },
@@ -526,7 +526,7 @@ export const footerNavigation = {
       { label: 'Platform Overview', href: '/platform/overview' },
       { label: 'Architecture', href: '/platform/architecture' },
       { label: 'Platform Apps', href: '/platform/apps' },
-      { label: 'Training Providers', href: '/platform/training-providers' },
+      { label: 'Run a Program with Us', href: '/for-providers' },
       { label: 'Workforce Analytics', href: '/platform/workforce-analytics' },
       { label: 'Workforce Boards', href: '/platform/workforce-boards' },
       { label: 'Partner Portal', href: '/platform/partner-portal' },

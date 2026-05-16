@@ -81,7 +81,7 @@ const PARTNER_TYPES = [
       'We review your credentials and program outcomes',
       'Sign the provider agreement and begin receiving referrals',
     ],
-    cta: { label: 'Learn More', href: '/partners/training-provider' },
+    cta: { label: 'Learn More', href: '/for-providers' },
     apply: { label: 'Apply as Training Provider', href: '/apply/program-holder' },
     image: '/images/pages/tech-classroom.webp',
   },
@@ -308,7 +308,7 @@ export default function PartnersIndexPage() {
               <Phone className="w-4 h-4" /> (317) 314-3757
             </a>
             <Link
-              href="/partners/join"
+              href="/partners/apply"
               className="inline-flex items-center justify-center gap-2 border-2 border-slate-300 text-slate-700 px-8 py-3 rounded-lg font-bold hover:bg-white transition-colors"
             >
               General Partner Application <ArrowRight className="w-4 h-4" />

@@ -23,7 +23,7 @@ const SHARE_OPTIONS = [
     title: 'Share with a Case Manager',
     desc: 'If you work with a workforce development agency, WorkOne office, or reentry program, share our training catalog with your clients.',
     icon: MessageCircle,
-    href: '/partners/join',
+    href: '/partners/apply',
     cta: 'Partner With Us',
   },
   {

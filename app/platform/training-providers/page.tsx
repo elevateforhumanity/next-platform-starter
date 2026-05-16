@@ -256,7 +256,7 @@ export default function TrainingProvidersPage() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              href="/partners/join"
+              href="/partners/apply"
               className="px-8 py-4 bg-white text-teal-700 font-bold rounded-lg hover:bg-teal-50 transition inline-flex items-center gap-2"
             >
               Apply Now <ArrowRight className="w-5 h-5" />

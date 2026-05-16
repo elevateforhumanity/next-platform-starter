@@ -213,7 +213,7 @@ export default async function SereneComfortCarePage() {
           </div>
           <div className="flex flex-col gap-3 shrink-0">
             <Link
-              href="/partner-with-us"
+              href="/for-providers"
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-red-600 px-6 py-3 font-semibold text-white hover:bg-brand-red-700 transition"
             >
               <Users className="w-4 h-4" /> Partner With Us

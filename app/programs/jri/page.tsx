@@ -312,7 +312,7 @@ export default async function JRIProgramsPage() {
                 View All Apprenticeships
               </Link>
               <Link
-                href="/partner-with-us"
+                href="/for-providers"
                 className="inline-flex px-8 py-4 bg-brand-green-800 text-white font-bold rounded-lg hover:bg-brand-green-900 transition text-lg"
               >
                 Become an Employer Partner
@@ -710,7 +710,7 @@ export default async function JRIProgramsPage() {
                   positions, we can create a customized training pipeline for your organization.
                 </p>
                 <p>
-                  <a href="/partner-with-us" className="text-indigo-600 underline font-bold">
+                  <a href="/for-providers" className="text-indigo-600 underline font-bold">
                     Learn about employer partnerships →
                   </a>{' '}
                   or call{' '}

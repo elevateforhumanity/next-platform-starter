@@ -380,7 +380,7 @@ export default async function TrainingSitesPage() {
               </ul>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  href="/partners/join"
+                  href="/partners/apply"
                   className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold px-6 py-3 rounded-lg transition-colors"
                 >
                   Partner With Us <ArrowRight className="w-4 h-4" />

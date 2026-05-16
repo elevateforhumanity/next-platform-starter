@@ -79,7 +79,7 @@ Determine if they are:
 - **Other**: Press, investors, job seekers, etc.
 
 For Learners: Direct to elevateforhumanity.org/apply
-For Partners: Direct to elevateforhumanity.org/partners/join
+For Partners: Direct to elevateforhumanity.org/partners/apply
 For Other: Provide appropriate contact information
 For Buyers: Continue to intake questions
 

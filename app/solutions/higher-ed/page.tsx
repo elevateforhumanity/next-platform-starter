@@ -72,7 +72,7 @@ export default function HigherEdSolutionsPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/partners/training"
+              href="/for-providers"
               className="bg-white text-violet-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-violet-50 transition-colors"
             >
               Explore Partnership Models
@@ -154,7 +154,7 @@ export default function HigherEdSolutionsPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/partners/training"
+              href="/for-providers"
               className="bg-white text-violet-900 px-10 py-4 rounded-xl font-bold text-lg hover:bg-violet-50 transition-colors"
             >
               Start a Partnership →

@@ -62,7 +62,7 @@ const audiences = [
     alt: 'Training provider onboarding and program management',
     title: 'Training Providers',
     desc: 'Deliver workforce programs under the Elevate hub with built-in compliance infrastructure, credential pathway management, and employer connections. MOU-based onboarding.',
-    href: '/platform/providers',
+    href: '/for-providers',
     cta: 'Provider requirements',
   },
   {
@@ -356,7 +356,7 @@ export default function PlatformPage() {
               Schedule a Demo <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/platform/providers"
+              href="/for-providers"
               className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition"
             >
               Provider Requirements

@@ -169,7 +169,7 @@ export default function EcosystemPage() {
             place for you in our ecosystem.
           </p>
           <Link
-            href="/partners/join"
+            href="/partners/apply"
             className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-blue-700"
           >
             Become a Partner <ArrowRight className="w-5 h-5" />

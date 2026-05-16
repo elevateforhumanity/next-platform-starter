@@ -55,7 +55,7 @@
     "partners": {
       "index": "/partners",
       "employers": "/employers",
-      "partnerWithUs": "/partner-with-us"
+      "partnerWithUs": "/for-providers"
     }
   },
   "legacyAliases": [

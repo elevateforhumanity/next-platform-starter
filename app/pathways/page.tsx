@@ -573,7 +573,7 @@ export default function PathwaysPage() {
               </p>
             </Link>
             <Link
-              href="/pathways/partners"
+              href="/for-providers"
               className="bg-white rounded-lg border border-slate-200 p-5 hover:shadow-md transition"
             >
               <h3 className="font-bold text-slate-900 mb-1">Partners &amp; Cohorts</h3>
