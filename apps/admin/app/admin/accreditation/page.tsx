@@ -33,9 +33,9 @@ export default async function AccreditationPage() {
   const [standardsRes, evidenceRes] = await Promise.all([
     db
       .from('accreditation_standards')
-      .select('id, code, title, category, required, weight')
+      .select('id, name, description, category, required, sort_order')
       .order('category')
-      .order('code'),
+      .order('sort_order'),
     db.from('accreditation_evidence').select('id, standard_id, status, submitted_at, reviewed_at'),
   ]);
 
@@ -189,7 +189,7 @@ export default async function AccreditationPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-slate-900">
-                          {s.code} — {s.title}
+                          {s.name}
                         </p>
                         {s.required && (
                           <span className="text-[10px] text-rose-600 font-semibold">Required</span>
