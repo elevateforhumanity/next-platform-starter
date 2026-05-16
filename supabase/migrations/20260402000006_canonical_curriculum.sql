@@ -32,9 +32,9 @@ CREATE TABLE public.courses (
   updated_at        TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_courses_program_id ON public.courses(program_id);
-CREATE INDEX idx_courses_status     ON public.courses(status);
-CREATE INDEX idx_courses_legacy_id  ON public.courses(legacy_course_id);
+CREATE INDEX IF NOT EXISTS idx_courses_program_id ON public.courses(program_id);
+CREATE INDEX IF NOT EXISTS idx_courses_status     ON public.courses(status);
+CREATE INDEX IF NOT EXISTS idx_courses_legacy_id  ON public.courses(legacy_course_id);
 
 INSERT INTO public.courses (
   legacy_course_id, program_id, slug, title, short_description,
@@ -67,8 +67,8 @@ CREATE TABLE IF NOT EXISTS public.course_lessons (
   UNIQUE(course_id, order_index)
 );
 
-CREATE INDEX idx_course_lessons_course_id ON public.course_lessons(course_id);
-CREATE INDEX idx_course_lessons_module_id ON public.course_lessons(module_id);
+CREATE INDEX IF NOT EXISTS idx_course_lessons_course_id ON public.course_lessons(course_id);
+CREATE INDEX IF NOT EXISTS idx_course_lessons_module_id ON public.course_lessons(module_id);
 
 INSERT INTO public.course_lessons (
   course_id, module_id, legacy_lesson_id, slug, title,

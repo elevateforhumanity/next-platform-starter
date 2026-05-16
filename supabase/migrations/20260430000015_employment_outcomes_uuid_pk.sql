@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS public.employment_outcomes (
 );
 
 -- Indexes for common query patterns
-CREATE INDEX idx_employment_outcomes_user_uuid    ON public.employment_outcomes(user_uuid);
-CREATE INDEX idx_employment_outcomes_program_slug ON public.employment_outcomes(program_slug);
-CREATE INDEX idx_employment_outcomes_outcome_type ON public.employment_outcomes(outcome_type);
+CREATE INDEX IF NOT EXISTS idx_employment_outcomes_user_uuid    ON public.employment_outcomes(user_uuid);
+CREATE INDEX IF NOT EXISTS idx_employment_outcomes_program_slug ON public.employment_outcomes(program_slug);
+CREATE INDEX IF NOT EXISTS idx_employment_outcomes_outcome_type ON public.employment_outcomes(outcome_type);
 
 -- RLS
 ALTER TABLE public.employment_outcomes ENABLE ROW LEVEL SECURITY;
