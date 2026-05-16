@@ -675,10 +675,7 @@ Do not tighten without replacing admin remediation and enrollment-management beh
 ## Remaining Technical Debt
 
 - `console.log` calls remain in some non-runtime areas — prefer `import { logger } from '@/lib/logger'` for new code
-- `lib/curriculum/blueprints/prs.ts` may be superseded by `prs-indiana.ts` — verify
-- `app/api/auth/login/route.ts` — deprecated duplicate of `/api/auth/signin`
 - 8 certificate-related tables have no migration source — verify in Supabase Dashboard
-- `lib/mou-storage.ts` uses `createBrowserClient` in server context
 - One migration requires superuser application: `20260417000013_documents_bucket_policies.sql` (`storage.objects` ownership)
 
 ---
