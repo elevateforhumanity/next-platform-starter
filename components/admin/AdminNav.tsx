@@ -114,12 +114,20 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
               const active = isSectionActive(pathname, section);
               const open = openDropdown === section.label;
               return (
-                <div key={section.label} className="relative flex-shrink-0">
-                  <button
-                    onClick={() => setOpenDropdown(open ? null : section.label)}
-                    className={`flex items-center gap-0.5 px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${active ? 'text-brand-red-700 bg-brand-red-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                <div key={section.label} className="relative flex-shrink-0 flex items-center">
+                  {/* Section label — navigates to section.href */}
+                  <Link
+                    href={section.href}
+                    className={`px-3 py-2 rounded-l-lg text-xs font-semibold whitespace-nowrap transition-colors ${active ? 'text-brand-red-700 bg-brand-red-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
                   >
                     {section.label}
+                  </Link>
+                  {/* Chevron — opens dropdown */}
+                  <button
+                    onClick={() => setOpenDropdown(open ? null : section.label)}
+                    aria-label={`Open ${section.label} menu`}
+                    className={`px-1 py-2 rounded-r-lg text-xs transition-colors ${active ? 'text-brand-red-700 bg-brand-red-50' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'}`}
+                  >
                     <ChevronDown
                       className={`w-2.5 h-2.5 transition-transform ${open ? 'rotate-180' : ''}`}
                     />
