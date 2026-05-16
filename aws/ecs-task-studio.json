@@ -1,0 +1,70 @@
+{
+  "family": "elevate-studio",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "4096",
+  "executionRoleArn": "arn:aws:iam::954718262498:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::954718262498:role/ecsTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "elevate-studio",
+      "image": "954718262498.dkr.ecr.us-east-1.amazonaws.com/elevate-studio:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8888,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "NODE_ENV",    "value": "production" },
+        { "name": "SHELL_PORT", "value": "8888" },
+        { "name": "WORKDIR",    "value": "/repo" },
+        { "name": "SHELL_BIN",  "value": "/bin/bash" },
+        { "name": "BRANCH",     "value": "main" },
+        { "name": "MAX_SESSIONS",       "value": "10" },
+        { "name": "SESSION_TIMEOUT_MS", "value": "3600000" }
+      ],
+      "secrets": [
+        {
+          "name": "GITHUB_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_TOKEN"
+        },
+        {
+          "name": "GITHUB_REPO",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_REPO"
+        },
+        {
+          "name": "SHELL_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_SECRET"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/elevate-studio",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:8888/health || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3,
+        "startPeriod": 60
+      },
+      "ulimits": [
+        {
+          "name": "nofile",
+          "softLimit": 65536,
+          "hardLimit": 65536
+        }
+      ]
+    }
+  ]
+}

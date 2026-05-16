@@ -70,24 +70,10 @@ export default function StoreBuilderPage() {
   };
 
   const publishProduct = async () => {
-    setPublishing(true);
-    try {
-      const res = await fetch('/api/admin/programs/publish', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(product),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        alert(`Product published! View at: ${data.url}`);
-      }
-    } catch (error) {
-      /* Error handled silently */
-      alert('Failed to publish product');
-    } finally {
-      setPublishing(false);
-    }
+    // Store product publishing is not yet implemented.
+    // /api/admin/programs/publish requires a programId and handles LMS programs,
+    // not store product listings. Wire this to a dedicated store API when built.
+    alert('Store product publishing is not yet available.');
   };
 
   return (

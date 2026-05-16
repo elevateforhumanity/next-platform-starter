@@ -3,15 +3,12 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+
 
 import {
   Upload,
   Trash2,
-  Download,
   Image as ImageIcon,
-  Folder,
   Search,
   Grid,
   List,
@@ -31,8 +28,6 @@ interface MediaFile {
 }
 
 export default function MediaStudioPage() {
-  const router = useRouter();
-
   const [buckets, setBuckets] = useState<string[]>([]);
   const [selectedBucket, setSelectedBucket] = useState<string>('');
   const [files, setFiles] = useState<MediaFile[]>([]);
@@ -148,24 +143,11 @@ export default function MediaStudioPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Media Studio' }]} />
       </div>
-      {/* Hero Section */}
-      <section className="relative h-48 md:h-64 overflow-hidden">
-        <Image
-          src="/images/pages/admin-media-studio-detail.jpg"
-          alt="Media Studio"
-          fill
-          className="object-cover"
-          quality={90}
-          priority
-          sizes="100vw"
-        />
-      </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 pb-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-black mb-2">Media Studio</h1>
@@ -345,31 +327,7 @@ export default function MediaStudioPage() {
           </div>
         )}
 
-        {/* CTA Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">Media Studio</h2>
-              <p className="text-base md:text-lg mb-8 text-brand-blue-100">
-                Upload and manage videos, images, and course media assets.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href="/admin/media-studio"
-                  className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-50 text-lg shadow-2xl transition-all"
-                >
-                  View Media
-                </Link>
-                <Link
-                  href="/admin/videos"
-                  className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-600 border-2 border-white text-lg shadow-2xl transition-all"
-                >
-                  View Videos
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+
       </div>
 
       {/* Delete Confirmation Dialog */}

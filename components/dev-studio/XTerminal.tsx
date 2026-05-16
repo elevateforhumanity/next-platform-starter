@@ -1,99 +1,159 @@
 'use client';
 
-import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
-import { Terminal as TerminalIcon, X } from 'lucide-react';
+/**
+ * XTerminal — real xterm.js terminal connected to the studio-shell ECS container.
+ *
+ * Connection flow:
+ *   1. POST /api/devstudio/shell-token  → short-lived HMAC token (60s TTL)
+ *   2. WebSocket upgrade to /api/devstudio/shell-ws with X-Studio-Token header
+ *      (custom Next.js server apps/admin/server.js proxies to ECS container)
+ *   3. Bidirectional PTY frames:
+ *        browser → shell: { type: 'input', data: string }
+ *                         { type: 'resize', cols: number, rows: number }
+ *                         { type: 'ping' }
+ *        shell → browser: { type: 'output', data: string }
+ *                         { type: 'exit', code: number }
+ *                         { type: 'pong' }
+ *                         { type: 'error', message: string }
+ *
+ * Falls back to a "not configured" message when STUDIO_SHELL_WS_URL is unset.
+ */
 
-export interface XTerminalHandle {
-  write: (data: string) => void;
-  clear: () => void;
-  focus: () => void;
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
+
+// xterm must be client-side only
+const TerminalRenderer = dynamic(() => import('./XTerminalRenderer'), { ssr: false });
+
+export interface XTerminalProps {
+  onConnect?: () => void;
+  onDisconnect?: () => void;
 }
 
-interface XTerminalProps {
-  onClear?: () => void;
-}
+type Status = 'connecting' | 'connected' | 'disconnected' | 'error' | 'unconfigured';
 
-const XTerminal = forwardRef<XTerminalHandle, XTerminalProps>(({ onClear }, ref) => {
-  const terminalRef = useRef<HTMLDivElement>(null);
-  const [lines, setLines] = useState<string[]>([
-    '\x1b[1;36m╔════════════════════════════════════════╗\x1b[0m',
-    '\x1b[1;36m║\x1b[0m   \x1b[1;33mElevate Dev Studio Terminal\x1b[0m          \x1b[1;36m║\x1b[0m',
-    '\x1b[1;36m╚════════════════════════════════════════╝\x1b[0m',
-    '',
-    '\x1b[90mReady. Use the buttons above to run commands.\x1b[0m',
-    '',
-  ]);
+export default function XTerminal({ onConnect, onDisconnect }: XTerminalProps) {
+  const [status, setStatus] = useState<Status>('connecting');
+  const [errorMsg, setErrorMsg] = useState('');
+  const wsRef = useRef<WebSocket | null>(null);
+  const pingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  /* eslint-disable no-control-regex */
-  const ansiToHtml = (text: string): string => {
-    return text
-      .replace(/\x1b\[0m/g, '</span>')
-      .replace(/\x1b\[1;36m/g, '<span style="color: #39c5cf; font-weight: bold">')
-      .replace(/\x1b\[1;33m/g, '<span style="color: #d29922; font-weight: bold">')
-      .replace(/\x1b\[32m/g, '<span style="color: #3fb950">')
-      .replace(/\x1b\[31m/g, '<span style="color: #f85149">')
-      .replace(/\x1b\[33m/g, '<span style="color: #d29922">')
-      .replace(/\x1b\[90m/g, '<span style="color: #6e7681">')
-      .replace(/\x1b\[2J\x1b\[H/g, '') // Clear screen sequence
-      .replace(/\x1b\[\d+m/g, ''); // Remove any other ANSI codes
-  };
-  /* eslint-enable no-control-regex */
+  const connect = useCallback(async () => {
+    setStatus('connecting');
+    setErrorMsg('');
 
-  useImperativeHandle(ref, () => ({
-    write: (data: string) => {
-      const newLines = data.split('\n');
-      setLines((prev) => [...prev, ...newLines.filter((l) => l !== '')]);
+    // Step 1 — get short-lived token
+    let token: string;
+    try {
+      const res = await fetch('/api/devstudio/shell-token', { method: 'POST' });
+      if (res.status === 503) {
+        setStatus('unconfigured');
+        return;
+      }
+      if (!res.ok) {
+        setStatus('error');
+        setErrorMsg(`Auth failed (${res.status})`);
+        return;
+      }
+      const data = await res.json();
+      token = data.token;
+    } catch (e) {
+      setStatus('error');
+      setErrorMsg('Could not reach auth endpoint');
+      return;
+    }
 
-      // Auto-scroll
-      setTimeout(() => {
-        if (terminalRef.current) {
-          terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    // Step 2 — open WebSocket
+    const wsUrl = `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/api/devstudio/shell-ws`;
+    const ws = new WebSocket(wsUrl, ['studio-shell']);
+    ws.binaryType = 'arraybuffer';
+
+    // Attach token before upgrade fires (custom header via subprotocol trick)
+    // The server.js proxy reads X-Studio-Token from the upgrade request headers.
+    // Since browser WebSocket API doesn't support custom headers, we send the
+    // token as the first message immediately after open.
+    wsRef.current = ws;
+
+    ws.onopen = () => {
+      // Send token as first frame — server.js validates before forwarding
+      ws.send(JSON.stringify({ type: 'auth', token }));
+      setStatus('connected');
+      onConnect?.();
+
+      // Keepalive ping every 30s
+      pingRef.current = setInterval(() => {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify({ type: 'ping' }));
         }
-      }, 10);
-    },
-    clear: () => {
-      setLines([]);
-    },
-    focus: () => {
-      terminalRef.current?.focus();
-    },
-  }));
+      }, 30_000);
+    };
 
-  const handleClear = () => {
-    setLines([]);
-    onClear?.();
-  };
+    ws.onclose = () => {
+      setStatus('disconnected');
+      if (pingRef.current) clearInterval(pingRef.current);
+      onDisconnect?.();
+    };
 
-  return (
-    <div className="h-full flex flex-col bg-white">
-      {/* Terminal Header */}
-      <div className="flex items-center justify-between px-4 py-2 bg-slate-50 border-b border-slate-200">
-        <div className="flex items-center gap-2">
-          <TerminalIcon className="w-4 h-4 text-slate-500" />
-          <span className="text-sm font-medium text-slate-700">Terminal</span>
-        </div>
+    ws.onerror = () => {
+      setStatus('error');
+      setErrorMsg('WebSocket connection failed');
+      if (pingRef.current) clearInterval(pingRef.current);
+    };
+  }, [onConnect, onDisconnect]);
+
+  useEffect(() => {
+    connect();
+    return () => {
+      if (pingRef.current) clearInterval(pingRef.current);
+      wsRef.current?.close(1001, 'Component unmounted');
+    };
+  }, [connect]);
+
+  if (status === 'unconfigured') {
+    return (
+      <div className="flex flex-col items-center justify-center h-full bg-[#0d1117] text-slate-400 gap-3 p-8">
+        <p className="text-sm font-mono">Studio shell not configured.</p>
+        <p className="text-xs text-slate-500 text-center max-w-sm">
+          Set <code className="text-slate-300">STUDIO_SHELL_WS_URL</code> and{' '}
+          <code className="text-slate-300">STUDIO_SHELL_SECRET</code> in SSM, then
+          deploy the studio ECS task.
+        </p>
+      </div>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="flex flex-col items-center justify-center h-full bg-[#0d1117] text-red-400 gap-3 p-8">
+        <p className="text-sm font-mono">{errorMsg || 'Connection error'}</p>
         <button
-          onClick={handleClear}
-          className="p-1 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors"
-          title="Clear terminal"
+          onClick={connect}
+          className="text-xs px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700"
         >
-          <X className="w-4 h-4" />
+          Retry
         </button>
       </div>
+    );
+  }
 
-      {/* Terminal Content */}
-      <div
-        ref={terminalRef}
-        className="flex-1 p-3 overflow-auto font-mono text-sm text-slate-700 leading-relaxed bg-white"
-      >
-        {lines.map((line, i) => (
-          <div key={i} dangerouslySetInnerHTML={{ __html: ansiToHtml(line) || '&nbsp;' }} />
-        ))}
+  if (status === 'disconnected') {
+    return (
+      <div className="flex flex-col items-center justify-center h-full bg-[#0d1117] text-slate-400 gap-3 p-8">
+        <p className="text-sm font-mono">Shell disconnected.</p>
+        <button
+          onClick={connect}
+          className="text-xs px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700"
+        >
+          Reconnect
+        </button>
       </div>
-    </div>
+    );
+  }
+
+  return (
+    <TerminalRenderer
+      ws={wsRef.current}
+      connecting={status === 'connecting'}
+    />
   );
-});
-
-XTerminal.displayName = 'XTerminal';
-
-export default XTerminal;
+}

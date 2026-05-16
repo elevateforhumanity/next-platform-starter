@@ -2,166 +2,85 @@
 
 import React from 'react';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { ChevronRight, ChevronDown, File, Folder } from 'lucide-react';
 
 interface FileNode {
   name: string;
   path: string;
-  type: 'file' | 'folder';
+  type: 'file' | 'directory';
   children?: FileNode[];
 }
 
 interface FileTreeProps {
-  files: string[];
+  files: FileNode[];
   onFileSelect: (path: string) => void;
   selectedFile?: string;
-  filterCourses?: boolean;
 }
 
-export default function FileTree({
-  files,
-  onFileSelect,
-  selectedFile,
-  filterCourses,
-}: FileTreeProps) {
-  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(
-    new Set(['app', 'components', 'content']),
-  );
+export default function FileTree({ files, onFileSelect, selectedFile }: FileTreeProps) {
+  const [expanded, setExpanded] = useState<Set<string>>(new Set(['/']));
 
-  // Build tree structure from flat file list
-  const fileTree = useMemo(() => {
-    let filteredFiles = files;
-
-    // Filter to course files if requested
-    if (filterCourses) {
-      filteredFiles = files.filter(
-        (f) =>
-          f.startsWith('content/courses/') ||
-          f.startsWith('lms-content/') ||
-          f.includes('/courses/'),
-      );
+  const toggleExpand = (path: string) => {
+    const newExpanded = new Set(expanded);
+    if (newExpanded.has(path)) {
+      newExpanded.delete(path);
+    } else {
+      newExpanded.add(path);
     }
-
-    const root: FileNode = { name: 'root', path: '', type: 'folder', children: [] };
-
-    filteredFiles.forEach((filePath) => {
-      const parts = filePath.split('/');
-      let current = root;
-
-      parts.forEach((part, index) => {
-        const isLast = index === parts.length - 1;
-        const path = parts.slice(0, index + 1).join('/');
-
-        if (!current.children) {
-          current.children = [];
-        }
-
-        let node = current.children.find((n) => n.name === part);
-
-        if (!node) {
-          node = {
-            name: part,
-            path,
-            type: isLast ? 'file' : 'folder',
-            children: isLast ? undefined : [],
-          };
-          current.children.push(node);
-        }
-
-        if (!isLast) {
-          current = node;
-        }
-      });
-    });
-
-    // Sort: folders first, then files, alphabetically
-    const sortNodes = (nodes: FileNode[]) => {
-      nodes.sort((a, b) => {
-        if (a.type !== b.type) {
-          return a.type === 'folder' ? -1 : 1;
-        }
-        return a.name.localeCompare(b.name);
-      });
-      nodes.forEach((node) => {
-        if (node.children) {
-          sortNodes(node.children);
-        }
-      });
-    };
-
-    if (root.children) {
-      sortNodes(root.children);
-    }
-
-    return root.children || [];
-  }, [files, filterCourses]);
-
-  const toggleFolder = (path: string) => {
-    setExpandedFolders((prev) => {
-      const next = new Set(prev);
-      if (next.has(path)) {
-        next.delete(path);
-      } else {
-        next.add(path);
-      }
-      return next;
-    });
+    setExpanded(newExpanded);
   };
 
-  const renderNode = (node: FileNode, depth: number = 0) => {
-    const isExpanded = expandedFolders.has(node.path);
+  const renderNode = (node: FileNode, level: number = 0) => {
+    const isExpanded = expanded.has(node.path);
     const isSelected = selectedFile === node.path;
 
     return (
       <div key={node.path}>
         <div
-          className={`flex items-center gap-1 px-2 py-2 cursor-pointer hover:bg-slate-700 ${
-            isSelected ? 'bg-brand-blue-600' : ''
+          className={`flex items-center gap-2 px-2 py-2 cursor-pointer hover:bg-slate-100 ${
+            isSelected ? 'bg-brand-blue-50 text-brand-blue-700' : ''
           }`}
-          style={{ paddingLeft: `${depth * 12 + 8}px` }}
+          style={{ paddingLeft: `${level * 16 + 8}px` }}
           onClick={() => {
-            if (node.type === 'folder') {
-              toggleFolder(node.path);
+            if (node.type === 'directory') {
+              toggleExpand(node.path);
             } else {
               onFileSelect(node.path);
             }
           }}
         >
-          {node.type === 'folder' ? (
+          {node.type === 'directory' ? (
             <>
               {isExpanded ? (
-                <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                <ChevronDown className="w-4 h-4" />
               ) : (
-                <ChevronRight className="w-4 h-4 flex-shrink-0" />
+                <ChevronRight className="w-4 h-4" />
               )}
-              <Folder className="w-4 h-4 flex-shrink-0 text-brand-blue-400" />
+              <Folder className="w-4 h-4 text-brand-blue-500" />
             </>
           ) : (
             <>
               <div className="w-4" />
-              <File className="w-4 h-4 flex-shrink-0 text-slate-700" />
+              <File className="w-4 h-4 text-slate-700" />
             </>
           )}
-          <span className="text-sm truncate">{node.name}</span>
+          <span className="text-sm">{node.name}</span>
         </div>
 
-        {node.type === 'folder' && isExpanded && node.children && (
-          <div>{node.children.map((child) => renderNode(child, depth + 1))}</div>
+        {node.type === 'directory' && isExpanded && node.children && (
+          <div>{node.children.map((child) => renderNode(child, level + 1))}</div>
         )}
       </div>
     );
   };
 
   return (
-    <div className="h-full overflow-auto bg-brand-blue-700 text-white">
-      {fileTree.length === 0 ? (
-        <div className="p-4 text-sm text-slate-700">
-          {filterCourses ? 'No course files found' : 'No files found'}
-        </div>
-      ) : (
-        fileTree.map((node) => renderNode(node))
-      )}
+    <div className="h-full overflow-y-auto bg-white border-r">
+      <div className="p-2 border-b bg-slate-50">
+        <h3 className="font-semibold text-sm">Files</h3>
+      </div>
+      <div className="py-2">{files.map((file) => renderNode(file))}</div>
     </div>
   );
 }

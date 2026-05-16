@@ -32,7 +32,6 @@ const NAV = [
       { label: 'Analytics — Engagement', href: '/admin/analytics/engagement' },
       { label: 'Analytics — Learning', href: '/admin/analytics/learning' },
       { label: 'Analytics — Programs', href: '/admin/analytics/programs' },
-      { label: 'Reporting', href: '/admin/reporting' },
       { label: 'Reports', href: '/admin/reports' },
       { label: 'Reports — Enrollment', href: '/admin/reports/enrollment' },
       { label: 'Reports — Financial', href: '/admin/reports/financial' },
@@ -86,8 +85,6 @@ const NAV = [
       { label: 'Next Steps', href: '/admin/next-steps' },
       { label: 'Waitlist', href: '/admin/waitlist' },
       { label: 'Intake', href: '/admin/intake' },
-      { label: 'Leads', href: '/admin/crm/leads' },
-      { label: 'Contacts', href: '/admin/contacts' },
       { label: 'Transfer Hours', href: '/admin/transfer-hours' },
 
       { label: 'WorkOne Queue', href: '/admin/workone-queue' },
@@ -108,7 +105,6 @@ const NAV = [
       // ── Curriculum ────────────────────────────────────────────────────────
       { label: 'Curriculum', href: '/admin/curriculum' },
       { label: 'Curriculum Upload', href: '/admin/curriculum/upload' },
-      { label: 'Blueprint Builder', href: '/admin/course-builder' },
       { label: 'Modules', href: '/admin/modules' },
 
       // ── Courses (operational) ─────────────────────────────────────────────
@@ -118,7 +114,6 @@ const NAV = [
       { label: 'Courses — Bulk Ops', href: '/admin/courses/bulk-operations' },
       { label: 'Courses — Partners', href: '/admin/courses/partners' },
       // ── Credentials & delivery ────────────────────────────────────────────
-      { label: 'Certifications', href: '/admin/certifications' },
       { label: 'Certifications — Bulk', href: '/admin/certifications/bulk' },
       { label: 'Credentials', href: '/admin/credentials' },
       { label: 'Quizzes', href: '/admin/quizzes' },
@@ -151,7 +146,7 @@ const NAV = [
       { label: 'Course Templates', href: '/admin/course-builder/templates' },
       { label: 'Template Records', href: '/admin/course-templates' },
       { label: 'Course Import', href: '/admin/course-import' },
-      { label: 'Editor', href: '/admin/editor' },
+
       { label: 'Media Studio', href: '/admin/media-studio' },
       { label: 'Video Manager', href: '/admin/video-manager' },
       { label: 'Video Generator', href: '/admin/video-generator' },
