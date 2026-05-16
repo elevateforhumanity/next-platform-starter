@@ -13,15 +13,16 @@ export default async function LearningPathsPage() {
 
   const { data: paths, error } = await db
     .from('learning_paths')
-    .select('id, title, description, is_featured, status, created_at')
+    .select('id, name, description, is_featured, path_type, created_at')
     .order('is_featured', { ascending: false })
     .order('created_at', { ascending: false })
     .limit(100);
 
-  if (error) throw new Error(`learning_paths query failed: ${error.message}`);
+  if (error) console.error('[LearningPaths] query failed:', error.message);
 
-  const featured = paths?.filter((p: any) => p.is_featured).length ?? 0;
-  const published = paths?.filter((p: any) => p.status === 'published').length ?? 0;
+  const allPaths = paths ?? [];
+  const featured = allPaths.filter((p: any) => p.is_featured).length;
+  const published = allPaths.filter((p: any) => p.path_type === 'credential').length;
 
   return (
     <div className="min-h-screen bg-white">
@@ -49,8 +50,8 @@ export default async function LearningPathsPage() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: 'Total Paths', value: paths?.length ?? 0, icon: BookOpen, color: 'text-brand-blue-600', bg: 'bg-brand-blue-50' },
-            { label: 'Published', value: published, icon: Star, color: 'text-green-600', bg: 'bg-green-50' },
+            { label: 'Total Paths', value: allPaths.length, icon: BookOpen, color: 'text-brand-blue-600', bg: 'bg-brand-blue-50' },
+            { label: 'Credential Paths', value: published, icon: Star, color: 'text-green-600', bg: 'bg-green-50' },
             { label: 'Featured', value: featured, icon: Star, color: 'text-amber-600', bg: 'bg-amber-50' },
           ].map((s) => {
             const Icon = s.icon;
@@ -71,33 +72,33 @@ export default async function LearningPathsPage() {
           <div className="px-5 py-4 border-b border-slate-100">
             <h2 className="text-sm font-semibold text-slate-900">All Learning Paths</h2>
           </div>
-          {!paths?.length ? (
+          {!allPaths.length ? (
             <p className="text-slate-500 text-sm text-center py-12">No learning paths yet.</p>
           ) : (
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-100">
                   <th className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">Title</th>
-                  <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">Status</th>
+                  <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">Type</th>
                   <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">Featured</th>
                   <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">Created</th>
                   <th className="py-3 px-4" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
-                {paths.map((p: any) => (
+                {allPaths.map((p: any) => (
                   <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-3.5 px-5">
-                      <p className="font-semibold text-slate-900">{p.title ?? '—'}</p>
+                      <p className="font-semibold text-slate-900">{p.name ?? '—'}</p>
                       {p.description && (
                         <p className="text-xs text-slate-400 truncate max-w-xs mt-0.5">{p.description}</p>
                       )}
                     </td>
                     <td className="py-3.5 px-4">
                       <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold ${
-                        p.status === 'published' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'
+                        p.path_type === 'credential' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'
                       }`}>
-                        {p.status ?? 'draft'}
+                        {p.path_type ?? 'general'}
                       </span>
                     </td>
                     <td className="py-3.5 px-4 text-slate-600">

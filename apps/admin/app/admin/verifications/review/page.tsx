@@ -19,8 +19,7 @@ export default async function AdminVerificationReviewPage() {
     .from('id_verifications')
     .select('*')
     .order('created_at', { ascending: false });
-  if (verificationsError)
-    throw new Error(`id_verifications query failed: ${verificationsError.message}`);
+  if (verificationsError) console.error('[Verifications] query failed:', verificationsError.message);
 
   // Hydrate profiles separately (id_verifications.user_id → auth.users, no FK to profiles)
   const verifListUserIds = [

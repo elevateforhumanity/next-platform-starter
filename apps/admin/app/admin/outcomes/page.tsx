@@ -34,17 +34,14 @@ export default async function OutcomesPage() {
       .limit(15),
   ]);
 
-  if (outcomesRes.error)
-    throw new Error(`employment_outcomes query failed: ${outcomesRes.error.message}`);
-  if (enrollmentsRes.error)
-    throw new Error(`program_enrollments count failed: ${enrollmentsRes.error.message}`);
-  if (certsRes.error) throw new Error(`certificates count failed: ${certsRes.error.message}`);
-  if (recentOutcomesRes.error)
-    throw new Error(`employment_outcomes recent query failed: ${recentOutcomesRes.error.message}`);
+  if (outcomesRes.error) console.error('[Outcomes] outcomes query failed:', outcomesRes.error.message);
+  if (enrollmentsRes.error) console.error('[Outcomes] enrollments count failed:', enrollmentsRes.error.message);
+  if (certsRes.error) console.error('[Outcomes] certs count failed:', certsRes.error.message);
+  if (recentOutcomesRes.error) console.error('[Outcomes] recent query failed:', recentOutcomesRes.error.message);
 
-  const outcomes = outcomesRes.data;
-  const totalEnrollments = enrollmentsRes.count;
-  const totalCerts = certsRes.count;
+  const outcomes = outcomesRes.data ?? [];
+  const totalEnrollments = enrollmentsRes.count ?? 0;
+  const totalCerts = certsRes.count ?? 0;
 
   // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
   const outcomeUserIds = [

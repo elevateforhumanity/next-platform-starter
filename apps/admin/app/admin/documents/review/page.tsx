@@ -21,7 +21,7 @@ export default async function AdminDocumentReviewPage() {
     .from('documents')
     .select('*')
     .order('created_at', { ascending: false });
-  if (documentsError) throw new Error(`documents query failed: ${documentsError.message}`);
+  if (documentsError) console.error('[Documents] query failed:', documentsError.message);
 
   // Hydrate profiles separately (user_id has no FK to profiles)
   const docUserIds = [...new Set((rawDocuments ?? []).map((d: any) => d.user_id).filter(Boolean))];

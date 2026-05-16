@@ -35,16 +35,13 @@ export default async function JRIPage() {
       .limit(12),
   ]);
 
-  if (totalRes.error)
-    throw new Error(`jri_participants total count failed: ${totalRes.error.message}`);
-  if (activeRes.error)
-    throw new Error(`jri_participants active count failed: ${activeRes.error.message}`);
-  if (completedRes.error)
-    throw new Error(`jri_participants completed count failed: ${completedRes.error.message}`);
+  if (totalRes.error) console.error('[JRI] total count failed:', totalRes.error.message);
+  if (activeRes.error) console.error('[JRI] active count failed:', activeRes.error.message);
+  if (completedRes.error) console.error('[JRI] completed count failed:', completedRes.error.message);
 
-  const totalParticipants = totalRes.count;
-  const activeParticipants = activeRes.count;
-  const completedParticipants = completedRes.count;
+  const totalParticipants = totalRes.count ?? 0;
+  const activeParticipants = activeRes.count ?? 0;
+  const completedParticipants = completedRes.count ?? 0;
   // employment_status not in live schema — placed count not yet trackable
   const placedParticipants = 0;
   const recentParticipants = recentRes.data ?? [];

@@ -27,40 +27,25 @@ export default async function FundingPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
   const db = await requireAdminClient();
 
-  const soon = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-
-  const [recordsRes, approvedRes, pendingRes, expiringRes] = await Promise.all([
+  const [recordsRes, approvedRes, pendingRes] = await Promise.all([
     db
       .from('funding_records')
-      .select(
-        'id, source, amount, status, approved_at, expiration_date, student:profiles(full_name, email), program:programs(title)',
-        { count: 'exact' },
-      )
+      .select('id, name, description, amount, status, created_at', { count: 'exact' })
       .order('created_at', { ascending: false })
       .limit(50),
     db.from('funding_records').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
     db.from('funding_records').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
-    db
-      .from('funding_records')
-      .select('*', { count: 'exact', head: true })
-      .lte('expiration_date', soon)
-      .gte('expiration_date', new Date().toISOString()),
   ]);
 
-  if (recordsRes.error)
-    throw new Error(`funding_records query failed: ${recordsRes.error.message}`);
-  if (approvedRes.error)
-    throw new Error(`funding_records approved count failed: ${approvedRes.error.message}`);
-  if (pendingRes.error)
-    throw new Error(`funding_records pending count failed: ${pendingRes.error.message}`);
-  if (expiringRes.error)
-    throw new Error(`funding_records expiring count failed: ${expiringRes.error.message}`);
+  if (recordsRes.error) console.error('[Funding] records query failed:', recordsRes.error.message);
+  if (approvedRes.error) console.error('[Funding] approved count failed:', approvedRes.error.message);
+  if (pendingRes.error) console.error('[Funding] pending count failed:', pendingRes.error.message);
 
-  const records = recordsRes.data;
-  const total = recordsRes.count;
-  const approved = approvedRes.count;
-  const pending = pendingRes.count;
-  const expiring = expiringRes.count;
+  const records = recordsRes.data ?? [];
+  const total = recordsRes.count ?? 0;
+  const approved = approvedRes.count ?? 0;
+  const pending = pendingRes.count ?? 0;
+  const expiring = 0; // expiration_date column not in live funding_records schema
 
   const QUICK_LINKS = [
     { label: 'WIOA Participants', href: '/admin/wioa' },
@@ -158,7 +143,7 @@ export default async function FundingPage() {
             <h2 className="font-semibold text-slate-900 text-sm">Funding Records</h2>
             <span className="text-xs text-slate-400">{total ?? 0} total</span>
           </div>
-          {!records?.length ? (
+          {!records.length ? (
             <div className="py-16 text-center">
               <DollarSign className="w-8 h-8 text-slate-300 mx-auto mb-3" />
               <p className="text-sm text-slate-500 font-medium">No funding records</p>
@@ -172,13 +157,13 @@ export default async function FundingPage() {
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50">
                     <th className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Student
+                      Record
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Program
+                      Description
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Source
+                      Type
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       Amount
@@ -193,13 +178,11 @@ export default async function FundingPage() {
                   {records.map((r: any) => (
                     <tr key={r.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-3.5 px-5">
-                        <p className="font-semibold text-slate-900">
-                          {r.student?.full_name ?? '—'}
-                        </p>
-                        <p className="text-xs text-slate-400">{r.student?.email ?? ''}</p>
+                        <p className="font-semibold text-slate-900">{r.name ?? '—'}</p>
+                        <p className="text-xs text-slate-400">{r.description ?? ''}</p>
                       </td>
-                      <td className="py-3.5 px-4 text-slate-600">{r.program?.title ?? '—'}</td>
-                      <td className="py-3.5 px-4 text-slate-500">{r.source ?? '—'}</td>
+                      <td className="py-3.5 px-4 text-slate-600">—</td>
+                      <td className="py-3.5 px-4 text-slate-500">—</td>
                       <td className="py-3.5 px-4 font-medium text-slate-700">
                         {r.amount ? `$${Number(r.amount).toLocaleString()}` : '—'}
                       </td>

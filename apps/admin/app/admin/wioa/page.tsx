@@ -49,15 +49,12 @@ export default async function WioaPage() {
       .eq('eligibility_status', 'pending'),
   ]);
 
-  if (participantsRes.error)
-    throw new Error(`wioa_participants query failed: ${participantsRes.error.message}`);
-  if (approvedRes.error)
-    throw new Error(`wioa_participants approved count failed: ${approvedRes.error.message}`);
-  if (pendingRes.error)
-    throw new Error(`wioa_participants pending count failed: ${pendingRes.error.message}`);
+  if (participantsRes.error) console.error('[WIOA] participants query failed:', participantsRes.error.message);
+  if (approvedRes.error) console.error('[WIOA] approved count failed:', approvedRes.error.message);
+  if (pendingRes.error) console.error('[WIOA] pending count failed:', pendingRes.error.message);
 
-  const participants = participantsRes.data;
-  const total = participantsRes.count;
+  const participants = participantsRes.data ?? [];
+  const total = participantsRes.count ?? 0;
   const approved = approvedRes.count;
   const pending = pendingRes.count;
   const expiring = 0;

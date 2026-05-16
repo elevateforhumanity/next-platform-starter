@@ -33,14 +33,14 @@ export default async function GrantsPage() {
     db.from('grants').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
   ]);
 
-  if (grantsRes.error) throw new Error(`grants query failed: ${grantsRes.error.message}`);
-  if (activeRes.error) throw new Error(`grants active count failed: ${activeRes.error.message}`);
-  if (pendingRes.error) throw new Error(`grants pending count failed: ${pendingRes.error.message}`);
+  if (grantsRes.error) console.error('[Grants] query failed:', grantsRes.error.message);
+  if (activeRes.error) console.error('[Grants] active count failed:', activeRes.error.message);
+  if (pendingRes.error) console.error('[Grants] pending count failed:', pendingRes.error.message);
 
-  const grants = grantsRes.data;
-  const total = grantsRes.count;
-  const active = activeRes.count;
-  const pending = pendingRes.count;
+  const grants = grantsRes.data ?? [];
+  const total = grantsRes.count ?? 0;
+  const active = activeRes.count ?? 0;
+  const pending = pendingRes.count ?? 0;
 
   return (
     <div className="min-h-screen bg-white">

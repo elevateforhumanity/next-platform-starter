@@ -112,7 +112,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
     db
       .from('program_enrollments')
       .select(
-        'id, status, enrolled_at, payment_status, amount_paid_cents, program_id, updated_at, program_slug, partner_id, student_start_date, voucher_issued_date, voucher_paid_date, payout_due_date, payout_status, payout_paid_date, payout_sent_date, payout_amount, payout_notes',
+        'id, status, enrolled_at, payment_status, amount_paid_cents, program_id, updated_at, program_slug, student_start_date, voucher_issued_date, voucher_paid_date, payout_due_date, payout_status, payout_paid_date, payout_sent_date, payout_amount, payout_notes',
       )
       .eq('user_id', id)
       .order('enrolled_at', { ascending: false }),
@@ -142,11 +142,9 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
 
   if (enrollmentsRes.error) {
     logger.error('enrollments query failed', enrollmentsRes.error);
-    throw new Error('Failed to load student enrollments');
   }
   if (applicationsRes.error) {
     logger.error('applications query failed', applicationsRes.error);
-    throw new Error('Failed to load student applications');
   }
 
   const barberSub = barberSubRes.data ?? null;

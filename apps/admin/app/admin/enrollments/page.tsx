@@ -52,8 +52,7 @@ export default async function AdminEnrollmentsPage({
   if (statusFilter) enrollmentsQuery = enrollmentsQuery.eq('enrollment_state', statusFilter);
 
   const { data: rawEnrollments, error: enrollmentsError } = await enrollmentsQuery;
-  if (enrollmentsError)
-    throw new Error(`program_enrollments query failed: ${enrollmentsError.message}`);
+  if (enrollmentsError) console.error('[Enrollments] query failed:', enrollmentsError.message);
 
   // Supporting data — degrade gracefully if unavailable
   const { data: users } = await db

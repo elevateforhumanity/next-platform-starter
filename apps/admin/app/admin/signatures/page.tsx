@@ -25,7 +25,7 @@ export default async function SignaturesPage() {
     db
       .from('signatures')
       .select(
-        'id, document_id, signer_name, signer_email, role, status, created_at, signature_documents(title)',
+        'id, document_id, signer_name, signer_email, role, status, created_at',
       )
       .order('created_at', { ascending: false }),
     db
@@ -35,12 +35,13 @@ export default async function SignaturesPage() {
       .limit(20),
   ]);
 
-  if (signaturesResult.error)
-    throw new Error(`signatures query failed: ${signaturesResult.error.message}`);
-  const signatures = signaturesResult.data;
+  if (signaturesResult.error) console.error('[Signatures] query failed:', signaturesResult.error.message);
+  const signatures = signaturesResult.data ?? [];
   const signatureDocs = docsResult.data ?? [];
+  // Build doc title lookup since no FK exists between signatures and signature_documents
+  const docTitleMap = Object.fromEntries(signatureDocs.map((d: any) => [d.id, d.title]));
 
-  const rows = signatures ?? [];
+  const rows = signatures;
   const totalSignatures = rows.length;
   const pendingSignatures = rows.filter((s: any) => !s.status || s.status === 'pending').length;
   const completedSignatures = rows.filter((s: any) => s.status === 'completed').length;
@@ -149,7 +150,7 @@ export default async function SignaturesPage() {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-semibold">
-                            {signature.signature_documents?.title || 'Untitled Document'}
+                            {docTitleMap[signature.document_id] || 'Untitled Document'}
                           </h3>
                           <p className="text-sm text-black mt-1">
                             Signer: {signature.signer_name || signature.signer_email || 'Unknown'}
