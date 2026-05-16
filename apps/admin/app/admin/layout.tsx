@@ -9,6 +9,7 @@ import { getLicenseAccessMode } from '@/lib/licensing/billing-authority';
 import { reconcileTrialOnboarding } from '@/lib/trial/reconcile-onboarding';
 import { withTimeout } from '@/lib/utils/withTimeout';
 import AdminNav from '@/components/admin/AdminNav';
+import { DEFAULT_NAV, isNavSections, type NavSection } from '@/lib/admin/nav-config';
 import { DemoTourProvider } from '@/components/demo/DemoTourProvider';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 import PWAManager from '@/components/PWAManager';
@@ -86,7 +87,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const adminRoles = ['super_admin'];
   if (!roleCheck || !adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
 
-  const [context, headerData] = await Promise.all([
+  const [context, headerData, navSections] = await Promise.all([
     withTimeout(getLicenseContext(user.id, db), 3000, 'getLicenseContext').catch(() => null),
     withTimeout(
       (async () => {
@@ -183,6 +184,25 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       userName: 'Admin',
       notifs: [] as import('@/components/admin/AdminNav').AdminNavNotif[],
     })),
+    // Nav config — non-critical, 1s timeout, falls back to DEFAULT_NAV
+    withTimeout(
+      (async (): Promise<NavSection[]> => {
+        const { data } = await db
+          .from('platform_settings')
+          .select('value')
+          .eq('key', 'ADMIN_NAV_SECTIONS_JSON')
+          .maybeSingle();
+        if (data?.value) {
+          try {
+            const parsed = JSON.parse(data.value);
+            if (isNavSections(parsed)) return parsed;
+          } catch { /* fall through */ }
+        }
+        return DEFAULT_NAV;
+      })(),
+      1000,
+      'adminNavConfig',
+    ).catch(() => DEFAULT_NAV),
   ]);
 
   // Reconcile trial onboarding — fire and forget
@@ -205,7 +225,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   const content = (
     <div className="min-h-screen bg-white text-slate-900">
-      <AdminNav userName={headerData.userName} notifs={headerData.notifs} />
+      <AdminNav userName={headerData.userName} notifs={headerData.notifs} navSections={navSections} />
       <IdleTimeoutGuard />
       <PWAManager />
       <UpdatePrompt />
