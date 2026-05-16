@@ -22,7 +22,7 @@ async function getCourseDetail(courseId: string) {
     .eq('id', courseId)
     .maybeSingle();
 
-  if (error) throw new Error(error.message);
+  if (error) { console.error('[inspect] course query failed', error.message); return null; }
   if (!course) return null;
 
   // course_lessons is the live source lms_lessons view reads from
