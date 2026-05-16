@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       expiration_date: body.expiration_date || null,
       notes: body.notes || null,
       status: 'draft',
-      created_by: auth.user.id,
+      created_by: auth.id,
     })
     .select('id')
     .maybeSingle();

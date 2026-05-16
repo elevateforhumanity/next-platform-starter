@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const provider = new URL(request.url).searchParams.get('provider');
-  logger.info(`[integrations] sync triggered for provider=${provider} by user=${auth.user.id}`);
+  logger.info(`[integrations] sync triggered for provider=${provider} by user=${auth.id}`);
 
   const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);

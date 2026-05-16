@@ -66,7 +66,7 @@ export async function POST(
       location: body.location || null,
       instructor_name: body.instructor_name || null,
       notes: body.notes || null,
-      created_by: auth.user.id,
+      created_by: auth.id,
     })
     .select()
     .maybeSingle();

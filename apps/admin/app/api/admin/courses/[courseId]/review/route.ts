@@ -72,11 +72,11 @@ export async function POST(
 
   if (action === 'submit') {
     update.submitted_for_review_at = now;
-    update.submitted_by = auth.user.id;
+    update.submitted_by = auth.id;
   }
   if (action === 'approve' || action === 'reject') {
     update.reviewed_at = now;
-    update.reviewed_by = auth.user.id;
+    update.reviewed_by = auth.id;
     update.review_notes = notes ?? null;
   }
 
@@ -89,7 +89,7 @@ export async function POST(
     action: action === 'revert_to_draft' ? 'reverted_to_draft' : action,
     from_status: currentStatus,
     to_status: to,
-    actor_id: auth.user.id,
+    actor_id: auth.id,
     notes: notes ?? null,
     created_at: now,
   });

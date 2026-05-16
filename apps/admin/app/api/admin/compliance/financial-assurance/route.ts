@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       effective_date: body.effective_date || null,
       expiration_date: body.expiration_date || null,
       notes: body.notes || null,
-      created_by: auth.user.id,
+      created_by: auth.id,
     })
     .select('id')
     .maybeSingle();

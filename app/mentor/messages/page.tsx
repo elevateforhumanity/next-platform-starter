@@ -20,7 +20,7 @@ export default async function MentorMessagesPage() {
     .select(
       'id, subject, body, created_at, read_at, sender_id, profiles:sender_id(full_name, avatar_url)',
     )
-    .eq('recipient_id', auth.user.id)
+    .eq('recipient_id', auth.id)
     .order('created_at', { ascending: false })
     .limit(50);
 

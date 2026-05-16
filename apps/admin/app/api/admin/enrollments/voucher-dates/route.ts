@@ -72,7 +72,7 @@ export async function PATCH(request: NextRequest) {
     (f) => (updates[f] ?? null) !== ((current as Record<string, string | null>)[f] ?? null),
   ).map((f) => ({
     enrollment_id,
-    changed_by: auth.user.id,
+    changed_by: auth.id,
     field_name: f,
     old_value: (current as Record<string, string | null>)[f] ?? null,
     new_value: updates[f] ?? null,

@@ -247,7 +247,7 @@ async function _POST(request: NextRequest) {
 
     await logAdminAudit({
       action: AdminAction.COURSE_DEFINITIONS_SYNCED,
-      actorId: auth.user.id,
+      actorId: auth.id,
       entityType: 'course_definitions',
       entityId: BULK_ENTITY_ID,
       metadata: {

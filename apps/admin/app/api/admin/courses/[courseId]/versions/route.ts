@@ -61,7 +61,7 @@ export async function POST(
     );
   }
 
-  const result = await publishCourse(db, courseId, auth.user.id);
+  const result = await publishCourse(db, courseId, auth.id);
   if (!result.ok) return safeError(result.error ?? 'Publish failed', 500);
 
   return NextResponse.json({ ok: true, version: result.version });
@@ -85,7 +85,7 @@ export async function PUT(
   const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
-  const result = await rollbackCourse(db, courseId, body.version, auth.user.id);
+  const result = await rollbackCourse(db, courseId, body.version, auth.id);
   if (!result.ok) return safeError(result.error ?? 'Rollback failed', 500);
 
   return NextResponse.json({ ok: true, rolledBackTo: result.rolledBackTo });

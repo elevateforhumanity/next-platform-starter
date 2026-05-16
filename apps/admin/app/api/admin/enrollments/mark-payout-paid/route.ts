@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
   const { data: profile } = await db
     .from('profiles')
     .select('role')
-    .eq('id', auth.user.id)
+    .eq('id', auth.id)
     .maybeSingle();
 
   if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     .from('program_enrollments')
     .update({
       payout_paid_date: now,
-      payout_paid_by: auth.user.id,
+      payout_paid_by: auth.id,
       payout_status: 'paid',
     })
     .eq('id', enrollment_id)
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
   // Audit entry
   await db.from('enrollment_voucher_audit').insert({
     enrollment_id,
-    changed_by: auth.user.id,
+    changed_by: auth.id,
     field_name: 'payout_status',
     old_value: 'pending',
     new_value: 'paid',

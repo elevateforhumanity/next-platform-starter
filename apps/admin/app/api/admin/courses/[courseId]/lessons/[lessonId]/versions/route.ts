@@ -56,7 +56,7 @@ export async function POST(
   const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
-  const result = await rollbackLesson(db, lessonId, body.version, auth.user.id);
+  const result = await rollbackLesson(db, lessonId, body.version, auth.id);
   if (!result.ok) return safeError(result.error ?? 'Rollback failed', 500);
 
   return NextResponse.json({ ok: true, rolledBackTo: result.rolledBackTo });

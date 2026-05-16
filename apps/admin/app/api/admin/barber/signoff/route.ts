@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       .insert({
         user_id,
         program_id: BARBER_PROGRAM_ID,
-        approved_by: auth.user.id,
+        approved_by: auth.id,
         signoff_type,
         module_number: module_number ?? null,
         hours_verified: hours_verified ?? null,
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
         hours_credited: hours_verified,
         source: 'instructor_manual',
         source_id: signoff.id,
-        credited_by: auth.user.id,
+        credited_by: auth.id,
         notes,
       });
     }

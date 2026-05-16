@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     key,
     value,
     updated_at: new Date().toISOString(),
-    updated_by: auth.user.id,
+    updated_by: auth.id,
   }));
 
   const { error } = await db.from('platform_settings').upsert(upserts, { onConflict: 'key' });

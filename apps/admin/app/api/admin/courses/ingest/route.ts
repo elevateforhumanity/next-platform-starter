@@ -124,7 +124,7 @@ async function _POST(request: Request) {
     try {
       const result = await saveCourseBlueprint(blueprint_override, {
         program_id: program_id || null,
-        created_by: auth.profile.id,
+        created_by: auth.id,
       });
 
       let videoQueueResult: Awaited<ReturnType<typeof queueCourseLessonVideos>> | null = null;
@@ -274,7 +274,7 @@ async function _POST(request: Request) {
     // Save draft to database
     const result = await saveCourseBlueprint(blueprint, {
       program_id: program_id || null,
-      created_by: auth.profile.id,
+      created_by: auth.id,
     });
 
     let videoQueueResult: Awaited<ReturnType<typeof queueCourseLessonVideos>> | null = null;

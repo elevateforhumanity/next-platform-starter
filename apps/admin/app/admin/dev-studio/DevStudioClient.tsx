@@ -1042,7 +1042,6 @@ function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
   const targets = config?.previewTargets ?? [];
   const [url, setUrl] = useState(defaultUrl);
   const [input, setInput] = useState(defaultUrl);
-  const [useWebContainer, setUseWebContainer] = useState(false);
   const [viewport, setViewport] = useState<'desktop' | 'mobile'>('desktop');
 
   // Sync default URL when config loads
@@ -1117,31 +1116,9 @@ function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
         </div>
       )}
 
-      {/* Toggle: standard preview vs WebContainer preview */}
-      <div className="flex-shrink-0 flex items-center gap-3 px-3 py-1.5 border-b" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
-        <button
-          onClick={() => setUseWebContainer(false)}
-          className="text-[11px] px-2 py-0.5 rounded transition-colors"
-          style={{ background: !useWebContainer ? '#0078d4' : 'transparent', color: !useWebContainer ? '#fff' : '#858585' }}
-        >
-          Preview
-        </button>
-        <button
-          onClick={() => setUseWebContainer(true)}
-          className="text-[11px] px-2 py-0.5 rounded transition-colors"
-          style={{ background: useWebContainer ? '#0078d4' : 'transparent', color: useWebContainer ? '#fff' : '#858585' }}
-        >
-          WebContainer
-        </button>
-      </div>
-
       {/* Viewport */}
       <div className="flex-1 min-h-0">
-        {useWebContainer ? (
-          <WebContainerPreview url={url} />
-        ) : (
-          <PreviewPanel url={url} />
-        )}
+        <PreviewPanel url={url} />
       </div>
     </div>
   );

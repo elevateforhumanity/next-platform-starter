@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     .insert({
       name: nameWithPrefix,
       key_hash: keyHash,
-      created_by: auth.user.id,
+      created_by: auth.id,
       is_active: true,
     })
     .select('id, name, created_at')

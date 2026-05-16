@@ -82,8 +82,8 @@ export async function POST(request: NextRequest) {
       quarter,
       fiscal_year: fiscalYear,
       status:      'running',
-      created_by:  auth.user.id,
-      exported_by: auth.user.id,
+      created_by:  auth.id,
+      exported_by: auth.id,
       started_at:  new Date().toISOString(),
     })
     .select()

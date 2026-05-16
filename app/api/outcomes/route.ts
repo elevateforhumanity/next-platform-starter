@@ -27,8 +27,8 @@ async function _GET(req: NextRequest) {
   const program_slug = searchParams.get('program_slug');
 
   // Students can only see their own outcomes
-  const isAdmin = ['admin', 'super_admin', 'staff'].includes(auth.profile?.role ?? '');
-  const userId = isAdmin && requestedUserId ? requestedUserId : auth.user.id;
+  const isAdmin = ['admin', 'super_admin', 'staff'].includes(auth.role ?? '');
+  const userId = isAdmin && requestedUserId ? requestedUserId : auth.id;
 
   let query = db
     .from('employment_outcomes')
@@ -74,8 +74,8 @@ async function _POST(req: NextRequest) {
   if (!db) return safeError('Service unavailable', 503);
 
   // Admins can record outcomes for any user; students record their own
-  const isAdmin = ['admin', 'super_admin', 'staff'].includes(auth.profile?.role ?? '');
-  const userId = isAdmin && body.user_id ? (body.user_id as string) : auth.user.id;
+  const isAdmin = ['admin', 'super_admin', 'staff'].includes(auth.role ?? '');
+  const userId = isAdmin && body.user_id ? (body.user_id as string) : auth.id;
 
   const { data, error } = await db
     .from('employment_outcomes')
@@ -88,7 +88,7 @@ async function _POST(req: NextRequest) {
       hourly_wage: body.hourly_wage ? parseFloat(body.hourly_wage as string) : null,
       start_date: (body.start_date as string) || null,
       notes: (body.notes as string) || null,
-      recorded_by: auth.user.id,
+      recorded_by: auth.id,
     })
     .select('id')
     .maybeSingle();

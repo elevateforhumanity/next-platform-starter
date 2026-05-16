@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       return safeError('Netlify deploy hook returned an error', 502);
     }
 
-    logger.info('[env-vars/deploy] Redeploy triggered', { userId: auth.user.id });
+    logger.info('[env-vars/deploy] Redeploy triggered', { userId: auth.id });
     return NextResponse.json({ triggered: true });
   } catch (err) {
     logger.error('[env-vars/deploy] Hook request failed', {

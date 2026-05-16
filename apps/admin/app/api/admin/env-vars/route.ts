@@ -402,7 +402,7 @@ export async function POST(req: NextRequest) {
   if (error) return safeDbError(error, 'Failed to save settings');
 
   await auditWrite(
-    auth.user.id,
+    auth.id,
     'upsert',
     rows.map((r) => r.key),
   );
@@ -431,7 +431,7 @@ export async function DELETE(req: NextRequest) {
 
   if (error) return safeDbError(error, 'Failed to delete setting');
 
-  await auditWrite(auth.user.id, 'delete', [key]);
+  await auditWrite(auth.id, 'delete', [key]);
 
   return NextResponse.json({ deleted: key });
 }

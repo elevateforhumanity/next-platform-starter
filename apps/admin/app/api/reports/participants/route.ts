@@ -91,7 +91,7 @@ async function _GET(request: NextRequest) {
 
     // ── Audit log ──────────────────────────────────────────────────────────
     await auditLog({
-      actor_user_id: auth.user.id,
+      actor_user_id: auth.id,
       action: 'VIEW_REPORT',
       entity: 'participant_report',
       metadata: { filters: { startDate, endDate, programId, funding, status }, row_count: count },

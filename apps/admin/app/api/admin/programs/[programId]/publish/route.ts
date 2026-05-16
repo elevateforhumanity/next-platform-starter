@@ -86,12 +86,12 @@ export async function POST(
   }
 
   // 3. Publish with snapshot
-  const result = await publishProgram(db, programId, auth.user.id);
+  const result = await publishProgram(db, programId, auth.id);
   if (!result.ok) return safeInternalError(new Error(result.error), 'Publish failed');
 
   db.from('audit_logs')
     .insert({
-      actor_id: auth.user.id,
+      actor_id: auth.id,
       action: 'publish',
       resource_type: 'program',
       resource_id: programId,

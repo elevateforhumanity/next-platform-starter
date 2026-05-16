@@ -129,7 +129,7 @@ async function _POST(request: Request) {
 
     // Log audit — fire and forget
     db.from('audit_logs').insert({
-      actor_id: auth.user.id,
+      actor_id: auth.id,
       actor_role: auth.profile.role,
       action: 'create',
       resource_type: 'student',

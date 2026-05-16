@@ -220,7 +220,7 @@ export async function POST(request: NextRequest) {
 
   logger.info('[generate-course] Starting generation', {
     courseName: body.courseName,
-    userId: auth.user.id,
+    userId: auth.id,
   });
 
   try {
@@ -275,7 +275,7 @@ export async function POST(request: NextRequest) {
     logger.info('[generate-course] Generation complete', {
       courseName: body.courseName,
       moduleCount: (blueprint.modules as unknown[]).length,
-      userId: auth.user.id,
+      userId: auth.id,
     });
 
     return NextResponse.json({

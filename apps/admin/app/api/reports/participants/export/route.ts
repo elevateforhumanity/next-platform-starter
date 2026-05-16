@@ -112,7 +112,7 @@ export async function GET(request: NextRequest) {
     const filename = `wioa-participants-${dateTag}.csv`;
 
     await auditLog({
-      actor_user_id: auth.user.id,
+      actor_user_id: auth.id,
       action: 'EXPORT_REPORT',
       entity: 'participant_report',
       metadata: {

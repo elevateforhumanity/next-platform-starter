@@ -71,7 +71,7 @@ export async function POST(
     );
   }
 
-  const result = await publishProgram(db, programId, auth.user.id);
+  const result = await publishProgram(db, programId, auth.id);
   if (!result.ok) return safeError(result.error ?? 'Publish failed', 500);
 
   return NextResponse.json({ ok: true, version: result.version });
@@ -95,7 +95,7 @@ export async function PUT(
   const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
-  const result = await rollbackProgram(db, programId, body.version, auth.user.id);
+  const result = await rollbackProgram(db, programId, body.version, auth.id);
   if (!result.ok) return safeError(result.error ?? 'Rollback failed', 500);
 
   return NextResponse.json({ ok: true, rolledBackTo: result.rolledBackTo });

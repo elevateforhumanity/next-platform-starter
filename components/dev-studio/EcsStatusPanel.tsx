@@ -25,6 +25,7 @@ interface EcsStatusData {
 const TASK_CONFIG: Record<string, { cpu: string; memory: string; port: number }> = {
   'elevate-lms-service':   { cpu: '4 vCPU', memory: '16 GB', port: 3000 },
   'elevate-admin-service': { cpu: '4 vCPU', memory: '16 GB', port: 3000 },
+  'elevate-studio':        { cpu: '1 vCPU', memory: '2 GB',  port: 8888 },
 };
 
 function StatusBadge({ healthy, status }: { healthy: boolean; status: string }) {

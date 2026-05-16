@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       funding_amount: body.funding_amount ? parseFloat(body.funding_amount) : null,
       notes: body.notes || null,
       status: 'pending',
-      created_by: auth.user.id,
+      created_by: auth.id,
     })
     .select('id')
     .maybeSingle();

@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
   if (!data) return safeError('SCORM package not found', 404);
 
   await db.from('audit_logs').insert({
-    user_id: auth.user.id,
+    user_id: auth.id,
     action: 'course_builder.scorm.linked',
     resource_type: 'scorm_packages',
     resource_id: scormPackageId,

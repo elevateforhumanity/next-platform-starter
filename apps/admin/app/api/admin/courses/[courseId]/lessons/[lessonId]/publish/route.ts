@@ -33,7 +33,7 @@ export async function POST(
   const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
-  const result = await publishLesson(db, lessonId, auth.user.id, body.change_summary);
+  const result = await publishLesson(db, lessonId, auth.id, body.change_summary);
 
   if (!result.ok) return safeError(result.error ?? 'Publish failed', 500);
 

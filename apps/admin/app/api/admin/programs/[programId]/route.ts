@@ -46,8 +46,8 @@ async function _PATCH(request: Request, { params }: { params: Promise<{ programI
     }
     const data = await updateProgram(programId, parsed.data);
     await auth.db.from('audit_logs').insert({
-      actor_id: auth.user.id,
-      actor_role: auth.profile.role,
+      actor_id: auth.id,
+      actor_role: auth.role,
       action: 'update',
       resource_type: 'program',
       resource_id: programId,
@@ -71,8 +71,8 @@ async function _DELETE(request: Request, { params }: { params: Promise<{ program
     if (!before) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     const data = await deleteProgram(programId);
     await auth.db.from('audit_logs').insert({
-      actor_id: auth.user.id,
-      actor_role: auth.profile.role,
+      actor_id: auth.id,
+      actor_role: auth.role,
       action: 'delete',
       resource_type: 'program',
       resource_id: programId,

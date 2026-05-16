@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
       confirmation_method:  method,
       confirmed_by_name:    body.confirmed_by_name   ?? null,
       confirmed_by_email:   body.confirmed_by_email  ?? null,
-      recorded_by:          auth.user.id,
+      recorded_by:          auth.id,
       notes:                notes.trim(),
       enrollment_date:      body.enrollment_date     ?? null,
       completion_date:      body.completion_date     ?? null,

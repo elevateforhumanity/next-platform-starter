@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
 
   const { data, error } = await db
     .from('media_assets')
-    .insert({ ...body, created_by: auth.user.id })
+    .insert({ ...body, created_by: auth.id })
     .select('id, org_id, storage_path, type, title')
     .single();
 

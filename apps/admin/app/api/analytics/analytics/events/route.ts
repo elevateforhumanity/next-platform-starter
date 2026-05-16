@@ -20,7 +20,7 @@ async function _POST(req: NextRequest) {
   const supabase = await requireAdminClient();
   const { tenantId, eventType, payload, path } = await req.json();
   // userId is always the authenticated user — never trust client-supplied userId
-  const userId = auth.user.id;
+  const userId = auth.id;
 
   if (!eventType || !tenantId) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });

@@ -36,7 +36,7 @@ export async function POST(
       // Call DB function — atomically approves + increments count
       const { error } = await db.rpc('approve_barber_practical', {
         p_submission_id: submissionId,
-        p_instructor_id: auth.user.id,
+        p_instructor_id: auth.id,
       });
       if (error) return safeDbError(error, 'Failed to approve practical');
     } else {
@@ -44,7 +44,7 @@ export async function POST(
         .from('barber_practical_submissions')
         .update({
           status: 'rejected',
-          reviewed_by: auth.user.id,
+          reviewed_by: auth.id,
           reviewed_at: new Date().toISOString(),
           rejection_reason: rejection_reason ?? 'Does not meet requirements',
         })

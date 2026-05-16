@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
   }
 
   const payload = Buffer.from(
-    JSON.stringify({ uid: auth.user.id, exp: Date.now() + TTL_MS }),
+    JSON.stringify({ uid: auth.id, exp: Date.now() + TTL_MS }),
   ).toString('base64url');
 
   const sig = createHmac('sha256', TOKEN_SECRET)

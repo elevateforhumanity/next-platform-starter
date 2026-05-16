@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
 
     await db.from('documents').insert([
       {
-        user_id: auth.user.id,
+        user_id: auth.id,
         title: `${body.businessName} Minority Certification Draft (DOCX)`,
         file_name: `${slug(body.businessName)}-minority-certification.docx`,
         document_type: 'minority_certification_docx',
@@ -194,7 +194,7 @@ export async function POST(request: NextRequest) {
         status: 'active',
       },
       {
-        user_id: auth.user.id,
+        user_id: auth.id,
         title: `${body.businessName} Minority Certification Draft (PDF)`,
         file_name: `${slug(body.businessName)}-minority-certification.pdf`,
         document_type: 'minority_certification_pdf',
@@ -225,7 +225,7 @@ export async function POST(request: NextRequest) {
     }
 
     await db.from('audit_logs').insert({
-      user_id: auth.user.id,
+      user_id: auth.id,
       action: 'certifications.minority.prefill.generated',
       resource_type: 'certifications.minority',
       resource_id: body.businessName,

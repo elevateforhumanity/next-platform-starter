@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { ProgramCreateSchema } from '@/lib/validators/course';
 import { createProgram, listPrograms } from '@/lib/db/courses';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -41,9 +42,10 @@ async function _POST(request: Request) {
     const data = await createProgram(parsed.data);
 
     // Log audit
-    await auth.supabase.from('audit_logs').insert({
-      actor_id: auth.user.id,
-      actor_role: auth.profile.role,
+    const db = await createClient();
+    await db.from('audit_logs').insert({
+      actor_id: auth.id,
+      actor_role: auth.role,
       action: 'create',
       resource_type: 'program',
       resource_id: data.id,

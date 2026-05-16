@@ -73,7 +73,7 @@ export async function POST(
   // Audit log — fire-and-forget
   db.from('audit_logs')
     .insert({
-      actor_id: auth.user.id,
+      actor_id: auth.id,
       action: 'publish_direct',
       resource_type: 'program',
       resource_id: programId,

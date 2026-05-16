@@ -36,7 +36,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ quizI
   //
   // If no ownership can be resolved, fail closed.
 
-  const isAdmin = auth.profile.role === 'admin' || auth.profile.role === 'super_admin';
+  const isAdmin = auth.role === 'admin' || auth.role === 'super_admin';
   let enrolled = isAdmin; // admins bypass enrollment check
 
   if (!enrolled) {

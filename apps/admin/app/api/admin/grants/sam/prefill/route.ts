@@ -246,7 +246,7 @@ export async function POST(request: NextRequest) {
       });
 
       await db.from('documents').insert({
-        user_id: auth.user.id,
+        user_id: auth.id,
         title: `${prefill.projectTitle} (SAM prefill DOCX)`,
         file_name: `${slug || 'sam-grant'}-prefill.docx`,
         document_type: 'grant_prefill_docx',
@@ -277,7 +277,7 @@ export async function POST(request: NextRequest) {
       });
 
       await db.from('documents').insert({
-        user_id: auth.user.id,
+        user_id: auth.id,
         title: `${prefill.projectTitle} (SAM prefill PDF)`,
         file_name: `${slug || 'sam-grant'}-prefill.pdf`,
         document_type: 'grant_prefill_pdf',
@@ -311,7 +311,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    await writeAudit(db, auth.user.id, 'grants.sam.prefill.generated', {
+    await writeAudit(db, auth.id, 'grants.sam.prefill.generated', {
       opportunityId: prefill.opportunityId,
       title: prefill.grantTitle,
       generatedCount: outputs.length,

@@ -1,15 +1,11 @@
 /**
- * GET  /api/admin/courses/[id]/quiz  — load quiz from metadata
- * PUT  /api/admin/courses/[id]/quiz  — save quiz back to metadata
- *
- * Quiz data lives in training_courses.metadata JSONB:
- *   { quiz_title, quiz_passing_score, quiz_questions: QuizQuestionBlueprint[] }
- *
- * This avoids the integer/UUID mismatch with the legacy quizzes table.
+ * GET  /api/admin/courses/[courseId]/quiz  — load quiz metadata
+ * PUT  /api/admin/courses/[courseId]/quiz  — disabled (quiz data moved to course_lessons)
  */
 
 import { NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { z } from 'zod';
 
@@ -31,24 +27,25 @@ const QuizSaveSchema = z.object({
 });
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ courseId: string }> },
 ) {
   const { courseId } = await params;
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const { data: course, error } = await auth.supabase
+  const db = await createClient();
+  const { data: course, error } = await db
     .from('courses')
     .select('metadata')
-    .eq('id', id)
+    .eq('id', courseId)
     .maybeSingle();
 
   if (error?.code === 'PGRST116')
     return NextResponse.json({ error: 'Course not found' }, { status: 404 });
   if (error) return NextResponse.json({ error: 'Database error' }, { status: 500 });
 
-  const meta = (course?.metadata || {}) as Record<string, any>;
+  const meta = (course?.metadata || {}) as Record<string, unknown>;
   return NextResponse.json({
     quiz_title: meta.quiz_title || 'Course Assessment',
     quiz_passing_score: meta.quiz_passing_score || 70,
@@ -60,7 +57,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ cour
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
-  const { courseId } = await params;
+  await params; // consume params
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
@@ -75,50 +72,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ cour
     );
   }
 
-  // Validate each question has correct_answer in options
-  for (const [qi, q] of parsed.data.quiz_questions.entries()) {
-    if (!q.options.includes(q.correct_answer)) {
-      return NextResponse.json(
-        {
-          error: `Question ${qi + 1}: correct answer "${q.correct_answer}" is not in the options list.`,
-        },
-        { status: 400 },
-      );
-    }
-  }
-
   // Quiz data is stored per-lesson in course_lessons.quiz_questions.
-  // Course-level quiz metadata is no longer supported.
   // Use PATCH /api/admin/lms/courses/[courseId]/lessons/[lessonId] to update quiz questions.
   return NextResponse.json(
-    {
-      error:
-        'LEGACY_SYSTEM_DISABLED: quiz data is stored in course_lessons.quiz_questions — update via lesson API',
-    },
+    { error: 'Quiz data is stored in course_lessons.quiz_questions — update via lesson API' },
     { status: 410 },
   );
-
-  // Load existing metadata to merge (preserve non-quiz keys)
-  const { data: existing } = await auth.supabase
-    .from('courses')
-    .select('metadata')
-    .eq('id', id)
-    .maybeSingle();
-
-  const existingMeta = (existing?.metadata || {}) as Record<string, any>;
-  const updatedMeta = {
-    ...existingMeta,
-    quiz_title: parsed.data.quiz_title,
-    quiz_passing_score: parsed.data.quiz_passing_score,
-    quiz_questions: parsed.data.quiz_questions,
-  };
-
-  const { error: updateError } = await auth.supabase
-    .from('courses')
-    .update({ metadata: updatedMeta, updated_at: new Date().toISOString() })
-    .eq('id', id);
-
-  if (updateError) return NextResponse.json({ error: 'Failed to save quiz' }, { status: 500 });
-
-  return NextResponse.json({ ok: true, question_count: parsed.data.quiz_questions.length });
 }

@@ -53,7 +53,7 @@ export async function POST(
       .update({
         status: newStatus,
         review_notes: reviewNotes ?? null,
-        reviewed_by: auth.user.id,
+        reviewed_by: auth.id,
         reviewed_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
