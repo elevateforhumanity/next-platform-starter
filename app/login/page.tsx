@@ -18,6 +18,11 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [linkEmail, setLinkEmail] = useState('');
+  const [linkSending, setLinkSending] = useState(false);
+  const [linkSent, setLinkSent] = useState(false);
+  const [linkError, setLinkError] = useState('');
+  const [showLinkForm, setShowLinkForm] = useState(false);
   const router = useRouter();
   const searchParams = useSafeSearchParams();
   // Support both 'next' and 'redirect' params for backward compatibility
@@ -94,6 +99,28 @@ function LoginForm() {
       setError(msg);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSendLink = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLinkSending(true);
+    setLinkError('');
+    try {
+      const redirectTo = next
+        ? `${window.location.origin}${next}`
+        : `${window.location.origin}/learner/dashboard`;
+      const res = await fetch('/api/auth/send-magic-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: linkEmail.trim(), redirectTo }),
+      });
+      if (!res.ok) throw new Error('Failed to send link');
+      setLinkSent(true);
+    } catch (err: any) {
+      setLinkError(err?.message || 'Could not send link. Please try again.');
+    } finally {
+      setLinkSending(false);
     }
   };
 
@@ -196,6 +223,64 @@ function LoginForm() {
               >
                 Sign up
               </Link>
+            </div>
+
+            {/* ── Magic link section ─────────────────────────────────── */}
+            <div className="mt-6 pt-6 border-t border-slate-200">
+              {!showLinkForm ? (
+                <button
+                  type="button"
+                  onClick={() => setShowLinkForm(true)}
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-100 transition-all text-sm"
+                >
+                  No password? Get a sign-in link →
+                </button>
+              ) : linkSent ? (
+                <div className="rounded-lg bg-green-50 border border-green-200 p-4 text-center">
+                  <p className="text-sm font-semibold text-green-800 mb-1">Check your email</p>
+                  <p className="text-sm text-green-700">
+                    A sign-in link was sent to <strong>{linkEmail}</strong>. Click it to log in instantly — no password needed.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => { setLinkSent(false); setLinkEmail(''); }}
+                    className="mt-3 text-xs text-green-600 underline"
+                  >
+                    Send to a different email
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSendLink} className="space-y-3">
+                  <p className="text-sm font-semibold text-slate-700">Get a sign-in link by email</p>
+                  <input
+                    type="email"
+                    required
+                    value={linkEmail}
+                    onChange={(e) => setLinkEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm"
+                  />
+                  {linkError && (
+                    <p className="text-sm text-brand-red-600">{linkError}</p>
+                  )}
+                  <div className="flex gap-2">
+                    <button
+                      type="submit"
+                      disabled={linkSending}
+                      className="flex-1 px-4 py-3 bg-brand-blue-600 text-white font-bold rounded-lg hover:bg-brand-blue-700 transition-all disabled:bg-slate-400 text-sm"
+                    >
+                      {linkSending ? 'Sending…' : 'Send link'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setShowLinkForm(false); setLinkError(''); }}
+                      className="px-4 py-3 border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 text-sm"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
 
             <div className="mt-8 pt-6 border-t border-slate-200">

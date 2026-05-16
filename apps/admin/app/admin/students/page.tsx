@@ -32,12 +32,12 @@ export default async function StudentsPage() {
   const { count: activeEnrollments } = await db
     .from('program_enrollments')
     .select('*', { count: 'exact', head: true })
-    .eq('status', 'active');
+    .eq('enrollment_state', 'active');
 
   const { count: completedEnrollments } = await db
     .from('program_enrollments')
     .select('*', { count: 'exact', head: true })
-    .eq('status', 'completed');
+    .eq('enrollment_state', 'completed');
 
   const weekAgo = new Date();
   weekAgo.setDate(weekAgo.getDate() - 7);

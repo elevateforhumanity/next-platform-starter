@@ -215,13 +215,130 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>
         break;
       }
 
+      case 'customer.subscription.updated': {
+        const subscription = event.data.object as Stripe.Subscription;
+        if (subscription.metadata?.program !== 'cosmetology-apprenticeship') break;
+        await supabase
+          .from('cosmetology_subscriptions')
+          .update({
+            status: subscription.status,
+            current_period_start: new Date((subscription as any).current_period_start * 1000).toISOString(),
+            current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
+            updated_at: new Date().toISOString(),
+          })
+          .eq('stripe_subscription_id', subscription.id);
+        logger.info(`[cosmetology/webhook] Subscription updated: ${subscription.id}`);
+        break;
+      }
+
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object as Stripe.Subscription;
+        if (subscription.metadata?.program !== 'cosmetology-apprenticeship') break;
+        await supabase
+          .from('cosmetology_subscriptions')
+          .update({
+            status: 'canceled',
+            payment_status: 'cancelled',
+            canceled_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          })
+          .eq('stripe_subscription_id', subscription.id);
+        logger.info(`[cosmetology/webhook] Subscription canceled: ${subscription.id}`);
+        break;
+      }
+
+      case 'invoice.paid': {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId = invoice.subscription as string;
+        if (!subscriptionId) break;
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        if (subscription.metadata?.program !== 'cosmetology-apprenticeship') break;
+
+        const { data: subRecord } = await supabase
+          .from('cosmetology_subscriptions')
+          .select('id, user_id, customer_email, customer_name, weeks_remaining, payment_status')
+          .eq('stripe_subscription_id', subscriptionId)
+          .maybeSingle();
+
+        if (subRecord) {
+          const newWeeksRemaining = Math.max(0, (subRecord.weeks_remaining ?? 1) - 1);
+          const fullyPaid = newWeeksRemaining === 0;
+          await supabase
+            .from('cosmetology_subscriptions')
+            .update({
+              weeks_remaining: newWeeksRemaining,
+              fully_paid: fullyPaid,
+              payment_status: fullyPaid ? 'paid_in_full' : 'active',
+              status: fullyPaid ? 'completed' : 'active',
+              last_payment_date: new Date().toISOString(),
+              next_payment_date: new Date((subscription as any).current_period_end * 1000).toISOString(),
+              failed_payment_at: null,
+              suspension_deadline: null,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', subRecord.id);
+
+          // Log to billing_events
+          await supabase.from('billing_events').insert({
+            event_type: 'invoice_paid',
+            stripe_invoice_id: invoice.id,
+            metadata: {
+              user_id: subRecord.user_id,
+              program: 'cosmetology-apprenticeship',
+              amount_paid: invoice.amount_paid,
+              weeks_remaining: newWeeksRemaining,
+            },
+          }).catch(() => {});
+        }
+
+        logger.info(`[cosmetology/webhook] Invoice paid: ${invoice.id}`);
+        break;
+      }
+
+      case 'invoice.payment_failed':
       case 'payment_intent.payment_failed': {
-        const pi = event.data.object as Stripe.PaymentIntent;
-        if (pi.metadata?.program !== 'cosmetology-apprenticeship') break;
-        logger.warn('[cosmetology/webhook] Payment failed', {
-          paymentIntentId: pi.id,
-          customerEmail: pi.receipt_email,
-        });
+        const failedObj = event.data.object as Stripe.Invoice | Stripe.PaymentIntent;
+        const failedCustomerId = 'customer' in failedObj
+          ? (typeof failedObj.customer === 'string' ? failedObj.customer : (failedObj.customer as any)?.id)
+          : undefined;
+        if (!failedCustomerId) break;
+
+        const { data: sub } = await supabase
+          .from('cosmetology_subscriptions')
+          .select('id, customer_email, payment_status, failed_payment_at')
+          .eq('stripe_customer_id', failedCustomerId)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (!sub) break;
+
+        const isFirstFailure = !sub.failed_payment_at &&
+          !['past_due', 'suspended', 'cancelled'].includes(sub.payment_status ?? '');
+
+        if (isFirstFailure) {
+          await supabase
+            .from('cosmetology_subscriptions')
+            .update({
+              payment_status: 'past_due',
+              failed_payment_at: new Date().toISOString(),
+              suspension_deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', sub.id);
+
+          try {
+            const { sendEmail } = await import('@/lib/email/sendgrid');
+            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            await sendEmail({
+              to: sub.customer_email!,
+              subject: '⚠️ Payment Failed — Action Required to Keep Your Enrollment',
+              html: `<div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif"><p style="font-size:18px;font-weight:bold;color:#dc2626">Your weekly tuition payment failed.</p><p>We were unable to charge your card for your Cosmetology Apprenticeship weekly payment.</p><p><strong>Update your payment method immediately:</strong></p><p style="margin:24px 0"><a href="${siteUrl}/learner/dashboard" style="background:#1d4ed8;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block">Update Payment Method →</a></p><p style="color:#dc2626;font-weight:bold">If not resolved within 7 days, your account will be suspended from logging hours.</p><p>Call <a href="tel:3173143757">(317) 314-3757</a> if you need help.</p><p>— Elevate for Humanity</p></div>`,
+            });
+          } catch { /* non-fatal */ }
+        }
+
+        logger.warn('[cosmetology/webhook] Payment failed', { failedCustomerId, isFirstFailure });
         break;
       }
 

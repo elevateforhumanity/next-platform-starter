@@ -101,6 +101,10 @@ export async function POST(request: NextRequest) {
         setup_fee_amount: amountPaidCents,
         weekly_payment_cents: defaultWeeklyAmountCents,
         weeks_remaining: PAYMENT_TERM_WEEKS,
+        full_tuition_amount: TUITION_CENTS / 100,
+        amount_paid_at_checkout: amountPaidCents / 100,
+        remaining_balance: Math.max(0, TUITION_CENTS - amountPaidCents) / 100,
+        fully_paid: amountPaidCents >= TUITION_CENTS,
       });
     } else if (!existingSub.stripe_customer_id) {
       await db

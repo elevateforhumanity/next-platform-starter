@@ -28,7 +28,7 @@ const _GET = withAuth(
         id,
         user_id,
         program_id,
-        status,
+        enrollment_state,
         funding_type,
         source,
         started_at,
@@ -43,7 +43,7 @@ const _GET = withAuth(
         query = query.eq('funding_type', fundingType);
       }
       if (status) {
-        query = query.eq('status', status);
+        query = query.eq('enrollment_state', status);
       }
 
       const { data, error } = await query.order('created_at', {

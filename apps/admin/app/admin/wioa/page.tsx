@@ -30,13 +30,11 @@ export default async function WioaPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
   const db = await requireAdminClient();
 
-  const soon = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-
-  const [participantsRes, approvedRes, pendingRes, expiringRes] = await Promise.all([
+  const [participantsRes, approvedRes, pendingRes] = await Promise.all([
     db
       .from('wioa_participants')
       .select(
-        'id, status, funding_amount, approved_at, expiration_date, student:profiles(full_name, email), program:programs(title)',
+        'id, first_name, last_name, email, eligibility_status, funding_source, household_size, annual_income, created_at',
         { count: 'exact' },
       )
       .order('created_at', { ascending: false })
@@ -44,16 +42,11 @@ export default async function WioaPage() {
     db
       .from('wioa_participants')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'approved'),
+      .eq('eligibility_status', 'approved'),
     db
       .from('wioa_participants')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'pending'),
-    db
-      .from('wioa_participants')
-      .select('*', { count: 'exact', head: true })
-      .lte('expiration_date', soon)
-      .gte('expiration_date', new Date().toISOString()),
+      .eq('eligibility_status', 'pending'),
   ]);
 
   if (participantsRes.error)
@@ -62,14 +55,12 @@ export default async function WioaPage() {
     throw new Error(`wioa_participants approved count failed: ${approvedRes.error.message}`);
   if (pendingRes.error)
     throw new Error(`wioa_participants pending count failed: ${pendingRes.error.message}`);
-  if (expiringRes.error)
-    throw new Error(`wioa_participants expiring count failed: ${expiringRes.error.message}`);
 
   const participants = participantsRes.data;
   const total = participantsRes.count;
   const approved = approvedRes.count;
   const pending = pendingRes.count;
-  const expiring = expiringRes.count;
+  const expiring = 0;
 
   return (
     <div className="min-h-screen bg-white">
@@ -180,19 +171,19 @@ export default async function WioaPage() {
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50">
                     <th className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Student
+                      Participant
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Program
+                      Funding Source
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       Status
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Funding
+                      Household
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Expires
+                      Enrolled
                     </th>
                     <th className="py-3 px-4" />
                   </tr>
@@ -202,23 +193,23 @@ export default async function WioaPage() {
                     <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-3.5 px-5">
                         <p className="font-semibold text-slate-900">
-                          {p.student?.full_name ?? '—'}
+                          {[p.first_name, p.last_name].filter(Boolean).join(' ') || '—'}
                         </p>
-                        <p className="text-xs text-slate-400">{p.student?.email ?? ''}</p>
+                        <p className="text-xs text-slate-400">{p.email ?? ''}</p>
                       </td>
-                      <td className="py-3.5 px-4 text-slate-600">{p.program?.title ?? '—'}</td>
+                      <td className="py-3.5 px-4 text-slate-600">{p.funding_source ?? '—'}</td>
                       <td className="py-3.5 px-4">
                         <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold ${STATUS_STYLES[p.status] ?? 'bg-slate-100 text-slate-600'}`}
+                          className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold ${STATUS_STYLES[p.eligibility_status] ?? 'bg-slate-100 text-slate-600'}`}
                         >
-                          {p.status ?? 'unknown'}
+                          {p.eligibility_status ?? 'unknown'}
                         </span>
                       </td>
                       <td className="py-3.5 px-4 text-slate-600">
-                        {p.funding_amount ? `$${Number(p.funding_amount).toLocaleString()}` : '—'}
+                        {p.household_size ? `${p.household_size} members` : '—'}
                       </td>
                       <td className="py-3.5 px-4 text-slate-500 text-xs">
-                        {p.expiration_date ? new Date(p.expiration_date).toLocaleDateString() : '—'}
+                        {p.created_at ? new Date(p.created_at).toLocaleDateString() : '—'}
                       </td>
                       <td className="py-3.5 px-4 text-right">
                         <Link

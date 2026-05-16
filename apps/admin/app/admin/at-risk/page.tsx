@@ -37,8 +37,8 @@ export default async function AtRiskPage() {
       .limit(50),
     db
       .from('program_enrollments')
-      .select('id, user_id, enrolled_at, status', { count: 'exact' })
-      .eq('status', 'active')
+      .select('id, user_id, enrolled_at, enrollment_state', { count: 'exact' })
+      .eq('enrollment_state', 'active')
       .lte('enrolled_at', inactive14)
       .order('enrolled_at', { ascending: true })
       .limit(50),

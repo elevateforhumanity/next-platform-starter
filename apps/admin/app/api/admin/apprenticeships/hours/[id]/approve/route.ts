@@ -27,32 +27,31 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   // Confirm the record exists and is not already approved
   const { data: existing, error: fetchError } = await db
-    .from('ojt_hours_log')
-    .select('id, approved')
+    .from('progress_entries')
+    .select('id, status')
     .eq('id', id)
     .maybeSingle();
 
-  if (fetchError) return safeInternalError(fetchError, 'Failed to fetch OJT hours log');
-  if (!existing) return safeError('OJT hours log not found', 404);
-  if (existing.approved) return safeError('Hours already approved', 409);
+  if (fetchError) return safeInternalError(fetchError, 'Failed to fetch progress entry');
+  if (!existing) return safeError('Progress entry not found', 404);
+  if (existing.status === 'verified') return safeError('Hours already approved', 409);
 
-  const { error: updateError } = await db
-    .from('ojt_hours_log')
-    .update({
-      approved: true,
-      approved_at: new Date().toISOString(),
-      approved_by: admin.id,
-    })
-    .eq('id', id);
+  // Use the admin_approve_progress_entries RPC which bypasses the partner-only trigger
+  const { data: count, error: rpcError } = await db
+    .rpc('admin_approve_progress_entries', {
+      p_ids: [id],
+      p_approver_id: admin.id,
+    });
 
-  if (updateError) return safeInternalError(updateError, 'Failed to approve OJT hours');
+  if (rpcError) return safeInternalError(rpcError, 'Failed to approve progress entry');
+  if (!count) return safeError('Progress entry not updated — may already be verified', 409);
 
-  logger.info('[admin/apprenticeships/hours/approve]', { logId: id, approvedBy: admin.id });
+  logger.info('[admin/apprenticeships/hours/approve]', { entryId: id, approvedBy: admin.id });
 
   await logAdminAudit({
     action: AdminAction.ENROLLMENT_UPDATED,
     actorId: admin.id,
-    entityType: 'ojt_hours_log',
+    entityType: 'progress_entries',
     entityId: id,
     metadata: { decision: 'approved' },
   });

@@ -241,21 +241,23 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .order('created_at', { ascending: true })
       .limit(10),
 
-    // Completed enrollments with no outcome — via participant_report view
-    // (program_enrollments has no outcome column; outcome_type is derived in the view)
+    // Completed enrollments with no outcome — participant_report view
+    // Live columns: id, user_id, program_id, email, program_title, enrollment_status,
+    // enrollment_state, first_name, last_name, program_slug
+    // (enrollment_id, full_name, funding_source, outcome_type do NOT exist in live view)
     db.from('participant_report')
-      .select('enrollment_id, full_name, email, program_title, funding_source, outcome_type')
-      .eq('outcome_type', 'none')
-      .not('enrollment_id', 'is', null)
-      .order('enrollment_id', { ascending: true })
+      .select('id, first_name, last_name, email, program_title, enrollment_state')
+      .eq('enrollment_state', 'completed')
+      .order('id', { ascending: true })
       .limit(10),
 
-    // Active enrollments missing funding source — via participant_report view
-    db.from('participant_report')
-      .select('enrollment_id, full_name, email, program_title, enrollment_status')
-      .in('enrollment_status', ['active', 'in_progress', 'enrolled'])
+    // Active enrollments missing funding — exclude apprenticeship programs (barber/cosmetology are self-pay by design)
+    db.from('program_enrollments')
+      .select('id, user_id, program_id, program_slug, enrollment_state, funding_source')
+      .in('enrollment_state', ['active', 'onboarding', 'enrolled'])
       .is('funding_source', null)
-      .order('enrollment_id', { ascending: true })
+      .not('program_slug', 'like', '%apprenticeship%')
+      .order('id', { ascending: true })
       .limit(10),
 
     // System health — runs in parallel with all other queries

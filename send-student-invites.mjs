@@ -5,8 +5,9 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const FROM = 'Elevate for Humanity <noreply@elevateforhumanity.org>';
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+const FROM = 'noreply@elevateforhumanity.org';
+const FROM_NAME = 'Elevate for Humanity';
 const REDIRECT_URL = 'https://www.elevateforhumanity.org/learner/dashboard';
 
 const students = [
@@ -36,13 +37,15 @@ for (const s of students) {
 
   const magicLink = link?.properties?.action_link;
 
-  // Send via Resend
+  // Send via SendGrid
   const body = {
-    from: FROM,
-    to: [email],
-    reply_to: 'info@elevateforhumanity.org',
+    personalizations: [{ to: [{ email }] }],
+    from: { email: FROM, name: FROM_NAME },
+    reply_to: { email: 'info@elevateforhumanity.org' },
     subject: 'Your Elevate Apprenticeship Portal — Sign In',
-    html: `
+    content: [{
+      type: 'text/html',
+      value: `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;background:#fff;">
   <img src="https://www.elevateforhumanity.org/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px;" />
   <h2 style="color:#1e293b;margin-bottom:8px;">Hi ${firstName},</h2>
@@ -62,21 +65,22 @@ for (const s of students) {
     Elevate for Humanity · Indianapolis, IN · <a href="https://www.elevateforhumanity.org" style="color:#94a3b8;">elevateforhumanity.org</a>
   </p>
 </div>`,
+    }],
   };
 
-  const res = await fetch('https://api.resend.com/emails', {
+  const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${RESEND_API_KEY}`,
+      'Authorization': `Bearer ${SENDGRID_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
   });
 
-  const result = await res.json();
-  if (res.ok) {
-    console.log(`✓ Sent to ${email} (${name}) — Resend ID: ${result.id}`);
+  if (res.status === 202) {
+    console.log(`✓ Sent to ${email} (${name})`);
   } else {
+    const result = await res.json().catch(() => ({}));
     console.error(`✗ Failed for ${email}: ${JSON.stringify(result)}`);
   }
 }

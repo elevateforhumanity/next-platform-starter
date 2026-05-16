@@ -33,7 +33,7 @@ export default async function EnrollmentSuccessPage() {
     const { data: byEmail } = await supabase
       .from('program_enrollments')
       .select('id, enrolled_at, status, program_id, user_id, programs(name, slug)')
-      .eq('contact_email', user.email || '')
+      .eq('email', user.email || '')
       .order('enrolled_at', { ascending: false })
       .maybeSingle();
     enrollment = byEmail;

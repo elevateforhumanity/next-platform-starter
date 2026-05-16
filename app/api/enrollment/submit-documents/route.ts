@@ -45,14 +45,16 @@ async function _POST(req: Request) {
       return failure('No pending enrollment found for document submission.');
     }
 
+    const now = new Date().toISOString();
+
     // Single scoped update — both fields in one write, scoped to verified enrollment id
     const { error } = await supabase
       .from('program_enrollments')
       .update({
-        documents_submitted_at: new Date().toISOString(),
+        documents_submitted_at: now,
         status: 'active',
         enrollment_state: 'active',
-        updated_at: new Date().toISOString(),
+        updated_at: now,
       })
       .eq('id', targetId)
       .eq('user_id', user.id); // ownership re-check on write
@@ -69,6 +71,13 @@ async function _POST(req: Request) {
         'Failed to record document submission. Please try again or call (317) 314-3757.',
       );
     }
+
+    // Mark onboarding complete on profile so dashboard doesn't loop back to orientation.
+    // Admin still controls actual LMS access via access_granted_at.
+    await supabase
+      .from('profiles')
+      .update({ onboarding_completed: true, updated_at: now })
+      .eq('id', user.id);
 
     return success({ program, enrollmentId: targetId });
   } catch (err: unknown) {

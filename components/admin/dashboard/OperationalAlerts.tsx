@@ -125,20 +125,23 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
         viewAllHref="/admin/reports/wioa"
       >
         {noOutcomeEnrollments.map((enr: any) => {
-          const id = enr.enrollment_id as string;
-          const name = enr.full_name || enr.email || id?.slice(0, 8) + '…';
+          const id = (enr.id ?? enr.enrollment_id) as string;
+          const name = enr.full_name ||
+            [enr.first_name, enr.last_name].filter(Boolean).join(' ') ||
+            enr.email ||
+            (id?.slice(0, 8) + '…');
           return (
             <AlertRow
               key={id}
               href={`/admin/enrollments/${id}`}
               label={name}
-              detail={`${enr.program_title ?? 'unknown program'} · no placement or credential`}
+              detail={`${enr.program_title ?? 'unknown program'} · no outcome recorded`}
             />
           );
         })}
       </AlertSection>
 
-      {/* Missing funding source */}
+      {/* Missing funding source — apprenticeship programs (barber, cosmetology) are self-pay by design and excluded */}
       <AlertSection
         icon={<DollarSign className="h-4 w-4 text-amber-600" />}
         title="Active enrollments — no funding source"
@@ -146,14 +149,17 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
         viewAllHref="/admin/reports/wioa?status=active"
       >
         {missingFundingEnrollments.map((enr: any) => {
-          const id = enr.enrollment_id as string;
-          const name = enr.full_name || enr.email || id?.slice(0, 8) + '…';
+          const id = (enr.id ?? enr.enrollment_id) as string;
+          const name = enr.full_name ||
+            [enr.first_name, enr.last_name].filter(Boolean).join(' ') ||
+            enr.email ||
+            (id?.slice(0, 8) + '…');
           return (
             <AlertRow
               key={id}
               href={`/admin/enrollments/${id}`}
               label={name}
-              detail={`${enr.program_title ?? 'unknown program'} · funding source not set`}
+              detail={`${enr.program_title ?? enr.program_slug ?? 'unknown program'} · funding source not set`}
             />
           );
         })}

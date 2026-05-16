@@ -1,0 +1,91 @@
+import { NextResponse } from 'next/server';
+import { getAdminClient } from '@/lib/supabase/admin';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { safeError } from '@/lib/api/safe-error';
+
+// PUBLIC ROUTE: unauthenticated users need this to sign in
+export async function POST(req: Request) {
+  const rateLimited = await applyRateLimit(req, 'auth');
+  if (rateLimited) return rateLimited;
+
+  const { email, redirectTo } = await req.json().catch(() => ({}));
+
+  if (!email || typeof email !== 'string' || !email.includes('@')) {
+    return safeError('Invalid email address', 400);
+  }
+
+  const db = await getAdminClient();
+
+  // Only generate a link for existing users — never create new accounts here
+  const { data: existing } = await db.auth.admin.listUsers();
+  const userExists = existing?.users?.some(
+    (u) => u.email?.toLowerCase() === email.trim().toLowerCase(),
+  );
+
+  if (!userExists) {
+    // Return success anyway — don't reveal whether the email exists
+    return NextResponse.json({ ok: true });
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const finalRedirect = redirectTo || `${siteUrl}/learner/dashboard`;
+
+  const { data: link, error: linkErr } = await db.auth.admin.generateLink({
+    type: 'magiclink',
+    email: email.trim(),
+    options: { redirectTo: finalRedirect },
+  });
+
+  if (linkErr || !link?.properties?.action_link) {
+    return safeError('Could not generate sign-in link', 500);
+  }
+
+  const magicLink = link.properties.action_link;
+  const firstName = email.split('@')[0];
+
+  const sgKey = process.env.SENDGRID_API_KEY;
+  if (!sgKey) {
+    return safeError('Email service not configured', 500);
+  }
+
+  const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${sgKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      personalizations: [{ to: [{ email: email.trim() }] }],
+      from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
+      reply_to: { email: 'info@elevateforhumanity.org' },
+      subject: 'Your sign-in link — Elevate for Humanity',
+      content: [
+        {
+          type: 'text/html',
+          value: `
+<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;background:#fff;">
+  <img src="https://www.elevateforhumanity.org/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px;" />
+  <h2 style="color:#1e293b;margin-bottom:8px;">Hi ${firstName},</h2>
+  <p style="color:#475569;font-size:15px;line-height:1.6;">
+    Here is your sign-in link for Elevate for Humanity. Click the button below to access your portal — no password needed.
+  </p>
+  <div style="margin:32px 0;">
+    <a href="${magicLink}" style="background:#dc2626;color:#fff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:bold;font-size:16px;display:inline-block;">
+      Sign In Now
+    </a>
+  </div>
+  <p style="color:#94a3b8;font-size:13px;">This link expires in 1 hour. If you didn't request this, you can safely ignore it.</p>
+  <hr style="border:none;border-top:1px solid #e2e8f0;margin:24px 0;" />
+  <p style="color:#94a3b8;font-size:12px;">Elevate for Humanity · Indianapolis, IN</p>
+</div>`,
+        },
+      ],
+    }),
+  });
+
+  if (res.status !== 202) {
+    return safeError('Failed to send email', 500);
+  }
+
+  return NextResponse.json({ ok: true });
+}
