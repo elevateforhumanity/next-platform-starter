@@ -13,14 +13,43 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/applicants': '/admin/applications',
   '/admin/leads': '/admin/crm/leads',
   '/admin/leads/new': '/admin/crm/leads/new',
+  // ── Admin dashboard aliases ──────────────────────────────────────────────
   '/admin/dashboard-enhanced':   '/admin/dashboard',
   '/admin/lms-dashboard':        '/admin/dashboard',
+  // ── Course / curriculum consolidation ────────────────────────────────────
   '/admin/course-generator':     '/admin/course-builder/generate',
   '/admin/syllabus-generator':   '/admin/course-builder/generate',
   '/admin/course-templates':     '/admin/course-builder/templates',
   '/admin/programs/builder':     '/admin/course-builder',
   '/admin/courses/generate':     '/admin/course-builder/generate',
   '/admin/courses/manage':       '/admin/courses',
+  '/admin/course-import':        '/admin/course-builder',
+  '/admin/quiz-builder':         '/admin/course-builder/assessments',
+  '/admin/career-courses':       '/admin/courses',
+  '/admin/external-courses':     '/admin/courses',
+  // ── Enrollment / student consolidation ───────────────────────────────────
+  '/admin/enrollment':           '/admin/enrollments',
+  '/admin/students':             '/admin/enrollments',
+  '/admin/applicants':           '/admin/applications',
+  // ── User / staff consolidation ───────────────────────────────────────────
+  '/admin/users':                '/admin/staff',
+  // ── CRM consolidation ────────────────────────────────────────────────────
+  '/admin/leads':                '/admin/crm/leads',
+  '/admin/contacts':             '/admin/crm/contacts',
+  '/admin/campaigns':            '/admin/crm/campaigns',
+  '/admin/email-marketing':      '/admin/crm/campaigns',
+  '/admin/social-media':         '/admin/crm/campaigns',
+  '/admin/marketing':            '/admin/crm',
+  // ── Compliance / licensing consolidation ─────────────────────────────────
+  '/admin/compliance-audit':     '/admin/compliance',
+  '/admin/license':              '/admin/licenses',
+  '/admin/license-requests':     '/admin/licenses',
+  // ── Analytics consolidation ──────────────────────────────────────────────
+  '/admin/progress':             '/admin/analytics/learning',
+  '/admin/completions':          '/admin/analytics/learning',
+  '/admin/outcomes':             '/admin/analytics',
+  // ── Media consolidation ──────────────────────────────────────────────────
+  '/admin/video-generator':      '/admin/media-studio',
 };
 
 // Webhook paths bypass auth — Stripe signature verification handles security.

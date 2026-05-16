@@ -1,12 +1,3 @@
-import AdminClientPage from '@/components/admin/AdminClientPage';
-import VideoGeneratorClient from './VideoGeneratorClient';
-
-export const dynamic = 'force-dynamic';
-
-export default function Page() {
-  return (
-    <AdminClientPage>
-      <VideoGeneratorClient />
-    </AdminClientPage>
-  );
-}
+import { redirect } from 'next/navigation';
+// Consolidated — redirects to canonical route.
+export default function Page() { redirect('/admin/media-studio'); }
