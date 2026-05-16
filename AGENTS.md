@@ -684,8 +684,9 @@ Do not tighten without replacing admin remediation and enrollment-management beh
 
 1. **Lab/assignment instructor sign-off UI** — `step_submissions` table is ready, UI not built
 2. **Accessibility (WCAG 2.1 AA)** — skip-nav, aria labels, focus styles, keyboard nav
-3. **JotForm webhook security** — add IP allowlist or HMAC check
-4. **RLS hardening (when ready)** — migrate `recordCheckpointAttempt` and `issueCertificateIfEligible` to learner-scoped access or `SECURITY DEFINER` RPCs, then apply `FORCE ROW SECURITY` on `checkpoint_scores` and `program_completion_certificates`
+3. **RLS hardening (when ready)** — migrate `recordCheckpointAttempt` and `issueCertificateIfEligible` to learner-scoped access or `SECURITY DEFINER` RPCs, then apply `FORCE ROW SECURITY` on `checkpoint_scores` and `program_completion_certificates`
+
+JotForm webhook auth is implemented via shared secret in the URL (`JOTFORM_WEBHOOK_SECRET`) with timing-safe comparison. JotForm does not support HMAC and does not publish a stable IP list, so the shared-secret approach is the canonical design.
 
 ---
 
