@@ -682,7 +682,7 @@ Do not tighten without replacing admin remediation and enrollment-management beh
 
 ## FUTURE TASKS
 
-1. **Accessibility (WCAG 2.1 AA)** — page-level audit of icon-only buttons, form label associations, and color-contrast across 1,486 pages. Foundations are in place: `<html lang="en">`, `SkipToContent` in root layout, `#main-content` landmark in all major layouts (PublicLayout, LmsAppShell, admin, mentor, case-manager, staff-portal), `*:focus-visible` styling, and `prefers-reduced-motion` handling. Next step is adding an automated axe-core CI gate so regressions are caught per-PR rather than swept in bulk.
+1. **Accessibility (WCAG 2.1 AA)** — foundations and automated CI gate are in place: `<html lang="en">`, `SkipToContent` in root layout, `#main-content` landmark in all major layouts (PublicLayout, LmsAppShell, admin, mentor, case-manager, staff-portal), `*:focus-visible` styling, and `prefers-reduced-motion` handling. Axe-core WCAG 2.1 AA scan runs on every PR via the `accessibility` job in `.github/workflows/compliance-gate.yml` (test source: `tests/e2e/accessibility.spec.ts`). Remaining work is page-by-page remediation as failures surface — not a bulk sweep.
 2. **RLS hardening (when ready)** — migrate `recordCheckpointAttempt` and `issueCertificateIfEligible` to learner-scoped access or `SECURITY DEFINER` RPCs, then apply `FORCE ROW SECURITY` on `checkpoint_scores` and `program_completion_certificates`
 
 Lab/assignment instructor sign-off UI is implemented: `apps/admin/app/instructor/submissions/`, `app/api/lms/submissions/review/route.ts`, migration `20260601000006_step_submissions_review_columns.sql`, with full audit trail via `competency_audit_log` and auto lesson_progress completion via the competency gate.
