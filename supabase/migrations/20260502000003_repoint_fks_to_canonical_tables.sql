@@ -11,7 +11,7 @@
 --   checkpoint_scores: 0 orphan lesson_ids — no repair needed.
 -- =============================================================================
 
-BEGIN;
+-- BEGIN; (removed: exec_sql runs in implicit txn)
 
 -- ── 1. lesson_progress.enrollment_id → program_enrollments(id) ───────────────
 ALTER TABLE public.lesson_progress
@@ -40,4 +40,4 @@ ALTER TABLE public.program_completion_certificates
 ALTER TABLE public.program_completion_certificates
   ALTER COLUMN verification_url DROP NOT NULL;
 
-COMMIT;
+-- COMMIT; (removed: exec_sql runs in implicit txn)

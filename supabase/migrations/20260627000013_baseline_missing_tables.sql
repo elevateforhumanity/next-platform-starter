@@ -242,10 +242,11 @@ SELECT
   p.email,
   pr.title                                                 AS program_title,
   pe.funding_source,
-  CASE
-    WHEN pe.status = 'completed' AND pe.outcome IS NULL THEN 'none'
-    ELSE COALESCE(pe.outcome, pe.status)
-  END                                                      AS outcome_type,
+  -- pe.outcome column does not exist on program_enrollments; fall back to status.
+  -- Original:
+  --   CASE WHEN pe.status = 'completed' AND pe.outcome IS NULL THEN 'none'
+  --        ELSE COALESCE(pe.outcome, pe.status) END AS outcome_type,
+  pe.status                                                AS outcome_type,
   pe.enrolled_at,
   pe.completed_at,
   pe.status

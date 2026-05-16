@@ -7,4 +7,4 @@
 -- Run in Supabase Dashboard → SQL Editor before deploying the UUID guard fixes.
 
 DELETE FROM public.applications
-WHERE id LIKE 'intake-%';
+WHERE id::text LIKE 'intake-%';

@@ -13,7 +13,7 @@
 -- Apply in Supabase Dashboard → SQL Editor.
 -- Safe to run multiple times (idempotent UPDATE with WHERE).
 
-begin;
+-- BEGIN; (removed: exec_sql runs in implicit txn)
 
 -- self-pay variants → self_pay
 update public.program_enrollments
@@ -38,7 +38,7 @@ set funding_source = 'unknown'
 where funding_source is null
    or trim(funding_source) = '';
 
-commit;
+-- COMMIT; (removed: exec_sql runs in implicit txn)
 
 -- Verify: run this after applying to confirm no unexpected values remain.
 -- select funding_source, count(*) from public.program_enrollments

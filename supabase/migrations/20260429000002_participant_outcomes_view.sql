@@ -11,7 +11,7 @@
 --
 -- Apply in Supabase Dashboard → SQL Editor before using the report endpoints.
 
-BEGIN;
+-- BEGIN; (removed: exec_sql runs in implicit txn)
 
 -- ── 1. Canonical enrollment status values ────────────────────────────────────
 -- Normalize the status column across program_enrollments.
@@ -170,4 +170,4 @@ $$;
 
 GRANT EXECUTE ON FUNCTION public.wioa_summary_metrics TO authenticated;
 
-COMMIT;
+-- COMMIT; (removed: exec_sql runs in implicit txn)

@@ -18,7 +18,7 @@
 -- Apply: Supabase Dashboard → SQL Editor
 -- Verify: run the queries at the bottom with SET ROLE anon / authenticated
 
-BEGIN;
+-- BEGIN; (removed: exec_sql runs in implicit txn)
 
 -- =========================================================
 -- 1. course_lessons — remove anon, require authenticated
@@ -201,7 +201,7 @@ DO $$ BEGIN CREATE POLICY "courses_service_role" ON public.courses
   USING (true)
   WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-COMMIT;
+-- COMMIT; (removed: exec_sql runs in implicit txn)
 
 -- =========================================================
 -- Post-migration verification queries

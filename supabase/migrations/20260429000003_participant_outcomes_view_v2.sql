@@ -11,7 +11,7 @@
 --   GET /api/reports/participants/export
 --   /admin/reports/wioa
 
-BEGIN;
+-- BEGIN; (removed: exec_sql runs in implicit txn)
 
 DROP VIEW IF EXISTS public.participant_report CASCADE;
 
@@ -157,4 +157,4 @@ $$;
 
 GRANT EXECUTE ON FUNCTION public.wioa_summary_metrics TO authenticated;
 
-COMMIT;
+-- COMMIT; (removed: exec_sql runs in implicit txn)

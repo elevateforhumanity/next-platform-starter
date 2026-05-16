@@ -16,7 +16,7 @@
 --   certification_audit_log    — immutable event log for every state transition
 -- =============================================================================
 
-BEGIN;
+-- BEGIN; (removed: exec_sql runs in implicit txn)
 
 -- ── 1. exam_fee_payments ──────────────────────────────────────────────────────
 -- Records the Stripe charge Elevate makes on behalf of the student.
@@ -273,5 +273,5 @@ DO $$ BEGIN
   END IF;
 END $$;
 
-COMMIT;
+-- COMMIT; (removed: exec_sql runs in implicit txn)
 
