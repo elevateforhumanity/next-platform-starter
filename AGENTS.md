@@ -293,9 +293,7 @@ The public LMS uses "Programs" (`/lms/programs`) while the authenticated app use
 
 **Canonical** (`lib/supabase/`): `server.ts`, `client.ts`, `admin.ts`, `public.ts`, `server-db.ts`, `static.ts`
 
-Import from `@/lib/supabase/*`. The following deprecated shims still have 78 active importers — do not add new imports from them:
-
-`lib/supabaseServer.ts`, `lib/supabase-server.ts`, `lib/supabaseAdmin.ts`, `lib/supabase-admin.ts`, `lib/supabaseClient.ts`, `lib/supabaseClients.ts`, `lib/supabase.ts`, `lib/supabase-lazy.ts`, `lib/supabase-api.ts`, `lib/getSupabaseServerClient.ts`
+Import from `@/lib/supabase/*`. All 10 deprecated root-level shims (`lib/supabaseServer.ts`, `lib/supabase-server.ts`, `lib/supabaseAdmin.ts`, `lib/supabase-admin.ts`, `lib/supabaseClient.ts`, `lib/supabaseClients.ts`, `lib/supabase.ts`, `lib/supabase-lazy.ts`, `lib/supabase-api.ts`, `lib/getSupabaseServerClient.ts`) were deleted in 2026-Q2. Do not re-introduce them.
 
 ### Rate Limiting
 
@@ -676,24 +674,21 @@ Do not tighten without replacing admin remediation and enrollment-management beh
 
 ## Remaining Technical Debt
 
-- ~1,521 `console.log` calls — use `import { logger } from '@/lib/logger'`
-- 78 files import from deprecated Supabase shims — migrate to `lib/supabase/*` gradually
-- `lib/rateLimit.ts` still exists (`@deprecated`, 0 active importers) — delete when confirmed
+- `console.log` calls remain in some non-runtime areas — prefer `import { logger } from '@/lib/logger'` for new code
 - `lib/curriculum/blueprints/prs.ts` may be superseded by `prs-indiana.ts` — verify
 - `app/api/auth/login/route.ts` — deprecated duplicate of `/api/auth/signin`
 - 8 certificate-related tables have no migration source — verify in Supabase Dashboard
 - `lib/mou-storage.ts` uses `createBrowserClient` in server context
-- `lib/storage/complianceEvidence.ts` uses deprecated `lib/supabase-api` shim
+- One migration requires superuser application: `20260417000013_documents_bucket_policies.sql` (`storage.objects` ownership)
 
 ---
 
 ## FUTURE TASKS
 
 1. **Lab/assignment instructor sign-off UI** — `step_submissions` table is ready, UI not built
-2. **Delete `lib/rateLimit.ts`** — confirm 0 importers, then delete
-3. **Accessibility (WCAG 2.1 AA)** — skip-nav, aria labels, focus styles, keyboard nav
-4. **JotForm webhook security** — add IP allowlist or HMAC check
-5. **RLS hardening (when ready)** — migrate `recordCheckpointAttempt` and `issueCertificateIfEligible` to learner-scoped access or `SECURITY DEFINER` RPCs, then apply `FORCE ROW SECURITY` on `checkpoint_scores` and `program_completion_certificates`
+2. **Accessibility (WCAG 2.1 AA)** — skip-nav, aria labels, focus styles, keyboard nav
+3. **JotForm webhook security** — add IP allowlist or HMAC check
+4. **RLS hardening (when ready)** — migrate `recordCheckpointAttempt` and `issueCertificateIfEligible` to learner-scoped access or `SECURITY DEFINER` RPCs, then apply `FORCE ROW SECURITY` on `checkpoint_scores` and `program_completion_certificates`
 
 ---
 
