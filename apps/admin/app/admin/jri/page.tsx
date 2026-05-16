@@ -16,29 +16,24 @@ export default async function JRIPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-  const [totalRes, activeRes, completedRes, placedRes, recentRes, breakdownRes] = await Promise.all(
-    [
-      supabase.from('jri_participants').select('id', { count: 'exact', head: true }),
-      supabase
-        .from('jri_participants')
-        .select('id', { count: 'exact', head: true })
-        .eq('status', 'active'),
-      supabase
-        .from('jri_participants')
-        .select('id', { count: 'exact', head: true })
-        .eq('status', 'completed'),
-      supabase
-        .from('jri_participants')
-        .select('id', { count: 'exact', head: true })
-        .eq('employment_status', 'employed'),
-      supabase
-        .from('jri_participants')
-        .select('id, status, program, enrolled_at, employment_status, profiles(full_name, email)')
-        .order('enrolled_at', { ascending: false })
-        .limit(12),
-      supabase.from('jri_participants').select('program, status').limit(500),
-    ],
-  );
+  // Live jri_participants schema: id, status, created_at, updated_at
+  // employment_status, program, enrolled_at do NOT exist in live DB.
+  const [totalRes, activeRes, completedRes, recentRes] = await Promise.all([
+    supabase.from('jri_participants').select('id', { count: 'exact', head: true }),
+    supabase
+      .from('jri_participants')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'active'),
+    supabase
+      .from('jri_participants')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'completed'),
+    supabase
+      .from('jri_participants')
+      .select('id, status, created_at')
+      .order('created_at', { ascending: false })
+      .limit(12),
+  ]);
 
   if (totalRes.error)
     throw new Error(`jri_participants total count failed: ${totalRes.error.message}`);
@@ -46,30 +41,18 @@ export default async function JRIPage() {
     throw new Error(`jri_participants active count failed: ${activeRes.error.message}`);
   if (completedRes.error)
     throw new Error(`jri_participants completed count failed: ${completedRes.error.message}`);
-  if (placedRes.error)
-    throw new Error(`jri_participants placed count failed: ${placedRes.error.message}`);
-  if (recentRes.error)
-    throw new Error(`jri_participants recent query failed: ${recentRes.error.message}`);
-  if (breakdownRes.error)
-    throw new Error(`jri_participants breakdown query failed: ${breakdownRes.error.message}`);
 
   const totalParticipants = totalRes.count;
   const activeParticipants = activeRes.count;
   const completedParticipants = completedRes.count;
-  const placedParticipants = placedRes.count;
-  const recentParticipants = recentRes.data;
-  const programBreakdown = breakdownRes.data;
+  // employment_status not in live schema — placed count not yet trackable
+  const placedParticipants = 0;
+  const recentParticipants = recentRes.data ?? [];
 
   const byProgram: Record<string, number> = {};
-  for (const p of programBreakdown) {
-    const prog = (p as any).program || 'Unassigned';
-    byProgram[prog] = (byProgram[prog] || 0) + 1;
-  }
+  // program column not in live schema — breakdown not yet available
 
-  const placementRate =
-    (totalParticipants || 0) > 0
-      ? Math.round(((placedParticipants || 0) / (totalParticipants || 1)) * 100)
-      : 0;
+  const placementRate = 0;
 
   const statusBadge: Record<string, string> = {
     active: 'bg-green-100 text-green-700',

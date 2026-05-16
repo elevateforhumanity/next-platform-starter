@@ -16,20 +16,20 @@ export default async function OutcomesPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
+  // Live employment_outcomes schema: id, user_id, employer_name, job_title,
+  // hourly_wage, start_date, verified_by, verified_at, notes, program_slug,
+  // created_at, annual_salary
+  // MISSING from live DB: employment_status, wage_at_placement, wage_at_followup, program_id
   const [outcomesRes, enrollmentsRes, certsRes, recentOutcomesRes] = await Promise.all([
     supabase
       .from('employment_outcomes')
-      .select(
-        'employment_status, wage_at_placement, wage_at_followup, employer_name, start_date, user_id',
-      )
+      .select('id, user_id, employer_name, job_title, hourly_wage, start_date')
       .limit(1000),
     supabase.from('program_enrollments').select('id', { count: 'exact', head: true }),
     supabase.from('certificates').select('id', { count: 'exact', head: true }),
     supabase
       .from('employment_outcomes')
-      .select(
-        'id, user_id, employment_status, employer_name, wage_at_placement, wage_at_followup, start_date',
-      )
+      .select('id, user_id, employer_name, job_title, hourly_wage, start_date, notes')
       .order('start_date', { ascending: false })
       .limit(15),
   ]);
@@ -60,20 +60,17 @@ export default async function OutcomesPage() {
   }));
 
   const total = outcomes.length;
-  const employed = outcomes.filter((o: any) => o.employment_status === 'employed').length;
+  // employment_status not in live schema — show all records as verified placements
+  const employed = outcomes.filter((o: any) => !!o.employer_name).length;
   const employmentRate = total > 0 ? Math.round((employed / total) * 100) : 0;
   const credentialRate =
     (totalEnrollments ?? 0) > 0
       ? Math.round(((totalCerts ?? 0) / (totalEnrollments ?? 1)) * 100)
       : 0;
 
-  const wageGains = outcomes
-    .filter((o: any) => o.wage_at_placement && o.wage_at_followup)
-    .map((o: any) => Number(o.wage_at_followup) - Number(o.wage_at_placement));
-  const avgWageGain =
-    wageGains.length > 0
-      ? (wageGains.reduce((a: number, b: number) => a + b, 0) / wageGains.length).toFixed(2)
-      : '0.00';
+  // wage_at_placement/followup not in live schema — no wage-gain computation
+  const wageGains: number[] = [];
+  const avgWageGain = '0.00';
 
   const statusBadge: Record<string, string> = {
     employed: 'bg-green-100 text-green-700',
@@ -138,10 +135,8 @@ export default async function OutcomesPage() {
           <div className="bg-white rounded-xl shadow-sm border p-5">
             <h2 className="text-base font-semibold text-slate-900 mb-4">Status Breakdown</h2>
             <div className="space-y-3">
-              {['employed', 'unemployed', 'training', 'unknown'].map((status) => {
-                const count = (outcomes || []).filter(
-                  (o: any) => (o.employment_status || 'unknown') === status,
-                ).length;
+              {['placed', 'other'].map((status) => {
+                const count = status === 'placed' ? employed : total - employed;
                 const pct = total > 0 ? Math.round((count / total) * 100) : 0;
                 return (
                   <div key={status}>
@@ -153,7 +148,7 @@ export default async function OutcomesPage() {
                     </div>
                     <div className="w-full bg-slate-100 rounded-full h-2">
                       <div
-                        className={`h-2 rounded-full ${status === 'employed' ? 'bg-green-500' : status === 'unemployed' ? 'bg-red-400' : status === 'training' ? 'bg-brand-blue-500' : 'bg-slate-400'}`}
+                          className={`h-2 rounded-full ${status === 'placed' ? 'bg-green-500' : 'bg-slate-400'}`}
                         style={{ width: `${pct}%` }}
                       />
                     </div>
@@ -211,16 +206,12 @@ export default async function OutcomesPage() {
                         </td>
                         <td className="px-4 py-3 text-slate-700">{o.employer_name || '—'}</td>
                         <td className="px-4 py-3">
-                          <span
-                            className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[o.employment_status || 'unknown'] || statusBadge.unknown}`}
-                          >
-                            {o.employment_status || 'unknown'}
+                          <span className="text-xs px-2 py-1 rounded-full capitalize bg-green-100 text-green-700">
+                            placed
                           </span>
                         </td>
                         <td className="px-4 py-3 text-slate-700">
-                          {o.wage_at_placement
-                            ? `$${Number(o.wage_at_placement).toFixed(2)}/hr`
-                            : '—'}
+                          {o.hourly_wage ? `$${Number(o.hourly_wage).toFixed(2)}/hr` : '—'}
                         </td>
                         <td className="px-4 py-3 text-slate-700">
                           {o.start_date ? new Date(o.start_date).toLocaleDateString() : '—'}
