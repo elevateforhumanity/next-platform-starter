@@ -682,9 +682,10 @@ Do not tighten without replacing admin remediation and enrollment-management beh
 
 ## FUTURE TASKS
 
-1. **Lab/assignment instructor sign-off UI** — `step_submissions` table is ready, UI not built
-2. **Accessibility (WCAG 2.1 AA)** — skip-nav, aria labels, focus styles, keyboard nav
-3. **RLS hardening (when ready)** — migrate `recordCheckpointAttempt` and `issueCertificateIfEligible` to learner-scoped access or `SECURITY DEFINER` RPCs, then apply `FORCE ROW SECURITY` on `checkpoint_scores` and `program_completion_certificates`
+1. **Accessibility (WCAG 2.1 AA)** — page-level audit of icon-only buttons, form label associations, and color-contrast across 1,486 pages. Foundations are in place: `<html lang="en">`, `SkipToContent` in root layout, `#main-content` landmark in all major layouts (PublicLayout, LmsAppShell, admin, mentor, case-manager, staff-portal), `*:focus-visible` styling, and `prefers-reduced-motion` handling. Next step is adding an automated axe-core CI gate so regressions are caught per-PR rather than swept in bulk.
+2. **RLS hardening (when ready)** — migrate `recordCheckpointAttempt` and `issueCertificateIfEligible` to learner-scoped access or `SECURITY DEFINER` RPCs, then apply `FORCE ROW SECURITY` on `checkpoint_scores` and `program_completion_certificates`
+
+Lab/assignment instructor sign-off UI is implemented: `apps/admin/app/instructor/submissions/`, `app/api/lms/submissions/review/route.ts`, migration `20260601000006_step_submissions_review_columns.sql`, with full audit trail via `competency_audit_log` and auto lesson_progress completion via the competency gate.
 
 JotForm webhook auth is implemented via shared secret in the URL (`JOTFORM_WEBHOOK_SECRET`) with timing-safe comparison. JotForm does not support HMAC and does not publish a stable IP list, so the shared-secret approach is the canonical design.
 
