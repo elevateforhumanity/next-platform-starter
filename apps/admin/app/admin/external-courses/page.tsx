@@ -1,3 +1,6 @@
-import { redirect } from 'next/navigation';
-// Consolidated — redirects to canonical route.
-export default function Page() { redirect('/admin/courses'); }
+import { permanentRedirect } from 'next/navigation';
+export const dynamic = 'force-dynamic';
+// Merged into /admin/courses — this route is an alias kept for backward compatibility.
+export default function Page() {
+  permanentRedirect('/admin/courses');
+}
