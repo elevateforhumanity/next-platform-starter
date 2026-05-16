@@ -910,32 +910,9 @@ function TerminalTab({
           </a>
         )}
       </div>
-      {/* Real xterm.js terminal — onCommand streams to /api/devstudio/execute */}
+      {/* Real xterm.js terminal — WebSocket → studio-shell ECS container */}
       <div className="flex-1 min-h-0">
-        <XTerminal
-          onCommand={async (cmd) => {
-            let output = '';
-            try {
-              const res = await fetch('/api/devstudio/execute', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ command: cmd }),
-              });
-              if (!res.ok) return `Error: ${res.status} ${res.statusText}`;
-              const reader = res.body?.getReader();
-              const decoder = new TextDecoder();
-              if (!reader) return 'No response stream';
-              while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                output += decoder.decode(value, { stream: true });
-              }
-            } catch (e) {
-              return `Error: ${e instanceof Error ? e.message : String(e)}`;
-            }
-            return output || '(no output)';
-          }}
-        />
+        <XTerminal />
       </div>
     </div>
   );

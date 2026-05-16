@@ -1,186 +1,159 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+/**
+ * XTerminal — real xterm.js terminal connected to the studio-shell ECS container.
+ *
+ * Connection flow:
+ *   1. POST /api/devstudio/shell-token  → short-lived HMAC token (60s TTL)
+ *   2. WebSocket upgrade to /api/devstudio/shell-ws with X-Studio-Token header
+ *      (custom Next.js server apps/admin/server.js proxies to ECS container)
+ *   3. Bidirectional PTY frames:
+ *        browser → shell: { type: 'input', data: string }
+ *                         { type: 'resize', cols: number, rows: number }
+ *                         { type: 'ping' }
+ *        shell → browser: { type: 'output', data: string }
+ *                         { type: 'exit', code: number }
+ *                         { type: 'pong' }
+ *                         { type: 'error', message: string }
+ *
+ * Falls back to a "not configured" message when STUDIO_SHELL_WS_URL is unset.
+ */
+
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 
-interface XTerminalProps {
-  onCommand: (cmd: string) => Promise<string>;
+// xterm must be client-side only
+const TerminalRenderer = dynamic(() => import('./XTerminalRenderer'), { ssr: false });
+
+export interface XTerminalProps {
+  onConnect?: () => void;
+  onDisconnect?: () => void;
 }
 
-// xterm must be client-only — no SSR
-export default function XTerminal({ onCommand }: XTerminalProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const termRef = useRef<any>(null);
-  const fitRef = useRef<any>(null);
+type Status = 'connecting' | 'connected' | 'disconnected' | 'error' | 'unconfigured';
 
-  useEffect(() => {
-    let term: any;
-    let fitAddon: any;
+export default function XTerminal({ onConnect, onDisconnect }: XTerminalProps) {
+  const [status, setStatus] = useState<Status>('connecting');
+  const [errorMsg, setErrorMsg] = useState('');
+  const wsRef = useRef<WebSocket | null>(null);
+  const pingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    async function init() {
-      const { Terminal } = await import('@xterm/xterm');
-      const { FitAddon } = await import('@xterm/addon-fit');
-      await import('@xterm/xterm/css/xterm.css');
+  const connect = useCallback(async () => {
+    setStatus('connecting');
+    setErrorMsg('');
 
-      term = new Terminal({
-        theme: {
-          background: '#0d1117',
-          foreground: '#e6edf3',
-          cursor: '#58a6ff',
-          selectionBackground: '#264f78',
-          black: '#484f58',
-          red: '#ff7b72',
-          green: '#3fb950',
-          yellow: '#d29922',
-          blue: '#58a6ff',
-          magenta: '#bc8cff',
-          cyan: '#39c5cf',
-          white: '#b1bac4',
-          brightBlack: '#6e7681',
-          brightRed: '#ffa198',
-          brightGreen: '#56d364',
-          brightYellow: '#e3b341',
-          brightBlue: '#79c0ff',
-          brightMagenta: '#d2a8ff',
-          brightCyan: '#56d4dd',
-          brightWhite: '#f0f6fc',
-        },
-        fontFamily: '"Cascadia Code", "Fira Code", "JetBrains Mono", monospace',
-        fontSize: 13,
-        lineHeight: 1.4,
-        cursorBlink: true,
-        cursorStyle: 'block',
-        scrollback: 5000,
-        allowTransparency: false,
-      });
-
-      fitAddon = new FitAddon();
-      term.loadAddon(fitAddon);
-
-      if (containerRef.current) {
-        term.open(containerRef.current);
-        fitAddon.fit();
+    // Step 1 — get short-lived token
+    let token: string;
+    try {
+      const res = await fetch('/api/devstudio/shell-token', { method: 'POST' });
+      if (res.status === 503) {
+        setStatus('unconfigured');
+        return;
       }
-
-      termRef.current = term;
-      fitRef.current = fitAddon;
-
-      // Welcome message
-      term.writeln('\x1b[1;34m╔══════════════════════════════════════╗\x1b[0m');
-      term.writeln('\x1b[1;34m║   Elevate Dev Studio Terminal        ║\x1b[0m');
-      term.writeln('\x1b[1;34m╚══════════════════════════════════════╝\x1b[0m');
-      term.writeln('');
-      term.writeln('\x1b[90mType any shell command. Powered by bash.\x1b[0m');
-      term.writeln('');
-
-      let currentLine = '';
-      const historyBuf: string[] = [];
-      let historyIdx = -1;
-
-      const prompt = () => {
-        term.write('\x1b[1;32m❯\x1b[0m \x1b[1;34m~/elevate-lms\x1b[0m \x1b[0m$ ');
-      };
-
-      prompt();
-
-      term.onKey(async ({ key, domEvent }: { key: string; domEvent: KeyboardEvent }) => {
-        const code = domEvent.keyCode;
-
-        if (domEvent.ctrlKey && key === 'c') {
-          term.writeln('^C');
-          currentLine = '';
-          prompt();
-          return;
-        }
-
-        if (domEvent.ctrlKey && key === 'l') {
-          term.clear();
-          prompt();
-          return;
-        }
-
-        if (code === 13) {
-          // Enter
-          term.writeln('');
-          const cmd = currentLine.trim();
-          currentLine = '';
-          historyIdx = -1;
-
-          if (!cmd) {
-            prompt();
-            return;
-          }
-
-          historyBuf.unshift(cmd);
-          if (historyBuf.length > 100) historyBuf.pop();
-
-          if (cmd === 'clear') {
-            term.clear();
-            prompt();
-            return;
-          }
-
-          term.write('\x1b[90m');
-          try {
-            const output = await onCommand(cmd);
-            const lines = output.split('\n');
-            for (const line of lines) {
-              term.writeln(line);
-            }
-          } catch (e: any) {
-            term.writeln(`\x1b[31mError: ${e.message}\x1b[0m`);
-          }
-          term.write('\x1b[0m');
-          prompt();
-        } else if (code === 8) {
-          // Backspace
-          if (currentLine.length > 0) {
-            currentLine = currentLine.slice(0, -1);
-            term.write('\b \b');
-          }
-        } else if (code === 38) {
-          // Arrow up — history
-          if (historyIdx < historyBuf.length - 1) {
-            historyIdx++;
-            const entry = historyBuf[historyIdx];
-            term.write('\r\x1b[K');
-            prompt();
-            term.write(entry);
-            currentLine = entry;
-          }
-        } else if (code === 40) {
-          // Arrow down — history
-          if (historyIdx > 0) {
-            historyIdx--;
-            const entry = historyBuf[historyIdx];
-            term.write('\r\x1b[K');
-            prompt();
-            term.write(entry);
-            currentLine = entry;
-          } else if (historyIdx === 0) {
-            historyIdx = -1;
-            term.write('\r\x1b[K');
-            prompt();
-            currentLine = '';
-          }
-        } else if (code >= 32) {
-          currentLine += key;
-          term.write(key);
-        }
-      });
-
-      // Resize observer
-      const ro = new ResizeObserver(() => fitAddon?.fit());
-      if (containerRef.current) ro.observe(containerRef.current);
-      return () => ro.disconnect();
+      if (!res.ok) {
+        setStatus('error');
+        setErrorMsg(`Auth failed (${res.status})`);
+        return;
+      }
+      const data = await res.json();
+      token = data.token;
+    } catch (e) {
+      setStatus('error');
+      setErrorMsg('Could not reach auth endpoint');
+      return;
     }
 
-    const cleanup = init();
-    return () => {
-      cleanup.then((fn) => fn?.());
-      termRef.current?.dispose();
-    };
-  }, [onCommand]);
+    // Step 2 — open WebSocket
+    const wsUrl = `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/api/devstudio/shell-ws`;
+    const ws = new WebSocket(wsUrl, ['studio-shell']);
+    ws.binaryType = 'arraybuffer';
 
-  return <div ref={containerRef} className="h-full w-full" style={{ background: '#0d1117' }} />;
+    // Attach token before upgrade fires (custom header via subprotocol trick)
+    // The server.js proxy reads X-Studio-Token from the upgrade request headers.
+    // Since browser WebSocket API doesn't support custom headers, we send the
+    // token as the first message immediately after open.
+    wsRef.current = ws;
+
+    ws.onopen = () => {
+      // Send token as first frame — server.js validates before forwarding
+      ws.send(JSON.stringify({ type: 'auth', token }));
+      setStatus('connected');
+      onConnect?.();
+
+      // Keepalive ping every 30s
+      pingRef.current = setInterval(() => {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify({ type: 'ping' }));
+        }
+      }, 30_000);
+    };
+
+    ws.onclose = () => {
+      setStatus('disconnected');
+      if (pingRef.current) clearInterval(pingRef.current);
+      onDisconnect?.();
+    };
+
+    ws.onerror = () => {
+      setStatus('error');
+      setErrorMsg('WebSocket connection failed');
+      if (pingRef.current) clearInterval(pingRef.current);
+    };
+  }, [onConnect, onDisconnect]);
+
+  useEffect(() => {
+    connect();
+    return () => {
+      if (pingRef.current) clearInterval(pingRef.current);
+      wsRef.current?.close(1001, 'Component unmounted');
+    };
+  }, [connect]);
+
+  if (status === 'unconfigured') {
+    return (
+      <div className="flex flex-col items-center justify-center h-full bg-[#0d1117] text-slate-400 gap-3 p-8">
+        <p className="text-sm font-mono">Studio shell not configured.</p>
+        <p className="text-xs text-slate-500 text-center max-w-sm">
+          Set <code className="text-slate-300">STUDIO_SHELL_WS_URL</code> and{' '}
+          <code className="text-slate-300">STUDIO_SHELL_SECRET</code> in SSM, then
+          deploy the studio ECS task.
+        </p>
+      </div>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="flex flex-col items-center justify-center h-full bg-[#0d1117] text-red-400 gap-3 p-8">
+        <p className="text-sm font-mono">{errorMsg || 'Connection error'}</p>
+        <button
+          onClick={connect}
+          className="text-xs px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  if (status === 'disconnected') {
+    return (
+      <div className="flex flex-col items-center justify-center h-full bg-[#0d1117] text-slate-400 gap-3 p-8">
+        <p className="text-sm font-mono">Shell disconnected.</p>
+        <button
+          onClick={connect}
+          className="text-xs px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700"
+        >
+          Reconnect
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <TerminalRenderer
+      ws={wsRef.current}
+      connecting={status === 'connecting'}
+    />
+  );
 }
