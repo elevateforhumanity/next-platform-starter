@@ -43,6 +43,7 @@ import { logger } from '@/lib/logger';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getAdminUrl } from '@/lib/utils/siteUrl';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -1368,6 +1369,17 @@ async function executeAction(
     }
 
     case 'build_courses': {
+      // Pre-flight: verify GITHUB_TOKEN is set before attempting the push
+      if (!process.env.GITHUB_TOKEN) {
+        write('\x1b[31m✗  GITHUB_TOKEN is not set\x1b[0m');
+        write('');
+        write('   To fix:');
+        write('   1. Generate a GitHub Personal Access Token with repo + workflow scopes');
+        write('      → https://github.com/settings/tokens/new');
+        write('   2. Add it to AWS SSM: /elevate/GITHUB_TOKEN');
+        write('   3. Redeploy the admin service to pick up the new secret');
+        break;
+      }
       write('⚙️  Building courses...');
       logger.info('[devstudio/execute] build_courses → POST /api/autopilots/build-courses');
       try {
@@ -1383,6 +1395,12 @@ async function executeAction(
         if (!res.ok) {
           write(`\x1b[31m✗  Build failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
           if (data.message) write(`   Detail: ${data.message}`);
+          if (res.status === 401) {
+            write('');
+            write('   GITHUB_TOKEN may be expired or missing repo/workflow scopes.');
+            write('   Regenerate at: https://github.com/settings/tokens/new');
+            write('   Then update SSM /elevate/GITHUB_TOKEN and redeploy.');
+          }
         } else {
           write(`\x1b[32m✓  Build complete\x1b[0m`);
           if (data.files_written) write(`   Files written: ${data.files_written}`);
@@ -1398,6 +1416,17 @@ async function executeAction(
 
     case 'deploy_autopilot': {
       const service = String(args.service ?? 'lms');
+      // Pre-flight: GITHUB_TOKEN is required to trigger GitHub Actions workflows
+      if (!process.env.GITHUB_TOKEN) {
+        write(`\x1b[31m✗  GITHUB_TOKEN is not set — cannot trigger ${service} deploy\x1b[0m`);
+        write('');
+        write('   To fix:');
+        write('   1. Generate a GitHub PAT with repo + workflow scopes');
+        write('      → https://github.com/settings/tokens/new');
+        write('   2. Add it to AWS SSM: /elevate/GITHUB_TOKEN');
+        write('   3. Redeploy the admin service to pick up the new secret');
+        break;
+      }
       write(`🚀  Triggering ${service} deploy...`);
       logger.info('[devstudio/execute] deploy_autopilot', { service });
       try {
@@ -1411,6 +1440,12 @@ async function executeAction(
         if (!res.ok) {
           write(`\x1b[31m✗  Deploy failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
           if (data.message) write(`   Detail: ${data.message}`);
+          if (res.status === 401) {
+            write('');
+            write('   GITHUB_TOKEN may be expired or missing workflow scope.');
+            write('   Regenerate at: https://github.com/settings/tokens/new');
+            write('   Then update SSM /elevate/GITHUB_TOKEN and redeploy.');
+          }
         } else {
           write(`\x1b[32m✓  Deploy triggered\x1b[0m`);
           if (data.run_url) write(`   GitHub Actions: ${data.run_url}`);
@@ -1914,7 +1949,10 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const baseUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
+  // All /api/admin/* routes live on the admin app, not the public LMS.
+  // In production: https://admin.elevateforhumanity.org
+  // In dev: http://localhost:3001 (or NEXT_PUBLIC_ADMIN_URL)
+  const baseUrl = getAdminUrl();
   const cookieHeader = req.headers.get('cookie') || '';
 
   const stream = new ReadableStream({

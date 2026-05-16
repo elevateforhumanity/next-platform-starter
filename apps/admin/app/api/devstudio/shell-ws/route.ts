@@ -24,8 +24,9 @@ const SHELL_WS_URL   = process.env.STUDIO_SHELL_WS_URL ?? '';
 const SHELL_SECRET   = process.env.STUDIO_SHELL_SECRET ?? '';
 
 export async function GET(request: NextRequest) {
-  // Rate-limit WebSocket upgrade attempts — each upgrade spawns a PTY process
-  const rateLimited = await applyRateLimit(request, 'strict');
+  // 'api' tier (60 req/min) — fails open when Redis is absent so the shell
+  // stays usable without Upstash configured. The real gate is apiRequireAdmin.
+  const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
   // Auth gate — only admin/super_admin reach the shell

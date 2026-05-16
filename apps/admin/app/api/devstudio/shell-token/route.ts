@@ -20,8 +20,10 @@ const TOKEN_SECRET = process.env.STUDIO_TOKEN_SECRET ?? process.env.STUDIO_SHELL
 const TTL_MS = 60_000;
 
 export async function POST(request: NextRequest) {
-  // Strict limit — token minting is the gateway to a real shell
-  const rateLimited = await applyRateLimit(request, 'strict');
+  // 'api' tier (60 req/min) — fails open when Redis is absent so the shell
+  // stays usable without Upstash configured. The real gate is apiRequireAdmin.
+  // 'strict' would fail closed (503) when Redis is unavailable.
+  const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(request);
