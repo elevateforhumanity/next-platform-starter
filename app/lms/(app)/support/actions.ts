@@ -10,8 +10,7 @@ export async function submitSupportRequest(formData: FormData) {
     data: { user },
     error: authError,
   } = await supabase.auth.getUser();
-  if (authError) throw new Error(`Auth failed: ${authError.message}`);
-  if (!user) return { error: 'Not authenticated' };
+  if (authError || !user) return { error: 'Not authenticated' };
 
   const subject = formData.get('subject') as string;
   const category = formData.get('category') as string;

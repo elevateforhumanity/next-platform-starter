@@ -86,9 +86,10 @@ function StatusPill({ verified, pending }: { verified: number; pending: number }
 
 export default async function ApprenticeCompetenciesPage() {
   const supabase = await createClient();
-  const _admin = await requireAdminClient();
+  let _admin: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
+  try { _admin = await requireAdminClient(); } catch { /* logged below */ }
   const db = _admin;
-  if (!db) throw new Error('Admin client failed to initialize');
+  if (!db) redirect('/lms/dashboard');
 
   if (!supabase) redirect('/login?redirect=/apprentice/competencies');
 

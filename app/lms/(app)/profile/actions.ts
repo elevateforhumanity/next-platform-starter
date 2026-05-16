@@ -10,8 +10,7 @@ export async function updateProfile(formData: FormData) {
     data: { user },
     error: authError,
   } = await supabase.auth.getUser();
-  if (authError) throw new Error(`Auth failed: ${authError.message}`);
-  if (!user) return { error: 'Not authenticated' };
+  if (authError || !user) return { error: 'Not authenticated' };
 
   const firstName = formData.get('first_name') as string;
   const lastName = formData.get('last_name') as string;
@@ -43,8 +42,7 @@ export async function updateProfilePhoto(formData: FormData) {
     data: { user },
     error: authError,
   } = await supabase.auth.getUser();
-  if (authError) throw new Error(`Auth failed: ${authError.message}`);
-  if (!user) return { error: 'Not authenticated' };
+  if (authError || !user) return { error: 'Not authenticated' };
 
   const file = formData.get('photo') as File;
   if (!file || file.size === 0) {
