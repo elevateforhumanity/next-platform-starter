@@ -10,10 +10,10 @@ import WIOAComplianceDashboard, {
 import { CoiValidator } from '@/components/admin/CoiValidator';
 import {
   getAllGuardrails,
-  getCriticalGuardrails,
   shouldAutoEnforce,
   type GuardrailPolicy,
 } from '@/lib/compliance/guardrails';
+import ComplianceItemsPanel from './ComplianceItemsPanel';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
@@ -29,16 +29,19 @@ export default async function CompliancePage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-  const { data: items, count: totalItems } = await supabase
-    .from('profiles')
-    .select('*', { count: 'exact' })
-    .order('created_at', { ascending: false })
-    .limit(50);
+  const { count: totalItems } = await supabase
+    .from('compliance_items')
+    .select('*', { count: 'exact', head: true });
 
-  const { count: activeItems } = await supabase
-    .from('profiles')
+  const { count: compliantItems } = await supabase
+    .from('compliance_items')
     .select('*', { count: 'exact', head: true })
-    .eq('status', 'active');
+    .eq('status', 'compliant');
+
+  const { count: nonCompliantItems } = await supabase
+    .from('compliance_items')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'non_compliant');
 
   // WIOA data — tables may not exist yet; all queries are safe-fallback
   const [wioaParticipants, wioaReports, wioaAlerts] = await Promise.all([
@@ -124,43 +127,22 @@ export default async function CompliancePage() {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-sm font-medium text-black mb-2">Total Items</h3>
+                <h3 className="text-sm font-medium text-slate-600 mb-2">Total Items</h3>
                 <p className="text-3xl font-bold text-brand-blue-600">{totalItems || 0}</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-sm font-medium text-black mb-2">Active</h3>
-                <p className="text-3xl font-bold text-brand-green-600">{activeItems || 0}</p>
+                <h3 className="text-sm font-medium text-slate-600 mb-2">Compliant</h3>
+                <p className="text-3xl font-bold text-brand-green-600">{compliantItems || 0}</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-sm font-medium text-black mb-2">Recent</h3>
-                <p className="text-3xl font-bold text-brand-blue-600">
-                  {items?.filter((i) => {
-                    const created = new Date(i.created_at);
-                    const weekAgo = new Date();
-                    weekAgo.setDate(weekAgo.getDate() - 7);
-                    return created > weekAgo;
-                  }).length || 0}
-                </p>
+                <h3 className="text-sm font-medium text-slate-600 mb-2">Non-Compliant</h3>
+                <p className="text-3xl font-bold text-brand-red-600">{nonCompliantItems || 0}</p>
               </div>
             </div>
 
-            {/* Data Display */}
+            {/* Compliance checklist — reads compliance_items via /api/compliance/items */}
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h2 className="text-2xl font-bold mb-4">Items</h2>
-              {items && items.length > 0 ? (
-                <div className="space-y-4">
-                  {items.map((item: any) => (
-                    <div key={item.id} className="p-4 border rounded-lg hover:bg-slate-50">
-                      <p className="font-semibold">{item.title || item.name || item.id}</p>
-                      <p className="text-sm text-black">
-                        {new Date(item.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-black text-center py-8">No items found</p>
-              )}
+              <ComplianceItemsPanel />
             </div>
           </div>
         </div>
