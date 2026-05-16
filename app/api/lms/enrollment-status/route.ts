@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-export const runtime = 'nodejs';
+import { resolveLatestEnrollment } from '@/lib/enrollment/resolver';
 
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/lms/enrollment-status?courseId=<uuid>
  *
  * Returns the current user's enrollment status for a course.
- * Reads from program_enrollments (canonical). Admin client bypasses RLS.
+ * Uses canonical enrollment resolver (program_enrollments + training_enrollments fallback).
  */
 export async function GET(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'api');
@@ -22,9 +23,7 @@ export async function GET(req: NextRequest) {
   }
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -32,7 +31,7 @@ export async function GET(req: NextRequest) {
   const admin = await requireAdminClient();
   const db = admin || supabase;
 
-  // Admins and super_admins are always treated as enrolled — bypass enrollment check.
+  // Admins bypass enrollment check
   if (admin) {
     const { data: profile } = await admin
       .from('profiles')
@@ -51,12 +50,7 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  // Resolve canonical courses UUID.
-  // The URL param may be a training_courses ID (legacy HVAC routes). In that
-  // case program_enrollments.course_id stores the canonical courses UUID, so
-  // a direct lookup with the raw param returns nothing.
-  // Resolution: if the param matches a courses row directly, use it. Otherwise
-  // look it up in training_courses and follow the slug to courses.
+  // Resolve canonical course UUID
   let resolvedCourseId = courseId;
   const { data: directCourse } = await db
     .from('courses')
@@ -65,7 +59,6 @@ export async function GET(req: NextRequest) {
     .maybeSingle();
 
   if (!directCourse) {
-    // Not a canonical courses UUID — try training_courses
     const { data: tc } = await db
       .from('training_courses')
       .select('id, slug')
@@ -83,65 +76,30 @@ export async function GET(req: NextRequest) {
 
   const resolvedProgramId = directCourse?.program_id ?? null;
 
-  // Primary lookup: by resolved canonical course_id
-  let { data: enrollment } = await db
-    .from('program_enrollments')
-    .select('id, status, enrollment_state, progress_percent, enrolled_at')
-    .eq('user_id', user.id)
-    .eq('course_id', resolvedCourseId)
-    .maybeSingle();
+  // Use canonical resolver to get latest enrollment
+  const enrollment = await resolveLatestEnrollment({
+    client: db,
+    userId: user.id,
+    prefer: 'program_enrollments',
+  });
 
-  // Fallback: some enrollments are stored against program_id only (no course_id).
-  if (!enrollment && resolvedProgramId) {
-    const { data: programEnrollment } = await db
-      .from('program_enrollments')
-      .select('id, status, enrollment_state, progress_percent, enrolled_at')
-      .eq('user_id', user.id)
-      .eq('program_id', resolvedProgramId)
-      .maybeSingle();
-    enrollment = programEnrollment;
-  }
+  // Check if enrolled in this specific course
+  const isEnrolledInCourse = 
+    enrollment &&
+    (enrollment.courseId === resolvedCourseId ||
+     (resolvedProgramId && enrollment.courseId === resolvedCourseId));
 
-  const isPendingFunding = enrollment?.enrollment_state === 'pending_funding_verification';
-  const effectiveStatus = isPendingFunding
-    ? 'pending_funding_verification'
-    : (enrollment?.status ?? null);
+  if (enrollment && isEnrolledInCourse) {
+    const isPendingFunding = enrollment.enrollmentState === 'pending_funding_verification';
+    const effectiveStatus = isPendingFunding ? 'pending_funding_verification' : enrollment.status;
+    const approved = !isPendingFunding && !['pending_approval', 'pending'].includes(enrollment.status);
 
-  const approved =
-    !!enrollment &&
-    !isPendingFunding &&
-    !['pending_approval', 'pending'].includes(enrollment?.status ?? '');
-
-  if (enrollment) {
     return NextResponse.json({
       enrolled: true,
       status: effectiveStatus,
-      enrollment_state: enrollment?.enrollment_state ?? null,
-      progress: enrollment?.progress_percent ?? 0,
+      enrollment_state: enrollment.enrollmentState,
+      progress: enrollment.progress,
       approved,
-    });
-  }
-
-  // Fallback: HVAC and other legacy students enrolled via training_enrollments
-  // (pre-dates program_enrollments). Check by user_id — no course_id join needed
-  // because training_enrollments.course_id maps to training_courses, not courses.
-  const { data: legacyEnrollment } = await db
-    .from('training_enrollments')
-    .select('status, approved_at, progress')
-    .eq('user_id', user.id)
-    .order('enrolled_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  if (legacyEnrollment) {
-    const legacyActive = !!legacyEnrollment.approved_at || legacyEnrollment.status === 'active';
-
-    return NextResponse.json({
-      enrolled: legacyActive,
-      status: legacyEnrollment.status ?? 'active',
-      enrollment_state: null,
-      progress: legacyEnrollment.progress ?? 0,
-      approved: legacyActive,
     });
   }
 

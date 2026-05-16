@@ -75,7 +75,6 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
 
 // Routes requiring authentication (any role).
 const AUTH_REQUIRED_ROUTES = [
-  '/student-portal/',
   '/lms/dashboard',
   '/lms/courses/',
   '/lms/programs/',
@@ -88,6 +87,7 @@ const AUTH_REQUIRED_ROUTES = [
   '/proctor/',
   '/proctor',
   '/learner/',
+  '/apprentice/',
   '/account/',
   '/my-dashboard',
   '/notifications',
@@ -102,7 +102,6 @@ const AUTH_REQUIRED_ROUTES = [
 const ONBOARDING_REQUIRED_ROUTES = [
   '/hub/',
   '/lms/',
-  '/student-portal/',
   '/my-courses',
   '/my-progress',
 ];

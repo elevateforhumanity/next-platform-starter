@@ -6,6 +6,7 @@ import { GraduationCap, Clock, FileText, Award, BookOpen, ArrowRight, Scissors }
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getNextRequiredAction } from '@/lib/enrollment/gate';
 import { getApprenticeshipRequiredHours } from '@/lib/compliance/apprenticeship';
+import { listUnifiedEnrollments, resolveLatestEnrollment } from '@/lib/enrollment/resolver';
 
 export const metadata: Metadata = {
   title: 'Apprentice Portal | Elevate For Humanity',
@@ -33,85 +34,21 @@ export default async function ApprenticePortalPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  // Get active enrollment — prefer training_enrollments (legacy), fall back to
-  // program_enrollments (canonical path for barber/cosmetology students enrolled
-  // via the Stripe webhook).
-  let enrollment: {
-    id: string | null;
-    status: string;
-    orientation_completed_at: string | null;
-    documents_submitted_at: string | null;
-    progress?: number;
-    course_id?: string | null;
-    programs?: { slug: string; name?: string; title?: string } | null;
-  } | null = null;
-
-  const { data: trainingEnrollment } = await supabase
-    .from('training_enrollments')
-    .select('*, programs(slug, name, title)')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  if (trainingEnrollment) {
-    enrollment = trainingEnrollment;
-  } else {
-    // Barber/cosmetology students are written to program_enrollments by the webhook.
-    const { data: progEnrollment } = await supabase
-      .from('program_enrollments')
-      .select('id, status, orientation_completed_at, documents_submitted_at, created_at, programs:program_id(slug, title)')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (progEnrollment) {
-      // Normalize to the same shape the rest of the page uses.
-      enrollment = {
-        id: progEnrollment.id,
-        status: progEnrollment.status,
-        orientation_completed_at: progEnrollment.orientation_completed_at ?? null,
-        documents_submitted_at: progEnrollment.documents_submitted_at ?? null,
-        course_id: null,
-        programs: Array.isArray(progEnrollment.programs)
-          ? progEnrollment.programs[0] ?? null
-          : (progEnrollment.programs as { slug: string; title?: string } | null),
-      };
-    }
-  }
+  const enrollment = await resolveLatestEnrollment({
+    client: supabase,
+    userId: user.id,
+    prefer: 'program_enrollments',
+  });
 
   // Get next required action based on real enrollment state
   const nextAction = enrollment ? getNextRequiredAction({
     status: enrollment.status,
-    orientation_completed_at: enrollment.orientation_completed_at,
-    documents_submitted_at: enrollment.documents_submitted_at,
-    program_slug: enrollment.programs?.slug,
+    orientation_completed_at: enrollment.orientationCompletedAt,
+    documents_submitted_at: enrollment.documentsSubmittedAt,
+    program_slug: enrollment.programSlug ?? undefined,
   }) : { label: 'Apply to a Program', href: '/programs', description: 'Start your journey' };
 
-  // Active programs list — pull from both tables and merge
-  const { data: trainingEnrollments } = await supabase
-    .from('training_enrollments')
-    .select('id, status, progress, course_id')
-    .eq('user_id', user.id)
-    .limit(5);
-
-  const { data: programEnrollments } = await supabase
-    .from('program_enrollments')
-    .select('id, status, programs:program_id(slug, title)')
-    .eq('user_id', user.id)
-    .limit(5);
-
-  const enrollments = [
-    ...(trainingEnrollments || []),
-    // Only include program_enrollments rows that don't already have a training_enrollments record
-    ...(trainingEnrollments && trainingEnrollments.length > 0 ? [] : (programEnrollments || []).map((pe) => ({
-      id: pe.id,
-      status: pe.status,
-      progress: 0,
-      course_id: null,
-    }))),
-  ];
+  const enrollments = await listUnifiedEnrollments(supabase, user.id, 5);
 
   // Hours source — barber/cosmetology students use hour_entries (approved).
   // Legacy students use attendance_hours linked to their training_enrollments row.
@@ -140,7 +77,7 @@ export default async function ApprenticePortalPage() {
     if (entryHours > 0) totalHours = entryHours;
   }
 
-  const programSlugForHours = enrollment?.programs?.slug ?? null;
+  const programSlugForHours = enrollment?.programSlug ?? null;
   const requiredHours = getApprenticeshipRequiredHours(programSlugForHours);
   const hoursProgressPercent = requiredHours
     ? Math.min((totalHours / requiredHours) * 100, 100)
@@ -240,7 +177,9 @@ export default async function ApprenticePortalPage() {
               {enrollments.map((enrollment) => (
                 <div key={enrollment.id} className="flex items-center justify-between p-4 bg-white rounded-lg">
                   <div>
-                    <p className="font-medium text-slate-900">Program #{enrollment.course_id}</p>
+                    <p className="font-medium text-slate-900">
+                      {enrollment.programTitle || (enrollment.courseId ? `Course ${enrollment.courseId}` : 'Program')}
+                    </p>
                     <p className="text-sm text-slate-600">Status: {enrollment.status}</p>
                   </div>
                   <div className="text-right">

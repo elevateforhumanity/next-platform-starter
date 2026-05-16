@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { canAccessRoute, getUnauthorizedRedirect } from '@/lib/auth/lms-routes';
+import { hasLmsAccess, resolveLatestEnrollment } from '@/lib/enrollment/resolver';
 import { LmsAppShell } from './LmsAppShell';
 
 export const dynamic = 'force-dynamic';
@@ -59,13 +60,11 @@ export default async function LmsAppLayout({ children }: { children: ReactNode }
   // Gate LMS access — students must have admin-granted access before entering the LMS.
   // access_granted_at is set by admin via /admin/enrollments grant-access action.
   if (profile?.role === 'student' && db) {
-    const { data: enrollment } = await db
-      .from('program_enrollments')
-      .select('access_granted_at, onboarding_completed_at')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    const enrollment = await resolveLatestEnrollment({
+      client: db,
+      userId: user.id,
+      prefer: 'program_enrollments',
+    });
 
     // Payment suspension check — barber apprentices with a suspended subscription
     // lose LMS access until payment is resolved.
@@ -86,23 +85,9 @@ export default async function LmsAppLayout({ children }: { children: ReactNode }
       }
     }
 
-    if (!enrollment?.access_granted_at) {
-      // Fallback: HVAC and other legacy students are enrolled via training_enrollments
-      // (pre-dates program_enrollments). approved_at serves the same gate role.
-      const { data: legacyEnrollment } = await db
-        .from('training_enrollments')
-        .select('approved_at, status')
-        .eq('user_id', user.id)
-        .order('enrolled_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-      const legacyActive = !!legacyEnrollment?.approved_at || legacyEnrollment?.status === 'active';
-
-      if (!legacyActive) {
-        // Not yet granted — send to student portal with pending state
-        redirect('/learner/dashboard?access=pending');
-      }
+    if (!hasLmsAccess(enrollment)) {
+      // Not yet granted — send learner to pending access state.
+      redirect('/learner/dashboard?access=pending');
     }
   }
 

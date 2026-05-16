@@ -880,9 +880,11 @@ const nextConfig = {
       { source: '/lms/my-courses', destination: '/lms/courses', permanent: true },
 
       // Student portal redirects
-      // Legacy student-portal is fully consolidated under /learner/dashboard
+      // Legacy student and student-portal trees are fully consolidated under /learner/dashboard
       { source: '/student-portal', destination: '/learner/dashboard', permanent: true },
       { source: '/student-portal/:path*', destination: '/learner/dashboard', permanent: true },
+      { source: '/student', destination: '/learner/dashboard', permanent: true },
+      { source: '/student/:path*', destination: '/learner/dashboard', permanent: true },
       // my-dashboard → canonical learner dashboard (legacy portal consolidation)
       { source: '/my-dashboard', destination: '/learner/dashboard', permanent: true },
       ...canonicalAliasRedirects,
@@ -956,9 +958,7 @@ const nextConfig = {
       { source: '/auth/verify-email', destination: '/verify-email', permanent: true },
 
       // ── STUDENT PORTAL DUPLICATES ──────────────────────────────────────────
-      // Canonical: /learner/dashboard  (my-dashboard already redirected above)
-      { source: '/student', destination: '/learner/dashboard', permanent: true },
-      { source: '/student/dashboard', destination: '/learner/dashboard', permanent: true },
+      // Canonical: /learner/dashboard  (all /student* aliases are consolidated above)
 
       // ── EMPLOYER DUPLICATES ────────────────────────────────────────────────
       // Canonical: /employer  (employer-portal/* already redirected above)
