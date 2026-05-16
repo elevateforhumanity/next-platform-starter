@@ -61,7 +61,7 @@ export default async function CountersignMouPage({ params, searchParams }: Props
 
     if (error) {
       redirect(
-        `/admin/program-holders/${id}/countersign-mou?error=${encodeURIComponent(error.message)}`,
+        `/admin/program-holders/${id}/countersign-mou?error=${encodeURIComponent('Failed to countersign MOU — check server logs')}`,
       );
     }
     redirect(

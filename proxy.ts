@@ -96,6 +96,15 @@ const AUTH_REQUIRED_ROUTES = [
   '/achievements',
   '/employer/',
   '/partner/',
+  // Routes that were manually guarding with redirect('/login') in page components
+  // Adding here so middleware catches them before the page renders (avoids double redirect)
+  '/tax',
+  '/documents',
+  '/license/onboarding',
+  '/schedule/select',
+  '/program-holder/',
+  '/partners/barbershop-apprenticeship/onboarding',
+  '/partner-learning/',
 ];
 
 // Routes requiring onboarding completion before access.

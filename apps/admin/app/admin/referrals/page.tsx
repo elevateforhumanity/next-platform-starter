@@ -85,7 +85,7 @@ export default async function ReferralsPage({
   if (error) {
     return (
       <div className="min-h-screen bg-white p-8">
-        <p className="text-red-600 font-medium">Failed to load referral pipeline: {error.message}</p>
+        <p className="text-red-600 font-medium">Failed to load referral pipeline — check server logs for details.</p>
       </div>
     );
   }

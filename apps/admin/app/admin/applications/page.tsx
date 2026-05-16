@@ -111,8 +111,7 @@ export default async function ApplicationsPage({
       <div className="p-8">
         <p className="text-red-600 font-semibold mb-2">Failed to load applications.</p>
         <p className="text-slate-500 text-sm mb-1">
-          Database error: <code className="px-1 bg-slate-100 rounded">{applicationsError.code}</code>{' '}
-          — {applicationsError.message}
+          Database error — check server logs for details.
         </p>
         <a href="/admin/applications" className="text-sm text-blue-600 underline">Retry</a>
       </div>
@@ -124,8 +123,7 @@ export default async function ApplicationsPage({
       <div className="p-8">
         <p className="text-red-600 font-semibold mb-2">Failed to load application counts.</p>
         <p className="text-slate-500 text-sm mb-1">
-          Database error: <code className="px-1 bg-slate-100 rounded">{countError.code}</code>{' '}
-          — {countError.message}
+          Database error — check server logs for details.
         </p>
         <a href="/admin/applications" className="text-sm text-blue-600 underline">Retry</a>
       </div>

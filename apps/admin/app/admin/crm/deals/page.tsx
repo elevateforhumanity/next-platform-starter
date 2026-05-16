@@ -83,7 +83,7 @@ export default async function DealsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
             <p className="text-red-700 font-medium">Failed to load deals</p>
-            <p className="text-red-500 text-sm mt-1">{error.message}</p>
+            <p className="text-red-500 text-sm mt-1">Check server logs for details.</p>
           </div>
         </div>
       )}
