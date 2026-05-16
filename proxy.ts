@@ -13,8 +13,14 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/applicants': '/admin/applications',
   '/admin/leads': '/admin/crm/leads',
   '/admin/leads/new': '/admin/crm/leads/new',
-  '/admin/dashboard-enhanced': '/admin/dashboard',
-  '/admin/lms-dashboard': '/admin/dashboard',
+  '/admin/dashboard-enhanced':   '/admin/dashboard',
+  '/admin/lms-dashboard':        '/admin/dashboard',
+  '/admin/course-generator':     '/admin/course-builder/generate',
+  '/admin/syllabus-generator':   '/admin/course-builder/generate',
+  '/admin/course-templates':     '/admin/course-builder/templates',
+  '/admin/programs/builder':     '/admin/course-builder',
+  '/admin/courses/generate':     '/admin/course-builder/generate',
+  '/admin/courses/manage':       '/admin/courses',
 };
 
 // Webhook paths bypass auth — Stripe signature verification handles security.
