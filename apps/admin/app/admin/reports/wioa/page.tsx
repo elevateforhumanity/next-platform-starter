@@ -35,6 +35,16 @@ interface WioaSummary {
   employer_sponsored: number;
 }
 
+// Beauty/barbershop programs are self-pay only — never WIOA/WRG eligible.
+const SELF_PAY_SLUGS = [
+  'barber', 'barber-2024', 'barber-apprenticeship',
+  'cosmetology', 'cosmetology-apprenticeship',
+  'esthetician', 'esthetician-apprenticeship',
+  'nail-technician', 'nail-technician-apprenticeship', 'nail-tech-apprenticeship',
+  'hair-stylist-nail-tech-apprenticeship', 'hair-stylist-esthetician-apprenticeship',
+  'beauty-career-educator',
+] as const;
+
 interface ParticipantRow {
   enrollment_id: string;
   full_name: string;
@@ -43,7 +53,6 @@ interface ParticipantRow {
   program_category: string;
   enrollment_status: string;
   funding_source: string | null;
-  workone_case_number: string | null;
   applied_at: string | null;
   completed_at: string | null;
   outcome_type: string;
@@ -51,7 +60,6 @@ interface ParticipantRow {
   job_title: string | null;
   hourly_wage: number | null;
   credential_received: boolean;
-  modality_preference: string | null;
 }
 
 // ── Filters ───────────────────────────────────────────────────────────────────
@@ -74,14 +82,18 @@ async function fetchWioaData(filters: Filters): Promise<{
 }> {
   const db = await requireAdminClient();
 
+  // Beauty/barbershop programs are self-pay — exclude from all WIOA reporting.
+  const excludeSlugs = `(${SELF_PAY_SLUGS.join(',')})`;
+
   // Try the unified view first
   let query = db
     .from('participant_report')
     .select(
       'enrollment_id,full_name,email,program_title,program_category,enrollment_status,' +
-        'funding_source,workone_case_number,applied_at,completed_at,outcome_type,' +
-        'employer_name,job_title,hourly_wage,credential_received,modality_preference',
+        'funding_source,applied_at,completed_at,outcome_type,' +
+        'employer_name,job_title,hourly_wage,credential_received',
     )
+    .not('program_slug', 'in', excludeSlugs)
     .order('applied_at', { ascending: false })
     .limit(500);
 
@@ -102,6 +114,7 @@ async function fetchWioaData(filters: Filters): Promise<{
          profiles!inner ( full_name, email ),
          programs ( title, category )`,
       )
+      .not('program_slug', 'in', excludeSlugs)
       .order('created_at', { ascending: false })
       .limit(500);
 
@@ -119,7 +132,6 @@ async function fetchWioaData(filters: Filters): Promise<{
       program_category: r.programs?.category ?? '—',
       enrollment_status: r.enrollment_state ?? r.status ?? '—',
       funding_source: null,
-      workone_case_number: null,
       applied_at: r.created_at,
       completed_at: r.completed_at,
       outcome_type: 'none',
@@ -127,7 +139,6 @@ async function fetchWioaData(filters: Filters): Promise<{
       job_title: null,
       hourly_wage: null,
       credential_received: false,
-      modality_preference: null,
     }));
 
     return { summary: null, participants, viewMissing: true };

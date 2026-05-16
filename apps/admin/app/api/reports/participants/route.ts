@@ -50,6 +50,9 @@ async function _GET(request: NextRequest) {
 
   const db = await requireAdminClient();
 
+  // Beauty/barbershop/nail/esthetician programs are self-pay — never WIOA/WRG eligible.
+  const SELF_PAY_SLUGS = '(barber,barber-2024,barber-apprenticeship,cosmetology,cosmetology-apprenticeship,esthetician,esthetician-apprenticeship,nail-technician,nail-technician-apprenticeship,nail-tech-apprenticeship,hair-stylist-nail-tech-apprenticeship,hair-stylist-esthetician-apprenticeship,beauty-career-educator)';
+
   try {
     // ── Summary metrics (single RPC call) ──────────────────────────────────
     const { data: summary, error: summaryErr } = await db.rpc('wioa_summary_metrics', {
@@ -68,6 +71,7 @@ async function _GET(request: NextRequest) {
     let query = db
       .from('participant_report')
       .select('*', { count: 'exact' })
+      .not('program_slug', 'in', SELF_PAY_SLUGS)
       .order('applied_at', { ascending: false })
       .range((page - 1) * perPage, page * perPage - 1);
 
@@ -82,7 +86,7 @@ async function _GET(request: NextRequest) {
     if (rowErr) {
       // View not yet applied — fall back to raw program_enrollments join
       logger.warn('participant_report view not found — falling back to raw query', rowErr);
-      return fallbackReport(db, { startDate, endDate, programId, funding, status, page, perPage });
+      return fallbackReport(db, { startDate, endDate, programId, funding, status, page, perPage, selfPaySlugs: SELF_PAY_SLUGS });
     }
 
     // ── Audit log ──────────────────────────────────────────────────────────
@@ -120,6 +124,7 @@ async function fallbackReport(
     status: string | null;
     page: number;
     perPage: number;
+    selfPaySlugs: string;
   },
 ) {
   const { page, perPage } = opts;
@@ -143,6 +148,7 @@ async function fallbackReport(
     `,
       { count: 'exact' },
     )
+    .not('program_slug', 'in', opts.selfPaySlugs)
     .order('created_at', { ascending: false })
     .range((page - 1) * perPage, page * perPage - 1);
 
