@@ -1,10 +1,22 @@
 // PUBLIC ROUTE: inbound JotForm webhook (authenticated by secret token in URL)
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
+
+/**
+ * Timing-safe equality for shared-secret comparison.
+ * Returns false on length mismatch without leaking timing.
+ */
+function safeSecretEqual(a: string, b: string): boolean {
+  const ab = Buffer.from(a, 'utf8');
+  const bb = Buffer.from(b, 'utf8');
+  if (ab.length !== bb.length) return false;
+  return timingSafeEqual(ab, bb);
+}
 
 /**
  * POST /api/webhooks/jotform?secret=<JOTFORM_WEBHOOK_SECRET>
@@ -41,7 +53,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 });
   }
 
-  if (!secret || secret !== expectedSecret) {
+  if (!secret || !safeSecretEqual(secret, expectedSecret)) {
     logger.warn('[jotform-webhook] Invalid or missing secret token');
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
