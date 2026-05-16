@@ -21,9 +21,8 @@ CREATE TABLE IF NOT EXISTS public.cosmetology_subscriptions (
   -- Subscription status
   -- pending_payment_method → active → cancelled / past_due / suspended
   status TEXT DEFAULT 'pending_payment_method',
-  payment_st
-  atus TEXT NOT NULL DEFAULT 'active'
-cxf    CHECK (payment_status IN ('active', 'past_due', 'suspended', 'cancelled', 'paid_in_full')),
+  payment_status TEXT NOT NULL DEFAULT 'active'
+    CHECK (payment_status IN ('active', 'past_due', 'suspended', 'cancelled', 'paid_in_full')),
 
   -- Payment details
   setup_fee_paid BOOLEAN DEFAULT false,
