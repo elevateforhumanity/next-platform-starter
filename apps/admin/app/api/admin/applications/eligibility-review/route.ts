@@ -70,7 +70,7 @@ export async function PATCH(req: NextRequest) {
     .update({
       reviewer_decision,
       reviewer_notes: reviewer_notes || null,
-      reviewer_name: auth.user?.email || 'admin',
+      reviewer_name: auth.email || 'admin',
       reviewed_at: now,
       enrollment_conditions: enrollment_conditions || [],
       condition_deadline: condition_deadline || null,

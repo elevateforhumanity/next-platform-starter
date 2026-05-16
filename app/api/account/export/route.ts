@@ -24,7 +24,7 @@ async function _GET(request: Request) {
 
     const auth = await apiAuthGuard(request as any);
     if (auth.error) return auth.error;
-    const email = auth.user?.email;
+    const email = auth.email;
 
     if (!email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
