@@ -261,11 +261,11 @@ export default function DevStudioClient() {
         fontFamily: "'JetBrains Mono','Fira Code','Cascadia Code',monospace",
         background: '#1e1e1e',
         color: '#cccccc',
-        // Keep studio in normal document flow under the admin header while still
-        // occupying the full visible viewport area across mobile/desktop.
-        position: 'relative',
-        height: 'calc(100dvh - 64px)',
-        minHeight: 'calc(100vh - 64px)',
+        // The segment layout (dev-studio/layout.tsx) cancels pt-16 and sets the
+        // container to 100dvh. The studio fills that container from the nav
+        // baseline (64px from top) down to the bottom of the viewport.
+        paddingTop: 64,
+        height: '100%',
       }}
     >
       {/* ── Title / menu bar ── */}

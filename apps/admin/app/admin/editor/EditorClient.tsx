@@ -293,7 +293,8 @@ export default function EditorClient() {
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
     <div
-      className="h-screen flex flex-col bg-[#0d1117] text-[#e6edf3] overflow-hidden"
+      className="flex flex-col bg-[#0d1117] text-[#e6edf3] overflow-hidden"
+      style={{ height: '100%', paddingTop: 64 }}
       style={{ fontFamily: '"Inter", system-ui, sans-serif' }}
     >
       {/* ── Top bar ── */}
