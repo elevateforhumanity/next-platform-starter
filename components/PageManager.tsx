@@ -4,7 +4,9 @@ import React from 'react';
 import { sanitizeHtml } from '@/lib/sanitize';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { createBrowserClient } from '@/lib/supabase/client';
+
+const supabase = createBrowserClient();
 
 interface Page {
   id: string;
