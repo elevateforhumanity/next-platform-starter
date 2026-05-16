@@ -6,10 +6,13 @@
  * Next.js normally.
  *
  * WebSocket upgrade path: /api/devstudio/shell-ws
- *   1. Validates X-Studio-Token header (set by the browser after the
- *      Next.js auth check issues a short-lived token).
- *   2. Opens a WebSocket connection to the studio-shell ECS container.
- *   3. Pipes frames bidirectionally.
+ *   1. Upgrades the browser connection immediately.
+ *   2. Waits for the first message frame: { type: 'auth', token: string }
+ *      (browsers cannot set custom headers on WebSocket upgrades, so the
+ *      short-lived HMAC token is sent as the first data frame instead).
+ *   3. Validates the token (HMAC-SHA256, 60s TTL).
+ *   4. Opens a WebSocket connection to the studio-shell ECS container.
+ *   5. Pipes all subsequent frames bidirectionally.
  *
  * The studio-shell container URL is set via STUDIO_SHELL_WS_URL env var
  * (ECS service discovery: ws://elevate-studio.local:8888).
@@ -18,24 +21,25 @@
 'use strict';
 
 const { createServer } = require('http');
-const { parse } = require('url');
-const next = require('next');
+const { parse }        = require('url');
+const next             = require('next');
 const { WebSocket, WebSocketServer } = require('ws');
+const crypto           = require('crypto');
 
 const dev  = process.env.NODE_ENV !== 'production';
 const port = parseInt(process.env.PORT ?? '3000', 10);
 
-const SHELL_WS_URL  = process.env.STUDIO_SHELL_WS_URL ?? '';
-const SHELL_SECRET  = process.env.STUDIO_SHELL_SECRET ?? '';
-const WS_PATH       = '/api/devstudio/shell-ws';
+const SHELL_WS_URL   = process.env.STUDIO_SHELL_WS_URL ?? '';
+const SHELL_SECRET   = process.env.STUDIO_SHELL_SECRET ?? '';
+const TOKEN_SECRET   = process.env.STUDIO_TOKEN_SECRET ?? SHELL_SECRET;
+const WS_PATH        = '/api/devstudio/shell-ws';
 
 const app    = next({ dev, dir: __dirname });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = createServer((req, res) => {
-    const parsedUrl = parse(req.url, true);
-    handle(req, res, parsedUrl);
+    handle(req, res, parse(req.url, true));
   });
 
   // ── WebSocket upgrade handler ─────────────────────────────────────────────
@@ -49,66 +53,78 @@ app.prepare().then(() => {
       return;
     }
 
-    // Validate the short-lived studio token issued by /api/devstudio/shell-token
-    const token = req.headers['x-studio-token'];
-    if (!token || !isValidToken(token)) {
-      socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
-      socket.destroy();
-      return;
-    }
-
-    const userId = getUserIdFromToken(token);
-
     if (!SHELL_WS_URL) {
       socket.write('HTTP/1.1 503 Service Unavailable\r\n\r\n');
       socket.destroy();
       return;
     }
 
+    // Upgrade the browser connection first — token arrives as the first
+    // message frame because browsers cannot set custom headers on WS upgrades.
     wss.handleUpgrade(req, socket, head, (browserWs) => {
-      // Connect to the shell container
-      const shellWs = new WebSocket(SHELL_WS_URL, {
-        headers: {
-          'x-studio-secret': SHELL_SECRET,
-          'x-user-id': userId,
-        },
-      });
-
-      shellWs.on('open', () => {
-        // Pipe browser → shell
-        browserWs.on('message', (data) => {
-          if (shellWs.readyState === WebSocket.OPEN) {
-            shellWs.send(data);
-          }
-        });
-
-        // Pipe shell → browser
-        shellWs.on('message', (data) => {
-          if (browserWs.readyState === WebSocket.OPEN) {
-            browserWs.send(data);
-          }
-        });
-
-        browserWs.on('close', () => shellWs.close());
-        shellWs.on('close', () => {
-          if (browserWs.readyState === WebSocket.OPEN) browserWs.close();
-        });
-
-        browserWs.on('error', () => shellWs.close());
-        shellWs.on('error', () => {
-          if (browserWs.readyState === WebSocket.OPEN) {
-            browserWs.send(JSON.stringify({ type: 'error', message: 'Shell connection lost' }));
-            browserWs.close();
-          }
-        });
-      });
-
-      shellWs.on('error', (err) => {
-        console.error('[studio-proxy] shell connection error:', err.message);
-        if (browserWs.readyState === WebSocket.OPEN) {
-          browserWs.send(JSON.stringify({ type: 'error', message: 'Could not connect to shell' }));
-          browserWs.close(1011, 'Shell unavailable');
+      // Wait for auth frame
+      browserWs.once('message', (rawData) => {
+        let token;
+        try {
+          const msg = JSON.parse(rawData.toString());
+          if (msg.type !== 'auth') throw new Error('expected auth frame');
+          token = msg.token;
+        } catch {
+          browserWs.close(4001, 'Expected auth frame');
+          return;
         }
+
+        if (!isValidToken(token)) {
+          browserWs.close(4003, 'Invalid or expired token');
+          return;
+        }
+
+        const userId = getUserIdFromToken(token);
+
+        // Connect to the shell container
+        const shellWs = new WebSocket(SHELL_WS_URL, {
+          headers: {
+            'x-studio-secret': SHELL_SECRET,
+            'x-user-id': userId,
+          },
+        });
+
+        shellWs.on('open', () => {
+          // Pipe browser → shell (all frames after the auth frame)
+          browserWs.on('message', (data) => {
+            if (shellWs.readyState === WebSocket.OPEN) {
+              shellWs.send(data);
+            }
+          });
+
+          // Pipe shell → browser
+          shellWs.on('message', (data) => {
+            if (browserWs.readyState === WebSocket.OPEN) {
+              browserWs.send(data);
+            }
+          });
+
+          browserWs.on('close', () => shellWs.close());
+          shellWs.on('close', () => {
+            if (browserWs.readyState === WebSocket.OPEN) browserWs.close();
+          });
+
+          browserWs.on('error', () => shellWs.close());
+          shellWs.on('error', () => {
+            if (browserWs.readyState === WebSocket.OPEN) {
+              browserWs.send(JSON.stringify({ type: 'error', message: 'Shell connection lost' }));
+              browserWs.close();
+            }
+          });
+        });
+
+        shellWs.on('error', (err) => {
+          console.error('[studio-proxy] shell connection error:', err.message);
+          if (browserWs.readyState === WebSocket.OPEN) {
+            browserWs.send(JSON.stringify({ type: 'error', message: 'Could not connect to shell' }));
+            browserWs.close(1011, 'Shell unavailable');
+          }
+        });
       });
     });
   });
@@ -122,10 +138,6 @@ app.prepare().then(() => {
 // Short-lived tokens are issued by /api/devstudio/shell-token (HMAC-SHA256,
 // 60s TTL). This avoids sending the Supabase session cookie over the WebSocket
 // upgrade request where cookie forwarding is unreliable.
-
-const crypto = require('crypto');
-const TOKEN_SECRET = process.env.STUDIO_TOKEN_SECRET ?? SHELL_SECRET;
-const TOKEN_TTL_MS = 60_000;
 
 function isValidToken(token) {
   try {

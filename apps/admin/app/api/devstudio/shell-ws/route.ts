@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
     const shellWs = new NodeWS(SHELL_WS_URL, {
       headers: {
         'x-studio-secret': SHELL_SECRET,
-        'x-user-id': auth.user?.id ?? 'unknown',
+        'x-user-id': auth.id ?? 'unknown',
       },
     });
 
