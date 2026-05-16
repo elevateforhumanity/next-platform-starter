@@ -42,22 +42,13 @@ export default async function JRIPage() {
   const totalParticipants = totalRes.count ?? 0;
   const activeParticipants = activeRes.count ?? 0;
   const completedParticipants = completedRes.count ?? 0;
-  // employment_status not in live schema — placed count not yet trackable
-  const placedParticipants = 0;
   const recentParticipants = recentRes.data ?? [];
 
-  const byProgram: Record<string, number> = {};
-  // program column not in live schema — breakdown not yet available
-
-  const placementRate = 0;
-
   const statusBadge: Record<string, string> = {
-    active: 'bg-green-100 text-green-700',
+    active:    'bg-green-100 text-green-700',
     completed: 'bg-brand-blue-100 text-brand-blue-700',
-    pending: 'bg-yellow-100 text-yellow-700',
+    pending:   'bg-yellow-100 text-yellow-700',
     withdrawn: 'bg-red-100 text-red-700',
-    employed: 'bg-green-100 text-green-700',
-    unemployed: 'bg-slate-100 text-slate-700',
   };
 
   return (
@@ -115,45 +106,38 @@ export default async function JRIPage() {
             <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center mb-3">
               <Briefcase className="w-5 h-5 text-purple-600" />
             </div>
-            <p className="text-2xl font-bold text-slate-900">{placedParticipants || 0}</p>
-            <p className="text-sm text-slate-700 mt-1">Employed</p>
-            <p className="text-xs text-slate-700 mt-0.5">{placementRate}% placement rate</p>
+            <p className="text-2xl font-bold text-slate-900">
+              {totalParticipants > 0
+                ? Math.round((completedParticipants / totalParticipants) * 100)
+                : 0}%
+            </p>
+            <p className="text-sm text-slate-700 mt-1">Completion Rate</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           <div className="bg-white rounded-xl shadow-sm border p-5">
-            <h2 className="text-base font-semibold text-slate-900 mb-4">Participants by Program</h2>
-            {Object.keys(byProgram).length > 0 ? (
-              <div className="space-y-3">
-                {Object.entries(byProgram)
-                  .sort(([, a], [, b]) => b - a)
-                  .map(([prog, count]) => {
-                    const pct =
-                      (totalParticipants || 0) > 0
-                        ? Math.round((count / (totalParticipants || 1)) * 100)
-                        : 0;
-                    return (
-                      <div key={prog}>
-                        <div className="flex justify-between text-sm mb-1">
-                          <span className="text-slate-900 truncate max-w-[160px]">{prog}</span>
-                          <span className="font-medium text-slate-900">
-                            {count} <span className="text-slate-700 font-normal">({pct}%)</span>
-                          </span>
-                        </div>
-                        <div className="w-full bg-slate-100 rounded-full h-2">
-                          <div
-                            className="h-2 rounded-full bg-brand-blue-500"
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            ) : (
-              <p className="text-slate-700 text-sm text-center py-4">No program data yet</p>
-            )}
+            <h2 className="text-base font-semibold text-slate-900 mb-4">Status Breakdown</h2>
+            <div className="space-y-3">
+              {[
+                { label: 'Active',    count: activeParticipants,    color: 'bg-green-500' },
+                { label: 'Completed', count: completedParticipants, color: 'bg-brand-blue-500' },
+                { label: 'Pending',   count: Math.max(0, totalParticipants - activeParticipants - completedParticipants), color: 'bg-yellow-400' },
+              ].map(({ label, count, color }) => {
+                const pct = totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0;
+                return (
+                  <div key={label}>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="text-slate-700">{label}</span>
+                      <span className="font-medium text-slate-900">{count} <span className="text-slate-500 font-normal">({pct}%)</span></span>
+                    </div>
+                    <div className="w-full bg-slate-100 rounded-full h-2">
+                      <div className={`h-2 rounded-full ${color}`} style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border">
@@ -170,65 +154,36 @@ export default async function JRIPage() {
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b">
                   <tr>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
-                      Participant
-                    </th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
-                      Program
-                    </th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
-                      Status
-                    </th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
-                      Employment
-                    </th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
-                      Enrolled
-                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase">ID</th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase">Status</th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase">Added</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
-                  {recentParticipants && recentParticipants.length > 0 ? (
+                  {recentParticipants.length > 0 ? (
                     recentParticipants.map((p: any) => (
                       <tr key={p.id} className="hover:bg-slate-50">
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 bg-brand-blue-100 rounded-full flex items-center justify-center">
+                            <div className="w-7 h-7 bg-brand-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
                               <User className="w-3.5 h-3.5 text-brand-blue-600" />
                             </div>
-                            <div>
-                              <p className="font-medium text-slate-900">
-                                {(p.profiles as any)?.full_name || 'Participant'}
-                              </p>
-                              <p className="text-xs text-slate-700">
-                                {(p.profiles as any)?.email || '—'}
-                              </p>
-                            </div>
+                            <span className="text-xs font-mono text-slate-500">{p.id.slice(0, 8)}…</span>
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-slate-700 text-xs">{p.program || '—'}</td>
                         <td className="px-4 py-3">
-                          <span
-                            className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.status] || 'bg-slate-100 text-slate-700'}`}
-                          >
+                          <span className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.status] || 'bg-slate-100 text-slate-700'}`}>
                             {p.status || 'pending'}
                           </span>
                         </td>
-                        <td className="px-4 py-3">
-                          <span
-                            className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.employment_status] || 'bg-slate-100 text-slate-700'}`}
-                          >
-                            {p.employment_status || '—'}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-slate-700 text-xs">
-                          {p.enrolled_at ? new Date(p.enrolled_at).toLocaleDateString() : '—'}
+                        <td className="px-4 py-3 text-slate-500 text-xs">
+                          {new Date(p.created_at).toLocaleDateString()}
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={5} className="px-4 py-8 text-center text-slate-700">
+                      <td colSpan={3} className="px-4 py-8 text-center text-slate-500">
                         No Job Ready Indy participants yet
                       </td>
                     </tr>

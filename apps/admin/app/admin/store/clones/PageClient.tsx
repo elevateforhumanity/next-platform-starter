@@ -71,10 +71,30 @@ export default function StoreBuilderPage() {
   };
 
   const publishProduct = async () => {
-    // Store product publishing is not yet implemented.
-    // /api/admin/programs/publish requires a programId and handles LMS programs,
-    // not store product listings. Wire this to a dedicated store API when built.
-    toast.error('Store product publishing is not yet available.');
+    setPublishing(true);
+    try {
+      const res = await fetch('/api/admin/store/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:        product.title,
+          description: product.description,
+          features:    product.features,
+          status:      'active',
+          pricing:     product.pricing,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || 'Publish failed');
+      } else {
+        toast.success(`Product published (ID: ${data.product.id})`);
+      }
+    } catch {
+      toast.error('Network error — try again');
+    } finally {
+      setPublishing(false);
+    }
   };
 
   return (
