@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
-
-import { createClient } from '@/lib/supabase/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { apiRequireAdmin } from '@/lib/admin/guards';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -9,37 +9,19 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(request: Request) {
+async function _GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
-  // Check if user is admin
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (profile?.role !== 'admin') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  // Use service-role client — compliance_items RLS may block user-session reads
+  const supabase = requireAdminClient();
 
   const { data: items, error } = await supabase
     .from('compliance_items')
-    .select(
-      `
-      *,
-      compliance_evidence(*)
-    `,
-    )
+    .select('*, compliance_evidence(*)')
     .order('category', { ascending: true })
     .order('title', { ascending: true });
 
@@ -50,28 +32,14 @@ async function _GET(request: Request) {
   return NextResponse.json({ items });
 }
 
-async function _PATCH(request: Request) {
+async function _PATCH(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
-  // Check if user is admin
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (profile?.role !== 'admin') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  const supabase = requireAdminClient();
 
   const { id, status } = await request.json();
 
@@ -92,10 +60,9 @@ async function _PATCH(request: Request) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 
-  // Log the compliance update
   await supabase.from('audit_logs').insert({
-    actor_id: user.id,
-    actor_email: user.email,
+    actor_id: auth.id,
+    actor_email: auth.email,
     action: 'compliance_item_updated',
     resource_type: 'compliance_item',
     resource_id: id,

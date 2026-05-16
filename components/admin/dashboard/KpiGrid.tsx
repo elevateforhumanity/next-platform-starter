@@ -130,7 +130,7 @@ function KpiCard({ card }: { card: KPICard }) {
 
 export function KpiGrid({ kpis }: { kpis: KPICard[] }) {
   return (
-    <section className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
+    <section className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
       {kpis.map((card) => (
         <KpiCard key={card.label} card={card} />
       ))}

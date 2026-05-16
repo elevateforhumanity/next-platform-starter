@@ -335,7 +335,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>
 
-        <div className="w-full px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6">
+        <div className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6">
 
         {/* Header */}
         <div className="mb-6">

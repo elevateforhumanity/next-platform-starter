@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -27,21 +28,20 @@ export const metadata: Metadata = {
 
 export default async function CompliancePage() {
   await requireRole(['admin', 'super_admin']);
+  // Use service-role client for compliance_items — RLS may block user-session reads
+  const db = requireAdminClient();
+  // Keep user-session client for WIOA/other tables that need RLS context
   const supabase = await createClient();
 
-  const { count: totalItems } = await supabase
-    .from('compliance_items')
-    .select('*', { count: 'exact', head: true });
-
-  const { count: compliantItems } = await supabase
-    .from('compliance_items')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'compliant');
-
-  const { count: nonCompliantItems } = await supabase
-    .from('compliance_items')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'non_compliant');
+  const [
+    { count: totalItems },
+    { count: compliantItems },
+    { count: nonCompliantItems },
+  ] = await Promise.all([
+    db.from('compliance_items').select('*', { count: 'exact', head: true }),
+    db.from('compliance_items').select('*', { count: 'exact', head: true }).eq('status', 'compliant'),
+    db.from('compliance_items').select('*', { count: 'exact', head: true }).eq('status', 'non_compliant'),
+  ]);
 
   // WIOA data — tables may not exist yet; all queries are safe-fallback
   const [wioaParticipants, wioaReports, wioaAlerts] = await Promise.all([
