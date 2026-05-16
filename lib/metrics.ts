@@ -3,18 +3,19 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 export async function getEtplMetrics() {
   const supabase = await requireAdminClient();
 
-  // Get apprentice counts by status
-  const { data: apprentices } = await supabase.from('apprentices').select('status');
+  // Apprenticeship enrollments live in program_enrollments, not the legacy `apprentices` table.
+  // Filter by program slugs that contain 'apprenticeship' to cover barber, cosmetology, etc.
+  const { data: enrollments } = await supabase
+    .from('program_enrollments')
+    .select('enrollment_state, program_slug')
+    .like('program_slug', '%apprenticeship%');
 
-  const total = apprentices?.length || 0;
-  const active = apprentices?.filter((d) => d.status === 'active').length || 0;
-  const completed = apprentices?.filter((d) => d.status === 'completed').length || 0;
-  const exited = apprentices?.filter((d) => d.status === 'exited').length || 0;
+  const total = enrollments?.length || 0;
+  const active = enrollments?.filter((e) => e.enrollment_state === 'active').length || 0;
+  const completed = enrollments?.filter((e) => e.enrollment_state === 'completed').length || 0;
+  const exited = enrollments?.filter((e) => e.enrollment_state === 'withdrawn').length || 0;
 
-  // Calculate retention rate
   const retention = total > 0 ? Math.round(((active + completed) / total) * 100) : 0;
-
-  // Calculate completion rate
   const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
 
   return {
