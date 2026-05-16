@@ -153,12 +153,16 @@ export default function CanonicalVideo({
         .catch(() => {});
     };
 
-    if (video.readyState >= 2) {
+    // readyState >= 1 means metadata is loaded — enough to call play() on most browsers.
+    // readyState >= 2 (HAVE_CURRENT_DATA) is the safer threshold but adds latency.
+    // We call play() immediately and let the browser buffer; it will fire canplay
+    // internally before rendering the first frame.
+    if (video.readyState >= 1) {
       startPlay(video);
     } else {
       const onReady = () => startPlay(video);
-      video.addEventListener('canplay', onReady, { once: true });
-      return () => video.removeEventListener('canplay', onReady);
+      video.addEventListener('loadedmetadata', onReady, { once: true });
+      return () => video.removeEventListener('loadedmetadata', onReady);
     }
   }, [autoPlayOnMount, reducedMotion, failed, src]);
 
@@ -233,7 +237,7 @@ export default function CanonicalVideo({
           fetchPriority={autoPlayOnMount ? 'high' : 'auto'}
           loading={autoPlayOnMount ? 'eager' : 'lazy'}
           decoding="async"
-          className={`${className} transition-opacity duration-700 ${
+          className={`${className} transition-opacity duration-300 ${
             playing && !ended
               ? 'opacity-0 pointer-events-none'
               : 'opacity-100'
@@ -256,7 +260,7 @@ export default function CanonicalVideo({
         <video
           ref={ref}
           src={src}
-          className={`${className} transition-opacity duration-700 ${playing && !ended ? 'opacity-100' : 'opacity-0'}`}
+          className={`${className} transition-opacity duration-300 ${playing && !ended ? 'opacity-100' : 'opacity-0'}`}
           muted
           playsInline
           loop={loop}

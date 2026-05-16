@@ -182,20 +182,4 @@ export const NAV_ITEMS: NavItem[] = [
     name: 'Apply',
     href: '/apply',
   },
-
-  // ── 8. My Learning — authenticated learner portal links ─────────────────────
-  // Admin links are intentionally excluded from the public nav. Admin users
-  // access admin.elevateforhumanity.org directly via their own bookmark/login.
-  {
-    id: 'dashboard',
-    name: 'My Learning',
-    href: '/lms',
-    subItems: [
-      { name: 'My Courses', href: '/lms/courses' },
-      { name: 'My Programs', href: '/lms/programs' },
-      { name: 'My Progress', href: '/lms/dashboard' },
-      { name: 'My Certificates', href: '/lms/certificates' },
-      { name: 'My Profile', href: '/lms/profile' },
-    ],
-  },
 ];

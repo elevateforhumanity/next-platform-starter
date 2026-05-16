@@ -198,9 +198,6 @@ export default function HeroVideo({
         style={{
           height: 'clamp(400px, 56vw, 780px)',
           backgroundColor: '#0f172a',
-          backgroundImage: posterImage ? `url(${posterImage})` : undefined,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
         }}
         aria-label={analyticsName ? `${analyticsName} hero video` : 'Hero video'}
       >
