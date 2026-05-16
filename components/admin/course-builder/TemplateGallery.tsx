@@ -323,15 +323,27 @@ export default function TemplateGallery() {
         if (!res.ok) throw new Error(data.error || 'Seeding failed');
         router.push(`/admin/course-builder/${data.courseId ?? ''}`);
       } else {
-        // Scaffold: generate a blank course structure
-        const res = await fetch('/api/admin/courses/generate', {
+        // Scaffold: generate structure from topic, then publish to get a courseId
+        const genRes = await fetch('/api/admin/courses/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ topic: template.name, template: template.id }),
+          body: JSON.stringify({
+            raw_text: `Create a ${template.name} course. ${template.tagline}`,
+            input_type: 'prompt',
+          }),
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Generation failed');
-        router.push(`/admin/course-builder/${data.courseId ?? ''}`);
+        const genData = await genRes.json();
+        if (!genRes.ok) throw new Error(genData.error || 'Generation failed');
+
+        // Publish the generated structure to get a real courseId
+        const pubRes = await fetch('/api/admin/courses/generate/publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ course: genData.course, is_published: false }),
+        });
+        const pubData = await pubRes.json();
+        if (!pubRes.ok) throw new Error(pubData.error || 'Failed to save course');
+        router.push(`/admin/course-builder/${pubData.courseId ?? ''}`);
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
