@@ -12,16 +12,14 @@ import {
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
 
-const XTerminal            = dynamic(() => import('@/components/dev-studio/XTerminal'),            { ssr: false });
-const DevContainerPanel    = dynamic(() => import('@/components/dev-studio/DevContainerPanel'),    { ssr: false });
-const DocumentsPanel       = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),       { ssr: false });
-const AIChat               = dynamic(() => import('@/components/dev-studio/AIChat'),               { ssr: false });
-const EcsStatusPanel       = dynamic(() => import('@/components/dev-studio/EcsStatusPanel'),       { ssr: false });
-const FileTree             = dynamic(() => import('@/components/dev-studio/FileTree'),             { ssr: false });
-const PreviewPanel         = dynamic(() => import('@/components/dev-studio/PreviewPanel'),         { ssr: false });
-const WebContainerPreview  = dynamic(() => import('@/components/dev-studio/WebContainerPreview'),  { ssr: false });
-const TerminalOutput       = dynamic(() => import('@/components/dev-studio/Terminal'),             { ssr: false });
-const CodeEditor           = dynamic<React.ComponentProps<typeof CodeEditorType>>(
+const XTerminal         = dynamic(() => import('@/components/dev-studio/XTerminal'),         { ssr: false });
+const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
+const DocumentsPanel    = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),    { ssr: false });
+const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
+const EcsStatusPanel    = dynamic(() => import('@/components/dev-studio/EcsStatusPanel'),    { ssr: false });
+const FileTree          = dynamic(() => import('@/components/dev-studio/FileTree'),          { ssr: false });
+const PreviewPanel      = dynamic(() => import('@/components/dev-studio/PreviewPanel'),      { ssr: false });
+const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   () => import('@/components/dev-studio/CodeEditor'),
   { ssr: false },
 );
@@ -807,7 +805,6 @@ function TerminalTab({
   ]);
   const [loading, setLoading] = useState<WorkflowKey | null>(null);
   const [activeRun, setActiveRun] = useState<RunStatus | null>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
   // Track the poll timeout so we can cancel it on unmount or new dispatch
   const pollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mountedRef = useRef(true);
@@ -819,8 +816,6 @@ function TerminalTab({
       if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
     };
   }, []);
-
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [lines]);
 
   function schedulePoll(runId: number, attempt = 0) {
     const MAX_ATTEMPTS = 60; // ~8 min at 8s intervals
@@ -915,9 +910,32 @@ function TerminalTab({
           </a>
         )}
       </div>
-      {/* Output log — Terminal component */}
+      {/* Real xterm.js terminal — onCommand streams to /api/devstudio/execute */}
       <div className="flex-1 min-h-0">
-        <TerminalOutput output={lines} onClear={() => setLines([])} />
+        <XTerminal
+          onCommand={async (cmd) => {
+            let output = '';
+            try {
+              const res = await fetch('/api/devstudio/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ command: cmd }),
+              });
+              if (!res.ok) return `Error: ${res.status} ${res.statusText}`;
+              const reader = res.body?.getReader();
+              const decoder = new TextDecoder();
+              if (!reader) return 'No response stream';
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                output += decoder.decode(value, { stream: true });
+              }
+            } catch (e) {
+              return `Error: ${e instanceof Error ? e.message : String(e)}`;
+            }
+            return output || '(no output)';
+          }}
+        />
       </div>
     </div>
   );

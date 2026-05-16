@@ -1,99 +1,186 @@
 'use client';
 
-import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
-import { Terminal as TerminalIcon, X } from 'lucide-react';
-
-export interface XTerminalHandle {
-  write: (data: string) => void;
-  clear: () => void;
-  focus: () => void;
-}
+import React, { useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 
 interface XTerminalProps {
-  onClear?: () => void;
+  onCommand: (cmd: string) => Promise<string>;
 }
 
-const XTerminal = forwardRef<XTerminalHandle, XTerminalProps>(({ onClear }, ref) => {
-  const terminalRef = useRef<HTMLDivElement>(null);
-  const [lines, setLines] = useState<string[]>([
-    '\x1b[1;36m╔════════════════════════════════════════╗\x1b[0m',
-    '\x1b[1;36m║\x1b[0m   \x1b[1;33mElevate Dev Studio Terminal\x1b[0m          \x1b[1;36m║\x1b[0m',
-    '\x1b[1;36m╚════════════════════════════════════════╝\x1b[0m',
-    '',
-    '\x1b[90mReady. Use the buttons above to run commands.\x1b[0m',
-    '',
-  ]);
+// xterm must be client-only — no SSR
+export default function XTerminal({ onCommand }: XTerminalProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const termRef = useRef<any>(null);
+  const fitRef = useRef<any>(null);
 
-  /* eslint-disable no-control-regex */
-  const ansiToHtml = (text: string): string => {
-    return text
-      .replace(/\x1b\[0m/g, '</span>')
-      .replace(/\x1b\[1;36m/g, '<span style="color: #39c5cf; font-weight: bold">')
-      .replace(/\x1b\[1;33m/g, '<span style="color: #d29922; font-weight: bold">')
-      .replace(/\x1b\[32m/g, '<span style="color: #3fb950">')
-      .replace(/\x1b\[31m/g, '<span style="color: #f85149">')
-      .replace(/\x1b\[33m/g, '<span style="color: #d29922">')
-      .replace(/\x1b\[90m/g, '<span style="color: #6e7681">')
-      .replace(/\x1b\[2J\x1b\[H/g, '') // Clear screen sequence
-      .replace(/\x1b\[\d+m/g, ''); // Remove any other ANSI codes
-  };
-  /* eslint-enable no-control-regex */
+  useEffect(() => {
+    let term: any;
+    let fitAddon: any;
 
-  useImperativeHandle(ref, () => ({
-    write: (data: string) => {
-      const newLines = data.split('\n');
-      setLines((prev) => [...prev, ...newLines.filter((l) => l !== '')]);
+    async function init() {
+      const { Terminal } = await import('@xterm/xterm');
+      const { FitAddon } = await import('@xterm/addon-fit');
+      await import('@xterm/xterm/css/xterm.css');
 
-      // Auto-scroll
-      setTimeout(() => {
-        if (terminalRef.current) {
-          terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+      term = new Terminal({
+        theme: {
+          background: '#0d1117',
+          foreground: '#e6edf3',
+          cursor: '#58a6ff',
+          selectionBackground: '#264f78',
+          black: '#484f58',
+          red: '#ff7b72',
+          green: '#3fb950',
+          yellow: '#d29922',
+          blue: '#58a6ff',
+          magenta: '#bc8cff',
+          cyan: '#39c5cf',
+          white: '#b1bac4',
+          brightBlack: '#6e7681',
+          brightRed: '#ffa198',
+          brightGreen: '#56d364',
+          brightYellow: '#e3b341',
+          brightBlue: '#79c0ff',
+          brightMagenta: '#d2a8ff',
+          brightCyan: '#56d4dd',
+          brightWhite: '#f0f6fc',
+        },
+        fontFamily: '"Cascadia Code", "Fira Code", "JetBrains Mono", monospace',
+        fontSize: 13,
+        lineHeight: 1.4,
+        cursorBlink: true,
+        cursorStyle: 'block',
+        scrollback: 5000,
+        allowTransparency: false,
+      });
+
+      fitAddon = new FitAddon();
+      term.loadAddon(fitAddon);
+
+      if (containerRef.current) {
+        term.open(containerRef.current);
+        fitAddon.fit();
+      }
+
+      termRef.current = term;
+      fitRef.current = fitAddon;
+
+      // Welcome message
+      term.writeln('\x1b[1;34m╔══════════════════════════════════════╗\x1b[0m');
+      term.writeln('\x1b[1;34m║   Elevate Dev Studio Terminal        ║\x1b[0m');
+      term.writeln('\x1b[1;34m╚══════════════════════════════════════╝\x1b[0m');
+      term.writeln('');
+      term.writeln('\x1b[90mType any shell command. Powered by bash.\x1b[0m');
+      term.writeln('');
+
+      let currentLine = '';
+      const historyBuf: string[] = [];
+      let historyIdx = -1;
+
+      const prompt = () => {
+        term.write('\x1b[1;32m❯\x1b[0m \x1b[1;34m~/elevate-lms\x1b[0m \x1b[0m$ ');
+      };
+
+      prompt();
+
+      term.onKey(async ({ key, domEvent }: { key: string; domEvent: KeyboardEvent }) => {
+        const code = domEvent.keyCode;
+
+        if (domEvent.ctrlKey && key === 'c') {
+          term.writeln('^C');
+          currentLine = '';
+          prompt();
+          return;
         }
-      }, 10);
-    },
-    clear: () => {
-      setLines([]);
-    },
-    focus: () => {
-      terminalRef.current?.focus();
-    },
-  }));
 
-  const handleClear = () => {
-    setLines([]);
-    onClear?.();
-  };
+        if (domEvent.ctrlKey && key === 'l') {
+          term.clear();
+          prompt();
+          return;
+        }
 
-  return (
-    <div className="h-full flex flex-col bg-white">
-      {/* Terminal Header */}
-      <div className="flex items-center justify-between px-4 py-2 bg-slate-50 border-b border-slate-200">
-        <div className="flex items-center gap-2">
-          <TerminalIcon className="w-4 h-4 text-slate-500" />
-          <span className="text-sm font-medium text-slate-700">Terminal</span>
-        </div>
-        <button
-          onClick={handleClear}
-          className="p-1 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors"
-          title="Clear terminal"
-        >
-          <X className="w-4 h-4" />
-        </button>
-      </div>
+        if (code === 13) {
+          // Enter
+          term.writeln('');
+          const cmd = currentLine.trim();
+          currentLine = '';
+          historyIdx = -1;
 
-      {/* Terminal Content */}
-      <div
-        ref={terminalRef}
-        className="flex-1 p-3 overflow-auto font-mono text-sm text-slate-700 leading-relaxed bg-white"
-      >
-        {lines.map((line, i) => (
-          <div key={i} dangerouslySetInnerHTML={{ __html: ansiToHtml(line) || '&nbsp;' }} />
-        ))}
-      </div>
-    </div>
-  );
-});
+          if (!cmd) {
+            prompt();
+            return;
+          }
 
-XTerminal.displayName = 'XTerminal';
+          historyBuf.unshift(cmd);
+          if (historyBuf.length > 100) historyBuf.pop();
 
-export default XTerminal;
+          if (cmd === 'clear') {
+            term.clear();
+            prompt();
+            return;
+          }
+
+          term.write('\x1b[90m');
+          try {
+            const output = await onCommand(cmd);
+            const lines = output.split('\n');
+            for (const line of lines) {
+              term.writeln(line);
+            }
+          } catch (e: any) {
+            term.writeln(`\x1b[31mError: ${e.message}\x1b[0m`);
+          }
+          term.write('\x1b[0m');
+          prompt();
+        } else if (code === 8) {
+          // Backspace
+          if (currentLine.length > 0) {
+            currentLine = currentLine.slice(0, -1);
+            term.write('\b \b');
+          }
+        } else if (code === 38) {
+          // Arrow up — history
+          if (historyIdx < historyBuf.length - 1) {
+            historyIdx++;
+            const entry = historyBuf[historyIdx];
+            term.write('\r\x1b[K');
+            prompt();
+            term.write(entry);
+            currentLine = entry;
+          }
+        } else if (code === 40) {
+          // Arrow down — history
+          if (historyIdx > 0) {
+            historyIdx--;
+            const entry = historyBuf[historyIdx];
+            term.write('\r\x1b[K');
+            prompt();
+            term.write(entry);
+            currentLine = entry;
+          } else if (historyIdx === 0) {
+            historyIdx = -1;
+            term.write('\r\x1b[K');
+            prompt();
+            currentLine = '';
+          }
+        } else if (code >= 32) {
+          currentLine += key;
+          term.write(key);
+        }
+      });
+
+      // Resize observer
+      const ro = new ResizeObserver(() => fitAddon?.fit());
+      if (containerRef.current) ro.observe(containerRef.current);
+      return () => ro.disconnect();
+    }
+
+    const cleanup = init();
+    return () => {
+      cleanup.then((fn) => fn?.());
+      termRef.current?.dispose();
+    };
+  }, [onCommand]);
+
+  return <div ref={containerRef} className="h-full w-full" style={{ background: '#0d1117' }} />;
+}

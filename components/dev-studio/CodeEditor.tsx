@@ -1,75 +1,42 @@
 'use client';
 
-import React from 'react';
+import dynamic from 'next/dynamic';
 
-import { useEffect, useState } from 'react';
-import Editor from '@monaco-editor/react';
-import { getLanguageFromPath } from '@/lib/github';
+// Monaco is 75 MB — load only when the editor is actually rendered.
+const Editor = dynamic(() => import('@monaco-editor/react').then((m) => m.Editor), {
+  ssr: false,
+  loading: () => <div className="h-full bg-[#1e1e1e] animate-pulse" />,
+});
 
 interface CodeEditorProps {
   value: string;
-  onChange: (value: string) => void;
-  filePath?: string;
+  onChange: (value: string | undefined) => void;
+  language?: string;
   readOnly?: boolean;
 }
 
-export default function CodeEditor({ value, onChange, filePath, readOnly }: CodeEditorProps) {
-  const [code, setCode] = useState(value);
-  const [language, setLanguage] = useState('typescript');
-
-  useEffect(() => {
-    setCode(value);
-  }, [value]);
-
-  useEffect(() => {
-    if (filePath) {
-      setLanguage(getLanguageFromPath(filePath));
-    }
-  }, [filePath]);
-
-  const handleChange = (newValue: string | undefined) => {
-    const val = newValue ?? '';
-    setCode(val);
-    onChange(val);
-  };
-
+export default function CodeEditor({
+  value,
+  onChange,
+  language = 'typescript',
+  readOnly = false,
+}: CodeEditorProps) {
   return (
-    <div className="h-full w-full">
-      <Editor
-        height="100%"
-        language={language}
-        value={code}
-        onChange={handleChange}
-        theme="vs-light"
-        options={{
-          fontSize: 14,
-          minimap: { enabled: true },
-          wordWrap: 'on',
-          automaticLayout: true,
-          scrollBeyondLastLine: false,
-          readOnly: readOnly,
-          tabSize: 2,
-          insertSpaces: true,
-          formatOnPaste: true,
-          formatOnType: true,
-          suggestOnTriggerCharacters: true,
-          quickSuggestions: true,
-          folding: true,
-          lineNumbers: 'on',
-          renderWhitespace: 'selection',
-          bracketPairColorization: {
-            enabled: true,
-          },
-        }}
-        loading={
-          <div className="flex items-center justify-center h-full bg-brand-blue-700 text-white">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue-500 mx-auto mb-4" />
-              <div>Loading editor...</div>
-            </div>
-          </div>
-        }
-      />
-    </div>
+    <Editor
+      height="100%"
+      language={language}
+      value={value}
+      onChange={onChange}
+      theme="vs-dark"
+      options={{
+        minimap: { enabled: true },
+        fontSize: 14,
+        lineNumbers: 'on',
+        readOnly,
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+        wordWrap: 'on',
+      }}
+    />
   );
 }

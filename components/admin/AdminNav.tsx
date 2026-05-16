@@ -146,7 +146,7 @@ const NAV = [
       { label: 'Course Templates', href: '/admin/course-builder/templates' },
       { label: 'Template Records', href: '/admin/course-templates' },
       { label: 'Course Import', href: '/admin/course-import' },
-      { label: 'Editor', href: '/admin/editor' },
+
       { label: 'Media Studio', href: '/admin/media-studio' },
       { label: 'Video Manager', href: '/admin/video-manager' },
       { label: 'Video Generator', href: '/admin/video-generator' },
