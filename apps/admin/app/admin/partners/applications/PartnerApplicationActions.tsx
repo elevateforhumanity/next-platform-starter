@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -26,7 +27,7 @@ export default function PartnerApplicationActions({
       }
       router.refresh();
     } catch (err: any) {
-      alert(err?.message || 'Failed to approve application');
+      toast.error(err?.message || 'Failed to approve application');
     } finally {
       setLoading(false);
     }
@@ -48,7 +49,7 @@ export default function PartnerApplicationActions({
       }
       router.refresh();
     } catch (err: any) {
-      alert(err?.message || 'Failed to deny application');
+      toast.error(err?.message || 'Failed to deny application');
     } finally {
       setLoading(false);
     }

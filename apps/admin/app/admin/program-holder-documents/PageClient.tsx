@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import React from 'react';
@@ -132,14 +133,14 @@ export default function AdminProgramHolderDocuments() {
       const { reviewDocument } = await import('./actions');
       const result = await reviewDocument(docId, approve, approvalNotes || undefined);
       if (result.error) {
-        alert('Failed to update document');
+        toast.error('Failed to update document');
       } else {
         setSelectedDoc(null);
         setApprovalNotes('');
         loadDocuments();
       }
     } catch (err) {
-      alert('Failed to update document');
+      toast.error('Failed to update document');
     } finally {
       setProcessing(false);
     }

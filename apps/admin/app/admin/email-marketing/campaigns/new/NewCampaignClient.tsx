@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
 import { sanitizeHtml } from '@/lib/sanitize';
@@ -62,7 +63,7 @@ export default function NewCampaignPage() {
     });
 
     if (response.ok) {
-      alert('Campaign saved as draft!');
+      toast.success('Campaign saved as draft!');
       router.push('/admin/email-marketing');
     }
   };
@@ -77,7 +78,7 @@ export default function NewCampaignPage() {
     });
 
     if (response.ok) {
-      alert('Campaign sent successfully!');
+      toast.success('Campaign sent successfully!');
       router.push('/admin/email-marketing');
     }
   };
@@ -90,7 +91,7 @@ export default function NewCampaignPage() {
     });
 
     if (response.ok) {
-      alert('Campaign scheduled successfully!');
+      toast.success('Campaign scheduled successfully!');
       router.push('/admin/email-marketing');
     }
   };

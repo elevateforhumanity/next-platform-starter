@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { Download, Loader2 } from 'lucide-react';
 
@@ -12,7 +13,7 @@ export function DownloadReportButton() {
       const res = await fetch('/api/accreditation/report', { method: 'POST' });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        alert(data.error ?? 'Failed to generate report');
+        toast.error(data.error ?? 'Failed to generate report');
         return;
       }
       const data = await res.json();
@@ -24,7 +25,7 @@ export function DownloadReportButton() {
       a.click();
       URL.revokeObjectURL(url);
     } catch {
-      alert('Network error — try again');
+      toast.error('Network error — try again');
     } finally {
       setLoading(false);
     }

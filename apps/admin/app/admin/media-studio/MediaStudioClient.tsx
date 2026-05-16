@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
 
@@ -128,7 +129,7 @@ export default function MediaStudioPage() {
         method: 'POST',
       });
       if (res.ok) {
-        alert('Images optimized successfully!');
+        toast.success('Images optimized successfully!');
         loadFiles(selectedBucket);
       }
     } catch (error) {

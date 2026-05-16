@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -61,7 +62,7 @@ export function AdminNextStepsPageClient() {
     setSaving(false);
 
     if (!res.ok) {
-      alert(json?.error || 'Update failed');
+      toast.error(json?.error || 'Update failed');
       return;
     }
 

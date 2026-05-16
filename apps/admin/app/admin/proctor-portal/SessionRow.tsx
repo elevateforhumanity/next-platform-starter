@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { Edit2, ExternalLink, AlertTriangle, RefreshCw } from 'lucide-react';
 import type { ExamSession } from './types';
@@ -51,9 +52,9 @@ export default function SessionRow({
         }),
       });
       if (res.ok) setRetakeSent(true);
-      else alert('Failed to issue retake hold. Check console.');
+      else toast.error('Failed to issue retake hold. Check console.');
     } catch {
-      alert('Network error. Try again.');
+      toast.error('Network error. Try again.');
     } finally {
       setRetakeSending(false);
     }

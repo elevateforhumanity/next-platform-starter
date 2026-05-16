@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import React from 'react';
 
 import { useState } from 'react';
@@ -35,10 +36,10 @@ export default function MarkPaidButton({
         throw new Error(data.error || 'Failed to mark as paid');
       }
 
-      alert('Payout marked as paid successfully!');
+      toast.success('Payout marked as paid successfully!');
       router.refresh();
     } catch (err: any) {
-      alert(`Error: ${'An error occurred'}`);
+      toast.error(`Error: ${'An error occurred'}`);
     } finally {
       setLoading(false);
     }

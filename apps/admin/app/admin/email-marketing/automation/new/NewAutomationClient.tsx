@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
 import { sanitizeHtml } from '@/lib/sanitize';
@@ -83,7 +84,7 @@ export default function NewWorkflowPage() {
     });
 
     if (response.ok) {
-      alert(status === 'draft' ? 'Workflow saved as draft!' : 'Workflow activated!');
+      toast.success(status === 'draft' ? 'Workflow saved as draft!' : 'Workflow activated!');
       router.push('/admin/email-marketing/automation');
     }
   };

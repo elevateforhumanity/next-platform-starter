@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { CheckSquare, Square, Archive, Globe, Download, Trash2 } from 'lucide-react';
 import { bulkUpdateCourseStatus, exportCoursesCSV } from './actions';
@@ -44,7 +45,7 @@ export function BulkCourseActions({ courses }: { courses: Course[] }) {
     if (!confirm(`${status === 'published' ? 'Publish' : status === 'archived' ? 'Archive' : 'Unpublish'} ${selected.size} course(s)?`)) return;
     setLoading(true);
     const result = await bulkUpdateCourseStatus([...selected], status);
-    if (!result.success) alert(`Error: ${result.error}`);
+    if (!result.success) toast.error(`Error: ${result.error}`);
     else setSelected(new Set());
     setLoading(false);
   }

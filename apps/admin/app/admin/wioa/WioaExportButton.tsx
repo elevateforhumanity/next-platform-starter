@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { Download } from 'lucide-react';
 
@@ -22,7 +23,7 @@ export function WioaExportButton() {
       const res = await fetch(`/api/wioa/reporting?type=${type}`);
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        alert(data.error ?? 'Export failed');
+        toast.error(data.error ?? 'Export failed');
         return;
       }
       const data = await res.json();
@@ -35,7 +36,7 @@ export function WioaExportButton() {
       a.click();
       URL.revokeObjectURL(url);
     } catch {
-      alert('Network error — try again');
+      toast.error('Network error — try again');
     } finally {
       setLoading(false);
     }

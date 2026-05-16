@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import {
@@ -76,7 +77,7 @@ export function DocumentCenterClient({
   const addFiles = useCallback((incoming: File[]) => {
     const valid = incoming.filter((f) => ACCEPTED.includes(f.type) && f.size <= MAX_SIZE);
     const rejected = incoming.filter((f) => !ACCEPTED.includes(f.type) || f.size > MAX_SIZE);
-    if (rejected.length) alert(`${rejected.length} file(s) rejected — must be PDF/DOC/DOCX/JPG/PNG under 10MB.`);
+    if (rejected.length) toast.error(`${rejected.length} file(s) rejected — must be PDF/DOC/DOCX/JPG/PNG under 10MB.`);
     setQueue((prev) => [
       ...prev,
       ...valid.map((f) => ({ id: `${f.name}-${Date.now()}-${Math.random()}`, file: f, status: 'idle' as UploadStatus, progress: 0 })),
@@ -148,7 +149,7 @@ export function DocumentCenterClient({
       if (!res.ok) throw new Error('Delete failed');
       setDocuments((prev) => prev.filter((d) => d.id !== doc.id));
     } catch {
-      alert('Failed to delete document.');
+      toast.error('Failed to delete document.');
     } finally {
       setDeleting(null);
     }

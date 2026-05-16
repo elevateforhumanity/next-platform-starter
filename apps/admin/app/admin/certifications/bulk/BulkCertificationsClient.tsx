@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 
 interface CertProfile {
@@ -62,10 +63,10 @@ export default function BulkCertificationsClient({
         });
       } else {
         const err = await res.json();
-        alert(err.error || 'Action failed');
+        toast.error(err.error || 'Action failed');
       }
     } catch {
-      alert('Network error — try again');
+      toast.error('Network error — try again');
     } finally {
       setLoading(null);
     }

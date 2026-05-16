@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import React from 'react';
 import { useState } from 'react';
 
@@ -13,7 +14,7 @@ export default function CodebaseProductEditor() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, price: Number(price) }),
     });
-    alert('Product Published!');
+    toast.success('Product Published!');
   }
 
   return (

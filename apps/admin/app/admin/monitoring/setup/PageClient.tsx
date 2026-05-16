@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState, useEffect } from 'react';
 import { AlertCircle, Loader2, Database } from 'lucide-react';
@@ -268,7 +269,7 @@ CREATE INDEX IF NOT EXISTS idx_audit_logs_ip_address ON audit_logs(ip_address);`
             <button
               onClick={() => {
                 navigator.clipboard.writeText(document.querySelector('pre')?.textContent || '');
-                alert('SQL copied to clipboard!');
+                toast.success('SQL copied to clipboard!');
               }}
               className="mt-4 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition-colors"
             >

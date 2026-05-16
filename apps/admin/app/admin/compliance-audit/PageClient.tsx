@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { useState, useEffect } from 'react';
@@ -65,7 +66,7 @@ export default function ComplianceAuditPage() {
         fetchAudits();
       } else {
         const error = await res.json();
-        alert(error.error || 'Failed to generate audit');
+        toast.error(error.error || 'Failed to generate audit');
       }
     } catch (error) {
       // silent

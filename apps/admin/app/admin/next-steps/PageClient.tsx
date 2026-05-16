@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import React from 'react';
@@ -60,7 +61,7 @@ export default function AdminNextStepsPage() {
     setSaving(false);
 
     if (!res.ok) {
-      alert(json?.error || 'Update failed');
+      toast.error(json?.error || 'Update failed');
       return;
     }
 

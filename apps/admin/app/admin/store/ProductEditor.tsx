@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import React from 'react';
 import { useState } from 'react';
 
@@ -29,13 +30,13 @@ export default function ProductEditor() {
       const data = await res.json();
 
       if (data.ok) {
-        alert('Product Created: ' + data.productId);
+        toast.success('Product Created: ' + data.productId);
       } else {
-        alert('Error: ' + (data.error || 'Failed to create product'));
+        toast.error('Error: ' + (data.error || 'Failed to create product'));
       }
     } catch (error) {
       /* Error handled silently */
-      alert('Failed to create product');
+      toast.error('Failed to create product');
     } finally {
       setLoading(false);
     }

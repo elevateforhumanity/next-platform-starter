@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import React from 'react';
 
 import { useState } from 'react';
@@ -25,7 +26,7 @@ export default function CreatorApprovalActions({ creatorId }: { creatorId: strin
       router.refresh();
     } catch (error) {
       /* Error handled silently */
-      alert('Failed to approve creator');
+      toast.error('Failed to approve creator');
     } finally {
       setLoading(false);
     }
@@ -48,7 +49,7 @@ export default function CreatorApprovalActions({ creatorId }: { creatorId: strin
       router.refresh();
     } catch (error) {
       /* Error handled silently */
-      alert('Failed to reject creator');
+      toast.error('Failed to reject creator');
     } finally {
       setLoading(false);
     }

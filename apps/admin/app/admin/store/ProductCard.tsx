@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -47,13 +48,13 @@ export default function ProductCard() {
       const data = await res.json();
 
       if (data.ok) {
-        alert(`Repository cloned successfully!\n\nNew repo: ${data.repo}`);
+        toast.success(`Repository cloned successfully!\n\nNew repo: ${data.repo}`);
       } else {
-        alert('Error: ' + (data.error || 'Failed to clone repository'));
+        toast.error('Error: ' + (data.error || 'Failed to clone repository'));
       }
     } catch (error) {
       /* Error handled silently */
-      alert('Failed to clone repository');
+      toast.error('Failed to clone repository');
     } finally {
       setCloning(null);
     }

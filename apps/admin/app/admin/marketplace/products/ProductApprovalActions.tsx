@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import React from 'react';
 
 import { useState } from 'react';
@@ -25,7 +26,7 @@ export default function ProductApprovalActions({ productId }: { productId: strin
       router.refresh();
     } catch (error) {
       /* Error handled silently */
-      alert('Failed to approve product');
+      toast.error('Failed to approve product');
     } finally {
       setLoading(false);
     }
@@ -48,7 +49,7 @@ export default function ProductApprovalActions({ productId }: { productId: strin
       router.refresh();
     } catch (error) {
       /* Error handled silently */
-      alert('Failed to reject product');
+      toast.error('Failed to reject product');
     } finally {
       setLoading(false);
     }

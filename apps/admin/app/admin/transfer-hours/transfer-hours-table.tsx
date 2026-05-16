@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import React from 'react';
 
 import { useState } from 'react';
@@ -79,7 +80,7 @@ export function TransferHoursTable({ transferHours }: { transferHours: TransferH
       window.location.reload();
     } catch (error) {
       /* Error handled silently */
-      alert('Failed to approve request');
+      toast.error('Failed to approve request');
     } finally {
       setLoading(false);
     }
@@ -96,7 +97,7 @@ export function TransferHoursTable({ transferHours }: { transferHours: TransferH
       window.location.reload();
     } catch (error) {
       /* Error handled silently */
-      alert('Failed to deny request');
+      toast.error('Failed to deny request');
     } finally {
       setLoading(false);
     }

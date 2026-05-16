@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { CheckCircle, XCircle, Clock, ChevronDown } from 'lucide-react';
 import { updateApplicationStatus } from './actions';
@@ -39,7 +40,7 @@ export function ApplicantActions({ applicationId, currentStatus, applicantName }
     setLoading(true);
     setOpen(false);
     const result = await updateApplicationStatus(applicationId, next as any);
-    if (!result.success) alert(`Failed to update ${applicantName}: ${result.error}`);
+    if (!result.success) toast.error(`Failed to update ${applicantName}: ${result.error}`);
     setLoading(false);
   }
 

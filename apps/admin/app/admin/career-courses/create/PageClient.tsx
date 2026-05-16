@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -137,7 +138,7 @@ export default function CreateCourseContentPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ script }),
       });
-      alert('Script saved!');
+      toast.success('Script saved!');
     } catch (error) {
       if (process.env.NODE_ENV !== "production") console.error('Error saving script:', error);
     }

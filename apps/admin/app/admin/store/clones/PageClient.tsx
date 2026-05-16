@@ -1,5 +1,6 @@
 'use client';
 
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
 
@@ -73,7 +74,7 @@ export default function StoreBuilderPage() {
     // Store product publishing is not yet implemented.
     // /api/admin/programs/publish requires a programId and handles LMS programs,
     // not store product listings. Wire this to a dedicated store API when built.
-    alert('Store product publishing is not yet available.');
+    toast.error('Store product publishing is not yet available.');
   };
 
   return (

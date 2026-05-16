@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
 
@@ -51,14 +52,14 @@ export default function NewCampaignPage() {
       const data = await response.json();
 
       if (response.ok) {
-        alert(`Campaign sent to ${data.sent_count} recipients!`);
+        toast.success(`Campaign sent to ${data.sent_count} recipients!`);
         router.push('/admin/crm/campaigns');
       } else {
-        alert(`Error: ${data.error}`);
+        toast.error(`Error: ${data.error}`);
       }
     } catch (error) {
       /* Error handled silently */
-      alert('Failed to send campaign');
+      toast.error('Failed to send campaign');
     } finally {
       setLoading(false);
     }
