@@ -125,17 +125,17 @@ function TodaysPriorities({ data }: { data: AdminDashboardData }) {
   const items = data.priorities ?? [];
   return (
     <div className="rounded-xl border border-slate-200 bg-white mb-6">
-      <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Inbox className="w-4 h-4 text-slate-500" />
           <h2 className="font-bold text-slate-900">Today's Priorities</h2>
         </div>
         {items.length > 0 && (
-          <span className="text-xs text-slate-400">Ranked by impact score</span>
+          <span className="text-xs text-slate-400 hidden sm:block">Ranked by impact score</span>
         )}
       </div>
       {items.length === 0 ? (
-        <div className="px-6 py-8 flex items-center gap-3 text-brand-green-700">
+        <div className="px-4 sm:px-6 py-8 flex items-center gap-3 text-brand-green-700">
           <CheckCircle2 className="w-5 h-5 text-brand-green-500 flex-shrink-0" />
           <p className="text-sm font-medium">No urgent operational items right now.</p>
         </div>
@@ -145,19 +145,19 @@ function TodaysPriorities({ data }: { data: AdminDashboardData }) {
             const s = SEVERITY_STYLES[item.severity];
             return (
               <Link key={item.id} href={item.href}
-                className={`flex items-center justify-between px-6 py-4 hover:brightness-95 group transition-all ${s.bg}`}>
+                className={`flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 hover:brightness-95 group transition-all ${s.bg}`}>
                 <div className="flex items-start gap-3 min-w-0">
                   <span className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${s.dot}`} />
                   <div className="min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
+                    <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                       <span className={`text-[10px] font-black tracking-widest ${s.text}`}>{s.label}</span>
-                      <span className="text-[10px] text-slate-400 font-mono">score {item.score}</span>
+                      <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">score {item.score}</span>
                     </div>
-                    <p className="text-sm font-semibold text-slate-900 truncate">{item.label}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{item.context}</p>
+                    <p className="text-sm font-semibold text-slate-900 line-clamp-2">{item.label}</p>
+                    <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">{item.context}</p>
                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-600 transition-colors flex-shrink-0 ml-4" />
+                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-600 transition-colors flex-shrink-0 ml-3" />
               </Link>
             );
           })}
@@ -170,7 +170,7 @@ function TodaysPriorities({ data }: { data: AdminDashboardData }) {
 function LearnersNeedingAttention({ learners }: { learners: InactiveLearner[] }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white mb-6">
-      <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Users className="w-4 h-4 text-slate-500" />
           <h2 className="font-bold text-slate-900">Learners Needing Attention</h2>
@@ -184,7 +184,7 @@ function LearnersNeedingAttention({ learners }: { learners: InactiveLearner[] })
       ) : (
         <div className="divide-y divide-slate-100">
           {learners.slice(0, 6).map((l) => (
-            <Link key={l.enrollmentId} href={l.href} className="flex items-center justify-between px-6 py-3 hover:bg-slate-50 group transition-colors">
+            <Link key={l.enrollmentId} href={l.href} className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 group transition-colors">
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-900 truncate">{l.fullName ?? l.email ?? "Unknown learner"}</p>
                 <p className="text-xs text-slate-500 truncate">{l.programTitle ?? "Unknown program"}</p>
@@ -209,7 +209,7 @@ function ReviewQueues({ data }: { data: AdminDashboardData }) {
   ];
   return (
     <div className="rounded-xl border border-slate-200 bg-white mb-6">
-      <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+      <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center gap-2">
         <FileText className="w-4 h-4 text-slate-500" />
         <h2 className="font-bold text-slate-900">Review Queues</h2>
       </div>
@@ -234,7 +234,7 @@ function ReviewQueues({ data }: { data: AdminDashboardData }) {
 function CrmFollowUpQueue({ leads }: { leads: StaleLeadItem[] }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white mb-6">
-      <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <TrendingUp className="w-4 h-4 text-slate-500" />
           <h2 className="font-bold text-slate-900">Follow-Up Queue</h2>
@@ -248,7 +248,7 @@ function CrmFollowUpQueue({ leads }: { leads: StaleLeadItem[] }) {
       ) : (
         <div className="divide-y divide-slate-100">
           {leads.map((lead) => (
-            <Link key={lead.id} href={lead.href} className="flex items-center justify-between px-6 py-3 hover:bg-slate-50 group transition-colors">
+            <Link key={lead.id} href={lead.href} className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 group transition-colors">
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-900 truncate">{lead.name ?? "Unknown lead"}</p>
                 <p className="text-xs text-slate-500">{lead.status ?? "No status"}</p>
@@ -273,20 +273,20 @@ function ComplianceSnapshot({ data }: { data: AdminDashboardData }) {
   ];
   return (
     <div className="rounded-xl border border-slate-200 bg-white mb-6">
-      <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+      <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center gap-2">
         <ShieldAlert className="w-4 h-4 text-slate-500" />
         <h2 className="font-bold text-slate-900">Compliance Snapshot</h2>
       </div>
       <div className="divide-y divide-slate-100">
         {rows.map((row, i) => (
-          <Link key={i} href={row.href} className="flex items-center gap-3 px-6 py-3 hover:bg-slate-50 group transition-colors">
+          <Link key={i} href={row.href} className="flex items-center gap-3 px-4 sm:px-6 py-3 hover:bg-slate-50 group transition-colors">
             {row.urgent ? <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" /> : <CheckCircle2 className="w-4 h-4 text-brand-green-500 flex-shrink-0" />}
             <p className={`text-sm flex-1 ${row.urgent ? "font-semibold text-slate-900" : "text-slate-600"}`}>{row.label}</p>
             <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-600 transition-colors flex-shrink-0" />
           </Link>
         ))}
       </div>
-      <div className="px-6 py-3 border-t border-slate-100">
+      <div className="px-4 sm:px-6 py-3 border-t border-slate-100">
         <Link href="/admin/compliance" className="text-xs font-semibold text-brand-blue-600 hover:underline">Open compliance dashboard →</Link>
       </div>
     </div>
@@ -297,13 +297,13 @@ function RecentActivity({ items }: { items: { id: string; title: string; timesta
   if (items.length === 0) return null;
   return (
     <div className="rounded-xl border border-slate-200 bg-white mb-6">
-      <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+      <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center gap-2">
         <Activity className="w-4 h-4 text-slate-500" />
         <h2 className="font-bold text-slate-900">Recent Activity</h2>
       </div>
       <div className="divide-y divide-slate-100">
         {items.slice(0, 8).map((item) => (
-          <div key={item.id} className="flex items-center justify-between px-6 py-3">
+          <div key={item.id} className="flex items-center justify-between px-4 sm:px-6 py-3">
             <p className="text-sm text-slate-700 truncate flex-1">{item.title}</p>
             <p className="text-xs text-slate-400 flex-shrink-0 ml-4">{relativeTime(item.timestamp)}</p>
           </div>
