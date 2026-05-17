@@ -1,5 +1,5 @@
 /**
- * Static analysis tests for app/admin/users/actions.ts
+ * Static analysis tests for apps/admin/app/admin/users/actions.ts
  *
  * Verifies the six integrity contracts that were previously missing:
  *   1. activateUser rejects nonexistent users
@@ -14,7 +14,7 @@ import { describe, it, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 
-const src = fs.readFileSync(path.resolve('app/admin/users/actions.ts'), 'utf-8');
+const src = fs.readFileSync(path.resolve('apps/admin/app/admin/users/actions.ts'), 'utf-8');
 const hasProfilesSelect = (code: string) => /from\('profiles'\)\s*\.select\(/.test(code);
 
 describe('admin/users/actions.ts integrity contracts', () => {

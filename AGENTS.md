@@ -351,7 +351,7 @@ All three legacy patterns check the same role set. Do not refactor them unless y
 
 **Middleware perimeter** (`proxy.ts` — the root Next.js middleware) handles multi-domain routing, auth perimeter, admin namespace gating, and role enforcement for protected routes. Do NOT create a separate `middleware.ts` — it will conflict with `proxy.ts` and break the build. All middleware logic goes in `proxy.ts`.
 
-**Page-level guards** — `app/admin/layout.tsx` calls `requireAdmin()` before rendering. All 337 admin pages inherit this. Do not add redundant page-level guards inside `/admin/` unless a page sits outside the layout subtree.
+**Page-level guards** — `apps/admin/app/admin/layout.tsx` calls `getUser()` and enforces `super_admin` role before rendering. All admin pages under the admin subdomain inherit this. The main app's `app/admin/[[...path]]/page.tsx` is a catch-all that redirects `/admin/*` requests on `www.elevateforhumanity.org` to `admin.elevateforhumanity.org`. Do not add redundant page-level guards inside `apps/admin/app/admin/` unless a page sits outside the layout subtree.
 
 Every route that reads or writes user data must call one of the above before any DB access. If a route is intentionally public, add a comment: `// PUBLIC ROUTE: <reason>`
 
