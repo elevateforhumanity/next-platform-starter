@@ -11,8 +11,8 @@ INSERT INTO public.courses (
   title,
   slug,
   description,
-  category,
   status,
+  is_active,
   created_at,
   updated_at
 )
@@ -21,8 +21,8 @@ VALUES (
   'Barber Apprenticeship',
   'barber-apprenticeship',
   'DOL-registered barber apprenticeship program. 2,000 OJT hours + 144 RTI hours. Indiana IPLA licensure pathway.',
-  'Beauty & Personal Services',
   'published',
+  true,
   now(),
   now()
 )
@@ -31,6 +31,7 @@ ON CONFLICT (id) DO UPDATE
     title      = EXCLUDED.title,
     slug       = EXCLUDED.slug,
     status     = 'published',
+    is_active  = true,
     updated_at = now()
   WHERE public.courses.status = 'archived';
 

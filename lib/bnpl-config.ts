@@ -40,7 +40,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     badgeText: 'text-pink-700',
     minAmount: 35,
     maxAmount: 10000,
-    description: 'Pay over time',
+    description: 'Split into 4 interest-free payments or spread over 6–36 months. No hard credit check.',
     enabled: true,
   },
   {
@@ -51,7 +51,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     badgeText: 'text-teal-700',
     minAmount: 35,
     maxAmount: 2000,
-    description: '4 interest-free payments',
+    description: '4 interest-free payments every 2 weeks. Instant approval at checkout.',
     enabled: true,
   },
   {
@@ -62,7 +62,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     badgeText: 'text-indigo-700',
     minAmount: 35,
     maxAmount: 1500,
-    description: 'Pay in 4 installments',
+    description: 'Pay in 4 installments over 6 weeks. No interest on on-time payments.',
     enabled: true,
   },
   {
@@ -73,7 +73,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     badgeText: 'text-green-700',
     minAmount: 35,
     maxAmount: 0,
-    description: 'Pay with Cash App',
+    description: 'Pay directly from your Cash App balance or linked bank. Instant checkout.',
     enabled: true,
   },
   {
@@ -84,7 +84,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     badgeText: 'text-orange-700',
     minAmount: 35,
     maxAmount: 0,
-    description: 'Pay with Amazon',
+    description: 'Use your Amazon account and saved payment methods to check out in seconds.',
     enabled: true,
   },
   {
@@ -95,7 +95,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     badgeText: 'text-blue-700',
     minAmount: 35,
     maxAmount: 0,
-    description: 'Direct bank transfer',
+    description: 'Direct bank transfer via ACH. No card required — link your bank account at checkout.',
     enabled: true,
   },
   // --- Separate SDK flows (stripeMethodId = null — not routed through Stripe) ---
@@ -107,7 +107,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     badgeText: 'text-brand-blue-700',
     minAmount: 50,
     maxAmount: 30000,
-    description: 'Pay over 3–36 months',
+    description: 'Monthly installment financing at 0–36% APR over 3–36 months. Subject to credit approval.',
     enabled: true,
   },
   {
@@ -118,7 +118,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     badgeText: 'text-purple-700',
     minAmount: 35,
     maxAmount: 2500,
-    description: '4 interest-free payments',
+    description: '4 interest-free payments over 6 weeks. Quick approval, no hard credit check.',
     enabled: true,
   },
 ];
