@@ -247,7 +247,7 @@ export const CNA: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/programs/cna/apply',
+    applyHref: '/apply?program=cna',
     requestInfoHref: '/contact?program=cna',
   },
 

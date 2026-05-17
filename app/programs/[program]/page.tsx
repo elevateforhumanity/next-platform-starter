@@ -21,20 +21,13 @@ const SITE_URL = 'https://www.elevateforhumanity.org';
 
 // Slugs that have a dedicated /programs/{slug}/apply page.
 // All others fall back to /apply?program={slug} (generic intake).
+// Only slugs with a real /programs/{slug}/apply page.tsx go here.
+// Everything else falls back to /apply?program={slug}.
 const DEDICATED_APPLY_SLUGS = new Set([
   'barber-apprenticeship',
-  'cna',
   'cosmetology-apprenticeship',
-  'culinary-apprenticeship',
-  'electrical',
-  'esthetician',
   'hvac-technician',
-  'medical-assistant',
-  'nail-technician-apprenticeship',
   'peer-recovery-specialist',
-  'plumbing',
-  'sanitation-infection-control',
-  'welding',
 ]);
 
 function getApplyHref(program: string): string {

@@ -98,11 +98,8 @@ export default function BeautyDocumentsPage() {
   };
 
   if (!cfg) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-slate-600">Program not found.</p>
-      </div>
-    );
+    router.replace(`/programs/${params.program}`);
+    return null;
   }
 
   const canSubmit = governmentId?.status === 'complete';

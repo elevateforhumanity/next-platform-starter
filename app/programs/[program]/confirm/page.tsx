@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
 
 function ConfirmContent() {
   const params = useParams<{ program: string }>();
+  const router = useRouter();
   const searchParams = useSafeSearchParams();
   const cfg = getBeautyProgram(params.program);
   const c = colorClasses(cfg?.color ?? 'blue');
@@ -25,11 +26,8 @@ function ConfirmContent() {
   }, [sessionId]);
 
   if (!cfg) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-slate-600">Program not found.</p>
-      </div>
-    );
+    router.replace(`/programs/${params.program}`);
+    return null;
   }
 
   if (status === 'loading') {

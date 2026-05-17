@@ -56,11 +56,10 @@ export default function BeautyApplyPage() {
   }, [cfg?.slug]);
 
   if (!cfg) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-slate-600">Program not found.</p>
-      </div>
-    );
+    // Non-beauty slug hit the shared beauty apply page — redirect to the
+    // generic intake so the user lands on the correct flow.
+    router.replace(`/apply?program=${params.program}`);
+    return null;
   }
 
   const depositDollars = (cfg.depositCents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });

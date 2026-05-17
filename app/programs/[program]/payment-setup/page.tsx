@@ -4,7 +4,7 @@
 // Program config is passed via searchParams; no server fetch needed.
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Loader2 } from 'lucide-react';
@@ -56,6 +56,7 @@ function PaymentForm({ slug, color }: { slug: string; color: string }) {
 
 export default function BeautyPaymentSetupPage() {
   const params = useParams<{ program: string }>();
+  const router = useRouter();
   const cfg = getBeautyProgram(params.program);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -76,11 +77,8 @@ export default function BeautyPaymentSetupPage() {
   }, [cfg?.slug]);
 
   if (!cfg) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-slate-600">Program not found.</p>
-      </div>
-    );
+    router.replace(`/programs/${params.program}`);
+    return null;
   }
 
   const c = colorClasses(cfg.color);

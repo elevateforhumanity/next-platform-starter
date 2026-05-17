@@ -269,7 +269,7 @@ export const PROGRAM_GUIDES: Record<string, PageGuide> = {
         type: 'tip',
         message:
           'CNAs are in high demand - hospitals, nursing homes, and home health agencies are always hiring. Starting pay is $15-20/hour, more with experience.',
-        action: { label: 'Apply Now', href: '/programs/cna/apply' },
+        action: { label: 'Apply Now', href: '/apply?program=cna' },
       },
     ],
     quickTips: [

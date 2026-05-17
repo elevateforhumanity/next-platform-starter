@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { AlertCircle, Loader2 } from 'lucide-react';
 
 export default function SupportForm() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [category, setCategory] = useState('general');
   const [message, setMessage] = useState('');
@@ -16,10 +18,10 @@ export default function SupportForm() {
     setErrorMessage('');
 
     try {
-      const response = await fetch('/api/support/ticket', {
+      const response = await fetch('/api/support/tickets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject, category, message }),
+        body: JSON.stringify({ name, email, subject, category, description: message }),
       });
 
       if (!response.ok) {
@@ -28,6 +30,8 @@ export default function SupportForm() {
       }
 
       setStatus('success');
+      setName('');
+      setEmail('');
       setSubject('');
       setCategory('general');
       setMessage('');
@@ -70,6 +74,31 @@ export default function SupportForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-900 mb-1">Full Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              minLength={2}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              placeholder="Your name"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-900 mb-1">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              placeholder="you@example.com"
+            />
+          </div>
+        </div>
         <div>
           <label className="block text-sm font-medium text-slate-900 mb-1">Subject</label>
           <input
@@ -77,6 +106,7 @@ export default function SupportForm() {
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             required
+            minLength={5}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             placeholder="Brief description of your issue"
           />
@@ -88,12 +118,12 @@ export default function SupportForm() {
             onChange={(e) => setCategory(e.target.value)}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           >
-            <option value="account">Account Issues</option>
-            <option value="program">Program Questions</option>
+            <option value="enrollment">Enrollment & Admissions</option>
+            <option value="program">Programs & Courses</option>
+            <option value="billing">Billing & Financial Aid</option>
             <option value="technical">Technical Support</option>
-            <option value="billing">Billing</option>
             <option value="general">General</option>
-            <option value="other">Other</option>
+            <option value="urgent">Urgent Issue</option>
           </select>
         </div>
         <div>
@@ -103,6 +133,7 @@ export default function SupportForm() {
             onChange={(e) => setMessage(e.target.value)}
             rows={4}
             required
+            minLength={20}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             placeholder="Please describe your issue in detail..."
           />

@@ -44,7 +44,7 @@ const DISCIPLINE_CONFIG = {
     color: 'bg-pink-700',
     lightColor: 'bg-pink-500',
     targetHours: 450,
-    applyHref: '/programs/nail-technician-apprenticeship/apply',
+    applyHref: '/apply?program=nail-technician-apprenticeship',
     logHref: '/pwa/nail-tech/log-hours',
     historyHref: '/pwa/nail-tech/history',
     progressHref: '/pwa/nail-tech/progress',
