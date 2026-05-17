@@ -1,4 +1,10 @@
 // @ts-nocheck
+// TODO: resolve missing modules before removing suppressor:
+//   - @/lib/vendors/milady-purchase
+//   - @/lib/vendors/milady-payment
+//   - @/lib/ai/assign
+//   - @/lib/email/templates/barber-welcome-paid
+//   - paymentIntentId undefined at line 466
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;

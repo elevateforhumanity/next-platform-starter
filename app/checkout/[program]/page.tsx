@@ -1,14 +1,30 @@
-// @ts-nocheck
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { useParams } from 'next/navigation';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { loadStripe } from '@stripe/stripe-js';
 import { Calendar, CheckCircle, CreditCard, Lightbulb } from 'lucide-react';
 import { logger } from '@/lib/logger';
+
+// Minimal Affirm type — full SDK types not published
+declare global {
+  interface Window {
+    affirm?: {
+      ui: { ready: (cb: () => void) => void };
+      checkout: ((config: Record<string, unknown>) => void) & {
+        open: (handlers: {
+          onFail: (err: unknown) => void;
+          onSuccess: (data: { checkout_token: string; order_id?: string }) => void;
+        }) => void;
+      };
+    };
+    _affirm_config?: Record<string, string>;
+  }
+}
+
+import { getProgramBySlug } from '@/data/programs/catalog';
 
 // Initialize Stripe
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -20,27 +36,18 @@ interface ProgramPricing {
   description: string;
 }
 
-const programPricing: Record<string, ProgramPricing> = {
-  'barber-apprenticeship': {
-    name: 'Barber Training Program (Indiana)',
-    price: 4980,
-    duration: '15-18 months',
-    description:
-      'Fee-based apprenticeship-aligned training with DOL sponsorship and Milady theory instruction',
-  },
-  'hvac-technician': {
-    name: 'HVAC Technician',
-    price: 3500,
-    duration: '16-24 weeks',
-    description: 'EPA certification and hands-on HVAC training',
-  },
-  'cna-certification': {
-    name: 'CNA Certification',
-    price: 1200,
-    duration: '4-8 weeks',
-    description: 'State-approved CNA training with clinical hours',
-  },
-};
+function getProgramPricing(slug: string): ProgramPricing | undefined {
+  const p = getProgramBySlug(slug);
+  if (!p) return undefined;
+  // selfPayCost is a display string like "$4,980" — strip non-numeric for math
+  const priceNum = p.selfPayCost ? parseInt(p.selfPayCost.replace(/[^0-9]/g, ''), 10) : 0;
+  return {
+    name: p.title,
+    price: isNaN(priceNum) ? 0 : priceNum,
+    duration: p.durationWeeks ? `${p.durationWeeks} weeks` : 'Varies',
+    description: p.subtitle ?? p.title,
+  };
+}
 
 function CheckoutPageInner() {
   const params = useParams();
@@ -52,7 +59,7 @@ function CheckoutPageInner() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const programData = programPricing[program];
+  const programData = getProgramPricing(program);
 
   useEffect(() => {
     if (method === 'affirm' && typeof window !== 'undefined') {
@@ -176,12 +183,12 @@ function CheckoutPageInner() {
       });
 
       window.affirm.checkout.open({
-        onFail: (error: any) => {
+        onFail: (error: unknown) => {
           logger.error('Affirm checkout failed:', error);
           setError('Affirm checkout failed. Please try again or use Stripe.');
           setLoading(false);
         },
-        onSuccess: async (data: any) => {
+        onSuccess: async (data: { checkout_token: string; order_id?: string }) => {
           try {
             // Redirect to capture route — it authorizes the charge server-side
             // and creates the enrollment. checkout_token + order_id are passed
