@@ -91,6 +91,14 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_API_KEY"
         },
         {
+          "name": "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_TURNSTILE_SITE_KEY"
+        },
+        {
+          "name": "TURNSTILE_SECRET_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TURNSTILE_SECRET_KEY"
+        },
+        {
           "name": "CRON_SECRET",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CRON_SECRET"
         },
@@ -533,6 +541,230 @@
         {
           "name": "STUDIO_SHELL_SECRET",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_SECRET"
+        },
+        {
+          "name": "ADMIN_ALERT_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/ADMIN_ALERT_EMAIL"
+        },
+        {
+          "name": "ADMIN_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/ADMIN_EMAIL"
+        },
+        {
+          "name": "AFFIRM_API_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AFFIRM_API_URL"
+        },
+        {
+          "name": "AFFIRM_BASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AFFIRM_BASE_URL"
+        },
+        {
+          "name": "AFFIRM_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AFFIRM_PRIVATE_KEY"
+        },
+        {
+          "name": "AFFIRM_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AFFIRM_PUBLIC_KEY"
+        },
+        {
+          "name": "AUDIT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AUDIT_SECRET"
+        },
+        {
+          "name": "AWS_ACCESS_KEY_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AWS_ACCESS_KEY_ID"
+        },
+        {
+          "name": "AWS_SECRET_ACCESS_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AWS_SECRET_ACCESS_KEY"
+        },
+        {
+          "name": "BARBER_PROGRAM_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/BARBER_PROGRAM_ID"
+        },
+        {
+          "name": "CALENDLY_API_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CALENDLY_API_TOKEN"
+        },
+        {
+          "name": "GITHUB_OAUTH_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_OAUTH_CLIENT_ID"
+        },
+        {
+          "name": "GITHUB_OAUTH_CLIENT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_OAUTH_CLIENT_SECRET"
+        },
+        {
+          "name": "GITHUB_OAUTH_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_OAUTH_ENABLED"
+        },
+        {
+          "name": "GITHUB_REPO",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_REPO"
+        },
+        {
+          "name": "GRANTS_GOV_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GRANTS_GOV_API_KEY"
+        },
+        {
+          "name": "INTERNAL_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/INTERNAL_API_KEY"
+        },
+        {
+          "name": "MAIL_TO_ADMIN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/MAIL_TO_ADMIN"
+        },
+        {
+          "name": "MOU_ARCHIVE_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/MOU_ARCHIVE_EMAIL"
+        },
+        {
+          "name": "NEXT_PUBLIC_ADMIN_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_ADMIN_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_AFFIRM_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_AFFIRM_PUBLIC_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_APP_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_APP_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_CALENDLY_30MIN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_CALENDLY_30MIN"
+        },
+        {
+          "name": "NEXT_PUBLIC_CALENDLY_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_CALENDLY_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER"
+        },
+        {
+          "name": "NEXT_PUBLIC_RAPIDS_SPONSOR_NAME",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_RAPIDS_SPONSOR_NAME"
+        },
+        {
+          "name": "NEXT_PUBLIC_RTI_PROVIDER_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_RTI_PROVIDER_ID"
+        },
+        {
+          "name": "NEXT_PUBLIC_SEZZLE_MERCHANT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SEZZLE_MERCHANT_ID"
+        },
+        {
+          "name": "NEXT_PUBLIC_SEZZLE_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SEZZLE_PUBLIC_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_SITE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SITE_URL"
+        },
+        {
+          "name": "NODE_ENV",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NODE_ENV"
+        },
+        {
+          "name": "PEXELS_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/PEXELS_API_KEY"
+        },
+        {
+          "name": "POSTGRES_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/POSTGRES_URL"
+        },
+        {
+          "name": "QB_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_CLIENT_ID"
+        },
+        {
+          "name": "QB_CLIENT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_CLIENT_SECRET"
+        },
+        {
+          "name": "QB_ENVIRONMENT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_ENVIRONMENT"
+        },
+        {
+          "name": "QB_REALM_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_REALM_ID"
+        },
+        {
+          "name": "QB_REDIRECT_URI",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_REDIRECT_URI"
+        },
+        {
+          "name": "REDIS_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/REDIS_URL"
+        },
+        {
+          "name": "REPLY_TO_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/REPLY_TO_EMAIL"
+        },
+        {
+          "name": "SAMGOV_ACTIVATION_md_api_key",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SAMGOV_ACTIVATION_md_api_key"
+        },
+        {
+          "name": "SAM_GOV_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SAM_GOV_API_KEY"
+        },
+        {
+          "name": "SEZZLE_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_PRIVATE_KEY"
+        },
+        {
+          "name": "SEZZLE_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_PUBLIC_KEY"
+        },
+        {
+          "name": "SEZZLE_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SEZZLE_WEBHOOK_SECRET"
+        },
+        {
+          "name": "SPONSOR_FINANCE_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SPONSOR_FINANCE_EMAIL"
+        },
+        {
+          "name": "SSN_SALT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SSN_SALT"
+        },
+        {
+          "name": "STRIPE_PRICE_BARBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BARBER"
+        },
+        {
+          "name": "STRIPE_PRICE_BARBER_SETUP_FEE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BARBER_SETUP_FEE"
+        },
+        {
+          "name": "STRIPE_PRICE_BARBER_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BARBER_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_BARBER_DEPOSIT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BOOTH_BARBER_DEPOSIT"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_BARBER_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BOOTH_BARBER_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_COSMO_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BOOTH_COSMO_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_NAIL_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICE_BOOTH_NAIL_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICES_JSON",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICES_JSON"
+        },
+        {
+          "name": "STUDIO_SHELL_WS_URL_PUBLIC",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_WS_URL_PUBLIC"
         }
       ],
       "logConfiguration": {

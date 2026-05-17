@@ -407,6 +407,14 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_API_KEY"
         },
         {
+          "name": "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_TURNSTILE_SITE_KEY"
+        },
+        {
+          "name": "TURNSTILE_SECRET_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/TURNSTILE_SECRET_KEY"
+        },
+        {
           "name": "SENDGRID_FROM",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_FROM"
         },
@@ -649,6 +657,110 @@
         {
           "name": "affirm_public_api_key",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/affirm_public_api_key"
+        },
+        {
+          "name": "AFFIRM_API_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AFFIRM_API_URL"
+        },
+        {
+          "name": "AFFIRM_BASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AFFIRM_BASE_URL"
+        },
+        {
+          "name": "AFFIRM_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AFFIRM_PRIVATE_KEY"
+        },
+        {
+          "name": "AFFIRM_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AFFIRM_PUBLIC_KEY"
+        },
+        {
+          "name": "AWS_ACCESS_KEY_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AWS_ACCESS_KEY_ID"
+        },
+        {
+          "name": "AWS_SECRET_ACCESS_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/AWS_SECRET_ACCESS_KEY"
+        },
+        {
+          "name": "GITHUB_OAUTH_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_OAUTH_CLIENT_ID"
+        },
+        {
+          "name": "GITHUB_OAUTH_CLIENT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_OAUTH_CLIENT_SECRET"
+        },
+        {
+          "name": "GITHUB_OAUTH_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_OAUTH_ENABLED"
+        },
+        {
+          "name": "GITHUB_REPO",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_REPO"
+        },
+        {
+          "name": "GRANTS_GOV_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GRANTS_GOV_API_KEY"
+        },
+        {
+          "name": "MAIL_TO_ADMIN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/MAIL_TO_ADMIN"
+        },
+        {
+          "name": "NEXT_PUBLIC_APP_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_APP_URL"
+        },
+        {
+          "name": "NODE_ENV",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NODE_ENV"
+        },
+        {
+          "name": "POSTGRES_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/POSTGRES_URL"
+        },
+        {
+          "name": "QB_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_CLIENT_ID"
+        },
+        {
+          "name": "QB_CLIENT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_CLIENT_SECRET"
+        },
+        {
+          "name": "QB_ENVIRONMENT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_ENVIRONMENT"
+        },
+        {
+          "name": "QB_REALM_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_REALM_ID"
+        },
+        {
+          "name": "QB_REDIRECT_URI",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/QB_REDIRECT_URI"
+        },
+        {
+          "name": "REDIS_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/REDIS_URL"
+        },
+        {
+          "name": "SAMGOV_ACTIVATION_md_api_key",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SAMGOV_ACTIVATION_md_api_key"
+        },
+        {
+          "name": "SAM_GOV_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SAM_GOV_API_KEY"
+        },
+        {
+          "name": "STUDIO_SHELL_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_SECRET"
+        },
+        {
+          "name": "STUDIO_SHELL_WS_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_WS_URL"
+        },
+        {
+          "name": "STUDIO_SHELL_WS_URL_PUBLIC",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_WS_URL_PUBLIC"
         }
       ],
       "logConfiguration": {
