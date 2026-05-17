@@ -5,9 +5,6 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 // ── Module-level constants ────────────────────────────────────────────────────
 
 const EDUCATION_DOMAIN = 'elevateforhumanityeducation.com';
-const CONNECTS_DOMAIN  = 'elevateconnects.org';
-const LEARN_SUBDOMAIN  = 'learn.elevateforhumanity.org';
-const PLATFORM_SUBDOMAIN = 'platform.elevateforhumanity.org';
 const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
 const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/applicants': '/admin/applications',
@@ -511,18 +508,6 @@ export async function middleware(request: NextRequest) {
 
   // All routes are served by the same AWS ECS container — no proxy needed.
 
-  // learn.elevateforhumanity.org → /lms
-  if (hostWithoutPort === LEARN_SUBDOMAIN) {
-    if (pathname === '/' || pathname === '') {
-      return NextResponse.rewrite(new URL('/lms/dashboard', request.url));
-    }
-    // Pass sub-routes through (e.g. learn.elevateforhumanity.org/courses → /lms/courses)
-    if (!pathname.startsWith('/lms')) {
-      return NextResponse.rewrite(new URL(`/lms${pathname}`, request.url));
-    }
-    return nextWithPathname();
-  }
-
   // Education domain routing (elevateforhumanityeducation.com)
   // Root -> /admin dashboard; all other routes pass through to the full site
   if (hostWithoutPort.includes(EDUCATION_DOMAIN)) {
@@ -530,36 +515,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL('/admin', request.url));
     }
     return nextWithPathname();
-  }
-
-  // Connects domain routing (elevateconnects.org)
-  // Root -> /connects landing page; all other routes pass through to the full site
-  if (hostWithoutPort.includes(CONNECTS_DOMAIN)) {
-    if (pathname === '/' || pathname === '') {
-      return NextResponse.rewrite(new URL('/connects', request.url));
-    }
-    return nextWithPathname();
-  }
-
-  // Platform subdomain routing (platform.elevateforhumanity.org -> /platform/licensing)
-  if (hostWithoutPort === PLATFORM_SUBDOMAIN || hostWithoutPort === 'platform.elevateforhumanity.org') {
-    // Skip for static files and API routes
-    if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.includes('.')) {
-      return nextWithPathname();
-    }
-
-    // Root of platform subdomain -> licensing page
-    if (pathname === '/') {
-      return NextResponse.rewrite(new URL('/platform/licensing', request.url));
-    }
-
-    // Already on /platform path, allow through
-    if (pathname.startsWith('/platform')) {
-      return nextWithPathname();
-    }
-
-    // Rewrite all other paths to /platform/licensing/*
-    return NextResponse.rewrite(new URL(`/platform/licensing${pathname}`, request.url));
   }
 
   // Redirect non-www .org to www .org
