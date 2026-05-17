@@ -9,7 +9,7 @@ export const IT_HELP_DESK: ProgramSchema = {
   category: 'Information Technology',
   programType: 'workforce',
 
-  heroImage: '/images/pages/it-helpdesk-desk.jpg',
+  heroImage: '/images/pages/it-helpdesk-desk.webp',
   heroImageAlt: 'IT support student troubleshooting hardware in a lab',
   videoSrc: '/videos/it-technology.mp4',
 

@@ -9,7 +9,7 @@ export const CDL_TRAINING: ProgramSchema = {
   category: 'Transportation',
   programType: 'workforce',
 
-  heroImage: '/images/pages/cdl-truck-highway.jpg',
+  heroImage: '/images/pages/cdl-truck-highway.webp',
   heroImageAlt: 'CDL student behind the wheel of a commercial truck',
   videoSrc: '/videos/cdl-hero.mp4',
 

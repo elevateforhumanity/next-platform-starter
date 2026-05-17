@@ -14,7 +14,7 @@ export const PHLEBOTOMY: ProgramSchema = {
   category: 'Healthcare',
   programType: 'workforce',
 
-  heroImage: '/images/pages/phlebotomy-real.jpg',
+  heroImage: '/images/pages/phlebotomy-real.webp',
   heroImageAlt: 'Phlebotomy student practicing venipuncture technique',
 
   deliveryMode: 'hybrid',
