@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     return safeError('Only admins can mark payouts as paid', 403);
   }
 
-  const { enrollment_id } = await request.json();
+  const { enrollment_id, push_to_quickbooks } = await request.json();
   if (!enrollment_id) return safeError('enrollment_id required', 400);
 
   const now = new Date().toISOString();
@@ -48,6 +48,36 @@ export async function POST(request: NextRequest) {
   if (error) return safeInternalError(error, 'Failed to mark payout paid');
   if (!updated) return safeError('Already marked as paid or not found', 409);
 
+  // Push to QuickBooks if requested and QB is connected
+  let qbResult: Record<string, unknown> | null = null;
+  if (push_to_quickbooks !== false && process.env.QB_ACCESS_TOKEN) {
+    try {
+      // Get program holder details from enrollment
+      const { data: enrollment } = await db
+        .from('program_enrollments')
+        .select('payout_amount, profiles:user_id(full_name, email)')
+        .eq('id', enrollment_id)
+        .maybeSingle();
+
+      const profile = (enrollment?.profiles as any);
+      if (enrollment && profile?.email) {
+        const lmsBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+        const qbRes = await fetch(`${lmsBase}/api/quickbooks/contractor-payment`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-internal-key': process.env.INTERNAL_API_KEY || '' },
+          body: JSON.stringify({
+            enrollment_id,
+            amount:                enrollment.payout_amount ?? 0,
+            program_holder_name:   profile.full_name ?? profile.email,
+            program_holder_email:  profile.email,
+            memo: `Voucher payment — enrollment ${enrollment_id}`,
+          }),
+        });
+        if (qbRes.ok) qbResult = await qbRes.json();
+      }
+    } catch { /* non-fatal — payout still marked paid locally */ }
+  }
+
   // Audit entry
   await db.from('enrollment_voucher_audit').insert({
     enrollment_id,
@@ -55,7 +85,9 @@ export async function POST(request: NextRequest) {
     field_name: 'payout_status',
     old_value: 'pending',
     new_value: 'paid',
-    note: 'Marked as paid by admin',
+    note: qbResult
+      ? `Marked paid + pushed to QuickBooks (payment ID: ${qbResult.qb_payment_id})`
+      : 'Marked as paid by admin',
   });
 
   const { data: auditLog } = await db
@@ -65,5 +97,5 @@ export async function POST(request: NextRequest) {
     .order('changed_at', { ascending: false })
     .limit(50);
 
-  return NextResponse.json({ enrollment: updated, audit_log: auditLog ?? [] });
+  return NextResponse.json({ enrollment: updated, audit_log: auditLog ?? [], quickbooks: qbResult });
 }

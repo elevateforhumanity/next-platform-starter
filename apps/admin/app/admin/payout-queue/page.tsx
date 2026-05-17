@@ -11,6 +11,7 @@ import {
   ArrowLeft,
   ExternalLink,
 } from 'lucide-react';
+import ApprovePayButton from './ApprovePayButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -75,6 +76,9 @@ export default async function PayoutQueuePage({
 
   const params = await searchParams;
   const filterStatus = params.status ?? 'all';
+
+  // Check if QuickBooks is connected
+  const qbConnected = !!(process.env.QB_ACCESS_TOKEN && process.env.QB_REALM_ID);
 
   // Fetch payout queue
   let query = db
@@ -143,6 +147,27 @@ export default async function PayoutQueuePage({
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* QuickBooks connection banner */}
+        {!qbConnected && (
+          <div className="mb-4 flex items-center justify-between gap-3 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-sm">
+            <span className="text-amber-800">
+              <strong>QuickBooks not connected</strong> — payouts will be marked paid locally only.
+            </span>
+            <Link
+              href="/admin/integrations/quickbooks"
+              className="flex-shrink-0 px-3 py-1.5 text-xs font-semibold text-white bg-amber-600 hover:bg-amber-700 rounded-lg transition-colors"
+            >
+              Connect QuickBooks
+            </Link>
+          </div>
+        )}
+        {qbConnected && (
+          <div className="mb-4 flex items-center gap-2 px-4 py-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-700">
+            <CheckCircle className="w-4 h-4" />
+            <span><strong>QuickBooks connected</strong> — approving a payout will create a contractor payment automatically.</span>
+          </div>
+        )}
+
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Link href="/admin/dashboard" className="text-slate-400 hover:text-slate-600">
@@ -306,13 +331,27 @@ export default async function PayoutQueuePage({
                         </td>
                         <td className="px-4 py-3 font-semibold text-slate-900">$2,500</td>
                         <td className="px-4 py-3">
-                          <Link
-                            href={`/admin/students/${row.user_id}`}
-                            className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-800"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5" />
-                            View
-                          </Link>
+                          <div className="flex items-center gap-2">
+                            {row.payout_status !== 'paid' ? (
+                              <ApprovePayButton
+                                enrollmentId={row.id}
+                                amount={row.payout_amount ?? 0}
+                                holderName={(Array.isArray(row.profiles) ? row.profiles[0] : row.profiles)?.full_name}
+                                holderEmail={(Array.isArray(row.profiles) ? row.profiles[0] : row.profiles)?.email}
+                                qbConnected={qbConnected}
+                              />
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium">
+                                <CheckCircle className="w-3.5 h-3.5" /> Paid
+                              </span>
+                            )}
+                            <Link
+                              href={`/admin/students/${row.user_id}`}
+                              className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-slate-700"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </Link>
+                          </div>
                         </td>
                       </tr>
                     );
