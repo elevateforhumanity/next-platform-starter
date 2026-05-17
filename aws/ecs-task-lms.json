@@ -543,6 +543,10 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SSN_SALT"
         },
         {
+          "name": "SSN_ENCRYPTION_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SSN_ENCRYPTION_KEY"
+        },
+        {
           "name": "STRIPE_PRICES_JSON",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_PRICES_JSON"
         },
