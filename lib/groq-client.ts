@@ -25,7 +25,8 @@ export function getGroqClient(): Groq {
 }
 
 export function isGroqConfigured(): boolean {
-  return !!process.env.GROQ_API_KEY;
+  const key = process.env.GROQ_API_KEY;
+  return !!key && key !== 'skip' && key.length > 10;
 }
 
 /**
