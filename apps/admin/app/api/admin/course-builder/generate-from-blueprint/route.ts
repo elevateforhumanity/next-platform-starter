@@ -41,6 +41,11 @@ import { buildIndustryStandardsBlock } from '@/lib/ai/prompts/course-blueprint';
 import { createJob } from '@/lib/video/job-queue';
 import { matchAllLessonsToVideos, summariseMatchResults } from '@/lib/video/pexels-matcher';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 export const maxDuration = 300;
 export const dynamic = 'force-dynamic';
 

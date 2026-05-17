@@ -4,6 +4,11 @@ import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { createClient } from '@/lib/supabase/server';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {

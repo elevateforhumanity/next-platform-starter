@@ -4,6 +4,11 @@ import { z } from 'zod';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { getServiceDb } from '@/lib/course-builder/db';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 export const dynamic = 'force-dynamic';
 
 const quizQuestionSchema = z.object({

@@ -4,6 +4,10 @@ import { safeInternalError } from '@/lib/api/safe-error';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import PDFKit from 'pdfkit';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
 const SENDGRID_KEY = process.env.SENDGRID_API_KEY!;
 const TO_EMAIL = 'Elevate4humanityedu@gmail.com';
 const FROM_EMAIL = 'info@elevateforhumanity.org';

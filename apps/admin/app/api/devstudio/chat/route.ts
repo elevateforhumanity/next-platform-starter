@@ -152,6 +152,11 @@ function buildTemplate(args: Record<string, unknown>): string {
       code: `import Link from 'next/link';
 import { Metadata } from 'next';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 export const metadata: Metadata = {
   title: '${pageTitle} | Elevate for Humanity',
   description: '${pageTitle} for ${audience}.',
