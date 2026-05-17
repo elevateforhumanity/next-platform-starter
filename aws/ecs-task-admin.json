@@ -525,6 +525,14 @@
         {
           "name": "SUPABASE_SERVICE_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_KEY"
+        },
+        {
+          "name": "STUDIO_SHELL_WS_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_WS_URL"
+        },
+        {
+          "name": "STUDIO_SHELL_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_SECRET"
         }
       ],
       "logConfiguration": {
