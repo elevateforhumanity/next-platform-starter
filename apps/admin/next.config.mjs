@@ -72,6 +72,8 @@ const adminConfig = {
     '@sparticuz/chromium',
     'puppeteer',
     'puppeteer-core',
+    // ws — used only in the custom server.js, not in any Next.js route
+    'ws',
     'playwright',
     'tesseract.js',
     'tesseract.js-core',
