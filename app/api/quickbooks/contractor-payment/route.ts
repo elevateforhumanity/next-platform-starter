@@ -84,8 +84,13 @@ async function qbRequest(method: string, path: string, body?: unknown) {
     body: body ? JSON.stringify(body) : undefined,
   });
 
+  const intuitTid = res.headers.get('intuit_tid') ?? res.headers.get('Intuit-Tid') ?? 'unknown';
   const data = await res.json();
-  if (!res.ok) throw new Error(data?.Fault?.Error?.[0]?.Message ?? `QB API error ${res.status}`);
+  if (!res.ok) {
+    const msg = data?.Fault?.Error?.[0]?.Message ?? `QB API error ${res.status}`;
+    console.error(`[QuickBooks] ${method} ${path} failed — intuit_tid: ${intuitTid} — ${msg}`);
+    throw new Error(msg);
+  }
   return data;
 }
 
