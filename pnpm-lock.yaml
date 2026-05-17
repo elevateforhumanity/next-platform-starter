@@ -658,6 +658,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.2.1(react@19.2.1)
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.3
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -668,6 +671,9 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.2.3(@types/react@19.2.14)
+      '@types/ws':
+        specifier: ^8.5.13
+        version: 8.18.1
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -11477,7 +11483,7 @@ snapshots:
 
   '@jest/pattern@30.0.1':
     dependencies:
-      '@types/node': 24.10.1
+      '@types/node': 20.19.39
       jest-regex-util: 30.0.1
 
   '@jest/schemas@30.0.5':
@@ -14588,7 +14594,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 24.10.1
+      '@types/node': 20.19.39
 
   '@types/xml-encryption@1.2.4':
     dependencies:
@@ -17510,7 +17516,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 24.10.1
+      '@types/node': 20.19.39
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
