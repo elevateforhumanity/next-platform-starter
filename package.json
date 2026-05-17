@@ -52,6 +52,7 @@
     "@remotion/cli": "^4.0.454",
     "@remotion/compositor-linux-x64-gnu": "^4.0.454",
     "@remotion/core": "1.0.0-y.46",
+    "@remotion/licensing": "^4.0.462",
     "@remotion/renderer": "^4.0.454",
     "@sendgrid/mail": "8.1.6",
     "@sentry/nextjs": "10.32.1",
@@ -437,7 +438,7 @@
       "unrs-resolver"
     ],
     "_buildScriptNotes": {
-      "ffmpeg-static": "Railway-only (video generation). Build script intentionally blocked on Netlify.",
+      "ffmpeg-static": "GPL-3.0. Used only as a webpack external (never imported directly). Binary path resolved via @ffmpeg-installer/ffmpeg (LGPL-2.1) at runtime. SaaS deployment — no distribution obligation triggered.",
       "node-pty": "fly-containers/terminal-server only. Build script intentionally blocked on Netlify.",
       "tesseract.js": "WASM-based — no native binary needed. Build script downloads lang data at runtime."
     },

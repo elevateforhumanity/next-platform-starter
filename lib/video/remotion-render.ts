@@ -14,6 +14,7 @@ import os from 'os';
 import { mkdir, writeFile, unlink } from 'fs/promises';
 import { bundle } from '@remotion/bundler';
 import { renderMedia, selectComposition } from '@remotion/renderer';
+import { registerUsageEvent } from '@remotion/licensing';
 import { generateEdgeTTS, buildLessonScript, EDGE_TTS_VOICES, type EdgeTTSVoice } from './edge-tts';
 import { getPexelsImage } from './pexels';
 import { logger } from '@/lib/logger';
@@ -187,7 +188,6 @@ async function getBundleUrl(): Promise<string> {
       externals: [
         ...(Array.isArray(config.externals) ? config.externals : []),
         'edge-tts',
-        'ffmpeg-static',
       ],
     }),
   });
@@ -267,6 +267,17 @@ export async function renderLessonVideo(input: RemotionLessonInput): Promise<Rem
       serveUrl: bundleUrl,
       id: 'ElevateLesson',
       inputProps: compositionProps,
+    });
+
+    // Remotion free license — Elevate for Humanity is a registered 501(c)(3)
+    // nonprofit. Free tier requires no license key (licenseKey: null).
+    // See LICENSES.md for compliance documentation.
+    await registerUsageEvent({
+      event: 'render',
+      licenseKey: null,
+      isProduction: process.env.NODE_ENV === 'production',
+    }).catch(() => {
+      // Non-fatal — usage tracking failure must not block video generation
     });
 
     await renderMedia({

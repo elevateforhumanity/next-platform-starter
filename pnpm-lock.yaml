@@ -149,6 +149,9 @@ importers:
       '@remotion/core':
         specifier: 1.0.0-y.46
         version: 1.0.0-y.46(eslint@9.39.1(jiti@1.21.7))
+      '@remotion/licensing':
+        specifier: ^4.0.462
+        version: 4.0.462
       '@remotion/renderer':
         specifier: ^4.0.454
         version: 4.0.454(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -3138,6 +3141,9 @@ packages:
 
   '@remotion/licensing@4.0.454':
     resolution: {integrity: sha512-AZdZ48wKsszV4yeHfLesViAVDxGRGTV7MXCU2iYDn5aJwlvx8iSEyVdYmyQtODqOEaH1b/S7hkgS6RCAD/yUNQ==}
+
+  '@remotion/licensing@4.0.462':
+    resolution: {integrity: sha512-NbTiGVmqp7NJsLbjJP84jB5oLO92a6TJiq2KckpdpZlekLPbITpKp984rXMZjZgE/B0LkeYkIHRNO75AikFQLQ==}
 
   '@remotion/media-parser@4.0.454':
     resolution: {integrity: sha512-gN0o+7XNfz3yCIDpN27yHWTYILdT0OdJTgzta1tZmn5Ads/6LzPqjQUnsbVhfpwyPFCmCEQLBkZB5q+m6NIexA==}
@@ -13025,6 +13031,8 @@ snapshots:
       - supports-color
 
   '@remotion/licensing@4.0.454': {}
+
+  '@remotion/licensing@4.0.462': {}
 
   '@remotion/media-parser@4.0.454': {}
 

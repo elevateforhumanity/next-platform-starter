@@ -143,7 +143,6 @@ async function getBundleUrl(): Promise<string> {
       externals: [
         ...(Array.isArray(config.externals) ? config.externals : []),
         'edge-tts',
-        'ffmpeg-static',
       ],
     }),
   });
