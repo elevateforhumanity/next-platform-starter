@@ -21,6 +21,7 @@ import { isGeminiConfigured } from '@/lib/gemini-client';
 import { getOpenAIClient, isOpenAIConfigured } from '@/lib/openai-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type Groq from 'groq-sdk';
+import { getRAGContext } from '@/lib/platform/rag';
 
 type ToolCallRecord = { tool: string; args: Record<string, unknown>; result: string };
 
@@ -324,14 +325,29 @@ async function _POST(req: NextRequest) {
 
     const { messages, fileContext, documentsContext } = await req.json();
 
+    // Retrieve relevant platform knowledge via RAG before answering
+    const lastUserMessage = messages.findLast((m: { role: string }) => m.role === 'user')?.content ?? '';
+    const ragContext = await getRAGContext(lastUserMessage);
+
     const systemPrompt = `You are an AI platform controller integrated into Dev Studio for Elevate LMS.
+You are architecture-aware, memory-aware, and observability-first.
 You have tools for live platform data and template generation.
 
 Platform stack: Next.js 16 App Router, Supabase, TypeScript, Tailwind, AWS ECS.
 
+## Canonical Rules
+- All programs: /programs/[program] dynamic route. Dedicated pages only for unique client components.
+- Supabase imports: @/lib/supabase/* only.
+- Middleware: proxy.ts only. Never create middleware.ts.
+- Auth: apiAuthGuard / apiRequireAdmin from @/lib/admin/guards.
+- Errors: safeError/safeInternalError from @/lib/api/safe-error.
+- Rate limiting: applyRateLimit() from @/lib/api/withRateLimit.
+
 When the user asks for page templates or page design:
 - call design_page_template first,
 - then return the generated code in a fenced code block with the filename.
+
+${ragContext ? ragContext : ''}
 
 Current file context:
 ${fileContext || 'No file currently open'}
@@ -339,7 +355,7 @@ ${fileContext || 'No file currently open'}
 Uploaded documents context:
 ${documentsContext || 'No uploaded documents available'}
 
-Be direct and actionable.`;
+Be direct and actionable. When you reference platform structure, use the retrieved knowledge above.`;
 
     let assistantMessage: string | null = null;
     let provider = 'none';

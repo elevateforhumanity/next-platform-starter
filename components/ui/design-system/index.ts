@@ -16,3 +16,8 @@ export { Button } from './Button';
 export { Card } from './Card';
 export { Accordion, AccordionGroup } from './Accordion';
 export { ShowMore } from './ShowMore';
+export { PortalShell } from './PortalShell';
+export type { PortalNavItem } from './PortalShell';
+export { StatCard } from './StatCard';
+export { PageHeader } from './PageHeader';
+export { EmptyState } from './EmptyState';

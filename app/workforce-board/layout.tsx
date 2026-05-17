@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import WorkforceBoardShell from './WorkforceBoardShell';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +23,7 @@ export default async function WorkforceBoardLayout({ children }: { children: Rea
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role')
+    .select('role, full_name, email')
     .eq('id', user.id)
     .single();
 
@@ -30,5 +31,9 @@ export default async function WorkforceBoardLayout({ children }: { children: Rea
     redirect('/unauthorized');
   }
 
-  return <>{children}</>;
+  return (
+    <WorkforceBoardShell userName={profile.full_name} userEmail={profile.email ?? user.email}>
+      {children}
+    </WorkforceBoardShell>
+  );
 }
