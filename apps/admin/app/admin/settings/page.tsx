@@ -12,6 +12,7 @@ import {
   Webhook,
   ChevronRight,
   ArrowRight,
+  Share2,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -81,6 +82,17 @@ export default async function AdminSettingsPage() {
         { label: 'From Name', value: settings['email_from_name'] ?? '—' },
         { label: 'From Address', value: settings['email_from_address'] ?? '—' },
         { label: 'Provider', value: settings['email_provider'] ?? '—' },
+      ],
+    },
+    {
+      title: 'Social Media Accounts',
+      icon: Share2,
+      href: '/admin/settings/social-media',
+      fields: [
+        { label: 'Facebook', value: settings['social_facebook_connected'] === 'true' ? 'Connected' : 'Not connected' },
+        { label: 'Instagram', value: settings['social_instagram_connected'] === 'true' ? 'Connected' : 'Not connected' },
+        { label: 'YouTube', value: settings['social_youtube_connected'] === 'true' ? 'Connected' : 'Not connected' },
+        { label: 'Twitter / X', value: settings['social_twitter_connected'] === 'true' ? 'Connected' : 'Not connected' },
       ],
     },
     {

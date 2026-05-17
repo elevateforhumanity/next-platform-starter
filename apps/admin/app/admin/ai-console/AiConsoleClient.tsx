@@ -36,6 +36,11 @@ const ACTION_PATTERNS = [
   /run.*report|generate.*report|show.*report/i,
   /list.*shop|show.*shop|partner.*shop/i,
   /send.*email|email.*student|notify/i,
+  /social.*media|post.*to|publish.*to|create.*post|generate.*post|write.*post/i,
+  /facebook.*post|instagram.*post|twitter.*post|linkedin.*post|youtube.*post/i,
+  /post.*facebook|post.*instagram|post.*twitter|post.*linkedin/i,
+  /social.*connect|connect.*social|social.*account|check.*social/i,
+  /generate.*reel|create.*reel|make.*reel|write.*caption/i,
   /run.*payroll|payroll.*run/i,
 ];
 

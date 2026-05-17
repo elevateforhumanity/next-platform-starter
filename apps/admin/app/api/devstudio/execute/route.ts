@@ -682,6 +682,48 @@ const TOOLS: unknown[] = [
   {
     type: 'function',
     function: {
+      name: 'check_social_connections',
+      description: 'Check which social media platforms are connected (Facebook, Instagram, YouTube, Twitter, LinkedIn)',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'generate_social_post',
+      description: 'Use AI to generate social media post content for a program or topic. Returns ready-to-publish copy.',
+      parameters: {
+        type: 'object',
+        properties: {
+          program: { type: 'string', description: 'Program slug or "all" (e.g. hvac, barber, cna, cdl, all)' },
+          platforms: { type: 'string', description: 'Comma-separated platforms: facebook,instagram,twitter,linkedin' },
+          count: { type: 'number', description: 'Number of posts to generate (default 3)' },
+          topic: { type: 'string', description: 'Optional specific topic or angle for the posts' },
+        },
+        required: ['program'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'publish_social_post',
+      description: 'Publish a post immediately to a social media platform',
+      parameters: {
+        type: 'object',
+        properties: {
+          platform: { type: 'string', enum: ['facebook', 'instagram', 'twitter', 'linkedin'], description: 'Platform to post to' },
+          content: { type: 'string', description: 'Post text content' },
+          title: { type: 'string', description: 'Optional title (used for LinkedIn)' },
+          media_url: { type: 'string', description: 'Optional image or video URL' },
+        },
+        required: ['platform', 'content'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
       name: 'export_audit_log',
       description: 'Export the admin audit log',
       parameters: { type: 'object', properties: {}, required: [] },
@@ -2016,7 +2058,75 @@ async function executeAction(
       break;
     }
 
-    // ── Social campaigns ──────────────────────────────────────────────────
+    // ── Social media ──────────────────────────────────────────────────────
+    case 'check_social_connections': {
+      write('\x1b[33m⚙  Checking social media connections…\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl.replace('www.', 'admin.')}/api/admin/social-media/status`, { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const statuses: Array<{ platform: string; connected: boolean; expired?: boolean }> = data.statuses ?? [];
+          const connected = statuses.filter((s) => s.connected);
+          const disconnected = statuses.filter((s) => !s.connected);
+          write(`\x1b[32m✓  ${connected.length} of ${statuses.length} platforms connected\x1b[0m`);
+          connected.forEach((s) => write(`   \x1b[32m●\x1b[0m ${s.platform}${s.expired ? ' \x1b[33m(token expired — reconnect)\x1b[0m' : ''}`));
+          disconnected.forEach((s) => write(`   \x1b[90m○\x1b[0m ${s.platform} — not connected`));
+          if (disconnected.length > 0) write(`   Connect at: /admin/settings/social-media`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    case 'generate_social_post': {
+      const program = args.program?.toString() ?? 'all';
+      const count = Number(args.count ?? 3);
+      const topic = args.topic?.toString() ?? '';
+      const platforms = args.platforms?.toString() ?? 'facebook,instagram,twitter,linkedin';
+      write(`\x1b[33m⚙  Generating ${count} AI post(s) for "${program}"…\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/social-media/generate`, {
+          method: 'POST',
+          headers: { ...headers, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ program, count, contentSource: 'ai', topic, platforms: platforms.split(',') }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const posts: string[] = data.posts ?? data.generated ?? [];
+          write(`\x1b[32m✓  ${posts.length} post(s) generated\x1b[0m`);
+          posts.forEach((p, i) => {
+            write(`\n   \x1b[1mPost ${i + 1}:\x1b[0m`);
+            p.split('\n').forEach((line: string) => write(`   ${line}`));
+          });
+          write(`\n   Publish at: /admin/social-media/campaigns/new`);
+        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
+    case 'publish_social_post': {
+      const platform = args.platform?.toString() ?? '';
+      const content = args.content?.toString() ?? '';
+      const title = args.title?.toString() ?? '';
+      const media_url = args.media_url?.toString() ?? '';
+      write(`\x1b[33m⚙  Publishing to ${platform}…\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/social-media/post`, {
+          method: 'POST',
+          headers: { ...headers, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ platform, content, title, media_url: media_url || undefined }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.success) {
+          write(`\x1b[32m✓  Posted to ${platform}\x1b[0m`);
+          if (data.platform_url) write(`   View: ${data.platform_url}`);
+        } else {
+          write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
+          if (data.error?.includes('not connected')) write(`   Connect at: /admin/settings/social-media`);
+        }
+      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+      break;
+    }
+
     case 'list_social_campaigns': {
       write('\x1b[33m⚙  Fetching social campaigns…\x1b[0m');
       try {
