@@ -12,13 +12,17 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION:      us-east-1
-  ECR_REGISTRY:    954718262498.dkr.ecr.us-east-1.amazonaws.com
-  ECR_REPOSITORY:  elevate-studio
-  ECS_CLUSTER:     elevate-cluster
-  ECS_SERVICE:     elevate-studio
-  TASK_DEFINITION: aws/ecs-task-studio.json
-  CONTAINER_NAME:  elevate-studio
+  AWS_REGION:           us-east-1
+  ECR_REGISTRY:         954718262498.dkr.ecr.us-east-1.amazonaws.com
+  ECR_REPOSITORY:       elevate-studio
+  ECS_CLUSTER:          elevate-cluster
+  ECS_SERVICE:          elevate-studio
+  TASK_DEFINITION:      aws/ecs-task-studio.json
+  CONTAINER_NAME:       elevate-studio
+  # Cloud Map service discovery — stable DNS, no IP hardcoding needed
+  CLOUD_MAP_SERVICE_ID: srv-lcwsq3yw4g2ja5wa
+  SUBNETS:              subnet-0a171d95bf4674863,subnet-0a2d8af9bb5d1b0b0,subnet-08f76a2d8f68db65b
+  SECURITY_GROUPS:      sg-04e101227cc967c15
 
 jobs:
   deploy:
@@ -64,6 +68,28 @@ jobs:
           task-definition: ${{ env.TASK_DEFINITION }}
           container-name:  ${{ env.CONTAINER_NAME }}
           image:           ${{ steps.build.outputs.image }}
+
+      - name: Ensure ECS service exists
+        run: |
+          STATUS=$(aws ecs describe-services \
+            --cluster $ECS_CLUSTER \
+            --services $ECS_SERVICE \
+            --query 'services[0].status' --output text 2>/dev/null || echo "MISSING")
+
+          if [ "$STATUS" != "ACTIVE" ]; then
+            echo "Service not found — creating with Cloud Map service discovery"
+            aws ecs create-service \
+              --cluster $ECS_CLUSTER \
+              --service-name $ECS_SERVICE \
+              --task-definition $ECS_SERVICE \
+              --desired-count 1 \
+              --launch-type FARGATE \
+              --network-configuration "awsvpcConfiguration={subnets=[$SUBNETS],securityGroups=[$SECURITY_GROUPS],assignPublicIp=ENABLED}" \
+              --service-registries "registryArn=arn:aws:servicediscovery:$AWS_REGION:954718262498:service/$CLOUD_MAP_SERVICE_ID" \
+              --enable-execute-command
+          else
+            echo "Service exists (status: $STATUS) — proceeding with update"
+          fi
 
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
