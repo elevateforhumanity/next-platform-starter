@@ -2,7 +2,10 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Brain, Code2, BookOpen, BarChart3, Database, Search, Send, Loader2, Terminal, Zap } from 'lucide-react';
+import {
+  Brain, Code2, BookOpen, BarChart3, Database, Search, Send, Loader2,
+  Terminal, Zap, Activity, Map, GitBranch, Users, ShieldAlert, BookMarked,
+} from 'lucide-react';
 
 // Prompts that trigger the devstudio action executor (SSE streaming)
 const ACTION_PATTERNS = [
@@ -10,6 +13,17 @@ const ACTION_PATTERNS = [
   /no.*auth.*route|missing.*auth|auth.*gap/i,
   /query.*db|query.*database|db.*query|database.*query|show.*table|list.*table/i,
   /audit.*system|system.*audit|full.*audit|run.*audit/i,
+  /audit.*enrollment|enrollment.*audit|enrollment.*pipeline/i,
+  /verify.*program|program.*integrity/i,
+  /inspect.*student|student.*access/i,
+  /platform.*state|get.*state|system.*health|health.*check/i,
+  /knowledge.*graph|lookup.*graph|graph.*lookup/i,
+  /recall.*memory|memory.*recall|past.*decision|known.*issue/i,
+  /save.*memory|remember.*this/i,
+  /list.*migration|pending.*migration/i,
+  /run.*qa|qa.*scan|quality.*check|platform.*qa/i,
+  /snapshot|rollback/i,
+  /system.*registry|program.*registry|registry.*lookup/i,
   /broken.*link|inspect.*link|link.*check|dead.*link/i,
   /run.*migration|apply.*migration/i,
   /deploy|build.*project|run.*build/i,
@@ -35,27 +49,58 @@ interface Message {
   streaming?: boolean;
 }
 
+interface PlatformState {
+  platform?: {
+    active_students: number | null;
+    pending_applications: number | null;
+    total_enrollments: number | null;
+    published_programs: number | null;
+    certificates_issued: number | null;
+  };
+  deployment?: {
+    ai_provider: string;
+    environment: string;
+  };
+  debt?: {
+    total_items: number;
+    by_severity: { high: number; medium: number; low: number };
+  };
+}
+
 const QUICK_ACTIONS = [
-  { icon: Search,   label: 'Scan routes',        prompt: 'Scan all Next.js routes',                    mode: 'action' },
-  { icon: Database, label: 'Query programs',      prompt: 'Query database table programs status=published', mode: 'action' },
-  { icon: Terminal, label: 'Audit system',        prompt: 'Run full system audit',                      mode: 'action' },
-  { icon: Search,   label: 'Inspect links',       prompt: 'Inspect broken internal links',              mode: 'action' },
-  { icon: BarChart3,label: 'Enrollment report',   prompt: 'Run enrollment report',                      mode: 'action' },
-  { icon: BookOpen, label: 'List applications',   prompt: 'List pending applications',                  mode: 'action' },
-  { icon: Code2,    label: 'Recent commits',      prompt: 'Show recent git commits',                    mode: 'action' },
-  { icon: Zap,      label: 'List programs',       prompt: 'List all active published programs',         mode: 'action' },
+  { icon: Activity,    label: 'Platform state',      prompt: 'Get live platform state',                        mode: 'action' },
+  { icon: Map,         label: 'Knowledge graph',      prompt: 'Lookup knowledge graph systems',                 mode: 'action' },
+  { icon: ShieldAlert, label: 'Auth audit',           prompt: 'Run full system audit',                          mode: 'action' },
+  { icon: BarChart3,   label: 'Enrollment pipeline',  prompt: 'Audit enrollment pipeline',                      mode: 'action' },
+  { icon: Database,    label: 'Query programs',       prompt: 'Query database table programs status=published',  mode: 'action' },
+  { icon: Users,       label: 'Pending applications', prompt: 'List pending applications',                      mode: 'action' },
+  { icon: BookMarked,  label: 'Recall memory',        prompt: 'Recall operational memory type=all',             mode: 'action' },
+  { icon: GitBranch,   label: 'Migrations',           prompt: 'List pending migrations',                        mode: 'action' },
+  { icon: Search,      label: 'Scan routes',          prompt: 'Scan all Next.js routes',                        mode: 'action' },
+  { icon: Code2,       label: 'Recent commits',       prompt: 'Show recent git commits',                        mode: 'action' },
+  { icon: BookOpen,    label: 'List programs',        prompt: 'List all active published programs',             mode: 'action' },
+  { icon: Zap,         label: 'Full QA scan',         prompt: 'Run full platform QA scan',                      mode: 'action' },
 ];
 
 export default function AiConsoleClient() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [platformState, setPlatformState] = useState<PlatformState | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Load platform state on mount
+  useEffect(() => {
+    fetch('/api/devstudio/platform-state')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setPlatformState(data); })
+      .catch(() => {});
+  }, []);
 
   const sendMessage = useCallback(async (text: string) => {
     const prompt = text.trim();
@@ -199,6 +244,31 @@ export default function AiConsoleClient() {
 
   return (
     <div className="flex flex-col h-full min-h-0">
+      {/* Platform state strip */}
+      {platformState && (
+        <div className="flex items-center gap-4 px-4 py-2 bg-slate-900 text-xs font-mono text-slate-300 border-b border-slate-700 overflow-x-auto shrink-0">
+          <span className="text-slate-500 shrink-0">LIVE</span>
+          {platformState.platform?.active_students != null && (
+            <span className="shrink-0"><span className="text-slate-500">students </span><span className="text-green-400">{platformState.platform.active_students}</span></span>
+          )}
+          {platformState.platform?.pending_applications != null && (
+            <span className="shrink-0"><span className="text-slate-500">pending-apps </span><span className={platformState.platform.pending_applications > 0 ? 'text-amber-400' : 'text-green-400'}>{platformState.platform.pending_applications}</span></span>
+          )}
+          {platformState.platform?.total_enrollments != null && (
+            <span className="shrink-0"><span className="text-slate-500">enrollments </span><span className="text-blue-400">{platformState.platform.total_enrollments}</span></span>
+          )}
+          {platformState.platform?.published_programs != null && (
+            <span className="shrink-0"><span className="text-slate-500">programs </span><span className="text-slate-300">{platformState.platform.published_programs}</span></span>
+          )}
+          {platformState.debt && (
+            <span className="shrink-0"><span className="text-slate-500">debt </span><span className={platformState.debt.by_severity.high > 0 ? 'text-red-400' : 'text-slate-300'}>{platformState.debt.by_severity.high}H/{platformState.debt.by_severity.medium}M</span></span>
+          )}
+          {platformState.deployment?.ai_provider && (
+            <span className="shrink-0 ml-auto"><span className="text-slate-500">ai </span><span className="text-purple-400">{platformState.deployment.ai_provider}</span></span>
+          )}
+        </div>
+      )}
+
       {/* Quick actions */}
       <div className="flex flex-wrap gap-2 p-4 border-b border-slate-200 bg-slate-50">
         {QUICK_ACTIONS.map((a) => (

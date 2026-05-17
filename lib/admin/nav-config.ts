@@ -149,11 +149,12 @@ export const DEFAULT_NAV: NavSection[] = [
     href: '/admin/ai-console',
     items: [
       { label: 'AI Console', href: '/admin/ai-console' },
+      { label: 'Command Center', href: '/admin/command-center' },
+      { label: 'Dev Studio', href: '/admin/dev-studio' },
       { label: 'Copilot', href: '/admin/copilot' },
       { label: 'Copilot — Deploy', href: '/admin/copilot/deploy' },
       { label: 'Automation', href: '/admin/automation' },
       { label: 'Workflows', href: '/admin/workflows' },
-      { label: 'Dev Studio', href: '/admin/dev-studio' },
     ],
   },
   {

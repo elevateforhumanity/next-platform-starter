@@ -44,6 +44,9 @@ import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
+import { getKnowledgeGraphContext, PLATFORM_DEBT, SYSTEMS } from '@/lib/platform/knowledge-graph';
+import { getSystemRegistryContext, requiresConfirmation } from '@/lib/platform/system-registry';
+import { emitAiAction, emitMigrationEvent } from '@/lib/platform/events';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -827,6 +830,186 @@ const TOOLS: unknown[] = [
           confirm:  { type: 'boolean', description: 'Must be true to execute. If false, returns a dry-run preview.' },
         },
         required: ['filename'],
+      },
+    },
+  },
+
+  // ── Semantic composite tools ─────────────────────────────────────────────
+  // Higher-level tools that reason about the platform as a whole.
+
+  {
+    type: 'function',
+    function: {
+      name: 'audit_enrollment_pipeline',
+      description: 'Audit the full enrollment pipeline: check applications table, enrollments, pending states, payment status, and identify stuck or broken flows.',
+      parameters: {
+        type: 'object',
+        properties: {
+          program_slug: { type: 'string', description: 'Limit audit to a specific program slug (optional)' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'verify_program_integrity',
+      description: 'Verify a program\'s full data integrity: check programs table, linked courses, curriculum_lessons, apply routes, checkout routes, and enrollment flow.',
+      parameters: {
+        type: 'object',
+        properties: {
+          program_slug: { type: 'string', description: 'Program slug to verify (e.g. hvac-technician, cna)' },
+        },
+        required: ['program_slug'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'inspect_student_access',
+      description: 'Inspect a student\'s access: enrollments, lesson progress, checkpoint scores, certificates, and any blocked or stuck states.',
+      parameters: {
+        type: 'object',
+        properties: {
+          user_id:  { type: 'string', description: 'Student user UUID' },
+          email:    { type: 'string', description: 'Student email (alternative to user_id)' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'get_platform_state',
+      description: 'Get a live platform state snapshot: active students, pending applications, enrollments, published programs, certificates issued, deployment health, and known issues.',
+      parameters: {
+        type: 'object',
+        properties: {},
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'lookup_knowledge_graph',
+      description: 'Look up the platform knowledge graph: find which system owns a route or DB table, get system details, list platform debt, or get canonical architecture decisions.',
+      parameters: {
+        type: 'object',
+        properties: {
+          query:  { type: 'string', description: 'What to look up: a route path, table name, system id, or "debt" / "decisions"' },
+        },
+        required: ['query'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_pending_migrations',
+      description: 'List all migration files in supabase/migrations/ that may not yet be applied in the live DB.',
+      parameters: {
+        type: 'object',
+        properties: {},
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'recall_memory',
+      description: 'Recall persistent operational memory: known issues, canonical decisions, past audits, deployment events.',
+      parameters: {
+        type: 'object',
+        properties: {
+          type:   { type: 'string', enum: ['decision', 'audit', 'issue', 'deployment', 'all'], description: 'Memory type to recall' },
+          search: { type: 'string', description: 'Keyword to filter memories (optional)' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'save_memory',
+      description: 'Save a new operational memory: a decision made, issue found, or note about the platform.',
+      parameters: {
+        type: 'object',
+        properties: {
+          type:    { type: 'string', enum: ['decision', 'audit', 'issue', 'deployment', 'note'], description: 'Memory type' },
+          title:   { type: 'string', description: 'Short title' },
+          content: { type: 'string', description: 'Full content of the memory' },
+          tags:    { type: 'array', items: { type: 'string' }, description: 'Tags for filtering' },
+        },
+        required: ['type', 'title', 'content'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'run_qa_scan',
+      description: 'Run the autonomous QA scanner: checks routes, auth gaps, API health, DB integrity, program registry, enrollment flows, and env vars.',
+      parameters: {
+        type: 'object',
+        properties: {
+          scope: {
+            type: 'string',
+            enum: ['all', 'routes', 'auth', 'api', 'db', 'programs', 'enrollment', 'env'],
+            description: 'What to scan (default: all)',
+          },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'create_snapshot',
+      description: 'Create a platform snapshot before making a change. Use before migrations, deployments, or config changes.',
+      parameters: {
+        type: 'object',
+        properties: {
+          type:         { type: 'string', enum: ['pre_migration', 'pre_deploy', 'pre_config_change', 'manual'], description: 'Snapshot type' },
+          label:        { type: 'string', description: 'Human-readable label for this snapshot' },
+          rollback_sql: { type: 'string', description: 'SQL to undo the change (optional)' },
+        },
+        required: ['type', 'label'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_snapshots',
+      description: 'List recent platform snapshots for rollback reference.',
+      parameters: {
+        type: 'object',
+        properties: {
+          limit: { type: 'number', description: 'Max results (default 10)' },
+          type:  { type: 'string', description: 'Filter by snapshot type (optional)' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'lookup_program_registry',
+      description: 'Look up a program in the central system registry: get canonical route, apply route, checkout route, funding types, and DB status.',
+      parameters: {
+        type: 'object',
+        properties: {
+          slug: { type: 'string', description: 'Program slug (e.g. hvac-technician, cna, barber-apprenticeship)' },
+        },
+        required: ['slug'],
       },
     },
   },
@@ -2200,9 +2383,336 @@ async function executeAction(
         const { createClient } = await import('@supabase/supabase-js');
         const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
         const { error } = await sb.rpc('exec_sql', { sql }).single();
-        if (error) { write(`\x1b[31m✗  ${error.message}\x1b[0m`); break; }
+        if (error) {
+          await emitMigrationEvent('failed', filename);
+          write(`\x1b[31m✗  ${error.message}\x1b[0m`); break;
+        }
+        await emitMigrationEvent('applied', filename);
         write(`\x1b[32m✓  Migration applied: ${filename}\x1b[0m`);
       } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Migration failed'}\x1b[0m`); }
+      break;
+    }
+
+    // ── Semantic composite tools ───────────────────────────────────────────
+
+    case 'audit_enrollment_pipeline': {
+      const slug = args.program_slug ? String(args.program_slug) : null;
+      write(`\x1b[33m⚙  Auditing enrollment pipeline${slug ? ` for ${slug}` : ''}…\x1b[0m`);
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+
+        // Applications
+        let appsQ = sb.from('applications').select('id, status, program_id, created_at', { count: 'exact' });
+        if (slug) {
+          const { data: prog } = await sb.from('programs').select('id').eq('slug', slug).single();
+          if (prog) appsQ = appsQ.eq('program_id', prog.id) as typeof appsQ;
+        }
+        const { data: apps, count: appCount } = await appsQ.limit(200);
+        const byStatus: Record<string, number> = {};
+        for (const a of apps ?? []) byStatus[a.status] = (byStatus[a.status] ?? 0) + 1;
+
+        // Enrollments
+        const { count: enrollCount } = await sb.from('enrollments').select('id', { count: 'exact', head: true });
+
+        // Stuck: applications pending > 7 days
+        const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+        const { count: stuckCount } = await sb.from('applications')
+          .select('id', { count: 'exact', head: true })
+          .eq('status', 'pending')
+          .lt('created_at', cutoff);
+
+        write(`\x1b[32m✓  Enrollment pipeline audit\x1b[0m`);
+        write(`   Total applications:  ${appCount ?? '?'}`);
+        Object.entries(byStatus).forEach(([s, n]) => write(`   ${s.padEnd(16)} ${n}`));
+        write(`   Total enrollments:   ${enrollCount ?? '?'}`);
+        write(`   Stuck (>7d pending): ${stuckCount ?? '?'}`);
+        if ((stuckCount ?? 0) > 0) write(`\x1b[33m   ⚠  ${stuckCount} applications stuck — review at /admin/applications\x1b[0m`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Audit failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'verify_program_integrity': {
+      const slug = String(args.program_slug ?? '');
+      if (!slug) { write(`\x1b[31m✗  program_slug is required\x1b[0m`); break; }
+      write(`\x1b[33m⚙  Verifying program integrity: ${slug}…\x1b[0m`);
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+
+        const { data: prog } = await sb.from('programs').select('id, title, published, is_active, status').eq('slug', slug).single();
+        if (!prog) { write(`\x1b[31m✗  Program not found: ${slug}\x1b[0m`); break; }
+
+        write(`\x1b[32m✓  Program found\x1b[0m`);
+        write(`   Title:     ${prog.title}`);
+        write(`   Published: ${prog.published}  Active: ${prog.is_active}  Status: ${prog.status}`);
+
+        const { data: courses, count: courseCount } = await sb.from('courses').select('id, title', { count: 'exact' }).eq('program_id', prog.id);
+        write(`   Courses:   ${courseCount ?? 0}`);
+
+        if (courses && courses.length > 0) {
+          for (const course of courses.slice(0, 3)) {
+            const { count: lessonCount } = await sb.from('curriculum_lessons').select('id', { count: 'exact', head: true }).eq('course_id', course.id);
+            write(`   └ ${course.title}: ${lessonCount ?? 0} lessons`);
+          }
+        }
+
+        const { readdirSync, existsSync } = await import('fs');
+        const { join } = await import('path');
+        const applyPath = join(process.cwd(), 'app', 'programs', slug, 'apply');
+        const checkoutPath = join(process.cwd(), 'app', 'checkout', slug);
+        write(`   Apply route:    ${existsSync(applyPath) ? '\x1b[32m✓ exists\x1b[0m' : '\x1b[90mfalls through to [program]\x1b[0m'}`);
+        write(`   Checkout route: ${existsSync(checkoutPath) ? '\x1b[32m✓ exists\x1b[0m' : '\x1b[90mfalls through to [program]\x1b[0m'}`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Verify failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'inspect_student_access': {
+      const userId = args.user_id ? String(args.user_id) : null;
+      const email  = args.email   ? String(args.email)   : null;
+      if (!userId && !email) { write(`\x1b[31m✗  user_id or email is required\x1b[0m`); break; }
+      write(`\x1b[33m⚙  Inspecting student access…\x1b[0m`);
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+
+        let uid = userId;
+        if (!uid && email) {
+          const { data: p } = await sb.from('profiles').select('id, full_name, role').eq('email', email).single();
+          if (!p) { write(`\x1b[31m✗  No user found for email: ${email}\x1b[0m`); break; }
+          uid = p.id;
+          write(`   User: ${p.full_name} (${p.role})`);
+        }
+
+        const { data: enrollments } = await sb.from('enrollments').select('id, course_id, status, created_at').eq('user_id', uid!).limit(10);
+        write(`   Enrollments: ${enrollments?.length ?? 0}`);
+        enrollments?.forEach(e => write(`   └ ${e.course_id} — ${e.status}`));
+
+        const { count: progressCount } = await sb.from('lesson_progress').select('id', { count: 'exact', head: true }).eq('user_id', uid!);
+        write(`   Lesson progress rows: ${progressCount ?? 0}`);
+
+        const { count: checkpointCount } = await sb.from('checkpoint_scores').select('id', { count: 'exact', head: true }).eq('user_id', uid!);
+        write(`   Checkpoint scores: ${checkpointCount ?? 0}`);
+
+        const { data: certs } = await sb.from('program_completion_certificates').select('id, program_id, issued_at').eq('user_id', uid!).limit(5);
+        write(`   Certificates: ${certs?.length ?? 0}`);
+        certs?.forEach(c => write(`   └ ${c.program_id} — issued ${c.issued_at}`));
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Inspect failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'get_platform_state': {
+      write(`\x1b[33m⚙  Fetching live platform state…\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/devstudio/platform-state`, { headers: { Cookie: authHeader } });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const state = await res.json();
+        write(`\x1b[32m✓  Platform state (${state.timestamp})\x1b[0m`);
+        write(`   Environment:         ${state.deployment?.environment}`);
+        write(`   AI provider:         ${state.deployment?.ai_provider}`);
+        write(`   Active students:     ${state.platform?.active_students ?? '?'}`);
+        write(`   Pending applications:${state.platform?.pending_applications ?? '?'}`);
+        write(`   Total enrollments:   ${state.platform?.total_enrollments ?? '?'}`);
+        write(`   Published programs:  ${state.platform?.published_programs ?? '?'}`);
+        write(`   Certificates issued: ${state.platform?.certificates_issued ?? '?'}`);
+        write(`   Platform debt:       ${state.debt?.total_items} items (${state.debt?.by_severity?.high ?? 0} high)`);
+        if (state.debt?.top_issues?.length) {
+          write(`   Top issues: ${state.debt.top_issues.join(', ')}`);
+        }
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'State fetch failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'lookup_knowledge_graph': {
+      const query = String(args.query ?? '');
+      write(`\x1b[33m⚙  Knowledge graph lookup: ${query}…\x1b[0m`);
+      try {
+        const { lookupRoute, lookupTable, SYSTEMS: SYS, PLATFORM_DEBT: DEBT, CANONICAL_DECISIONS: DECISIONS } = await import('@/lib/platform/knowledge-graph');
+
+        if (query === 'debt') {
+          write(`\x1b[32m✓  Platform debt (${DEBT.length} items)\x1b[0m`);
+          DEBT.forEach(d => write(`   [${d.severity.toUpperCase()}] ${d.id}: ${d.description.slice(0, 80)}`));
+        } else if (query === 'decisions') {
+          write(`\x1b[32m✓  Canonical decisions\x1b[0m`);
+          DECISIONS.forEach(d => write(`   • ${d.id}: ${d.decision.slice(0, 80)}`));
+        } else if (query === 'systems') {
+          write(`\x1b[32m✓  Platform systems\x1b[0m`);
+          SYS.forEach(s => write(`   [${s.status}] ${s.id}: ${s.description.slice(0, 60)}`));
+        } else if (query.startsWith('/')) {
+          const system = lookupRoute(query);
+          write(system
+            ? `\x1b[32m✓  Route ${query} → system: ${system.name} (${system.id})\x1b[0m\n   Tables: ${system.tables.join(', ')}`
+            : `\x1b[33m⚠  Route ${query} not in knowledge graph\x1b[0m`);
+        } else {
+          const systems = lookupTable(query);
+          if (systems.length) {
+            write(`\x1b[32m✓  Table "${query}" used by:\x1b[0m`);
+            systems.forEach(s => write(`   • ${s.name} (${s.id})`));
+          } else {
+            const sys = SYS.find(s => s.id === query);
+            if (sys) {
+              write(`\x1b[32m✓  System: ${sys.name}\x1b[0m`);
+              write(`   Status: ${sys.status}`);
+              write(`   ${sys.description}`);
+              write(`   Routes: ${sys.routes.join(', ')}`);
+              write(`   Tables: ${sys.tables.join(', ')}`);
+            } else {
+              write(`\x1b[33m⚠  "${query}" not found in knowledge graph\x1b[0m`);
+              write(`   Try: a route path (/programs/[program]), table name, system id, "debt", "decisions", or "systems"`);
+            }
+          }
+        }
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Lookup failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'list_pending_migrations': {
+      write(`\x1b[33m⚙  Listing migration files…\x1b[0m`);
+      try {
+        const { readdirSync } = await import('fs');
+        const { join } = await import('path');
+        const dir = join(process.cwd(), 'supabase', 'migrations');
+        const files = readdirSync(dir).filter(f => f.endsWith('.sql')).sort();
+        write(`\x1b[32m✓  ${files.length} migration files\x1b[0m`);
+        files.slice(-20).forEach(f => write(`   ${f}`));
+        if (files.length > 20) write(`   (showing last 20 of ${files.length})`);
+        write(`\n   Apply in Supabase Dashboard → SQL Editor`);
+        write(`   Or use: run_migration with filename + confirm=true`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'recall_memory': {
+      const memType = args.type ? String(args.type) : 'all';
+      const search  = args.search ? String(args.search).toLowerCase() : null;
+      write(`\x1b[33m⚙  Recalling operational memory (${memType})…\x1b[0m`);
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+        let q = sb.from('ai_operator_memory').select('memory_type, title, content, severity, tags, created_at').order('created_at', { ascending: false }).limit(30);
+        if (memType !== 'all') q = q.eq('memory_type', memType) as typeof q;
+        const { data, error } = await q;
+        if (error) { write(`\x1b[31m✗  ${error.message}\x1b[0m`); break; }
+        const filtered = search
+          ? (data ?? []).filter(m => m.title.toLowerCase().includes(search) || m.content.toLowerCase().includes(search))
+          : (data ?? []);
+        write(`\x1b[32m✓  ${filtered.length} memories\x1b[0m`);
+        filtered.forEach(m => {
+          const sev = m.severity === 'critical' ? '\x1b[31m' : m.severity === 'warning' ? '\x1b[33m' : '\x1b[32m';
+          write(`   ${sev}[${m.memory_type}]\x1b[0m ${m.title}`);
+          write(`   ${m.content.slice(0, 120)}${m.content.length > 120 ? '…' : ''}`);
+        });
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Recall failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'save_memory': {
+      const memType = String(args.type ?? 'note');
+      const title   = String(args.title ?? '');
+      const content = String(args.content ?? '');
+      const tags    = Array.isArray(args.tags) ? args.tags.map(String) : [];
+      if (!title || !content) { write(`\x1b[31m✗  title and content are required\x1b[0m`); break; }
+      write(`\x1b[33m⚙  Saving memory: ${title}…\x1b[0m`);
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+        const { error } = await sb.from('ai_operator_memory').insert({ memory_type: memType, title, content, tags });
+        if (error) { write(`\x1b[31m✗  ${error.message}\x1b[0m`); break; }
+        write(`\x1b[32m✓  Memory saved: [${memType}] ${title}\x1b[0m`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Save failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'run_qa_scan': {
+      const scope = String(args.scope ?? 'all');
+      write(`\x1b[33m⚙  Running autonomous QA scan (${scope})…\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/devstudio/qa-scan?scope=${scope}`, {
+          headers: { Cookie: authHeader },
+          signal: AbortSignal.timeout(90000),
+        });
+        if (!res.body) throw new Error('No stream');
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const lines = buf.split('\n');
+          buf = lines.pop() ?? '';
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const payload = line.slice(6);
+            if (payload === '[DONE]') break;
+            try { const { text } = JSON.parse(payload); if (text) write(text); } catch { /* skip */ }
+          }
+        }
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'QA scan failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'create_snapshot': {
+      const snapType  = String(args.type ?? 'manual');
+      const snapLabel = String(args.label ?? '');
+      const rollbackSql = args.rollback_sql ? String(args.rollback_sql) : undefined;
+      if (!snapLabel) { write(`\x1b[31m✗  label is required\x1b[0m`); break; }
+      write(`\x1b[33m⚙  Creating snapshot: ${snapLabel}…\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/devstudio/snapshot`, {
+          method: 'POST',
+          headers: { ...{ 'Content-Type': 'application/json' }, Cookie: authHeader },
+          body: JSON.stringify({ type: snapType, label: snapLabel, rollback_sql: rollbackSql }),
+        });
+        const data = await res.json();
+        if (!res.ok) { write(`\x1b[31m✗  ${data.error ?? 'Snapshot failed'}\x1b[0m`); break; }
+        write(`\x1b[32m✓  Snapshot created: ${data.id}\x1b[0m`);
+        write(`   Label: ${data.label}`);
+        write(`   Created: ${data.created_at}`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Snapshot failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'list_snapshots': {
+      const limit = Number(args.limit ?? 10);
+      const type  = args.type ? String(args.type) : undefined;
+      write(`\x1b[33m⚙  Listing snapshots…\x1b[0m`);
+      try {
+        const url = `${baseUrl}/api/devstudio/snapshot?limit=${limit}${type ? `&type=${type}` : ''}`;
+        const res = await fetch(url, { headers: { Cookie: authHeader } });
+        const data = await res.json();
+        const snaps = data.snapshots ?? [];
+        write(`\x1b[32m✓  ${snaps.length} snapshots\x1b[0m`);
+        snaps.forEach((s: { snapshot_type: string; label: string; rolled_back: boolean; created_at: string }) =>
+          write(`   [${s.snapshot_type}] ${s.label}${s.rolled_back ? ' \x1b[33m(rolled back)\x1b[0m' : ''} — ${s.created_at}`)
+        );
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'List failed'}\x1b[0m`); }
+      break;
+    }
+
+    case 'lookup_program_registry': {
+      const slug = String(args.slug ?? '');
+      if (!slug) { write(`\x1b[31m✗  slug is required\x1b[0m`); break; }
+      write(`\x1b[33m⚙  Looking up program registry: ${slug}…\x1b[0m`);
+      try {
+        const { getProgramBySlug } = await import('@/lib/platform/system-registry');
+        const prog = getProgramBySlug(slug);
+        if (!prog) {
+          write(`\x1b[33m⚠  Program not found in registry: ${slug}\x1b[0m`);
+          write(`   Check lib/platform/system-registry.ts to add it`);
+          break;
+        }
+        write(`\x1b[32m✓  ${prog.title}\x1b[0m`);
+        write(`   Category:        ${prog.category}`);
+        write(`   Canonical route: ${prog.canonical_route}`);
+        write(`   Apply route:     ${prog.apply_route}`);
+        write(`   Checkout route:  ${prog.checkout_route}`);
+        write(`   Enrollment API:  ${prog.enrollment_api}`);
+        write(`   Funding:         ${prog.funding.join(', ')}`);
+        write(`   Dedicated page:  ${prog.has_dedicated_page}`);
+        write(`   LMS course:      ${prog.has_lms_course}`);
+        write(`   Status:          ${prog.status}`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Lookup failed'}\x1b[0m`); }
       break;
     }
 
@@ -2271,10 +2781,58 @@ export async function POST(req: NextRequest) {
             return;
           }
 
-          const systemPrompt = `You are the Elevate for Humanity admin command assistant.
-The admin speaks to you in plain English and you execute the right action.
+          // Inject platform knowledge graph + system registry as context
+          const debtSummary = PLATFORM_DEBT.filter(d => d.severity === 'high')
+            .map(d => `• [HIGH] ${d.id}: ${d.description}`).join('\n');
+          const systemSummary = SYSTEMS.map(s => `• ${s.id} (${s.status}): ${s.description}`).join('\n');
+          const registryContext = getSystemRegistryContext();
+
+          const systemPrompt = `You are the Elevate for Humanity platform operator AI.
+You are NOT a chatbot. You are a platform architect, senior DevOps engineer, LMS operator, systems auditor, and workflow orchestrator.
+
 Always use a tool — never respond with plain text unless using ask_question.
-Be decisive. If the intent is clear, act. If ambiguous, use ask_question to clarify.`;
+Be decisive. If the intent is clear, act immediately. If ambiguous, use ask_question.
+
+## Platform Architecture
+${systemSummary}
+
+## Active Platform Debt (High Severity)
+${debtSummary || 'None'}
+
+## Canonical Rules
+- All programs: /programs/[program] dynamic route. Dedicated pages only for unique client components.
+- Supabase imports: @/lib/supabase/* only. No root-level shims.
+- Middleware: proxy.ts only. Never create middleware.ts.
+- Auth: apiAuthGuard / apiRequireAdmin / apiRequireInstructor from @/lib/admin/guards.
+- Rate limiting: applyRateLimit() from @/lib/api/withRateLimit.
+- Errors: safeError/safeInternalError from @/lib/api/safe-error. Never return error.message directly.
+- LMS: DB-driven by step_type. No per-program hardcoded logic.
+
+## Program Registry
+${registryContext}
+
+## AI Permission Tiers
+- read: query-only, no confirmation needed
+- developer: code/data inspection, no confirmation needed
+- operator: emails, flags, approvals — confirm before production writes
+- deployer: migrations, deployments — ALWAYS confirm, create snapshot first
+- super: not available via AI console
+
+## Tool Selection Guide
+- Platform health/state → get_platform_state
+- Route/table/system lookup → lookup_knowledge_graph
+- Program details → verify_program_integrity
+- Enrollment issues → audit_enrollment_pipeline
+- Student access issues → inspect_student_access
+- Past decisions/issues → recall_memory
+- Save a decision/finding → save_memory
+- List migrations → list_pending_migrations
+- Apply migration → run_migration (deployer tier — confirm first)
+- DB query → query_database
+- Route scan → scan_routes
+- Auth gaps → audit_system
+- QA check → smoke_test`;
+
 
           const userPrompt = [...history.map((m: { role: string; content: string }) =>
             `${m.role}: ${m.content}`
@@ -2313,6 +2871,20 @@ Be decisive. If the intent is clear, act. If ambiguous, use ask_question to clar
         }
 
         write('\x1b[90m─────────────────────────────────────\x1b[0m');
+
+        // Emit platform event + write audit log (fire-and-forget)
+        try {
+          await emitAiAction('devstudio_execute', auth.user?.id, { command: command.slice(0, 200) });
+          const { createClient } = await import('@supabase/supabase-js');
+          if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+            const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+            await sb.from('ai_audit_log').insert({
+              action: 'devstudio_execute',
+              details: { command: command.slice(0, 500), user_id: auth.user?.id },
+            });
+          }
+        } catch { /* non-critical */ }
+
       } catch (err) {
         const reason = err instanceof Error ? err.message : String(err);
         logger.error('[devstudio/execute] unexpected error', { reason });
