@@ -527,6 +527,14 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SOCIAL_MEDIA_YOUTUBE_ENABLED"
         },
         {
+          "name": "YOUTUBE_CHANNEL_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/YOUTUBE_CHANNEL_ID"
+        },
+        {
+          "name": "YOUTUBE_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/YOUTUBE_API_KEY"
+        },
+        {
           "name": "SPONSOR_FINANCE_EMAIL",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SPONSOR_FINANCE_EMAIL"
         },
