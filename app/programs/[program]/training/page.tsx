@@ -193,7 +193,7 @@ export default async function ProgramTrainingPage({
   const { data: enrollments } =
     internalCourseIds.length > 0
       ? await supabase
-          .from('training_enrollments')
+          .from('program_enrollments')
           .select('course_id')
           .eq('user_id', user.id)
           .in('course_id', internalCourseIds)

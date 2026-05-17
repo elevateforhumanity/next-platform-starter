@@ -28,7 +28,7 @@ export default async function SettingsPage() {
     .maybeSingle();
 
   const { data: preferences } = await supabase
-    .from('user_preferences')
+    .from('profiles')
     .select('*')
     .eq('user_id', user.id)
     .maybeSingle();

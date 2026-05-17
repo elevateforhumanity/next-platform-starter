@@ -39,11 +39,11 @@ async function _GET(request: Request) {
     const userId = searchParams.get('user_id') || undefined;
     const status = searchParams.get('status') || undefined;
 
-    // Use admin client — training_enrollments requires service-role access
+    // Use admin client — program_enrollments is the canonical enrollment table
     const db = await requireAdminClient();
     let query = db
-      .from('training_enrollments')
-      .select('*, student:profiles(id, full_name, email), course:training_courses(id, course_name)')
+      .from('program_enrollments')
+      .select('*, student:profiles!program_enrollments_user_id_fkey(id, full_name, email), program:programs(id, title, slug)')
       .order('enrolled_at', { ascending: false });
     if (courseId) query = query.eq('course_id', courseId) as typeof query;
     if (userId) query = query.eq('user_id', userId) as typeof query;

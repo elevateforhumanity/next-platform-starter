@@ -99,7 +99,7 @@ async function _POST(req: Request) {
 
     // Verify the user is enrolled in this cohort
     const { data: enrollment } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select('id')
       .eq('user_id', user.id)
       .eq('cohort_id', meeting.cohort_id)

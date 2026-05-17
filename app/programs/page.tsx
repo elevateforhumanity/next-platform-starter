@@ -18,31 +18,38 @@ export const metadata: Metadata = {
  * direct URL or redirect — it just does not appear as a separate card here.
  */
 const CANONICAL_SLUGS = new Set([
-  'barber-apprenticeship',
-  'hvac-technician',
-  'cna',
-  'medical-assistant',
-  'phlebotomy',
-  'peer-recovery-specialist',
-  'drug-collector',
-  'qma',
-  'direct-support-professional',
-  'welding',
-  'plumbing',
-  'electrical',
-  'cdl-training',
-  'building-services-technician',
-  'cosmetology-apprenticeship',
+  // Healthcare
+  'cna', 'qma', 'medical-assistant', 'peer-recovery-specialist', 'direct-support-professional',
+  'drug-alcohol-specimen-collector', 'cpr-first-aid', 'pharmacy-technician', 'phlebotomy',
+  'home-health-aide', 'sanitation-infection-control', 'dental-assistant', 'chw-cert',
+  'nha-pharmacy-technician', 'nha-ehr', 'nha-patient-care-technician', 'nha-medical-admin-assistant',
+  'nha-medical-assistant', 'nha-billing-coding', 'nha-phlebotomy', 'nha-ekg-technician',
+  // Trades
+  'hvac-technician', 'electrical', 'plumbing', 'cdl-training', 'welding',
+  'building-services-technician', 'building-maintenance-wrg', 'solar-panel-installation',
+  'manufacturing-technician', 'diesel-mechanic', 'automotive-technician',
+  'construction-trades-certification', 'forklift',
+  // Apprenticeships
+  'barber-apprenticeship', 'cosmetology-apprenticeship', 'esthetician-apprenticeship',
+  'nail-technician-apprenticeship', 'culinary-apprenticeship', 'youth-culinary-apprenticeship',
+  'emt-apprenticeship',
+  // Business
+  'finance-bookkeeping-accounting', 'bookkeeping', 'tax-preparation', 'entrepreneurship',
+  'business-startup', 'business-administration', 'real-estate-agent', 'insurance-agent',
+  'administrative-assistant', 'customer-service-representative', 'office-administration',
+  'project-management',
+  // Technology
+  'it-help-desk', 'software-development', 'web-development', 'data-analytics',
+  'cybersecurity-analyst', 'network-administration', 'network-support-technician',
+  'cad-drafting', 'graphic-design',
+  // Special
+  'jri', 'reentry-specialist', 'life-coach-certification-wioa', 'nrf-riseup',
+  // Hospitality
+  'start-hospitality', 'guest-service-gold', 'servsuccess', 'servsafe-food-handler', 'servsafe-manager',
+  // Beauty
   'esthetician',
-  'esthetician-apprenticeship',
-  'nail-technician-apprenticeship',
-  'finance-bookkeeping-accounting',
-  'tax-preparation',
-  'it-help-desk',
-  'cybersecurity-analyst',
-  'healthcare',
-  'skilled-trades',
-  'technology',
+  // Category landing pages
+  'healthcare', 'skilled-trades', 'technology',
 ]);
 
 /** Slugs that are near-duplicates of a canonical — suppress from listing. */

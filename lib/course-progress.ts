@@ -16,7 +16,7 @@ export async function updateLessonCompletion(userId: string, lessonId: string, c
 export async function updateVideoProgress(userId: string, lessonId: string, progress: number) {
   const supabase = await createClient();
 
-  const { error } = await supabase.from('video_progress').upsert({
+  const { error } = await supabase.from('lesson_progress').upsert({
     user_id: userId,
     lesson_id: lessonId,
     progress_seconds: progress,

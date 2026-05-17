@@ -128,7 +128,7 @@ export default async function MyDashboardPage() {
             esthetician: 700,
           };
           const { data: hours } = await db
-            .from('apprentice_hours')
+            .from('apprenticeship_hours')
             .select('hours, discipline, status, submitted_at')
             .eq('user_id', user.id)
             .eq('status', 'approved');
@@ -148,7 +148,7 @@ export default async function MyDashboardPage() {
           let pendingHours: any[] = [];
           if (partnerLink?.partner_id) {
             const { data } = await db
-              .from('apprentice_hours')
+              .from('apprenticeship_hours')
               .select(
                 'id, user_id, hours, discipline, submitted_at, profiles(first_name, last_name)',
               )

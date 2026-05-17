@@ -85,7 +85,7 @@ async function _POST(req: Request) {
 
     // Mirror documents_submitted_at to training_enrollments — apprentice portal gate reads this
     await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .update({ documents_submitted_at: now, updated_at: now })
       .eq('user_id', user.id)
       .is('documents_submitted_at', null);
@@ -105,7 +105,7 @@ async function _POST(req: Request) {
 
         if (linkedCourses && linkedCourses.length > 0) {
           for (const course of linkedCourses) {
-            await supabase.from('training_enrollments').upsert(
+            await supabase.from('program_enrollments').upsert(
               {
                 user_id: user.id,
                 course_id: course.id,

@@ -28,7 +28,7 @@ async function _POST(req: Request) {
 
     // Update or insert preferences — table uses user_id as the unique key
     const { data: preferences, error } = await supabase
-      .from('notification_preferences')
+      .from('profiles')
       .upsert(
         {
           user_id: user.id,

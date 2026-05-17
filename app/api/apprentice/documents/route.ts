@@ -43,7 +43,7 @@ async function _GET(request: NextRequest) {
 
     // Get student's uploaded documents
     const { data: uploadedDocuments, error: docsError } = await supabase
-      .from('apprentice_documents')
+      .from('documents')
       .select('*')
       .eq('student_id', user.id)
       .eq('program_slug', programSlug)
@@ -144,14 +144,14 @@ async function _POST(request: NextRequest) {
 
     // Delete any existing document of this type (replace)
     await supabase
-      .from('apprentice_documents')
+      .from('documents')
       .delete()
       .eq('student_id', user.id)
       .eq('document_type_id', documentTypeId);
 
     // Create document record
     const { data: docRecord, error: recordError } = await supabase
-      .from('apprentice_documents')
+      .from('documents')
       .insert({
         student_id: user.id,
         document_type_id: documentTypeId,
@@ -249,7 +249,7 @@ async function _DELETE(request: NextRequest) {
 
     // Get document to verify ownership and get file path
     const { data: doc } = await supabase
-      .from('apprentice_documents')
+      .from('documents')
       .select('*')
       .eq('id', docId)
       .eq('student_id', user.id)
@@ -271,7 +271,7 @@ async function _DELETE(request: NextRequest) {
     }
 
     // Delete record
-    const { error } = await supabase.from('apprentice_documents').delete().eq('id', docId);
+    const { error } = await supabase.from('documents').delete().eq('id', docId);
 
     if (error) {
       logger.error('[Documents API] Delete error:', error);

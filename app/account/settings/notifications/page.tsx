@@ -24,7 +24,7 @@ export default async function NotificationSettingsPage() {
 
   // Fetch user's notification preferences
   const { data: preferences } = await supabase
-    .from('notification_preferences')
+    .from('profiles')
     .select('*')
     .eq('user_id', user.id)
     .maybeSingle();

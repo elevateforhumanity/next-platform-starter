@@ -25,6 +25,27 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
 
+/**
+ * Resolve a secret: env var first, then platform_secrets table fallback.
+ * This lets admins set keys in the Secrets tab without needing server restarts.
+ */
+async function resolveSecret(key: string): Promise<string | null> {
+  const envVal = process.env[key];
+  if (envVal && envVal.trim()) return envVal.trim();
+  try {
+    const db = await requireAdminClient();
+    const { data } = await db
+      .from('platform_secrets')
+      .select('value_enc')
+      .eq('key', key)
+      .maybeSingle();
+    const val = data?.value_enc;
+    return val && val.trim() ? val.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -163,8 +184,10 @@ export async function GET(request: NextRequest) {
       write('');
       write('\x1b[33mChecking AI providers…\x1b[0m');
       results.push(await check('Groq API reachable', async () => {
-        const key = process.env.GROQ_API_KEY;
-        if (!key) throw new Error('GROQ_API_KEY not set');
+        // Groq is a fallback AI — OpenAI is primary.
+        // Resolves from env first, then platform_secrets table.
+        const key = await resolveSecret('GROQ_API_KEY');
+        if (!key) return 'GROQ_API_KEY not set (optional — set in Secrets tab)';
         const r = await fetch('https://api.groq.com/openai/v1/models', {
           headers: { Authorization: `Bearer ${key}` },
           signal: AbortSignal.timeout(8000),
@@ -187,7 +210,7 @@ export async function GET(request: NextRequest) {
       }));
       write(fmt(results.at(-1)!));
 
-      // ── 6. Key env vars ───────────────────────────────────────────────────
+      // ── 6. Key env vars (env first, platform_secrets fallback) ───────────
       write('');
       write('\x1b[33mChecking environment…\x1b[0m');
       const REQUIRED_VARS = [
@@ -203,18 +226,29 @@ export async function GET(request: NextRequest) {
         'STRIPE_SECRET_KEY',
         'UPSTASH_REDIS_REST_URL',
       ];
-      const missing = REQUIRED_VARS.filter((k) => !process.env[k]);
+      // Resolve each var: env first, then platform_secrets table
+      const resolvedVars = await Promise.all(
+        REQUIRED_VARS.map(async (k) => ({ k, val: await resolveSecret(k) }))
+      );
+      const missing = resolvedVars.filter((r) => !r.val).map((r) => r.k);
+      const fromDb   = resolvedVars.filter((r) => r.val && !process.env[r.k]).map((r) => r.k);
       results.push(await check('Required env vars', async () => {
         if (missing.length > 0) throw new Error(`Missing: ${missing.join(', ')}`);
-        return `${REQUIRED_VARS.length}/${REQUIRED_VARS.length} set`;
+        const note = fromDb.length ? ` (${fromDb.length} from Secrets tab)` : '';
+        return `${REQUIRED_VARS.length}/${REQUIRED_VARS.length} set${note}`;
       }));
       write(fmt(results.at(-1)!));
       if (missing.length > 0) {
-        missing.forEach((k) => write(`     \x1b[31m⚠  ${k} is not set\x1b[0m`));
+        missing.forEach((k) => write(`     \x1b[31m⚠  ${k} is not set — add in DevStudio → Secrets tab\x1b[0m`));
+      }
+      if (fromDb.length > 0) {
+        fromDb.forEach((k) => write(`     \x1b[33m⚡  ${k} resolved from Secrets tab\x1b[0m`));
       }
 
-      // ── 7. ECS services (if AWS creds available) ──────────────────────────
-      if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+      // ── 7. ECS services (if AWS creds available via env or secrets) ───────
+      const awsKey    = await resolveSecret('AWS_ACCESS_KEY_ID');
+      const awsSecret = await resolveSecret('AWS_SECRET_ACCESS_KEY');
+      if (awsKey && awsSecret) {
         write('');
         write('\x1b[33mChecking ECS services…\x1b[0m');
         results.push(await check('ECS elevate-lms-service', async () => {

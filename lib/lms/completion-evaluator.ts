@@ -142,7 +142,7 @@ export async function completeProgramEnrollment(
 
   // 3. Count completed courses for transcript
   const { count: coursesCompleted } = await db
-    .from('training_enrollments')
+    .from('program_enrollments')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', userId)
     .not('completed_at', 'is', null);

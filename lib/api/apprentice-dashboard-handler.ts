@@ -25,7 +25,7 @@ export async function handleDashboard(request: NextRequest, discipline: string) 
 
     // Total approved hours for this discipline
     const { data: hoursData } = await supabase
-      .from('apprentice_hours')
+      .from('apprenticeship_hours')
       .select('hours, date')
       .eq('user_id', user.id)
       .eq('discipline', discipline)

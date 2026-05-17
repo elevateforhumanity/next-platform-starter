@@ -66,7 +66,7 @@ export default async function StateBoardExamPage() {
 
   // Hours from apprentice_hours (canonical PWA source) — approved only
   const { data: approvedRows } = await supabase
-    .from('apprentice_hours')
+    .from('apprenticeship_hours')
     .select('hours')
     .eq('user_id', user.id)
     .eq('status', 'approved');

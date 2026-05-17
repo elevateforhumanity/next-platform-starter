@@ -69,7 +69,7 @@ export async function loadLearnerDashboard() {
 
   // ── 3. TRAINING ENROLLMENTS (legacy, optional) ─────────────────────
   const { data: trainingEnrollments, error: trainingError } = await supabase
-    .from('training_enrollments')
+    .from('program_enrollments')
     .select(
       `
       id,

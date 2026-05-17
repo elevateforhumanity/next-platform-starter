@@ -72,7 +72,7 @@ async function confirmSchedule(formData: FormData) {
 
   // Ensure training_enrollments row exists — look up course from program_enrollments
   const { data: existing } = await supabase
-    .from('training_enrollments')
+    .from('program_enrollments')
     .select('id')
     .eq('user_id', user.id)
     .limit(1)
@@ -98,7 +98,7 @@ async function confirmSchedule(formData: FormData) {
       : { data: null };
 
     if (course?.id) {
-      await supabase.from('training_enrollments').insert({
+      await supabase.from('program_enrollments').insert({
         user_id: user.id,
         course_id: course.id,
         status: 'pending_approval',

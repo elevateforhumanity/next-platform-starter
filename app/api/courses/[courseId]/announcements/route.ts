@@ -82,7 +82,7 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ courseId:
 
   // Notify enrolled students — training_enrollments is the canonical course enrollment table
   const { data: enrollments } = await supabase
-    .from('training_enrollments')
+    .from('program_enrollments')
     .select('user_id')
     .eq('course_id', courseId);
 

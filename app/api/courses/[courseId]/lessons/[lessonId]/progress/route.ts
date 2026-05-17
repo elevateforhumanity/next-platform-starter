@@ -37,7 +37,7 @@ async function _POST(
 
     const { progress } = await request.json();
 
-    const { error } = await supabase.from('video_progress').upsert(
+    const { error } = await supabase.from('lesson_progress').upsert(
       {
         user_id: user.id,
         lesson_id: lessonId,

@@ -82,7 +82,7 @@ export async function resolveLatestEnrollment({
       .limit(1)
       .maybeSingle(),
     client
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select(
         'id, user_id, status, course_id, progress, orientation_completed_at, documents_submitted_at, approved_at, created_at, enrolled_at, programs(slug, title, name)',
       )
@@ -122,7 +122,7 @@ export async function listUnifiedEnrollments(
       .order('created_at', { ascending: false })
       .limit(limit),
     client
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select(
         'id, user_id, status, course_id, progress, orientation_completed_at, documents_submitted_at, approved_at, created_at, enrolled_at, programs(slug, title, name)',
       )

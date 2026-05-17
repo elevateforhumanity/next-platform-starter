@@ -23,7 +23,7 @@ async function _GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const { data: enrollments, error } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select(
         `
         id,
@@ -76,7 +76,7 @@ async function _POST(request: Request) {
 
     // Check if already enrolled
     const { data: existing } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select('id')
       .eq('user_id', user.id)
       .eq('course_id', courseId)
@@ -88,7 +88,7 @@ async function _POST(request: Request) {
 
     // Create enrollment
     const { data: enrollment, error } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .insert({
         user_id: user.id,
         course_id: courseId,

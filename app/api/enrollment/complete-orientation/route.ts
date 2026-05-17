@@ -60,7 +60,7 @@ async function _POST(req: Request) {
 
     // Update training_enrollments — scoped to user + not yet completed
     const { error: teError } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .update({ orientation_completed_at: now, updated_at: now })
       .eq('user_id', user.id)
       .is('orientation_completed_at', null);

@@ -76,7 +76,7 @@ async function _POST(request: NextRequest) {
 
     // Check for existing enrollment
     const { data: existing } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select('id, status')
       .eq('user_id', user.id)
       .eq('program_id', programId)
@@ -114,7 +114,7 @@ async function _POST(request: NextRequest) {
     };
 
     const { data: enrollment, error: enrollError } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .insert(enrollmentData)
       .select('id')
       .single();
@@ -131,7 +131,7 @@ async function _POST(request: NextRequest) {
       case 'workforce_funded':
         // No payment setup needed - funded by agency
         await supabase
-          .from('training_enrollments')
+          .from('program_enrollments')
           .update({ status: 'active', payment_status: 'paid' })
           .eq('id', enrollment.id);
         break;
@@ -165,7 +165,7 @@ async function _POST(request: NextRequest) {
 
         if (!planResult.success) {
           // Rollback enrollment
-          await supabase.from('training_enrollments').delete().eq('id', enrollment.id);
+          await supabase.from('program_enrollments').delete().eq('id', enrollment.id);
 
           return NextResponse.json(
             {

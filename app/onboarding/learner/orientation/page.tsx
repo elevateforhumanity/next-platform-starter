@@ -232,7 +232,7 @@ export default async function OrientationPage() {
       .limit(1)
       .maybeSingle(),
     supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select('training_courses ( course_name, slug, duration_hours )')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })

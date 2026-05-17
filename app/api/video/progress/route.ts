@@ -28,7 +28,7 @@ async function _GET(req: NextRequest) {
   }
 
   const { data, error }: any = await supabase
-    .from('video_progress')
+    .from('lesson_progress')
     .select('*')
     .eq('user_id', user.id)
     .eq('lesson_id', lessonId)
@@ -64,7 +64,7 @@ async function _POST(req: NextRequest) {
     durationSeconds && lastPositionSeconds ? lastPositionSeconds >= durationSeconds - 5 : false;
 
   const { data, error }: any = await supabase
-    .from('video_progress')
+    .from('lesson_progress')
     .upsert(
       {
         user_id: user.id,

@@ -34,7 +34,7 @@ async function _GET(request: NextRequest, { params }: { params: Promise<{ userId
       .from('program_enrollments')
       .select('id, status, program_id, created_at')
       .eq('user_id', userId),
-    supabase.from('user_progress').select('*').eq('user_id', userId),
+    supabase.from('lesson_progress').select('*').eq('user_id', userId),
     supabase.from('certificates').select('id, program_id, issued_at').eq('user_id', userId),
   ]);
 

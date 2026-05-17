@@ -31,7 +31,7 @@ export default async function ApprenticeDocumentsPage() {
 
   // Get documents
   const { data: documents } = await supabase
-    .from('apprentice_documents')
+    .from('documents')
     .select('*')
     .eq('apprentice_id', apprentice?.id)
     .order('created_at', { ascending: false });

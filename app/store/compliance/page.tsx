@@ -20,7 +20,7 @@ export default async function CompliancePage() {
   
   // Fetch compliance documents
   const { data: documents } = await supabase
-    .from('compliance_documents')
+    .from('documents')
     .select('*')
     .order('category');
   return (

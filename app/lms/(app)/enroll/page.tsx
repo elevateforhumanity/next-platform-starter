@@ -39,7 +39,7 @@ export default async function EnrollPage({ searchParams }: Props) {
 
   // Get user's existing enrollments — training_enrollments is the canonical LMS table
   const { data: enrollments } = await supabase
-    .from('training_enrollments')
+    .from('program_enrollments')
     .select('course_id')
     .eq('user_id', user.id);
 

@@ -52,7 +52,7 @@ export async function getUserEnrollments(userId: string): Promise<EnrollmentQuer
 
   // Query training_enrollments directly (bypasses VIEW permission issues)
   const { data: enrollments } = await supabase
-    .from('training_enrollments')
+    .from('program_enrollments')
     .select(
       `
       id, user_id, course_id, program_id, status, progress, created_at, updated_at,

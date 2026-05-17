@@ -188,7 +188,7 @@ async function _POST(req: NextRequest) {
 
         if (linkedCourses && linkedCourses.length > 0) {
           for (const course of linkedCourses) {
-            await supabase.from('training_enrollments').upsert(
+            await supabase.from('program_enrollments').upsert(
               {
                 user_id: enrollment.user_id,
                 course_id: course.id,

@@ -27,7 +27,7 @@ async function _POST(request: NextRequest) {
       }
     }
 
-    await supabase.from('notification_preferences').upsert(
+    await supabase.from('profiles').upsert(
       {
         user_id: user.id,
         preferences,

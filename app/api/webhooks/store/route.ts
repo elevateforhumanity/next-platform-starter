@@ -77,7 +77,7 @@ async function grantLmsAccess(
   }
 
   // Upsert into training_enrollments — the correct table for self-serve course purchases
-  const { error } = await adminDb.from('training_enrollments').upsert(
+  const { error } = await adminDb.from('program_enrollments').upsert(
     {
       user_id: userId,
       course_id: course.id,

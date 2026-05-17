@@ -154,7 +154,7 @@ async function _GET(_request: NextRequest, { params }: { params: Promise<{ cours
   const isAuthenticated = !!user;
   if (user) {
     const { data: enrollment } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select('id')
       .eq('user_id', user.id)
       .eq('course_id', courseId)

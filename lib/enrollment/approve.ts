@@ -268,7 +268,7 @@ export async function approveApplication(
       .eq('is_active', true);
 
     if (courses && courses.length > 0) {
-      await db.from('training_enrollments').upsert(
+      await db.from('program_enrollments').upsert(
         courses.map((c: { id: string }) => ({
           user_id: userId,
           course_id: c.id,

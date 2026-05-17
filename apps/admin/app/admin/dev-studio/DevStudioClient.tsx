@@ -7,7 +7,7 @@ import {
   Sparkles, MessageSquare, Terminal, FolderOpen, Globe, Box,
   Send, Loader2, RefreshCw, ExternalLink, Save,
   ChevronRight, File, Folder, Monitor, Smartphone, Play, X, Circle,
-  PanelRightClose, PanelRightOpen, AlertTriangle,
+  PanelRightClose, PanelRightOpen, AlertTriangle, Key,
 } from 'lucide-react';
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
@@ -19,12 +19,13 @@ const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat')
 const EcsStatusPanel    = dynamic(() => import('@/components/dev-studio/EcsStatusPanel'),    { ssr: false });
 const FileTree          = dynamic(() => import('@/components/dev-studio/FileTree'),          { ssr: false });
 const PreviewPanel      = dynamic(() => import('@/components/dev-studio/PreviewPanel'),      { ssr: false });
+const SecretsPanel      = dynamic(() => import('@/components/dev-studio/SecretsPanel'),      { ssr: false });
 const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   () => import('@/components/dev-studio/CodeEditor'),
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container' | 'chat' | 'documents';
+type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container' | 'chat' | 'documents' | 'secrets';
 interface FileNode { name: string; path: string; type: 'file' | 'directory'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
 interface DevStudioConfig {
@@ -50,11 +51,13 @@ const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: s
   { id: 'website',   Icon: Globe,         label: 'Preview'   },
   { id: 'container', Icon: Box,           label: 'Container' },
   { id: 'documents', Icon: FolderOpen,    label: 'Documents' },
+  { id: 'secrets',   Icon: Key,           label: 'Secrets'   },
 ];
 
 const DEFAULT_TAB_FILES: Record<Tab, string> = {
   command: 'command.sh', chat: 'ai-chat.md', terminal: 'terminal.sh',
   files: 'explorer', website: 'preview.html', container: 'devcontainer.json',
+  documents: 'documents', secrets: 'platform-secrets',
 };
 
 // ── Embed-check hook ─────────────────────────────────────────────────────────
@@ -159,7 +162,7 @@ export default function DevStudioClient() {
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
   const initialCommand = searchParams.get('command') ?? '';
-  const valid: Tab[] = ['command','terminal','files','website','container','chat','documents'];
+  const valid: Tab[] = ['command','terminal','files','website','container','chat','documents','secrets'];
   const init: Tab = raw && valid.includes(raw) ? raw : (initialCommand ? 'command' : 'command');
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
@@ -408,6 +411,7 @@ export default function DevStudioClient() {
           {tab === 'website'   && <WebsiteTab config={studioConfig} />}
           {tab === 'container' && <ContainerTab />}
           {tab === 'documents' && <DocumentsPanel />}
+          {tab === 'secrets'   && <SecretsPanel />}
         </div>
 
         {/* Drag-to-resize handle */}

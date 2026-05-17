@@ -187,7 +187,7 @@ async function _POST(req: Request) {
 
       if (linkedCourses && linkedCourses.length > 0) {
         for (const course of linkedCourses) {
-          await db.from('training_enrollments').upsert(
+          await db.from('program_enrollments').upsert(
             {
               user_id: userId,
               course_id: course.id,

@@ -36,7 +36,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ cours
 
     // Check enrollment
     const { data: enrollment, error: enrollmentError } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select('id, status, progress')
       .eq('user_id', user.id)
       .eq('course_id', courseId)
@@ -136,7 +136,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ cours
 
     // Mark enrollment as completed
     const { error: updateError } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .update({
         status: 'completed',
         progress: 100,
@@ -258,7 +258,7 @@ async function _GET(request: NextRequest, { params }: { params: Promise<{ course
 
     // Get completion status
     const { data: enrollment } = await supabase
-      .from('training_enrollments')
+      .from('program_enrollments')
       .select('status, progress, completed_at')
       .eq('user_id', user.id)
       .eq('course_id', courseId)
