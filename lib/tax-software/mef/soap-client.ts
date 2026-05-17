@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 /**
  * IRS MeF SOAP Client
  * Real SOAP transmission to IRS MeF endpoints with mutual TLS
- * 
+ *
  * IMPORTANT: Requires IRS-issued certificates for production use.
  * Test mode uses IRS ATS (Assurance Testing System) endpoints.
  */
@@ -18,21 +18,21 @@ export const MEF_ENDPOINTS = {
   production: {
     transmit: 'https://la.www4.irs.gov/a2a/mef/transmitter/TransmitterService',
     ack: 'https://la.www4.irs.gov/a2a/mef/transmitter/AcknowledgementService',
-    status: 'https://la.www4.irs.gov/a2a/mef/transmitter/StatusService'
+    status: 'https://la.www4.irs.gov/a2a/mef/transmitter/StatusService',
   },
   // ATS Test endpoints (for software testing)
   test: {
     transmit: 'https://la.www4.irs.gov/a2a/mef/test/transmitter/TransmitterService',
     ack: 'https://la.www4.irs.gov/a2a/mef/test/transmitter/AcknowledgementService',
-    status: 'https://la.www4.irs.gov/a2a/mef/test/transmitter/StatusService'
-  }
+    status: 'https://la.www4.irs.gov/a2a/mef/test/transmitter/StatusService',
+  },
 };
 
 // SOAP Actions
 const SOAP_ACTIONS = {
   transmit: 'TransmitReturn',
   getAck: 'GetAcknowledgement',
-  getStatus: 'GetSubmissionStatus'
+  getStatus: 'GetSubmissionStatus',
 };
 
 export interface SOAPClientConfig {
@@ -87,7 +87,7 @@ export class MeFSOAPClient {
   constructor(config: SOAPClientConfig) {
     this.config = {
       timeout: 60000, // 60 second default
-      ...config
+      ...config,
     };
     this.initializeAgent();
   }
@@ -98,7 +98,7 @@ export class MeFSOAPClient {
   private initializeAgent(): void {
     const agentOptions: https.AgentOptions = {
       rejectUnauthorized: true, // Always verify IRS certificates
-      keepAlive: true
+      keepAlive: true,
     };
 
     // Load certificates if provided
@@ -144,18 +144,18 @@ export class MeFSOAPClient {
     try {
       const response = await this.sendSOAPRequest(endpoint, SOAP_ACTIONS.transmit, soapEnvelope);
       const parsed = this.parseTransmitResponse(response, request.submissionId);
-      
+
       return {
         ...parsed,
         timestamp,
-        rawResponse: response
+        rawResponse: response,
       };
     } catch (err) {
       return {
         success: false,
         submissionId: request.submissionId,
         timestamp,
-        error: err instanceof Error ? err.message : 'Unknown transmission error'
+        error: err instanceof Error ? err.message : 'Unknown transmission error',
       };
     }
   }
@@ -172,18 +172,18 @@ export class MeFSOAPClient {
     try {
       const response = await this.sendSOAPRequest(endpoint, SOAP_ACTIONS.getAck, soapEnvelope);
       const parsed = this.parseAckResponse(response, submissionId);
-      
+
       return {
         ...parsed,
         timestamp,
-        rawResponse: response
+        rawResponse: response,
       };
     } catch (err) {
       return {
         success: false,
         submissionId,
         timestamp,
-        error: err instanceof Error ? err.message : 'Unknown error getting acknowledgment'
+        error: err instanceof Error ? err.message : 'Unknown error getting acknowledgment',
       };
     }
   }
@@ -205,11 +205,13 @@ export class MeFSOAPClient {
         submissionId,
         status: 'Error',
         timestamp,
-        errors: [{
-          errorCode: 'SOAP_ERROR',
-          errorCategory: 'reject',
-          errorMessage: err instanceof Error ? err.message : 'Unknown error'
-        }]
+        errors: [
+          {
+            errorCode: 'SOAP_ERROR',
+            errorCategory: 'reject',
+            errorMessage: err instanceof Error ? err.message : 'Unknown error',
+          },
+        ],
       };
     }
   }
@@ -219,7 +221,7 @@ export class MeFSOAPClient {
    */
   private buildTransmitEnvelope(request: SOAPTransmitRequest): string {
     const base64Content = Buffer.from(request.xmlContent).toString('base64');
-    
+
     return `<?xml version="1.0" encoding="UTF-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
                xmlns:mef="http://www.irs.gov/a2a/mef/MeFTransmitterService.xsd">
@@ -310,10 +312,14 @@ export class MeFSOAPClient {
   /**
    * Send SOAP request to IRS
    */
-  private async sendSOAPRequest(endpoint: string, action: string, envelope: string): Promise<string> {
+  private async sendSOAPRequest(
+    endpoint: string,
+    action: string,
+    envelope: string,
+  ): Promise<string> {
     return new Promise((resolve, reject) => {
       const url = new URL(endpoint);
-      
+
       const options: https.RequestOptions = {
         hostname: url.hostname,
         port: url.port || 443,
@@ -321,20 +327,20 @@ export class MeFSOAPClient {
         method: 'POST',
         headers: {
           'Content-Type': 'text/xml; charset=utf-8',
-          'SOAPAction': action,
-          'Content-Length': Buffer.byteLength(envelope)
+          SOAPAction: action,
+          'Content-Length': Buffer.byteLength(envelope),
         },
         agent: this.httpsAgent || undefined,
-        timeout: this.config.timeout
+        timeout: this.config.timeout,
       };
 
       const req = https.request(options, (res) => {
         let data = '';
-        
+
         res.on('data', (chunk) => {
           data += chunk;
         });
-        
+
         res.on('end', () => {
           if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
             resolve(data);
@@ -363,7 +369,10 @@ export class MeFSOAPClient {
   /**
    * Parse transmission response
    */
-  private parseTransmitResponse(response: string, submissionId: string): Partial<SOAPTransmitResponse> {
+  private parseTransmitResponse(
+    response: string,
+    submissionId: string,
+  ): Partial<SOAPTransmitResponse> {
     // Parse SOAP response for receipt and status
     const receiptMatch = response.match(/<mef:ReceiptId>([^<]+)<\/mef:ReceiptId>/);
     const statusMatch = response.match(/<mef:StatusTxt>([^<]+)<\/mef:StatusTxt>/);
@@ -373,16 +382,16 @@ export class MeFSOAPClient {
       return {
         success: false,
         submissionId,
-        error: errorMatch[1]
+        error: errorMatch[1],
       };
     }
 
     const status = statusMatch?.[1]?.toLowerCase();
-    
+
     return {
       success: status !== 'rejected' && status !== 'error',
       submissionId,
-      receiptId: receiptMatch?.[1]
+      receiptId: receiptMatch?.[1],
     };
   }
 
@@ -390,19 +399,22 @@ export class MeFSOAPClient {
    * Parse acknowledgment response
    */
   private parseAckResponse(response: string, submissionId: string): Partial<SOAPTransmitResponse> {
-    const statusMatch = response.match(/<mef:AcceptanceStatusTxt>([^<]+)<\/mef:AcceptanceStatusTxt>/);
+    const statusMatch = response.match(
+      /<mef:AcceptanceStatusTxt>([^<]+)<\/mef:AcceptanceStatusTxt>/,
+    );
     const dcnMatch = response.match(/<mef:DCN>([^<]+)<\/mef:DCN>/);
-    
+
     // Parse errors
     const errors: MeFError[] = [];
-    const errorRegex = /<mef:Error>[\s\S]*?<mef:ErrorCd>([^<]+)<\/mef:ErrorCd>[\s\S]*?<mef:ErrorCategoryTxt>([^<]+)<\/mef:ErrorCategoryTxt>[\s\S]*?<mef:ErrorMessageTxt>([^<]+)<\/mef:ErrorMessageTxt>[\s\S]*?<\/mef:Error>/g;
-    
+    const errorRegex =
+      /<mef:Error>[\s\S]*?<mef:ErrorCd>([^<]+)<\/mef:ErrorCd>[\s\S]*?<mef:ErrorCategoryTxt>([^<]+)<\/mef:ErrorCategoryTxt>[\s\S]*?<mef:ErrorMessageTxt>([^<]+)<\/mef:ErrorMessageTxt>[\s\S]*?<\/mef:Error>/g;
+
     let match: RegExpExecArray | null;
     while ((match = errorRegex.exec(response)) !== null) {
       errors.push({
         errorCode: match[1],
         errorCategory: match[2].toLowerCase() as 'reject' | 'alert',
-        errorMessage: match[3]
+        errorMessage: match[3],
       });
     }
 
@@ -418,21 +430,25 @@ export class MeFSOAPClient {
         dcn: dcnMatch?.[1],
         acceptedAt: isAccepted ? new Date().toISOString() : undefined,
         rejectedAt: !isAccepted ? new Date().toISOString() : undefined,
-        errors: errors.length > 0 ? errors : undefined
-      }
+        errors: errors.length > 0 ? errors : undefined,
+      },
     };
   }
 
   /**
    * Parse status response
    */
-  private parseStatusResponse(response: string, submissionId: string, timestamp: string): SOAPStatusResponse {
+  private parseStatusResponse(
+    response: string,
+    submissionId: string,
+    timestamp: string,
+  ): SOAPStatusResponse {
     const statusMatch = response.match(/<mef:StatusTxt>([^<]+)<\/mef:StatusTxt>/);
     const dcnMatch = response.match(/<mef:DCN>([^<]+)<\/mef:DCN>/);
-    
+
     const statusText = statusMatch?.[1] || 'Pending';
     let status: SOAPStatusResponse['status'] = 'Pending';
-    
+
     if (statusText.toLowerCase() === 'accepted') status = 'Accepted';
     else if (statusText.toLowerCase() === 'rejected') status = 'Rejected';
     else if (statusText.toLowerCase() === 'error') status = 'Error';
@@ -441,7 +457,7 @@ export class MeFSOAPClient {
       submissionId,
       status,
       dcn: dcnMatch?.[1],
-      timestamp
+      timestamp,
     };
   }
 
@@ -453,26 +469,29 @@ export class MeFSOAPClient {
       // Try to connect to the status endpoint
       const endpoint = MEF_ENDPOINTS[this.config.environment].status;
       const url = new URL(endpoint);
-      
+
       return new Promise((resolve) => {
-        const req = https.request({
-          hostname: url.hostname,
-          port: 443,
-          path: '/',
-          method: 'HEAD',
-          agent: this.httpsAgent || undefined,
-          timeout: 10000
-        }, (res) => {
-          resolve({
-            success: true,
-            message: `Connected to IRS ${this.config.environment} endpoint (HTTP ${res.statusCode})`
-          });
-        });
+        const req = https.request(
+          {
+            hostname: url.hostname,
+            port: 443,
+            path: '/',
+            method: 'HEAD',
+            agent: this.httpsAgent || undefined,
+            timeout: 10000,
+          },
+          (res) => {
+            resolve({
+              success: true,
+              message: `Connected to IRS ${this.config.environment} endpoint (HTTP ${res.statusCode})`,
+            });
+          },
+        );
 
         req.on('error', (err) => {
           resolve({
             success: false,
-            message: `Connection failed`
+            message: `Connection failed`,
           });
         });
 
@@ -480,7 +499,7 @@ export class MeFSOAPClient {
           req.destroy();
           resolve({
             success: false,
-            message: 'Connection timeout'
+            message: 'Connection timeout',
           });
         });
 
@@ -489,7 +508,7 @@ export class MeFSOAPClient {
     } catch (err) {
       return {
         success: false,
-        message: err instanceof Error ? err.message : 'Unknown error'
+        message: err instanceof Error ? err.message : 'Unknown error',
       };
     }
   }
@@ -506,6 +525,6 @@ export function createSOAPClient(): MeFSOAPClient {
     certPath: process.env.IRS_CERT_PATH,
     keyPath: process.env.IRS_KEY_PATH,
     caPath: process.env.IRS_CA_PATH,
-    passphrase: process.env.IRS_CERT_PASSPHRASE
+    passphrase: process.env.IRS_CERT_PASSPHRASE,
   });
 }

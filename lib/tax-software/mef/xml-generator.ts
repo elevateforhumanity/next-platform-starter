@@ -59,41 +59,61 @@ export function generateReturnHeader(taxReturn: TaxReturn, softwareId: string): 
       <PrimaryPINEnteredByCd>Taxpayer</PrimaryPINEnteredByCd>
       <PrimarySignaturePIN>${taxReturn.taxpayerSignature?.pin || ''}</PrimarySignaturePIN>
       <PrimarySignatureDt>${taxReturn.taxpayerSignature?.signedDate || formatDate(new Date().toISOString())}</PrimarySignatureDt>
-      ${taxReturn.spouse && taxReturn.spouseSignature ? `
+      ${
+        taxReturn.spouse && taxReturn.spouseSignature
+          ? `
       <SpouseSignaturePIN>${taxReturn.spouseSignature.pin}</SpouseSignaturePIN>
       <SpouseSignatureDt>${taxReturn.spouseSignature.signedDate}</SpouseSignatureDt>
-      ` : ''}
-      ${taxReturn.priorYearAGI !== undefined ? `
+      `
+          : ''
+      }
+      ${
+        taxReturn.priorYearAGI !== undefined
+          ? `
       <PrimaryPriorYearAGIAmt>${formatCurrency(taxReturn.priorYearAGI)}</PrimaryPriorYearAGIAmt>
-      ` : ''}
-      ${taxReturn.ipPin ? `
+      `
+          : ''
+      }
+      ${
+        taxReturn.ipPin
+          ? `
       <IPPINGrp>
         <PrimaryIPPIN>${taxReturn.ipPin}</PrimaryIPPIN>
         ${taxReturn.spouseIpPin ? `<SpouseIPPIN>${taxReturn.spouseIpPin}</SpouseIPPIN>` : ''}
       </IPPINGrp>
-      ` : ''}
+      `
+          : ''
+      }
       <ReturnTypeCd>1040</ReturnTypeCd>
-      ${taxReturn.preparerSignature && !taxReturn.preparerSignature.selfPrepared ? `
+      ${
+        taxReturn.preparerSignature && !taxReturn.preparerSignature.selfPrepared
+          ? `
       <PreparerFirmGrp>
         <PreparerFirmEIN>${taxReturn.preparerSignature.firmEIN ? formatEIN(taxReturn.preparerSignature.firmEIN) : ''}</PreparerFirmEIN>
         <PreparerFirmName>
           <BusinessNameLine1Txt>${escapeXml(taxReturn.preparerSignature.firmName || '')}</BusinessNameLine1Txt>
         </PreparerFirmName>
-        ${taxReturn.preparerSignature.firmAddress ? `
+        ${
+          taxReturn.preparerSignature.firmAddress
+            ? `
         <PreparerUSAddress>
           <AddressLine1Txt>${escapeXml(taxReturn.preparerSignature.firmAddress.street)}</AddressLine1Txt>
           <CityNm>${escapeXml(taxReturn.preparerSignature.firmAddress.city)}</CityNm>
           <StateAbbreviationCd>${taxReturn.preparerSignature.firmAddress.state}</StateAbbreviationCd>
           <ZIPCd>${taxReturn.preparerSignature.firmAddress.zip}</ZIPCd>
         </PreparerUSAddress>
-        ` : ''}
+        `
+            : ''
+        }
       </PreparerFirmGrp>
       <PreparerPersonGrp>
         <PTIN>${escapeXml(taxReturn.preparerSignature.ptin)}</PTIN>
         <PreparerSignatureDt>${taxReturn.preparerSignature.signedDate}</PreparerSignatureDt>
         ${taxReturn.preparerSignature.phone ? `<PhoneNum>${taxReturn.preparerSignature.phone.replace(/\D/g, '')}</PhoneNum>` : ''}
       </PreparerPersonGrp>
-      ` : '<SelfPreparedInd>X</SelfPreparedInd>'}
+      `
+          : '<SelfPreparedInd>X</SelfPreparedInd>'
+      }
       <Filer>
         <PrimarySSN>${formatSSN(taxReturn.taxpayer.ssn)}</PrimarySSN>
         ${taxReturn.spouse ? `<SpouseSSN>${formatSSN(taxReturn.spouse.ssn)}</SpouseSSN>` : ''}
@@ -108,33 +128,41 @@ export function generateReturnHeader(taxReturn: TaxReturn, softwareId: string): 
           <ZIPCd>${taxReturn.address.zip}</ZIPCd>
         </USAddress>
       </Filer>
-      ${taxReturn.directDeposit ? `
+      ${
+        taxReturn.directDeposit
+          ? `
       <RefundDirectDeposit>
         <RoutingTransitNum>${taxReturn.directDeposit.routingNumber}</RoutingTransitNum>
         <BankAccountNum>${taxReturn.directDeposit.accountNumber}</BankAccountNum>
         <BankAccountTypeCd>${taxReturn.directDeposit.accountType === 'checking' ? '1' : '2'}</BankAccountTypeCd>
       </RefundDirectDeposit>
-      ` : ''}
+      `
+          : ''
+      }
     </ReturnHeader>
   `;
 }
 
 export function generateForm1040(taxReturn: TaxReturn): string {
   const filingStatusCode = {
-    'single': '1',
-    'married_filing_jointly': '2',
-    'married_filing_separately': '3',
-    'head_of_household': '4',
-    'qualifying_surviving_spouse': '5'
+    single: '1',
+    married_filing_jointly: '2',
+    married_filing_separately: '3',
+    head_of_household: '4',
+    qualifying_surviving_spouse: '5',
   }[taxReturn.filingStatus];
 
   return `
     <IRS1040>
       <IndividualReturnFilingStatusCd>${filingStatusCode}</IndividualReturnFilingStatusCd>
       
-      ${taxReturn.dependents.length > 0 ? `
+      ${
+        taxReturn.dependents.length > 0
+          ? `
       <DependentDetail>
-        ${taxReturn.dependents.map(dep => `
+        ${taxReturn.dependents
+          .map(
+            (dep) => `
         <DependentInformationGrp>
           <DependentFirstNm>${escapeXml(dep.firstName)}</DependentFirstNm>
           <DependentLastNm>${escapeXml(dep.lastName)}</DependentLastNm>
@@ -144,51 +172,79 @@ export function generateForm1040(taxReturn: TaxReturn): string {
           ${dep.childTaxCredit ? '<EligibleForChildTaxCreditInd>X</EligibleForChildTaxCreditInd>' : ''}
           ${dep.otherDependentCredit ? '<EligibleForODCInd>X</EligibleForODCInd>' : ''}
         </DependentInformationGrp>
-        `).join('')}
+        `,
+          )
+          .join('')}
       </DependentDetail>
-      ` : ''}
+      `
+          : ''
+      }
 
       <!-- Income -->
       <WagesAmt>${formatCurrency(taxReturn.w2Income.reduce((sum, w2) => sum + w2.wages, 0))}</WagesAmt>
-      ${taxReturn.form1099INT && taxReturn.form1099INT.length > 0 ? `
+      ${
+        taxReturn.form1099INT && taxReturn.form1099INT.length > 0
+          ? `
       <TaxableInterestAmt>${formatCurrency(taxReturn.form1099INT.reduce((sum, f) => sum + f.interestIncome, 0))}</TaxableInterestAmt>
-      ` : ''}
-      ${taxReturn.form1099DIV && taxReturn.form1099DIV.length > 0 ? `
+      `
+          : ''
+      }
+      ${
+        taxReturn.form1099DIV && taxReturn.form1099DIV.length > 0
+          ? `
       <OrdinaryDividendsAmt>${formatCurrency(taxReturn.form1099DIV.reduce((sum, f) => sum + f.ordinaryDividends, 0))}</OrdinaryDividendsAmt>
       <QualifiedDividendsAmt>${formatCurrency(taxReturn.form1099DIV.reduce((sum, f) => sum + f.qualifiedDividends, 0))}</QualifiedDividendsAmt>
-      ` : ''}
-      ${taxReturn.scheduleCBusiness && taxReturn.scheduleCBusiness.length > 0 ? `
+      `
+          : ''
+      }
+      ${
+        taxReturn.scheduleCBusiness && taxReturn.scheduleCBusiness.length > 0
+          ? `
       <ScheduleCNetProfitLossAmt>${formatCurrency(taxReturn.scheduleCBusiness.reduce((sum, b) => sum + b.netProfit, 0))}</ScheduleCNetProfitLossAmt>
-      ` : ''}
+      `
+          : ''
+      }
       
       <TotalIncomeAmt>${formatCurrency(taxReturn.totalIncome)}</TotalIncomeAmt>
       
       <!-- Adjustments -->
-      ${taxReturn.adjustments ? `
+      ${
+        taxReturn.adjustments
+          ? `
       <TotalAdjustmentsAmt>${formatCurrency(
         (taxReturn.adjustments.educatorExpenses || 0) +
-        (taxReturn.adjustments.hsaDeduction || 0) +
-        (taxReturn.adjustments.selfEmploymentTax || 0) +
-        (taxReturn.adjustments.selfEmployedHealthInsurance || 0) +
-        (taxReturn.adjustments.iraDeduction || 0) +
-        (taxReturn.adjustments.studentLoanInterest || 0)
+          (taxReturn.adjustments.hsaDeduction || 0) +
+          (taxReturn.adjustments.selfEmploymentTax || 0) +
+          (taxReturn.adjustments.selfEmployedHealthInsurance || 0) +
+          (taxReturn.adjustments.iraDeduction || 0) +
+          (taxReturn.adjustments.studentLoanInterest || 0),
       )}</TotalAdjustmentsAmt>
-      ` : ''}
+      `
+          : ''
+      }
       
       <AdjustedGrossIncomeAmt>${formatCurrency(taxReturn.adjustedGrossIncome)}</AdjustedGrossIncomeAmt>
       
       <!-- Deductions -->
-      ${taxReturn.deductionType === 'standard' ? `
+      ${
+        taxReturn.deductionType === 'standard'
+          ? `
       <TotalItemizedOrStandardDedAmt>${formatCurrency(getStandardDeduction(taxReturn))}</TotalItemizedOrStandardDedAmt>
       <StandardDeductionInd>X</StandardDeductionInd>
-      ` : `
+      `
+          : `
       <TotalItemizedOrStandardDedAmt>${formatCurrency(calculateItemizedDeductions(taxReturn))}</TotalItemizedOrStandardDedAmt>
       <ItemizedDeductionsInd>X</ItemizedDeductionsInd>
-      `}
+      `
+      }
       
-      ${taxReturn.qualifiedBusinessIncomeDeduction ? `
+      ${
+        taxReturn.qualifiedBusinessIncomeDeduction
+          ? `
       <QualifiedBusinessIncomeDedAmt>${formatCurrency(taxReturn.qualifiedBusinessIncomeDeduction)}</QualifiedBusinessIncomeDedAmt>
-      ` : ''}
+      `
+          : ''
+      }
       
       <TaxableIncomeAmt>${formatCurrency(taxReturn.taxableIncome)}</TaxableIncomeAmt>
       
@@ -196,48 +252,78 @@ export function generateForm1040(taxReturn: TaxReturn): string {
       <TaxAmt>${formatCurrency(taxReturn.taxBeforeCredits)}</TaxAmt>
       
       <!-- Credits -->
-      ${taxReturn.credits.childTaxCredit > 0 ? `
+      ${
+        taxReturn.credits.childTaxCredit > 0
+          ? `
       <ChildTaxCreditAmt>${formatCurrency(taxReturn.credits.childTaxCredit)}</ChildTaxCreditAmt>
-      ` : ''}
-      ${taxReturn.credits.creditForOtherDependents > 0 ? `
+      `
+          : ''
+      }
+      ${
+        taxReturn.credits.creditForOtherDependents > 0
+          ? `
       <CreditForOtherDependentsAmt>${formatCurrency(taxReturn.credits.creditForOtherDependents)}</CreditForOtherDependentsAmt>
-      ` : ''}
+      `
+          : ''
+      }
       
       <TotalCreditsAmt>${formatCurrency(taxReturn.totalCredits)}</TotalCreditsAmt>
       <TotalTaxAmt>${formatCurrency(taxReturn.totalTax)}</TotalTaxAmt>
       
       <!-- Payments -->
       <WithholdingTaxAmt>${formatCurrency(taxReturn.federalWithholding)}</WithholdingTaxAmt>
-      ${taxReturn.credits.earnedIncomeCredit > 0 ? `
+      ${
+        taxReturn.credits.earnedIncomeCredit > 0
+          ? `
       <EarnedIncomeCreditAmt>${formatCurrency(taxReturn.credits.earnedIncomeCredit)}</EarnedIncomeCreditAmt>
-      ` : ''}
-      ${taxReturn.credits.additionalChildTaxCredit > 0 ? `
+      `
+          : ''
+      }
+      ${
+        taxReturn.credits.additionalChildTaxCredit > 0
+          ? `
       <AdditionalChildTaxCreditAmt>${formatCurrency(taxReturn.credits.additionalChildTaxCredit)}</AdditionalChildTaxCreditAmt>
-      ` : ''}
-      ${taxReturn.estimatedTaxPayments ? `
+      `
+          : ''
+      }
+      ${
+        taxReturn.estimatedTaxPayments
+          ? `
       <EstimatedTaxPaymentsAmt>${formatCurrency(taxReturn.estimatedTaxPayments)}</EstimatedTaxPaymentsAmt>
-      ` : ''}
+      `
+          : ''
+      }
       
       <TotalPaymentsAmt>${formatCurrency(taxReturn.totalPayments)}</TotalPaymentsAmt>
       
       <!-- Refund or Amount Owed -->
-      ${taxReturn.refundAmount && taxReturn.refundAmount > 0 ? `
+      ${
+        taxReturn.refundAmount && taxReturn.refundAmount > 0
+          ? `
       <OverpaidAmt>${formatCurrency(taxReturn.refundAmount)}</OverpaidAmt>
       <RefundAmt>${formatCurrency(taxReturn.refundAmount)}</RefundAmt>
-      ` : ''}
-      ${taxReturn.amountOwed && taxReturn.amountOwed > 0 ? `
+      `
+          : ''
+      }
+      ${
+        taxReturn.amountOwed && taxReturn.amountOwed > 0
+          ? `
       <OwedAmt>${formatCurrency(taxReturn.amountOwed)}</OwedAmt>
-      ` : ''}
+      `
+          : ''
+      }
     </IRS1040>
   `;
 }
 
 export function generateW2Statements(taxReturn: TaxReturn): string {
   if (!taxReturn.w2Income || taxReturn.w2Income.length === 0) return '';
-  
+
   return `
     <IRSW2>
-      ${taxReturn.w2Income.map((w2, index) => `
+      ${taxReturn.w2Income
+        .map(
+          (w2, index) => `
       <W2StateLocalTaxGrp>
         <W2StateTaxGrp>
           <StateAbbreviationCd>${w2.stateCode || taxReturn.address.state}</StateAbbreviationCd>
@@ -266,15 +352,19 @@ export function generateW2Statements(taxReturn: TaxReturn): string {
       <MedicareWagesAndTipsAmt>${formatCurrency(w2.medicareWages)}</MedicareWagesAndTipsAmt>
       <MedicareTaxWithheldAmt>${formatCurrency(w2.medicareTax)}</MedicareTaxWithheldAmt>
       ${w2.retirementPlan ? '<RetirementPlanInd>X</RetirementPlanInd>' : ''}
-      `).join('')}
+      `,
+        )
+        .join('')}
     </IRSW2>
   `;
 }
 
 export function generateScheduleC(taxReturn: TaxReturn): string {
   if (!taxReturn.scheduleCBusiness || taxReturn.scheduleCBusiness.length === 0) return '';
-  
-  return taxReturn.scheduleCBusiness.map(business => `
+
+  return taxReturn.scheduleCBusiness
+    .map(
+      (business) => `
     <IRS1040ScheduleC>
       <BusinessNameLine1Txt>${escapeXml(business.businessName)}</BusinessNameLine1Txt>
       <PrincipalBusinessActivityCd>${business.businessCode}</PrincipalBusinessActivityCd>
@@ -311,36 +401,56 @@ export function generateScheduleC(taxReturn: TaxReturn): string {
       <TotalExpensesAmt>${formatCurrency(Object.values(business.expenses).reduce((sum, val) => sum + (val || 0), 0))}</TotalExpensesAmt>
       <NetProfitOrLossAmt>${formatCurrency(business.netProfit)}</NetProfitOrLossAmt>
     </IRS1040ScheduleC>
-  `).join('');
+  `,
+    )
+    .join('');
 }
 
 export function generateScheduleA(taxReturn: TaxReturn): string {
   if (taxReturn.deductionType !== 'itemized' || !taxReturn.itemizedDeductions) return '';
-  
+
   const deductions = taxReturn.itemizedDeductions;
   const saltCap = Math.min(
-    (deductions.stateLocalTaxes || 0) + (deductions.realEstateTaxes || 0) + (deductions.personalPropertyTaxes || 0),
-    10000
+    (deductions.stateLocalTaxes || 0) +
+      (deductions.realEstateTaxes || 0) +
+      (deductions.personalPropertyTaxes || 0),
+    10000,
   );
-  
+
   return `
     <IRS1040ScheduleA>
-      ${deductions.medicalExpenses > 0 ? `
+      ${
+        deductions.medicalExpenses > 0
+          ? `
       <MedicalAndDentalExpensesAmt>${formatCurrency(deductions.medicalExpenses)}</MedicalAndDentalExpensesAmt>
-      ` : ''}
+      `
+          : ''
+      }
       
       <StateAndLocalTaxesAmt>${formatCurrency(saltCap)}</StateAndLocalTaxesAmt>
       
-      ${deductions.mortgageInterest > 0 ? `
+      ${
+        deductions.mortgageInterest > 0
+          ? `
       <MortgageInterestAmt>${formatCurrency(deductions.mortgageInterest)}</MortgageInterestAmt>
-      ` : ''}
+      `
+          : ''
+      }
       
-      ${deductions.charitableCash > 0 ? `
+      ${
+        deductions.charitableCash > 0
+          ? `
       <GiftsByCashOrCheckAmt>${formatCurrency(deductions.charitableCash)}</GiftsByCashOrCheckAmt>
-      ` : ''}
-      ${deductions.charitableNoncash ? `
+      `
+          : ''
+      }
+      ${
+        deductions.charitableNoncash
+          ? `
       <OtherThanByCashOrCheckAmt>${formatCurrency(deductions.charitableNoncash)}</OtherThanByCashOrCheckAmt>
-      ` : ''}
+      `
+          : ''
+      }
       
       <TotalItemizedDeductionsAmt>${formatCurrency(calculateItemizedDeductions(taxReturn))}</TotalItemizedDeductionsAmt>
     </IRS1040ScheduleA>
@@ -350,11 +460,11 @@ export function generateScheduleA(taxReturn: TaxReturn): string {
 function getStandardDeduction(taxReturn: TaxReturn): number {
   // 2024 standard deduction amounts
   const standardDeductions: Record<string, number> = {
-    'single': 14600,
-    'married_filing_jointly': 29200,
-    'married_filing_separately': 14600,
-    'head_of_household': 21900,
-    'qualifying_surviving_spouse': 29200
+    single: 14600,
+    married_filing_jointly: 29200,
+    married_filing_separately: 14600,
+    head_of_household: 21900,
+    qualifying_surviving_spouse: 29200,
   };
   return standardDeductions[taxReturn.filingStatus] || 14600;
 }
@@ -362,13 +472,13 @@ function getStandardDeduction(taxReturn: TaxReturn): number {
 function calculateItemizedDeductions(taxReturn: TaxReturn): number {
   if (!taxReturn.itemizedDeductions) return 0;
   const d = taxReturn.itemizedDeductions;
-  
+
   // SALT cap at $10,000
   const saltTotal = Math.min(
     (d.stateLocalTaxes || 0) + (d.realEstateTaxes || 0) + (d.personalPropertyTaxes || 0),
-    10000
+    10000,
   );
-  
+
   return (
     (d.medicalExpenses || 0) +
     saltTotal +
@@ -383,7 +493,7 @@ function calculateItemizedDeductions(taxReturn: TaxReturn): number {
 
 export function generateMeFXML(taxReturn: TaxReturn, softwareId: string): string {
   const submissionId = generateSubmissionId();
-  
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <Return xmlns="${IRS_NAMESPACE}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" returnVersion="2024v1.0">
   ${generateReturnHeader(taxReturn, softwareId)}
@@ -401,7 +511,7 @@ export function generateMeFXML(taxReturn: TaxReturn, softwareId: string): string
 export function createMeFSubmission(taxReturn: TaxReturn, softwareId: string): MeFSubmission {
   const submissionId = generateSubmissionId();
   const xmlContent = generateMeFXML(taxReturn, softwareId);
-  
+
   return {
     submissionId,
     efin: EFIN,
@@ -410,6 +520,6 @@ export function createMeFSubmission(taxReturn: TaxReturn, softwareId: string): M
     submissionType: 'IRS1040',
     returnData: taxReturn,
     xmlContent,
-    status: 'pending'
+    status: 'pending',
   };
 }

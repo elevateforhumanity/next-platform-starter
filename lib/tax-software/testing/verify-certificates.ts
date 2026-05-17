@@ -2,11 +2,15 @@ import { logger } from '@/lib/logger';
 /**
  * Certificate Verification Script
  * Verifies IRS MeF certificate setup for TEST and PRODUCTION environments
- * 
+ *
  * Usage: npx tsx lib/tax-software/testing/verify-certificates.ts
  */
 
-import { CertificateHandler, verifyCertificateSetup, CERT_ENV_VARS } from '../mef/certificate-handler';
+import {
+  CertificateHandler,
+  verifyCertificateSetup,
+  CERT_ENV_VARS,
+} from '../mef/certificate-handler';
 
 async function main() {
   logger.info('='.repeat(60));
@@ -17,7 +21,7 @@ async function main() {
   // Check environment variables
   logger.info('Environment Variables:');
   logger.info('-'.repeat(40));
-  
+
   for (const [env, vars] of Object.entries(CERT_ENV_VARS)) {
     logger.info(`\n${env.toUpperCase()}:`);
     for (const [key, varName] of Object.entries(vars)) {
@@ -72,4 +76,4 @@ async function main() {
   }
 }
 
-main().catch(console.error);
+main().catch(logger.error);

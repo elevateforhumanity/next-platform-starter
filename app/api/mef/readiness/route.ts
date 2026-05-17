@@ -1,9 +1,9 @@
 // PUBLIC ROUTE: MeF readiness check — internal status
 // AUTH: Intentionally public — no authentication required
-import { NextResponse } from "next/server";
-import { getRuntimeReadiness } from "@/lib/tax-software/config/runtime-readiness";
+import { NextResponse } from 'next/server';
+import { getRuntimeReadiness } from '@/lib/tax-software/config/runtime-readiness';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const readiness = getRuntimeReadiness();
