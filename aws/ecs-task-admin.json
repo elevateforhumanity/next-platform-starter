@@ -535,6 +535,14 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GOOGLE_CLOUD_API_KEY"
         },
         {
+          "name": "GOOGLE_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GOOGLE_CLIENT_ID"
+        },
+        {
+          "name": "GOOGLE_REDIRECT_URI",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GOOGLE_REDIRECT_URI"
+        },
+        {
           "name": "HEYGEN_API_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/HEYGEN_API_KEY"
         },
