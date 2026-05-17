@@ -866,6 +866,40 @@ const nextConfig = {
 
       // /scholarships → /funding handled by Netlify (public SEO route, Rule A)
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
+
+      // ── Archived duplicate program slugs → canonical ─────────────────────
+      { source: '/programs/barber-2024', destination: '/programs/barber-apprenticeship', permanent: true },
+      { source: '/programs/hvac-2024', destination: '/programs/hvac-technician', permanent: true },
+      { source: '/programs/cna-cert', destination: '/programs/cna', permanent: true },
+      { source: '/programs/cna-training', destination: '/programs/cna', permanent: true },
+      { source: '/programs/cosmetology', destination: '/programs/cosmetology-apprenticeship', permanent: true },
+      { source: '/programs/esthetician-apprenticeship', destination: '/programs/esthetician', permanent: true },
+      { source: '/programs/nail-technician', destination: '/programs/nail-technician-apprenticeship', permanent: true },
+      { source: '/programs/nail-tech-apprenticeship', destination: '/programs/nail-technician-apprenticeship', permanent: true },
+      { source: '/programs/peer-recovery-specialist-jri', destination: '/programs/peer-recovery-specialist', permanent: true },
+      { source: '/programs/peer-support', destination: '/programs/peer-recovery-specialist', permanent: true },
+      { source: '/programs/recovery-coach', destination: '/programs/peer-recovery-specialist', permanent: true },
+      { source: '/programs/certified-recovery-specialist', destination: '/programs/peer-recovery-specialist', permanent: true },
+      { source: '/programs/it-support', destination: '/programs/it-help-desk', permanent: true },
+      { source: '/programs/it-support-specialist', destination: '/programs/it-help-desk', permanent: true },
+      { source: '/programs/bookkeeping-fundamentals', destination: '/programs/bookkeeping', permanent: true },
+      { source: '/programs/tax-prep', destination: '/programs/tax-preparation', permanent: true },
+      { source: '/programs/cpr-cert', destination: '/programs/cpr-first-aid', permanent: true },
+      { source: '/programs/health-safety', destination: '/programs/cpr-first-aid', permanent: true },
+      { source: '/programs/phlebotomy-technician', destination: '/programs/phlebotomy', permanent: true },
+      { source: '/programs/nha-phlebotomy', destination: '/programs/phlebotomy', permanent: true },
+      { source: '/programs/nha-medical-assistant', destination: '/programs/medical-assistant', permanent: true },
+      { source: '/programs/nha-pharmacy-technician', destination: '/programs/pharmacy-technician', permanent: true },
+      { source: '/programs/entrepreneurship-small-business', destination: '/programs/entrepreneurship', permanent: true },
+      { source: '/programs/forklift-operator', destination: '/programs/forklift', permanent: true },
+      { source: '/programs/cybersecurity', destination: '/programs/cybersecurity-analyst', permanent: true },
+      { source: '/programs/electrical-technician', destination: '/programs/electrical', permanent: true },
+      { source: '/programs/plumbing-technician', destination: '/programs/plumbing', permanent: true },
+      { source: '/programs/dsp-training', destination: '/programs/direct-support-professional', permanent: true },
+      { source: '/programs/chw-cert', destination: '/programs/community-health-worker', permanent: true },
+      { source: '/programs/nrf-riseup', destination: '/programs/nrf-rise-up', permanent: true },
+      { source: '/programs/building-maintenance-wrg', destination: '/programs/building-services-technician', permanent: true },
+      { source: '/programs/construction-trades-certification', destination: '/programs/skilled-trades', permanent: true },
       // Donate page has its own content now
       // /resources has dedicated public pages — no wildcard redirect
       {
