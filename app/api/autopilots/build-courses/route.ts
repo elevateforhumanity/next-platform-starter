@@ -10,7 +10,6 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-export const maxDuration = 60;
 
 async function _POST(req: NextRequest) {
   try {
