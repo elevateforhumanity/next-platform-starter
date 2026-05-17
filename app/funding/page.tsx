@@ -7,8 +7,7 @@ import { ArrowRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
-// EligibilityScreener is a client component — imported via a client wrapper
-// so ssr:false is valid (not allowed directly in Server Components).
+// EligibilityScreener uses browser APIs — imported via a 'use client' wrapper.
 import EligibilityScreener from '@/components/funding/EligibilityScreenerClient';
 
 export const metadata: Metadata = {

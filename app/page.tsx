@@ -31,7 +31,7 @@ export default function HomePage() {
       <section className="bg-white border-b border-slate-100 py-10 px-6">
         <div className="max-w-4xl mx-auto">
           <p className="text-center text-slate-500 text-sm font-semibold mb-6">Where do you want to start?</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
             {[
               { label: "I'm looking for training", sub: 'Student Flow', href: '/for-students', color: 'bg-brand-red-600 hover:bg-brand-red-700 text-white' },
               { label: 'I need funding options', sub: 'Funding Flow', href: '/funding', color: 'bg-brand-blue-700 hover:bg-brand-blue-800 text-white' },
@@ -52,19 +52,19 @@ export default function HomePage() {
       <section className="bg-slate-900 py-12 px-6">
         <div className="max-w-5xl mx-auto">
           <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest text-center mb-6">How It Works</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+          <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
             {[
-              { n: '1', label: 'Apply' },
-              { n: '2', label: 'Get Approved for Funding' },
-              { n: '3', label: 'Get Placed in a Program' },
-              { n: '4', label: 'Complete Training' },
-              { n: '5', label: 'Test & Get Certified' },
-              { n: '6', label: 'Get Placed into Employment' },
+              { n: '1', label: 'Apply', href: '/apply' },
+              { n: '2', label: 'Get Approved for Funding', href: '/check-eligibility' },
+              { n: '3', label: 'Get Placed in a Program', href: '/programs' },
+              { n: '4', label: 'Complete Training', href: '/how-it-works' },
+              { n: '5', label: 'Test & Get Certified', href: '/how-it-works' },
+              { n: '6', label: 'Get Placed into Employment', href: '/employment-support' },
             ].map((s) => (
-              <div key={s.n} className="flex flex-col items-center text-center gap-2">
-                <span className="w-9 h-9 rounded-full bg-brand-red-600 text-white text-sm font-extrabold flex items-center justify-center shrink-0">{s.n}</span>
-                <p className="text-slate-300 text-xs font-semibold leading-snug">{s.label}</p>
-              </div>
+              <Link key={s.n} href={s.href} className="flex flex-col items-center text-center gap-2 group">
+                <span className="w-9 h-9 rounded-full bg-brand-red-600 group-hover:bg-brand-red-500 text-white text-sm font-extrabold flex items-center justify-center shrink-0 transition-colors">{s.n}</span>
+                <p className="text-slate-300 group-hover:text-white text-xs font-semibold leading-snug transition-colors">{s.label}</p>
+              </Link>
             ))}
           </div>
           <div className="text-center">
