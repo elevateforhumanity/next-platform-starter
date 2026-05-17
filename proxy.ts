@@ -516,6 +516,27 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url, { status: 308 });
   }
 
+  // Unknown-host fallback. The LMS ALB only serves www.elevateforhumanity.org.
+  // Any other Host header that reaches this build (stale apex A records that
+  // still resolve to LMS ALB IPs, raw *.elb.amazonaws.com requests, the legacy
+  // app.elevateforhumanity.org subdomain, etc.) is force-redirected to www so
+  // traffic never gets served under the wrong host.
+  const isCanonicalHost =
+    hostWithoutPort === 'www.elevateforhumanity.org' ||
+    hostWithoutPort === canonicalAdminHost;
+  if (
+    hostWithoutPort &&
+    !isCanonicalHost &&
+    !isLocalHost &&
+    !isGitpodPreview
+  ) {
+    const url = request.nextUrl.clone();
+    url.host = 'www.elevateforhumanity.org';
+    url.protocol = 'https';
+    url.port = '';
+    return NextResponse.redirect(url, { status: 308 });
+  }
+
   // ============================================
   // AUTH PROTECTION
   // ============================================
