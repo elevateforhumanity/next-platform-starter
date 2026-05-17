@@ -1,0 +1,31 @@
+tasks:
+  setup-env:
+    name: Setup environment
+    description: Assemble .env.local from secret chunks or copy from .env.example.
+    command: bash .devcontainer/setup-env.sh
+    triggeredBy:
+      - postDevcontainerStart
+
+  install-deps:
+    name: Install dependencies
+    description: Install all workspace dependencies via pnpm.
+    command: corepack enable && corepack prepare pnpm@10.28.2 --activate && pnpm install
+    triggeredBy:
+      - postDevcontainerStart
+    dependsOn:
+      - setup-env
+
+services:
+  lms:
+    name: LMS dev server
+    description: Next.js LMS app with Turbopack on port 3000.
+    commands:
+      start: pnpm dev
+      ready: curl -sf http://localhost:3000
+
+  admin:
+    name: Admin dev server
+    description: Next.js Admin app on port 3001.
+    commands:
+      start: pnpm dev:admin
+      ready: curl -sf http://localhost:3001
