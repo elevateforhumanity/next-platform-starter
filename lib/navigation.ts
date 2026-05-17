@@ -52,12 +52,6 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Building Services Technician', href: canonicalRoutes.programs.buildingServicesTechnician },
       { name: 'All Trades →', href: '/programs/skilled-trades', isSectionLink: true },
 
-      // Beauty & Personal Services
-      { name: '— Beauty & Personal Services —', href: '/programs/apprenticeships', isHeader: true },
-      { name: 'Barber Apprenticeship', href: canonicalRoutes.programs.barberApprenticeship },
-      { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
-      { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
-
       // Business & Finance
       { name: '— Business & Finance —', href: '/programs/finance-bookkeeping-accounting', isHeader: true },
       { name: 'Finance, Bookkeeping & Accounting', href: '/programs/finance-bookkeeping-accounting' },
@@ -76,20 +70,25 @@ export const NAV_ITEMS: NavItem[] = [
     name: 'Apprenticeships',
     href: '/programs/apprenticeships',
     subItems: [
+      // DOL Registered programs
       { name: '— DOL Registered —', href: '/programs/apprenticeships', isHeader: true },
       { name: 'All Apprenticeships', href: '/programs/apprenticeships' },
       { name: 'Barber Apprenticeship', href: canonicalRoutes.programs.barberApprenticeship },
       { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
       { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
+      // Host a site
+      { name: '— Host a Site —', href: '/partners/barbershop-apprenticeship', isHeader: true },
+      { name: 'Host a Barbershop Apprenticeship', href: '/partners/barbershop-apprenticeship' },
+      { name: 'Host a Cosmetology Apprenticeship', href: '/partners/cosmetology-apprenticeship' },
       { name: 'How It Works →', href: '/programs/apprenticeships', isSectionLink: true },
     ],
   },
 
-  // ── 3. Certifications ────────────────────────────────────────────────────────
+  // ── 3. Testing ───────────────────────────────────────────────────────────────
   {
-    id: 'certifications',
-    name: 'Certifications',
-    href: '/certificates',
+    id: 'testing',
+    name: 'Testing',
+    href: '/testing',
     subItems: [
       { name: '— Testing & Verification —', href: '/testing', isHeader: true },
       { name: 'NHA Healthcare Exams', href: '/testing' },
@@ -141,8 +140,6 @@ export const NAV_ITEMS: NavItem[] = [
       // Training Providers & Program Holders
       { name: '— Training Providers —', href: '/for-providers', isHeader: true },
       { name: 'Run a Program with Us', href: '/for-providers' },
-      { name: 'Host a Barbershop Apprenticeship', href: '/partners/barbershop-apprenticeship' },
-      { name: 'Host a Cosmetology Apprenticeship', href: '/partners/cosmetology-apprenticeship' },
       { name: 'Sponsors & Funders', href: '/platform/sponsors' },
       { name: 'Apply as a Partner →', href: '/partners/apply', isSectionLink: true },
     ],

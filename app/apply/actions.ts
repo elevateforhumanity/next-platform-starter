@@ -588,9 +588,6 @@ async function insertApplication(payload: {
   // Path A: DB available — insert application, admin enrolls later
   if (supabase) {
     try {
-      const normalizedEmail = payload.email.toLowerCase().trim();
-      const normalizedPhone = payload.phone.replace(/\D/g, '');
-
       // Resolve program_id from slug so admin dashboard can approve without guessing
       const programSlug = payload.programInterest.toLowerCase().replace(/\s+/g, '-').trim();
       const { data: programRow } = await supabase
@@ -604,8 +601,6 @@ async function insertApplication(payload: {
         last_name: payload.lastName,
         email: payload.email,
         phone: payload.phone,
-        normalized_email: normalizedEmail,
-        normalized_phone: normalizedPhone,
         city: payload.city,
         zip: payload.zip,
         program_interest: payload.programInterest,
