@@ -199,7 +199,7 @@ export const dashboardNavigation = {
     { label: 'At-Risk Students', href: '/admin/at-risk', icon: 'alert' },
     { label: 'Organizations', href: '/admin/organizations', icon: 'building' },
     { label: 'Programs', href: '/admin/programs', icon: 'book' },
-    { label: 'Users', href: '/admin/users', icon: 'users' },
+    { label: 'Users', href: '/admin/staff', icon: 'users' },
     { label: 'Reports', href: '/admin/reports', icon: 'chart' },
     { label: 'Settings', href: '/admin/settings', icon: 'settings' },
   ],

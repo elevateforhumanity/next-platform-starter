@@ -289,7 +289,7 @@ export const DEFAULT_NAV: NavSection[] = [
     href: '/admin/settings',
     items: [
       { label: 'Settings', href: '/admin/settings' },
-      { label: 'Users', href: '/admin/users' },
+      { label: 'Users', href: '/admin/staff' },
       { label: 'Tenants', href: '/admin/tenants' },
       { label: 'License', href: '/admin/license' },
       { label: 'Licenses', href: '/admin/licenses' },

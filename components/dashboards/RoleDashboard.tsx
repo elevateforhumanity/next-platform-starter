@@ -75,7 +75,7 @@ const roleConfig = {
     title: 'Admin Dashboard',
     description: 'Full system administration and management',
     primaryAction: { label: 'System Settings', href: '/admin/settings' },
-    secondaryAction: { label: 'User Management', href: '/admin/users' },
+    secondaryAction: { label: 'User Management', href: '/admin/staff' },
     stats: [
       { label: 'Total Users', value: '3,200+' },
       { label: 'Active Programs', value: '28' },

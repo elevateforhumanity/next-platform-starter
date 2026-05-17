@@ -25,11 +25,10 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/courses/manage':       '/admin/courses',
   '/admin/course-import':        '/admin/course-builder',
   '/admin/quiz-builder':         '/admin/course-builder/assessments',
-  '/admin/career-courses':       '/admin/courses',
+  // career-courses is a separate table/product — not an LMS course duplicate
   '/admin/external-courses':     '/admin/courses',
   // ── Enrollment / student consolidation ───────────────────────────────────
-  '/admin/enrollment':           '/admin/enrollments',
-  '/admin/students':             '/admin/enrollments',
+  '/admin/enrollment':           '/admin/students',
   '/admin/applicants':           '/admin/applications',
   // ── User / staff consolidation ───────────────────────────────────────────
   '/admin/users':                '/admin/staff',
