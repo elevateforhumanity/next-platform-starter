@@ -22,7 +22,6 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 
-export const dynamic = 'force-dynamic';
 
 const BodySchema = z.object({
   cost_cents: z.number().int().min(0),

@@ -21,7 +21,6 @@ export const maxDuration = 60;
  * - Instagram (via Graph API)
  */
 
-export const dynamic = 'force-dynamic';
 
 interface SocialPost {
   id: string;

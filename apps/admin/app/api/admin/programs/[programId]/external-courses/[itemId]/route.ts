@@ -16,7 +16,6 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 
-export const dynamic = 'force-dynamic';
 
 const PatchSchema = z.object({
   partner_name: z.string().min(1).optional(),

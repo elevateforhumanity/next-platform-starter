@@ -15,9 +15,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-export const maxDuration = 60;
 
-export const dynamic = 'force-dynamic';
 
 const enrollApplySchema = z.object({
   firstName: z.string().min(1).max(100).trim(),

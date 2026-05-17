@@ -23,7 +23,6 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 
-export const dynamic = 'force-dynamic';
 
 async function _GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
