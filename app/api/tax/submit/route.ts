@@ -10,6 +10,11 @@ import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { assertRuntimeReadyForSubmission } from '@/lib/tax-software/config/runtime-readiness';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 async function _POST(request: NextRequest) {
   try {
     // Hard-block if runtime is not ready (missing EFIN, schemas, xmllint)

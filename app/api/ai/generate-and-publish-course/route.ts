@@ -30,6 +30,11 @@ import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 import { transformLessonContent } from '@/lib/lms/transformLessonContent';
 import { defaultActivities } from '@/lib/curriculum/activities';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 export const maxDuration = 300;
 
 interface GenerateAndPublishRequest {

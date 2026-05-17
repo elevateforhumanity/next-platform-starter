@@ -12,6 +12,11 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { mapCourseRow, type RawCourseRow } from '@/lib/domain';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 export const dynamic = 'force-dynamic';
 
 const AttachSchema = z.object({

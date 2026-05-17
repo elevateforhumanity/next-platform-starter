@@ -5,6 +5,11 @@ import crypto from 'crypto';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 function generateCode(): string {
   return crypto.randomBytes(4).toString('hex').toUpperCase();
 }

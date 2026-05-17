@@ -5,6 +5,11 @@ import { searchStore } from '@/lib/store/db';
 import { searchItems, getFeaturedForAudience, type Audience } from '@/lib/search/search-index';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
 // AUTH: Intentionally public — no authentication required
 
 async function _GET(request: NextRequest) {

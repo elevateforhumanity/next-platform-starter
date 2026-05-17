@@ -17,6 +17,11 @@ import { getStripe } from '@/lib/stripe/client';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 export const dynamic = 'force-dynamic';
 
 const BodySchema = z.object({

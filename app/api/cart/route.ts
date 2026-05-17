@@ -7,6 +7,11 @@ import { getCart, addToCart, updateCartItem, removeFromCart } from '@/lib/store/
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 // Get or create cart
 async function _GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');

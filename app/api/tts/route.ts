@@ -4,6 +4,11 @@ import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 const DEFAULT_VOICE = 'en-US-JennyNeural';
 
 export async function POST(request: NextRequest) {
