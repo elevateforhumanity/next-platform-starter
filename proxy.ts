@@ -4,7 +4,6 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 // ── Module-level constants ────────────────────────────────────────────────────
 
-const EDUCATION_DOMAIN = 'elevateforhumanityeducation.com';
 const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
 const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/applicants': '/admin/applications',
@@ -507,15 +506,6 @@ export async function middleware(request: NextRequest) {
   }
 
   // All routes are served by the same AWS ECS container — no proxy needed.
-
-  // Education domain routing (elevateforhumanityeducation.com)
-  // Root -> /admin dashboard; all other routes pass through to the full site
-  if (hostWithoutPort.includes(EDUCATION_DOMAIN)) {
-    if (pathname === '/' || pathname === '') {
-      return NextResponse.rewrite(new URL('/admin', request.url));
-    }
-    return nextWithPathname();
-  }
 
   // Redirect non-www .org to www .org
   if (hostWithoutPort === 'elevateforhumanity.org') {
