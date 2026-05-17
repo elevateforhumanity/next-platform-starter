@@ -2,235 +2,291 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Brain, Code2, BookOpen, BarChart3, Video, Send, Loader2 } from 'lucide-react';
+import { Brain, Code2, BookOpen, BarChart3, Database, Search, Send, Loader2, Terminal, Zap } from 'lucide-react';
 
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
+// Prompts that trigger the devstudio action executor (SSE streaming)
+const ACTION_PATTERNS = [
+  /scan.*route|route.*scan|list.*route|show.*route/i,
+  /no.*auth.*route|missing.*auth|auth.*gap/i,
+  /query.*db|query.*database|db.*query|database.*query|show.*table|list.*table/i,
+  /audit.*system|system.*audit|full.*audit|run.*audit/i,
+  /broken.*link|inspect.*link|link.*check|dead.*link/i,
+  /run.*migration|apply.*migration/i,
+  /deploy|build.*project|run.*build/i,
+  /generate.*course|create.*course|seed.*course/i,
+  /list.*enrollment|show.*enrollment|enrollment.*count/i,
+  /list.*application|show.*application|pending.*application/i,
+  /list.*student|show.*student|student.*count/i,
+  /list.*program|show.*program|program.*status/i,
+  /recent.*commit|git.*log|commit.*history/i,
+  /run.*report|generate.*report|show.*report/i,
+  /list.*shop|show.*shop|partner.*shop/i,
+  /send.*email|email.*student|notify/i,
+  /run.*payroll|payroll.*run/i,
+];
+
+function isActionPrompt(text: string): boolean {
+  return ACTION_PATTERNS.some(p => p.test(text));
 }
 
-const AI_FEATURES = [
-  {
-    title: 'Course Generator',
-    description: 'Generate full courses from a topic or blueprint',
-    href: '/admin/course-builder',
-    icon: BookOpen,
-    color: 'bg-blue-50 text-blue-700',
-    status: 'live',
-  },
-  {
-    title: 'Dev Studio',
-    description: 'Edit repo files and run shell commands in-browser',
-    href: '/admin/dev-studio',
-    icon: Code2,
-    color: 'bg-slate-50 text-slate-700',
-    status: 'live',
-  },
-  {
-    title: 'Copilot Deploy',
-    description: 'Deploy AI features to learner and employer portals',
-    href: '/admin/copilot/deploy',
-    icon: Brain,
-    color: 'bg-purple-50 text-purple-700',
-    status: 'live',
-  },
-  {
-    title: 'Analytics Assistant',
-    description: 'AI-powered enrollment and revenue insights',
-    href: '/admin/analytics',
-    icon: BarChart3,
-    color: 'bg-green-50 text-green-700',
-    status: 'live',
-  },
-  {
-    title: 'Video Generator',
-    description: 'Generate D-ID talking-head lesson videos',
-    href: '/admin/video-generator',
-    icon: Video,
-    color: 'bg-orange-50 text-orange-700',
-    status: 'live',
-  },
-  {
-    title: 'Media Studio',
-    description: 'AI image and media enhancement',
-    href: '/admin/media-studio',
-    icon: Brain,
-    color: 'bg-pink-50 text-pink-700',
-    status: 'live',
-  },
+interface Message {
+  role: 'user' | 'assistant' | 'action';
+  content: string;
+  streaming?: boolean;
+}
+
+const QUICK_ACTIONS = [
+  { icon: Search,   label: 'Scan routes',        prompt: 'Scan all Next.js routes',                    mode: 'action' },
+  { icon: Database, label: 'Query programs',      prompt: 'Query database table programs status=published', mode: 'action' },
+  { icon: Terminal, label: 'Audit system',        prompt: 'Run full system audit',                      mode: 'action' },
+  { icon: Search,   label: 'Inspect links',       prompt: 'Inspect broken internal links',              mode: 'action' },
+  { icon: BarChart3,label: 'Enrollment report',   prompt: 'Run enrollment report',                      mode: 'action' },
+  { icon: BookOpen, label: 'List applications',   prompt: 'List pending applications',                  mode: 'action' },
+  { icon: Code2,    label: 'Recent commits',      prompt: 'Show recent git commits',                    mode: 'action' },
+  { icon: Zap,      label: 'List programs',       prompt: 'List all active published programs',         mode: 'action' },
 ];
 
 export default function AiConsoleClient() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content:
-        "I'm your admin AI assistant. I have live access to your platform data — enrollments, applications, revenue, students, programs, and compliance. Ask me anything.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const send = useCallback(async () => {
-    const text = input.trim();
-    if (!text || loading) return;
+  const sendMessage = useCallback(async (text: string) => {
+    const prompt = text.trim();
+    if (!prompt || loading) return;
 
-    const userMsg: Message = { role: 'user', content: text };
-    setMessages((prev) => [...prev, userMsg]);
+    setMessages(prev => [...prev, { role: 'user', content: prompt }]);
     setInput('');
     setLoading(true);
 
-    try {
-      const res = await fetch('/api/admin/ai-assistant', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          history: messages.slice(-8),
-        }),
-      });
+    const useAction = isActionPrompt(prompt);
 
-      const data = await res.json();
-      const reply = data.reply ?? data.message ?? data.error ?? 'No response';
-      setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', content: 'Connection error — check that OPENAI_API_KEY is set.' },
-      ]);
-    } finally {
-      setLoading(false);
+    if (useAction) {
+      // Stream from devstudio execute endpoint
+      setMessages(prev => [...prev, { role: 'action', content: '', streaming: true }]);
+      try {
+        const res = await fetch('/api/devstudio/execute', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ command: prompt }),
+        });
+        if (!res.body) throw new Error('No stream');
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() ?? '';
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const payload = line.slice(6);
+              if (payload === '[DONE]') break;
+              try {
+                const { text } = JSON.parse(payload);
+                if (text) {
+                  setMessages(prev => {
+                    const updated = [...prev];
+                    const last = updated[updated.length - 1];
+                    if (last?.role === 'action') {
+                      updated[updated.length - 1] = {
+                        ...last,
+                        content: last.content + (last.content ? '\n' : '') + text,
+                      };
+                    }
+                    return updated;
+                  });
+                }
+              } catch { /* non-JSON line */ }
+            }
+          }
+        }
+        setMessages(prev => {
+          const updated = [...prev];
+          const last = updated[updated.length - 1];
+          if (last?.role === 'action') updated[updated.length - 1] = { ...last, streaming: false };
+          return updated;
+        });
+      } catch (err) {
+        setMessages(prev => {
+          const updated = [...prev];
+          const last = updated[updated.length - 1];
+          if (last?.role === 'action') {
+            updated[updated.length - 1] = {
+              ...last,
+              content: `Error: ${err instanceof Error ? err.message : 'Request failed'}`,
+              streaming: false,
+            };
+          }
+          return updated;
+        });
+      }
+    } else {
+      // Q&A mode — assistant endpoint
+      setMessages(prev => [...prev, { role: 'assistant', content: '', streaming: true }]);
+      try {
+        const history = messages
+          .filter(m => !m.streaming)
+          .slice(-10)
+          .map(m => ({ role: m.role === 'action' ? 'assistant' : m.role, content: m.content }));
+
+        const res = await fetch('/api/admin/ai-assistant', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, history }),
+        });
+        const data = await res.json();
+        const reply = data.reply ?? data.message ?? data.content ?? JSON.stringify(data);
+        setMessages(prev => {
+          const updated = [...prev];
+          const last = updated[updated.length - 1];
+          if (last?.role === 'assistant') {
+            updated[updated.length - 1] = { role: 'assistant', content: reply, streaming: false };
+          }
+          return updated;
+        });
+      } catch (err) {
+        setMessages(prev => {
+          const updated = [...prev];
+          const last = updated[updated.length - 1];
+          if (last?.role === 'assistant') {
+            updated[updated.length - 1] = {
+              role: 'assistant',
+              content: `Error: ${err instanceof Error ? err.message : 'Request failed'}`,
+              streaming: false,
+            };
+          }
+          return updated;
+        });
+      }
     }
-  }, [input, loading, messages]);
 
-  const handleKey = (e: React.KeyboardEvent) => {
+    setLoading(false);
+    inputRef.current?.focus();
+  }, [loading, messages]);
+
+  const handleKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      send();
+      sendMessage(input);
     }
   };
 
+  // Strip ANSI escape codes for display
+  const stripAnsi = (str: string) => str.replace(/\x1b\[[0-9;]*m/g, '');
+
+  // Colorize ANSI for terminal output
+  const renderTerminal = (content: string) => {
+    return content.split('\n').map((line, i) => {
+      const stripped = stripAnsi(line);
+      let cls = 'text-slate-300';
+      if (line.includes('\x1b[32m') || line.includes('✓')) cls = 'text-green-400';
+      else if (line.includes('\x1b[31m') || line.includes('✗')) cls = 'text-red-400';
+      else if (line.includes('\x1b[33m') || line.includes('⚙') || line.includes('⚠')) cls = 'text-amber-400';
+      else if (line.includes('\x1b[90m') || line.startsWith('   $')) cls = 'text-slate-500';
+      else if (line.startsWith('   ')) cls = 'text-slate-400';
+      return <div key={i} className={cls}>{stripped || '\u00a0'}</div>;
+    });
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <nav className="text-sm mb-4 text-slate-500">
-          <Link href="/admin" className="hover:text-slate-900">
-            Admin
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-slate-900 font-medium">AI Console</span>
-        </nav>
-        <h1 className="text-3xl font-bold text-slate-900">AI Console</h1>
-        <p className="text-slate-600 mt-1">
-          GPT-4o connected to live platform data. All features below are wired and active.
-        </p>
+    <div className="flex flex-col h-full min-h-0">
+      {/* Quick actions */}
+      <div className="flex flex-wrap gap-2 p-4 border-b border-slate-200 bg-slate-50">
+        {QUICK_ACTIONS.map((a) => (
+          <button
+            key={a.label}
+            onClick={() => sendMessage(a.prompt)}
+            disabled={loading}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 rounded-lg hover:border-brand-blue-400 hover:text-brand-blue-600 transition-colors disabled:opacity-50"
+          >
+            <a.icon className="w-3.5 h-3.5" />
+            {a.label}
+          </button>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Chat — takes 2/3 */}
-        <div
-          className="lg:col-span-2 flex flex-col bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden"
-          style={{ height: '600px' }}
-        >
-          <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-2">
-            <Brain className="w-4 h-4 text-purple-600" />
-            <span className="font-medium text-slate-900 text-sm">Admin Assistant — GPT-4o</span>
-            <span className="ml-auto text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-              Live data
-            </span>
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+        {messages.length === 0 && (
+          <div className="text-center py-16 text-slate-400">
+            <Brain className="w-12 h-12 mx-auto mb-3 opacity-30" />
+            <p className="font-medium text-slate-600 mb-1">Elevate Platform Operator</p>
+            <p className="text-sm">Ask questions about live data, or give action commands to scan routes, query the DB, audit the system, and more.</p>
           </div>
+        )}
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm whitespace-pre-wrap ${
-                    m.role === 'user' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-900'
-                  }`}
-                >
-                  {m.content}
-                </div>
+        {messages.map((msg, i) => (
+          <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            {msg.role === 'action' ? (
+              <div className="w-full bg-slate-900 rounded-xl p-4 font-mono text-xs leading-relaxed overflow-x-auto">
+                {msg.streaming && msg.content === '' ? (
+                  <div className="flex items-center gap-2 text-amber-400">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Executing…</span>
+                  </div>
+                ) : (
+                  <>
+                    {renderTerminal(msg.content)}
+                    {msg.streaming && (
+                      <div className="flex items-center gap-1 text-amber-400 mt-1">
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
-            ))}
-            {loading && (
-              <div className="flex justify-start">
-                <div className="bg-slate-100 rounded-xl px-4 py-2.5">
-                  <Loader2 className="w-4 h-4 animate-spin text-slate-500" />
-                </div>
+            ) : msg.role === 'user' ? (
+              <div className="max-w-[80%] bg-brand-blue-600 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm">
+                {msg.content}
+              </div>
+            ) : (
+              <div className="max-w-[85%] bg-white border border-slate-200 rounded-2xl rounded-tl-sm px-4 py-3 text-sm text-slate-800 leading-relaxed">
+                {msg.streaming && msg.content === '' ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
+                ) : (
+                  <div className="whitespace-pre-wrap">{msg.content}</div>
+                )}
               </div>
             )}
-            <div ref={bottomRef} />
           </div>
+        ))}
+        <div ref={bottomRef} />
+      </div>
 
-          {/* Input */}
-          <div className="border-t border-slate-100 p-3 flex gap-2">
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKey}
-              placeholder="Ask about enrollments, revenue, students, compliance…"
-              rows={4}
-              className="flex-1 resize-y border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[96px]"
-            />
-            <button
-              onClick={send}
-              disabled={!input.trim() || loading}
-              className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white rounded-lg px-4 py-2 flex items-center gap-1.5 text-sm font-medium transition-colors"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </div>
+      {/* Input */}
+      <div className="border-t border-slate-200 p-4 bg-white">
+        <div className="flex gap-2 items-end">
+          <textarea
+            ref={inputRef}
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKey}
+            placeholder="Ask a question or give a command… (Enter to send, Shift+Enter for newline)"
+            rows={2}
+            className="flex-1 resize-none border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            disabled={loading}
+          />
+          <button
+            onClick={() => sendMessage(input)}
+            disabled={loading || !input.trim()}
+            className="flex items-center justify-center w-10 h-10 bg-brand-blue-600 text-white rounded-xl hover:bg-brand-blue-700 disabled:opacity-50 transition-colors shrink-0"
+          >
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+          </button>
         </div>
-
-        {/* Feature grid — 1/3 */}
-        <div className="space-y-3">
-          <h2 className="font-semibold text-slate-900 text-sm uppercase tracking-wide">
-            AI Features
-          </h2>
-          {AI_FEATURES.map((f) => {
-            const Icon = f.icon;
-            return (
-              <Link
-                key={f.title}
-                href={f.href}
-                className="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-300 hover:shadow-sm transition-all group"
-              >
-                <div
-                  className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${f.color}`}
-                >
-                  <Icon className="w-4 h-4" />
-                </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium text-slate-900 text-sm group-hover:text-blue-600 transition-colors">
-                      {f.title}
-                    </p>
-                    <span className="text-xs text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">
-                      live
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-500 mt-0.5">{f.description}</p>
-                </div>
-              </Link>
-            );
-          })}
-
-          <div className="pt-2 border-t border-slate-100">
-            <p className="text-xs text-slate-400">
-              Model: GPT-4o-mini · Keys: active · Data: live Supabase
-            </p>
-          </div>
-        </div>
+        <p className="text-xs text-slate-400 mt-1.5 ml-1">
+          Action commands stream live from the platform. Q&amp;A queries live data via the assistant.
+          <Link href="/admin/dev-studio" className="ml-2 text-brand-blue-500 hover:underline">Open Dev Studio →</Link>
+        </p>
       </div>
     </div>
   );
