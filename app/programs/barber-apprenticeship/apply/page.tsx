@@ -1,51 +1,22 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Scissors, Store } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import ApprenticeForm from './ApprenticeForm';
-import PartnerShopForm from './PartnerShopForm';
 
-type ApplicantType = '' | 'apprentice' | 'partner_shop';
+export const revalidate = 3600;
 
-const VALID_TYPES: ApplicantType[] = ['apprentice', 'partner_shop'];
+export const metadata: Metadata = {
+  title: 'Apply — Barber Apprenticeship | Elevate for Humanity',
+  description:
+    'Apply to the Elevate for Humanity DOL-registered barber apprenticeship — as an apprentice or as a partner barbershop.',
+  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship/apply' },
+};
 
-const TYPE_OPTIONS: { value: ApplicantType; label: string; desc: string }[] = [
-  {
-    value: 'apprentice',
-    label: 'Barber Apprentice',
-    desc: 'I want to enroll in the barber apprenticeship program as a student.',
-  },
-  {
-    value: 'partner_shop',
-    label: 'Partner Barbershop',
-    desc: 'I own or manage a barbershop and want to host apprentices.',
-  },
-];
-
-function BarberApplyPageInner() {
-  const searchParams = useSafeSearchParams();
-  const [applicantType, setApplicantType] = useState<ApplicantType>('');
-
-  // This IS the canonical barber apply page. No redirect away from here.
-  // Partner shop type gets its own form; apprentice (default) renders ApprenticeForm.
-  useEffect(() => {
-    const param = searchParams.get('type') as ApplicantType | null;
-    if (param && VALID_TYPES.includes(param)) {
-      setApplicantType(param);
-    } else {
-      // Default to apprentice — this is the primary flow
-      setApplicantType('apprentice');
-    }
-  }, [searchParams]);
-
+export default function BarberApplyIndexPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
       <div className="bg-white border-b">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="max-w-2xl mx-auto px-4 py-4">
           <Breadcrumbs
             items={[
               { label: 'Programs', href: '/programs' },
@@ -56,65 +27,62 @@ function BarberApplyPageInner() {
           <div className="mt-4">
             <Link
               href="/programs/barber-apprenticeship"
-              className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 transition"
+              className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Program
             </Link>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mt-4">
-            Barber Apprenticeship — Apply
+        </div>
+      </div>
+
+      <section className="bg-slate-900 py-10">
+        <div className="max-w-2xl mx-auto px-4">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">
+            DOL-Registered Apprenticeship
+          </p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+            Apply — Barber Apprenticeship
           </h1>
-          <p className="text-slate-600 mt-1">
-            Select the application type that applies to you.
+          <p className="text-slate-300 text-base">
+            Select the application that applies to you.
           </p>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Type selector */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-8">
-          <label
-            htmlFor="applicant-type"
-            className="block text-sm font-semibold text-slate-700 mb-2"
+      <section className="py-12">
+        <div className="max-w-2xl mx-auto px-4 space-y-4">
+          <Link
+            href="/programs/barber-apprenticeship/apply/apprentice"
+            className="flex items-start gap-5 p-6 bg-white border-2 border-slate-200 rounded-xl hover:border-brand-red-500 hover:shadow-md transition-all group"
           >
-            I am applying as a… *
-          </label>
-          <div className="relative">
-            <select
-              id="applicant-type"
-              value={applicantType}
-              onChange={(e) => setApplicantType(e.target.value as ApplicantType)}
-              className="w-full appearance-none px-4 py-3 pr-10 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-base"
-            >
-              <option value="">— Select application type —</option>
-              {TYPE_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-          </div>
+            <div className="w-12 h-12 rounded-full bg-brand-red-50 group-hover:bg-brand-red-100 flex items-center justify-center shrink-0 transition-colors">
+              <Scissors className="w-6 h-6 text-brand-red-600" />
+            </div>
+            <div>
+              <p className="font-bold text-slate-900 text-lg mb-1">I&apos;m an Apprentice</p>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                I want to enroll in the barber apprenticeship program as a student.
+              </p>
+            </div>
+          </Link>
 
-          {/* Description under selection */}
-          {applicantType && (
-            <p className="mt-3 text-sm text-slate-600">
-              {TYPE_OPTIONS.find((o) => o.value === applicantType)?.desc}
-            </p>
-          )}
+          <Link
+            href="/programs/barber-apprenticeship/apply/partner-shop"
+            className="flex items-start gap-5 p-6 bg-white border-2 border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-md transition-all group"
+          >
+            <div className="w-12 h-12 rounded-full bg-brand-blue-50 group-hover:bg-brand-blue-100 flex items-center justify-center shrink-0 transition-colors">
+              <Store className="w-6 h-6 text-brand-blue-600" />
+            </div>
+            <div>
+              <p className="font-bold text-slate-900 text-lg mb-1">I&apos;m a Partner Barbershop</p>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                I own or manage a barbershop and want to host apprentices.
+              </p>
+            </div>
+          </Link>
         </div>
-
-        {/* Render the correct form — apprentice is the default */}
-        {(applicantType === '' || applicantType === 'apprentice') && (
-          <ApprenticeForm initialPayment={searchParams.get('payment')} />
-        )}
-        {applicantType === 'partner_shop' && <PartnerShopForm />}
-      </div>
+      </section>
     </div>
   );
-}
-
-export default function BarberApplyPage() {
-  return (<BarberApplyPageInner />);
 }
