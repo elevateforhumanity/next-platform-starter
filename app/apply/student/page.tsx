@@ -4,6 +4,7 @@ import Link from 'next/link';
 import StudentApplicationForm from './StudentApplicationForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { resolveSlug } from '@/lib/program-registry';
+import { getProgramBySlug } from '@/data/programs/catalog';
 
 export const revalidate = 600;
 
@@ -38,64 +39,30 @@ export const metadata: Metadata = {
   },
 };
 
-const PROGRAMS = [
-  {
-    title: 'CNA / Nursing Assistant',
-    duration: '4 weeks',
-    credential: 'Indiana CNA License',
-    href: '/programs/cna',
-    image: '/images/pages/cna-patient-care.jpg',
-  },
-  {
-    title: 'Medical Assistant',
-    duration: '12 weeks',
-    credential: 'NHA CCMA',
-    href: '/programs/medical-assistant',
-    image: '/images/pages/medical-assistant-real.jpg',
-  },
-  {
-    title: 'HVAC Technician',
-    duration: '8 weeks',
-    credential: 'EPA 608',
-    href: '/programs/hvac-technician',
-    image: '/images/pages/hvac-unit.jpg',
-  },
-  {
-    title: 'CDL Class A',
-    duration: '6 weeks',
-    credential: 'CDL Class A License',
-    href: '/programs/cdl-training',
-    image: '/images/pages/cdl-truck-highway.jpg',
-  },
-  {
-    title: 'Barber Apprenticeship',
-    duration: '20–52 weeks',
-    credential: 'Indiana Barber License',
-    href: '/programs/barber-apprenticeship',
-    image: '/images/pages/barber-hero-main.jpg',
-  },
-  {
-    title: 'Phlebotomy',
-    duration: '5 weeks',
-    credential: 'NHA CPT',
-    href: '/programs/phlebotomy',
-    image: '/images/pages/phlebotomy-real.jpg',
-  },
-  {
-    title: 'IT Help Desk',
-    duration: '8 weeks',
-    credential: 'CompTIA A+',
-    href: '/programs/it-help-desk',
-    image: '/images/pages/it-helpdesk-desk.jpg',
-  },
-  {
-    title: 'Bookkeeping & Accounting',
-    duration: '6 weeks',
-    credential: 'QuickBooks Certified User',
-    href: '/programs/finance-bookkeeping-accounting',
-    image: '/images/pages/bookkeeping-ledger.jpg',
-  },
+// Featured program slugs — order controls display sequence.
+// Add a slug here to feature it; remove to unfeature. Data comes from data/programs/catalog.ts.
+const FEATURED_SLUGS = [
+  'cna',
+  'medical-assistant',
+  'hvac-technician',
+  'cdl-training',
+  'barber-apprenticeship',
+  'phlebotomy',
+  'it-help-desk',
+  'bookkeeping',
 ];
+
+const PROGRAMS = FEATURED_SLUGS.flatMap((slug) => {
+  const p = getProgramBySlug(slug);
+  if (!p) return [];
+  return [{
+    title: p.title,
+    duration: p.durationWeeks ? `${p.durationWeeks} weeks` : 'Varies',
+    credential: p.credentials?.[0]?.name ?? p.credentialIssued ?? '',
+    href: `/programs/${p.slug}`,
+    image: p.heroImage,
+  }];
+});
 
 const STEPS = [
   {

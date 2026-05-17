@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { logger } from '@/lib/logger';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { getActivePrograms } from '@/lib/program-registry';
 
 interface StudentIntakeData {
   fullName: string;
@@ -34,14 +35,7 @@ export function InstructorIntakeForm() {
     notes: '',
   });
 
-  const PROGRAMS = [
-    'HVAC Technician',
-    'Barber Apprenticeship',
-    'Tax Preparation',
-    'CDL Training',
-    'Nursing Assistant',
-    'Other',
-  ];
+  const PROGRAMS = getActivePrograms().map((p) => p.name);
 
   const EMPLOYMENT_OPTIONS = ['Employed', 'Unemployed', 'Self-employed', 'Student', 'Other'];
 

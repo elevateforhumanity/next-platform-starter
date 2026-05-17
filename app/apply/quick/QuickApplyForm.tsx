@@ -2,18 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
-const PROGRAMS = [
-  'HVAC Technician',
-  'CNA Certification',
-  'Barber Apprenticeship',
-  'Cosmetology Apprenticeship',
-  'Phlebotomy Technician',
-  'Direct Support Professional',
-  'Bookkeeping',
-  'Entrepreneurship / Small Business',
-  'Other',
-];
+import { getActivePrograms } from '@/lib/program-registry';
 
 export default function QuickApplyForm() {
   const router = useRouter();
@@ -132,11 +121,12 @@ export default function QuickApplyForm() {
           className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
         >
           <option value="">Select a program…</option>
-          {PROGRAMS.map((p) => (
-            <option key={p} value={p}>
-              {p}
+          {getActivePrograms().map((p) => (
+            <option key={p.slug} value={p.name}>
+              {p.name}
             </option>
           ))}
+          <option value="Other">Other / Not Sure Yet</option>
         </select>
       </div>
 

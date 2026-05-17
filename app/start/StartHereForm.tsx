@@ -2,32 +2,7 @@
 
 import { useState } from 'react';
 import { ArrowRight, CheckCircle, Loader2 } from 'lucide-react';
-
-const PROGRAMS = [
-  'HVAC / Building Technician',
-  'Certified Nursing Assistant (CNA)',
-  "Commercial Driver's License (CDL)",
-  'Barber Apprenticeship',
-  'Cosmetology Apprenticeship',
-  'IT Help Desk Technician',
-  'Cybersecurity Analyst',
-  'Medical Assistant',
-  'Pharmacy Technician',
-  'Phlebotomy',
-  'Welding',
-  'Electrical Apprenticeship',
-  'Plumbing',
-  'Diesel Mechanic',
-  'Forklift Operator',
-  'Tax Preparation',
-  'Bookkeeping & Accounting',
-  'Business Administration',
-  'Software Development',
-  'Web Development',
-  'Peer Recovery Specialist',
-  'CPR, AED & First Aid',
-  'Other / Not Sure Yet',
-];
+import { getActivePrograms } from '@/lib/program-registry';
 
 export default function StartHereForm() {
   const [step, setStep] = useState<'form' | 'success'>('form');
@@ -136,11 +111,12 @@ export default function StartHereForm() {
             className="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent bg-white"
           >
             <option value="">Select a program</option>
-            {PROGRAMS.map((p) => (
-              <option key={p} value={p}>
-                {p}
+            {getActivePrograms().map((p) => (
+              <option key={p.slug} value={p.name}>
+                {p.name}
               </option>
             ))}
+            <option value="Other / Not Sure Yet">Other / Not Sure Yet</option>
           </select>
         </div>
 

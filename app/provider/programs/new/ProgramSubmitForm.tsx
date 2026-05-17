@@ -3,21 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, CheckCircle } from 'lucide-react';
+import { getActiveProgramsByCategory } from '@/lib/program-registry';
 
 const PROGRAM_TYPES = [
-  'HVAC / Refrigeration',
-  'Electrical',
-  'Plumbing',
-  'Welding',
-  'CDL / Commercial Driving',
-  'Carpentry / Construction',
-  'Healthcare / CNA',
-  'Medical Assistant',
-  'Phlebotomy',
-  'Barbering / Cosmetology',
-  'IT Support / Cybersecurity',
-  'Business / Office Administration',
-  'Tax Preparation',
+  ...getActiveProgramsByCategory().map((g) => g.category),
   'Other',
 ];
 

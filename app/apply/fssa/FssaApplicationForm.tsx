@@ -4,25 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { submitFssaApplication, type FssaApplicationData } from './actions';
 import { CheckCircle, AlertCircle, ChevronRight, ChevronLeft } from 'lucide-react';
-
-const PROGRAMS = [
-  'Certified Nursing Assistant (CNA)',
-  'Qualified Medication Aide (QMA)',
-  'Phlebotomy',
-  'Medical Assistant',
-  'Home Health Aide',
-  'Peer Recovery Specialist',
-  'CDL (Class A / B)',
-  'Welding',
-  'Electrical',
-  'Plumbing',
-  'Construction Trades',
-  'IT Support',
-  'Office Administration',
-  'Bookkeeping',
-  'Entrepreneurship',
-  'Other / Not Sure Yet',
-];
+import { getActivePrograms } from '@/lib/program-registry';
 
 const EDUCATION_LEVELS = [
   'Less than high school',
@@ -265,7 +247,8 @@ export default function FssaApplicationForm() {
           <Field label="Program of Interest" required>
             <select className={inputCls} value={form.programInterest} onChange={e => set('programInterest', e.target.value)}>
               <option value="">Select a program...</option>
-              {PROGRAMS.map(p => <option key={p} value={p}>{p}</option>)}
+              {getActivePrograms().map(p => <option key={p.slug} value={p.name}>{p.name}</option>)}
+              <option value="Other / Not Sure Yet">Other / Not Sure Yet</option>
             </select>
           </Field>
           <Field label="Highest Education Level" required>
