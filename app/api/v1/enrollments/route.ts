@@ -1,10 +1,5 @@
 // PUBLIC ROUTE: v1 API — auth inside handler
-/**
- * @deprecated Use canonical enrollment routes:
- *   - /api/enroll (student enrollment)
- *   - /api/enrollment/submit (comprehensive wizard)
- *   - /api/enrollments/create-enforced (admin/partner)
- */
+// Active route: Called by partner libs (hsi.ts, milady.ts, nrf.ts). Do not remove.
 
 // Public REST API - Enrollments Endpoint
 import { NextRequest, NextResponse } from 'next/server';

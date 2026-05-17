@@ -712,10 +712,6 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
       {/* ── Main panel ── */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
 
-        <div className="flex-shrink-0 px-3 py-1.5 border-b border-blue-100 bg-blue-50 text-[11px] text-blue-700">
-          Use plain English commands: "Generate a CNA course", "Run enrollment report", "Deploy LMS".
-        </div>
-
         {/* Quick action buttons — single scrollable row, no wrapping */}
         <div className="flex-shrink-0 border-b border-slate-200 bg-slate-50">
           <div className="flex items-center gap-1.5 px-2.5 py-2 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
@@ -741,7 +737,7 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
         {/* Log output — live streaming */}
         <div className="flex-1 overflow-y-auto p-3 font-mono text-xs bg-white space-y-0.5">
           {lines.length === 0 && !loading && (
-            <p className="text-slate-400 italic pt-2">// Type a command below or click a shortcut above</p>
+            <p className="text-slate-400 italic pt-2">// No output yet — run a command or click a shortcut above</p>
           )}
           {lines.map((l, i) => (
             <div key={i} className={

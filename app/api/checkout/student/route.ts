@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 /**
- * DEPRECATED: Use /api/checkout/learner instead
+ * Active route: called by /checkout/student/page.tsx. Do not remove.
  *
  * This handler forwards to the canonical learner checkout.
  * Will be removed in a future release.

@@ -64,20 +64,35 @@ export default function LogApprenticeHoursPage() {
     setIsSubmitting(true);
 
     try {
-      const { error: insertError } = await supabase.from('hour_entries').insert({
-        user_id: user.id,
-        source_type: formData.type === 'ojt' ? 'ojl' : 'rti',
-        work_date: formData.date,
-        hours_claimed: hours,
-        entered_by_email: user.email,
-        employer: formData.employer || null,
-        supervisor_name: formData.supervisor || null,
-        notes: formData.notes || null,
-        status: 'pending',
+      // Resolve program_slug from active enrollment
+      const { data: enrollment } = await supabase
+        .from('program_enrollments')
+        .select('program_slug')
+        .eq('user_id', user.id)
+        .in('status', ['active', 'enrolled', 'approved'])
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      const res = await fetch('/api/apprenticeship/hours', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          date_worked: formData.date,
+          hours,
+          category: formData.type === 'ojt' ? 'on-the-job' : 'classroom',
+          notes: [
+            formData.notes,
+            formData.employer ? `Employer: ${formData.employer}` : null,
+            formData.supervisor ? `Supervisor: ${formData.supervisor}` : null,
+          ].filter(Boolean).join(' | ') || null,
+          program_slug: enrollment?.program_slug ?? 'apprenticeship',
+        }),
       });
 
-      if (insertError) {
-        throw insertError;
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Failed to save hours');
       }
 
       setSuccess(true);

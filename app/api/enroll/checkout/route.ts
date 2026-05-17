@@ -1,9 +1,4 @@
-/**
- * @deprecated Use canonical enrollment routes:
- *   - /api/enroll (student enrollment)
- *   - /api/enrollment/submit (comprehensive wizard)
- *   - /api/enrollments/create-enforced (admin/partner)
- */
+// Active route: Called by /api/enroll for guest checkout. Do not remove.
 // PUBLIC ROUTE: enrollment checkout initiation — guest users enroll before account creation
 /**
  * CANONICAL ENROLLMENT CHECKOUT ENDPOINT
