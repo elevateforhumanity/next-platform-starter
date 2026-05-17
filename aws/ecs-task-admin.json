@@ -87,6 +87,10 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/OPENAI_API_KEY"
         },
         {
+          "name": "ANTHROPIC_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/ANTHROPIC_API_KEY"
+        },
+        {
           "name": "SENDGRID_API_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SENDGRID_API_KEY"
         },
@@ -113,6 +117,10 @@
         {
           "name": "DID_API_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/DID_API_KEY"
+        },
+        {
+          "name": "ELEVENLABS_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/ELEVENLABS_API_KEY"
         },
         {
           "name": "TWILIO_ACCOUNT_SID",
@@ -375,8 +383,20 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SMTP_FROM"
         },
         {
+          "name": "SMTP_HOST",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SMTP_HOST"
+        },
+        {
           "name": "SMTP_PORT",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SMTP_PORT"
+        },
+        {
+          "name": "SMTP_USER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SMTP_USER"
+        },
+        {
+          "name": "SMTP_PASS",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SMTP_PASS"
         },
         {
           "name": "SOCIAL_MEDIA_AUTO_POST_BLOG",
