@@ -151,9 +151,11 @@ export default function XTerminal({ onConnect, onDisconnect }: XTerminalProps) {
   }
 
   return (
-    <TerminalRenderer
-      ws={wsRef.current}
-      connecting={status === 'connecting'}
-    />
+    <div className="w-full h-full overflow-hidden">
+      <TerminalRenderer
+        ws={wsRef.current}
+        connecting={status === 'connecting'}
+      />
+    </div>
   );
 }

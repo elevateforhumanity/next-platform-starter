@@ -269,11 +269,10 @@ export default function DevStudioClient() {
         fontFamily: "'JetBrains Mono','Fira Code','Cascadia Code',monospace",
         background: '#1e1e1e',
         color: '#cccccc',
-        // The segment layout (dev-studio/layout.tsx) cancels pt-16 and sets the
-        // container to 100dvh. The studio fills that container from the nav
-        // baseline (64px from top) down to the bottom of the viewport.
-        paddingTop: 64,
+        // layout.tsx uses position:fixed with top:64 so this div fills
+        // the fixed container — no paddingTop needed here.
         height: '100%',
+        width: '100%',
       }}
     >
       {/* ── Title / menu bar ── */}
@@ -911,20 +910,26 @@ function TerminalTab({
   }
 
   return (
-    <div className="flex flex-col h-full bg-white text-slate-800">
+    <div className="flex flex-col h-full" style={{ background: '#1e1e1e' }}>
       {/* Workflow buttons */}
-      <div className="flex-shrink-0 flex flex-wrap gap-2 px-4 py-3 bg-slate-50 border-b border-slate-200">
+      <div className="flex-shrink-0 flex flex-wrap gap-2 px-4 py-3 border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c' }}>
         {(workflowButtons && workflowButtons.length > 0 ? workflowButtons : WORKFLOW_BUTTONS).map(({ key, label, description }) => (
           <button key={key} onClick={() => dispatch(key)} disabled={!!loading}
             title={description}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-700 hover:text-orange-700 disabled:opacity-50 transition-colors shadow-sm">
+            className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] rounded-md border disabled:opacity-50 transition-colors"
+            style={{ background: '#3c3c3c', borderColor: '#555', color: '#cccccc' }}
+            onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = '#4a4a4a'; e.currentTarget.style.borderColor = '#0078d4'; e.currentTarget.style.color = '#ffffff'; } }}
+            onMouseLeave={e => { e.currentTarget.style.background = '#3c3c3c'; e.currentTarget.style.borderColor = '#555'; e.currentTarget.style.color = '#cccccc'; }}>
             {loading === key ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />}
             {label}
           </button>
         ))}
         {activeRun && (
           <a href={activeRun.url} target="_blank" rel="noopener noreferrer"
-            className="ml-auto flex items-center gap-1.5 px-3 py-1.5 text-[11px] rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors">
+            className="ml-auto flex items-center gap-1.5 px-3 py-1.5 text-[11px] rounded-md transition-colors"
+            style={{ background: '#3c3c3c', color: '#858585' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
             <ExternalLink className="w-3 h-3" />
             {activeRun.status === 'completed'
               ? `${activeRun.conclusion ?? 'done'}`
@@ -933,7 +938,7 @@ function TerminalTab({
         )}
       </div>
       {/* Real xterm.js terminal — WebSocket → studio-shell ECS container */}
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 overflow-hidden">
         <XTerminal />
       </div>
     </div>

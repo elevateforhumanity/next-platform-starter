@@ -135,13 +135,14 @@ export default function XTerminalRenderer({ ws, connecting }: Props) {
   }, [ws]);
 
   return (
-    <div className="relative w-full h-full bg-[#0d1117]">
+    <div className="relative w-full h-full overflow-hidden bg-[#0d1117]">
       {connecting && (
         <div className="absolute inset-0 flex items-center justify-center bg-[#0d1117] z-10">
           <span className="text-xs font-mono text-slate-500 animate-pulse">Connecting to shell…</span>
         </div>
       )}
-      <div ref={containerRef} className="w-full h-full p-1" />
+      {/* overflow:hidden prevents xterm canvas from escaping the flex container */}
+      <div ref={containerRef} className="w-full h-full overflow-hidden p-1" />
     </div>
   );
 }
