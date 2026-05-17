@@ -277,12 +277,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
-  const adminBase = (process.env.NEXT_PUBLIC_ADMIN_URL || DEFAULT_ADMIN_URL).replace(/\/+$/, '');
+  let adminBase = (process.env.NEXT_PUBLIC_ADMIN_URL || DEFAULT_ADMIN_URL).replace(/\/+$/, '');
+  // Never canonicalize to a raw AWS infra hostname — those leak infrastructure
+  // and break SSL/cookie scoping. Fall back to the public admin domain.
+  if (/\.amazonaws\.com(?::\d+)?$/i.test(adminBase) || /\.elb\.[a-z0-9-]+\.amazonaws\.com/i.test(adminBase)) {
+    console.error('[proxy] NEXT_PUBLIC_ADMIN_URL points at raw AWS infra:', adminBase, '— ignoring.');
+    adminBase = DEFAULT_ADMIN_URL;
+  }
   let canonicalAdminHost = 'admin.elevateforhumanity.org';
   try {
     canonicalAdminHost = new URL(adminBase).host;
   } catch (error) {
     console.error('[proxy] Invalid NEXT_PUBLIC_ADMIN_URL. Falling back to default admin host.', error);
+    adminBase = DEFAULT_ADMIN_URL;
   }
 
   const isLocalHost =
