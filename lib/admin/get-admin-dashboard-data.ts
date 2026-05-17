@@ -268,6 +268,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     // System health — runs in parallel with all other queries
     getSystemHealth(db).catch(() => ({
       stripeWebhookOk: false,
+      stripeIssuingOk: false,
       buildEnvOk: false,
       staleJobs: 0,
       degraded: true,

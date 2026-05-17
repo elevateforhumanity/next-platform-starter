@@ -99,6 +99,7 @@ export interface SystemHealthAlert {
 
 export interface SystemHealth {
   stripeWebhookOk: boolean;
+  stripeIssuingOk: boolean;
   buildEnvOk: boolean;
   staleJobs: number;
   degraded: boolean;

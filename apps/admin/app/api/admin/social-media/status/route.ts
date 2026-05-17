@@ -37,7 +37,7 @@ export async function GET(request: Request) {
 
     // Include disconnected platforms with connected: false
     const connected = new Set(statuses.map((s) => s.platform));
-    const all = ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin'];
+    const all = ['facebook', 'instagram', 'youtube', 'linkedin'];
     for (const p of all) {
       if (!connected.has(p)) statuses.push({ platform: p, connected: false, expired: false, expires_at: null, profile_data: null, organization_id: null, updated_at: null });
     }

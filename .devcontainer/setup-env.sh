@@ -34,6 +34,26 @@ else
 fi
 
 echo "  Environment setup complete"
+
+# Export NEXT_PUBLIC_* and other critical vars into the shell profile so that
+# dev services started by Gitpod automations inherit them. This is necessary
+# because devcontainer.json injects ${localEnv:VAR} as empty strings when the
+# vars are not set as Gitpod secrets — empty shell env vars take precedence
+# over .env.local in Next.js, causing "Supabase not configured" at runtime.
+if [ -f .env.local ]; then
+  PROFILE_EXPORT="$HOME/.bashrc"
+  # Remove any previous block written by this script
+  sed -i '/# >>> elevate-env >>>/,/# <<< elevate-env <<</d' "$PROFILE_EXPORT" 2>/dev/null || true
+  {
+    echo "# >>> elevate-env >>>"
+    grep -E "^(NEXT_PUBLIC_|SUPABASE_|POSTGRES_URL|UPSTASH_|REDIS_)" .env.local \
+      | grep -v "^#" \
+      | sed 's/^/export /'
+    echo "# <<< elevate-env <<<"
+  } >> "$PROFILE_EXPORT"
+  echo "  Exported env vars to $PROFILE_EXPORT"
+fi
+
 echo ""
 echo "  To start the dev server:"
 echo "    pnpm dev                      # LMS app   → http://localhost:3000"

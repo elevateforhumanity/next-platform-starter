@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import {
-  Facebook, Instagram, Youtube, Twitter, Linkedin,
+  Facebook, Instagram, Youtube, Linkedin,
   CheckCircle2, XCircle, Loader2, RefreshCw, Unlink,
-  ExternalLink, AlertTriangle, Sparkles, Send,
+  ExternalLink, AlertTriangle, Send,
 } from 'lucide-react';
 
 interface PlatformStatus {
@@ -24,6 +24,7 @@ const PLATFORMS = [
     bg: 'bg-blue-50',
     border: 'border-blue-200',
     authorizeUrl: '/api/auth/facebook/authorize',
+    connectBg: 'bg-blue-600 hover:bg-blue-700',
     capabilities: ['Posts', 'Photos', 'Videos', 'Reels', 'Stories'],
   },
   {
@@ -34,6 +35,7 @@ const PLATFORMS = [
     bg: 'bg-pink-50',
     border: 'border-pink-200',
     authorizeUrl: '/api/auth/instagram/authorize',
+    connectBg: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
     capabilities: ['Posts', 'Reels', 'Stories', 'Carousels'],
   },
   {
@@ -44,17 +46,8 @@ const PLATFORMS = [
     bg: 'bg-red-50',
     border: 'border-red-200',
     authorizeUrl: '/api/auth/youtube/authorize',
+    connectBg: 'bg-red-600 hover:bg-red-700',
     capabilities: ['Videos', 'Shorts', 'Community Posts'],
-  },
-  {
-    id: 'twitter',
-    label: 'Twitter / X',
-    Icon: Twitter,
-    color: 'text-sky-600',
-    bg: 'bg-sky-50',
-    border: 'border-sky-200',
-    authorizeUrl: '/api/auth/twitter/authorize',
-    capabilities: ['Tweets', 'Threads', 'Media'],
   },
   {
     id: 'linkedin',
@@ -64,6 +57,7 @@ const PLATFORMS = [
     bg: 'bg-blue-50',
     border: 'border-blue-200',
     authorizeUrl: '/api/auth/linkedin/authorize',
+    connectBg: 'bg-blue-700 hover:bg-blue-800',
     capabilities: ['Posts', 'Articles', 'Videos'],
   },
 ];
@@ -96,7 +90,6 @@ export default function SocialMediaSettingsClient() {
 
   useEffect(() => {
     loadStatuses();
-    // Handle OAuth redirect results
     const params = new URLSearchParams(window.location.search);
     const success = params.get('success');
     const error = params.get('error');
@@ -134,7 +127,6 @@ export default function SocialMediaSettingsClient() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      {/* Toast */}
       {toast && (
         <div className={`fixed top-4 right-4 z-50 flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg text-sm font-medium ${
           toast.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
@@ -144,7 +136,6 @@ export default function SocialMediaSettingsClient() {
         </div>
       )}
 
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Social Media Accounts</h1>
         <p className="mt-1 text-sm text-gray-500">
@@ -165,9 +156,8 @@ export default function SocialMediaSettingsClient() {
         )}
       </div>
 
-      {/* Platform cards */}
       <div className="space-y-3">
-        {PLATFORMS.map(({ id, label, Icon, color, bg, border, authorizeUrl, capabilities }) => {
+        {PLATFORMS.map(({ id, label, Icon, color, bg, border, authorizeUrl, connectBg, capabilities }) => {
           const status = statuses[id];
           const connected = status?.connected ?? false;
           const expired = status?.expired ?? false;
@@ -222,27 +212,17 @@ export default function SocialMediaSettingsClient() {
                       disabled={disconnecting === id}
                       className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors disabled:opacity-50"
                     >
-                      {disconnecting === id ? (
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                      ) : (
-                        <Unlink className="w-3 h-3" />
-                      )}
+                      {disconnecting === id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Unlink className="w-3 h-3" />}
                       Disconnect
                     </button>
                   </>
                 ) : (
                   <a
                     href={authorizeUrl}
-                    className={`flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold text-white rounded-lg transition-colors ${
-                      id === 'facebook' ? 'bg-blue-600 hover:bg-blue-700' :
-                      id === 'instagram' ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' :
-                      id === 'youtube' ? 'bg-red-600 hover:bg-red-700' :
-                      id === 'twitter' ? 'bg-sky-500 hover:bg-sky-600' :
-                      'bg-blue-700 hover:bg-blue-800'
-                    }`}
+                    className={`flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold text-white rounded-lg transition-colors ${connectBg}`}
                   >
                     <ExternalLink className="w-3 h-3" />
-                    {expired ? 'Reconnect' : 'Connect'}
+                    Connect
                   </a>
                 )}
               </div>
@@ -250,47 +230,6 @@ export default function SocialMediaSettingsClient() {
           );
         })}
       </div>
-
-      {/* AI + Publish CTA */}
-      {connectedCount > 0 && (
-        <div className="mt-8 p-5 rounded-xl bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200">
-          <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
-              <Sparkles className="w-5 h-5 text-orange-600" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900 text-sm">AI-powered publishing</h3>
-              <p className="text-xs text-gray-600 mt-1">
-                Create posts, reels, and blog content with AI — then publish to all {connectedCount} connected platform{connectedCount > 1 ? 's' : ''} in one click.
-              </p>
-              <div className="mt-3 flex gap-2">
-                <a
-                  href="/admin/social-media/campaigns/new"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-orange-600 hover:bg-orange-700 rounded-lg transition-colors"
-                >
-                  <Sparkles className="w-3 h-3" /> Create with AI
-                </a>
-                <a
-                  href="/admin/dev-studio?tab=chat"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-orange-700 bg-orange-100 hover:bg-orange-200 rounded-lg transition-colors"
-                >
-                  Open AI Console
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Setup instructions when nothing connected */}
-      {!loading && connectedCount === 0 && (
-        <div className="mt-6 p-4 rounded-xl bg-gray-50 border border-gray-200">
-          <p className="text-xs text-gray-500 leading-relaxed">
-            <strong className="text-gray-700">Setup required:</strong> Facebook and Instagram use the same app credentials (<code className="bg-gray-200 px-1 rounded">FACEBOOK_CLIENT_ID</code>). YouTube uses Google OAuth (<code className="bg-gray-200 px-1 rounded">GOOGLE_CLIENT_ID</code>). Twitter uses its own app credentials. Set these in{' '}
-            <a href="/admin/dev-studio?tab=secrets" className="text-orange-600 underline">DevStudio → Secrets</a>.
-          </p>
-        </div>
-      )}
     </div>
   );
 }

@@ -8,6 +8,7 @@ export interface SystemHealthAlert {
 
 export interface DashboardSystemHealth {
   stripeWebhookOk: boolean;
+  stripeIssuingOk: boolean;
   buildEnvOk: boolean;
   staleJobs: number;
   degraded: boolean;
@@ -39,9 +40,26 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
     });
   }
 
-  const [stripeWebhook, staleJobs, missingDocs, unresolvedFlags] = await Promise.all([
+  const [stripeWebhook, stripeIssuing, staleJobs, missingDocs, unresolvedFlags] = await Promise.all([
     // Check Stripe webhook status via app_secrets or a known sentinel
     db.from('app_secrets').select('value').eq('key', 'STRIPE_WEBHOOK_SECRET').maybeSingle(),
+
+    // Check Stripe Issuing — attempt to list cardholders (returns empty on live accounts
+    // that haven't been approved yet, throws on missing key or restricted access)
+    (async () => {
+      const key = process.env.STRIPE_SECRET_KEY;
+      if (!key) return { enabled: false, reason: 'no_key' };
+      try {
+        const res = await fetch('https://api.stripe.com/v1/issuing/cardholders?limit=1', {
+          headers: { Authorization: `Bearer ${key}` },
+        });
+        if (res.status === 200) return { enabled: true, reason: null };
+        if (res.status === 403) return { enabled: false, reason: 'not_approved' };
+        return { enabled: false, reason: `stripe_${res.status}` };
+      } catch {
+        return { enabled: false, reason: 'fetch_error' };
+      }
+    })(),
 
     // Stale jobs stuck in processing > 30 min
     db
@@ -71,6 +89,21 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
     });
   }
 
+  const stripeIssuingOk = stripeIssuing.enabled;
+  if (!stripeIssuingOk) {
+    const reasonMsg =
+      stripeIssuing.reason === 'not_approved'
+        ? 'Stripe Issuing not yet approved for this account. Apply at dashboard.stripe.com/issuing.'
+        : stripeIssuing.reason === 'no_key'
+        ? 'STRIPE_SECRET_KEY missing — Stripe Issuing status unknown.'
+        : `Stripe Issuing unavailable (${stripeIssuing.reason}).`;
+    alerts.push({
+      code: 'stripe_issuing_not_enabled',
+      severity: stripeIssuing.reason === 'not_approved' ? 'warning' : 'info',
+      message: reasonMsg,
+    });
+  }
+
   const staleJobCount = staleJobs.count ?? 0;
   if (staleJobCount > 0) {
     alerts.push({
@@ -82,11 +115,12 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
 
   return {
     stripeWebhookOk,
+    stripeIssuingOk,
     buildEnvOk,
     staleJobs: staleJobCount,
     degraded: alerts.some((a) => a.severity === 'critical'),
     missingDocuments: missingDocs.count ?? 0,
-    missingCertifications: 0, // populated by compliance query if table exists
+    missingCertifications: 0,
     unresolvedFlags: unresolvedFlags.count ?? 0,
     alerts,
   };

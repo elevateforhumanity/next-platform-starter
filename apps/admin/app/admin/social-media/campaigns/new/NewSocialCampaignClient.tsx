@@ -18,7 +18,8 @@ import {
   Linkedin,
   Instagram,
   Sparkles,
-  Share2,
+  Youtube,
+  ExternalLink,
 } from 'lucide-react';
 
 export default function NewSocialCampaignPage() {
@@ -256,12 +257,21 @@ export default function NewSocialCampaignPage() {
                   selected={campaign.platforms.includes('facebook')}
                   onClick={() => togglePlatform('facebook')}
                 />
-                <PlatformButton
-                  name="Twitter"
-                  icon={Share2}
-                  selected={campaign.platforms.includes('twitter')}
-                  onClick={() => togglePlatform('twitter')}
-                />
+                <a
+                  href="https://studio.youtube.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-red-300 hover:bg-red-50 transition-colors group"
+                >
+                  <div className="flex items-center gap-2">
+                    <Youtube className="w-5 h-5 text-red-500" />
+                    <span className="text-sm font-medium text-gray-700">YouTube</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-red-500">
+                    <ExternalLink className="w-3 h-3" />
+                    Studio
+                  </div>
+                </a>
                 <PlatformButton
                   name="LinkedIn"
                   icon={Linkedin}

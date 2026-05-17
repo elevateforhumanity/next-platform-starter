@@ -2,7 +2,7 @@
 import Link from "next/link";
 import {
   CheckCircle2, XCircle, AlertTriangle, Info,
-  Wifi, Key, Clock, FileText, Award, Flag,
+  Wifi, Key, Clock, FileText, Award, Flag, CreditCard,
 } from "lucide-react";
 import type { SystemHealth } from "./types";
 
@@ -33,6 +33,7 @@ const SEVERITY_STYLES = {
 const CODE_ICONS: Record<string, React.ElementType> = {
   missing_env_vars:              Key,
   stripe_webhook_secret_missing: Wifi,
+  stripe_issuing_not_enabled:    CreditCard,
   stale_jobs:                    Clock,
   missing_documents:             FileText,
   missing_certifications:        Award,
@@ -79,6 +80,12 @@ export function SystemHealthPanel({ health }: Props) {
               label: "Stripe Webhook",
               ok: health.stripeWebhookOk,
               href: "/admin/integrations/stripe",
+            },
+            {
+              label: "Stripe Issuing",
+              ok: health.stripeIssuingOk,
+              value: health.stripeIssuingOk ? undefined : "Not approved",
+              href: "https://dashboard.stripe.com/issuing",
             },
             {
               label: "Build Env",

@@ -7,7 +7,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const VALID_PLATFORMS = ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin'];
+const VALID_PLATFORMS = ['facebook', 'instagram', 'youtube', 'linkedin'];
 
 export async function POST(request: Request) {
   const rateLimited = await applyRateLimit(request, 'strict');

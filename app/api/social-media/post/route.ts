@@ -10,7 +10,7 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
-const VALID_PLATFORMS = ['linkedin', 'facebook', 'youtube', 'instagram', 'twitter'] as const;
+const VALID_PLATFORMS = ['linkedin', 'facebook', 'youtube', 'instagram'] as const;
 type Platform = (typeof VALID_PLATFORMS)[number];
 
 async function _POST(request: NextRequest) {
@@ -52,11 +52,16 @@ async function _POST(request: NextRequest) {
     case 'facebook':  result = await postToFacebook(tokens, { content, media_url }); break;
     case 'youtube':   result = await postToYouTube(tokens, { title, content, media_url }); break;
     case 'instagram': result = await postToInstagram(tokens, { content, media_url }); break;
-    case 'twitter':   result = await postToTwitter(tokens, { content, media_url }); break;
     default:          return safeError('Unknown platform', 400);
   }
 
-  if (!result.success) return safeError(result.error ?? 'Post failed', 500);
+  if (!result.success) {
+    // YouTube returns a redirect_url instead of posting — pass it through to the client
+    if ('redirect_url' in result && result.redirect_url) {
+      return NextResponse.json({ success: false, error: result.error, redirect_url: result.redirect_url }, { status: 200 });
+    }
+    return safeError(result.error ?? 'Post failed', 500);
+  }
 
   const { data: saved } = await supabase
     .from('social_media_posts')
@@ -114,7 +119,13 @@ async function postToFacebook(tokens: Tokens, data: { content: string; media_url
 }
 
 async function postToYouTube(_tokens: Tokens, _data: { title?: string; content: string; media_url?: string }) {
-  return { success: false, error: 'YouTube posting requires a video file. Use YouTube Studio for video uploads.' };
+  // YouTube Data API does not support direct video uploads from server-side OAuth tokens
+  // in the same flow as text/image posts. Direct users to YouTube Studio.
+  return {
+    success: false,
+    redirect_url: 'https://studio.youtube.com',
+    error: 'YouTube requires uploading via YouTube Studio. Click the link to open Studio.',
+  };
 }
 
 async function postToInstagram(tokens: Tokens, data: { content: string; media_url?: string }) {
