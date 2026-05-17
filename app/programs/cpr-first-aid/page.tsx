@@ -5,8 +5,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const revalidate = 3600;
 
 // Client components — lazy-loaded to keep server bundle lean
-const CprHero = dynamic(() => import('@/components/programs/CprHero'), { ssr: false });
-const CprPageBlocks = dynamic(() => import('@/components/programs/CprPageBlocks'), { ssr: false });
+const CprHero = dynamic(() => import('@/components/programs/CprHero'));
+const CprPageBlocks = dynamic(() => import('@/components/programs/CprPageBlocks'));
 
 export const metadata: Metadata = {
   title: 'CPR & First Aid Certification | At-Home Training | Elevate for Humanity',
