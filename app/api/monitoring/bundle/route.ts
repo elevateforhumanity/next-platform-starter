@@ -5,7 +5,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
-import { getRuntimeReadiness } from '@/lib/tax-software/config/runtime-readiness';
+// Tax software moved to supersonicfastermoney.com
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -172,17 +172,8 @@ async function _GET(req: Request) {
       Object.entries(queryErrors).filter(([, v]) => v !== null),
     );
 
-    // MeF readiness — run in a race against a 3s timeout so xmllint check
-    // never hangs the bundle response in serverless environments
-    let mefReadiness: ReturnType<typeof getRuntimeReadiness> | null = null;
-    try {
-      mefReadiness = await Promise.race([
-        Promise.resolve().then(() => getRuntimeReadiness()),
-        new Promise<null>((resolve) => setTimeout(() => resolve(null), 3000)),
-      ]);
-    } catch {
-      // swallow — mefReadiness stays null, surfaced in bundle errors
-    }
+    // MeF tax stack moved to supersonicfastermoney.com
+    const mefReadiness = null;
 
     const bundle = {
       generated_at: new Date().toISOString(),

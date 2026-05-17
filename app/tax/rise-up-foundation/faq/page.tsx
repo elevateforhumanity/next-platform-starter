@@ -1,12 +1,6 @@
 import { permanentRedirect } from 'next/navigation';
-
-export const metadata = {
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
-
+export const dynamic = 'force-dynamic';
+// Moved to supersonicfastermoney.com
 export default function Page() {
-  permanentRedirect('/help');
+  permanentRedirect('https://www.supersonicfastermoney.com/taxrise-up-foundation/faq');
 }

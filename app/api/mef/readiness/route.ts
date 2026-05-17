@@ -1,14 +1,12 @@
-// PUBLIC ROUTE: MeF readiness check — internal status
-// AUTH: Intentionally public — no authentication required
 import { NextResponse } from 'next/server';
-import { getRuntimeReadiness } from '@/lib/tax-software/config/runtime-readiness';
-
 export const dynamic = 'force-dynamic';
-
-export async function GET() {
-  const readiness = getRuntimeReadiness();
-
-  return NextResponse.json(readiness, {
-    status: readiness.ok ? 200 : 503,
-  });
+// Moved to supersonicfastermoney.com
+const TARGET = 'https://www.supersonicfastermoney.com';
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  return NextResponse.redirect(TARGET + url.pathname.replace('/app/api/mef', '') + url.search, 308);
+}
+export async function POST(req: Request) {
+  const url = new URL(req.url);
+  return NextResponse.redirect(TARGET + url.pathname.replace('/app/api/mef', '') + url.search, 308);
 }

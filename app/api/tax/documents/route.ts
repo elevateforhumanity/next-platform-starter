@@ -1,59 +1,12 @@
-import { createClient } from '@/lib/supabase/server';
-
 import { NextResponse } from 'next/server';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { withApiAudit } from '@/lib/audit/withApiAudit';
-export const runtime = 'nodejs';
-export const maxDuration = 60;
-
 export const dynamic = 'force-dynamic';
-
-async function _GET(request: Request) {
-  try {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-
-    const supabase = await createClient();
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Get user's documents
-    const { data: documents, error } = await supabase
-      .from('tax_documents')
-      .select('*')
-      .eq('email', user.email)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-    }
-
-    // Generate signed URLs for documents
-    const documentsWithUrls = await Promise.all(
-      (documents || []).map(async (doc) => {
-        const { data: urlData } = await supabase.storage
-          .from('documents')
-          .createSignedUrl(doc.file_path, 60); // 60-second expiry for PII documents
-
-        return {
-          ...doc,
-          download_url: urlData?.signedUrl || null,
-        };
-      }),
-    );
-
-    return NextResponse.json({
-      documents: documentsWithUrls,
-      total: documents?.length || 0,
-    });
-  } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
+// Moved to supersonicfastermoney.com
+const TARGET = 'https://www.supersonicfastermoney.com';
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  return NextResponse.redirect(TARGET + url.pathname.replace('/app/api/tax', '') + url.search, 308);
 }
-export const GET = withApiAudit('/api/tax/documents', _GET);
+export async function POST(req: Request) {
+  const url = new URL(req.url);
+  return NextResponse.redirect(TARGET + url.pathname.replace('/app/api/tax', '') + url.search, 308);
+}
