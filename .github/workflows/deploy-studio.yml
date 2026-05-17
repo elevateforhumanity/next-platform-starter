@@ -98,3 +98,37 @@ jobs:
           service:          ${{ env.ECS_SERVICE }}
           cluster:          ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
+
+      - name: Update public IP in SSM
+        # After a redeploy the Fargate task gets a new public IP.
+        # Write it to SSM so local dev .env.local can be updated manually,
+        # and print it to the job summary for visibility.
+        run: |
+          TASK_ARN=$(aws ecs list-tasks \
+            --cluster $ECS_CLUSTER \
+            --service-name $ECS_SERVICE \
+            --query 'taskArns[0]' --output text)
+
+          ENI=$(aws ecs describe-tasks \
+            --cluster $ECS_CLUSTER --tasks "$TASK_ARN" \
+            --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value' \
+            --output text)
+
+          PUBLIC_IP=$(aws ec2 describe-network-interfaces \
+            --network-interface-ids "$ENI" \
+            --query 'NetworkInterfaces[0].Association.PublicIp' \
+            --output text)
+
+          echo "Studio public IP: $PUBLIC_IP"
+
+          aws ssm put-parameter \
+            --name /elevate/STUDIO_SHELL_WS_URL_PUBLIC \
+            --value "ws://${PUBLIC_IP}:8888" \
+            --type String \
+            --overwrite
+
+          echo "### Studio Shell deployed" >> $GITHUB_STEP_SUMMARY
+          echo "- **Internal (ECS):** ws://elevate-studio.elevate.local:8888" >> $GITHUB_STEP_SUMMARY
+          echo "- **Public (local dev):** ws://${PUBLIC_IP}:8888" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Update \`STUDIO_SHELL_WS_URL\` in \`.env.local\` to \`ws://${PUBLIC_IP}:8888\`" >> $GITHUB_STEP_SUMMARY
