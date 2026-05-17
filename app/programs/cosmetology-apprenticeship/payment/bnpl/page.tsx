@@ -2,11 +2,12 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { BnplPageClient } from './BnplPageClient';
 import { Loader2 } from 'lucide-react';
+import { BNPL_DESCRIPTION } from '@/lib/bnpl-config';
 
 export const metadata: Metadata = {
   title: 'Pay with BNPL — Cosmetology Apprenticeship | Elevate for Humanity',
   description:
-    'Split your cosmetology apprenticeship tuition into installments with Klarna, Afterpay, Affirm, Sezzle, and more.',
+    `Cosmetology apprenticeship tuition payment options. ${BNPL_DESCRIPTION}`,
   robots: { index: false, follow: false },
 };
 

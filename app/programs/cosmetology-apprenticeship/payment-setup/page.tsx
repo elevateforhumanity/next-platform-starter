@@ -117,25 +117,19 @@ const MAX_DEPOSIT = TUITION_DOLLARS;            // $4,980
 export default function CosmoPaymentSetupPage() {
   const [deposit, setDeposit] = useState(MIN_DEPOSIT);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const [weeklyAmount, setWeeklyAmount] = useState(() => weeklyPaymentCents(MIN_DEPOSIT));
   const [loading, setLoading] = useState(true);
   const [fatalError, setFatalError] = useState<string | null>(null);
 
-  // Recalculate weekly live as deposit changes
-  useEffect(() => {
-    setWeeklyAmount(weeklyPaymentCents(deposit));
-  }, [deposit]);
+  // Derived — always in sync with deposit, never stale
+  const weeklyAmount = weeklyPaymentCents(deposit);
+  const remaining = TUITION_DOLLARS - deposit;
 
   useEffect(() => {
     fetch('/api/cosmetology/setup-intent', { method: 'POST' })
       .then((r) => r.json())
       .then((data) => {
-        if (data.error) {
-          setFatalError(data.error);
-          return;
-        }
+        if (data.error) { setFatalError(data.error); return; }
         setClientSecret(data.clientSecret);
-        if (data.weeklyPaymentCents) setWeeklyAmount(data.weeklyPaymentCents);
       })
       .catch(() => setFatalError('Could not connect to payment system. Please try again.'))
       .finally(() => setLoading(false));

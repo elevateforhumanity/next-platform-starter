@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
+import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 import EligibilityPreQualifier from '@/components/enrollment/EligibilityPreQualifier';
 
 export const metadata: Metadata = {
@@ -235,7 +236,7 @@ export default function WIOAEligibilityPage() {
               },
               {
                 title: 'Payment Plans',
-                desc: 'Flexible payments, Sezzle, and Affirm for programs not covered by grants.',
+                desc: `Flexible payments and ${BNPL_PROVIDER_SUMMARY} for programs not covered by grants.`,
                 href: '/apply',
                 image: '/images/pages/wioa-meeting.webp',
               },

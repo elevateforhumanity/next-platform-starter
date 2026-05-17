@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 import { AuthorityStrip } from '@/components/InstitutionalAuthority';
 import {
   GraduationCap,
@@ -348,7 +349,7 @@ export default async function EnrollmentPage() {
                 <ul className="space-y-2 mb-6">
                   {[
                     'Payment plans starting at $99/month',
-                    'Affirm financing — apply in 60 seconds',
+                    `${BNPL_PROVIDER_SUMMARY} financing — apply in 60 seconds`,
                     'Employer tuition reimbursement accepted',
                     'Veterans benefits (GI Bill) accepted',
                     'No-interest installment plans available',

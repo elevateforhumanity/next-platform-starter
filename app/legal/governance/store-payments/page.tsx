@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 export const metadata: Metadata = {
   title: 'Store, Payments, and Licensing Framework | Elevate For Humanity',
   description:
@@ -239,7 +240,7 @@ export default async function StorePaymentsPage() {
             <li>Credit/Debit Cards (Visa, Mastercard, American Express, Discover)</li>
             <li>Digital Wallets (Apple Pay, Google Pay)</li>
             <li>Bank transfers (ACH) for subscriptions</li>
-            <li>Buy Now, Pay Later (Affirm, Klarna) for orders over $50</li>
+            <li>Buy Now, Pay Later ({BNPL_PROVIDER_NAMES}) for orders over $50</li>
           </ul>
 
           <h3 className="text-lg font-semibold mt-6 mb-3">3.3 Currency & Taxes</h3>

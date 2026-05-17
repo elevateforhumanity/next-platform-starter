@@ -13,6 +13,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { CreditCard, Loader2, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 
 interface ProgramPricing {
   program_slug: string;
@@ -246,7 +247,7 @@ export default function PaymentPlanCalculator({ programSlug, stripeDepositUrl, s
             </a>
           )}
           <p className="text-xs text-slate-400 text-center">
-            Klarna · Afterpay · Zip · Cash App Pay · Affirm accepted at checkout
+            {BNPL_PROVIDER_NAMES} accepted at checkout
           </p>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import {
@@ -183,7 +184,7 @@ export default async function BarberApprenticeshipPage() {
                   <CheckCircle className="w-4 h-4 text-green-500" /> Pay in full (5% discount)
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" /> Buy now, pay later (Affirm / Sezzle)
+                  <CheckCircle className="w-4 h-4 text-green-500" /> Buy now, pay later ({BNPL_PROVIDER_SUMMARY})
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-green-500" /> Employer-sponsored options

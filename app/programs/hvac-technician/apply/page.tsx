@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Loader2, CreditCard, Info, Shield } from 'lucide-react';
+import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 import FundingEligibilityFlow, {
   type EligibilityStatus,
 } from '@/components/programs/FundingEligibilityFlow';
@@ -415,7 +416,7 @@ export default function HvacApplyPage() {
                           <strong>Pay in full:</strong> ${PRICING.fullPrice.toLocaleString()}
                         </p>
                         <p>
-                          <strong>BNPL:</strong> Affirm · Sezzle · Afterpay · Klarna
+                          <strong>BNPL:</strong> {BNPL_PROVIDER_NAMES}
                         </p>
                       </div>
                     </div>

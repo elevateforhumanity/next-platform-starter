@@ -3,6 +3,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { CreditCard, DollarSign } from 'lucide-react';
+import { BNPL_PROVIDER_NAMES, BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 
 interface ProgramPaymentOptionsProps {
   programName: string;
@@ -21,7 +22,7 @@ export default function ProgramPaymentOptions({
 
   // Calculate payment plan options
   const stripeMonthly = Math.ceil(price / 12);
-  const bnplPayment = Math.ceil(price / 4); // Pay in 4 with Klarna/Afterpay/Zip
+  const bnplPayment = Math.ceil(price / 4); // Pay in 4 with BNPL providers
 
   const handlePayment = async (method: string) => {
     try {
@@ -131,7 +132,7 @@ export default function ProgramPaymentOptions({
           </div>
         </button>
 
-        {/* Buy Now Pay Later (Klarna/Afterpay/Zip) */}
+        {/* Buy Now Pay Later */}
         <button
           onClick={() => setPaymentMethod('bnpl')}
           className={`w-full text-left p-6 rounded-lg border-2 transition ${
@@ -146,7 +147,7 @@ export default function ProgramPaymentOptions({
               <div>
                 <h4 className="font-bold text-lg mb-1">Pay in 4</h4>
                 <p className="text-sm text-black mb-2">
-                  Split into 4 interest-free payments with Klarna, Afterpay, or Zip
+                  Split into 4 interest-free payments with {BNPL_PROVIDER_SUMMARY}
                 </p>
                 <p className="text-2xl font-bold text-purple-600">${bnplPayment}/payment</p>
                 <p className="text-xs text-slate-700 mt-1">

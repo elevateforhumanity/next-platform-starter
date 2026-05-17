@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { CheckCircle, DollarSign, ArrowRight } from 'lucide-react';
+import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 
 export const revalidate = 3600;
 
@@ -64,8 +65,7 @@ export default function TuitionPage() {
           {[
             { title: 'Pay in Full', desc: 'One-time payment at enrollment. No additional fees.' },
             { title: 'Payment Plan', desc: 'Weekly or monthly installments. Down payment required at enrollment.' },
-            { title: 'Affirm Financing', desc: 'Apply for 0%–36% APR financing through Affirm. Subject to credit approval.' },
-            { title: 'Sezzle', desc: 'Split tuition into 4 interest-free payments over 6 weeks.' },
+            ...ACTIVE_BNPL_PROVIDERS.map((p) => ({ title: p.name, desc: p.description })),
           ].map((opt) => (
             <div key={opt.title} className="border border-slate-200 rounded-xl p-5">
               <div className="flex items-center gap-2 mb-2">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 
 type Props = {
   price?: number;
@@ -30,7 +31,7 @@ export default function PaymentOptions({ price, programName }: Props) {
         <div className="rounded-xl border p-4">
           <div className="font-semibold">Pay in 4 (If Available)</div>
           <div className="mt-1 text-sm text-black">
-            Klarna / Afterpay / Zip (availability depends on Stripe settings, purchase amount, and
+            {BNPL_PROVIDER_NAMES} (availability depends on Stripe settings, purchase amount, and
             eligibility).
           </div>
           <ul className="mt-2 list-disc pl-5 text-sm text-black">

@@ -15,6 +15,7 @@ import { BarberEnrollment } from './sections/BarberEnrollment';
 import { BarberCredentials } from './sections/BarberCredentials';
 import { BarberDeliveryModel } from './sections/BarberDeliveryModel';
 import { BarberPartnership } from './sections/BarberPartnership';
+import { BNPL_PROVIDER_NAMES, ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 
 interface Props { program: ProgramSchema; heroBanner: HeroBannerConfig | null; enrollmentCount?: number; }
 
@@ -238,7 +239,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
               {
                 tag: 'Self-Pay',
                 title: 'Pay in Full',
-                body: 'Pay $4,731 upfront and save $249 (5% discount). Single Stripe charge — card, ACH, Cash App, or Amazon Pay.',
+                body: `Pay $4,731 upfront and save $249 (5% discount). Single Stripe charge — card, ACH, or any of: ${BNPL_PROVIDER_NAMES}.`,
                 cta: { label: 'Apply & Pay in Full', href: '/programs/barber-apprenticeship/apply?payment=pay_in_full' },
               },
               {
@@ -247,24 +248,15 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
                 body: 'Start with $600 minimum down payment, then split the balance over 29 weekly installments. No interest, no credit check.',
                 cta: { label: 'Apply on Plan', href: '/programs/barber-apprenticeship/apply?payment=payment_plan' },
               },
-              {
+              ...ACTIVE_BNPL_PROVIDERS.filter((p) => ['klarna', 'afterpay', 'affirm', 'sezzle'].includes(p.id)).map((p) => ({
                 tag: 'BNPL',
-                title: 'Klarna · Afterpay',
-                body: 'Split tuition into 4 interest-free payments via Stripe-native BNPL. Approval handled instantly at checkout.',
-                cta: { label: 'Pay with Klarna / Afterpay', href: '/programs/barber-apprenticeship/apply?payment=bnpl' },
-              },
-              {
-                tag: 'BNPL',
-                title: 'Affirm',
-                body: 'Monthly installments through Affirm — terms set by lender. Soft credit check at checkout.',
-                cta: { label: 'Pay with Affirm', href: '/programs/barber-apprenticeship/apply?payment=affirm' },
-              },
-              {
-                tag: 'BNPL',
-                title: 'Sezzle',
-                body: '4 interest-free payments over 6 weeks via Sezzle. Quick approval at checkout.',
-                cta: { label: 'Pay with Sezzle', href: '/programs/barber-apprenticeship/apply?payment=sezzle' },
-              },
+                title: p.name,
+                body: p.description,
+                cta: {
+                  label: `Pay with ${p.name}`,
+                  href: `/programs/barber-apprenticeship/apply?payment=${p.id === 'klarna' || p.id === 'afterpay' ? 'bnpl' : p.id}`,
+                },
+              })),
             ].map((opt) => (
               <div key={opt.title} className="bg-white rounded-xl border border-slate-200 p-5 flex flex-col">
                 <span className="inline-block self-start text-[10px] font-bold uppercase tracking-wide text-brand-blue-700 bg-brand-blue-50 px-2 py-0.5 rounded mb-3">
