@@ -67,26 +67,35 @@ async function loadSecrets(): Promise<Record<string, string>> {
     return {};
   }
 
-  let data: Array<{ key: string; value: string }> | null = null;
-  let error: unknown = null;
+  const secrets: Record<string, string> = {};
 
+  // 1. Load from app_secrets (runtime scope) — legacy/bootstrap secrets
   try {
     const result = await client.from('app_secrets').select('key, value').eq('scope', 'runtime');
-    data = result.data;
-    error = result.error;
+    if (!result.error) {
+      for (const row of result.data ?? []) {
+        if (row.key && row.value) secrets[row.key] = row.value;
+      }
+    } else {
+      logger.error('Failed to load from app_secrets', result.error);
+    }
   } catch (e) {
-    // Covers AbortError (timeout) and network failures.
-    error = e;
+    logger.error('Failed to load from app_secrets', e instanceof Error ? e : undefined);
   }
 
-  if (error) {
-    logger.error('Failed to load from app_secrets', error instanceof Error ? error : undefined);
-    return cache ?? {};
-  }
-
-  const secrets: Record<string, string> = {};
-  for (const row of data ?? []) {
-    secrets[row.key] = row.value;
+  // 2. Load from platform_secrets — keys saved via admin Secrets tab.
+  //    These take precedence over app_secrets so admins can rotate without a deploy.
+  try {
+    const result = await client.from('platform_secrets').select('key, value_enc');
+    if (!result.error) {
+      for (const row of result.data ?? []) {
+        if (row.key && row.value_enc) secrets[row.key] = row.value_enc;
+      }
+    } else {
+      logger.error('Failed to load from platform_secrets', result.error);
+    }
+  } catch (e) {
+    logger.error('Failed to load from platform_secrets', e instanceof Error ? e : undefined);
   }
 
   cache = secrets;
