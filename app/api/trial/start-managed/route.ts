@@ -41,7 +41,7 @@ async function checkTrialRateLimit(email: string): Promise<boolean> {
 }
 
 async function getSupabaseAdmin() {
-  return getAdminClient();
+  return await getAdminClient();
 }
 
 function validateEmail(email: string): boolean {

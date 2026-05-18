@@ -12,7 +12,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
 async function getSupabaseAdmin() {
-  return getAdminClient();
+  return await getAdminClient();
 }
 
 async function verifyAdminAuth(

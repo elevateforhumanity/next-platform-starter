@@ -65,7 +65,7 @@ export const dynamic = 'force-dynamic';
 // Returns null if env vars are missing rather than throwing.
 function getSupabase(): SupabaseClient | null {
   try {
-    return requireAdminClient();
+    return await requireAdminClient();
   } catch {
     return null;
   }
