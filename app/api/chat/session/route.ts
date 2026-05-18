@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: live support chat — anon users can open sessions before login
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 import { headers } from 'next/headers';
@@ -45,10 +45,7 @@ async function _POST(request: Request) {
     }
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = await requireAdminClient();
 
   const { data, error } = await supabase
     .from('live_chat_sessions')

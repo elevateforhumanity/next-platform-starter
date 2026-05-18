@@ -86,11 +86,8 @@ export async function POST(req: Request) {
       // Check if this is a tax intake payment
       const intakeId = session.client_reference_id || session.metadata?.intake_id;
       if (intakeId && session.metadata?.service_type === 'tax_intake') {
-        const { createClient } = await import('@/lib/supabase/server');
-        const supabaseAdmin = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SERVICE_ROLE_KEY!,
-        );
+        const { requireAdminClient } = await import('@/lib/supabase/admin');
+        const supabaseAdmin = await requireAdminClient();
 
         const { error } = await supabaseAdmin
           .from('tax_intake')
@@ -112,11 +109,8 @@ export async function POST(req: Request) {
       const courseId = session.metadata?.courseId;
       const userId = session.metadata?.userId;
       if (courseId && userId) {
-        const { createClient } = await import('@/lib/supabase/server');
-        const supabaseAdmin = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SERVICE_ROLE_KEY!,
-        );
+        const { requireAdminClient } = await import('@/lib/supabase/admin');
+        const supabaseAdmin = await requireAdminClient();
 
         // Create enrollment
         const { error: enrollError } = await supabaseAdmin.from('enrollments').insert({

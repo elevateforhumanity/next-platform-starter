@@ -1,13 +1,9 @@
 // PUBLIC ROUTE: public program detail page data
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 /**
  * GET /api/programs/[slug]
@@ -21,7 +17,7 @@ async function _GET(request: NextRequest, { params }: { params: Promise<{ progra
     if (rateLimited) return rateLimited;
 
     const { program: slug } = await params;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = await requireAdminClient();
 
     // Fetch program
     const { data: program, error: programError } = await supabase

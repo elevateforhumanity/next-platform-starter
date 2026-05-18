@@ -1,18 +1,9 @@
 // PUBLIC ROUTE: trial onboarding form
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-
-function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return null;
-  return createClient(url, key, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
-}
 
 /**
  * POST /api/trial/begin-onboarding
@@ -41,7 +32,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'subdomain is required', correlationId }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = await getAdminClient();
     if (!supabase) {
       logger.error(`[trial/begin-onboarding] ${correlationId} — Supabase not configured`);
       return NextResponse.json({ error: 'Service unavailable', correlationId }, { status: 503 });

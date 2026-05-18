@@ -1,5 +1,4 @@
 /**
-import { requireAdminClient } from '@/lib/supabase/admin';
  * @deprecated Use canonical enrollment routes:
  *   - /api/enroll (student enrollment)
  *   - /api/enrollment/submit (comprehensive wizard)
@@ -11,7 +10,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -21,12 +20,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-function getSupabase() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl || !supabaseKey) return null;
-  return createClient(supabaseUrl, supabaseKey);
-}
+
 
 async function _POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'payment');
@@ -45,7 +39,7 @@ async function _POST(request: NextRequest) {
   }
 
   const stripe = getStripe();
-  const supabase = getSupabase();
+  const supabase = await requireAdminClient();
 
   if (!stripe || !supabase) {
     return NextResponse.json({ error: 'Stripe or Supabase not configured' }, { status: 503 });

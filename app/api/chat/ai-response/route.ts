@@ -11,7 +11,7 @@ export const maxDuration = 60;
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getAdminClient } from '@/lib/supabase/admin';
 import OpenAI from 'openai';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -141,12 +141,9 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
     // Try to save context to database (non-blocking)
     if (conversation_id) {
       try {
-        const supabase = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SERVICE_ROLE_KEY!,
-        );
+        const supabase = await getAdminClient();
 
-        await supabase.from('ai_chat_context').insert({
+        await supabase?.from('ai_chat_context').insert({
           conversation_id,
           context_data: {
             messages: conversationHistory,

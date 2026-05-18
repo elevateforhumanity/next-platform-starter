@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { createClient } from '@/lib/supabase/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 
 export const metadata: Metadata = {
   title: 'Metrics',
@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 
 import { ComplianceBar } from '@/components/ComplianceBar';
 
-export const dynamic = 'force-dynamic';
+// Public aggregate metrics — revalidate every 5 minutes
+export const revalidate = 300;
 
 export default async function MetricsPage() {
-  const supabase = await createClient();
+  const supabase = await getAdminClient();
 
   if (!supabase) {
     return (

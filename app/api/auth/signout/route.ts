@@ -7,9 +7,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withErrorHandling, APIErrors } from '@/lib/api';
 import { createClient } from '@/lib/supabase/server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 const _POST = withErrorHandling(async (request: NextRequest) => {
+  const rateLimited = await applyRateLimit(request, 'auth');
+  if (rateLimited) return rateLimited;
+
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signOut();

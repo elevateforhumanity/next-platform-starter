@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: live support chat — fetch messages by session_id (rate-limited)
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -14,10 +14,7 @@ async function _GET(req: NextRequest) {
     return NextResponse.json({ error: 'session_id is required' }, { status: 400 });
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = await requireAdminClient();
 
   const { data, error } = await supabase
     .from('live_chat_messages')

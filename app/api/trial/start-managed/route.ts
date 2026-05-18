@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: managed trial start form
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { resend } from '@/lib/resend';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { strictRateLimit } from '@/lib/rate-limit';
@@ -40,13 +40,8 @@ async function checkTrialRateLimit(email: string): Promise<boolean> {
   return true;
 }
 
-function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return null;
-  return createClient(url, key, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
+async function getSupabaseAdmin() {
+  return getAdminClient();
 }
 
 function validateEmail(email: string): boolean {
@@ -155,7 +150,7 @@ async function _POST(request: NextRequest) {
       );
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = await getSupabaseAdmin();
     if (!supabase) {
       logger.error(`[trial] ${correlationId} — Supabase not configured`);
       return NextResponse.json({ error: 'Service unavailable', correlationId }, { status: 503 });

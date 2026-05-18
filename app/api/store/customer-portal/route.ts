@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -12,13 +12,12 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
-
 async function _POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
+
+  const stripe = getStripe();
+  const supabase = await requireAdminClient();
 
   if (!stripe || !supabase) {
     return NextResponse.json({ error: 'Stripe or Supabase not configured' }, { status: 503 });

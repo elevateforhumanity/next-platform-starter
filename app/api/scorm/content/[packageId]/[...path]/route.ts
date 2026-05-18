@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: SCORM content delivery — auth inside handler
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -44,14 +44,7 @@ async function _GET(
   if (rateLimited) return rateLimited;
   const { packageId, path } = await ctx.params;
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !key) {
-    return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 });
-  }
-
-  const supabase = createClient(url, key);
+  const supabase = await requireAdminClient();
 
   // Convention: scorm/<packageId>/<relative file path>
   const filePath = `scorm/${packageId}/${(path || []).join('/')}`;

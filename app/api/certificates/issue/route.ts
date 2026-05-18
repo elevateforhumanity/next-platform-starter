@@ -2,7 +2,6 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
-import { createClient } from '@supabase/supabase-js';
 import { generateCertificateNumber, generateCertificatePDF } from '@/lib/certificates/generator';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -56,11 +55,8 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Initialize Supabase client
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    );
+    // Initialize Supabase client (adminDb already fetched above for auth check)
+    const supabase = adminDb;
 
     // Check completion rules (admin can override with skipCompletionCheck)
     if (!skipCompletionCheck && courseId) {

@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
 import { createZoomMeeting } from '@/lib/integrations/zoom';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 
@@ -14,6 +15,9 @@ const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
 async function _POST(request: Request) {
   try {
+    const rateLimited = await applyRateLimit(request, 'contact');
+    if (rateLimited) return rateLimited;
+
     const body = await request.json();
     const { name, email, phone, notes, appointment_type, appointment_date, appointment_time, application_id } =
       body;

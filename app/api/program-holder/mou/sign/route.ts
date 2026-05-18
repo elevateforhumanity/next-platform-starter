@@ -3,7 +3,6 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@/lib/auth';
-import { createClient } from '@supabase/supabase-js';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';

@@ -4,7 +4,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 // Webhook endpoint for partner progress updates
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getPartnerClient, PartnerType, WebhookPayload } from '@/lib/partners';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
@@ -14,24 +14,13 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-function getSupabaseClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json({ error: 'Supabase credentials not configured' }, { status: 500 });
-  }
-
-  return createClient(supabaseUrl, supabaseKey);
-}
-
 async function _POST(request: NextRequest, { params }: { params: Promise<{ partner: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
   const { partner: partnerName } = await params;
   const partner = partnerName as PartnerType;
 
-  const supabase = getSupabaseClient();
+  const supabase = await requireAdminClient();
 
   try {
     // Get webhook secret from headers

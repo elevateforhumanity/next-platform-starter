@@ -17,7 +17,8 @@ export async function generateMetadata({ params }: { params: Promise<{ certifica
   };
 }
 
-export const dynamic = 'force-dynamic';
+// Public read-only page — cache per certificate, revalidate every 5 minutes
+export const revalidate = 300;
 
 export default async function VerifyCertificatePage({
   params,
