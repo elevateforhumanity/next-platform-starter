@@ -40,8 +40,8 @@ const SERVICE_MAP: Record<string, string> = {
 };
 
 const TASK_DEF_MAP: Record<string, string> = {
-  lms:   'elevate-lms-task',
-  admin: 'elevate-admin-task',
+  lms:   'elevate-lms',
+  admin: 'elevate-admin',
 };
 
 async function resolveSecret(db: Awaited<ReturnType<typeof requireAdminClient>>, key: string): Promise<string | null> {

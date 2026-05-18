@@ -834,7 +834,7 @@ export default function DevContainerPanel() {
                   type="file"
                   className="hidden"
                   onChange={handleDocUpload}
-                  accept=".pdf,.doc,.docx,.txt,.csv,.json,.env"
+                  accept=".pdf,.doc,.docx,.xlsx,.csv,.png,.jpg,.jpeg"
                 />
                 <button
                   onClick={() => docUploadRef.current?.click()}
