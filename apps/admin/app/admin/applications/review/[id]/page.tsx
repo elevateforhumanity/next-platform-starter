@@ -20,25 +20,27 @@ export const metadata: Metadata = {
 };
 
 const statusLabels: Record<string, string> = {
-  pending: 'Pending',
-  submitted: 'Submitted',
-  approved: 'Approved',
-  rejected: 'Rejected',
-  in_review: 'In Review',
-  under_review: 'Under Review',
-  enrolled: 'Enrolled',
+  pending:              'Pending',
+  submitted:            'Submitted',
+  approved:             'Approved',
+  rejected:             'Rejected',
+  in_review:            'In Review',
+  under_review:         'Under Review',
+  pending_admin_review: 'Pending Review',
+  enrolled:             'Enrolled',
 };
 
 const statusColors: Record<string, string> = {
-  pending: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-  submitted: 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-300',
-  approved: 'bg-brand-green-100 text-brand-green-800 border-brand-green-300',
-  rejected: 'bg-brand-red-100 text-brand-red-800 border-brand-red-300',
-  in_review: 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-300',
-  under_review: 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-300',
-  enrolled: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+  pending:              'bg-yellow-100 text-yellow-800 border-yellow-300',
+  submitted:            'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-300',
+  approved:             'bg-brand-green-100 text-brand-green-800 border-brand-green-300',
+  rejected:             'bg-brand-red-100 text-brand-red-800 border-brand-red-300',
+  in_review:            'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-300',
+  under_review:         'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-300',
+  pending_admin_review: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+  enrolled:             'bg-emerald-100 text-emerald-800 border-emerald-300',
   // revoked is a derived state (revoked_at IS NOT NULL), not a DB status value
-  revoked: 'bg-brand-red-100 text-brand-red-800 border-brand-red-300',
+  revoked:              'bg-brand-red-100 text-brand-red-800 border-brand-red-300',
 };
 
 type ReviewApplication = {
@@ -202,7 +204,7 @@ export default async function ReviewApplicationPage({
       {/* HERO */}
       <div className="relative w-full h-[220px] sm:h-[280px]">
         <Image sizes="100vw"
-          src="/images/pages/admin-applicants-detail.jpg"
+          src="/images/pages/admin-applicants-detail.webp"
           alt="Review Application"
           fill
           priority
