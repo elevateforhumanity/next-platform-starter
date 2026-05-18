@@ -171,6 +171,25 @@ function TodaysPriorities({ data }: { data: AdminDashboardData }) {
   );
 }
 
+// ── Compact summary cards — full tables live on dedicated pages ──────────────
+
+function SummaryCard({
+  title, count, detail, href, urgent,
+}: { title: string; count: number; detail: string; href: string; urgent?: boolean }) {
+  return (
+    <Link href={href} className={`flex items-center justify-between rounded-xl border px-5 py-4 hover:shadow-sm transition-all mb-3 ${urgent && count > 0 ? 'border-amber-200 bg-amber-50' : 'border-slate-200 bg-white'}`}>
+      <div>
+        <p className={`text-sm font-semibold ${urgent && count > 0 ? 'text-amber-900' : 'text-slate-800'}`}>{title}</p>
+        <p className="text-xs text-slate-500 mt-0.5">{detail}</p>
+      </div>
+      <div className="flex items-center gap-3">
+        <span className={`text-2xl font-black tabular-nums ${urgent && count > 0 ? 'text-amber-700' : 'text-slate-900'}`}>{fmtNum(count)}</span>
+        <ArrowRight className="w-4 h-4 text-slate-400" />
+      </div>
+    </Link>
+  );
+}
+
 function LearnersNeedingAttention({ learners }: { learners: InactiveLearner[] }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white mb-6">
@@ -379,17 +398,42 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         {/* Today's Priorities */}
         <TodaysPriorities data={data} />
 
-        {/* Two-column operational grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+        {/* Operational summary — counts + links to dedicated pages */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 mt-6">
           <div className="lg:col-span-2 min-w-0">
-            <LearnersNeedingAttention learners={data.inactiveLearners} />
-            <ReviewQueues data={data} />
-            <CrmFollowUpQueue leads={data.staleLeads} />
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Queues</p>
+            <SummaryCard
+              title="Learners Needing Attention"
+              count={data.inactiveLearners.length}
+              detail="Inactive 7+ days — view full list"
+              href="/admin/at-risk"
+              urgent
+            />
+            <SummaryCard
+              title="Applications to Review"
+              count={data.operational.needsReview}
+              detail={data.operational.needsReviewDetail}
+              href="/admin/applications?status=submitted"
+              urgent
+            />
+            <SummaryCard
+              title="CRM Follow-up Queue"
+              count={data.staleLeads.length}
+              detail="Leads with no activity in 7+ days"
+              href="/admin/crm/leads"
+              urgent
+            />
+            <SummaryCard
+              title="Compliance Alerts"
+              count={data.operational.complianceAlerts}
+              detail="Open compliance issues"
+              href="/admin/compliance"
+              urgent
+            />
           </div>
           <div>
-            <ComplianceSnapshot data={data} />
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Recent Activity</p>
             <RecentActivity items={data.recentActivity} />
-
           </div>
         </div>
 
