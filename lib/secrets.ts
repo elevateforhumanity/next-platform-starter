@@ -105,18 +105,24 @@ async function loadSecrets(): Promise<Record<string, string>> {
 
 /**
  * Merge all runtime secrets into process.env.
- * Existing process.env values take precedence (so Netlify-set vars win).
- * Call once at function/server startup.
+ *
+ * Precedence (highest → lowest):
+ *   1. platform_secrets (admin UI) — always wins, enables key rotation without redeploy
+ *   2. app_secrets (legacy runtime scope)
+ *   3. process.env (ECS task definition / build-time vars)
+ *
+ * Previously process.env took precedence, which meant keys set via the admin
+ * Integrations UI were silently ignored whenever a stale or empty value existed
+ * in the task definition environment.
  */
 export async function hydrateProcessEnv(): Promise<void> {
   if (hydrated && Date.now() - cacheTimestamp < CACHE_TTL_MS) return;
 
   const secrets = await loadSecrets();
   for (const [key, value] of Object.entries(secrets)) {
-    // Don't overwrite vars already set in the environment
-    if (!process.env[key]) {
-      process.env[key] = value;
-    }
+    // platform_secrets and app_secrets always override the ambient environment.
+    // This ensures keys rotated via the admin UI take effect immediately.
+    process.env[key] = value;
   }
   hydrated = true;
 }
