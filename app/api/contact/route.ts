@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -34,7 +35,7 @@ const DemoScheduleSchema = z.object({
 
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'api');
+    const rateLimited = await applyRateLimit(req, 'contact');
     if (rateLimited) return rateLimited;
 
     // Parse and validate request body
@@ -42,6 +43,23 @@ async function _POST(req: Request) {
 
     if (!body) {
       return NextResponse.json({ ok: false, error: 'Invalid request body' }, { status: 400 });
+    }
+
+    // Verify Turnstile token server-side if provided
+    if (body.turnstileToken) {
+      await hydrateProcessEnv();
+      const secret = process.env.TURNSTILE_SECRET_KEY;
+      if (secret) {
+        const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ secret, response: body.turnstileToken }),
+        });
+        const verifyData = await verifyRes.json() as { success: boolean };
+        if (!verifyData.success) {
+          return NextResponse.json({ ok: false, error: 'Bot verification failed. Please try again.' }, { status: 400 });
+        }
+      }
     }
 
     // Check if this is a demo schedule submission

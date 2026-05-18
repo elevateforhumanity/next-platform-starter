@@ -282,7 +282,7 @@ function ContactPageInner() {
 
                 <button
                   type="submit"
-                  disabled={formState === 'submitting' || !turnstileToken}
+                  disabled={formState === 'submitting'}
                   className="flex items-center justify-center gap-2 w-full bg-brand-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-blue-700 disabled:bg-brand-blue-400 disabled:cursor-not-allowed transition-colors"
                 >
                   {formState === 'submitting' ? (
