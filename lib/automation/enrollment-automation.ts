@@ -42,53 +42,51 @@ export async function sendWelcomeSequence(enrollmentId: string) {
   const profile = enrollment.profiles as any;
   const program = enrollment.programs as any;
 
-  // Day 0: Welcome email (already sent by webhook)
+  const firstName: string = profile.full_name?.split(' ')[0] ?? 'there';
+  const email: string = profile.email;
+  const programName: string = program.name;
 
-  // Day 1: Getting started guide
-  setTimeout(
-    async () => {
-      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-internal-secret': process.env.CRON_SECRET ?? '',
-        },
-        body: JSON.stringify({
-          to: profile.email,
-          subject: `Getting Started with ${program.name}`,
-          html: `
-          <h2>Getting Started Guide</h2>
-          <p>Hi ${profile.full_name?.split(' ')[0]},</p>
-          <p>Here's everything you need to know to get started...</p>
-        `,
-        }),
-      });
-    },
-    24 * 60 * 60 * 1000,
-  ); // 1 day
+  if (!email) return { success: false, error: 'No email on profile' };
 
-  // Day 3: Check-in email
-  setTimeout(
-    async () => {
-      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-internal-secret': process.env.CRON_SECRET ?? '',
-        },
-        body: JSON.stringify({
-          to: profile.email,
-          subject: 'How are you doing?',
-          html: `
-          <h2>Quick Check-In</h2>
-          <p>Hi ${profile.full_name?.split(' ')[0]},</p>
-          <p>Just checking in to see how your first few days are going...</p>
-        `,
-        }),
-      });
+  // Day 0: Welcome email already sent by enrollment webhook — skip here.
+
+  // Day 1: Getting-started guide — enqueue with run_after = now + 24 h
+  const day1RunAfter = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const { error: day1Error } = await supabase.from('job_queue').insert({
+    type: 'welcome_email',
+    payload: {
+      enrollmentId,
+      userId: enrollment.student_id,
+      email,
+      firstName,
+      programName,
+      step: 'day1',
     },
-    3 * 24 * 60 * 60 * 1000,
-  ); // 3 days
+    run_after: day1RunAfter,
+  });
+
+  if (day1Error) {
+    logger.error('[sendWelcomeSequence] Failed to enqueue day1 email', day1Error);
+  }
+
+  // Day 3: Check-in — enqueue with run_after = now + 72 h
+  const day3RunAfter = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString();
+  const { error: day3Error } = await supabase.from('job_queue').insert({
+    type: 'welcome_email',
+    payload: {
+      enrollmentId,
+      userId: enrollment.student_id,
+      email,
+      firstName,
+      programName,
+      step: 'day3',
+    },
+    run_after: day3RunAfter,
+  });
+
+  if (day3Error) {
+    logger.error('[sendWelcomeSequence] Failed to enqueue day3 email', day3Error);
+  }
 
   return { success: true };
 }
@@ -100,23 +98,14 @@ export async function sendInactivityReminders() {
   const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'enrollment_automation' });
 
-  // Find students who haven't been active in 7 days
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-
+  // Use the at_risk_learners view — canonical source for inactive learners.
+  // Covers learners with no learning_activities entry in 14+ days.
   const { data: inactiveStudents } = await supabase
-    .from('lms_progress')
-    .select(
-      `
-      user_id,
-      course_id,
-      last_activity_at,
-      progress_percent,
-      profiles (full_name, email),
-      courses (title)
-    `,
-    )
-    .lt('last_activity_at', sevenDaysAgo)
-    .eq('status', 'in_progress');
+    .from('at_risk_learners')
+    .select('user_id, enrollment_id, full_name, email, program_name, inactive_days')
+    .lte('inactive_days', 30) // cap at 30 days — beyond that, stale-applications cron handles it
+    .order('inactive_days', { ascending: false })
+    .limit(100);
 
   if (!inactiveStudents || inactiveStudents.length === 0) {
     return { sent: 0, message: 'No inactive students found' };
@@ -125,8 +114,8 @@ export async function sendInactivityReminders() {
   let sent = 0;
 
   for (const student of inactiveStudents) {
-    const profile = student.profiles as any;
-    const course = student.courses as any;
+    if (!student.email) continue;
+    const firstName = student.full_name?.split(' ')[0] ?? 'there';
 
     try {
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
@@ -136,21 +125,19 @@ export async function sendInactivityReminders() {
           'x-internal-secret': process.env.CRON_SECRET ?? '',
         },
         body: JSON.stringify({
-          to: profile.email,
-          subject: `We miss you in ${course.title}!`,
+          to: student.email,
+          subject: `We miss you in ${student.program_name}!`,
           html: `
             <h2>Come Back and Continue Learning!</h2>
-            <p>Hi ${profile.full_name?.split(' ')[0]},</p>
-            <p>We noticed you haven't been active in <strong>${course.title}</strong> for a while.</p>
-            <p>You're ${student.progress_percent}% complete - keep going!</p>
-            <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/lms/courses/${student.course_id}">Continue Learning →</a></p>
+            <p>Hi ${firstName},</p>
+            <p>We noticed you haven't been active in <strong>${student.program_name}</strong> for ${student.inactive_days} days.</p>
+            <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/lms">Continue Learning →</a></p>
           `,
         }),
       });
       sent++;
     } catch (error) {
-      /* Error handled silently */
-      logger.error(`Failed to send reminder to ${profile.email}:`, error);
+      logger.error(`Failed to send inactivity reminder to ${student.email}:`, error);
     }
   }
 
@@ -164,21 +151,19 @@ export async function sendCompletionNudges() {
   const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'enrollment_automation' });
 
-  // Find students who are 80%+ complete but haven't finished
+  // Find enrollments that are active but not yet completed, joined to profile.
+  // lesson_progress is the canonical progress table — compute completion % from it.
   const { data: nearCompletion } = await supabase
-    .from('lms_progress')
-    .select(
-      `
-      user_id,
-      course_id,
-      progress_percent,
-      profiles (full_name, email),
-      courses (title)
-    `,
-    )
-    .gte('progress_percent', 80)
-    .lt('progress_percent', 100)
-    .eq('status', 'in_progress');
+    .from('program_enrollments')
+    .select(`
+      id,
+      student_id,
+      program_id,
+      profiles!inner (full_name, email),
+      programs!inner (name)
+    `)
+    .eq('status', 'active')
+    .limit(200);
 
   if (!nearCompletion || nearCompletion.length === 0) {
     return { sent: 0, message: 'No students near completion' };
@@ -186,9 +171,29 @@ export async function sendCompletionNudges() {
 
   let sent = 0;
 
-  for (const student of nearCompletion) {
-    const profile = student.profiles as any;
-    const course = student.courses as any;
+  for (const enrollment of nearCompletion) {
+    const profile = enrollment.profiles as any;
+    const program = enrollment.programs as any;
+    if (!profile?.email) continue;
+
+    // Count total lessons and completed lessons for this enrollment's program.
+    const { count: totalLessons } = await supabase
+      .from('curriculum_lessons')
+      .select('id', { count: 'exact', head: true })
+      .eq('program_id', enrollment.program_id)
+      .in('step_type', ['lesson', 'lab', 'assignment']);
+
+    const { count: completedLessons } = await supabase
+      .from('lesson_progress')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', enrollment.student_id)
+      .eq('completed', true);
+
+    if (!totalLessons || !completedLessons) continue;
+    const pct = Math.round((completedLessons / totalLessons) * 100);
+    if (pct < 80 || pct >= 100) continue;
+
+    const firstName = profile.full_name?.split(' ')[0] ?? 'there';
 
     try {
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
@@ -199,20 +204,19 @@ export async function sendCompletionNudges() {
         },
         body: JSON.stringify({
           to: profile.email,
-          subject: `You're almost done with ${course.title}! 🎉`,
+          subject: `You're almost done with ${program.name}!`,
           html: `
             <h2>You're So Close!</h2>
-            <p>Hi ${profile.full_name?.split(' ')[0]},</p>
-            <p>You're ${student.progress_percent}% complete with <strong>${course.title}</strong>!</p>
-            <p>Just a little more to go and you'll earn your certificate. Keep pushing!</p>
-            <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/lms/courses/${student.course_id}">Finish Strong →</a></p>
+            <p>Hi ${firstName},</p>
+            <p>You're ${pct}% complete with <strong>${program.name}</strong>.</p>
+            <p>Just a little more to go and you'll earn your certificate.</p>
+            <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/lms">Finish Strong →</a></p>
           `,
         }),
       });
       sent++;
     } catch (error) {
-      /* Error handled silently */
-      logger.error(`Failed to send nudge to ${profile.email}:`, error);
+      logger.error(`Failed to send completion nudge to ${profile.email}:`, error);
     }
   }
 

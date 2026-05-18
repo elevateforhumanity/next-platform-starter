@@ -12,6 +12,10 @@ import {
 } from "lucide-react";
 import type { AdminDashboardData, InactiveLearner, StaleLeadItem } from "./types";
 import { OperationalAlerts } from "./OperationalAlerts";
+import { LearnerActionButtons } from "./LearnerActionButtons";
+import { LeadActionButtons } from "./LeadActionButtons";
+import { ServiceHealthPanel } from "./ServiceHealthPanel";
+import { ProgramIntegrityPanel } from "./ProgramIntegrityPanel";
 
 
 function fmtUsd(cents: number) {
@@ -184,16 +188,20 @@ function LearnersNeedingAttention({ learners }: { learners: InactiveLearner[] })
       ) : (
         <div className="divide-y divide-slate-100">
           {learners.slice(0, 6).map((l) => (
-            <Link key={l.enrollmentId} href={l.href} className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 group transition-colors">
-              <div className="min-w-0">
+            <div key={l.enrollmentId} className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 transition-colors">
+              <Link href={l.href} className="min-w-0 flex-1 group">
                 <p className="text-sm font-semibold text-slate-900 truncate">{l.fullName ?? l.email ?? "Unknown learner"}</p>
                 <p className="text-xs text-slate-500 truncate">{l.programTitle ?? "Unknown program"}</p>
-              </div>
-              <div className="flex items-center gap-3 flex-shrink-0 ml-4">
+              </Link>
+              <div className="flex items-center gap-2 flex-shrink-0 ml-4">
                 <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Inactive {l.daysInactive}d</span>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-600 transition-colors" />
+                <LearnerActionButtons
+                  studentId={l.userId}
+                  enrollmentId={l.enrollmentId}
+                  studentName={l.fullName ?? l.email ?? "learner"}
+                />
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}
@@ -250,16 +258,16 @@ function CrmFollowUpQueue({ leads }: { leads: StaleLeadItem[] }) {
       ) : (
         <div className="divide-y divide-slate-100">
           {leads.map((lead) => (
-            <Link key={lead.id} href={lead.href} className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 group transition-colors">
-              <div className="min-w-0">
+            <div key={lead.id} className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 transition-colors">
+              <Link href={lead.href} className="min-w-0 flex-1 group">
                 <p className="text-sm font-semibold text-slate-900 truncate">{lead.name ?? "Unknown lead"}</p>
                 <p className="text-xs text-slate-500">{lead.status ?? "No status"}</p>
-              </div>
-              <div className="flex items-center gap-3 flex-shrink-0 ml-4">
+              </Link>
+              <div className="flex items-center gap-2 flex-shrink-0 ml-4">
                 <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">{lead.days_stale}d no activity</span>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-600 transition-colors" />
+                <LeadActionButtons leadId={lead.id} leadName={lead.name} />
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}
@@ -410,9 +418,15 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           </div>
         )}
 
-        {/* Live site preview */}
+        {/* Program integrity */}
         <div className="mt-8">
+          <ProgramIntegrityPanel />
+        </div>
+
+        {/* Live site preview + service health */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <SitePreviewPanelWrapper sites={data.sitePreviewTargets ?? []} />
+          <ServiceHealthPanel />
         </div>
 
       </div>

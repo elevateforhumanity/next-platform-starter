@@ -18,7 +18,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
-import type { CertificateIssuedPayload } from '@/lib/jobs/enqueue';
+import type { CertificateIssuedPayload, WelcomeEmailPayload } from '@/lib/jobs/enqueue';
 import { hydrateProcessEnv } from '@/lib/secrets';
 
 export const runtime = 'nodejs';
@@ -85,6 +85,41 @@ async function handleCertificateIssued(
   logger.info('certificate_issued job completed', { certificateId });
 }
 
+async function handleWelcomeEmail(payload: WelcomeEmailPayload): Promise<void> {
+  const { email, firstName, programName, step, enrollmentId } = payload;
+
+  const subjects: Record<WelcomeEmailPayload['step'], string> = {
+    day1: `Getting Started with ${programName}`,
+    day3: `How are you doing in ${programName}?`,
+  };
+
+  const bodies: Record<WelcomeEmailPayload['step'], string> = {
+    day1: `<h2>Getting Started Guide</h2>
+<p>Hi ${firstName},</p>
+<p>Here's everything you need to know to get started in <strong>${programName}</strong>.</p>
+<p><a href="${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/lms">Go to your dashboard →</a></p>`,
+    day3: `<h2>Quick Check-In</h2>
+<p>Hi ${firstName},</p>
+<p>Just checking in to see how your first few days in <strong>${programName}</strong> are going.</p>
+<p>If you have any questions, reply to this email — we're here to help.</p>`,
+  };
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/api/email/send`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-internal-secret': process.env.CRON_SECRET ?? '',
+    },
+    body: JSON.stringify({ to: email, subject: subjects[step], html: bodies[step] }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`welcome_email send failed: HTTP ${res.status} (enrollmentId=${enrollmentId}, step=${step})`);
+  }
+
+  logger.info('welcome_email job completed', { enrollmentId, step, email });
+}
+
 // ── Main handler ──────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
@@ -125,6 +160,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     try {
       if (job.type === 'certificate_issued') {
         await handleCertificateIssued(db, job.payload as CertificateIssuedPayload);
+      } else if (job.type === 'welcome_email') {
+        await handleWelcomeEmail(job.payload as WelcomeEmailPayload);
       } else {
         logger.error('Unknown job type', new Error(`Unknown job type: ${job.type}`), {
           jobId: job.id,

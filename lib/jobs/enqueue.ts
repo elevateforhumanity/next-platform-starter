@@ -13,7 +13,7 @@ import { logger } from '@/lib/logger';
 
 // ── Job type registry ─────────────────────────────────────────────────────
 
-export type LmsJobType = 'certificate_issued';
+export type LmsJobType = 'certificate_issued' | 'welcome_email';
 
 export interface CertificateIssuedPayload {
   certificateId: string;
@@ -26,7 +26,17 @@ export interface CertificateIssuedPayload {
   certificateUrl?: string;
 }
 
-export type LmsJobPayload = CertificateIssuedPayload;
+export interface WelcomeEmailPayload {
+  enrollmentId: string;
+  userId: string;
+  email: string;
+  firstName: string;
+  programName: string;
+  /** 'day1' = getting-started guide, 'day3' = check-in */
+  step: 'day1' | 'day3';
+}
+
+export type LmsJobPayload = CertificateIssuedPayload | WelcomeEmailPayload;
 
 // ── Enqueue ───────────────────────────────────────────────────────────────
 
