@@ -1125,6 +1125,16 @@ async function executeAction(
   authHeader: string,
   write: (line: string) => void,
 ) {
+  // Enforce confirmation gate for all operator/deployer tools.
+  // The client must re-submit with args.confirmed = true after the user
+  // explicitly approves. This prevents the AI from autonomously executing
+  // production-mutating actions without a human in the loop.
+  if (requiresConfirmation(name) && args.confirmed !== true) {
+    write(`\x1b[33m⚠  CONFIRMATION_REQUIRED\x1b[0m`);
+    write(`   Action "${name}" affects production data and requires explicit confirmation.`);
+    write(`   Re-run with confirmed=true to proceed.`);
+    return;
+  }
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     Cookie: authHeader,
@@ -1949,6 +1959,20 @@ async function executeAction(
     }
 
     case 'update_user_role': {
+      // super_admin escalation is never permitted via the AI console.
+      // It must be done directly in the Supabase dashboard or via a
+      // dedicated admin UI with MFA confirmation.
+      if (String(args.role) === 'super_admin') {
+        write(`\x1b[31m✗  Escalation to super_admin is not permitted via the AI console.\x1b[0m`);
+        write(`   Use the Supabase dashboard or the Users admin page directly.`);
+        break;
+      }
+      const ALLOWED_ROLES = new Set(['student', 'staff', 'admin', 'instructor', 'org_admin']);
+      if (!ALLOWED_ROLES.has(String(args.role))) {
+        write(`\x1b[31m✗  Role "${args.role}" is not a valid assignable role.\x1b[0m`);
+        write(`   Allowed: ${[...ALLOWED_ROLES].join(', ')}`);
+        break;
+      }
       write(`\x1b[33m⚙  Updating role for user ${args.user_id}…\x1b[0m`);
       try {
         const res = await fetch(`${baseUrl}/api/admin/users/update-role`, {
@@ -2360,10 +2384,28 @@ async function executeAction(
 
     // ── Query database ────────────────────────────────────────────────────
     case 'query_database': {
+      // Allowlist: only operational/non-PII tables the AI console legitimately needs.
+      // Excluded: profiles, auth.users, wioa_cases, payment_records, documents,
+      //           stripe_*, tax_*, ssn_*, any table with PII or financial data.
+      const ALLOWED_TABLES = new Set([
+        'programs', 'courses', 'course_modules', 'course_lessons', 'curriculum_lessons',
+        'modules', 'applications', 'program_enrollments', 'enrollments',
+        'lesson_progress', 'checkpoint_scores', 'program_completion_certificates',
+        'compliance_items', 'compliance_alerts', 'completion_rules',
+        'job_queue', 'platform_events', 'ai_audit_log', 'devstudio_chat_log',
+        'at_risk_learners', 'program_integrity',
+      ]);
       const table  = String(args.table ?? 'programs');
       const limit  = Math.min(Number(args.limit ?? 20), 100);
       const select = String(args.select ?? '*');
       const filter = String(args.filter ?? '');
+
+      if (!ALLOWED_TABLES.has(table)) {
+        write(`\x1b[31m✗  Table "${table}" is not in the AI query allowlist.\x1b[0m`);
+        write(`   Allowed tables: ${[...ALLOWED_TABLES].join(', ')}`);
+        break;
+      }
+
       write(`\x1b[33m⚙  Querying ${table}…\x1b[0m`);
       try {
         const { createClient } = await import('@supabase/supabase-js');

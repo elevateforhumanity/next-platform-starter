@@ -191,7 +191,7 @@ export default function AiConsoleClient() {
         const res = await fetch('/api/admin/ai-assistant', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt, history }),
+          body: JSON.stringify({ message: prompt, history }),
         });
         const data = await res.json();
         const reply = data.reply ?? data.message ?? data.content ?? JSON.stringify(data);

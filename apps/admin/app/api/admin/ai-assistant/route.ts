@@ -136,12 +136,27 @@ export async function POST(req: NextRequest) {
       .select('role')
       .eq('id', user.id)
       .maybeSingle();
-    if (!['admin', 'super_admin', 'staff'].includes(profile?.role ?? '')) {
+    // Restrict to super_admin only — matches the page-level guard on
+    // apps/admin/app/admin/ai-console/page.tsx. staff/admin roles must
+    // not access live DB snapshots or the Q&A assistant directly.
+    if (profile?.role !== 'super_admin') {
       return safeError('Forbidden', 403);
     }
 
     const { message, history = [] } = await req.json();
     if (!message?.trim()) return safeError('Message required', 400);
+
+    // Strip any system-role entries injected by the client — only 'user' and
+    // 'assistant' turns are valid history. Allowing client-supplied system
+    // messages would let a crafted request override the system prompt.
+    const safeHistory = (Array.isArray(history) ? history : [])
+      .filter((m: unknown) =>
+        m !== null &&
+        typeof m === 'object' &&
+        ['user', 'assistant'].includes((m as Record<string, unknown>).role as string) &&
+        typeof (m as Record<string, unknown>).content === 'string',
+      )
+      .slice(-8);
 
     const openaiKey = process.env.OPENAI_API_KEY;
     if (!openaiKey) return safeError('AI not configured', 503);
@@ -152,7 +167,7 @@ export async function POST(req: NextRequest) {
     const messages = [
       { role: 'system', content: ADMIN_SYSTEM_PROMPT },
       { role: 'system', content: dataSnapshot },
-      ...history.slice(-8), // last 8 messages for context
+      ...safeHistory,
       { role: 'user', content: message },
     ];
 
@@ -178,6 +193,20 @@ export async function POST(req: NextRequest) {
 
     const data = await response.json();
     const reply = data.choices?.[0]?.message?.content ?? 'No response generated.';
+
+    // Audit log — fire-and-forget (non-fatal if DB is slow)
+    db.from('ai_audit_log').insert({
+      user_id: user.id,
+      action: 'ai_assistant_query',
+      details: {
+        prompt: message.slice(0, 500),
+        reply: reply.slice(0, 500),
+        model: 'gpt-4.1-mini',
+      },
+      ip_address: req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? null,
+    }).then(({ error }) => {
+      if (error) logger.error('[ai-assistant] Audit log insert failed', error);
+    });
 
     return NextResponse.json({ reply });
   } catch (err) {
