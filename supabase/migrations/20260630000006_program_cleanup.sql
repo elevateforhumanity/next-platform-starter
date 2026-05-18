@@ -219,7 +219,7 @@ SELECT
   p.title,
   p.slug || '-course',
   p.id,
-  'active',
+  'published',
   now()
 FROM public.programs p
 WHERE p.status = 'active'

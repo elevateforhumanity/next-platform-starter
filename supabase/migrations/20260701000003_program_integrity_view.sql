@@ -69,11 +69,12 @@ course_exists AS (
   GROUP BY program_id
 ),
 
--- Does a completion_rules row exist?
+-- Does a completion_rules row exist? (uses entity_id, not program_id)
 completion_rule_exists AS (
-  SELECT program_id, TRUE AS has_completion_rule
+  SELECT entity_id AS program_id, TRUE AS has_completion_rule
   FROM public.completion_rules
-  GROUP BY program_id
+  WHERE entity_type = 'program'
+  GROUP BY entity_id
 )
 
 SELECT
