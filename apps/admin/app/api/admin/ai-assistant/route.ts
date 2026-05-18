@@ -4,7 +4,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
  *
  * Admin-only endpoint. Answers operational questions about live data.
  * Data queries (students, enrollments, applications) are resolved directly
- * from the DB — no LLM required. LLM is only called for synthesis/explanation.
+ * from the DB -- no LLM required. LLM is only called for synthesis/explanation.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -21,7 +21,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
-// ── Program aliases ───────────────────────────────────────────────────────────
+// -- Program aliases ----------------------------------------------------------
 
 const PROGRAM_ALIASES: Record<string, string[]> = {
   barber:      ['barber', 'barbering', 'barber apprenticeship', 'barber training', 'barber program'],
@@ -32,7 +32,7 @@ const PROGRAM_ALIASES: Record<string, string[]> = {
   tax:         ['tax', 'enrolled agent', 'irs', 'efin', 'ptin'],
 };
 
-// ── Intent detection ──────────────────────────────────────────────────────────
+// -- Intent detection ---------------------------------------------------------
 
 type QueryIntent =
   | { type: 'students';     program?: string; status?: string }
@@ -51,17 +51,16 @@ function detectProgram(m: string): string | undefined {
 }
 
 function detectStatus(m: string): string | undefined {
-  if (/active/.test(m))                        return 'active';
-  if (/pending/.test(m))                       return 'pending';
-  if (/(complete|completed|graduated)/.test(m)) return 'completed';
-  if (/inactive/.test(m))                      return 'inactive';
-  if (/at.?risk/.test(m))                      return 'at_risk';
+  if (/\bactive\b/.test(m))                         return 'active';
+  if (/\bpending\b/.test(m))                        return 'pending';
+  if (/\b(complete|completed|graduated)\b/.test(m)) return 'completed';
+  if (/\binactive\b/.test(m))                       return 'inactive';
+  if (/\bat.?risk\b/.test(m))                       return 'at_risk';
   return undefined;
 }
 
 function detectIntent(msg: string): QueryIntent {
   const m = msg.toLowerCase();
-
   if (/student|learner|enroll|participant|pull.*(student|learner)|list.*(student|learner)|(student|learner).*(list|all|show)/.test(m)) {
     return { type: 'students', program: detectProgram(m), status: detectStatus(m) };
   }
@@ -71,19 +70,13 @@ function detectIntent(msg: string): QueryIntent {
   if (/enrollment|enrolled|active learner/.test(m)) {
     return { type: 'enrollments', program: detectProgram(m), status: detectStatus(m) };
   }
-  if (/revenue|payment|paid|income|money|dollar/.test(m)) {
-    return { type: 'revenue' };
-  }
-  if (/program|course|offering/.test(m) && /list|show|all|how many/.test(m)) {
-    return { type: 'programs' };
-  }
-  if (/certif|credential|graduate|completion/.test(m)) {
-    return { type: 'certificates' };
-  }
+  if (/revenue|payment|paid|income|money|dollar/.test(m)) return { type: 'revenue' };
+  if (/program|course|offering/.test(m) && /list|show|all|how many/.test(m)) return { type: 'programs' };
+  if (/certif|credential|graduate|completion/.test(m)) return { type: 'certificates' };
   return { type: 'unknown' };
 }
 
-// ── Direct DB resolvers ───────────────────────────────────────────────────────
+// -- Direct DB resolvers ------------------------------------------------------
 
 async function resolveStudents(
   db: SupabaseClient,
@@ -111,24 +104,29 @@ async function resolveStudents(
 
     const { data: enrollments, error } = await q;
     if (error) return `DB error: ${error.message}`;
-    if (!enrollments?.length) {
-      return `No ${intent.status ?? ''} students found in ${programs.map((p: { title: string }) => p.title).join(' / ')}.`;
-    }
 
     const programTitle = programs.map((p: { title: string }) => p.title).join(' / ');
-    const rows = enrollments.map((e: Record<string, unknown>, i: number) =>
-      `${i + 1}. ${e.full_name ?? '(no name)'} — ${e.email ?? '—'} | Status: ${e.status ?? '—'} | Payment: ${e.payment_status ?? '—'} | Enrolled: ${e.enrolled_at ? new Date(e.enrolled_at as string).toLocaleDateString() : '—'}`
-    ).join('
-');
+    if (!enrollments?.length) {
+      return `No ${intent.status ?? ''} students found in ${programTitle}.`;
+    }
 
-    return `**${programTitle} — ${enrollments.length} student${enrollments.length !== 1 ? 's' : ''}${intent.status ? ` (${intent.status})` : ''}**
+    const rows = enrollments.map((e: Record<string, unknown>, i: number) => {
+      const name    = String(e.full_name    ?? '(no name)');
+      const email   = String(e.email        ?? '--');
+      const status  = String(e.status       ?? '--');
+      const payment = String(e.payment_status ?? '--');
+      const date    = e.enrolled_at
+        ? new Date(e.enrolled_at as string).toLocaleDateString()
+        : '--';
+      return `${i + 1}. ${name} | ${email} | Status: ${status} | Payment: ${payment} | Enrolled: ${date}`;
+    }).join('\n');
 
-${rows}
-
-View full list: /admin/enrollments`;
+    const suffix = intent.status ? ` (${intent.status})` : '';
+    const count  = enrollments.length;
+    return `**${programTitle} -- ${count} student${count !== 1 ? 's' : ''}${suffix}**\n\n${rows}\n\nView full list: /admin/enrollments`;
   }
 
-  // No program filter — all students
+  // No program filter -- all students from profiles
   let q = db
     .from('profiles')
     .select('id,full_name,email,phone,enrollment_status,created_at')
@@ -141,16 +139,15 @@ View full list: /admin/enrollments`;
   if (error) return `DB error: ${error.message}`;
   if (!students?.length) return 'No students found.';
 
-  const rows = students.map((s: Record<string, unknown>, i: number) =>
-    `${i + 1}. ${s.full_name ?? '(no name)'} — ${s.email ?? '—'} | ${s.enrollment_status ?? '—'}`
-  ).join('
-');
+  const rows = students.map((s: Record<string, unknown>, i: number) => {
+    const name   = String(s.full_name         ?? '(no name)');
+    const email  = String(s.email             ?? '--');
+    const status = String(s.enrollment_status ?? '--');
+    return `${i + 1}. ${name} | ${email} | ${status}`;
+  }).join('\n');
 
-  return `**All Students — ${students.length} shown${intent.status ? ` (${intent.status})` : ''}**
-
-${rows}
-
-View full list: /admin/students`;
+  const suffix = intent.status ? ` (${intent.status})` : '';
+  return `**All Students -- ${students.length} shown${suffix}**\n\n${rows}\n\nView full list: /admin/students`;
 }
 
 async function resolveApplications(
@@ -185,11 +182,15 @@ async function resolveApplications(
   if (!data?.length) return `No ${intent.status ?? 'pending'} applications found.`;
 
   const rows = data.map((a: Record<string, unknown>, i: number) => {
-    const program = (a.program_interest ?? a.program_slug ?? '—') as string;
-    return `${i + 1}. ${a.full_name ?? '(no name)'} — ${a.email ?? '—'} | ${program} | ${a.status}`;
+    const name    = String(a.full_name ?? '(no name)');
+    const email   = String(a.email    ?? '--');
+    const program = String(a.program_interest ?? a.program_slug ?? '--');
+    const status  = String(a.status   ?? '--');
+    return `${i + 1}. ${name} | ${email} | ${program} | ${status}`;
   }).join('\n');
 
-  return `**Applications — ${data.length} shown${intent.status ? ` (${intent.status})` : ' (pending/in review)'}**\n\n${rows}\n\nReview at: /admin/applications`;
+  const suffix = intent.status ? ` (${intent.status})` : ' (pending/in review)';
+  return `**Applications -- ${data.length} shown${suffix}**\n\n${rows}\n\nReview at: /admin/applications`;
 }
 
 async function resolveRevenue(db: SupabaseClient): Promise<string> {
@@ -198,14 +199,11 @@ async function resolveRevenue(db: SupabaseClient): Promise<string> {
     db.from('program_enrollments').select('amount_paid_cents').eq('payment_status', 'paid').gte('created_at', monthStart),
     db.from('program_enrollments').select('amount_paid_cents').eq('payment_status', 'paid'),
   ]);
-  const monthTotal = (monthRes.data ?? []).reduce((s: number, r: Record<string, unknown>) => s + ((r.amount_paid_cents as number) ?? 0), 0);
-  const allTotal   = (allRes.data   ?? []).reduce((s: number, r: Record<string, unknown>) => s + ((r.amount_paid_cents as number) ?? 0), 0);
-  return `**Revenue Summary**
-
-This month: $${(monthTotal / 100).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-All time: $${(allTotal / 100).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-
-View details: /admin/funding`;
+  const sum = (rows: Record<string, unknown>[]) =>
+    rows.reduce((s, r) => s + ((r.amount_paid_cents as number) ?? 0), 0);
+  const fmt = (cents: number) =>
+    `$${(cents / 100).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+  return `**Revenue Summary**\n\nThis month: ${fmt(sum(monthRes.data ?? []))}\nAll time: ${fmt(sum(allRes.data ?? []))}\n\nView details: /admin/funding`;
 }
 
 async function resolvePrograms(db: SupabaseClient): Promise<string> {
@@ -217,14 +215,9 @@ async function resolvePrograms(db: SupabaseClient): Promise<string> {
   if (error) return `DB error: ${error.message}`;
   if (!data?.length) return 'No programs found.';
   const rows = data.map((p: Record<string, unknown>, i: number) =>
-    `${i + 1}. ${p.title} (${p.slug}) — ${p.published ? 'Published' : '⚠️ Unpublished'}`
-  ).join('
-');
-  return `**Programs — ${data.length} total**
-
-${rows}
-
-Manage at: /admin/programs`;
+    `${i + 1}. ${String(p.title)} (${String(p.slug)}) -- ${p.published ? 'Published' : 'Unpublished'}`
+  ).join('\n');
+  return `**Programs -- ${data.length} total**\n\n${rows}\n\nManage at: /admin/programs`;
 }
 
 async function resolveCertificates(db: SupabaseClient): Promise<string> {
@@ -232,12 +225,10 @@ async function resolveCertificates(db: SupabaseClient): Promise<string> {
     .from('program_completion_certificates')
     .select('id', { count: 'exact', head: true });
   if (error) return `DB error: ${error.message}`;
-  return `**Certificates Issued: ${count ?? 0}**
-
-View at: /admin/certificates`;
+  return `**Certificates Issued: ${count ?? 0}**\n\nView at: /admin/certificates`;
 }
 
-// ── Live data snapshot for LLM context ───────────────────────────────────────
+// -- Live data snapshot for LLM context --------------------------------------
 
 async function getLiveDataSnapshot(db: SupabaseClient): Promise<string> {
   const now = new Date();
@@ -252,8 +243,10 @@ async function getLiveDataSnapshot(db: SupabaseClient): Promise<string> {
       db.from('program_enrollments').select('amount_paid_cents').eq('payment_status', 'paid'),
       db.from('program_completion_certificates').select('id', { count: 'exact', head: true }),
     ]);
-  const monthCents = (revenueMonth.data ?? []).reduce((s: number, r: Record<string, unknown>) => s + ((r.amount_paid_cents as number) ?? 0), 0);
-  const allCents   = (revenueAll.data   ?? []).reduce((s: number, r: Record<string, unknown>) => s + ((r.amount_paid_cents as number) ?? 0), 0);
+  const sum = (rows: Record<string, unknown>[]) =>
+    rows.reduce((s, r) => s + ((r.amount_paid_cents as number) ?? 0), 0);
+  const monthCents = sum(revenueMonth.data ?? []);
+  const allCents   = sum(revenueAll.data   ?? []);
   return `LIVE DATA (${now.toLocaleString('en-US', { timeZone: 'America/Indiana/Indianapolis' })} ET):
 - Pending applications: ${pendingApps.count ?? 0}
 - Total applications: ${totalApps.count ?? 0}
@@ -264,15 +257,15 @@ async function getLiveDataSnapshot(db: SupabaseClient): Promise<string> {
 - Certificates issued: ${certs.count ?? 0}`;
 }
 
-// ── System prompt ─────────────────────────────────────────────────────────────
+// -- System prompt ------------------------------------------------------------
 
 const SYSTEM_PROMPT = `You are the Elevate for Humanity Admin Operations Assistant.
-Help admin staff manage day-to-day operations. Be direct and operational — no fluff.
+Help admin staff manage day-to-day operations. Be direct and operational -- no fluff.
 Keep responses to 2-5 sentences unless a detailed breakdown is requested.
-Never make up numbers — only use the live data provided.
-Navigation: Applications /admin/applications · Students /admin/students · Enrollments /admin/enrollments · Programs /admin/programs · Funding /admin/funding · Compliance /admin/compliance`;
+Never make up numbers -- only use the live data provided.
+Navigation: Applications /admin/applications | Students /admin/students | Enrollments /admin/enrollments | Programs /admin/programs | Funding /admin/funding | Compliance /admin/compliance`;
 
-// ── Main handler ──────────────────────────────────────────────────────────────
+// -- Main handler -------------------------------------------------------------
 
 export async function POST(req: NextRequest) {
   await hydrateProcessEnv();
@@ -301,7 +294,7 @@ export async function POST(req: NextRequest) {
       )
       .slice(-8);
 
-    // ── Resolve data queries directly from DB (no LLM needed) ─────────────
+    // -- Resolve data queries directly from DB (no LLM needed) ---------------
     const intent = detectIntent(message);
     let directReply: string | null = null;
 
@@ -330,11 +323,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ reply: directReply });
     }
 
-    // ── Fall back to LLM for synthesis / explanation ───────────────────────
+    // -- Fall back to LLM for synthesis / explanation -------------------------
     const dataSnapshot = await getLiveDataSnapshot(db);
-    const systemPrompt = `${SYSTEM_PROMPT}
-
-${dataSnapshot}`;
+    const systemPrompt = `${SYSTEM_PROMPT}\n\n${dataSnapshot}`;
     const userMessages = [...safeHistory, { role: 'user' as const, content: message }];
 
     let reply = '';
@@ -370,21 +361,14 @@ ${dataSnapshot}`;
       if (!res.ok) {
         const errBody = await res.text();
         logger.error('[ai-assistant] OpenAI error', { status: res.status, body: errBody });
-        // Degrade gracefully — return live data snapshot instead of an error
-        reply = `AI service unavailable (HTTP ${res.status}). Here's the live data:
-
-${dataSnapshot}`;
+        reply = `AI service unavailable (HTTP ${res.status}). Here is the live data:\n\n${dataSnapshot}`;
       } else {
         const data = await res.json() as { choices?: Array<{ message?: { content?: string } }> };
         reply = data.choices?.[0]?.message?.content ?? '';
         modelUsed = 'gpt-4o-mini';
       }
     } else {
-      reply = `No AI provider configured. Live data:
-
-${dataSnapshot}
-
-Set GROQ_API_KEY or GEMINI_API_KEY in platform secrets to enable AI responses.`;
+      reply = `No AI provider configured. Live data:\n\n${dataSnapshot}\n\nSet GROQ_API_KEY or GEMINI_API_KEY in platform secrets to enable AI responses.`;
     }
 
     if (!reply) reply = 'No response generated. Try rephrasing your question.';
