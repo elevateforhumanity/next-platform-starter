@@ -1,3 +1,7 @@
+// MIGRATION STATUS: Legacy employer portal — kept live because it has unique
+// pages (wotc, hiring-guide, interviews, messages) not yet in /employer.
+// Canonical employer portal is /employer. Do not add new features here.
+// When /employer has feature parity, redirect all /employer-portal/* → /employer/*.
 export const dynamic = 'force-dynamic';
 
 import React from 'react';

@@ -2,16 +2,13 @@
 
 import { PortalShell, type PortalNavItem } from '@/components/ui/design-system';
 import {
-  LayoutDashboard, Users, FileText, BarChart3, DollarSign, Settings,
+  LayoutDashboard, Users, BarChart3,
 } from 'lucide-react';
 
 const NAV: PortalNavItem[] = [
-  { href: '/workforce-board',              label: 'Dashboard',     icon: LayoutDashboard },
-  { href: '/workforce-board/participants', label: 'Participants',  icon: Users },
-  { href: '/workforce-board/cases',        label: 'Cases',         icon: FileText },
-  { href: '/workforce-board/reports',      label: 'Reports',       icon: BarChart3 },
-  { href: '/workforce-board/funding',      label: 'Funding',       icon: DollarSign },
-  { href: '/workforce-board/settings',     label: 'Settings',      icon: Settings },
+  { href: '/workforce-board',              label: 'Dashboard',    icon: LayoutDashboard },
+  { href: '/workforce-board/participants', label: 'Participants', icon: Users },
+  { href: '/workforce-board/reports',      label: 'Reports',      icon: BarChart3 },
 ];
 
 export default function WorkforceBoardShell({

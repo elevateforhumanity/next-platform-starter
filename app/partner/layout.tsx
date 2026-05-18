@@ -18,7 +18,6 @@ const navItems = [
   { href: '/partner/competencies', label: 'Competencies' },
   { href: '/partner/programs', label: 'Programs' },
   { href: '/partner/documents', label: 'Documents' },
-  { href: '/partner/reports', label: 'Reports' },
   { href: '/partner/settings', label: 'Settings' },
 ];
 

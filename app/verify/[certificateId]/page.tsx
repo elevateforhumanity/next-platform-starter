@@ -316,7 +316,8 @@ export default async function VerifyCertificatePage({
             <div className="bg-white rounded-lg p-6 text-center">
               <p className="text-sm text-slate-700">
                 This certificate was verified on{' '}
-                <strong>
+                {/* suppressHydrationWarning: intentionally shows current time on each render */}
+                <strong suppressHydrationWarning>
                   {new Date().toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',

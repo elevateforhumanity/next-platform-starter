@@ -20,7 +20,6 @@ const NAV_ITEMS = [
   { href: '/case-manager/dashboard', label: 'Dashboard' },
   { href: '/case-manager/participants', label: 'Participants' },
   { href: '/case-manager/placements', label: 'Placements' },
-  { href: '/case-manager/reports', label: 'Reports' },
 ];
 
 export default async function CaseManagerLayout({ children }: { children: React.ReactNode }) {

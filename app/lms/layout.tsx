@@ -1,10 +1,14 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { SafeSearchParamsProvider } from '@/hooks/useSafeSearchParams';
 
 // Root LMS layout - NO AUTH CHECKS HERE
 // Auth is handled in app/lms/(app)/layout.tsx
 // This layout wraps both public and protected routes
+//
+// SafeSearchParamsProvider is intentionally NOT mounted here —
+// PublicLayout (app/layout.tsx → components/layout/PublicLayout.tsx) already
+// wraps all routes including /lms/*. Mounting it again here caused a double
+// Suspense boundary and redundant useSearchParams() call on every LMS route.
 
 export const metadata: Metadata = {
   title: {
@@ -17,9 +21,5 @@ export const metadata: Metadata = {
 };
 
 export default function LMSLayout({ children }: { children: React.ReactNode }) {
-  // No auth, no sidebar - just pass through
-  // The (app) route group has its own layout with auth + sidebar
-  // The (public) route group renders standalone
-
-  return <SafeSearchParamsProvider>{children}</SafeSearchParamsProvider>;
+  return <>{children}</>;
 }

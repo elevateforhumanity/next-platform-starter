@@ -39,7 +39,7 @@ export async function OnetLaborData({ slug, socCode }: Props) {
             <h2 className="text-2xl font-extrabold text-slate-900">
               Career Outlook: {data.title}
             </h2>
-            <p className="text-slate-500 text-sm mt-1">SOC {data.soc} · O*NET {new Date().getFullYear()}</p>
+            <p className="text-slate-500 text-sm mt-1">SOC {data.soc} · O*NET {new Date().getUTCFullYear()}</p>
           </div>
           {data.brightOutlook && (
             <div className="flex items-center gap-2 bg-green-50 border border-green-200 text-green-800 px-4 py-2 rounded-full text-sm font-bold">

@@ -54,7 +54,6 @@ export default async function StaffPortalLayout({ children }: { children: React.
     { href: '/staff-portal/courses', label: 'Courses' },
     { href: '/staff-portal/campaigns', label: 'Campaigns' },
     { href: '/staff-portal/booth-renters', label: 'Booth Renters' },
-    { href: '/staff-portal/reports', label: 'Reports' },
     ...(isAdmin ? [{ href: '/admin/hr/employees', label: 'HR & Payroll' }] : []),
   ];
 
