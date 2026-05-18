@@ -9,33 +9,52 @@ interface Props {
   sites: SitePreviewTarget[];
 }
 
+type SiteStatusState = 'healthy' | 'degraded' | 'down' | null;
+
 interface SiteStatus {
   url: string;
-  ok: boolean | null;
+  state: SiteStatusState;
   latencyMs: number | null;
+  httpStatus: number | null;
   checkedAt: Date | null;
 }
 
-async function checkSite(url: string): Promise<{ ok: boolean; latencyMs: number }> {
+async function checkSite(url: string): Promise<{ state: SiteStatusState; latencyMs: number; httpStatus: number }> {
   const start = Date.now();
   try {
     const res = await fetch(`/api/admin/site-health?url=${encodeURIComponent(url)}`, { cache: 'no-store' });
-    return { ok: res.ok, latencyMs: Date.now() - start };
+    if (!res.ok) return { state: 'down', latencyMs: Date.now() - start, httpStatus: 0 };
+    const data = await res.json();
+    const latencyMs = data.latencyMs ?? Date.now() - start;
+    if (!data.ok) return { state: 'down', latencyMs, httpStatus: data.status ?? 0 };
+    if (data.degraded) return { state: 'degraded', latencyMs, httpStatus: data.status ?? 0 };
+    return { state: latencyMs > 2000 ? 'degraded' : 'healthy', latencyMs, httpStatus: data.status ?? 200 };
   } catch {
-    return { ok: false, latencyMs: Date.now() - start };
+    return { state: 'down', latencyMs: Date.now() - start, httpStatus: 0 };
   }
 }
 
+// Env-aware URLs — never hardcoded
+const DEFAULT_SITES = [
+  {
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org',
+    label: 'Public Site',
+  },
+  {
+    url: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://admin.elevateforhumanity.org',
+    label: 'Admin',
+  },
+  {
+    url: process.env.NEXT_PUBLIC_LMS_URL ?? 'https://lms.elevateforhumanity.org',
+    label: 'LMS',
+  },
+];
+
 export function SitePreviewPanel({ sites }: Props) {
-  const targets = sites.length > 0
-    ? sites
-    : [
-        { url: 'https://www.elevateforhumanity.org', label: 'Public Site' },
-        { url: 'https://admin.elevateforhumanity.org', label: 'Admin' },
-      ];
+  const targets = sites.length > 0 ? sites : DEFAULT_SITES;
 
   const [statuses, setStatuses] = useState<Record<string, SiteStatus>>(
-    Object.fromEntries(targets.map((t) => [t.url, { url: t.url, ok: null, latencyMs: null, checkedAt: null }])),
+    Object.fromEntries(targets.map((t) => [t.url, { url: t.url, state: null, latencyMs: null, httpStatus: null, checkedAt: null }])),
   );
   const [checking, setChecking] = useState(false);
 
@@ -46,7 +65,7 @@ export function SitePreviewPanel({ sites }: Props) {
     );
     setStatuses(
       Object.fromEntries(
-        results.map((r) => [r.url, { url: r.url, ok: r.ok, latencyMs: r.latencyMs, checkedAt: new Date() }]),
+        results.map((r) => [r.url, { url: r.url, state: r.state, latencyMs: r.latencyMs, httpStatus: r.httpStatus, checkedAt: new Date() }]),
       ),
     );
     setChecking(false);
@@ -76,29 +95,36 @@ export function SitePreviewPanel({ sites }: Props) {
       <div className="divide-y divide-slate-100">
         {targets.map((target) => {
           const s = statuses[target.url];
+          const state = s?.state ?? null;
           return (
             <div key={target.url} className="flex items-center justify-between px-5 py-3.5">
               <div className="flex items-center gap-3 min-w-0">
-                {s.ok === null ? (
-                  <Clock className="w-4 h-4 text-slate-300 flex-shrink-0" />
-                ) : s.ok ? (
+                {state === null ? (
+                  <Clock className="w-4 h-4 text-slate-300 flex-shrink-0 animate-pulse" />
+                ) : state === 'healthy' ? (
                   <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                ) : state === 'degraded' ? (
+                  <AlertCircle className="w-4 h-4 text-amber-500 flex-shrink-0" />
                 ) : (
                   <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
                 )}
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-slate-800 truncate">
-                    {(target as any).label ?? target.url}
+                    {(target as { label?: string }).label ?? target.url}
                   </p>
                   <p className="text-xs text-slate-400 truncate">{target.url}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 flex-shrink-0 ml-4">
-                {s.ok !== null && (
+                {state !== null && (
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                    s.ok ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+                    state === 'healthy' ? 'bg-green-50 text-green-700' :
+                    state === 'degraded' ? 'bg-amber-50 text-amber-700' :
+                    'bg-red-50 text-red-700'
                   }`}>
-                    {s.ok ? `${s.latencyMs}ms` : 'Down'}
+                    {state === 'healthy' ? `${s.latencyMs}ms` :
+                     state === 'degraded' ? `Degraded${s.httpStatus ? ` (${s.httpStatus})` : ''}` :
+                     'Down'}
                   </span>
                 )}
                 <a

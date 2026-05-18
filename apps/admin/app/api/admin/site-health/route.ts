@@ -46,12 +46,20 @@ export async function GET(request: NextRequest) {
   try {
     const res = await fetch(parsed.toString(), {
       method: 'HEAD',
-      // 6 second hard timeout — site check should be fast
+      redirect: 'manual', // don't follow redirects — a redirect IS reachable
       signal: AbortSignal.timeout(6000),
       headers: { 'User-Agent': 'ElevateAdmin/1.0 (site-health-check)' },
     });
-    return NextResponse.json({ ok: res.ok, latencyMs: Date.now() - start });
+    // 2xx = healthy, 3xx = reachable (auth redirect is expected for admin), 4xx/5xx = degraded
+    const ok = res.status < 500;
+    const degraded = res.status >= 400 && res.status < 500;
+    return NextResponse.json({
+      ok,
+      degraded,
+      status: res.status,
+      latencyMs: Date.now() - start,
+    });
   } catch {
-    return NextResponse.json({ ok: false, latencyMs: Date.now() - start });
+    return NextResponse.json({ ok: false, degraded: false, status: 0, latencyMs: Date.now() - start });
   }
 }
