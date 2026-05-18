@@ -20,7 +20,6 @@ interface PublicLayoutProps {
 
 export default function PublicLayout({ children }: PublicLayoutProps) {
   return (
-    <SafeSearchParamsProvider>
     <>
       <div data-public-layout-root>
         <div data-marketing-chrome>
@@ -35,7 +34,11 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
             role="main"
             tabIndex={-1}
           >
-            {children}
+            {/* SafeSearchParamsProvider wraps only the page content — not the
+                header/footer — so its Suspense boundary never duplicates the shell. */}
+            <SafeSearchParamsProvider>
+              {children}
+            </SafeSearchParamsProvider>
           </main>
         </div>
 
@@ -50,6 +53,5 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
       <MarketingChromeGuardLoader />
     </>
-    </SafeSearchParamsProvider>
   );
 }
