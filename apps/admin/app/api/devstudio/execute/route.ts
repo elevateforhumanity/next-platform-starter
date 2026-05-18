@@ -2925,7 +2925,7 @@ ${registryContext}
             const reason = aiErr instanceof Error ? aiErr.message : String(aiErr);
             logger.error('[devstudio/execute] AI call failed', { reason });
             write(`\x1b[31m✗  AI routing failed: ${reason}\x1b[0m`);
-            write('   Check that GROQ_API_KEY or GEMINI_API_KEY is set in AWS Secrets Manager.');
+            write('   Check that GROQ_API_KEY or GEMINI_API_KEY is set in Admin → Integrations → AI Providers.');
             write('\x1b[90m─────────────────────────────────────\x1b[0m');
             return;
           }

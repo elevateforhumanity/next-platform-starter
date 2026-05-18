@@ -85,7 +85,7 @@ async function getLiveDataSnapshot(db: SupabaseClient) {
       .eq('payment_status', 'paid')
       .gte('created_at', monthStart),
     db.from('program_enrollments').select('amount_paid_cents').eq('payment_status', 'paid'),
-    db.from('certificates').select('id', { count: 'exact', head: true }),
+    db.from('program_completion_certificates').select('id', { count: 'exact', head: true }),
     db
       .from('programs')
       .select('id', { count: 'exact', head: true })
@@ -115,7 +115,7 @@ LIVE DATA SNAPSHOT (as of ${now.toLocaleString('en-US', { timeZone: 'America/Ind
 - Total students in system: ${totalStudents.count ?? 0}
 - Revenue this month: $${(revenueMonthCents / 100).toLocaleString('en-US')}
 - Revenue all time: $${(revenueAllCents / 100).toLocaleString('en-US')}
-- Certificates issued (all time): ${certs.count ?? 0}
+- Certificates issued (all time): ${certs.count ?? 0} (program completion certificates)
 - Unpublished programs (blocking enrollment): ${unpublishedPrograms.count ?? 0}
 - Inactive learners (no activity 3+ days): ${inactiveCount.count ?? 0}
 `.trim();
@@ -139,10 +139,10 @@ export async function POST(req: NextRequest) {
       .select('role')
       .eq('id', user.id)
       .maybeSingle();
-    // Restrict to super_admin only — matches the page-level guard on
-    // apps/admin/app/admin/ai-console/page.tsx. staff/admin roles must
-    // not access live DB snapshots or the Q&A assistant directly.
-    if (profile?.role !== 'super_admin') {
+    // Allow admin, super_admin, and staff — all have legitimate need for
+    // operational Q&A. The live data snapshot contains counts only (no PII).
+    const ALLOWED_ROLES = ['admin', 'super_admin', 'staff', 'org_admin'];
+    if (!profile?.role || !ALLOWED_ROLES.includes(profile.role)) {
       return safeError('Forbidden', 403);
     }
 
