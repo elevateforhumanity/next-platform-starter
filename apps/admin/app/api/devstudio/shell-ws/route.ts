@@ -16,16 +16,23 @@
 import { type NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { hydrateProcessEnv } from '@/lib/secrets';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const SHELL_WS_URL   = process.env.STUDIO_SHELL_WS_URL ?? '';
-const SHELL_SECRET   = process.env.STUDIO_SHELL_SECRET ?? '';
+// Do NOT read secrets at module load time — process.env is empty until
+// hydrateProcessEnv() runs at request time. Read inside the handler.
 
 export async function GET(request: NextRequest) {
-  // 'api' tier (60 req/min) — fails open when Redis is absent so the shell
-  // stays usable without Upstash configured. The real gate is apiRequireAdmin.
+  // Hydrate runtime secrets first so STUDIO_SHELL_WS_URL / STUDIO_SHELL_SECRET
+  // are available from platform_secrets before we check them.
+  await hydrateProcessEnv();
+
+  // Read at request time — after hydrateProcessEnv()
+  const SHELL_WS_URL = process.env.STUDIO_SHELL_WS_URL ?? '';
+  const SHELL_SECRET = process.env.STUDIO_SHELL_SECRET ?? '';
+
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -35,7 +42,7 @@ export async function GET(request: NextRequest) {
 
   if (!SHELL_WS_URL) {
     return new Response(
-      JSON.stringify({ error: 'Studio shell not configured. Set STUDIO_SHELL_WS_URL.' }),
+      JSON.stringify({ error: 'Studio shell not configured. Set STUDIO_SHELL_WS_URL in Admin → Integrations.' }),
       { status: 503, headers: { 'Content-Type': 'application/json' } },
     );
   }

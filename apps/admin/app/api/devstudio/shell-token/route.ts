@@ -11,27 +11,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import { createHmac } from 'crypto';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const TOKEN_SECRET = process.env.STUDIO_TOKEN_SECRET ?? process.env.STUDIO_SHELL_SECRET ?? '';
+// Do NOT read secret at module load time — process.env is empty until
+// hydrateProcessEnv() runs at request time. Read inside the handler.
 const TTL_MS = 60_000;
 
 export async function POST(request: NextRequest) {
-  // 'api' tier (60 req/min) — fails open when Redis is absent so the shell
-  // stays usable without Upstash configured. The real gate is apiRequireAdmin.
-  // 'strict' would fail closed (503) when Redis is unavailable.
+  // Hydrate runtime secrets first so STUDIO_TOKEN_SECRET / STUDIO_SHELL_SECRET
+  // are available from platform_secrets before we check them.
+  await hydrateProcessEnv();
+
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
+  // Read at request time — after hydrateProcessEnv()
+  const TOKEN_SECRET = process.env.STUDIO_TOKEN_SECRET ?? process.env.STUDIO_SHELL_SECRET ?? '';
+
   if (!TOKEN_SECRET) {
     return NextResponse.json(
-      { error: 'STUDIO_TOKEN_SECRET not configured' },
+      { error: 'STUDIO_TOKEN_SECRET not configured — set STUDIO_SHELL_SECRET in Admin → Integrations' },
       { status: 503 },
     );
   }
