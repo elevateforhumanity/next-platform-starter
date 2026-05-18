@@ -45,6 +45,10 @@ interface ZoomMeeting {
  * Get Zoom access token using Server-to-Server OAuth
  */
 async function getZoomAccessToken(): Promise<string> {
+  // Ensure secrets are loaded from platform_secrets / SSM
+  const { hydrateProcessEnv } = await import('@/lib/secrets');
+  await hydrateProcessEnv();
+
   // Check if we have a cached token
   const cachedToken = process.env.ZOOM_ACCESS_TOKEN;
   if (cachedToken) {
