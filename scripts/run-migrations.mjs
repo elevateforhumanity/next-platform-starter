@@ -10,6 +10,7 @@
  */
 
 import { readFileSync } from 'fs';
+import { resolve } from 'path';
 
 const BASE = process.env.SUPABASE_URL;
 const SKEY = process.env.SUPABASE_SERVICE_ROLE_KEY;

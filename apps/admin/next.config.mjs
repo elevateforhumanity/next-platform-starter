@@ -37,6 +37,29 @@ const adminConfig = {
     return config;
   },
 
+  // Canonical route redirects — legacy aliases forward to canonical paths
+  async redirects() {
+    return [
+      // document-center → documents (canonical)
+      {
+        source: '/admin/document-center',
+        destination: '/admin/documents',
+        permanent: true,
+      },
+      {
+        source: '/admin/document-center/:path*',
+        destination: '/admin/documents/:path*',
+        permanent: true,
+      },
+      // submissions/org → settings/organization-profile (canonical)
+      {
+        source: '/admin/submissions/org',
+        destination: '/admin/settings/organization-profile',
+        permanent: false, // soft redirect — submissions/org has its own content
+      },
+    ];
+  },
+
   // Standalone output — trace files from repo root so shared lib/ etc. are included
   outputFileTracingRoot: ROOT,
 

@@ -503,12 +503,161 @@ export const CLONE_LICENSES: StoreProduct[] = [
   },
 ];
 
+// Grant & Contract Automation Suite Add-ons
+export const GRANT_CONTRACT_ADDONS: StoreProduct[] = [
+  {
+    id: 'grant-contract-suite',
+    slug: 'grant-contract-automation-suite',
+    name: 'Grant & Contract Automation Suite',
+    description: 'Upload, extract, prefill, sign, and export state contracts and grant applications — powered by verified org data.',
+    longDescription:
+      'The complete pipeline for workforce development organizations managing state agency contracts, federal grant applications, MOUs, and compliance forms. Upload any template, auto-detect fields, prefill from your verified org profile (EIN, UEI, CAGE, SAM), generate humanized narratives, get admin approval, collect signatures, and export signed PDFs or DOCX — all in one audited workflow.',
+    price: 1499,
+    billingType: 'one_time',
+    licenseType: 'single',
+    appsIncluded: ['compliance', 'admin'],
+    features: [
+      'Upload state/agency contracts, grant forms, MOUs, RFPs',
+      'AI field extraction (PDF, DOCX, scanned images)',
+      'Auto-prefill from org profile — EIN, UEI, CAGE, SAM status',
+      'Humanized narrative generation (workforce/grant language)',
+      'Missing-field detection — never hallucinated',
+      'Admin approval required before export',
+      'Draw or typed digital signatures with audit trail',
+      'Export signed PDF and DOCX',
+      'Full audit log — actor, timestamp, before/after values',
+      'SAM.gov opportunity search and import',
+    ],
+    idealFor: [
+      'Workforce development nonprofits',
+      'WIOA and DOL grant applicants',
+      'Organizations managing state agency contracts',
+      'Training providers with compliance requirements',
+    ],
+    requiresApproval: false,
+  },
+  {
+    id: 'agency-template-autofill',
+    slug: 'agency-template-autofill',
+    name: 'Agency Template Autofill',
+    description: 'Instantly prefill any state or federal agency form from your verified organization profile.',
+    longDescription:
+      'Stop re-entering your EIN, UEI, CAGE code, SAM status, address, and authorized signatory on every form. Upload any agency template and the system maps fields to your verified org facts automatically. Supports PDF, DOCX, and scanned forms.',
+    price: 499,
+    billingType: 'one_time',
+    licenseType: 'single',
+    appsIncluded: ['compliance', 'admin'],
+    features: [
+      'One-click prefill from org profile',
+      'Supports PDF, DOCX, and OCR-scanned forms',
+      'Field confidence scoring',
+      'Manual override for any field',
+      'Saves approved values for reuse',
+      'Works with all state and federal agency templates',
+    ],
+    idealFor: [
+      'Organizations filing frequent agency forms',
+      'Grant administrators',
+      'Compliance officers',
+    ],
+    requiresApproval: false,
+  },
+  {
+    id: 'proposal-writing-assistant',
+    slug: 'proposal-writing-assistant',
+    name: 'Proposal Writing Assistant',
+    description: 'AI-assisted grant narrative writing grounded in your org data — no hallucinations, no fluff.',
+    longDescription:
+      'Generate workforce development grant narratives that sound like a real operator wrote them. The assistant pulls from your verified facts, prior applications, program descriptions, and workforce metrics before generating any text. Missing data is flagged — never invented. Supports executive summaries, problem statements, project descriptions, goals, evaluation plans, sustainability plans, and budget narratives.',
+    price: 799,
+    billingType: 'one_time',
+    licenseType: 'single',
+    appsIncluded: ['compliance', 'admin'],
+    features: [
+      'Grounded in verified org facts — not generic AI',
+      'Workforce/grant language modes',
+      'Flags unverifiable claims with [VERIFY]',
+      'Humanization controls — more formal, more concise, founder voice',
+      'Admin approval required before any field is exported',
+      'Supports 7 narrative modes: grant_persuasive, workforce_development, state_contract_formal, agency_compliance, partner_mou, budget_justification, executive_summary',
+      'Improves existing drafts — not just blank generation',
+    ],
+    idealFor: [
+      'Grant writers at nonprofits',
+      'Program directors writing federal applications',
+      'Organizations applying to DOL, HHS, SBA, USDA',
+    ],
+    requiresApproval: false,
+  },
+  {
+    id: 'compliance-signature-automation',
+    slug: 'compliance-signature-automation',
+    name: 'Compliance & Signature Automation',
+    description: 'Digital signatures, MOU management, and compliance document workflows with full audit trail.',
+    longDescription:
+      'Manage the full lifecycle of compliance documents — MOUs, partner agreements, enrollment agreements, instructor agreements, and state contracts. Collect draw or typed signatures, track countersignatures, and maintain a complete audit trail for every document action.',
+    price: 699,
+    billingType: 'one_time',
+    licenseType: 'single',
+    appsIncluded: ['compliance', 'admin'],
+    features: [
+      'Draw or typed digital signatures',
+      'MOU creation, distribution, and countersignature',
+      'Partner agreement management',
+      'Enrollment and instructor agreement workflows',
+      'Signature audit trail — IP, timestamp, actor',
+      'Expiration tracking and renewal alerts',
+      'Bulk signature link generation',
+      'PDF export of signed documents',
+    ],
+    idealFor: [
+      'Organizations managing partner MOUs',
+      'Training providers with instructor agreements',
+      'Programs requiring enrollment agreements',
+      'State contract signatories',
+    ],
+    requiresApproval: false,
+  },
+  {
+    id: 'workforce-grant-ops-hub',
+    slug: 'workforce-grant-operations-hub',
+    name: 'Workforce Grant Operations Hub',
+    description: 'Full grant operations platform — opportunity search, application pipeline, org profile, facts vault, and submission tracking.',
+    longDescription:
+      'Everything a workforce development organization needs to run a professional grant operation. Search SAM.gov and Grants.gov for opportunities, manage your application pipeline from draft to submission, maintain a verified facts vault, track past performance, and generate compliance reports — all connected to your org profile for instant prefill.',
+    price: 1999,
+    billingType: 'one_time',
+    licenseType: 'single',
+    appsIncluded: ['compliance', 'admin'],
+    features: [
+      'SAM.gov opportunity search and import',
+      'Grant application pipeline (draft → review → approved → submitted → awarded)',
+      'Organization profile — legal name, EIN, UEI, CAGE, SAM, signatory',
+      'Facts vault — approved atomic facts for all prefill',
+      'Content library — approved prose blocks for reuse',
+      'Past performance tracker for capability statements',
+      'Attachment library — W-9, insurance, audit, board list',
+      'Submission tracking with deadline alerts',
+      'Grant revenue reporting',
+      'WIOA and DOL compliance reporting',
+    ],
+    idealFor: [
+      'Workforce development nonprofits with active grant portfolios',
+      'WIOA service providers',
+      'Organizations applying to multiple federal agencies',
+      'Grant managers needing a single source of truth',
+    ],
+    requiresApproval: false,
+  },
+];
+
 // Helper Functions
 /** All purchasable products across every catalog. */
 export const ALL_PRODUCTS: StoreProduct[] = [
   ...STORE_PRODUCTS,
   ...COMMUNITY_ADDONS,
   ...CLONE_LICENSES,
+  ...GRANT_CONTRACT_ADDONS,
 ];
 
 export function getProductBySlug(slug: string): StoreProduct | undefined {
