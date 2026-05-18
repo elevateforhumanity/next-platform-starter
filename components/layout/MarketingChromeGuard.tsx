@@ -16,6 +16,8 @@ const APP_ROUTE_PREFIXES = [
   '/program-holder',
   '/provider',
   '/proctor',
+  '/case-manager',
+  '/workforce-board',
   '/login',
   '/signup',
   '/reset-password',
