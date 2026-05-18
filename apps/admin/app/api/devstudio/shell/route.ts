@@ -28,6 +28,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
 export const dynamic = 'force-dynamic';
@@ -59,6 +60,7 @@ function ghHeaders(): HeadersInit {
 // ── POST — dispatch a workflow ────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
+  await hydrateProcessEnv(); // ensure GITHUB_TOKEN from platform_secrets is available
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
@@ -121,6 +123,7 @@ export async function POST(request: NextRequest) {
 // ── GET — poll a workflow run ─────────────────────────────────────────────────
 
 export async function GET(request: NextRequest) {
+  await hydrateProcessEnv(); // ensure GITHUB_TOKEN from platform_secrets is available
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 

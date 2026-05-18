@@ -43,7 +43,7 @@ import { logger } from '@/lib/logger';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { getAdminUrl } from '@/lib/utils/siteUrl';
+import { getAdminUrl, getSiteUrl } from '@/lib/utils/siteUrl';
 import { getKnowledgeGraphContext, PLATFORM_DEBT, SYSTEMS } from '@/lib/platform/knowledge-graph';
 import { getSystemRegistryContext, requiresConfirmation } from '@/lib/platform/system-registry';
 import { emitAiAction, emitMigrationEvent } from '@/lib/platform/events';
@@ -1153,48 +1153,54 @@ async function executeAction(
     }
 
     case 'generate_video': {
-      write('\x1b[33m⚙  Generating video...\x1b[0m');
-      write(`   Script: ${String(args.script).substring(0, 80)}...`);
+      // /api/video/generate does not exist — route was never created.
+      // Queue a job_queue entry instead so it can be processed async.
+      write('\x1b[33m⚙  Queuing video generation job...\x1b[0m');
       try {
-        const res = await fetch(`${baseUrl}/api/video/generate`, {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({ script: args.script, lesson_id: args.lesson_id }),
+        const { error: jqErr } = await sb.from('job_queue').insert({
+          job_type: 'generate_video',
+          payload: { script: args.script, lesson_id: args.lesson_id },
+          status: 'pending',
+          run_after: new Date().toISOString(),
         });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok) {
-          write('\x1b[32m✓  Video generation queued\x1b[0m');
-          if (data.jobId) write(`   Job ID: ${data.jobId}`);
-          write(`   View at: /admin/video-manager`);
-        } else {
-          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
-        }
-      } catch {
-        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+        if (jqErr) { write(`\x1b[31m✗  ${jqErr.message}\x1b[0m`); break; }
+        write('\x1b[32m✓  Video generation job queued\x1b[0m');
+        write('   Job will be processed by the background worker');
+        write('   View at: /admin/video-manager');
+      } catch (err) {
+        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`);
       }
       break;
     }
 
     case 'run_report': {
-      const type = args.type as string;
+      // /api/admin/reports/* does not exist — route was never created.
+      // Pull live counts directly from DB as a summary report.
+      const type = (args.type as string) || 'overview';
       write(`\x1b[33m⚙  Running ${type} report...\x1b[0m`);
       try {
-        const res = await fetch(`${baseUrl}/api/admin/reports/${type}`, { headers });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok) {
-          write(`\x1b[32m✓  ${type} report complete\x1b[0m`);
-          // Print top-level keys as summary
-          for (const [k, v] of Object.entries(data)) {
-            if (typeof v === 'number' || typeof v === 'string') {
-              write(`   ${k}: ${v}`);
-            }
-          }
-          write(`   Full report: /admin/reports/${type}`);
-        } else {
-          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
-        }
-      } catch {
-        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+        const [
+          { count: totalApps },
+          { count: activeEnrollments },
+          { count: totalStudents },
+          { count: totalCerts },
+          { count: activePrograms },
+        ] = await Promise.all([
+          sb.from('applications').select('id', { count: 'exact', head: true }),
+          sb.from('program_enrollments').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+          sb.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'student'),
+          sb.from('program_completion_certificates').select('id', { count: 'exact', head: true }),
+          sb.from('programs').select('id', { count: 'exact', head: true }).eq('is_active', true).neq('status', 'archived'),
+        ]);
+        write(`\x1b[32m✓  Platform overview report\x1b[0m`);
+        write(`   Applications:       ${totalApps ?? 0}`);
+        write(`   Active enrollments: ${activeEnrollments ?? 0}`);
+        write(`   Students:           ${totalStudents ?? 0}`);
+        write(`   Certificates:       ${totalCerts ?? 0}`);
+        write(`   Active programs:    ${activePrograms ?? 0}`);
+        write(`   Full dashboard: /admin`);
+      } catch (err) {
+        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Report failed'}\x1b[0m`);
       }
       break;
     }
@@ -1221,83 +1227,74 @@ async function executeAction(
     }
 
     case 'list_applications': {
-      const status = (args.status as string) || 'all';
-      const limit = (args.limit as number) || 20;
-      write(`\x1b[33m⚙  Loading applications (${status})...\x1b[0m`);
+      const statusFilter = (args.status as string) || 'all';
+      const limit = Math.min((args.limit as number) || 20, 100);
+      write(`\x1b[33m⚙  Loading applications (${statusFilter})...\x1b[0m`);
       try {
-        const url = new URL(`${baseUrl}/api/admin/applications`);
-        if (status !== 'all') url.searchParams.set('status', status);
-        url.searchParams.set('limit', String(limit));
-        const res = await fetch(url.toString(), { headers });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok) {
-          const apps = Array.isArray(data) ? data : (data.applications ?? []);
-          write(`\x1b[32m✓  ${apps.length} application(s)\x1b[0m`);
-          apps.slice(0, 10).forEach((a: Record<string, unknown>) => {
-            write(
-              `   ${a.first_name ?? ''} ${a.last_name ?? ''} — ${a.status ?? ''} — ${a.program_interest ?? ''}`,
-            );
-          });
-          if (apps.length > 10) write(`   ... and ${apps.length - 10} more`);
-          write(`   Full list: /admin/applications`);
-        } else {
-          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
-        }
-      } catch {
-        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+        // Direct DB query — avoids self-fetch auth issues and wrong response key
+        let q = sb.from('applications')
+          .select('id, first_name, last_name, email, status, program_interest, submitted_at, created_at')
+          .order('created_at', { ascending: false })
+          .limit(limit);
+        if (statusFilter !== 'all') q = q.eq('status', statusFilter);
+        const { data: apps, error: appsErr, count } = await q;
+        if (appsErr) { write(`\x1b[31m✗  ${appsErr.message}\x1b[0m`); break; }
+        write(`\x1b[32m✓  ${apps?.length ?? 0} application(s)${statusFilter !== 'all' ? ' with status: ' + statusFilter : ''}\x1b[0m`);
+        (apps ?? []).slice(0, 10).forEach((a) => {
+          write(`   ${a.first_name ?? ''} ${a.last_name ?? ''} — ${a.status ?? ''} — ${a.program_interest ?? ''} — ${a.email ?? ''}`);
+        });
+        if ((apps?.length ?? 0) > 10) write(`   ... and ${(apps?.length ?? 0) - 10} more`);
+        write(`   Full list: /admin/applications`);
+      } catch (err) {
+        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Query failed'}\x1b[0m`);
       }
       break;
     }
 
     case 'list_students': {
-      const limit = (args.limit as number) || 20;
+      const limit = Math.min((args.limit as number) || 20, 100);
+      const search = (args.search as string) || '';
       write('\x1b[33m⚙  Loading students...\x1b[0m');
       try {
-        const url = new URL(`${baseUrl}/api/admin/students`);
-        if (args.search) url.searchParams.set('search', args.search as string);
-        url.searchParams.set('limit', String(limit));
-        const res = await fetch(url.toString(), { headers });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok) {
-          const students = Array.isArray(data) ? data : (data.students ?? []);
-          write(`\x1b[32m✓  ${students.length} student(s)\x1b[0m`);
-          students.slice(0, 10).forEach((s: Record<string, unknown>) => {
-            write(`   ${s.first_name ?? ''} ${s.last_name ?? ''} — ${s.email ?? ''}`);
-          });
-          if (students.length > 10) write(`   ... and ${students.length - 10} more`);
-          write(`   Full list: /admin/students`);
-        } else {
-          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
-        }
-      } catch {
-        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+        let q = sb.from('profiles')
+          .select('id, full_name, email, role, created_at')
+          .eq('role', 'student')
+          .order('created_at', { ascending: false })
+          .limit(limit);
+        if (search) q = q.ilike('full_name', `%${search}%`);
+        const { data: students, error: studErr } = await q;
+        if (studErr) { write(`\x1b[31m✗  ${studErr.message}\x1b[0m`); break; }
+        write(`\x1b[32m✓  ${students?.length ?? 0} student(s)\x1b[0m`);
+        (students ?? []).slice(0, 10).forEach((s) => {
+          write(`   ${s.full_name ?? ''} — ${s.email ?? ''}`);
+        });
+        if ((students?.length ?? 0) > 10) write(`   ... and ${(students?.length ?? 0) - 10} more`);
+        write(`   Full list: /admin/students`);
+      } catch (err) {
+        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Query failed'}\x1b[0m`);
       }
       break;
     }
 
     case 'list_enrollments': {
-      const limit = (args.limit as number) || 20;
+      const limit = Math.min((args.limit as number) || 20, 100);
       write('\x1b[33m⚙  Loading enrollments...\x1b[0m');
       try {
-        const url = new URL(`${baseUrl}/api/admin/enrollments`);
-        url.searchParams.set('limit', String(limit));
-        const res = await fetch(url.toString(), { headers });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok) {
-          const enrollments = Array.isArray(data) ? data : (data.enrollments ?? []);
-          write(`\x1b[32m✓  ${enrollments.length} enrollment(s)\x1b[0m`);
-          enrollments.slice(0, 10).forEach((e: Record<string, unknown>) => {
-            write(
-              `   ${e.student_name ?? e.user_id ?? ''} — ${e.program_name ?? e.program_id ?? ''} — ${e.status ?? ''}`,
-            );
-          });
-          if (enrollments.length > 10) write(`   ... and ${enrollments.length - 10} more`);
-          write(`   Full list: /admin/enrollments`);
-        } else {
-          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
-        }
-      } catch {
-        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+        const { data: enrollments, error: enrErr } = await sb
+          .from('program_enrollments')
+          .select('id, user_id, program_id, program_slug, status, progress_percent, enrolled_at')
+          .order('enrolled_at', { ascending: false })
+          .limit(limit);
+        if (enrErr) { write(`\x1b[31m✗  ${enrErr.message}\x1b[0m`); break; }
+        write(`\x1b[32m✓  ${enrollments?.length ?? 0} enrollment(s)\x1b[0m`);
+        (enrollments ?? []).slice(0, 10).forEach((e: any) => {
+          const prog = e.program_slug ?? e.program_id ?? '';
+          write(`   ${e.user_id} — ${prog} — ${e.status ?? ''} — ${e.progress_percent ?? 0}%`);
+        });
+        if ((enrollments?.length ?? 0) > 10) write(`   ... and ${(enrollments?.length ?? 0) - 10} more`);
+        write(`   Full list: /admin/enrollments`);
+      } catch (err) {
+        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Query failed'}\x1b[0m`);
       }
       break;
     }
@@ -1696,7 +1693,7 @@ async function executeAction(
       try {
         const body: Record<string, unknown> = {};
         if (args.course_id) body.course_id = args.course_id;
-        const res = await fetch(`${baseUrl}/api/autopilots/build-courses`, {
+        const res = await fetch(`${getSiteUrl()}/api/autopilots/build-courses`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', cookie: authHeader },
           body: JSON.stringify(body),
@@ -1741,7 +1738,7 @@ async function executeAction(
       write(`🚀  Triggering ${service} deploy...`);
       logger.info('[devstudio/execute] deploy_autopilot', { service });
       try {
-        const res = await fetch(`${baseUrl}/api/autopilots/deploy`, {
+        const res = await fetch(`${getSiteUrl()}/api/autopilots/deploy`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', cookie: authHeader },
           body: JSON.stringify({ service }),
@@ -1774,7 +1771,7 @@ async function executeAction(
       write('🧪  Running autopilot test suite...');
       logger.info('[devstudio/execute] run_tests → POST /api/autopilots/run-tests');
       try {
-        const res = await fetch(`${baseUrl}/api/autopilots/run-tests`, {
+        const res = await fetch(`${getSiteUrl()}/api/autopilots/run-tests`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', cookie: authHeader },
           body: JSON.stringify({}),
@@ -1852,34 +1849,37 @@ async function executeAction(
     case 'list_at_risk': {
       write('\x1b[33m⚙  Fetching at-risk learners…\x1b[0m');
       try {
-        const res = await fetch(`${baseUrl}/api/admin/at-risk`, { headers });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok) {
-          const items = data.learners ?? data.students ?? data.data ?? [];
-          write(`\x1b[32m✓  ${items.length} at-risk learner(s)\x1b[0m`);
-          items.slice(0, 10).forEach((s: Record<string, unknown>) =>
-            write(`   • ${s.full_name ?? s.email ?? s.id} — ${s.reason ?? s.status ?? ''}`));
-          if (items.length > 10) write(`   … and ${items.length - 10} more`);
-          write(`   View at: /admin/at-risk`);
-        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
-      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+        const { data: items, error: arErr } = await sb
+          .from('at_risk_learners')
+          .select('user_id, full_name, email, program_slug, days_inactive, risk_level, progress_percent')
+          .order('days_inactive', { ascending: false })
+          .limit(20);
+        if (arErr) { write(`\x1b[31m✗  ${arErr.message}\x1b[0m`); break; }
+        write(`\x1b[32m✓  ${items?.length ?? 0} at-risk learner(s)\x1b[0m`);
+        (items ?? []).slice(0, 10).forEach((s) =>
+          write(`   • ${s.full_name ?? s.email ?? s.user_id} — ${s.program_slug ?? ''} — ${s.days_inactive ?? 0}d inactive (${s.risk_level ?? ''})`));
+        if ((items?.length ?? 0) > 10) write(`   … and ${(items?.length ?? 0) - 10} more`);
+        write(`   View at: /admin/at-risk`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
       break;
     }
 
     // ── Completions ───────────────────────────────────────────────────────
     case 'list_completions': {
+      const limit = Math.min((args.limit as number) || 20, 100);
       write('\x1b[33m⚙  Fetching completions…\x1b[0m');
       try {
-        const res = await fetch(`${baseUrl}/api/admin/completions?limit=${args.limit ?? 20}`, { headers });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok) {
-          const items = data.completions ?? data.data ?? [];
-          write(`\x1b[32m✓  ${items.length} completion(s)\x1b[0m`);
-          items.slice(0, 10).forEach((c: Record<string, unknown>) =>
-            write(`   • ${c.student_name ?? c.user_id} — ${c.program_name ?? c.course_name ?? ''}`));
-          write(`   View at: /admin/completions`);
-        } else write(`\x1b[31m✗  ${data.error ?? res.statusText}\x1b[0m`);
-      } catch { write('\x1b[31m✗  Network error\x1b[0m'); }
+        const { data: items, error: compErr } = await sb
+          .from('program_completion_certificates')
+          .select('id, user_id, program_id, issued_at')
+          .order('issued_at', { ascending: false })
+          .limit(limit);
+        if (compErr) { write(`\x1b[31m✗  ${compErr.message}\x1b[0m`); break; }
+        write(`\x1b[32m✓  ${items?.length ?? 0} completion(s)\x1b[0m`);
+        (items ?? []).slice(0, 10).forEach((c: any) =>
+          write(`   • user:${c.user_id?.slice(0,8)}… — program:${c.program_id?.slice(0,8)}… — ${c.issued_at?.slice(0,10)}`));
+        write(`   View at: /admin/completions`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
       break;
     }
 
