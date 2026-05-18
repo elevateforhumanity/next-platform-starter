@@ -466,7 +466,7 @@ export async function POST(req: Request) {
                   required_hours: programHours[programSlug] || 1500,
                   transfer_hours: 0,
                   rapids_status: 'pending',
-<parameter name="new_str">                  started_at: new Date().toISOString(),
+                  started_at: new Date().toISOString(),
                 },
                 {
                   onConflict: 'student_id,program_id',
