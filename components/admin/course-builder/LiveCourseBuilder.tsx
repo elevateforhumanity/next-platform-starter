@@ -11,7 +11,7 @@
  * leaving the page. The preview iframe refreshes after each save.
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   ChevronDown,
   ChevronRight,
@@ -124,8 +124,6 @@ export default function LiveCourseBuilder({
   const [addingLessonToModule, setAddingLessonToModule] = useState<string | null>(null);
   const [newLessonTitle, setNewLessonTitle] = useState('');
   const [quickAddLoading, setQuickAddLoading] = useState(false);
-
-  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // Derived: selected lesson
   const selectedLesson =
@@ -542,18 +540,30 @@ export default function LiveCourseBuilder({
         {/* Preview iframe / Edit panel */}
         <div className="flex-1 overflow-hidden flex">
           {/* Preview */}
-          <div className={`flex-1 ${activeTab === 'preview' ? 'block' : 'hidden'}`}>
+          <div className={`flex-1 ${activeTab === 'preview' ? 'flex' : 'hidden'} flex-col items-center justify-center bg-slate-50`}>
             {previewUrl ? (
-              <iframe
-                key={previewKey}
-                ref={iframeRef}
-                src={previewUrl}
-                className="w-full h-full border-0"
-                title="Lesson preview"
-              />
+              <div className="text-center space-y-4 p-8 max-w-sm">
+                <Eye className="w-10 h-10 text-slate-300 mx-auto" />
+                <p className="text-sm font-semibold text-slate-700">{selectedLesson?.title}</p>
+                <p className="text-xs text-slate-400">
+                  Live preview opens in the LMS — you must be logged in as a student or use an incognito session.
+                </p>
+                <a
+                  href={previewUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-brand-red-600 hover:bg-brand-red-700 text-white text-sm font-semibold rounded-lg transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" /> Open Lesson Preview
+                </a>
+                <p className="text-[10px] text-slate-400">
+                  {previewUrl}
+                </p>
+              </div>
             ) : (
-              <div className="flex items-center justify-center h-full text-slate-400 text-sm">
-                Select a lesson to preview
+              <div className="flex flex-col items-center gap-3 text-slate-400">
+                <Eye className="w-8 h-8 opacity-30" />
+                <p className="text-sm">Select a lesson to preview</p>
               </div>
             )}
           </div>
@@ -563,6 +573,7 @@ export default function LiveCourseBuilder({
             <div className="flex-1 overflow-y-auto p-6 bg-white">
               <EditPanel
                 lesson={selectedLesson}
+                courseId={courseId}
                 courseTitle={courseTitle}
                 moduleTitle={selectedModule?.title}
                 title={editTitle}
@@ -605,6 +616,7 @@ export default function LiveCourseBuilder({
           <div className="flex-1 overflow-y-auto p-4">
             <EditPanel
               lesson={selectedLesson}
+              courseId={courseId}
               courseTitle={courseTitle}
               moduleTitle={selectedModule?.title}
               title={editTitle}
@@ -646,6 +658,7 @@ export default function LiveCourseBuilder({
 
 interface EditPanelProps {
   lesson: Lesson | null;
+  courseId: string;
   courseTitle: string;
   moduleTitle?: string;
   title: string;
@@ -669,6 +682,7 @@ interface EditPanelProps {
 
 function EditPanel({
   lesson,
+  courseId,
   courseTitle,
   moduleTitle,
   title,
@@ -936,7 +950,7 @@ function EditPanel({
           Quick Links
         </p>
         <a
-          href={`/admin/courses/${lesson.id}/quizzes`}
+          href={`/admin/curriculum/${courseId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-xs text-slate-500 hover:text-slate-700 py-1"

@@ -11,10 +11,13 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import OpenAI from 'openai';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
+import { isGeminiConfigured } from '@/lib/gemini-client';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { hydrateProcessEnv } from '@/lib/secrets';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -29,6 +32,7 @@ const BodySchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  await hydrateProcessEnv();
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
@@ -39,8 +43,6 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) return safeError('Invalid input', 400);
 
   const { lessonTitle, courseTitle, moduleTitle, existingContent, instruction } = parsed.data;
-
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   const isExpand = !!existingContent?.trim();
   const systemPrompt = `You are an expert instructional designer for Elevate for Humanity, a workforce development LMS.
@@ -69,19 +71,44 @@ Lesson: ${lessonTitle}
 ${instruction ? `Instruction: ${instruction}\n\n` : ''}Write complete lesson content for this lesson. Make it practical and specific to the course topic.`;
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt },
-      ],
-      temperature: 0.4,
-      max_tokens: 1500,
-    });
+    let content = '';
 
-    const content = completion.choices[0]?.message?.content?.trim() ?? '';
+    if (isGroqConfigured()) {
+      const groq = getGroqClient();
+      const res = await groq.chat.completions.create({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
+        temperature: 0.4,
+        max_tokens: 1500,
+      });
+      content = res.choices[0]?.message?.content?.trim() ?? '';
+    } else if (isGeminiConfigured()) {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash', systemInstruction: systemPrompt });
+      const result = await model.generateContent(userPrompt);
+      content = result.response.text().trim();
+    } else if (process.env.OPENAI_API_KEY) {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
+          temperature: 0.4,
+          max_tokens: 1500,
+        }),
+      });
+      if (!res.ok) {
+        const errBody = await res.text();
+        return safeError(`AI service unavailable (HTTP ${res.status}): ${errBody.slice(0, 200)}`, 502);
+      }
+      const data = await res.json() as { choices?: Array<{ message?: { content?: string } }> };
+      content = data.choices?.[0]?.message?.content?.trim() ?? '';
+    } else {
+      return safeError('No AI provider configured. Set GROQ_API_KEY or GEMINI_API_KEY in platform secrets.', 503);
+    }
+
     if (!content) return safeError('AI returned empty content', 500);
-
     return NextResponse.json({ ok: true, content });
   } catch (err) {
     return safeInternalError(err, 'AI generation failed');

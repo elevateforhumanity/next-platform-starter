@@ -18,7 +18,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
 export const dynamic = 'force-dynamic';
 
-function slugify(title: string): string {
+function slugify(title: string, suffix?: string): string {
   return (
     title
       .toLowerCase()
