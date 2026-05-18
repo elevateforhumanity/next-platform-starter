@@ -1,8 +1,29 @@
 # Pending Migrations
 
-**Status as of 2026-06-02:** All app-referenced tables and forward reconciliation
-columns have been applied to the live DB directly via the exec_sql RPC.
-See the "Applied" section below. Only the 6 deferred tables remain unapplied.
+**Status as of 2026-07-01:** Four new migrations added this session. Apply in order.
+Previous migrations from 2026-06-02 remain pending (see below).
+
+## Apply Now — New (2026-07-01)
+
+Run these in Supabase Dashboard → SQL Editor **in order**:
+
+| # | File | What it does |
+|---|---|---|
+| 1 | `20260701000001_fix_completion_trigger_table_split.sql` | Fixes certificate triggers for `course_lessons`-based programs (were silently no-oping) |
+| 2 | `20260701000002_stale_application_archive.sql` | Adds `archive_stale_applications()` DB function used by cron |
+| 3 | `20260701000003_program_integrity_view.sql` | Creates `program_integrity` view (scores programs 0-100) |
+| 4 | `20260630000006_program_cleanup.sql` | Archives AI test artifacts, deduplicates program slugs, activates canonical programs, adds `short_description`/`display_order`/`category` columns |
+
+After applying #4, verify:
+```sql
+SELECT status, count(*) FROM public.programs GROUP BY status ORDER BY status;
+-- Should show: active ~80+, archived ~30+, no test slugs in active set
+
+SELECT column_name FROM information_schema.columns
+WHERE table_schema = 'public' AND table_name = 'programs'
+  AND column_name IN ('short_description', 'display_order', 'category');
+-- Should return 3 rows
+```
 
 19 tables declared in migration files that do not yet exist in the live DB.
 Assessed by app code reference count. Apply in Supabase Dashboard SQL Editor.
