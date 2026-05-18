@@ -98,8 +98,19 @@ const SERVICE_GROUPS: ServiceGroup[] = [
     ],
   },
   {
+    // Primary AI providers — devstudio, AI assistant, and onboarding flows use these.
+    // GROQ_API_KEY is the primary (free tier available). GEMINI_API_KEY is the fallback.
+    // At least one must be set for natural-language commands to work.
+    label: 'AI Providers (required for AI features)',
+    keys: [
+      'GROQ_API_KEY',
+      'GEMINI_API_KEY',
+      'AI_PROVIDER',
+    ],
+  },
+  {
     label: 'OpenAI',
-    keys: ['OPENAI_API_KEY', 'AI_PROVIDER', 'AI_IMAGE_PROVIDER'],
+    keys: ['OPENAI_API_KEY', 'AI_IMAGE_PROVIDER'],
   },
   {
     label: 'Azure OpenAI',
@@ -207,7 +218,6 @@ const SERVICE_GROUPS: ServiceGroup[] = [
       'PEXELS_API_KEY',
       'PIXABAY_API_KEY',
       'UNSPLASH_ACCESS_KEY',
-      'GEMINI_API_KEY',
       'DURABLE_API_KEY',
     ],
   },

@@ -818,23 +818,6 @@ const TOOLS: unknown[] = [
   {
     type: 'function',
     function: {
-      name: 'query_database',
-      description: 'Run a read-only query against the live Supabase database. Use for counts, lookups, and data inspection. Never runs destructive SQL.',
-      parameters: {
-        type: 'object',
-        properties: {
-          table:  { type: 'string', description: 'Table name to query (e.g. programs, courses, profiles, applications)' },
-          filter: { type: 'string', description: 'Optional filter description (e.g. "status=published", "role=admin")' },
-          limit:  { type: 'number', description: 'Max rows to return (default 20, max 100)' },
-          select: { type: 'string', description: 'Columns to select (default: all)' },
-        },
-        required: ['table'],
-      },
-    },
-  },
-  {
-    type: 'function',
-    function: {
       name: 'audit_system',
       description: 'Run a full platform audit — checks schema gaps, auth gaps, env var gaps, orphaned routes, and DB integrity.',
       parameters: {
@@ -1101,7 +1084,6 @@ const KEYWORD_MAP: Array<{ patterns: RegExp; action: string; args?: Record<strin
   { patterns: /recent.*commit|git.*log|commit.*history/i,                  action: 'repo_commits',        args: {} },
   { patterns: /scan.*route|route.*scan|list.*route|show.*route/i,          action: 'scan_routes',         args: { filter: 'all' } },
   { patterns: /no.*auth.*route|missing.*auth|auth.*gap/i,                  action: 'scan_routes',         args: { filter: 'no-auth' } },
-  { patterns: /query.*db|query.*database|db.*query|database.*query/i,      action: 'query_database',      args: { table: 'programs' } },
   { patterns: /audit.*system|system.*audit|full.*audit|run.*audit/i,       action: 'audit_system',        args: { scope: 'all' } },
   { patterns: /broken.*link|inspect.*link|link.*check|dead.*link/i,        action: 'inspect_links',       args: {} },
   { patterns: /run.*migration|apply.*migration|migration.*apply/i,         action: 'run_migration',       args: { confirm: false } },
@@ -2382,59 +2364,6 @@ async function executeAction(
       break;
     }
 
-    // ── Query database ────────────────────────────────────────────────────
-    case 'query_database': {
-      // Allowlist: only operational/non-PII tables the AI console legitimately needs.
-      // Excluded: profiles, auth.users, wioa_cases, payment_records, documents,
-      //           stripe_*, tax_*, ssn_*, any table with PII or financial data.
-      const ALLOWED_TABLES = new Set([
-        'programs', 'courses', 'course_modules', 'course_lessons', 'curriculum_lessons',
-        'modules', 'applications', 'program_enrollments', 'enrollments',
-        'lesson_progress', 'checkpoint_scores', 'program_completion_certificates',
-        'compliance_items', 'compliance_alerts', 'completion_rules',
-        'job_queue', 'platform_events', 'ai_audit_log', 'devstudio_chat_log',
-        'at_risk_learners', 'program_integrity',
-      ]);
-      const table  = String(args.table ?? 'programs');
-      const limit  = Math.min(Number(args.limit ?? 20), 100);
-      const select = String(args.select ?? '*');
-      const filter = String(args.filter ?? '');
-
-      if (!ALLOWED_TABLES.has(table)) {
-        write(`\x1b[31m✗  Table "${table}" is not in the AI query allowlist.\x1b[0m`);
-        write(`   Allowed tables: ${[...ALLOWED_TABLES].join(', ')}`);
-        break;
-      }
-
-      write(`\x1b[33m⚙  Querying ${table}…\x1b[0m`);
-      try {
-        const { createClient } = await import('@supabase/supabase-js');
-        const sb = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SERVICE_ROLE_KEY!,
-        );
-        let q = sb.from(table).select(select).limit(limit);
-        // Parse simple filter: "status=published"
-        if (filter) {
-          const [col, val] = filter.split('=').map(s => s.trim());
-          if (col && val) q = q.eq(col, val) as typeof q;
-        }
-        const { data, error, count } = await q;
-        if (error) { write(`\x1b[31m✗  ${error.message}\x1b[0m`); break; }
-        write(`\x1b[32m✓  ${data?.length ?? 0} rows returned from ${table}\x1b[0m`);
-        (data ?? []).slice(0, 20).forEach((row: Record<string, unknown>) => {
-          const preview = Object.entries(row)
-            .slice(0, 4)
-            .map(([k, v]) => `${k}=${JSON.stringify(v)}`)
-            .join('  ');
-          write(`   ${preview}`);
-        });
-        if ((data?.length ?? 0) > 20) write(`   … and ${(data?.length ?? 0) - 20} more rows`);
-        if (count !== null) write(`   Total count: ${count}`);
-      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Query failed'}\x1b[0m`); }
-      break;
-    }
-
     // ── Audit system ──────────────────────────────────────────────────────
     case 'audit_system': {
       const scope = String(args.scope ?? 'all');
@@ -2980,7 +2909,6 @@ ${registryContext}
 - Save a decision/finding → save_memory
 - List migrations → list_pending_migrations
 - Apply migration → run_migration (deployer tier — confirm first)
-- DB query → query_database
 - Route scan → scan_routes
 - Auth gaps → audit_system
 - QA check → smoke_test`;

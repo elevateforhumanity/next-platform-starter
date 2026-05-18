@@ -1,4 +1,5 @@
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { hydrateProcessEnv } from '@/lib/secrets';
 
 export type HealthStatus = 'healthy' | 'degraded' | 'down';
 
@@ -35,6 +36,9 @@ async function timeCheck<T>(
 
 export async function getSiteHealthSnapshot(): Promise<SiteHealthSnapshot> {
   const db = await requireAdminClient();
+
+  // Hydrate runtime secrets so AI provider keys are visible in process.env
+  await hydrateProcessEnv();
 
   const checks: Promise<HealthCheckResult>[] = [
     // Real DB ping
@@ -189,6 +193,45 @@ export async function getSiteHealthSnapshot(): Promise<SiteHealthSnapshot> {
         detail: configured
           ? 'RESEND_API_KEY present'
           : 'RESEND_API_KEY not set — inbound email disabled',
+      };
+    })(),
+
+    // AI provider — devstudio, AI assistant, and onboarding flows depend on this.
+    // Groq is primary (free tier); Gemini is fallback. At least one must be set.
+    (async () => {
+      const hasGroq = Boolean(process.env.GROQ_API_KEY);
+      const hasGemini = Boolean(process.env.GEMINI_API_KEY);
+      const hasOpenAI = Boolean(process.env.OPENAI_API_KEY);
+
+      if (hasGroq) {
+        return {
+          name: 'AI Provider',
+          status: 'healthy' as HealthStatus,
+          latencyMs: null,
+          detail: 'Groq (primary)',
+        };
+      }
+      if (hasGemini) {
+        return {
+          name: 'AI Provider',
+          status: 'healthy' as HealthStatus,
+          latencyMs: null,
+          detail: 'Gemini (fallback)',
+        };
+      }
+      if (hasOpenAI) {
+        return {
+          name: 'AI Provider',
+          status: 'healthy' as HealthStatus,
+          latencyMs: null,
+          detail: 'OpenAI',
+        };
+      }
+      return {
+        name: 'AI Provider',
+        status: 'down' as HealthStatus,
+        latencyMs: null,
+        detail: 'No AI key set — set GROQ_API_KEY or GEMINI_API_KEY in Integrations → AI Providers',
       };
     })(),
   ];

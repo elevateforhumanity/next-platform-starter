@@ -2,38 +2,10 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { isAppRoute, isAdminRoute } from '@/lib/layout/app-routes';
 
-const APP_ROUTE_PREFIXES = [
-  '/lms',
-  '/learner',
-  '/admin',
-  '/instructor',
-  '/employer',
-  '/employer-portal',
-  '/partner',
-  '/staff-portal',
-  '/mentor',
-  '/program-holder',
-  '/provider',
-  '/proctor',
-  '/case-manager',
-  '/workforce-board',
-  '/admin-login',
-  '/login',
-  '/signup',
-  '/reset-password',
-  '/verify',
-];
-
-function isAppRoute(pathname: string) {
-  return APP_ROUTE_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(prefix + '/'),
-  );
-}
-
-function isAdminRoute(pathname: string) {
-  return pathname === '/admin' || pathname.startsWith('/admin/');
-}
+// Route list lives in lib/layout/app-routes.ts — single source of truth.
+// Do not duplicate the prefix list here or in app/layout.tsx.
 
 export default function MarketingChromeGuard() {
   const pathname = usePathname();

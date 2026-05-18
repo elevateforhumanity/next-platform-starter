@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
+import ToasterClient from '@/components/ui/ToasterClient';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -30,7 +31,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+        {/* Single Toaster mount for the entire admin app — covers /admin, /instructor, /login */}
+        <ToasterClient />
+      </body>
     </html>
   );
 }
