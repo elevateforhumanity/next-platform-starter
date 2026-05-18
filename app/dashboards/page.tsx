@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Portals & Dashboards | Elevate For Humanity',
+  title: 'Portals & Dashboards',
   description: 'Access student portal, employer portal, LMS, staff portal, and more.',
 };
 

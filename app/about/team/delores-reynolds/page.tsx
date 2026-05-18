@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Delores Reynolds | Our Team | Elevate for Humanity',
+  title: 'Delores Reynolds | Our Team',
   description: 'Delores Reynolds — Social Media & Digital Engagement Coordinator at Elevate for Humanity Career & Technical Institute.',
 };
 

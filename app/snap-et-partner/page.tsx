@@ -17,7 +17,7 @@ import {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'SNAP E&T Partner Agency | Elevate for Humanity',
+  title: 'SNAP E&T Partner Agency',
   description:
     "Refer SNAP recipients to ETPL-approved career training through Indiana's SNAP E&T (IMPACT) program. Case manager and agency partner information.",
   alternates: { canonical: 'https://www.elevateforhumanity.org/snap-et-partner' },

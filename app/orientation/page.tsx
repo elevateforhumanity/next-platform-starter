@@ -8,7 +8,7 @@ import OrientationFormClient from './OrientationFormClient';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/orientation' },
-  title: 'Orientation | Elevate For Humanity',
+  title: 'Orientation',
   description:
     'Attend a virtual orientation session to learn about our career training programs, funding eligibility, and what to expect as a student.',
 };

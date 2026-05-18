@@ -22,7 +22,7 @@ import {
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Workforce Board Dashboard | Elevate For Humanity',
+  title: 'Workforce Board Dashboard',
   description:
     'Program oversight, performance metrics, and compliance monitoring for workforce development.',
 };

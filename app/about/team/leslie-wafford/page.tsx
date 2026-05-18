@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Leslie Wafford | Our Team | Elevate for Humanity',
+  title: 'Leslie Wafford | Our Team',
   description: 'Leslie Wafford — Director of Community Services at Elevate for Humanity Career & Technical Institute.',
 };
 

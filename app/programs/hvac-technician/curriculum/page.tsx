@@ -12,7 +12,7 @@ function getCourseBySlug(slug: string) {
 }
 
 export const metadata: Metadata = {
-  title: 'HVAC Technician Curriculum | Elevate for Humanity',
+  title: 'HVAC Technician Curriculum',
   description:
     'Full HVAC Technician course curriculum — 16 modules, 88 lessons. EPA 608 Universal, OSHA 30, Residential HVAC Certifications, CPR, Rise Up.',
 };

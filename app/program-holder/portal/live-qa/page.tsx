@@ -8,7 +8,7 @@ import { Video, Calendar, Users, Clock, ChevronRight, Plus } from 'lucide-react'
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: 'Live Q&A | Program Holder Portal | Elevate for Humanity',
+  title: 'Live Q&A | Program Holder Portal',
   robots: { index: false, follow: false },
 };
 

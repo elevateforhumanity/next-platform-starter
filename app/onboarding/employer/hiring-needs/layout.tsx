@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Hiring Needs Assessment | Elevate for Humanity',
+  title: 'Hiring Needs Assessment',
   description: 'Tell us about your hiring needs to match with trained graduates.',
 };
 

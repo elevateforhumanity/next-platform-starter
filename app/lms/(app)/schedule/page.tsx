@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/lms/schedule',
   },
-  title: 'Schedule | LMS | Elevate For Humanity',
+  title: 'Schedule | LMS',
   description: 'View your learning schedule and upcoming events.',
 };
 

@@ -7,7 +7,7 @@ export const dynamic = 'force-static';
 const CANONICAL = 'https://www.elevateforhumanity.org/skilled-trades-training-indiana';
 
 export const metadata: Metadata = {
-  title: 'Skilled Trades Training Indiana | HVAC, Electrical & Apprenticeships | Elevate for Humanity',
+  title: 'Skilled Trades Training Indiana | HVAC, Electrical & Apprenticeships',
   description:
     'HVAC, electrical, construction, OSHA, and EPA 608 training in Indiana. DOL-registered apprenticeship sponsor. Employer OJT and work-based learning pathway available.',
   alternates: { canonical: CANONICAL },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Skilled Trades Training Indiana | Elevate for Humanity',
+    title: 'Skilled Trades Training Indiana',
     description: 'HVAC, electrical, construction, OSHA, and EPA 608 training in Indiana. DOL-registered apprenticeship sponsor.',
     images: ['/og-default.webp'],
   },

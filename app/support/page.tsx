@@ -9,7 +9,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { LiveChatSupport } from '@/components/LiveChatSupport';
 
 export const metadata: Metadata = {
-  title: 'Support | Elevate For Humanity',
+  title: 'Support',
   description: 'Get help with your account, programs, or technical issues.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/support',

@@ -16,7 +16,7 @@ import {
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'LMS Governance and Course Standards | Elevate For Humanity',
+  title: 'LMS Governance and Course Standards',
   description:
     'Course creation standards, instructor requirements, certification policies, and learning management governance.',
 };

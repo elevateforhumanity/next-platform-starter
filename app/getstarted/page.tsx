@@ -9,7 +9,7 @@ import CanonicalHero from '@/components/hero/CanonicalHero';
 import HeroMediaFrame from '@/components/hero/HeroMediaFrame';
 
 export const metadata: Metadata = {
-  title: 'Get Started | Elevate For Humanity',
+  title: 'Get Started',
   description:
     'Start your career training today. Check eligibility for WIOA, WRG, or apprenticeship funding.',
   alternates: {

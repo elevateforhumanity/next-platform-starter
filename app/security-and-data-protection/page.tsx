@@ -16,7 +16,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Security & Data Protection Statement | Elevate For Humanity',
+  title: 'Security & Data Protection Statement',
   description:
     'How Elevate for Humanity collects, stores, protects, and handles participant data. Covers FERPA, WIOA, encryption, access controls, and your rights as a data subject.',
   alternates: {

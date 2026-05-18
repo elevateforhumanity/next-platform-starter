@@ -6,7 +6,7 @@ import { DollarSign, Phone, XCircle } from 'lucide-react';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Payment Cancelled | Elevate for Humanity',
+  title: 'Payment Cancelled',
   description: 'Your payment was cancelled. You can try again anytime.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/payment/cancel',

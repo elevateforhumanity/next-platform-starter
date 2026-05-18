@@ -5,7 +5,7 @@ import { getDb } from '@/lib/lms/api';
 import { Search, ArrowRight, HelpCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Help Center | Elevate For Humanity',
+  title: 'Help Center',
   description:
     'Browse our knowledge base for answers to common questions about enrollment, programs, funding, and more.',
   alternates: {

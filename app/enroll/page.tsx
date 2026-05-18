@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Complete Your Application | Elevate For Humanity',
+  title: 'Complete Your Application',
   description:
     'Enter your contact information, location, and program selection. If funded, we ask eligibility questions. If self-pay, we focus on enrollment and payment options.',
 };

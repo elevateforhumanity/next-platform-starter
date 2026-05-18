@@ -21,7 +21,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { resolveApprenticeProgram } from '@/lib/compliance/apprenticeship';
 
 export const metadata: Metadata = {
-  title: 'Competency Progress | Apprentice Portal | Elevate for Humanity',
+  title: 'Competency Progress | Apprentice Portal',
   description:
     'Track your Indiana DOL barber apprenticeship Work Process Schedule (WPS) competencies — cuts, shaves, chemical services, sanitation, and RTI theory.',
 };

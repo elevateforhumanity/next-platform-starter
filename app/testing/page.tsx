@@ -16,7 +16,7 @@ import { ACTIVE_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-
 import { getProvidersForAmount } from '@/lib/bnpl-config';
 
 export const metadata: Metadata = {
-  title: 'Testing & Credential Exams | Elevate for Humanity',
+  title: 'Testing & Credential Exams',
   description:
     'Workforce credential exams and proctor-supervised certification testing. Certiport, EPA 608, ACT WorkKeys/NCRC, NHA, and NRF Rise Up exams available through authorized testing partnerships.',
   alternates: {

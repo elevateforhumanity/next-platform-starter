@@ -4,7 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Scale, Shield, Users, Accessibility, FileText, ArrowRight, Phone } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Equal Opportunity Employer | Elevate for Humanity',
+  title: 'Equal Opportunity Employer',
   description:
     'Elevate for Humanity is an equal opportunity employer and training provider. Learn about our non-discrimination policies and commitment to equal access.',
   alternates: {

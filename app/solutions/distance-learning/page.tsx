@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Monitor, Globe, Clock, CheckCircle, Wifi, Award, Users } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Distance Learning Solutions | Elevate for Humanity',
+  title: 'Distance Learning Solutions',
   description:
     'Fully online career training with industry credentials. Self-paced and cohort-based programs for remote learners, career changers, and working adults.',
 };

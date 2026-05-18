@@ -5,7 +5,7 @@ import PartnerPageClient from './PartnerPageClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Barbershop Partner Program | Indiana Barber Apprenticeship | Elevate for Humanity',
+  title: 'Barbershop Partner Program | Indiana Barber Apprenticeship',
   description:
     'Become a worksite partner for the Indiana Barber Apprenticeship program. Host apprentices, develop talent, and grow your team with structured training support.',
   alternates: {

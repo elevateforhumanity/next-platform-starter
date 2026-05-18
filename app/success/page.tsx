@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Success Stories | Elevate for Humanity',
+  title: 'Success Stories',
   description:
     'Real outcomes from students who transformed their lives through our training programs.',
   alternates: {

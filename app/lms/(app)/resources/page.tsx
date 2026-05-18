@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/lms/resources',
   },
-  title: 'Student Resources | Elevate For Humanity',
+  title: 'Student Resources',
   description: 'Access career resources, study materials, job search tools, and support services.',
 };
 

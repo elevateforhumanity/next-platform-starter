@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/onboarding',
   },
-  title: 'Welcome & Onboarding | Elevate For Humanity',
+  title: 'Welcome & Onboarding',
   description: 'Get started with your training journey.',
 };
 

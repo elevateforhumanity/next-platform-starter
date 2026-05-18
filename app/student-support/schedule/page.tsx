@@ -6,7 +6,7 @@ import { ChevronRight } from 'lucide-react';
 import ScheduleForm from './ScheduleForm';
 
 export const metadata: Metadata = {
-  title: 'Schedule Appointment | Student Support | Elevate For Humanity',
+  title: 'Schedule Appointment | Student Support',
   description: 'Schedule an appointment with a student advisor.',
   robots: { index: false, follow: false },
 };

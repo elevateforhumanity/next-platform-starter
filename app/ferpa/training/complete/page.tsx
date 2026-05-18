@@ -8,7 +8,7 @@ import FERPATrainingForm from '@/components/compliance/FERPATrainingForm';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Complete FERPA Training | Elevate For Humanity',
+  title: 'Complete FERPA Training',
   description: 'Complete your required FERPA training and certification',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/ferpa/training/complete',

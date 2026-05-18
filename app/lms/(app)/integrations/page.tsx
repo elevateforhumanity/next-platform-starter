@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/lms/integrations',
   },
-  title: 'Integrations | Elevate For Humanity',
+  title: 'Integrations',
   description: 'Connect with external learning tools and platforms.',
 };
 

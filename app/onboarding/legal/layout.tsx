@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Legal Agreements | Elevate for Humanity',
+  title: 'Legal Agreements',
   description: 'Review and accept legal agreements.',
 };
 

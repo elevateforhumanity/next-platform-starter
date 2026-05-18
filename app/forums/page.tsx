@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { MessageSquare, Users, TrendingUp, ArrowRight, Clock, Search, Plus } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Community Forums | Elevate for Humanity',
+  title: 'Community Forums',
   description:
     'Connect with fellow students, alumni, and instructors. Ask questions, share experiences, and support each other.',
   alternates: {

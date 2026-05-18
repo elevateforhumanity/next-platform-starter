@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Shield, FileText, BarChart3, ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Partner Compliance Tools | Elevate for Humanity',
+  title: 'Partner Compliance Tools',
   description: 'Compliance tools and resources for training partners.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/partners/compliance',

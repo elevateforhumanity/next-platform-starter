@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'My Licenses | Elevate For Humanity',
+  title: 'My Licenses',
   description: 'View and manage your software licenses.',
 };
 

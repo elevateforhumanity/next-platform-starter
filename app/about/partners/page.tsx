@@ -8,7 +8,7 @@ import { createPublicClient } from '@/lib/supabase/server';
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: 'Our Partners | Elevate for Humanity',
+  title: 'Our Partners',
   description:
     'Elevate for Humanity partners with workforce boards, employers, credential providers, and government agencies to deliver funded credential pathway programs in Indianapolis.',
   alternates: {

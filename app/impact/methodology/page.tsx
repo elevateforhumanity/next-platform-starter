@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, BarChart2, CheckCircle, Users, BookOpen, Award } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Impact Methodology | Elevate for Humanity',
+  title: 'Impact Methodology',
   description:
     'How Elevate for Humanity measures workforce outcomes — enrollment, completion, credential attainment, and employment placement.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/impact/methodology' },

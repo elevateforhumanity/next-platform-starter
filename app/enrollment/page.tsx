@@ -22,7 +22,7 @@ import heroBanners from '@/content/heroBanners';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Enrollment | Elevate for Humanity',
+  title: 'Enrollment',
   description:
     'Enroll in workforce training programs. HVAC, CNA, CDL, Barber, and more. WIOA and Workforce Ready Grant eligible. Financing available for those who do not qualify.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/enrollment' },

@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Carl Brown | Our Team | Elevate for Humanity',
+  title: 'Carl Brown | Our Team',
   description: 'Carl Brown — CDL Instructor & Commercial Truck Driver at Elevate for Humanity Career & Technical Institute.',
 };
 

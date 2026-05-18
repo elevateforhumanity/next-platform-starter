@@ -8,7 +8,7 @@ import { createPublicClient } from '@/lib/supabase/server';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Webinars | Elevate For Humanity',
+  title: 'Webinars',
   description:
     'Join live webinars and watch recordings on career development, industry trends, and skill building.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/webinars' },

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/offline',
   },
-  title: 'Offline | Elevate For Humanity',
+  title: 'Offline',
   description: 'Explore Offline and discover opportunities for career growth and development.',
 };
 

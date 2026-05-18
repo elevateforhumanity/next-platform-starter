@@ -8,7 +8,7 @@ import ReelsFeed from '@/components/reels/ReelsFeed';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Reels | Elevate for Humanity',
+  title: 'Reels',
   description:
     'Short-form videos about career training, success stories, and workforce development from Elevate for Humanity.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/reels' },

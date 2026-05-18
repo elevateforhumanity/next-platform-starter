@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { CheckCircle, Truck, Phone, Clock, FileText, Users } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: "Application Received | CDL Training | Elevate for Humanity",
+  title: "Application Received | CDL Training",
   description: "Your CDL Training application has been received. Here's what happens next.",
 };
 

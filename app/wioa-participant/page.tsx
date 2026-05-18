@@ -6,7 +6,7 @@ import { CheckCircle, ArrowRight, FileText, Phone, ShieldCheck } from 'lucide-re
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'WIOA Participant — Funded Workforce Training | Elevate for Humanity',
+  title: 'WIOA Participant — Funded Workforce Training',
   description: 'Workforce Innovation and Opportunity Act (WIOA) funded training through Elevate for Humanity. Check eligibility, enroll in a program, and get placed into employment.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/wioa-participant' },
 };

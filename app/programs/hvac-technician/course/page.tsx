@@ -13,7 +13,7 @@ import { resolveHvacCourseId } from '@/lib/courses/resolvers';
 import HvacCourseHome from './HvacCourseHome';
 
 export const metadata: Metadata = {
-  title: 'HVAC Technician Course | Elevate for Humanity',
+  title: 'HVAC Technician Course',
   description: 'HVAC Technician: 16 modules, 94 lessons. EPA 608, OSHA 30, hands-on labs.',
 };
 

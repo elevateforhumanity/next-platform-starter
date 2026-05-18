@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Notification Settings | Account | Elevate For Humanity',
+  title: 'Notification Settings | Account',
   description: 'Manage your notification preferences.',
 };
 

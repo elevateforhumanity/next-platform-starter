@@ -8,7 +8,7 @@ import { CreditCard, DollarSign } from 'lucide-react';
 import { ACTIVE_BNPL_PROVIDERS, BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 
 export const metadata: Metadata = {
-  title: 'Payment Options | Elevate for Humanity',
+  title: 'Payment Options',
   description: 'See tuition payment options: pay in full, payment plans, or buy now pay later.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/pay',

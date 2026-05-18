@@ -4,7 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { BookOpen, CheckCircle, Award, Clock, ArrowRight, Phone } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Instructor Training | Elevate for Humanity',
+  title: 'Instructor Training',
   description:
     'Training resources and requirements for Elevate for Humanity instructors. Covers pedagogy, compliance, platform usage, and professional development.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/resources/instructor-training' },

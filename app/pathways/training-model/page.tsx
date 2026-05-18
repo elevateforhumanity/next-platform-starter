@@ -7,7 +7,7 @@ import PathwayCTA from '@/components/pathways/PathwayCTA';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'How Training Works | Career Pathways | Elevate for Humanity',
+  title: 'How Training Works | Career Pathways',
   description:
     'What a student day looks like at Elevate: classroom instruction, hands-on labs, online learning, progress tracking, and how we support you from enrollment to employment.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/pathways/training-model' },

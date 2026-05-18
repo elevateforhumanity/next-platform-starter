@@ -6,7 +6,7 @@ import { AlertTriangle, Check, X, Building2, Shield, ArrowRight, Ban } from 'luc
 import { LicenseDemo } from '@/components/store/LicenseDemo';
 
 export const metadata: Metadata = {
-  title: 'Restricted Source-Use License | Elevate for Humanity',
+  title: 'Restricted Source-Use License',
   description: 'Enterprise-only internal deployment license. Source code access for internal use only. No ownership. No rebranding. No resale. No credentials.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/licenses/source-use',

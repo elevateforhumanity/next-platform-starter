@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { CreditCard, Shield, Smartphone, DollarSign, Circle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Elevate Card | Elevate For Humanity',
+  title: 'Elevate Card',
   description: 'Get your Elevate prepaid card for receiving refunds and stipends.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/card',

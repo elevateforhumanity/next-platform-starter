@@ -21,7 +21,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Staff Portal | Elevate For Humanity',
+  title: 'Staff Portal',
   description: 'Manage students, track enrollments, and access administrative tools.',
 };
 

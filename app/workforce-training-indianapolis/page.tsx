@@ -7,12 +7,12 @@ export const dynamic = 'force-static';
 const CANONICAL = 'https://www.elevateforhumanity.org/workforce-training-indianapolis';
 
 export const metadata: Metadata = {
-  title: 'Workforce Training Indianapolis | Funded Career Certifications | Elevate for Humanity',
+  title: 'Workforce Training Indianapolis | Funded Career Certifications',
   description:
     'Indianapolis workforce training provider. WIOA-funded, state-approved career certifications in healthcare, skilled trades, and IT. Serving Indianapolis and all of Indiana.',
   alternates: { canonical: CANONICAL },
   openGraph: {
-    title: 'Workforce Training Indianapolis | Elevate for Humanity',
+    title: 'Workforce Training Indianapolis',
     description:
       'WIOA-funded career training in healthcare, skilled trades, and IT. Indianapolis and Indiana-wide. Employer placement pipeline. Agency referrals accepted.',
     url: CANONICAL,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Workforce Training Indianapolis | Elevate for Humanity',
+    title: 'Workforce Training Indianapolis',
     description: 'WIOA-funded career training in healthcare, skilled trades, and IT. Indianapolis and Indiana-wide.',
     images: ['/og-default.webp'],
   },

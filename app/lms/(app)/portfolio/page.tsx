@@ -23,7 +23,7 @@ import { PointsDisplay } from '@/components/gamification/PointsDisplay';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'My Portfolio | LMS | Elevate For Humanity',
+  title: 'My Portfolio | LMS',
   description: 'Showcase your achievements, certificates, and completed projects.',
 };
 

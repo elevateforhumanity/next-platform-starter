@@ -82,7 +82,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
   if (!post) {
     return {
-      title: 'Post Not Found | Elevate For Humanity',
+      title: 'Post Not Found',
     };
   }
 

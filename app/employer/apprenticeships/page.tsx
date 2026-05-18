@@ -7,7 +7,7 @@ import { Plus, Briefcase, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Apprenticeships | Employer Portal | Elevate For Humanity',
+  title: 'Apprenticeships | Employer Portal',
   description: 'Manage your DOL-registered apprenticeship programs.',
   robots: { index: false, follow: false },
 };

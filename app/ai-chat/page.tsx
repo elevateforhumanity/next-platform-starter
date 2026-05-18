@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/ai-chat',
   },
-  title: 'AI Learning Assistant | Elevate For Humanity',
+  title: 'AI Learning Assistant',
   description:
     'Get instant help with your courses, career questions, and learning journey from our AI-powered assistant.',
 };

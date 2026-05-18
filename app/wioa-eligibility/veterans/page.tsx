@@ -6,7 +6,7 @@ import { Shield, Award, Briefcase, Phone, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'WIOA Eligibility for Veterans | Elevate for Humanity',
+  title: 'WIOA Eligibility for Veterans',
   description:
     'Priority WIOA funding for military veterans. Free career training with expedited services.',
 };

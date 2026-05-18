@@ -7,7 +7,7 @@ import { Clock } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'My Calendar | Elevate For Humanity',
+  title: 'My Calendar',
   description: 'View your personal schedule, enrolled classes, and important dates.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/calendar',

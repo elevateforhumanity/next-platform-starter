@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { AlertTriangle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Error | Elevate for Humanity',
+  title: 'Error',
   description: 'Something went wrong.',
 };
 

@@ -5,7 +5,7 @@ import { DollarSign, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'WIOA Eligibility - Public Assistance Recipients | Elevate for Humanity',
+  title: 'WIOA Eligibility - Public Assistance Recipients',
   description:
     'SNAP, TANF, and SSI recipients automatically qualify for WIOA-funded career training.',
 };

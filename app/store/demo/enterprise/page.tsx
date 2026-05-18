@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, ArrowLeft, Play, Building2, DollarSign, Briefcase, FileSearch, Bot, Download, Clock } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Enterprise Infrastructure Demo | Elevate for Humanity',
+  title: 'Enterprise Infrastructure Demo',
   description: 'See how workforce boards and regional systems govern programs without direct operational involvement.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/demo/enterprise',

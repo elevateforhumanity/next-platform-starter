@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 
 export const metadata: Metadata = {
-  title: 'Technology Partnership | Elevate for Humanity',
+  title: 'Technology Partnership',
   description:
     'Technology integration partnerships with Elevate for Humanity. LMS integrations, API access, and workforce data interoperability for workforce development systems.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/technology' },

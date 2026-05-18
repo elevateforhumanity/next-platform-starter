@@ -11,7 +11,7 @@ import {
 CheckCircle, } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Order Successful | Elevate for Humanity',
+  title: 'Order Successful',
   description: 'Your order has been completed successfully.',
   robots: { index: false, follow: false },
 };

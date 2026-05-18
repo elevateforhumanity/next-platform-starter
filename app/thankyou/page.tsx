@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/thankyou',
   },
-  title: 'Thank You | Elevate For Humanity',
+  title: 'Thank You',
   description: 'Thank you for your submission. We will be in touch soon.',
 };
 

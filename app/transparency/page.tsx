@@ -5,7 +5,7 @@ import { FileText } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Transparency | Elevate For Humanity',
+  title: 'Transparency',
   description: 'Our commitment to transparency. View our outcomes, financials, and impact data.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/transparency',

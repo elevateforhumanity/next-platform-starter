@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: ' | Elevate for Humanity',
+  title: '',
   description: 'Elevate for Humanity - Career training and workforce development programs.',
 };
 

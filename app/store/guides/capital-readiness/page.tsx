@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Capital Readiness Guide | Elevate for Humanity',
+    title: 'Capital Readiness Guide',
     description: 'Build institutional trust, pass audits, and scale responsibly.',
     images: [`${siteUrl}/images/og/capital-readiness-guide.jpg`],
   },

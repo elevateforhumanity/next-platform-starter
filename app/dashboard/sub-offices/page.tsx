@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ChevronRight, Building2, Users, MapPin, Phone, Mail, Plus, Edit } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Sub-Offices | Dashboard | Elevate For Humanity',
+  title: 'Sub-Offices | Dashboard',
   description: 'Manage regional training locations.',
   robots: { index: false, follow: false },
 };

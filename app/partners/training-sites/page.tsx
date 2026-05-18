@@ -31,7 +31,7 @@ import { createClient } from '@/lib/supabase/server';
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
-  title: 'Employer Partners & Training Sites | Elevate for Humanity',
+  title: 'Employer Partners & Training Sites',
   description:
     'Approved employer training sites where Elevate for Humanity students complete hands-on training, OJT hours, clinical rotations, and apprenticeship placements across Indiana.',
   alternates: { canonical: `${SITE_URL}/partners/training-sites` },

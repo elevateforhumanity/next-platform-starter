@@ -5,7 +5,7 @@ import EstheticianPartnerPageClient from './PartnerPageClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Esthetician Apprenticeship — Host a Spa or Salon Partner | Elevate for Humanity',
+  title: 'Esthetician Apprenticeship — Host a Spa or Salon Partner',
   description: 'Host an esthetician apprentice at your spa or salon. DOL Registered Apprenticeship. Elevate handles theory training, DOL compliance, and IPLA licensing coordination.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/esthetician-apprenticeship' },
 };

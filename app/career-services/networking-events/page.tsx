@@ -11,7 +11,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Networking Events | Career Services | Elevate for Humanity',
+  title: 'Networking Events | Career Services',
   description:
     'Connect with employers at career fairs, industry meetups, and networking events. Build relationships that lead to job opportunities.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-services/networking-events' },

@@ -7,12 +7,12 @@ import PathwayCTA from '@/components/pathways/PathwayCTA';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const metadata: Metadata = {
-  title: 'Career Pathways & Workforce Infrastructure | Elevate for Humanity',
+  title: 'Career Pathways & Workforce Infrastructure',
   description:
     'Elevate for Humanity operates a structured career pathway system: eligibility screening, credentialed training, apprenticeship, employer placement, and advancement tracking across healthcare, trades, CDL, barbering, and technology.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/pathways' },
   openGraph: {
-    title: 'Career Pathways & Workforce Infrastructure | Elevate for Humanity',
+    title: 'Career Pathways & Workforce Infrastructure',
     description:
       'Structured workforce pathways: screening, training, credentialing, apprenticeship, placement, and advancement.',
     url: 'https://www.elevateforhumanity.org/pathways',

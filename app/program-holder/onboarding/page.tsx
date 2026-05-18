@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/program-holder/onboarding',
   },
-  title: 'Program Holder Onboarding | Elevate For Humanity',
+  title: 'Program Holder Onboarding',
   description:
     'Complete training and orientation for program holders to manage students and access the platform.',
 };

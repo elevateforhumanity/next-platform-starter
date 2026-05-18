@@ -6,7 +6,7 @@ import { BookOpen } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: 'Video Tutorials | Help Center | Elevate For Humanity',
+  title: 'Video Tutorials | Help Center',
   description:
     'Step-by-step video tutorials to help you get the most out of the Elevate LMS platform.',
 };

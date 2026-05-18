@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/lms/learning-paths',
   },
-  title: 'Learning Paths | Elevate For Humanity',
+  title: 'Learning Paths',
   description: 'Explore structured learning paths for career development.',
 };
 

@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'K-12 Workforce Readiness Solutions | Elevate for Humanity',
+  title: 'K-12 Workforce Readiness Solutions',
   description:
     'Career and technical education partnerships for K-12 schools. Industry-recognized credentials, dual enrollment, and work-based learning programs aligned to Indiana state standards.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/solutions/k12' },

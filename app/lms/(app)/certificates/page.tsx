@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/lms/certificates',
   },
-  title: 'Certificates | Elevate For Humanity',
+  title: 'Certificates',
   description: 'View and download your earned certificates.',
 };
 

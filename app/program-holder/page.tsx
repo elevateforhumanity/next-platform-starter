@@ -5,7 +5,7 @@ import { ShieldCheck, BarChart3, Users, BookOpen, Download } from 'lucide-react'
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Operate Workforce Programs | Elevate for Humanity',
+  title: 'Operate Workforce Programs',
   description:
     'A complete workforce operating system for agencies, employers, and partners to deliver training, track outcomes, and meet compliance requirements — without building the infrastructure.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/program-holder' },

@@ -8,12 +8,12 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
-  title: 'Building Services Technician Apprenticeship | Elevate for Humanity',
+  title: 'Building Services Technician Apprenticeship',
   description:
     'DOL Registered Apprenticeship in building services and facility maintenance. 6000-hour program with paid OJT. Multi-story window cleaning, building maintenance, and more.',
   alternates: { canonical: `${SITE_URL}/programs/building-services-technician` },
   openGraph: {
-    title: 'Building Services Technician Apprenticeship | Elevate for Humanity',
+    title: 'Building Services Technician Apprenticeship',
     description:
       'DOL Registered Apprenticeship in building services and facility maintenance. 6000-hour program with paid OJT.',
     url: `${SITE_URL}/programs/building-services-technician`,

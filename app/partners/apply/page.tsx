@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import ProviderApplicationForm from './ProviderApplicationForm';
 
 export const metadata: Metadata = {
-  title: 'Apply to Join the Network | Elevate for Humanity',
+  title: 'Apply to Join the Network',
   description:
     'Apply to become an approved training provider, workforce agency, or employer partner on the Elevate workforce hub.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/apply' },

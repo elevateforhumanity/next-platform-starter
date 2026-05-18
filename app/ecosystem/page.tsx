@@ -17,14 +17,14 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Our Ecosystem | Elevate For Humanity',
+  title: 'Our Ecosystem',
   description:
     'Explore the Elevate ecosystem connecting learners, employers, training providers, and workforce boards.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/ecosystem',
   },
   openGraph: {
-    title: 'Our Ecosystem | Elevate For Humanity',
+    title: 'Our Ecosystem',
     description:
       'A connected network of learners, employers, and partners working together to transform careers.',
     url: 'https://www.elevateforhumanity.org/ecosystem',

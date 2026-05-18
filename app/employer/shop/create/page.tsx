@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Employer Shop Create | Elevate For Humanity',
+  title: 'Employer Shop Create',
   description: 'Elevate For Humanity - Career training and workforce development',
 };
 

@@ -5,7 +5,7 @@ import { CheckCircle } from 'lucide-react';
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: 'Reentry Organization Partners | Elevate for Humanity',
+  title: 'Reentry Organization Partners',
   description:
     'Elevate for Humanity partners with reentry organizations to provide workforce training for justice-involved individuals. Learn how to refer clients.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/reentry' },

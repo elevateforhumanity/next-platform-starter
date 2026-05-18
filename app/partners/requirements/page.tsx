@@ -3,7 +3,7 @@ export const revalidate = 3600;
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Partner Shop Requirements | Elevate for Humanity',
+  title: 'Partner Shop Requirements',
   description: 'Insurance, licensing, and site requirements for apprenticeship partner shops.',
 };
 

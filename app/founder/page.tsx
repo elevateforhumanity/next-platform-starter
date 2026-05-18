@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/founder' },
-  title: 'Elizabeth Greene - Founder | Elevate For Humanity',
+  title: 'Elizabeth Greene - Founder',
   description:
     'Elizabeth Greene is a U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent, licensed barber, and the founder of Elevate for Humanity Career & Technical Institute in Indianapolis.',
 };

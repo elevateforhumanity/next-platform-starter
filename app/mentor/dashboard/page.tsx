@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Mentor Dashboard | Elevate for Humanity',
+  title: 'Mentor Dashboard',
   description: 'Manage your mentees, schedule sessions, and track your mentoring progress.',
 };
 

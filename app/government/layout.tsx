@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     'government contracts',
   ],
   openGraph: {
-    title: 'Government & Workforce Boards Portal | Elevate for Humanity',
+    title: 'Government & Workforce Boards Portal',
     description:
       'Access compliance data, contracts, and reporting for workforce boards and government partners.',
     images: ['/images/pages/comp-home-highlight-health.webp'],

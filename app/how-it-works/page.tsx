@@ -10,11 +10,11 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/how-it-works' },
-  title: 'How It Works | Elevate For Humanity',
+  title: 'How It Works',
   description:
     'From assessment to employment and follow-up support. See exactly how Elevate workforce and employment services work.',
   openGraph: {
-    title: 'How It Works | Elevate for Humanity',
+    title: 'How It Works',
     description:
       'From assessment to employment and follow-up support. See exactly how Elevate workforce and employment services work.',
     url: 'https://www.elevateforhumanity.org/how-it-works',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'How It Works | Elevate for Humanity',
+    title: 'How It Works',
     description: 'From assessment to employment and follow-up support.',
     images: ['/images/pages/how-it-works-hero.webp'],
   },

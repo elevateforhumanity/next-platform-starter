@@ -3,7 +3,7 @@ import { CheckCircle, Scissors, LogIn } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Application Received | Barber Apprenticeship | Elevate For Humanity',
+  title: 'Application Received | Barber Apprenticeship',
   description: 'Your barber apprenticeship application has been received. Check your email for next steps.',
   robots: { index: false },
 };

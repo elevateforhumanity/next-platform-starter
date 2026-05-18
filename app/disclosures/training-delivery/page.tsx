@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
-  title: 'Training Delivery Model Disclosure | Elevate for Humanity',
+  title: 'Training Delivery Model Disclosure',
   description:
     'How Elevate for Humanity delivers training: online didactic instruction via LMS, hands-on training at approved employer partner sites, and virtual support services.',
   alternates: { canonical: `${SITE_URL}/disclosures/training-delivery` },

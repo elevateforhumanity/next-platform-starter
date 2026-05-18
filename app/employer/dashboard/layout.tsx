@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     'candidate management',
   ],
   openGraph: {
-    title: 'Employer Dashboard | Elevate for Humanity',
+    title: 'Employer Dashboard',
     description: 'Post jobs, review candidates, and manage your workforce pipeline.',
     images: ['/images/pages/for-employers-page-1.webp'],
     type: 'website',

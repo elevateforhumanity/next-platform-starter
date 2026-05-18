@@ -10,7 +10,7 @@ import EligibilityPreQualifier from '@/components/enrollment/EligibilityPreQuali
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/wioa-eligibility' },
-  title: 'WIOA Funding | Elevate For Humanity',
+  title: 'WIOA Funding',
   description:
     'Learn about WIOA, WRG, and Job Ready Indy funding for career training in Indiana. Register at Indiana Career Connect and schedule a WorkOne appointment.',
 };

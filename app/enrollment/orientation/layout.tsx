@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Orientation | Elevate for Humanity',
+  title: 'Orientation',
   description: 'Complete your program orientation.',
 };
 

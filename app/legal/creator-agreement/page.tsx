@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Legal Creator Agreement | Elevate For Humanity',
+  title: 'Legal Creator Agreement',
   description: 'Terms governing creators who sell digital products on the Elevate for Humanity marketplace, including eligibility, content standards, and revenue sharing.',
 };
 

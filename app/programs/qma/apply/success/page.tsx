@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Application Received — QMA Program | Elevate for Humanity",
+  title: "Application Received — QMA Program",
   robots: { index: false, follow: false },
 };
 

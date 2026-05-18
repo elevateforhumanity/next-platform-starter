@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PrintButton } from '../PrintButton';
 
 export const metadata: Metadata = {
-  title: 'Monthly OJT Evaluation — Barber Apprenticeship | Elevate for Humanity',
+  title: 'Monthly OJT Evaluation — Barber Apprenticeship',
   description: 'Standardized monthly on-the-job training evaluation form for barbershop supervisors. Structured checklist for technical skills, sanitation, client service, professionalism, and attendance.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/compliance/competency-verification/barber/monthly-ojt-evaluation' },
 };

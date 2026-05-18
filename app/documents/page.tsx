@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ChevronRight, FileText, Download, Eye, Search, FolderOpen, Upload } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Documents | Elevate For Humanity',
+  title: 'Documents',
   description: 'Access your documents and resources.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/documents',

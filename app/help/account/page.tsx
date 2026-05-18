@@ -5,7 +5,7 @@ import { HelpCategoryPage } from '@/components/help/HelpCategoryPage';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Account & Billing | Help Center | Elevate For Humanity',
+  title: 'Account & Billing | Help Center',
   description:
     'Help articles for managing your Elevate account, billing, payments, and WIOA funding.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/help/account' },

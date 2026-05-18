@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Building2, Users, BarChart3, FileText, ArrowRight, Shield } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Client Portal | Elevate For Humanity',
+  title: 'Client Portal',
   description:
     "Access your organization's training dashboard, track employee progress, and manage your workforce development programs.",
 };

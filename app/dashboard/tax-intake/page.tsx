@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ChevronRight, FileText, Users, Clock, AlertCircle, Search } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Tax Intake | Dashboard | Elevate For Humanity',
+  title: 'Tax Intake | Dashboard',
   description: 'Manage VITA tax intake appointments.',
   robots: { index: false, follow: false },
 };

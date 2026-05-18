@@ -8,7 +8,7 @@ import HeroVideo from '@/components/marketing/HeroVideo';
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
-  title: 'Student Support Services | Elevate for Humanity',
+  title: 'Student Support Services',
   description:
     'Access academic support, financial aid, career services, counseling, and more. We are here to help you succeed throughout your educational journey.',
   keywords: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/student-support`,
   },
   openGraph: {
-    title: 'Student Support Services | Elevate for Humanity',
+    title: 'Student Support Services',
     description:
       'Access academic support, financial aid, career services, and counseling to help you succeed.',
     url: `${SITE_URL}/student-support`,
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Student Support Services | Elevate for Humanity',
+    title: 'Student Support Services',
     description: 'Access academic support, financial aid, career services, and counseling.',
   },
 };

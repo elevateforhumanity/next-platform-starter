@@ -19,7 +19,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Platform Analytics | Elevate for Humanity',
+  title: 'Platform Analytics',
   description:
     'Enrollment, completion, and outcome analytics for Elevate for Humanity workforce programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/analytics' },

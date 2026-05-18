@@ -7,7 +7,7 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Program Holder Portal | Elevate for Humanity',
+  title: 'Program Holder Portal',
   description: 'Manage your training programs, students, and compliance.',
   manifest: '/manifest-program-holder.json',
 };

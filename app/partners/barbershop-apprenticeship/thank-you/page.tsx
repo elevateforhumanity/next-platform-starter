@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { ArrowRight, Download, Phone, Mail, Clock } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Application Received | Barbershop Partner | Elevate for Humanity',
+  title: 'Application Received | Barbershop Partner',
   description: 'Thank you for applying to become a barbershop partner for the Indiana Barber Apprenticeship program.',
   robots: { index: false, follow: false },
 };

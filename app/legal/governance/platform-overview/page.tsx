@@ -7,7 +7,7 @@ import { FileText, Download, ChevronRight, Building2, Users, Shield, BookOpen } 
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Platform Overview and Governance | Elevate For Humanity',
+  title: 'Platform Overview and Governance',
   description:
     'Comprehensive overview of the Elevate For Humanity platform architecture, governance model, and operational standards.',
 };

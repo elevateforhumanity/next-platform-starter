@@ -9,7 +9,7 @@ import { CreditCard, FileText, Clock, CheckCircle, AlertCircle } from 'lucide-re
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Billing | Elevate for Humanity',
+  title: 'Billing',
   description: 'Manage your billing, payment methods, and invoices.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/billing' },
 };

@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Elevate For Humanity',
+  title: 'Privacy Policy',
   description:
     'Privacy Policy describing how Elevate For Humanity collects, uses, and protects personal information.',
 };

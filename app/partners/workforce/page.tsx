@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: 'WorkOne / WIOA Referrals | Workforce Agency Partners | Elevate for Humanity',
+  title: 'WorkOne / WIOA Referrals | Workforce Agency Partners',
   description:
     'Elevate for Humanity is an approved WIOA training provider. WorkOne case managers can refer clients directly to our programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/workforce' },

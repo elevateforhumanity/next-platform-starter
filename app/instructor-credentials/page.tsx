@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Instructor Credentials & RTI Provider Qualifications | Elevate for Humanity',
+  title: 'Instructor Credentials & RTI Provider Qualifications',
   description:
     'Instructor qualification standards, credential partner requirements, and RTI provider documentation for Elevate for Humanity workforce training and registered apprenticeship programs.',
   alternates: {

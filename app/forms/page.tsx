@@ -5,7 +5,7 @@ import { FileText, Download, ClipboardList, UserPlus, Shield, Building2 } from '
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/forms' },
-  title: 'Forms & Documents | Elevate For Humanity',
+  title: 'Forms & Documents',
   description:
     'Download enrollment forms, funding applications, compliance documents, and program-specific forms.',
 };

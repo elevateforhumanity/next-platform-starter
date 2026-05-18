@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Apply — Barber Apprenticeship | Elevate for Humanity',
+  title: 'Apply — Barber Apprenticeship',
   description:
     'Apply for the Barber Apprenticeship Program. Flexible payment options including workforce funding, payment plans, and BNPL. Start your licensed barber career.',
   alternates: {

@@ -7,7 +7,7 @@ import { TermsAcceptBanner } from '@/app/terms/TermsAcceptBanner';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Legal | Elevate for Humanity',
+  title: 'Legal',
   description: 'Legal documents, policies, and disclosures for Elevate for Humanity. Terms of service, privacy policy, license agreements, and compliance disclosures.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/legal' },
 };

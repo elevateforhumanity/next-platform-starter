@@ -19,7 +19,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Account Settings | Elevate For Humanity',
+  title: 'Account Settings',
   description: 'Manage your account preferences, notifications, and security settings.',
 };
 

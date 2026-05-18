@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import PartnerShopForm from '../PartnerShopForm';
 
 export const metadata: Metadata = {
-  title: 'Partner Salon Application | Elevate for Humanity',
+  title: 'Partner Salon Application',
   description:
     'Apply to host cosmetology apprentices at your salon through the Elevate for Humanity DOL-registered apprenticeship program.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/cosmetology-apprenticeship/apply/partner-salon' },

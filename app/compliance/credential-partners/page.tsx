@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Credential Partner Registry | Compliance | Elevate for Humanity',
+  title: 'Credential Partner Registry | Compliance',
   description:
     'Formal registry of credential partners, license status, program assignments, credential issuance, and MOU status for Elevate for Humanity workforce training programs.',
   alternates: {

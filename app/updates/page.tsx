@@ -14,7 +14,7 @@ import {
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Updates & Announcements | Elevate For Humanity',
+  title: 'Updates & Announcements',
   description: 'Latest news, program updates, and announcements from Elevate for Humanity',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/updates',

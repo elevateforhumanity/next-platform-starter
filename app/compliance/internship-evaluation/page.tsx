@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Internship Evaluation Form | Elevate for Humanity',
+  title: 'Internship Evaluation Form',
   description:
     'Supervisor evaluation form for structured internship placements. Midpoint and final competency assessment.',
 };

@@ -15,7 +15,7 @@ import {
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Shift History | Timeclock | Elevate for Humanity',
+  title: 'Shift History | Timeclock',
   description: 'Full record of your clocked shifts and OJT hours.',
 };
 

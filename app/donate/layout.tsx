@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Donate | Elevate for Humanity',
+  title: 'Donate',
   description:
     'Support free career training, industry credentials, and job placement for underserved communities. Your donation funds a workforce revolution.',
   alternates: {

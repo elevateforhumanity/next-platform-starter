@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { ExternalLink, Clock, Award, Users, Phone, Mail, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Health & Safety Institute (HSI) | Short-Term Courses | Elevate For Humanity',
+  title: 'Health & Safety Institute (HSI) | Short-Term Courses',
   description: 'CPR, AED, First Aid, and Emergency Medical Responder Training',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/partners/hsi',

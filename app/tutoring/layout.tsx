@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Tutoring Services | Elevate for Humanity',
+  title: 'Tutoring Services',
   description: 'Access tutoring and academic support.',
 };
 

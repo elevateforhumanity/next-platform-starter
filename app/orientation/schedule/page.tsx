@@ -9,7 +9,7 @@ import OrientationScheduleClient from './OrientationScheduleClient';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/orientation/schedule' },
-  title: 'Schedule Orientation | Elevate For Humanity',
+  title: 'Schedule Orientation',
   description:
     'Schedule a virtual orientation session or a barbershop walk-through. Sessions are 2 hours apart and added to Google Calendar automatically.',
 };

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Request License | Elevate for Humanity',
+  title: 'Request License',
   description: 'Request a platform license.',
 };
 

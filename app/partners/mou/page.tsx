@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 
 export const metadata: Metadata = {
-  title: 'Memorandum of Understanding | Elevate for Humanity',
+  title: 'Memorandum of Understanding',
   description:
     'MOU partnership framework for workforce agencies, employers, and training providers partnering with Elevate for Humanity.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/mou' },

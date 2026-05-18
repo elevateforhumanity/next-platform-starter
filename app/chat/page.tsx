@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/chat',
   },
-  title: 'Chat | Elevate For Humanity',
+  title: 'Chat',
   description: 'Chat with your cohort, instructors, and career coaches on the Elevate for Humanity platform.',
 };
 

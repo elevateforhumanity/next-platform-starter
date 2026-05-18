@@ -7,7 +7,7 @@ export const dynamic = 'force-static';
 const CANONICAL = 'https://www.elevateforhumanity.org/it-certification-training-indianapolis';
 
 export const metadata: Metadata = {
-  title: 'IT Certification Training Indianapolis | CompTIA, Cybersecurity & Digital Skills | Elevate for Humanity',
+  title: 'IT Certification Training Indianapolis | CompTIA, Cybersecurity & Digital Skills',
   description:
     'CompTIA, Microsoft, cybersecurity, and digital skills training in Indianapolis. Industry-recognized certifications. WIOA funding may be available for eligible Indiana residents.',
   alternates: { canonical: CANONICAL },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'IT Certification Training Indianapolis | Elevate for Humanity',
+    title: 'IT Certification Training Indianapolis',
     description: 'CompTIA, Microsoft, cybersecurity, and digital skills training in Indianapolis.',
     images: ['/og-default.webp'],
   },

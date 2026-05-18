@@ -9,7 +9,7 @@ import { PrintButton } from '../PrintButton';
 import { ClaimAccountButton } from './ClaimAccountButton';
 
 export const metadata: Metadata = {
-  title: 'Supervisor Verification Form — Barber Apprenticeship | Elevate for Humanity',
+  title: 'Supervisor Verification Form — Barber Apprenticeship',
   description: 'Licensed barber supervisor verification form. Documents shop license, supervisor license, and training authority for apprenticeship compliance.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/compliance/competency-verification/barber/supervisor-verification' },
 };

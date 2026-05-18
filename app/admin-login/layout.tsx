@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Admin Login | Elevate For Humanity',
+  title: 'Admin Login',
   description: 'Restricted administrator sign-in for Elevate For Humanity.',
   robots: { index: false, follow: false },
   icons: {

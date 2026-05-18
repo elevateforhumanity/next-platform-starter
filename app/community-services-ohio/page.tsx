@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Community Services & Support in Ohio | Elevate for Humanity',
+  title: 'Community Services & Support in Ohio',
   description:
     'Trusted community services in Ohio. Job placement assistance, financial literacy, housing support, and family services. Building stronger communities together.',
   keywords: [

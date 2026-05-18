@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection } from '@/components/documents';
 
 export const metadata: Metadata = {
-  title: 'Program Licensing Agreement | Elevate for Humanity',
+  title: 'Program Licensing Agreement',
   robots: { index: false, follow: false },
 };
 

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Enrollment Confirmed | Elevate for Humanity',
+  title: 'Enrollment Confirmed',
   description: 'Your enrollment has been confirmed.',
 };
 

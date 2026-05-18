@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/program-holder/how-to-use' },
-  title: 'How to Use | Elevate For Humanity',
+  title: 'How to Use',
   description: 'Guide for using the program holder dashboard.',
 };
 

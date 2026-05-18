@@ -6,7 +6,7 @@ import { Mail, Phone, MapPin, Clock, HelpCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/support/contact' },
-  title: 'Contact Support | Elevate For Humanity',
+  title: 'Contact Support',
   description:
     'Contact our support team for help with enrollment, programs, technical issues, or general questions.',
 };

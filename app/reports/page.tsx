@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/reports' },
-  title: 'Reports Dashboard | Elevate For Humanity',
+  title: 'Reports Dashboard',
   description: 'Access reports and analytics for your programs.',
 };
 

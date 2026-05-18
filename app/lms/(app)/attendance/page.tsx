@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/lms/attendance' },
-  title: 'Attendance | Elevate For Humanity',
+  title: 'Attendance',
   description: 'View your course attendance records.',
 };
 

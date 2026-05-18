@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Enterprise License Review | Elevate for Humanity',
+  title: 'Enterprise License Review',
   description: 'Review enterprise licensing options.',
 };
 

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/fundingimpact',
   },
-  title: 'Funding Impact | How Federal Funding Transforms Lives | Elevate For Humanity',
+  title: 'Funding Impact | How Federal Funding Transforms Lives',
   description:
     'See how WIOA, WRG, and other federal workforce funding programs transform lives and communities. Real outcomes, real stories, real impact.',
 };

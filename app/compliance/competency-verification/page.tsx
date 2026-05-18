@@ -19,7 +19,7 @@ import { ALL_RUBRICS } from './rubric-data';
 import type { ProgramRubric, Competency } from './rubric-data';
 
 export const metadata: Metadata = {
-  title: 'Competency Verification Matrix | Compliance | Elevate for Humanity',
+  title: 'Competency Verification Matrix | Compliance',
   description:
     'Audit-grade competency assessment rubrics for Barber Apprenticeship, HVAC Technician, and Building Technician programs. Per-competency RTI/OJT hours, assessment methods, evaluator roles, and pass criteria.',
   alternates: {

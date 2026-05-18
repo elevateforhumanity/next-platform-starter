@@ -6,7 +6,7 @@ import { Clock, Calendar, TrendingUp, Plus } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Hours History | Apprentice Portal | Elevate For Humanity',
+  title: 'Hours History | Apprentice Portal',
   description: 'Track your apprenticeship hours.',
 };
 

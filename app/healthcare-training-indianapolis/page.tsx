@@ -7,7 +7,7 @@ export const dynamic = 'force-static';
 const CANONICAL = 'https://www.elevateforhumanity.org/healthcare-training-indianapolis';
 
 export const metadata: Metadata = {
-  title: 'Healthcare Training Indianapolis | CNA, HHA & Medical Assistant | Elevate for Humanity',
+  title: 'Healthcare Training Indianapolis | CNA, HHA & Medical Assistant',
   description:
     'CNA, HHA, Medical Assistant, and Patient Care Technician training in Indianapolis. State-approved programs. WIOA funding may be available for eligible Indiana residents.',
   alternates: { canonical: CANONICAL },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Healthcare Training Indianapolis | Elevate for Humanity',
+    title: 'Healthcare Training Indianapolis',
     description: 'CNA, HHA, Medical Assistant, and Patient Care Technician training in Indianapolis.',
     images: ['/og-default.webp'],
   },

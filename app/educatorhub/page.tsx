@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { BookOpen, Award, BarChart, FileText, Video, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Educator Hub | Elevate For Humanity',
+  title: 'Educator Hub',
   description:
     'Resources and tools for instructors and educators to create engaging learning experiences.',
   alternates: {

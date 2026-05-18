@@ -8,7 +8,7 @@ import { AlertTriangle, BookOpen, Info, ShieldAlert } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Program Holder Handbook | Elevate For Humanity',
+  title: 'Program Holder Handbook',
   description: 'Program Holder Handbook — Required Reading Before You Begin',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/program-holder/handbook',

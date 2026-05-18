@@ -6,7 +6,7 @@ import { programs as staticPrograms } from '@/content/cf-programs';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Programs | Elevate for Humanity',
+  title: 'Programs',
   description:
     'Credential-bearing programs in healthcare, skilled trades, technology, beauty, and business. WIOA and Workforce Ready Grant funding available.',
 };

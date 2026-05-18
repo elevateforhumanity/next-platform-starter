@@ -8,7 +8,7 @@ import { CheckCircle, XCircle, AlertCircle, ArrowRight, Users } from 'lucide-rea
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Eligibility | Funded Career Training | Elevate for Humanity',
+  title: 'Eligibility | Funded Career Training',
   description:
     'Check your eligibility for WIOA, WRG, and FSSA-funded career training programs at Elevate for Humanity. Most participants qualify for no-cost training.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/eligibility' },

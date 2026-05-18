@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Enrollment Agreements | Elevate for Humanity',
+  title: 'Enrollment Agreements',
   description: 'Review and sign enrollment agreements.',
 };
 

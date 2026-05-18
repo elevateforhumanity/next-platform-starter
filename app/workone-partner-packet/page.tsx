@@ -21,7 +21,7 @@ import {
 import { PrintButton } from './PrintButton';
 
 export const metadata: Metadata = {
-  title: 'WorkOne Partner Packet | Elevate for Humanity',
+  title: 'WorkOne Partner Packet',
   description:
     'Registered Apprenticeship Sponsor | ETPL Approved | WIOA & WRG Eligible. Complete partner information for WorkOne regions and workforce development boards.',
   alternates: {

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/portals',
   },
-  title: 'Portals | Elevate For Humanity',
+  title: 'Portals',
   description:
     'Access your personalized portal. Whether you are a student, employer, partner, parent, staff member, or client, find your dedicated dashboard here.',
   keywords: [

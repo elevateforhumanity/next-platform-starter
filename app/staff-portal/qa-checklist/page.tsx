@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/staff-portal/qa-checklist',
   },
-  title: 'QA Checklist | Elevate For Humanity',
+  title: 'QA Checklist',
   description: 'Daily and weekly quality assurance checklists for staff.',
 };
 

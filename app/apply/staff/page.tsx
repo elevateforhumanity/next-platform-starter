@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Staff / Instructor Application | Elevate for Humanity',
+  title: 'Staff / Instructor Application',
   description: 'Join our team to support student success and workforce development.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apply/staff',

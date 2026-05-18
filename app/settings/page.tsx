@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import SettingsForm from './SettingsForm';
 
 export const metadata: Metadata = {
-  title: 'Settings | Elevate For Humanity',
+  title: 'Settings',
   description: 'Manage your account settings.',
   robots: { index: false, follow: false },
 };

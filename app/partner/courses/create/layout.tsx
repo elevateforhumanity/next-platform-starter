@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Partner | Courses | Create | Elevate for Humanity',
+  title: 'Partner | Courses | Create',
   description: 'Elevate for Humanity - Career training and workforce development programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/partner/courses/create',

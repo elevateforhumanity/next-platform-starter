@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DollarSign, Users, Building2, ArrowRight, Shield, GraduationCap } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Grants & Scholarships | Get Your Training Paid For | Elevate For Humanity',
+  title: 'Grants & Scholarships | Get Your Training Paid For',
   description:
     'Indiana residents may qualify for workforce funding through WIOA, Workforce Ready Grant, FSSA IMPACT, and other programs. Eligibility required. IMPACT covers training for current SNAP and TANF recipients at no cost.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/grants' },

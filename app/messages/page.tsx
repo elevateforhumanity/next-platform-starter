@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import MessagesClient from './MessagesClient';
 
 export const metadata: Metadata = {
-  title: 'Messages | Elevate For Humanity',
+  title: 'Messages',
   description: 'Direct messages with community members.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/messages',

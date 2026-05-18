@@ -4,14 +4,14 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Find Programs & Resources | Elevate For Humanity',
+  title: 'Find Programs & Resources',
   description:
     'Search workforce training programs, career certifications, and funding options. Healthcare, skilled trades, CDL, technology, and barber apprenticeship programs in Indiana.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/search',
   },
   openGraph: {
-    title: 'Find Programs & Resources | Elevate For Humanity',
+    title: 'Find Programs & Resources',
     description:
       'Search workforce training programs, career certifications, and funding options at Elevate for Humanity.',
     url: 'https://www.elevateforhumanity.org/search',

@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
 
 export const metadata: Metadata = {
-  title: 'Enrollment Agreement | Elevate for Humanity',
+  title: 'Enrollment Agreement',
   robots: { index: false, follow: false },
 };
 

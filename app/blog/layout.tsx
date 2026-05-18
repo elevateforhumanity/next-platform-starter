@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Blog & Success Stories | Elevate For Humanity',
+  title: 'Blog & Success Stories',
   description:
     'Read success stories from our graduates, workforce development insights, program updates, and career training tips from Elevate for Humanity.',
   alternates: {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Blog & Success Stories | Elevate For Humanity',
+    title: 'Blog & Success Stories',
     description: 'Success stories, workforce development insights, and career training updates.',
     url: 'https://www.elevateforhumanity.org/blog',
     type: 'website',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog & Success Stories | Elevate For Humanity',
+    title: 'Blog & Success Stories',
     description: 'Success stories, workforce development insights, and career training updates.',
     images: ['/images/pages/social-media-1.jpg'],
   },

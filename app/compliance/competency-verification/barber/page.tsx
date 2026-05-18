@@ -23,7 +23,7 @@ import { BARBER_SECTIONS, BARBER_STATS } from './barber-rubric-data';
 import type { RubricSection, RubricItem } from './barber-rubric-data';
 
 export const metadata: Metadata = {
-  title: 'Barber Apprenticeship Competency Rubric | Compliance | Elevate for Humanity',
+  title: 'Barber Apprenticeship Competency Rubric | Compliance',
   description:
     'State-aligned, apprenticeship-grade barbering competency rubric system. 6 sections, 30 competencies covering sanitation, cutting technique, razor skills, client services, shop operations, and OJT performance. RAPIDS ID: 2025-IN-132301.',
   alternates: {

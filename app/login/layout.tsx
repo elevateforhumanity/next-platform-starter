@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Login | Elevate for Humanity',
+  title: 'Login',
   description:
     'Sign in to your Elevate for Humanity account to access your training programs and career services.',
   alternates: {

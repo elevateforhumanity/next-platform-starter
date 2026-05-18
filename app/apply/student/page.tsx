@@ -9,14 +9,14 @@ import { getProgramBySlug } from '@/data/programs/catalog';
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: 'Apply for Career Training | Elevate for Humanity',
+  title: 'Apply for Career Training',
   description:
     'Apply for workforce training in healthcare, skilled trades, CDL, barbering, and technology. Funding may be available for eligible Indiana residents through WIOA and state grants.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apply/student',
   },
   openGraph: {
-    title: 'Apply for Career Training | Elevate for Humanity',
+    title: 'Apply for Career Training',
     description:
       'Apply for workforce training and career development programs. Funding may be available for eligible participants. Most students begin training within 2–4 weeks.',
     url: 'https://www.elevateforhumanity.org/apply/student',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Apply for Career Training | Elevate for Humanity',
+    title: 'Apply for Career Training',
     description: 'Apply for workforce training programs. Most students begin within 2–4 weeks.',
     images: ['/images/pages/comp-home-highlight-health.webp'],
   },

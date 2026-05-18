@@ -6,7 +6,7 @@ import { BookOpen, Video, FileText, Download, Headphones, Monitor } from 'lucide
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/training/learning-center' },
-  title: 'Learning Center | Elevate For Humanity',
+  title: 'Learning Center',
   description:
     'Access study materials, video tutorials, practice exams, and supplemental resources for your training program.',
 };

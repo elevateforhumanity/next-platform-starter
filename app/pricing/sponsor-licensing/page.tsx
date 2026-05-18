@@ -9,7 +9,7 @@ import { Phone, Mail, Shield, TrendingUp, Users, Check, Globe, Building2 } from 
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Platform Licensing | Elevate for Humanity',
+  title: 'Platform Licensing',
   description:
     'License our workforce automation infrastructure. System of record for programs with signature-driven activation, automated task initialization, and audit-ready reporting.',
   alternates: {

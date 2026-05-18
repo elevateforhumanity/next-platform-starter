@@ -7,14 +7,14 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { STATIC_POSTS, type BlogPost } from '@/content/blog/posts';
 
 export const metadata: Metadata = {
-  title: 'Blog | Elevate For Humanity',
+  title: 'Blog',
   description:
     'Workforce development insights, funding guides, credential explainers, and career training tips from Elevate for Humanity.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/blog',
   },
   openGraph: {
-    title: 'Blog | Elevate For Humanity',
+    title: 'Blog',
     description:
       'Workforce development insights, funding guides, credential explainers, and career training tips from Elevate for Humanity.',
     url: 'https://www.elevateforhumanity.org/blog',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog | Elevate For Humanity',
+    title: 'Blog',
     description:
       'Workforce development insights, funding guides, credential explainers, and career training tips from Elevate for Humanity.',
     images: ['/images/pages/social-media-1.jpg'],

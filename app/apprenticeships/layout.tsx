@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Apprenticeship Programs | Earn While You Learn | Elevate For Humanity',
+  title: 'Apprenticeship Programs | Earn While You Learn',
   description:
     'DOL-registered apprenticeship programs in barbering, cosmetology, culinary arts, and skilled trades. Earn while you learn with hands-on training and job placement.',
   alternates: {

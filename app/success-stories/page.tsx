@@ -7,7 +7,7 @@ import ModernLandingHero from '@/components/landing/ModernLandingHero';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Success Stories - Real People, Real Results | Elevate for Humanity',
+  title: 'Success Stories - Real People, Real Results',
   description:
     'Read inspiring success stories from graduates who transformed their lives through our workforce training programs. Real careers, real impact.',
   alternates: {

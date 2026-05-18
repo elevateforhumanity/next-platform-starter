@@ -16,7 +16,7 @@ import {
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Instructor Onboarding | Elevate For Humanity',
+  title: 'Instructor Onboarding',
   description: 'Complete your instructor onboarding to start teaching.',
 };
 

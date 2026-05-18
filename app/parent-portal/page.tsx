@@ -20,7 +20,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Parent & Guardian Portal | Elevate For Humanity',
+  title: 'Parent & Guardian Portal',
   description:
     "Monitor your student's progress, attendance, and grades. Communicate with instructors and stay informed about program updates.",
   alternates: { canonical: 'https://www.elevateforhumanity.org/parent-portal' },

@@ -13,13 +13,13 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Training Provider Solutions | Elevate For Humanity',
+  title: 'Training Provider Solutions',
   description:
     'Grow your training business with our LMS and student management platform. Access funded learners, automate compliance, and track outcomes.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/training-providers' },
   robots: { index: false, follow: false },
   openGraph: {
-    title: 'Training Provider Solutions | Elevate For Humanity',
+    title: 'Training Provider Solutions',
     description: 'Grow your training business with our LMS and student management platform.',
     url: 'https://www.elevateforhumanity.org/platform/training-providers',
     siteName: 'Elevate for Humanity',

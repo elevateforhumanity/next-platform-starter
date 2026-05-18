@@ -6,7 +6,7 @@ import { Scale, Phone, Mail, AlertTriangle } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/grievance' },
-  title: 'Grievance Procedure | Elevate For Humanity',
+  title: 'Grievance Procedure',
   description:
     'File a grievance if you believe you were denied services, experienced discrimination, or were treated unfairly in our WIOA-funded programs.',
 };

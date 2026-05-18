@@ -9,7 +9,7 @@ import MOUSignClient from './MOUSignClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Sign Your MOU | Elevate For Humanity',
+  title: 'Sign Your MOU',
   description: 'Review and sign your Program Holder Memorandum of Understanding.',
 };
 

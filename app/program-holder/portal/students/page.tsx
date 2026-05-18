@@ -8,7 +8,7 @@ import { Users, GraduationCap, TrendingUp, Award, ChevronRight, Search } from 'l
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: 'Students | Program Holder Portal | Elevate for Humanity',
+  title: 'Students | Program Holder Portal',
   robots: { index: false, follow: false },
 };
 

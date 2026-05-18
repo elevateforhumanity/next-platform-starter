@@ -4,7 +4,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Inquiry Received | Elevate for Humanity',
+  title: 'Inquiry Received',
 };
 
 export default function InquiryReceivedPage() {

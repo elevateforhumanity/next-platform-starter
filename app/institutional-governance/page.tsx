@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Institutional Governance & Compliance | Elevate for Humanity',
+  title: 'Institutional Governance & Compliance',
   description:
     'Governance framework, legal structure, and compliance posture of 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/institutional-governance' },

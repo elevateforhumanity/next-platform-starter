@@ -6,7 +6,7 @@ import { Play, Monitor, Users, Calendar, ArrowRight, Clock } from 'lucide-react'
 import { getVideosByCategory } from '@/lib/video/registry';
 
 export const metadata: Metadata = {
-  title: 'Product Demos | Elevate For Humanity',
+  title: 'Product Demos',
   description:
     'See our training platform in action. Watch demos of the LMS, employer portal, and admin dashboard.',
   alternates: {

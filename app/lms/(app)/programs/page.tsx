@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Clock, Award, BookOpen, ChevronRight, DollarSign } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Programs | Elevate for Humanity',
+  title: 'Programs',
   description:
     'Browse career training programs. WIOA funding available for eligible Indiana residents.',
   alternates: {

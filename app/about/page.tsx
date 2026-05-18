@@ -10,7 +10,7 @@ import { createClient } from '@/lib/supabase/server';
 export const revalidate = 3600; // re-fetch team from DB hourly
 
 export const metadata: Metadata = {
-  title: 'About Us | Elevate for Humanity',
+  title: 'About Us',
   description: 'Elevate for Humanity is a workforce development institute in Indianapolis providing funded career training in healthcare, trades, CDL, technology, and barbering. Founded by Elizabeth Greene.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/about' },
   openGraph: {

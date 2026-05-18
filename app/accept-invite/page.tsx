@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const metadata = {
-  title: 'Accept Invitation | Elevate for Humanity',
+  title: 'Accept Invitation',
   robots: { index: false, follow: false },
 };
 

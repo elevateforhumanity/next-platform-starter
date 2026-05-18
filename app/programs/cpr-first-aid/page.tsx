@@ -9,12 +9,12 @@ const CprHero = dynamic(() => import('@/components/programs/CprHero'));
 const CprPageBlocks = dynamic(() => import('@/components/programs/CprPageBlocks'));
 
 export const metadata: Metadata = {
-  title: 'CPR & First Aid Certification | At-Home Training | Elevate for Humanity',
+  title: 'CPR & First Aid Certification | At-Home Training',
   description:
     'Get CPR and First Aid certified from home. A training mannequin ships to your door. Live instructor-led session. Same-day certification card. $130 — or free with any Elevate program enrollment.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/cpr-first-aid' },
   openGraph: {
-    title: 'CPR & First Aid Certification | Elevate for Humanity',
+    title: 'CPR & First Aid Certification',
     description:
       'Train from home with a shipped mannequin and live instructor. Same-day certification card.',
     images: [{ url: '/images/pages/programs-cpr-hero.webp', width: 1200, height: 630 }],

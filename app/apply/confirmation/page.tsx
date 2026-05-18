@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Application Received | Elevate for Humanity',
+  title: 'Application Received',
   description: 'Your application has been received. We will contact you soon.',
   robots: {
     index: false,

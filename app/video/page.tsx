@@ -8,7 +8,7 @@ import Image from 'next/image';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Video | Elevate For Humanity',
+  title: 'Video',
   description: 'Resources and tools for your success.',
   robots: { index: false },
 };

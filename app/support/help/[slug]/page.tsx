@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const article = await getArticle(slug);
 
   if (!article) {
-    return { title: 'Article Not Found | Elevate For Humanity' };
+    return { title: 'Article Not Found' };
   }
 
   return {

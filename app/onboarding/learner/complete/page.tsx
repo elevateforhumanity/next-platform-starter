@@ -8,7 +8,7 @@ import { CheckCircle2, ExternalLink, ArrowRight, BookOpen } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Orientation Complete | Elevate for Humanity',
+  title: 'Orientation Complete',
 };
 
 // Funding sources that require Indiana Career Connect registration

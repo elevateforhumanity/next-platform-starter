@@ -4,7 +4,7 @@ import { BookOpen, Download, FileText, GraduationCap } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Program Workbooks | Elevate for Humanity',
+  title: 'Program Workbooks',
   description: 'Access workbooks, study guides, and course materials for all programs',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/workbooks',

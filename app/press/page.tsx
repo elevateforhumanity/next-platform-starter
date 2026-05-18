@@ -9,7 +9,7 @@ import { formatPostDate } from '@/lib/data/news';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Press & Media | Elevate for Humanity',
+  title: 'Press & Media',
   description:
     'Press coverage, media resources, and contact information for journalists covering Elevate for Humanity workforce development programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/press' },

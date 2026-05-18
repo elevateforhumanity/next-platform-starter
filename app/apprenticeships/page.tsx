@@ -8,7 +8,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/apprenticeships' },
-  title: 'Apprenticeships | Elevate For Humanity',
+  title: 'Apprenticeships',
   description:
     'Earn while you learn through DOL-registered apprenticeship pathways in barbering, cosmetology, skilled trades, and more.',
 };

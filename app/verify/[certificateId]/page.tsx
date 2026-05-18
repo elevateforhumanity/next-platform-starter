@@ -8,7 +8,7 @@ import Image from 'next/image';
 export async function generateMetadata({ params }: { params: Promise<{ certificateId: string }> }): Promise<Metadata> {
   const { certificateId } = await params;
   return {
-    title: 'Verify Certificate | Elevate For Humanity',
+    title: 'Verify Certificate',
     description: 'Verify the authenticity of a certificate issued by Elevate For Humanity.',
     alternates: {
       canonical: `https://www.elevateforhumanity.org/verify/${certificateId}`,

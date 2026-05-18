@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Sharon Douglass | Our Team | Elevate for Humanity',
+  title: 'Sharon Douglass | Our Team',
   description: 'Sharon Douglass — Respiratory Therapy & Health Informatics Specialist at Elevate for Humanity Career & Technical Institute.',
 };
 

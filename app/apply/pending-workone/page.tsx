@@ -15,7 +15,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import WorkOneChecklist from '@/components/workone/WorkOneChecklist';
 
 export const metadata: Metadata = {
-  title: 'Complete WorkOne Intake | Elevate for Humanity',
+  title: 'Complete WorkOne Intake',
   description:
     'Your application is on hold while we wait for your WorkOne eligibility confirmation.',
   alternates: {

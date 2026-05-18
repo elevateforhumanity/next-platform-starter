@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import PageVideoHero from '@/components/ui/PageVideoHero';
 
 export const metadata: Metadata = {
-  title: 'Job Ready Indy | Elevate for Humanity',
+  title: 'Job Ready Indy',
   description:
     'Job Ready Indy is an Indianapolis workforce initiative connecting residents to funded career training, credentials, and employment. Elevate for Humanity is an approved Job Ready Indy training provider.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding/job-ready-indy' },

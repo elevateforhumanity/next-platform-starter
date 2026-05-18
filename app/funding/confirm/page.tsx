@@ -9,7 +9,7 @@ import { logger } from '@/lib/logger';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Confirm Funding | Elevate for Humanity',
+  title: 'Confirm Funding',
   robots: { index: false, follow: false },
 };
 

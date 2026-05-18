@@ -5,7 +5,7 @@ import NailPartnerPageClient from './PartnerPageClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Nail Technician Apprenticeship — Host a Nail Salon Partner | Elevate for Humanity',
+  title: 'Nail Technician Apprenticeship — Host a Nail Salon Partner',
   description: 'Host a nail technician apprentice at your salon. DOL Registered Apprenticeship. Elevate handles theory training, DOL compliance, and IPLA licensing coordination.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/nail-technician-apprenticeship' },
 };

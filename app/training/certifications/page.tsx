@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, CalendarDays, Clock, DollarSign, MapPin } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Certification Training Programs | Elevate for Humanity',
+  title: 'Certification Training Programs',
   description:
     'Fast-track certification training in healthcare, skilled trades, CDL, technology, and barber apprenticeship. Many programs are free through WIOA and WRG funding.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/training/certifications' },

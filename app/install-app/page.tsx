@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 import AdminInstallClient from './AdminInstallClient';
 
 export const metadata: Metadata = {
-  title: 'Install Admin App | Elevate for Humanity',
+  title: 'Install Admin App',
   robots: { index: false, follow: false },
 };
 

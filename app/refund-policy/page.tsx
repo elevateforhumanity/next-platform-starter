@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/refund-policy',
   },
-  title: 'Refund Policy | Elevate For Humanity',
+  title: 'Refund Policy',
   description:
     'Learn about our refund policy for training programs and tax services at Elevate For Humanity.',
 };

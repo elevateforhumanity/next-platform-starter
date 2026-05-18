@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight, Building2, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'School Partner Orientation | Elevate For Humanity',
+  title: 'School Partner Orientation',
   robots: { index: false, follow: false },
 };
 

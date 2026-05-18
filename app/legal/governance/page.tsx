@@ -17,7 +17,7 @@ import { createClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: 'Governance Documents | Elevate For Humanity',
+  title: 'Governance Documents',
   description:
     'Authoritative governance documents for Elevate For Humanity platform operations, compliance, and standards.',
 };

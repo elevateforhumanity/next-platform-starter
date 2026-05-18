@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact Us | Elevate for Humanity',
+  title: 'Contact Us',
   description:
     'Contact Elevate for Humanity for program applications, enrollment support, partnerships, employer hiring, and workforce training questions.',
   alternates: {

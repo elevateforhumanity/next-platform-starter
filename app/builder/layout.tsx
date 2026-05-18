@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Builder | Elevate for Humanity',
+  title: 'Builder',
   description: 'Build and customize your learning experience with Elevate for Humanity.',
   robots: { index: false, follow: false },
   alternates: {

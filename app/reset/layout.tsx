@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Reset Browser | Elevate For Humanity',
+  title: 'Reset Browser',
   description: 'Clear browser cache, cookies, and local storage for Elevate for Humanity.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/reset',

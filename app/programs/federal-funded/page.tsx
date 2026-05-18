@@ -10,7 +10,7 @@ import { Shield, CheckCircle, Users, Award } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Federal Funded Programs | WIOA & WRG | Elevate for Humanity',
+  title: 'Federal Funded Programs | WIOA & WRG',
   description:
     '100% free training programs funded by WIOA, WRG, and federal grants. Medical Assistant, CDL, Healthcare, and more. No cost to you.',
   alternates: {

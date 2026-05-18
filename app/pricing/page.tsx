@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/pricing',
   },
-  title: 'Pricing | Elevate for Humanity',
+  title: 'Pricing',
   description:
     'Choose your access level. Free to download. Platform access starts at $39/month for enrolled learners.',
 };

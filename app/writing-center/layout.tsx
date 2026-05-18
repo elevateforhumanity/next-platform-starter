@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Writing Center | Elevate for Humanity',
+  title: 'Writing Center',
   description: 'Writing assistance and resources.',
 };
 

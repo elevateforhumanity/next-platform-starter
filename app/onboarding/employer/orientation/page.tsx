@@ -18,7 +18,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Employer Orientation | Elevate for Humanity',
+  title: 'Employer Orientation',
 };
 
 const ORIENTATION_SECTIONS = [

@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Elizabeth Greene | Our Team | Elevate for Humanity',
+  title: 'Elizabeth Greene | Our Team',
   description: 'Elizabeth Greene — Founder & Chief Executive Officer at Elevate for Humanity Career & Technical Institute.',
 };
 

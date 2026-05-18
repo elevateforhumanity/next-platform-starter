@@ -15,12 +15,12 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Workforce Analytics | Elevate For Humanity',
+  title: 'Workforce Analytics',
   description:
     'Data-driven insights for workforce development. Real-time dashboards, DOL reporting, and outcome tracking for workforce boards and training providers.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/platform/workforce-analytics' },
   openGraph: {
-    title: 'Workforce Analytics | Elevate For Humanity',
+    title: 'Workforce Analytics',
     description: 'Data-driven insights for workforce development decision making.',
     url: 'https://www.elevateforhumanity.org/platform/workforce-analytics',
     siteName: 'Elevate for Humanity',

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/staff-portal/training',
   },
-  title: 'Staff Training | Elevate For Humanity',
+  title: 'Staff Training',
   description: 'Complete training modules, track your progress, and earn completion certificates.',
 };
 

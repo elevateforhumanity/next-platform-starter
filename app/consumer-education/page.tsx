@@ -4,7 +4,7 @@ import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Consumer Education | Elevate for Humanity',
+  title: 'Consumer Education',
   description:
     'Free financial literacy, VITA tax preparation, and consumer education resources for Indiana residents. Know your rights, manage your money, and access benefits you qualify for.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/consumer-education' },

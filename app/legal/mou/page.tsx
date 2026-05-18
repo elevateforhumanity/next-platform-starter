@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Memorandum of Understanding | Elevate For Humanity',
+  title: 'Memorandum of Understanding',
   description: 'Memorandum of Understanding for Elevate for Humanity partnerships.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/legal/mou',

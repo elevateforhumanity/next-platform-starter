@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'SNAP E&T Partner | Elevate for Humanity',
+  title: 'SNAP E&T Partner',
   description:
     'Elevate for Humanity SNAP Employment & Training partner information for agencies and case managers.',
   robots: { index: false, follow: false },

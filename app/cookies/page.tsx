@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/cookies',
   },
-  title: 'Cookie Policy | Elevate For Humanity',
+  title: 'Cookie Policy',
   description:
     'Learn about how Elevate For Humanity uses cookies and similar technologies on our website.',
 };

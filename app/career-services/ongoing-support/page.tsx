@@ -6,7 +6,7 @@ import { Heart, Users, TrendingUp, MessageSquare, Calendar, Phone } from 'lucide
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Ongoing Support | Career Services | Elevate For Humanity',
+  title: 'Ongoing Support | Career Services',
   description:
     "Career support doesn't end at graduation. Access continued mentorship, job assistance, and professional development resources.",
 };

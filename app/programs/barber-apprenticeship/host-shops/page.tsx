@@ -6,7 +6,7 @@ import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Become a Host Barbershop | Barber Apprenticeship | Elevate for Humanity',
+  title: 'Become a Host Barbershop | Barber Apprenticeship',
   description: 'Partner with Elevate for Humanity as a host barbershop for our USDOL Registered Barber Apprenticeship program. Train the next generation of barbers.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship/host-shops',

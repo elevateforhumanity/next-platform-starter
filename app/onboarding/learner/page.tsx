@@ -22,7 +22,7 @@ import CanonicalVideo from '@/components/video/CanonicalVideo';
 import { logger } from '@/lib/logger';
 
 export const metadata: Metadata = {
-  title: 'Student Onboarding | Elevate For Humanity',
+  title: 'Student Onboarding',
   description: 'Complete your student onboarding to get started with your training program.',
 };
 

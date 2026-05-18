@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Verify Our Credentials | Elevate For Humanity',
+  title: 'Verify Our Credentials',
   description:
     'Verify Elevate For Humanity credentials including ETPL listing, RAPIDS registration, state approvals, and accreditation status. All credentials are independently verifiable.',
   alternates: {

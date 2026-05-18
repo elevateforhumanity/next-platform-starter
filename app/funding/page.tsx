@@ -12,11 +12,11 @@ import EligibilityScreener from '@/components/funding/EligibilityScreenerClient'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding' },
-  title: 'Workforce Funding | Elevate For Humanity',
+  title: 'Workforce Funding',
   description:
     'Explore funding options for your career training — WIOA, WRG, Job Ready Indy, payment plans, and more. Many students qualify for funded training.',
   openGraph: {
-    title: 'Workforce Funding | Elevate for Humanity',
+    title: 'Workforce Funding',
     description:
       'WIOA, WRG, Job Ready Indy, payment plans, and more. Many students qualify for funded career training.',
     url: 'https://www.elevateforhumanity.org/funding',

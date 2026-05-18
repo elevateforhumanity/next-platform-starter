@@ -7,7 +7,7 @@ import { Search } from 'lucide-react';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Search Blog | Elevate For Humanity',
+  title: 'Search Blog',
   description:
     'Search our blog for workforce development insights, success stories, and career tips.',
   alternates: {

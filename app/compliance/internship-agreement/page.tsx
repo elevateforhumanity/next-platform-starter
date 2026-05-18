@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Internship Agreement Template | Elevate for Humanity',
+  title: 'Internship Agreement Template',
   description:
     'Structured internship agreement for work-based learning placements under the Finance, Bookkeeping & Accounting Credential Pathway.',
 };

@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Program Holder Application | Elevate for Humanity',
+  title: 'Program Holder Application',
   description: 'Partner with us to offer training programs to your community or organization.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apply/program-holder',

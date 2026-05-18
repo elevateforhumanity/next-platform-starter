@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'News & Updates | Elevate for Humanity',
+  title: 'News & Updates',
   description:
     'Latest news, program updates, success stories, and announcements from Elevate for Humanity.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/news' },

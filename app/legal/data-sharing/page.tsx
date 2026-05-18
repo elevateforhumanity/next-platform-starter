@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
 
 export const metadata: Metadata = {
-  title: 'Data Sharing Consent | Elevate for Humanity',
+  title: 'Data Sharing Consent',
   robots: { index: false, follow: false },
 };
 

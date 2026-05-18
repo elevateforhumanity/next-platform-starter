@@ -6,7 +6,7 @@ import { Share2, Users, Heart, Mail, MessageCircle, Copy } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/share' },
-  title: 'Share Elevate | Elevate For Humanity',
+  title: 'Share Elevate',
   description:
     'Help someone you know access career training at no cost. Share Elevate for Humanity with friends, family, or community members.',
 };

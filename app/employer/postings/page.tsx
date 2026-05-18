@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Job Postings | Elevate for Humanity',
+  title: 'Job Postings',
   description: 'Manage your job postings',
 };
 

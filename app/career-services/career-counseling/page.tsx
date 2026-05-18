@@ -4,7 +4,7 @@ import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Career Counseling | Elevate for Humanity',
+  title: 'Career Counseling',
   description: 'One-on-one career counseling for Elevate graduates and enrolled students. Career planning, credential pathways, and job search strategy.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-services/career-counseling' },
 };

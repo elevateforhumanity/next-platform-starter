@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/employer/analytics' },
-  title: 'Employer Analytics | Elevate For Humanity',
+  title: 'Employer Analytics',
   description: 'View hiring analytics and workforce metrics.',
 };
 

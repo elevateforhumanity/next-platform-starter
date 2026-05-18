@@ -4,7 +4,7 @@ import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Interview Preparation | Elevate for Humanity',
+  title: 'Interview Preparation',
   description: 'Free interview preparation for Elevate students and graduates. Mock interviews, industry-specific coaching, and salary negotiation guidance.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-services/interview-prep' },
 };

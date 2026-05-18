@@ -3,7 +3,7 @@ import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "You're In — CNA Program | Elevate for Humanity",
+  title: "You're In — CNA Program",
   robots: { index: false, follow: false },
 };
 

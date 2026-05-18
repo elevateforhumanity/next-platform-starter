@@ -6,7 +6,7 @@ import { FileText } from 'lucide-react';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Policies | Elevate for Humanity',
+  title: 'Policies',
   description: 'Academic, enrollment, refund, conduct, and privacy policies for Elevate for Humanity programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/policies' },
 };

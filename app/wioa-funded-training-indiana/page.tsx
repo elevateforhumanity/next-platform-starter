@@ -7,12 +7,12 @@ export const dynamic = 'force-static';
 const CANONICAL = 'https://www.elevateforhumanity.org/wioa-funded-training-indiana';
 
 export const metadata: Metadata = {
-  title: 'WIOA Funded Training Indiana | Free Job Training Indianapolis | Elevate for Humanity',
+  title: 'WIOA Funded Training Indiana | Free Job Training Indianapolis',
   description:
     'Understand WIOA funding for career training in Indiana. Workforce Ready Grant, FSSA IMPACT, WorkOne referrals. Eligibility determined by your local workforce agency.',
   alternates: { canonical: CANONICAL },
   openGraph: {
-    title: 'WIOA Funded Training Indiana | Elevate for Humanity',
+    title: 'WIOA Funded Training Indiana',
     description:
       'WIOA-funded career training in Indiana. WorkOne referrals accepted. Workforce Ready Grant and FSSA IMPACT eligible programs. Eligibility determined by your agency.',
     url: CANONICAL,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'WIOA Funded Training Indiana | Elevate for Humanity',
+    title: 'WIOA Funded Training Indiana',
     description: 'WIOA-funded career training in Indiana. WorkOne referrals, Workforce Ready Grant, FSSA IMPACT.',
     images: ['/og-default.webp'],
   },

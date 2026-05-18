@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/staff-portal/customer-service',
   },
-  title: 'Customer Service | Elevate For Humanity',
+  title: 'Customer Service',
   description: 'Manage customer service tickets and protocols.',
 };
 

@@ -18,7 +18,7 @@ import {
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: 'Program Holder Portal | Elevate for Humanity',
+  title: 'Program Holder Portal',
   robots: { index: false, follow: false },
 };
 

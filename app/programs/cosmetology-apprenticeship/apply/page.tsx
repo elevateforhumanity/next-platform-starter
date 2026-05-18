@@ -6,7 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Apply — Cosmetology Apprenticeship | Elevate for Humanity',
+  title: 'Apply — Cosmetology Apprenticeship',
   description:
     'Apply to the Elevate for Humanity DOL-registered cosmetology apprenticeship — as an apprentice or as a partner salon.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/cosmetology-apprenticeship/apply' },

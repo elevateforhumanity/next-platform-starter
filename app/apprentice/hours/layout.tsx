@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Apprentice Hours | Elevate For Humanity',
+  title: 'Apprentice Hours',
   description: 'Track and log your apprenticeship hours.',
 };
 

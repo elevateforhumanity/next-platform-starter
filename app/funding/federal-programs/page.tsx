@@ -6,7 +6,7 @@ import { CheckCircle } from 'lucide-react';
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: 'Federal Workforce Funding Programs | Elevate for Humanity',
+  title: 'Federal Workforce Funding Programs',
   description:
     'Federal funding sources for workforce training in Indiana — WIOA, Pell Grants, SNAP E&T, and more. Check eligibility and apply.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding/federal-programs' },

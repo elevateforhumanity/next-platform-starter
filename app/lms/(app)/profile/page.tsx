@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/lms/profile' },
-  title: 'My Profile | Elevate For Humanity',
+  title: 'My Profile',
   description: 'Manage your learner profile and preferences.',
 };
 

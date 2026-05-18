@@ -6,7 +6,7 @@ import { CheckCircle, DollarSign, GraduationCap, FileCheck } from 'lucide-react'
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: 'Workforce Ready Grant | Indiana State Funding | Elevate for Humanity',
+  title: 'Workforce Ready Grant | Indiana State Funding',
   description:
     'The Indiana Workforce Ready Grant covers 100% of tuition for high-demand certification programs. No repayment required.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding/wrg' },

@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Higher Education Solutions | Elevate for Humanity',
+  title: 'Higher Education Solutions',
   description:
     'Workforce development partnerships for community colleges and universities. Stackable credentials, registered apprenticeships, and employer-connected training.',
 };

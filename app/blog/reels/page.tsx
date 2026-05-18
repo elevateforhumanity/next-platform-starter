@@ -6,13 +6,13 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import ReelsFeed from '@/components/reels/ReelsFeed';
 
 export const metadata: Metadata = {
-  title: 'Reels | Elevate For Humanity',
+  title: 'Reels',
   description: 'Watch short-form videos about career training and success stories',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/blog/reels',
   },
   openGraph: {
-    title: 'Reels | Elevate For Humanity',
+    title: 'Reels',
     description: 'Watch short-form videos about career training and success stories',
     url: 'https://www.elevateforhumanity.org/blog/reels',
     type: 'website',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Reels | Elevate For Humanity',
+    title: 'Reels',
     description: 'Watch short-form videos about career training and success stories',
     images: ['/images/pages/social-media-1.jpg'],
   },

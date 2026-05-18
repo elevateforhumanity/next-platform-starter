@@ -15,12 +15,12 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Workforce Board Solutions | Elevate For Humanity',
+  title: 'Workforce Board Solutions',
   description:
     'Workforce development platform for regional workforce boards. WIOA compliance, participant tracking, DOL reporting, and provider management.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/platform/workforce-boards' },
   openGraph: {
-    title: 'Workforce Board Solutions | Elevate For Humanity',
+    title: 'Workforce Board Solutions',
     description: 'Workforce development platform for regional workforce boards.',
     url: 'https://www.elevateforhumanity.org/platform/workforce-boards',
     siteName: 'Elevate for Humanity',

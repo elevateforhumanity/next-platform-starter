@@ -13,7 +13,7 @@ export const revalidate = 86400;
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
-  title: 'Finance, Bookkeeping & Accounting Credential Pathway | Elevate for Humanity',
+  title: 'Finance, Bookkeeping & Accounting Credential Pathway',
   description: 'Tiered credential pathway in tax preparation, bookkeeping, payroll, and accounting. IRS PTIN, QuickBooks Certified User, WorkKeys NCRC, and Enrolled Agent preparation. Funded for eligible participants.',
   alternates: { canonical: `${SITE_URL}/programs/finance-bookkeeping-accounting` },
   openGraph: {

@@ -5,7 +5,7 @@ import { Calendar, Clock, BookOpen, GraduationCap } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Academic Calendar | Elevate For Humanity',
+  title: 'Academic Calendar',
   description: 'View important dates, program schedules, and enrollment deadlines.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/academic-calendar',

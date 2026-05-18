@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: 'Student Progress | Parent Portal | Elevate For Humanity',
+  title: 'Student Progress | Parent Portal',
 };
 
 function fmtDate(iso: string | null) {

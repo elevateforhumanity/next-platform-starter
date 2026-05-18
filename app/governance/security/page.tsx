@@ -6,7 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Security and Data Protection | Elevate for Humanity',
+  title: 'Security and Data Protection',
   description:
     'Security controls, data protection standards, incident response posture, and operational safeguards used across Elevate for Humanity systems.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/governance/security' },

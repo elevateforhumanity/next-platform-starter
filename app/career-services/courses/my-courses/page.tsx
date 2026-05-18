@@ -8,7 +8,7 @@ import { Play, Clock, Lock, ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'My Courses | Elevate for Humanity',
+  title: 'My Courses',
   description: 'Access your purchased career courses.',
 };
 

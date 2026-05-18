@@ -8,12 +8,12 @@ import { ArrowRight, Clock, DollarSign, Award, Phone } from 'lucide-react';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Free Career Counseling | Elevate for Humanity',
+  title: 'Free Career Counseling',
   description:
     'Get free personalized career guidance. Explore career paths, identify skill gaps, and find the right training program. AI-powered counseling available 24/7.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-counseling' },
   openGraph: {
-    title: 'Free Career Counseling | Elevate for Humanity',
+    title: 'Free Career Counseling',
     description:
       'Get free personalized career guidance powered by AI. Explore career paths and find the right training program.',
   },

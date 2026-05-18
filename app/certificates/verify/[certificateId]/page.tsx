@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: 'Verify Certificate | Elevate For Humanity',
+  title: 'Verify Certificate',
   description: 'Verify the authenticity of an Elevate For Humanity certificate',
 };
 

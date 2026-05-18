@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Funding Options | Free Career Training | Elevate For Humanity',
+  title: 'Funding Options | Free Career Training',
   description:
     'Explore funding options for career training including WIOA, Job Ready Indy, and state programs. Most adults qualify for Funded training.',
   alternates: {

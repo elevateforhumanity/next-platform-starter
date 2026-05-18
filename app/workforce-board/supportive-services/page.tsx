@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/workforce-board/supportive-services',
   },
-  title: 'Supportive Services | Elevate For Humanity',
+  title: 'Supportive Services',
   description: 'Manage supportive services for program participants.',
 };
 

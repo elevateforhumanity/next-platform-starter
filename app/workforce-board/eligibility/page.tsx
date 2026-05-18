@@ -6,7 +6,7 @@ import { FileText, HelpCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/workforce-board/eligibility' },
-  title: 'WIOA Eligibility | Workforce Board | Elevate For Humanity',
+  title: 'WIOA Eligibility | Workforce Board',
   description:
     'WIOA eligibility requirements for workforce development training programs. Check if you qualify for funded career training.',
 };

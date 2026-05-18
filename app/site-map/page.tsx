@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { headerNavigation } from '@/lib/navigation/site-nav.config';
 
 export const metadata: Metadata = {
-  title: 'Sitemap | Elevate for Humanity',
+  title: 'Sitemap',
   description: 'Complete directory of all pages on Elevate for Humanity.',
 };
 

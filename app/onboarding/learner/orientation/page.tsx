@@ -20,7 +20,7 @@ import { logger } from '@/lib/logger';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Orientation | Elevate for Humanity',
+  title: 'Orientation',
 };
 
 async function completeOrientation() {

@@ -18,7 +18,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: 'Parent & Guardian Dashboard | Elevate For Humanity',
+  title: 'Parent & Guardian Dashboard',
 };
 
 export default async function ParentDashboardPage() {

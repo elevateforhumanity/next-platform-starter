@@ -6,7 +6,7 @@ import { CheckCircle, ArrowRight, Building2, Users, BookOpen } from 'lucide-reac
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Application Submitted | Elevate for Humanity',
+  title: 'Application Submitted',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apply/employer/success',
   },

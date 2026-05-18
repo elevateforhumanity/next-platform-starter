@@ -20,7 +20,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Staff Onboarding | Elevate For Humanity',
+  title: 'Staff Onboarding',
   description: 'Complete your staff onboarding process.',
 };
 

@@ -6,7 +6,7 @@ import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interes
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Apply | Check Eligibility for Funded Training | Elevate for Humanity',
+  title: 'Apply | Check Eligibility for Funded Training',
   description:
     'Check eligibility for WIOA, WRG, and FSSA IMPACT-funded training in healthcare, trades, technology, and business. Many programs are no cost to eligible Indiana residents.',
   alternates: {

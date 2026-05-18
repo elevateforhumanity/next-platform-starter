@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Staff Skills | Elevate For Humanity',
+  title: 'Staff Skills',
   description: 'Track and develop your professional skills.',
   robots: { index: false, follow: false },
 };

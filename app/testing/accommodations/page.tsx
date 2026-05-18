@@ -6,7 +6,7 @@ import { TESTING_CENTER } from '@/lib/testing/testing-config';
 import { AlertTriangle, CheckCircle, ChevronRight, Mail, Phone } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Testing Accommodations | Elevate for Humanity',
+  title: 'Testing Accommodations',
   description:
     'Request testing accommodations for your certification exam. Extended time, screen reader support, and other accommodations available. Submit at least 30 days before your exam date.',
   alternates: {

@@ -4,7 +4,7 @@ import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Job Placement | Elevate for Humanity',
+  title: 'Job Placement',
   description: 'Job placement services for Elevate graduates. Employer connections, job leads, and placement support in healthcare, skilled trades, technology, and business.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-services/job-placement' },
 };

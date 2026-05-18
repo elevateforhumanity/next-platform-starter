@@ -6,7 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Shield, Scale, Users, FileText, ArrowRight, Phone } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Federal Compliance | Elevate For Humanity',
+  title: 'Federal Compliance',
   description:
     'Our commitment to federal compliance including WIOA, FERPA, ADA, and equal opportunity standards. View our policies and compliance documentation.',
   alternates: {

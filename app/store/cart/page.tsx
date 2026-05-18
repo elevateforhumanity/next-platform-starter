@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Shopping Cart | Elevate for Humanity',
+  title: 'Shopping Cart',
   description: 'Review your cart and proceed to checkout.',
   robots: { index: false, follow: false },
 };

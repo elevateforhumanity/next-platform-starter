@@ -19,7 +19,7 @@ import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'For Students | Free Career Training | Elevate for Humanity',
+  title: 'For Students | Free Career Training',
   description:
     'Funded career training with job placement. No cost, no debt. Get certified and start earning in weeks.',
   alternates: {

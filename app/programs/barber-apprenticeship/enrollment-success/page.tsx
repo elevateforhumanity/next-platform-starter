@@ -7,7 +7,7 @@ import { Shield } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'You Are Enrolled | Barber Apprenticeship | Elevate for Humanity',
+  title: 'You Are Enrolled | Barber Apprenticeship',
   description: 'Your enrollment in the Barber Apprenticeship program is confirmed.',
 };
 

@@ -17,7 +17,7 @@ import {
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Onboarding and User Experience Standards | Elevate For Humanity',
+  title: 'Onboarding and User Experience Standards',
   description:
     'User onboarding flows, accessibility standards, support channels, and UX guidelines for the platform.',
 };

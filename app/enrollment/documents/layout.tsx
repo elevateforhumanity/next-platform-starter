@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Enrollment Documents | Elevate for Humanity',
+  title: 'Enrollment Documents',
   description: 'Upload required enrollment documents.',
 };
 

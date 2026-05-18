@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Dr. Carlina Wilkes | Our Team | Elevate for Humanity',
+  title: 'Dr. Carlina Wilkes | Our Team',
   description: 'Dr. Carlina Wilkes — Executive Director of Financial Operations & Organizational Compliance at Elevate for Humanity Career & Technical Institute.',
 };
 

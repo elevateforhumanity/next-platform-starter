@@ -7,7 +7,7 @@ import { AttendanceVerifyButton } from './AttendanceVerifyButton';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Live Session | Elevate For Humanity',
+  title: 'Live Session',
   description: 'Join live course sessions.',
 };
 

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/staff-portal/processes',
   },
-  title: 'Process Documentation | Elevate For Humanity',
+  title: 'Process Documentation',
   description: 'Access step-by-step guides for all internal processes.',
 };
 

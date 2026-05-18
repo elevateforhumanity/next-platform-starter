@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { BookOpen, Search, Plus } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Courses | Staff Portal | Elevate For Humanity',
+  title: 'Courses | Staff Portal',
   robots: { index: false, follow: false },
 };
 

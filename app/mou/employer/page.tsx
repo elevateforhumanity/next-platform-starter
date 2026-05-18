@@ -3,7 +3,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import EmployerMOUSignForm from './EmployerMOUSignForm';
 
 export const metadata: Metadata = {
-  title: 'Employer Partnership MOU | Elevate for Humanity',
+  title: 'Employer Partnership MOU',
   description:
     'Sign your Memorandum of Understanding with Elevate for Humanity to become an official employer hiring partner.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/mou/employer' },

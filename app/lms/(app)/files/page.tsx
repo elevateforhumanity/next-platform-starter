@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/lms/files' },
-  title: 'My Files | Elevate For Humanity',
+  title: 'My Files',
   description: 'Access your course files and materials.',
 };
 

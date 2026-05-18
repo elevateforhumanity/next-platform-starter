@@ -17,7 +17,7 @@ import {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'FSSA IMPACT Program | SNAP E&T Career Training | Elevate for Humanity',
+  title: 'FSSA IMPACT Program | SNAP E&T Career Training',
   description:
     "Indiana SNAP and TANF recipients may qualify for free career training through FSSA's IMPACT program. Elevate for Humanity is an ETPL-approved, FSSA-participating training provider.",
   alternates: { canonical: 'https://www.elevateforhumanity.org/fssa' },

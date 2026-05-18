@@ -14,7 +14,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const program = await getProgramBySlug(params.program);
-  if (!program) return { title: 'Request Information | Elevate for Humanity' };
+  if (!program) return { title: 'Request Information' };
   return {
     title: `Request Information — ${program.title} | Elevate for Humanity`,
     description: `Get answers about the ${program.title} program — funding options, schedule, credentials, and enrollment.`,

@@ -19,7 +19,7 @@ import {
 import { PrintButton } from './PrintButton';
 
 export const metadata: Metadata = {
-  title: 'Workforce Partnership Packet | Compliance | Elevate for Humanity',
+  title: 'Workforce Partnership Packet | Compliance',
   description:
     'Ready-to-share partnership packet for workforce boards, community organizations, and employer partners. Program list, delivery model, progress reporting, credential structure, and cohort timeline.',
   alternates: {

@@ -8,7 +8,7 @@ import { Building2, MapPin, BookOpen, CheckCircle } from 'lucide-react';
 export const revalidate = 300; // 5-minute ISR
 
 export const metadata: Metadata = {
-  title: 'Provider Network | Elevate for Humanity',
+  title: 'Provider Network',
   description:
     'Vetted training organizations, workforce agencies, and employers operating on the Elevate workforce hub.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/network' },

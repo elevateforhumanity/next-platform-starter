@@ -5,7 +5,7 @@ import { CreditCard, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Payments & Billing | Elevate for Humanity',
+  title: 'Payments & Billing',
 };
 
 export default async function PaymentsPage() {

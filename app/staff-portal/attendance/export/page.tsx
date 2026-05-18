@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Export Attendance | Staff Portal | Elevate For Humanity',
+  title: 'Export Attendance | Staff Portal',
   description: 'Export attendance records for reporting and compliance.',
   robots: { index: false, follow: false },
 };

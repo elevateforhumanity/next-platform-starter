@@ -6,7 +6,7 @@ import { MessageSquare } from 'lucide-react';
 import FAQSearch from './FAQSearch';
 
 export const metadata: Metadata = {
-  title: 'FAQ | Elevate For Humanity',
+  title: 'FAQ',
   description:
     'Frequently asked questions about our career training programs, eligibility, funding, and services. Training at no cost to eligible participants.',
   alternates: {

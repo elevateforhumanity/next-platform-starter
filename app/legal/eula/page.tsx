@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'End User License Agreement | Elevate For Humanity',
+  title: 'End User License Agreement',
   description: 'End User License Agreement governing use of the Elevate For Humanity platform.',
 };
 

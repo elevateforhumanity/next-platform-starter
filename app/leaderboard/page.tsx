@@ -5,7 +5,7 @@ import { Trophy, Medal, Flame } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 export const metadata: Metadata = {
-  title: 'Leaderboard | Elevate For Humanity',
+  title: 'Leaderboard',
   description: 'See top learners and compete for the top spots.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/leaderboard',

@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/lms/chat' },
-  title: 'Chat | Elevate For Humanity',
+  title: 'Chat',
   description: 'Connect with instructors and peers.',
 };
 

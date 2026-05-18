@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 
 export const metadata: Metadata = {
-  title: 'LMS Licensing & API Access | Elevate for Humanity',
+  title: 'LMS Licensing & API Access',
   description:
     'License the Elevate LMS platform or request API access for your training organization. Workforce training technology built for WIOA, apprenticeships, and career certification programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/sales' },

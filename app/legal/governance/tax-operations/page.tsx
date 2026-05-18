@@ -16,7 +16,7 @@ import {
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Tax Preparation and Refund Advance Operations | Elevate For Humanity',
+  title: 'Tax Preparation and Refund Advance Operations',
   description:
     'Tax preparation services, refund advance loans, IRS compliance, and operational procedures.',
 };

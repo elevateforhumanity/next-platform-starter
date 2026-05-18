@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Cm | Elevate For Humanity',
+  title: 'Cm',
   description: 'Resources and tools for your success.',
   robots: { index: false },
 };

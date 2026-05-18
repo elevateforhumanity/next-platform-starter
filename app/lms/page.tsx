@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'LMS Portal | Elevate for Humanity',
+  title: 'LMS Portal',
   description: 'Secure learner portal for courses, lessons, progress tracking, and certifications.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/lms',

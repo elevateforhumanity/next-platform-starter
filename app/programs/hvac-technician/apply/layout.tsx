@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Apply | HVAC Technician | Elevate for Humanity',
+  title: 'Apply | HVAC Technician',
   description:
     'Apply for the 6-week HVAC Technician program. Workforce Ready Grant and WIOA funding available.',
   alternates: {

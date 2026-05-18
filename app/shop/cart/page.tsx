@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import CartItems from './CartItems';
 
 export const metadata: Metadata = {
-  title: 'Shopping Cart | Elevate For Humanity',
+  title: 'Shopping Cart',
   robots: { index: false, follow: false },
 };
 

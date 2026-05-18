@@ -19,7 +19,7 @@ import Image from 'next/image';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'My Account | Elevate For Humanity',
+  title: 'My Account',
   description: 'Manage your account settings, billing, and preferences.',
 };
 

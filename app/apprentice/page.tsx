@@ -9,7 +9,7 @@ import { getApprenticeshipRequiredHours } from '@/lib/compliance/apprenticeship'
 import { listUnifiedEnrollments, resolveLatestEnrollment } from '@/lib/enrollment/resolver';
 
 export const metadata: Metadata = {
-  title: 'Apprentice Portal | Elevate For Humanity',
+  title: 'Apprentice Portal',
   description: 'Track your apprenticeship progress, hours, and certifications.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apprentice',

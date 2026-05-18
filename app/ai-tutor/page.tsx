@@ -6,7 +6,7 @@ import { Bot, MessageCircle, BookOpen, Clock, Lightbulb, Shield } from 'lucide-r
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/ai-tutor' },
-  title: 'AI Tutor | Elevate For Humanity',
+  title: 'AI Tutor',
   description:
     'Get personalized learning support from our AI tutor. Available 24/7 to help with coursework, exam prep, and study questions.',
 };

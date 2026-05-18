@@ -13,7 +13,7 @@ export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-services' },
-  title: 'Career Services | Elevate For Humanity',
+  title: 'Career Services',
   description:
     'Resume building, interview prep, job fairs, and direct employer connections. We help you get hired after training.',
 };

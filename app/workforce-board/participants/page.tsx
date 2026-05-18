@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/workforce-board/participants',
   },
-  title: 'Participants | Elevate For Humanity',
+  title: 'Participants',
   description: 'View and manage program participants.',
 };
 

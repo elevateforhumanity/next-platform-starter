@@ -6,7 +6,7 @@ import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
 
 export const metadata: Metadata = {
-  title: 'CNA Program — Certified Nursing Assistant | Elevate for Humanity',
+  title: 'CNA Program — Certified Nursing Assistant',
   description: 'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. WIOA and Workforce Ready Grant funding available.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/cna' },
 };

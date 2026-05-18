@@ -6,7 +6,7 @@ import AttendanceRecordForm from './AttendanceRecordForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Record Attendance | Staff Portal | Elevate For Humanity',
+  title: 'Record Attendance | Staff Portal',
   description: 'Record student attendance.',
   robots: { index: false, follow: false },
 };

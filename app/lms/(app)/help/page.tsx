@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/lms/help',
   },
-  title: 'Help Center | LMS | Elevate For Humanity',
+  title: 'Help Center | LMS',
   description:
     'Get help with your courses, technical issues, and account questions. Access tutorials, FAQs, and contact support.',
 };

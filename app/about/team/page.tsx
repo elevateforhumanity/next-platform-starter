@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { teamMembers } from '@/content/cf-team';
 
 export const metadata: Metadata = {
-  title: 'Our Team | Elevate for Humanity',
+  title: 'Our Team',
   description:
     'Meet the Elevate for Humanity team — educators, workforce specialists, and community advocates.',
 };

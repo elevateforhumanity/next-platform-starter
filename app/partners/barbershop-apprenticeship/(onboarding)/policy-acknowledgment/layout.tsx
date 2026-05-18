@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Policy Acknowledgment | Elevate for Humanity',
+  title: 'Policy Acknowledgment',
   description: 'Review and acknowledge barbershop apprenticeship policies.',
 };
 

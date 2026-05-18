@@ -7,7 +7,7 @@ import { Shield, Calculator, BookOpen, Clock, Phone, ExternalLink } from 'lucide
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Enrolled | Tax Preparation Program | Elevate for Humanity',
+  title: 'Enrolled | Tax Preparation Program',
   description: 'Your enrollment in the Tax Preparation & Financial Services program is confirmed.',
 };
 

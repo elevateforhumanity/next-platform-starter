@@ -7,7 +7,7 @@ import heroBanners from '@/content/heroBanners';
 import { TransferHoursCalculator } from '../TransferHoursCalculator';
 
 export const metadata: Metadata = {
-  title: 'Funding & Enrollment | Barber Apprenticeship | Elevate for Humanity',
+  title: 'Funding & Enrollment | Barber Apprenticeship',
   description:
     'Explore funding options for the Barber Apprenticeship — FSSA IMPACT for SNAP/TANF recipients, employer sponsorship, or self-pay with flexible weekly payments.',
 };

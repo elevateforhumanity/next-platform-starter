@@ -6,7 +6,7 @@ import { Briefcase, TrendingUp, Users, MapPin, FileCheck, Handshake } from 'luci
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/workforce-board/employment' },
-  title: 'Employment Services | Workforce Board | Elevate For Humanity',
+  title: 'Employment Services | Workforce Board',
   description:
     'Employment services for workforce board participants including job placement, employer connections, and career support.',
 };

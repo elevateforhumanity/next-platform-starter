@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { BookOpen, Download, Target, Clock, Award, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Course Syllabi | Elevate for Humanity',
+  title: 'Course Syllabi',
   description: 'View detailed course syllabi with learning outcomes, assessments, and requirements',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/syllabi',

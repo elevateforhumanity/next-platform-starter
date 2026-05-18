@@ -8,7 +8,7 @@ import { getMyPartnerContext } from '@/lib/partner/access';
 import { getPartnerStudentsWithTraining } from '@/lib/partner/students';
 
 export const metadata: Metadata = {
-  title: 'Students | Partner Portal | Elevate For Humanity',
+  title: 'Students | Partner Portal',
   description: 'View and manage referred students.',
 };
 

@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Partner Learning | Elevate For Humanity',
+  title: 'Partner Learning',
   description: 'Access your partner course enrollment details and instructions.',
 };
 

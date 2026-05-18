@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, ArrowLeft, Play, LayoutGrid, Users, FileBarChart, Eye, Award, Clock } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Institutional Operator Demo | Elevate for Humanity',
+  title: 'Institutional Operator Demo',
   description: 'See how institutions operate multiple programs while maintaining clean, auditable records.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/demo/institutional',

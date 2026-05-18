@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/employer/post-job' },
-  title: 'Post a Job | Elevate For Humanity',
+  title: 'Post a Job',
   description: 'Post job opportunities for program graduates.',
 };
 

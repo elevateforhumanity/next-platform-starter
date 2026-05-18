@@ -10,7 +10,7 @@ import { CheckCircle2, ArrowLeft, Clock, MapPin } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Select Schedule | Elevate for Humanity',
+  title: 'Select Schedule',
   robots: { index: false, follow: false },
 };
 

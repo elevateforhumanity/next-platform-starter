@@ -5,7 +5,7 @@ import CosmetologyPartnerPageClient from './PartnerPageClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Salon Partner Program | Indiana Cosmetology Apprenticeship | Elevate for Humanity',
+  title: 'Salon Partner Program | Indiana Cosmetology Apprenticeship',
   description:
     'Become a host salon for the Indiana Cosmetology Apprenticeship program. Host apprentices, develop talent, and grow your team with structured training support.',
   alternates: {

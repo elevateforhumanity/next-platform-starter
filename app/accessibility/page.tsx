@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/accessibility',
   },
-  title: 'Accessibility Statement | Elevate For Humanity',
+  title: 'Accessibility Statement',
   description: 'Accessibility commitment and support for Elevate for Humanity services.',
 };
 

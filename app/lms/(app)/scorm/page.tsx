@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/lms/scorm' },
-  title: 'SCORM Content | Elevate For Humanity',
+  title: 'SCORM Content',
   description: 'Access SCORM-compliant learning modules.',
 };
 

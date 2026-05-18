@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
 
 export const metadata: Metadata = {
-  title: 'FERPA Consent | Elevate for Humanity',
+  title: 'FERPA Consent',
   robots: { index: false, follow: false },
 };
 

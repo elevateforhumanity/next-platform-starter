@@ -6,7 +6,7 @@ import { ArrowRight, CheckCircle, Building2, FileText, Users, Shield, BarChart3 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Partner Operating Model | Elevate for Humanity',
+  title: 'Partner Operating Model',
   description: 'How Elevate for Humanity partners with training providers, employers, workforce agencies, and government entities. Roles, responsibilities, and compliance requirements.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partner-operating-model' },
 };

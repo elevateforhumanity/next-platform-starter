@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/lms/adaptive' },
-  title: 'Adaptive Learning | Elevate For Humanity',
+  title: 'Adaptive Learning',
   description: 'Personalized adaptive learning experiences.',
 };
 

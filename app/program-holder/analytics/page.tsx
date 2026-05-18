@@ -15,7 +15,7 @@ import { requireProgramHolder } from '@/lib/auth/require-program-holder';
 import { EnrollmentTrendChart } from '@/components/program-holder/EnrollmentTrendChart';
 
 export const metadata: Metadata = {
-  title: 'Analytics | Program Holder Portal | Elevate For Humanity',
+  title: 'Analytics | Program Holder Portal',
   description: 'View program analytics and performance metrics.',
   robots: { index: false, follow: false },
 };

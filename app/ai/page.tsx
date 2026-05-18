@@ -5,7 +5,7 @@ import { Brain, MessageSquare, Sparkles, Target, BookOpen, Briefcase } from 'luc
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata = {
-  title: 'AI-Powered Learning Tools | Elevate for Humanity',
+  title: 'AI-Powered Learning Tools',
   description:
     'Get 24/7 help with AI tutoring, course building, job matching, and more. Powered by advanced AI to accelerate your learning.',
   alternates: {

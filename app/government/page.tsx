@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/government',
   },
-  title: 'Government & Agency Partners | Elevate For Humanity',
+  title: 'Government & Agency Partners',
   description:
     'Partner with Elevate for Humanity to deliver workforce development programs. WIOA-compliant, ETPL-approved training provider serving government agencies and workforce boards.',
 };

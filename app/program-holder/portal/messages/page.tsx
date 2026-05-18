@@ -7,7 +7,7 @@ import { MessageSquare, Send, Clock, ChevronRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: 'Messages | Program Holder Portal | Elevate for Humanity',
+  title: 'Messages | Program Holder Portal',
   robots: { index: false, follow: false },
 };
 

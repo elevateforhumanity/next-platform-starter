@@ -18,14 +18,14 @@ import {
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: 'Employers | Hire, Sponsor & Train Workforce | Elevate for Humanity',
+  title: 'Employers | Hire, Sponsor & Train Workforce',
   description:
     'Hire pre-credentialed graduates, sponsor DOL-registered apprentices, or co-design training cohorts. OJT wage reimbursement up to 50%. WOTC tax credits. No recruiting fees.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/employers',
   },
   openGraph: {
-    title: 'Employers | Elevate for Humanity',
+    title: 'Employers',
     description:
       'Hire pre-credentialed graduates, sponsor apprentices, or co-design training cohorts.',
     images: [{ url: '/images/pages/for-employers-page-1.webp' }],

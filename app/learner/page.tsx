@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Learner Dashboard | Elevate for Humanity',
+  title: 'Learner Dashboard',
   description:
     'Access your learner dashboard to track progress, complete courses, and manage your career training journey.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/learner' },

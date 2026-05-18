@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import NotificationsClient from './NotificationsClient';
 
 export const metadata: Metadata = {
-  title: 'Notifications | Elevate For Humanity',
+  title: 'Notifications',
   description: 'View your notifications and updates.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/notifications',

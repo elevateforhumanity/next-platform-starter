@@ -6,7 +6,7 @@ import { FileText, Users, Award, BarChart3 } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/create-program' },
-  title: 'Create a Training Program | Partners | Elevate For Humanity',
+  title: 'Create a Training Program | Partners',
   description:
     'Partner with Elevate to create and deliver workforce training programs. ETPL listing, student referrals, and compliance support.',
 };

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'License Purchase Success | Elevate for Humanity',
+  title: 'License Purchase Success',
   robots: { index: false, follow: false },
 };
 

@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Certificates & Credentials | Elevate for Humanity',
+  title: 'Certificates & Credentials',
   description:
     'Earn industry-recognized certificates and credentials. Verify certificates through government partners including SSA, IRS, DOL, and state licensing boards.',
   alternates: {

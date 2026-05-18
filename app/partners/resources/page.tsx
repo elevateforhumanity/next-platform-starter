@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { BookOpen, FileText, Video, ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Partner Resources | Elevate for Humanity',
+  title: 'Partner Resources',
   description: 'Resources, guides, and documentation for training partners.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/partners/resources',

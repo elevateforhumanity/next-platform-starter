@@ -7,7 +7,7 @@ import { Shield } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Verify Your Identity | Elevate for Humanity',
+  title: 'Verify Your Identity',
   description: 'Complete identity verification to access platform features',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/verify-identity',

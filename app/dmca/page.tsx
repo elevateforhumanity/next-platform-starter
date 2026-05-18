@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/dmca',
   },
-  title: 'DMCA Policy | Elevate For Humanity',
+  title: 'DMCA Policy',
   description:
     'Digital Millennium Copyright Act (DMCA) policy and copyright infringement notification procedures.',
 };

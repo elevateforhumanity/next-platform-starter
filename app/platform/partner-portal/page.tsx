@@ -15,12 +15,12 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Partner Portal | Elevate For Humanity',
+  title: 'Partner Portal',
   description:
     'Manage students, track outcomes, and access reports through the partner portal. Tools for training providers, community organizations, and workforce partners.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/platform/partner-portal' },
   openGraph: {
-    title: 'Partner Portal | Elevate For Humanity',
+    title: 'Partner Portal',
     description: 'Manage students, track outcomes, and access reports through the partner portal.',
     url: 'https://www.elevateforhumanity.org/platform/partner-portal',
     siteName: 'Elevate for Humanity',

@@ -8,7 +8,7 @@ import heroBanners from '@/content/heroBanners';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Hire Trained Graduates | Employer Partnership | Elevate for Humanity',
+  title: 'Hire Trained Graduates | Employer Partnership',
   description:
     'Hire pre-screened, credentialed graduates. Access WOTC tax credits, OJT wage reimbursement, and Registered Apprenticeship sponsorship.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/employer' },

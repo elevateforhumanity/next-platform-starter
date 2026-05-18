@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Training Videos | Elevate for Humanity',
+  title: 'Training Videos',
   description:
     'Watch free career training videos. Learn about our programs in healthcare, skilled trades, technology, and business.',
   alternates: {

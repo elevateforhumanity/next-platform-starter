@@ -6,7 +6,7 @@ import { XCircle } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Payment Cancelled | Elevate for Humanity',
+  title: 'Payment Cancelled',
   description: 'Payment was cancelled',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/payment/affirm/cancel',

@@ -6,7 +6,7 @@ import { Calendar, Clock, MapPin, Users, ExternalLink, Video } from 'lucide-reac
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Events & Workshops | Elevate for Humanity',
+  title: 'Events & Workshops',
   description:
     'Join us for information sessions, hiring events, workshops, and open houses. Free career training events in Indianapolis.',
   alternates: {

@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/employer/placements' },
-  title: 'Job Placements | Elevate For Humanity',
+  title: 'Job Placements',
   description: 'Track job placements and hiring outcomes.',
 };
 

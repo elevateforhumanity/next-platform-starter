@@ -8,7 +8,7 @@ import InstructorAgreementClient from './InstructorAgreementClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Instructor Services Agreement | Elevate for Humanity',
+  title: 'Instructor Services Agreement',
 };
 
 export default async function InstructorAgreementPage() {

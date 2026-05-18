@@ -7,7 +7,7 @@ import { CareerCoursesClient } from './CareerCoursesClient';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Career Success Courses | Elevate for Humanity',
+  title: 'Career Success Courses',
   description:
     'Professional video courses for resume writing, interview preparation, and job search strategies. Self-paced learning with lifetime access.',
 };

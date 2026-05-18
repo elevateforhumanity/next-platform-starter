@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Acceptable Use Policy | Elevate For Humanity',
+  title: 'Acceptable Use Policy',
   description:
     'Acceptable Use Policy governing behavior and usage of the Elevate For Humanity platform.',
 };

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Download, FileText, BookOpen, GraduationCap, FileCheck } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Download Center | Elevate For Humanity',
+  title: 'Download Center',
   description: 'Access handbooks, workbooks, forms, and resources for students and staff',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/downloads',

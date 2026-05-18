@@ -13,7 +13,7 @@ const SITE_URL = 'https://www.elevateforhumanity.org';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Shop | Elevate for Humanity',
+  title: 'Shop',
   description:
     'Shop professional tools, equipment, apparel, and study materials for your career training programs. Quality gear at student-friendly prices.',
   keywords: [
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/shop`,
   },
   openGraph: {
-    title: 'Shop | Elevate for Humanity',
+    title: 'Shop',
     description:
       'Shop professional tools, equipment, apparel, and study materials for your career training programs.',
     url: `${SITE_URL}/shop`,
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Shop | Elevate for Humanity',
+    title: 'Shop',
     description:
       'Shop professional tools, equipment, and study materials for your career training.',
   },

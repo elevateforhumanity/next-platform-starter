@@ -4,7 +4,7 @@ import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Resume Building | Elevate for Humanity',
+  title: 'Resume Building',
   description: 'Free resume building and review for Elevate students and graduates. Credential-focused resumes that get callbacks from Indiana employers.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-services/resume-building' },
 };

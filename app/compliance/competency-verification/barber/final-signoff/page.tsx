@@ -9,7 +9,7 @@ import { PrintButton } from '../PrintButton';
 import { BARBER_SECTIONS, BARBER_STATS } from '../barber-rubric-data';
 
 export const metadata: Metadata = {
-  title: 'Final Competency Sign-Off — Barber Apprenticeship | Elevate for Humanity',
+  title: 'Final Competency Sign-Off — Barber Apprenticeship',
   description: 'Tri-party final competency sign-off form for barber apprenticeship completion. RTI Instructor, Employer Supervisor, Program Holder, and Sponsor verification.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/compliance/competency-verification/barber/final-signoff' },
 };

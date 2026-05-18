@@ -2,7 +2,7 @@ import { permanentRedirect } from 'next/navigation';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Documentation | Elevate for Humanity',
+  title: 'Documentation',
   description: 'Platform documentation and help resources.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/help',

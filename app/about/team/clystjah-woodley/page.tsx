@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Clystjah Woodley | Our Team | Elevate for Humanity',
+  title: 'Clystjah Woodley | Our Team',
   description: 'Clystjah Woodley — Program Coordinator at Elevate for Humanity Career & Technical Institute.',
 };
 

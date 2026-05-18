@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Disclosures | Elevate For Humanity',
+  title: 'Disclosures',
   description:
     'Important disclosures and disclaimers for users of the Elevate For Humanity platform.',
 };

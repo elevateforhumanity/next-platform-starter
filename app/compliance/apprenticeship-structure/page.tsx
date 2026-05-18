@@ -15,7 +15,7 @@ import {
 import { PrintButton } from './PrintButton';
 
 export const metadata: Metadata = {
-  title: 'Apprenticeship & RTI Structure | Compliance | Elevate for Humanity',
+  title: 'Apprenticeship & RTI Structure | Compliance',
   description:
     'Master compliance document: institutional hierarchy, RTI delivery model, OJT structure, credential issuance chain, and per-program hour mapping for registered apprenticeship and workforce training programs.',
   alternates: {

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Revenue Share Calculator | Elevate for Humanity',
+  title: 'Revenue Share Calculator',
   description: 'Estimate revenue share projections for Elevate for Humanity licensing and partnership arrangements.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/calculator/revenue-share',

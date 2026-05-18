@@ -5,7 +5,7 @@ import Link from 'next/link';
 import VerifyClient from './VerifyClient';
 
 export const metadata: Metadata = {
-  title: 'Verify Certificate | Elevate for Humanity',
+  title: 'Verify Certificate',
   description: 'Verify the authenticity of certificates issued by Elevate for Humanity.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/verify',

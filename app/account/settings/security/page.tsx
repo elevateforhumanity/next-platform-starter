@@ -8,7 +8,7 @@ import { Key, Smartphone, History, Mail } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Security Settings | Elevate For Humanity',
+  title: 'Security Settings',
   description: 'Manage your account security settings.',
 };
 

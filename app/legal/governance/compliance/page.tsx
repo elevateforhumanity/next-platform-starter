@@ -17,7 +17,7 @@ import {
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Compliance and Disclosure Framework | Elevate For Humanity',
+  title: 'Compliance and Disclosure Framework',
   description:
     'Regulatory compliance, required disclosures, and legal framework for Elevate For Humanity platform operations.',
 };

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/staff-portal/dashboard',
   },
-  title: 'Staff Dashboard | Elevate For Humanity',
+  title: 'Staff Dashboard',
   description: 'Staff portal for managing students, enrollments, and support tasks.',
 };
 

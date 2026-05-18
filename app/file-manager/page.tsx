@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Folder, File, Upload, Search, Grid, List } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'File Manager | Elevate For Humanity',
+  title: 'File Manager',
   description: 'Manage your documents, certificates, and course materials.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/file-manager',

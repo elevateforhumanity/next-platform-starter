@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { ExternalLink, Clock, Award, Users, Phone, Mail, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'CareerSafe OSHA Training | Short-Term Courses | Elevate For Humanity',
+  title: 'CareerSafe OSHA Training | Short-Term Courses',
   description: 'OSHA 10 & OSHA 30 Safety Certification',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/partners/careersafe',

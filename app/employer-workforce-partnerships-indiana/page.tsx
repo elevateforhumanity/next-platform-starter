@@ -7,7 +7,7 @@ export const dynamic = 'force-static';
 const CANONICAL = 'https://www.elevateforhumanity.org/employer-workforce-partnerships-indiana';
 
 export const metadata: Metadata = {
-  title: 'Employer Workforce Partnerships Indiana | OJT, Apprenticeships & Wage Reimbursement | Elevate for Humanity',
+  title: 'Employer Workforce Partnerships Indiana | OJT, Apprenticeships & Wage Reimbursement',
   description:
     'Partner with Elevate for Humanity for OJT wage reimbursement, registered apprenticeships, WOTC tax credits, and trained workforce candidates across Indiana.',
   alternates: { canonical: CANONICAL },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Employer Workforce Partnerships Indiana | Elevate for Humanity',
+    title: 'Employer Workforce Partnerships Indiana',
     description: 'OJT wage reimbursement, registered apprenticeships, WOTC tax credits. Partner with Indiana\'s workforce training provider.',
     images: ['/og-default.webp'],
   },

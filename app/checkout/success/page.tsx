@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Checkout Success | Elevate For Humanity',
+  title: 'Checkout Success',
   description: 'Elevate For Humanity - Career training and workforce development',
 };
 

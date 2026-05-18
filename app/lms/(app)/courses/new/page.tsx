@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/lms/courses/new' },
-  title: 'Create Course | Elevate For Humanity',
+  title: 'Create Course',
   description: 'Create a new course in the LMS.',
 };
 

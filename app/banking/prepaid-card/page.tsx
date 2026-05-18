@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Prepaid Debit Card - No Bank Account Needed | Elevate for Humanity',
+  title: 'Prepaid Debit Card - No Bank Account Needed',
   description:
     'Receive your tax refund on a prepaid Visa debit card. No bank account required. Use anywhere Visa is accepted. FDIC insured.',
   alternates: {

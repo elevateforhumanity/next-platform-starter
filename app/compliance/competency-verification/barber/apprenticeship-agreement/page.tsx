@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PrintButton } from '../PrintButton';
 
 export const metadata: Metadata = {
-  title: 'Barbering Apprenticeship Agreement | Elevate for Humanity',
+  title: 'Barbering Apprenticeship Agreement',
   description: 'Formal apprenticeship agreement for workplace-based barber training. Defines RTI, OJT, supervision, competency evaluation, roles, and completion requirements. RAPIDS ID: 2025-IN-132301.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/compliance/competency-verification/barber/apprenticeship-agreement' },
 };

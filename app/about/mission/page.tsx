@@ -7,12 +7,12 @@ import { CheckCircle, ArrowRight, Heart, Users, Award, Briefcase } from 'lucide-
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Our Mission | Elevate for Humanity',
+  title: 'Our Mission',
   description:
     'Elevate for Humanity creates accessible career pathways, credential-bearing workforce training, and community support for underserved populations across Indiana and the Midwest.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/about/mission' },
   openGraph: {
-    title: 'Our Mission | Elevate for Humanity',
+    title: 'Our Mission',
     description:
       'Credential-bearing workforce training and community support for underserved populations.',
     images: [{ url: '/images/pages/mission-hero.webp', width: 1200, height: 630 }],

@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Provider Dashboard | Elevate For Humanity',
+  title: 'Provider Dashboard',
 };
 
 export const dynamic = 'force-dynamic';

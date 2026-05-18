@@ -4,7 +4,7 @@ import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Philanthropy & Giving | Elevate for Humanity',
+  title: 'Philanthropy & Giving',
   description:
     'Support workforce development in Indiana. Your gift funds training scholarships, equipment, and career services for underserved adults seeking economic mobility.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/philanthropy' },

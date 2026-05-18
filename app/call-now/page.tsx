@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Get Started | Elevate For Humanity',
+  title: 'Get Started',
   description:
     'Get immediate help with enrollment, programs, funding, and support — all self-service, start everything online.',
   alternates: {

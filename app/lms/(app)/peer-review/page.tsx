@@ -9,7 +9,7 @@ import PeerReviewSystem from '@/components/PeerReviewSystem';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Peer Review | LMS | Elevate For Humanity',
+  title: 'Peer Review | LMS',
   description: 'Review and provide feedback on assignments from fellow learners.',
 };
 

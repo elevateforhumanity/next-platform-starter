@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Checkout | Elevate for Humanity',
+  title: 'Checkout',
   description: 'Complete your purchase securely.',
 };
 

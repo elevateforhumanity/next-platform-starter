@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Staff Portal Users | Elevate For Humanity',
+  title: 'Staff Portal Users',
   description: 'Elevate For Humanity - Staff Portal Users page',
   alternates: { canonical: 'https://www.elevateforhumanity.org/staff-portal/users' },
 };

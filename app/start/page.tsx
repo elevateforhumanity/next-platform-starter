@@ -15,7 +15,7 @@ import ProgressSteps from '@/components/start/ProgressSteps';
 import StartForm from '@/components/start/StartForm';
 
 export const metadata: Metadata = {
-  title: 'Start Here | Elevate for Humanity',
+  title: 'Start Here',
   description:
     'Start your career training application. We help you navigate workforce funding, WIOA eligibility, and enrollment in Indiana.',
   alternates: {

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Student Handbook | Elevate for Humanity',
+  title: 'Student Handbook',
   description: 'Review the student handbook and policies.',
 };
 

@@ -15,7 +15,7 @@ import {
 import ModernLandingHero from '@/components/landing/ModernLandingHero';
 
 export const metadata: Metadata = {
-  title: 'Industries We Serve | Elevate for Humanity',
+  title: 'Industries We Serve',
   description:
     'Explore career training programs across multiple industries including healthcare, skilled trades, transportation, and more.',
   alternates: {

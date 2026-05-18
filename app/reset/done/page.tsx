@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Reset Done | Elevate For Humanity',
+  title: 'Reset Done',
   description: 'Elevate For Humanity - Reset Done page',
 };
 

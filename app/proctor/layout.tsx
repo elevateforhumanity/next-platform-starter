@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Proctor Portal | Elevate for Humanity',
+  title: 'Proctor Portal',
   description: 'Manage proctored certification exams — EPA 608, Certiport, OSHA, and more.',
   robots: { index: false, follow: false },
 };

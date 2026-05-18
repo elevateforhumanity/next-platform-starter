@@ -8,7 +8,7 @@ import type { Metadata } from 'next';
 import { Clock, Award, ChevronRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Student Training Portal | Elevate for Humanity',
+  title: 'Student Training Portal',
   description:
     'Start your career training. Browse programs, enroll, and earn industry credentials.',
 };

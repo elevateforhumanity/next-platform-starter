@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Payment Successful | Elevate for Humanity',
+  title: 'Payment Successful',
   description: 'Your payment was successful. Welcome to Elevate for Humanity!',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/payment/success',

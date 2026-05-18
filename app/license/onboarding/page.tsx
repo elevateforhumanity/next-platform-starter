@@ -6,7 +6,7 @@ import { Circle, Building, FileText, Settings } from 'lucide-react';
 import LicenseeOnboardingForm from './LicenseeOnboardingForm';
 
 export const metadata: Metadata = {
-  title: 'Licensee Onboarding | Elevate For Humanity',
+  title: 'Licensee Onboarding',
   description: 'Complete your organization setup to start using the platform.',
 };
 

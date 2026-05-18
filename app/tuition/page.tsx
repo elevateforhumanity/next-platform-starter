@@ -7,7 +7,7 @@ import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Tuition & Fees | Elevate for Humanity',
+  title: 'Tuition & Fees',
   description:
     'Tuition rates, payment options, and funding eligibility for Elevate for Humanity career training programs. Many programs are fully funded for eligible Indiana residents.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/tuition' },

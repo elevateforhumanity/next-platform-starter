@@ -18,7 +18,7 @@ import {
 import { createClient } from '@/lib/supabase/server';
 import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 export const metadata: Metadata = {
-  title: 'Store, Payments, and Licensing Framework | Elevate For Humanity',
+  title: 'Store, Payments, and Licensing Framework',
   description:
     'E-commerce operations, payment processing, digital product licensing, and refund policies.',
 };

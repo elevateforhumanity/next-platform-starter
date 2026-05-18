@@ -6,7 +6,7 @@ import { BookOpen, MapPin, Clock, Award, DollarSign } from 'lucide-react';
 import CatalogFilters from './CatalogFilters';
 
 export const metadata: Metadata = {
-  title: 'Program Catalog | Elevate for Humanity',
+  title: 'Program Catalog',
   description: 'Browse workforce training programs from approved providers. Filter by funding eligibility, credential type, location, and start date.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/catalog' },
 };

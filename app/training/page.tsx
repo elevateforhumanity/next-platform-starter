@@ -7,7 +7,7 @@ export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/training' },
-  title: 'Training Programs | Elevate For Humanity',
+  title: 'Training Programs',
   description:
     'Career training in healthcare, skilled trades, technology, CDL, barbering, and business. Most programs available at no cost to eligible Indiana residents through WIOA and state funding.',
 };

@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Metrics | Elevate For Humanity',
+  title: 'Metrics',
   description: 'Live enrollment, completion, and certification metrics for Elevate for Humanity workforce training programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/metrics',

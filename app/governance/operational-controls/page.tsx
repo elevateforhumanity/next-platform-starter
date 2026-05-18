@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Operational Controls | Elevate for Humanity',
+  title: 'Operational Controls',
   description:
     'Operational controls covering quality assurance, compliance checkpoints, and execution standards for workforce and training delivery.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/governance/operational-controls' },

@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/workforce-board/follow-ups' },
-  title: 'Follow-Ups | Elevate For Humanity',
+  title: 'Follow-Ups',
   description: 'Track and manage participant follow-up activities.',
 };
 

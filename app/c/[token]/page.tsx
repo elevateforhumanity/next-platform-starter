@@ -18,7 +18,7 @@ interface PageProps {
 }
 
 export const metadata: Metadata = {
-  title: 'Verify Digital Credential | Elevate For Humanity',
+  title: 'Verify Digital Credential',
   description: 'View and verify a digital credential from Elevate For Humanity.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/c/' },
 };

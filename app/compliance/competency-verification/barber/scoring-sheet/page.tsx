@@ -9,7 +9,7 @@ import { BARBER_SECTIONS, BARBER_STATS } from '../barber-rubric-data';
 import { PrintButton } from '../PrintButton';
 
 export const metadata: Metadata = {
-  title: 'Barber Apprenticeship Scoring Sheet | Elevate for Humanity',
+  title: 'Barber Apprenticeship Scoring Sheet',
   description: 'Printable master competency scoring rubric for barber apprenticeship. 30 competencies, 0–5 scale, evaluator signature lines.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/compliance/competency-verification/barber/scoring-sheet' },
 };

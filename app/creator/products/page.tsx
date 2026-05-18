@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Creator Products | Elevate For Humanity',
+  title: 'Creator Products',
   description: 'Elevate For Humanity - Career training and workforce development',
 };
 

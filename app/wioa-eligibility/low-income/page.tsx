@@ -5,7 +5,7 @@ import { DollarSign, Phone, Users } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'WIOA Eligibility - Low Income Guidelines | Elevate for Humanity',
+  title: 'WIOA Eligibility - Low Income Guidelines',
   description: 'Check if your household income qualifies you for free WIOA-funded career training.',
 };
 

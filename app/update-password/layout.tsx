@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Update Password | Elevate for Humanity',
+  title: 'Update Password',
   description: 'Update your account password.',
 };
 

@@ -5,7 +5,7 @@ import { requireUser } from '@/lib/auth/require-user';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Learner Portal | Elevate For Humanity',
+  title: 'Learner Portal',
   description: 'Access your courses, track progress, and manage your career training journey.',
   robots: { index: false, follow: false },
 };

@@ -7,7 +7,7 @@ import { MessageSquare, Clock, User } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Messages | Mentor Portal | Elevate For Humanity',
+  title: 'Messages | Mentor Portal',
   description: 'View and respond to messages from your mentees.',
 };
 

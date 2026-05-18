@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { ExternalLink, Clock, Award, Users, Phone, Mail, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'NRF Foundation RISE Up | Short-Term Courses | Elevate For Humanity',
+  title: 'NRF Foundation RISE Up | Short-Term Courses',
   description: 'Retail Industry Skills and Employability Training',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/partners/nrf',

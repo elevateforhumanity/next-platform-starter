@@ -5,7 +5,7 @@ import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: 'Job Ready Indy (JRI) | Elevate for Humanity',
+  title: 'Job Ready Indy (JRI)',
   description:
     'Elevate for Humanity is a Job Ready Indy approved training provider. JRI funding covers tuition for eligible Marion County residents.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/jri' },

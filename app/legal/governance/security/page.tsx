@@ -17,7 +17,7 @@ import {
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Security and Data Protection Statement | Elevate For Humanity',
+  title: 'Security and Data Protection Statement',
   description:
     'Comprehensive security practices, data handling, and protection measures for the Elevate For Humanity platform.',
 };

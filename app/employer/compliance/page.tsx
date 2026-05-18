@@ -16,7 +16,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Compliance & Reporting | Employer Portal | Elevate for Humanity',
+  title: 'Compliance & Reporting | Employer Portal',
   description:
     'Employer compliance tools, WIOA reporting, WOTC tax credits, and EEO documentation.',
 };

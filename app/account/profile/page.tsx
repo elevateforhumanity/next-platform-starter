@@ -5,7 +5,7 @@ import ProfileEditForm from './ProfileEditForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Edit Profile | Account | Elevate For Humanity',
+  title: 'Edit Profile | Account',
   description: 'Update your profile information and preferences.',
 };
 

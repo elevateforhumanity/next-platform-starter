@@ -6,7 +6,7 @@ import ProgramFundingGate from '@/components/programs/ProgramFundingGate';
 import heroBanners from '@/content/heroBanners';
 
 export const metadata: Metadata = {
-  title: 'Funding & Enrollment | Esthetician Apprenticeship | Elevate for Humanity',
+  title: 'Funding & Enrollment | Esthetician Apprenticeship',
   description:
     'Explore funding options for the Esthetician Apprenticeship — FSSA IMPACT for SNAP/TANF recipients, employer sponsorship, or self-pay with flexible payments.',
 };

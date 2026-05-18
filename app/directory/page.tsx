@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/server';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Partner Directory | Elevate for Humanity',
+  title: 'Partner Directory',
   description:
     'Workforce development partners, employer partners, and community resources in Indianapolis. WorkOne, Indiana DWD, EmployIndy, and more.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/directory' },

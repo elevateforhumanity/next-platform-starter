@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/security',
   },
-  title: 'Security & Data Protection | Elevate For Humanity',
+  title: 'Security & Data Protection',
   description:
     'Your information is protected. Your trust matters. Learn about our security measures and data protection practices.',
 };

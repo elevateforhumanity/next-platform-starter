@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sign MOU | Elevate for Humanity',
+  title: 'Sign MOU',
   description: 'Sign the Memorandum of Understanding for the barbershop apprenticeship.',
 };
 

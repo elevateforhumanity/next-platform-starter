@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/workforce-board/training' },
-  title: 'Training Programs | Elevate For Humanity',
+  title: 'Training Programs',
   description: 'Oversee training programs and provider relationships.',
 };
 

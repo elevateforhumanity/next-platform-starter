@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Billing | Elevate for Humanity',
+  title: 'Billing',
   description: 'Manage your billing, view payment history, and update payment methods.',
   robots: { index: false, follow: false },
 };

@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Employer Onboarding | Elevate For Humanity',
+  title: 'Employer Onboarding',
   description: 'Complete your employer onboarding process.',
 };
 

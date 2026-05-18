@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'CNA Training Program | Elevate for Humanity',
+  title: 'CNA Training Program',
   description:
     'Become a Certified Nursing Assistant. CNA training program with hands-on clinical experience. $1,200 tuition with payment plans.',
   alternates: {

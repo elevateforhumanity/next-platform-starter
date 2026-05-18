@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/lms/leaderboard' },
-  title: 'Leaderboard | LMS | Elevate For Humanity',
+  title: 'Leaderboard | LMS',
   description: 'See top learners and track your progress.',
 };
 

@@ -7,7 +7,7 @@ import { Heart, Users, Globe, ArrowRight, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Kingdom Konnect | Elevate for Humanity',
+  title: 'Kingdom Konnect',
   description:
     'Faith-based community partnerships for workforce development and community transformation.',
   alternates: {

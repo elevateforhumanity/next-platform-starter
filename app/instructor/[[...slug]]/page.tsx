@@ -7,7 +7,7 @@ import { InstructorIntakeForm } from '@/components/instructor/InstructorIntakeFo
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Instructor Workspace | Elevate For Humanity',
+  title: 'Instructor Workspace',
   description: 'Course delivery, student progress, sign-off queue, and instructional tools.',
 };
 

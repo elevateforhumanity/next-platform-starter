@@ -5,7 +5,7 @@ import { HelpCategoryPage } from '@/components/help/HelpCategoryPage';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Getting Started | Help Center | Elevate For Humanity',
+  title: 'Getting Started | Help Center',
   description:
     'New to Elevate? Learn how to enroll, set up your account, and start your first course.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/help/getting-started' },

@@ -5,7 +5,7 @@ import { PrintButton } from '../PrintButton';
 import { OjtDigitalLogger } from './OjtDigitalLogger';
 
 export const metadata: Metadata = {
-  title: 'OJT Hours Log — Barber Apprenticeship | Elevate for Humanity',
+  title: 'OJT Hours Log — Barber Apprenticeship',
   description: 'On-the-Job Training hours log sheet for barber apprenticeship. Tracks daily hours, skills practiced, and supervisor verification.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/compliance/competency-verification/barber/ojt-hours-log' },
 };

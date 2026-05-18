@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { PauseCircle, Mail, ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Access Paused | Elevate For Humanity',
+  title: 'Access Paused',
   description: 'Your access has been paused. Please contact your administrator.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/access-paused',

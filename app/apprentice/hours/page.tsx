@@ -8,7 +8,7 @@ import { logger } from '@/lib/logger';
 import { getApprenticeshipRequiredHours } from '@/lib/compliance/apprenticeship';
 
 export const metadata: Metadata = {
-  title: 'Apprentice Hours | Elevate For Humanity',
+  title: 'Apprentice Hours',
   description: 'Track your apprenticeship hours and progress.',
 };
 

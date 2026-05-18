@@ -7,7 +7,7 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Employer Verification | Elevate for Humanity',
+  title: 'Employer Verification',
   description: 'Verify your employer account',
 };
 

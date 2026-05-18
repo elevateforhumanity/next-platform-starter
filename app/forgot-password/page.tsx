@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import ForgotPasswordForm from './ForgotPasswordForm';
 
 export const metadata: Metadata = {
-  title: 'Forgot Password | Reset Your Account | Elevate for Humanity',
+  title: 'Forgot Password | Reset Your Account',
   description:
     'Reset your Elevate for Humanity account password. Enter your email to receive a password reset link.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/forgot-password' },

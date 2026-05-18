@@ -34,7 +34,7 @@ function needsCareerConnect(funding: string | null): boolean {
 }
 
 export const metadata: Metadata = {
-  title: 'Application Submitted | Elevate for Humanity',
+  title: 'Application Submitted',
   description: 'Your application has been successfully submitted.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apply/success',

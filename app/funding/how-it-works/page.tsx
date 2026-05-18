@@ -6,7 +6,7 @@ import { DollarSign, FileCheck, GraduationCap, HelpCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding/how-it-works' },
-  title: 'How Funding Works | Elevate For Humanity',
+  title: 'How Funding Works',
   description:
     'Learn how WIOA, DOL, and state funding may cover the cost of your career training. Step-by-step guide to funded training programs.',
 };

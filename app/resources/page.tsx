@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Resources | Elevate for Humanity',
+  title: 'Resources',
   description:
     'Workforce training resources, funding guides, career tools, and external links for students, employers, and partners.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/resources' },

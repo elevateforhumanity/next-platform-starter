@@ -10,7 +10,7 @@ import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader'
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Sign MOU | Elevate For Humanity',
+  title: 'Sign MOU',
   description: 'Review and digitally sign your Program Partner Memorandum of Understanding.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/program-holder/sign-mou',

@@ -6,7 +6,7 @@ import MyDashboard from './MyDashboard';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'My Dashboard | Elevate for Humanity',
+  title: 'My Dashboard',
   robots: { index: false, follow: false },
 };
 

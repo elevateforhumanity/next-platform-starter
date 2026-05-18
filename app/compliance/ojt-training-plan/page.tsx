@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'OJT Training Plan Template | Elevate for Humanity',
+  title: 'OJT Training Plan Template',
   description:
     'On-the-Job Training plan template for WIOA-funded work-based learning placements. Defines skills, timeline, and evaluation criteria.',
 };

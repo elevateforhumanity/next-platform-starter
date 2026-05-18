@@ -6,7 +6,7 @@ import ProgramFundingGate from '@/components/programs/ProgramFundingGate';
 import heroBanners from '@/content/heroBanners';
 
 export const metadata: Metadata = {
-  title: 'Funding & Enrollment | Cosmetology Apprenticeship | Elevate for Humanity',
+  title: 'Funding & Enrollment | Cosmetology Apprenticeship',
   description:
     'Explore funding options for the Cosmetology Apprenticeship — FSSA IMPACT for SNAP/TANF recipients, employer sponsorship, or self-pay with flexible weekly payments.',
 };

@@ -6,7 +6,7 @@ import ModernLandingHero from '@/components/landing/ModernLandingHero';
 import { getActiveJobs, formatSalary, jobTypeLabel } from '@/lib/data/jobs';
 
 export const metadata: Metadata = {
-  title: 'Careers - Join Our Team | Elevate For Humanity',
+  title: 'Careers - Join Our Team',
   description:
     'Join our mission to provide career training at no cost to eligible participants and workforce development. Explore career opportunities at Elevate For Humanity.',
   alternates: {

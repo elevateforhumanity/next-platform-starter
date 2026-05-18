@@ -7,7 +7,7 @@ export const dynamic = 'force-static';
 const CANONICAL = 'https://www.elevateforhumanity.org/agency-referral-workforce-training-indiana';
 
 export const metadata: Metadata = {
-  title: 'Agency Referral Workforce Training Indiana | WorkOne & FSSA IMPACT Partner | Elevate for Humanity',
+  title: 'Agency Referral Workforce Training Indiana | WorkOne & FSSA IMPACT Partner',
   description:
     'Workforce agency referral partner in Indiana. WorkOne referrals accepted. FSSA IMPACT training provider. ETPL-approved. WIOA-compliant documentation and outcome reporting available.',
   alternates: { canonical: CANONICAL },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Agency Referral Workforce Training Indiana | Elevate for Humanity',
+    title: 'Agency Referral Workforce Training Indiana',
     description: 'Indiana ETPL-approved, WIOA-compliant workforce training provider. WorkOne and FSSA IMPACT referrals accepted.',
     images: ['/og-default.webp'],
   },

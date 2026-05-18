@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Mail, CheckCircle, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Application Received | Elevate for Humanity',
+  title: 'Application Received',
   description:
     'Your program holder application has been received. Check your email for next steps.',
 };

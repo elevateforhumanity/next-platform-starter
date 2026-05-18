@@ -18,7 +18,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Collaborate | LMS | Elevate For Humanity',
+  title: 'Collaborate | LMS',
   description: 'Work together with classmates on projects, study sessions, and group assignments.',
 };
 

@@ -6,7 +6,7 @@ import { Check, Shield, Users, BarChart3, Lock, Headphones, ArrowRight, AlertTri
 import { LicenseDemo } from '@/components/store/LicenseDemo';
 
 export const metadata: Metadata = {
-  title: 'Managed Enterprise LMS Platform | Elevate for Humanity',
+  title: 'Managed Enterprise LMS Platform',
   description: 'Run your organization on an enterprise LMS operated by Elevate for Humanity. Your branding, your domain, our infrastructure.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/licenses/managed-platform',

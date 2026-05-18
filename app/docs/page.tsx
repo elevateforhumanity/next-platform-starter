@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/docs',
   },
-  title: 'Docs | Elevate For Humanity',
+  title: 'Docs',
   description: 'Resources and tools for your success.',
 };
 

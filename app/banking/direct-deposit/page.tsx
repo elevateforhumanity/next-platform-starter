@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Direct Deposit - Get Your Refund Faster | Elevate for Humanity',
+  title: 'Direct Deposit - Get Your Refund Faster',
   description:
     'Set up direct deposit for your tax refund. The fastest, most secure way to receive your money. FDIC insured through EPS Financial.',
   alternates: {

@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/mobile-app',
   },
-  title: 'Mobile App | Elevate For Humanity',
+  title: 'Mobile App',
   description:
     'Install our mobile app directly from your browser. Access programs, track progress, and stay connected on the go.',
   openGraph: {
-    title: 'Mobile App | Elevate For Humanity',
+    title: 'Mobile App',
     description:
       'Install our mobile app directly from your browser. Access programs, track progress, and stay connected on the go.',
     images: ['/images/pages/technology-sector.jpg'],

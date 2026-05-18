@@ -7,7 +7,7 @@ import { Shield, Flower2, BookOpen, Clock, Phone } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Enrolled | Esthetician Apprenticeship | Elevate for Humanity',
+  title: 'Enrolled | Esthetician Apprenticeship',
   description: 'Your enrollment in the USDOL Registered Esthetician Apprenticeship is confirmed.',
 };
 

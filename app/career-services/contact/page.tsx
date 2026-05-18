@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
-  title: 'Contact Career Services | Elevate for Humanity',
+  title: 'Contact Career Services',
   description:
     'Get in touch with our career services team. Schedule appointments, ask questions, or get help with your job search.',
   alternates: {

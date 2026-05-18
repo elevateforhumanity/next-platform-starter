@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Partners | Elevate for Humanity',
+  title: 'Partners',
   description:
     'Partner with Elevate for Humanity. Workforce agencies, employers, training providers, barbershops, reentry organizations, and community partners.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners' },

@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 import { AcknowledgeHandbookButton } from './AcknowledgeHandbookButton';
 
 export const metadata: Metadata = {
-  title: 'Apprentice Handbook | Elevate For Humanity',
+  title: 'Apprentice Handbook',
   description: 'Complete guide for apprentices including policies, procedures, and resources.',
 };
 

@@ -8,7 +8,7 @@ import { Shield, ShieldAlert, Info } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Rights & Responsibilities | Elevate For Humanity',
+  title: 'Rights & Responsibilities',
   description:
     'Program Holder Rights & Responsibilities — What you are entitled to and what is required of you.',
   alternates: {

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Barbershop Apprenticeship Forms | Elevate for Humanity',
+  title: 'Barbershop Apprenticeship Forms',
   description: 'Required forms for the barbershop apprenticeship program.',
 };
 

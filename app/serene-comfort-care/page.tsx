@@ -17,7 +17,7 @@ import {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Serene Comfort Care | Healthcare Partner | Elevate for Humanity',
+  title: 'Serene Comfort Care | Healthcare Partner',
   description:
     'Serene Comfort Care partners with Elevate for Humanity to provide healthcare career training and job placement for CNA and home health aide graduates.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/serene-comfort-care' },

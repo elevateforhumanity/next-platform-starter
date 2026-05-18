@@ -8,7 +8,7 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Reports | Elevate for Humanity',
+  title: 'Reports',
   description: 'Employer reports and analytics',
 };
 

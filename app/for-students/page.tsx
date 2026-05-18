@@ -7,7 +7,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/for-students' },
-  title: 'For Students | Elevate For Humanity',
+  title: 'For Students',
   description: 'Get trained, certified, and placed in a job — often at no cost through WIOA or state funding.',
 };
 

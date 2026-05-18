@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: 'Indiana State Workforce Funding | Elevate for Humanity',
+  title: 'Indiana State Workforce Funding',
   description:
     'Indiana state funding programs for workforce training — Workforce Ready Grant, Next Level Jobs, and more. Check eligibility and apply.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding/state-programs' },

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/help',
   },
-  title: 'Help Center | Get Support & Resources | Elevate For Humanity',
+  title: 'Help Center | Get Support & Resources',
   description:
     'Access comprehensive help resources, tutorials, FAQs, and support for your training journey. Get answers fast with our knowledge base, video guides, and 24/7 support.',
 };

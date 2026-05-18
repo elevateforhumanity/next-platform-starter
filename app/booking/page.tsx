@@ -6,7 +6,7 @@ import { Calendar, Clock, MapPin, User, Video, Building } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Book an Appointment | Elevate For Humanity',
+  title: 'Book an Appointment',
   description: 'Schedule a consultation, campus tour, or advising session with our team.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/booking',

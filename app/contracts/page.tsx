@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FileText, Download, Shield, Users, Briefcase, Building2, CheckCircle } from 'lucide-react';
 
 export const metadata = {
-  title: 'Contract Templates | Elevate for Humanity',
+  title: 'Contract Templates',
   description:
     'Grant-safe, audit-ready contract templates for workforce partnerships, employer agreements, and platform licensing.',
   alternates: {

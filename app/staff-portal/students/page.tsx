@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/staff-portal/students' },
-  title: 'Student Management | Elevate For Humanity',
+  title: 'Student Management',
   description: 'View and manage student records and progress.',
 };
 

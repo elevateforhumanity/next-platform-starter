@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Banking Services - Powered by EPS Financial | Elevate for Humanity',
+  title: 'Banking Services - Powered by EPS Financial',
   description:
     'Fast refund advances, direct deposit, and prepaid card services. FDIC-insured banking powered by EPS Financial.',
   alternates: {

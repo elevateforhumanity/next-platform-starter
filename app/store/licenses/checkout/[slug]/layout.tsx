@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
-  title: 'License Checkout | Elevate for Humanity',
+  title: 'License Checkout',
   robots: { index: false, follow: false },
 };
 

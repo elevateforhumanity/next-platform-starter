@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { BNPL_DESCRIPTION } from '@/lib/bnpl-config';
 
 export const metadata: Metadata = {
-  title: 'Pay with BNPL — Cosmetology Apprenticeship | Elevate for Humanity',
+  title: 'Pay with BNPL — Cosmetology Apprenticeship',
   description:
     `Cosmetology apprenticeship tuition payment options. ${BNPL_DESCRIPTION}`,
   robots: { index: false, follow: false },

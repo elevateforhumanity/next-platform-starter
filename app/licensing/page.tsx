@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Licensing | Elevate For Humanity',
+  title: 'Licensing',
   description: 'License the Elevate for Humanity Workforce Operating System for your training program, apprenticeship, or workforce initiative. Structured tiers for approved partners.',
 };
 

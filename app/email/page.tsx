@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/email',
   },
-  title: 'Email | Elevate For Humanity',
+  title: 'Email',
   description: 'Manage your Elevate for Humanity inbox — program updates, instructor messages, and credential notifications.',
 };
 

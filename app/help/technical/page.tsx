@@ -5,7 +5,7 @@ import { HelpCategoryPage } from '@/components/help/HelpCategoryPage';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Technical Support | Help Center | Elevate For Humanity',
+  title: 'Technical Support | Help Center',
   description:
     'Troubleshoot login issues, browser compatibility, video playback, and other technical problems.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/help/technical' },

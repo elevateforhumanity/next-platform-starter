@@ -11,7 +11,7 @@ import { Zap, Clock, Target, TrendingUp } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Micro-Credentials & Short Programs | Quick Certifications | Elevate for Humanity',
+  title: 'Micro-Credentials & Short Programs | Quick Certifications',
   description:
     'Fast-track certifications in 2-8 weeks. CPR, Workforce Readiness, Peer Recovery Coach, and more. Get certified, get hired.',
   alternates: {

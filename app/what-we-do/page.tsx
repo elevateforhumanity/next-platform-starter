@@ -9,7 +9,7 @@ import { ArrowRight, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/what-we-do' },
-  title: 'What We Do | Elevate For Humanity',
+  title: 'What We Do',
   description:
     'Workforce training, credentialing, apprenticeships, and career support — how Elevate for Humanity serves learners, employers, and communities across Indiana.',
 };

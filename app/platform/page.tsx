@@ -9,7 +9,7 @@ import heroBanners from '@/content/heroBanners';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Workforce Infrastructure Platform | Elevate for Humanity',
+  title: 'Workforce Infrastructure Platform',
   description:
     'Multi-tenant workforce infrastructure for training providers, workforce boards, employers, and government agencies. WIOA-aligned, DOL-compliant, audit-ready.',
   alternates: {

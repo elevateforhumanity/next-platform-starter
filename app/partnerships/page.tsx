@@ -4,7 +4,7 @@ import PublicLandingPage from '@/components/marketing/PublicLandingPage';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Partnerships | Elevate for Humanity',
+  title: 'Partnerships',
   description:
     'Strategic partnerships with employers, workforce boards, community organizations, and technology providers. Partner with Elevate for Humanity to expand workforce development impact in Indiana.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partnerships' },

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Check Training Funding Eligibility | Elevate for Humanity',
+  title: 'Check Training Funding Eligibility',
   description:
     'Answer 3 questions to find out if you qualify for WIOA, Workforce Ready Grant, or JRI-funded career training. Takes 30 seconds.',
   alternates: {

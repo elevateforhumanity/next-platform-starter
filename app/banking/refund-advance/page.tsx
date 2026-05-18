@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Refund Advance Loan - Get Up to $6,000 Today | Elevate for Humanity',
+  title: 'Refund Advance Loan - Get Up to $6,000 Today',
   description:
     'Get a tax refund advance loan up to $6,000 with no credit check. Same-day funding available. Repaid automatically from your IRS refund.',
   alternates: {

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, Phone } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Enrollment Submitted | Elevate for Humanity',
+  title: 'Enrollment Submitted',
   robots: { index: false, follow: false },
 };
 

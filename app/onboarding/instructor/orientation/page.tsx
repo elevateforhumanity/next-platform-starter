@@ -8,7 +8,7 @@ import InstructorOrientationClient from './InstructorOrientationClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Instructor Orientation | Elevate for Humanity',
+  title: 'Instructor Orientation',
 };
 
 export default async function InstructorOrientationPage() {

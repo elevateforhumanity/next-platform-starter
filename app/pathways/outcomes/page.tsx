@@ -7,7 +7,7 @@ import PathwayCTA from '@/components/pathways/PathwayCTA';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Outcomes & What You Can Expect | Career Pathways | Elevate for Humanity',
+  title: 'Outcomes & What You Can Expect | Career Pathways',
   description:
     'What each Elevate training program leads to: credentials, salaries, employers, and funding coverage.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/pathways/outcomes' },

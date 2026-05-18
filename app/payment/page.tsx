@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/payment',
   },
-  title: 'Payment Options | Elevate For Humanity',
+  title: 'Payment Options',
   description:
     'Explore payment options for your training programs including financing and payment plans.',
 };

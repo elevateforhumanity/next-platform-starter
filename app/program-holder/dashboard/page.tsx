@@ -16,7 +16,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireProgramHolder } from '@/lib/auth/require-program-holder';
 
 export const metadata: Metadata = {
-  title: 'Program Holder Portal | Elevate For Humanity',
+  title: 'Program Holder Portal',
   robots: { index: false, follow: false },
 };
 

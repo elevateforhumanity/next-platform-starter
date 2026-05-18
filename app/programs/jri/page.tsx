@@ -21,7 +21,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'JRI Programs | Job Ready Indy | Elevate for Humanity',
+  title: 'JRI Programs | Job Ready Indy',
   description:
     'Second chance career training for justice-involved individuals. Free programs in healthcare, trades, and workforce readiness. Fresh start, real career.',
   alternates: {

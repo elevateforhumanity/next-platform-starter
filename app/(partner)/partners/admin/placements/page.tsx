@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Partners Admin Placements | Elevate For Humanity',
+  title: 'Partners Admin Placements',
   description: 'Elevate For Humanity - Career training and workforce development',
 };
 

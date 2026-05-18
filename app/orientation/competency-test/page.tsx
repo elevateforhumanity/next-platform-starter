@@ -13,7 +13,7 @@ import {
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/orientation/competency-test' },
-  title: 'Competency Assessment | Orientation | Elevate For Humanity',
+  title: 'Competency Assessment | Orientation',
   description:
     'Learn about the competency assessment administered during orientation. Covers reading, math, and career readiness. Not a pass/fail test — used for program placement.',
 };
