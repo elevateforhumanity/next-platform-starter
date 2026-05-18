@@ -148,9 +148,15 @@ export default function CanonicalVideo({
     // React attaches the handler when the video is already buffered (preload hit),
     // leaving the poster stuck on screen indefinitely.
     const startPlay = (v: HTMLVideoElement) => {
-      v.play()
-        .then(() => setPlaying(true))
-        .catch(() => {});
+      // Set playing immediately so the poster starts fading before the
+      // play() promise resolves — eliminates the flash where the first
+      // video frame is visible under a still-opaque poster.
+      setPlaying(true);
+      isPlayingRef.current = true;
+      v.play().catch(() => {
+        setPlaying(false);
+        isPlayingRef.current = false;
+      });
     };
 
     // readyState >= 1 means metadata is loaded — enough to call play() on most browsers.
@@ -237,7 +243,7 @@ export default function CanonicalVideo({
           fetchPriority={autoPlayOnMount ? 'high' : 'auto'}
           loading={autoPlayOnMount ? 'eager' : 'lazy'}
           decoding="async"
-          className={`${className} transition-opacity duration-300 ${
+          className={`${className} transition-opacity duration-700 ${
             playing && !ended
               ? 'opacity-0 pointer-events-none'
               : 'opacity-100'
@@ -260,7 +266,7 @@ export default function CanonicalVideo({
         <video
           ref={ref}
           src={src}
-          className={`${className} transition-opacity duration-300 ${playing && !ended ? 'opacity-100' : 'opacity-0'}`}
+          className={`${className} transition-opacity duration-700 ${playing && !ended ? 'opacity-100' : 'opacity-0'}`}
           muted
           playsInline
           loop={loop}

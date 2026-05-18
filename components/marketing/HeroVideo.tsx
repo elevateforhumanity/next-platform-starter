@@ -81,7 +81,14 @@ export default function HeroVideo({
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const [muted, setMuted] = useState(true);
   const transcriptId = useId();
-  const [videoSrc, setVideoSrc] = useState(videoSrcDesktop);
+  // Resolve the correct src synchronously on first render so there is no
+  // desktop→mobile src swap after hydration that causes a poster flash.
+  const [videoSrc, setVideoSrc] = useState(() => {
+    if (typeof window !== 'undefined' && videoSrcMobile && window.innerWidth < 768) {
+      return videoSrcMobile;
+    }
+    return videoSrcDesktop;
+  });
   const [ttsSupported, setTtsSupported] = useState(false);
 
   const ttsText = useMemo(() => {
@@ -107,15 +114,7 @@ export default function HeroVideo({
     return true;
   }, [ttsSupported, ttsText]);
 
-  // Resolve a mobile-optimized source on mount. This can trigger one src swap
-  // on small screens, but improves startup time versus always loading desktop
-  // video on mobile.
-  useEffect(() => {
-    if (!videoSrcMobile) return;
-    if (window.innerWidth < 768) {
-      setVideoSrc(videoSrcMobile);
-    }
-  }, [videoSrcMobile]);
+  // src is resolved synchronously in useState initializer above — no swap needed.
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
