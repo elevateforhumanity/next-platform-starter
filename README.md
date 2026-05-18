@@ -139,17 +139,19 @@ Programs run 4–18 weeks. Most are fully funded at no cost to eligible particip
 
 | Layer | Technology |
 |---|---|
-| Framework | Next.js 15 (App Router, Turbopack) |
+| Framework | Next.js 16 (App Router, Turbopack) |
 | Database | Supabase (PostgreSQL) — project `cuxzzpsyufcewtmicszk` |
-| Hosting | Netlify + `@netlify/plugin-nextjs` |
+| Hosting | AWS ECS (Fargate) — `elevate-cluster`, two services: `elevate-lms-service` / `elevate-admin-service` |
+| CI/CD | GitHub Actions → AWS CodeBuild → ECS rolling deploy |
 | Package manager | pnpm |
 | Auth | Supabase Auth + custom role system |
-| Payments | Stripe + Affirm |
+| Payments | Stripe + Affirm + Sezzle |
 | Email | SendGrid + Resend |
 | Rate limiting | Upstash Redis |
-| Storage | Cloudflare R2 |
-| Analytics | Google Analytics (G-SWPG2HVYVH) |
+| Storage | Cloudflare R2 + AWS S3 |
+| Analytics | Google Analytics |
 | Tax e-filing | IRS MeF stack (EFIN 358459) |
+| Secrets | AWS SSM Parameter Store (`/elevate/*`) + admin `platform_secrets` table |
 
 ---
 
@@ -178,9 +180,9 @@ The admin platform now includes an operations-first automation center for curric
 
 | Metric | Count |
 |---|---|
-| `page.tsx` files | 1,545 |
-| `route.ts` API files | 1,122 |
-| Supabase migrations | 597 |
+| `page.tsx` files | 1,067 |
+| `route.ts` API files | 807 |
+| Supabase migrations | 664 |
 | Canonical programs | 37 |
 | Nav hrefs | 111 |
 
@@ -189,9 +191,13 @@ The admin platform now includes an operations-first automation center for curric
 ## Common Commands
 
 ```bash
-pnpm next dev --turbopack   # Start dev server (port 3000)
-pnpm next build             # Production build — must complete with zero errors
-pnpm lint                   # Run ESLint
+pnpm next dev --turbopack        # LMS dev server (port 3000)
+cd apps/admin && pnpm dev        # Admin dev server (port 3001)
+pnpm next build                  # Production build — must complete with zero errors
+pnpm lint                        # Run ESLint
+bash scripts/audit-schema-refs.sh   # DB table gap report
+bash scripts/audit-auth-gaps.sh     # Auth gap report
+bash scripts/audit-env-vars.sh      # Env var gap report
 ```
 
 ---
@@ -199,16 +205,18 @@ pnpm lint                   # Run ESLint
 ## Key Directories
 
 ```
-app/                        Next.js App Router pages
+app/                        Next.js App Router pages (LMS)
+apps/admin/                 Admin app — separate Next.js app on port 3001
 components/                 Reusable UI components
+components/dev-studio/      Dev Studio panels (Secrets, Container, Files, etc.)
 lib/                        Shared utilities, Supabase clients, navigation
+lib/secrets.ts              Runtime secret loader — reads app_secrets + platform_secrets
 lib/navigation.ts           Single source of truth for header nav (111 hrefs)
-lib/routes/canonical-routes.json  Canonical program URL registry
 lib/curriculum/             Blueprint system and course generator
 lib/tax-software/           MeF tax stack
 data/programs/              Program data objects (metadata, content, CTAs)
 supabase/migrations/        SQL migration files (applied manually in Dashboard)
-netlify/functions/          Serverless functions
+aws/                        ECS task definitions, buildspecs, WAF rules
 public/images/              All site images
 scripts/                    Build guards, audit scripts, seeders
 ```
@@ -288,6 +296,40 @@ API:
 UI:
 
 - `/admin/documents` -> Minority Certification Auto-Fill panel
+
+---
+
+## Dev Studio
+
+The admin app includes a built-in Dev Studio at `/admin/dev-studio` — a super-admin-only operations panel with the following tabs:
+
+| Tab | Purpose |
+|---|---|
+| **Files** | Browse and edit source files via GitHub API |
+| **Terminal** | WebSocket shell into the running ECS container |
+| **Website** | Embedded preview of the live site |
+| **Chat** | AI assistant (Groq / Gemini / OpenAI) with platform context and tool calling |
+| **Container** | Edit `devcontainer.json`, manage env vars, import from AWS SSM, push vars directly to ECS task definitions, upload documents |
+| **Secrets** | CRUD for `platform_secrets` — encrypted key/value store loaded at runtime by `lib/secrets.ts` |
+| **Docs** | Uploaded documents and files |
+
+### Secret management flow
+
+```
+Admin Secrets tab → platform_secrets (Supabase)
+                 ↓
+         lib/secrets.ts (hydrateProcessEnv)
+                 ↓
+         process.env at runtime — all routes pick up keys automatically
+```
+
+### Pushing env vars to ECS
+
+From the Container tab → Container Secrets and Variables:
+1. Enter key + value → **Push to Container** — writes to SSM at `/elevate/<KEY>`, registers a new ECS task definition revision, force-redeploys both services
+2. **Import from SSM** — pulls all `/elevate/*` parameters from AWS SSM into `platform_secrets`
+
+Requires `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to be set in the Secrets tab with permissions for `ssm:GetParametersByPath`, `ssm:PutParameter`, `ecs:DescribeTaskDefinition`, `ecs:RegisterTaskDefinition`, `ecs:UpdateService`.
 
 ---
 
