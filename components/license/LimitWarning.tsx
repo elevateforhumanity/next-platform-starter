@@ -235,7 +235,7 @@ export function EnterpriseFeatureGate({ featureName }: { featureName: string }) 
       <h3 className="font-bold text-slate-900 mb-2">Enterprise Feature</h3>
       <p className="text-slate-700 text-sm mb-4">{featureName} requires an Enterprise license.</p>
       <Link
-        href="/store/request-license?tier=implementation_plus_annual"
+        href="/store/licenses?tier=implementation_plus_annual"
         className="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-800 transition-colors"
       >
         Contact Sales

@@ -191,7 +191,7 @@ const TRIAL_STEPS: TrialStep[] = [
     phase: 3,
     label: 'View upgrade options',
     description: 'Understand exactly what paying unlocks',
-    href: '/store/licenses/managed',
+    href: '/admin/licenses',
     icon: ArrowRight,
     forSchools: true,
     forOrgs: true,
@@ -417,7 +417,7 @@ export function TrialChecklist({
             Need help? Schedule an onboarding call
           </Link>
           <Link
-            href="/store/licenses/managed"
+            href="/admin/licenses"
             className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-brand-blue-700 transition-colors"
           >
             View Upgrade Options
