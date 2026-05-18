@@ -234,7 +234,7 @@ export const module1: ModuleSeed = {
       domain: 'BUSINESS_PROFESSIONAL',
       ojtCategory: 'PROFESSIONAL_DEVELOPMENT',
       hoursCredit: 0.5,
-      miladyChapter: 'Foundations Ch. 1 — Life Skills',
+      curriculumChapter: 'Foundations Ch. 1 — Life Skills',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -264,7 +264,7 @@ export const module1: ModuleSeed = {
       domain: 'BUSINESS_PROFESSIONAL',
       ojtCategory: 'PROFESSIONAL_DEVELOPMENT',
       hoursCredit: 0.5,
-      miladyChapter: 'Foundations Ch. 2 — Professional Image',
+      curriculumChapter: 'Foundations Ch. 2 — Professional Image',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -295,7 +295,7 @@ export const module1: ModuleSeed = {
       domain: 'BUSINESS_PROFESSIONAL',
       ojtCategory: 'PROFESSIONAL_DEVELOPMENT',
       hoursCredit: 0.5,
-      miladyChapter: 'Foundations Ch. 3 — Communicating for Success',
+      curriculumChapter: 'Foundations Ch. 3 — Communicating for Success',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -326,7 +326,7 @@ export const module1: ModuleSeed = {
       domain: 'SAFETY_SANITATION',
       ojtCategory: 'PROFESSIONAL_DEVELOPMENT',
       hoursCredit: 0.5,
-      miladyChapter: 'Foundations Ch. 4 — The Healthy Professional',
+      curriculumChapter: 'Foundations Ch. 4 — The Healthy Professional',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -359,7 +359,7 @@ export const module1: ModuleSeed = {
       domain: 'SAFETY_SANITATION',
       ojtCategory: 'THEORY',
       hoursCredit: 0.75,
-      miladyChapter: 'Foundations Ch. 6 — Chemistry & Chemical Safety',
+      curriculumChapter: 'Foundations Ch. 6 — Chemistry & Chemical Safety',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -389,7 +389,7 @@ export const module1: ModuleSeed = {
       domain: 'SAFETY_SANITATION',
       ojtCategory: 'THEORY',
       hoursCredit: 0.75,
-      miladyChapter: 'Foundations Ch. 5 — Infection Control (OSHA section)',
+      curriculumChapter: 'Foundations Ch. 5 — Infection Control (OSHA section)',
       content: 'See sidecar.',
       competencyChecks: [
         {

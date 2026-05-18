@@ -274,7 +274,7 @@ async function _POST(req: Request) {
           studentFirstName: firstName,
           studentLastName: lastName,
           studentEmail: emailLower,
-          paymentType: 'milady_rise_elevate_pays',
+          paymentType: 'elevate_pays',
           paidBy: 'elevate',
         },
         payment_method_types: ['card'],
@@ -297,7 +297,7 @@ async function _POST(req: Request) {
         enrollmentId,
         checkoutUrl: session.url,
         sessionId: session.id,
-        message: 'Enrollment successful! Processing Milady RISE payment...',
+        message: 'Enrollment successful!',
       });
     }
 

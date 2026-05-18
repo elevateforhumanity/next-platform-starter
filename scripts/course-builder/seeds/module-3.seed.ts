@@ -216,7 +216,7 @@ export const module3: ModuleSeed = {
       domain: 'HAIR_SCALP',
       ojtCategory: 'TECHNICAL_INSTRUCTION',
       hoursCredit: 0.75,
-      miladyChapter: 'Barbering Ch. 6 — Hair and Scalp Disorders & Diseases',
+      curriculumChapter: 'Barbering Ch. 6 — Hair and Scalp Disorders & Diseases',
       content: 'See sidecar.',
       competencyChecks: [
         {

@@ -167,7 +167,7 @@ export const module8: ModuleSeed = {
       domain: 'HAIRCUTTING',
       ojtCategory: 'PRACTICAL',
       hoursCredit: 1.0,
-      miladyChapter: 'Barbering Ch. 10 — Hairstyling',
+      curriculumChapter: 'Barbering Ch. 10 — Hairstyling',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -198,7 +198,7 @@ export const module8: ModuleSeed = {
       domain: 'SHAVING',
       ojtCategory: 'PRACTICAL',
       hoursCredit: 1.0,
-      miladyChapter: 'Barbering Ch. 11 — Facial Treatments',
+      curriculumChapter: 'Barbering Ch. 11 — Facial Treatments',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -229,7 +229,7 @@ export const module8: ModuleSeed = {
       domain: 'BUSINESS_PROFESSIONAL',
       ojtCategory: 'PROFESSIONAL_DEVELOPMENT',
       hoursCredit: 0.75,
-      miladyChapter: 'Foundations Ch. 10 — The Beauty Business',
+      curriculumChapter: 'Foundations Ch. 10 — The Beauty Business',
       content: 'See sidecar.',
       competencyChecks: [
         {

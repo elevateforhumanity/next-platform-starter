@@ -209,7 +209,7 @@ export const module2: ModuleSeed = {
       domain: 'HAIR_SCALP',
       ojtCategory: 'THEORY',
       hoursCredit: 0.75,
-      miladyChapter: 'Barbering Ch. 2 — General Anatomy & Physiology',
+      curriculumChapter: 'Barbering Ch. 2 — General Anatomy & Physiology',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -240,7 +240,7 @@ export const module2: ModuleSeed = {
       domain: 'HAIR_SCALP',
       ojtCategory: 'THEORY',
       hoursCredit: 0.75,
-      miladyChapter: 'Barbering Ch. 3 — Skin Structure and Growth',
+      curriculumChapter: 'Barbering Ch. 3 — Skin Structure and Growth',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -271,7 +271,7 @@ export const module2: ModuleSeed = {
       domain: 'HAIR_SCALP',
       ojtCategory: 'THEORY',
       hoursCredit: 0.75,
-      miladyChapter: 'Barbering Ch. 4 — Skin Disorders and Diseases',
+      curriculumChapter: 'Barbering Ch. 4 — Skin Disorders and Diseases',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -301,7 +301,7 @@ export const module2: ModuleSeed = {
       domain: 'HAIR_SCALP',
       ojtCategory: 'THEORY',
       hoursCredit: 0.75,
-      miladyChapter: 'Barbering Ch. 7 — Principles of Hair Design',
+      curriculumChapter: 'Barbering Ch. 7 — Principles of Hair Design',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -332,7 +332,7 @@ export const module2: ModuleSeed = {
       domain: 'SAFETY_SANITATION',
       ojtCategory: 'THEORY',
       hoursCredit: 0.75,
-      miladyChapter: 'Foundations Ch. 7 — Electricity & Electrical Safety',
+      curriculumChapter: 'Foundations Ch. 7 — Electricity & Electrical Safety',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -363,7 +363,7 @@ export const module2: ModuleSeed = {
       domain: 'HAIR_SCALP',
       ojtCategory: 'TECHNICAL_INSTRUCTION',
       hoursCredit: 0.75,
-      miladyChapter: 'Barbering Ch. 16 — Hair Loss Services',
+      curriculumChapter: 'Barbering Ch. 16 — Hair Loss Services',
       content: 'See sidecar.',
       competencyChecks: [
         {

@@ -69,8 +69,8 @@ export interface LessonSeed {
   ojtCategory: OJTCategory;
   hoursCredit: number; // durationMin / 60, rounded to nearest 0.25
 
-  // Milady Standard Barbering 7th Ed. chapter alignment
-  miladyChapter?: string; // e.g. "Barbering Ch. 9 — Haircutting"
+  // Curriculum chapter alignment (e.g. "Barbering Ch. 9 — Haircutting")
+  curriculumChapter?: string; // e.g. "Barbering Ch. 9 — Haircutting"
 
   content: string; // instructional body — markdown, 800+ words
   competencyChecks: CompetencyCheck[]; // minimum 3, at least 3 required: true

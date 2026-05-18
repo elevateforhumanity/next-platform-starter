@@ -1,10 +1,5 @@
 // @ts-nocheck
-// TODO: resolve missing modules before removing suppressor:
-//   - @/lib/vendors/milady-purchase
-//   - @/lib/vendors/milady-payment
-//   - @/lib/ai/assign
-//   - @/lib/email/templates/barber-welcome-paid
-//   - paymentIntentId undefined at line 466
+// TODO: remove @ts-nocheck once Stripe SDK apiVersion type is updated to match 2025-10-29.clover
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -293,32 +288,16 @@ export async function POST(req: Request) {
               .eq('id', programId)
               .single();
 
-            // Use barber-specific email for barber apprenticeship
+            // Use barber-specific welcome email
             if (
               programSlug === 'barber-apprenticeship' ||
               programDetails?.slug === 'barber-apprenticeship'
             ) {
-              const { getBarberWelcomePaidEmail } =
-                await import('@/lib/email/templates/barber-welcome-paid');
-
-              // Get student's transfer hours if any
-              const { data: enrollmentData } = await supabaseClient
-                .from('student_enrollments')
-                .select('transfer_hours, required_hours')
-                .eq('student_id', studentId)
-                .eq('program_id', programId)
-                .maybeSingle();
-
-              const barberEmail = getBarberWelcomePaidEmail({
-                studentName: firstName || 'Student',
-                studentEmail: email,
-                dashboardUrl: 'https://www.elevateforhumanity.org/lms/dashboard',
-                miladyEnrollmentUrl:
-                  'https://www.miladytraining.com/bundles/barber-apprentice-program',
-                requiredHours: enrollmentData?.required_hours || 1500,
-                transferHours: enrollmentData?.transfer_hours || 0,
-                rapidsPending: true,
-              });
+              const barberEmail = {
+                subject: 'Welcome to Barber Apprenticeship — Elevate for Humanity',
+                html: `<p>Hi ${firstName || 'Student'},</p><p>You are now enrolled in the Barber Apprenticeship program. Log in to your dashboard to get started: <a href="https://www.elevateforhumanity.org/lms/dashboard">Dashboard</a></p><p>Questions? Call or text (317) 314-3757.</p>`,
+                text: `Hi ${firstName || 'Student'},\n\nYou are now enrolled in the Barber Apprenticeship program.\n\nDashboard: https://www.elevateforhumanity.org/lms/dashboard\n\nQuestions? Call or text (317) 314-3757.`,
+              };
 
               await fetch(
                 `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
@@ -332,7 +311,7 @@ export async function POST(req: Request) {
                   }),
                 },
               );
-              logger.info('[Webhook] Sent barber welcome email with Milady enrollment link', {
+              logger.info('[Webhook] Sent barber welcome email', {
                 email,
               });
             } else {
@@ -401,7 +380,6 @@ export async function POST(req: Request) {
                   required_hours: 1500, // Indiana IPLA requirement
                   transfer_hours: 0,
                   rapids_status: 'pending',
-                  milady_enrolled: false,
                   started_at: new Date().toISOString(),
                 },
                 {
@@ -443,7 +421,6 @@ export async function POST(req: Request) {
               total_hours_completed: 0,
               rti_hours_completed: 0,
               ojt_hours_completed: 0,
-              milady_completed: false,
               ready_for_exam: false,
             });
 
@@ -457,45 +434,7 @@ export async function POST(req: Request) {
               enrollmentId: studentEnrollment?.id,
             });
 
-            // 4d: Purchase Milady course and provision student access
-            // Elevate pays Milady $295 per student (included in $4,980 flat fee)
-            try {
-              const { purchaseMiladyCourse } = await import('@/lib/vendors/milady-purchase');
-
-              const miladyResult = await purchaseMiladyCourse(
-                {
-                  id: studentId,
-                  email: email,
-                  firstName: firstName || 'Student',
-                  lastName: lastName || '',
-                },
-                'barber-apprenticeship',
-                paymentIntentId || session.id,
-              );
-
-              if (miladyResult.success) {
-                logger.info('[Webhook] ✅ Milady course purchased', {
-                  hasCredentials: !!miladyResult.studentCredentials,
-                  hasLicenseCode: !!miladyResult.licenseCode,
-                  paymentId: miladyResult.paymentId,
-                });
-
-                // Update enrollment to mark Milady as enrolled
-                await supabaseClient
-                  .from('student_enrollments')
-                  .update({
-                    milady_enrolled: true,
-                    milady_access_url: miladyResult.studentCredentials?.loginUrl,
-                  })
-                  .eq('student_id', studentId)
-                  .eq('program_id', programId);
-              } else {
-                logger.warn('[Webhook] ⚠️ Milady purchase failed', { error: miladyResult.error });
-              }
-            } catch (miladyError) {
-              logger.warn('[Webhook] ⚠️ Milady purchase error', miladyError);
-              // Don't fail - student access will be provisioned manually
-            }
+            // Related instruction (Milady curriculum) is provisioned manually by staff.
           } catch (barberSetupError) {
             logger.warn('[Webhook] ⚠️ Barber apprenticeship setup error', barberSetupError);
             // Don't fail the whole webhook - enrollment is still active
@@ -527,8 +466,7 @@ export async function POST(req: Request) {
                   required_hours: programHours[programSlug] || 1500,
                   transfer_hours: 0,
                   rapids_status: 'pending',
-                  milady_enrolled: false,
-                  started_at: new Date().toISOString(),
+<parameter name="new_str">                  started_at: new Date().toISOString(),
                 },
                 {
                   onConflict: 'student_id,program_id',
@@ -542,30 +480,6 @@ export async function POST(req: Request) {
                 `[Webhook] Failed to create student_enrollment for ${programSlug}`,
                 seError,
               );
-            }
-
-            // Process Milady payment and auto-enrollment
-            try {
-              const { processMiladyPayment } = await import('@/lib/vendors/milady-payment');
-              const miladyResult = await processMiladyPayment({
-                enrollmentId: studentEnrollment?.id || enrollmentId,
-                studentId,
-                programId,
-              });
-
-              if (miladyResult.success) {
-                logger.info(`[Webhook] ✅ Milady payment processed for ${programSlug}`, {
-                  amount: miladyResult.amount,
-                });
-
-                await supabaseClient
-                  .from('student_enrollments')
-                  .update({ milady_enrolled: true })
-                  .eq('student_id', studentId)
-                  .eq('program_id', programId);
-              }
-            } catch (miladyError) {
-              logger.warn(`[Webhook] ⚠️ Milady payment error for ${programSlug}`, miladyError);
             }
 
             logger.info(`[Webhook] ✅ ${programSlug} setup complete`, { studentId, programId });

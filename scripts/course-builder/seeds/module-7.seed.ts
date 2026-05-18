@@ -178,7 +178,7 @@ export const module7: ModuleSeed = {
       domain: 'CHEMICAL_SERVICES',
       ojtCategory: 'PRACTICAL',
       hoursCredit: 1.0,
-      miladyChapter: 'Barbering Ch. 15 — Haircoloring',
+      curriculumChapter: 'Barbering Ch. 15 — Haircoloring',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -215,7 +215,7 @@ export const module7: ModuleSeed = {
       domain: 'CHEMICAL_SERVICES',
       ojtCategory: 'PRACTICAL',
       hoursCredit: 1.0,
-      miladyChapter: 'Barbering Ch. 14 — Chemical Texture Services',
+      curriculumChapter: 'Barbering Ch. 14 — Chemical Texture Services',
       content: 'See sidecar.',
       competencyChecks: [
         {
@@ -252,7 +252,7 @@ export const module7: ModuleSeed = {
       domain: 'SAFETY_SANITATION',
       ojtCategory: 'TECHNICAL_INSTRUCTION',
       hoursCredit: 0.75,
-      miladyChapter: 'Barbering Appendix — Nail Care & Services',
+      curriculumChapter: 'Barbering Appendix — Nail Care & Services',
       content: 'See sidecar.',
       competencyChecks: [
         {

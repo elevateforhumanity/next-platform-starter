@@ -81,7 +81,7 @@ This is the reading/study material displayed in the LMS for this lesson.
 
 LESSON: "${lesson.title}"
 DOMAIN: ${lesson.domain} (${DOMAIN_WEIGHTS[lesson.domain] ?? ''})
-${lesson.miladyChapter ? `MILADY REFERENCE: ${lesson.miladyChapter}` : ''}
+${lesson.curriculumChapter ? `CURRICULUM REFERENCE: ${lesson.curriculumChapter}` : ''}
 
 COMPETENCY CHECKS (students must demonstrate):
 ${lesson.competencyChecks.map((c) => `- ${c.description}`).join('\n')}

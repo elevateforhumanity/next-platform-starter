@@ -247,7 +247,7 @@ async function _POST(req: Request) {
         name: `${firstName} ${lastName}`,
         programName: program.title ?? program.name,
         dashboardUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/lms`,
-        includesMilady: isBarberProgram, // param kept for compat — LMS section shown for barber
+        includesMilady: false, // Milady removed — theory delivered via Elevate LMS
       });
       logger.info('Welcome email sent with LMS access', { email: emailLower, isBarberProgram });
     } catch (emailError) {

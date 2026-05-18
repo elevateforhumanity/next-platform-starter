@@ -25,50 +25,7 @@ const __dirname = path.dirname(__filename);
 
 const SIDECAR_DIR = path.resolve(__dirname, 'content');
 
-const MILADY_CHAPTER_FALLBACK_BY_SLUG: Record<string, string> = {
-  'barber-lesson-1': 'Foundations Ch. 1 — Life Skills',
-  'barber-lesson-2': 'Foundations Ch. 5 — Infection Control',
-  'barber-lesson-3': 'Foundations Ch. 5 — Infection Control',
-  'barber-lesson-4': 'Foundations Ch. 5 — Infection Control',
-  'barber-lesson-5': 'Foundations Ch. 5 — Infection Control',
-  'barber-lesson-6': 'Foundations Ch. 10 — The Beauty Business',
-  'barber-lesson-8': 'Barbering Ch. 5 — Properties of the Hair and Scalp',
-  'barber-lesson-9': 'Barbering Ch. 5 — Properties of the Hair and Scalp',
-  'barber-lesson-10': 'Barbering Ch. 5 — Properties of the Hair and Scalp',
-  'barber-lesson-11': 'Barbering Ch. 6 — Hair and Scalp Disorders & Diseases',
-  'barber-lesson-12': 'Foundations Ch. 3 — Communicating for Success',
-  'barber-lesson-13': 'Barbering Ch. 8 — Shampooing and Conditioning',
-  'barber-lesson-15': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-16': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-17': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-18': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-19': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-20': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-22': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-23': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-24': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-25': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-26': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-27': 'Barbering Ch. 9 — Haircutting',
-  'barber-lesson-29': 'Barbering Ch. 12 — Shaving and Facial Hair Design',
-  'barber-lesson-30': 'Barbering Ch. 12 — Shaving and Facial Hair Design',
-  'barber-lesson-31': 'Barbering Ch. 12 — Shaving and Facial Hair Design',
-  'barber-lesson-32': 'Barbering Ch. 12 — Shaving and Facial Hair Design',
-  'barber-lesson-33': 'Barbering Ch. 12 — Shaving and Facial Hair Design',
-  'barber-lesson-35': 'Barbering Ch. 15 — Haircoloring',
-  'barber-lesson-36': 'Foundations Ch. 6 — Chemistry & Chemical Safety',
-  'barber-lesson-37': 'Barbering Ch. 14 — Chemical Texture Services',
-  'barber-lesson-38': 'Barbering Ch. 6 — Hair and Scalp Disorders & Diseases',
-  'barber-lesson-40': 'Foundations Ch. 10 — The Beauty Business',
-  'barber-lesson-41': 'Foundations Ch. 10 — The Beauty Business',
-  'barber-lesson-42': 'Foundations Ch. 10 — The Beauty Business',
-  'barber-lesson-43': 'Foundations Ch. 10 — The Beauty Business',
-  'barber-lesson-44': 'Barbering Ch. 10 — Hairstyling',
-  'barber-lesson-46': 'Milady Barbering — State Board Review',
-  'barber-lesson-47': 'Milady Barbering — State Board Review',
-  'barber-lesson-48': 'Milady Barbering — State Board Review',
-  'barber-lesson-49': 'Milady Barbering — State Board Review',
-};
+
 
 function loadSidecar(slug: string): Record<string, unknown> {
   const p = path.join(SIDECAR_DIR, `${slug}.json`);
@@ -82,11 +39,8 @@ function loadSidecar(slug: string): Record<string, unknown> {
 
 function mergeLesson(lesson: LessonSeed): LessonSeed {
   const s = loadSidecar(lesson.slug);
-  const sidecarMiladyChapter = typeof s.miladyChapter === 'string' ? s.miladyChapter : undefined;
   return {
     ...lesson,
-    miladyChapter:
-      lesson.miladyChapter ?? sidecarMiladyChapter ?? MILADY_CHAPTER_FALLBACK_BY_SLUG[lesson.slug],
     // Sidecar content wins if it's longer than the seed content
     content: (() => {
       const sidecarContent = s.content as string | undefined;
