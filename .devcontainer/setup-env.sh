@@ -46,7 +46,11 @@ if [ -f .env.local ]; then
   sed -i '/# >>> elevate-env >>>/,/# <<< elevate-env <<</d' "$PROFILE_EXPORT" 2>/dev/null || true
   {
     echo "# >>> elevate-env >>>"
-    grep -E "^(NEXT_PUBLIC_|SUPABASE_|POSTGRES_URL|UPSTASH_|REDIS_)" .env.local \
+    # Export all non-empty, non-comment vars from .env.local so that dev
+    # services (Next.js, scripts) inherit them regardless of how the container
+    # was started. Empty string exports are skipped — they would shadow secrets
+    # injected by Gitpod/Codespaces and cause "not configured" errors at runtime.
+    grep -E "^[A-Z_]+=.+" .env.local \
       | grep -v "^#" \
       | sed 's/^/export /'
     echo "# <<< elevate-env <<<"

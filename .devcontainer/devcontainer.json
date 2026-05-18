@@ -27,22 +27,21 @@
   // System deps installed once at image build time.
   // pnpm install and .env.local setup are handled by .ona/automations.yaml.
   "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg chromium python3 python3-pip libxml2-utils && sudo rm -rf /var/lib/apt/lists/*",
+  // Assemble .env.local and export vars to shell profile on every container start.
+  // This ensures Next.js dev server and scripts always have the correct env vars
+  // regardless of whether Gitpod automations have fired yet.
+  "postCreateCommand": "bash .devcontainer/setup-env.sh",
+  "postStartCommand": "bash .devcontainer/setup-env.sh",
   "remoteEnv": {
     "LANG": "en_US.UTF-8",
     "LC_ALL": "en_US.UTF-8",
     "LANGUAGE": "en_US:en",
     "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium",
     "CHROMIUM_PATH": "/usr/bin/chromium",
-    "NEXT_TELEMETRY_DISABLED": "1",
-    // AI providers — Dev Studio AI chat requires at least one of these.
-    // Set them as Codespaces secrets or in your host shell before opening the container.
-    "GROQ_API_KEY": "${localEnv:GROQ_API_KEY}",
-    "GEMINI_API_KEY": "${localEnv:GEMINI_API_KEY}",
-    "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}",
-    // Supabase — needed for any admin DB operations inside the container
-    "SUPABASE_SERVICE_ROLE_KEY": "${localEnv:SUPABASE_SERVICE_ROLE_KEY}",
-    "NEXT_PUBLIC_SUPABASE_URL": "${localEnv:NEXT_PUBLIC_SUPABASE_URL}",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "${localEnv:NEXT_PUBLIC_SUPABASE_ANON_KEY}"
+    "NEXT_TELEMETRY_DISABLED": "1"
+    // AI keys and Supabase credentials are loaded from .env.local by setup-env.sh.
+    // Do NOT add ${localEnv:VAR} entries here — empty localEnv values inject empty
+    // strings that shadow .env.local and break runtime config.
   },
   "customizations": {
     "vscode": {
