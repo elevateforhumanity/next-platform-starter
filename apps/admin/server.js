@@ -4,8 +4,10 @@
  * Wraps the Next.js standalone startServer with a WebSocket proxy for
  * the Dev Studio terminal tab (/api/devstudio/shell-ws).
  *
- * Uses only modules bundled inside the standalone output — no bare
- * `require('next')` which is unavailable in the container image.
+ * IMPORTANT: Must mirror the standalone-generated server.js preamble exactly —
+ * set __NEXT_PRIVATE_STANDALONE_CONFIG and call require('next') before
+ * startServer, otherwise Next.js cannot resolve its own webpack bundle inside
+ * the standalone image.
  */
 
 'use strict';
@@ -20,6 +22,12 @@ const host = process.env.HOSTNAME ?? '0.0.0.0';
 
 process.env.NODE_ENV = 'production';
 process.chdir(dir);
+
+// Required by the standalone runtime — primes Next.js module resolution so
+// webpack and other bundled deps resolve correctly inside the image.
+// This must happen before require('next/dist/server/lib/start-server').
+process.env.__NEXT_PRIVATE_STANDALONE_CONFIG = process.env.__NEXT_PRIVATE_STANDALONE_CONFIG || '{}';
+require('next');
 
 const SHELL_WS_URL = process.env.STUDIO_SHELL_WS_URL ?? '';
 const SHELL_SECRET = process.env.STUDIO_SHELL_SECRET ?? '';
