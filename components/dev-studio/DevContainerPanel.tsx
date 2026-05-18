@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Save, RefreshCw, CheckCircle, AlertCircle, Box, Trash2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Save, RefreshCw, CheckCircle, AlertCircle, Box, Trash2, Download, Upload, Send, FileUp } from 'lucide-react';
 
 interface DevContainerConfig {
   name?: string;
@@ -147,6 +147,19 @@ export default function DevContainerPanel() {
   });
   const [profileName, setProfileName] = useState('local');
   const [profileEnvBlock, setProfileEnvBlock] = useState('');
+
+  // SSM import
+  const [ssmImporting, setSsmImporting] = useState(false);
+  const [ssmResult, setSsmResult] = useState<string | null>(null);
+
+  // ECS push
+  const [ecsPushing, setEcsPushing] = useState<string | null>(null); // key being pushed, or 'all'
+  const [ecsResult, setEcsResult] = useState<string | null>(null);
+
+  // Document upload
+  const docUploadRef = useRef<HTMLInputElement>(null);
+  const [docUploading, setDocUploading] = useState(false);
+  const [docResult, setDocResult] = useState<string | null>(null);
 
   useEffect(() => {
     load();
@@ -398,6 +411,63 @@ export default function DevContainerPanel() {
       setStatus({ type: 'error', message: (e as Error).message });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const importFromSSM = async () => {
+    setSsmImporting(true);
+    setSsmResult(null);
+    try {
+      const r = await fetch('/api/devstudio/import-ssm', { method: 'POST' });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error ?? 'Import failed');
+      setSsmResult(`✅ Imported ${d.imported} secrets from AWS SSM`);
+      await loadContainerEnv();
+    } catch (e) {
+      setSsmResult(`❌ ${(e as Error).message}`);
+    } finally {
+      setSsmImporting(false);
+    }
+  };
+
+  const pushKeyToECS = async (key: string, value?: string) => {
+    setEcsPushing(key);
+    setEcsResult(null);
+    try {
+      const body: Record<string, unknown> = { key, services: ['lms', 'admin'] };
+      if (value !== undefined) body.value = value;
+      const r = await fetch('/api/devstudio/container-env', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error ?? 'Push failed');
+      setEcsResult(`✅ ${key} pushed to ECS (${d.updatedServices?.join(', ')})`);
+    } catch (e) {
+      setEcsResult(`❌ ${(e as Error).message}`);
+    } finally {
+      setEcsPushing(null);
+    }
+  };
+
+  const handleDocUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setDocUploading(true);
+    setDocResult(null);
+    try {
+      const form = new FormData();
+      form.append('file', file);
+      const r = await fetch('/api/devstudio/upload', { method: 'POST', body: form });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error ?? 'Upload failed');
+      setDocResult(`✅ Uploaded: ${file.name}`);
+    } catch (e) {
+      setDocResult(`❌ ${(e as Error).message}`);
+    } finally {
+      setDocUploading(false);
+      if (docUploadRef.current) docUploadRef.current.value = '';
     }
   };
 
@@ -720,7 +790,7 @@ export default function DevContainerPanel() {
                 />
               </div>
 
-              <div className="flex gap-2 mt-3">
+              <div className="flex flex-wrap gap-2 mt-3">
                 <button
                   onClick={saveContainerEnvEntry}
                   disabled={envSaving}
@@ -735,15 +805,72 @@ export default function DevContainerPanel() {
                 >
                   Refresh
                 </button>
+
+                {/* Import from AWS SSM */}
+                <button
+                  onClick={importFromSSM}
+                  disabled={ssmImporting}
+                  title="Pull all /elevate/* parameters from AWS SSM into platform_secrets"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  {ssmImporting ? 'Importing…' : 'Import from SSM'}
+                </button>
+
+                {/* Push current form key to ECS */}
+                <button
+                  onClick={() => envForm.key && pushKeyToECS(envForm.key, envForm.value || undefined)}
+                  disabled={!envForm.key || !!ecsPushing}
+                  title="Write this key directly to the ECS task definition and redeploy"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  {ecsPushing === envForm.key ? 'Pushing…' : 'Push to Container'}
+                </button>
+
+                {/* Document upload */}
+                <input
+                  ref={docUploadRef}
+                  type="file"
+                  className="hidden"
+                  onChange={handleDocUpload}
+                  accept=".pdf,.doc,.docx,.txt,.csv,.json,.env"
+                />
+                <button
+                  onClick={() => docUploadRef.current?.click()}
+                  disabled={docUploading}
+                  title="Upload a document or file to the container"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white"
+                >
+                  <FileUp className="w-3.5 h-3.5" />
+                  {docUploading ? 'Uploading…' : 'Upload Document'}
+                </button>
               </div>
 
+              {/* Result banners */}
+              {ssmResult && (
+                <p className={`mt-2 text-xs px-3 py-1.5 rounded ${ssmResult.startsWith('✅') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                  {ssmResult}
+                </p>
+              )}
+              {ecsResult && (
+                <p className={`mt-2 text-xs px-3 py-1.5 rounded ${ecsResult.startsWith('✅') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                  {ecsResult}
+                </p>
+              )}
+              {docResult && (
+                <p className={`mt-2 text-xs px-3 py-1.5 rounded ${docResult.startsWith('✅') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                  {docResult}
+                </p>
+              )}
+
               <div className="mt-4 border border-slate-200 rounded overflow-hidden">
-                <div className="grid grid-cols-[2fr_80px_120px_1fr_90px] gap-2 bg-slate-50 border-b border-slate-200 px-3 py-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                <div className="grid grid-cols-[2fr_80px_120px_1fr_140px] gap-2 bg-slate-50 border-b border-slate-200 px-3 py-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
                   <span>Key</span>
                   <span>Scope</span>
                   <span>Value</span>
                   <span>Description</span>
-                  <span>Action</span>
+                  <span>Actions</span>
                 </div>
                 <div className="max-h-[260px] overflow-auto divide-y divide-slate-100">
                   {envEntries.length === 0 && (
@@ -752,7 +879,7 @@ export default function DevContainerPanel() {
                   {envEntries.map((entry) => (
                     <div
                       key={entry.key}
-                      className="grid grid-cols-[2fr_80px_120px_1fr_90px] gap-2 px-3 py-2 text-xs items-center"
+                      className="grid grid-cols-[2fr_80px_120px_1fr_140px] gap-2 px-3 py-2 text-xs items-center"
                     >
                       <span className="font-mono text-slate-700 truncate" title={entry.key}>{entry.key}</span>
                       <span className="text-slate-600">{entry.scope}</span>
@@ -762,14 +889,25 @@ export default function DevContainerPanel() {
                       <span className="text-slate-600 truncate" title={entry.description || ''}>
                         {entry.description || '—'}
                       </span>
-                      <button
-                        onClick={() => deleteContainerEnvEntry(entry.key)}
-                        className="inline-flex items-center gap-1 text-red-600 hover:text-red-700"
-                        title={`Delete ${entry.key}`}
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        Delete
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => pushKeyToECS(entry.key)}
+                          disabled={!!ecsPushing}
+                          className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 disabled:opacity-40"
+                          title={`Push ${entry.key} to ECS`}
+                        >
+                          <Send className="w-3 h-3" />
+                          {ecsPushing === entry.key ? '…' : 'Push'}
+                        </button>
+                        <button
+                          onClick={() => deleteContainerEnvEntry(entry.key)}
+                          className="inline-flex items-center gap-1 text-red-600 hover:text-red-700"
+                          title={`Delete ${entry.key}`}
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          Del
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
