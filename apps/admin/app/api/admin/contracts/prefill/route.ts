@@ -112,12 +112,14 @@ export async function POST(request: NextRequest) {
   if (!fields?.length) return safeError('No fields detected. Run extraction first.', 422);
 
   // Load org context from sos_organizations + sos_organization_facts
+  // Note: sos_organizations uses address_line_1/2, state, zip (not address_line1, state_code, zip_code)
   const { data: orgs } = await db
     .from('sos_organizations')
     .select(`
       id, legal_name, dba_name, ein, uei, sam_status,
-      address_line1, address_line2, city, state_code, zip_code,
-      phone, email, website,
+      address_line_1, address_line_2, city, state, zip,
+      phone, general_email, website,
+      authorized_signatory_name, authorized_signatory_title,
       sos_organization_profiles (
         mission_statement, org_overview, target_populations,
         counties_served, years_in_operation, staff_count,
@@ -127,12 +129,12 @@ export async function POST(request: NextRequest) {
         fact_key, fact_value_json, status
       )
     `)
-    .eq('is_primary', true)
+    .order('created_at', { ascending: true })
     .limit(1);
 
-  const orgRow = orgs?.[0];
-  const profile = (orgRow as { sos_organization_profiles?: Record<string, unknown>[] })?.sos_organization_profiles?.[0] as Record<string, unknown> | undefined;
-  const rawFacts = (orgRow as { sos_organization_facts?: Array<{ fact_key: string; fact_value_json: unknown; status: string }> })?.sos_organization_facts ?? [];
+  const orgRow = orgs?.[0] as Record<string, unknown> | undefined;
+  const profile = (orgRow?.sos_organization_profiles as Record<string, unknown>[] | undefined)?.[0] as Record<string, unknown> | undefined;
+  const rawFacts = (orgRow?.sos_organization_facts as Array<{ fact_key: string; fact_value_json: unknown; status: string }> | undefined) ?? [];
 
   // Build approved facts map
   const approvedFacts: Record<string, string> = {};
@@ -146,23 +148,31 @@ export async function POST(request: NextRequest) {
   }
 
   const address = [
-    orgRow?.address_line1,
-    orgRow?.address_line2,
+    orgRow?.address_line_1,
+    orgRow?.address_line_2,
     orgRow?.city,
-    orgRow?.state_code,
-    orgRow?.zip_code,
+    orgRow?.state,
+    orgRow?.zip,
   ].filter(Boolean).join(', ');
 
+  // authorized_signatory_name/title from sos_organizations takes precedence over facts
+  const signerName = (orgRow?.authorized_signatory_name as string | null)
+    ?? approvedFacts['authorized_signer']
+    ?? undefined;
+  const signerTitle = (orgRow?.authorized_signatory_title as string | null)
+    ?? approvedFacts['authorized_signer_title']
+    ?? undefined;
+
   const org: OrgContext = {
-    legal_name: orgRow?.legal_name ?? undefined,
-    dba_name: orgRow?.dba_name ?? undefined,
-    ein: orgRow?.ein ?? undefined,
-    uei: orgRow?.uei ?? undefined,
-    sam_status: orgRow?.sam_status ?? undefined,
+    legal_name: orgRow?.legal_name as string | undefined,
+    dba_name: orgRow?.dba_name as string | undefined,
+    ein: orgRow?.ein as string | undefined,
+    uei: orgRow?.uei as string | undefined,
+    sam_status: orgRow?.sam_status as string | undefined,
     address: address || undefined,
-    phone: orgRow?.phone ?? undefined,
-    email: orgRow?.email ?? undefined,
-    website: orgRow?.website ?? undefined,
+    phone: orgRow?.phone as string | undefined,
+    email: orgRow?.general_email as string | undefined,
+    website: orgRow?.website as string | undefined,
     mission_statement: profile?.mission_statement as string | undefined,
     org_overview: profile?.org_overview as string | undefined,
     target_populations: profile?.target_populations as string | undefined,
@@ -171,8 +181,8 @@ export async function POST(request: NextRequest) {
     staff_count: profile?.staff_count as number | undefined,
     insurance_status: profile?.insurance_status as string | undefined,
     audit_status: profile?.audit_status as string | undefined,
-    authorized_signer: approvedFacts['authorized_signer'],
-    authorized_signer_title: approvedFacts['authorized_signer_title'],
+    authorized_signer: signerName,
+    authorized_signer_title: signerTitle,
     executive_director: approvedFacts['executive_director'],
     annual_participants: approvedFacts['annual_participants']
       ? parseInt(approvedFacts['annual_participants']) : undefined,
