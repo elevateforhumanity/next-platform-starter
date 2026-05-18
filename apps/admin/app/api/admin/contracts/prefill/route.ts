@@ -124,9 +124,6 @@ export async function POST(request: NextRequest) {
         mission_statement, org_overview, target_populations,
         counties_served, years_in_operation, staff_count,
         insurance_status, audit_status
-      ),
-      sos_organization_facts (
-        fact_key, fact_value_json, status
       )
     `)
     .order('created_at', { ascending: true })
@@ -134,16 +131,26 @@ export async function POST(request: NextRequest) {
 
   const orgRow = orgs?.[0] as Record<string, unknown> | undefined;
   const profile = (orgRow?.sos_organization_profiles as Record<string, unknown>[] | undefined)?.[0] as Record<string, unknown> | undefined;
-  const rawFacts = (orgRow?.sos_organization_facts as Array<{ fact_key: string; fact_value_json: unknown; status: string }> | undefined) ?? [];
 
-  // Build approved facts map
+  // Load facts filtered to this org to avoid cross-org duplicates
+  const { data: rawFacts } = orgRow?.id
+    ? await db
+        .from('sos_organization_facts')
+        .select('fact_key, fact_value_json, status')
+        .eq('organization_id', orgRow.id as string)
+        .eq('status', 'approved')
+    : { data: [] };
+
+  // Build approved facts map — normalise "org.ein" → "ein" style aliases
   const approvedFacts: Record<string, string> = {};
-  for (const f of rawFacts) {
-    if (f.status === 'approved') {
-      const val = typeof f.fact_value_json === 'string'
-        ? f.fact_value_json
-        : JSON.stringify(f.fact_value_json);
-      approvedFacts[f.fact_key] = val;
+  for (const f of (rawFacts ?? [])) {
+    const val = typeof f.fact_value_json === 'string'
+      ? f.fact_value_json
+      : JSON.stringify(f.fact_value_json);
+    approvedFacts[f.fact_key] = val;
+    // Also store without "org." prefix so resolveExactField can find them
+    if (f.fact_key.startsWith('org.')) {
+      approvedFacts[f.fact_key.slice(4)] = val;
     }
   }
 
