@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import {
   Sparkles, MessageSquare, Terminal, FolderOpen, Globe, Box,
   Send, Loader2, RefreshCw, ExternalLink, Save,
-  ChevronRight, File, Folder, Monitor, Smartphone, Play, X, Circle,
+  ChevronRight, File, Folder, Play, X, Circle,
   PanelRightClose, PanelRightOpen, AlertTriangle, Key,
 } from 'lucide-react';
 
@@ -18,14 +18,14 @@ const DocumentsPanel    = dynamic(() => import('@/components/dev-studio/Document
 const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
 const EcsStatusPanel    = dynamic(() => import('@/components/dev-studio/EcsStatusPanel'),    { ssr: false });
 const FileTree          = dynamic(() => import('@/components/dev-studio/FileTree'),          { ssr: false });
-const PreviewPanel      = dynamic(() => import('@/components/dev-studio/PreviewPanel'),      { ssr: false });
+// PreviewPanel removed — preview is now the unified right pane (IframePreview)
 const SecretsPanel      = dynamic(() => import('@/components/dev-studio/SecretsPanel'),      { ssr: false });
 const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   () => import('@/components/dev-studio/CodeEditor'),
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container' | 'chat' | 'documents' | 'secrets';
+type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'documents' | 'secrets';
 interface FileNode { name: string; path: string; type: 'file' | 'directory'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
 interface DevStudioConfig {
@@ -48,7 +48,6 @@ const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: s
   { id: 'chat',      Icon: MessageSquare, label: 'AI Chat'   },
   { id: 'terminal',  Icon: Terminal,      label: 'Terminal'  },
   { id: 'files',     Icon: FolderOpen,    label: 'Explorer'  },
-  { id: 'website',   Icon: Globe,         label: 'Preview'   },
   { id: 'container', Icon: Box,           label: 'Container' },
   { id: 'documents', Icon: FolderOpen,    label: 'Documents' },
   { id: 'secrets',   Icon: Key,           label: 'Secrets'   },
@@ -56,7 +55,7 @@ const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: s
 
 const DEFAULT_TAB_FILES: Record<Tab, string> = {
   command: 'command.sh', chat: 'ai-chat.md', terminal: 'terminal.sh',
-  files: 'explorer', website: 'preview.html', container: 'devcontainer.json',
+  files: 'explorer', container: 'devcontainer.json',
   documents: 'documents', secrets: 'platform-secrets',
 };
 
@@ -162,7 +161,7 @@ export default function DevStudioClient() {
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
   const initialCommand = searchParams.get('command') ?? '';
-  const valid: Tab[] = ['command','terminal','files','website','container','chat','documents','secrets'];
+  const valid: Tab[] = ['command','terminal','files','container','chat','documents','secrets'];
   const init: Tab = raw && valid.includes(raw) ? raw : (initialCommand ? 'command' : 'command');
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
@@ -175,9 +174,12 @@ export default function DevStudioClient() {
   const isPhone   = viewportWidth < 640;
   const isCompactLayout = viewportWidth < 1024;
 
-  // Preview hidden by default on phone — too little vertical space
-  const [previewOpen, setPreviewOpen] = useState(false);
+  // Preview: always visible on desktop, collapsible on mobile
+  const [previewOpen, setPreviewOpen] = useState(false); // starts false; auto-opens on desktop via resize effect
   const [previewWidth, setPreviewWidth] = useState(420); // px
+  // Preview URL — lifted here so the address bar in the preview pane can update it
+  const [previewInputUrl, setPreviewInputUrl] = useState('');
+  const [previewLiveUrl, setPreviewLiveUrl] = useState('');
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
   const dragStartW = useRef(0);
@@ -249,8 +251,16 @@ export default function DevStudioClient() {
   }, []);
 
   const tabFiles = { ...DEFAULT_TAB_FILES, ...(studioConfig?.tabFiles ?? {}) } as Record<Tab, string>;
-  // Prefer config value; fall back to current origin so the preview always shows something useful
-  const previewUrl = studioConfig?.defaultPreviewUrl || (typeof window !== 'undefined' ? window.location.origin : '');
+
+  // Sync preview URL when config loads (only if user hasn't typed anything yet)
+  useEffect(() => {
+    const configUrl = studioConfig?.defaultPreviewUrl || (typeof window !== 'undefined' ? window.location.origin : '');
+    if (!previewInputUrl) {
+      setPreviewInputUrl(configUrl);
+      setPreviewLiveUrl(configUrl);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [studioConfig?.defaultPreviewUrl]);
   const hasAnyAI = !!(studioHealth?.hasGroq || studioHealth?.hasGemini || studioHealth?.hasOpenAI || studioHealth?.hasAnthropic);
   const activeAIProviders = studioHealth ? [
     studioHealth.hasGroq      && 'Groq',
@@ -292,7 +302,6 @@ export default function DevStudioClient() {
         {([
           { label: 'Files',     id: 'files'     },
           { label: 'Terminal',  id: 'terminal'  },
-          { label: 'Website',   id: 'website'   },
           { label: 'Chat',      id: 'chat'       },
           { label: 'Container', id: 'container' },
           { label: 'Secrets',   id: 'secrets'   },
@@ -334,23 +343,25 @@ export default function DevStudioClient() {
             </>
           )}
           <span className="text-[11px]" style={{ color: '#858585' }}>Elevate LMS</span>
-          {/* Preview toggle — larger tap target on phone */}
-          <button
-            title={previewOpen ? 'Hide live preview' : 'Show live preview'}
-            onClick={() => setPreviewOpen((v) => !v)}
-            className="flex items-center gap-1 px-2 rounded text-[11px] transition-colors"
-            style={{
-              color: previewOpen ? '#4ec9b0' : '#858585',
-              minHeight: isPhone ? 44 : undefined,
-              minWidth: isPhone ? 44 : undefined,
-              justifyContent: 'center',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.background='#3c3c3c')}
-            onMouseLeave={e => (e.currentTarget.style.background='transparent')}
-          >
-            {previewOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
-            <span className="ml-1">Preview</span>
-          </button>
+          {/* Preview toggle — only shown on mobile/tablet where preview is collapsible */}
+          {isCompactLayout && (
+            <button
+              title={previewOpen ? 'Hide preview' : 'Show preview'}
+              onClick={() => setPreviewOpen((v) => !v)}
+              className="flex items-center gap-1 px-2 rounded text-[11px] transition-colors"
+              style={{
+                color: previewOpen ? '#4ec9b0' : '#858585',
+                minHeight: isPhone ? 44 : undefined,
+                minWidth: isPhone ? 44 : undefined,
+                justifyContent: 'center',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background='#3c3c3c')}
+              onMouseLeave={e => (e.currentTarget.style.background='transparent')}
+            >
+              {previewOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
+              <span className="ml-1">Preview</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -426,14 +437,13 @@ export default function DevStudioClient() {
           {tab === 'chat'      && <AIChat />}
           {tab === 'terminal'  && <TerminalTab workflowButtons={studioConfig?.workflowButtons} />}
           {tab === 'files'     && <FilesTab />}
-          {tab === 'website'   && <WebsiteTab config={studioConfig} />}
           {tab === 'container' && <ContainerTab />}
           {tab === 'documents' && <DocumentsPanel />}
           {tab === 'secrets'   && <SecretsPanel />}
         </div>
 
-        {/* Drag-to-resize handle */}
-        {previewOpen && !isCompactLayout && (
+        {/* Drag-to-resize handle — desktop only, preview is always visible there */}
+        {!isCompactLayout && (
           <div
             onMouseDown={onResizerMouseDown}
             className="flex-shrink-0 w-1 cursor-col-resize transition-colors"
@@ -443,44 +453,80 @@ export default function DevStudioClient() {
           />
         )}
 
-        {/* Live preview panel — always mounted, hidden when closed */}
-        {previewOpen && (
+        {/* Live preview panel — always visible on desktop, collapsible on mobile */}
+        {(previewOpen || !isCompactLayout) && (
           <div
             className={`flex-shrink-0 flex flex-col overflow-hidden ${isCompactLayout ? 'border-t' : 'border-l'}`}
             style={{
               width: isCompactLayout ? '100%' : previewWidth,
-              // Phone: 35dvh keeps enough room for the editor above
-              // Tablet: 40dvh gives a reasonable split
-              // Desktop: fixed pixel width (side-by-side)
-              height: isPhone ? '35dvh' : isCompactLayout ? '40dvh' : undefined,
-              minHeight: isPhone ? 180 : isCompactLayout ? 220 : undefined,
+              height: isPhone ? '40dvh' : isCompactLayout ? '45dvh' : undefined,
+              minHeight: isPhone ? 200 : isCompactLayout ? 240 : undefined,
               background: '#1e1e1e',
               borderColor: '#3c3c3c',
             }}
           >
-            {/* Preview panel header */}
-            <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 border-b text-[11px] select-none" style={{ background: '#2d2d2d', borderColor: '#3c3c3c', color: '#858585' }}>
-              <Globe className="w-3.5 h-3.5" style={{ color: '#4ec9b0' }} />
-              <span style={{ color: '#cccccc' }}>Live Preview</span>
-              <span className="ml-auto opacity-60 truncate max-w-[140px]">{previewUrl}</span>
-              <a href={previewUrl} target="_blank" rel="noopener noreferrer" title="Open in new tab"
-                className="p-0.5 rounded transition-colors"
+            {/* Browser chrome — address bar + controls */}
+            <div
+              className="flex-shrink-0 flex items-center gap-1.5 px-2 py-1.5 border-b select-none"
+              style={{ background: '#2d2d2d', borderColor: '#3c3c3c' }}
+            >
+              {/* Reload */}
+              <button
+                title="Reload"
+                onClick={() => setPreviewLiveUrl(u => u + (u.includes('?') ? '&_r=' : '?_r=') + Date.now())}
+                className="flex-shrink-0 p-1 rounded transition-colors"
                 style={{ color: '#858585' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
+                onMouseLeave={e => (e.currentTarget.style.color = '#858585')}
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+              </button>
+              {/* Address bar */}
+              <form
+                className="flex-1 flex items-center rounded px-2 py-0.5 border"
+                style={{ background: '#3c3c3c', borderColor: '#555' }}
+                onSubmit={e => { e.preventDefault(); setPreviewLiveUrl(previewInputUrl); }}
+              >
+                <Globe className="w-3 h-3 flex-shrink-0 mr-1.5" style={{ color: '#4ec9b0' }} />
+                <input
+                  value={previewInputUrl}
+                  onChange={e => setPreviewInputUrl(e.target.value)}
+                  className="flex-1 bg-transparent text-[11px] outline-none font-mono min-w-0"
+                  style={{ color: '#cccccc' }}
+                  placeholder="https://…"
+                  spellCheck={false}
+                />
+              </form>
+              {/* Open in new tab */}
+              <a
+                href={previewLiveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open in new tab"
+                className="flex-shrink-0 p-1 rounded transition-colors"
+                style={{ color: '#858585' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#858585')}
+              >
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
-              <button title="Close preview" onClick={() => setPreviewOpen(false)}
-                className="p-0.5 rounded transition-colors"
-                style={{ color: '#858585' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
-                <X className="w-3.5 h-3.5" />
-              </button>
+              {/* Close — only on mobile */}
+              {isCompactLayout && (
+                <button
+                  title="Close preview"
+                  onClick={() => setPreviewOpen(false)}
+                  className="flex-shrink-0 p-1 rounded transition-colors"
+                  style={{ color: '#858585' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#858585')}
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
             {/* iframe — embed-check aware */}
             <div className="flex-1 overflow-hidden" style={{ background: '#1e1e1e' }}>
-              <IframePreview url={previewUrl} title="Live Preview" />
+              <IframePreview url={previewLiveUrl} title="Live Preview" />
             </div>
           </div>
         )}
@@ -1080,93 +1126,4 @@ function FilesTab() {
     </div>
   );
 }
-// ── Website Tab ──────────────────────────────────────────────────────────────
-
-function WebsiteTab({ config }: { config: DevStudioConfig | null }) {
-  // Prefer config value (from platform_settings DB row or env-driven fallback in config API).
-  // Use current origin as last resort so the iframe always has something to show.
-  const defaultUrl = config?.defaultPreviewUrl || (typeof window !== 'undefined' ? window.location.origin : '');
-  const targets = config?.previewTargets ?? [];
-  const [url, setUrl] = useState(defaultUrl);
-  const [input, setInput] = useState(defaultUrl);
-  const [viewport, setViewport] = useState<'desktop' | 'mobile'>('desktop');
-
-  // Sync default URL when config loads
-  useEffect(() => {
-    if (!config?.defaultPreviewUrl) return;
-    setUrl(config.defaultPreviewUrl);
-    setInput(config.defaultPreviewUrl);
-  }, [config?.defaultPreviewUrl]);
-
-  function navigate(next: string) {
-    setInput(next);
-    setUrl(next);
-  }
-
-  return (
-    <div className="flex flex-col h-full" style={{ background: '#1e1e1e' }}>
-      {/* Browser chrome */}
-      <div className="flex-shrink-0 flex items-center gap-2 px-3 py-2 border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c' }}>
-        <button onClick={() => setViewport('desktop')} title="Desktop"
-          className="p-1.5 rounded transition-colors"
-          style={{ background: viewport === 'desktop' ? '#0078d4' : 'transparent', color: viewport === 'desktop' ? '#fff' : '#858585' }}
-          onMouseEnter={e => { if (viewport !== 'desktop') e.currentTarget.style.color = '#cccccc'; }}
-          onMouseLeave={e => { if (viewport !== 'desktop') e.currentTarget.style.color = '#858585'; }}>
-          <Monitor className="w-4 h-4" />
-        </button>
-        <button onClick={() => setViewport('mobile')} title="Mobile"
-          className="p-1.5 rounded transition-colors"
-          style={{ background: viewport === 'mobile' ? '#0078d4' : 'transparent', color: viewport === 'mobile' ? '#fff' : '#858585' }}
-          onMouseEnter={e => { if (viewport !== 'mobile') e.currentTarget.style.color = '#cccccc'; }}
-          onMouseLeave={e => { if (viewport !== 'mobile') e.currentTarget.style.color = '#858585'; }}>
-          <Smartphone className="w-4 h-4" />
-        </button>
-        <div className="flex-1 flex items-center gap-2 rounded px-3 py-1 border" style={{ background: '#3c3c3c', borderColor: '#555' }}>
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && navigate(input)}
-            className="flex-1 bg-transparent text-xs outline-none font-mono"
-            style={{ color: '#cccccc' }}
-          />
-        </div>
-        <button onClick={() => navigate(input)} title="Reload"
-          className="p-1.5 rounded transition-colors"
-          style={{ color: '#858585' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
-          <RefreshCw className="w-4 h-4" />
-        </button>
-        <a href={url} target="_blank" rel="noopener noreferrer" title="Open in new tab"
-          className="p-1.5 rounded transition-colors"
-          style={{ color: '#858585' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
-          <ExternalLink className="w-4 h-4" />
-        </a>
-      </div>
-
-      {targets.length > 0 && (
-        <div className="flex-shrink-0 flex flex-wrap gap-2 px-3 py-2 border-b" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
-          {targets.map((t) => (
-            <button
-              key={t.label}
-              onClick={() => navigate(t.url)}
-              className="px-2 py-1 text-[11px] rounded border transition-colors"
-              style={{ borderColor: '#555', color: '#858585', background: 'transparent' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#0078d4'; e.currentTarget.style.color = '#cccccc'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#555'; e.currentTarget.style.color = '#858585'; }}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Viewport */}
-      <div className="flex-1 min-h-0">
-        <PreviewPanel url={url} />
-      </div>
-    </div>
-  );
-}
+// WebsiteTab removed — preview is now the unified right pane with its own address bar.

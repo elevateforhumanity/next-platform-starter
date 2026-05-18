@@ -108,24 +108,26 @@ export async function GET(req: NextRequest) {
       { key: 'ci', label: 'Run CI', description: 'Full CI pipeline' },
       { key: 'lint', label: 'Lint', description: 'Run pnpm lint' },
     ],
-    // Default to the admin app itself — it has no X-Frame-Options so it embeds cleanly.
-    // The public LMS site (www) has X-Frame-Options: DENY in production and cannot be iframed.
-    // In dev, prefer localhost so the iframe works without auth.
+    // Default preview target is the public LMS homepage — no auth required,
+    // no X-Frame-Options block, renders immediately without login redirect.
+    // Admin pages require session cookies which iframes don't forward, so
+    // they always redirect to /login inside the preview pane.
     defaultPreviewUrl:
       process.env.NODE_ENV === 'development'
-        ? (process.env.DEVSTUDIO_PREVIEW_URL || 'http://localhost:3001/admin')
-        : `${adminUrl}/admin`,
+        ? (process.env.DEVSTUDIO_PREVIEW_URL || 'http://localhost:3000')
+        : (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'),
     previewTargets: [
       ...(process.env.NODE_ENV === 'development'
         ? [
-            { label: 'Local Admin :3001', url: process.env.DEVSTUDIO_PREVIEW_URL || 'http://localhost:3001/admin' },
             { label: 'Local LMS :3000', url: 'http://localhost:3000' },
+            { label: 'Local Admin :3001', url: process.env.DEVSTUDIO_PREVIEW_URL || 'http://localhost:3001/admin' },
           ]
         : []),
+      { label: 'Public Homepage', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org' },
+      { label: 'Programs', url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/programs` },
+      { label: 'Apply', url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/apply` },
       { label: 'Admin Dashboard', url: `${adminUrl}/admin` },
       { label: 'Admin Applications', url: `${adminUrl}/admin/applications` },
-      { label: 'Admin Courses', url: `${adminUrl}/admin/courses` },
-      { label: 'Public LMS', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org' },
     ],
     tabFiles: {
       command: 'command.sh',

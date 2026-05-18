@@ -308,6 +308,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Docs', href: '/admin/docs' },
       { label: 'Internal Docs', href: '/admin/internal-docs' },
       { label: 'Advanced Tools', href: '/admin/advanced-tools' },
+      { label: 'Navigation Settings', href: '/admin/settings/nav' },
     ],
   },
 ];
