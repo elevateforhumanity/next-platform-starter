@@ -157,31 +157,39 @@ async function resolveApplications(
   db: SupabaseClient,
   intent: { status?: string },
 ): Promise<string> {
+  // Live status values: submitted, pending_admin_review, under_review, approved, enrolled, rejected
+  const pendingStatuses = ['submitted', 'pending_admin_review', 'under_review'];
+  const statusMap: Record<string, string[]> = {
+    pending:  ['submitted', 'pending_admin_review'],
+    review:   ['under_review', 'pending_admin_review'],
+    approved: ['approved'],
+    enrolled: ['enrolled'],
+    rejected: ['rejected'],
+  };
+
   let q = db
     .from('applications')
-    .select('id,full_name,email,status,program,created_at')
+    .select('id,full_name,email,status,program_interest,program_slug,created_at')
     .order('created_at', { ascending: false })
     .limit(50);
+
   if (intent.status) {
-    q = q.eq('status', intent.status);
+    const mapped = statusMap[intent.status] ?? [intent.status];
+    q = mapped.length === 1 ? q.eq('status', mapped[0]) : q.in('status', mapped);
   } else {
-    q = q.in('status', ['submitted', 'pending', 'in_review']);
+    q = q.in('status', pendingStatuses);
   }
 
   const { data, error } = await q;
   if (error) return `DB error: ${error.message}`;
   if (!data?.length) return `No ${intent.status ?? 'pending'} applications found.`;
 
-  const rows = data.map((a: Record<string, unknown>, i: number) =>
-    `${i + 1}. ${a.full_name ?? '(no name)'} — ${a.email ?? '—'} | ${a.program ?? '—'} | ${a.status}`
-  ).join('
-');
+  const rows = data.map((a: Record<string, unknown>, i: number) => {
+    const program = (a.program_interest ?? a.program_slug ?? '—') as string;
+    return `${i + 1}. ${a.full_name ?? '(no name)'} — ${a.email ?? '—'} | ${program} | ${a.status}`;
+  }).join('\n');
 
-  return `**Applications — ${data.length} shown${intent.status ? ` (${intent.status})` : ' (pending/in review)'}**
-
-${rows}
-
-Review at: /admin/applications`;
+  return `**Applications — ${data.length} shown${intent.status ? ` (${intent.status})` : ' (pending/in review)'}**\n\n${rows}\n\nReview at: /admin/applications`;
 }
 
 async function resolveRevenue(db: SupabaseClient): Promise<string> {
@@ -236,7 +244,7 @@ async function getLiveDataSnapshot(db: SupabaseClient): Promise<string> {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
   const [pendingApps, totalApps, activeEnrollments, totalStudents, revenueMonth, revenueAll, certs] =
     await Promise.all([
-      db.from('applications').select('id', { count: 'exact', head: true }).in('status', ['submitted', 'pending', 'in_review']),
+      db.from('applications').select('id', { count: 'exact', head: true }).in('status', ['submitted', 'pending_admin_review', 'under_review']),
       db.from('applications').select('id', { count: 'exact', head: true }),
       db.from('program_enrollments').select('id', { count: 'exact', head: true }).eq('status', 'active'),
       db.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'student'),
