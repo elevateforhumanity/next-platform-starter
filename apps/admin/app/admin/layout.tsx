@@ -79,23 +79,30 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!user) redirect('/login');
 
   const db = await getAdminClient();
-  if (!db) return <>{children}</>;
 
-  // Verify admin role
-  const { data: roleCheck } = await db
-    .from('profiles').select('role').eq('id', user.id).maybeSingle();
+  // Verify admin role — if db is unavailable, fall back to supabase client
+  let roleCheck: { role: string } | null = null;
+  if (db) {
+    const { data } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    roleCheck = data;
+  } else {
+    const { data } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    roleCheck = data;
+  }
   const adminRoles = ['super_admin'];
   if (!roleCheck || !adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
 
+  const effectiveDb = db ?? supabase as unknown as Awaited<ReturnType<typeof getAdminClient>>;
+
   const [context, headerData, navSections] = await Promise.all([
-    withTimeout(getLicenseContext(user.id, db), 3000, 'getLicenseContext').catch(() => null),
+    withTimeout(getLicenseContext(user.id, effectiveDb), 3000, 'getLicenseContext').catch(() => null),
     withTimeout(
       (async () => {
         try {
           const [profileRes, appsRes, docsRes, alertsRes, wioaDocsRes, staleLeadsRes] =
             await Promise.all([
-              db.from('profiles').select('full_name, first_name').eq('id', user.id).maybeSingle(),
-              db
+              effectiveDb.from('profiles').select('full_name, first_name').eq('id', user.id).maybeSingle(),
+              effectiveDb
                 .from('applications')
                 .select('id', { count: 'exact', head: true })
                 .in('status', ['submitted', 'in_review']),
@@ -187,7 +194,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     // Nav config — non-critical, 1s timeout, falls back to DEFAULT_NAV
     withTimeout(
       (async (): Promise<NavSection[]> => {
-        const { data } = await db
+        const { data } = await effectiveDb
           .from('platform_settings')
           .select('value')
           .eq('key', 'ADMIN_NAV_SECTIONS_JSON')
