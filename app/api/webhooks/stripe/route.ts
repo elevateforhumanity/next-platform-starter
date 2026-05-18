@@ -63,7 +63,7 @@ export const dynamic = 'force-dynamic';
 
 // Supabase admin client — resolved per-request to avoid frozen null at cold start.
 // Returns null if env vars are missing rather than throwing.
-function getSupabase(): SupabaseClient | null {
+async function getSupabase(): Promise<SupabaseClient | null> {
   try {
     return await requireAdminClient();
   } catch {
@@ -201,7 +201,7 @@ async function _POST(request: NextRequest) {
   }
 
   // Resolve per-request AFTER hydration — secrets are now in process.env.
-  const supabase = getSupabase();
+  const supabase = await getSupabase();
   const stripeClient = getStripe();
 
   // Read secret at request time — module-level init would freeze a missing value permanently.
