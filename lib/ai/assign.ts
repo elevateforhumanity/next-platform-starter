@@ -35,11 +35,11 @@ export async function assignAIInstructorForProgram(opts: {
     return { ok: false, reason: 'ASSIGNMENT_FAILED' as const };
   }
 
-  // audit
-  await supabase.from('ai_audit_log').insert({
-    user_id: opts.studentId,
-    action: 'ASSIGN_INSTRUCTOR',
-    details: { program_slug: opts.programSlug, instructor_slug: instructor.slug },
+  // audit — write to audit_logs (ai_audit_log is a view over it)
+  await supabase.from('audit_logs').insert({
+    actor_id: opts.studentId,
+    action: 'ai_assign_instructor',
+    metadata: { source: 'ai', program_slug: opts.programSlug, instructor_slug: instructor.slug },
   });
 
   return { ok: true, instructorId: instructor.id, instructorSlug: instructor.slug };

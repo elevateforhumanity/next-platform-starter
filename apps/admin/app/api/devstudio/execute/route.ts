@@ -2958,9 +2958,10 @@ ${registryContext}
           const { createClient } = await import('@supabase/supabase-js');
           if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
             const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-            await sb.from('ai_audit_log').insert({
-              action: 'devstudio_execute',
-              details: { command: command.slice(0, 500), user_id: auth.user?.id },
+            await sb.from('audit_logs').insert({
+              actor_id: auth.user?.id ?? null,
+              action: 'ai_devstudio_execute',
+              metadata: { source: 'ai', command: command.slice(0, 500) },
             });
           }
         } catch { /* non-critical */ }

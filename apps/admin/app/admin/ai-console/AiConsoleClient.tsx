@@ -11,7 +11,7 @@ import {
 const ACTION_PATTERNS = [
   /scan.*route|route.*scan|list.*route|show.*route/i,
   /no.*auth.*route|missing.*auth|auth.*gap/i,
-  /query.*db|query.*database|db.*query|database.*query|show.*table|list.*table/i,
+  /show.*table|list.*table/i,
   /audit.*system|system.*audit|full.*audit|run.*audit/i,
   /audit.*enrollment|enrollment.*audit|enrollment.*pipeline/i,
   /verify.*program|program.*integrity/i,
@@ -77,7 +77,7 @@ const QUICK_ACTIONS = [
   { icon: Map,         label: 'Knowledge graph',      prompt: 'Lookup knowledge graph systems',                 mode: 'action' },
   { icon: ShieldAlert, label: 'Auth audit',           prompt: 'Run full system audit',                          mode: 'action' },
   { icon: BarChart3,   label: 'Enrollment pipeline',  prompt: 'Audit enrollment pipeline',                      mode: 'action' },
-  { icon: Database,    label: 'Query programs',       prompt: 'Query database table programs status=published',  mode: 'action' },
+  { icon: Database,    label: 'Active programs',       prompt: 'List all active published programs',              mode: 'action' },
   { icon: Users,       label: 'Pending applications', prompt: 'List pending applications',                      mode: 'action' },
   { icon: BookMarked,  label: 'Recall memory',        prompt: 'Recall operational memory type=all',             mode: 'action' },
   { icon: GitBranch,   label: 'Migrations',           prompt: 'List pending migrations',                        mode: 'action' },

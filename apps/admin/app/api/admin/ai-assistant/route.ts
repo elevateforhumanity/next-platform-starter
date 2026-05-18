@@ -15,6 +15,9 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
+import { isGeminiConfigured } from '@/lib/gemini-client';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
@@ -158,50 +161,57 @@ export async function POST(req: NextRequest) {
       )
       .slice(-8);
 
-    const openaiKey = process.env.OPENAI_API_KEY;
-    if (!openaiKey) return safeError('AI not configured', 503);
+    // Require at least one AI provider — Groq (primary, free) or Gemini (fallback)
+    if (!isGroqConfigured() && !isGeminiConfigured() && !process.env.OPENAI_API_KEY) {
+      return safeError('AI not configured — set GROQ_API_KEY or GEMINI_API_KEY in platform_secrets', 503);
+    }
 
     // Get live data snapshot to inject into context
     const dataSnapshot = await getLiveDataSnapshot(db);
 
-    const messages = [
-      { role: 'system', content: ADMIN_SYSTEM_PROMPT },
-      { role: 'system', content: dataSnapshot },
+    const systemPrompt = `${ADMIN_SYSTEM_PROMPT}\n\n${dataSnapshot}`;
+    const userMessages = [
       ...safeHistory,
-      { role: 'user', content: message },
+      { role: 'user' as const, content: message },
     ];
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${openaiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4.1-mini',
-        messages,
+    let reply = '';
+
+    // Provider priority: Groq → Gemini → OpenAI
+    if (isGroqConfigured()) {
+      const groq = getGroqClient();
+      const res = await groq.chat.completions.create({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'system', content: systemPrompt }, ...userMessages],
         max_tokens: 400,
         temperature: 0.3,
-      }),
-    });
-
-    if (!response.ok) {
-      const err = await response.text();
-      logger.error('OpenAI error:', err instanceof Error ? err : undefined);
-      return safeError('AI service error', 502);
+      });
+      reply = res.choices?.[0]?.message?.content ?? 'No response generated.';
+    } else if (isGeminiConfigured()) {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash', systemInstruction: systemPrompt });
+      const result = await model.generateContent(message);
+      reply = result.response.text();
+    } else {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'system', content: systemPrompt }, ...userMessages], max_tokens: 400, temperature: 0.3 }),
+      });
+      if (!res.ok) { logger.error('OpenAI error:', await res.text()); return safeError('AI service error', 502); }
+      const data = await res.json();
+      reply = data.choices?.[0]?.message?.content ?? 'No response generated.';
     }
 
-    const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content ?? 'No response generated.';
-
-    // Audit log — fire-and-forget (non-fatal if DB is slow)
-    db.from('ai_audit_log').insert({
-      user_id: user.id,
+    // Audit log — write to audit_logs (ai_audit_log is a view over it)
+    db.from('audit_logs').insert({
+      actor_id: user.id,
       action: 'ai_assistant_query',
-      details: {
+      metadata: {
+        source: 'ai',
         prompt: message.slice(0, 500),
         reply: reply.slice(0, 500),
-        model: 'gpt-4.1-mini',
+        model: isGroqConfigured() ? 'llama-3.3-70b-versatile' : isGeminiConfigured() ? 'gemini-1.5-flash' : 'gpt-4o-mini',
       },
       ip_address: req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? null,
     }).then(({ error }) => {

@@ -244,14 +244,15 @@ export async function testEnrollmentFlow(config: EnrollmentTestConfig): Promise<
           data: { assignmentId: assignment.id },
         });
 
-        // Log to audit trail
-        await supabase.from('ai_audit_log').insert({
-          user_id: userId,
-          action: 'ASSIGN_INSTRUCTOR',
-          details: {
+        // Log to audit trail — write to audit_logs (ai_audit_log is a view)
+        await supabase.from('audit_logs').insert({
+          actor_id: userId,
+          action: 'ai_assign_instructor',
+          metadata: {
+            source: 'ai',
             program_slug: config.programSlug,
             instructor_slug: instructor.slug,
-            source: 'autopilot_test',
+            context: 'autopilot_test',
           },
         });
       }
@@ -349,9 +350,10 @@ export async function testEnrollmentFlow(config: EnrollmentTestConfig): Promise<
     // STEP 8: Check audit log
 
     const { data: auditLogs, error: auditError } = await supabase
-      .from('ai_audit_log')
+      .from('audit_logs')
       .select('*')
-      .eq('user_id', userId)
+      .eq('actor_id', userId)
+      .ilike('action', 'ai_%')
       .order('created_at', { ascending: false })
       .limit(5);
 
