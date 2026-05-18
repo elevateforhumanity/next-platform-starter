@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 import { emitEvent } from '@/lib/platform/events';
 
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const limit = Math.min(50, Number(searchParams.get('limit') ?? 20));
 
   try {
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     let q = supabase
       .from('mentor_sessions')
       .select('id, scheduled_at, duration_minutes, status, notes, location, mentorship_id, session_type, topic')
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     const { mentorship_id, scheduled_at, duration_minutes = 60, notes, location, session_type = 'general', topic } = body;
     if (!scheduled_at) return safeError('scheduled_at is required', 400);
 
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     if (auth.role === 'mentor' && mentorship_id) {
       const { data: ms } = await supabase.from('mentorships').select('mentor_id').eq('id', mentorship_id).single();
       if (!ms || ms.mentor_id !== auth.user!.id) return safeError('Forbidden', 403);

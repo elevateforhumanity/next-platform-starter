@@ -9,7 +9,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
 const ALLOWED_ROLES = ['workforce_board', 'admin', 'super_admin', 'staff'];
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   if (!ALLOWED_ROLES.includes(auth.role ?? '')) return safeError('Forbidden', 403);
 
   try {
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
 
     const [
       participantsRes,

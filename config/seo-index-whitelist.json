@@ -3,7 +3,6 @@
   "_comment": "Pages explicitly approved for indexing. All other pages default to noindex.",
   "_lastReviewed": "2025-01-20",
   "_reviewedBy": "Platform Governance",
-
   "indexed_pages": [
     "/",
     "/about",
@@ -35,7 +34,6 @@
     "/blog",
     "/news",
     "/events",
-    "/governance",
     "/governance/authoritative-docs",
     "/governance/security",
     "/governance/compliance",
@@ -52,7 +50,6 @@
     "/white-label",
     "/social",
     "/lms",
-    "/tax-self-prep",
     "/vita",
     "/resources",
     "/resources/how-tax-filing-works",
@@ -66,13 +63,11 @@
     "/schools/mesmerized-by-beauty",
     "/store/guides/licensing"
   ],
-
   "pending_review": [
     "/resources/understanding-tax-prep-fees",
     "/resources/workforce-training-structure",
     "/resources/program-funding-explained"
   ],
-
   "explicitly_noindex": [
     "/login",
     "/signup",

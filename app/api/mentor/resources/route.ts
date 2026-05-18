@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 
 const ALLOWED_ROLES = ['mentor', 'admin', 'super_admin'];
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get('category');
 
   try {
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     let q = supabase
       .from('mentor_resources')
       .select('id, title, description, url, file_type, category, created_at, created_by')
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     const { title, description, url, file_type, category } = await req.json();
     if (!title || !url) return safeError('title and url are required', 400);
 
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     const { data, error } = await supabase
       .from('mentor_resources')
       .insert({ title, description, url, file_type, category, created_by: auth.user!.id })

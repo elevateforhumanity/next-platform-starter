@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 import { emitEvent } from '@/lib/platform/events';
 
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   if (!ALLOWED_ROLES.includes(auth.role ?? '')) return safeError('Forbidden', 403);
 
   try {
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
 
     let q = supabase
       .from('mentorships')
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       return safeError('mentorship_id and action (approve|decline) are required', 400);
     }
 
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
 
     // Verify ownership
     if (auth.role === 'mentor') {

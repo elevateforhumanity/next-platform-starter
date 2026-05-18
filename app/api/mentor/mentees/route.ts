@@ -7,7 +7,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 
 const ALLOWED_ROLES = ['mentor', 'admin', 'super_admin'];
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const status = searchParams.get('status') ?? 'active';
 
   try {
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
 
     // Admins see all mentorships; mentors see only their own
     let q = supabase

@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 
 const ALLOWED_ROLES = ['mentor', 'admin', 'super_admin'];
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
   const limit = Math.min(100, Number(searchParams.get('limit') ?? 50));
 
   try {
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     let q = supabase
       .from('mentor_messages')
       .select('id, content, sender_id, created_at, read_at, mentorship_id, profiles!mentor_messages_sender_id_fkey(full_name, avatar_url)')
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     const { mentorship_id, content } = await req.json();
     if (!mentorship_id || !content?.trim()) return safeError('mentorship_id and content are required', 400);
 
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     const { data, error } = await supabase
       .from('mentor_messages')
       .insert({ mentorship_id, content: content.trim(), sender_id: auth.user!.id })

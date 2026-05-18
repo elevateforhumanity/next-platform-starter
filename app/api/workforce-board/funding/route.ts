@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 import { emitEvent } from '@/lib/platform/events';
 
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
   const limit  = Math.min(100, Number(searchParams.get('limit') ?? 50));
 
   try {
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     let q = supabase
       .from('ita_vouchers')
       .select(`
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       return safeError('user_id, program_id, and amount are required', 400);
     }
 
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     const voucherNumber = `ITA-${Date.now().toString(36).toUpperCase()}`;
     const expiresAt = new Date(Date.now() + expires_days * 24 * 60 * 60 * 1000).toISOString();
 

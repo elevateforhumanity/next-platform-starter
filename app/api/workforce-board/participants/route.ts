@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 import { emitEvent } from '@/lib/platform/events';
 
@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
   const from   = (page - 1) * limit;
 
   try {
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     let q = supabase
       .from('wioa_participants')
       .select(`
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
       return safeError('first_name, last_name, and email are required', 400);
     }
 
-    const supabase = createAdminClient();
+    const supabase = await getAdminClient();
     const { data, error } = await supabase
       .from('wioa_participants')
       .insert({ first_name, last_name, email, phone, program_id, status, enrollment_date: new Date().toISOString() })
