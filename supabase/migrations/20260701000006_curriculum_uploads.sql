@@ -44,3 +44,37 @@ end $$;
 insert into storage.buckets (id, name, public)
 values ('curriculum', 'curriculum', true)
 on conflict (id) do nothing;
+
+-- Storage policies: authenticated upload/delete, public read
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'storage' and tablename = 'objects'
+      and policyname = 'Authenticated users can upload curriculum'
+  ) then
+    create policy "Authenticated users can upload curriculum"
+      on storage.objects for insert to authenticated
+      with check (bucket_id = 'curriculum');
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'storage' and tablename = 'objects'
+      and policyname = 'Authenticated users can delete curriculum'
+  ) then
+    create policy "Authenticated users can delete curriculum"
+      on storage.objects for delete to authenticated
+      using (bucket_id = 'curriculum');
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'storage' and tablename = 'objects'
+      and policyname = 'Public can read curriculum'
+  ) then
+    create policy "Public can read curriculum"
+      on storage.objects for select to public
+      using (bucket_id = 'curriculum');
+  end if;
+end $$;
