@@ -3,7 +3,8 @@ export const dynamic = 'force-static';
 import { permanentRedirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { robots: { index: false, follow: false } };
+export const metadata: Metadata = {
+  robots: { index: false, follow: false }, robots: { index: false, follow: false } };
 
 
 // Legacy route — redirects to the admin licenses page

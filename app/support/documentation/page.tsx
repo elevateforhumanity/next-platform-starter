@@ -2,6 +2,7 @@ import { permanentRedirect } from 'next/navigation';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: 'Documentation',
   description: 'Platform documentation and help resources.',
   alternates: {

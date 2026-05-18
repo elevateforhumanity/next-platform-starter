@@ -2,6 +2,7 @@ import { permanentRedirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: 'SNAP E&T',
   description: 'SNAP Employment & Training information and partnership details.',
   robots: { index: false, follow: false },
