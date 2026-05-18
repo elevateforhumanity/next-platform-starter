@@ -25,12 +25,13 @@ export async function GET(req: NextRequest) {
   await hydrateProcessEnv();
 
   return NextResponse.json({
-    hasGroq:   isGroqConfigured(),
-    hasGemini: isGeminiConfigured(),
-    hasOpenAI: !!process.env.OPENAI_API_KEY,
-    hasGitHub: !!process.env.GITHUB_TOKEN,
-    runtime:   'nodejs',
-    service:   'admin',
-    nodeEnv:   process.env.NODE_ENV ?? 'unknown',
+    hasGroq:      isGroqConfigured(),
+    hasGemini:    isGeminiConfigured(),
+    hasOpenAI:    !!process.env.OPENAI_API_KEY,
+    hasAnthropic: !!process.env.ANTHROPIC_API_KEY,
+    hasGitHub:    !!process.env.GITHUB_TOKEN,
+    runtime:      'nodejs',
+    service:      'admin',
+    nodeEnv:      process.env.NODE_ENV ?? 'unknown',
   });
 }

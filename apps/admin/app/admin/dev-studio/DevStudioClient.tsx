@@ -251,7 +251,13 @@ export default function DevStudioClient() {
   const tabFiles = { ...DEFAULT_TAB_FILES, ...(studioConfig?.tabFiles ?? {}) } as Record<Tab, string>;
   // Prefer config value; fall back to current origin so the preview always shows something useful
   const previewUrl = studioConfig?.defaultPreviewUrl || (typeof window !== 'undefined' ? window.location.origin : '');
-  const hasAnyAI = !!(studioHealth?.hasGroq || studioHealth?.hasGemini || studioHealth?.hasOpenAI);
+  const hasAnyAI = !!(studioHealth?.hasGroq || studioHealth?.hasGemini || studioHealth?.hasOpenAI || studioHealth?.hasAnthropic);
+  const activeAIProviders = studioHealth ? [
+    studioHealth.hasGroq      && 'Groq',
+    studioHealth.hasGemini    && 'Gemini',
+    studioHealth.hasOpenAI    && 'OpenAI',
+    studioHealth.hasAnthropic && 'Anthropic',
+  ].filter(Boolean).join(' · ') : '';
 
   function openTab(t: Tab) {
     setTab(t);
@@ -282,11 +288,24 @@ export default function DevStudioClient() {
       <div className="flex-shrink-0 flex items-center gap-1 px-2 sm:px-3 border-b text-xs select-none"
         style={{ background: '#323233', borderColor: '#3c3c3c', color: '#cccccc', minHeight: isPhone ? 44 : 28 }}>
         <span className="font-bold text-white mr-2 text-[11px]">Dev Studio</span>
-        {/* Menu items hidden on phone — no room */}
-        {!isPhone && ['File','Edit','View','Terminal','Help'].map((m) => (
-          <span key={m} className="hidden sm:inline cursor-pointer px-2 py-0.5 rounded text-[11px] transition-colors" style={{ color: '#cccccc' }}
-            onMouseEnter={e => (e.currentTarget.style.background='#3c3c3c')}
-            onMouseLeave={e => (e.currentTarget.style.background='transparent')}>{m}</span>
+        {/* Menu items — always visible, wired to tab navigation */}
+        {([
+          { label: 'Files',     id: 'files'     },
+          { label: 'Terminal',  id: 'terminal'  },
+          { label: 'Website',   id: 'website'   },
+          { label: 'Chat',      id: 'chat'       },
+          { label: 'Container', id: 'container' },
+          { label: 'Secrets',   id: 'secrets'   },
+          { label: 'Docs',      id: 'documents' },
+        ] as { label: string; id: Tab }[]).map(({ label, id }) => (
+          <span
+            key={id}
+            className="cursor-pointer px-2 py-0.5 rounded text-[11px] transition-colors"
+            style={{ color: tab === id ? '#ffffff' : '#cccccc', background: tab === id ? '#094771' : 'transparent' }}
+            onClick={() => setTab(id)}
+            onMouseEnter={e => { if (tab !== id) e.currentTarget.style.background = '#3c3c3c'; }}
+            onMouseLeave={e => { if (tab !== id) e.currentTarget.style.background = 'transparent'; }}
+          >{label}</span>
         ))}
         <div className="ml-auto flex items-center gap-2 sm:gap-3 text-[11px]" style={{ color: '#858585' }}>
           <span className="flex items-center gap-1" style={{ color: '#4ec9b0' }}>
@@ -295,7 +314,7 @@ export default function DevStudioClient() {
           {studioHealth && (
             <>
               <span
-                className="hidden md:inline px-1.5 py-0.5 rounded border"
+                className="px-1.5 py-0.5 rounded border text-[10px]"
                 style={{
                   color: studioHealth.hasGitHub ? '#4ec9b0' : '#fca5a5',
                   borderColor: studioHealth.hasGitHub ? '#4ec9b0' : '#fca5a5',
@@ -304,17 +323,17 @@ export default function DevStudioClient() {
                 {studioHealth.hasGitHub ? 'GitHub Connected' : 'GitHub Not Connected'}
               </span>
               <span
-                className="hidden md:inline px-1.5 py-0.5 rounded border"
+                className="px-1.5 py-0.5 rounded border text-[10px]"
                 style={{
                   color: hasAnyAI ? '#4ec9b0' : '#f0a500',
                   borderColor: hasAnyAI ? '#4ec9b0' : '#f0a500',
                 }}
               >
-                {hasAnyAI ? 'English Commands Ready' : 'Enable AI Key For English Commands'}
+                {hasAnyAI ? `AI: ${activeAIProviders}` : 'No AI Key'}
               </span>
             </>
           )}
-          <span className="hidden sm:inline">Elevate LMS</span>
+          <span className="text-[11px]" style={{ color: '#858585' }}>Elevate LMS</span>
           {/* Preview toggle — larger tap target on phone */}
           <button
             title={previewOpen ? 'Hide live preview' : 'Show live preview'}
@@ -330,7 +349,7 @@ export default function DevStudioClient() {
             onMouseLeave={e => (e.currentTarget.style.background='transparent')}
           >
             {previewOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
-            <span className="hidden sm:inline ml-1">Preview</span>
+            <span className="ml-1">Preview</span>
           </button>
         </div>
       </div>
@@ -358,8 +377,7 @@ export default function DevStudioClient() {
                 minHeight: isPhone ? 44 : undefined,
               }}>
               <def.Icon className="w-3.5 h-3.5" style={{ opacity: active ? 1 : 0.5 }} />
-              {/* Hide filename label on phone — icon is enough */}
-              {!isPhone && <span>{tabFiles[t]}</span>}
+              <span>{tabFiles[t]}</span>
               {/* Close button: larger tap area on phone */}
               <span
                 onClick={(e) => closeTab(t, e)}
@@ -472,9 +490,9 @@ export default function DevStudioClient() {
       <div className="flex-shrink-0 flex items-center justify-between px-2 sm:px-3 py-0.5 text-white text-[11px] select-none" style={{ background: '#0078d4' }}>
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1">⎇ main</span>
-          <span className="hidden sm:inline opacity-80">Elevate LMS · Dev Container</span>
+          <span className="opacity-80">Elevate LMS · Dev Container</span>
         </div>
-        <div className="hidden sm:flex items-center gap-4 opacity-80">
+        <div className="flex items-center gap-4 opacity-80">
           <span>UTF-8</span>
           <span>TypeScript React</span>
           <span>port 3000</span>

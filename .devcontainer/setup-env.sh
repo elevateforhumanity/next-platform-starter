@@ -33,6 +33,30 @@ else
   echo "  No .env.example found — create .env.local manually before starting the dev server"
 fi
 
+# Merge individual Gitpod/Codespaces secrets into .env.local.
+# Secrets set as individual env vars (not inside chunk files) are injected into
+# the container environment but not into .env.local. This loop writes them in
+# so Next.js and scripts pick them up. Only overwrites blank or missing entries.
+if [ -f .env.local ]; then
+  INDIVIDUAL_SECRETS="GROQ_API_KEY ANTHROPIC_API_KEY OPENAI_API_KEY ELEVENLABS_API_KEY STRIPE_SECRET_KEY STRIPE_PUBLISHABLE_KEY NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"
+  for VAR in $INDIVIDUAL_SECRETS; do
+    VAL=$(printenv "$VAR" 2>/dev/null || true)
+    if [ -n "$VAL" ]; then
+      if grep -qE "^${VAR}=.+" .env.local 2>/dev/null; then
+        : # already has a value — leave it
+      elif grep -q "^${VAR}=" .env.local 2>/dev/null; then
+        # key exists but blank — fill it in
+        sed -i "s|^${VAR}=.*|${VAR}=${VAL}|" .env.local
+        echo "  Merged ${VAR} from environment into .env.local"
+      else
+        # key missing entirely — append it
+        echo "${VAR}=${VAL}" >> .env.local
+        echo "  Added ${VAR} to .env.local from environment"
+      fi
+    fi
+  done
+fi
+
 echo "  Environment setup complete"
 
 # Export NEXT_PUBLIC_* and other critical vars into the shell profile so that
