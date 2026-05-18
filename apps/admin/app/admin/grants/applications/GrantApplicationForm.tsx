@@ -7,6 +7,7 @@ import {
   Sparkles, Building2, FileText, DollarSign, Users,
   Send, ChevronDown, ChevronUp,
 } from 'lucide-react';
+import { ORG_PROFILE } from '@/lib/grants/org-profile';
 
 type Org = {
   id: string;
@@ -134,27 +135,31 @@ export default function GrantApplicationForm({
 }) {
   const router = useRouter();
 
-  // Build initial form state — prefill from application > opportunity > org
+  // Build initial form state — prefill priority: application > opportunity > DB org > facts > static ORG_PROFILE
   const factMap = Object.fromEntries(facts.map(f => [f.fact_key, factStr(f.fact_value_json)]));
 
   function initial(key: string): string {
     if (application?.[key] !== undefined && application[key] !== null) return String(application[key]);
     if (opportunity?.[key] !== undefined && opportunity[key] !== null) return String(opportunity[key]);
-    // Org prefill
-    if (key === 'legal_name') return org?.legal_name ?? factMap['legal_name'] ?? '';
-    if (key === 'ein') return org?.ein ?? factMap['ein'] ?? '';
-    if (key === 'uei') return org?.uei ?? factMap['uei'] ?? factMap['uei'] ?? '';
-    if (key === 'sam_status') return org?.sam_status ?? factMap['sam_status'] ?? '';
-    if (key === 'org_address') return orgAddress(org);
-    if (key === 'contact_name') return org?.authorized_signatory_name ?? '';
-    if (key === 'contact_email') return org?.general_email ?? '';
-    if (key === 'contact_phone') return org?.phone ?? '';
+    // DB org row
+    if (key === 'legal_name') return org?.legal_name ?? factMap['legal_name'] ?? ORG_PROFILE.legalName ?? '';
+    if (key === 'ein') return org?.ein ?? factMap['ein'] ?? ORG_PROFILE.ein ?? '';
+    if (key === 'uei') return org?.uei ?? factMap['uei'] ?? ORG_PROFILE.uei ?? '';
+    if (key === 'sam_status') return org?.sam_status ?? factMap['sam_status'] ?? ORG_PROFILE.samStatus ?? '';
+    if (key === 'org_address') return orgAddress(org) || [ORG_PROFILE.address, ORG_PROFILE.city, ORG_PROFILE.state, ORG_PROFILE.zip].filter(Boolean).join(', ');
+    if (key === 'contact_name') return org?.authorized_signatory_name ?? ORG_PROFILE.primaryContact ?? '';
+    if (key === 'contact_email') return org?.general_email ?? ORG_PROFILE.email ?? '';
+    if (key === 'contact_phone') return org?.phone ?? ORG_PROFILE.phone ?? '';
+    // Opportunity fields
     if (key === 'opportunity_title') return prefillTitle ?? '';
     if (key === 'agency_name') return String(opportunity?.['agency_name'] ?? opportunity?.['agency'] ?? '');
     if (key === 'opportunity_number') return String(opportunity?.['opportunity_number'] ?? '');
     if (key === 'close_date' || key === 'deadline') return String(opportunity?.['close_date'] ?? opportunity?.['deadline'] ?? '');
     if (key === 'award_ceiling') return String(opportunity?.['award_ceiling'] ?? '');
     if (key === 'award_floor') return String(opportunity?.['award_floor'] ?? '');
+    // Narrative defaults from static profile
+    if (key === 'target_population') return ORG_PROFILE.targetPopulation ?? '';
+    if (key === 'geographic_area') return ORG_PROFILE.serviceArea ?? '';
     return '';
   }
 
