@@ -158,8 +158,8 @@ export default function GrantApplicationForm({
     if (key === 'award_ceiling') return String(opportunity?.['award_ceiling'] ?? '');
     if (key === 'award_floor') return String(opportunity?.['award_floor'] ?? '');
     // Narrative defaults from static profile
-    if (key === 'target_population') return ORG_PROFILE.targetPopulation ?? '';
-    if (key === 'geographic_area') return ORG_PROFILE.serviceArea ?? '';
+    if (key === 'target_population') return factMap['target_population'] ?? ORG_PROFILE.targetPopulation ?? '';
+    if (key === 'geographic_area') return factMap['geographic_area'] ?? ORG_PROFILE.serviceArea ?? '';
     return '';
   }
 

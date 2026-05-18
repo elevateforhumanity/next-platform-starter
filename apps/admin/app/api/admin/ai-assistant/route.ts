@@ -17,20 +17,29 @@ import { hydrateProcessEnv } from '@/lib/secrets';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { SLUG_ALIASES } from '@/lib/programs/resolve';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
-// -- Program aliases ----------------------------------------------------------
+// -- Program keyword groups ---------------------------------------------------
+// Derived from SLUG_ALIASES (lib/programs/resolve.ts) so intent detection
+// stays in sync with the canonical program resolver. No separate copy.
 
-const PROGRAM_ALIASES: Record<string, string[]> = {
-  barber:      ['barber', 'barbering', 'barber apprenticeship', 'barber training', 'barber program'],
-  hvac:        ['hvac', 'heating', 'cooling', 'refrigerant', 'epa 608'],
-  cosmetology: ['cosmetology', 'cosmetologist', 'beauty', 'esthetics', 'esthetician'],
-  cdl:         ['cdl', 'commercial driver', 'truck'],
-  healthcare:  ['healthcare', 'cna', 'qma', 'nursing', 'medical'],
-  tax:         ['tax', 'enrolled agent', 'irs', 'efin', 'ptin'],
-};
+function buildProgramAliases(): Record<string, string[]> {
+  const groups: Record<string, string[]> = {};
+  for (const [keyword, slug] of Object.entries(SLUG_ALIASES)) {
+    // Use the first segment of the slug as the group key (e.g. 'barber-apprenticeship' -> 'barber')
+    const group = slug.split('-')[0];
+    if (!groups[group]) groups[group] = [];
+    if (!groups[group].includes(keyword)) groups[group].push(keyword);
+    // Also ensure the slug itself is a keyword
+    if (!groups[group].includes(slug)) groups[group].push(slug);
+  }
+  return groups;
+}
+
+const PROGRAM_ALIASES = buildProgramAliases();
 
 // -- Intent detection ---------------------------------------------------------
 

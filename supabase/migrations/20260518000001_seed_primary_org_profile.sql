@@ -48,3 +48,7 @@ BEGIN
       (org_id, f->>'key', to_jsonb(f->>'val'), 'manual_entry', 'approved');
   END LOOP;
 END $$;
+
+-- Additional facts seeded 2026-05-18 (applied directly via client)
+-- target_population, geographic_area, years_operating
+-- These allow GrantApplicationForm to resolve from DB instead of static ORG_PROFILE constants.

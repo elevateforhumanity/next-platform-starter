@@ -1,6 +1,13 @@
 /**
- * Canonical org profile for grant application auto-fill.
- * Single source of truth — update here, all application assistants reflect it.
+ * Static org profile constants — fallback only.
+ *
+ * The canonical source of truth is sos_organizations + sos_organization_facts
+ * in the database (editable via /admin/settings/organization-profile).
+ * These constants are used ONLY when the DB row has not been populated yet.
+ * Callers should always prefer DB values: org ?? factMap ?? ORG_PROFILE.*
+ *
+ * Do NOT add new data fields here. Add them to sos_organizations or
+ * sos_organization_facts and seed via supabase/migrations/.
  */
 
 export const ORG_PROFILE = {

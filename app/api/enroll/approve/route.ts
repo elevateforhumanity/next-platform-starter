@@ -5,6 +5,7 @@ import { canApproveApprentice } from '@/lib/documents';
 import { notifyApprenticeDecision } from '@/lib/notifications';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -36,36 +37,10 @@ async function _POST(req: NextRequest) {
     const rateLimited = await applyRateLimit(req, 'contact');
     if (rateLimited) return rateLimited;
 
+    const auth = await apiRequireAdmin(req);
+    if (auth.error) return auth.error;
+
     const supabase = await createClient();
-
-    // Check authentication
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // CRITICAL: Only admin or super_admin may approve enrollments
-    // Program holders are explicitly forbidden from approval authority
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
-
-    if (!isAdmin) {
-      return NextResponse.json(
-        {
-          error: 'Forbidden - Only admin or super_admin may approve enrollments',
-        },
-        { status: 403 },
-      );
-    }
 
     // Parse request
     const body: ApproveEnrollmentRequest = await req.json();
@@ -77,8 +52,8 @@ async function _POST(req: NextRequest) {
 
     logger.info('Starting enrollment approval', {
       enrollment_id,
-      approver_id: user.id,
-      approver_role: profile?.role,
+      approver_id: auth.id,
+      approver_role: auth.role,
     });
 
     // Get enrollment details (using enrollments table)
@@ -270,8 +245,8 @@ async function _POST(req: NextRequest) {
     // STEP 4: Log approval action (safe - do not fail if audit log fails)
     try {
       await supabase.from('audit_logs').insert({
-        actor_id: user.id,
-        actor_role: profile?.role || 'unknown',
+        actor_id: auth.id,
+        actor_role: auth.role || 'unknown',
         action: 'enrollment_approved',
         entity: 'enrollment',
         entity_id: enrollment_id,

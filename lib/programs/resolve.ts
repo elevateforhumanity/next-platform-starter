@@ -21,7 +21,9 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 // Maps legacy / misspelled program_interest values to canonical slugs.
 // Add entries here when a new alias is discovered — never in route code.
-const SLUG_ALIASES: Record<string, string> = {
+// Exported so callers (e.g. AI assistant intent detection) can derive keyword
+// groups from the same source rather than maintaining a separate copy.
+export const SLUG_ALIASES: Record<string, string> = {
   // CNA
   'cna certification': 'cna',
   'cna training': 'cna',
