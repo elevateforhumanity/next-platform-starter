@@ -63,6 +63,7 @@ const WEBHOOK_PATHS = [
 
 // Role-gated routes: key = path prefix, value = allowed roles.
 const PROTECTED_ROUTES: Record<string, string[]> = {
+  '/case-manager/':            ['case_manager', 'admin', 'super_admin', 'staff'],
   '/partner-portal/':          ['partner', 'admin', 'super_admin'],
   '/partner/dashboard':        ['partner', 'admin', 'super_admin'],
   '/partner/documents':        ['partner', 'admin', 'super_admin'],
@@ -120,6 +121,8 @@ const AUTH_REQUIRED_ROUTES = [
   '/apprentice',
   '/instructor/',
   '/instructor',
+  '/case-manager/',
+  '/case-manager',
   '/account/',
   '/my-dashboard',
   '/notifications',
