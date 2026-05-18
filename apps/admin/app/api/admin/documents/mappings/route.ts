@@ -57,7 +57,7 @@ export async function PATCH(request: NextRequest) {
   if (target_column !== undefined) updates.target_column = target_column;
   if (approved === true) {
     updates.approved = true;
-    updates.approved_by = auth.user.id;
+    updates.approved_by = auth.id;
     updates.approved_at = new Date().toISOString();
   }
 

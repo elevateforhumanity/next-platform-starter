@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const db = await requireAdminClient();
 
-  const payload: Record<string, unknown> = { created_by: auth.user.id };
+  const payload: Record<string, unknown> = { created_by: auth.id };
   for (const k of WRITABLE) {
     if (k in body && body[k] !== '' && body[k] !== undefined) payload[k] = body[k];
   }

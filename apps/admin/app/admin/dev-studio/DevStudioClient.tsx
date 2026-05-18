@@ -26,7 +26,7 @@ const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
 );
 
 type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'documents' | 'secrets';
-interface FileNode { name: string; path: string; type: 'file' | 'directory'; children?: FileNode[]; }
+interface FileNode { name: string; path: string; type: 'file' | 'directory' | 'dir'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
 interface DevStudioConfig {
   quickCommands?: string[];
@@ -40,6 +40,7 @@ interface DevStudioHealth {
   hasGroq: boolean;
   hasGemini: boolean;
   hasOpenAI: boolean;
+  hasAnthropic: boolean;
   hasGitHub: boolean;
 }
 
@@ -473,7 +474,11 @@ export default function DevStudioClient() {
               {/* Reload */}
               <button
                 title="Reload"
-                onClick={() => setPreviewLiveUrl(u => u + (u.includes('?') ? '&_r=' : '?_r=') + Date.now())}
+                onClick={() => {
+                const busted = previewInputUrl + (previewInputUrl.includes('?') ? '&_r=' : '?_r=') + Date.now();
+                setPreviewInputUrl(busted);
+                setPreviewLiveUrl(busted);
+              }}
                 className="flex-shrink-0 p-1 rounded transition-colors"
                 style={{ color: '#858585' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
@@ -560,6 +565,37 @@ interface Job { id: string; command: string; status: string; log_lines: LogLine[
 function stripAnsi(s: string) { return s.replace(/\x1b\[[0-9;]*m/g, ''); }
 /* eslint-enable no-control-regex */
 
+// ── CommandTab constants (module-level — static, no need to recreate per render) ──
+
+const QUICK_ACTIONS: { label: string; cmd: string }[] = [
+  { label: 'Analytics',        cmd: 'Get platform analytics overview' },
+  { label: 'Applications',     cmd: 'List pending applications' },
+  { label: 'Students',         cmd: 'List recent students' },
+  { label: 'Enrollments',      cmd: 'List recent enrollments' },
+  { label: 'Programs',         cmd: 'List all published programs' },
+  { label: 'WIOA cases',       cmd: 'List pending WIOA cases' },
+  { label: 'Payout queue',     cmd: 'List payout queue' },
+  { label: 'System health',    cmd: 'Check system health' },
+  { label: 'Daily report',     cmd: 'Run overall report' },
+  { label: 'Enrollment report',cmd: 'Run enrollment report' },
+  { label: 'Financial report', cmd: 'Run financial report' },
+  { label: 'WIOA report',      cmd: 'Run WIOA report' },
+  { label: 'Run payroll',      cmd: 'Run payroll' },
+  { label: 'Export payroll',   cmd: 'Export payroll' },
+  { label: 'Recent commits',   cmd: 'Show recent commits' },
+  { label: 'Signing commits',  cmd: 'Show commits for components/SignaturePad.tsx' },
+  { label: 'Export students',  cmd: 'Export students CSV' },
+];
+
+const AUTOPILOT: { label: string; cmd: string }[] = [
+  { label: '🏗 Build courses',  cmd: 'Build all courses and push to GitHub' },
+  { label: '🚀 Deploy LMS',     cmd: 'Deploy the LMS service' },
+  { label: '🚀 Deploy Admin',   cmd: 'Deploy the admin service' },
+  { label: '🧪 Smoke test',     cmd: 'Run smoke test' },
+  { label: '🎬 Generate video', cmd: 'Generate a lesson video' },
+  { label: '📚 Generate course',cmd: 'Generate a new course' },
+];
+
 // ── CommandTab ───────────────────────────────────────────────────────────────
 
 function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[]; initialCommand?: string }) {
@@ -592,35 +628,6 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
   // quickCommands comes from /api/admin/devstudio/config (platform_settings DB row).
   // The config API owns the fallback list — no duplicate here.
   const QUICK = quickCommands ?? [];
-
-  const QUICK_ACTIONS = [
-    { label: 'Analytics',        cmd: 'Get platform analytics overview' },
-    { label: 'Applications',     cmd: 'List pending applications' },
-    { label: 'Students',         cmd: 'List recent students' },
-    { label: 'Enrollments',      cmd: 'List recent enrollments' },
-    { label: 'Programs',         cmd: 'List all published programs' },
-    { label: 'WIOA cases',       cmd: 'List pending WIOA cases' },
-    { label: 'Payout queue',     cmd: 'List payout queue' },
-    { label: 'System health',    cmd: 'Check system health' },
-    { label: 'Daily report',     cmd: 'Run overall report' },
-    { label: 'Enrollment report',cmd: 'Run enrollment report' },
-    { label: 'Financial report', cmd: 'Run financial report' },
-    { label: 'WIOA report',      cmd: 'Run WIOA report' },
-    { label: 'Run payroll',      cmd: 'Run payroll' },
-    { label: 'Export payroll',   cmd: 'Export payroll' },
-    { label: 'Recent commits',   cmd: 'Show recent commits' },
-    { label: 'Signing commits',  cmd: 'Show commits for components/SignaturePad.tsx' },
-    { label: 'Export students',  cmd: 'Export students CSV' },
-  ];
-
-  const AUTOPILOT = [
-    { label: '🏗 Build courses',  cmd: 'Build all courses and push to GitHub' },
-    { label: '🚀 Deploy LMS',     cmd: 'Deploy the LMS service' },
-    { label: '🚀 Deploy Admin',   cmd: 'Deploy the admin service' },
-    { label: '🧪 Smoke test',     cmd: 'Run smoke test' },
-    { label: '🎬 Generate video', cmd: 'Generate a lesson video' },
-    { label: '📚 Generate course',cmd: 'Generate a new course' },
-  ];
 
   async function run(cmd: string) {
     if (!cmd.trim() || loading) return;
@@ -1035,7 +1042,7 @@ function FilesTab() {
       .then((d) => {
         // Flatten tree to path list for FileTree component
         const flat: string[] = [];
-        function walk(nodes: any[]) {
+        function walk(nodes: FileNode[]) {
           for (const n of nodes ?? []) {
             if (n.type === 'file') flat.push(n.path);
             else walk(n.children ?? []);

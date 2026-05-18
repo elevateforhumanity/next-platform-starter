@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       key,
       value_enc: value,
       category: inferCategory(key),
-      updated_by: auth.user.id,
+      updated_by: auth.id,
       updated_at: now,
     }));
 
@@ -99,7 +99,7 @@ export async function POST(req: NextRequest) {
       return safeError('Failed to save secrets to platform_secrets', 500);
     }
 
-    logger.info('[import-ssm] imported', { count: params.length, actor: auth.user.id });
+    logger.info('[import-ssm] imported', { count: params.length, actor: auth.id });
     return NextResponse.json({ success: true, imported: params.length });
 
   } catch (err) {

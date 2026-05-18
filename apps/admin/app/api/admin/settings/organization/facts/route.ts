@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       source_type: source_type ?? 'admin_manual',
       source_reference: source_reference ?? null,
       status: status ?? 'approved',
-      approved_by: auth.user.id,
+      approved_by: auth.id,
       approved_at: new Date().toISOString(),
     }, { onConflict: 'organization_id,fact_key' })
     .select()

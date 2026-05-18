@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
       key,
       value_enc: value,
       category: inferCategory(key),
-      updated_by: auth.user.id,
+      updated_by: auth.id,
       updated_at: new Date().toISOString(),
     }, { onConflict: 'key' });
 
@@ -178,7 +178,7 @@ export async function POST(req: NextRequest) {
       updated.push(svc);
     }
 
-    logger.info('[container-env] set', { key, services: updated, actor: auth.user.id });
+    logger.info('[container-env] set', { key, services: updated, actor: auth.id });
     return NextResponse.json({ success: true, key, updatedServices: updated });
   } catch (err) {
     return safeInternalError(err, 'Failed to set container env var');
@@ -246,7 +246,7 @@ export async function DELETE(req: NextRequest) {
       updated.push(svc);
     }
 
-    logger.info('[container-env] deleted', { key, services: updated, actor: auth.user.id });
+    logger.info('[container-env] deleted', { key, services: updated, actor: auth.id });
     return NextResponse.json({ success: true, key, updatedServices: updated });
   } catch (err) {
     return safeInternalError(err, 'Failed to delete container env var');
