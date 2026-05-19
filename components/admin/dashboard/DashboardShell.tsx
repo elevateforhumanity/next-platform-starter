@@ -7,7 +7,7 @@ import SitePreviewPanelWrapper from './SitePreviewPanelWrapper';
 import { AdminGreeting } from "@/components/admin/AdminGreeting";
 import {
   ArrowRight, AlertTriangle, CheckCircle2,
-  Activity, TrendingUp, Inbox,
+  Activity, TrendingUp, Inbox, Users, FileText,
 } from "lucide-react";
 import type { AdminDashboardData, InactiveLearner, StaleLeadItem } from "./types";
 import { OperationalAlerts } from "./OperationalAlerts";
