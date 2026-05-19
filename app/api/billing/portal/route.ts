@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getStripe } from '@/lib/stripe/client';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 async function _POST() {
@@ -14,21 +15,36 @@ async function _POST() {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
-    const { data: profile } = await supabase
-      .from('profiles')
+    // stripe_customer_id on program_enrollments is text (Stripe cus_xxx format)
+    const { data: enrollment } = await supabase
+      .from('program_enrollments')
       .select('stripe_customer_id')
-      .eq('id', user.id)
+      .eq('user_id', user.id)
+      .not('stripe_customer_id', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(1)
       .maybeSingle();
 
-    if (!profile?.stripe_customer_id) {
+    const stripeCustomerId = enrollment?.stripe_customer_id;
+
+    if (!stripeCustomerId) {
       return NextResponse.json({ error: 'No billing account found' }, { status: 404 });
     }
 
-    // Stripe billing portal session would be created here
-    // For now return a placeholder that redirects to settings
-    return NextResponse.json({ url: '/lms/settings/billing' });
-  } catch {
-    return NextResponse.json({ error: 'Failed to create billing session' }, { status: 500 });
+    const stripe = getStripe();
+    if (!stripe) {
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
+    }
+
+    const session = await stripe.billingPortal.sessions.create({
+      customer: stripeCustomerId,
+      return_url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/apprentice`,
+    });
+
+    return NextResponse.json({ url: session.url });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message ?? 'Failed to create billing session' }, { status: 500 });
   }
 }
+
 export const POST = withApiAudit('/api/billing/portal', _POST);

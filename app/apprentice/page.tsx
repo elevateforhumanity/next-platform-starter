@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { GraduationCap, Clock, FileText, Award, BookOpen, ArrowRight, Scissors } from 'lucide-react';
+import { GraduationCap, Clock, FileText, Award, BookOpen, ArrowRight, Scissors, AlertTriangle, CheckCircle2, CreditCard, XCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getNextRequiredAction } from '@/lib/enrollment/gate';
 import { getApprenticeshipRequiredHours } from '@/lib/compliance/apprenticeship';
@@ -83,8 +83,36 @@ export default async function ApprenticePortalPage() {
     ? Math.min((totalHours / requiredHours) * 100, 100)
     : 0;
 
+  // --- Payment alerts ---
+  // Check for open Stripe invoices / missing payment method
+  const hasSubscription = !!enrollment?.stripeSubscriptionId || !!(enrollment as any)?.stripe_subscription_id;
+  const paymentStatus = (enrollment as any)?.payment_status ?? null;
+  const amountPaidCents = (enrollment as any)?.amount_paid_cents ?? 0;
+
+  // --- Onboarding checklist ---
+  const orientationDone = !!(enrollment?.orientationCompletedAt);
+  const documentsDone = !!(enrollment?.documentsSubmittedAt);
+  const { data: rawDocs } = await supabase
+    .from('documents')
+    .select('id, document_type, status, verification_status')
+    .eq('user_id', user.id);
+  const docs = rawDocs ?? [];
+  const hasPhotoId = docs.some(d => d.document_type === 'photo_id');
+  const hasResidency = docs.some(d => d.document_type === 'other' || d.document_type === 'proof_of_residency');
+  const docsApproved = docs.length > 0 && docs.every(d => d.status === 'approved' || d.verification_status === 'verified');
+  const onboardingItems = [
+    { label: 'Orientation completed', done: orientationDone, href: enrollment?.programSlug ? `/programs/${enrollment.programSlug}/orientation` : '/apprentice' },
+    { label: 'Photo ID uploaded', done: hasPhotoId, href: '/apprentice/documents' },
+    { label: 'Proof of residency uploaded', done: hasResidency, href: '/apprentice/documents' },
+    { label: 'Documents approved', done: docsApproved, href: '/apprentice/documents' },
+    { label: 'Payment method on file', done: hasSubscription, href: 'https://billing.stripe.com/p/session/live_YWNjdF8xT0tTVnlINGEyeXJWT3Q1LF9VWHRLRWVrSng2VjdNSEpCaFF1TFUwRnd4azJWa0d20100dmjZ1uiI' },
+  ];
+  const onboardingComplete = onboardingItems.every(i => i.done);
+  const onboardingPending = onboardingItems.filter(i => !i.done);
+
   const quickLinks = [
     { name: 'Timeclock', href: '/apprentice/timeclock', icon: Clock, description: 'Clock in / out at your work site' },
+    { name: 'Manage Payments', href: '/apprentice/billing', icon: CreditCard, description: 'Update payment method, view invoices' },
     { name: 'Shift History', href: '/apprentice/timeclock/history', icon: Clock, description: 'View all recorded shifts' },
     { name: 'Log Hours', href: '/apprentice/hours/log', icon: Clock, description: 'Manually record OJL & RTI hours' },
     { name: 'Hours History', href: '/apprentice/hours', icon: Clock, description: 'Review submitted hour entries' },
@@ -107,6 +135,56 @@ export default async function ApprenticePortalPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+
+        {/* ── PAYMENT ALERT ── */}
+        {!hasSubscription && (
+          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-5 flex items-start gap-4">
+            <AlertTriangle className="w-6 h-6 text-red-500 mt-0.5 shrink-0" />
+            <div className="flex-1">
+              <p className="font-semibold text-red-800 text-sm">Payment Method Required</p>
+              <p className="text-red-700 text-sm mt-1">
+                You don&apos;t have automatic weekly payments set up. Your down payment credit will cover your weekly payments, but you need a card on file before it runs out.
+              </p>
+              <a
+                href="https://billing.stripe.com/p/session/live_YWNjdF8xT0tTVnlINGEyeXJWT3Q1LF9VWHRLRWVrSng2VjdNSEpCaFF1TFUwRnd4azJWa0d20100dmjZ1uiI"
+                className="inline-flex items-center gap-2 mt-3 bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition"
+              >
+                <CreditCard className="w-4 h-4" /> Add Payment Method
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* ── ONBOARDING CHECKLIST ── */}
+        {!onboardingComplete && (
+          <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <AlertTriangle className="w-5 h-5 text-amber-600" />
+              <p className="font-semibold text-amber-800 text-sm">
+                {onboardingPending.length} onboarding {onboardingPending.length === 1 ? 'item' : 'items'} still needed
+              </p>
+            </div>
+            <ul className="space-y-2">
+              {onboardingItems.map((item) => (
+                <li key={item.label} className="flex items-center gap-3 text-sm">
+                  {item.done ? (
+                    <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                  ) : (
+                    <XCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  )}
+                  {item.done ? (
+                    <span className="text-slate-500 line-through">{item.label}</span>
+                  ) : (
+                    <Link href={item.href} className="text-amber-800 font-medium hover:underline">
+                      {item.label} →
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {/* NEXT REQUIRED ACTION - Always visible at top */}
         <div className="bg-brand-blue-700 text-white rounded-xl p-6 mb-8 shadow-lg">
           <div className="flex items-center justify-between">
