@@ -58,7 +58,7 @@ function normalizeTrainingEnrollment(row: any): ResolvedEnrollment {
     programSlug: program?.slug ?? null,
     programTitle: program?.title ?? program?.name ?? null,
     courseId: row.course_id ?? null,
-    progress: Number(row.progress ?? 0),
+    progress: Number(row.progress_percent ?? 0),
     orientationCompletedAt: row.orientation_completed_at ?? null,
     documentsSubmittedAt: row.documents_submitted_at ?? null,
     accessGrantedAt: row.approved_at ?? null,
@@ -75,7 +75,7 @@ export async function resolveLatestEnrollment({
     client
       .from('program_enrollments')
       .select(
-        'id, user_id, status, enrollment_state, program_slug, course_id, progress, progress_percent, orientation_completed_at, documents_submitted_at, access_granted_at, created_at, enrolled_at, programs:program_id(slug, title, name)',
+        'id, user_id, status, enrollment_state, program_slug, course_id, progress_percent, orientation_completed_at, documents_submitted_at, access_granted_at, created_at, enrolled_at, programs:program_id(slug, title, name)',
       )
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
@@ -84,7 +84,7 @@ export async function resolveLatestEnrollment({
     client
       .from('program_enrollments')
       .select(
-        'id, user_id, status, course_id, progress, orientation_completed_at, documents_submitted_at, approved_at, created_at, enrolled_at, programs(slug, title, name)',
+        'id, user_id, status, course_id, progress_percent, orientation_completed_at, documents_submitted_at, created_at, enrolled_at, programs:program_id(slug, title, name)',
       )
       .eq('user_id', userId)
       .order('enrolled_at', { ascending: false })
@@ -116,7 +116,7 @@ export async function listUnifiedEnrollments(
     client
       .from('program_enrollments')
       .select(
-        'id, user_id, status, enrollment_state, program_slug, course_id, progress, progress_percent, orientation_completed_at, documents_submitted_at, access_granted_at, created_at, enrolled_at, programs:program_id(slug, title, name)',
+        'id, user_id, status, enrollment_state, program_slug, course_id, progress_percent, orientation_completed_at, documents_submitted_at, access_granted_at, created_at, enrolled_at, programs:program_id(slug, title, name)',
       )
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
@@ -124,7 +124,7 @@ export async function listUnifiedEnrollments(
     client
       .from('program_enrollments')
       .select(
-        'id, user_id, status, course_id, progress, orientation_completed_at, documents_submitted_at, approved_at, created_at, enrolled_at, programs(slug, title, name)',
+        'id, user_id, status, course_id, progress_percent, orientation_completed_at, documents_submitted_at, created_at, enrolled_at, programs:program_id(slug, title, name)',
       )
       .eq('user_id', userId)
       .order('enrolled_at', { ascending: false })
