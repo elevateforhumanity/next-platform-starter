@@ -12,6 +12,7 @@ interface Program {
   slug: string;
   description?: string;
   is_active: boolean;
+  published: boolean;
   featured: boolean;
   /** DB column is 'hours' — duration_hours does not exist */
   hours?: number;
@@ -23,7 +24,7 @@ interface Program {
 
 export function ProgramsTable({ programs }: { programs: Program[] }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'inactive'>('all');
+  const [filterStatus, setFilterStatus] = useState<'all' | 'published' | 'unpublished'>('published');
 
   const filteredPrograms = programs.filter((program) => {
     const matchesSearch =
@@ -31,8 +32,8 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
       (program.slug ?? '').toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter =
       filterStatus === 'all' ||
-      (filterStatus === 'active' && program.is_active) ||
-      (filterStatus === 'inactive' && !program.is_active);
+      (filterStatus === 'published' && program.published) ||
+      (filterStatus === 'unpublished' && !program.published);
     return matchesSearch && matchesFilter;
   });
 
@@ -57,9 +58,9 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
             }
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           >
-            <option value="all">All Programs</option>
-            <option value="active">Active Only</option>
-            <option value="inactive">Inactive Only</option>
+            <option value="published">Published</option>
+            <option value="unpublished">Unpublished</option>
+            <option value="all">All</option>
           </select>
         </div>
       </div>
@@ -109,18 +110,18 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      {program.is_active ? (
-                        <span className="px-2 py-2 text-xs font-semibold rounded-full bg-brand-green-100 text-brand-green-800">
-                          Active
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {program.published ? (
+                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-brand-green-100 text-brand-green-800">
+                          Published
                         </span>
                       ) : (
-                        <span className="px-2 py-2 text-xs font-semibold rounded-full bg-slate-100 text-black">
-                          Inactive
+                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                          Unpublished
                         </span>
                       )}
                       {program.featured && (
-                        <span className="px-2 py-2 text-xs font-semibold rounded-full bg-brand-blue-100 text-brand-blue-800">
+                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-brand-blue-100 text-brand-blue-800">
                           Featured
                         </span>
                       )}
