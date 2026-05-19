@@ -8,6 +8,7 @@ import { ArrowLeft, Mail, Phone, MapPin, Calendar, Hash, BookOpen, Tag } from 'l
 import { logger } from '@/lib/logger';
 import { withTimeout } from '@/lib/utils/withTimeout';
 import ApplicationActions from './ApplicationActions';
+import EditApplicationForm from './EditApplicationForm';
 import { resolveProgram } from '@/lib/programs/resolve';
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org';
@@ -354,14 +355,21 @@ export default async function ReviewApplicationPage({
                   Ask engineering to backfill it before enrolling.
                 </p>
               ) : (
-                <ApplicationActions
-                  applicationId={id}
-                  currentStatus={app.status as string}
-                  programId={resolvedProgramId}
-                  programInterest={programSlug}
-                  applicantEmail={(app.email as string) || ''}
-                  applicantName={displayName}
-                />
+                <>
+                  <EditApplicationForm
+                    applicationId={id}
+                    currentStatus={app.status as string}
+                    currentNotes={(app.review_notes as string) ?? null}
+                  />
+                  <ApplicationActions
+                    applicationId={id}
+                    currentStatus={app.status as string}
+                    programId={resolvedProgramId}
+                    programInterest={programSlug}
+                    applicantEmail={(app.email as string) || ''}
+                    applicantName={displayName}
+                  />
+                </>
               )}
             </div>
 

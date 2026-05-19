@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Scissors, Store } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import FundingGateCard from '@/components/programs/FundingGateCard';
 
 export const revalidate = 3600;
 
@@ -52,23 +53,19 @@ export default function BarberApplyIndexPage() {
 
       <section className="py-12">
         <div className="max-w-2xl mx-auto px-4 space-y-4">
-          <Link
-            href="/programs/barber-apprenticeship/apply/apprentice"
-            className="flex items-start gap-5 p-6 bg-white border-2 border-slate-200 rounded-xl hover:border-brand-red-500 hover:shadow-md transition-all group"
-          >
-            <div className="w-12 h-12 rounded-full bg-brand-red-50 group-hover:bg-brand-red-100 flex items-center justify-center shrink-0 transition-colors">
-              <Scissors className="w-6 h-6 text-brand-red-600" />
-            </div>
-            <div>
-              <p className="font-bold text-slate-900 text-lg mb-1">I&apos;m an Apprentice</p>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                I want to enroll in the barber apprenticeship program as a student.
-              </p>
-            </div>
-          </Link>
+          {/* Apprentice card — funding gate routes to inquiry or enrollment */}
+          <FundingGateCard
+            icon={<Scissors className="w-6 h-6 text-brand-red-600" />}
+            title="I'm an Apprentice"
+            description="I want to enroll in the barber apprenticeship program as a student."
+            enrollHref="/programs/barber-apprenticeship/apply/apprentice"
+            inquiryHref="/programs/barber-apprenticeship/request-info"
+            accentColor="brand-red"
+          />
 
+          {/* Partner barbershop card — no funding gate needed */}
           <Link
-            href="/programs/barber-apprenticeship/apply/partner-shop"
+            href="/partners/barbershop-apprenticeship/apply"
             className="flex items-start gap-5 p-6 bg-white border-2 border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-md transition-all group"
           >
             <div className="w-12 h-12 rounded-full bg-brand-blue-50 group-hover:bg-brand-blue-100 flex items-center justify-center shrink-0 transition-colors">

@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   ArrowLeft, Loader2, AlertCircle, Download,
-  BookOpen, FileText, ClipboardCheck, ShieldCheck, ArrowRight,
+  BookOpen, FileText, ClipboardCheck, ShieldCheck, ArrowRight, Upload, CheckCircle2,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 
@@ -53,6 +53,8 @@ export default function BarbershopPartnerApplyPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [einFile, setEinFile] = useState<File | null>(null);
+  const [einFileName, setEinFileName] = useState('');
   const [formData, setFormData] = useState({
     shopLegalName: '',
     shopDbaName: '',
@@ -75,6 +77,8 @@ export default function BarbershopPartnerApplyPage() {
     workersCompStatus: '',
     hasGeneralLiability: '',
     canSuperviseAndVerify: '',
+    ein: '',
+    einQaNotes: '',
     mouAcknowledged: false,
     consentAcknowledged: false,
     notes: '',
@@ -163,10 +167,24 @@ export default function BarbershopPartnerApplyPage() {
 
     try {
       const signatureData = canvasRef.current?.toDataURL('image/png') || '';
+
+      // Upload EIN document if provided
+      let einDocumentUrl = '';
+      if (einFile) {
+        const fd = new FormData();
+        fd.append('file', einFile);
+        fd.append('type', 'ein_document');
+        const uploadRes = await fetch('/api/documents/upload', { method: 'POST', body: fd });
+        if (uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          einDocumentUrl = uploadData.url ?? '';
+        }
+      }
+
       const response = await fetch('/api/partners/barbershop-apprenticeship/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, signatureData }),
+        body: JSON.stringify({ ...formData, signatureData, einDocumentUrl }),
       });
 
       const result = await response.json();
@@ -240,6 +258,61 @@ export default function BarbershopPartnerApplyPage() {
                 <div>
                   <label className="block text-sm font-medium text-slate-900 mb-1">Indiana Shop License # *</label>
                   <input type="text" required value={formData.indianaShopLicenseNumber} onChange={e => updateField('indianaShopLicenseNumber', e.target.value)} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500" />
+                </div>
+              </div>
+            </div>
+
+            {/* EIN */}
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <h2 className="text-xl font-bold text-slate-900 mb-2">Employer Identification Number (EIN)</h2>
+              <p className="text-sm text-slate-600 mb-6">
+                Required for DOL RAPIDS registration. Your EIN is used only for federal apprenticeship compliance — it is never shared or used for any other purpose.
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">EIN *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="XX-XXXXXXX"
+                    value={formData.ein}
+                    onChange={e => updateField('ein', e.target.value)}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">Upload EIN Document (optional)</label>
+                  <label className="flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                    <Upload className="w-4 h-4 text-slate-500" />
+                    <span className="text-sm text-slate-600 truncate">
+                      {einFileName || 'Choose file (PDF, JPG, PNG)'}
+                    </span>
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      className="hidden"
+                      onChange={e => {
+                        const file = e.target.files?.[0] ?? null;
+                        setEinFile(file);
+                        setEinFileName(file?.name ?? '');
+                      }}
+                    />
+                  </label>
+                  {einFileName && (
+                    <p className="text-xs text-green-700 mt-1 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" /> {einFileName} selected
+                    </p>
+                  )}
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-slate-900 mb-1">EIN Notes (optional)</label>
+                  <input
+                    type="text"
+                    value={formData.einQaNotes}
+                    onChange={e => updateField('einQaNotes', e.target.value)}
+                    placeholder="e.g. Sole proprietor — SSN used as EIN"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+                  />
                 </div>
               </div>
             </div>

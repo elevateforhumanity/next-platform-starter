@@ -93,11 +93,11 @@ async function _POST(req: NextRequest) {
       body: JSON.stringify({
         personalizations: [
           {
-            to: [{ email: 'info@elevateforhumanity.org', name: 'Elevate for Humanity' }],
+            to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elevate for Humanity' }],
             subject: `HVAC License Uploaded — ${holder?.organization_name || 'Program Holder'}`,
           },
         ],
-        from: { email: 'info@elevateforhumanity.org', name: 'Elevate for Humanity' },
+        from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
         content: [
           {
             type: 'text/html',

@@ -9,6 +9,7 @@ import { RAPIDS_CONFIG, getRAPIDSEnrollmentData } from '@/lib/compliance/rapids-
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendOnboardingEmail } from '@/lib/email/send-onboarding';
+
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';

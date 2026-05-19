@@ -30,10 +30,10 @@ export default async function NewPlacementPage() {
   }
 
   // Get shops this employer has access to
-  const { data: shopAccess } = await supabase
-    .from('shop_staff')
-    .select('shop_id, role, shops(id, name)')
-    .eq('user_id', user.id);
+  const [{ data: shopAccess }, { data: apprenticeshipPrograms }] = await Promise.all([
+    supabase.from('shop_staff').select('shop_id, role, shops(id, name)').eq('user_id', user.id),
+    supabase.from('programs').select('id, title, slug').eq('is_active', true).eq('program_type', 'apprenticeship').order('title'),
+  ]);
 
   if (!shopAccess || shopAccess.length === 0) {
     redirect('/employer/shop/create');
@@ -95,10 +95,17 @@ export default async function NewPlacementPage() {
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               >
                 <option value="">Select a program</option>
-                <option value="barbering">Barbering</option>
-                <option value="cosmetology">Cosmetology</option>
-                <option value="esthetics">Esthetics</option>
-                <option value="nail-tech">Nail Technology</option>
+                {(apprenticeshipPrograms ?? []).length > 0
+                  ? (apprenticeshipPrograms ?? []).map((p) => (
+                      <option key={p.id} value={p.slug}>{p.title}</option>
+                    ))
+                  : <>
+                      <option value="barbering">Barbering</option>
+                      <option value="cosmetology">Cosmetology</option>
+                      <option value="esthetics">Esthetics</option>
+                      <option value="nail-tech">Nail Technology</option>
+                    </>
+                }
               </select>
             </div>
 

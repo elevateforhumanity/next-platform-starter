@@ -31,7 +31,7 @@ export async function sendEmail(options: EmailOptions) {
     process.env.EMAIL_FROM ||
     process.env.MAIL_FROM ||
     'Elevate for Humanity <info@elevateforhumanity.org>';
-  const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'info@elevateforhumanity.org';
+  const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'elevate4humanityedu@gmail.com';
 
   const from = options.from || FROM_EMAIL;
   const replyTo = options.replyTo ?? REPLY_TO_EMAIL;

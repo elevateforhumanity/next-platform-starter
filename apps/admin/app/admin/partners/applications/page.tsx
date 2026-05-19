@@ -86,11 +86,15 @@ export default async function PartnerApplicationsPage() {
                     {app.created_at ? new Date(app.created_at).toLocaleDateString() : 'Unknown'}
                   </td>
                   <td className="px-4 py-3">
-                    {app.status === 'pending' ? (
-                      <PartnerApplicationActions applicationId={app.id} />
-                    ) : (
-                      <span className="text-xs text-slate-500">Processed</span>
-                    )}
+                    <div className="flex items-center gap-2">
+                      <Link href={`/admin/partners/applications/${app.id}`}
+                        className="text-xs px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-50 text-slate-700">
+                        View / Edit
+                      </Link>
+                      {app.status === 'pending' && (
+                        <PartnerApplicationActions applicationId={app.id} />
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

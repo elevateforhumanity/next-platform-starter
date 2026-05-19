@@ -320,14 +320,14 @@ export default function CosmetologyPartnerDocumentsPage() {
           <div>
             <h3 className="font-bold text-slate-900">All documents uploaded?</h3>
             <p className="text-sm text-black">
-              Return to the forms checklist to complete remaining steps.
+              Your onboarding is complete. Go to your partner dashboard.
             </p>
           </div>
           <Link
-            href="/partners/cosmetology-partner-shop/forms"
+            href="/partners/cosmetology-partner-shop"
             className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 whitespace-nowrap"
           >
-            Back to Checklist
+            Go to Partner Dashboard
           </Link>
         </div>
       </div>

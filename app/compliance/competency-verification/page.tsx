@@ -302,10 +302,15 @@ export default function CompetencyVerificationPage() {
             <p className="text-sm text-slate-900 font-semibold mb-1">Dedicated Rubric Pages</p>
             <Link
               href="/compliance/competency-verification/barber"
-              className="text-sm text-brand-blue-600 underline hover:text-brand-blue-700"
+              className="text-sm text-brand-blue-600 underline hover:text-brand-blue-700 block mb-2"
             >
-              Barber Apprenticeship — Full 6-Section Competency Rubric (30 competencies,
-              RAPIDS-aligned)
+              Barber Apprenticeship — Full Competency Rubric (RAPIDS-aligned)
+            </Link>
+            <Link
+              href="/compliance/competency-verification/cosmetology"
+              className="text-sm text-brand-blue-600 underline hover:text-brand-blue-700 block"
+            >
+              Cosmetology Apprenticeship — Full Competency Rubric (RAPIDS-aligned)
             </Link>
           </div>
 

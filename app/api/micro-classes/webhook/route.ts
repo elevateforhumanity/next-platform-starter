@@ -24,7 +24,7 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'info@elevateforhumanity.org';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'elevate4humanityedu@gmail.com';
 const FROM_EMAIL = 'noreply@elevateforhumanity.org';
 
 export async function POST(req: NextRequest) {

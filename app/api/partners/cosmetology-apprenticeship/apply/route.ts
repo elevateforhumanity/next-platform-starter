@@ -6,6 +6,7 @@ import { withRuntime } from '@/lib/api/withRuntime';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 
+
 async function _POST(request: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(request, 'contact');

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import CosmetologyPartnerPageClient from '../cosmetology-apprenticeship/PartnerPageClient';
+import CosmetologyPartnerPageClient from './PartnerPageClient';
 
 export const dynamic = 'force-dynamic';
 

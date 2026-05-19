@@ -116,11 +116,18 @@ const MAX_DEPOSIT = TUITION_DOLLARS;            // $4,980
 
 export default function CosmoPaymentSetupPage() {
   const [deposit, setDeposit] = useState(MIN_DEPOSIT);
+  // Raw string value for the input — lets user clear and retype without clamping mid-edit
+  const [depositInput, setDepositInput] = useState(String(MIN_DEPOSIT));
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [fatalError, setFatalError] = useState<string | null>(null);
 
-  // Derived — always in sync with deposit, never stale
+  // Use live typed value for display if valid, otherwise fall back to clamped deposit
+  const displayDeposit = (() => {
+    const parsed = parseFloat(depositInput);
+    if (isNaN(parsed) || depositInput.trim() === '') return deposit;
+    return Math.min(MAX_DEPOSIT, Math.max(0, parsed));
+  })();
   const weeklyAmount = weeklyPaymentCents(deposit);
   const remaining = TUITION_DOLLARS - deposit;
 
@@ -173,11 +180,20 @@ export default function CosmoPaymentSetupPage() {
               type="number"
               min={MIN_DEPOSIT}
               max={MAX_DEPOSIT}
-              step={50}
-              value={deposit}
+              step={1}
+              value={depositInput}
               onChange={(e) => {
-                const v = Math.min(MAX_DEPOSIT, Math.max(MIN_DEPOSIT, Number(e.target.value)));
-                setDeposit(v);
+                // Always update the raw string — never clamp mid-type
+                setDepositInput(e.target.value);
+              }}
+              onBlur={() => {
+                // Only clamp when user leaves the field — any whole dollar amount is valid
+                const parsed = parseFloat(depositInput);
+                const clamped = isNaN(parsed) || depositInput.trim() === ''
+                  ? MIN_DEPOSIT
+                  : Math.min(MAX_DEPOSIT, Math.max(MIN_DEPOSIT, Math.round(parsed)));
+                setDeposit(clamped);
+                setDepositInput(String(clamped));
               }}
               className="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white font-bold text-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
             />
@@ -186,9 +202,13 @@ export default function CosmoPaymentSetupPage() {
             type="range"
             min={MIN_DEPOSIT}
             max={MAX_DEPOSIT}
-            step={50}
+            step={1}
             value={deposit}
-            onChange={(e) => setDeposit(Number(e.target.value))}
+            onChange={(e) => {
+              const v = Number(e.target.value);
+              setDeposit(v);
+              setDepositInput(String(v));
+            }}
             className="w-full accent-amber-400 cursor-pointer"
           />
           <div className="flex justify-between text-xs text-slate-500">
@@ -197,18 +217,25 @@ export default function CosmoPaymentSetupPage() {
           </div>
 
           {/* Live calculation grid */}
-          <div className="grid grid-cols-3 gap-3 pt-1">
-            {[
-              { label: 'Down Today', value: `$${deposit.toLocaleString()}` },
-              { label: 'Remaining', value: `$${(TUITION_DOLLARS - deposit).toLocaleString()}` },
-              { label: `Weekly ×${PAYMENT_TERM_WEEKS}`, value: `$${(weeklyAmount / 100).toFixed(2)}` },
-            ].map(({ label, value }) => (
-              <div key={label} className="bg-slate-900 rounded-xl p-3 text-center">
-                <p className="text-white font-bold text-lg">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
-              </div>
-            ))}
-          </div>
+          {deposit >= MAX_DEPOSIT ? (
+            <div className="bg-green-900/30 border border-green-700 rounded-xl p-4 text-center">
+              <p className="text-green-400 font-bold text-lg">Paid in Full</p>
+              <p className="text-slate-400 text-xs mt-0.5">No weekly payments — one-time charge of ${MAX_DEPOSIT.toLocaleString()}</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-3 pt-1">
+              {[
+                { label: 'Down Today', value: `$${displayDeposit.toLocaleString()}` },
+                { label: 'Remaining', value: `$${Math.max(0, TUITION_DOLLARS - displayDeposit).toLocaleString()}` },
+                { label: `Weekly ×${PAYMENT_TERM_WEEKS}`, value: `$${(weeklyPaymentCents(deposit) / 100).toFixed(2)}` },
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-slate-900 rounded-xl p-3 text-center">
+                  <p className="text-white font-bold text-lg">{value}</p>
+                  <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Guarantees */}

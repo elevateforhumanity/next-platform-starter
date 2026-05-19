@@ -4,6 +4,8 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
+import { autoEnroll } from '@/lib/enrollment/auto-enroll';
+import { BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
 
 export const dynamic = 'force-dynamic';
 
@@ -88,6 +90,25 @@ export async function POST(req: NextRequest) {
     // Non-fatal — signature was recorded
   }
 
+  // MOU signing is the final completion step — auto-enroll the partner contact now
+  const enrollResult = await autoEnroll({
+    db,
+    email: user.email!,
+    fullName: signer_name,
+    programId: BARBER_PROGRAM_ID,
+    programSlug: 'barber-apprenticeship',
+    programName: 'Barber Apprenticeship',
+    courseId: BARBER_COURSE_ID,
+    partnerId: partner.id,
+    fundingSource: 'waived',
+  });
+
+  if (enrollResult.error) {
+    logger.warn('Barbershop partner auto-enrollment failed (non-fatal)', { error: enrollResult.error, partnerId: partner.id });
+  } else {
+    logger.info(`Barbershop partner enrolled: partner ${partner.id} — enrollment ${enrollResult.enrollmentId}`);
+  }
+
   logger.info(`Barbershop MOU signed: partner ${partner.id} — ${shop_name}`);
-  return NextResponse.json({ success: true }, { status: 200 });
+  return NextResponse.json({ success: true, enrollmentId: enrollResult.enrollmentId ?? null }, { status: 200 });
 }

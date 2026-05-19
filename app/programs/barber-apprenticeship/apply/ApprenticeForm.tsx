@@ -780,7 +780,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                         type="range"
                         min={PRICING.minDownPayment}
                         max={PRICING.fullPrice}
-                        step={50}
+                        step={1}
                         value={Math.min(
                           Math.max(customAmount, PRICING.minDownPayment),
                           PRICING.fullPrice,

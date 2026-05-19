@@ -158,7 +158,7 @@ async function _POST(request: NextRequest) {
     if (resend) {
       try {
         await resend.emails.send({
-          from: 'Elevate AI Assistant <info@elevateforhumanity.org>',
+          from: 'Elevate AI Assistant <noreply@elevateforhumanity.org>',
           to: INTERNAL_EMAIL,
           subject: `AI Buyer Summary — ${data.organization || data.name || 'Unknown'}`,
           text: summary,

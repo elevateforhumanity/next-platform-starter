@@ -56,7 +56,7 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-black mb-2">Email Marketing</h1>
           <p className="text-black">
-            Send campaigns to students, employers, and partners. Powered by Resend.
+            Send campaigns to students, employers, and partners. Powered by SendGrid.
           </p>
         </div>
 
@@ -150,6 +150,13 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
               className="pb-3 px-1 text-sm font-semibold border-b-2 border-transparent text-black hover:text-black transition"
             >
               Analytics
+            </button>
+            <button
+              onClick={() => router.push('/admin/email-marketing/sendgrid')}
+              className="pb-3 px-1 text-sm font-semibold border-b-2 border-transparent text-black hover:text-black transition flex items-center gap-1.5"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              SendGrid
             </button>
           </div>
         </div>

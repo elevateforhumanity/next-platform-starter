@@ -65,9 +65,10 @@ export function clampSetupFeeCents(inputDollars: number): number {
  * Transfer hours do not affect this calculation.
  */
 export function weeklyPaymentCents(downPaymentDollars: number): number {
-  const downCents = clampSetupFeeCents(downPaymentDollars);
-  const remaining = TUITION_CENTS - downCents;
-  return Math.round(remaining / PAYMENT_TERM_WEEKS);
+  const downCents = Math.round(Math.min(TUITION_CENTS, Math.max(0, downPaymentDollars * 100)));
+  const remaining = Math.max(0, TUITION_CENTS - downCents);
+  if (remaining === 0) return 0;
+  return Math.ceil(remaining / PAYMENT_TERM_WEEKS);
 }
 
 /**

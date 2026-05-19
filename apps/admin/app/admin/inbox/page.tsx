@@ -186,7 +186,7 @@ export default async function AdminInboxPage() {
           <h2 className="text-xl font-bold text-zinc-900">License Requests</h2>
           <a
             className="text-sm font-semibold text-zinc-700 underline"
-            href="/admin/license-requests"
+            href="/admin/licenses"
           >
             Open full list
           </a>

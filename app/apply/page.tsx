@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import IntakeFormInner from './IntakeFormInner';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
+import { createStaticClient } from '@/lib/supabase/static';
 
 export const revalidate = 3600;
 
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ApplyPage({
+export default async function ApplyPage({
   searchParams,
 }: {
   searchParams?: { program?: string; payment?: string };
@@ -22,6 +23,14 @@ export default function ApplyPage({
   // Note: ?program=barber-apprenticeship is 301'd to /programs/barber-apprenticeship/apply
   // by next.config.mjs before this page renders. No barber-specific branch needed here.
   void normalizeProgramInterest(searchParams?.program);
+
+  const supabase = createStaticClient();
+  const { data: programs } = await supabase
+    .from('programs')
+    .select('id, title, slug')
+    .eq('is_active', true)
+    .eq('published', true)
+    .order('title');
 
   return (
     <div className="min-h-screen bg-white">
@@ -56,7 +65,7 @@ export default function ApplyPage({
       {/* Form */}
       <section className="py-10">
         <div className="max-w-2xl mx-auto px-4">
-          <IntakeFormInner />
+          <IntakeFormInner programs={programs ?? []} />
         </div>
       </section>
     </div>

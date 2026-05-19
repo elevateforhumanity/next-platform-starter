@@ -4,7 +4,9 @@ import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
-function IntakeForm() {
+interface Program { id: string; title: string; slug: string }
+
+function IntakeForm({ programs = [] }: { programs?: Program[] }) {
   const searchParams = useSafeSearchParams();
   const programParam = searchParams.get('program') || '';
 
@@ -334,32 +336,9 @@ function IntakeForm() {
                     defaultValue={initialProgram || 'barber-apprenticeship'}
                     className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
                   >
-                    <option value="cna">Certified Nursing Assistant (CNA)</option>
-                    <option value="medical-assistant">Medical Assistant</option>
-                    <option value="phlebotomy">Phlebotomy Technician</option>
-                    <option value="pharmacy-technician">Pharmacy Technician</option>
-                    <option value="home-health-aide">Home Health Aide</option>
-                    <option value="peer-recovery-specialist">Peer Recovery Specialist</option>
-                    <option value="cpr-first-aid">CPR, AED &amp; First Aid</option>
-                    <option value="hvac-technician">HVAC Technician</option>
-                    <option value="cdl-training">CDL (Commercial Driver License)</option>
-                    <option value="welding">Welding Technology</option>
-                    <option value="electrical">Electrical Technician</option>
-                    <option value="plumbing">Plumbing Technician</option>
-                    <option value="forklift">Forklift Operator Certification</option>
-                    <option value="barber-apprenticeship">Barber Apprenticeship</option>
-                    <option value="cosmetology-apprenticeship">Cosmetology Apprenticeship</option>
-                    <option value="esthetician">Professional Esthetician &amp; Client Services</option>
-                    <option value="it-help-desk">IT Help Desk Technician</option>
-                    <option value="cybersecurity-analyst">Cybersecurity Analyst</option>
-                    <option value="network-administration">Network Administration</option>
-                    <option value="software-development">Software Development Foundations</option>
-                    <option value="web-development">Web Development</option>
-                    <option value="project-management">Project Management</option>
-                    <option value="office-administration">Office Administration</option>
-                    <option value="bookkeeping">Bookkeeping &amp; QuickBooks</option>
-                    <option value="tax-preparation">Tax Preparation</option>
-                    <option value="entrepreneurship">Entrepreneurship &amp; Small Business</option>
+                    {programs.map((p) => (
+                      <option key={p.id} value={p.slug}>{p.title}</option>
+                    ))}
                     <option value="other">Other</option>
                   </select>
                 </div>
@@ -731,6 +710,6 @@ function IntakeForm() {
 
 // No Suspense boundary needed — useSafeSearchParams reads from context
 // provided by SafeSearchParamsProvider in PublicLayout.
-export default function IntakeFormInner() {
-  return <IntakeForm />;
+export default function IntakeFormInner({ programs = [] }: { programs?: Program[] }) {
+  return <IntakeForm programs={programs} />;
 }

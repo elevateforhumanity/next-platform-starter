@@ -22,7 +22,7 @@ export class EmailService {
   private fromEmail: string;
 
   private constructor() {
-    this.fromEmail = process.env.EMAIL_FROM || 'info@elevateforhumanity.org';
+    this.fromEmail = process.env.EMAIL_FROM || 'noreply@elevateforhumanity.org';
   }
 
   static getInstance(): EmailService {

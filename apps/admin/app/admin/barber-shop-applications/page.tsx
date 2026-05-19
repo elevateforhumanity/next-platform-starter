@@ -306,6 +306,10 @@ export default async function BarberShopApplicationsPage() {
 
               {/* Actions */}
               <div className="flex items-center gap-3 mt-4 pt-4 border-t border-slate-100">
+                <Link href={`/admin/barber-shop-applications/${app.id}`}
+                  className="text-sm px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 text-slate-900">
+                  View / Edit
+                </Link>
                 <ApproveButton applicationId={app.id} status={app.status} />
                 <a
                   href={`mailto:${app.contact_email}?subject=Your Barbershop Partner Application — Elevate for Humanity`}

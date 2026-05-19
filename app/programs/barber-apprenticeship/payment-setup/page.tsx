@@ -101,12 +101,24 @@ function PaymentSetupForm({ weeklyAmount, deposit }: { weeklyAmount: number; dep
 const MIN_DEPOSIT = MIN_SETUP_FEE_CENTS / 100; // $600
 const MAX_DEPOSIT = TUITION_DOLLARS;            // $4,980
 
+function clampDeposit(v: number) {
+  return Math.min(MAX_DEPOSIT, Math.max(MIN_DEPOSIT, Math.round(v)));
+}
+
 export default function PaymentSetupPage() {
   const [deposit, setDeposit] = useState(MIN_DEPOSIT);
+  const [depositInput, setDepositInput] = useState(String(MIN_DEPOSIT));
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [weeklyAmount, setWeeklyAmount] = useState(() => weeklyPaymentCents(MIN_DEPOSIT));
   const [loading, setLoading] = useState(true);
   const [fatalError, setFatalError] = useState<string | null>(null);
+
+  // Live display value — previews while typing before blur clamps
+  const displayDeposit = (() => {
+    const parsed = parseFloat(depositInput);
+    if (isNaN(parsed) || depositInput.trim() === '') return deposit;
+    return Math.min(MAX_DEPOSIT, Math.max(0, parsed));
+  })();
 
   // Recalculate weekly live as deposit changes
   useEffect(() => {
@@ -166,11 +178,17 @@ export default function PaymentSetupPage() {
               type="number"
               min={MIN_DEPOSIT}
               max={MAX_DEPOSIT}
-              step={50}
-              value={deposit}
-              onChange={(e) => {
-                const v = Math.min(MAX_DEPOSIT, Math.max(MIN_DEPOSIT, Number(e.target.value)));
-                setDeposit(v);
+              step={1}
+              value={depositInput}
+              onChange={(e) => setDepositInput(e.target.value)}
+              onBlur={() => {
+                const parsed = parseFloat(depositInput);
+                const clamped = isNaN(parsed) || depositInput.trim() === ''
+                  ? MIN_DEPOSIT
+                  : clampDeposit(parsed);
+                setDeposit(clamped);
+                setDepositInput(String(clamped));
+                setWeeklyAmount(weeklyPaymentCents(clamped));
               }}
               className="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white font-bold text-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
             />
@@ -179,9 +197,14 @@ export default function PaymentSetupPage() {
             type="range"
             min={MIN_DEPOSIT}
             max={MAX_DEPOSIT}
-            step={50}
+            step={1}
             value={deposit}
-            onChange={(e) => setDeposit(Number(e.target.value))}
+            onChange={(e) => {
+              const v = Number(e.target.value);
+              setDeposit(v);
+              setDepositInput(String(v));
+              setWeeklyAmount(weeklyPaymentCents(v));
+            }}
             className="w-full accent-amber-400 cursor-pointer"
           />
           <div className="flex justify-between text-xs text-slate-500">
@@ -190,18 +213,25 @@ export default function PaymentSetupPage() {
           </div>
 
           {/* Live calculation */}
-          <div className="grid grid-cols-3 gap-3 pt-1">
-            {[
-              { label: 'Down Today', value: `$${deposit.toLocaleString()}` },
-              { label: 'Remaining', value: `$${(TUITION_DOLLARS - deposit).toLocaleString()}` },
-              { label: `Weekly ×${PAYMENT_TERM_WEEKS}`, value: `$${(weeklyAmount / 100).toFixed(2)}` },
-            ].map(({ label, value }) => (
-              <div key={label} className="bg-slate-900 rounded-xl p-3 text-center">
-                <p className="text-white font-bold text-lg">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
-              </div>
-            ))}
-          </div>
+          {deposit >= MAX_DEPOSIT ? (
+            <div className="bg-green-900/30 border border-green-700 rounded-xl p-4 text-center">
+              <p className="text-green-400 font-bold text-lg">Paid in Full</p>
+              <p className="text-slate-400 text-xs mt-0.5">No weekly payments — one-time charge of ${MAX_DEPOSIT.toLocaleString()}</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-3 pt-1">
+              {[
+                { label: 'Down Today', value: `$${displayDeposit.toLocaleString()}` },
+                { label: 'Remaining', value: `$${Math.max(0, TUITION_DOLLARS - displayDeposit).toLocaleString()}` },
+                { label: `Weekly ×${PAYMENT_TERM_WEEKS}`, value: `$${(weeklyPaymentCents(deposit) / 100).toFixed(2)}` },
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-slate-900 rounded-xl p-3 text-center">
+                  <p className="text-white font-bold text-lg">{value}</p>
+                  <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Guarantees */}

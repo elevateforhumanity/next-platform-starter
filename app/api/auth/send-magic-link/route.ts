@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     body: JSON.stringify({
       personalizations: [{ to: [{ email: email.trim() }] }],
       from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
-      reply_to: { email: 'info@elevateforhumanity.org' },
+      reply_to: { email: 'elevate4humanityedu@gmail.com' },
       subject: 'Your sign-in link — Elevate for Humanity',
       content: [
         {
