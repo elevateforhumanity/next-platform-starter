@@ -39,9 +39,11 @@ function requireCount(
   result: { count: number | null; error: { message: string } | null },
   label: string
 ): number {
-  if (result.error) throw new Error(`${label} query failed: ${result.error.message}`);
-  if (result.count == null) throw new Error(`${label} count missing`);
-  return result.count;
+  if (result.error) {
+    logger.error('[getAdminDashboardData] ' + label + ' failed: ' + result.error.message);
+    return 0;
+  }
+  return result.count ?? 0;
 }
 
 /**
@@ -247,13 +249,12 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .limit(10),
 
     // Completed enrollments with no outcome — participant_report view
-    // Live columns: id, user_id, program_id, email, program_title, enrollment_status,
-    // enrollment_state, first_name, last_name, program_slug
-    // (enrollment_id, full_name, funding_source, outcome_type do NOT exist in live view)
+    // Live columns: participant_id, full_name, email, program_title, enrollment_status,
+    // enrollment_id, program_slug, funding_source, outcome_type, completed_at
     db.from('participant_report')
-      .select('id, first_name, last_name, email, program_title, enrollment_state')
-      .eq('enrollment_state', 'completed')
-      .order('id', { ascending: true })
+      .select('participant_id, full_name, email, program_title, enrollment_status, program_slug')
+      .eq('enrollment_status', 'completed')
+      .order('participant_id', { ascending: true })
       .limit(10),
 
     // Active enrollments missing funding — exclude apprenticeship programs (barber/cosmetology are self-pay by design)
