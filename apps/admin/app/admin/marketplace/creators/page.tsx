@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 
 import { requireAdmin } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
+import CreatorStatusActions from './CreatorStatusActions';
 import CreatorApprovalActions from './CreatorApprovalActions';
 
 export const dynamic = 'force-dynamic';
@@ -122,12 +123,7 @@ export default async function AdminCreatorsPage() {
                         ${(pendingEarnings / 100).toFixed(2)}
                       </td>
                       <td className="py-3 px-4">
-                        <button
-                          className="text-brand-orange-600 hover:underline text-sm"
-                          aria-label="Action button"
-                        >
-                          Suspend
-                        </button>
+                        <CreatorStatusActions creatorId={creator.id} action="suspend" />
                       </td>
                     </tr>
                   );
@@ -152,12 +148,7 @@ export default async function AdminCreatorsPage() {
                 <div>
                   <h3 className="font-semibold">{creator.display_name}</h3>
                 </div>
-                <button
-                  className="text-brand-green-600 hover:underline text-sm"
-                  aria-label="Action button"
-                >
-                  Reactivate
-                </button>
+                <CreatorStatusActions creatorId={creator.id} action="reactivate" />
               </div>
             ))}
           </div>

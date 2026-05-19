@@ -1,6 +1,10 @@
-import { permanentRedirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
+import EmailMarketingClient from './EmailMarketingClient';
+
+export { metadata } from './layout';
 export const dynamic = 'force-dynamic';
-// Merged into /admin/crm/campaigns — this route is an alias kept for backward compatibility.
-export default function Page() {
-  permanentRedirect('/admin/crm/campaigns');
+
+export default async function Page() {
+  await requireRole(['admin', 'super_admin', 'staff']);
+  return <EmailMarketingClient />;
 }

@@ -7,15 +7,17 @@ import SitePreviewPanelWrapper from './SitePreviewPanelWrapper';
 import { AdminGreeting } from "@/components/admin/AdminGreeting";
 import {
   ArrowRight, AlertTriangle, CheckCircle2,
-  ShieldAlert, Users, FileText,
   Activity, TrendingUp, Inbox,
 } from "lucide-react";
 import type { AdminDashboardData, InactiveLearner, StaleLeadItem } from "./types";
 import { OperationalAlerts } from "./OperationalAlerts";
 import { LearnerActionButtons } from "./LearnerActionButtons";
 import { LeadActionButtons } from "./LeadActionButtons";
-import { ServiceHealthPanel } from "./ServiceHealthPanel";
 import { ProgramIntegrityPanel } from "./ProgramIntegrityPanel";
+import { SystemHealthPanel } from "./SystemHealthPanel";
+import { KpiGrid } from "./KpiGrid";
+import { BlockedProgramsList } from "./BlockedProgramsList";
+import { RecentApplicationsList } from "./RecentApplicationsList";
 
 
 function fmtUsd(cents: number) {
@@ -55,68 +57,6 @@ function DegradedBanner({ sections }: { sections: string[] }) {
   );
 }
 
-function PriorityStrip({ data }: { data: AdminDashboardData }) {
-  const { operational } = data;
-  const cards = [
-    {
-      title: "Needs Review",
-      value: fmtNum(operational.needsReview),
-      detail: operational.needsReviewDetail,
-      href: "/admin/applications?status=submitted",
-      urgent: operational.needsReview > 0,
-      cta: "Open queue",
-    },
-    {
-      title: "At Risk",
-      value: fmtNum(operational.atRisk),
-      detail: operational.atRisk > 0 ? `${operational.atRisk} inactive 7+ days` : "No learners currently flagged",
-      href: "/admin/at-risk",
-      urgent: operational.atRisk > 0,
-      cta: "View learners",
-    },
-    {
-      title: "Compliance Alerts",
-      value: fmtNum(operational.complianceAlerts),
-      detail: operational.complianceAlerts > 0
-        ? (operational.complianceAlertsSeverity === "critical" ? "Critical issues need action" : "Unresolved alerts")
-        : "You're caught up",
-      href: "/admin/compliance",
-      urgent: operational.complianceAlerts > 0,
-      cta: "Open alerts",
-    },
-    {
-      title: "New Today",
-      value: fmtNum(operational.newToday),
-      detail: operational.newTodayDetail,
-      href: "/admin/activity",
-      urgent: false,
-      cta: "View activity",
-    },
-    {
-      title: "Revenue This Month",
-      value: fmtUsd(operational.revenueThisMonthCents),
-      detail: "From completed transactions",
-      href: "/admin/enrollments?payment_status=paid",
-      urgent: false,
-      cta: "View revenue",
-    },
-  ];
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
-      {cards.map((card) => (
-        <Link key={card.title} href={card.href}
-          className={`group rounded-xl border p-4 bg-white hover:shadow-md transition-shadow ${card.urgent ? "border-rose-200 bg-rose-50" : "border-slate-200"}`}>
-          <p className={`text-xs font-semibold uppercase tracking-wide mb-2 ${card.urgent ? "text-rose-600" : "text-slate-500"}`}>{card.title}</p>
-          <p className={`text-3xl font-black tabular-nums mb-1 ${card.urgent ? "text-rose-700" : "text-slate-900"}`}>{card.value}</p>
-          <p className="text-xs text-slate-500 mb-3 leading-snug">{card.detail}</p>
-          <span className="text-xs font-semibold text-brand-blue-600 group-hover:underline flex items-center gap-1">
-            {card.cta} <ArrowRight className="w-3 h-3" />
-          </span>
-        </Link>
-      ))}
-    </div>
-  );
-}
 
 const SEVERITY_STYLES = {
   critical: { dot: "bg-rose-500",    label: "CRITICAL", text: "text-rose-700",  bg: "bg-rose-50"    },
@@ -171,24 +111,6 @@ function TodaysPriorities({ data }: { data: AdminDashboardData }) {
   );
 }
 
-// ── Compact summary cards — full tables live on dedicated pages ──────────────
-
-function SummaryCard({
-  title, count, detail, href, urgent,
-}: { title: string; count: number; detail: string; href: string; urgent?: boolean }) {
-  return (
-    <Link href={href} className={`flex items-center justify-between rounded-xl border px-5 py-4 hover:shadow-sm transition-all mb-3 ${urgent && count > 0 ? 'border-amber-200 bg-amber-50' : 'border-slate-200 bg-white'}`}>
-      <div>
-        <p className={`text-sm font-semibold ${urgent && count > 0 ? 'text-amber-900' : 'text-slate-800'}`}>{title}</p>
-        <p className="text-xs text-slate-500 mt-0.5">{detail}</p>
-      </div>
-      <div className="flex items-center gap-3">
-        <span className={`text-2xl font-black tabular-nums ${urgent && count > 0 ? 'text-amber-700' : 'text-slate-900'}`}>{fmtNum(count)}</span>
-        <ArrowRight className="w-4 h-4 text-slate-400" />
-      </div>
-    </Link>
-  );
-}
 
 function LearnersNeedingAttention({ learners }: { learners: InactiveLearner[] }) {
   return (
@@ -235,6 +157,7 @@ function ReviewQueues({ data }: { data: AdminDashboardData }) {
     { label: "Lab submissions awaiting sign-off", count: data.pendingSubmissions.length, context: data.pendingSubmissions.length > 0 ? "Instructor action required" : "Queue is clear", href: "/admin/submissions", urgent: data.pendingSubmissions.length > 0 },
     { label: "Program holders awaiting approval", count: data.counts.pendingProgramHolders, context: data.counts.pendingProgramHolders > 0 ? "Partner applications need review" : "Queue is clear", href: "/admin/program-holders", urgent: data.counts.pendingProgramHolders > 0 },
     { label: "Program holder documents pending", count: data.counts.pendingDocuments, context: data.counts.pendingDocuments > 0 ? "Documents submitted, awaiting review" : "Queue is clear", href: "/admin/program-holder-documents", urgent: data.counts.pendingDocuments > 0 },
+    { label: "Certificates to issue", count: data.counts.certificatesIssued, context: "Completed learners awaiting credential", href: "/admin/certificates", urgent: false },
   ];
   return (
     <div className="rounded-xl border border-slate-200 bg-white mb-6">
@@ -294,33 +217,6 @@ function CrmFollowUpQueue({ leads }: { leads: StaleLeadItem[] }) {
   );
 }
 
-function ComplianceSnapshot({ data }: { data: AdminDashboardData }) {
-  const rows = [
-    { label: data.operational.complianceAlerts > 0 ? `${data.operational.complianceAlerts} unresolved alert${data.operational.complianceAlerts !== 1 ? "s" : ""}` : "No unresolved compliance alerts", urgent: data.operational.complianceAlerts > 0, href: "/admin/compliance" },
-    { label: data.pendingWioaDocs > 0 ? `${data.pendingWioaDocs} required WIOA document${data.pendingWioaDocs !== 1 ? "s" : ""} pending` : "No WIOA documents pending", urgent: data.pendingWioaDocs > 0, href: "/admin/wioa/documents" },
-    { label: data.systemHealth.missingDocuments > 0 ? `${data.systemHealth.missingDocuments} enrollment${data.systemHealth.missingDocuments !== 1 ? "s" : ""} missing required documents` : "All enrollments have required documents", urgent: data.systemHealth.missingDocuments > 0, href: "/admin/enrollments?docs_verified=false" },
-  ];
-  return (
-    <div className="rounded-xl border border-slate-200 bg-white mb-6">
-      <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center gap-2">
-        <ShieldAlert className="w-4 h-4 text-slate-500" />
-        <h2 className="font-bold text-slate-900">Compliance Snapshot</h2>
-      </div>
-      <div className="divide-y divide-slate-100">
-        {rows.map((row, i) => (
-          <Link key={i} href={row.href} className="flex items-center gap-3 px-4 sm:px-6 py-3 hover:bg-slate-50 group transition-colors">
-            {row.urgent ? <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" /> : <CheckCircle2 className="w-4 h-4 text-brand-green-500 flex-shrink-0" />}
-            <p className={`text-sm flex-1 ${row.urgent ? "font-semibold text-slate-900" : "text-slate-600"}`}>{row.label}</p>
-            <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-600 transition-colors flex-shrink-0" />
-          </Link>
-        ))}
-      </div>
-      <div className="px-4 sm:px-6 py-3 border-t border-slate-100">
-        <Link href="/admin/compliance" className="text-xs font-semibold text-brand-blue-600 hover:underline">Open compliance dashboard →</Link>
-      </div>
-    </div>
-  );
-}
 
 function RecentActivity({ items }: { items: { id: string; title: string; timestamp: string }[] }) {
   if (items.length === 0) return null;
@@ -374,8 +270,8 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900">Admin Dashboard</h1>
             <p className="text-slate-500 text-sm mt-1">Monitor operations, learner progress, compliance, and revenue.</p>
         </div>
-        {/* Quick-action strip — horizontally scrollable on mobile */}
-        <div className="flex gap-2 overflow-x-auto pb-2 mb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-none">
+        {/* Quick-action strip — mobile only. Desktop has the full nav bar. */}
+        <div className="md:hidden flex gap-2 overflow-x-auto pb-2 mb-6 -mx-4 px-4 scrollbar-none">
           <Link href="/admin/applications?status=submitted" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-900 text-white text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">Review Applications</Link>
           <Link href="/admin/compliance" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Compliance</Link>
           <Link href="/admin/documents/templates" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Document Templates</Link>
@@ -389,88 +285,85 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         <DegradedBanner sections={data.degradedSections ?? []} />
 
-        {/* Priority KPI Strip */}
-        <PriorityStrip data={data} />
-
-        {/* Operational alerts — stalled apps, missing outcomes, missing funding */}
-        <OperationalAlerts data={data} />
-
-        {/* Today's Priorities */}
-        <TodaysPriorities data={data} />
-
-        {/* Operational summary — counts + links to dedicated pages */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 mt-6">
-          <div className="lg:col-span-2 min-w-0">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Queues</p>
-            <SummaryCard
-              title="Learners Needing Attention"
-              count={data.inactiveLearners.length}
-              detail="Inactive 7+ days — view full list"
-              href="/admin/at-risk"
-              urgent
-            />
-            <SummaryCard
-              title="Applications to Review"
-              count={data.operational.needsReview}
-              detail={data.operational.needsReviewDetail}
-              href="/admin/applications?status=submitted"
-              urgent
-            />
-            <SummaryCard
-              title="CRM Follow-up Queue"
-              count={data.staleLeads.length}
-              detail="Leads with no activity in 7+ days"
-              href="/admin/crm/leads"
-              urgent
-            />
-            <SummaryCard
-              title="Compliance Alerts"
-              count={data.operational.complianceAlerts}
-              detail="Open compliance issues"
-              href="/admin/compliance"
-              urgent
-            />
-          </div>
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Recent Activity</p>
-            <RecentActivity items={data.recentActivity} />
-          </div>
-        </div>
-
-        {/* Performance Trends — secondary */}
-        {data.topPrograms.length > 0 && (
-          <div className="mt-8">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Performance Trends</p>
-            <h2 className="text-xl font-bold text-slate-900 mb-4">Top Programs</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {data.topPrograms.slice(0, 6).map((p) => (
-                <Link key={p.id} href={`/admin/programs/${p.id}`} className="rounded-xl border border-slate-200 bg-white p-5 hover:shadow-md transition-shadow">
-                  <p className="font-semibold text-slate-900 text-sm truncate mb-3">{p.title}</p>
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <p className="text-2xl font-black text-slate-900">{p.learners}</p>
-                      <p className="text-xs text-slate-500">active learners</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-lg font-bold text-brand-green-600">{p.completionRate}%</p>
-                      <p className="text-xs text-slate-500">completion</p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+        {/* ── KPI cards ────────────────────────────────────────────────── */}
+        {data.kpis.length > 0 && (
+          <div className="mb-6">
+            <KpiGrid kpis={data.kpis} />
           </div>
         )}
 
-        {/* Program integrity */}
+        {/* ── Operational alerts: stalled apps, missing outcomes, funding ─ */}
+        <OperationalAlerts data={data} />
+
+        {/* ── Scored priority list ─────────────────────────────────────── */}
+        <TodaysPriorities data={data} />
+
+        {/* ── Main operational grid ────────────────────────────────────── */}
+        {/* Left (2/3): action queues — learners, review queues, CRM       */}
+        {/* Right (1/3): activity feed + recent applications               */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 mt-6">
+          <div className="lg:col-span-2 min-w-0 space-y-4">
+            <LearnersNeedingAttention learners={data.inactiveLearners} />
+            <ReviewQueues data={data} />
+            <CrmFollowUpQueue leads={data.staleLeads} />
+          </div>
+          <div className="space-y-4">
+            <RecentActivity items={data.recentActivity} />
+            {data.recentApplications.length > 0 && (
+              <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+                <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Inbox className="w-4 h-4 text-slate-500" />
+                    <h2 className="font-bold text-slate-900 text-sm">Recent Applications</h2>
+                  </div>
+                  <Link href="/admin/applications" className="text-xs font-semibold text-brand-blue-600 hover:underline flex items-center gap-1">
+                    View all <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+                <RecentApplicationsList items={data.recentApplications} />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── Top programs + unpublished programs ──────────────────────── */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {data.topPrograms.length > 0 && (
+            <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+              <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-slate-500" />
+                  <h2 className="font-bold text-slate-900">Top Programs</h2>
+                </div>
+                <Link href="/admin/programs" className="text-xs font-semibold text-brand-blue-600 hover:underline flex items-center gap-1">
+                  All programs <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
+              <div className="divide-y divide-slate-100">
+                {data.topPrograms.slice(0, 6).map((p) => (
+                  <Link key={p.id} href={`/admin/programs/${p.id}`}
+                    className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 transition-colors">
+                    <p className="text-sm font-semibold text-slate-900 truncate">{p.title}</p>
+                    <span className="text-xs text-slate-500 flex-shrink-0 ml-4">{p.enrollmentCount} enrolled</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+          {data.blockedPrograms.length > 0 && (
+            <BlockedProgramsList items={data.blockedPrograms} />
+          )}
+        </div>
+
+        {/* ── Program integrity ────────────────────────────────────────── */}
         <div className="mt-8">
           <ProgramIntegrityPanel />
         </div>
 
-        {/* Live site preview + service health */}
+        {/* ── Site status + system health ──────────────────────────────── */}
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <SitePreviewPanelWrapper sites={data.sitePreviewTargets ?? []} />
-          <ServiceHealthPanel />
+          <SystemHealthPanel health={data.systemHealth} />
         </div>
 
       </div>

@@ -31,7 +31,7 @@ export default async function FssaImpactAdminPage() {
   const fy = currentFY();
 
   // Parallel data fetch — all queries are safe-fallback (tables may not exist yet)
-  const [participantsRes, budgetRes, attendanceRes] = await Promise.all([
+  const [participantsRes, budgetRes, attendanceRes, programsRes] = await Promise.all([
     db
       .from('fssa_participants')
       .select('id, enrollment_status, abawd, employed_at_exit, snap_et_enrolled_at')
@@ -46,11 +46,13 @@ export default async function FssaImpactAdminPage() {
       .select('participant_id, session_date, hours_attended, present')
       .gte('session_date', new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
       .limit(2000),
+    db.from('programs').select('id, title, slug').eq('is_active', true).order('title'),
   ]);
 
   const participants = participantsRes.data ?? [];
   const budgetRows = budgetRes.data ?? [];
   const recentAttendance = attendanceRes.data ?? [];
+  const programs = programsRes.data ?? [];
 
   // Participant summary
   const participantSummary: FssaDashboardProps['participants'] = {
@@ -212,25 +214,22 @@ export default async function FssaImpactAdminPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {[
-                  { name: 'HVAC Technician', credential: 'EPA 608', hours: '160 hrs', weekly: 30 },
-                  { name: 'CNA / Healthcare', credential: 'State CNA License', hours: '120 hrs', weekly: 30 },
-                  { name: 'CDL Training', credential: 'Class A CDL', hours: '160 hrs', weekly: 30 },
-                  { name: 'IT Help Desk', credential: 'CompTIA A+', hours: '160 hrs', weekly: 30 },
-                  { name: 'Peer Recovery Specialist', credential: 'CPRS', hours: '80 hrs', weekly: 20 },
-                  { name: 'Barber Apprenticeship', credential: 'Indiana Barber License', hours: '2,000 hrs OJL', weekly: 40 },
-                ].map((p) => (
-                  <tr key={p.name} className="text-slate-700">
-                    <td className="py-2 pr-4 font-medium">{p.name}</td>
-                    <td className="py-2 pr-4 text-slate-500">{p.credential}</td>
-                    <td className="py-2 pr-4">{p.hours}</td>
+                {programs.length > 0 ? programs.map((p) => (
+                  <tr key={p.id} className="text-slate-700">
+                    <td className="py-2 pr-4 font-medium">{p.title}</td>
+                    <td className="py-2 pr-4 text-slate-500">—</td>
+                    <td className="py-2 pr-4">—</td>
                     <td className="py-2">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${p.weekly >= 20 ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
-                        {p.weekly} hrs/wk
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-700">
+                        Active
                       </span>
                     </td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td colSpan={4} className="py-4 text-slate-500 text-sm">No active programs found</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

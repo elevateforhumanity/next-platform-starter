@@ -12,7 +12,6 @@ import {
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
 
-const XTerminal         = dynamic(() => import('@/components/dev-studio/XTerminal'),         { ssr: false });
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const DocumentsPanel    = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),    { ssr: false });
 const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
@@ -82,6 +81,7 @@ function useEmbedCheck(url: string) {
 // ── IframePreview ─────────────────────────────────────────────────────────────
 // Renders an iframe when embeddable, or a blocked-state UI with an open-in-tab
 // escape hatch when the target sends X-Frame-Options / CSP frame-ancestors.
+// When url is empty, renders a placeholder instead of firing an embed-check.
 function IframePreview({
   url,
   title = 'Preview',
@@ -98,6 +98,17 @@ function IframePreview({
 
   // Reset loading spinner whenever url changes
   useEffect(() => { setLoading(true); }, [url]);
+
+  // No URL yet — show placeholder instead of a broken embed-check
+  if (!url) {
+    return (
+      <div className={`flex flex-col items-center justify-center gap-3 w-full h-full ${className ?? ''}`}
+        style={{ background: '#1e1e1e', ...style }}>
+        <Globe className="w-8 h-8" style={{ color: '#3c3c3c' }} />
+        <p className="text-[11px]" style={{ color: '#555' }}>Enter a URL above to preview</p>
+      </div>
+    );
+  }
 
   if (embeddable === null) {
     return (
@@ -299,14 +310,15 @@ export default function DevStudioClient() {
       <div className="flex-shrink-0 flex items-center gap-1 px-2 sm:px-3 border-b text-xs select-none"
         style={{ background: '#323233', borderColor: '#3c3c3c', color: '#cccccc', minHeight: isPhone ? 44 : 28 }}>
         <span className="font-bold text-white mr-2 text-[11px]">Dev Studio</span>
-        {/* Menu items — always visible, wired to tab navigation */}
+        {/* Menu items — mirrors TABS order exactly */}
         {([
-          { label: 'Files',     id: 'files'     },
+          { label: 'Command',   id: 'command'   },
+          { label: 'Chat',      id: 'chat'      },
           { label: 'Terminal',  id: 'terminal'  },
-          { label: 'Chat',      id: 'chat'       },
+          { label: 'Files',     id: 'files'     },
           { label: 'Container', id: 'container' },
-          { label: 'Secrets',   id: 'secrets'   },
           { label: 'Docs',      id: 'documents' },
+          { label: 'Secrets',   id: 'secrets'   },
         ] as { label: string; id: Tab }[]).map(({ label, id }) => (
           <span
             key={id}
@@ -1008,9 +1020,23 @@ function TerminalTab({
           </a>
         )}
       </div>
-      {/* Real xterm.js terminal — WebSocket → studio-shell ECS container */}
-      <div className="flex-1 min-h-0 overflow-hidden">
-        <XTerminal />
+      {/* Shell info — WebSocket PTY requires a dedicated studio-shell ECS task.
+         Until that task is deployed, the workflow buttons above are the shell. */}
+      <div className="flex-1 min-h-0 overflow-y-auto p-4" style={{ background: '#1e1e1e' }}>
+        <div className="font-mono text-[11px] space-y-1" style={{ color: '#858585' }}>
+          <p style={{ color: '#4ec9b0' }}>// Dev Studio — GitHub Actions shell</p>
+          <p>// Use the workflow buttons above to trigger deployments and CI.</p>
+          <p>// A real PTY terminal requires the studio-shell ECS task to be running.</p>
+          <p></p>
+          <p style={{ color: '#858585' }}>// To enable the PTY terminal:</p>
+          <p>// 1. Deploy the studio-shell ECS task (aws/ecs-task-studio.json)</p>
+          <p>// 2. Set STUDIO_SHELL_WS_URL in Admin → Integrations → Env Manager</p>
+          <p>// 3. Set STUDIO_SHELL_SECRET in the same place</p>
+          <p>// 4. Redeploy the admin service to pick up the new secrets</p>
+          <p></p>
+          <p style={{ color: '#858585' }}>// Until then, use the Command tab for AI-driven operations</p>
+          <p>// or the workflow buttons above to trigger GitHub Actions directly.</p>
+        </div>
       </div>
     </div>
   );
@@ -1018,11 +1044,21 @@ function TerminalTab({
 // ── Files Tab ────────────────────────────────────────────────────────────────
 
 // ── ContainerTab ─────────────────────────────────────────────────────────────
+// Split vertically: ECS status (capped at 280px) on top, DevContainer fills rest.
+// Both children must be overflow-hidden so h-full resolves correctly inside them.
 function ContainerTab() {
   return (
-    <div className="h-full flex flex-col gap-4 overflow-y-auto p-2">
-      <EcsStatusPanel />
-      <DevContainerPanel />
+    <div className="h-full flex flex-col overflow-hidden bg-white">
+      {/* ECS status — capped height, scrolls internally */}
+      <div className="flex-shrink-0 overflow-hidden border-b border-slate-200" style={{ maxHeight: 280 }}>
+        <div className="h-full overflow-y-auto">
+          <EcsStatusPanel />
+        </div>
+      </div>
+      {/* DevContainer editor — fills remaining space, manages its own scroll */}
+      <div className="flex-1 min-h-0 overflow-hidden">
+        <DevContainerPanel />
+      </div>
     </div>
   );
 }

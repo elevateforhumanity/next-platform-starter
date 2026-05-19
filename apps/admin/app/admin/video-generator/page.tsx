@@ -1,6 +1,10 @@
-import { permanentRedirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
+import VideoGeneratorClient from './VideoGeneratorClient';
+
+export { metadata } from './layout';
 export const dynamic = 'force-dynamic';
-// Merged into /admin/media-studio — this route is an alias kept for backward compatibility.
-export default function Page() {
-  permanentRedirect('/admin/media-studio');
+
+export default async function Page() {
+  await requireRole(['admin', 'super_admin', 'staff']);
+  return <VideoGeneratorClient />;
 }

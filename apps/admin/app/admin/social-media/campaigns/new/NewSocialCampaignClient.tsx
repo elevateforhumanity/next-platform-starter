@@ -22,7 +22,9 @@ import {
   ExternalLink,
 } from 'lucide-react';
 
-export default function NewSocialCampaignPage() {
+interface Program { id: string; title: string; slug: string }
+
+export default function NewSocialCampaignPage({ programs = [] }: { programs?: Program[] }) {
   const router = useRouter();
 
   const [campaign, setCampaign] = useState({
@@ -234,13 +236,9 @@ export default function NewSocialCampaignPage() {
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   >
                     <option value="all">All Programs</option>
-                    <option value="barber">Barber Program</option>
-                    <option value="cna">CNA Program</option>
-                    <option value="cdl">CDL Program</option>
-                    <option value="hvac">HVAC Program</option>
-                    <option value="welding">Welding Program</option>
-                    <option value="phlebotomy">Phlebotomy</option>
-                    <option value="dental-assistant">Dental Assistant</option>
+                    {programs.map((p) => (
+                      <option key={p.id} value={p.slug}>{p.title}</option>
+                    ))}
                   </select>
                 </div>
               </div>

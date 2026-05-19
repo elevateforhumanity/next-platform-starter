@@ -10,7 +10,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { hydrateProcessEnv } from '@/lib/secrets';
+import { refreshSecrets } from '@/lib/secrets';
 import { isGroqConfigured } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
 
@@ -21,8 +21,12 @@ export async function GET(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  // Hydrate so app_secrets values are merged before checking
-  await hydrateProcessEnv();
+  // Force-refresh secrets on every health check so the status reflects the
+  // current state of platform_secrets / app_secrets, not a stale in-process
+  // cache from a previous request. The 5-minute hydrateProcessEnv() cache
+  // causes keys saved via the Secrets tab to appear missing until the cache
+  // naturally expires.
+  await refreshSecrets();
 
   return NextResponse.json({
     hasGroq:      isGroqConfigured(),

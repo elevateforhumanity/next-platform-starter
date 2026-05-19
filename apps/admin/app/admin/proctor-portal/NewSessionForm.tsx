@@ -22,8 +22,11 @@ import {
   MAINSTREAM_PROCTOR_ID,
 } from './types';
 
+interface Program { id: string; title: string; slug: string }
+
 interface Props {
   session: ExamSession | null;
+  programs?: Program[];
   onSaved: () => void;
   onCancel: () => void;
 }
@@ -42,7 +45,7 @@ function Label({ children, required }: { children: React.ReactNode; required?: b
   );
 }
 
-export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
+export default function NewSessionForm({ session, programs = [], onSaved, onCancel }: Props) {
   const supabase = createClient();
   const isEdit = !!session;
 
@@ -339,12 +342,9 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
                 onChange={(e) => setProgramSlug(e.target.value)}
                 className={selectCls}
               >
-                <option value="hvac-technician">HVAC Technician</option>
-                <option value="construction-trades-certification">
-                  Construction Trades Certification
-                </option>
-                <option value="electrical">Electrical Technician</option>
-                <option value="plumbing">Plumbing Technician</option>
+                {programs.map((p) => (
+                  <option key={p.id} value={p.slug}>{p.title}</option>
+                ))}
                 <option value="">Other / Standalone</option>
               </select>
             </div>

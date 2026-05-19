@@ -22,7 +22,9 @@ interface EmailStep {
   customHtml: string;
 }
 
-export default function NewWorkflowPage() {
+interface Program { id: string; title: string; slug: string }
+
+export default function NewWorkflowPage({ programs = [] }: { programs?: Program[] }) {
   const router = useRouter();
 
   const [workflow, setWorkflow] = useState({
@@ -214,10 +216,9 @@ export default function NewWorkflowPage() {
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   >
                     <option value="all-students">All Students</option>
-                    <option value="barber">Barber Program</option>
-                    <option value="cna">CNA Program</option>
-                    <option value="cdl">CDL Program</option>
-                    <option value="hvac">HVAC Program</option>
+                    {programs.map((p) => (
+                      <option key={p.id} value={p.slug}>{p.title}</option>
+                    ))}
                   </select>
                 </div>
               </div>

@@ -15,13 +15,10 @@ export default async function NewJRIParticipantPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-  // Fetch students to link to
-  const { data: students } = await supabase
-    .from('profiles')
-    .select('id, full_name, email')
-    .eq('role', 'student')
-    .order('full_name')
-    .limit(200);
+  const [{ data: students }, { data: programs }] = await Promise.all([
+    supabase.from('profiles').select('id, full_name, email').eq('role', 'student').order('full_name').limit(200),
+    supabase.from('programs').select('id, title, slug').eq('is_active', true).order('title'),
+  ]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -67,16 +64,9 @@ export default async function NewJRIParticipantPage() {
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             >
               <option value="">Select a program…</option>
-              <option value="HVAC Technician">HVAC Technician</option>
-              <option value="Electrical Apprenticeship">Electrical Apprenticeship</option>
-              <option value="Plumbing Apprenticeship">Plumbing Apprenticeship</option>
-              <option value="CDL Commercial Driving">CDL Commercial Driving</option>
-              <option value="Welding Certification">Welding Certification</option>
-              <option value="CNA Training">CNA Training</option>
-              <option value="IT Support Specialist">IT Support Specialist</option>
-              <option value="Cybersecurity">Cybersecurity</option>
-              <option value="Business Office Administration">Business Office Administration</option>
-              <option value="Tax Preparation">Tax Preparation</option>
+              {(programs ?? []).map((p) => (
+                <option key={p.id} value={p.title}>{p.title}</option>
+              ))}
             </select>
           </div>
 

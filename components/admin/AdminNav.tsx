@@ -107,7 +107,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
           <nav
             ref={navRef}
             aria-label="Admin navigation"
-            className="hidden lg:flex items-center gap-0 flex-1 overflow-x-auto"
+            className="hidden md:flex items-center gap-0 flex-1 overflow-x-auto"
             style={{ scrollbarWidth: 'none' }}
           >
             {NAV.map((section) => {
@@ -218,7 +218,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
               )}
             </div>
 
-            <div className="hidden lg:flex items-center gap-1 pl-3 border-l border-slate-200">
+            <div className="hidden md:flex items-center gap-1 pl-3 border-l border-slate-200">
               <Link
                 href="/admin/settings"
                 className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
@@ -239,7 +239,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
             <button
               onClick={() => setMobileOpen((v) => !v)}
               aria-label="Toggle menu"
-              className="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -248,16 +248,14 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
       </header>
 
       {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 z-40 lg:hidden"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
-
-      <div
-        className="fixed top-16 right-0 bottom-0 w-[85vw] max-w-sm bg-white border-l border-slate-200 z-50 lg:hidden transform transition-transform duration-300 overflow-y-auto shadow-2xl"
-        style={{ transform: mobileOpen ? 'translateX(0)' : 'translateX(100%)' }}
-      >
+        <>
+          <div
+            className="fixed inset-0 bg-black/60 z-40 md:hidden"
+            onClick={() => setMobileOpen(false)}
+          />
+          <div
+            className="fixed top-16 right-0 bottom-0 w-[85vw] max-w-sm bg-white border-l border-slate-200 z-50 md:hidden overflow-y-auto shadow-2xl"
+          >
         <div className="p-4 space-y-1">
           <form
             onSubmit={handleSearch}
@@ -273,29 +271,21 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
             />
           </form>
 
-          {/* Quick-access shortcuts */}
+          {/* Quick-access shortcuts — top-level section links from NAV so they
+               stay in sync with whatever nav config is active (DB or default) */}
           <div className="grid grid-cols-2 gap-2 mb-4">
-            {[
-              { label: 'Dashboard', href: '/admin/dashboard' },
-              { label: 'Students', href: '/admin/students' },
-              { label: 'Enrollments', href: '/admin/enrollments' },
-              { label: 'Applications', href: '/admin/applications' },
-              { label: 'Compliance', href: '/admin/compliance' },
-              { label: 'Reports', href: '/admin/reports' },
-              { label: 'Programs', href: '/admin/programs' },
-              { label: 'CRM', href: '/admin/crm/leads' },
-            ].map((item) => (
+            {NAV.map((section) => (
               <Link
-                key={item.href}
-                href={item.href}
+                key={section.href}
+                href={section.href}
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center justify-center px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors text-center ${
-                  isActive(pathname, item.href)
+                  isSectionActive(pathname, section)
                     ? 'bg-brand-red-50 text-brand-red-700'
                     : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
                 }`}
               >
-                {item.label}
+                {section.label}
               </Link>
             ))}
           </div>
@@ -351,7 +341,9 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
             </button>
           </div>
         </div>
-      </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

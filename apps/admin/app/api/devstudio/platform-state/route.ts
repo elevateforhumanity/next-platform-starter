@@ -14,7 +14,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { hydrateProcessEnv } from '@/lib/secrets';
+import { refreshSecrets } from '@/lib/secrets';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { isGroqConfigured } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  await hydrateProcessEnv();
+  await refreshSecrets();
 
   try {
     const supabase = createAdminClient();

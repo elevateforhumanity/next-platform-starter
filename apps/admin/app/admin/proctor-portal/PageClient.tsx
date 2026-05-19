@@ -20,7 +20,9 @@ import SessionRow from './SessionRow';
 import type { ExamSession, ExamProvider, ExamResult } from './types';
 import { PROVIDER_LABELS, RESULT_LABELS } from './types';
 
-export default function ProctorPortalPage() {
+interface Program { id: string; title: string; slug: string }
+
+export default function ProctorPortalPage({ programs = [] }: { programs?: Program[] }) {
   const router = useRouter();
   const supabase = createClient();
   const [sessions, setSessions] = useState<ExamSession[]>([]);
@@ -257,6 +259,7 @@ export default function ProctorPortalPage() {
           <div className="mb-6">
             <NewSessionForm
               session={editSession}
+              programs={programs}
               onSaved={handleSaved}
               onCancel={() => {
                 setShowForm(false);

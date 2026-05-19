@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Save, RefreshCw, CheckCircle, AlertCircle, Box, Trash2, Download, Upload, Send, FileUp } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Save, RefreshCw, CheckCircle, AlertCircle, Box, Trash2, Download, Send } from 'lucide-react';
 
 interface DevContainerConfig {
   name?: string;
@@ -156,10 +156,7 @@ export default function DevContainerPanel() {
   const [ecsPushing, setEcsPushing] = useState<string | null>(null); // key being pushed, or 'all'
   const [ecsResult, setEcsResult] = useState<string | null>(null);
 
-  // Document upload
-  const docUploadRef = useRef<HTMLInputElement>(null);
-  const [docUploading, setDocUploading] = useState(false);
-  const [docResult, setDocResult] = useState<string | null>(null);
+
 
   useEffect(() => {
     load();
@@ -451,25 +448,7 @@ export default function DevContainerPanel() {
     }
   };
 
-  const handleDocUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setDocUploading(true);
-    setDocResult(null);
-    try {
-      const form = new FormData();
-      form.append('file', file);
-      const r = await fetch('/api/devstudio/upload', { method: 'POST', body: form });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error ?? 'Upload failed');
-      setDocResult(`✅ Uploaded: ${file.name}`);
-    } catch (e) {
-      setDocResult(`❌ ${(e as Error).message}`);
-    } finally {
-      setDocUploading(false);
-      if (docUploadRef.current) docUploadRef.current.value = '';
-    }
-  };
+
 
   const hasChanges = editedRaw !== raw;
 
@@ -827,24 +806,6 @@ export default function DevContainerPanel() {
                   <Send className="w-3.5 h-3.5" />
                   {ecsPushing === envForm.key ? 'Pushing…' : 'Push to Container'}
                 </button>
-
-                {/* Document upload */}
-                <input
-                  ref={docUploadRef}
-                  type="file"
-                  className="hidden"
-                  onChange={handleDocUpload}
-                  accept=".pdf,.doc,.docx,.xlsx,.csv,.png,.jpg,.jpeg"
-                />
-                <button
-                  onClick={() => docUploadRef.current?.click()}
-                  disabled={docUploading}
-                  title="Upload a document or file to the container"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white"
-                >
-                  <FileUp className="w-3.5 h-3.5" />
-                  {docUploading ? 'Uploading…' : 'Upload Document'}
-                </button>
               </div>
 
               {/* Result banners */}
@@ -856,11 +817,6 @@ export default function DevContainerPanel() {
               {ecsResult && (
                 <p className={`mt-2 text-xs px-3 py-1.5 rounded ${ecsResult.startsWith('✅') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
                   {ecsResult}
-                </p>
-              )}
-              {docResult && (
-                <p className={`mt-2 text-xs px-3 py-1.5 rounded ${docResult.startsWith('✅') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-                  {docResult}
                 </p>
               )}
 

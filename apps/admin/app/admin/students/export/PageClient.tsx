@@ -7,7 +7,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 
-export default function ExportStudentsPage() {
+interface Program { id: string; title: string; slug: string }
+
+export default function ExportStudentsPage({ programs = [] }: { programs?: Program[] }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -204,10 +206,9 @@ export default function ExportStudentsPage() {
                     className="w-full rounded-md border-slate-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                   >
                     <option value="">All Programs</option>
-                    <option value="barber-apprenticeship">Barber Apprenticeship</option>
-                    <option value="cna">CNA</option>
-                    <option value="hvac">HVAC</option>
-                    <option value="medical-assistant">Medical Assistant</option>
+                    {programs.map((p) => (
+                      <option key={p.id} value={p.slug}>{p.title}</option>
+                    ))}
                   </select>
                 </div>
                 <div>

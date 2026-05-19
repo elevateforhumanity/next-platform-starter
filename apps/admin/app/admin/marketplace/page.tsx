@@ -38,9 +38,9 @@ export default async function AdminMarketplacePage() {
 
   const [{ count: productCount }, { count: creatorCount }, { count: pendingPayouts }] =
     await Promise.all([
-      db.from('marketplace_courses').select('*', { count: 'exact', head: true }),
-      db.from('marketplace_sellers').select('*', { count: 'exact', head: true }),
-      db.from('seller_applications').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+      db.from('marketplace_products').select('*', { count: 'exact', head: true }),
+      db.from('marketplace_creators').select('*', { count: 'exact', head: true }),
+      db.from('marketplace_creators').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
     ]);
 
   const sections = [

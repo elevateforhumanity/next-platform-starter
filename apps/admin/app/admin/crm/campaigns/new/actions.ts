@@ -28,5 +28,5 @@ export async function createCampaignAction(formData: FormData) {
     created_by: user.id,
   });
 
-  redirect('/admin/campaigns');
+  redirect('/admin/crm/campaigns');
 }

@@ -1038,6 +1038,62 @@ const TOOLS: unknown[] = [
       },
     },
   },
+  {
+    type: 'function',
+    function: {
+      name: 'list_contracts',
+      description: 'List active contracts and MOUs — counterparty, status, expiration dates.',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_grants',
+      description: 'List grants — funder, amount requested, deadline, status.',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_documents',
+      description: 'List recently uploaded documents — name, type, status.',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_compliance',
+      description: 'Show compliance status — open alerts, pending WIOA docs, unverified enrollment documents.',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_signatures',
+      description: 'List pending signature requests — document name, signer, status.',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_workflows',
+      description: 'List active workflows — name, status, owner.',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'get_org_profile',
+      description: 'Retrieve organization profile — name, EIN, UEI, SAM, mission, counties served.',
+      parameters: { type: 'object', properties: {}, required: [] },
+    },
+  },
 ];
 
 // ── SSE helpers ─────────────────────────────────────────────────────────────
@@ -1058,6 +1114,13 @@ function encodeDone() {
 const KEYWORD_MAP: Array<{ patterns: RegExp; action: string; args?: Record<string, unknown> }> = [
   { patterns: /run.*test|test.*suite|autopilot.*test/i,                    action: 'run_tests',           args: {} },
   { patterns: /health|system.*health|check.*health/i,                      action: 'check_system_health', args: {} },
+  { patterns: /contract|list.*contract|show.*contract|mou/i,               action: 'list_contracts',      args: {} },
+  { patterns: /grant|list.*grant|show.*grant|funding.*opportunit/i,        action: 'list_grants',         args: {} },
+  { patterns: /document|list.*doc|show.*doc|uploaded.*file/i,              action: 'list_documents',      args: {} },
+  { patterns: /compliance|list.*compliance|compliance.*alert|audit.*status/i, action: 'list_compliance',  args: {} },
+  { patterns: /signature|pending.*sign|sign.*pending|esign/i,              action: 'list_signatures',     args: {} },
+  { patterns: /workflow|list.*workflow|show.*workflow/i,                    action: 'list_workflows',      args: {} },
+  { patterns: /org.*profile|organization.*profile|ein|uei|sam.*reg/i,      action: 'get_org_profile',     args: {} },
   { patterns: /build.*course|course.*build/i,                              action: 'build_courses',       args: {} },
   { patterns: /deploy.*lms/i,                                              action: 'deploy_autopilot',    args: { service: 'lms' } },
   { patterns: /deploy.*admin/i,                                            action: 'deploy_autopilot',    args: { service: 'admin' } },
@@ -1677,6 +1740,10 @@ async function executeAction(
     }
 
     case 'build_courses': {
+      // build_courses triggers the deploy-lms GitHub Actions workflow via the
+      // admin's own /api/devstudio/shell endpoint (which calls workflow_dispatch).
+      // The old path called getSiteUrl()/api/autopilots/build-courses — that is
+      // the LMS app's stub and does not trigger a real AWS CodeBuild.
       // Pre-flight: verify GITHUB_TOKEN is set before attempting the push
       if (!process.env.GITHUB_TOKEN) {
         write('\x1b[31m✗  GITHUB_TOKEN is not set\x1b[0m');
@@ -1688,36 +1755,33 @@ async function executeAction(
         write('   3. Redeploy the admin service to pick up the new secret');
         break;
       }
-      write('⚙️  Building courses...');
-      logger.info('[devstudio/execute] build_courses → POST /api/autopilots/build-courses');
+      write('⚙️  Triggering LMS build via GitHub Actions...');
+      logger.info('[devstudio/execute] build_courses → dispatch deploy-lms workflow');
       try {
-        const body: Record<string, unknown> = {};
-        if (args.course_id) body.course_id = args.course_id;
-        const res = await fetch(`${getSiteUrl()}/api/autopilots/build-courses`, {
+        const res = await fetch(`${getAdminUrl()}/api/devstudio/shell`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', cookie: authHeader },
-          body: JSON.stringify(body),
+          body: JSON.stringify({ workflow: 'deploy-lms' }),
         });
         const data = await res.json().catch(() => ({}));
-        logger.info('[devstudio/execute] build_courses response', { status: res.status });
+        logger.info('[devstudio/execute] build_courses dispatch response', { status: res.status });
         if (!res.ok) {
-          write(`\x1b[31m✗  Build failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
-          if (data.message) write(`   Detail: ${data.message}`);
-          if (res.status === 401) {
+          write(`\x1b[31m✗  Dispatch failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
+          if (res.status === 401 || res.status === 403) {
             write('');
             write('   GITHUB_TOKEN may be expired or missing repo/workflow scopes.');
             write('   Regenerate at: https://github.com/settings/tokens/new');
-            write('   Then update SSM /elevate/GITHUB_TOKEN and redeploy.');
+            write('   Then update SSM /elevate/GITHUB_TOKEN and redeploy admin.');
           }
         } else {
-          write(`\x1b[32m✓  Build complete\x1b[0m`);
-          if (data.files_written) write(`   Files written: ${data.files_written}`);
-          if (data.commit_url) write(`   Commit: ${data.commit_url}`);
+          write(`\x1b[32m✓  LMS deploy queued\x1b[0m`);
+          if (data.runUrl) write(`   GitHub Actions: ${data.runUrl}`);
+          if (data.runId)  write(`   Run ID: ${data.runId}`);
         }
       } catch (fetchErr) {
         const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
-        logger.error('[devstudio/execute] build_courses fetch error', { reason });
-        write(`\x1b[31m✗  Could not reach /api/autopilots/build-courses: ${reason}\x1b[0m`);
+        logger.error('[devstudio/execute] build_courses dispatch error', { reason });
+        write(`\x1b[31m✗  Could not reach /api/devstudio/shell: ${reason}\x1b[0m`);
       }
       break;
     }
@@ -1735,77 +1799,81 @@ async function executeAction(
         write('   3. Redeploy the admin service to pick up the new secret');
         break;
       }
-      write(`🚀  Triggering ${service} deploy...`);
-      logger.info('[devstudio/execute] deploy_autopilot', { service });
-      try {
-        const res = await fetch(`${getSiteUrl()}/api/autopilots/deploy`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', cookie: authHeader },
-          body: JSON.stringify({ service }),
-        });
-        const data = await res.json().catch(() => ({}));
-        logger.info('[devstudio/execute] deploy_autopilot response', { status: res.status });
-        if (!res.ok) {
-          write(`\x1b[31m✗  Deploy failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
-          if (data.message) write(`   Detail: ${data.message}`);
-          if (res.status === 401) {
-            write('');
-            write('   GITHUB_TOKEN may be expired or missing workflow scope.');
-            write('   Regenerate at: https://github.com/settings/tokens/new');
-            write('   Then update SSM /elevate/GITHUB_TOKEN and redeploy.');
+
+      // Dispatch one or both workflows via /api/devstudio/shell which calls
+      // GitHub Actions workflow_dispatch directly. The old path called
+      // getSiteUrl()/api/autopilots/deploy — that is the LMS app's stub and
+      // does not trigger a real AWS CodeBuild.
+      const workflows: Array<'deploy-lms' | 'deploy-admin'> =
+        service === 'both' ? ['deploy-lms', 'deploy-admin'] :
+        service === 'admin' ? ['deploy-admin'] : ['deploy-lms'];
+
+      write(`🚀  Triggering ${service} deploy via GitHub Actions...`);
+      logger.info('[devstudio/execute] deploy_autopilot', { service, workflows });
+
+      for (const workflow of workflows) {
+        try {
+          const res = await fetch(`${getAdminUrl()}/api/devstudio/shell`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', cookie: authHeader },
+            body: JSON.stringify({ workflow }),
+          });
+          const data = await res.json().catch(() => ({}));
+          logger.info('[devstudio/execute] deploy_autopilot dispatch', { workflow, status: res.status });
+          if (!res.ok) {
+            write(`\x1b[31m✗  ${workflow} dispatch failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
+            if (res.status === 401 || res.status === 403) {
+              write('');
+              write('   GITHUB_TOKEN may be expired or missing workflow scope.');
+              write('   Regenerate at: https://github.com/settings/tokens/new');
+              write('   Then update SSM /elevate/GITHUB_TOKEN and redeploy admin.');
+            }
+          } else {
+            write(`\x1b[32m✓  ${workflow} queued\x1b[0m`);
+            if (data.runUrl) write(`   GitHub Actions: ${data.runUrl}`);
+            if (data.runId)  write(`   Run ID: ${data.runId}`);
           }
-        } else {
-          write(`\x1b[32m✓  Deploy triggered\x1b[0m`);
-          if (data.run_url) write(`   GitHub Actions: ${data.run_url}`);
-          if (data.message) write(`   ${data.message}`);
+        } catch (fetchErr) {
+          const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
+          logger.error('[devstudio/execute] deploy_autopilot dispatch error', { workflow, reason });
+          write(`\x1b[31m✗  Could not reach /api/devstudio/shell for ${workflow}: ${reason}\x1b[0m`);
         }
-      } catch (fetchErr) {
-        const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
-        logger.error('[devstudio/execute] deploy_autopilot fetch error', { reason });
-        write(`\x1b[31m✗  Could not reach /api/autopilots/deploy: ${reason}\x1b[0m`);
       }
       break;
     }
 
     case 'run_tests': {
-      write('🧪  Running autopilot test suite...');
-      logger.info('[devstudio/execute] run_tests → POST /api/autopilots/run-tests');
+      // Triggers the CI workflow via GitHub Actions workflow_dispatch.
+      // The old path called getSiteUrl()/api/autopilots/run-tests — that is
+      // the LMS app's stub and does not run real CI.
+      if (!process.env.GITHUB_TOKEN) {
+        write('\x1b[31m✗  GITHUB_TOKEN is not set — cannot trigger CI workflow\x1b[0m');
+        write('');
+        write('   Add GITHUB_TOKEN to AWS SSM /elevate/GITHUB_TOKEN and redeploy admin.');
+        break;
+      }
+      write('🧪  Triggering CI workflow via GitHub Actions...');
+      logger.info('[devstudio/execute] run_tests → dispatch ci workflow');
       try {
-        const res = await fetch(`${getSiteUrl()}/api/autopilots/run-tests`, {
+        const res = await fetch(`${getAdminUrl()}/api/devstudio/shell`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', cookie: authHeader },
-          body: JSON.stringify({}),
+          body: JSON.stringify({ workflow: 'ci' }),
         });
         const data = await res.json().catch(() => ({}));
-        logger.info('[devstudio/execute] run_tests response', { status: res.status, ok: res.ok });
+        logger.info('[devstudio/execute] run_tests dispatch response', { status: res.status });
         if (!res.ok) {
-          write(`\x1b[31m✗  Tests failed (HTTP ${res.status})\x1b[0m`);
-          if (data.error)   write(`   Error: ${data.error}`);
-          if (data.message) write(`   Detail: ${data.message}`);
+          write(`\x1b[31m✗  CI dispatch failed (HTTP ${res.status}): ${data.error ?? res.statusText}\x1b[0m`);
         } else {
-          const summary = data.summary ?? {};
-          const passed  = summary.passed  ?? data.passed  ?? 0;
-          const total   = summary.total   ?? data.total   ?? (passed + (summary.failed ?? 0));
-          const rate    = summary.passRate ?? (total > 0 ? ((passed / total) * 100).toFixed(1) : '—');
-          write(`\x1b[32m✓  Tests complete — ${passed}/${total} passed (${rate}%)\x1b[0m`);
-          const results = data.results ?? {};
-          if (results.missingMetadata?.length) {
-            write(`   Missing metadata (${results.missingMetadata.length}):`);
-            (results.missingMetadata as string[]).slice(0, 5).forEach((f: string) => write(`     • ${f}`));
-            if (results.missingMetadata.length > 5) write(`     … and ${results.missingMetadata.length - 5} more`);
-          }
-          if (results.missingLessons?.length) {
-            write(`   Empty lesson files (${results.missingLessons.length}):`);
-            (results.missingLessons as string[]).slice(0, 5).forEach((f: string) => write(`     • ${f}`));
-            if (results.missingLessons.length > 5) write(`     … and ${results.missingLessons.length - 5} more`);
-          }
-          if (data.message) write(`   ${data.message}`);
+          write(`\x1b[32m✓  CI workflow queued\x1b[0m`);
+          if (data.runUrl) write(`   GitHub Actions: ${data.runUrl}`);
+          if (data.runId)  write(`   Run ID: ${data.runId}`);
+          write('   Results will appear in GitHub Actions once the run completes.');
         }
       } catch (fetchErr) {
         const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
-        logger.error('[devstudio/execute] run_tests fetch error', { reason });
-        write(`\x1b[31m✗  Could not reach /api/autopilots/run-tests: ${reason}\x1b[0m`);
-        write(`   baseUrl: ${baseUrl}`);
+        logger.error('[devstudio/execute] run_tests dispatch error', { reason });
+        write(`\x1b[31m✗  Could not reach /api/devstudio/shell: ${reason}\x1b[0m`);
       }
       break;
     }
@@ -2068,7 +2136,7 @@ async function executeAction(
     case 'check_social_connections': {
       write('\x1b[33m⚙  Checking social media connections…\x1b[0m');
       try {
-        const res = await fetch(`${baseUrl.replace('www.', 'admin.')}/api/admin/social-media/status`, { headers });
+        const res = await fetch(`${getAdminUrl()}/api/admin/social-media/status`, { headers });
         const data = await res.json().catch(() => ({}));
         if (res.ok) {
           const statuses: Array<{ platform: string; connected: boolean; expired?: boolean }> = data.statuses ?? [];
@@ -2153,7 +2221,7 @@ async function executeAction(
     case 'smoke_test': {
       write('\x1b[1mRunning platform smoke test…\x1b[0m');
       try {
-        const res = await fetch(`${baseUrl.replace('www.elevateforhumanity.org', 'admin.elevateforhumanity.org')}/api/devstudio/smoke-test`, {
+        const res = await fetch(`${getAdminUrl()}/api/devstudio/smoke-test`, {
           headers: { Cookie: authHeader },
           signal: AbortSignal.timeout(55000),
         });
@@ -2797,6 +2865,153 @@ async function executeAction(
       break;
     }
 
+    // ── Contracts / MOUs ──────────────────────────────────────────────────
+    case 'list_contracts': {
+      write('📄  Fetching MOUs/contracts...');
+      try {
+        const { data, error } = await adminDb
+          .from('mou_documents')
+          .select('id,title,status,counterparty_name,expires_at,created_at')
+          .order('created_at', { ascending: false })
+          .limit(20);
+        if (error) { write(`\x1b[31m✗  DB error: ${error.message}\x1b[0m`); break; }
+        if (!data?.length) { write('No MOUs/contracts found.'); break; }
+        data.forEach((c: Record<string, unknown>, i: number) => {
+          const exp = c.expires_at ? new Date(c.expires_at as string).toLocaleDateString() : 'No expiry';
+          write(`${i + 1}. ${String(c.title ?? '--')} | ${String(c.counterparty_name ?? '--')} | ${String(c.status ?? '--')} | Expires: ${exp}`);
+        });
+        write(`\nManage at: ${getAdminUrl()}/admin/mou`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
+      break;
+    }
+
+    // ── Grants ────────────────────────────────────────────────────────────
+    case 'list_grants': {
+      write('🏛️  Fetching grants...');
+      try {
+        const { data, error } = await adminDb
+          .from('grants')
+          .select('id,title,status,funder_name,amount_requested,deadline')
+          .order('deadline', { ascending: true })
+          .limit(20);
+        if (error) { write(`\x1b[31m✗  DB error: ${error.message}\x1b[0m`); break; }
+        if (!data?.length) { write('No grants found.'); break; }
+        data.forEach((g: Record<string, unknown>, i: number) => {
+          const deadline = g.deadline ? new Date(g.deadline as string).toLocaleDateString() : 'No deadline';
+          const amount = g.amount_requested ? `$${Number(g.amount_requested).toLocaleString()}` : '--';
+          write(`${i + 1}. ${String(g.title ?? '--')} | ${String(g.funder_name ?? '--')} | ${amount} | Due: ${deadline} | ${String(g.status ?? '--')}`);
+        });
+        write(`\nManage at: ${getAdminUrl()}/admin/grants`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
+      break;
+    }
+
+    // ── Documents ─────────────────────────────────────────────────────────
+    case 'list_documents': {
+      write('📁  Fetching documents...');
+      try {
+        const { data, error } = await adminDb
+          .from('documents')
+          .select('id,name,document_type,status,uploaded_at')
+          .order('uploaded_at', { ascending: false })
+          .limit(20);
+        if (error) { write(`\x1b[31m✗  DB error: ${error.message}\x1b[0m`); break; }
+        if (!data?.length) { write('No documents found.'); break; }
+        data.forEach((d: Record<string, unknown>, i: number) => {
+          const date = d.uploaded_at ? new Date(d.uploaded_at as string).toLocaleDateString() : '--';
+          write(`${i + 1}. ${String(d.name ?? '--')} | ${String(d.document_type ?? '--')} | ${String(d.status ?? '--')} | ${date}`);
+        });
+        write(`\nManage at: ${getAdminUrl()}/admin/document-center`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
+      break;
+    }
+
+    // ── Compliance ────────────────────────────────────────────────────────
+    case 'list_compliance': {
+      write('🛡️  Fetching compliance status...');
+      try {
+        const [alerts, wioa, docs] = await Promise.all([
+          adminDb.from('compliance_alerts').select('id,title,severity,status').neq('status', 'resolved').order('created_at', { ascending: false }).limit(20),
+          adminDb.from('wioa_documents').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+          adminDb.from('enrollment_documents').select('id', { count: 'exact', head: true }).eq('verified', false),
+        ]);
+        write(`Open compliance alerts: ${alerts.data?.length ?? 0}`);
+        write(`Pending WIOA documents: ${wioa.count ?? 0}`);
+        write(`Unverified enrollment docs: ${docs.count ?? 0}`);
+        if (alerts.data?.length) {
+          write('');
+          write('Alerts:');
+          alerts.data.forEach((a: Record<string, unknown>, i: number) =>
+            write(`  ${i + 1}. [${String(a.severity ?? 'info').toUpperCase()}] ${String(a.title ?? '--')}`)
+          );
+        }
+        write(`\nManage at: ${getAdminUrl()}/admin/compliance`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
+      break;
+    }
+
+    // ── Signatures ────────────────────────────────────────────────────────
+    case 'list_signatures': {
+      write('✍️  Fetching pending signatures...');
+      try {
+        const { data, error } = await adminDb
+          .from('document_signatures')
+          .select('id,document_type,document_id,signer_id,signed_at,created_at')
+          .is('signed_at', null)
+          .order('created_at', { ascending: false })
+          .limit(20);
+        if (error) { write(`\x1b[31m✗  DB error: ${error.message}\x1b[0m`); break; }
+        if (!data?.length) { write('\x1b[32m✓  No pending signatures.\x1b[0m'); break; }
+        write(`Pending signatures: ${data.length}`);
+        data.forEach((s: Record<string, unknown>, i: number) =>
+          write(`  ${i + 1}. ${String(s.document_type ?? '--')} (doc: ${String(s.document_id ?? '--')}) | Signer: ${String(s.signer_id ?? '--')}`)
+        );
+        write(`\nManage at: ${getAdminUrl()}/admin/signatures`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
+      break;
+    }
+
+    // ── Workflows ─────────────────────────────────────────────────────────
+    case 'list_workflows': {
+      write('⚙️  Fetching workflows...');
+      try {
+        const { data, error } = await adminDb
+          .from('workflows')
+          .select('id,name,status,owner,updated_at')
+          .order('updated_at', { ascending: false })
+          .limit(20);
+        if (error) { write(`\x1b[31m✗  DB error: ${error.message}\x1b[0m`); break; }
+        if (!data?.length) { write('No workflows found.'); break; }
+        data.forEach((w: Record<string, unknown>, i: number) =>
+          write(`${i + 1}. ${String(w.name ?? '--')} | ${String(w.status ?? '--')} | Owner: ${String(w.owner ?? '--')}`)
+        );
+        write(`\nManage at: ${getAdminUrl()}/admin/workflows`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
+      break;
+    }
+
+    // ── Org knowledge ─────────────────────────────────────────────────────
+    case 'get_org_profile': {
+      write('🏢  Fetching organization profile...');
+      try {
+        const { data, error } = await adminDb
+          .from('org_profile')
+          .select('*')
+          .maybeSingle();
+        if (error) { write(`\x1b[31m✗  DB error: ${error.message}\x1b[0m`); break; }
+        if (!data) { write('No organization profile found. Set it up at /admin/settings/organization'); break; }
+        const d = data as Record<string, unknown>;
+        write(`Organization: ${String(d.legal_name ?? d.dba_name ?? '--')}`);
+        write(`EIN: ${String(d.ein ?? '--')}`);
+        write(`UEI: ${String(d.uei ?? '--')}`);
+        write(`CAGE: ${String(d.cage_code ?? '--')}`);
+        write(`SAM: ${String(d.sam_registration ?? '--')}`);
+        write(`Mission: ${String(d.mission ?? '--')}`);
+        write(`\nManage at: ${getAdminUrl()}/admin/settings/organization`);
+      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
+      break;
+    }
+
     default:
       write(`\x1b[31m✗  Unknown action: ${name}\x1b[0m`);
   }
@@ -2868,11 +3083,19 @@ export async function POST(req: NextRequest) {
           const systemSummary = SYSTEMS.map(s => `• ${s.id} (${s.status}): ${s.description}`).join('\n');
           const registryContext = getSystemRegistryContext();
 
-          const systemPrompt = `You are the Elevate for Humanity platform operator AI.
-You are NOT a chatbot. You are a platform architect, senior DevOps engineer, LMS operator, systems auditor, and workflow orchestrator.
+          const systemPrompt = `You are the Elevate for Humanity platform operator AI — the engineering control layer and operational command center for the entire platform.
+
+You are NOT a chatbot. You are a platform architect, senior DevOps engineer, LMS operator, systems auditor, workflow orchestrator, compliance assistant, grant assistant, and document intelligence engine.
 
 Always use a tool — never respond with plain text unless using ask_question.
 Be decisive. If the intent is clear, act immediately. If ambiguous, use ask_question.
+
+## Organization Context
+- Organization: Elevate for Humanity
+- Mission: Workforce development and career training for underserved communities
+- Programs: HVAC, CNA, Barber, Tax Preparation, Apprenticeships, and more
+- Compliance: WIOA, DOL, ETPL, state licensing, FERPA
+- Funding: DOL grants, JRI, WIOA ITA, employer partnerships
 
 ## Platform Architecture
 ${systemSummary}
@@ -2899,7 +3122,16 @@ ${registryContext}
 - deployer: migrations, deployments — ALWAYS confirm, create snapshot first
 - super: not available via AI console
 
+## Non-Negotiable Rules
+- Never fabricate legal, compliance, or financial data
+- Never auto-submit documents, contracts, or grants without explicit approval
+- Never overwrite records silently — always log actions
+- Always preserve auditability — always allow human override
+- Show diffs before destructive file changes
+- Require confirmation for all production deploys and migrations
+
 ## Tool Selection Guide
+PLATFORM STATE
 - Platform health/state → get_platform_state
 - Route/table/system lookup → lookup_knowledge_graph
 - Program details → verify_program_integrity
@@ -2911,7 +3143,35 @@ ${registryContext}
 - Apply migration → run_migration (deployer tier — confirm first)
 - Route scan → scan_routes
 - Auth gaps → audit_system
-- QA check → smoke_test`;
+- QA check → smoke_test
+
+OPERATIONS
+- Students/enrollments → list_students / list_enrollments
+- Applications → list_applications
+- At-risk learners → list_at_risk
+- Compliance status → list_compliance
+- WIOA documents → list_wioa
+- Contracts/MOUs → list_contracts
+- Grants → list_grants
+- Documents → list_documents
+- Pending signatures → list_signatures
+- Workflows → list_workflows
+- CRM leads → (use ask_question to clarify then list_at_risk pattern)
+- Org profile/EIN/UEI → get_org_profile
+- Reports → run_reports
+- Payroll → run_payroll / export_payroll
+
+ENGINEERING
+- Deploy LMS → deploy_autopilot (service: lms)
+- Deploy Admin → deploy_autopilot (service: admin)
+- Deploy both → deploy_autopilot (service: both)
+- Build logs → check_monitoring
+- Repo commits → repo_commits
+- Scan routes → scan_routes
+- Audit system → audit_system
+- Run migration → run_migration
+- Generate course → generate_course
+- Smoke test → smoke_test`;
 
 
           const userPrompt = [...history.map((m: { role: string; content: string }) =>

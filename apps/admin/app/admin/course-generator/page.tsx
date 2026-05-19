@@ -1,6 +1,10 @@
-import { permanentRedirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
+import CourseGeneratorClient from './CourseGeneratorClient';
+
+export { metadata } from './layout';
 export const dynamic = 'force-dynamic';
-// Merged into /admin/course-builder/generate — this route is an alias kept for backward compatibility.
-export default function Page() {
-  permanentRedirect('/admin/course-builder/generate');
+
+export default async function Page() {
+  await requireRole(['admin', 'super_admin', 'staff']);
+  return <CourseGeneratorClient />;
 }
