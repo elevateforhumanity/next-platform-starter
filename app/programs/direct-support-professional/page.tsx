@@ -1,255 +1,188 @@
-// Force static generation for performance
-
-
-import { Metadata } from 'next';
-import { CredentialsOutcomes } from '@/components/programs/CredentialsOutcomes';
-import { createClient } from '@/lib/supabase/server';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart, CheckCircle, Users, Award, Clock, DollarSign } from 'lucide-react';
-import { CompactHero } from '@/components/heroes/CompactHero';
-import { FundingBadge } from '@/components/programs/FundingBadge';
-import PathwayDisclosure from '@/components/compliance/PathwayDisclosure';
-import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-
-export const dynamic = 'force-dynamic';
+import FundingInfoBlock from '@/components/programs/FundingInfoBlock';
 
 export const metadata: Metadata = {
   title: 'Direct Support Professional Training | Free DSP Program Indiana',
   description:
-    '100% Free DSP training program. Help individuals with disabilities live fulfilling lives. 4-6 weeks, job placement included.',
-  keywords: [
-    'Direct Support Professional Indianapolis',
-    'free Direct Support Professional training',
-    'WIOA Direct Support Professional',
-    'Direct Support Professional apprenticeship',
-  ],
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/programs/direct-support-professional',
-  },
+    '100% free DSP training program. Help individuals with disabilities live fulfilling lives. 4-6 weeks, job placement included. Indianapolis.',
+  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/direct-support-professional' },
 };
 
-export default async function Page() {
-  const supabase = await createClient();
+const CREDENTIALS = [
+  { name: 'NADSP Credential', issuer: 'National Alliance for Direct Support Professionals', description: 'National credential validating competency in person-centered support services.' },
+  { name: 'CPR/First Aid Certification', issuer: 'American Heart Association', description: 'Emergency response certification required for all direct care workers.' },
+  { name: 'Medication Administration Certification', issuer: 'Indiana FSSA', description: 'State-required certification to administer medications in residential settings.' },
+];
 
-  if (!supabase) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
-          <p className="text-slate-600">Please try again later.</p>
-        </div>
-      </div>
-    );
-  }
+const FAQS = [
+  { question: 'Do I need prior healthcare experience?', answer: 'No. This program is designed for adults entering the disability services field for the first time. All training is provided.' },
+  { question: 'Is this program really free?', answer: 'Yes. DSP training is funded through WIOA and Workforce Ready Grant for eligible Indiana residents. Most participants pay $0.' },
+  { question: 'What hours do DSPs work?', answer: 'DSPs work a variety of shifts depending on the setting — day, evening, overnight, and weekend shifts are all common. Full-time and part-time positions available.' },
+  { question: 'Where will I work after completing the program?', answer: 'Graduates work in group homes, day programs, community living settings, vocational programs, and respite care. Job placement support is included.' },
+];
 
-  // Fetch DSP program info
-  const { data: program } = await supabase
-    .from('programs')
-    .select('*')
-    .eq('slug', 'direct-support-professional')
-    .single();
-
+export default function DirectSupportProfessionalPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <Breadcrumbs
-        items={[{ label: 'Programs', href: '/programs' }, { label: 'Direct Support Professional' }]}
-      />
-      <CompactHero
-        variant="default"
-        badge={{
-          icon: Heart,
-          text: 'Healthcare Career',
-          href: '/programs/healthcare',
-        }}
-        headline="Direct Support Professional: Make a difference in people's lives"
-        description="100% free DSP training. Help individuals with disabilities live independently and participate fully in their communities. 4-6 weeks, job placement included."
-        primaryCTA={{ text: 'Start Eligibility & Choose This Program', href: '/apply?program=direct-support-professional' }}
-        secondaryCTA={{ text: 'Questions? Call Us', href: 'tel:317-314-3757' }}
-      />
-
-      {/* Funding Badge */}
-      <section className="bg-slate-50 border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <FundingBadge type="funded" />
-        </div>
-      </section>
-
-      {/* Avatar Guide */}
-
-
-      {/* Program Overview */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 gap-12">
-          <div>
-            <h2 className="text-3xl font-bold text-black mb-6">Program Overview</h2>
-            <p className="text-lg text-black mb-4">
-              Direct Support Professionals provide essential care and support to individuals with
-              intellectual and developmental disabilities. This rewarding career helps people live
-              independently and participate fully in their communities.
-            </p>
-            <p className="text-lg text-black mb-4">
-              Our free training program prepares you for immediate employment in residential
-              facilities, day programs, and community settings.
-            </p>
-            <div className="relative h-[300px] rounded-xl overflow-hidden mt-6">
-              <Image sizes="100vw"
-                src="/images/gallery/image2.webp"
-                alt="DSP training session"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-          <div className="bg-blue-50 p-8 rounded-lg">
-            <h3 className="text-2xl font-bold text-black mb-4">Quick Facts</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Duration:</span>
-                <span className="text-black">4-6 weeks</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Cost:</span>
-                <span className="text-black">$0 with WIOA/WRG funding</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Format:</span>
-                <span className="text-black">Hybrid (online + in-person)</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Starting Pay:</span>
-                <span className="text-black">$14-$18/hour</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Job Placement:</span>
-                <span className="text-black">Included</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* What You'll Learn */}
-      <section className="bg-slate-50 py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-black mb-8 text-center">What You'll Learn</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">Person-Centered Care</h3>
-              <p className="text-black">
-                Supporting individual goals, preferences, and independence
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">Health & Safety</h3>
-              <p className="text-black">
-                Medication administration, first aid, emergency procedures
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">Communication</h3>
-              <p className="text-black">Effective communication strategies and documentation</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">Rights & Ethics</h3>
-              <p className="text-black">Protecting rights, dignity, and confidentiality</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">Behavioral Support</h3>
-              <p className="text-black">Positive behavior strategies and crisis intervention</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">Community Integration</h3>
-              <p className="text-black">
-                Supporting community participation and social connections
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Career Outlook */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-black mb-8 text-center">Career Outlook</h2>
-        <div className="prose prose-lg max-w-none">
-          <p className="text-lg text-black mb-4">
-            The demand for Direct Support Professionals is growing rapidly as more individuals with
-            disabilities choose community-based living. This is a stable, rewarding career with
-            opportunities for advancement.
+    <main className="min-h-screen bg-white">
+      {/* Hero Banner */}
+      <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
+        <Image
+          src="/images/gallery/image2.webp"
+          alt="Direct Support Professional training session"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute bottom-8 left-6 sm:left-10 max-w-2xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">
+            Direct Support Professional
+          </h1>
+          <p className="text-white/90 text-base sm:text-lg leading-relaxed">
+            Help individuals with disabilities live independently. Free training with job placement included.
           </p>
-          <div className="grid md:grid-cols-2 gap-8 mt-8">
-            <div>
-              <h3 className="text-2xl font-bold text-black mb-4">Career Paths</h3>
-              <ul className="space-y-2 text-black">
-                <li>• Residential Support Specialist</li>
-                <li>• Day Program Coordinator</li>
-                <li>• Job Coach</li>
-                <li>• Team Lead/Supervisor</li>
-                <li>• Program Manager</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-black mb-4">Work Settings</h3>
-              <ul className="space-y-2 text-black">
-                <li>• Group Homes</li>
-                <li>• Day Programs</li>
-                <li>• Community Living</li>
-                <li>• Vocational Programs</li>
-                <li>• Respite Care</li>
-              </ul>
-            </div>
+        </div>
+      </section>
+
+      {/* Stats Strip */}
+      <section className="bg-slate-900 py-6 px-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+          <div>
+            <p className="text-2xl font-bold text-white">4–6 Weeks</p>
+            <p className="text-slate-400 text-sm">Duration</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-white">20–30</p>
+            <p className="text-slate-400 text-sm">Hours / Week</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-white">Hybrid</p>
+            <p className="text-slate-400 text-sm">Delivery</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-white">3</p>
+            <p className="text-slate-400 text-sm">Credentials</p>
           </div>
         </div>
       </section>
 
-      {/* Credentials & Outcomes */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <CredentialsOutcomes
+      {/* Overview */}
+      <section className="py-14 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Program Overview</h2>
+          <p className="text-slate-700 text-base leading-relaxed mb-3">
+            Direct Support Professionals provide essential care and support to individuals with intellectual and developmental disabilities. This rewarding career helps people live independently and participate fully in their communities.
+          </p>
+          <p className="text-slate-700 text-base leading-relaxed">
+            Our free training program prepares you for immediate employment in residential facilities, day programs, and community settings. Starting pay ranges from $14–$18/hour with consistent demand and opportunities for advancement into team lead and program management roles.
+          </p>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-14 px-6 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">How It Works</h2>
+          <ol className="space-y-6">
+            {[
+              { step: 1, title: 'Apply', desc: 'Submit your application. No prior experience required.' },
+              { step: 2, title: 'Enroll', desc: 'Confirm WIOA/WRG funding eligibility — most participants pay $0.' },
+              { step: 3, title: 'Train', desc: '4–6 weeks covering person-centered care, health/safety, behavioral support, and communication.' },
+              { step: 4, title: 'Credential', desc: 'Earn NADSP credential, CPR/First Aid, and Medication Administration certifications.' },
+              { step: 5, title: 'Employment', desc: 'Job placement support into group homes, day programs, and community living settings.' },
+            ].map((item) => (
+              <li key={item.step} className="flex gap-4">
+                <span className="flex-shrink-0 w-8 h-8 bg-brand-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  {item.step}
+                </span>
+                <div>
+                  <p className="font-semibold text-slate-900">{item.title}</p>
+                  <p className="text-slate-600 text-sm mt-0.5">{item.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Credentials */}
+      <section className="py-14 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">Credentials You Earn</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {CREDENTIALS.map((cred) => (
+              <div key={cred.name} className="rounded-xl border border-slate-200 p-5">
+                <h3 className="font-bold text-slate-900 text-sm mb-1">{cred.name}</h3>
+                <p className="text-xs text-brand-blue-600 font-medium mb-2">{cred.issuer}</p>
+                <p className="text-sm text-slate-600">{cred.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Funding & Payment */}
+      <section className="py-14 px-6 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Funding &amp; Payment</h2>
+          <FundingInfoBlock
             programName="Direct Support Professional"
-            partnerCertifications={[
-              'NADSP Credential (issued by National Alliance for Direct Support Professionals)',
-              'CPR/First Aid Certification',
-              'Medication Administration Certification',
-            ]}
-            employmentOutcomes={[
-              'Direct Support Professional',
-              'Residential Support Staff',
-              'Community Integration Specialist',
-              'Behavioral Health Technician',
-            ]}
+            fundingSources={['WIOA', 'Workforce Ready Grant']}
+            selfPayPrice={0}
           />
         </div>
       </section>
 
-      {/* Pathway Disclosure */}
-      <section className="bg-slate-50 py-8">
-        <div className="max-w-4xl mx-auto px-4">
-          <PathwayDisclosure variant="full" />
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="bg-brand-blue-600 text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Your DSP Career?</h2>
-          <p className="text-xl mb-8">Check eligibility and begin training in weeks, not months.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <section className="py-16 px-6 bg-slate-900">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Start your DSP career — free training, fast placement.
+          </h2>
+          <p className="text-slate-300 text-base mb-8 max-w-xl mx-auto">
+            100% funded for eligible participants. Job placement included. Apply today.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/apply?program=direct-support-professional"
-              className="px-8 py-4 bg-white text-blue-600 hover:bg-slate-100 font-bold rounded-lg transition-all text-center"
+              className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold px-8 py-3.5 rounded-xl transition-colors"
             >
-              Start Eligibility & Choose This Program
+              Apply Now
             </Link>
-            <Link
-              href="tel:317-314-3757"
-              className="px-8 py-4 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-lg transition-all text-center border-2 border-white"
+            <a
+              href="https://www.indianacareerconnect.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-slate-600 text-white font-bold px-8 py-3.5 rounded-xl hover:bg-slate-800 transition-colors"
             >
-              Questions? Call Us
-            </Link>
+              Check Eligibility
+            </a>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* FAQ */}
+      <section className="py-14 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+          <div className="space-y-3">
+            {FAQS.map((faq) => (
+              <details key={faq.question} className="group rounded-xl border border-slate-200 overflow-hidden">
+                <summary className="cursor-pointer px-5 py-4 font-semibold text-slate-900 text-sm flex items-center justify-between">
+                  {faq.question}
+                  <span className="text-slate-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                </summary>
+                <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

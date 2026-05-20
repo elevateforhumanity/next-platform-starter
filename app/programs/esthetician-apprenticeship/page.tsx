@@ -1,360 +1,175 @@
-// Force static generation for performance
-
-
-import { CredentialsOutcomes } from '@/components/programs/CredentialsOutcomes';
-import { FundingBadge } from '@/components/programs/FundingBadge';
-import PathwayDisclosure from '@/components/PathwayDisclosure';
 import type { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
-import { CheckCircle, XCircle } from 'lucide-react';
-import { HostShopRequirements } from '@/components/compliance/HostShopRequirements';
-import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import HeroVideo from '@/components/marketing/HeroVideo';
-import heroBanners from '@/content/heroBanners';
-
-export const dynamic = 'force-dynamic';
+import { ESTHETICIAN } from '@/data/programs/esthetician';
+import FundingInfoBlock from '@/components/programs/FundingInfoBlock';
 
 export const metadata: Metadata = {
-  title: 'Registered Esthetician Apprenticeship | DOL Sponsorship & Oversight | Indiana',
-  description:
-    'DOL Registered Esthetician Apprenticeship sponsorship, oversight, and related instruction (Milady Theory) in Indiana. Federal apprenticeship sponsorship, employer coordination, compliance reporting. ETPL approved. This program does not grant esthetician licensure or clock hours toward state exams.',
-  keywords:
-    'esthetician apprenticeship Indiana, DOL registered apprenticeship, apprenticeship sponsorship, esthetician training Indianapolis, RAPIDS registered, ETPL approved, skincare apprenticeship',
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/programs/esthetician-apprenticeship',
-  },
+  title: ESTHETICIAN.metaTitle,
+  description: ESTHETICIAN.metaDescription,
+  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/esthetician-apprenticeship' },
 };
 
-export default async function EstheticianApprenticeshipPage() {
-  const supabase = await createClient();
-
-  if (!supabase) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
-          <p className="text-slate-600">Please try again later.</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Fetch esthetician apprenticeship program
-  const { data: program } = await supabase
-    .from('programs')
-    .select('*')
-    .eq('slug', 'esthetician-apprenticeship')
-    .single();
-
-  const banner = heroBanners['esthetician-apprenticeship'];
-
+export default function EstheticianApprenticeshipPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
-      <HeroVideo
-        videoSrcDesktop={banner.videoSrcDesktop}
-        posterImage={banner.posterImage}
-        voiceoverSrc={banner.voiceoverSrc}
-        microLabel={banner.microLabel}
-        analyticsName={banner.analyticsName}
-        belowHeroHeadline={banner.belowHeroHeadline}
-        belowHeroSubheadline={banner.belowHeroSubheadline}
-        ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])].filter(
-          Boolean,
-        )}
-        trustIndicators={banner.trustIndicators}
-        transcript={banner.transcript}
-      />
+    <main className="min-h-screen bg-white">
+      {/* Hero Banner */}
+      <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
+        <Image
+          src={ESTHETICIAN.heroImage}
+          alt={ESTHETICIAN.heroImageAlt}
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute bottom-8 left-6 sm:left-10 max-w-2xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">
+            {ESTHETICIAN.title}
+          </h1>
+          <p className="text-white/90 text-base sm:text-lg leading-relaxed">
+            5-week accelerated esthetician certificate. Skin analysis, facial treatments, and business startup skills.
+          </p>
+        </div>
+      </section>
 
-
-
-      {/* Pathway Disclosure */}
-      <PathwayDisclosure
-        programName="Esthetician Apprenticeship"
-        programSlug="esthetician-apprenticeship"
-      />
-
-      {/* Program Description */}
-      <section className="bg-white py-16">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="grid lg:grid-cols-2 gap-12 mb-12">
-            <div>
-              <h2 className="text-3xl font-bold text-black mb-6">Program Description</h2>
-              <p className="text-lg text-slate-700 mb-4">
-                Start your career in skincare and beauty through our DOL-registered esthetician
-                apprenticeship. Learn advanced skincare techniques while earning, with theory
-                instruction through Milady.
-              </p>
-              <p className="text-slate-700">
-                Our program provides federal apprenticeship sponsorship, employer coordination, and
-                compliance reporting to help you build a successful career in esthetics.
-              </p>
-            </div>
-            <div className="relative h-[350px] rounded-2xl overflow-hidden">
-              <Image sizes="100vw"
-                src="/images/programs/efh-esthetician-client-services-card.svg"
-                alt="Esthetician training"
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            </div>
+      {/* Stats Strip */}
+      <section className="bg-slate-900 py-6 px-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+          <div>
+            <p className="text-2xl font-bold text-white">{ESTHETICIAN.durationWeeks} Weeks</p>
+            <p className="text-slate-400 text-sm">Duration</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-white">{ESTHETICIAN.hoursPerWeekMin}–{ESTHETICIAN.hoursPerWeekMax}</p>
+            <p className="text-slate-400 text-sm">Hours / Week</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-white capitalize">{ESTHETICIAN.deliveryMode}</p>
+            <p className="text-slate-400 text-sm">Delivery</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-white">{ESTHETICIAN.credentials.length}</p>
+            <p className="text-slate-400 text-sm">Credentials</p>
           </div>
         </div>
-        <div className="mx-auto max-w-4xl px-6">
-          <div className="bg-teal-50 border-2 border-teal-200 rounded-xl p-6 mb-8">
-            <p className="text-lg text-black leading-relaxed">
-              <strong>
-                Registered Esthetician Apprenticeship Sponsorship, Oversight & Related Instruction
-                (Milady Theory).
-              </strong>
-            </p>
-            <p className="text-black mt-4 leading-relaxed">
-              This program provides federal apprenticeship sponsorship, employer coordination,
-              compliance reporting, and related instruction. Practical skills training and
-              licensure-required instructional hours are provided by a licensed esthetician school.
-              This program does not grant esthetician licensure or clock hours toward state exams.
-            </p>
-          </div>
+      </section>
 
-          {/* Indiana Requirements */}
-          <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-8">
-            <h3 className="text-xl font-bold text-blue-900 mb-3">
-              Indiana Esthetician Requirements
-            </h3>
-            <ul className="space-y-2 text-blue-900">
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span>
-                  <strong>700 hours</strong> of esthetician training required
+      {/* Overview */}
+      <section className="py-14 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Program Overview</h2>
+          <p className="text-slate-700 text-base leading-relaxed mb-3">
+            This 5-week accelerated program prepares you for entry-level esthetician and spa roles. You&apos;ll learn skin analysis, facial treatments, hair removal techniques, and client services — graduating with an Elevate certificate, OSHA 10 safety certification, and infection control credentials.
+          </p>
+          <p className="text-slate-700 text-base leading-relaxed">
+            This is a non-licensure certificate program approved on the Indiana ETPL (Program ID #10004628). WIOA and Workforce Ready Grant funding covers tuition for eligible participants. Graduates can work in many spa and salon settings immediately or pursue the full 600-hour Indiana esthetician license as a next step.
+          </p>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-14 px-6 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">How It Works</h2>
+          <ol className="space-y-6">
+            {[
+              { step: 1, title: 'Apply', desc: 'Submit your application. No prior esthetics experience required.' },
+              { step: 2, title: 'Enroll', desc: 'Confirm WIOA/WRG funding through WorkOne or choose self-pay with BNPL options.' },
+              { step: 3, title: 'Train', desc: '5 weeks of skin science, facial treatments, hair removal, and client services — hybrid format.' },
+              { step: 4, title: 'Credential', desc: 'Earn your Elevate certificate, OSHA 10, and Infection Control credentials.' },
+              { step: 5, title: 'Employment', desc: 'Career placement support into spa, salon, hotel, and mobile beauty service roles.' },
+            ].map((item) => (
+              <li key={item.step} className="flex gap-4">
+                <span className="flex-shrink-0 w-8 h-8 bg-brand-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  {item.step}
                 </span>
+                <div>
+                  <p className="font-semibold text-slate-900">{item.title}</p>
+                  <p className="text-slate-600 text-sm mt-0.5">{item.desc}</p>
+                </div>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span>Pass written and practical exams</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span>
-                  Prepares learners for licensure through{' '}
-                  <strong>Indiana Professional Licensing Agency (IPLA)</strong>
-                </span>
-              </li>
-            </ul>
-          </div>
+            ))}
+          </ol>
+        </div>
+      </section>
 
-          {/* What's Included vs Not Included */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6">
-              <h3 className="text-xl font-bold text-green-900 mb-4 flex items-center gap-2">
-                <CheckCircle className="w-6 h-6" />
-                What the Program Fee Covers
-              </h3>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3 text-green-900">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span>DOL Registered Apprenticeship sponsorship</span>
-                </li>
-                <li className="flex items-start gap-3 text-green-900">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span>Compliance and RAPIDS reporting</span>
-                </li>
-                <li className="flex items-start gap-3 text-green-900">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span>Employer (spa/salon) coordination and OJT verification</span>
-                </li>
-                <li className="flex items-start gap-3 text-green-900">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span>Program monitoring and completion documentation</span>
-                </li>
-                <li className="flex items-start gap-3 text-green-900">
-                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span>Related Instruction: Milady theory curriculum</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-red-50 border-2 border-red-200 rounded-xl p-6">
-              <h3 className="text-xl font-bold text-red-900 mb-4 flex items-center gap-2">
-                <XCircle className="w-6 h-6" />
-                What the Program Fee Does NOT Cover
-              </h3>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3 text-red-900">
-                  <XCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span>Practical hands-on esthetician training</span>
-                </li>
-                <li className="flex items-start gap-3 text-red-900">
-                  <XCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span>State licensure-required instructional hours</span>
-                </li>
-                <li className="flex items-start gap-3 text-red-900">
-                  <XCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <span>Esthetician school enrollment</span>
-                </li>
-              </ul>
-            </div>
+      {/* Credentials */}
+      <section className="py-14 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">Credentials You Earn</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {ESTHETICIAN.credentials.map((cred) => (
+              <div key={cred.name} className="rounded-xl border border-slate-200 p-5">
+                <h3 className="font-bold text-slate-900 text-sm mb-1">{cred.name}</h3>
+                <p className="text-xs text-brand-blue-600 font-medium mb-2">{cred.issuer}</p>
+                <p className="text-sm text-slate-600">{cred.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section className="bg-slate-50 py-16">
-        <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-3xl font-bold text-black mb-6">Program Fee</h2>
-
-          <div className="bg-white border-2 border-slate-200 rounded-xl p-8 shadow-lg">
-            <div className="text-center mb-6">
-              <div className="text-5xl font-black text-teal-600">$3,480</div>
-              <div className="text-xl text-slate-600 mt-2">Flat Program Fee</div>
-            </div>
-
-            <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mb-6">
-              <p className="text-teal-900 text-center">
-                <strong>The program fee applies regardless of transferred hours.</strong> Credit for
-                prior learning may reduce the duration of participation but does not alter the
-                program fee. The fee reflects apprenticeship sponsorship, compliance oversight,
-                employer coordination, related instruction, and completion under the sponsor&apos;s
-                registered apprenticeship program.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-lg font-bold text-black">Payment Options</h3>
-
-              <Link
-                href="/apply?program=esthetician-apprenticeship&payment_method=full"
-                className="w-full flex items-center justify-between px-6 py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg transition-all"
-              >
-                <div>
-                  <div className="font-bold text-lg">Pay in Full</div>
-                  <div className="text-sm text-teal-200">One-time payment of $3,480</div>
-                </div>
-                <span className="text-2xl font-bold">$3,480</span>
-              </Link>
-
-              <Link
-                href="/apply?program=esthetician-apprenticeship&payment_method=plan&months=4"
-                className="w-full flex items-center justify-between px-6 py-4 bg-white border-2 border-teal-300 hover:border-teal-500 text-black font-bold rounded-lg transition-all"
-              >
-                <div>
-                  <div className="font-bold text-lg">4-Month Plan</div>
-                  <div className="text-sm text-slate-600">4 payments of $870</div>
-                </div>
-                <span className="text-xl font-bold text-teal-600">$870/mo</span>
-              </Link>
-
-              <Link
-                href="/apply?program=esthetician-apprenticeship&payment_method=plan&months=6"
-                className="w-full flex items-center justify-between px-6 py-4 bg-white border-2 border-teal-300 hover:border-teal-500 text-black font-bold rounded-lg transition-all"
-              >
-                <div>
-                  <div className="font-bold text-lg">6-Month Plan</div>
-                  <div className="text-sm text-slate-600">6 payments of $580</div>
-                </div>
-                <span className="text-xl font-bold text-teal-600">$580/mo</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="bg-white py-16">
-        <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-3xl font-bold text-black mb-8">Frequently Asked Questions</h2>
-
-          <div className="space-y-6">
-            <div className="bg-slate-50 border border-slate-200 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-black mb-2">
-                Does the $3,480 change if I transfer in hours?
-              </h3>
-              <p className="text-slate-700">
-                No. The program fee is a flat rate. Transferred hours reduce time-in-program, not
-                the scope of services or fee.
-              </p>
-            </div>
-
-            <div className="bg-slate-50 border border-slate-200 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-black mb-2">
-                Does this program replace esthetician school?
-              </h3>
-              <p className="text-slate-700">
-                No. Apprentices must complete licensure-required instructional hours through a
-                licensed esthetician school.
-              </p>
-            </div>
-
-            <div className="bg-slate-50 border border-slate-200 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-black mb-2">What does the $3,480 cover?</h3>
-              <p className="text-slate-700">
-                Federal apprenticeship sponsorship, compliance reporting, employer coordination,
-                Milady theory instruction, and program completion documentation.
-              </p>
-            </div>
-
-            <div className="bg-slate-50 border border-slate-200 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-black mb-2">
-                How many hours are required for an Indiana esthetician license?
-              </h3>
-              <p className="text-slate-700">
-                Indiana requires 700 hours of esthetician training to be eligible for licensure.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Host Shop Requirements Section */}
-      <HostShopRequirements
-        programTrack="esthetician"
-        showApprovalProcess={true}
-        showMultiRegion={true}
-      />
-
-      {/* Credentials & Outcomes */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <CredentialsOutcomes
-            programName="Esthetician Apprenticeship"
-            partnerCertifications={[
-              'Indiana Esthetician License (issued by Indiana Professional Licensing Agency)',
-              'USDOL Registered Apprenticeship Certificate of Completion',
-            ]}
-            employmentOutcomes={[
-              'Licensed Esthetician',
-              'Skincare Specialist',
-              'Spa Technician',
-              'Medical Esthetician',
-            ]}
+      {/* Funding & Payment */}
+      <section className="py-14 px-6 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Funding &amp; Payment</h2>
+          <FundingInfoBlock
+            programName={ESTHETICIAN.title}
+            fundingSources={['WIOA', 'Workforce Ready Grant']}
+            selfPayPrice={4575}
           />
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-teal-600">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
-          <p className="text-teal-100 text-lg mb-8">
-            Apply now to begin your journey in the Registered Esthetician Apprenticeship program.
+      {/* CTA */}
+      <section className="py-16 px-6 bg-slate-900">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Launch your esthetician career in 5 weeks.
+          </h2>
+          <p className="text-slate-300 text-base mb-8 max-w-xl mx-auto">
+            ETPL-approved. WIOA-funded for eligible participants. Apply in minutes.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              href="/apply?program=esthetician-apprenticeship"
-              className="inline-flex items-center justify-center rounded-lg bg-white px-8 py-4 text-lg font-bold text-teal-600 hover:bg-teal-50 transition-all shadow-xl"
+              href={ESTHETICIAN.cta.applyHref}
+              className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold px-8 py-3.5 rounded-xl transition-colors"
             >
               Apply Now
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-lg border-2 border-white px-8 py-4 text-lg font-bold text-white hover:bg-white/10 transition-all"
+            <a
+              href="https://www.indianacareerconnect.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-slate-600 text-white font-bold px-8 py-3.5 rounded-xl hover:bg-slate-800 transition-colors"
             >
-              Contact Us
-            </Link>
+              Check Eligibility
+            </a>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* FAQ */}
+      <section className="py-14 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+          <div className="space-y-3">
+            {ESTHETICIAN.faqs.map((faq) => (
+              <details key={faq.question} className="group rounded-xl border border-slate-200 overflow-hidden">
+                <summary className="cursor-pointer px-5 py-4 font-semibold text-slate-900 text-sm flex items-center justify-between">
+                  {faq.question}
+                  <span className="text-slate-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                </summary>
+                <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

@@ -1,223 +1,189 @@
-import { Metadata } from 'next';
-import { CredentialsOutcomes } from '@/components/programs/CredentialsOutcomes';
-import PathwayDisclosure from '@/components/PathwayDisclosure';
-import { createClient } from '@/lib/supabase/server';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Stethoscope, CheckCircle } from 'lucide-react';
-import { CompactHero } from '@/components/heroes/CompactHero';
-import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-
-export const dynamic = 'force-dynamic';
+import FundingInfoBlock from '@/components/programs/FundingInfoBlock';
 
 export const metadata: Metadata = {
-  title: 'Drug & Alcohol Specimen Collector Certification | Free DOT Training',
+  title: 'Drug & Alcohol Specimen Collector Certification | DOT Training | Indianapolis',
   description:
-    '100% free DOT-certified drug collector training. Fast-track to a specialized healthcare career. High demand across transportation, healthcare, and corporate sectors.',
-  keywords: [
-    'Drug Collector Indianapolis',
-    'free Drug Collector training',
-    'WIOA Drug Collector',
-    'Drug Collector apprenticeship',
-    'DOT certification',
-  ],
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/programs/drug-alcohol-specimen-collector',
-  },
+    'DOT-certified drug and alcohol specimen collector training. 2-3 weeks. High demand across transportation, healthcare, and corporate sectors. Funded for eligible participants.',
+  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/drug-alcohol-specimen-collector' },
 };
 
-export default async function Page() {
-  const supabase = await createClient();
+const CREDENTIALS = [
+  { name: 'DOT Urine Specimen Collector Certification', issuer: 'U.S. Department of Transportation', description: 'Federal certification for collecting urine specimens under DOT-regulated testing programs.' },
+  { name: 'DOT Breath Alcohol Technician (BAT)', issuer: 'U.S. Department of Transportation', description: 'Certification to operate evidential breath testing devices for DOT-regulated employers.' },
+  { name: 'Non-DOT Collection Certification', issuer: 'Elevate for Humanity', description: 'Certification for workplace drug testing programs not subject to DOT regulations.' },
+];
 
-  if (!supabase) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
-          <p className="text-slate-600">Please try again later.</p>
-        </div>
-      </div>
-    );
-  }
+const FAQS = [
+  { question: 'How long is the training?', answer: '2–3 weeks depending on scheduling. Training includes both online instruction and hands-on practice with collection procedures.' },
+  { question: 'Is prior medical experience required?', answer: 'No. This program teaches all required skills from the ground up. A high school diploma or GED is the only prerequisite.' },
+  { question: 'Where do specimen collectors work?', answer: 'Medical laboratories, occupational health clinics, mobile collection services, corporate testing programs, transportation companies, and third-party administrators.' },
+  { question: 'Is this certification in demand?', answer: 'Yes. Every DOT-regulated employer (trucking, rail, aviation, transit) is required to conduct drug and alcohol testing. Demand is consistent across all economic conditions.' },
+  { question: 'Is funding available?', answer: 'WIOA and Workforce Ready Grant funding is available for eligible Indiana residents. Many participants pay $0.' },
+];
 
-  const { data: program } = await supabase
-    .from('programs')
-    .select('*')
-    .eq('slug', 'drug-alcohol-specimen-collector')
-    .single();
-
+export default function DrugAlcoholSpecimenCollectorPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <Breadcrumbs
-        items={[{ label: 'Programs', href: '/programs' }, { label: 'Drug & Alcohol Specimen Collector' }]}
-      />
-      <CompactHero
-        variant="default"
-        badge={{
-          icon: Stethoscope,
-          text: 'Healthcare Career',
-          href: '/programs/healthcare',
-        }}
-        headline="Drug & Alcohol Specimen Collector: DOT-certified training"
-        description="100% free training to become a certified specimen collector. Work in healthcare facilities, labs, and workplace testing programs. High demand across multiple sectors."
-        primaryCTA={{ text: 'Apply Now', href: '/apply' }}
-        secondaryCTA={{ text: 'Talk to an Advisor', href: '/contact' }}
-      />
+    <main className="min-h-screen bg-white">
+      {/* Hero Banner */}
+      <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
+        <Image
+          src="/images/healthcare/healthcare-professional-portrait-1.jpg"
+          alt="Healthcare professional in specimen collection lab"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute bottom-8 left-6 sm:left-10 max-w-2xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">
+            Drug &amp; Alcohol Specimen Collector
+          </h1>
+          <p className="text-white/90 text-base sm:text-lg leading-relaxed">
+            DOT-certified training. High demand across transportation, healthcare, and corporate sectors.
+          </p>
+        </div>
+      </section>
 
-      {/* Program Overview */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 gap-12">
+      {/* Stats Strip */}
+      <section className="bg-slate-900 py-6 px-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
           <div>
-            <h2 className="text-3xl font-bold text-black mb-6">Program Overview</h2>
-            <p className="text-lg text-black mb-4">
-              Become a certified Drug & Alcohol Specimen Collector and work in healthcare
-              facilities, labs, and workplace testing programs. This specialized certification is in
-              high demand across transportation, healthcare, and corporate sectors.
-            </p>
-            <p className="text-lg text-black mb-4">
-              Our DOT-approved training meets all federal requirements for urine and breath alcohol
-              specimen collection.
-            </p>
-            <div className="flex flex-wrap gap-3 mt-4">
-              <span className="flex items-center gap-2 text-green-600 text-sm font-medium">
-                <CheckCircle className="w-4 h-4" /> DOT Certified
-              </span>
-              <span className="flex items-center gap-2 text-green-600 text-sm font-medium">
-                <CheckCircle className="w-4 h-4" /> Job Placement
-              </span>
-              <span className="flex items-center gap-2 text-green-600 text-sm font-medium">
-                <CheckCircle className="w-4 h-4" /> Free Training
-              </span>
-            </div>
-            <div className="relative h-[250px] rounded-xl overflow-hidden mt-6">
-              <Image
-                sizes="100vw"
-                src="/images/healthcare/healthcare-professional-portrait-1.jpg"
-                alt="Healthcare professional"
-                fill
-                className="object-cover"
-              />
-            </div>
+            <p className="text-2xl font-bold text-white">2–3 Weeks</p>
+            <p className="text-slate-400 text-sm">Duration</p>
           </div>
-          <div className="bg-blue-50 p-8 rounded-lg">
-            <h3 className="text-2xl font-bold text-black mb-4">Quick Facts</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Duration:</span>
-                <span className="text-black">2–3 weeks</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Cost:</span>
-                <span className="text-black">$0 with funding</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Format:</span>
-                <span className="text-black">Hybrid (online + hands-on)</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Starting Pay:</span>
-                <span className="text-black">$16–$22/hour</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-blue-600 font-bold">Certification:</span>
-                <span className="text-black">DOT-approved</span>
-              </li>
-            </ul>
+          <div>
+            <p className="text-2xl font-bold text-white">15–20</p>
+            <p className="text-slate-400 text-sm">Hours / Week</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-white">Hybrid</p>
+            <p className="text-slate-400 text-sm">Delivery</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-white">3</p>
+            <p className="text-slate-400 text-sm">Credentials</p>
           </div>
         </div>
       </section>
 
-      <PathwayDisclosure
-        programName="Drug & Alcohol Specimen Collector"
-        programSlug="drug-alcohol-specimen-collector"
-      />
+      {/* Overview */}
+      <section className="py-14 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Program Overview</h2>
+          <p className="text-slate-700 text-base leading-relaxed mb-3">
+            Become a certified Drug &amp; Alcohol Specimen Collector and work in healthcare facilities, labs, and workplace testing programs. This specialized certification is in high demand across transportation, healthcare, and corporate sectors.
+          </p>
+          <p className="text-slate-700 text-base leading-relaxed">
+            Our DOT-approved training meets all federal requirements for urine and breath alcohol specimen collection. Graduates are qualified to work for any DOT-regulated employer — including trucking companies, airlines, transit systems, and railroads — as well as non-DOT corporate testing programs. Starting pay ranges from $16–$22/hour.
+          </p>
+        </div>
+      </section>
 
-      {/* What You'll Learn */}
-      <section className="bg-slate-50 py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-black mb-8 text-center">What You&apos;ll Learn</h2>
-          <div className="grid md:grid-cols-3 gap-6">
+      {/* How It Works */}
+      <section className="py-14 px-6 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">How It Works</h2>
+          <ol className="space-y-6">
             {[
-              { title: 'DOT Regulations', desc: 'Federal requirements for drug and alcohol testing' },
-              { title: 'Specimen Collection', desc: 'Proper urine collection procedures and chain of custody' },
-              { title: 'Breath Alcohol Testing', desc: 'Operating evidential breath testing devices' },
-              { title: 'Documentation', desc: 'Accurate record-keeping and reporting' },
-              { title: 'Quality Control', desc: 'Maintaining specimen integrity and validity' },
-              { title: 'Legal Compliance', desc: 'Privacy laws and legal requirements' },
+              { step: 1, title: 'Apply', desc: 'Submit your application. No prior medical experience required.' },
+              { step: 2, title: 'Enroll', desc: 'Confirm WIOA/WRG funding eligibility or choose self-pay.' },
+              { step: 3, title: 'Train', desc: '2–3 weeks covering DOT regulations, specimen collection procedures, breath alcohol testing, and chain of custody.' },
+              { step: 4, title: 'Credential', desc: 'Earn DOT Urine Specimen Collector, BAT, and Non-DOT Collection certifications.' },
+              { step: 5, title: 'Employment', desc: 'Job placement into labs, clinics, mobile collection services, and corporate testing programs.' },
             ].map((item) => (
-              <div key={item.title} className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-bold text-black mb-3">{item.title}</h3>
-                <p className="text-black">{item.desc}</p>
+              <li key={item.step} className="flex gap-4">
+                <span className="flex-shrink-0 w-8 h-8 bg-brand-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  {item.step}
+                </span>
+                <div>
+                  <p className="font-semibold text-slate-900">{item.title}</p>
+                  <p className="text-slate-600 text-sm mt-0.5">{item.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Credentials */}
+      <section className="py-14 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">Credentials You Earn</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {CREDENTIALS.map((cred) => (
+              <div key={cred.name} className="rounded-xl border border-slate-200 p-5">
+                <h3 className="font-bold text-slate-900 text-sm mb-1">{cred.name}</h3>
+                <p className="text-xs text-brand-blue-600 font-medium mb-2">{cred.issuer}</p>
+                <p className="text-sm text-slate-600">{cred.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Career Outlook */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-black mb-8 text-center">Career Opportunities</h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div>
-            <h3 className="text-2xl font-bold text-black mb-4">Work Settings</h3>
-            <ul className="space-y-2 text-black">
-              {['Medical Laboratories', 'Occupational Health Clinics', 'Mobile Collection Services',
-                'Corporate Testing Programs', 'Transportation Companies', 'Third-Party Administrators']
-                .map((s) => <li key={s}>• {s}</li>)}
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-2xl font-bold text-black mb-4">Why This Career?</h3>
-            <ul className="space-y-2 text-black">
-              {['High demand across industries', 'Flexible scheduling options', 'Specialized, respected role',
-                'Opportunities for mobile work', 'Stable employment', 'Room for advancement']
-                .map((s) => <li key={s}>• {s}</li>)}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Credentials & Outcomes */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <CredentialsOutcomes
+      {/* Funding & Payment */}
+      <section className="py-14 px-6 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Funding &amp; Payment</h2>
+          <FundingInfoBlock
             programName="Drug & Alcohol Specimen Collector"
-            partnerCertifications={[
-              'DOT Urine Specimen Collector Certification',
-              'DOT Breath Alcohol Technician (BAT) Certification',
-              'Non-DOT Collection Certification',
-            ]}
-            employmentOutcomes={[
-              'Drug & Alcohol Specimen Collector',
-              'Mobile Collection Technician',
-              'Occupational Health Technician',
-              'Laboratory Collection Specialist',
-            ]}
+            fundingSources={['WIOA', 'Workforce Ready Grant']}
+            selfPayPrice={1200}
           />
         </div>
       </section>
 
       {/* CTA */}
-      <section className="bg-brand-blue-600 text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Get DOT-Certified in Weeks</h2>
-          <p className="text-xl mb-8">Start your specialized healthcare career today.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <section className="py-16 px-6 bg-slate-900">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Get DOT-certified in weeks, not months.
+          </h2>
+          <p className="text-slate-300 text-base mb-8 max-w-xl mx-auto">
+            High-demand specialized certification. Funded for eligible participants. Apply today.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              href="/apply"
-              className="px-8 py-4 bg-white text-blue-600 hover:bg-slate-100 font-bold rounded-lg transition-all text-center"
+              href="/apply?program=drug-alcohol-specimen-collector"
+              className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold px-8 py-3.5 rounded-xl transition-colors"
             >
               Apply Now
             </Link>
-            <Link
-              href="/contact"
-              className="px-8 py-4 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-lg transition-all text-center border-2 border-white"
+            <a
+              href="https://www.indianacareerconnect.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-slate-600 text-white font-bold px-8 py-3.5 rounded-xl hover:bg-slate-800 transition-colors"
             >
-              Contact Us
-            </Link>
+              Check Eligibility
+            </a>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* FAQ */}
+      <section className="py-14 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+          <div className="space-y-3">
+            {FAQS.map((faq) => (
+              <details key={faq.question} className="group rounded-xl border border-slate-200 overflow-hidden">
+                <summary className="cursor-pointer px-5 py-4 font-semibold text-slate-900 text-sm flex items-center justify-between">
+                  {faq.question}
+                  <span className="text-slate-400 group-open:rotate-45 transition-transform text-lg">+</span>
+                </summary>
+                <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
