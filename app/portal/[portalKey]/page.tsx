@@ -39,12 +39,28 @@ export default async function IndustryPortalPageRoute({
     .eq('id', user.id)
     .maybeSingle();
 
-  const { data: enrollments } = await supabase
-    .from('program_enrollments')
-    .select('id, program_id, program_slug, enrollment_state, progress_pct')
-    .eq('user_id', user.id)
-    .in('enrollment_state', ['active', 'completed'])
-    .order('created_at', { ascending: false });
+  const [enrollmentsRes, lessonsRes, certsRes] = await Promise.all([
+    supabase
+      .from('program_enrollments')
+      .select('id, program_id, program_slug, enrollment_state, progress_pct')
+      .eq('user_id', user.id)
+      .in('enrollment_state', ['active', 'completed'])
+      .order('created_at', { ascending: false }),
+    supabase
+      .from('lesson_progress')
+      .select('id, completed', { count: 'exact' })
+      .eq('user_id', user.id),
+    supabase
+      .from('program_completion_certificates')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id),
+  ]);
+
+  const enrollments = enrollmentsRes.data;
+  const lessonRows = lessonsRes.data ?? [];
+  const totalLessons = lessonsRes.count ?? lessonRows.length;
+  const completedLessons = lessonRows.filter((l: any) => l.completed).length;
+  const certificatesEarned = certsRes.count ?? 0;
 
   const enrolledPrograms = (enrollments ?? []).map((e: any) => ({
     title: e.program_slug?.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()) ?? 'Program',
@@ -67,6 +83,12 @@ export default async function IndustryPortalPageRoute({
       enrolledPrograms={enrolledPrograms}
       availablePrograms={config.availablePrograms.map((p) => ({ ...p, progress: 0, status: 'not_started' as const }))}
       quickLinks={config.quickLinks}
+      stats={{
+        totalLessons,
+        completedLessons,
+        certificatesEarned,
+        hoursLogged: 0,
+      }}
     />
   );
 }

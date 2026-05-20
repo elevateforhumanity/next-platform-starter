@@ -48,6 +48,12 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
   const supabase = await createClient();
   const sp = await searchParams;
 
+  // Students with a portal_type get redirected to their industry-specific dashboard.
+  // This makes /learner/dashboard a smart router — no more generic one-size-fits-all.
+  if (profile?.role === 'student' && profile.portal_type) {
+    redirect(`/portal/${profile.portal_type}`);
+  }
+
   // Check if student has completed onboarding but not yet been granted access
   if (profile?.role === 'student') {
     const { data: enrollment } = await supabase

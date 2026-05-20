@@ -19,6 +19,13 @@ export interface PortalProgram {
   status: 'active' | 'completed' | 'not_started';
 }
 
+export interface DashboardStats {
+  totalLessons: number;
+  completedLessons: number;
+  certificatesEarned: number;
+  hoursLogged: number;
+}
+
 export interface IndustryPortalProps {
   portalKey: string;
   industryLabel: string;
@@ -29,6 +36,7 @@ export interface IndustryPortalProps {
   enrolledPrograms: PortalProgram[];
   availablePrograms: PortalProgram[];
   quickLinks: { name: string; href: string; icon: React.ElementType; description: string }[];
+  stats?: DashboardStats;
 }
 
 export default function IndustryPortalPage({
@@ -41,9 +49,13 @@ export default function IndustryPortalPage({
   enrolledPrograms,
   availablePrograms,
   quickLinks,
+  stats,
 }: IndustryPortalProps) {
   const activePrograms = enrolledPrograms.filter((p) => p.status === 'active');
   const completedPrograms = enrolledPrograms.filter((p) => p.status === 'completed');
+  const overallProgress = activePrograms.length > 0
+    ? Math.round(activePrograms.reduce((sum, p) => sum + p.progress, 0) / activePrograms.length)
+    : 0;
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -63,6 +75,28 @@ export default function IndustryPortalPage({
           <div className="text-right">
             <p className="text-slate-400 text-xs">Signed in as</p>
             <p className="text-sm font-medium">{userName}</p>
+          </div>
+        </div>
+
+        {/* Stats strip */}
+        <div className="border-t border-slate-800">
+          <div className="max-w-5xl mx-auto px-4 py-3 grid grid-cols-4 gap-4">
+            <div className="text-center">
+              <p className="text-lg font-bold">{overallProgress}%</p>
+              <p className="text-xs text-slate-400">Overall Progress</p>
+            </div>
+            <div className="text-center">
+              <p className="text-lg font-bold">{stats?.completedLessons ?? 0}/{stats?.totalLessons ?? 0}</p>
+              <p className="text-xs text-slate-400">Lessons</p>
+            </div>
+            <div className="text-center">
+              <p className="text-lg font-bold">{stats?.certificatesEarned ?? 0}</p>
+              <p className="text-xs text-slate-400">Certificates</p>
+            </div>
+            <div className="text-center">
+              <p className="text-lg font-bold">{stats?.hoursLogged ?? 0}</p>
+              <p className="text-xs text-slate-400">Hours Logged</p>
+            </div>
           </div>
         </div>
       </header>
