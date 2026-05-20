@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Send, Bot, User, Loader2, Copy, Check, Sparkles,
+  Send, Bot, User, Loader2, Copy, Check, Sparkles, Paperclip,
   AlertTriangle, CheckCircle2, Database, Terminal, Zap, ChevronDown, ChevronRight,
 } from 'lucide-react';
 
@@ -294,16 +294,42 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
             rows={3}
             className="flex-1 px-3 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 resize-y min-h-[80px] max-h-[35vh] focus:border-brand-blue-500 focus:outline-none"
           />
-          <button
-            onClick={sendMessage}
-            disabled={!input.trim() || isLoading}
-            className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-xl bg-brand-blue-600 hover:bg-brand-blue-700 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-          >
-            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-          </button>
+          <div className="flex flex-col gap-1.5">
+            <label
+              title="Upload file"
+              className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-600 cursor-pointer transition-colors"
+            >
+              <Paperclip className="w-4 h-4" />
+              <input
+                type="file"
+                className="hidden"
+                accept=".pdf,.docx,.doc,.xlsx,.csv,.png,.jpg,.jpeg,.txt"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const formData = new FormData();
+                  formData.append('file', file);
+                  try {
+                    const res = await fetch('/api/devstudio/upload', { method: 'POST', body: formData });
+                    if (res.ok) {
+                      setInput((prev) => prev + (prev ? '\n' : '') + `[Uploaded: ${file.name}]`);
+                    }
+                  } catch { /* non-fatal */ }
+                  e.target.value = '';
+                }}
+              />
+            </label>
+            <button
+              onClick={sendMessage}
+              disabled={!input.trim() || isLoading}
+              className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-xl bg-brand-blue-600 hover:bg-brand-blue-700 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            </button>
+          </div>
         </div>
         <p className="mt-1.5 text-[10px] text-slate-400">
-          Powered by Groq · Enter to send · Shift+Enter for newline · controls programs, enrollments &amp; more
+          Powered by Groq · Enter to send · Shift+Enter for newline · 📎 to upload files
         </p>
       </div>
     </div>
