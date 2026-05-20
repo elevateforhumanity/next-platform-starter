@@ -33,7 +33,7 @@ export default function FinanceBookkeepingAccountingPage() {
       {/* Hero Banner */}
       <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
         <Image
-          src="/images/pages/bookkeeping-ledger.jpg"
+          src="/images/hero-poster.webp"
           alt="Finance and accounting credential pathway"
           fill
           priority
