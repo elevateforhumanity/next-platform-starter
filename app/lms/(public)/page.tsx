@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { buildLoginRedirect } from '@/lib/lms/redirect';
 import { StudentToolsStrip } from '@/components/lms/dashboard/StudentToolsStrip';
-import { ClientBoundary } from './_client-boundary';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
@@ -63,7 +62,6 @@ export default async function LmsPublicPage() {
     funded: false,
   }));
   return (
-    <ClientBoundary>
     <div className="min-h-screen bg-white">
       {/* NAV */}
       <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
@@ -288,6 +286,5 @@ export default async function LmsPublicPage() {
         </div>
       </section>
     </div>
-    </ClientBoundary>
   );
 }

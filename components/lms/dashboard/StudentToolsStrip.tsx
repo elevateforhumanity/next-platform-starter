@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { BookOpen, CheckCircle, MessageSquare, FileText, Calendar } from 'lucide-react';
 
