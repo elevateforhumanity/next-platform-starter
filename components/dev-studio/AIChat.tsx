@@ -17,7 +17,7 @@ interface AIChatProps {
   onApplyCode?: (filename: string, code: string) => void;
 }
 
-const TOOL_META: Record<string, { label: string; color: string; icon: React.ElementType<{ className?: string }> }> = {
+export const TOOL_META: Record<string, { label: string; color: string; icon: React.ElementType<{ className?: string }> }> = {
   list_programs:           { label: 'Programs',     color: 'text-brand-blue-700',  icon: Database },
   list_enrollments:        { label: 'Enrollments',  color: 'text-green-700',       icon: Database },
   get_dashboard_stats:     { label: 'Stats',        color: 'text-amber-700',       icon: Zap      },
