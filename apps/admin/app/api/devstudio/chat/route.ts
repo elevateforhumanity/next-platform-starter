@@ -19,11 +19,41 @@ import { hydrateProcessEnv } from '@/lib/secrets';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
 import { getOpenAIClient, isOpenAIConfigured } from '@/lib/openai-client';
+import { getAnthropicClient, isAnthropicConfigured } from '@/lib/anthropic-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type Groq from 'groq-sdk';
 import { getRAGContext } from '@/lib/platform/rag';
 
 type ToolCallRecord = { tool: string; args: Record<string, unknown>; result: string };
+type ChatProvider = 'auto' | 'groq' | 'openai' | 'gemini' | 'anthropic';
+
+const PROVIDER_MODELS: Record<Exclude<ChatProvider, 'auto'>, string[]> = {
+  groq: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'],
+  openai: ['gpt-4.1-mini', 'gpt-4.1', 'gpt-4o-mini'],
+  gemini: ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'],
+  anthropic: ['claude-sonnet-4-5', 'claude-3-5-haiku-latest'],
+};
+
+function normalizeProvider(value: unknown): ChatProvider {
+  return ['auto', 'groq', 'openai', 'gemini', 'anthropic'].includes(String(value))
+    ? (String(value) as ChatProvider)
+    : 'auto';
+}
+
+function modelFor(provider: Exclude<ChatProvider, 'auto'>, requested: unknown) {
+  const models = PROVIDER_MODELS[provider];
+  const candidate = typeof requested === 'string' ? requested : '';
+  return models.includes(candidate) ? candidate : models[0];
+}
+
+function toChatMessages(messages: { role: string; content: string }[]) {
+  return messages
+    .filter((m) => m.role === 'user' || m.role === 'assistant')
+    .map((m) => ({
+      role: m.role as 'user' | 'assistant',
+      content: String(m.content ?? ''),
+    }));
+}
 
 const TOOLS: Groq.Chat.Completions.Tool[] = [
   {
@@ -323,7 +353,8 @@ async function _POST(req: NextRequest) {
 
     await hydrateProcessEnv();
 
-    const { messages, fileContext, documentsContext } = await req.json();
+    const { messages, fileContext, documentsContext, provider: rawProvider, model: rawModel } = await req.json();
+    const providerPreference = normalizeProvider(rawProvider);
 
     // Retrieve relevant platform knowledge via RAG before answering
     const lastUserMessage = messages.findLast((m: { role: string }) => m.role === 'user')?.content ?? '';
@@ -359,99 +390,133 @@ Be direct and actionable. When you reference platform structure, use the retriev
 
     let assistantMessage: string | null = null;
     let provider = 'none';
+    let model = 'none';
     const toolCalls: ToolCallRecord[] = [];
+    const providerOrder: Exclude<ChatProvider, 'auto'>[] =
+      providerPreference === 'auto'
+        ? ['groq', 'openai', 'anthropic', 'gemini']
+        : [providerPreference];
 
-    if (isGroqConfigured()) {
-      try {
-        const groq = getGroqClient();
-        const initial = await groq.chat.completions.create({
-          model: 'llama-3.3-70b-versatile',
-          messages: [{ role: 'system', content: systemPrompt }, ...messages],
-          tools: TOOLS,
-          tool_choice: 'auto',
-          temperature: 0.4,
-          max_tokens: 4096,
-        });
+    for (const nextProvider of providerOrder) {
+      if (assistantMessage) break;
 
-        const choice = initial.choices[0];
-        const toolCallRequests = choice?.message?.tool_calls ?? [];
-
-        if (toolCallRequests.length > 0) {
-          const execResults = await Promise.all(
-            toolCallRequests.map(async (tc) => {
-              const args = JSON.parse(tc.function.arguments || '{}') as Record<string, unknown>;
-              const result = await execTool(tc.function.name, args);
-              toolCalls.push({ tool: tc.function.name, args, result });
-              return {
-                role: 'tool' as const,
-                tool_call_id: tc.id,
-                content: result,
-              };
-            }),
-          );
-
-          const second = await groq.chat.completions.create({
-            model: 'llama-3.3-70b-versatile',
-            messages: [
-              { role: 'system', content: systemPrompt },
-              ...messages,
-              {
-                role: 'assistant',
-                content: choice.message.content ?? '',
-                tool_calls: toolCallRequests,
-              },
-              ...execResults,
-            ],
+      if (nextProvider === 'groq' && isGroqConfigured()) {
+        try {
+          const selectedModel = modelFor('groq', rawModel);
+          const groq = getGroqClient();
+          const initial = await groq.chat.completions.create({
+            model: selectedModel,
+            messages: [{ role: 'system', content: systemPrompt }, ...messages],
+            tools: TOOLS,
+            tool_choice: 'auto',
             temperature: 0.4,
             max_tokens: 4096,
           });
-          assistantMessage = second.choices[0]?.message?.content ?? null;
-        } else {
-          assistantMessage = choice?.message?.content ?? null;
+
+          const choice = initial.choices[0];
+          const toolCallRequests = choice?.message?.tool_calls ?? [];
+
+          if (toolCallRequests.length > 0) {
+            const execResults = await Promise.all(
+              toolCallRequests.map(async (tc) => {
+                const args = JSON.parse(tc.function.arguments || '{}') as Record<string, unknown>;
+                const result = await execTool(tc.function.name, args);
+                toolCalls.push({ tool: tc.function.name, args, result });
+                return {
+                  role: 'tool' as const,
+                  tool_call_id: tc.id,
+                  content: result,
+                };
+              }),
+            );
+
+            const second = await groq.chat.completions.create({
+              model: selectedModel,
+              messages: [
+                { role: 'system', content: systemPrompt },
+                ...messages,
+                {
+                  role: 'assistant',
+                  content: choice.message.content ?? '',
+                  tool_calls: toolCallRequests,
+                },
+                ...execResults,
+              ],
+              temperature: 0.4,
+              max_tokens: 4096,
+            });
+            assistantMessage = second.choices[0]?.message?.content ?? null;
+          } else {
+            assistantMessage = choice?.message?.content ?? null;
+          }
+
+          provider = 'groq';
+          model = selectedModel;
+        } catch (err) {
+          logger.warn('[devstudio/chat] Groq failed', err);
         }
-
-        provider = 'groq';
-      } catch (err) {
-        logger.warn('[devstudio/chat] Groq failed, trying Gemini', err);
       }
-    }
 
-    if (!assistantMessage && isGeminiConfigured()) {
-      try {
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-        const model = genAI.getGenerativeModel({
-          model: 'gemini-1.5-flash',
-          systemInstruction: systemPrompt,
-        });
-        const history = messages
-          .slice(0, -1)
-          .map((m: { role: string; content: string }) => ({
-            role: m.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: m.content }],
-          }));
-        const chat = model.startChat({ history });
-        const last = messages[messages.length - 1];
-        const result = await chat.sendMessage(last.content);
-        assistantMessage = result.response.text();
-        provider = 'gemini';
-      } catch (err) {
-        logger.warn('[devstudio/chat] Gemini failed', err);
+      if (nextProvider === 'openai' && isOpenAIConfigured()) {
+        try {
+          const selectedModel = modelFor('openai', rawModel);
+          const openai = getOpenAIClient();
+          const completion = await openai.chat.completions.create({
+            model: selectedModel,
+            messages: [{ role: 'system', content: systemPrompt }, ...toChatMessages(messages)],
+            temperature: 0.4,
+            max_tokens: 4096,
+          });
+          assistantMessage = completion.choices[0]?.message?.content ?? null;
+          provider = 'openai';
+          model = selectedModel;
+        } catch (err) {
+          logger.warn('[devstudio/chat] OpenAI failed', err);
+        }
       }
-    }
 
-    if (!assistantMessage && isOpenAIConfigured()) {
-      try {
-        const openai = getOpenAIClient();
-        const completion = await openai.chat.completions.create({
-          model: 'gpt-4.1-mini',
-          messages: [{ role: 'system', content: systemPrompt }, ...messages],
-          temperature: 0.4,
-          max_tokens: 4096,
-        });
-        assistantMessage = completion.choices[0]?.message?.content ?? null;
-        provider = 'openai';
-      } catch (err) {
-        logger.warn('[devstudio/chat] OpenAI failed', err);
+      if (nextProvider === 'anthropic' && isAnthropicConfigured()) {
+        try {
+          const selectedModel = modelFor('anthropic', rawModel);
+          const anthropic = getAnthropicClient();
+          const response = await anthropic.messages.create({
+            model: selectedModel,
+            max_tokens: 4096,
+            system: systemPrompt,
+            messages: toChatMessages(messages),
+          });
+          assistantMessage =
+            response.content.find((block) => block.type === 'text')?.text ?? null;
+          provider = 'anthropic';
+          model = selectedModel;
+        } catch (err) {
+          logger.warn('[devstudio/chat] Anthropic failed', err);
+        }
+      }
+
+      if (nextProvider === 'gemini' && isGeminiConfigured()) {
+        try {
+          const selectedModel = modelFor('gemini', rawModel);
+          const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+          const geminiModel = genAI.getGenerativeModel({
+            model: selectedModel,
+            systemInstruction: systemPrompt,
+          });
+          const history = messages
+            .slice(0, -1)
+            .map((m: { role: string; content: string }) => ({
+              role: m.role === 'assistant' ? 'model' : 'user',
+              parts: [{ text: m.content }],
+            }));
+          const chat = geminiModel.startChat({ history });
+          const last = messages[messages.length - 1];
+          const result = await chat.sendMessage(last.content);
+          assistantMessage = result.response.text();
+          provider = 'gemini';
+          model = selectedModel;
+        } catch (err) {
+          logger.warn('[devstudio/chat] Gemini failed', err);
+        }
       }
     }
 
@@ -460,15 +525,18 @@ Be direct and actionable. When you reference platform structure, use the retriev
         hasGroq: isGroqConfigured(),
         hasGemini: isGeminiConfigured(),
         hasOpenAI: isOpenAIConfigured(),
+        hasAnthropic: isAnthropicConfigured(),
       });
       return NextResponse.json(
         {
           error:
-            'AI Assistant is not configured. Add GROQ_API_KEY, GEMINI_API_KEY, or OPENAI_API_KEY to the admin service environment.',
+            'AI Assistant is not configured. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY to the admin service environment.',
           debug: {
             hasGroq: isGroqConfigured(),
-            hasGemini: isGeminiConfigured(),
             hasOpenAI: isOpenAIConfigured(),
+            hasAnthropic: isAnthropicConfigured(),
+            hasGemini: isGeminiConfigured(),
+            requestedProvider: providerPreference,
             service: 'admin',
           },
         },
@@ -491,13 +559,26 @@ Be direct and actionable. When you reference platform structure, use the retriev
           assistant_response: assistantMessage,
           file_context: fileContext || null,
           provider,
+          model,
         })
         .catch(() => {});
     } catch (err) {
       logger.warn('[devstudio/chat] DB log failed', err);
     }
 
-    return NextResponse.json({ message: assistantMessage, provider, toolCalls });
+    return NextResponse.json({
+      message: assistantMessage,
+      provider,
+      model,
+      providerPreference,
+      availableProviders: {
+        groq: isGroqConfigured(),
+        openai: isOpenAIConfigured(),
+        anthropic: isAnthropicConfigured(),
+        gemini: isGeminiConfigured(),
+      },
+      toolCalls,
+    });
   } catch (error) {
     logger.error('[devstudio/chat] error', error);
     return NextResponse.json({ error: 'Failed to get AI response' }, { status: 500 });
