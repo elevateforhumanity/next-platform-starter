@@ -1,6 +1,6 @@
 import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import PageClient from './PageClient';
+import { CourseBuilderPageClient } from './CourseBuilderPageClient';
 import CourseBuilderClient from './CourseBuilderClient';
 import Link from 'next/link';
 import { Zap, Layout, BookOpen } from 'lucide-react';
@@ -63,7 +63,7 @@ export default async function CourseBuilderPage() {
       </div>
 
       {/* Blueprint-driven AI course generator */}
-      <PageClient />
+      <CourseBuilderPageClient />
 
       {/* Manual CRUD builder — create, edit, publish, clone, archive courses */}
       <div className="mt-8 border-t border-slate-200 pt-8">

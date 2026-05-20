@@ -37,7 +37,7 @@ const featureChecks: FeatureCheck[] = [
   },
   {
     name: 'Course Authoring',
-    files: ['components/lms/CourseAuthoringTool-placeholder.tsx', 'app/api/courses/authoring/route.ts'],
+    files: ['apps/admin/app/admin/course-builder/page.tsx', 'apps/admin/app/admin/course-builder/CourseBuilderPageClient.tsx'],
   },
   {
     name: 'AI Tutor & AI Course Builder',
