@@ -48,6 +48,7 @@ import { getKnowledgeGraphContext, PLATFORM_DEBT, SYSTEMS } from '@/lib/platform
 import { getSystemRegistryContext, requiresConfirmation } from '@/lib/platform/system-registry';
 import { emitAiAction, emitMigrationEvent } from '@/lib/platform/events';
 import { describeCheckedAppDirs, discoverNextAppDirs } from '@/lib/devstudio/next-app-dirs';
+import { getDevIntPromptContext } from '@/lib/devstudio/devint-container';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -3135,6 +3136,9 @@ Be decisive. If the intent is clear, act immediately. If ambiguous, use ask_ques
 - Programs: HVAC, CNA, Barber, Tax Preparation, Apprenticeships, and more
 - Compliance: WIOA, DOL, ETPL, state licensing, FERPA
 - Funding: DOL grants, JRI, WIOA ITA, employer partnerships
+
+## DevInt Operating Container
+${getDevIntPromptContext()}
 
 ## Platform Architecture
 ${systemSummary}

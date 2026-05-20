@@ -23,6 +23,7 @@ import { getAnthropicClient, isAnthropicConfigured } from '@/lib/anthropic-clien
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type Groq from 'groq-sdk';
 import { getRAGContext } from '@/lib/platform/rag';
+import { getDevIntPromptContext } from '@/lib/devstudio/devint-container';
 
 type ToolCallRecord = { tool: string; args: Record<string, unknown>; result: string };
 type ChatProvider = 'auto' | 'groq' | 'openai' | 'gemini' | 'anthropic';
@@ -365,6 +366,9 @@ You are architecture-aware, memory-aware, and observability-first.
 You have tools for live platform data and template generation.
 
 Platform stack: Next.js 16 App Router, Supabase, TypeScript, Tailwind, AWS ECS.
+
+## DevInt Operating Container
+${getDevIntPromptContext()}
 
 ## Canonical Rules
 - All programs: /programs/[program] dynamic route. Dedicated pages only for unique client components.
