@@ -33,45 +33,66 @@ export async function getApprovedHoursByType(
   userId: string,
   programSlug?: string,
 ): Promise<ApprovedHours> {
-  let query = db
+  // Query both hour_entries (student-logged) and apprenticeship_hours (admin-entered).
+  // Both tables may have hours for the same user — deduplicate by summing both sources.
+
+  let heQuery = db
     .from('hour_entries')
     .select('hours_claimed, accepted_hours, source_type, category')
     .eq('user_id', userId)
     .in('status', ['approved', 'locked']);
 
   if (programSlug) {
-    query = query.eq('program_slug', programSlug);
+    heQuery = heQuery.eq('program_slug', programSlug);
   }
 
-  const { data, error } = await query;
+  let ahQuery = db
+    .from('apprenticeship_hours')
+    .select('hours, category, status')
+    .eq('student_id', userId)
+    .in('status', ['verified', 'approved']);
 
-  if (error || !data) {
-    return { ojl: 0, rti: 0 };
+  if (programSlug) {
+    ahQuery = ahQuery.eq('program_slug', programSlug);
   }
+
+  const [heResult, ahResult] = await Promise.all([heQuery, ahQuery]);
 
   let ojl = 0;
   let rti = 0;
 
-  for (const row of data) {
-    const hrs = Number(row.accepted_hours) || Number(row.hours_claimed) || 0;
+  // Process hour_entries (canonical student-logged hours)
+  if (heResult.data) {
+    for (const row of heResult.data) {
+      const hrs = Number(row.accepted_hours) || Number(row.hours_claimed) || 0;
 
-    if (OJL_SOURCE_TYPES.has(row.source_type)) {
-      ojl += hrs;
-    } else if (RTI_SOURCE_TYPES.has(row.source_type)) {
-      rti += hrs;
-    } else if (
-      row.source_type === 'out_of_state_school' ||
-      row.source_type === 'out_of_state_license'
-    ) {
-      // Transfer hours: classify by category if set
+      if (OJL_SOURCE_TYPES.has(row.source_type)) {
+        ojl += hrs;
+      } else if (RTI_SOURCE_TYPES.has(row.source_type)) {
+        rti += hrs;
+      } else if (
+        row.source_type === 'out_of_state_school' ||
+        row.source_type === 'out_of_state_license'
+      ) {
+        if (row.category === 'rti') {
+          rti += hrs;
+        } else {
+          ojl += hrs;
+        }
+      }
+    }
+  }
+
+  // Process apprenticeship_hours (admin-entered, e.g. when student couldn't log in)
+  if (ahResult.data) {
+    for (const row of ahResult.data) {
+      const hrs = Number(row.hours) || 0;
       if (row.category === 'rti') {
         rti += hrs;
       } else {
-        // Default transfer hours to OJL (practical experience)
         ojl += hrs;
       }
     }
-    // Unknown source_types are excluded from both buckets
   }
 
   return { ojl, rti };
