@@ -90,7 +90,7 @@ jobs:
         run: pnpm run audit:dashboard
 
       - name: Type check
-        run: pnpm run typecheck
+        run: pnpm run typecheck:changed
 
       - name: Route governance (strict)
         run: pnpm run platform:doctor:strict
