@@ -7,6 +7,27 @@ import { safeDbError, safeError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+type ScormPackageRow = {
+  id: string;
+  title?: string | null;
+  course_id?: string | null;
+  status?: string | null;
+  active?: boolean | null;
+  created_at?: string | null;
+  launch_url?: string | null;
+};
+
+function normalizeScormPackage(row: ScormPackageRow) {
+  return {
+    id: row.id,
+    title: row.title ?? null,
+    course_id: row.course_id ?? null,
+    status: row.status ?? (row.active === false ? 'inactive' : 'active'),
+    created_at: row.created_at ?? null,
+    launch_url: row.launch_url ?? null,
+  };
+}
+
 export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
@@ -18,13 +39,15 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await db
     .from('scorm_packages')
-    .select('id, title, course_id, status, created_at, launch_url')
+    .select('*')
     .order('created_at', { ascending: false })
     .limit(50);
 
   if (error) return safeDbError(error, 'Failed to load SCORM packages');
 
-  return NextResponse.json({ packages: data ?? [] });
+  return NextResponse.json({
+    packages: ((data ?? []) as ScormPackageRow[]).map(normalizeScormPackage),
+  });
 }
 
 export async function POST(request: NextRequest) {
