@@ -113,6 +113,8 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/portal/beauty':            ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/trades':            ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/social-services':   ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/hospitality':       ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/jri':               ['student', 'admin', 'super_admin', 'staff', 'instructor'],
 };
 
 // Routes requiring authentication (any role).

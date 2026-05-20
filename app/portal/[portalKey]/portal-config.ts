@@ -11,6 +11,8 @@ import {
   Clock,
   TrendingUp,
   GraduationCap,
+  UtensilsCrossed,
+  Shield,
 } from 'lucide-react';
 import type { PortalKey } from '@/lib/portal/router';
 
@@ -139,6 +141,51 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
       { title: 'Peer Recovery Specialist', slug: 'peer-recovery-specialist', credential: 'CPRC Pathway' },
       { title: 'Direct Support Professional', slug: 'direct-support-professional', credential: 'DSP Credential' },
       { title: 'Home Health Aide', slug: 'home-health-aide', credential: 'Indiana HHA' },
+    ],
+  },
+  hospitality: {
+    label: 'Hospitality',
+    icon: UtensilsCrossed,
+    accentColor: 'text-orange-600',
+    accentBg: 'bg-orange-600',
+    metaTitle: 'Hospitality Portal — Elevate for Humanity',
+    metaDescription: 'Your hospitality training portal. Track ServSafe, Guest Service, and food service program progress.',
+    quickLinks: [
+      ...SHARED_LINKS,
+      { name: 'Certification Prep', href: '/lms/programs', icon: GraduationCap, description: 'ServSafe and NRF exam prep' },
+    ],
+    availablePrograms: [
+      { title: 'ServSafe Food Handler', slug: 'servsafe-food-handler', credential: 'ServSafe Certificate' },
+      { title: 'ServSafe Manager', slug: 'servsafe-manager', credential: 'ServSafe Manager Cert' },
+      { title: 'Guest Service Gold', slug: 'guest-service-gold', credential: 'AHLEI Guest Service Gold' },
+      { title: 'START Hospitality', slug: 'start-hospitality', credential: 'START Certificate' },
+      { title: 'ServSuccess', slug: 'servsuccess', credential: 'NRA ServSuccess' },
+    ],
+  },
+  jri: {
+    label: 'Justice-Involved Workforce Readiness',
+    icon: Shield,
+    accentColor: 'text-violet-600',
+    accentBg: 'bg-violet-600',
+    metaTitle: 'JRI Portal — Elevate for Humanity',
+    metaDescription: 'Your Justice Reinvestment Initiative portal. Complete workforce readiness badges via SCORM modules and prepare for career placement.',
+    quickLinks: [
+      { name: 'My Courses', href: '/lms/courses', icon: BookOpen, description: 'Continue SCORM modules' },
+      { name: 'Badges', href: '/lms/certificates', icon: Award, description: 'View earned badges' },
+      { name: 'Schedule', href: '/lms/calendar', icon: Clock, description: 'Class schedule' },
+      { name: 'Documents', href: '/learner/dashboard', icon: FileText, description: 'Upload required documents' },
+      { name: 'Progress', href: '/lms/grades', icon: TrendingUp, description: 'Badge progress tracking' },
+      { name: 'Career Prep', href: '/lms/programs', icon: GraduationCap, description: 'Reentry career resources' },
+    ],
+    availablePrograms: [
+      { title: 'JRI Introduction', slug: 'jri-introduction', credential: 'Introduction Badge' },
+      { title: 'Badge 1: Mindsets', slug: 'jri-badge-1-mindsets', credential: 'Mindsets Badge' },
+      { title: 'Badge 2: Self-Management', slug: 'jri-badge-2-self-management', credential: 'Self-Management Badge' },
+      { title: 'Badge 3: Learning Strategies', slug: 'jri-badge-3-learning-strategies', credential: 'Learning Strategies Badge' },
+      { title: 'Badge 4: Social Skills', slug: 'jri-badge-4-social-skills', credential: 'Social Skills Badge' },
+      { title: 'Badge 5: Workplace Skills', slug: 'jri-badge-5-workplace-skills', credential: 'Workplace Skills Badge' },
+      { title: 'Badge 6: Launch a Career', slug: 'jri-badge-6-launch-a-career', credential: 'Launch a Career Badge' },
+      { title: 'Reentry Specialist', slug: 'reentry-specialist', credential: 'Reentry Specialist Cert' },
     ],
   },
 };
