@@ -227,6 +227,8 @@ export async function getUserRole(): Promise<UserRole | null> {
 
 const PERMISSIONS: Record<UserRole, string[]> = {
   admin: ['*'], // All permissions
+  super_admin: ['*'],
+  staff: ['view_students', 'view_programs', 'view_analytics', 'manage_enrollments'],
   instructor: [
     'view_students',
     'grade_assignments',
@@ -244,6 +246,10 @@ const PERMISSIONS: Record<UserRole, string[]> = {
     'view_own_progress',
   ],
   program_holder: ['view_programs', 'manage_programs', 'view_students', 'view_analytics'],
+  provider_admin: ['view_programs', 'manage_programs', 'view_students', 'view_analytics'],
+  case_manager: ['view_students', 'view_programs', 'view_analytics', 'manage_enrollments'],
+  employer: ['view_students', 'view_programs', 'view_analytics'],
+  partner: ['view_programs', 'view_students', 'view_analytics'],
   delegate: ['view_programs', 'view_students', 'view_analytics', 'manage_enrollments'],
 };
 

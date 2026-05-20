@@ -13,7 +13,7 @@ type RateLimiterGetter = { get: () => Ratelimit | null };
  * export const POST = withRateLimit(handler, { limiter: authRateLimit });
  */
 export function withRateLimit<T = any>(
-  handler: (request: NextRequest, context?: any) => Promise<NextResponse<T>>,
+  handler: (request: NextRequest, context?: any) => Promise<NextResponse>,
   options: {
     limiter: Ratelimit | null | RateLimiterGetter;
     skipOnMissing?: boolean; // Skip rate limiting if Redis not configured
@@ -92,7 +92,7 @@ export function withRateLimit<T = any>(
  * Combined rate limit and auth middleware
  */
 export function withRateLimitAndAuth<T = any>(
-  handler: (request: NextRequest, context: any, user: any) => Promise<NextResponse<T>>,
+  handler: (request: NextRequest, context: any, user: any) => Promise<NextResponse>,
   options: {
     limiter: Ratelimit | null;
     roles?: string[];
