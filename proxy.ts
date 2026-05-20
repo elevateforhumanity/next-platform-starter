@@ -102,6 +102,17 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/mentor/sessions':          ['mentor', 'admin', 'super_admin'],
   '/mentor/mentees':           ['mentor', 'admin', 'super_admin'],
   '/mentor/settings':          ['mentor', 'admin', 'super_admin'],
+
+  // ── Field portals ─────────────────────────────────────────────────────────
+  // All portal/* routes allow students + admin roles.
+  // Each portal's own layout.tsx enforces finer-grained rules if needed.
+  '/portal/apprentice':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/healthcare':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/technology':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/business':          ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/beauty':            ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/trades':            ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/social-services':   ['student', 'admin', 'super_admin', 'staff', 'instructor'],
 };
 
 // Routes requiring authentication (any role).
@@ -119,6 +130,7 @@ const AUTH_REQUIRED_ROUTES = [
   '/proctor',
   '/learner/',
   '/apprentice',
+  '/portal/',
   '/instructor/',
   '/instructor',
   '/case-manager/',

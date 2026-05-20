@@ -11,6 +11,7 @@
 import { logger } from '@/lib/logger';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
+import { cachePortalTypeForEnrollment } from '@/lib/portal/router';
 
 const BARBER_PROGRAM_SLUG = 'barber-apprenticeship';
 const BARBER_COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
@@ -171,6 +172,11 @@ export async function runBarberPostPayment(
               updated_at: new Date().toISOString(),
             })
             .eq('id', applicationId);
+        }
+
+        // Cache portal_type on profile for fast post-login routing
+        if (profileId && program?.id) {
+          await cachePortalTypeForEnrollment(db, profileId, program.id);
         }
       }
     }

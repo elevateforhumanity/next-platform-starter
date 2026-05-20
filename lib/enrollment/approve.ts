@@ -15,6 +15,7 @@ import { logger } from '@/lib/logger';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { attachPartnerRouting } from '@/lib/enrollment/partner-routing';
 import { resolveCourseId } from '@/lib/course-builder/schema';
+import { cachePortalTypeForEnrollment } from '@/lib/portal/router';
 
 export interface ApproveApplicationInput {
   applicationId: string;
@@ -259,6 +260,11 @@ export async function approveApplication(
     }
 
     enrollmentId = pe?.id || null;
+
+    // Cache portal_type on the profile so post-login routing is a single lookup
+    if (userId && resolvedProgramId) {
+      await cachePortalTypeForEnrollment(db, userId, resolvedProgramId);
+    }
 
     // Step 3: Create training_enrollments for all active courses
     const { data: courses } = await db

@@ -57,10 +57,10 @@ function LoginForm() {
 
       if (!data?.user) throw new Error('Login succeeded but no user returned');
 
-      // Fetch profile — role + onboarding + enrollment status drive routing
+      // Fetch profile — role + portal_type + onboarding status drive routing
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
-        .select('role, onboarding_completed, enrollment_status')
+        .select('role, onboarding_completed, enrollment_status, portal_type')
         .eq('id', data.user.id)
         .maybeSingle();
 
@@ -86,13 +86,22 @@ function LoginForm() {
       const role = profile.role;
       const onboardingDone = profile.onboarding_completed === true;
 
-      // Employer: gate on onboarding before dashboard. All other roles:
-      // canonical destination from lib/auth/role-destinations.ts.
+      // Employer: gate on onboarding before dashboard.
       if (role === 'employer' && !onboardingDone) {
         router.push('/onboarding/employer');
-      } else {
-        router.push(getRoleDestination(role));
+        return;
       }
+
+      // Students with a cached portal_type go to their field portal.
+      // portal_type is set at enrollment time by cachePortalTypeForEnrollment().
+      // If missing, fall through to the role-based default.
+      if (role === 'student' && profile.portal_type) {
+        router.push(`/portal/${profile.portal_type}`);
+        return;
+      }
+
+      // All other roles: canonical destination from lib/auth/role-destinations.ts.
+      router.push(getRoleDestination(role));
     } catch (err: any) {
       // Supabase error objects have non-enumerable properties — extract explicitly
       const msg = err?.message || err?.error_description || err?.msg || 'Invalid email or password';
@@ -287,6 +296,7 @@ function LoginForm() {
               <p className="text-center text-sm text-black mb-4">Quick Access:</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
+                  { label: 'Apprentice Portal', dest: '/portal/apprentice', highlight: true },
                   { label: 'Student Portal', dest: '/learner/dashboard' },
                   { label: 'Program Holder', dest: '/program-holder/dashboard' },
                   { label: 'Instructor', dest: '/instructor/dashboard' },
@@ -303,7 +313,7 @@ function LoginForm() {
                     key={item.dest}
                     href={`/login?redirect=${encodeURIComponent(item.dest)}`}
                     prefetch={false}
-                    className="text-center px-4 py-3 bg-white text-black rounded-lg hover:bg-slate-200 transition-all text-sm font-semibold min-h-[44px] inline-flex items-center justify-center"
+                    className={`text-center px-4 py-3 rounded-lg transition-all text-sm font-semibold min-h-[44px] inline-flex items-center justify-center ${'highlight' in item && item.highlight ? 'bg-amber-500 text-white hover:bg-amber-600' : 'bg-white text-black hover:bg-slate-200'}`}
                   >
                     {item.label}
                   </Link>
