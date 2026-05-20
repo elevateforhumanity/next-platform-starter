@@ -20,7 +20,7 @@ export const MEDICAL_ASSISTANT: ProgramSchema = {
   schedule: 'Mon–Fri, 8:00 AM–12:30 PM (20–25 hrs/week)',
   eveningSchedule: 'Evening cohorts available for working adults.',
   cohortSize: '10–15 participants per cohort',
-  fundingStatement: '$0 with WIOA or Next Level Jobs funding',
+  fundingStatement: '$0 with WIOA or Next Level Jobs funding. Self-pay: $5,000. BNPL financing available through Affirm and Sezzle.',
   selfPayCost: '$5,000',
   badge: 'Funding Available',
   badgeColor: 'green',

@@ -100,12 +100,13 @@ export const PROGRAM_PRICING: Record<string, ProgramPricing> = {
   'medical-assistant': {
     slug: 'medical-assistant',
     name: 'Medical Assistant',
-    fullPrice: 3000,
+    fullPrice: 5000,
     fundingEligible: true,
-    depositAmount: 1050,
-    durationWeeks: 16,
+    depositAmount: 1000,
+    durationWeeks: 12,
     credentialCount: 2,
-    fundingSources: ['Workforce Ready Grant', 'WIOA'],
+    fundingSources: ['Workforce Ready Grant', 'WIOA', 'Next Level Jobs'],
+    bnplEnabled: true,
   },
 };
 

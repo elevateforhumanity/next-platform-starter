@@ -63,7 +63,7 @@ export const PROGRAM_TUITION: ProgramTuition[] = [
   {
     programId: 'prog-hvac',
     programName: 'HVAC Technician',
-    tuitionAmount: 4800,
+    tuitionAmount: 5000,
     registrationFee: 150,
     internalPlan: {
       minDownPayment: 1000,
@@ -483,7 +483,7 @@ export const TUITION_PRODUCTS: TuitionProduct[] = [
   {
     programId: 'prog-hvac',
     programName: 'HVAC Technician',
-    totalTuition: 4800,
+    totalTuition: 5000,
     registrationFee: 150,
     payInFull: {
       amount: 4800,
