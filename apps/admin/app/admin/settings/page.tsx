@@ -2,16 +2,7 @@ import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
-import {
-  Bell,
-  Shield,
-  CreditCard,
-  Globe,
-  Mail,
-  Webhook,
-  ArrowRight,
-  Share2,
-} from 'lucide-react';
+import { Bell, Shield, CreditCard, Globe, Mail, Webhook, ArrowRight, Share2 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -87,10 +78,22 @@ export default async function AdminSettingsPage() {
       icon: Share2,
       href: '/admin/settings/social-media',
       fields: [
-        { label: 'Facebook', value: settings['social_facebook_connected'] === 'true' ? 'Connected' : 'Not connected' },
-        { label: 'Instagram', value: settings['social_instagram_connected'] === 'true' ? 'Connected' : 'Not connected' },
-        { label: 'YouTube', value: settings['social_youtube_connected'] === 'true' ? 'Connected' : 'Not connected' },
-        { label: 'Twitter / X', value: settings['social_twitter_connected'] === 'true' ? 'Connected' : 'Not connected' },
+        {
+          label: 'Facebook',
+          value: settings['social_facebook_connected'] === 'true' ? 'Connected' : 'Not connected',
+        },
+        {
+          label: 'Instagram',
+          value: settings['social_instagram_connected'] === 'true' ? 'Connected' : 'Not connected',
+        },
+        {
+          label: 'YouTube',
+          value: settings['social_youtube_connected'] === 'true' ? 'Connected' : 'Not connected',
+        },
+        {
+          label: 'Twitter / X',
+          value: settings['social_twitter_connected'] === 'true' ? 'Connected' : 'Not connected',
+        },
       ],
     },
     {
@@ -109,9 +112,7 @@ export default async function AdminSettingsPage() {
       <div>
         <p className="text-sm font-medium text-slate-500">Admin</p>
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Settings</h1>
-        <p className="text-slate-500">
-          Configure platform behavior, integrations, and security.
-        </p>
+        <p className="text-slate-500">Configure platform behavior, integrations, and security.</p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
