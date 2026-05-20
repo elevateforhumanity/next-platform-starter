@@ -89,7 +89,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     const { data } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
     roleCheck = data;
   }
-  const adminRoles = ['super_admin'];
+  const adminRoles = ['super_admin', 'admin', 'staff'];
   if (!roleCheck || !adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
 
   const effectiveDb = db ?? supabase as unknown as Awaited<ReturnType<typeof getAdminClient>>;
