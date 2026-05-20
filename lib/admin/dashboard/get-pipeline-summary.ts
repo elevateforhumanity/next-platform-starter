@@ -7,22 +7,23 @@ export interface DashboardPipeline {
 
 export async function getPipelineSummary(db: SupabaseClient): Promise<DashboardPipeline> {
   const [apps, enrollments] = await Promise.all([
-    db.from('applications').select('stage'),
+    // applications has no stage column — use status
+    db.from('applications').select('status'),
     db.from('program_enrollments').select('enrollment_state'),
   ]);
 
   const count = <T extends string>(rows: { [k: string]: T }[] | null, key: string, val: T) =>
     (rows ?? []).filter((r) => r[key] === val).length;
 
-  const a = apps.data as { stage: string }[] | null;
+  const a = apps.data as { status: string }[] | null;
   const e = enrollments.data as { enrollment_state: string }[] | null;
 
   return {
     applications: {
-      draft: count(a, 'stage', 'draft'),
-      submitted: count(a, 'stage', 'submitted'),
-      approved: count(a, 'stage', 'approved'),
-      rejected: count(a, 'stage', 'rejected'),
+      draft: count(a, 'status', 'draft'),
+      submitted: count(a, 'status', 'submitted'),
+      approved: count(a, 'status', 'approved'),
+      rejected: count(a, 'status', 'rejected'),
     },
     enrollments: {
       enrolled: count(e, 'enrollment_state', 'enrolled'),

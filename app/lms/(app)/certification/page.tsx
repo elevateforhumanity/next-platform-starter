@@ -47,10 +47,11 @@ export default async function CertificationPage() {
   if (!user) redirect('/login?redirect=/lms/certification');
 
   const [certsRes, attemptsRes, inProgressRes, availableRes] = await Promise.all([
+    // certificates has no credential_id column — removed from select
     supabase
       .from('certificates')
       .select(
-        'id, title, issued_at, issued_date, expires_at, certificate_url, credential_id, course_id',
+        'id, title, issued_at, issued_date, expires_at, certificate_url, course_id',
       )
       .eq('user_id', user.id)
       .order('issued_date', { ascending: false }),

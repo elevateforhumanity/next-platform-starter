@@ -22,7 +22,8 @@ export async function getKpis(db: SupabaseClient): Promise<DashboardKpis> {
         .select('id', { count: 'exact', head: true })
         .eq('enrollment_state', 'active'),
 
-      db.from('applications').select('id', { count: 'exact', head: true }).eq('stage', 'submitted'),
+      // applications has no stage column — use status
+      db.from('applications').select('id', { count: 'exact', head: true }).eq('status', 'submitted'),
 
       db
         .from('program_enrollments')

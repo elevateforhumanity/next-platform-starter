@@ -202,10 +202,11 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .is('approved', null),
 
     // Pending lab/assignment submissions awaiting instructor sign-off
+    // step_submissions has no submitted_at column — use created_at
     db.from('step_submissions')
-      .select('id, user_id, course_lesson_id, step_type, submitted_at, status')
+      .select('id, user_id, course_lesson_id, step_type, created_at, status')
       .in('status', ['submitted', 'under_review'])
-      .order('submitted_at', { ascending: true })
+      .order('created_at', { ascending: true })
       .limit(10),
 
     // Compliance alerts — open/unresolved, for dashboard snapshot
