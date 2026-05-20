@@ -98,13 +98,40 @@ function buildFallbackQuizQuestions(
   }));
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function buildStandardsSummaryHtml(standardsBlock?: string): string {
+  if (!standardsBlock?.trim()) return '';
+
+  const summary = standardsBlock
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .filter((line) => !line.startsWith('---'))
+    .slice(0, 14)
+    .join(' ');
+
+  if (!summary) return '';
+
+  return `<h2>Industry Standards Alignment</h2><p>${escapeHtml(summary.slice(0, 1800))}</p>`;
+}
+
 function buildFallbackLessonContent(
   lesson: BlueprintLessonRef,
   moduleTitle: string,
   courseTitle: string,
+  standardsBlock?: string,
 ): LessonContent {
   const lessonType = inferLessonType(lesson.slug);
   const questionCount = lessonType === 'exam' ? 10 : lessonType === 'checkpoint' ? 5 : 3;
+  const standardsHtml = buildStandardsSummaryHtml(standardsBlock);
 
   return {
     objective:
@@ -112,7 +139,7 @@ function buildFallbackLessonContent(
       `By the end of this lesson, learners will be able to explain and apply the core ${courseTitle} concepts covered in ${lesson.title}.`,
     content:
       lesson.content?.trim() ||
-      `<h2>${lesson.title}</h2><p>This draft lesson was generated in fast mode so the course structure could be created immediately without blocking on premium lesson authoring. It defines the instructional space for ${lesson.title} within ${moduleTitle} and gives the downstream content, assessment, and media pipelines a stable lesson row to work from.</p><p>Learners should understand the lesson objective, the core terminology used in ${courseTitle}, the practical context for this topic, and the expected next step after the lesson is fully enriched. Admin users can replace this draft with expanded production content without changing the course map, lesson slug, or module order.</p><p>This fallback content is intentionally publication-safe as a draft shell. It preserves the lesson in the generated course, allows media jobs and assessments to attach to a real lesson record, and keeps the generator fast for large industry programs where speed matters more than first-pass narrative depth.</p>`,
+      `<h2>${lesson.title}</h2><p>This draft lesson was generated in fast mode so the course structure could be created immediately without blocking on premium lesson authoring. It defines the instructional space for ${lesson.title} within ${moduleTitle} and gives the downstream content, assessment, and media pipelines a stable lesson row to work from.</p>${standardsHtml}<p>Learners should understand the lesson objective, the core terminology used in ${courseTitle}, the practical context for this topic, and the expected next step after the lesson is fully enriched. Admin users can replace this draft with expanded production content without changing the course map, lesson slug, or module order.</p><p>This fallback content is intentionally publication-safe as a draft shell. It preserves the lesson in the generated course, allows media jobs and assessments to attach to a real lesson record, and keeps the generator fast for large industry programs where speed matters more than first-pass narrative depth.</p>`,
     quiz_questions: buildFallbackQuizQuestions(lesson, courseTitle, moduleTitle, questionCount),
   };
 }
@@ -194,7 +221,7 @@ export async function POST(req: NextRequest) {
   const state = blueprint.state ?? 'Indiana';
   let standardsBlock: string | undefined;
 
-  if (blueprint.socCode && generationMode !== 'fast') {
+  if (blueprint.socCode) {
     try {
       const standards = await loadIndustryStandards(blueprint.socCode, blueprint.credentialCode);
       if (standards) {
@@ -224,6 +251,26 @@ export async function POST(req: NextRequest) {
         continue;
       }
 
+      if (generationMode === 'fast') {
+        const fallback = buildFallbackLessonContent(lesson, mod.title, courseTitle, standardsBlock);
+        const lessonType = inferLessonType(lesson.slug);
+        enrichedLessons.push({
+          ...lesson,
+          objective: fallback.objective,
+          content: fallback.content,
+          passingScore:
+            lesson.passingScore ?? (lessonType === 'checkpoint' || lessonType === 'quiz' || lessonType === 'exam' ? 70 : undefined),
+          quizQuestions: fallback.quiz_questions.map((q) => ({
+            question: q.question,
+            options: q.options,
+            correct: q.correct,
+            explanation: q.explanation,
+          })),
+        });
+        generationLog.push({ slug: lesson.slug, ok: true });
+        continue;
+      }
+
       try {
         const generated = await generateLessonContent(
           lesson,
@@ -234,17 +281,14 @@ export async function POST(req: NextRequest) {
         );
 
         const lessonType = inferLessonType(lesson.slug);
-        const fallback = generationMode === 'fast'
-          ? buildFallbackLessonContent(lesson, mod.title, courseTitle)
-          : null;
-
+        const fallback = buildFallbackLessonContent(lesson, mod.title, courseTitle, standardsBlock);
         enrichedLessons.push({
           ...lesson,
-          objective: generated.objective?.trim() || fallback?.objective || lesson.objective,
-          content: generated.content?.trim() || fallback?.content || lesson.content,
+          objective: generated.objective?.trim() || fallback.objective || lesson.objective,
+          content: generated.content?.trim() || fallback.content || lesson.content,
           passingScore:
             lesson.passingScore ?? (lessonType === 'checkpoint' || lessonType === 'quiz' || lessonType === 'exam' ? 70 : undefined),
-          quizQuestions: (generated.quiz_questions?.length ? generated.quiz_questions : fallback?.quiz_questions ?? []).map((q) => ({
+          quizQuestions: (generated.quiz_questions?.length ? generated.quiz_questions : fallback.quiz_questions).map((q) => ({
             question: q.question,
             options: q.options,
             correct: q.correct,
@@ -255,7 +299,7 @@ export async function POST(req: NextRequest) {
         generationLog.push({ slug: lesson.slug, ok: true });
       } catch (err) {
         if (generationMode === 'fast') {
-          const fallback = buildFallbackLessonContent(lesson, mod.title, courseTitle);
+          const fallback = buildFallbackLessonContent(lesson, mod.title, courseTitle, standardsBlock);
           const lessonType = inferLessonType(lesson.slug);
           enrichedLessons.push({
             ...lesson,

@@ -228,7 +228,13 @@ export function CourseBuilderPageClient() {
       const res = await fetch('/api/admin/course-builder/generate-from-blueprint', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ blueprintId: selBlueprint, programId: selProgram, mode: 'replace' }),
+        body: JSON.stringify({
+          blueprintId: selBlueprint,
+          programId: selProgram,
+          mode: 'replace',
+          generationMode: 'fast',
+          videoMode: 'queue',
+        }),
       });
       setGenResult(await res.json());
     } catch (err) {
@@ -271,13 +277,13 @@ export function CourseBuilderPageClient() {
 
   return (
     <div className="p-6 space-y-4 text-sm">
-      {/* Generate Full Course */}
+      {/* Generate Standard Credentialed Course */}
       <div className="border-2 border-indigo-200 rounded-2xl p-5 bg-indigo-50 space-y-4">
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="font-bold text-base text-indigo-900">⚡ Generate Full Premium Course</h2>
+            <h2 className="font-bold text-base text-indigo-900">⚡ Generate Standard Credentialed Course</h2>
             <p className="text-xs text-indigo-700 mt-0.5">
-              Select a blueprint + program → GPT-4o writes all lesson content → course builds in DB
+              Select a blueprint + program → standards-aware draft course builds in DB fast
               → assessments generated → videos queued automatically
             </p>
           </div>
@@ -329,7 +335,7 @@ export function CourseBuilderPageClient() {
               {genStep}
             </span>
           ) : (
-            '⚡ Generate Full Course Now'
+            '⚡ Generate Standard Course Now'
           )}
         </button>
 

@@ -25,5 +25,18 @@ describe('course builder route consolidation', () => {
       'apps/admin/app/admin/course-builder/CourseBuilderPageClient.tsx',
     );
   });
+
+  it('uses fast standards-aware generation from the canonical builder', () => {
+    const pageClient = read('apps/admin/app/admin/course-builder/CourseBuilderPageClient.tsx');
+    const route = read('apps/admin/app/api/admin/course-builder/generate-from-blueprint/route.ts');
+
+    expect(pageClient).toContain("generationMode: 'fast'");
+    expect(pageClient).toContain("videoMode: 'queue'");
+    expect(pageClient).toContain('Generate Standard Credentialed Course');
+    expect(route).toContain('loadIndustryStandards(blueprint.socCode, blueprint.credentialCode)');
+    expect(route).toContain("if (generationMode === 'fast')");
+    expect(route).toContain('buildFallbackLessonContent(lesson, mod.title, courseTitle, standardsBlock)');
+    expect(route).not.toContain("blueprint.socCode && generationMode !== 'fast'");
+  });
 });
 
