@@ -33,60 +33,39 @@ export async function getApprovedHoursByType(
   userId: string,
   programSlug?: string,
 ): Promise<ApprovedHours> {
-  // Query both hour_entries (student-logged) and apprenticeship_hours (admin-entered).
-  // Both tables may have hours for the same user — deduplicate by summing both sources.
-
-  let heQuery = db
+  // hour_entries is the canonical source — includes both student-logged
+  // and admin-entered hours. apprenticeship_hours is a legacy/parallel
+  // table that may contain duplicates; do NOT sum both.
+  let query = db
     .from('hour_entries')
     .select('hours_claimed, accepted_hours, source_type, category')
     .eq('user_id', userId)
     .in('status', ['approved', 'locked']);
 
   if (programSlug) {
-    heQuery = heQuery.eq('program_slug', programSlug);
+    query = query.eq('program_slug', programSlug);
   }
 
-  let ahQuery = db
-    .from('apprenticeship_hours')
-    .select('hours, category, status')
-    .eq('student_id', userId)
-    .in('status', ['verified', 'approved']);
+  const { data, error } = await query;
 
-  if (programSlug) {
-    ahQuery = ahQuery.eq('program_slug', programSlug);
+  if (error || !data) {
+    return { ojl: 0, rti: 0 };
   }
-
-  const [heResult, ahResult] = await Promise.all([heQuery, ahQuery]);
 
   let ojl = 0;
   let rti = 0;
 
-  // Process hour_entries (canonical student-logged hours)
-  if (heResult.data) {
-    for (const row of heResult.data) {
-      const hrs = Number(row.accepted_hours) || Number(row.hours_claimed) || 0;
+  for (const row of data) {
+    const hrs = Number(row.accepted_hours) || Number(row.hours_claimed) || 0;
 
-      if (OJL_SOURCE_TYPES.has(row.source_type)) {
-        ojl += hrs;
-      } else if (RTI_SOURCE_TYPES.has(row.source_type)) {
-        rti += hrs;
-      } else if (
-        row.source_type === 'out_of_state_school' ||
-        row.source_type === 'out_of_state_license'
-      ) {
-        if (row.category === 'rti') {
-          rti += hrs;
-        } else {
-          ojl += hrs;
-        }
-      }
-    }
-  }
-
-  // Process apprenticeship_hours (admin-entered, e.g. when student couldn't log in)
-  if (ahResult.data) {
-    for (const row of ahResult.data) {
-      const hrs = Number(row.hours) || 0;
+    if (OJL_SOURCE_TYPES.has(row.source_type)) {
+      ojl += hrs;
+    } else if (RTI_SOURCE_TYPES.has(row.source_type)) {
+      rti += hrs;
+    } else if (
+      row.source_type === 'out_of_state_school' ||
+      row.source_type === 'out_of_state_license'
+    ) {
       if (row.category === 'rti') {
         rti += hrs;
       } else {
