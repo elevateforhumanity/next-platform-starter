@@ -16,7 +16,6 @@ export const LMS_PROTECTED_ROUTES: RouteConfig[] = [
   // Admin-only routes
   { path: '/lms/admin', allowedRoles: ['admin', 'super_admin'] },
   { path: '/lms/analytics', allowedRoles: ['admin', 'super_admin', 'staff'] },
-  { path: '/lms/builder', allowedRoles: ['admin', 'super_admin', 'instructor'] },
 
   // Instructor routes
   { path: '/lms/courses/new', allowedRoles: ['instructor', 'admin', 'super_admin'] },

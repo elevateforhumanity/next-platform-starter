@@ -268,7 +268,6 @@ export const siteMapSections: SiteMapSection[] = [
       { label: "Attendance", href: "/lms/attendance" },
       { label: "Badges", href: "/lms/badges" },
       { label: "Billing", href: "/lms/settings/billing" },
-      { label: "Builder", href: "/lms/builder" },
       { label: "Calendar", href: "/lms/calendar" },
       { label: "Career", href: "/lms/messages/career" },
       { label: "Certificates", href: "/lms/certificates" },

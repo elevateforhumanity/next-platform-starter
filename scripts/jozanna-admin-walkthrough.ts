@@ -202,7 +202,7 @@ const ADMIN_PAGES: { section: string; pages: { label: string; path: string }[] }
     pages: [
       { label: 'All Programs', path: '/admin/programs' },
       { label: 'Create Program', path: '/admin/programs/new' },
-      { label: 'Program Builder', path: '/admin/programs/builder' },
+      { label: 'Program Builder', path: '/admin/course-builder' },
       { label: 'Programs — Catalog', path: '/admin/programs/catalog' },
       { label: 'Curriculum', path: '/admin/curriculum' },
       { label: 'Modules', path: '/admin/modules' },

@@ -16,7 +16,6 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/course-generator':     '/admin/course-builder/generate',
   '/admin/syllabus-generator':   '/admin/course-builder/generate',
   '/admin/course-templates':     '/admin/course-builder/templates',
-  '/admin/programs/builder':     '/admin/course-builder',
   '/admin/courses/generate':     '/admin/course-builder/generate',
   '/admin/courses/manage':       '/admin/courses',
   '/admin/course-import':        '/admin/course-builder',
