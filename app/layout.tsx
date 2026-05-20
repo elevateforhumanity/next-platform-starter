@@ -18,6 +18,7 @@ import RootWidgets from '@/components/layout/RootWidgets';
 import { generateChromeSuppressionScript } from '@/lib/layout/app-routes';
 
 import PWAManager from '@/components/PWAManager';
+import AuthRedirectHandler from '@/components/auth/AuthRedirectHandler';
 
 const inter = { variable: '' };
 
@@ -241,6 +242,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GoogleAnalytics />
         <GoogleAds />
         <PWAManager />
+        <AuthRedirectHandler />
         <PublicLayout>{children}</PublicLayout>
         <DMCATrackingPixel />
         <CopyrightProtection />
