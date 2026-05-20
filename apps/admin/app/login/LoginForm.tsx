@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-const ADMIN_ROLES = ['super_admin'];
+const ADMIN_ROLES = ['super_admin', 'admin', 'staff'];
 
 function getSafeRedirect(raw: string | null): string {
   if (!raw) return '/admin/dashboard';
